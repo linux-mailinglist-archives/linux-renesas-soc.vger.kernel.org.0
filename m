@@ -2,23 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FE41456C43
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 10:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0F1456C6B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Nov 2021 10:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233947AbhKSJ0r convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Nov 2021 04:26:47 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:59397 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232838AbhKSJ0q (ORCPT
+        id S233079AbhKSJjb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Nov 2021 04:39:31 -0500
+Received: from mail-vk1-f174.google.com ([209.85.221.174]:44883 "EHLO
+        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232969AbhKSJja (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Nov 2021 04:26:46 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id DD04340003;
-        Fri, 19 Nov 2021 09:23:41 +0000 (UTC)
-Date:   Fri, 19 Nov 2021 10:23:40 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        Fri, 19 Nov 2021 04:39:30 -0500
+Received: by mail-vk1-f174.google.com with SMTP id u68so5513600vke.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 01:36:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K6pUQJ8pyQkzbHxZwmUeymcTJqi29mxOuyrl7ESyUNI=;
+        b=0szbfN3VtiW1b/ybOdNnGfJ8FVGTJ0gfkeBBIC/hl2udO//1TGE2cLfHvenzSxDjkT
+         5kUWSr464JGoi2eVLe9pJkN0Cf396JmMTbc7ZLkIjRu/Na3XaRodV5i0xHdgqun7UVx+
+         WxoAw50f/7rz+BFaWsXxbSOE1EeTqFmASIwxkdKU9Ml8h6Xbl9q6NGFYtGh6k/tlYMq2
+         dMGH5R3Y2bwPUUXJPynWVD1j6Od7oyWVD8C4fpv1cDkEBj/KbJHVKtkg38IwKXOrFfHQ
+         oH2I2v58I/sC6q0Mfm1P5WbaEvplkgna3L7RfW3mkno4wFrNm1ERVFHTPnhblxFrSl2H
+         tV5g==
+X-Gm-Message-State: AOAM531lmWAXYCRhVAD+iOLV42O6hykm+am0Q4VgQfzaI9c6zHAMoB7q
+        DcUSb1+8zvfYUcHwBjiyHKeKu2hphz3H1A==
+X-Google-Smtp-Source: ABdhPJwVx8cRMzAXnGUVGJLBg1nQk3PjDr+Uo/I6KaN1A/GB2Eru9+5Q2lfhmHLDjHgoPwo4pyIg0g==
+X-Received: by 2002:a05:6122:1796:: with SMTP id o22mr116509140vkf.23.1637314588870;
+        Fri, 19 Nov 2021 01:36:28 -0800 (PST)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id p3sm1456932vsr.3.2021.11.19.01.36.27
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Nov 2021 01:36:28 -0800 (PST)
+Received: by mail-vk1-f174.google.com with SMTP id b192so5551709vkf.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Nov 2021 01:36:27 -0800 (PST)
+X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr115833208vko.7.1637314587611;
+ Fri, 19 Nov 2021 01:36:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
+ <20211118111940.1275351-2-miquel.raynal@bootlin.com> <CAMuHMdXi0PPXjH_hHxO1-Lz9fupe4oo936ENe9DzMW8Sb1G6mg@mail.gmail.com>
+ <20211119101907.2ce429e6@xps13>
+In-Reply-To: <20211119101907.2ce429e6@xps13>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 19 Nov 2021 10:36:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU_uJv2dUk21DKJnLSUErhvObOb1wJOZTqv_UXZ0edRBQ@mail.gmail.com>
+Message-ID: <CAMuHMdU_uJv2dUk21DKJnLSUErhvObOb1wJOZTqv_UXZ0edRBQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: mtd: rzn1: Describe Renesas RZ/N1 NAND controller
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
 Cc:     Richard Weinberger <richard@nod.at>,
         Vignesh Raghavendra <vigneshr@ti.com>,
         Tudor Ambarus <Tudor.Ambarus@microchip.com>,
@@ -28,279 +59,69 @@ Cc:     Richard Weinberger <richard@nod.at>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Gareth Williams <gareth.williams.jx@renesas.com>
-Subject: Re: [PATCH 2/3] mtd: rawnand: rzn1: Add new NAND controller driver
-Message-ID: <20211119102340.05f2f3e4@xps13>
-In-Reply-To: <CAMuHMdUTj_kHV6=fMJ=CjiHjBSi_TrnrjeT0BdaHkONHPxwnQA@mail.gmail.com>
-References: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
-        <20211118111940.1275351-3-miquel.raynal@bootlin.com>
-        <CAMuHMdUTj_kHV6=fMJ=CjiHjBSi_TrnrjeT0BdaHkONHPxwnQA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Miquel,
 
-geert@linux-m68k.org wrote on Fri, 19 Nov 2021 09:55:53 +0100:
+On Fri, Nov 19, 2021 at 10:19 AM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+> geert@linux-m68k.org wrote on Fri, 19 Nov 2021 09:41:35 +0100:
+> > On Thu, Nov 18, 2021 at 12:19 PM Miquel Raynal
+> > <miquel.raynal@bootlin.com> wrote:
+> > > Add a Yaml description for this Renesas NAND controller bindings.
+> > >
+> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-> Hi Miquel,
-> 
-> CC Gareth
-> 
-> On Thu, Nov 18, 2021 at 12:19 PM Miquel Raynal
-> <miquel.raynal@bootlin.com> wrote:
-> > Introduce Renesas RZ/N1x NAND controller driver which supports:
-> > - All ONFI timing modes
-> > - Different configurations of its internal ECC controller
-> > - On-die (not tested) and software ECC support
-> > - Several chips (not tested)
-> > - Subpage accesses
-> > - DMA and PIO
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/mtd/renesas,r9a06g032-nand-controller.yaml
+> > > @@ -0,0 +1,60 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/mtd/renesas,r9a06g032-nand-controller.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Renesas RZ/N1x NAND flash controller device tree bindings
+> > > +
+> > > +maintainers:
+> > > +  - Miquel Raynal <miquel.raynal@bootlin.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: "nand-controller.yaml"
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: renesas,r9a06g032-nand-controller
 > >
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>  
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/mtd/nand/raw/Kconfig
-> > +++ b/drivers/mtd/nand/raw/Kconfig
-> > @@ -467,6 +467,12 @@ config MTD_NAND_PL35X
-> >           Enables support for PrimeCell SMC PL351 and PL353 NAND
-> >           controller found on Zynq7000.
-> >
-> > +config MTD_NAND_RZN1
-> > +       tristate "Renesas RZ/N1D, RZ/N1S, RZ/N1L NAND controller"
-> > +       depends on OF || COMPILE_TEST  
-> 
-> depends on ARCH_RENESAS || COMPILE_TEST
+> > As the NAND Flash Controller is present on all of RZ/N1D, RZ/N1S,
+> > and RZ/N1L, I think you should add a family-specific compatible value
+> > "renesas,rzn1-nand-controller" as a fallback.
+>
+> I see, that's right, I should have added two compatibles.
+>
+> As there is currently only one 'specific' compatible (r9axxx), should I
+> describe the two compatibles as being mandatory? Or should I set the
+> most specific one as optional and the least specific one (rzn1)
+> mandatory?
 
-Yeah of course, sorry about that.
+Yes please.  Else you need to match on both in the driver, or we cannot
+differentiate later if the need ever arises.
 
-> 
-> > +       help
-> > +         Enables support for Renesas RZ/N1x SoC family NAND controller.
-> > +
-> >  comment "Misc"
-> >
-> >  config MTD_SM_COMMON  
-> 
-> > --- /dev/null
-> > +++ b/drivers/mtd/nand/raw/rzn1-nand-controller.c  
-> 
-> > +static int rzn1_read_subpage_hw_ecc(struct nand_chip *chip, u32 req_offset,
-> > +                                   u32 req_len, u8 *bufpoi, int page)
-> > +{
-> > +       struct rzn1_nfc *nfc = to_rzn1_nfc(chip->controller);
-> > +       struct mtd_info *mtd = nand_to_mtd(chip);
-> > +       struct rzn1_nand_chip *rzn1_nand = to_rzn1_nand(chip);
-> > +       unsigned int cs = to_nfc_cs(rzn1_nand);
-> > +       unsigned int page_off = round_down(req_offset, chip->ecc.size);
-> > +       unsigned int real_len = round_up(req_offset + req_len - page_off,
-> > +                                        chip->ecc.size);
-> > +       unsigned int start_chunk = page_off / chip->ecc.size;
-> > +       unsigned int nchunks = real_len / chip->ecc.size;
-> > +       unsigned int ecc_off = 2 + (start_chunk * chip->ecc.bytes);
-> > +       struct rzn1_op rop = {
-> > +               .command = COMMAND_INPUT_SEL_AHBS | COMMAND_0(NAND_CMD_READ0) |
-> > +                          COMMAND_2(NAND_CMD_READSTART) | COMMAND_FIFO_SEL |
-> > +                          COMMAND_SEQ_READ_PAGE,
-> > +               .addr0_row = page,
-> > +               .addr0_col = page_off,
-> > +               .len = real_len,
-> > +               .ecc_offset = ECC_OFFSET(mtd->writesize + ecc_off),
-> > +       };
-> > +       unsigned int max_bitflips = 0;
-> > +       u32 ecc_stat;
-> > +       int bf, ret, i;  
-> 
-> unsigned int i
+Gr{oetje,eeting}s,
 
-Strangely I'm used to always set my loop indexes as signed integers,
-but I'll happily change that everywhere in the driver before
-re-submitting.
+                        Geert
 
-[...]
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> > +static int rzn1_write_page_hw_ecc(struct nand_chip *chip, const u8 *buf,
-> > +                                 int oob_required, int page)
-> > +{
-> > +       struct rzn1_nfc *nfc = to_rzn1_nfc(chip->controller);
-> > +       struct mtd_info *mtd = nand_to_mtd(chip);
-> > +       struct rzn1_nand_chip *rzn1_nand = to_rzn1_nand(chip);
-> > +       unsigned int cs = to_nfc_cs(rzn1_nand);
-> > +       struct rzn1_op rop = {
-> > +               .command = COMMAND_INPUT_SEL_DMA | COMMAND_0(NAND_CMD_SEQIN) |
-> > +                          COMMAND_1(NAND_CMD_PAGEPROG) | COMMAND_FIFO_SEL |
-> > +                          COMMAND_SEQ_WRITE_PAGE,
-> > +               .addr0_row = page,
-> > +               .len = mtd->writesize,
-> > +               .ecc_offset = ECC_OFFSET(mtd->writesize + 2),
-> > +       };
-> > +       dma_addr_t dma_addr;
-> > +       int ret;
-> > +
-> > +       memcpy(nfc->buf, buf, mtd->writesize);
-> > +
-> > +       /* Prepare controller */
-> > +       rzn1_nfc_select_target(chip, chip->cur_cs);
-> > +       rzn1_nfc_clear_status(nfc);
-> > +       reinit_completion(&nfc->complete);
-> > +       rzn1_nfc_en_interrupts(nfc, INT_MEM_RDY(cs));
-> > +       rzn1_nfc_en_correction(nfc);
-> > +
-> > +       /* Configure DMA */
-> > +       dma_addr = dma_map_single(nfc->dev, (void *)nfc->buf, mtd->writesize,
-> > +                                 DMA_TO_DEVICE);
-> > +       writel(dma_addr, nfc->regs + DMA_ADDR_LOW_REG);
-> > +       writel(mtd->writesize, nfc->regs + DMA_CNT_REG);
-> > +       writel(DMA_TLVL_MAX, nfc->regs + DMA_TLVL_REG);
-> > +
-> > +       rzn1_nfc_trigger_op(nfc, &rop);
-> > +       rzn1_nfc_trigger_dma(nfc);
-> > +
-> > +       ret = rzn1_nfc_wait_end_of_io(nfc, chip);
-> > +       dma_unmap_single(nfc->dev, dma_addr, mtd->writesize, DMA_TO_DEVICE);
-> > +       rzn1_nfc_dis_correction(nfc);
-> > +       if (ret) {
-> > +               dev_err(nfc->dev, "Write page operation never ending\n");
-> > +               return ret;
-> > +       }
-> > +
-> > +       if (oob_required) {  
-> 
-> Return early if !oob_required, to reduce indentation below?
-
-Yeah sure.
-
-> > +               ret = nand_change_write_column_op(chip, mtd->writesize,
-> > +                                                 chip->oob_poi, mtd->oobsize,
-> > +                                                 false);
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> > +
-> > +       return 0;
-> > +}  
-
-[...]
-
-> > +static int rzn1_nfc_probe(struct platform_device *pdev)
-> > +{
-> > +       struct rzn1_nfc *nfc;
-> > +       int irq, ret;
-> > +
-> > +       nfc = devm_kzalloc(&pdev->dev, sizeof(*nfc), GFP_KERNEL);
-> > +       if (!nfc)
-> > +               return -ENOMEM;
-> > +
-> > +       nfc->dev = &pdev->dev;
-> > +       nand_controller_init(&nfc->controller);
-> > +       nfc->controller.ops = &rzn1_nfc_ops;
-> > +       INIT_LIST_HEAD(&nfc->chips);
-> > +       init_completion(&nfc->complete);
-> > +
-> > +       nfc->regs = devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(nfc->regs))
-> > +               return PTR_ERR(nfc->regs);
-> > +
-> > +       rzn1_nfc_dis_interrupts(nfc);
-> > +       irq = platform_get_irq(pdev, 0);  
-> 
-> platform_get_irq_optional()
-> 
-> > +       if (irq < 0) {  
-> 
-> What if this is a real error, or -EPROBE_DEFER?
-
-If it's a real error I believe we should still fallback to polling? Or
-do you prefer to only use polling on a fixed condition?
-
-However it's true that I forgot to handle the deferred case here.
-
-> > +               dev_info(&pdev->dev, "Using polling\n");
-> > +               nfc->use_polling = true;
-> > +       } else {
-> > +               ret = devm_request_irq(&pdev->dev, irq, rzn1_nfc_irq_handler, 0,
-> > +                                      "rzn1-nand-controller", nfc);
-> > +               if (ret < 0)
-> > +                       return ret;
-> > +       }
-> > +
-> > +       ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       nfc->hclk = devm_clk_get(&pdev->dev, "hclk");
-> > +       if (IS_ERR(nfc->hclk))
-> > +               return PTR_ERR(nfc->hclk);
-> > +
-> > +       nfc->eclk = devm_clk_get(&pdev->dev, "eclk");
-> > +       if (IS_ERR(nfc->eclk))
-> > +               return PTR_ERR(nfc->eclk);
-> > +
-> > +       ret = clk_prepare_enable(nfc->hclk);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       ret = clk_prepare_enable(nfc->eclk);
-> > +       if (ret)
-> > +               goto disable_hclk;
-> > +
-> > +       rzn1_nfc_clear_fifo(nfc);
-> > +
-> > +       platform_set_drvdata(pdev, nfc);
-> > +
-> > +       ret = rzn1_nand_chips_init(nfc);
-> > +       if (ret)
-> > +               goto disable_eclk;
-> > +
-> > +       return 0;
-> > +
-> > +disable_eclk:
-> > +       clk_disable_unprepare(nfc->eclk);
-> > +disable_hclk:
-> > +       clk_disable_unprepare(nfc->hclk);
-> > +
-> > +       return ret;
-> > +}  
-> 
-> > +static const struct of_device_id rzn1_nfc_id_table[] = {
-> > +       { .compatible = "renesas,r9a06g032-nand-controller" },  
-> 
-> Given my comment on the bindings, you probably want to match against
-> "renesas,rzn1-nand-controller" instead.
-
-Sure.
-
-> 
-> > +       {} /* sentinel */
-> > +};
-> > +MODULE_DEVICE_TABLE(of, nfc_id_table);
-> > +
-> > +static struct platform_driver rzn1_nfc_driver = {
-> > +       .driver = {
-> > +               .name   = "renesas-nfc",  
-> 
-> Perhaps s/nfc/nandc/ everywhere, to avoid confusion with the other nfc?
-
-There are many NAND controller drivers that are abbreviated with nfc
-because it's short and easy to write while still precise, but I have no
-issue rewording nfc into nandc if you prefer.
-
-> > +               .of_match_table = of_match_ptr(rzn1_nfc_id_table),
-> > +       },
-> > +       .probe = rzn1_nfc_probe,
-> > +       .remove = rzn1_nfc_remove,
-> > +};
-> > +module_platform_driver(rzn1_nfc_driver);  
-> 
-
-Thanks,
-Miquèl
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
