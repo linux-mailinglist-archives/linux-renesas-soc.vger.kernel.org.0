@@ -2,67 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F4C74585BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Nov 2021 19:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2B1458739
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 00:49:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238307AbhKUSFJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Nov 2021 13:05:09 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:27463 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230454AbhKUSFJ (ORCPT
+        id S231543AbhKUXwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Nov 2021 18:52:23 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:42605 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229735AbhKUXwW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Nov 2021 13:05:09 -0500
-X-IronPort-AV: E=Sophos;i="5.87,252,1631545200"; 
-   d="scan'208";a="100965886"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Nov 2021 03:02:02 +0900
+        Sun, 21 Nov 2021 18:52:22 -0500
+X-IronPort-AV: E=Sophos;i="5.87,253,1631545200"; 
+   d="scan'208";a="101341780"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Nov 2021 08:49:15 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3DFC54006DE3;
-        Mon, 22 Nov 2021 03:02:00 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 99B4C4129A30;
+        Mon, 22 Nov 2021 08:49:13 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] memory: renesas-rpc-if: Silence clang warning
-Date:   Sun, 21 Nov 2021 18:01:55 +0000
-Message-Id: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] arm64: dts: renesas: rzg2l-smarc-som: Enable serial NOR flash
+Date:   Sun, 21 Nov 2021 23:49:06 +0000
+Message-Id: <20211121234906.9602-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch silences the following clang warning:
+Enable mt25qu512a flash connected to QSPI0.
 
-| drivers/memory/renesas-rpc-if.c:253:14: warning: cast to smaller integer
-| type 'enum rpcif_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-|           rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-|                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Fixes: b04cc0d912eb8 ("memory: renesas-rpc-if: Add support for RZ/G2L")
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/memory/renesas-rpc-if.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1->v2
+-> Renamed qspi_pins0 to qspi0_pins
+---
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 40 +++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 8c51145c0f5c..0202c1dbc5c4 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -250,7 +250,7 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
- 		return PTR_ERR(rpc->dirmap);
- 	rpc->size = resource_size(res);
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+index 7e84a29dddfa..aef1b8736732 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
+@@ -178,6 +178,18 @@
+ 		line-name = "gpio_sd0_pwr_en";
+ 	};
  
--	rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-+	rpc->type = (enum rpcif_type)(uintptr_t)of_device_get_match_data(dev);
- 	rpc->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
++	qspi0_pins: qspi0 {
++		qspi0-data {
++			pins = "QSPI0_IO0", "QSPI0_IO1", "QSPI0_IO2", "QSPI0_IO3";
++			power-source  = <1800>;
++		};
++
++		qspi0-ctrl {
++			pins = "QSPI0_SPCLK", "QSPI0_SSL", "QSPI_RESET#";
++			power-source  = <1800>;
++		};
++	};
++
+ 	/*
+ 	 * SD0 device selection is XOR between GPIO_SD0_DEV_SEL and SW1[2]
+ 	 * The below switch logic can be used to select the device between
+@@ -243,6 +255,34 @@
+ 	};
+ };
  
- 	return PTR_ERR_OR_ZERO(rpc->rstc);
++&sbc {
++	pinctrl-0 = <&qspi0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	flash@0 {
++		compatible = "micron,mt25qu512a", "jedec,spi-nor";
++		reg = <0>;
++		m25p,fast-read;
++		spi-max-frequency = <50000000>;
++		spi-rx-bus-width = <4>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			boot@0 {
++				reg = <0x00000000 0x2000000>;
++				read-only;
++			};
++			user@2000000 {
++				reg = <0x2000000 0x2000000>;
++			};
++		};
++	};
++};
++
+ #if SDHI
+ &sdhi0 {
+ 	pinctrl-0 = <&sdhi0_pins>;
 -- 
 2.17.1
 
