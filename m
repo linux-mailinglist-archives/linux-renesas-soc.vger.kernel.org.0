@@ -2,121 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33578458BA6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 10:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CADD8458BDB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 10:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238829AbhKVJhy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Nov 2021 04:37:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbhKVJhy (ORCPT
+        id S239210AbhKVJ6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Nov 2021 04:58:14 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:47780
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239227AbhKVJ6K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Nov 2021 04:37:54 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CFFC061574;
-        Mon, 22 Nov 2021 01:34:47 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id v7so48482984ybq.0;
-        Mon, 22 Nov 2021 01:34:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/58NT7ct7q9qVhpboABnYcJs7B141CdNrRjRMouedh8=;
-        b=NVDgnbp40OQu0oKb0zrSUhi4eKq6wPdR2Uvkgf2NPDUxT1zp8WmVpRPk7bYTS4FDVZ
-         ULAJm+4ec9tru4GYGVsoDrHd58H0HH3DO+0yU3eshduzG+S3s5jaf6JROl7ZDHQuuJcX
-         K0pIi4dbBq6D/D9aYuvrY9PYCByTmcbf4csDP7cgu0ccyzhlpeQzUFvzlXcU5js0IEYG
-         K8bKJcsjuilYkArcQvg0gO5m/V0lfUyIJI9TyBkpL+8bxpVTBMF9vjIJn9FIVKB4gbOa
-         qiWOuOwH6HBu9OQ26c/XjVqQjVHLnSvL70xti/iEgZwnm68vrk6qnzBnZmiACENi9Ma4
-         xZYg==
+        Mon, 22 Nov 2021 04:58:10 -0500
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 635E13F175
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 09:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1637574903;
+        bh=XbrI8v5SiK/lQTgcd9wq3mq2WEL9a4Q5EFr23Q5MMJw=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=dZLy8DdZnNife9klg87unVGKzWJIoRfQB0NaqTHY7sqdB5jj7nNCFS7sTrYvM/kOC
+         CGZhJUKDX5yoSJmk9wbomT4Dzof16bTD63LsH2zGEzMXaUAqWyfeAcw2wQAaxDPrwz
+         pvPSDb/qmeZ3Sln/kepduX7NQ85DaVYeRjOr/szTNbZT+epUT++fHoYQEhnLVnTvcg
+         auseX4tQhYUoBBRsDMljs2/41py2MwCOGvsm2d7rJJO9Ou8Z3OjCf7DPxSjFyCXeET
+         cdiDtO/GsuVX3ITCFOGf30xfyR4XdD6IcMQYQMwvuwhYdmfM+S9o09YTwqL7y9X7GX
+         xn8OHa0G1T93Q==
+Received: by mail-lf1-f69.google.com with SMTP id h40-20020a0565123ca800b00402514d959fso11816535lfv.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 01:55:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/58NT7ct7q9qVhpboABnYcJs7B141CdNrRjRMouedh8=;
-        b=RpsYP1siznf8P1hRrxrVBlMbP/QQNsyv6RFpDWX+F8dIJVKkqY5j8VrsVAuZ6SQiQT
-         ZRePhbMvptPSnagbonCE8fuxr+zrW/m3Ypyx5afvz1g85QZ3V3KyLdn5b5ELw/tuLE49
-         AbMv9nAH1V2f5erZGsTPtA/3M7XMM76aj3jWEgPBOOon0BmHv6kMVe+Tx9y3CzbVivdM
-         jphETVLnPDtDnZ7I2Sd4zFfqHQ+ywIt7YL6u11BMpURJVQwwVq27psls9/GJvSJtg9Kd
-         CLS+TbTzKwEj3w5FmFEc+8zwGpqAYkJm6PA/4xjDgWLXyEGGOTabQ92Wu2b5rJoNZkCi
-         po8Q==
-X-Gm-Message-State: AOAM531+8skCKJz2DXADSEW3nqu9IlsPzWxf1RXTb+TTlorD9aJ//hlF
-        xcuSmTf2ySeM0DiDs+b8UL0ZOzoIaYtqAp4yws0=
-X-Google-Smtp-Source: ABdhPJzs+HD6VsEionQJCb9vESyL1udUm4nXwCA+R2YJGh5cJ+2GBO13x2XPSJYLfSVu+mUfKPp7tme+n8LDN/xgS98=
-X-Received: by 2002:a25:f502:: with SMTP id a2mr62547759ybe.254.1637573687117;
- Mon, 22 Nov 2021 01:34:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUTLYn=14RzJORp1mn-TSwC1rk1BO_9L6TG4g9JhH27JA@mail.gmail.com>
- <CA+V-a8sGA4=oxwp87VonC6zdPYT5-BHmsVoV8L1ggTUV8m4ooA@mail.gmail.com> <7eeeb5d0-3ef1-35cd-e7e2-cdeeb979b83b@canonical.com>
-In-Reply-To: <7eeeb5d0-3ef1-35cd-e7e2-cdeeb979b83b@canonical.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 22 Nov 2021 09:34:21 +0000
-Message-ID: <CA+V-a8umH8bh8vL8tYdTa=1Y65JvvuVpvzt-NRvi+XL80rOF=w@mail.gmail.com>
-Subject: Re: [PATCH] memory: renesas-rpc-if: Silence clang warning
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XbrI8v5SiK/lQTgcd9wq3mq2WEL9a4Q5EFr23Q5MMJw=;
+        b=yy84/cERgx+7NZNR1yTlB73TsC6EUy0Ba/IG3Tmw60/wfoOBnEFoZyQ0tOVRuVdXMW
+         6N2YsDHgL2/qAPTiV+wZZPubuDNGsPEBPFfiSrlf4vN0No9v9ktnGCXd0DDjA/Io1WvJ
+         NOSenbzvaXkigOyWgNTLThQS2OQF6FkieQvIKqYp7zh3Uaj460t+7HLl0kXFJmCfk/EC
+         OveUvdL1fdG175mATVeT2sdYqrb3DGLFw/SJQZeBQX+keCgPC7jB+O2xi+VJXb7lXzB4
+         5RVrY9HGIJhjWCmtmfdA7lZrHmtDrOdop575tn7L8HffzbVxM/6o/tA5PVmhi89czsmN
+         S0MA==
+X-Gm-Message-State: AOAM533iX/wTqG7e6VGOOHDxvRGjDmVRtZa8T7QFjIthEH4GharTpbkO
+        /8lDwdru8d0mh0UyI2PoD7LBRy9IetksAMRbDUsbEAsMhYY9hBPflPoXkD4U6IaTKyWtjyziC2Z
+        R9LM/GrhwOk2xJtiHo8c8iM4BkCyK5/Q1EE9NwDtIPfOTQCUO
+X-Received: by 2002:a2e:9d05:: with SMTP id t5mr50466602lji.192.1637574902745;
+        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwke2myThe8Gt/0eU50mIFwZeGa186M95bQ6FjvfYp1F25HVbkpTO5cJFBtu8Cq5yDswcSrbw==
+X-Received: by 2002:a2e:9d05:: with SMTP id t5mr50466583lji.192.1637574902588;
+        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
+Received: from localhost.localdomain (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
+        by smtp.gmail.com with ESMTPSA id u22sm908676lff.118.2021.11.22.01.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, llvm@lists.linux.dev,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Silence clang warning
+Date:   Mon, 22 Nov 2021 10:54:22 +0100
+Message-Id: <163757486271.327364.15013387046506082286.b4-ty@canonical.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 9:32 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@canonical.com> wrote:
->
-> On 22/11/2021 09:46, Lad, Prabhakar wrote:
-> > Hi Geert,
-> >
-> > Thank you for the review.
-> >
-> > On Mon, Nov 22, 2021 at 7:50 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >>
-> >> Hi Prabhakar,
-> >>
-> >> On Sun, Nov 21, 2021 at 7:05 PM Lad Prabhakar
-> >> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >>> This patch silences the following clang warning:
-> >>>
-> >>> | drivers/memory/renesas-rpc-if.c:253:14: warning: cast to smaller integer
-> >>> | type 'enum rpcif_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-> >>> |           rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-> >>> |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>
-> >>> Fixes: b04cc0d912eb8 ("memory: renesas-rpc-if: Add support for RZ/G2L")
-> >>> Reported-by: kernel test robot <lkp@intel.com>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>
-> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>
-> >>> --- a/drivers/memory/renesas-rpc-if.c
-> >>> +++ b/drivers/memory/renesas-rpc-if.c
-> >>> @@ -250,7 +250,7 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
-> >>>                 return PTR_ERR(rpc->dirmap);
-> >>>         rpc->size = resource_size(res);
-> >>>
-> >>> -       rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-> >>> +       rpc->type = (enum rpcif_type)(uintptr_t)of_device_get_match_data(dev);
-> >>
-> >> While correct, the cast to "enum rpcif_type" is not stricly needed anymore.
-> >>
-> > Agreed.
-> >
-> > @Krzysztof, let me know if you want me to resend the patch with the
-> > cast to "enum rpcif_type" dropped.
->
-> I can fix it when applying, thanks!
->
-Thank you.
+On Sun, 21 Nov 2021 18:01:55 +0000, Lad Prabhakar wrote:
+> This patch silences the following clang warning:
+> 
+> | drivers/memory/renesas-rpc-if.c:253:14: warning: cast to smaller integer
+> | type 'enum rpcif_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+> |           rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
+> |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> [...]
 
-Cheers,
-Prabhakar
+Applied, thanks!
 
->
-> Best regards,
-> Krzysztof
+[1/1] memory: renesas-rpc-if: Silence clang warning
+      commit: 2602dc10f9d930bcc537467d13de4cfbfaa2126d
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
