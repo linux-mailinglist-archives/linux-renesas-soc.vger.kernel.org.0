@@ -2,96 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA0C2458D69
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 12:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC4C8458D86
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 12:36:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239121AbhKVLb3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Nov 2021 06:31:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239111AbhKVLb0 (ORCPT
+        id S239125AbhKVLjV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Nov 2021 06:39:21 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:37976 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233502AbhKVLjU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Nov 2021 06:31:26 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958ACC061714
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 03:28:19 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id b1so78753894lfs.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 03:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IagQM63R+rDjhJUw1VMPJDDpFazIAHieWAnQRQyFphA=;
-        b=PFAOxEbUA29b30rxhBtR8jpeMFz07/eFFDDQJAnKfBtRCskpZSpEbXpH0xchxq1vX6
-         ObDxcAJdeilTRvGEDpDffya6n9VnUGLW/jItJ0gK3pigN1UpiYMpaqpgSoJudZjtUBCE
-         FH4yJ9f2n9A+mQ+y0WJkrxjJk9Cbrj+nCvr9ECf9q1DfbOBIGzzx2uOqesFUOzl7MD5P
-         HPTfRtw+XQEbqYzgpL/eYbVxlVikndmIEZ+ApJfNT2S9VDjiR6cq6LCcQ/0O8jVxCi2A
-         I9fcmoC3xOdgA+zfvZMnX7rZZefpEQUQOWDDgCUu63ND6vGFsoeAc10oxDb7x4Fn77bW
-         97wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IagQM63R+rDjhJUw1VMPJDDpFazIAHieWAnQRQyFphA=;
-        b=kulWiMu9iz5Fb+kpXI/Bel6rkKaX3+u9fWTukO+6/QeSSQ9TfWh//Lyc5EWdgxZWwr
-         jtiSgmPbGORJnRq3K8tA/Rozwi32IlrKekX2xsPVe/fuzjRSMFefzSIKKSb7SnCSfGSF
-         ApwQSyPzFbTI/F7zZCRIOVzDaEZrx+XVx55fK04RJ69TwPBLoKZxV23E7OfMY4BSfg1B
-         pMG5wO05u1pKAaCbYW8UNh+LHY5kM6ol4+JlOq0NPh6nxAhc3REsLfER3PjBPNLEKTni
-         dBOUhmcXVgmq5kIJWdjtAUr5TEEycD3Xa/wBeyI6k1cCRAO1T8FQvU+pse1uwKfXgAg6
-         rjpQ==
-X-Gm-Message-State: AOAM532PaJgLu2U77tYZWaavX4b9LyQbEEWjH0/QAMyZttnMsqEIh99W
-        Hbd+a1pZHSH+vEanisXoVlGf7m2PTjhi17JaYvdutQ==
-X-Google-Smtp-Source: ABdhPJy3c024rax53YED/h5qShT7smb1J1xSLFa5vpqATOSqXWQ6zzjj3kRnEy9P+bc+FTkRM8LPPqCdRz857mHRdrY=
-X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr57271385lfq.254.1637580497906;
- Mon, 22 Nov 2021 03:28:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20211122103905.14439-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211122103905.14439-1-biju.das.jz@bp.renesas.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 22 Nov 2021 12:27:42 +0100
-Message-ID: <CAPDyKFrcCHBrh9JUDXkMyuURgnnh8uxjcGp_DLKMDz7zw0pWWQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Rename RZ/G2L SDHI clocks
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mon, 22 Nov 2021 06:39:20 -0500
+X-IronPort-AV: E=Sophos;i="5.87,254,1631545200"; 
+   d="scan'208";a="101061578"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Nov 2021 20:36:13 +0900
+Received: from localhost.localdomain (unknown [10.226.92.178])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CDFA341E9700;
+        Mon, 22 Nov 2021 20:36:10 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v3 0/2] Add WDT driver for RZ/G2L
+Date:   Mon, 22 Nov 2021 11:35:52 +0000
+Message-Id: <20211122113554.15990-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 22 Nov 2021 at 11:39, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> RZ/G2L SDHI has 4 clocks which is controlled by PM frame work and is using
-> Gen3 compatible string. Now the clock factorisation happened on highspeed
-> clock handling and it changes to fallback by getting parent clock, if
-> "clkh" is not specified in device tree.
->
-> This path series rename the clocks to match with the clock names used in
-> R-Car Gen2 and later generations. This will avoid driver changes related
-> to clock names.
->
-> This patch series based on renesas-devel
+This patch series aims to add WDT driver support for RZ/G2L SoC's.
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+WDT has 3 channels 
+1) CH0 to check the operation of Cortex-A55-CPU Core0
+2) CH1 to check the operation of Cortex-A55-CPU Core1
+3) CH2 to check the operation of Cortex-M33 CPU
 
-Kind regards
-Uffe
+WDT IP supports 
+1) Normal Watchdog Timer Function
+2) Reset Request Function due to CPU Parity Error
 
->
-> Biju Das (2):
->   dt-bindings: mmc: renesas,sdhi: Rename RZ/G2L clocks
->   arm64: dts: renesas: r9a07g044: Rename SDHI clocks
->
->  .../devicetree/bindings/mmc/renesas,sdhi.yaml          | 10 +++++-----
->  arch/arm64/boot/dts/renesas/r9a07g044.dtsi             |  8 ++++----
->  2 files changed, 9 insertions(+), 9 deletions(-)
->
-> --
-> 2.17.1
->
+Once the software activates the watchdog timer, the watchdog timer does
+not stop until it is reset.
+
+Current driver supports Normal Watchdog Timer basic functionality.
+
+Tested WDT driver with selftests tool and reboot command
+
+All 3 channels tested with below command.
+
+cat /dev/watchdog  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800808; done
+cat /dev/watchdog1  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800c08; done
+cat /dev/watchdog2 & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800408; done
+
+V2->V3:
+ * Added Rb tag from Guenter Roeck
+ * Removed Removed patch#1, as the clock changes related to WDT reset selection
+   will be handled in TF-A.
+V1->V2:
+ * started using clk_get/put instead of devm_clk_get/put
+ * Moved devm_add_action_or_reset after set_drvdata() and 
+ * removed redundant action on devm_add_action_or_reset() failure.
+RFC->V1
+ * Removed patch#3, the clk patch is queued for 5.17
+ * Added clock-names and interrupt-names as required properties for RZ/G2L
+ * Re-order clocknames with internal module clock first
+ * Removed pclk_rate from priv.
+ * rzg2l_wdt_write() returns void and Removed tiemout related to register update 
+ * rzg2l_wdt_init_timeout() returns void and removed delays.
+ * removed set_bit(WDOG_HW_RUNNING,..) as we can stop watchdog
+ * renamed reset_assert_clock_disable->reset_assert_pm_disable_put
+ * started using devm_reset_control_get_exclusive()
+ * removed platform_set_drvdata(pdev, priv) as there is no user
+ * removed watchdog_set_restart_priority(&priv->wdev, 0) as 0 is the default.
+ * removed remove callback as it is empty.
+
+Biju Das (3):
+  clk: renesas: rzg2l: Add support for watchdog reset selection
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/G2L
+  watchdog: Add Watchdog Timer driver for RZ/G2L
+
+ .../bindings/watchdog/renesas,wdt.yaml        |  75 ++++--
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzg2l_wdt.c                  | 255 ++++++++++++++++++
+ 4 files changed, 321 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/watchdog/rzg2l_wdt.c
+
+-- 
+2.17.1
+
