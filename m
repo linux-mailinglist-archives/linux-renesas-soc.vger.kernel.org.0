@@ -2,74 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CADD8458BDB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 10:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FE13458BDC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 10:55:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239210AbhKVJ6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S239229AbhKVJ6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 22 Nov 2021 04:58:14 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:47780
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:47804
         "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239227AbhKVJ6K (ORCPT
+        by vger.kernel.org with ESMTP id S239246AbhKVJ6M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Nov 2021 04:58:10 -0500
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
+        Mon, 22 Nov 2021 04:58:12 -0500
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 635E13F175
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 09:55:03 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id CAC8940021
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 09:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1637574903;
-        bh=XbrI8v5SiK/lQTgcd9wq3mq2WEL9a4Q5EFr23Q5MMJw=;
+        s=20210705; t=1637574904;
+        bh=fs5E2FG2KHZuy/jnILr8Z75A9OX4E3rCWqYR1/W3gLs=;
         h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
          MIME-Version:Content-Type;
-        b=dZLy8DdZnNife9klg87unVGKzWJIoRfQB0NaqTHY7sqdB5jj7nNCFS7sTrYvM/kOC
-         CGZhJUKDX5yoSJmk9wbomT4Dzof16bTD63LsH2zGEzMXaUAqWyfeAcw2wQAaxDPrwz
-         pvPSDb/qmeZ3Sln/kepduX7NQ85DaVYeRjOr/szTNbZT+epUT++fHoYQEhnLVnTvcg
-         auseX4tQhYUoBBRsDMljs2/41py2MwCOGvsm2d7rJJO9Ou8Z3OjCf7DPxSjFyCXeET
-         cdiDtO/GsuVX3ITCFOGf30xfyR4XdD6IcMQYQMwvuwhYdmfM+S9o09YTwqL7y9X7GX
-         xn8OHa0G1T93Q==
-Received: by mail-lf1-f69.google.com with SMTP id h40-20020a0565123ca800b00402514d959fso11816535lfv.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 01:55:03 -0800 (PST)
+        b=nf5xnvLYBTloGbm/edVH8j+nGRRxtOfpnm0GlW/1LTRL1Hxam6NaN1wbWZ/acQAvv
+         WqDe34ClBMnW33OaWEGMIHKArUF/o9uPl/6pGEybu2c0wofa6mWWvu7NBOrr16Z+V1
+         ApKhJY3bmN8ZWvWpXca7VfCeuwhiUZ/nIUQmT7uhNIywZWF7OXumc7aqpna7Z+o5LO
+         Oer/GRs/KThN5ujqrZf0/UNzIBU5GQrvkGw0oD9C/kI1qmOKU9QFNIofiGWJd4Iwft
+         YKfQyX4YGIkxpH155aLFlBWP+SkWY1EdV4pprUqcBefC/EHsrbAVKSqiiNmk7eL5NM
+         6AUCUNsL1HN+g==
+Received: by mail-lf1-f71.google.com with SMTP id k32-20020a0565123da000b0041643c6a467so1138628lfv.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 01:55:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XbrI8v5SiK/lQTgcd9wq3mq2WEL9a4Q5EFr23Q5MMJw=;
-        b=yy84/cERgx+7NZNR1yTlB73TsC6EUy0Ba/IG3Tmw60/wfoOBnEFoZyQ0tOVRuVdXMW
-         6N2YsDHgL2/qAPTiV+wZZPubuDNGsPEBPFfiSrlf4vN0No9v9ktnGCXd0DDjA/Io1WvJ
-         NOSenbzvaXkigOyWgNTLThQS2OQF6FkieQvIKqYp7zh3Uaj460t+7HLl0kXFJmCfk/EC
-         OveUvdL1fdG175mATVeT2sdYqrb3DGLFw/SJQZeBQX+keCgPC7jB+O2xi+VJXb7lXzB4
-         5RVrY9HGIJhjWCmtmfdA7lZrHmtDrOdop575tn7L8HffzbVxM/6o/tA5PVmhi89czsmN
-         S0MA==
-X-Gm-Message-State: AOAM533iX/wTqG7e6VGOOHDxvRGjDmVRtZa8T7QFjIthEH4GharTpbkO
-        /8lDwdru8d0mh0UyI2PoD7LBRy9IetksAMRbDUsbEAsMhYY9hBPflPoXkD4U6IaTKyWtjyziC2Z
-        R9LM/GrhwOk2xJtiHo8c8iM4BkCyK5/Q1EE9NwDtIPfOTQCUO
-X-Received: by 2002:a2e:9d05:: with SMTP id t5mr50466602lji.192.1637574902745;
-        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwke2myThe8Gt/0eU50mIFwZeGa186M95bQ6FjvfYp1F25HVbkpTO5cJFBtu8Cq5yDswcSrbw==
-X-Received: by 2002:a2e:9d05:: with SMTP id t5mr50466583lji.192.1637574902588;
-        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
+        bh=fs5E2FG2KHZuy/jnILr8Z75A9OX4E3rCWqYR1/W3gLs=;
+        b=yNROKubi8HiWC3Rabsa/LT0l2Y/K5tfSvbIXB6S5/82SW9bt68Edkv5JmWWjnh/iXt
+         0rmxd/BZxY8nghfSdK8vO9movOW3OMdLPKYwuK+JWiYFyLpYmNG5vxTgj0bUjMPd0RNY
+         GPVbwMac3LXpYto5V1hLLI7i7vn8EgpuqqgL7TT1FaW9wntn2XPOEeyZ6qZJWrAfK7dI
+         00EK3cylq2RRc/FhGmYlnuh3E/oyhZSQMDyjJnUQeXloME09y9m+IPS2F15TWUvbH+pg
+         rCS0DD2kxz35XzkYqDdfNdPFhhU1ackhOMJRj1xo5AGKy5x4tSsbI/uqZwA0zKOZYCeN
+         lqJQ==
+X-Gm-Message-State: AOAM532OI3Mtk1vdnAhsUyQDvBGyQCH2C30cCXHPojoff3mDkYamoM5A
+        4SK/f4arpAdIDOXHs+XebmI1VhFHQkBFo3QqREoRKmswxidAtIxCJBBNGZa3A9Fyj+V+XrK9rHC
+        s2EpVECUxUKB33IA2SCVV87/2P2bGR3iJF8GFyUEjNXbXubMW
+X-Received: by 2002:a05:6512:39c1:: with SMTP id k1mr55423472lfu.673.1637574903975;
+        Mon, 22 Nov 2021 01:55:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxKegfOMZYPJTvMiaHhh7Wg7XnbjMxgUhdR0EiKSXfjtZYJ1WUEdhXV0/tIdUFcXOg82hsMyA==
+X-Received: by 2002:a05:6512:39c1:: with SMTP id k1mr55423455lfu.673.1637574903789;
+        Mon, 22 Nov 2021 01:55:03 -0800 (PST)
 Received: from localhost.localdomain (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
-        by smtp.gmail.com with ESMTPSA id u22sm908676lff.118.2021.11.22.01.55.01
+        by smtp.gmail.com with ESMTPSA id u22sm908676lff.118.2021.11.22.01.55.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 01:55:02 -0800 (PST)
+        Mon, 22 Nov 2021 01:55:03 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, llvm@lists.linux.dev,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] memory: renesas-rpc-if: Silence clang warning
-Date:   Mon, 22 Nov 2021 10:54:22 +0100
-Message-Id: <163757486271.327364.15013387046506082286.b4-ty@canonical.com>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: renesas-rpc-if: avoid use of undocumented bits
+Date:   Mon, 22 Nov 2021 10:54:23 +0100
+Message-Id: <163757486271.327364.12463737786171898002.b4-ty@canonical.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211121180155.9062-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211117093710.14430-1-wsa+renesas@sang-engineering.com>
+References: <20211117093710.14430-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -77,20 +73,18 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 21 Nov 2021 18:01:55 +0000, Lad Prabhakar wrote:
-> This patch silences the following clang warning:
+On Wed, 17 Nov 2021 10:37:10 +0100, Wolfram Sang wrote:
+> Instead of writing fixed values with undocumented bits which happen to
+> be set on some SoCs, better switch to read-modify-write operations
+> changing only bits which are documented. This is way more future-proof
+> as we don't know yet how these bits may be on upcoming SoCs.
 > 
-> | drivers/memory/renesas-rpc-if.c:253:14: warning: cast to smaller integer
-> | type 'enum rpcif_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-> |           rpc->type = (enum rpcif_type)of_device_get_match_data(dev);
-> |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] memory: renesas-rpc-if: Silence clang warning
-      commit: 2602dc10f9d930bcc537467d13de4cfbfaa2126d
+[1/1] memory: renesas-rpc-if: avoid use of undocumented bits
+      commit: 57ea9daad51f7707f61a602a743decf10cf9fea9
 
 Best regards,
 -- 
