@@ -2,270 +2,218 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C32B9459388
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 17:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77DC3459444
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Nov 2021 18:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232075AbhKVRBs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Nov 2021 12:01:48 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:35479 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230370AbhKVRBs (ORCPT
+        id S238087AbhKVRxj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Nov 2021 12:53:39 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:37405 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235040AbhKVRxh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Nov 2021 12:01:48 -0500
-Received: by mail-ua1-f51.google.com with SMTP id l24so38024736uak.2;
-        Mon, 22 Nov 2021 08:58:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4M0T7ckgmVhoofb9RK8C1z/dXuSi67WWd/fJ+aPYWIU=;
-        b=nu5GTIBFo+sSMpXwOqtYIDm6zCZQ3eUdkhGTO27wzyFr8yV39Jnww01sUWXu62mfS0
-         faqdbNze/IznjTt0Wc+tlLxpNqYM2CrKLOuk8DQA+kN/h9KEElLAMt8I/fR0+hoMAD5P
-         xXeVHFzLHrqzoDxTeqKf0KH/+V2gBomuCallWIYfOOZwrc1A++8mR/x8LCha3uUsLpw+
-         w6Dwg/OLTVk3/jLCX1Q/3ZKDsNvKewHGIrSJVWs3TPsZA08AFTtUwY2g3fsyyXfsc4Ol
-         sua1/z02pQTx8w1jkSNqaVXygwF1gBHFM6LIAuXgOjOi3xxNv/BzC2UNC65J20lVyT8f
-         pfug==
-X-Gm-Message-State: AOAM533qtBEWTxTtGSny+Z8m6WWwTgtGdQa8CF1JO+2lDlKJNXWo9QyJ
-        4RyrGhYNiuh2ptoO+TtCdQ+m/go73cm3Aw==
-X-Google-Smtp-Source: ABdhPJxEK10JujsHVTprDxAMLWUCiU1GDgvuLK9oo6X0eqXDHJmNzoU8jz5y26vihMgJrmvG5S9oMw==
-X-Received: by 2002:a67:dc86:: with SMTP id g6mr131829147vsk.8.1637600320434;
-        Mon, 22 Nov 2021 08:58:40 -0800 (PST)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id c23sm4786931vko.8.2021.11.22.08.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Nov 2021 08:58:40 -0800 (PST)
-Received: by mail-vk1-f180.google.com with SMTP id b125so10647924vkb.9;
-        Mon, 22 Nov 2021 08:58:39 -0800 (PST)
-X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr164191641vko.7.1637600319327;
- Mon, 22 Nov 2021 08:58:39 -0800 (PST)
+        Mon, 22 Nov 2021 12:53:37 -0500
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id CBED060006;
+        Mon, 22 Nov 2021 17:50:19 +0000 (UTC)
+Date:   Mon, 22 Nov 2021 18:50:19 +0100
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Paul Walmsley <paul@pwsan.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/17] Non-const bitfield helper conversions
+Message-ID: <YZvYW1ElW7ZYZNTC@piout.net>
+References: <cover.1637592133.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
- <8735no70tt.wl-maz@kernel.org>
-In-Reply-To: <8735no70tt.wl-maz@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 22 Nov 2021 17:58:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
-Message-ID: <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
-Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
- definition of interrupt-map
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel-team@android.com, Rob Herring <robh@kernel.org>,
-        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1637592133.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+On 22/11/2021 16:53:53+0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> <linux/bitfield.h> contains various helpers for accessing bitfields, as
+> typically used in hardware registers for memory-mapped I/O blocks. These
+> helpers ensure type safety, and deduce automatically shift values from
+> mask values, avoiding mistakes due to inconsistent shifts and masks, and
+> leading to a reduction in source code size.
+> 
+> I have already submitted a few conversions to the FIELD_{GET,PREP}()
+> helpers that were fixes for real bugs:
+>   - [PATCH] mips: cm: Convert to bitfield API to fix out-of-bounds
+>     access
+>     https://lore.kernel.org/r/0471c545117c5fa05bd9c73005cda9b74608a61e.1635501373.git.geert+renesas@glider.be
+>   - [PATCH] drm/armada: Fix off-by-one error in
+>     armada_overlay_get_property()
+>     https://lore.kernel.org/r/5818c8b04834e6a9525441bc181580a230354b69.1635501237.git.geert+renesas@glider.be
+> 
+> Plus several patches for normal conversions:
+>   - [PATCH] ARM: ptrace: Use bitfield helpers
+>     https://lore.kernel.org/r/a1445d3abb45cfc95cb1b03180fd53caf122035b.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] MIPS: CPC: Use bitfield helpers
+>     https://lore.kernel.org/r/35f0f17e3d987afaa9cd09cdcb8131d42a53c3e1.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] MIPS: CPS: Use bitfield helpers
+>     https://lore.kernel.org/r/8bd8b1b9a3787e594285addcf2057754540d0a5f.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] crypto: sa2ul - Use bitfield helpers
+>     https://lore.kernel.org/r/ca89d204ef2e40193479db2742eadf0d9cf3c0ff.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] dmaengine: stm32-mdma: Use bitfield helpers
+>     https://lore.kernel.org/r/36ceab242a594233dc7dc6f1dddb4ac32d1e846f.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] intel_th: Use bitfield helpers
+>     https://lore.kernel.org/r/b1e4f027aa88acfbdfaa771b0920bd1d977828ba.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] Input: palmas-pwrbutton - use bitfield helpers
+>     https://lore.kernel.org/r/f8831b88346b36fc6e01e0910d0db6c94287d2b4.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] irqchip/mips-gic: Use bitfield helpers
+>     https://lore.kernel.org/r/74f9d126961a90d3e311b92a54870eaac5b3ae57.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] mfd: mc13xxx: Use bitfield helpers
+>     https://lore.kernel.org/r/afa46868cf8c1666e9cbbbec42767ca2294b024d.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] regulator: lp873x: Use bitfield helpers
+>     https://lore.kernel.org/r/44d60384b640c8586b4ca7edbc9287a34ce21c5b.1637593297.git.geert+renesas@glider.be
+>   - [PATCH] regulator: lp87565: Use bitfield helpers
+>     https://lore.kernel.org/r/941c2dfd5b5b124b8950bcce42db4c343dfe9821.1637593297.git.geert+renesas@glider.be
+> 
+> The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> constants.  However, it is very common to prepare or extract bitfield
+> elements where the bitfield mask is not a compile-time constant.
+> To avoid this limitation, the AT91 clock driver already has its own
+> field_{prep,get}() macros.
+> 
 
-On Mon, Nov 22, 2021 at 2:54 PM Marc Zyngier <maz@kernel.org> wrote:
-> On Mon, 22 Nov 2021 13:10:32 +0000,
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Nov 22, 2021 at 11:30 AM Marc Zyngier <maz@kernel.org> wrote:
-> > > Since 041284181226 ("of/irq: Allow matching of an interrupt-map local
-> > > to an interrupt controller"), a handful of interrupt controllers have
-> > > stopped working correctly. This is due to the DT exposing a non-sensical
-> > > interrupt-map property, and their drivers relying on the kernel ignoring
-> > > this property.
-> > >
-> > > Since we cannot realistically fix this terrible behaviour, add a quirk
-> > > for the limited set of devices that have implemented this monster,
-> > > and document that this is a pretty bad practice.
+My understanding was that this (being compile time only) was actually
+done on purpose. Did I misunderstand?
 
-> > > --- a/drivers/of/irq.c
-> > > +++ b/drivers/of/irq.c
-> > > @@ -76,6 +76,36 @@ struct device_node *of_irq_find_parent(struct device_node *child)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(of_irq_find_parent);
-> > >
-> > > +/*
-> > > + * These interrupt controllers abuse interrupt-map for unspeakable
-> > > + * reasons and rely on the core code to *ignore* it (the drivers do
-> > > + * their own parsing of the property).
-> > > + *
-> > > + * If you think of adding to the list for something *new*, think
-> > > + * again. There is a high chance that you will be sent back to the
-> > > + * drawing board.
-> > > + */
-> > > +static const char * const of_irq_imap_abusers[] = {
-> > > +       "CBEA,platform-spider-pic",
-> > > +       "sti,platform-spider-pic",
-> > > +       "realtek,rtl-intc",
-> > > +       "fsl,ls1021a-extirq",
-> > > +       "fsl,ls1043a-extirq",
-> > > +       "fsl,ls1088a-extirq",
-> > > +       "renesas,rza1-irqc",
-> > > +};
-> >
-> > Are you sure "renesas,rza1-irqc" handles this wrong? How should it
-> > be handled instead? I read the other thread[1], but didn't became
-> > any wiser: interrupts are mapped one-to-one with the RZ/A1 IRQC.
-> >
-> > In both v5.15 and v5.16-rc1, interrupts seem to work fine on RSK+RZA1
-> > and RZA2MEVB, both with gpio-keys and when used as a wake-up interrupt.
+> This patch series makes them available for general use, and converts
+> several drivers to the existing FIELD_{GET,PREP}() and the new
+> field_{get,prep}() helpers.
+> 
+> I can take the first two patches through the reneas-clk tree for v5.17,
+> but probably it is best for the remaining patches to be postponed to
+> v5.18.
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (17):
+>   bitfield: Add non-constant field_{prep,get}() helpers
+>   clk: renesas: Use bitfield helpers
+>   [RFC] soc: renesas: Use bitfield helpers
+>   [RFC] ARM: OMAP2+: Use bitfield helpers
+>   [RFC] bus: omap_l3_noc: Use bitfield helpers
+>   [RFC] clk: ti: Use bitfield helpers
+>   [RFC] iio: st_sensors: Use bitfield helpers
+>   [RFC] iio: humidity: hts221: Use bitfield helpers
+>   [RFC] iio: imu: st_lsm6dsx: Use bitfield helpers
+>   [RFC] media: ti-vpe: cal: Use bitfield helpers
+>   [RFC] mmc: sdhci-of-aspeed: Use bitfield helpers
+>   [RFC] pinctrl: aspeed: Use bitfield helpers
+>   [RFC] pinctl: ti: iodelay: Use bitfield helpers
+>   [RFC] regulator: ti-abb: Use bitfield helpers
+>   [RFC] thermal/ti-soc-thermal: Use bitfield helpers
+>   [RFC] ALSA: ice1724: Use bitfield helpers
+>   [RFC] rtw89: Use bitfield helpers
+> 
+>  arch/arm/mach-omap2/clkt2xxx_dpllcore.c       |  5 +-
+>  arch/arm/mach-omap2/cm2xxx.c                  | 11 ++-
+>  arch/arm/mach-omap2/cm2xxx_3xxx.h             |  9 +--
+>  arch/arm/mach-omap2/cm33xx.c                  |  9 +--
+>  arch/arm/mach-omap2/cm3xxx.c                  |  7 +-
+>  arch/arm/mach-omap2/cminst44xx.c              |  9 +--
+>  arch/arm/mach-omap2/powerdomains3xxx_data.c   |  3 +-
+>  arch/arm/mach-omap2/prm.h                     |  2 -
+>  arch/arm/mach-omap2/prm2xxx.c                 |  4 +-
+>  arch/arm/mach-omap2/prm2xxx_3xxx.c            |  7 +-
+>  arch/arm/mach-omap2/prm2xxx_3xxx.h            |  9 +--
+>  arch/arm/mach-omap2/prm33xx.c                 | 53 +++++-------
+>  arch/arm/mach-omap2/prm3xxx.c                 |  3 +-
+>  arch/arm/mach-omap2/prm44xx.c                 | 53 ++++--------
+>  arch/arm/mach-omap2/vc.c                      | 12 +--
+>  arch/arm/mach-omap2/vp.c                      | 11 +--
+>  drivers/bus/omap_l3_noc.c                     |  4 +-
+>  drivers/clk/at91/clk-peripheral.c             |  1 +
+>  drivers/clk/at91/pmc.h                        |  3 -
+>  drivers/clk/renesas/clk-div6.c                |  6 +-
+>  drivers/clk/renesas/r8a779a0-cpg-mssr.c       |  9 +--
+>  drivers/clk/renesas/rcar-gen3-cpg.c           | 15 ++--
+>  drivers/clk/ti/apll.c                         | 25 +++---
+>  drivers/clk/ti/dpll3xxx.c                     | 81 ++++++++-----------
+>  .../iio/common/st_sensors/st_sensors_core.c   |  5 +-
+>  drivers/iio/humidity/hts221_core.c            |  8 +-
+>  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx.h       |  1 -
+>  .../iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.c    |  7 +-
+>  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c  | 45 +++++------
+>  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_shub.c  | 11 +--
+>  drivers/media/platform/ti-vpe/cal.h           |  4 +-
+>  drivers/mmc/host/sdhci-of-aspeed.c            |  5 +-
+>  drivers/net/wireless/realtek/rtw89/core.h     | 38 ++-------
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c    |  3 +-
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c    |  3 +-
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c    |  3 +-
+>  drivers/pinctrl/aspeed/pinctrl-aspeed.c       |  5 +-
+>  drivers/pinctrl/aspeed/pinmux-aspeed.c        |  6 +-
+>  drivers/pinctrl/ti/pinctrl-ti-iodelay.c       | 35 +++-----
+>  drivers/regulator/ti-abb-regulator.c          |  7 +-
+>  drivers/soc/renesas/renesas-soc.c             |  4 +-
+>  drivers/thermal/ti-soc-thermal/ti-bandgap.c   | 11 ++-
+>  include/linux/bitfield.h                      | 30 +++++++
+>  sound/pci/ice1712/wm8766.c                    | 14 ++--
+>  sound/pci/ice1712/wm8776.c                    | 14 ++--
+>  45 files changed, 263 insertions(+), 347 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
 
-Oops, it turned out my "v5.15" tree was not plain v5.15, but v5.15 with
-some parts of next, including an older version of commit 041284181226.
-
-> This is odd. 5.16-rc1 should actively breaks the behaviour, as each
-> interrupt is directly routed to the GIC. Here's an extract of the DT
-> for r7s9210:
->
->     interrupt-map = <0 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
->                     <1 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
->                     <2 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
->                     <3 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
->                     <4 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
->                     <5 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
->                     <6 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
->                     <7 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
->
-> I expect v5.16-rc1 to honour the routing described here and not
-> involve rza1-irqc, because that's what the DT says.
->
-> > With this patch applied, I see double keypresses with evtest: when
-> > pressing a key, I get a key-down event, immediately followed by a
-> > key-up event. When releasing the key, I again get two events.
-> >
-> > Good (v5.15 or v5.16-rc1):
-> >
-> >     Event: time 1637585631.288990, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> >     Event: time 1637585631.288990, -------------- SYN_REPORT ------------
-> >     Event: time 1637585631.499924, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> >     Event: time 1637585631.499924, -------------- SYN_REPORT ------------
-> >
-> > Bad (v5.16-rc1 + this patch):
-> >
-> >     Event: time 1637585341.946647, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> >     Event: time 1637585341.946647, -------------- SYN_REPORT ------------
-> >     Event: time 1637585341.960256, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> >     Event: time 1637585341.960256, -------------- SYN_REPORT ------------
-> >     Event: time 1637585342.146775, type 1 (EV_KEY), code 2 (KEY_1), value 1
-> >     Event: time 1637585342.146775, -------------- SYN_REPORT ------------
-> >     Event: time 1637585342.160092, type 1 (EV_KEY), code 2 (KEY_1), value 0
-> >     Event: time 1637585342.160092, -------------- SYN_REPORT ------------
->
-> Is there any chance you could trace whether rza1-irqc gets called at
-> all when setting up and handling the interrupt?
-
-I reran my tests ([A] pristine v5.15, [B] my current tree based on v5.16-rc1,
-[C] my tree plus your patch).
-
-[A] and [B] behave the same:
-
-  Boot:
-
-    rza1_irqc_translate:152: domain :soc:interrupt-controller@fcfef800
-hwirq 3 type 3
-    rza1_irqc_alloc:115: domain :soc:interrupt-controller@fcfef800
-virq 41 nr_irqs 1
-    rza1_irqc_alloc:127: param[0] = 0
-    rza1_irqc_alloc:127: param[1] = 3
-    rza1_irqc_alloc:127: param[2] = 4
-    rza1_irqc_translate:152: domain :soc:interrupt-controller@fcfef800
-hwirq 2 type 3
-    rza1_irqc_alloc:115: domain :soc:interrupt-controller@fcfef800
-virq 42 nr_irqs 1
-    rza1_irqc_alloc:127: param[0] = 0
-    rza1_irqc_alloc:127: param[1] = 2
-    rza1_irqc_alloc:127: param[2] = 4
-    rza1_irqc_translate:152: domain :soc:interrupt-controller@fcfef800
-hwirq 5 type 3
-    rza1_irqc_alloc:115: domain :soc:interrupt-controller@fcfef800
-virq 43 nr_irqs 1
-    rza1_irqc_alloc:127: param[0] = 0
-    rza1_irqc_alloc:127: param[1] = 5
-    rza1_irqc_alloc:127: param[2] = 4
-    rza1_irqc_set_type:76: hwirq 3 type 3
-    rza1_irqc_set_type:76: hwirq 2 type 3
-    rza1_irqc_set_type:76: hwirq 5 type 3
-
-  Pressing all 3 keys on RSK+RZA1:
-
-    rza1_irqc_eoi:62: hw_irq 3 IRQRR 0x8
-    rza1_irqc_eoi:62: hw_irq 3 IRQRR 0x8
-    rza1_irqc_eoi:62: hw_irq 2 IRQRR 0x4
-    rza1_irqc_eoi:62: hw_irq 2 IRQRR 0x4
-    rza1_irqc_eoi:62: hw_irq 5 IRQRR 0x20
-    rza1_irqc_eoi:62: hw_irq 5 IRQRR 0x20
-
-  /proc/interrupts:
-
-    41:          2  rza1-irqc   3 Edge      SW1
-    42:          2  rza1-irqc   2 Edge      SW2
-    43:          2  rza1-irqc   5 Edge      SW3
-
-  evtest:
-
-    Event: time 1637597938.224621, type 1 (EV_KEY), code 2 (KEY_1), value 1
-    Event: time 1637597938.224621, -------------- SYN_REPORT ------------
-    Event: time 1637597938.232198, type 1 (EV_KEY), code 2 (KEY_1), value 0
-    Event: time 1637597938.232198, -------------- SYN_REPORT ------------
-    Event: time 1637597938.532939, type 1 (EV_KEY), code 2 (KEY_1), value 1
-    Event: time 1637597938.532939, -------------- SYN_REPORT ------------
-    Event: time 1637597938.542304, type 1 (EV_KEY), code 2 (KEY_1), value 0
-    Event: time 1637597938.542304, -------------- SYN_REPORT ------------
-    Event: time 1637597941.772467, type 1 (EV_KEY), code 3 (KEY_2), value 1
-    Event: time 1637597941.772467, -------------- SYN_REPORT ------------
-    Event: time 1637597941.782309, type 1 (EV_KEY), code 3 (KEY_2), value 0
-    Event: time 1637597941.782309, -------------- SYN_REPORT ------------
-    Event: time 1637597942.110321, type 1 (EV_KEY), code 3 (KEY_2), value 1
-    Event: time 1637597942.110321, -------------- SYN_REPORT ------------
-    Event: time 1637597942.122303, type 1 (EV_KEY), code 3 (KEY_2), value 0
-    Event: time 1637597942.122303, -------------- SYN_REPORT ------------
-    Event: time 1637597945.256109, type 1 (EV_KEY), code 4 (KEY_3), value 1
-    Event: time 1637597945.256109, -------------- SYN_REPORT ------------
-    Event: time 1637597945.262132, type 1 (EV_KEY), code 4 (KEY_3), value 0
-    Event: time 1637597945.262132, -------------- SYN_REPORT ------------
-    Event: time 1637597945.630469, type 1 (EV_KEY), code 4 (KEY_3), value 1
-    Event: time 1637597945.630469, -------------- SYN_REPORT ------------
-    Event: time 1637597945.642299, type 1 (EV_KEY), code 4 (KEY_3), value 0
-    Event: time 1637597945.642299, -------------- SYN_REPORT ------------
-
-So despite seeing only 2 interrupts per key, gpio-keys generates
-4 events per key.
-
-With my v5.16-rc1-based tree, rza1_irqc_translate(), rza1_irqc_alloc(),
-rza1_irqc_set_type(), and rza1_irqc_eoi() are indeed not called.
-
-  /proc/interrupts:
-
-    41:     242419     GIC-0  35 Level     SW1
-    42:     142771     GIC-0  34 Level     SW2
-    43:     136355     GIC-0  37 Level     SW3
-            ^^^^^^
-            Oops
-
-  evtest:
-
-    Event: time 1637598499.076306, type 1 (EV_KEY), code 2 (KEY_1), value 1
-    Event: time 1637598499.076306, -------------- SYN_REPORT ------------
-    Event: time 1637598499.350985, type 1 (EV_KEY), code 2 (KEY_1), value 0
-    Event: time 1637598499.350985, -------------- SYN_REPORT ------------
-    Event: time 1637598501.979770, type 1 (EV_KEY), code 3 (KEY_2), value 1
-    Event: time 1637598501.979770, -------------- SYN_REPORT ------------
-    Event: time 1637598502.370948, type 1 (EV_KEY), code 3 (KEY_2), value 0
-    Event: time 1637598502.370948, -------------- SYN_REPORT ------------
-    Event: time 1637598504.660146, type 1 (EV_KEY), code 4 (KEY_3), value 1
-    Event: time 1637598504.660146, -------------- SYN_REPORT ------------
-    Event: time 1637598505.030947, type 1 (EV_KEY), code 4 (KEY_3), value 0
-    Event: time 1637598505.030947, -------------- SYN_REPORT ------------
-
-So despite receiving an interrupt storm, gpio-keys behaves as expected.
-
-I will retest tomorrow with an old kernel, as I do not remember seeing such
-behavior when I wrote the rza1-irqc driver.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
