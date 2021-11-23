@@ -2,197 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE24645AEAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 22:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FDB345AFC0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 00:04:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235274AbhKWVwx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 16:52:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232670AbhKWVww (ORCPT
+        id S231759AbhKWXHm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 18:07:42 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:34829 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231683AbhKWXHm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 16:52:52 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96224C06173E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 13:49:43 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id u1so341647wru.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 13:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Cx/RxGowWJ+ARkenpaoiEAOOeuCHEYaUTm5UxAY6csM=;
-        b=5x1Ij98oK/pne1Z9rEJboic7qMOUJIDV11ltFZCaPVP1z9MEwJZum4mUJNPzdcG9pr
-         giiOp4XDBijKmh5kI+CORs9dyo7H0CcHTX/aL6hZpduR48u1yfwcbPZqji+9hFlLNPu1
-         +yPzYtF/eoeHd/u8NyGN1xlvqdhK6XQCpajmPCKMN4eN/92FLWxa73lZTy+zcv7tbqqV
-         I5NO2tMC+7gzIWN5sCVgQ1AWGltjQO9pAljWnE/HQF8uJGakdjWSCzKCn28zv1XaoRTH
-         Ns0dwi1t2bjMBbjjtZtvfL/qAAcgos+FFzdHtklwrpCdM5OhG6pl/KBqF5ZIlpgwyfh/
-         2TPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Cx/RxGowWJ+ARkenpaoiEAOOeuCHEYaUTm5UxAY6csM=;
-        b=CpCN9GtPIYrFFxJhkOpmtYbTv06f9tB8tUFwyz72t81dhX1jgAfS6MVyMmx8EsoxRs
-         d6pM5imustUizM0z9300HJPA59zNkOU71vp3oLLDNvPT3RPN2wjS2KK/jNP4WZ228xbh
-         pehU6gxou0ZChXqPcRsp3qGr5wzjpSZNykoKiENpYDRBHTbP76KhprRbWSrb9srQwJxb
-         sInUOcifST3jITivWGFigN106HBFVMYfx4nUqgfH8+KLJbGYhwdu4HGje6K13YBsJFB8
-         Jlad6adcq3MTF4ytXtvXK1tb2aZYJbZwZr8acmYMqZ7SQqpEt3XQZaZVYpXyuSNtGvDB
-         Be3g==
-X-Gm-Message-State: AOAM5323o6MZkROTKzBI4BivjPK0wNRG/8J/KK6GzFVTxxZhnxw3/X/P
-        B6OtI4AlwRF0+fIviJncfFL/AQ==
-X-Google-Smtp-Source: ABdhPJwDytN/PHntpYMCQvQoS2a7fQzgUQ5ar0i50ahvm5shKlLObQaC+93HYMhXE9RrjJT+fpaz+A==
-X-Received: by 2002:a5d:6085:: with SMTP id w5mr10905139wrt.122.1637704182162;
-        Tue, 23 Nov 2021 13:49:42 -0800 (PST)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id l8sm2520877wmc.40.2021.11.23.13.49.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 13:49:41 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] dt-bindings: staging: media: i2c: Add bindings for Maxim Integrated MAX96712
-Date:   Tue, 23 Nov 2021 22:49:22 +0100
-Message-Id: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Tue, 23 Nov 2021 18:07:42 -0500
+Date:   24 Nov 2021 08:04:32 +0900
+X-IronPort-AV: E=Sophos;i="5.87,258,1631545200"; 
+   d="scan'208";a="101547417"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Nov 2021 08:04:32 +0900
+Received: from mercury.renesas.com (unknown [10.166.252.133])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 95C214126CAD;
+        Wed, 24 Nov 2021 08:04:32 +0900 (JST)
+Message-ID: <87bl2a79tr.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use audio-graph-card2 for sound
+In-Reply-To: <CAMuHMdXtHUsKw5DQjSs-ANNiyptumydshdQaiyL7bSHa5B=eKg@mail.gmail.com>
+References: <87y25owlp0.wl-kuninori.morimoto.gx@renesas.com>
+        <87wnl8wloh.wl-kuninori.morimoto.gx@renesas.com>
+        <CAMuHMdXtHUsKw5DQjSs-ANNiyptumydshdQaiyL7bSHa5B=eKg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-or C-PHY formatted outputs.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Hi Geert
+
+Thank you for your feedback
+
+> > Current ULCB{-KF} are using audio-graph-card.
+> > Now ALSA is supporting new audio-graph-card2 which can easily handle
+> > more advanced feature. Let's switch to use it.
+> >
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> 
+> Thanks for your patch!
+> 
+> Unfortunately this introduces several errors from "make dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/sound/renesas,rsnd.yaml".
+> Probably the renesas,rand need to be amended first?
+
+Hmm ? strange.
+Thanks, I will check and fix the issue.
+
+Thank you for your help !!
+
+Best regards
 ---
- .../staging/media/i2c/maxim,max96712.yaml     | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
-
-diff --git a/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
-new file mode 100644
-index 0000000000000000..978f2c0e5caef567
---- /dev/null
-+++ b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2021 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/staging/media/i2c/maxim,max96712.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: |
-+  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
-+  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
-+  simultaneously transmit bidirectional control-channel data while forward
-+  video transmissions are in progress. The MAX96712 can accommodate as many as
-+  four remotely located sensors using industry-standard coax or STP
-+  interconnects.
-+
-+  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
-+  forward direction and 187.5Mbps in the re- verse direction. In GMSL1 mode, the
-+  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
-+  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
-+
-+properties:
-+  compatible:
-+    const: maxim,max96712
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  enable-gpios: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 0
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 1
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 2
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 3
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 Output
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes: true
-+
-+            required:
-+              - data-lanes
-+
-+    required:
-+      - port@4
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c@e6508000 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            reg = <0 0xe6508000>;
-+
-+            gmsl0: gmsl-deserializer@49 {
-+                    compatible = "maxim,max96712";
-+                    reg = <0x49>;
-+                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
-+
-+                    ports {
-+                            #address-cells = <1>;
-+                            #size-cells = <0>;
-+
-+                            port@4 {
-+                                    reg = <4>;
-+                                    max96712_out0: endpoint {
-+                                            clock-lanes = <0>;
-+                                            data-lanes = <1 2 3 4>;
-+                                            remote-endpoint = <&csi40_in>;
-+                                    };
-+                            };
-+                    };
-+            };
-+    };
--- 
-2.34.0
-
+Kuninori Morimoto
