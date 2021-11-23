@@ -2,133 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23EA145A76B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 17:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7010245A786
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 17:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238157AbhKWQVm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 11:21:42 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:41647 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238824AbhKWQVj (ORCPT
+        id S237172AbhKWQZu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 11:25:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32964 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230197AbhKWQZs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 11:21:39 -0500
-Received: by mail-vk1-f170.google.com with SMTP id 188so9773680vku.8;
-        Tue, 23 Nov 2021 08:18:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=esyW0OAzYg3/RWIR9cYT0r1LL6UkCXN7FUP4GXrGayk=;
-        b=XZUzDsnYJVNcrgneOIbznKsK362tY8/g9SfVU6frC40wpvu9oSRJKBEC0+rOyKuOeS
-         5H6csPMu6fTXMWXTrzwpQuauSJl5tkv7zWXBNNNHa4OxbSfrwF8M9OEg+88fPBb8duIo
-         zsu48DGvHGxNjaEISVi4S+tk92IClCNZlfs8vFzlIWWpVa0FQB51P7dMAVZ+JBwD7URO
-         iOSyLj2ze2LuXWOLcfEY2RHG1y33XW9G3uR7keoZhs1af49KWvgLdZIqIp4A9tbwHUoU
-         B1MaMCe4Bj72TMz2q43BtAjbHdpxu6KPBnW2YYR+A80bwtN92pXWyPpfLh0jWnG3PLgm
-         fSBw==
-X-Gm-Message-State: AOAM531hvm0gHdGNzKbi5qldGAHjvQR61tfd4TCcqEwNAk5n570Qe6BD
-        49hCHdVX5wDHjNoBTvGRSxRlz8jsY9oI0Q==
-X-Google-Smtp-Source: ABdhPJyttauTbJRNlJcCw1ZZ8ZAqRaYOoEUYSRCPT9BbCMn1tgD8ve+9YyUbR7LHKoc9HV8EBeNyrw==
-X-Received: by 2002:a05:6122:2227:: with SMTP id bb39mr12529373vkb.9.1637684310608;
-        Tue, 23 Nov 2021 08:18:30 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id i24sm6508017vkk.5.2021.11.23.08.18.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 08:18:30 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id l24so44945915uak.2;
-        Tue, 23 Nov 2021 08:18:29 -0800 (PST)
-X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr10672924vsb.9.1637684309252;
- Tue, 23 Nov 2021 08:18:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20211116074130.107554-1-yoshihiro.shimoda.uh@renesas.com> <20211116074130.107554-11-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20211116074130.107554-11-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 17:18:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWgDRAMp5nAK2S4QcBXYysupQj+iAdTUN0orxzBLKrOQA@mail.gmail.com>
-Message-ID: <CAMuHMdWgDRAMp5nAK2S4QcBXYysupQj+iAdTUN0orxzBLKrOQA@mail.gmail.com>
-Subject: Re: [PATCH 10/16] soc: renesas: r8a779f0-sysc: Add r8a779f0 support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+        Tue, 23 Nov 2021 11:25:48 -0500
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF565C061574;
+        Tue, 23 Nov 2021 08:22:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=T+McMKyDOKDOU+PBL1nHadWch3B4nQMaS2x2M/9vBbU=;
+        t=1637684559; x=1638894159; b=FZEKOi6ePb4qAW001XGN4ny0EAoQKUvK8czoKry60NRVFzj
+        GV9whpuel/QM1aCcfKZHf0A+Qnd2klugIEob4O0iWYkeUez0tj7rv2BGMitJ9SLYmaUOeOerRPq2i
+        y3OfSeSD+T1VyLS+k7/oNlrZAyccxgdW3InWGzLn6OoEKkmkb09Mnh4iEBR0k5Cj00ivPbiOWqQ/r
+        HFQne/h8c/BMzABbNFIJgbGZZ1nTbcG/DieqFxLMJ2AhwFiflqenOx4vLewVH9IPtS9Li056PYE6R
+        dTlYnezaO43hV8/3veGAgX2ehkv5fUZSFFWRRMPnnb9FQb5h58WdHgHdnyiz097g==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.95)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1mpYYB-001ofh-UH;
+        Tue, 23 Nov 2021 17:21:44 +0100
+Message-ID: <12825803045d1cec0df968f72a9ef2724a2548fb.camel@sipsolutions.net>
+Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
+ helpers
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Paul Walmsley <paul@pwsan.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Date:   Tue, 23 Nov 2021 17:21:41 +0100
+In-Reply-To: <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
+References: <cover.1637592133.git.geert+renesas@glider.be>
+         <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
+         <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
+         <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+On Tue, 2021-11-23 at 09:30 +0100, Geert Uytterhoeven wrote:
+> > We have the upper-case (constant) versions, and already
+> > {u32,...}_get_bits()/etc.
+> 
+> These don't work for non-const masks.
 
-Thanks for your patch!
+Obviously, I know that. Still, just saying.
 
-On Tue, Nov 16, 2021 at 8:42 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for R-Car S4-8 (R8A779F0) SoC power areas and register
-> access. This register specification is similar with R-Car V3U.
+I'm actually in the opposite camp to you I guess - I much prefer the
+typed versions (u32_get_bits() and friends) over the FIELD_GET() macros
+that are more magic.
 
-similar to
+Mostly though that's because the typed ones also have le32_/be32_/...
+variants, which are tremendously useful, and so I prefer to use them all
+across. In fact, I have considered in the past to just remove the upper-
+case macros entirely but ... no time I guess.
 
-> So, introduces rcar-gen4-sysc.c for both V3U and S4-8.
+> > Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
+> > architectures (afaict), so that seems a bit awkward.
+> 
+> That's a valid comment. Can be fixed by using a wrapper macro
+> that checks if typeof(mask) == u64, and uses an __ffs64() version when
+> needed.
 
-introduce.
+You can't really do a typeof()==something, but you can check the size,
+so yeah, that could be done.
 
-That makes perfect sense, as "the R-Car V3U SoC is based on the R-Car
-Gen 4 architecture".
-(https://www.renesas.com/us/en/products/automotive-products/automotive-system-chips-socs/r-car-v3u-best-class-r-car-v3u-asil-d-system-chip-automated-driving)
+> > Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
+> > if it is indeed a constant? The __field_overflow() usage is already only
+> > done if __builtin_constant_p(v), so I guess we can do the same with
+> > __bad_mask()?
+> 
+> Are all compilers smart enough to replace the division by
+> field_multiplier(field) by a shift?
 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+In the constant case they are, but you'd have to replace
+field_multiplier() with the __ffs(), including the size check discussed
+above. Then it's no longer a constant, and then I'm not so sure it would
+actually be able to translate it, even if it's "1<<__ffs64(...)". I
+guess you can check, or just change it to not use the division and
+multiplication, but shifts/masks instead manually?
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -359,6 +359,9 @@ config SYSC_R8A77970
->  config SYSC_R8A779A0
->         bool "System Controller support for R-Car V3U" if COMPILE_TEST
->
-> +config SYSC_R8A779F0
-> +       bool "System Controller support for R-Car S4-8" if COMPILE_TEST
-> +
+IOW - I would much prefer to make the type_get_bits() and friends work
+for non-constant masks.
 
-Please retain sort order (alphabetically).
+In fact, you have e.g. code in drivers/usb/chipidea/udc.c that does
+things like cpu_to_le32(mul << __ffs(...)) - though in those cases it's
+actually constant today, so you could already write it as
+le32_encode_bits(...).
 
->  config SYSC_RMOBILE
->         bool "System Controller support for R-Mobile" if COMPILE_TEST
->
-> diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
-> index 9b29bed2a597..f6c5f8c3818c 100644
-> --- a/drivers/soc/renesas/Makefile
-> +++ b/drivers/soc/renesas/Makefile
-> @@ -25,11 +25,12 @@ obj-$(CONFIG_SYSC_R8A77980) += r8a77980-sysc.o
->  obj-$(CONFIG_SYSC_R8A77990)    += r8a77990-sysc.o
->  obj-$(CONFIG_SYSC_R8A77995)    += r8a77995-sysc.o
->  obj-$(CONFIG_SYSC_R8A779A0)    += r8a779a0-sysc.o
-> +obj-$(CONFIG_SYSC_R8A779F0)    += r8a779f0-sysc.o
->  ifdef CONFIG_SMP
->  obj-$(CONFIG_ARCH_R9A06G032)   += r9a06g032-smp.o
->  endif
->
->  # Family
->  obj-$(CONFIG_RST_RCAR)         += rcar-rst.o
-> -obj-$(CONFIG_SYSC_RCAR)                += rcar-sysc.o
-> +obj-$(CONFIG_SYSC_RCAR)                += rcar-sysc.o rcar-gen4-sysc.o
-
-This means all R-Car kernels will always include support for both
-R-Car Gen1/2/3 and R-Car Gen4.
-I think this should be split.
-
-The rest looks good to me, but I think it wouldn't hurt to split this
-patch in two parts: one patch to generalize r8a779a0-sysc.c for R-Car
-Gen4, and a second patch to introduce support for R-Car S4-8.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+johannes
