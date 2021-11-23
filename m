@@ -2,59 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5330145A3DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 14:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D78A645A3E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 14:39:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235950AbhKWNi5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 08:38:57 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:44715 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbhKWNi4 (ORCPT
+        id S234692AbhKWNmH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 08:42:07 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:41839 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233815AbhKWNmH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 08:38:56 -0500
-Received: by mail-ua1-f48.google.com with SMTP id p2so43715181uad.11;
-        Tue, 23 Nov 2021 05:35:48 -0800 (PST)
+        Tue, 23 Nov 2021 08:42:07 -0500
+Received: by mail-ua1-f49.google.com with SMTP id p37so43739614uae.8;
+        Tue, 23 Nov 2021 05:38:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mr0GSj97QxFZ8jPFcARWGg380tKcBhVAP9tk0gY8U4c=;
-        b=JOsmuNSUIN9gIB1TmTgZwi0sfv2D0gStAyxRmy3lGfFmVPUjtKfbRj5+x1aDiFoO8f
-         kZ0HN63MAqBx1hopy1mSwf0zA5ZrozVF/pEXMjfd0EiIvOw5crRGqL/NFY8d/I86rSWD
-         iT8kc3aHFMQ8SEjexazRodkWljKdMr8ni6UQULVFEDPAAfWMxNh3nFJxXLhpjaCr+XC/
-         4GGnABYFjJv4L2elkpbrUdYpKYBCinfYrOqUEIHlydmVuEsAg5bLOKeS4FAmht1+DHtg
-         jZmREWfCDsPFq6MBgJGj9gxihDszuY2mUasweRB3WFJFvnPqlqDXdeXyX/5NGV1pSfg+
-         +hnQ==
-X-Gm-Message-State: AOAM531992aNNIr7ORTIvyTz7fjIo0ur1oNNHciTtF8RuuDfS/0auLXJ
-        Y0NWz8nIgScmLc4i5ilzH26aQiSHsOkxqA==
-X-Google-Smtp-Source: ABdhPJyld9W/AWDLq0lginzXTHLxj9prGJc4iFOkDLl1Oipvkl6SF/WCTkc6NyuJNfPT74ovzu6yNw==
-X-Received: by 2002:a67:c982:: with SMTP id y2mr8995235vsk.15.1637674548024;
-        Tue, 23 Nov 2021 05:35:48 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id d16sm6064113vko.29.2021.11.23.05.35.47
+        bh=sokljAb5QvtyDd43lyfyuPXNgJigeOjG941ao/pWYMY=;
+        b=XcUS+Ygj7J85DndGftmzfJ86bvHXBaAHJe0Jjyhn4d8L6OZ4aXUttd1OT+cQC5BbTs
+         LaFZTM1WBwTULz8LDT15sliHhO/ru4p1lyZShgZq7Ijk/dWZEmWZ0eIAOz22k7VcbvEi
+         efADIIRr6aiQLwVp+mzgkKG0aeYJWroOUKLlEihOBZ65bj7Fkcr8WsU/x8O/UMDrH7sz
+         PPNFqVEmHebywgiMjKNjVWG4CLIxH5lDqohmVC322Zt6eVMiunSApNpq6DACTgsMaYgc
+         HkbyFLijYJAWA5im7TQHmADUS8ZOLqsmPblsGKJjnMIIkwgO2PP4SoUx10NSCFZBkSj0
+         /WqA==
+X-Gm-Message-State: AOAM532WxoQKv8jil0gCZxz2xU4yWk05iXQwOdYXtLg3TUr4+CIVo6iX
+        fpcCuAVKnK4lSX3qKJRgvE/0TEob9yK67w==
+X-Google-Smtp-Source: ABdhPJxHxiQUTjCJ+YN0pRLkCJH23GmL8OAV55O1xRLvzrkn62AbxxskSwQt9yMeyKEMOsiwbElHFQ==
+X-Received: by 2002:a05:6130:305:: with SMTP id ay5mr9343248uab.73.1637674738681;
+        Tue, 23 Nov 2021 05:38:58 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id l28sm6290389vkn.45.2021.11.23.05.38.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 05:35:47 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id l24so43868754uak.2;
-        Tue, 23 Nov 2021 05:35:47 -0800 (PST)
-X-Received: by 2002:a9f:2431:: with SMTP id 46mr8913374uaq.114.1637674547289;
- Tue, 23 Nov 2021 05:35:47 -0800 (PST)
+        Tue, 23 Nov 2021 05:38:58 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id l24so43887695uak.2;
+        Tue, 23 Nov 2021 05:38:57 -0800 (PST)
+X-Received: by 2002:a9f:3e01:: with SMTP id o1mr8849925uai.89.1637674737743;
+ Tue, 23 Nov 2021 05:38:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122113554.15990-1-biju.das.jz@bp.renesas.com> <20211122113554.15990-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211122113554.15990-2-biju.das.jz@bp.renesas.com>
+References: <20211122103905.14439-1-biju.das.jz@bp.renesas.com> <20211122103905.14439-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211122103905.14439-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 14:35:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWX7aC2ktiiHJP=3rEcK1VpLYYSbdGz8k=-1_E7LaxoUw@mail.gmail.com>
-Message-ID: <CAMuHMdWX7aC2ktiiHJP=3rEcK1VpLYYSbdGz8k=-1_E7LaxoUw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: watchdog: renesas,wdt: Add support
- for RZ/G2L
+Date:   Tue, 23 Nov 2021 14:38:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV5c-1wjhWN1kBbbgp7RMZR4NFTg2btyJ1JSxuGhxq9vw@mail.gmail.com>
+Message-ID: <CAMuHMdV5c-1wjhWN1kBbbgp7RMZR4NFTg2btyJ1JSxuGhxq9vw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: mmc: renesas,sdhi: Rename RZ/G2L clocks
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
@@ -64,12 +63,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 12:36 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Describe the WDT hardware in the RZ/G2L series.
+On Mon, Nov 22, 2021 at 11:39 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Rename the below RZ/G2L clocks to match with the clock names used in
+> R-Car Gen2 and later generations.
+>
+>  imclk->core
+>  clk_hs->clkh
+>  imclk2->cd
+>
+> This changes will avoid using fallback for RZ/G2L high speed clock,
+> if "clkh" is not used in device tree and also the code changes in
+> driver related to this clocks.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17 if Ulf is happy.
 
 Gr{oetje,eeting}s,
 
