@@ -2,82 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02232459E8F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 09:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69CD6459EEC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 10:11:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbhKWIyq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 03:54:46 -0500
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:45986 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229721AbhKWIyq (ORCPT
+        id S234572AbhKWJOW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 04:14:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234149AbhKWJOV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 03:54:46 -0500
-Received: by mail-ua1-f50.google.com with SMTP id ay21so42172159uab.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 00:51:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IqL0NjuO3FYhY8cvw0WnVN+tuYYY0eWLSckj+X2x2so=;
-        b=xVp3lNtozKQ3+0cYNbbNiJum8fODeE0TEqs9yauOe2rxG/0ik40rJci112UlxXCmkn
-         fkpGBBQ+V357vUXRSSXI7vJrNFFm89vw4icLzRgms90HGqQWV6cmHSc4hWlXH8l86vSe
-         kmpcsuCMjmE0Y2vrdixax6u1bBl47SCguHYgEYeu8zR1nJDnfq/J/QldR+YN4cc9h5ey
-         tSd40WWNQKO78/2qujPgvqfXvdSikrDmSw3ZxBIyeSbf0drhiWwpvg8gEmreJnd2r2y4
-         EZBohViIB2eUJ9hIBFvSgCx5KjNABVfJnQRzGx97U/GbftWnkpC/By3mJsNTBGIg+qiL
-         LpXw==
-X-Gm-Message-State: AOAM533i00KR5LTpFSlIBHCvt149OLJ2OAiW/GLmICxxuI6aU0xAbjmA
-        SC7Iw/KM9V1lB4AG7QmcnBsNrG7z2hMDiQ==
-X-Google-Smtp-Source: ABdhPJx4wDBXrGfxs7Wwve9qc+6ACNhpAHLS8IhqQ75Xptea16HP+RIQslCi8AUVdnLTW4TWvAOuAQ==
-X-Received: by 2002:a05:6102:a46:: with SMTP id i6mr6576751vss.19.1637657497800;
-        Tue, 23 Nov 2021 00:51:37 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id f26sm5679991vkl.51.2021.11.23.00.51.37
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 00:51:37 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id 188so8980748vku.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 00:51:37 -0800 (PST)
-X-Received: by 2002:a05:6122:50e:: with SMTP id x14mr7166868vko.7.1637657497234;
- Tue, 23 Nov 2021 00:51:37 -0800 (PST)
-MIME-Version: 1.0
-References: <163742290656.715.15960553560678858057.sendpatchset@octo> <163758390064.2984710.8277487311059323967@Monstersaurus>
-In-Reply-To: <163758390064.2984710.8277487311059323967@Monstersaurus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 09:51:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWZQfJ8Je-BLRGuFqdFE7j_4RkmMAJiDspVmAK93wdUPQ@mail.gmail.com>
-Message-ID: <CAMuHMdWZQfJ8Je-BLRGuFqdFE7j_4RkmMAJiDspVmAK93wdUPQ@mail.gmail.com>
-Subject: Re: [PATCH] r8a77995 Draak SCIF0 LED and KEY Serdev prototype
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Magnus Damm <damm@opensource.se>,
-        linux-renesas-soc@vger.kernel.org, robh@kernel.org,
-        johan@kernel.org, geert+renesas@glider.be
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 23 Nov 2021 04:14:21 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 32C5A60FD7;
+        Tue, 23 Nov 2021 09:11:14 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mpRpY-007Ei9-2p; Tue, 23 Nov 2021 09:11:12 +0000
+Date:   Tue, 23 Nov 2021 09:11:11 +0000
+Message-ID: <87r1b7ck40.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel-team@android.com, Rob Herring <robh@kernel.org>,
+        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
+In-Reply-To: <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+References: <20211122103032.517923-1-maz@kernel.org>
+        <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
+        <8735no70tt.wl-maz@kernel.org>
+        <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
+        <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
+        <87tug3clvc.wl-maz@kernel.org>
+        <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kernel-team@android.com, robh@kernel.org, john@phrozen.org, biwen.li@nxp.com, chris.brandt@renesas.com, linux-renesas-soc@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+On Tue, 23 Nov 2021 08:44:19 +0000,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> Hi Marc,
+> 
+> On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> > On Tue, 23 Nov 2021 07:57:48 +0000,
+> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > Summarized:
+> > >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
+> > >     and the number of interrupts seen is correct, but input events
+> > >     are doubled.
+> > >   - After the bad commit, irqc-rza1 is not invoked, and there is an
+> > >     interrupt storm, but input events are OK.
+> >
+> > OK, that's reassuring, even if the "twice the events" stuff isn't what
+> > you'd expect. We at least know this is a separate issue, and that this
+> > patch on top of -rc1 brings you back to the 5.15 behaviour.
+> >
+> > I'd expect it to be the case for the other platforms as well.
+> 
+> OK.
+> 
+> BTW, what would have been the correct way to do this for irqc-rza1?
+> I think we're about to make the same mistake with RZ/G2L IRQC
+> support[1]?
 
-On Mon, Nov 22, 2021 at 1:25 PM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
-> What's the maximum speed of the SCIF? I could see this being further
-> used to provide a software defined controller for RGB LEDs [0], which
-> have often previously used SPI in a similar fashion to your proposal [1].
+Indeed, and I was about to look into it.
 
-The problem with using a SCIF variant to drive WS2812B RGB LEDs won't
-be maximum speed, but speed accuracy and precise control of bits.
-I think you'd be better off trying this with MSIOF instead.
+There are multiple ways to skin this cat, including renaming
+'interrupt-map' to 'my-own-private-interrupt-map'. Or use something
+akin the new 'msi-range' (which we could call interrupt-range), and
+replace:
 
-> https://github.com/msperl/rgbled-fb/blob/master/ws2812b-spi-fb.c
-> https://www.arrow.com/en/research-and-events/articles/protocol-for-the-ws2812b-programmable-led
+  interrupt-map = <0 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+                  <1 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+                  <2 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+                  <3 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+                  <4 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+                  <5 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+                  <6 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
+                  <7 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
 
-Gr{oetje,eeting}s,
+with:
 
-                        Geert
+  interrupt-range = <&gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH 0 8>;
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+which reads as "base interrupt spec", "start pin", "count".  This
+gives you almost the same level of information, and doesn't interfere
+with the rest of the DT properties. Parsing it is also much simpler.
+But that's up to you, really.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
