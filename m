@@ -2,133 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DAA4459E5B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 09:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37760459E79
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 09:44:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234906AbhKWIm0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 03:42:26 -0500
-Received: from mail-qv1-f54.google.com ([209.85.219.54]:36844 "EHLO
-        mail-qv1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233911AbhKWImX (ORCPT
+        id S231347AbhKWIrk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 03:47:40 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:39828 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229617AbhKWIrk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 03:42:23 -0500
-Received: by mail-qv1-f54.google.com with SMTP id kl8so14459173qvb.3;
-        Tue, 23 Nov 2021 00:39:14 -0800 (PST)
+        Tue, 23 Nov 2021 03:47:40 -0500
+Received: by mail-ua1-f51.google.com with SMTP id i6so42148527uae.6;
+        Tue, 23 Nov 2021 00:44:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YD9+CLUS5Xv902/pEfqOtiLcZyXas3B/t1a2ZRr+mI0=;
-        b=LXrwxGGnxkX/NVnYsoGww5CRIG6ielkxAfwhqDd0GSTVJi7ckk7pa3rKM7PsENPkVA
-         k4+iq7HYlG9sdCCaR04ghEfkWPlmkN5H9HySFaYFsxBEW4eL38N/cfMD6kwc55ItO4ko
-         9XCw3J5iQjw21mqVrRUaNFeGg9IP+YJFSfSUbldlFnWO8t+34o1ALrrmMKhAOrEqQLst
-         2dut2eYLwS72gN2yTeH/YjkCEeue0s2VC/rJL3DURZnAXItZvvbzAG4bTm1jUgC5leaG
-         xUpUpRyTSX9gbyutV9lYuvEhF1XWI++odrR6CIr3ZIm+J7YxbwtMuZ06L5WB+HK/B76Z
-         dISQ==
-X-Gm-Message-State: AOAM530rTVPAKtpxl0Biidy8BxnFVsxfY/0kqiHOm8RFWV9cOaY9Z+m0
-        pREjiWhsxGSNRSA19w3q7qlJeiNsOjNP6w==
-X-Google-Smtp-Source: ABdhPJwl7IFfqBvyxvzsIGDvXIqCpOyDF+gdOezzZQWSahoV7nupzS7YLtInPshC/NmOzg9BnWp5fA==
-X-Received: by 2002:a05:6214:cac:: with SMTP id s12mr4269630qvs.60.1637656754206;
-        Tue, 23 Nov 2021 00:39:14 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id w10sm5807946qtj.37.2021.11.23.00.39.13
+        bh=GB53z3B/gqFRSO4IG+bzDbuA9R2agDBafBoJtXz3z38=;
+        b=M+/S+ON03qZqPXmDKZG6w2ShOC/OxJC0kHts1+lUHlhpW4PrBS/LEF60ns7XtFr+4p
+         EMg+WUrfnECfY51MMmCeciQ3ActY+CwYL6kjrOsGWuEkfTgeYiAtrEs5+y8eh9UQ5RxT
+         TgFxubiepyA0hN9fVXbbpPcogE4w94ujE6E94RoQwTvRXD29HxuPQQUCKqA3MoufnHFG
+         g6w0Q0lllBWDjU2NMNupODllnxsGsL2F5v4W2EDq1z5lVRmzB91mHbpGMSwtyGkzxtF9
+         1rLC+cnr0z9YU1QWWf/SotxhfUxBt1hNqhd+KclSYGhXk+jEOm2I+QsOuCqpKk6nqT6C
+         q1fA==
+X-Gm-Message-State: AOAM532Ft4My+mPtG2sELLYHZ3ab/ffIBMky9h1FvvDTz5dohsDUOW1n
+        L4BeFt58L7fbWsL+/HrwCpPBBA8PgHhVYg==
+X-Google-Smtp-Source: ABdhPJwZtjMZDbrfRR5yq/YRZg0/sBNm4oUuJiEJhPDkzuobl+M9KVSGqsB7UvX4FxmyDK8Vc8YP+A==
+X-Received: by 2002:a05:6102:c4e:: with SMTP id y14mr6443954vss.61.1637657071840;
+        Tue, 23 Nov 2021 00:44:31 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id l28sm5911241vkn.45.2021.11.23.00.44.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 00:39:14 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id f9so23788959ybq.10;
-        Tue, 23 Nov 2021 00:39:13 -0800 (PST)
-X-Received: by 2002:a9f:2431:: with SMTP id 46mr6012282uaq.114.1637656742896;
- Tue, 23 Nov 2021 00:39:02 -0800 (PST)
+        Tue, 23 Nov 2021 00:44:31 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id s17so11947330vka.5;
+        Tue, 23 Nov 2021 00:44:31 -0800 (PST)
+X-Received: by 2002:a05:6122:7d4:: with SMTP id l20mr7126496vkr.26.1637657070961;
+ Tue, 23 Nov 2021 00:44:30 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1637592133.git.geert+renesas@glider.be> <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net> <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
-In-Reply-To: <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
+References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
+ <8735no70tt.wl-maz@kernel.org> <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
+ <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com> <87tug3clvc.wl-maz@kernel.org>
+In-Reply-To: <87tug3clvc.wl-maz@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 09:38:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX4C0EgkGXR=MwSuBOFoj7O9xx8xwH5dP8rWzN1ckejQA@mail.gmail.com>
-Message-ID: <CAMuHMdX4C0EgkGXR=MwSuBOFoj7O9xx8xwH5dP8rWzN1ckejQA@mail.gmail.com>
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}() helpers
-To:     Alex Elder <elder@ieee.org>
-Cc:     Johannes Berg <johannes@sipsolutions.net>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
+Date:   Tue, 23 Nov 2021 09:44:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+Message-ID: <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
+ definition of interrupt-map
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel-team@android.com, Rob Herring <robh@kernel.org>,
+        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi Marc,
 
-On Tue, Nov 23, 2021 at 2:52 AM Alex Elder <elder@ieee.org> wrote:
-> On 11/22/21 10:32 AM, Johannes Berg wrote:
-> > On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
-> >> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> >> constants.  However, it is very common to prepare or extract bitfield
-> >> elements where the bitfield mask is not a compile-time constant.
-> >
-> > I'm not sure it's really a good idea to add a third API here?
-> >
-> > We have the upper-case (constant) versions, and already
-> > {u32,...}_get_bits()/etc.
+On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> On Tue, 23 Nov 2021 07:57:48 +0000,
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > Summarized:
+> >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
+> >     and the number of interrupts seen is correct, but input events
+> >     are doubled.
+> >   - After the bad commit, irqc-rza1 is not invoked, and there is an
+> >     interrupt storm, but input events are OK.
 >
-> I've used these a lot (and personally prefer the lower-case ones).
+> OK, that's reassuring, even if the "twice the events" stuff isn't what
+> you'd expect. We at least know this is a separate issue, and that this
+> patch on top of -rc1 brings you back to the 5.15 behaviour.
 >
-> Your new macros don't do anything to ensure the field mask is
-> of the right form, which is basically:  (2 ^ width - 1) << shift
+> I'd expect it to be the case for the other platforms as well.
 
-> I really like the property that the field mask must be constant.
+OK.
 
-That's correct. How to enforce that in the non-const case?
-BUG()/WARN() is not an option ;-)
+BTW, what would have been the correct way to do this for irqc-rza1?
+I think we're about to make the same mistake with RZ/G2L IRQC
+support[1]?
 
-> That being said, I've had to use some strange coding patterns
-> in order to adhere to the "const only" rule in a few cases.
-> So if you can come up with a satisfactory naming scheme I'm
-> all for it.
+Thanks!
 
-There are plenty of drivers that handle masks stored in a data
-structure, so it would be good if they can use a suitable helper,
-as open-coding is prone to errors.
+[1] "[RFC PATCH v3 0/7] Renesas RZ/G2L IRQC support"
+https://lore.kernel.org/all/20211110225808.16388-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
 Gr{oetje,eeting}s,
 
