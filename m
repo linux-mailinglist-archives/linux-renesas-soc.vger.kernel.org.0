@@ -2,149 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E8A64599D7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 02:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A05459A41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 03:55:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232265AbhKWBz4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Nov 2021 20:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60710 "EHLO
+        id S231868AbhKWC6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Nov 2021 21:58:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbhKWBzz (ORCPT
+        with ESMTP id S231351AbhKWC6G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Nov 2021 20:55:55 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6110EC06173E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 17:52:48 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id z26so25858244iod.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 17:52:48 -0800 (PST)
+        Mon, 22 Nov 2021 21:58:06 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E07C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 18:54:59 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id l7so2793268lja.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Nov 2021 18:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7Oi7YYe6mXZ9qFhiItC3cT+zBCj+1FGQIOXFSu9z5Og=;
-        b=EMJHfp61byAPVM0d+YSPglX9cQhq+7ayPyr9zRTzuSPcvvgnxyLMG1ltK8vjfaD0FU
-         tlPYxbO7NtBZeDgMPNcJJoHVx+Je8+bWQnN+DVWW1NrLrqmC5gQjAph9/LWH4uiuxcYY
-         wd41pmLNfefVdVvVpoPO9twaon39sVO4IspOU=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3dTf8vBYPTrCYrYok8uNqsVe5yli/Nz4CRKeRc0uq+4=;
+        b=Umeh/NVkaOrdgm9enOw/O9v2Ul8yIpMnflI1boXvr5GMYIbimxOmWiyPhzEi9ZrE7W
+         O5aMYldula/I6z/BUiG8RQUteg/QLwVjNvnKfKRGJWZcFrcUHcgIjUp5K206Ix5bGhkK
+         qI4QJqSStja6HgPm95FzbLcX9b/05JVsr0cL7TlAUZd0/FFns0F+27v2wgdxvODQxJs1
+         0G/ZqIlrIJWvileGQPhX3wIeaB5H3heEsSXNliSwuLyA9NvB51x4SiILO/afnoPm/Xtg
+         wzq2uF9eKjEuQJPiUIKGb4yz/CDNjgbd4MrMLlkCjT9f5VQDP1Z3izCxf3Vafe4SX8KV
+         WJqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7Oi7YYe6mXZ9qFhiItC3cT+zBCj+1FGQIOXFSu9z5Og=;
-        b=hXkImgl7joSiv9613U1DNuRT1H9Yoz6hA2f2VJX6ze7MR3EtThpCP0JZKaHgsdvZSD
-         yHIW5dSrOLTuzrxJPzjIWuZgRSTMJ/YIlxwM5XZED4yqTW+H7L/EK3PF6a4XSycKzMN4
-         wwJq0RMfni/uQ6D9rsD7B9ixDoiR6VjdgAt6WDbJcN0CKf63tW3AMAXMD0YsyfU/hYxM
-         CVd9mMUyPmVlR25o6osnzvird8Ky+RF+wt77ezhSs6/RX78LGgFOfmLIRxM5RCWfC4Zz
-         LrYn42piAOb+1jCVAq/Tz+et3xMBLFbQVTXFKhViG7kr14zoEWqj85XW3lzH1C/Ql1AN
-         M7LA==
-X-Gm-Message-State: AOAM531vYV08UU61E9TLBX4I4ajkEghfX19bcduVRNSRBRk3gso6cXjG
-        UqdUtn4MWCc/O9DImilChu9xDw==
-X-Google-Smtp-Source: ABdhPJwFYEXqq9O3YpMuHp49czIlbhiXDJHljcLoM+vErOaDm/O2cJ+JlOI+DmxoJkJ4K5f7Ve5+nA==
-X-Received: by 2002:a05:6638:14ca:: with SMTP id l10mr1120728jak.107.1637632367373;
-        Mon, 22 Nov 2021 17:52:47 -0800 (PST)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id d137sm6102931iof.16.2021.11.22.17.52.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Nov 2021 17:52:47 -0800 (PST)
-Message-ID: <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
-Date:   Mon, 22 Nov 2021 19:52:43 -0600
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3dTf8vBYPTrCYrYok8uNqsVe5yli/Nz4CRKeRc0uq+4=;
+        b=C2uyk4kPH1hkZ7VaVMfXIPu0yQfvHLXMnGZjUNrbFJiLy7QEk9VECq02Vrif1lwKUl
+         weK9B8Qlvoy7w7kCIp6TEacpivJqZc6I8zP3KSBJqzCXojrTCPmsx1iWA1lldDLh0pYC
+         oYDI7NH2Md2aVmOsGmmjrPiULxthUMkkbcFgt9IEwyiyLLWzwKLWb4t1qtCpTyCtlZFF
+         I4YWMA8y0h6bdBjNEyrzyf2pTWf1Kd6WbF1NrqUHikS/DZ85qnQXbukxMRCmy+c1Xh/O
+         Y7n2NA5XYUcDGn6wrk0IgbRKlZvP48TA8sZ+LjM5qx3UinaT+X5XH2ETs+uDRDeQvaMh
+         VmqA==
+X-Gm-Message-State: AOAM5300cglRrwjNeN3TG0cZlqUO9cy4w3zSDrMCaVaXb+AvHM9EZvAI
+        SzmHQiteIt7rg+TYqrY78Eghgl7TdNmMqfpHDasjnw3I4f8=
+X-Google-Smtp-Source: ABdhPJy0aGiACguFh+ayCRSP4485TdGprKJmGIQWmKTx3rGopnrKp4IKRtQw2UttvZTF3ApflY4oLWztO2rCnSSvXDQ=
+X-Received: by 2002:a05:651c:989:: with SMTP id b9mr1357545ljq.410.1637636097519;
+ Mon, 22 Nov 2021 18:54:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
- helpers
-Content-Language: en-US
-To:     Johannes Berg <johannes@sipsolutions.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
-References: <cover.1637592133.git.geert+renesas@glider.be>
- <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
-From:   Alex Elder <elder@ieee.org>
-In-Reply-To: <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <163742290656.715.15960553560678858057.sendpatchset@octo> <CAMuHMdV6-k2bd98sbjENPm6pJcjLmNgBGPc-KxeLiMrGi8sCwQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdV6-k2bd98sbjENPm6pJcjLmNgBGPc-KxeLiMrGi8sCwQ@mail.gmail.com>
+From:   Magnus Damm <magnus.damm@gmail.com>
+Date:   Tue, 23 Nov 2021 11:54:45 +0900
+Message-ID: <CANqRtoQsmB-5Q7QZJJxnG7nftym+9C+s8GCtxgjHDobmwjNOaw@mail.gmail.com>
+Subject: Re: [PATCH] r8a77995 Draak SCIF0 LED and KEY Serdev prototype
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>, johan@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/22/21 10:32 AM, Johannes Berg wrote:
-> On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
->> The existing FIELD_{GET,PREP}() macros are limited to compile-time
->> constants.  However, it is very common to prepare or extract bitfield
->> elements where the bitfield mask is not a compile-time constant.
->>
-> 
-> I'm not sure it's really a good idea to add a third API here?
-> 
-> We have the upper-case (constant) versions, and already
-> {u32,...}_get_bits()/etc.
+Hi Geert,
 
-I've used these a lot (and personally prefer the lower-case ones).
+On Mon, Nov 22, 2021 at 5:02 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Magnus,
+>
+> On Sat, Nov 20, 2021 at 5:32 PM Magnus Damm <damm@opensource.se> wrote:
+> > From: Magnus Damm <damm+renesas@opensource.se>
+> >
+> > Here's a work-in-progress patch for shared pin LED and KEY functionality:
+> >  - UART TX Serdev LED driver prototype (functional)
+> >  - UART RX Serdev KEY driver prototype (partial)
+> >  - r8a77995 Draak DTS modifications to use above drivers with SCIF0
+> >
+> > With this code my hope is to use hardware to drive an LED and allow
+> > detection of a key press without software performing any kind of polling.
+> >
+> > In theory on SoCs that support UART RX and TX on the same pin (and also
+> > open drain output) with the above software it is possible to handle boards
+> > with single pin shared LED and KEY functionality.
+> >
+> > This prototype on r8a77995 Draak makes use of 3 pins and an external circuit:
+> >  - LED13/SW59/GP4_07 <-> EXIO_A:10 (CN46)
+> >  - SCIF0_RX/GP4_20 <- EXIO_A:38 (CN46)
+> >  - SCIF0_TX/GP4_21 -> EXIO_A:36 (CN46)
+> > Ether-AVB PHY connector (CN23) has 3.3V on pin 54 and 56 and GND on 14
+> > In the future SCIF1 and SCIF3 may also be used for other LEDs and switches.
+> >
+> > Currently two inverters on SN74HC05 together with pull-ups are used to extend
+> > the D3 SoC and the Draak board with open drain functionality and also tie
+> > together the TX and RX pins with LED13/SW59.
+> >
+> > The prototype LED driver allows user space to turn on/off the LED using:
+> >  # echo 1 > /sys/class/leds/serial0-0/brightness
+> >  # echo 0 > /sys/class/leds/serial0-0/brightness
+> > Must be easy to extend the driver with some degree of brightness control.
+> >
+> > Apart from some general brush up the following issues have surfaced:
+> >  - "controller busy" error happens when more than one serdev is used
+> >  - it is unclear how to take RX errors from serdev and generate key events
+> >  - there seem to be no way to silence "sh-sci e6e60000.serial: frame error"
+> >  - the DTS "current-speed" property looks like sw config and not hw description
+> >
+> > Obviously not for upstream merge as-is. Might however be useful as SCIF error
+> > test bench and/or as potential (corner) use case for serdev.
+> >
+> > Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+>
+> Thanks for your patch, which is definitely an interesting approach!
 
-Your new macros don't do anything to ensure the field mask is
-of the right form, which is basically:  (2 ^ width - 1) << shift
+Thanks! I've been meaning to look into serdev for a while now and
+scratching an itch like this is one way to get acquainted with the
+code base.
 
-I really like the property that the field mask must be constant.
+> > --- 0001/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> > +++ work/arch/arm64/boot/dts/renesas/r8a77995-draak.dts 2021-11-20 23:47:14.965609878 +0900
+> > @@ -479,13 +495,29 @@
+> >         status = "okay";
+> >  };
+> >
+> > +&scif0 {
+> > +       pinctrl-0 = <&scif0_pins>;
+> > +       pinctrl-names = "default";
+> > +
+> > +       status = "okay";
+> > +#if 1
+> > +        led {
+> > +                compatible = "serdev,led";
+> > +                current-speed = <9600>;
+> > +        };
+> > +#else
+> > +        key {
+> > +                compatible = "serdev,key";
+> > +                current-speed = <9600>;
+> > +        };
+> > +#endif
+>
+> So LED and key are still mutually-exclusive, despite using 3 signals
+> into the SoC?
 
-That being said, I've had to use some strange coding patterns
-in order to adhere to the "const only" rule in a few cases.
-So if you can come up with a satisfactory naming scheme I'm
-all for it.
+In this patch indeed they are, yes. It is quite possible to enable
+both LED and key in the DTS today, but during runtime I could not get
+both drivers to load.
 
-					-Alex
+As you say, the three signals into the SoC (instead of 1) is currently
+working around a hardware limitation. The mutual-exclusiveness with
+one serdev driver enabled out of two is however working around a
+software limitation. It seems that there is room for improvement both
+on the hardware and the software side.
 
+The main reason for the software limitation seems to be that currently
+the serdev core does not support more than one driver at a time, see
+"controller busy" error statement in:
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/tree/drivers/tty/serdev/core.c?h=renesas-drivers-2021-11-16-v5.16-rc1
 
+To be honest, my approach of two serdev drivers in parallel with one
+serial port device might not exactly be how multi-device support with
+serdev was envisioned. At the same time I can't really imagine what
+more of a sane multi-device serdev use case would be. Any ideas?
 
-> Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
-> architectures (afaict), so that seems a bit awkward.
-> 
-> Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
-> if it is indeed a constant? The __field_overflow() usage is already only
-> done if __builtin_constant_p(v), so I guess we can do the same with
-> __bad_mask()?
-> 
-> johannes
-> 
+Cheers,
 
+/ magnus
