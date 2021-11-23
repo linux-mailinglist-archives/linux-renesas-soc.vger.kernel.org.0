@@ -2,140 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B4845AD2B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 21:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE24645AEAD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 22:49:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbhKWUWc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 15:22:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
+        id S235274AbhKWVwx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 16:52:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231249AbhKWUWc (ORCPT
+        with ESMTP id S232670AbhKWVww (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 15:22:32 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70C6C061574;
-        Tue, 23 Nov 2021 12:19:23 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id y68so819784ybe.1;
-        Tue, 23 Nov 2021 12:19:23 -0800 (PST)
+        Tue, 23 Nov 2021 16:52:52 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96224C06173E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 13:49:43 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id u1so341647wru.13
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 13:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PaD7kDwe/qDuevtgXa7qrJpra71MTs4Z3WEq/u3dKiw=;
-        b=HzIVOqBZpH8a54dI5Zs/JCA3qEoSSQA1bI1ViBqF4HF/ztI/Jr57H12BwJYelnA6h2
-         cq/Xrnb3k/2YQEfoRvrD3jgRKj86otMZTxwH+C5UZaRSv1VNg5raCeKy4BDjgm837c1O
-         I0UcyElivWr9eiDS7u/QHHikORZHPVhOqX5g5ufSfYkmh3i/LC357/JJFKqzN9XTY3Rh
-         EZB7q8ATTDzAwXubVdBowiQ8DORf20sHTxWnV0NZbOS26onnTTB4rOhDIE7UyxTacuBU
-         8DuWVFxv61RZV8LqEB/WrBKOduFVaT5qByFKwbMtnTJH2ODpBf1KYRKkopGtRPC8UJ0T
-         UGrg==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cx/RxGowWJ+ARkenpaoiEAOOeuCHEYaUTm5UxAY6csM=;
+        b=5x1Ij98oK/pne1Z9rEJboic7qMOUJIDV11ltFZCaPVP1z9MEwJZum4mUJNPzdcG9pr
+         giiOp4XDBijKmh5kI+CORs9dyo7H0CcHTX/aL6hZpduR48u1yfwcbPZqji+9hFlLNPu1
+         +yPzYtF/eoeHd/u8NyGN1xlvqdhK6XQCpajmPCKMN4eN/92FLWxa73lZTy+zcv7tbqqV
+         I5NO2tMC+7gzIWN5sCVgQ1AWGltjQO9pAljWnE/HQF8uJGakdjWSCzKCn28zv1XaoRTH
+         Ns0dwi1t2bjMBbjjtZtvfL/qAAcgos+FFzdHtklwrpCdM5OhG6pl/KBqF5ZIlpgwyfh/
+         2TPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PaD7kDwe/qDuevtgXa7qrJpra71MTs4Z3WEq/u3dKiw=;
-        b=jg5x2E5Wz6BdnM2x0KXwIdXPfk1L9zrdoVnsMWMO2/wglL1k18DJZNHrBxOpRpRIWP
-         FyCrG/bBiC2ygyBRk5ZzJQJAxScqk3WNurn8BiEtdyGV13jImbBHzaXPxMdgNa1wfxmQ
-         PnCq26CcIVCQ95M3o2Crh2FU341jX6aKOoR0O4buRHXR9ap0vlpNtRtrhH9fTqWWAfug
-         uOeZaZ62k8hnxg08V8ssQgg00lI+sKZKiwkCf/NTioCRkzea/iXe7aW7S09lCvpcvow5
-         Ud2p2jgc2Yo6Iqc2AND66XGj9zyCQ+dlosTH5O3vX0oCyK6eUO5NtPFGjnBU5UVNqEVO
-         msqA==
-X-Gm-Message-State: AOAM532HCVXLAtEl+d8Cs7PsiYjSXwmHjWxEuozOwtTvp/R5SxGEvnzW
-        54F9LTDru2JQHHeWRH+H1s9aDMc6Wp2YKwpatfQ=
-X-Google-Smtp-Source: ABdhPJxIxu7YWTUTdVIkDdkH48zZL/Y2Tdf4aBHJhz1h9kM9+fOusZdHVXy5HiL7hRvzgH10G2o9gEOBywwndNmWTI0=
-X-Received: by 2002:a5b:783:: with SMTP id b3mr8929493ybq.328.1637698762273;
- Tue, 23 Nov 2021 12:19:22 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cx/RxGowWJ+ARkenpaoiEAOOeuCHEYaUTm5UxAY6csM=;
+        b=CpCN9GtPIYrFFxJhkOpmtYbTv06f9tB8tUFwyz72t81dhX1jgAfS6MVyMmx8EsoxRs
+         d6pM5imustUizM0z9300HJPA59zNkOU71vp3oLLDNvPT3RPN2wjS2KK/jNP4WZ228xbh
+         pehU6gxou0ZChXqPcRsp3qGr5wzjpSZNykoKiENpYDRBHTbP76KhprRbWSrb9srQwJxb
+         sInUOcifST3jITivWGFigN106HBFVMYfx4nUqgfH8+KLJbGYhwdu4HGje6K13YBsJFB8
+         Jlad6adcq3MTF4ytXtvXK1tb2aZYJbZwZr8acmYMqZ7SQqpEt3XQZaZVYpXyuSNtGvDB
+         Be3g==
+X-Gm-Message-State: AOAM5323o6MZkROTKzBI4BivjPK0wNRG/8J/KK6GzFVTxxZhnxw3/X/P
+        B6OtI4AlwRF0+fIviJncfFL/AQ==
+X-Google-Smtp-Source: ABdhPJwDytN/PHntpYMCQvQoS2a7fQzgUQ5ar0i50ahvm5shKlLObQaC+93HYMhXE9RrjJT+fpaz+A==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr10905139wrt.122.1637704182162;
+        Tue, 23 Nov 2021 13:49:42 -0800 (PST)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id l8sm2520877wmc.40.2021.11.23.13.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 13:49:41 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] dt-bindings: staging: media: i2c: Add bindings for Maxim Integrated MAX96712
+Date:   Tue, 23 Nov 2021 22:49:22 +0100
+Message-Id: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-References: <20211121235808.10167-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXvehNc5yRxO4cS=n_ZaDWCKq2iaKhs+b3uj2beYsdWVg@mail.gmail.com>
-In-Reply-To: <CAMuHMdXvehNc5yRxO4cS=n_ZaDWCKq2iaKhs+b3uj2beYsdWVg@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 23 Nov 2021 20:18:56 +0000
-Message-ID: <CA+V-a8vQyNUkVak-nFN+k9+nnf1icmATQgSW-2yt+Bbf9080Uw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: hihope-rzg2-ex-lvds: Add power-supply and
- enable-gpios to backlight node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
+deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
+or C-PHY formatted outputs.
 
-Thank you for the review.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ .../staging/media/i2c/maxim,max96712.yaml     | 111 ++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
 
-On Tue, Nov 23, 2021 at 2:44 PM Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
->
-> Hi Prabhakar,
->
-> On Mon, Nov 22, 2021 at 12:58 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > This patch adds missing power-supply and enable-gpios property to
-> > backlight node. This fixes the warning "pwm-backlight backlight:
-> > backlight supply power not found, using dummy regulator".
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi
-> > @@ -12,6 +12,17 @@
-> >
-> >                 brightness-levels =3D <0 2 8 16 32 64 128 255>;
-> >                 default-brightness-level =3D <6>;
-> > +               power-supply =3D <&reg_12v>;
-> > +               enable-gpios =3D <&gpio6 7 GPIO_ACTIVE_HIGH>;
->
-> According to the schematics (up to Rev. 4.00), GP6_07 is not connected?
->
-Ouch sorry about that. When I noticed a warning with the regulator, I
-saw the missing gpio property too and I pulled out the older schematic
-with Rev2 which has GP6_07 :(
-> > +       };
-> > +
-> > +       reg_12v: regulator2 {
->
-> Using "regulatorN" as a node name is error-prone, and may lead to
-> accidental clashes. Please use a more appropriate name.
->
-> > +               compatible =3D "regulator-fixed";
-> > +               regulator-name =3D "fixed-12V";
-> > +               regulator-min-microvolt =3D <12000000>;
-> > +               regulator-max-microvolt =3D <12000000>;
->
-> Hmm, the AT1316A is a constant-current source, not a constant-voltage
-> source? The -02 variant has a 0.2V Low Reference Voltage. Combined
-> with the 1.1=CE=A9 resistor, that should give 181818 microamp.
->
-Agreed.
+diff --git a/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
+new file mode 100644
+index 0000000000000000..978f2c0e5caef567
+--- /dev/null
++++ b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2021 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/staging/media/i2c/maxim,max96712.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
++
++description: |
++  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
++  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
++  simultaneously transmit bidirectional control-channel data while forward
++  video transmissions are in progress. The MAX96712 can accommodate as many as
++  four remotely located sensors using industry-standard coax or STP
++  interconnects.
++
++  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
++  forward direction and 187.5Mbps in the re- verse direction. In GMSL1 mode, the
++  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
++  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
++
++properties:
++  compatible:
++    const: maxim,max96712
++
++  reg:
++    description: I2C device address
++    maxItems: 1
++
++  enable-gpios: true
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 0
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 1
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 2
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 3
++
++      port@4:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: CSI-2 Output
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes: true
++
++            required:
++              - data-lanes
++
++    required:
++      - port@4
++
++required:
++  - compatible
++  - reg
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c@e6508000 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            reg = <0 0xe6508000>;
++
++            gmsl0: gmsl-deserializer@49 {
++                    compatible = "maxim,max96712";
++                    reg = <0x49>;
++                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
++
++                    ports {
++                            #address-cells = <1>;
++                            #size-cells = <0>;
++
++                            port@4 {
++                                    reg = <4>;
++                                    max96712_out0: endpoint {
++                                            clock-lanes = <0>;
++                                            data-lanes = <1 2 3 4>;
++                                            remote-endpoint = <&csi40_in>;
++                                    };
++                            };
++                    };
++            };
++    };
+-- 
+2.34.0
 
-Cheers,
-Prabhakar
-
-> > +               regulator-boot-on;
-> > +               regulator-always-on;
-> >         };
-> >  };
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
