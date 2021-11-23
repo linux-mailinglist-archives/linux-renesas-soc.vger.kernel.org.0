@@ -2,113 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97AB145A0C0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 11:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C6D45A0D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 12:02:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235586AbhKWLAU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 06:00:20 -0500
-Received: from mail-lj1-f172.google.com ([209.85.208.172]:45900 "EHLO
-        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235398AbhKWLAT (ORCPT
+        id S234531AbhKWLFv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 06:05:51 -0500
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:40858 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234813AbhKWLFt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 06:00:19 -0500
-Received: by mail-lj1-f172.google.com with SMTP id b16so5037270ljf.12;
-        Tue, 23 Nov 2021 02:57:11 -0800 (PST)
+        Tue, 23 Nov 2021 06:05:49 -0500
+Received: by mail-vk1-f173.google.com with SMTP id 70so3729365vkx.7;
+        Tue, 23 Nov 2021 03:02:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=wDBfIxPCunChiakkAlZ8A5wU6FVeySkRCkCo/ttzO8w=;
-        b=xIXSOlUbIUm/pzorcPH46y0WuQzRdNJDpAfvx1ex0EUC/54EW4zSI3/z9NuOhQ4hYn
-         nIx94OXPUHKoSTXBso69BiFMUJfKBrRVf8nrWYVE0Ck0zrsrCpFuXsU+BpwzNlP55Gy0
-         aPandCmKSbSazh1P7jvheXNMS4XWPtzpgWyTrY+dc85ovc6qHgNbrpwC3hSq5PC+wwKi
-         bhb60wpUUG7Yr9DNuUiCg220K6MgDM1aEf5+kh9KqPhHBSUZCnzYJ22YdPchApylJgxh
-         IsvS5mCZxa3sJ1Se4XylEAJB0AJMyMqLMSnQaJd561mqN5WCemetmLFsUEnGFo3Q8HBG
-         rVpA==
-X-Gm-Message-State: AOAM531/UZS9KFQR46M1EjoBelNivkUKjLvykQhtXUW9jlmdg4YPh4ai
-        MKQ6ekmrRv6sPUVZ615GeYQ=
-X-Google-Smtp-Source: ABdhPJxmojs50ANN3mnFQ+HdGDYf1ne60Toba3fOenQWvDNIrsSVuH9Stw+lYDkqqJAAhgDjbFMIbg==
-X-Received: by 2002:a2e:96c2:: with SMTP id d2mr4094593ljj.46.1637665030487;
-        Tue, 23 Nov 2021 02:57:10 -0800 (PST)
-Received: from fedora (dc73szyyyyyyyyyyyyycy-3.rev.dnainternet.fi. [2001:14ba:16ee:fa00::4])
-        by smtp.gmail.com with ESMTPSA id n7sm492543lfu.116.2021.11.23.02.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 02:57:09 -0800 (PST)
-Date:   Tue, 23 Nov 2021 12:57:02 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] mfd: bd957x: Fix Kconfig dependency
-Message-ID: <YZzI/gNDRdvdK0nv@fedora>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3vpTNg4M2uZL1VyLDRhqbPlkPZMl8jY+kogUQeT7PgU=;
+        b=zjV9ODhHo3Y4F2aslt1Q2qJj7opAjGVFQecuczgdYxzHvGXV2N/uoErnAgqhnxVHre
+         9JhLB3QdwxmImsrLIIdMY76jTeQr8f8hYF47kBSpmh+Zhf8HwNNHfkDIcsXPkH4Fi07g
+         NxjANoi3oA3jgv55mE9TFTrMWCya1BIfMszhrEc1uMy/lb8ycjW2th9sO1BvGeM7cCAB
+         JOMMf6SoFd+CDqJuTzxRrrYKGkP4muCQT26U36NLv7J122p57LiBAaQXOLmlwSIK/0xC
+         k+UP3SNWBpOA7Wq+KS7npw2wUv1WaZ3doMSvrZluNkgEshaDi3YcjScCMoMa6N6NZOxt
+         pjBw==
+X-Gm-Message-State: AOAM531phVI+ExKQ+gO63Agr84PxG1DIJcdInR/RTMJeaoMnAqyG2lv1
+        yfp858fjYvKCdyjcNpZKc+mxPuC+cZh6pA==
+X-Google-Smtp-Source: ABdhPJy1vuskKRcukoPoAA08HXDc+XZdYeizyUzEiU34uEeruYcSvP5Pi4dlsh4d0i5oMVEOpzhIqA==
+X-Received: by 2002:a05:6122:889:: with SMTP id 9mr8263126vkf.21.1637665360958;
+        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id i1sm5958199vkn.55.2021.11.23.03.02.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id x14so2289718uao.0;
+        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
+X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr7938046vst.37.1637665360432;
+ Tue, 23 Nov 2021 03:02:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="50bHO1pf7QlL+9ro"
-Content-Disposition: inline
+References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
+ <8735no70tt.wl-maz@kernel.org> <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
+ <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com> <87tug3clvc.wl-maz@kernel.org>
+In-Reply-To: <87tug3clvc.wl-maz@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 23 Nov 2021 12:02:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU5UAYONbT26e2Ttd7FmoXR8SxCO86bfLLmX9VDeQ2UVg@mail.gmail.com>
+Message-ID: <CAMuHMdU5UAYONbT26e2Ttd7FmoXR8SxCO86bfLLmX9VDeQ2UVg@mail.gmail.com>
+Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
+ definition of interrupt-map
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Rob Herring <robh@kernel.org>, John Crispin <john@phrozen.org>,
+        Biwen Li <biwen.li@nxp.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Marc,
 
---50bHO1pf7QlL+9ro
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> On Tue, 23 Nov 2021 07:57:48 +0000,
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > Summarized:
+> >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
+> >     and the number of interrupts seen is correct, but input events
+> >     are doubled.
+> >   - After the bad commit, irqc-rza1 is not invoked, and there is an
+> >     interrupt storm, but input events are OK.
+>
+> OK, that's reassuring, even if the "twice the events" stuff isn't what
+> you'd expect. We at least know this is a separate issue, and that this
+> patch on top of -rc1 brings you back to the 5.15 behaviour.
 
-The bd957x driver uses regmap-IRQ but does not SELECT ot depend on it.
-This can cause build failure.
+So the "twice the events" stuff did happen before, and is caused by
+gpio-keys always fabricating timer-based auto-"up" events when using
+"interrupts" instead of "gpios".
 
-SELECT the regmap-IRQ for BD957X from Kconfig.
+arch/arm/boot/dts/r7s72100-rskrza1.dts has IRQ_TYPE_EDGE_BOTH to
+detect the real "up", which becomes a second set of "down"/"up" events.
+Using IRQ_TYPE_EDGE_FALLING gets rid of the dupe by only detecting
+the real "down" event.  Similar for IRQ_TYPE_LEVEL_LOW, but then
+there's a temporary interrupt storm until the key is released.
 
-Fixes: 0e9692607f94 ("mfd: bd9576: Add IRQ support")
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
----
- drivers/mfd/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Seems like gpio-keys needs to be fixed for IRQ_TYPE_EDGE_BOTH.
+When using "gpios" instead of "interrupts", it does pass
+IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING, and handles that case
+correctly.
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 3fb480818599..47bacded4a51 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1983,6 +1983,7 @@ config MFD_ROHM_BD957XMUF
- 	depends on I2C=3Dy
- 	depends on OF
- 	select REGMAP_I2C
-+	select REGMAP_IRQ
- 	select MFD_CORE
- 	help
- 	  Select this option to get support for the ROHM BD9576MUF and
---=20
-2.31.1
+Gr{oetje,eeting}s,
 
+                        Geert
 
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
-
---50bHO1pf7QlL+9ro
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmGcyPEACgkQeFA3/03a
-ocX1lAf/TL1fhu37dph2+ahSDBES6DkRbUIVSrIWf8MXZSindAGPeOWijTY/QXVi
-eKxbunpKrh3tuTmuBFybnaK9GzNMuNXg0zgB3TxJhNvA4sP3ymkXSi1SK6W27nxD
-H4IwYtwmfxGNY7FBEqeUE1oKueGpdLzBL8ZoRk8pZHS4mGdhbtGW/qb3Z2aXDcLB
-4OKx9ShaBKP2eCJx3QewlgKqkgH6qg2HvPNSSEtCkx0FDzRLhap8DzCmhtTkMbmm
-sdrSQHZW02srCgP6yVnf55cB+t5Fa58dKOz2Uq1lCT2y6J5ceNW4tlxbBIkLLHBV
-eqKB8BKfeWpsS3I5X9C+nr0EeygFCQ==
-=Qj6a
------END PGP SIGNATURE-----
-
---50bHO1pf7QlL+9ro--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
