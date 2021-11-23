@@ -2,126 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95F3A45A3D3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 14:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5330145A3DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 14:35:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230473AbhKWNfR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 08:35:17 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:50482 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229599AbhKWNfR (ORCPT
+        id S235950AbhKWNi5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 08:38:57 -0500
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:44715 "EHLO
+        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229939AbhKWNi4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 08:35:17 -0500
-X-IronPort-AV: E=Sophos;i="5.87,257,1631545200"; 
-   d="scan'208";a="101513529"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Nov 2021 22:32:08 +0900
-Received: from localhost.localdomain (unknown [10.226.93.159])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7D45F4298F4C;
-        Tue, 23 Nov 2021 22:32:06 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tue, 23 Nov 2021 08:38:56 -0500
+Received: by mail-ua1-f48.google.com with SMTP id p2so43715181uad.11;
+        Tue, 23 Nov 2021 05:35:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Mr0GSj97QxFZ8jPFcARWGg380tKcBhVAP9tk0gY8U4c=;
+        b=JOsmuNSUIN9gIB1TmTgZwi0sfv2D0gStAyxRmy3lGfFmVPUjtKfbRj5+x1aDiFoO8f
+         kZ0HN63MAqBx1hopy1mSwf0zA5ZrozVF/pEXMjfd0EiIvOw5crRGqL/NFY8d/I86rSWD
+         iT8kc3aHFMQ8SEjexazRodkWljKdMr8ni6UQULVFEDPAAfWMxNh3nFJxXLhpjaCr+XC/
+         4GGnABYFjJv4L2elkpbrUdYpKYBCinfYrOqUEIHlydmVuEsAg5bLOKeS4FAmht1+DHtg
+         jZmREWfCDsPFq6MBgJGj9gxihDszuY2mUasweRB3WFJFvnPqlqDXdeXyX/5NGV1pSfg+
+         +hnQ==
+X-Gm-Message-State: AOAM531992aNNIr7ORTIvyTz7fjIo0ur1oNNHciTtF8RuuDfS/0auLXJ
+        Y0NWz8nIgScmLc4i5ilzH26aQiSHsOkxqA==
+X-Google-Smtp-Source: ABdhPJyld9W/AWDLq0lginzXTHLxj9prGJc4iFOkDLl1Oipvkl6SF/WCTkc6NyuJNfPT74ovzu6yNw==
+X-Received: by 2002:a67:c982:: with SMTP id y2mr8995235vsk.15.1637674548024;
+        Tue, 23 Nov 2021 05:35:48 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id d16sm6064113vko.29.2021.11.23.05.35.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Nov 2021 05:35:47 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id l24so43868754uak.2;
+        Tue, 23 Nov 2021 05:35:47 -0800 (PST)
+X-Received: by 2002:a9f:2431:: with SMTP id 46mr8913374uaq.114.1637674547289;
+ Tue, 23 Nov 2021 05:35:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20211122113554.15990-1-biju.das.jz@bp.renesas.com> <20211122113554.15990-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211122113554.15990-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 23 Nov 2021 14:35:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWX7aC2ktiiHJP=3rEcK1VpLYYSbdGz8k=-1_E7LaxoUw@mail.gmail.com>
+Message-ID: <CAMuHMdWX7aC2ktiiHJP=3rEcK1VpLYYSbdGz8k=-1_E7LaxoUw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: watchdog: renesas,wdt: Add support
+ for RZ/G2L
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [RFC 2/2] ravb: Add Rx checksum offload support
-Date:   Tue, 23 Nov 2021 13:31:57 +0000
-Message-Id: <20211123133157.21829-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
-References: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-TOE has hw support for calculating IP header checkum for IPV4 and
-TCP/UDP/ICMP checksum for both IPV4 and IPV6.
+On Mon, Nov 22, 2021 at 12:36 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Describe the WDT hardware in the RZ/G2L series.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-This patch adds Rx checksum offload supported by TOE.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb.h      |  4 +++
- drivers/net/ethernet/renesas/ravb_main.c | 31 ++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index a96552348e2d..d0e5eec0636e 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -44,6 +44,10 @@
- #define RAVB_RXTSTAMP_TYPE_ALL	0x00000006
- #define RAVB_RXTSTAMP_ENABLED	0x00000010	/* Enable RX timestamping */
- 
-+/* GbEthernet TOE hardware checksum values */
-+#define TOE_RX_CSUM_OK		0x0000
-+#define TOE_RX_CSUM_UNSUPPORTED	0xFFFF
-+
- enum ravb_reg {
- 	/* AVB-DMAC registers */
- 	CCC	= 0x0000,
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index c2b92c6a6cd2..2533e3401593 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -720,6 +720,33 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
- 	}
- }
- 
-+static void ravb_rx_csum_gbeth(struct sk_buff *skb)
-+{
-+	u32 csum_ip_hdr, csum_proto;
-+	u8 *hw_csum;
-+
-+	/* The hardware checksum is contained in sizeof(__sum16) * 2 = 4 bytes
-+	 * appended to packet data. First 2 bytes is ip header csum and last
-+	 * 2 bytes is protocol csum.
-+	 */
-+	if (unlikely(skb->len < sizeof(__sum16) * 2))
-+		return;
-+	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
-+	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
-+
-+	hw_csum = skb_tail_pointer(skb) - 2 * sizeof(__sum16);
-+	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
-+
-+	skb->ip_summed = CHECKSUM_NONE;
-+	if (csum_proto == TOE_RX_CSUM_OK) {
-+		if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr == TOE_RX_CSUM_OK)
-+			skb->ip_summed = CHECKSUM_UNNECESSARY;
-+		else if (skb->protocol == htons(ETH_P_IPV6) &&
-+			 csum_ip_hdr == TOE_RX_CSUM_UNSUPPORTED)
-+			skb->ip_summed = CHECKSUM_UNNECESSARY;
-+	}
-+}
-+
- static void ravb_rx_csum(struct sk_buff *skb)
- {
- 	u8 *hw_csum;
-@@ -805,6 +832,8 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 				skb = ravb_get_skb_gbeth(ndev, entry, desc);
- 				skb_put(skb, pkt_len);
- 				skb->protocol = eth_type_trans(skb, ndev);
-+				if (ndev->features & NETIF_F_RXCSUM)
-+					ravb_rx_csum_gbeth(skb);
- 				napi_gro_receive(&priv->napi[q], skb);
- 				stats->rx_packets++;
- 				stats->rx_bytes += pkt_len;
-@@ -832,6 +861,8 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 				dev_kfree_skb(skb);
- 				priv->rx_1st_skb->protocol =
- 					eth_type_trans(priv->rx_1st_skb, ndev);
-+				if (ndev->features & NETIF_F_RXCSUM)
-+					ravb_rx_csum_gbeth(skb);
- 				napi_gro_receive(&priv->napi[q],
- 						 priv->rx_1st_skb);
- 				stats->rx_packets++;
--- 
-2.17.1
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
