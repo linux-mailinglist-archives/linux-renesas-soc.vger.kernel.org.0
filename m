@@ -2,105 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C6D45A0D9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 12:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0407B45A168
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 12:24:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234531AbhKWLFv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 06:05:51 -0500
-Received: from mail-vk1-f173.google.com ([209.85.221.173]:40858 "EHLO
-        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234813AbhKWLFt (ORCPT
+        id S236122AbhKWL14 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 06:27:56 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:33990 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236097AbhKWL1y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 06:05:49 -0500
-Received: by mail-vk1-f173.google.com with SMTP id 70so3729365vkx.7;
-        Tue, 23 Nov 2021 03:02:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3vpTNg4M2uZL1VyLDRhqbPlkPZMl8jY+kogUQeT7PgU=;
-        b=zjV9ODhHo3Y4F2aslt1Q2qJj7opAjGVFQecuczgdYxzHvGXV2N/uoErnAgqhnxVHre
-         9JhLB3QdwxmImsrLIIdMY76jTeQr8f8hYF47kBSpmh+Zhf8HwNNHfkDIcsXPkH4Fi07g
-         NxjANoi3oA3jgv55mE9TFTrMWCya1BIfMszhrEc1uMy/lb8ycjW2th9sO1BvGeM7cCAB
-         JOMMf6SoFd+CDqJuTzxRrrYKGkP4muCQT26U36NLv7J122p57LiBAaQXOLmlwSIK/0xC
-         k+UP3SNWBpOA7Wq+KS7npw2wUv1WaZ3doMSvrZluNkgEshaDi3YcjScCMoMa6N6NZOxt
-         pjBw==
-X-Gm-Message-State: AOAM531phVI+ExKQ+gO63Agr84PxG1DIJcdInR/RTMJeaoMnAqyG2lv1
-        yfp858fjYvKCdyjcNpZKc+mxPuC+cZh6pA==
-X-Google-Smtp-Source: ABdhPJy1vuskKRcukoPoAA08HXDc+XZdYeizyUzEiU34uEeruYcSvP5Pi4dlsh4d0i5oMVEOpzhIqA==
-X-Received: by 2002:a05:6122:889:: with SMTP id 9mr8263126vkf.21.1637665360958;
-        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id i1sm5958199vkn.55.2021.11.23.03.02.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id x14so2289718uao.0;
-        Tue, 23 Nov 2021 03:02:40 -0800 (PST)
-X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr7938046vst.37.1637665360432;
- Tue, 23 Nov 2021 03:02:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
- <8735no70tt.wl-maz@kernel.org> <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
- <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com> <87tug3clvc.wl-maz@kernel.org>
-In-Reply-To: <87tug3clvc.wl-maz@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 12:02:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU5UAYONbT26e2Ttd7FmoXR8SxCO86bfLLmX9VDeQ2UVg@mail.gmail.com>
-Message-ID: <CAMuHMdU5UAYONbT26e2Ttd7FmoXR8SxCO86bfLLmX9VDeQ2UVg@mail.gmail.com>
-Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
- definition of interrupt-map
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Rob Herring <robh@kernel.org>, John Crispin <john@phrozen.org>,
-        Biwen Li <biwen.li@nxp.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 23 Nov 2021 06:27:54 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 210DC1FD39;
+        Tue, 23 Nov 2021 11:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1637666684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFMk9Bgs0C48EUfsk3ZFvxtIETbpuVrnTCZsE9y/THg=;
+        b=B5wgrGMQxccfarx7KLxD/v3wx8FzL961VMxubhW0cO/WUVPlEQomF+nVuFGnnBslrEEhT1
+        xudqYqMaf+YphX2nzCoCbfB0B6g9AeH9QfhE7lu7z3ACo7VQrklZRhovUB+NCMR7oDuaNe
+        0hq0zD2HZHDxU7bsE6McRJtXzhuF0Ds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1637666684;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFMk9Bgs0C48EUfsk3ZFvxtIETbpuVrnTCZsE9y/THg=;
+        b=JvnlyRw9hsp7oaQ0km8FOqiXL/FSSMsTm/BLHjKdYHEZKscA/ru44PAvFmPvH3xzeJazLO
+        xpP7CG8EyA51s0BA==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id E56A2A3B85;
+        Tue, 23 Nov 2021 11:24:41 +0000 (UTC)
+Date:   Tue, 23 Nov 2021 12:24:41 +0100
+Message-ID: <s5hwnkz9ksm.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Paul Walmsley <paul@pwsan.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH/RFC 16/17] ALSA: ice1724: Use bitfield helpers
+In-Reply-To: <45fa162856814176045ffbb49ee64cf0ea7e00bc.1637592133.git.geert+renesas@glider.be>
+References: <cover.1637592133.git.geert+renesas@glider.be>
+        <45fa162856814176045ffbb49ee64cf0ea7e00bc.1637592133.git.geert+renesas@glider.be>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+On Mon, 22 Nov 2021 16:54:09 +0100,
+Geert Uytterhoeven wrote:
+> 
+> Use the field_{get,prep}() helpers, instead of open-coding the same
+> operations.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Compile-tested only.
+> Marked RFC, as this depends on [PATCH 01/17], but follows a different
+> path to upstream.
 
-On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
-> On Tue, 23 Nov 2021 07:57:48 +0000,
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > Summarized:
-> >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
-> >     and the number of interrupts seen is correct, but input events
-> >     are doubled.
-> >   - After the bad commit, irqc-rza1 is not invoked, and there is an
-> >     interrupt storm, but input events are OK.
->
-> OK, that's reassuring, even if the "twice the events" stuff isn't what
-> you'd expect. We at least know this is a separate issue, and that this
-> patch on top of -rc1 brings you back to the 5.15 behaviour.
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
-So the "twice the events" stuff did happen before, and is caused by
-gpio-keys always fabricating timer-based auto-"up" events when using
-"interrupts" instead of "gpios".
 
-arch/arm/boot/dts/r7s72100-rskrza1.dts has IRQ_TYPE_EDGE_BOTH to
-detect the real "up", which becomes a second set of "down"/"up" events.
-Using IRQ_TYPE_EDGE_FALLING gets rid of the dupe by only detecting
-the real "down" event.  Similar for IRQ_TYPE_LEVEL_LOW, but then
-there's a temporary interrupt storm until the key is released.
+thanks,
 
-Seems like gpio-keys needs to be fixed for IRQ_TYPE_EDGE_BOTH.
-When using "gpios" instead of "interrupts", it does pass
-IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING, and handles that case
-correctly.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Takashi
