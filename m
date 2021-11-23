@@ -2,93 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C376745A760
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 17:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23EA145A76B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 17:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237807AbhKWQUM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 11:20:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237621AbhKWQUM (ORCPT
+        id S238157AbhKWQVm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 11:21:42 -0500
+Received: from mail-vk1-f170.google.com ([209.85.221.170]:41647 "EHLO
+        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238824AbhKWQVj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 11:20:12 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 821A3C061714
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 08:17:03 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id d11so12162513ljg.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 08:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2Kqm2DTjWqf3+P2JqlqtbKR09dLEFPNogTBJfvpiSZk=;
-        b=RdAE2Oe0NvubfRfuy+ZW1olv2kTIDbRQloRzAA0QFd6R52D4zihLwN1wyC0trtNqZf
-         crfB/JK63sIL6dJvLGKmXTmwk3KliFlCiqT0vPxJwysVvcZrVTi8FtPSeU9pvF0tUcNS
-         4ZIcOG2iMe59/3dQ+Ikn8Uq3yw+1QaYMo7d21fpNzcRSBxcqkRDT6kxHoJiEPR4fvNFa
-         a4lmCF5IixhCvmNuggrKjnXbqlBoemIXlu+D4DIV5o0mUvWR7dN0ep1NCXAzhPocp6u3
-         gUtJ9HDdT1g4SSw8+jGX8yiNh1hOW2J9bFpTzS4ugbcSbk+ObYWHXd1Gi/4hofo6EdBk
-         3cIg==
+        Tue, 23 Nov 2021 11:21:39 -0500
+Received: by mail-vk1-f170.google.com with SMTP id 188so9773680vku.8;
+        Tue, 23 Nov 2021 08:18:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2Kqm2DTjWqf3+P2JqlqtbKR09dLEFPNogTBJfvpiSZk=;
-        b=jAKR2XmZkymFRsSqkQQhXF4+Po7IBAw8jm2ZesNOkqUsw+3PUSBoTWoJoz0ANohgnl
-         5PaUMK1xLTApPRerP4sW79kVAcU5IB0dyeEgiQPOy9W52Yf9gpbVw11g56NQDSu96Jp8
-         mQOuDAiGhKjZQMfSmMmf3dWcgZVBQRYs5OwCxl3GB0DBjMRnL58n1VldEBDtSS6QLPcu
-         NpHDZO0d2QoljOlfnGWRY1rS6koMSHIlMxBDqNzQ4pUVoJrC8d/hhvrGJXr+W06xebLY
-         4pqIO2tEVej6gGzHabFRfps6KOQ4Ptw5CZST/v472XOovNbMnQ8eJAB3qYV2ZqEodQCJ
-         Xrpw==
-X-Gm-Message-State: AOAM5308lDjqE5ArunyooxOK6RK1TyZP6lK2WFjb9BBZJzECXn1LhV88
-        rXszmkqna+/PQMC+rTQYvITjUE3PqWKeQ9XzlZ8QUQ==
-X-Google-Smtp-Source: ABdhPJwC75fU59j/quBfR/x4FD+1qdMIsqCzGTKco/XIrZuXKuQjoXEF9i//qIJjHIdatGIZqu8T2StxZtTpr/QeGIY=
-X-Received: by 2002:a2e:80c3:: with SMTP id r3mr6815654ljg.4.1637684221852;
- Tue, 23 Nov 2021 08:17:01 -0800 (PST)
+        bh=esyW0OAzYg3/RWIR9cYT0r1LL6UkCXN7FUP4GXrGayk=;
+        b=XZUzDsnYJVNcrgneOIbznKsK362tY8/g9SfVU6frC40wpvu9oSRJKBEC0+rOyKuOeS
+         5H6csPMu6fTXMWXTrzwpQuauSJl5tkv7zWXBNNNHa4OxbSfrwF8M9OEg+88fPBb8duIo
+         zsu48DGvHGxNjaEISVi4S+tk92IClCNZlfs8vFzlIWWpVa0FQB51P7dMAVZ+JBwD7URO
+         iOSyLj2ze2LuXWOLcfEY2RHG1y33XW9G3uR7keoZhs1af49KWvgLdZIqIp4A9tbwHUoU
+         B1MaMCe4Bj72TMz2q43BtAjbHdpxu6KPBnW2YYR+A80bwtN92pXWyPpfLh0jWnG3PLgm
+         fSBw==
+X-Gm-Message-State: AOAM531hvm0gHdGNzKbi5qldGAHjvQR61tfd4TCcqEwNAk5n570Qe6BD
+        49hCHdVX5wDHjNoBTvGRSxRlz8jsY9oI0Q==
+X-Google-Smtp-Source: ABdhPJyttauTbJRNlJcCw1ZZ8ZAqRaYOoEUYSRCPT9BbCMn1tgD8ve+9YyUbR7LHKoc9HV8EBeNyrw==
+X-Received: by 2002:a05:6122:2227:: with SMTP id bb39mr12529373vkb.9.1637684310608;
+        Tue, 23 Nov 2021 08:18:30 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id i24sm6508017vkk.5.2021.11.23.08.18.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Nov 2021 08:18:30 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id l24so44945915uak.2;
+        Tue, 23 Nov 2021 08:18:29 -0800 (PST)
+X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr10672924vsb.9.1637684309252;
+ Tue, 23 Nov 2021 08:18:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122103905.14439-1-biju.das.jz@bp.renesas.com>
- <20211122103905.14439-2-biju.das.jz@bp.renesas.com> <CAMuHMdV5c-1wjhWN1kBbbgp7RMZR4NFTg2btyJ1JSxuGhxq9vw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5c-1wjhWN1kBbbgp7RMZR4NFTg2btyJ1JSxuGhxq9vw@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 23 Nov 2021 17:16:25 +0100
-Message-ID: <CAPDyKFrxjO2q=pd4TP+4qAUBhdd-e5Lwe3WFMOGmXn7ONQP-Ww@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: mmc: renesas,sdhi: Rename RZ/G2L clocks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+References: <20211116074130.107554-1-yoshihiro.shimoda.uh@renesas.com> <20211116074130.107554-11-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211116074130.107554-11-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 23 Nov 2021 17:18:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWgDRAMp5nAK2S4QcBXYysupQj+iAdTUN0orxzBLKrOQA@mail.gmail.com>
+Message-ID: <CAMuHMdWgDRAMp5nAK2S4QcBXYysupQj+iAdTUN0orxzBLKrOQA@mail.gmail.com>
+Subject: Re: [PATCH 10/16] soc: renesas: r8a779f0-sysc: Add r8a779f0 support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 23 Nov 2021 at 14:38, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Mon, Nov 22, 2021 at 11:39 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Rename the below RZ/G2L clocks to match with the clock names used in
-> > R-Car Gen2 and later generations.
-> >
-> >  imclk->core
-> >  clk_hs->clkh
-> >  imclk2->cd
-> >
-> > This changes will avoid using fallback for RZ/G2L high speed clock,
-> > if "clkh" is not used in device tree and also the code changes in
-> > driver related to this clocks.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.17 if Ulf is happy.
+Hi Shimoda-san,
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+Thanks for your patch!
 
-Kind regards
-Uffe
+On Tue, Nov 16, 2021 at 8:42 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add support for R-Car S4-8 (R8A779F0) SoC power areas and register
+> access. This register specification is similar with R-Car V3U.
+
+similar to
+
+> So, introduces rcar-gen4-sysc.c for both V3U and S4-8.
+
+introduce.
+
+That makes perfect sense, as "the R-Car V3U SoC is based on the R-Car
+Gen 4 architecture".
+(https://www.renesas.com/us/en/products/automotive-products/automotive-system-chips-socs/r-car-v3u-best-class-r-car-v3u-asil-d-system-chip-automated-driving)
+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -359,6 +359,9 @@ config SYSC_R8A77970
+>  config SYSC_R8A779A0
+>         bool "System Controller support for R-Car V3U" if COMPILE_TEST
+>
+> +config SYSC_R8A779F0
+> +       bool "System Controller support for R-Car S4-8" if COMPILE_TEST
+> +
+
+Please retain sort order (alphabetically).
+
+>  config SYSC_RMOBILE
+>         bool "System Controller support for R-Mobile" if COMPILE_TEST
+>
+> diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+> index 9b29bed2a597..f6c5f8c3818c 100644
+> --- a/drivers/soc/renesas/Makefile
+> +++ b/drivers/soc/renesas/Makefile
+> @@ -25,11 +25,12 @@ obj-$(CONFIG_SYSC_R8A77980) += r8a77980-sysc.o
+>  obj-$(CONFIG_SYSC_R8A77990)    += r8a77990-sysc.o
+>  obj-$(CONFIG_SYSC_R8A77995)    += r8a77995-sysc.o
+>  obj-$(CONFIG_SYSC_R8A779A0)    += r8a779a0-sysc.o
+> +obj-$(CONFIG_SYSC_R8A779F0)    += r8a779f0-sysc.o
+>  ifdef CONFIG_SMP
+>  obj-$(CONFIG_ARCH_R9A06G032)   += r9a06g032-smp.o
+>  endif
+>
+>  # Family
+>  obj-$(CONFIG_RST_RCAR)         += rcar-rst.o
+> -obj-$(CONFIG_SYSC_RCAR)                += rcar-sysc.o
+> +obj-$(CONFIG_SYSC_RCAR)                += rcar-sysc.o rcar-gen4-sysc.o
+
+This means all R-Car kernels will always include support for both
+R-Car Gen1/2/3 and R-Car Gen4.
+I think this should be split.
+
+The rest looks good to me, but I think it wouldn't hurt to split this
+patch in two parts: one patch to generalize r8a779a0-sysc.c for R-Car
+Gen4, and a second patch to introduce support for R-Car S4-8.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
