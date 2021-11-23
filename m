@@ -2,220 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4220145A1C2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 12:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93C4745A388
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Nov 2021 14:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236400AbhKWLqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Nov 2021 06:46:02 -0500
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:43784 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236408AbhKWLqB (ORCPT
+        id S234392AbhKWNU5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Nov 2021 08:20:57 -0500
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:41626 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235412AbhKWNU5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Nov 2021 06:46:01 -0500
-Received: by mail-ua1-f45.google.com with SMTP id j14so33275734uan.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 03:42:53 -0800 (PST)
+        Tue, 23 Nov 2021 08:20:57 -0500
+Received: by mail-vk1-f173.google.com with SMTP id 188so9410708vku.8;
+        Tue, 23 Nov 2021 05:17:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wyUBUjgX6SDhoDxnLUCkRvH4vHNxrE1nH2b9bjeDRxk=;
-        b=scAJFLcN9aj42iuVA8WCwmvjP2h4kPxetgI0FkOYmdQEAq7CDh8DUMhE9fv7mlxq+p
-         rXaRlCpSssYRJxva6ypIyALdnzOcMkWCftJSDGsvegiftPiGp+zaxLuRKAFOZCaQHylo
-         pnF5J4sX4nYSrR1O0MoTX8+i0Q2iLarS9Z4B07eHT128BSVjsMYxQMWfaolPXFy5AP7U
-         1irH1juZTlaM/YHqQJKK79U5ssyoCC1z53R1f2ebnzPnbiGfz9FFyV+1ZAGf+MSVSNaq
-         J5OZTnpiDz2FS/h7Xk11w35wzo5kSCxb//9+TACdnflHL8bjMbLe+kgn9xBZd+vP3lbj
-         f/MQ==
-X-Gm-Message-State: AOAM533R0Nqs5bbJFKpY5zjEJZc+2bggtH0/YnHj0cE74zcWiYHqK+Cw
-        46vPyRBTgarJoXPlK/UyJ1GowW1cwv6DMg==
-X-Google-Smtp-Source: ABdhPJx+zYuzL3ws5PnQFiz4RfCcsnYrBD95GPRs4dmSeJPbcsRNHlq4gBNOrWfrzY6u+ZZ4AD7lBA==
-X-Received: by 2002:a9f:2329:: with SMTP id 38mr7657363uae.124.1637667772335;
-        Tue, 23 Nov 2021 03:42:52 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id t20sm6677636vsj.27.2021.11.23.03.42.51
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=M8K9GN/oaS924xTtn+p8naXBl/UNbxTzzkuFDkkYLH8=;
+        b=ROjg79FmEmilngsYR1274FzTqqQU5EpsNY8cslcI2a0OM/yqeUYmUna7VmWFAGqJfE
+         D0HI3YX8Lp1WYVqJgMggaYv40nyCZI5uF5yNH1ALw1wRUcJnRHIZtbqx/1XcowdRNDJ3
+         RU4qHeLe5a/iox1waLdWvzqrWm2slbyEIff1HDQ4aRO4RzUd4Vn/+ovewarkH30A9WGy
+         i/UE4QV8fsASzSYq/01JvivPe2hPiyM6IT8Vm+sLdTV/on7rEu22Z54+aczr0t7vdlsz
+         ojNui4C2tFPyTq7KEyL3OAid5U3wpQpmwEmcwedRJoes4I9/2cVt2NpdWtiSNJnbHhfP
+         H0mw==
+X-Gm-Message-State: AOAM533lzM3hFDYgpA5iymRZqPzt7F+aERsgxMA+aVog/Lgu9EvVHD6A
+        rnTKzha3MfuQD41ZKUgzRKYqq//Ra6rm9g==
+X-Google-Smtp-Source: ABdhPJyyec5KuED/H9T65N5LYvXNLNDacrvptOdqf/RwRTi9i1/LNVrLCKgrW/LnRKBNzyKgaPxC0w==
+X-Received: by 2002:a05:6122:1782:: with SMTP id o2mr10831798vkf.3.1637673468360;
+        Tue, 23 Nov 2021 05:17:48 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id q26sm6795730vsp.23.2021.11.23.05.17.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 03:42:52 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id 84so12202821vkc.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Nov 2021 03:42:51 -0800 (PST)
-X-Received: by 2002:a05:6122:7d4:: with SMTP id l20mr9293555vkr.26.1637667771620;
- Tue, 23 Nov 2021 03:42:51 -0800 (PST)
+        Tue, 23 Nov 2021 05:17:47 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id p2so43598452uad.11;
+        Tue, 23 Nov 2021 05:17:47 -0800 (PST)
+X-Received: by 2002:ab0:15a1:: with SMTP id i30mr8827372uae.122.1637673466803;
+ Tue, 23 Nov 2021 05:17:46 -0800 (PST)
 MIME-Version: 1.0
-References: <87y25owlp0.wl-kuninori.morimoto.gx@renesas.com> <87wnl8wloh.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wnl8wloh.wl-kuninori.morimoto.gx@renesas.com>
+References: <20211118191826.2026-1-biju.das.jz@bp.renesas.com> <20211118191826.2026-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211118191826.2026-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 12:42:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXtHUsKw5DQjSs-ANNiyptumydshdQaiyL7bSHa5B=eKg@mail.gmail.com>
-Message-ID: <CAMuHMdXtHUsKw5DQjSs-ANNiyptumydshdQaiyL7bSHa5B=eKg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use
- audio-graph-card2 for sound
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Magnus <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 23 Nov 2021 14:17:35 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVR4u2neQ5u4hQM93GDF-=TWr9WJ9OPJux4hXo_agR13w@mail.gmail.com>
+Message-ID: <CAMuHMdVR4u2neQ5u4hQM93GDF-=TWr9WJ9OPJux4hXo_agR13w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r9a07g044: Add OSTM nodes
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
-
-On Tue, Nov 16, 2021 at 9:26 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Thu, Nov 18, 2021 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add OSTM{0,1,2} nodes to RZ/G2L SoC DTSI.
 >
-> Current ULCB{-KF} are using audio-graph-card.
-> Now ALSA is supporting new audio-graph-card2 which can easily handle
-> more advanced feature. Let's switch to use it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
-Unfortunately this introduces several errors from "make dtbs_check
-DT_SCHEMA_FILES=Documentation/devicetree/bindings/sound/renesas,rsnd.yaml".
-Probably the renesas,rand need to be amended first?
-
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -302,12 +302,9 @@ rsnd_port2: port@2 {
->                         reg = <2>;
->                         rsnd_for_pcm3168a_play: endpoint {
->                                 remote-endpoint = <&pcm3168a_endpoint_p>;
-> -
-> -                               dai-format = "i2s";
-> -                               bitclock-master = <&rsnd_for_pcm3168a_play>;
-> -                               frame-master = <&rsnd_for_pcm3168a_play>;
-> +                               bitclock-master;
-> +                               frame-master;
-
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@2: Unevaluated properties are not allowed ('reg',
-'phandle', 'endpoint' were unexpected)
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@2:endpoint:frame-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@2:endpoint:bitclock-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-
->                                 dai-tdm-slot-num = <8>;
-> -
->                                 playback = <&ssi3>;
->                         };
->                 };
-> @@ -315,12 +312,9 @@ rsnd_port3: port@3 {
->                         reg = <3>;
->                         rsnd_for_pcm3168a_capture: endpoint {
->                                 remote-endpoint = <&pcm3168a_endpoint_c>;
-> -
-> -                               dai-format = "i2s";
-> -                               bitclock-master = <&rsnd_for_pcm3168a_capture>;
-> -                               frame-master = <&rsnd_for_pcm3168a_capture>;
-> +                               bitclock-master;
-> +                               frame-master;
-
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@3: Unevaluated properties are not allowed ('reg',
-'phandle', 'endpoint' were unexpected)
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@3:endpoint:frame-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml: sound@ec500000:
-ports:port@3:endpoint:bitclock-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-
->                                 dai-tdm-slot-num = <6>;
-> -
->                                 capture  = <&ssi4>;
->                         };
->                 };
-> @@ -360,10 +354,10 @@ wlcore: wlcore@2 {
->  };
->
->  &sound_card {
-> -       dais = <&rsnd_port0     /* ak4613 */
-> -               &rsnd_port1     /* HDMI0  */
-> -               &rsnd_port2     /* pcm3168a playback */
-> -               &rsnd_port3     /* pcm3168a capture  */
-> +       links = <&rsnd_port0    /* ak4613 */
-> +                &rsnd_port1    /* HDMI0  */
-> +                &rsnd_port2    /* pcm3168a playback */
-> +                &rsnd_port3    /* pcm3168a capture  */
->                 >;
->  };
->
-> diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> index 7edffe7f8cfa..b4e69d212970 100644
-> --- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-> @@ -94,11 +94,11 @@ reg_3p3v: regulator1 {
->         };
->
->         sound_card: sound {
-> -               compatible = "audio-graph-card";
-> +               compatible = "audio-graph-card2";
->                 label = "rcar-sound";
->
-> -               dais = <&rsnd_port0     /* ak4613 */
-> -                       &rsnd_port1     /* HDMI0  */
-> +               links = <&rsnd_port0    /* ak4613 */
-> +                        &rsnd_port1    /* HDMI0  */
->                         >;
->         };
->
-> @@ -411,11 +411,8 @@ rsnd_port0: port@0 {
->                         reg = <0>;
->                         rsnd_for_ak4613: endpoint {
->                                 remote-endpoint = <&ak4613_endpoint>;
-> -
-> -                               dai-format = "left_j";
-> -                               bitclock-master = <&rsnd_for_ak4613>;
-> -                               frame-master = <&rsnd_for_ak4613>;
-> -
-> +                               bitclock-master;
-> +                               frame-master;
-
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@0: Unevaluated properties are not allowed ('reg',
-'phandle', 'endpoint' were unexpected)
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@0:endpoint:frame-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@0:endpoint:bitclock-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-
->                                 playback = <&ssi0>, <&src0>, <&dvc0>;
->                                 capture  = <&ssi1>, <&src1>, <&dvc1>;
->                         };
-> @@ -424,11 +421,8 @@ rsnd_port1: port@1 {
->                         reg = <1>;
->                         rsnd_for_hdmi: endpoint {
->                                 remote-endpoint = <&dw_hdmi0_snd_in>;
-> -
-> -                               dai-format = "i2s";
-> -                               bitclock-master = <&rsnd_for_hdmi>;
-> -                               frame-master = <&rsnd_for_hdmi>;
-> -
-> +                               bitclock-master;
-> +                               frame-master;
-
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@1: Unevaluated properties are not allowed ('reg',
-'phandle', 'endpoint' were unexpected)
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@1:endpoint:frame-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-arch/arm64/boot/dts/renesas/r8a77951-ulcb.dt.yaml: sound@ec500000:
-ports:port@1:endpoint:bitclock-master: True is not of type 'array'
-        From schema: Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-
->                                 playback = <&ssi2>;
->                         };
->                 };
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17.
 
 Gr{oetje,eeting}s,
 
