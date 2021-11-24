@@ -2,74 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C18845CDDB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 428D845CECF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 22:17:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242466AbhKXUTl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 15:19:41 -0500
-Received: from mxout03.lancloud.ru ([45.84.86.113]:43884 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241088AbhKXUTk (ORCPT
+        id S231199AbhKXVUU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 16:20:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229663AbhKXVUU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 15:19:40 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru E56CC20A4737
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [RFC 0/2] Add Rx checksum offload support
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Biju Das" <biju.das@bp.renesas.com>
-References: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <50544d12-01f1-2ec0-a9e1-992a307cc781@omp.ru>
-Date:   Wed, 24 Nov 2021 23:16:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 24 Nov 2021 16:20:20 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A36C061574;
+        Wed, 24 Nov 2021 13:17:09 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id w1so16327312edc.6;
+        Wed, 24 Nov 2021 13:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=00KTYtEVsB/JgICgL5+7F6xvknBL/LuJ0axCWD6ZE38=;
+        b=YABQUa2sTClCdEKU4nDfoxB4kzih6LAkw1DAz0wdhwvX86nUDQi2m2uDlN/Ms4n6IS
+         objjQ6AiUowfgp2AADmA5akYyXYW7TaK1E2CnONS4Pr7fZZ50J1uwJnPBFfoapCG5T4H
+         U/WDILIcJ5StmFe28ItK+Sh6zrH2XDZ4gT4LBwvh613zFrewXw7+utEmMPJtcxzHyu9n
+         lo8GAPVz86eg+vjQN/KK8KiDZZxgU/jymmvRPRjPM2JiXb5/iomX9n/YPhay5nCAju+J
+         rgCRkWhrSyTGAqh3bTPmUHaud7qMdUtyr16NHEe0VnOoigwGA+Kp0rbfLJI/Nh6b0zRx
+         Alug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=00KTYtEVsB/JgICgL5+7F6xvknBL/LuJ0axCWD6ZE38=;
+        b=sVUoLr4b+56ew/wSlUFaMpq6SnokBsJ4Ta7bxLYVOIkJ0iSXSeGoRtAtqNRYWMREoI
+         rE5CoSbBX71QNz0zmjTuVK2IY5pqJtTpomrDClIwX1Bw6xV93t7Rn3KrLyOa4IkIEqm1
+         wZVI116oPTL2jECcykvyr0XEQm8HIipUljvFjdDNmvwd5qCSIM7epydmHF7CpvGeRI3R
+         D4jlbljeWFjDfRwC6B3/pB9lO74k37b4xgNoKA1Pxtb1JyDCTQS7XrCYmiZY2FKHm304
+         FwbnAcaJIYmEmAL9/kByrGQZdzGf/gfOkjg5SlsDklTV/knSzTxHluhr9GG4J49ZSnxD
+         lxlQ==
+X-Gm-Message-State: AOAM531oHHeGN8zt9fX12V4npC6wWkZFGNxifUcHdvdgOWVjijVa0iY+
+        Q3VD5SuyrBlrrn8+TtyxnNM7e13v1WHBnDzyAHMJZhWGmPU=
+X-Google-Smtp-Source: ABdhPJy5YC+xwZAOE+g84VovP/EOQKJZFftEpZ+x89MGpsgWp/PR1rmIydUIzFlwq5aUVb6ULo6f+PQd1wbGE5bTDk4=
+X-Received: by 2002:a17:907:75f0:: with SMTP id jz16mr24856230ejc.77.1637788627944;
+ Wed, 24 Nov 2021 13:17:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 24 Nov 2021 15:16:57 -0600
+Message-ID: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+Subject: LP-11 Timeout on RZ/G2 with ov5640
+To:     linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        cstevens@beaconembedded.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/23/21 4:31 PM, Biju Das wrote:
+I am trying to use an OV5640 camera sensor that I've used on both an
+i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
+connected to the 2-lane CSI interface.
 
-> TOE has hw support for calculating IP header checkum for IPV4 and
-> TCP/UDP/ICMP checksum for both IPV4 and IPV6.
-> 
-> This patch series aims to adds Rx checksum offload supported by TOE.
-> 
-> For RX, The result of checksum calculation is attached to last 4byte
-> of ethernet frames. First 2bytes is result of IPV4 header checksum 
-> and next 2 bytes is TCP/UDP/ICMP.
-> 
-> if frame does not have error "0000" attached to checksum calculation
-> result. For unsupported frames "ffff" is attached to checksum calculation
-> result. Cases like IPV6, IPV4 header is always set to "FFFF".
-> 
-> we can test this functionality by the below commands
-> 
-> ethtool -K eth0 rx on --> to turn on Rx checksum offload
-> ethtool -K eth0 rx off --> to turn off Rx checksum offload
-> 
-> Biju Das (2):
->   ravb: Fillup ravb_set_features_gbeth() stub
->   ravb: Add Rx checksum offload support
+I can get the media-ctl to show the routings, and sometimes I can get
+streaming.  Often, I get a timeout:
 
-   That's all fine but why in the world did you separate these patches?
+     rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
 
-MBR, Sergey
+Looking at the various mailing list e-mails for the LP-11, it's
+unclear to me if the timeout is caused by the sensor not doing
+something correctly or the CSI2 misbehaving.
+
+I was hoping someone might have some suggestions of things I can try.
+
+Thank you,
+
+adam
