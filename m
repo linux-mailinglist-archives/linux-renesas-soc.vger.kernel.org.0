@@ -2,123 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E3945CDA8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87BF945CDB3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:12:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244970AbhKXUOB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 15:14:01 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:53102 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244929AbhKXUOB (ORCPT
+        id S244626AbhKXUQF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 15:16:05 -0500
+Received: from www.zeus03.de ([194.117.254.33]:41526 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235260AbhKXUQF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 15:14:01 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 7C9D1209F8B8
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [RFC 2/2] ravb: Add Rx checksum offload support
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Biju Das" <biju.das@bp.renesas.com>
-References: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
- <20211123133157.21829-3-biju.das.jz@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <912abe7c-3097-4d39-01b6-82385f001fa8@omp.ru>
-Date:   Wed, 24 Nov 2021 23:10:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 24 Nov 2021 15:16:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=5h+lbC2uEFO5eMdrljkXLD3H2lYi
+        /fQp5F0AEsOmHOg=; b=BO8O/XK6qe/sWBWEdu/Ot0fUjaT3xqTSwXtVku349r/b
+        zeDfMzbsKR/Jv33XFcElBmzoCSm8AycClDGmKce38oxcaqvbznjR6QDbrnmqu/Az
+        LsqSsI9udID3nbS0QLVGxXhTFarUk8vXk/CS3XL+fcB/aLjIdpEJBqTsNDqiSYo=
+Received: (qmail 1783178 invoked from network); 24 Nov 2021 21:12:53 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Nov 2021 21:12:53 +0100
+X-UD-Smtp-Session: l3s3148p1@3q9Se47RMKogAwDPXwvgALdEH2HxEp75
+Date:   Wed, 24 Nov 2021 21:12:46 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <YZ6cvkvdVM1Ui0Ck@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
+ <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=McG6fn_VX7+OPXUWjX1tYozQPg1eyEz-3fJMx35DiXimg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211123133157.21829-3-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8kTIr+wg0g78RnTl"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=McG6fn_VX7+OPXUWjX1tYozQPg1eyEz-3fJMx35DiXimg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
 
-On 11/23/21 4:31 PM, Biju Das wrote:
+--8kTIr+wg0g78RnTl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> TOE has hw support for calculating IP header checkum for IPV4 and
-> TCP/UDP/ICMP checksum for both IPV4 and IPV6.
-> 
-> This patch adds Rx checksum offload supported by TOE.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb.h      |  4 +++
->  drivers/net/ethernet/renesas/ravb_main.c | 31 ++++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index a96552348e2d..d0e5eec0636e 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -44,6 +44,10 @@
->  #define RAVB_RXTSTAMP_TYPE_ALL	0x00000006
->  #define RAVB_RXTSTAMP_ENABLED	0x00000010	/* Enable RX timestamping */
->  
-> +/* GbEthernet TOE hardware checksum values */
-> +#define TOE_RX_CSUM_OK		0x0000
-> +#define TOE_RX_CSUM_UNSUPPORTED	0xFFFF
 
-   These are hardly needed IMO.
+> I'd argue that debugfs isn't really the right interface for a useful
+> tool that is this LA.
 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index c2b92c6a6cd2..2533e3401593 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -720,6 +720,33 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
->  	}
->  }
->  
-> +static void ravb_rx_csum_gbeth(struct sk_buff *skb)
-> +{
-> +	u32 csum_ip_hdr, csum_proto;
+I have to disagree. This is a kind-of logic analyzer, it is sloppy. To
+emphasize it is for debugging only, I think debugfs is the proper place
+for it.
 
-   Why u32 if both sums are 16-bit?
+But thanks for finding it useful :)
 
-> +	u8 *hw_csum;
-> +
-> +	/* The hardware checksum is contained in sizeof(__sum16) * 2 = 4 bytes
-> +	 * appended to packet data. First 2 bytes is ip header csum and last
-> +	 * 2 bytes is protocol csum.
-> +	 */
-> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
-> +		return;
-> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
-> +	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
-> +
-> +	hw_csum = skb_tail_pointer(skb) - 2 * sizeof(__sum16);
-> +	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
-> +
-> +	skb->ip_summed = CHECKSUM_NONE;
-> +	if (csum_proto == TOE_RX_CSUM_OK) {
-> +		if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr == TOE_RX_CSUM_OK)
-> +			skb->ip_summed = CHECKSUM_UNNECESSARY;
-> +		else if (skb->protocol == htons(ETH_P_IPV6) &&
-> +			 csum_ip_hdr == TOE_RX_CSUM_UNSUPPORTED)
-> +			skb->ip_summed = CHECKSUM_UNNECESSARY;
 
-   Checksum is unsupported and you declare it unnecessary?
+--8kTIr+wg0g78RnTl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +	}
+-----BEGIN PGP SIGNATURE-----
 
-   Now where's a call to skb_trim()?
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGenLoACgkQFA3kzBSg
+KbZTHBAAl53joTubydDtvDudsOhnY1cCG3jItCrq6QwPsm4d/4gw3fsgCuZiWNKB
+tuismw4Fp8Heq5krH4D7n0lWw36VzIo8UrMZeocI1LW9SV8DL9os1ZjVh5wIMKen
+LEa8rjnFsOg29TKjxw5Yuo0K2td0zNQalvF51VwU21QoD++kfhYdcDJkIfT4/3GO
+uafwKgudSwBzw3X71fUi4LVjEYcTHHcv00dlazfrKxYWXdib79ZF+0i/mHJPjKcr
+icR26/rJ9fWa26zRyFjajq14oE+fgWGFfWkrfFfVmtX/NDR16NcbYrHItcRpi9p/
+pB2tqopqoweMA3B8YV1IWypKuiYSk9AhZcAad3dXPeee+pnpW+25SgnR2vtS5pHf
+eEOko+yzep/LongwLeE7qySt8k3+N7LadxRJ41o7QMbRQuTVrdZLaQTidzRpWd88
+UKGQd1fQZBLnwWYLr5PTcK60LLC/oZ6SGYQe2LBwQdp6c8h0cSK7i06nm0i1/GkZ
+toP5AbhvkLA6BW5Sv8ZB6ZOeDBVE/8AUkh8ZCP3Y7QVgT2cn0y218I/llOHZMdNW
+XJjdACTO9A40srGu4RePqiomv5G6KDJfRX5Dd5xgOvk/rbu7HvVSDYj7Hi5onePT
+WXE4ZigI3JuYx6yK50Mn8sxSOb3pn7ej61uvekUHkUgpOZxRZUw=
+=VLxN
+-----END PGP SIGNATURE-----
 
-[...]
-
-MBR, Sergey
+--8kTIr+wg0g78RnTl--
