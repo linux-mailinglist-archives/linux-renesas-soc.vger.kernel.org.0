@@ -2,92 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87BF945CDB3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C18845CDDB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244626AbhKXUQF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 15:16:05 -0500
-Received: from www.zeus03.de ([194.117.254.33]:41526 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235260AbhKXUQF (ORCPT
+        id S242466AbhKXUTl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 15:19:41 -0500
+Received: from mxout03.lancloud.ru ([45.84.86.113]:43884 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241088AbhKXUTk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 15:16:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=5h+lbC2uEFO5eMdrljkXLD3H2lYi
-        /fQp5F0AEsOmHOg=; b=BO8O/XK6qe/sWBWEdu/Ot0fUjaT3xqTSwXtVku349r/b
-        zeDfMzbsKR/Jv33XFcElBmzoCSm8AycClDGmKce38oxcaqvbznjR6QDbrnmqu/Az
-        LsqSsI9udID3nbS0QLVGxXhTFarUk8vXk/CS3XL+fcB/aLjIdpEJBqTsNDqiSYo=
-Received: (qmail 1783178 invoked from network); 24 Nov 2021 21:12:53 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Nov 2021 21:12:53 +0100
-X-UD-Smtp-Session: l3s3148p1@3q9Se47RMKogAwDPXwvgALdEH2HxEp75
-Date:   Wed, 24 Nov 2021 21:12:46 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <YZ6cvkvdVM1Ui0Ck@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
- <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
- <CAMRc=McG6fn_VX7+OPXUWjX1tYozQPg1eyEz-3fJMx35DiXimg@mail.gmail.com>
+        Wed, 24 Nov 2021 15:19:40 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru E56CC20A4737
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC 0/2] Add Rx checksum offload support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "Biju Das" <biju.das@bp.renesas.com>
+References: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <50544d12-01f1-2ec0-a9e1-992a307cc781@omp.ru>
+Date:   Wed, 24 Nov 2021 23:16:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8kTIr+wg0g78RnTl"
-Content-Disposition: inline
-In-Reply-To: <CAMRc=McG6fn_VX7+OPXUWjX1tYozQPg1eyEz-3fJMx35DiXimg@mail.gmail.com>
+In-Reply-To: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 11/23/21 4:31 PM, Biju Das wrote:
 
---8kTIr+wg0g78RnTl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> TOE has hw support for calculating IP header checkum for IPV4 and
+> TCP/UDP/ICMP checksum for both IPV4 and IPV6.
+> 
+> This patch series aims to adds Rx checksum offload supported by TOE.
+> 
+> For RX, The result of checksum calculation is attached to last 4byte
+> of ethernet frames. First 2bytes is result of IPV4 header checksum 
+> and next 2 bytes is TCP/UDP/ICMP.
+> 
+> if frame does not have error "0000" attached to checksum calculation
+> result. For unsupported frames "ffff" is attached to checksum calculation
+> result. Cases like IPV6, IPV4 header is always set to "FFFF".
+> 
+> we can test this functionality by the below commands
+> 
+> ethtool -K eth0 rx on --> to turn on Rx checksum offload
+> ethtool -K eth0 rx off --> to turn off Rx checksum offload
+> 
+> Biju Das (2):
+>   ravb: Fillup ravb_set_features_gbeth() stub
+>   ravb: Add Rx checksum offload support
 
+   That's all fine but why in the world did you separate these patches?
 
-> I'd argue that debugfs isn't really the right interface for a useful
-> tool that is this LA.
-
-I have to disagree. This is a kind-of logic analyzer, it is sloppy. To
-emphasize it is for debugging only, I think debugfs is the proper place
-for it.
-
-But thanks for finding it useful :)
-
-
---8kTIr+wg0g78RnTl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGenLoACgkQFA3kzBSg
-KbZTHBAAl53joTubydDtvDudsOhnY1cCG3jItCrq6QwPsm4d/4gw3fsgCuZiWNKB
-tuismw4Fp8Heq5krH4D7n0lWw36VzIo8UrMZeocI1LW9SV8DL9os1ZjVh5wIMKen
-LEa8rjnFsOg29TKjxw5Yuo0K2td0zNQalvF51VwU21QoD++kfhYdcDJkIfT4/3GO
-uafwKgudSwBzw3X71fUi4LVjEYcTHHcv00dlazfrKxYWXdib79ZF+0i/mHJPjKcr
-icR26/rJ9fWa26zRyFjajq14oE+fgWGFfWkrfFfVmtX/NDR16NcbYrHItcRpi9p/
-pB2tqopqoweMA3B8YV1IWypKuiYSk9AhZcAad3dXPeee+pnpW+25SgnR2vtS5pHf
-eEOko+yzep/LongwLeE7qySt8k3+N7LadxRJ41o7QMbRQuTVrdZLaQTidzRpWd88
-UKGQd1fQZBLnwWYLr5PTcK60LLC/oZ6SGYQe2LBwQdp6c8h0cSK7i06nm0i1/GkZ
-toP5AbhvkLA6BW5Sv8ZB6ZOeDBVE/8AUkh8ZCP3Y7QVgT2cn0y218I/llOHZMdNW
-XJjdACTO9A40srGu4RePqiomv5G6KDJfRX5Dd5xgOvk/rbu7HvVSDYj7Hi5onePT
-WXE4ZigI3JuYx6yK50Mn8sxSOb3pn7ej61uvekUHkUgpOZxRZUw=
-=VLxN
------END PGP SIGNATURE-----
-
---8kTIr+wg0g78RnTl--
+MBR, Sergey
