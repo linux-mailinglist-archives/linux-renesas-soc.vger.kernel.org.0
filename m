@@ -2,123 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D69145CB1A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 18:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E3945CDA8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 21:10:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235868AbhKXRif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 12:38:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235810AbhKXRie (ORCPT
+        id S244970AbhKXUOB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 15:14:01 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:53102 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244929AbhKXUOB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 12:38:34 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5278CC06173E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Nov 2021 09:35:24 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id r25so13875515edq.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Nov 2021 09:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VIzR8IOa6EfRIfwMPK/5HHQ202RzR4bvuMordnpXv5M=;
-        b=tNIVwl6lGRxeF3ACJrOO3bsDPT5/oaq889qSjoXeNSkw01hN4119lpORpBlHRwZq0j
-         IPYYHCYpa6Mg+7qNtSAGy29v2gNTCbm6w7gIFHsv42B7+eg/XbUdvp8HCaS9klXsEbx0
-         l2HnubZe+PZJ3Igx49P1iWkrUZ8/uPtLzV15fPs74o3HLQWPYp0DSwz+FU3BFse5ZeVO
-         8QMPmkuRuAQRSLYaBnpWfG0ypvtaLhmsfk7rTZwthuvvO1Sbbzhhsb162t4ynitwNEm3
-         tPOVY6Yl5jjCP3RBkItUMBRNo1WWon7rSXBYOsOZjoR4ED40/v85ZhF25lOMGN54m6eO
-         CsbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VIzR8IOa6EfRIfwMPK/5HHQ202RzR4bvuMordnpXv5M=;
-        b=70meCpv0gsBvYLSzSx212doO+XJ/AkYAlH8h29FYkLL9NcNajtoTSYuWTSa4FEO2wQ
-         Ez5hhdtw93E6Tc9cWJjrpasrV9vsOGVjsX7uxE0ALGF5ZSkfRjMQ0AoKMEt8N0Y4ExEZ
-         7n3tpNI2WR2s6dLcS4JskIIjLRWSmE2sK4s7/YwMrDErmvSEE1Owk9V8M8Y13cady7dd
-         eGB9nQtfZNHFpFlJzDRyn1CXMLJJ4kqpwj5rNDCRpsvFSy5DW9+tR6p05kUDDN//90xP
-         EZEaoVvIRyQ+kZCJpnxzwTPqiWFrbRSiZoyP2lGPpIntU6IH0A972qLWkZPJ3gc5+3Cy
-         lq2A==
-X-Gm-Message-State: AOAM533RaYPCImaHbsuCmBe/XfCWzgNx+KpXyrXmmVViL5gwvsdemyHp
-        AR901dEXxfMTRkSffh6kuAAs5chrqMZ65TFNmYj04MO2hJQ=
-X-Google-Smtp-Source: ABdhPJxYYGd93NuWHPVWBFCVEFHobFnLt4UDeaZwEBC5AdrJnoH/OuOsk9ByxZ8GjFmAHpPXtsWNJ/MivZ3P6TIQGt8=
-X-Received: by 2002:a50:da4e:: with SMTP id a14mr28152488edk.154.1637775322864;
- Wed, 24 Nov 2021 09:35:22 -0800 (PST)
+        Wed, 24 Nov 2021 15:14:01 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 7C9D1209F8B8
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [RFC 2/2] ravb: Add Rx checksum offload support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "Biju Das" <biju.das@bp.renesas.com>
+References: <20211123133157.21829-1-biju.das.jz@bp.renesas.com>
+ <20211123133157.21829-3-biju.das.jz@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <912abe7c-3097-4d39-01b6-82385f001fa8@omp.ru>
+Date:   Wed, 24 Nov 2021 23:10:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20211115135032.129227-1-julien.massot@iot.bzh>
- <20211115135032.129227-4-julien.massot@iot.bzh> <20211122183758.GC2686563@p14s>
- <8f3f6316-f2fd-4762-83ce-ccd9ce223472@iot.bzh>
-In-Reply-To: <8f3f6316-f2fd-4762-83ce-ccd9ce223472@iot.bzh>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Wed, 24 Nov 2021 10:35:11 -0700
-Message-ID: <CANLsYkxmo9KHCFiVP0f9k4sFqO6EAm-Ow=swXZ_UrDgY+yk20A@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211123133157.21829-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 24 Nov 2021 at 04:07, Julien Massot <julien.massot@iot.bzh> wrote:
->
-> Hi Mathieu,
-> Thanks for the review !
->
-> >> +config RCAR_REMOTEPROC
-> >> +    tristate "Renesas R-CAR Gen3 remoteproc support"
-> >> +    depends on ARCH_RENESAS
-> >> +    depends on REMOTEPROC
-> >
-> > You should be able to remove the dependency on REMOTEPROC since this is already in
-> > the "if REMOTEPROC" block.
-> Will fix.
->
-> ...
-> >
-> >> +
-> >> +    dev_dbg(dev, "map memory: %pa+%lx\n", &mem->dma, mem->len);
-> >> +    va = ioremap_wc(mem->dma, mem->len);
-> >> +    if (IS_ERR_OR_NULL(va)) {
-> >> +            dev_err(dev, "Unable to map memory region: %pa+%lx\n",
-> >
-> > The sparse checker doesn't like %lx so probably be better to go with just %x.
-> > Apologies for suggesting to use %lx.
->
-> With %x gcc complains on arm64 build will go back to %zx.
+Hello!
 
-Ok
+On 11/23/21 4:31 PM, Biju Das wrote:
 
->
-> >
-> >> +                    &mem->dma, mem->len);
-> >> +            return -ENOMEM;
-> >> +    }
-> >> +
-> >> +    /* Update memory entry va */
-> >> +    mem->va = va;
-> >
-> > Talking about the sparse checker, you will see complaints about @va not being of
-> > type "void __iomem *".  You can ignore those as this would likely require to
-> > refactor the rproc_mem_entry structure, which is outside the scope of this work.
->
-> Ok, to be honest, I was not aware of the sparse tool, thanks a lot to point me to
-> this tool.
->
-> >
-> > This set is just as clean as the RFC.  If it wasn't for the DTS bindings that
-> > need to be ack'ed by Rob, I probably would have made the above modifications and
-> > applied this patch.
-> >
-> > Thanks,
-> > Mathieu
->
-> No problem will send a v2.
->
-> Regards,
-> Julien
-> --
-> Julien Massot [IoT.bzh]
->
+> TOE has hw support for calculating IP header checkum for IPV4 and
+> TCP/UDP/ICMP checksum for both IPV4 and IPV6.
+> 
+> This patch adds Rx checksum offload supported by TOE.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  4 +++
+>  drivers/net/ethernet/renesas/ravb_main.c | 31 ++++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index a96552348e2d..d0e5eec0636e 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -44,6 +44,10 @@
+>  #define RAVB_RXTSTAMP_TYPE_ALL	0x00000006
+>  #define RAVB_RXTSTAMP_ENABLED	0x00000010	/* Enable RX timestamping */
+>  
+> +/* GbEthernet TOE hardware checksum values */
+> +#define TOE_RX_CSUM_OK		0x0000
+> +#define TOE_RX_CSUM_UNSUPPORTED	0xFFFF
+
+   These are hardly needed IMO.
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index c2b92c6a6cd2..2533e3401593 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -720,6 +720,33 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
+>  	}
+>  }
+>  
+> +static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+> +{
+> +	u32 csum_ip_hdr, csum_proto;
+
+   Why u32 if both sums are 16-bit?
+
+> +	u8 *hw_csum;
+> +
+> +	/* The hardware checksum is contained in sizeof(__sum16) * 2 = 4 bytes
+> +	 * appended to packet data. First 2 bytes is ip header csum and last
+> +	 * 2 bytes is protocol csum.
+> +	 */
+> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
+> +		return;
+> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
+> +	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +
+> +	hw_csum = skb_tail_pointer(skb) - 2 * sizeof(__sum16);
+> +	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +
+> +	skb->ip_summed = CHECKSUM_NONE;
+> +	if (csum_proto == TOE_RX_CSUM_OK) {
+> +		if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr == TOE_RX_CSUM_OK)
+> +			skb->ip_summed = CHECKSUM_UNNECESSARY;
+> +		else if (skb->protocol == htons(ETH_P_IPV6) &&
+> +			 csum_ip_hdr == TOE_RX_CSUM_UNSUPPORTED)
+> +			skb->ip_summed = CHECKSUM_UNNECESSARY;
+
+   Checksum is unsupported and you declare it unnecessary?
+
+> +	}
+
+   Now where's a call to skb_trim()?
+
+[...]
+
+MBR, Sergey
