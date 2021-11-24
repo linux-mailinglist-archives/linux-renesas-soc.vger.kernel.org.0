@@ -2,96 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFEB45CFE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 23:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDF2245D000
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 23:24:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234403AbhKXWPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 17:15:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244618AbhKXWPy (ORCPT
+        id S1343703AbhKXW1R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 17:27:17 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41490 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235257AbhKXW1Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 17:15:54 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3AEBC061574;
-        Wed, 24 Nov 2021 14:12:44 -0800 (PST)
+        Wed, 24 Nov 2021 17:27:16 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42984340;
-        Wed, 24 Nov 2021 23:12:42 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22BA490E;
+        Wed, 24 Nov 2021 23:24:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637791962;
-        bh=PfP/xuAr48OfrS0rYl8j4rP8WU/91eEfUs+4yvpJpUo=;
+        s=mail; t=1637792645;
+        bh=vGq/mWDN73zRjz5iYjQyDsaWynM5Pl579Af8Jj8N4T8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jkgYZ1uJyJZ/h6Vk/Hx04c7+Gi5BlUOQxVH+E0/zVtZqoSMgnnP7s0pB37QA8bv/y
-         iaP387HpVrM2KxKd0P8AWrFbTAs4M6ZTHfEU3iqjl4W/rROwwgenpozg/Y2AKxHMyM
-         Iez2wv/XZKGfTQSioSZTc47ECs2iEp2htWcLf1LE=
-Date:   Thu, 25 Nov 2021 00:12:18 +0200
+        b=Vg9ONYU4JmUHPYeU9lmXZacaxmFX4qiaVAbN9Mvusd+vxP3gT9unwY/3lIoWdbkQm
+         MPVrmXqXGHukDcLbXzQmt6sa/XRmgzUyKnoZQIyitzn1D27991YndR2mErMcbHEH7J
+         ARakHk/D28WJsYwBwQpm7gVGJCdEjr/DiSv0tb+c=
+Date:   Thu, 25 Nov 2021 00:23:42 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        cstevens@beaconembedded.com, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
-Message-ID: <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
-References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: ulcb: Merge hdmi0_con
+Message-ID: <YZ67btQ8IxlIBdsh@pendragon.ideasonboard.com>
+References: <20211124152815.3926961-1-kieran.bingham+renesas@ideasonboard.com>
+ <20211124152815.3926961-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+In-Reply-To: <20211124152815.3926961-2-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+Hi Kieran,
 
-(CC'ing Sakari)
+Thank you for the patch.
 
-On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
-> I am trying to use an OV5640 camera sensor that I've used on both an
-> i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
-> connected to the 2-lane CSI interface.
+On Wed, Nov 24, 2021 at 03:28:14PM +0000, Kieran Bingham wrote:
+> The remote endpoint for the hdmi connector is specfied through a
+> reference to the hdmi0_con endpoint, which is in the same file.
 > 
-> I can get the media-ctl to show the routings, and sometimes I can get
-> streaming.  Often, I get a timeout:
+> Simplify by specifying the remote-endpoint directly in the hdmi0_con
+> endpoint.
 > 
->      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+I saw this earlier today and made a note to fix it. You were faster :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  arch/arm64/boot/dts/renesas/ulcb.dtsi | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> Looking at the various mailing list e-mails for the LP-11, it's
-> unclear to me if the timeout is caused by the sensor not doing
-> something correctly or the CSI2 misbehaving.
-
-Before transitioning to the high speed (HS) mode, the D-PHY transmitter
-must drive the lane in the LP-11 state. This is the idle state of the
-lane when powered up and when not in the ultra low-power state (ULPS).
-The transition to HS mode on the receiver side involves observing the
-LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
-in LP-11 state, and only then starting the sensor to transition to HS.
-This requires powering up the D-PHY TX and going to idle mode, which
-most sensors support. As we're deprecating the .s_power() subdev
-operation, however, we have no way to power up the sensor without
-starting it before the D-PHY RX gets configured.
-
-In some cases, the D-PHY RX can handle the power up sequence
-automatically. They can be fully configured (from a software point of
-view) while the lane is in the power down state LP-00, and they then
-handle the transition to the stop state LP-11 and to the HS mode
-automatically. This isn't true for all receivers, some need software
-configuration after the data lane reaches the LP-11 state and before it
-transitions to HS mode. According to the documentation, the R-Car CSI-2
-receiver requires software intervention between LP-11 and HS mode at
-least on V3M and E3. There's also a software configuration step on H3,
-M3N, V3H and V3U, but there's a chance that one could possibly be
-bypassed.
-
-> I was hoping someone might have some suggestions of things I can try.
-
-I would first try to power up the sensor at probe time and keep it power
-forever, to see if it solves your issue. If it does, then introducing a
-CSI-2-specific subdev operation to power up the sensor (or officially
-de-deprecating .s_power() for this use case) could be an option to fix
-the issue properly.
+> diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+> index 7edffe7f8cfa..a7e93df4ced8 100644
+> --- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+> @@ -48,6 +48,7 @@ hdmi0-out {
+>  
+>  		port {
+>  			hdmi0_con: endpoint {
+> +				remote-endpoint = <&rcar_dw_hdmi0_out>;
+>  			};
+>  		};
+>  	};
+> @@ -199,10 +200,6 @@ dw_hdmi0_snd_in: endpoint {
+>  	};
+>  };
+>  
+> -&hdmi0_con {
+> -	remote-endpoint = <&rcar_dw_hdmi0_out>;
+> -};
+> -
+>  &i2c2 {
+>  	pinctrl-0 = <&i2c2_pins>;
+>  	pinctrl-names = "default";
 
 -- 
 Regards,
