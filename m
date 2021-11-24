@@ -2,103 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AECFC45B8D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 12:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E939545B8F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 12:14:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232959AbhKXLKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 06:10:25 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:50514 "EHLO frontal.iot.bzh"
+        id S240818AbhKXLRl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 06:17:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59244 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229588AbhKXLKY (ORCPT
+        id S234726AbhKXLRk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 06:10:24 -0500
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 0C3261A35E;
-        Wed, 24 Nov 2021 12:07:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:content-type:content-type:date:from
-        :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=KVKwBqXwFz0w32vfPqR77cBz/7
-        te34V67c9tICosQJo=; b=W2kLpfLeR8g5F1ji/Pp2YcqRmyPdq34zFsDgYL/Avc
-        EwHqP0qM/bJtUAfokxgpTCPvgQFdXXlEYgZq++UxYCfu69R+CkuY6iTzRUpsltgx
-        UB8Y1T0BLt+bNtuChoMbaj+6yDJN+apBO2giywkXUMpcJAbO7CWqhqz4LuRkzfI3
-        ve0SquZeG9qSJTcguaQgRSl/lKX0VgBUq3oJXGnSf74B5lzo/x+umx1oHBPanmUB
-        MVWOPe+eLKwre4gHUkudruBjeHlN8iPpVLePbGB4sjXmrHiNQoY4KIa4LhQGDx+Q
-        lBFqORzNp/XAuSozrwMtF3DSuwS6T3FAU8we7GlPUlTQ==
-Message-ID: <8f3f6316-f2fd-4762-83ce-ccd9ce223472@iot.bzh>
-Date:   Wed, 24 Nov 2021 12:07:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v1 3/3] remoteproc: Add Renesas rcar driver
-Content-Language: en-US
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-References: <20211115135032.129227-1-julien.massot@iot.bzh>
- <20211115135032.129227-4-julien.massot@iot.bzh>
- <20211122183758.GC2686563@p14s>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <20211122183758.GC2686563@p14s>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Wed, 24 Nov 2021 06:17:40 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4802D60E08;
+        Wed, 24 Nov 2021 11:14:31 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mpqEO-007UV8-Tg; Wed, 24 Nov 2021 11:14:29 +0000
+Date:   Wed, 24 Nov 2021 11:14:28 +0000
+Message-ID: <87ee75dcvf.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Rob Herring <robh@kernel.org>, John Crispin <john@phrozen.org>,
+        Biwen Li <biwen.li@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
+In-Reply-To: <CAMuHMdWd9mJe8hGNdH5VR-qJOxgfT4YtFfOmQA=uV4QPsvpqtA@mail.gmail.com>
+References: <20211122103032.517923-1-maz@kernel.org>
+        <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
+        <8735no70tt.wl-maz@kernel.org>
+        <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
+        <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
+        <87tug3clvc.wl-maz@kernel.org>
+        <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+        <87r1b7ck40.wl-maz@kernel.org>
+        <CAMuHMdWd9mJe8hGNdH5VR-qJOxgfT4YtFfOmQA=uV4QPsvpqtA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, chris.brandt@renesas.com, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kernel-team@android.com, robh@kernel.org, john@phrozen.org, biwen.li@nxp.com, linux-renesas-soc@vger.kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mathieu,
-Thanks for the review !
-
->> +config RCAR_REMOTEPROC
->> +	tristate "Renesas R-CAR Gen3 remoteproc support"
->> +	depends on ARCH_RENESAS
->> +	depends on REMOTEPROC
+On Wed, 24 Nov 2021 07:54:48 +0000,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 > 
-> You should be able to remove the dependency on REMOTEPROC since this is already in
-> the "if REMOTEPROC" block.
-Will fix.
-
-...
+> Hi Marc,
 > 
->> +
->> +	dev_dbg(dev, "map memory: %pa+%lx\n", &mem->dma, mem->len);
->> +	va = ioremap_wc(mem->dma, mem->len);
->> +	if (IS_ERR_OR_NULL(va)) {
->> +		dev_err(dev, "Unable to map memory region: %pa+%lx\n",
+> On Tue, Nov 23, 2021 at 10:11 AM Marc Zyngier <maz@kernel.org> wrote:
+> > On Tue, 23 Nov 2021 08:44:19 +0000,
+> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > > On Tue, 23 Nov 2021 07:57:48 +0000,
+> > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > Summarized:
+> > > > >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
+> > > > >     and the number of interrupts seen is correct, but input events
+> > > > >     are doubled.
+> > > > >   - After the bad commit, irqc-rza1 is not invoked, and there is an
+> > > > >     interrupt storm, but input events are OK.
+> > > >
+> > > > OK, that's reassuring, even if the "twice the events" stuff isn't what
+> > > > you'd expect. We at least know this is a separate issue, and that this
+> > > > patch on top of -rc1 brings you back to the 5.15 behaviour.
+> > > >
+> > > > I'd expect it to be the case for the other platforms as well.
+> > >
+> > > OK.
+> > >
+> > > BTW, what would have been the correct way to do this for irqc-rza1?
+> > > I think we're about to make the same mistake with RZ/G2L IRQC
+> > > support[1]?
+> >
+> > Indeed, and I was about to look into it.
+> >
+> > There are multiple ways to skin this cat, including renaming
+> > 'interrupt-map' to 'my-own-private-interrupt-map'. Or use something
+> > akin the new 'msi-range' (which we could call interrupt-range), and
+> > replace:
 > 
-> The sparse checker doesn't like %lx so probably be better to go with just %x.
-> Apologies for suggesting to use %lx.
+> "interrupt-ranges" (with trailing "S"), cfr. "msi-ranges"?
 
-With %x gcc complains on arm64 build will go back to %zx.
+Yes, absolutely. I keep thinking of it in the singular form, but it
+absolutely needs to be plural.
 
+> >   interrupt-map = <0 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <1 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <2 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <3 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <4 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <5 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <6 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <7 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+> >
+> > with:
+> >
+> >   interrupt-range = <&gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH 0 8>;
+> >
+> > which reads as "base interrupt spec", "start pin", "count".  This
+> > gives you almost the same level of information, and doesn't interfere
+> > with the rest of the DT properties. Parsing it is also much simpler.
 > 
->> +			&mem->dma, mem->len);
->> +		return -ENOMEM;
->> +	}
->> +
->> +	/* Update memory entry va */
->> +	mem->va = va;
+> And in the non-consecutive case, you need multiple ranges, right?
+
+That's the idea. The nice part about this is that you can grab each
+range with of_parse_phandle_with_args() + two read_u32_index. The bad
+part is that you have to know what part of the intspec needs to be
+hacked to provide the range, but you already have this built-in in any
+hierarchical interrupt controller driver.
+
+> > But that's up to you, really.
 > 
-> Talking about the sparse checker, you will see complaints about @va not being of
-> type "void __iomem *".  You can ignore those as this would likely require to
-> refactor the rproc_mem_entry structure, which is outside the scope of this work.
+> Chris: do you think we can still do this for RZ/A, or do we have too
+> many users in the wild using the upstream code?
 
-Ok, to be honest, I was not aware of the sparse tool, thanks a lot to point me to
-this tool.
+Honestly, I don't think it is worth it. There are a number of other
+irqchips in the same boat, and nobody will ever update them (the fsl
+stuff, for example). I'd rather you focus on the new stuff to make it
+right.
 
-> 
-> This set is just as clean as the RFC.  If it wasn't for the DTS bindings that
-> need to be ack'ed by Rob, I probably would have made the above modifications and
-> applied this patch.
-> 
-> Thanks,
-> Mathieu
+Thanks,
 
-No problem will send a v2.
+	M.
 
-Regards,
-Julien
 -- 
-Julien Massot [IoT.bzh]
-
+Without deviation from the norm, progress is not possible.
