@@ -2,94 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0503445C507
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 14:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46C3045C6B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 15:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347498AbhKXNym (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 08:54:42 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60316 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352134AbhKXNwP (ORCPT
+        id S1351443AbhKXOKo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 09:10:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53830 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1356052AbhKXOIj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 08:52:15 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7694990E;
-        Wed, 24 Nov 2021 14:49:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637761744;
-        bh=RQLrsWnzsrDIoombZHS1b9wa6UWjU3b5sI/mylyuGiI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dM64TiAx6OweN5yPg2HvOBAW08T8PvAWd5KHGQm/X9L29BvVKxqsmCTLUg5HjKB5e
-         +WklaRV028WH5mLz9k65bxS2bVyR9MV2htpMWVr+QfzqpVSTXeb/UpuRcfx/GcEpMH
-         KDCq6f4Lzy3kMZmRqTBVWp+2REycGOeWC68Tpk2o=
-Date:   Wed, 24 Nov 2021 15:48:42 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: HDMI isn't probed on v5.15-rc1 on ULCB+KF
-Message-ID: <YZ5CuiCyNDE7IyNm@pendragon.ideasonboard.com>
-References: <87ilya4zv8.wl-kuninori.morimoto.gx@renesas.com>
- <YV5vB4c8J0xu2mOd@pendragon.ideasonboard.com>
- <87v929moad.wl-kuninori.morimoto.gx@renesas.com>
- <CAMuHMdUxXP86Z-2Tb8t4bK6aBfRT1Toj0jpruEEd8YbeDL+h=A@mail.gmail.com>
- <163585809096.275423.10804585086979279969@Monstersaurus>
- <87bl302598.wl-kuninori.morimoto.gx@renesas.com>
+        Wed, 24 Nov 2021 09:08:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B124C6135F;
+        Wed, 24 Nov 2021 13:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637762378;
+        bh=qRP+clj8R/VdWhftZ8Y8X7gwjyLiR1Ndt0XMFQ1d99I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qwjskdleu3wFs5Bp+wvn7/HQgcncwjzNLbZJvm05oYaNrcYQTwWP5OPt4NA+r19ce
+         xvpj4Ygu81mu+0T0HClP6KV/QWjpcF9snHTHoGaG5tUeLxnTTWkLES0g3C2OG9fyHP
+         3gdMDDzRgjs1FxHFxipNVT3bu4+1WLgAMlUBkLt05N30IajW10WzN8g5y+5eK5i725
+         UrYk6tfyltIEGHPLMkyi6LuRszHy8ZTAL81DcgYxpSc8FxYZIzgFUL244Ub8IMFPQK
+         iyz4glX1RQI/lDwdXU9D49kB+bXi/+6kFMsXGuBY9Lzmn68zgSqocZJHLF6A/zwCj2
+         E8n91Zb/v+PWQ==
+Date:   Wed, 24 Nov 2021 05:59:35 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Paul Walmsley <paul@pwsan.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
+ helpers
+Message-ID: <20211124055935.416dc472@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <05d4673a0343bfd83824d307e9cf8bf92e3814a6.camel@sipsolutions.net>
+References: <cover.1637592133.git.geert+renesas@glider.be>
+        <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
+        <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
+        <20211122171739.03848154@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <CAMuHMdWAAGrQUZN18cnDTDUUhuPNTZTFkRMe2Sbf+s7CedPSxA@mail.gmail.com>
+        <637a4183861a1f2cdab52b7652bfa7ed33fbcdd2.camel@sipsolutions.net>
+        <20211123154922.600fd3b5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <05d4673a0343bfd83824d307e9cf8bf92e3814a6.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87bl302598.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Morimoto-san,
-
-For some reason this mail hadn't made it to the list, nor to my inbox.
-
-On Thu, Nov 04, 2021 at 08:23:15AM +0900, Kuninori Morimoto wrote:
-> 
-> Hi Kieran
-> 
-> > > > =>      [    1.485684] rcar-dw-hdmi fead0000.hdmi: Detected HDMI TX controller v2.01a with HDCP (DWC HDMI 2.0 TX PHY)
-> > > > =>      [    1.496248] rcar-dw-hdmi fead0000.hdmi: registered DesignWare HDMI I2C bus driver
-> > > >         [    1.535173] loop: module loaded
-> > > >         ...
-> > > >
-> > > > This is NG case.
-> > > > DAM failed. rcar-dw-hdmi is not probed.
+On Wed, 24 Nov 2021 09:03:24 +0100 Johannes Berg wrote:
+> On Tue, 2021-11-23 at 15:49 -0800, Jakub Kicinski wrote:
+> > > Indeed.
+> > > 
+> > > Also as I said in my other mail, the le32/be32/... variants are
+> > > tremendously useful, and they fundamentally cannot be expressed with the
+> > > FIELD_GET() or field_get() macros. IMHO this is a clear advantage to the  
 > > 
-> > Was something changed to make this happen between this and the above
-> > test?
+> > Can you elaborate?  
 > 
-> Only reverting the issue patch.
+> Well, the way I see it, the only advantage of FIELD_GET() is that it
+> will auto-determine the type (based on the mask type.) This cannot work
+> if you need be/le conversions, because the be/le type annotations are
+> invisible to the compiler.
 > 
-> > > Note that in both cases feb00000.display failed to probe first
-> > > Is this an fw_devlink issue, due to HDMI linking to DU in DT?
-> > > Does it work with fw_devlink=permissive of fw_devlink=off?
+> So obviously you could write a BE32_FIELD_GET(), but then really that's
+> equivalent to be32_get_bits() - note you you have to actually specify
+> the type in the macro name. I guess in theory you could make macros
+> where the type is an argument (like FIELD_GET_TYPE(be32, ...)), but I
+> don't see how that gains anything.
+
+Ah, that's what you meant! Thanks for spelling it out.
+
+FWIW I never found the be/le versions useful. Most of the time the data
+comes from bus accessors which swap or is unaligned so you have to do
+be/le_get_unaligned, which swaps. Plus if you access/set multiple
+fields you'd swap them one by one which seems wasteful.
+
+> > > typed versions, and if you ask me we should get rid of the FIELD_GETand
+> > > FIELD_PREP entirely - difficult now, but at least let's not propagate
+> > > that?  
 > > 
-> > The DT is all connected up with the ports as I would expect them on
-> > ulcb+kf, but I saw the unanswered question from Geert above. Could you
-> > check that please?
+> > I don't see why.  
 > 
-> In my understanding, Laurent answered it at private meeting.
-> He said it is not related, if my memory was correct.
-> 
-> > Is there anything else specific to replicating this issue? Is it only on
-> > the ULCB+KF? Or does it occur on Salvator-XS too? (And does it need a
-> > specific kernel config to reproduce?)
-> 
-> I could reproduce the same issue on Salvator-XS.
-> I attached my .config on this mail.
+> Just for being more regular, in the spirit of "there's exactly one
+> correct way of doing it" :)
 
-[snip]
+Right now it seems the uppercase macros are more prevalent.
 
-> # CONFIG_DRM_DISPLAY_CONNECTOR is not set
-
-Enabling this option should help.
-
--- 
-Regards,
-
-Laurent Pinchart
+Could just be because of the way the "swapping ones" are defined.
