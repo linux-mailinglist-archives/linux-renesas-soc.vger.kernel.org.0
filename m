@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4016945C6E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 15:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1807E45C707
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 15:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349269AbhKXOPJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 09:15:09 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:34468 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244940AbhKXOO2 (ORCPT
+        id S1357989AbhKXOUx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 09:20:53 -0500
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:35572 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350639AbhKXORg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 09:14:28 -0500
-Received: by mail-vk1-f170.google.com with SMTP id j1so1596596vkr.1;
-        Wed, 24 Nov 2021 06:11:18 -0800 (PST)
+        Wed, 24 Nov 2021 09:17:36 -0500
+Received: by mail-ua1-f44.google.com with SMTP id l24so5440606uak.2;
+        Wed, 24 Nov 2021 06:14:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D03uKb0h9X0ojj5T51VhuuYz1l8Uojh4v6pa2E7cVFU=;
-        b=duKacy+/WZJoXc63CYtd5tito4KUjL/J6yBJ6szCSu/A4OBigoS4pXMMt8NXf38ycE
-         7/HAZHm5j1A75LI3LwqGAUDVF6FgAW0JIiQbOKJg33P1IA+wka9NS6NSOR6wZ/ypl2lc
-         Qn8Hp8FZXwfUFh088SccFoUmo09OcN3+NpcxcgB4It1K3BZTfBYxUjA8QjkEQnbTRavE
-         QLCUTlkVhgjWvfi7gQkHW/spQ91YHU35JEZOmIOUknYtVOat9FwK4yAF8BOqTAbRakGh
-         mikucuwKaa3ldfCBy6XcbXYlKuW7xSSd7qx/sFtCt8AC/r1716CN5+m2QeXNHeHpV/vK
-         1xlg==
-X-Gm-Message-State: AOAM5331iOtb8C8iIe3RZa0FzgsqEPydctI3o23VljtrIsOVzUxmFeIX
-        sM9JLapNIH6IZbKd9g9nHKdQJaimyNCtDQ==
-X-Google-Smtp-Source: ABdhPJz/FrNUB7StvP4v7uzKFujWZR7yAuhxLp8ufdFt/JBmaESolsfJMyR8V+SqO7cqQEXAoNcv5w==
-X-Received: by 2002:a05:6122:1531:: with SMTP id g17mr167999vkq.32.1637763078075;
-        Wed, 24 Nov 2021 06:11:18 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id s2sm8206157uap.7.2021.11.24.06.11.17
+        bh=aHaXIml+9ov44sHf9RSNgNeXg3mPjcuDiHa6lfHBDmA=;
+        b=5Si0eDiJamOgzK7yAvWEUEiru6ElWgWq929YeX3Rm/uA/K8lSXqxnoWEWne9prW9a3
+         ltM0TISRRbo8feeBEAG547d+CSPqUsCaTeXCMKHrQQGTfpV9Pr7mlI2HYXpynhKHoJiN
+         +ryhSySLU7dmIiSTRbP8YgtkVFkmmsHQ/S/iP+F0MipkkkqXu+ElwG2vYVqleSb/nquS
+         0BzNgAcyK75zG4AbIbGEb/Pd3DgZUVURPfJWeIcjQWznvcTzuw/+A/+AISrCoMS8PsZh
+         1XEOB/FKSfF/PfFFJBaD27cntReEdE2w9f6uigerrR5DqvVRWx51OqcL30C90ZHCx82s
+         oN4A==
+X-Gm-Message-State: AOAM5328FCnuLgtKVzTt0knFd+gvVIECu3gEVEE6Ry/3RFnjMdx3lefe
+        zMsT44FgaBMcg0W6o3z5LeDYXC2SucTUWw==
+X-Google-Smtp-Source: ABdhPJw0MbtyBMiPRvYqO/fBm3nbtgrXreQDUVQdQDaqxr2OM1EVAlv9BNqj1AGjk2d7X/oOMTk6yw==
+X-Received: by 2002:a05:6102:105b:: with SMTP id h27mr23754383vsq.60.1637763264326;
+        Wed, 24 Nov 2021 06:14:24 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id r20sm7746082vkq.15.2021.11.24.06.14.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 06:11:17 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id az37so5313796uab.13;
-        Wed, 24 Nov 2021 06:11:17 -0800 (PST)
-X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr23954527vsb.9.1637763077373;
- Wed, 24 Nov 2021 06:11:17 -0800 (PST)
+        Wed, 24 Nov 2021 06:14:24 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id n6so5454080uak.1;
+        Wed, 24 Nov 2021 06:14:23 -0800 (PST)
+X-Received: by 2002:ab0:7354:: with SMTP id k20mr11059233uap.78.1637763263577;
+ Wed, 24 Nov 2021 06:14:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20211123141420.23529-1-biju.das.jz@bp.renesas.com> <20211123141420.23529-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211123141420.23529-3-biju.das.jz@bp.renesas.com>
+References: <20211112081003.15453-1-biju.das.jz@bp.renesas.com> <20211112081003.15453-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211112081003.15453-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 24 Nov 2021 15:11:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU=HJbBLvkssmrW0v+WjKkZMsU6VRkxBmYvC2AWsUL1dQ@mail.gmail.com>
-Message-ID: <CAMuHMdU=HJbBLvkssmrW0v+WjKkZMsU6VRkxBmYvC2AWsUL1dQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2l-smarc-som: Enable watchdog
+Date:   Wed, 24 Nov 2021 15:14:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXxRA0xe=h6ZBSFBGpt_V_kcNRboi-FLbAE9bdtuZ4ubA@mail.gmail.com>
+Message-ID: <CAMuHMdXxRA0xe=h6ZBSFBGpt_V_kcNRboi-FLbAE9bdtuZ4ubA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: r9a07g044: Sort psci node
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -61,8 +61,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 3:14 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable watchdog{0, 1, 2} interfaces on RZ/G2L SMARC EVK.
+On Fri, Nov 12, 2021 at 9:10 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Sort psci node alphabetically.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
