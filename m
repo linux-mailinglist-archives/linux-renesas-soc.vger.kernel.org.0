@@ -2,110 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66EEB45C910
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 16:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7671B45C92A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Nov 2021 16:50:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242228AbhKXPqh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 10:46:37 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:16955 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1344869AbhKXPqd (ORCPT
+        id S1344869AbhKXPyI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Nov 2021 10:54:08 -0500
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:37796 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242021AbhKXPyH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 10:46:33 -0500
-X-IronPort-AV: E=Sophos;i="5.87,260,1631545200"; 
-   d="scan'208";a="101650560"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 25 Nov 2021 00:43:22 +0900
-Received: from localhost.localdomain (unknown [10.226.92.23])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8288C401084A;
-        Thu, 25 Nov 2021 00:43:20 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wed, 24 Nov 2021 10:54:07 -0500
+Received: by mail-ua1-f41.google.com with SMTP id o1so6049390uap.4;
+        Wed, 24 Nov 2021 07:50:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AqdjLPevtkpLJ208GAm/lw/k/TcIvnCN7h4y57XOZ6o=;
+        b=Ym0ve3pRmXzYGeWeutp9ln+ep/0484wVuhPSAt8n+zs7+d8cbNWXCH8iyknwM0ZmWK
+         og1E1tM64OCjvg+nSZ+lQvmdS9CSCQiR/IWEeQexhNloAQHKciVHMnvLr1m7J4ldYZxd
+         ftIpMPhUhJLblBki0BYnpqasezDfMl7vZ3U97B0D6jqUXCVpBOpP5UEj0xTMnpj/0sWK
+         uU9T/4UsJL4mloUDK0fshYmCV1HDkmaZZrmZFXXZPv/+n6OS4sD6th3EzbCbqkAKZX6d
+         ZTqvERyNEAx83WEEo3pK9TWQxV4kW9m1x1Gteyx9r6FHWv+m3nWbFZGSb8CoM3QG7Xmi
+         jB7g==
+X-Gm-Message-State: AOAM532j8fOeS9hdRvvukY8UjRymOCyCdHYSU5swyM1JvNzGT8WyZyV9
+        qWqaJPTAo5CeoOXV4RAu5YFJFh/HF8g5Jg==
+X-Google-Smtp-Source: ABdhPJwv/c3uWVtNxh5K+icYPrFl5r4iqoYN1NL4mhiVuF3dfEKgtfkhYbxqo/t0A9D5G8A+DZe4Kw==
+X-Received: by 2002:ab0:2041:: with SMTP id g1mr11875774ual.131.1637769057394;
+        Wed, 24 Nov 2021 07:50:57 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id b11sm147714vsp.6.2021.11.24.07.50.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Nov 2021 07:50:57 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id a14so6179829uak.0;
+        Wed, 24 Nov 2021 07:50:56 -0800 (PST)
+X-Received: by 2002:a05:6102:2910:: with SMTP id cz16mr25048289vsb.9.1637769056684;
+ Wed, 24 Nov 2021 07:50:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20211124154316.28365-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211124154316.28365-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 24 Nov 2021 16:50:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXNCb6OaQnjuz2PPcDGZ3QPe412v-Sh70HXn6V=a4w9jw@mail.gmail.com>
+Message-ID: <CAMuHMdXNCb6OaQnjuz2PPcDGZ3QPe412v-Sh70HXn6V=a4w9jw@mail.gmail.com>
+Subject: Re: [PATCH v3] arm64: dts: renesas: r9a07g044: Add OPP table
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3] arm64: dts: renesas: r9a07g044: Add OPP table
-Date:   Wed, 24 Nov 2021 15:43:16 +0000
-Message-Id: <20211124154316.28365-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add OPP table for RZ/G2L SoC.
+On Wed, Nov 24, 2021 at 4:43 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add OPP table for RZ/G2L SoC.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Fixed dtbs_check warning. changed node name opp_table->opp-table-0
+>  * Added a blank line after opp-shared.
+> V1->v2:
+>  * Fixed typo cluster1_opp->cluster0_opp
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v2->v3:
- * Fixed dtbs_check warning. changed node name opp_table->opp-table-0
- * Added a blank line after opp-shared.
-V1->v2:
- * Fixed typo cluster1_opp->cluster0_opp
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 31 ++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 43a5d359519a..c83a3b7f580f 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -42,6 +42,33 @@
- 		clock-frequency = <0>;
- 	};
- 
-+	cluster0_opp: opp-table-0 {
-+		compatible = "operating-points-v2";
-+		opp-shared;
-+
-+		opp-150000000 {
-+			opp-hz = /bits/ 64 <150000000>;
-+			opp-microvolt = <1100000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-300000000 {
-+			opp-hz = /bits/ 64 <300000000>;
-+			opp-microvolt = <1100000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-600000000 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-microvolt = <1100000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-1200000000 {
-+			opp-hz = /bits/ 64 <1200000000>;
-+			opp-microvolt = <1100000>;
-+			clock-latency-ns = <300000>;
-+			opp-suspend;
-+		};
-+	};
-+
- 	cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -63,6 +90,8 @@
- 			device_type = "cpu";
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
-+			clocks = <&cpg CPG_CORE R9A07G044_CLK_I>;
-+			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
- 		cpu1: cpu@100 {
-@@ -71,6 +100,8 @@
- 			device_type = "cpu";
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
-+			clocks = <&cpg CPG_CORE R9A07G044_CLK_I>;
-+			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
- 		L3_CA55: cache-controller-0 {
--- 
-2.17.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
