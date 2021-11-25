@@ -2,135 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 399B145D1FD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Nov 2021 01:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 686D945D560
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Nov 2021 08:25:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345505AbhKYA2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Nov 2021 19:28:20 -0500
-Received: from mail-os0jpn01on2120.outbound.protection.outlook.com ([40.107.113.120]:37454
-        "EHLO JPN01-OS0-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1345391AbhKYA0T (ORCPT
+        id S233101AbhKYH3G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Nov 2021 02:29:06 -0500
+Received: from meesny.iki.fi ([195.140.195.201]:42302 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232999AbhKYH1F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Nov 2021 19:26:19 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k5vjH++vCgDsvvYiO8eDHAYVSJ6LMn20mlwihUNM4qGn6JLUHgYIDOm5waGnex5sjMZ3rs3HhsfEFWekjmyUSxHsDVJ/g/ihVwgvC+Dm2Cya11c8lRvX9BW0OqU4+rExV614oFUrq338ETxYC10sDUa7Yk7q+O/THTegvza46Cr1NNkKcqLmqF/mw3QCXns/vi3ZQDWAxBJkor5NtJF6+gOo0WSKwXeePWEipvTNQHZjJpM7s8642zX3gbgU9/U/JnXe5HzvnFHSolKEe74lwM9EawCRN9+kBD7Hs9X74YwQLI5TLsHxRnVAdLAC88DAX/ykmnJKzY17eXHH4CQKDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3lGSsex/CwZ9JX8qBNsN9lcRgCqu1djcopJ6xR0qhWA=;
- b=HxlBA6axSgO4MvF9HCGRm3idat91zTjzpILg1yEnV1yAL6IJT58PJmeAvhGEBxIJaWvQI3duRVn3HbecKv5H+sHSAN4YORNAhDLa+W8qp8UlDDmL0lHFSLzoM+O4wUB7Yqkl+v8xPubM0RqQOwJ8eSfmPo7uBpEq7M74o8bg6vIA3gXMdeWYjDqYn70O/Jh/yWUuvYcLUpfhq6r4ffjMau8X75iTfMdgR3NYGrvQXXXZ/6bXqulnPzZQSKs4lGGIfS5sFdKPonmF+xeqqZg6bvoRXHDOYdHIkLCzliI9DBbx0l8ZiEN/qIVEIECyl58QZLFKQefmOqE7kU+Q4s1GvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3lGSsex/CwZ9JX8qBNsN9lcRgCqu1djcopJ6xR0qhWA=;
- b=n687SDHXo1OqthVwT3rBHjQsxVyOL6FblzNghmm0Ha0mLjNhvWQPWbMm86Yssbg0mL4q7ULE/W64pJbeB1UPl42W2QrqdRsPxda1e1aryfZh84U4Hlp25O7yENoDnxckAFyUeKS9RAJ2wcHwRtTY0aydVCb/QzrhB5uQsaFuh3E=
-Received: from TYCPR01MB5581.jpnprd01.prod.outlook.com (2603:1096:400:a::10)
- by TY2PR01MB3868.jpnprd01.prod.outlook.com (2603:1096:404:d8::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Thu, 25 Nov
- 2021 00:23:06 +0000
-Received: from TYCPR01MB5581.jpnprd01.prod.outlook.com
- ([fe80::d5f2:c948:3e2:ff6b]) by TYCPR01MB5581.jpnprd01.prod.outlook.com
- ([fe80::d5f2:c948:3e2:ff6b%9]) with mapi id 15.20.4713.026; Thu, 25 Nov 2021
- 00:23:06 +0000
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+        Thu, 25 Nov 2021 02:27:05 -0500
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 7ACB7205B6;
+        Thu, 25 Nov 2021 09:23:42 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1637825022;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
+        b=G20sUbyj/801s5aH7+OcM4K04JNVSRWOaw7rKtwIEr4493sAHeNWdcD4zSRDmgw+TGBLAd
+        aWZWPl2Ncl/xEg/349IbIG/tfM/WgmsZtVhcxpK57bnkjrhFl8dxYlDqktclnFaz0lcWAL
+        Pz5wkkzLBeC/qBxwF/Nom9EnmnaTpGk=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0659A634C90;
+        Thu, 25 Nov 2021 09:23:41 +0200 (EET)
+Date:   Thu, 25 Nov 2021 09:23:41 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: HDMI isn't probed on v5.15-rc1 on ULCB+KF
-Thread-Topic: HDMI isn't probed on v5.15-rc1 on ULCB+KF
-Thread-Index: AQHXumBA9Ogm9LZ2+0GY63D7tblfOKvHf6qAgAAQHACAACsdgIApOr0AgAJADICAH8mPAIAAsMzQ
-Date:   Thu, 25 Nov 2021 00:23:06 +0000
-Message-ID: <TYCPR01MB55810D57110CD65672646EF2D4629@TYCPR01MB5581.jpnprd01.prod.outlook.com>
-References: <87ilya4zv8.wl-kuninori.morimoto.gx@renesas.com>
- <YV5vB4c8J0xu2mOd@pendragon.ideasonboard.com>
- <87v929moad.wl-kuninori.morimoto.gx@renesas.com>
- <CAMuHMdUxXP86Z-2Tb8t4bK6aBfRT1Toj0jpruEEd8YbeDL+h=A@mail.gmail.com>
- <163585809096.275423.10804585086979279969@Monstersaurus>
- <87bl302598.wl-kuninori.morimoto.gx@renesas.com>
- <YZ5CuiCyNDE7IyNm@pendragon.ideasonboard.com>
-In-Reply-To: <YZ5CuiCyNDE7IyNm@pendragon.ideasonboard.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9d68e4f1-fac3-4007-5be9-08d9afa9c0c6
-x-ms-traffictypediagnostic: TY2PR01MB3868:
-x-microsoft-antispam-prvs: <TY2PR01MB3868EC6850C289ED9CB7C55DD4629@TY2PR01MB3868.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fcqjQ7LFVMAeHoKNq+xOaeXKzoRIfsgf1cY5IyX9EQAbhRpZPOfb3X6LtJaHUniQAwpCSt+cQY/lRamGe1Lryh9p7i9AGY7aky0DuhWRG0HIFcCy5ivlGpYaEzx135pLK9YmApmeZgwa1i6w4SZm/sAF8/M4asGNlGqf5Eakcd1BNQwPwNQqUv/qiaxyyHWIS3lkAX7y6oL7fY59EVqNxUqr5Mhpwm1OqjyaeSwd3BR0XyHxILZt44loOgbo4QSJJ4PWQISGptgSl/vS15o2Z2iLzuV1nzrbq9yQEnXaX+C7rgba7zrCByeobeeTDdsFnmDplXc4wQOmLBiVcKyBdjLB8PVOOTlCkFROJpLehcllvquBgfWrdhchiV7EhokZTrhPxDNNVKgNDQP9cwjeqg8T/wGMJZ4G3y/uBleHkTdDjW98dvLsQAc6cQq/7SF34ps0MDI4uJoXFbYT6nVn3QJjeo7r8RXZ3dL0T6UETlikvrMLKx7vO53IYFOfKq6+N/YBId4ZH9OrrkIXtn/yZSEDip2TJ39bPX4U8a/VKqmMQT/NIXekgBCUyh7iC8gPZtEWhO7qrtOZxalbac6hO7BEevk9TYjRSiV60WRd/2GfwhzmP8a/yxm9CpHAfI3zf9tASOn2uYwS4KCbQZmIYXzlFxVQPowi1H8bX9n4stkjaUaGzBbnKiQj94FmG88635OJLShn1HwjBIwyK+0eEw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5581.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(76116006)(66476007)(9686003)(71200400001)(66946007)(122000001)(86362001)(6506007)(66446008)(64756008)(55016003)(5660300002)(66556008)(26005)(8676002)(33656002)(186003)(2906002)(4326008)(6916009)(38100700002)(8936002)(508600001)(52536014)(558084003)(316002)(38070700005)(7696005)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bExtNUsxcFR4Q1c4cmtHS2RhRTRvbnZvUDRoTmJjcW04V1dWUDNBYlE4aUhq?=
- =?utf-8?B?UWo0RlN5b1drb1puTnprSFhHZC8xUUR2NlNYRnJZMElSclFXbWkxblBwTEx4?=
- =?utf-8?B?Zk0zeURKMlIzVnRpT0N6VURsdWNFTEFOT0Q0YXNTc3o3eEpEajA5RXYxVm43?=
- =?utf-8?B?THJnajNWTEJTTllIM2dpWnlIRGVrUFZxVzBCRlgxNi9JUUhJdWlLL0k5dnRB?=
- =?utf-8?B?MHVzQUdKR0RKYVNjc0dOaGEzeGszK1BzeDVVY0lwaURrS2NnZGRoZHRQeTdO?=
- =?utf-8?B?WWVkeVE2alI0U05oc0piRmxpRVAvT1I5M0pER05QUnBuSjRaRjdDQzYrY1p2?=
- =?utf-8?B?NWdaQi9HSjZmdnljZjRRT2VOZkhuNTJBV2c0Wm5heGROTm9FRTJpYkJUemwr?=
- =?utf-8?B?ek9JaFFKcUo2N3gwR1NrOU81dTlzTGRtbFY2RWxEL3liZ0MwRDJjbGpON1hC?=
- =?utf-8?B?OHVCb1R6WG1oVHRxMFd0RUtFaU9xWXB4aU9wZUpmTkg0NnhLbUhyMm13VUV6?=
- =?utf-8?B?Umw2UlVwTFFsLyttNlFPMzloU21OeEJ5REVmZjJGTDk5UklDTWZPMmZYUnpq?=
- =?utf-8?B?SFB5aWM4OG9rWTNRUkpoVDI1bWpVVy9VS3BQSDNBaDFUWnNqVThMV05iK085?=
- =?utf-8?B?WVZaUUNCeEhNL2F4K0F1eXVQcjhzd01rRWFmQjFWVy9ZbTFpTTc4aDNmbU1L?=
- =?utf-8?B?M3VEYnJ2M2RXSWZVOGFicDRXbU0xRStGS09ERUZkT1IrTU81ZWh3Y0dSRk9N?=
- =?utf-8?B?aWdXUlc4TWZzNHBlTWhoVTc5SFNmL09BL2RkRC9RMFNIOVdndHF4T20rWkxU?=
- =?utf-8?B?ZUxhenVzaWt4SnhJcExrZXFialo5Z2NJbTJpdThreWJMY3pMdTZINkFRWjMy?=
- =?utf-8?B?bEQ1T0VoZlNpV1BZc05VNTBzTkV4THpkdVg1cjIvUDJDemdkNGEraXNzU2xz?=
- =?utf-8?B?NTBhRDBNU05reTBtSWpwTUsxTGFoN05IRUdiWHByd0FwQy9keE1YWHd6bFBF?=
- =?utf-8?B?bDVFeEJlOHBJUEVBQzY3ODlBTGhhRlBpQzJjOFpwR2xJZ3hXR212WnQ1SDFa?=
- =?utf-8?B?K053bHkwOEJUZWxLQTFZYVJ0Y3JEUjFoSlJYcjFuM3Z6KzZuZ1NWTnVKRzRV?=
- =?utf-8?B?ZVBxLy9rMFg2OU9UaEZlZFloRlFkTDk1TUd3OEhUZmgzVDJZYitkWmNGTzBx?=
- =?utf-8?B?bjdyZ2hERllMMm1ScUxHbGdESUNrOUlXWUJEd1pRS3lYYU5QVUVUb1B0Slc2?=
- =?utf-8?B?N05USVFpeE1Md2h5TDBjOGRBT2JITG92eEx5bjdVN0dPZUFWSUxKeHhaT0tE?=
- =?utf-8?B?OCtmS0M5QmRjSTRuYXBzblZoV3lIVXo1Zmppai9GY2h4TkRscXBOY21Gdm5j?=
- =?utf-8?B?Sk5BcjVTYXJDMWVwWmFuNk5pSDNrTXpjN09qT3NxbnJ0SHhJYjZmUUhpYXFS?=
- =?utf-8?B?bGpTRitaWU1ZSmRlMmJleFp6d1FJdEVhN2VHZ2d6NWVlYWxZZ1dqRjBoUHNS?=
- =?utf-8?B?UjFDbTZCeTN3TThSWXBBVVlKdEpLMWdaM3NaS0tKaXBsdHdRbUc0YWJ4U1lp?=
- =?utf-8?B?UXlTekZ5T0hkVzNNTmxCTGJRN2FlSFo2TEVDZ041ZG1SNVZWNTk1djZXZkl5?=
- =?utf-8?B?R203ZDlwUUhBdEhscndveWlERksweGxXRUJPWHVZcVBBSitpSTZraHpyUjJo?=
- =?utf-8?B?UVI4dTNhUFExejREeWJaMkE1ZjRZTlU3L1UyVDJsdzVpRy83Nk5lbm0zTFFj?=
- =?utf-8?B?U0pSdU9vVE1XeEhZNGhvQk1vY3RUK1Zrd3ZCQ2lvWSs3cTQxWjFnSWNWUXdv?=
- =?utf-8?B?RXp0T2VKYlZpQmp2TThpNkZSTHdiakxOdWo5VjFtM2k1TkxTeW9WRXJjYlM0?=
- =?utf-8?B?bUtodWRib1J1L1FPYXB4OFJJOFp6b2tSMDNnM2FoMTdKL1Z5UFZob20zeGpt?=
- =?utf-8?B?NXZNeWZ6UXR2TUtkZXFpR3gwaXBzZHRRQWNBd3F0VzJaZWJSeWpIWkt1ZldH?=
- =?utf-8?B?THpkUXIvMHgrclRldit0K0p2bnVUQmx2OWhsQmNuZGtjOGNyeUM5UEVGQ0tv?=
- =?utf-8?B?NVYzUjE4Y0JuTDY3Zk10OUxVblBlL3NBZWZJUzhDZSt1Rmk2VlZhZUVqWi91?=
- =?utf-8?B?QWpIaWNiOHVrUlNkdmVFNW9ISXlsRnI4b0JpUEZvNFZEcEU4Ym44YkZtL3JS?=
- =?utf-8?B?Q0kxNVlxVk1KcnhYRDhSK2dZQ3MrczNiN242N3cxTER1WUdqZ0JYa3ZJUlJ2?=
- =?utf-8?B?NWlNQVVTeklmYThYVkRIdHl6SVA3V0lHNi9uckIvcEUwU2pIRjl0c25DaTlJ?=
- =?utf-8?B?V2JpWVVpZklIcFZPTG5paXVZQ2NCUmxsU3gycW9WSThKRTlQcVptdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc:     Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        cstevens@beaconembedded.com
+Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
+Message-ID: <YZ85/TT9AmJh1G/w@valkosipuli.retiisi.eu>
+References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+ <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5581.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d68e4f1-fac3-4007-5be9-08d9afa9c0c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2021 00:23:06.7278
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z/8x6oEEze/9tLtX0A+SEGXWTZt1qNd60RnittW6p/e+WBHOBlYn781a7z56H8oKTVO2CdnPYWcPw2EOm9dAyzNWT4rkKKDi/mZCrUREgu1Cv9OHztYnngeqYgHkQ/G6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3868
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1637825022; a=rsa-sha256; cv=none;
+        b=LVcrlAx9ekFwWysN/Q0im35kgJno47VHcF9eYGhqUUWXMcWPqf5IxjutYEy4JAOXS2uD2D
+        SnuVXIUoSGBRkEfTKF18V6q5Axf+cnQ3l8Xs33U5Dmn0RdoMlwdZ8AOxgXRtpN9J5akn9W
+        TqPGQ3vEqVU37Lz5VGUEGq9f6e4aOzg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1637825022;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
+        b=izA4Y4llWyFOJ+tzBzbZPIXRaJmYAVnS6xIOuveY3QfXGpwQEaOHYtHx6NH+efq0QaY8kY
+        bQgXhfOQ3geYwi8nRt6fhf0EoP/61GKto080hkzST/Bu0wHtUD3UJdKwfMuJ1CvR2VvrJI
+        U8YqubGccGQY73niAIhtqzykafttAfk=
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-DQpIaSBMYXVyZW50DQoNCj4+ICMgQ09ORklHX0RSTV9ESVNQTEFZX0NPTk5FQ1RPUiBpcyBub3Qg
-c2V0DQo+DQo+IEVuYWJsaW5nIHRoaXMgb3B0aW9uIHNob3VsZCBoZWxwLg0KDQpUaGFuayB5b3Ug
-Zm9yIGhlbHAgbWUuDQpJJ20gc29ycnkgYnV0IEknbSBidXN5IGluIHRoZXNlIGRheXMuDQpXaWxs
-IHRyeSBhbmQgY2hlY2sgYWJvdmUgYWZ0ZXIgdGhhdC4NCg0KLS0NCkJlc3QgUmVnYXJkcywNCg0K
-S3VuaW5vcmkgTW9yaW1vdG8NCg==
+Hi Laurent,
+
+On Thu, Nov 25, 2021 at 12:12:18AM +0200, Laurent Pinchart wrote:
+> Hi Adam,
+> 
+> (CC'ing Sakari)
+> 
+> On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
+> > I am trying to use an OV5640 camera sensor that I've used on both an
+> > i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
+> > connected to the 2-lane CSI interface.
+> > 
+> > I can get the media-ctl to show the routings, and sometimes I can get
+> > streaming.  Often, I get a timeout:
+> > 
+> >      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
+> > 
+> > Looking at the various mailing list e-mails for the LP-11, it's
+> > unclear to me if the timeout is caused by the sensor not doing
+> > something correctly or the CSI2 misbehaving.
+> 
+> Before transitioning to the high speed (HS) mode, the D-PHY transmitter
+> must drive the lane in the LP-11 state. This is the idle state of the
+> lane when powered up and when not in the ultra low-power state (ULPS).
+> The transition to HS mode on the receiver side involves observing the
+> LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
+> in LP-11 state, and only then starting the sensor to transition to HS.
+> This requires powering up the D-PHY TX and going to idle mode, which
+> most sensors support. As we're deprecating the .s_power() subdev
+> operation, however, we have no way to power up the sensor without
+> starting it before the D-PHY RX gets configured.
+
+That's not true anymore. Please see:
+
+<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/tx-rx.html#lp-11-and-lp-111-modes>
+
+Not all sensors can do this without tricks though.
+
+> 
+> In some cases, the D-PHY RX can handle the power up sequence
+> automatically. They can be fully configured (from a software point of
+> view) while the lane is in the power down state LP-00, and they then
+> handle the transition to the stop state LP-11 and to the HS mode
+> automatically. This isn't true for all receivers, some need software
+> configuration after the data lane reaches the LP-11 state and before it
+> transitions to HS mode. According to the documentation, the R-Car CSI-2
+> receiver requires software intervention between LP-11 and HS mode at
+> least on V3M and E3. There's also a software configuration step on H3,
+> M3N, V3H and V3U, but there's a chance that one could possibly be
+> bypassed.
+> 
+> > I was hoping someone might have some suggestions of things I can try.
+> 
+> I would first try to power up the sensor at probe time and keep it power
+> forever, to see if it solves your issue. If it does, then introducing a
+> CSI-2-specific subdev operation to power up the sensor (or officially
+> de-deprecating .s_power() for this use case) could be an option to fix
+> the issue properly.
+
+-- 
+Kind regards,
+
+Sakari Ailus
