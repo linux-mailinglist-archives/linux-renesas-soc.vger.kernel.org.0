@@ -2,156 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 948B545DE3C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Nov 2021 17:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49AC645E335
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 00:10:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356149AbhKYQGy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Nov 2021 11:06:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
+        id S1347134AbhKYXNn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Nov 2021 18:13:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234046AbhKYQEy (ORCPT
+        with ESMTP id S243043AbhKYXLn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Nov 2021 11:04:54 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7853C061373;
-        Thu, 25 Nov 2021 07:51:44 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 8E87C1B000E5;
-        Thu, 25 Nov 2021 17:51:39 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1637855499;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JAR0UlzluqB3nNg/fEkLtNVYPX7wYWic4D2UtuewLeo=;
-        b=JgEdhjcr/SFrRMev/fjO7tKD2RpawJIczwNVg1gVwuq/ZP1YwJBIkNdTx6JKzzf8kTrjF0
-        a6gK4lm+cEbV0KsCkHGjirJFSgG8Js4nHWEL4eM9ml9Lbpo9jKi95kNeUwjRVdEbOleW4E
-        Imu0ieMUyugUrxYWHO+PI1y/+2lRScTIdzplZrJ5Jklob1bE2zBuwhOnN2A2qWxRSby/e9
-        Wjfjq9NLPwf7NnfsqmsF4a06gQSUb+FFQO9o8NZz4igN10ha0aF9fUpp5hUvI2a3ROQePi
-        OJhXc0JTVUFCYBNOnZs2rKhgIxnBnHpYDPB/nJgLLqj0VJdMfLPXLjm93is9uQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1BC9E634C90;
-        Thu, 25 Nov 2021 17:51:39 +0200 (EET)
-Date:   Thu, 25 Nov 2021 17:51:39 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        cstevens@beaconembedded.com
-Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
-Message-ID: <YZ+xC8Dfjmy0Fiku@valkosipuli.retiisi.eu>
-References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
- <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
- <YZ85/TT9AmJh1G/w@valkosipuli.retiisi.eu>
- <20211125154225.doqtnzgv4t73usph@uno.localdomain>
+        Thu, 25 Nov 2021 18:11:43 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756D2C0613F8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Nov 2021 15:03:31 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id d72-20020a1c1d4b000000b00331140f3dc8so5632569wmd.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Nov 2021 15:03:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z17KKRcYHCiS6VY7EKWJqLHKUJdF70M4GFqbDdSSuAc=;
+        b=YYPZSU4x07QEl/ZaS+2y04aosT1oMivHlNE+SKDCioSWzJVzkn84Bunkc68sSki9YJ
+         VNBfuWpJNlX+NsZ554fBMc5iLMYj+f9sh6Gy3nYQoFn7GVbxiK3OPvcOyWsapXQEjZGc
+         oagc11UqVNiW2V0eS4pDu58nyJSzHzT0ZP89q2w/pKe7SkWygvXYXCOAVYnlgIyTskUO
+         tzvuOvCLhoDH2tQJ5UCiBoK3BmC/9aKw16WvlDZq3V6opEBV6wTIcFAEVk7qB+kQt8rY
+         xwpYFq1J+q7yh/wwrlOonxmC5cL3EUc2FvYGEcI1JlDROVeZrrfMTZpNcAwoYUTYTnMz
+         bqQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z17KKRcYHCiS6VY7EKWJqLHKUJdF70M4GFqbDdSSuAc=;
+        b=Wp72ZPFcOMh9fvEVe3cIXoiuk2juhoG45oD6hnFgr2iG0usbD18Ppk/AH9n4LPZJur
+         TbbPo02Q2F0bd3PT61en2U1shBdSfmRcmu72QP54aTIWgGQt8TmoeaBr01No4pyBYZ7N
+         nWzWkzg15rTD7jx/CmpeuP3MBqPjWgkMUlNquH4ZBjUaN+5xKh6bTvhU1BywUtOwt0I3
+         ToINsrLQ6KhzibheAzF1Z+tcqRaH75oqck0MShFV3tx1PExrf5Hbqe+3QvXT2dLYn08G
+         k08ErHl80rxLzQx60HDb0Zhb6m6fZfNQdLpbpNBlpAbMqj2lHS1RBq+6syFnHJGUWQyc
+         aLfA==
+X-Gm-Message-State: AOAM5338gstiqwkal/QmGFGxB61CQP4HlouAFjz8hak4NvmPDmTRgpAI
+        2oBcLwIPl+zPRgqD6WTJ6u5DgA==
+X-Google-Smtp-Source: ABdhPJxzzWPMWp2wuMbAtcEeUbEWx/KiADKQTY8r3+Rz7mEbbnwwFCG+gN59yp07yq4Po2uqJ4cPSw==
+X-Received: by 2002:a7b:cc96:: with SMTP id p22mr11420923wma.69.1637881410048;
+        Thu, 25 Nov 2021 15:03:30 -0800 (PST)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id m125sm8989495wmm.39.2021.11.25.15.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 15:03:29 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] rcar-vin: Update format alignment constraints
+Date:   Fri, 26 Nov 2021 00:02:57 +0100
+Message-Id: <20211125230257.1334452-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125154225.doqtnzgv4t73usph@uno.localdomain>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1637855499; a=rsa-sha256;
-        cv=none;
-        b=s4/5I7S62i930kF3ro3qS3WV+vP4EM0UOjFcI5NRKVfJzAYgysKYZB0Ji0fhQtROrt9NgZ
-        jpJBhxIrGKaR/q/Bi8MNpL/uSUGr5B7czQ1ua+LvJr1hOHuKle+l+ktKnlbSK2sQy7ltQE
-        fTTQEsaS+xSA0UDfodoMNZMDTs3McODQv24q6bcQ/TohQzdOUPskSptgJ1UPGj8cuvV08u
-        sHo5fSiSzmZPHnSQXXI0GlNNNxXb4pG+af214q8EhL1nriue1dez/pCYXIoC/9wqnrf+3t
-        Fh6273Wr9e0Ly6ppXfHGdpnzcJDlkkey71A+WmhGfQM9+5B1HF6xtcvkyXaIpg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1637855499;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JAR0UlzluqB3nNg/fEkLtNVYPX7wYWic4D2UtuewLeo=;
-        b=D41NeStoNJxJGqpnHTrww2iX/zlaUW28vUInPMZvZCGPFEjMYMUcCWQ6XOKxNtV+D+4lZJ
-        fe/UdqqloT6RYkPtzAYhUIG4NQfmx/nhYO4Zp/HdYYVwrAWtTG6VWOM/3lZx5XMY6XJ20s
-        RWjO7IvZGKRTaZZDGJ7rHj4EC6iYFXBB2U8+PhymnFJREe4cVqLuXNawQb4dJSg4PWrhWo
-        qkxZmDKsXgmZFxWCuZbVWXMS6QFVLvVWdPhzSO65JQYul+M2HNzHDvQxt2riz6ES+VPOqZ
-        lVLJupEuDQBi4g6ehlWYSdJiG40z1GFraZlLS0z/2g1aSm/HdkK58ZOqFUeXdA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 04:42:25PM +0100, Jacopo Mondi wrote:
-> Hello
-> G
-> On Thu, Nov 25, 2021 at 09:23:41AM +0200, Sakari Ailus wrote:
-> > Hi Laurent,
-> >
-> > On Thu, Nov 25, 2021 at 12:12:18AM +0200, Laurent Pinchart wrote:
-> > > Hi Adam,
-> > >
-> > > (CC'ing Sakari)
-> > >
-> > > On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
-> > > > I am trying to use an OV5640 camera sensor that I've used on both an
-> > > > i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
-> > > > connected to the 2-lane CSI interface.
-> > > >
-> > > > I can get the media-ctl to show the routings, and sometimes I can get
-> > > > streaming.  Often, I get a timeout:
-> > > >
-> > > >      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
-> > > >
-> > > > Looking at the various mailing list e-mails for the LP-11, it's
-> > > > unclear to me if the timeout is caused by the sensor not doing
-> > > > something correctly or the CSI2 misbehaving.
-> > >
-> > > Before transitioning to the high speed (HS) mode, the D-PHY transmitter
-> > > must drive the lane in the LP-11 state. This is the idle state of the
-> > > lane when powered up and when not in the ultra low-power state (ULPS).
-> > > The transition to HS mode on the receiver side involves observing the
-> > > LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
-> > > in LP-11 state, and only then starting the sensor to transition to HS.
-> > > This requires powering up the D-PHY TX and going to idle mode, which
-> > > most sensors support. As we're deprecating the .s_power() subdev
-> > > operation, however, we have no way to power up the sensor without
-> > > starting it before the D-PHY RX gets configured.
-> >
-> > That's not true anymore. Please see:
-> >
-> > <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/tx-rx.html#lp-11-and-lp-111-modes>
-> >
-> > Not all sensors can do this without tricks though.
-> >
-> > >
-> > > In some cases, the D-PHY RX can handle the power up sequence
-> > > automatically. They can be fully configured (from a software point of
-> > > view) while the lane is in the power down state LP-00, and they then
-> > > handle the transition to the stop state LP-11 and to the HS mode
-> > > automatically. This isn't true for all receivers, some need software
-> > > configuration after the data lane reaches the LP-11 state and before it
-> > > transitions to HS mode. According to the documentation, the R-Car CSI-2
-> > > receiver requires software intervention between LP-11 and HS mode at
-> > > least on V3M and E3. There's also a software configuration step on H3,
-> > > M3N, V3H and V3U, but there's a chance that one could possibly be
-> > > bypassed.
-> > >
-> > > > I was hoping someone might have some suggestions of things I can try.
-> > >
-> > > I would first try to power up the sensor at probe time and keep it power
-> > > forever, to see if it solves your issue. If it does, then introducing a
-> > > CSI-2-specific subdev operation to power up the sensor (or officially
-> > > de-deprecating .s_power() for this use case) could be an option to fix
-> > > the issue properly.
-> 
-> What about .pre_streamon video op ?
-> Should it fit here ?
+This change fixes two issues with the size constraints for buffers.
 
-That's its first use case but there can be others.
+- There is no width alignment constraints for RGB formats. Prior to this
+  change they where treated as YUV and as a result was more restricted
+  then needed. Add a new check to different between the two.
 
+- The minimum width and height supported is 5x2, not 2x4, this is an
+  artifact from the drivers soc-camera days. Fix this incorrect
+  assumption.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index a5bfa76fdac6e55a..2e60b9fce03b05e0 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -179,20 +179,27 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+ 		break;
+ 	}
+ 
+-	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
++	/* Hardware limits width alignment based on format. */
+ 	switch (pix->pixelformat) {
++	/* Multiple of 32 (2^5) for NV12/16. */
+ 	case V4L2_PIX_FMT_NV12:
+ 	case V4L2_PIX_FMT_NV16:
+ 		walign = 5;
+ 		break;
+-	default:
++	/* Multiple of 2 (2^1) for YUV. */
++	case V4L2_PIX_FMT_YUYV:
++	case V4L2_PIX_FMT_UYVY:
+ 		walign = 1;
+ 		break;
++	/* No multiple for RGB. */
++	default:
++		walign = 0;
++		break;
+ 	}
+ 
+ 	/* Limit to VIN capabilities */
+-	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
+-			      &pix->height, 4, vin->info->max_height, 2, 0);
++	v4l_bound_align_image(&pix->width, 5, vin->info->max_width, walign,
++			      &pix->height, 2, vin->info->max_height, 0, 0);
+ 
+ 	pix->bytesperline = rvin_format_bytesperline(vin, pix);
+ 	pix->sizeimage = rvin_format_sizeimage(pix);
 -- 
-Sakari Ailus
+2.34.0
+
