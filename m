@@ -2,136 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 686D945D560
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Nov 2021 08:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F5545D670
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Nov 2021 09:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233101AbhKYH3G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Nov 2021 02:29:06 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:42302 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232999AbhKYH1F (ORCPT
+        id S1353345AbhKYIul (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Nov 2021 03:50:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240624AbhKYIsk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Nov 2021 02:27:05 -0500
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 7ACB7205B6;
-        Thu, 25 Nov 2021 09:23:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1637825022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
-        b=G20sUbyj/801s5aH7+OcM4K04JNVSRWOaw7rKtwIEr4493sAHeNWdcD4zSRDmgw+TGBLAd
-        aWZWPl2Ncl/xEg/349IbIG/tfM/WgmsZtVhcxpK57bnkjrhFl8dxYlDqktclnFaz0lcWAL
-        Pz5wkkzLBeC/qBxwF/Nom9EnmnaTpGk=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0659A634C90;
-        Thu, 25 Nov 2021 09:23:41 +0200 (EET)
-Date:   Thu, 25 Nov 2021 09:23:41 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        cstevens@beaconembedded.com
-Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
-Message-ID: <YZ85/TT9AmJh1G/w@valkosipuli.retiisi.eu>
-References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
- <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
+        Thu, 25 Nov 2021 03:48:40 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EEFC0613B1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Nov 2021 00:41:37 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id c32so14456657lfv.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Nov 2021 00:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nx9yMihjJrikirX7YSEZYnRgpYjCEvWkb1r0ARpegII=;
+        b=xGhEioLOdHXFg9tmf5qJORJtCyUerzIwdqhprNRThmcsfsA2Exo2375kdTL9bvFFSa
+         UppGg1ymwKUeC3gGjwbwrNf3nlYsgoMpqDPIsMXsPj2qoynGcBlp0rMJTN4HjIvKfeRu
+         CMxb5OoOpfBR9fMzEX0t717Ln+XidnJ5eGsUPPgw1ZZkjVCENkjZ1KxI5Sc+frjLEWLq
+         KNLxQuo1R2e0ZqLzKumXx3MZ36omnJMD3m+Sq4WowY8hm9d54u3nMhGLcz4PYDXEvV9g
+         exNh0WEP3IvcNWNtGNvqAtOEsa8L7mKHIPdV4uExhCGHRbS3C20KJbD/Q2B/YExQX2it
+         hLTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nx9yMihjJrikirX7YSEZYnRgpYjCEvWkb1r0ARpegII=;
+        b=KnWHNKPkeeFVGGfqytjh/ogV75dkT6Ki9xaS55P8METFDy8zQs+wZo0HNLy+EeWxgc
+         xRkbBme6YlWUwThiLtkNpRuF/GAyRD/ngMrLuT3zO1eRoZSIIX1EMOFFWIjfWZwxbS7V
+         SPkbrQEvwce6U2bqMFuAlJN2dPNOP52c0yXlAv3u8rVn2qpw/KXRe2u9oWL0Hzkc+3js
+         o3H8ysc72f3m0DxMtfiduL0jElKYE2qlXa9s/ZgGYjhSQz1a2cukV1asXDFY3s5d+DJr
+         t61plZrveM1rF2F3QQ1MpgBOlp1lfFDCxVQQtEm+VoLhOuogBvjhc/Z+oayK34zBIdM2
+         z5xw==
+X-Gm-Message-State: AOAM532SFbqm0Nh4cBwrzaqfYqpIrq3IivHQgSDJM9eoG5XYyIzv5Kf+
+        KaoYyhxgqbxjhNtko3ZpxLMFOw==
+X-Google-Smtp-Source: ABdhPJwu+NLnzXYnIQCTu89xhzRZFCha7V/gCxcDXBhGTqQStg3aZ6VssNX/+/xIhPdatcGpDeWoRg==
+X-Received: by 2002:ac2:4571:: with SMTP id k17mr21391766lfm.631.1637829695936;
+        Thu, 25 Nov 2021 00:41:35 -0800 (PST)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id e14sm246249lfs.150.2021.11.25.00.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 00:41:35 -0800 (PST)
+Date:   Thu, 25 Nov 2021 09:41:34 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-vin: Add check for completed capture before
+ completing buffer
+Message-ID: <YZ9MPu1WIJk0MtLr@oden.dyn.berto.se>
+References: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se>
+ <163779391741.3153335.8189408341245810954@Monstersaurus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1637825022; a=rsa-sha256; cv=none;
-        b=LVcrlAx9ekFwWysN/Q0im35kgJno47VHcF9eYGhqUUWXMcWPqf5IxjutYEy4JAOXS2uD2D
-        SnuVXIUoSGBRkEfTKF18V6q5Axf+cnQ3l8Xs33U5Dmn0RdoMlwdZ8AOxgXRtpN9J5akn9W
-        TqPGQ3vEqVU37Lz5VGUEGq9f6e4aOzg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1637825022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
-        b=izA4Y4llWyFOJ+tzBzbZPIXRaJmYAVnS6xIOuveY3QfXGpwQEaOHYtHx6NH+efq0QaY8kY
-        bQgXhfOQ3geYwi8nRt6fhf0EoP/61GKto080hkzST/Bu0wHtUD3UJdKwfMuJ1CvR2VvrJI
-        U8YqubGccGQY73niAIhtqzykafttAfk=
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <163779391741.3153335.8189408341245810954@Monstersaurus>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Kieran,
 
-On Thu, Nov 25, 2021 at 12:12:18AM +0200, Laurent Pinchart wrote:
-> Hi Adam,
-> 
-> (CC'ing Sakari)
-> 
-> On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
-> > I am trying to use an OV5640 camera sensor that I've used on both an
-> > i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
-> > connected to the 2-lane CSI interface.
+Thanks for your feedback.
+
+On 2021-11-24 22:45:17 +0000, Kieran Bingham wrote:
+> Quoting Niklas Söderlund (2021-11-23 15:54:43)
+> > Before reading which slot was captured to by examining the module status
+> > (VnMS) register, make sure something was captured at all by examining
+> > the interrupt status register (VnINTS).
 > > 
-> > I can get the media-ctl to show the routings, and sometimes I can get
-> > streaming.  Often, I get a timeout:
+> > Failing this a buffer maybe completed before it was captured too.
 > > 
-> >      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-dma.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
 > > 
-> > Looking at the various mailing list e-mails for the LP-11, it's
-> > unclear to me if the timeout is caused by the sensor not doing
-> > something correctly or the CSI2 misbehaving.
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 25ead9333d0046e7..87ccbdc3d11a0f2d 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -111,6 +111,9 @@
+> >  #define VNIE_FIE               (1 << 4)
+> >  #define VNIE_EFE               (1 << 1)
+> >  
+> > +/* Video n Interrupt Status Register bits */
+> > +#define VNINTS_FIS             (1 << 4)
+> > +
+> >  /* Video n Data Mode Register bits */
+> >  #define VNDMR_A8BIT(n)         (((n) & 0xff) << 24)
+> >  #define VNDMR_A8BIT_MASK       (0xff << 24)
+> > @@ -1005,6 +1008,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >         rvin_ack_interrupt(vin);
+> >         handled = 1;
+> >  
+> > +       /* Nothing to do if nothing was captured. */
+> > +       if (!(int_status & VNINTS_FIS))
 > 
-> Before transitioning to the high speed (HS) mode, the D-PHY transmitter
-> must drive the lane in the LP-11 state. This is the idle state of the
-> lane when powered up and when not in the ultra low-power state (ULPS).
-> The transition to HS mode on the receiver side involves observing the
-> LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
-> in LP-11 state, and only then starting the sensor to transition to HS.
-> This requires powering up the D-PHY TX and going to idle mode, which
-> most sensors support. As we're deprecating the .s_power() subdev
-> operation, however, we have no way to power up the sensor without
-> starting it before the D-PHY RX gets configured.
+> Does this deserve a warning or debug print? It sounds like it may be
+> somewhat spurious or unexpected if it occurs?
 
-That's not true anymore. Please see:
-
-<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/tx-rx.html#lp-11-and-lp-111-modes>
-
-Not all sensors can do this without tricks though.
+I don't think so. One can enable more interrupts then the ones we do 
+today, for example during debugging capture issues. This check just make 
+sure we don't try to process a capture if the interrupt is not related 
+to capture ;-)
 
 > 
-> In some cases, the D-PHY RX can handle the power up sequence
-> automatically. They can be fully configured (from a software point of
-> view) while the lane is in the power down state LP-00, and they then
-> handle the transition to the stop state LP-11 and to the HS mode
-> automatically. This isn't true for all receivers, some need software
-> configuration after the data lane reaches the LP-11 state and before it
-> transitions to HS mode. According to the documentation, the R-Car CSI-2
-> receiver requires software intervention between LP-11 and HS mode at
-> least on V3M and E3. There's also a software configuration step on H3,
-> M3N, V3H and V3U, but there's a chance that one could possibly be
-> bypassed.
+> --
+> Kieran
 > 
-> > I was hoping someone might have some suggestions of things I can try.
 > 
-> I would first try to power up the sensor at probe time and keep it power
-> forever, to see if it solves your issue. If it does, then introducing a
-> CSI-2-specific subdev operation to power up the sensor (or officially
-> de-deprecating .s_power() for this use case) could be an option to fix
-> the issue properly.
+> > +               goto done;
+> > +
+> >         /* Nothing to do if capture status is 'STOPPED' */
+> >         if (vin->state == STOPPED) {
+> >                 vin_dbg(vin, "IRQ while state stopped\n");
+> > -- 
+> > 2.34.0
+> >
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Kind Regards,
+Niklas Söderlund
