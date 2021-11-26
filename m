@@ -2,97 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C24645EF32
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 14:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8903D45EF64
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 14:46:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232898AbhKZNf0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 08:35:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50748 "EHLO mail.kernel.org"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S242876AbhKZNd0 (ORCPT
+        id S1349871AbhKZNuF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 08:50:05 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:47613 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353482AbhKZNsF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Nov 2021 08:33:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 957166115A
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 13:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637933413;
-        bh=zQ6T1F5ug8tBhH6WYTOnbR0/BAKeVA+i4EnoEcK8POo=;
-        h=Subject:From:Date:To:From;
-        b=gYYjcCOy0iBmUHlNIWToHlxaZK829CyAU4br3KxEk8P4bKjElfQnPQ3B2G//qoWIH
-         R+3ayaAsEPWPa8vbPy+xi5+XxcCY6QQyqpunlVb/5OQwSbYT4BGN2MLVsKpxXDOJLn
-         o9LDPLc4TMT0Oc5tRWyuv7HgSjv7YbTMFo7mxRbBzEZ2Bch7xdS4N444LlL0LkpxyM
-         I0Vj/nFNstwhj7be2np9cyP2D942whE7aNkoT2EydDqFcWWM34rg4pS5GWYn3HfCR3
-         jppGxE+QA/JqwSro6l0Rj8uavUO9J5AGVwfGxuy3N6HVAX1dcv3doG0r0FGrzyu5CU
-         x9Ya4uFzdp7IQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 8749C60A3E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 13:30:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 26 Nov 2021 08:48:05 -0500
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 916D4E0014;
+        Fri, 26 Nov 2021 13:44:48 +0000 (UTC)
+Date:   Fri, 26 Nov 2021 14:44:47 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>
+Subject: Re: [PATCH 2/3] mtd: rawnand: rzn1: Add new NAND controller driver
+Message-ID: <20211126144447.4fb300af@xps13>
+In-Reply-To: <TYYPR01MB7086AF009C6D6A4440B0CB21F59C9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+References: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
+        <20211118111940.1275351-3-miquel.raynal@bootlin.com>
+        <TYYPR01MB7086AF009C6D6A4440B0CB21F59C9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <163793341349.20812.7902037154846412073.git-patchwork-summary@kernel.org>
-Date:   Fri, 26 Nov 2021 13:30:13 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Phil,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+phil.edworthy@renesas.com wrote on Fri, 19 Nov 2021 15:04:55 +0000:
 
-Patch: arm64: dts: renesas: Fix operating point table node names
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=585259
-  Lore link: https://lore.kernel.org/r/ac885456ffb00fa4cc4069b9967761df2c98c3d8.1637764588.git.geert+renesas@glider.be
+> Hi Miquel,
+> 
+> Thanks for your patches.
+> 
+> > Introduce Renesas RZ/N1x NAND controller driver which supports:
+> > - All ONFI timing modes
+> > - Different configurations of its internal ECC controller
+> > - On-die (not tested) and software ECC support
+> > - Several chips (not tested)
+> > - Subpage accesses
+> > - DMA and PIO
+> > 
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > ---  
+> It might be worth mentioning that this controller was originally provided
+> by Evatronix, then Cadence bought the Evatronix IP business.
 
-Series: Enable RZ/G2L OSTM support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=582609
-  Lore link: https://lore.kernel.org/r/20211118191826.2026-1-biju.das.jz@bp.renesas.com
-    Patches: [v2,1/2] arm64: dts: renesas: r9a07g044: Add OSTM nodes
-             [v2,2/2] arm64: dts: renesas: rzg2l-smarc-som: Enable OSTM
+True I've added this in the commit log as well as the main header.
 
-Series: Enable WDT driver support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=584593
-  Lore link: https://lore.kernel.org/r/20211123141420.23529-1-biju.das.jz@bp.renesas.com
-    Patches: [1/2] arm64: dts: renesas: r9a07g044: Add WDT nodes
-             [2/2] arm64: dts: renesas: rzg2l-smarc-som: Enable watchdog
+> > +	rzn1_nand->tim_gen_seq2 =
+> > +		TIM_GEN_SEQ2_D8(TO_CYCLES64(sdr->tRR_min + sdr->tREA_max,
+> > period_ns)) |
+> > +		TIM_GEN_SEQ2_D9(TO_CYCLES64(sdr->tRR_min, period_ns)) |
+> > +		TIM_GEN_SEQ2_D10(TO_CYCLES64(cle - cyc, period_ns)) |
+> > +		TIM_GEN_SEQ2_D11(TO_CYCLES64(bef_dly, period_ns));  
+> In our out-of-tree driver for this controller [1], we allowed time for
+> the signal to propagate through the RZ/N1 io buffers; We just added 5ns
+> to all the timings. Don't you need to do something similar? I vaguely
+> recall that some values programmed to 0 caused issues.
 
-Series: Rename RZ/G2L SDHI clocks
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=583803
-  Lore link: https://lore.kernel.org/r/20211122103905.14439-1-biju.das.jz@bp.renesas.com
-    Patches: [1/2] dt-bindings: mmc: renesas,sdhi: Rename RZ/G2L clocks
-             [2/2] arm64: dts: renesas: r9a07g044: Rename SDHI clocks
+I have not experienced any issues yet, I don't think with these
+calculations there are many values set to 0 anyway. But thanks for the
+feedback, if anybody reports errors with these timings on another board
+then we'll know where to look.
 
-Series: arm64: dts: renesas: Merge hdmi0_con
-  Submitter: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=585293
-  Lore link: https://lore.kernel.org/r/20211124152815.3926961-1-kieran.bingham+renesas@ideasonboard.com
-    Patches: [1/2] arm64: dts: renesas: ulcb: Merge hdmi0_con
-             [2/2] arm64: dts: renesas: salvator-common: Merge hdmi0_con
+> > +static int rzn1_nand_chip_init(struct rzn1_nfc *nfc, struct device_node  
+> ...
+> > +	for (i = 0; i < nsels; i++) {
+> > +		ret = of_property_read_u32_index(np, "reg", i, &cs);
+> > +		if (ret) {
+> > +			dev_err(nfc->dev, "Incomplete reg property (%d)\n",
+> > +				ret);
+> > +			return ret;
+> > +		}  
+> Check cs is <= nr of bits in assigned_cs.
 
-Patch: [v3] arm64: dts: renesas: r9a07g044: Add OPP table
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=585297
-  Lore link: https://lore.kernel.org/r/20211124154316.28365-1-biju.das.jz@bp.renesas.com
+I believe you mean that I should check that we don't request
+non-existing CS values (< 4). I've just added such a check, thanks. The
+fact that a CS might be selected twice is handled by the test_and_set()
+call right after.
+
+> > +static int rzn1_nfc_probe(struct platform_device *pdev) {  
+> ...
+> > +	nfc->regs = devm_platform_ioremap_resource(pdev, 0);
+> > +	if (IS_ERR(nfc->regs))
+> > +		return PTR_ERR(nfc->regs);
+> > +
+> > +	rzn1_nfc_dis_interrupts(nfc);  
+> You need to enable the clock before writing to the registers.
+
+Absolutely, thanks for the remainder.
+
+> > +static struct platform_driver rzn1_nfc_driver = {
+> > +	.driver = {
+> > +		.name   = "renesas-nfc",  
+> nit: whitespace
+> 
+> btw, there was an attempt to upstream a driver for this IP a few years back, see [2]
+
+Didn't know about this attempt :)
+
+> 
+> Thanks
+> Phil
+> 
+> [1] https://github.com/renesas-rz/rzn1_linux/blob/rzn1-stable-v4.19/drivers/mtd/nand/raw/evatronix_nand.c
+> [2] https://patchwork.ozlabs.org/patch/629096/
+> 
+> 
+> 
 
 
-Total patches: 10
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Miquèl
