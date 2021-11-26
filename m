@@ -2,137 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C614245ED10
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 12:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C256245EE50
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 13:53:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345746AbhKZL6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 06:58:50 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:33282 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345868AbhKZL4u (ORCPT
+        id S1377480AbhKZM4l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 07:56:41 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:35338 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232097AbhKZMyk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Nov 2021 06:56:50 -0500
-Received: by mail-vk1-f170.google.com with SMTP id d130so5793876vke.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 03:53:37 -0800 (PST)
+        Fri, 26 Nov 2021 07:54:40 -0500
+Received: by mail-ua1-f51.google.com with SMTP id l24so18435608uak.2;
+        Fri, 26 Nov 2021 04:51:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7Vr6LQRx/2btwNNMMTPm/WQ+WFiCgvUsdZ5S4F38wac=;
-        b=AhAY22w3IsKstDTVZOOeWD+r+3P4Sm6SiCz7lgukP8DG8myHDjNPzIPpf59dwoiFjW
-         +xYMTGecYVFeAm6/AXv99mOtqXXSK40rZqLD4bno82beJTj2ZJuc9AtNhCA5TT3EznQq
-         HBPUF8gJHThU4rwowMhrpwIZaMYrglSRTf0vEUMfeH/K+RX7jxxYcmK3YjpWEkArqYtZ
-         +53S6hpW5VgOMCdKqLIcNpFkM5BtmkFlnLUNfXF5gn03PkTiWhNik7TM0hskX4udyzNV
-         NQzTb+q/jKlJVTdoSzvN/7WNpJU5Mv26HJ6hpM/pB5Ulzh4iQeJ6kBNck1xo4SE6tmPJ
-         78+w==
-X-Gm-Message-State: AOAM532yyGc1/3qFXNCkgJ2u1Gp8lNh2Ul44dlbmhmzkW6lHOZ4Un7Su
-        f4UTAjJ5IvmM8Sq3v11It0csjJNA8IR3Ag==
-X-Google-Smtp-Source: ABdhPJyoOuPKWfEQQ7PvGmqtHJwGud9JbwaGrFcM5JCFy2F1dfMtsokqtNT1Xj4FG/sdP7GC94C1/g==
-X-Received: by 2002:a05:6122:2210:: with SMTP id bb16mr18570851vkb.28.1637927617174;
-        Fri, 26 Nov 2021 03:53:37 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id c21sm3409948vso.21.2021.11.26.03.53.35
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=/rnmb/InE6v1bIFF6J5KRBRwGAqDw2ehlGBUgCeFUDc=;
+        b=1k7pUOEKzjIN2nRqVSMPYSC/Bg5hEf9M8ELmyM+eiYKYo4dB5/2f1Ej73OvjE8PRiv
+         FtzkgEC6irUMSjttKt4NOr3W2QxaJmh78sR+b3owQmvzi1dyGJqf+PlWi7HLBMuiXa34
+         wAVTnATBW0kV4CREnVayyg/2jRz2bAcIsv9mmEqPvGIwW8WhKSYHQb7T6pUVSuOMsgQu
+         S5gVO7aa7DS8w98MkSOVy6zTaOcheVEOQBcGrjbJ/amTXoPA9IaYgHijnuXMujOYMgIj
+         eSmz2aXPN52+pzuu2EMoiRrH3klhodDdPHCkQIqOfLU+udpq+I9w7a9wpq3+U+G8MV8w
+         wEvA==
+X-Gm-Message-State: AOAM533jId2bDRKLx99SpMXkwKS6Zb24of690a/HlC6pNneReAGyQvEs
+        lKZIVkRvI/gPtqxvl72cx1WSvizlDAKfuQ==
+X-Google-Smtp-Source: ABdhPJxX23i/NyZFkE70IqAsrDhRCzePF03JRVgsqO2NK8NajZNudPiTljaSKmGoyjVwD9muBg0q6Q==
+X-Received: by 2002:a67:7247:: with SMTP id n68mr15610559vsc.6.1637931087191;
+        Fri, 26 Nov 2021 04:51:27 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id r20sm3402885vkq.15.2021.11.26.04.51.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Nov 2021 03:53:35 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id n6so18092698uak.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 03:53:35 -0800 (PST)
-X-Received: by 2002:a05:6102:3ed4:: with SMTP id n20mr16273698vsv.57.1637927615195;
- Fri, 26 Nov 2021 03:53:35 -0800 (PST)
+        Fri, 26 Nov 2021 04:51:26 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id n6so18414590uak.1;
+        Fri, 26 Nov 2021 04:51:26 -0800 (PST)
+X-Received: by 2002:ab0:7354:: with SMTP id k20mr33348196uap.78.1637931086446;
+ Fri, 26 Nov 2021 04:51:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20211118111940.1275351-1-miquel.raynal@bootlin.com>
- <20211118111940.1275351-2-miquel.raynal@bootlin.com> <CAMuHMdXi0PPXjH_hHxO1-Lz9fupe4oo936ENe9DzMW8Sb1G6mg@mail.gmail.com>
- <20211119101907.2ce429e6@xps13> <CAMuHMdU_uJv2dUk21DKJnLSUErhvObOb1wJOZTqv_UXZ0edRBQ@mail.gmail.com>
- <20211126124649.498366ee@xps13>
-In-Reply-To: <20211126124649.498366ee@xps13>
+References: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com> <20211126095445.932930-2-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20211126095445.932930-2-kieran.bingham+renesas@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Nov 2021 12:53:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX74Lj4Jy8Wpmy3Qze36knV5btGEa0O8Y0BjH4m51_D8w@mail.gmail.com>
-Message-ID: <CAMuHMdX74Lj4Jy8Wpmy3Qze36knV5btGEa0O8Y0BjH4m51_D8w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: mtd: rzn1: Describe Renesas RZ/N1 NAND controller
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
+Date:   Fri, 26 Nov 2021 13:51:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXv_XcGX3N5iC3zN=sYNEnxHLzgM4BnsWyrnA9OErXVdg@mail.gmail.com>
+Message-ID: <CAMuHMdXv_XcGX3N5iC3zN=sYNEnxHLzgM4BnsWyrnA9OErXVdg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] arm64: dts: renesas: r8a779a0: Add DU support
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi Kieran,
 
-On Fri, Nov 26, 2021 at 12:46 PM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> geert@linux-m68k.org wrote on Fri, 19 Nov 2021 10:36:16 +0100:
-> > On Fri, Nov 19, 2021 at 10:19 AM Miquel Raynal
-> > <miquel.raynal@bootlin.com> wrote:
-> > > geert@linux-m68k.org wrote on Fri, 19 Nov 2021 09:41:35 +0100:
-> > > > On Thu, Nov 18, 2021 at 12:19 PM Miquel Raynal
-> > > > <miquel.raynal@bootlin.com> wrote:
-> > > > > Add a Yaml description for this Renesas NAND controller bindings.
-> > > > >
-> > > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> >
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/mtd/renesas,r9a06g032-nand-controller.yaml
-> > > > > @@ -0,0 +1,60 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/mtd/renesas,r9a06g032-nand-controller.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Renesas RZ/N1x NAND flash controller device tree bindings
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Miquel Raynal <miquel.raynal@bootlin.com>
-> > > > > +
-> > > > > +allOf:
-> > > > > +  - $ref: "nand-controller.yaml"
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: renesas,r9a06g032-nand-controller
-> > > >
-> > > > As the NAND Flash Controller is present on all of RZ/N1D, RZ/N1S,
-> > > > and RZ/N1L, I think you should add a family-specific compatible value
-> > > > "renesas,rzn1-nand-controller" as a fallback.
-> > >
-> > > I see, that's right, I should have added two compatibles.
-> > >
-> > > As there is currently only one 'specific' compatible (r9axxx), should I
-> > > describe the two compatibles as being mandatory? Or should I set the
-> > > most specific one as optional and the least specific one (rzn1)
-> > > mandatory?
-> >
-> > Yes please.
+On Fri, Nov 26, 2021 at 10:54 AM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> Provide the device nodes for the DU on the V3U platforms.
 >
-> I am a little bit confused to which answered you said yes.
-
-My apologies: yes to making both mandatory.
-
-> >  Else you need to match on both in the driver, or we cannot
-> > differentiate later if the need ever arises.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> v2
+>  - Use a single clock specification for the whole DU.
 >
-> I believe you meant "yes the two should be described as mandatory in the
-> bindings" (at least for now) so that when the need arises, the most
-> specific one can be replaced with a oneOf choice. Am I right?
+> v3:
+>  - Use 'du.0' clock name instead of 'du'
+>
+> v4:
+>  - Add in missing reset-names
+>  - Use full renesas,vsps
 
-Exactly.
-
-You can already use "enum" for the most-specific one, so it's clear where
-to add new lines, and to minimize future changes.
+Thanks for the update!
+Will queue in renesas-devel for v5.17, with the du-node relocated to its
+final resting place.
 
 Gr{oetje,eeting}s,
 
