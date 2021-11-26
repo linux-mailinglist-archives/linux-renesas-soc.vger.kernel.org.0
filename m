@@ -2,95 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C256245EE50
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 13:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E30145EF76
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 14:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377480AbhKZM4l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 07:56:41 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:35338 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232097AbhKZMyk (ORCPT
+        id S1350788AbhKZN4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 08:56:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348251AbhKZNyv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Nov 2021 07:54:40 -0500
-Received: by mail-ua1-f51.google.com with SMTP id l24so18435608uak.2;
-        Fri, 26 Nov 2021 04:51:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/rnmb/InE6v1bIFF6J5KRBRwGAqDw2ehlGBUgCeFUDc=;
-        b=1k7pUOEKzjIN2nRqVSMPYSC/Bg5hEf9M8ELmyM+eiYKYo4dB5/2f1Ej73OvjE8PRiv
-         FtzkgEC6irUMSjttKt4NOr3W2QxaJmh78sR+b3owQmvzi1dyGJqf+PlWi7HLBMuiXa34
-         wAVTnATBW0kV4CREnVayyg/2jRz2bAcIsv9mmEqPvGIwW8WhKSYHQb7T6pUVSuOMsgQu
-         S5gVO7aa7DS8w98MkSOVy6zTaOcheVEOQBcGrjbJ/amTXoPA9IaYgHijnuXMujOYMgIj
-         eSmz2aXPN52+pzuu2EMoiRrH3klhodDdPHCkQIqOfLU+udpq+I9w7a9wpq3+U+G8MV8w
-         wEvA==
-X-Gm-Message-State: AOAM533jId2bDRKLx99SpMXkwKS6Zb24of690a/HlC6pNneReAGyQvEs
-        lKZIVkRvI/gPtqxvl72cx1WSvizlDAKfuQ==
-X-Google-Smtp-Source: ABdhPJxX23i/NyZFkE70IqAsrDhRCzePF03JRVgsqO2NK8NajZNudPiTljaSKmGoyjVwD9muBg0q6Q==
-X-Received: by 2002:a67:7247:: with SMTP id n68mr15610559vsc.6.1637931087191;
-        Fri, 26 Nov 2021 04:51:27 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id r20sm3402885vkq.15.2021.11.26.04.51.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Nov 2021 04:51:26 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id n6so18414590uak.1;
-        Fri, 26 Nov 2021 04:51:26 -0800 (PST)
-X-Received: by 2002:ab0:7354:: with SMTP id k20mr33348196uap.78.1637931086446;
- Fri, 26 Nov 2021 04:51:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com> <20211126095445.932930-2-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20211126095445.932930-2-kieran.bingham+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Nov 2021 13:51:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXv_XcGX3N5iC3zN=sYNEnxHLzgM4BnsWyrnA9OErXVdg@mail.gmail.com>
-Message-ID: <CAMuHMdXv_XcGX3N5iC3zN=sYNEnxHLzgM4BnsWyrnA9OErXVdg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] arm64: dts: renesas: r8a779a0: Add DU support
+        Fri, 26 Nov 2021 08:54:51 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE34C0619D9;
+        Fri, 26 Nov 2021 05:08:53 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78966E2C;
+        Fri, 26 Nov 2021 14:08:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637932130;
+        bh=lBWps+1UEJGn3hJNoN8UqjEY0CiXCLE4uMcvm/nlteo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S77t3JagQVvjHOR4kU+6boeJuaylh/JISbFxXS+ktWFfKgtr2vjDVE1QPoQXX1tyD
+         IBM0JODRhafFXAYyjPZMDINu2sLrXEg5LF/OqZDtuucAC4ZdpVSDyRWvpJOVsTEBas
+         C/fxuKQ6Bv8+79JHXLrHIbZksHB0sq/5jnA0cNo4=
+Date:   Fri, 26 Nov 2021 15:08:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@glider.be>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 4/4] arm64: dts: renesas: r8a779a0: Provide default
+ DSI data-lanes
+Message-ID: <YaDcS8BQd9rrMLHh@pendragon.ideasonboard.com>
+References: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
+ <20211126095445.932930-5-kieran.bingham+renesas@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211126095445.932930-5-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-On Fri, Nov 26, 2021 at 10:54 AM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> Provide the device nodes for the DU on the V3U platforms.
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thank you for the patch.
+
+On Fri, Nov 26, 2021 at 09:54:45AM +0000, Kieran Bingham wrote:
+> The data-lanes is a mandatory property for the endpoints.
+> Provide a default when not connected that represents the maximum
+> lanes supported by the device.
+> 
+> A connected device should override the data-lanes if it uses a lower
+> number of lanes.
+> 
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
-> v2
->  - Use a single clock specification for the whole DU.
->
-> v3:
->  - Use 'du.0' clock name instead of 'du'
->
-> v4:
->  - Add in missing reset-names
->  - Use full renesas,vsps
+> 
+> This patch is split from 2/4 to keep it's change for distinct review.
+> The data-lanes is marked as a mandatory property in the DSI bindings
+> (which are out of tree, most recent posting at [0])
+> 
+> [0] https://lore.kernel.org/all/YQGFP%2FcFoSksPyn+@pendragon.ideasonboard.com/
+> 
+> The data-lanes property is marked as mandatory, which means it needs to
+> be provided even when supplying the port templates which get overridden
+> later. Is this expected behaviour?
+> 
+> Does this have sufficient meaning? Or will it always have to be
+> specified by any node overriding anyway...?
 
-Thanks for the update!
-Will queue in renesas-devel for v5.17, with the du-node relocated to its
-final resting place.
+Isn't the remote-endpoint also mandatory ?
 
-Gr{oetje,eeting}s,
+Given that there's no real good default value for data-lanes that is
+significantly more likely than others, I'd prefer dropping the endpoints
+from r8a779a0.dtsi and adding them in board files.
 
-                        Geert
+>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> index fdad8bc4a069..7322c4628e2b 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> @@ -2661,6 +2661,7 @@ dsi0_in: endpoint {
+>  				port@1 {
+>  					reg = <1>;
+>  					dsi0_out: endpoint {
+> +						data-lanes = <1 2 3 4>;
+>  					};
+>  				};
+>  			};
+> @@ -2691,7 +2692,9 @@ dsi1_in: endpoint {
+>  
+>  				port@1 {
+>  					reg = <1>;
+> +
+>  					dsi1_out: endpoint {
+> +						data-lanes = <1 2 3 4>;
+>  					};
+>  				};
+>  			};
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
