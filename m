@@ -2,66 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FAD45EAF1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 11:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7917D45EAF3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 11:02:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376565AbhKZKFU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1376571AbhKZKFU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 26 Nov 2021 05:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33828 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376708AbhKZKDS (ORCPT
+        with ESMTP id S1376709AbhKZKDS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 26 Nov 2021 05:03:18 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD5DC061375
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 01:54:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294CFC0613F8;
+        Fri, 26 Nov 2021 01:54:51 -0800 (PST)
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5B3DE2C;
-        Fri, 26 Nov 2021 10:54:48 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FBD41253;
+        Fri, 26 Nov 2021 10:54:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1637920489;
-        bh=TkM/qrUat4A8RJEClwFvcIPc77AgEITQhIQ91THF/4c=;
-        h=From:To:Cc:Subject:Date:From;
-        b=CGlao/bjc3pUUqWNb7J4mgw3P5ZdsBM8auTpgt5ma2m2LiDMWuyn1THheSAwPQkZS
-         CGo0nXv/Pi+sLXe82eI71aFzWefBl/R2xZEwAvHwT2Sq4Gj7CKRmI0D/5xZc9zSDHI
-         t+7VktJpwpEYew99u5Npe8T/hSeM/a8H74l2tzzE=
+        bh=DnWJvl713MQAX3YFygjk12TSSxCTHU6eKoungwGuokg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LJusxTtzttw05xaBDe4CDwqWGcTOPs1NWqv0RlfhUUkB16etEfYsLM/52Mx8AwFfG
+         wVIjj92GZedU7KPlDM7TeKYf4gx5rtecbqPs+FHR+2fSQaeSAKOQSxe2YEnNCHEeno
+         Y5Tf0yxwQaZiijXtnXyPlemWCNv5NMgnx4NlDqQo=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v4 0/4] arm64: dts: renesas: r8a779a0 DU support
-Date:   Fri, 26 Nov 2021 09:54:41 +0000
-Message-Id: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v4 1/4] arm64: dts: renesas: r8a779a0: Add DU support
+Date:   Fri, 26 Nov 2021 09:54:42 +0000
+Message-Id: <20211126095445.932930-2-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
+References: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide the DT nodes for the DU, and DSI found on the r8a779a0, and
-extend the falcon-cpu board add on with the TI SN65DSI86 bridge which is
-used to connect the DSI output to the mini display-port connector on the
-Falcon CPU board.
+Provide the device nodes for the DU on the V3U platforms.
 
-This has been successfully tested on a Falcon-V3U with patches to the
-rcar_du and sn65dsi86 which will be sent separately.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+v2
+ - Use a single clock specification for the whole DU.
 
-Patch 4 could be expected to be merged with patch 2, but I have kept it
-separate for specific review. It can stay separate or be squashed if the
-change itself is approved.
+v3:
+ - Use 'du.0' clock name instead of 'du'
 
-Kieran Bingham (4):
-  arm64: dts: renesas: r8a779a0: Add DU support
-  arm64: dts: renesas: r8a779a0: Add DSI encoders
-  arm64: dts: renesas: r8a779a0: falcon-cpu: Add DSI display output
-  arm64: dts: renesas: r8a779a0: Provide default DSI data-lanes
+v4:
+ - Add in missing reset-names
+ - Use full renesas,vsps
 
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 79 +++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 99 +++++++++++++++++++
- 2 files changed, 178 insertions(+)
 
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 32 +++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 9e085d635100..483bb971c3ca 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -2601,6 +2601,38 @@ isp3vin31: endpoint {
+ 			};
+ 		};
+ 
++		du: display@feb00000 {
++			compatible = "renesas,du-r8a779a0";
++			reg = <0 0xfeb00000 0 0x40000>;
++			interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 411>;
++			clock-names = "du.0";
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			resets = <&cpg 411>;
++			reset-names = "du.0";
++			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
++
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					du_out_dsi0: endpoint {
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++					du_out_dsi1: endpoint {
++					};
++				};
++			};
++		};
++
+ 		prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
 -- 
 2.30.2
 
