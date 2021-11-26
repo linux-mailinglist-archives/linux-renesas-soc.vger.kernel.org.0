@@ -2,97 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE2945EAD7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 10:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACF9E45EB28
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Nov 2021 11:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376442AbhKZKAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 05:00:07 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49528 "EHLO
+        id S1376663AbhKZKUg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 05:20:36 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49752 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376588AbhKZJ6F (ORCPT
+        with ESMTP id S233709AbhKZKSg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Nov 2021 04:58:05 -0500
+        Fri, 26 Nov 2021 05:18:36 -0500
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB43CE2C;
-        Fri, 26 Nov 2021 10:54:50 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A372340;
+        Fri, 26 Nov 2021 11:15:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637920491;
-        bh=gDWf41GJ9wF0lnHEXzdtH0ScCqfwcfOYTY8fNdxgyTQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gNrU0LTY85tles7val6sqq7JGvSGccgZJakYIh1nxxKnd400qHZnU+z4uKRi+dTQ6
-         jDA2EWoIxOMB36aXqS2kqL5gNT+mpI5+BCm0cTN91lCwdlLRC5vXVQ0mOZH6V5BgS9
-         qJFDVx7NuOrXei9ChESds4pO9L129lceAogaowgQ=
+        s=mail; t=1637921722;
+        bh=l9nerkEGB+XEJioBDr9MP8o5G22dGl+ylIENzT7Nr14=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MZydxZiw7pyCH7LTkgGhhjEJ6v5n1I0cTEnIh/GwtvQTno/fpM3tz/hT9NYejRCHt
+         pxgkHeETSSeJpDvkAx0lm+G/vwR4XNqIe+oj1lHXAMCFDhdrVUZwivQngZGvVbYwYZ
+         NeS+l3+HKcGvxRpsOA9wI6e0LVUZLKZ1D+yLLF3Q=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 4/4] arm64: dts: renesas: r8a779a0: Provide default DSI data-lanes
-Date:   Fri, 26 Nov 2021 09:54:45 +0000
-Message-Id: <20211126095445.932930-5-kieran.bingham+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 0/4] drm: rcar-du: mipi-dsi: Cleanup and Fixes
+Date:   Fri, 26 Nov 2021 10:15:14 +0000
+Message-Id: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211126095445.932930-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The data-lanes is a mandatory property for the endpoints.
-Provide a default when not connected that represents the maximum
-lanes supported by the device.
+These patches are against the as-yet-unmerged posting from Laurent of
+"drm: rcar-du: Add R-Car DSI driver" from [0]
 
-A connected device should override the data-lanes if it uses a lower
-number of lanes.
+[0] https://lore.kernel.org/all/20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com/
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
+Notably, the comments blocking the integration of the series on the
+handling of bridge probe ordering have hopefully been solved by 4/4
+here. This has been validated and is working on the Falcon-V3U with an
+SN65DSI86 on a merge of the latest drm/drm-next and
+drm-misc/drm-misc-next.
 
-This patch is split from 2/4 to keep it's change for distinct review.
-The data-lanes is marked as a mandatory property in the DSI bindings
-(which are out of tree, most recent posting at [0])
+Other updates to the SN65DSI86 were also used to support the bridge
+connecting to non-eDP, and have previously been posted by Laurent [1].
+I've made no specific changes to those, so I'll refrain from reposting
+them.
 
-[0] https://lore.kernel.org/all/YQGFP%2FcFoSksPyn+@pendragon.ideasonboard.com/
+[1] https://lore.kernel.org/all/20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com/
 
-The data-lanes property is marked as mandatory, which means it needs to
-be provided even when supplying the port templates which get overridden
-later. Is this expected behaviour?
+Kieran Bingham (4):
+  drm: rcar-du: Fix Makefile indentation for DSI
+  drm: rcar-du: Select DRM_MIPI_DSI with DRM_RCAR_MIPI_DSI
+  drm: rcar-du: mipi-dsi: Ensure correct fout is reported
+  drm: rcar-du: mipi-dsi: Support bridge probe ordering
 
-Does this have sufficient meaning? Or will it always have to be
-specified by any node overriding anyway...?
+ drivers/gpu/drm/rcar-du/Kconfig         |  1 +
+ drivers/gpu/drm/rcar-du/Makefile        |  2 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 52 ++++++++++++++-----------
+ 3 files changed, 31 insertions(+), 24 deletions(-)
 
-
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index fdad8bc4a069..7322c4628e2b 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -2661,6 +2661,7 @@ dsi0_in: endpoint {
- 				port@1 {
- 					reg = <1>;
- 					dsi0_out: endpoint {
-+						data-lanes = <1 2 3 4>;
- 					};
- 				};
- 			};
-@@ -2691,7 +2692,9 @@ dsi1_in: endpoint {
- 
- 				port@1 {
- 					reg = <1>;
-+
- 					dsi1_out: endpoint {
-+						data-lanes = <1 2 3 4>;
- 					};
- 				};
- 			};
 -- 
 2.30.2
 
