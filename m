@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC9C45FC4E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 04:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB9645FC4D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 04:18:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbhK0DWD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 22:22:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33156 "EHLO
+        id S1351888AbhK0DWC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 22:22:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233492AbhK0DUC (ORCPT
+        with ESMTP id S233355AbhK0DUC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 26 Nov 2021 22:20:02 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E06C09CE44
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 18:08:19 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so8726515pjb.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 18:08:19 -0800 (PST)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3BABC09CE45
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 18:08:21 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id n26so10510497pff.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Nov 2021 18:08:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=HvqXiPW7kcHuWtQsk1jv9zhgJgQI7z/HebMimcDCJV4=;
-        b=X3VQqQuy/b4a6fJnpsUOf2TbEgdDwX7O9D8mjD/TERE2GLWlMTriL2OstpH1xNktX2
-         noRBims2G8x5MtgCZP7WZpvvH6hoXglqFbokiPST4wSchRnJ3wyCsNqPJtRokyiKohK5
-         pyk8fIVskgstlElNmgokGJ2t6YHW22VFKTRjJin4Vk7qIYRNh0p1pSsveK40QoQ0yhzQ
-         MClwwTEENTlnOav5Z2RRMfW9R/tEi5XJh//fFyanybsjAhvrpcKUwAEvyhFpSXuvgebI
-         tnmZIMY3yYX7fQIwHpzCJoO/3UaRwfUG1uecigubWdutefdEowa5D+1iNtsobPtYRKez
-         ku0A==
+        bh=0hUpkk2bVLMlWbUm6FAXqYcsXcRQDfAu3do09rdMvQU=;
+        b=5hJow46YvRg9KynMaoLmRj620TjvX4/nvJv0JnMqOom+GtBc72VGF6DXRhSzqInvXR
+         GNdFQcm1DU3mm6fIXW9Mz/OuguH8uxUvbZpw6guTJEkdjWwvoTFA0iJg7Jw87zN+MW//
+         qVkqu05yBNKAl9SK/OzNjEN4XwLR5+nqDiUhowkqgF0bl5tuB5SMyaDLGcXRJJC27mRt
+         BKim+NwTyy6TN98cQqmw59pdUMo34/eBABSGggZ9nxJAf1/8l8Uvl3u4N0jmBjBPZhzm
+         grmB2PMuYFPLhcFMEojVuVSopcpC01ks1UjIDnZGDL95zXUQeOyYfdEDdL3znnGBRfjy
+         nCng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=HvqXiPW7kcHuWtQsk1jv9zhgJgQI7z/HebMimcDCJV4=;
-        b=GR1NB/YhSX5eKSxLJvpaPTbbageHW4phCJPpKJcOFjGp9nUh2IjpJVovDzrSOD5Hnq
-         decV4TjlnztxMqO5ILTsVd/jU483rRt+qlMdR3h5F/1+tDPSkKwHz+1z1m7sN0B66MTq
-         mdVG7O6zGWfxRnc1QxI9PoNtXpRtR6IcKP4F19V9Ct3Btoj7xPJkqu6owQatK85XXys+
-         rcypNprqJKZrNnOVzhydV8/4zTOREssNw9Lu1FbILKhS1Oa+cQljskD+rldRi1Akbe1Y
-         71d1ZTvUjrk8bUQldwpx+BLUKHCU6eT7afuFIQE6UA2xhirt0tJpUlRFYTuIwUs9MdBU
-         AqkA==
-X-Gm-Message-State: AOAM533WBDcjhEx7WaH0YtnprB9wmlDiKtX/0BIzvJqqs4lsveHVLfhv
-        iqO2A5w4LCIvqxtIwTC0dxRgwuz07fmbaWJc
-X-Google-Smtp-Source: ABdhPJwTytuTNkxFFlVnkmMU6p6BN2VNxFiMOVIvz5Aa8kO59gyzS0Dzu9PYrBBkok7bduFGYnK74A==
-X-Received: by 2002:a17:90a:df01:: with SMTP id gp1mr20084980pjb.28.1637978898637;
-        Fri, 26 Nov 2021 18:08:18 -0800 (PST)
+        bh=0hUpkk2bVLMlWbUm6FAXqYcsXcRQDfAu3do09rdMvQU=;
+        b=YXI/Bcs/hBdiGAd/060eKk6ZYhlwyMPDTmvmpryWLNWT7pRpgi85fA86yACL+GcNQ2
+         oohDN19oaEdV2IrBenyB+F9m0ecJb5gCDFh0wkvm85HODtME0lkLKqIVySNcKgjjHWdC
+         3xCxfNyrCLtu+n47xad26PjBAU/b2Xq3IzFKbWE9w4zAMZTAHi7btOX7T49LoLDZE7x0
+         zT1hSjDJJ2gyuX0fAPCtCxo34rz2Z7QcqeHOJcpsizMAQdjXntlFWkbBr0zEZiz6vjg1
+         4K6U+9gc7+/NRVCFVWIWa8lLkBQfZyaxPMOuacgpYcYL3wmbIVckmwyuINeGo3slbypN
+         bDnA==
+X-Gm-Message-State: AOAM533PZIOrDEErTEtJhhtit97OhXmx9t26MDnqsFStZrQP1vhwUdFl
+        WJlGBeCTmkZntEgAXT1kQGvgAxcp3LOQqwd0
+X-Google-Smtp-Source: ABdhPJwftbOlaLnY9Drk7+YIuGcIWC1sY+8FpUFbJlvNobPwTMktkCLOHAyB0tUBfQ835JqPZYV/9Q==
+X-Received: by 2002:a63:894a:: with SMTP id v71mr24119849pgd.337.1637978901123;
+        Fri, 26 Nov 2021 18:08:21 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id j8sm8302360pfc.8.2021.11.26.18.08.18
+        by smtp.gmail.com with ESMTPSA id il13sm13009252pjb.52.2021.11.26.18.08.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Nov 2021 18:08:18 -0800 (PST)
-Message-ID: <61a19312.1c69fb81.4ba52.7c72@mx.google.com>
-Date:   Fri, 26 Nov 2021 18:08:18 -0800 (PST)
+        Fri, 26 Nov 2021 18:08:20 -0800 (PST)
+Message-ID: <61a19314.1c69fb81.c850f.149f@mx.google.com>
+Date:   Fri, 26 Nov 2021 18:08:20 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,16 +57,16 @@ X-Kernelci-Tree: renesas
 X-Kernelci-Branch: next
 X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: renesas-next-2021-11-26-v5.16-rc1
-Subject: renesas/next baseline-nfs: 64 runs,
- 1 regressions (renesas-next-2021-11-26-v5.16-rc1)
+Subject: renesas/next baseline: 436 runs,
+ 3 regressions (renesas-next-2021-11-26-v5.16-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline-nfs: 64 runs, 1 regressions (renesas-next-2021-11-26-=
-v5.16-rc1)
+renesas/next baseline: 436 runs, 3 regressions (renesas-next-2021-11-26-v5.=
+16-rc1)
 
 Regressions Summary
 -------------------
@@ -78,11 +78,17 @@ platform            | arch | lab           | compiler | defconfig          =
 rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
 RM_LPAE=3Dy | 1          =
 
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
+
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defconfig+=
+crypto    | 1          =
+
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-11-26-v5.16-rc1/plan/baseline-nfs/
+s-next-2021-11-26-v5.16-rc1/plan/baseline/
 
-  Test:     baseline-nfs
+  Test:     baseline
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2021-11-26-v5.16-rc1
@@ -105,7 +111,7 @@ rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
 RM_LPAE=3Dy | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/61a15fab18e1c6de7b18f6c7
+  Details:     https://kernelci.org/test/plan/id/61a16024c07ec6f12518f6d9
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
   Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
@@ -113,18 +119,84 @@ RM_LPAE=3Dy | 1          =
 10110)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
 -11-26-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-10/lab-collabora/baseline-nfs-rk3288-rock2-square.txt
+gcc-10/lab-collabora/baseline-rk3288-rock2-square.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
 -11-26-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
-gcc-10/lab-collabora/baseline-nfs-rk3288-rock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster/2021=
-1118.0/armhf/initrd.cpio.gz =
+gcc-10/lab-collabora/baseline-rk3288-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/61a15fab18e1c6de7=
-b18f6c8
+  * baseline.login: https://kernelci.org/test/case/id/61a16024c07ec6f12518f=
+6da
         failing since 10 days (last pass: renesas-next-2021-10-18-v5.15-rc1=
 , first fail: renesas-next-2021-11-15-v5.16-rc1) =
+
+ =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defc...G_A=
+RM_LPAE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61a15e95eb50956d5318f71a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-11-26-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
+gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-11-26-v5.16-rc1/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy/=
+gcc-10/lab-collabora/baseline-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/61a15e95eb50956d5318f=
+71b
+        new failure (last pass: renesas-next-2021-11-15-v5.16-rc1) =
+
+ =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+          | regressions
+--------------------+------+---------------+----------+--------------------=
+----------+------------
+rk3288-veyron-jaq   | arm  | lab-collabora | gcc-10   | multi_v7_defconfig+=
+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61a16407ac8c83300118f6f2
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-11-26-v5.16-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-collabora/baselin=
+e-rk3288-veyron-jaq.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
+-11-26-v5.16-rc1/arm/multi_v7_defconfig+crypto/gcc-10/lab-collabora/baselin=
+e-rk3288-veyron-jaq.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/61a16407ac8c83300118f=
+6f3
+        new failure (last pass: renesas-next-2021-11-19-v5.16-rc1) =
 
  =20
