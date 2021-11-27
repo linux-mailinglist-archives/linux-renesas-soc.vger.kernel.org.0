@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67A1445FFEA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 16:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7AF145FFFC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 16:53:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347977AbhK0PpT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 27 Nov 2021 10:45:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52364 "EHLO
+        id S232830AbhK0P4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 27 Nov 2021 10:56:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233438AbhK0PnT (ORCPT
+        with ESMTP id S1350408AbhK0PyO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 27 Nov 2021 10:43:19 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CC2C06173E
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Nov 2021 07:40:04 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id l16so25574542wrp.11
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Nov 2021 07:40:04 -0800 (PST)
+        Sat, 27 Nov 2021 10:54:14 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDBCBC0613E1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Nov 2021 07:49:43 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id d24so25710282wra.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Nov 2021 07:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=eEr+k35IXuOeFS4Xu5O2eFdhiC9YcG76i0QP14/XlvQ=;
-        b=RtbqM0MqNtABcVnS216m6VrtPFk7hZg0XfZUvWh4vsZGtfJxydsP5dMqVxtJV8hc+w
-         8ieYrQ1qzf4qnyqlZNAz00IxvwXCXtbMDlb1vX6rFvfjpNXkLsfKPFa2yaYVaFPJoVeP
-         3MYHDbGbl9S9HwaMlShKwVtndVeWVUUePByoYrAJ0si7BgTIQRtMfjOaVTdHzyn6wsux
-         n2oHqOSuGQ9XbSIyq7tZz5knI5MaEQd390VTptMyVfn9pjMmJHHWlx+hjCNzuL0uHioW
-         TmUxXjG5RUEMLvwu8a0JxZD2J2pOsxnGGLOaijMNP9oLLBTCYl+fSuT3UadzmVpo9bvm
-         Xqdg==
+        bh=o7zClZEkfKlSYafiuTkKczg5s3NAbP1eM/hEt1Zsmsg=;
+        b=HYfIEQl1obgXccQ6Y99XNm1aGEdW62UyfacT0dcWWljXeF2rX2V6Dg6jhADP0kV+Cw
+         IGM43dwAJ5RKkV/Fe9Px8cKlea85DXSAGK5aShsquYqzgdYVMgfewMURCSVuF0fa87ln
+         ypeRsp9KanenZr7544KS/UW7s8QgU456RgdaPzduOoP9H3Dc7F39zbTZRHYUDyDa30iI
+         aGo8nd4+duQrMMp1Sxt+j/zx/YiFUmv7Fy8TcSHm0JJ9OkEhVgQF4SpIfXLcYsJ+J2zj
+         UV4FJ+pzbc2UNz2nY39ziNSlZfVARYuHQd3QL7PkyARkBoR3i6bTz98M5Lq7hHg7K+Qj
+         tH9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=eEr+k35IXuOeFS4Xu5O2eFdhiC9YcG76i0QP14/XlvQ=;
-        b=nuIFbsIpFOM1ZzuvnnNFQD7Y4ce7gyDNnHLrOesOm61zh/iYjunLw22quA/4JT9Zrn
-         zzq3MZ3xNahb+wK2tiazrzUsdy2kbiRLq09fu386apdTrVani0tG1x/WtBrK6g5A2OvS
-         wk1z0t+xRvwT3aFqX21Yjrgsf2etBhlFYnftG782/NTmJqG3irP6WTim7252csjqiaob
-         7116yK1vkWH/L+4ojQIRWjl4vuRE3XX0L+KmnHTpQ4oBv7/f5sVLYwSWb4+HlhIMz7LH
-         TS0o2YsTZI0PAtKILSJ91ppBwDZE9rFKjJ09J6Lx4qnoSkwqrAWH/wmNptK1Qz3jfcdK
-         MHDw==
-X-Gm-Message-State: AOAM5311FPw1x+Y2pfnrAaC9M+x0bAOnEYURMvW4VKSJs+RDK3p7i+Hk
-        37dX6wVntVNMief9U7kZi6xT7d4XGLhJZTfv
-X-Google-Smtp-Source: ABdhPJzPNQ82vA4A9M8lGr3eBa/7aFbJEbUG+Xj1s8N5Za+bFJmzySAJwZUFEmX1cZxruv2CGRugRA==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr20646329wrt.327.1638027602993;
-        Sat, 27 Nov 2021 07:40:02 -0800 (PST)
+        bh=o7zClZEkfKlSYafiuTkKczg5s3NAbP1eM/hEt1Zsmsg=;
+        b=h+eqwZ8QmXj/JL66A4expfxz+KVAPA8XXJYlqSmIMHeVwePfYA7TdcPAC/weLJNkCg
+         9ZQ+LGiRs+Kb2OTRhW15iaIrMZugtorXq2APvw5YWRCAA86PCi/d+Vhl6/3quuzhJk4C
+         0WcOr7Fm3a1jei4XHXeCIV3KYnIHz0SREz1OE3ncykBkUD7TYqsudc+pdvwCLPOwHxZx
+         vlK7GILCLfp8itLrpPJyZBQl0gG/ri6qZGstLkG31tEB28gUJSP8dTiHDvYgTX/7eCdD
+         tiv0t71dl8X3b+5/niwjUH/Jdp99SH9Que8Qcm67CwTb0ZkVHpnC1lAAtUOwEHol5E7w
+         B2MA==
+X-Gm-Message-State: AOAM533Vti+6MOxn+h3Hs45TK05aoOJh2NDw04FNIm0P69e3ybdXc+g4
+        1OAGIFN0VAgSLc4v3RuBT6g7Qg==
+X-Google-Smtp-Source: ABdhPJxFWiyIuyBoujmvAS8tsLWJuXu11V7/B5woU0UMQjlSnVK6GVQN8puDY7LPv26CGiqmz2wefw==
+X-Received: by 2002:a5d:58c5:: with SMTP id o5mr22470068wrf.15.1638028182503;
+        Sat, 27 Nov 2021 07:49:42 -0800 (PST)
 Received: from localhost (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.gmail.com with ESMTPSA id q26sm8927456wrc.39.2021.11.27.07.40.02
+        by smtp.gmail.com with ESMTPSA id y142sm9608342wmc.40.2021.11.27.07.49.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Nov 2021 07:40:02 -0800 (PST)
-Date:   Sat, 27 Nov 2021 16:40:01 +0100
+        Sat, 27 Nov 2021 07:49:42 -0800 (PST)
+Date:   Sat, 27 Nov 2021 16:49:41 +0100
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -57,233 +57,133 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: rcar-vin: Refactor link notify
-Message-ID: <YaJRURNvCmyiWMoW@bismarck.dyn.berto.se>
+Subject: Re: [PATCH 2/3] media: rcar-vin: Breakout media link creation
+Message-ID: <YaJTlR9DXTxe7tQe@bismarck.dyn.berto.se>
 References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
- <20211020200225.1956048-2-niklas.soderlund+renesas@ragnatech.se>
- <20211104163654.fjjcpmj2gnt5aaul@uno.localdomain>
- <YYwF1dg1/2b68rgH@pendragon.ideasonboard.com>
+ <20211020200225.1956048-3-niklas.soderlund+renesas@ragnatech.se>
+ <20211104164306.ia33awmr5rcnnxtg@uno.localdomain>
+ <YYwG8/4qeOuV7cDG@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYwF1dg1/2b68rgH@pendragon.ideasonboard.com>
+In-Reply-To: <YYwG8/4qeOuV7cDG@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo and Laurent,
+Hello Laurent,
 
-Thanks for your feedback!
+Thanks for your review.
 
-On 2021-11-10 19:48:05 +0200, Laurent Pinchart wrote:
-> On Thu, Nov 04, 2021 at 05:36:54PM +0100, Jacopo Mondi wrote:
-> > On Wed, Oct 20, 2021 at 10:02:23PM +0200, Niklas Söderlund wrote:
-> > > The code have grown organically and a lot of checks are preformed for
-> > 
-> > code -> has
-> > preformed -> performed
-> > 
-> > > the CSI-2 use-case even if the link notify is for a subdevice connected
-> > > to the parallel interface.
-> > >
-> > > Before reworking the CSI-2 routing logic split the CSI-2 and parallel
-> > > link notify code in two separate blocks to make it clearer. There is no
-> > > functional change.
+On 2021-11-10 19:52:51 +0200, Laurent Pinchart wrote:
+> Hello,
+> 
+> On Thu, Nov 04, 2021 at 05:43:06PM +0100, Jacopo Mondi wrote:
+> > On Wed, Oct 20, 2021 at 10:02:24PM +0200, Niklas Söderlund wrote:
+> > > In preparation of creating more links to allow for full Virtual Channel
+> > > routing within the CSI-2 block break out the link creation logic to a
+> > > helper function as the logic will grow in future work.
+> 
+> Are links the right option, should we switch to subdev internal routing
+> configuration ?
+
+That is an interesting question I thought about it but decided against 
+it, at lest for now. The design we have is that each source pad of the 
+R-Car CSI-2 subdevice is fixed to a specific VC (source pad 0 -> VC0, 
+source pad 1 - > VC1, etc). And with this patch we preserve this 
+behavior.
+
+Once we have the internal routing and multiplexed stream API upstream we 
+can evolve this and still keep the API consistent. As a first step we 
+expose the internal routing true the new API, read-only as that how it 
+is implemented today and then on-top of that we can decide if we want to 
+make it configurable from user-space, or not.
+
+> 
+> > > There is no functional change.
 > > >
 > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-core.c | 87 +++++++++++----------
-> > >  1 file changed, 45 insertions(+), 42 deletions(-)
+> > >  drivers/media/platform/rcar-vin/rcar-core.c | 38 ++++++++++-----------
+> > >  1 file changed, 18 insertions(+), 20 deletions(-)
 > > >
 > > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > index 1d92cc8ede8f8a3e..bd960c348ba5228c 100644
+> > > index bd960c348ba5228c..65ab66a072e9d635 100644
 > > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
 > > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > @@ -795,12 +795,10 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
-> > >  {
-> > >  	struct rvin_group *group = container_of(link->graph_obj.mdev,
-> > >  						struct rvin_group, mdev);
-> > > -	unsigned int master_id, channel, mask_new, i;
-> > > -	unsigned int mask = ~0;
-> > >  	struct media_entity *entity;
-> > >  	struct video_device *vdev;
-> > > -	struct media_pad *csi_pad;
-> > > -	struct rvin_dev *vin = NULL;
-> > > +	struct rvin_dev *vin;
-> > > +	unsigned int i;
-> > >  	int csi_id, ret;
+> > > @@ -909,6 +909,22 @@ static const struct media_device_ops rvin_csi2_media_ops = {
+> > >  	.link_notify = rvin_csi2_link_notify,
+> > >  };
 > > >
-> > >  	ret = v4l2_pipeline_link_notify(link, flags, notification);
-> > > @@ -826,33 +824,9 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
-> > >  	/* Find the master VIN that controls the routes. */
-> > >  	vdev = media_entity_to_video_device(link->sink->entity);
-> > >  	vin = container_of(vdev, struct rvin_dev, vdev);
-> > > -	master_id = rvin_group_id_to_master(vin->id);
-> > >
-> > > -	if (WARN_ON(!group->vin[master_id])) {
-> > > -		ret = -ENODEV;
-> > > -		goto out;
-> > > -	}
-> > >
-> > > -	/* Build a mask for already enabled links. */
-> > > -	for (i = master_id; i < master_id + 4; i++) {
-> > > -		if (!group->vin[i])
-> > > -			continue;
-> > > -
-> > > -		/* Get remote CSI-2, if any. */
-> > > -		csi_pad = media_entity_remote_pad(
-> > > -				&group->vin[i]->vdev.entity.pads[0]);
-> > > -		if (!csi_pad)
-> > > -			continue;
-> > > -
-> > > -		csi_id = rvin_group_entity_to_remote_id(group, csi_pad->entity);
-> > > -		channel = rvin_group_csi_pad_to_channel(csi_pad->index);
-> > > -
-> > > -		mask &= rvin_csi2_get_mask(group->vin[i], csi_id, channel);
-> > > -	}
-> > > -
+> > > +static int rvin_csi2_add_route(struct rvin_group *group,
 > > 
-> > There are now two empty lines here
-> > 
-> > > -	/* Add the new link to the existing mask and check if it works. */
-> > >  	csi_id = rvin_group_entity_to_remote_id(group, link->source->entity);
-> > > -
-> > >  	if (csi_id == -ENODEV) {
-> > >  		struct v4l2_subdev *sd;
-> > >
-> > > @@ -877,25 +851,54 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
-> > >  		vin_err(vin, "Subdevice %s not registered to any VIN\n",
-> > >  			link->source->entity->name);
-> > >  		ret = -ENODEV;
-> > > -		goto out;
-> > > -	}
-> > > +	} else {
-> > 
-> > I wonder if the group mutex should be locked in the else branch only
-> > and simplify the whole thing as:
-> 
-> Isn't the lock required to call rvin_group_entity_to_remote_id() ? I
-> think the two lines before:
-> 
-> 	vdev = media_entity_to_video_device(link->sink->entity);
-> 	vin = container_of(vdev, struct rvin_dev, vdev);
-> 
-> could however be moved before mutex_lock().
-> 
-> >         if (csi_id == -ENODEV) {
-> >                 /* subdev is parallel. */
-> >                 for () {
-> 
-> Unless I'm mistaken, this needs locking in order to access group->vin[]
-> safely.
-
-As Laurent points out it is needed to hold the lock both to call 
-rvin_group_entity_to_remote_id() and to access group->vin[i].
-
-I have taken the suggestion to move the lookup of vdev and vin outside 
-the mutex.
-
-> 
-> >                         return 0;
-> >                 }
-> > 
-> >                 return -ENODEV;
-> >         }
-> > 
-> >         /* subdev is CSI-2 */
-> >         mutex_lock(group->mutex);
-> > 
-> >         ...
-> > 
-> >         mutex_unlock(group->mutex);
-> > 
-> > Even if I see above:
-> > 
-> > 	/*
-> > 	 * Don't allow link changes if any stream in the graph is active as
-> > 	 * modifying the CHSEL register fields can disrupt running streams.
-> > 	 */
-> > 	media_device_for_each_entity(entity, &group->mdev) {
-> > 		struct media_pad *iter;
-> > 
-> > 		media_entity_for_each_pad(entity, iter) {
-> > 			if (iter->stream_count)
-> > 				return -EBUSY;
-> > 		}
-> > 	}
-> > 
-> > Being run out of the critical session, but that was already the case.
-> > 
-> > 
-> > 
-> > > +		unsigned int master_id, channel, mask_new;
-> > > +		unsigned int mask = ~0;
-> > > +		struct media_pad *csi_pad;
-> > >
-> > > -	channel = rvin_group_csi_pad_to_channel(link->source->index);
-> > > -	mask_new = mask & rvin_csi2_get_mask(vin, csi_id, channel);
-> > > -	vin_dbg(vin, "Try link change mask: 0x%x new: 0x%x\n", mask, mask_new);
-> > > +		master_id = rvin_group_id_to_master(vin->id);
-> > >
-> > > -	if (!mask_new) {
-> > > -		ret = -EMLINK;
-> > > -		goto out;
-> > > -	}
-> > > +		if (WARN_ON(!group->vin[master_id])) {
-> > > +			ret = -ENODEV;
-> > > +			goto out;
-> > > +		}
+> > How about rvin_csi2_create_link() ?
+> >
+> > > +			       const struct rvin_group_route *route)
 > > > +
-> > > +		/* Build a mask for already enabled links. */
-> > > +		for (i = master_id; i < master_id + 4; i++) {
-> > > +			if (!group->vin[i])
-> > > +				continue;
+> > > +{
+> > > +	struct media_entity *source = &group->remotes[route->csi].subdev->entity;
+> > > +	unsigned int source_idx = rvin_group_csi_channel_to_pad(route->channel);
+> > > +	struct media_entity *sink = &group->vin[route->vin]->vdev.entity;
+> > > +	struct media_pad *source_pad = &source->pads[source_idx];
+> > > +	struct media_pad *sink_pad = &sink->pads[0];
 > > > +
-> > > +			/* Get remote CSI-2, if any. */
-> > > +			csi_pad = media_entity_remote_pad(
-> > > +					&group->vin[i]->vdev.entity.pads[0]);
-> > > +			if (!csi_pad)
-> > > +				continue;
-> > >
-> > > -	/* New valid CHSEL found, set the new value. */
-> > > -	ret = rvin_set_channel_routing(group->vin[master_id], __ffs(mask_new));
-> > > -	if (ret)
-> > > -		goto out;
-> > > +			csi_id = rvin_group_entity_to_remote_id(group,
-> > > +								csi_pad->entity);
-> > > +			channel = rvin_group_csi_pad_to_channel(csi_pad->index);
-> > >
-> > > -	vin->is_csi = true;
-> > > +			mask &= rvin_csi2_get_mask(group->vin[i], csi_id, channel);
-> > > +		}
-> > >
-> > > +		channel = rvin_group_csi_pad_to_channel(link->source->index);
-> > > +		mask_new = mask & rvin_csi2_get_mask(vin, csi_id, channel);
-> > > +		vin_dbg(vin, "Try link change mask: 0x%x new: 0x%x\n", mask,
-> > > +			mask_new);
-> > > +
-> > > +		if (!mask_new) {
-> > > +			ret = -EMLINK;
-> > > +			goto out;
-> > > +		}
-> > > +
-> > > +		/* New valid CHSEL found, set the new value. */
-> > > +		ret = rvin_set_channel_routing(group->vin[master_id],
-> > > +					       __ffs(mask_new));
-> > > +		if (ret)
-> > > +			goto out;
-> > > +
-> > > +		vin->is_csi = true;
+> >
+> > And keep the comment here to re-state that if the linke existed
+> > already is not a fatal error
+> > 
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > 
-> I'm tempted to factor code out to two functions for the parallel and
-> CSI-2 case, but it could be done later too.
+> With those comments addressed,
 > 
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> > > +	}
-> > >  out:
-> > >  	mutex_unlock(&group->lock);
+> > > +	if (media_entity_find_link(source_pad, sink_pad))
+> > > +		return 0;
+> > > +
+> > > +	return media_create_pad_link(source, source_idx, sink, 0, 0);
+> > > +}
+> > > +
+> > >  static int rvin_csi2_setup_links(struct rvin_dev *vin)
+> > >  {
+> > >  	const struct rvin_group_route *route;
+> > > @@ -917,10 +933,6 @@ static int rvin_csi2_setup_links(struct rvin_dev *vin)
+> > >  	/* Create all media device links between VINs and CSI-2's. */
+> > >  	mutex_lock(&vin->group->lock);
+> > >  	for (route = vin->info->routes; route->mask; route++) {
+> > > -		struct media_pad *source_pad, *sink_pad;
+> > > -		struct media_entity *source, *sink;
+> > > -		unsigned int source_idx;
+> > > -
+> > >  		/* Check that VIN is part of the group. */
+> > >  		if (!vin->group->vin[route->vin])
+> > >  			continue;
+> > > @@ -933,23 +945,9 @@ static int rvin_csi2_setup_links(struct rvin_dev *vin)
+> > >  		if (!vin->group->remotes[route->csi].subdev)
+> > >  			continue;
+> > >
+> > > -		source = &vin->group->remotes[route->csi].subdev->entity;
+> > > -		source_idx = rvin_group_csi_channel_to_pad(route->channel);
+> > > -		source_pad = &source->pads[source_idx];
+> > > -
+> > > -		sink = &vin->group->vin[route->vin]->vdev.entity;
+> > > -		sink_pad = &sink->pads[0];
+> > > -
+> > > -		/* Skip if link already exists. */
+> > > -		if (media_entity_find_link(source_pad, sink_pad))
+> > > -			continue;
+> > > -
+> > > -		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
+> > > -		if (ret) {
+> > > -			vin_err(vin, "Error adding link from %s to %s\n",
+> > > -				source->name, sink->name);
+> > > +		ret = rvin_csi2_add_route(vin->group, route);
+> > > +		if (ret)
+> > >  			break;
+> > > -		}
+> > >  	}
+> > >  	mutex_unlock(&vin->group->lock);
 > > >
 > 
 > -- 
