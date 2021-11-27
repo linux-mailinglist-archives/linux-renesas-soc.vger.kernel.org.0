@@ -2,36 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23BBC45FC17
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 03:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB3945FC14
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Nov 2021 03:27:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231546AbhK0Ces (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Nov 2021 21:34:48 -0500
-Received: from mga07.intel.com ([134.134.136.100]:6745 "EHLO mga07.intel.com"
+        id S233731AbhK0Ca2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Nov 2021 21:30:28 -0500
+Received: from mga02.intel.com ([134.134.136.20]:21914 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233840AbhK0Ccs (ORCPT
+        id S1348058AbhK0C22 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Nov 2021 21:32:48 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10180"; a="299138164"
+        Fri, 26 Nov 2021 21:28:28 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10180"; a="222963360"
 X-IronPort-AV: E=Sophos;i="5.87,267,1631602800"; 
-   d="scan'208";a="299138164"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 18:19:32 -0800
+   d="scan'208";a="222963360"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 18:19:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.87,267,1631602800"; 
-   d="scan'208";a="675705118"
+   d="scan'208";a="457854938"
 Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 26 Nov 2021 18:19:30 -0800
+  by orsmga003.jf.intel.com with ESMTP; 26 Nov 2021 18:19:30 -0800
 Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mqnJJ-0008vu-O3; Sat, 27 Nov 2021 02:19:29 +0000
-Date:   Sat, 27 Nov 2021 10:18:38 +0800
+        id 1mqnJJ-0008w0-Ok; Sat, 27 Nov 2021 02:19:29 +0000
+Date:   Sat, 27 Nov 2021 10:18:41 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
- 33b22d9c3272003a525ba2d6b7b851f3d4f30574
-Message-ID: <61a1957e.3NyUEs2eEXUsoh+D%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dt-bindings-for-v5.17] BUILD SUCCESS 217c7d1840b5377543eff84fe28409d0bd4d3433
+Message-ID: <61a19581.Cdc1VkYSN0RGhIN2%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,10 +39,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-branch HEAD: 33b22d9c3272003a525ba2d6b7b851f3d4f30574  clk: renesas: r9a07g044: Add TSU clock and reset entry
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v5.17
+branch HEAD: 217c7d1840b5377543eff84fe28409d0bd4d3433  dt-bindings: mmc: renesas,sdhi: Rename RZ/G2L clocks
 
-elapsed time: 727m
+elapsed time: 725m
 
 configs tested: 143
 configs skipped: 4
@@ -118,9 +117,9 @@ arm                  colibri_pxa270_defconfig
 arm                  randconfig-c002-20211126
 ia64                             allmodconfig
 ia64                                defconfig
-m68k                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
+m68k                             allyesconfig
 nios2                               defconfig
 arc                              allyesconfig
 nds32                             allnoconfig
@@ -128,10 +127,10 @@ nds32                               defconfig
 nios2                            allyesconfig
 alpha                               defconfig
 alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
 arc                                 defconfig
 sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
 parisc                              defconfig
 s390                             allyesconfig
 s390                             allmodconfig
