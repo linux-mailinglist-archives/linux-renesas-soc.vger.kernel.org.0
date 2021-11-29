@@ -2,114 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B3814624DC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 23:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4605D4627DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 00:12:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbhK2WcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 17:32:17 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48120 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbhK2WcA (ORCPT
+        id S236161AbhK2XMp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 18:12:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232730AbhK2XMZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 17:32:00 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA38C1265;
-        Mon, 29 Nov 2021 23:28:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638224921;
-        bh=iEz4yIc/2ZWMiOZEtQrMskqszikTKS07kUXp7qZ9/uk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=CukuMHgzqKr9aZOKQd/Dig+/bhrvD+4FAvb6BZ081PaIFi/FIX27pgl7DjWAFa4gb
-         3l1gjXSip4ydFb5baYH2z8nvbwr7mISDSeHWsN39GfH2U+Bti2fHpSPjXQ0ebBjL+a
-         jg31wtCrUAPoXWzYy5eNXlDXQUO733fN84RkR3qg=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH] drm: rcar-du: Fix CRTC timings when CMM is used
-Date:   Tue, 30 Nov 2021 00:28:13 +0200
-Message-Id: <20211129222813.28079-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
+        Mon, 29 Nov 2021 18:12:25 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D92C0800D8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 14:34:33 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id p18-20020a17090ad31200b001a78bb52876so16730599pju.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 14:34:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=j0f3efyYCR0Suhks/6DFVO0Gq8KGIqAXzawNjBZbNcc=;
+        b=k/XdU9TWMoKfXJqTIzOvESsTk/SeT10Z98dZDUvgBGaD3K/CeRUEcD7PcbvhXW3W3X
+         TyxKxy7bbw/VZ9Vxxqv6wtZw3EpefsGQQdiIynj97vNOcL3JetUXgFnX6Q8yBTyxuE8o
+         ozLALiHKqSIi22ef14P27/Kev/5DqEu7u5I1vppnkFoHbEE+MsBqQ3ruJJrLdcJZV0Xa
+         CYdSI0L8EvoCzhtX4osXosvvHJR2E4IVxL1wPKXsELIyg7cyi6WKrwrXMitEhEj/EX6O
+         v3ZFvRG8gOjo504sRVfwnTHJ6ujB1OQwjJ+Fnf/MLbvONZRUg5elsbTgeKiuZpFToQxx
+         sStQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=j0f3efyYCR0Suhks/6DFVO0Gq8KGIqAXzawNjBZbNcc=;
+        b=rwY9u7AdXw3hUsWLQOccfE8OwgVjZvGHhVx7YqURKfyV8Pob9931u+yBfoy31nGhXv
+         VOB1lrIrHcThZoNoPK/8A3ET3TWyJ8Lck1zltkUdAKboUZsKpJOPmc9IC/6aDJGrdLHe
+         CrtYTIFdmto7P08VAuxrc0yfTSIKNFViYwjtOlNvW0rOMHOtna1Wlsn5+0mJ1CKgjHGy
+         mKWapNM+AV2yx3e4sT9v46aDzDyZwZom+NlbP+m4OwjcwAhgW7v8ohiI/j9SKCk5fvT1
+         K6QDGu2w0JbmfoDqXd71OvDU/db6CINI0KwUYl8PRdOtXoo+uHNCM06J6gtmt9gwk56M
+         yBRw==
+X-Gm-Message-State: AOAM530qpBm3nKeEp75vgCHtNm8Q5nxFBj1GRikmJdk5aVGYx3p0xt8I
+        3HdThdrEUMbIeIzql0PFISPMFDMCmN3M34iR
+X-Google-Smtp-Source: ABdhPJySliMHoYRUFvr0QPsfGV4gZIU4p4g47HywQAhJ827KJcqC8J13Qqg0hhQ+mgfOKLOGqi7HWg==
+X-Received: by 2002:a17:90b:1d0e:: with SMTP id on14mr1114892pjb.3.1638225273308;
+        Mon, 29 Nov 2021 14:34:33 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id f3sm17613630pfg.167.2021.11.29.14.34.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 14:34:33 -0800 (PST)
+Message-ID: <61a55579.1c69fb81.9d939.0fc0@mx.google.com>
+Date:   Mon, 29 Nov 2021 14:34:33 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2021-11-29-v5.16-rc3
+Subject: renesas/master baseline: 248 runs,
+ 2 regressions (renesas-devel-2021-11-29-v5.16-rc3)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When the CMM is enabled, an offset of 25 pixels must be subtracted from
-the HDS (horizontal display start) and HDE (horizontal display end)
-registers. Fix the timings calculation, and take this into account in
-the mode validation.
+renesas/master baseline: 248 runs, 2 regressions (renesas-devel-2021-11-29-=
+v5.16-rc3)
 
-This fixes a visible horizontal offset in the image with VGA monitors.
-HDMI monitors seem to be generally more tolerant to incorrect timings,
-but may be affected too.
+Regressions Summary
+-------------------
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
+c...MB2_KERNEL=3Dy | 1          =
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 5672830ca184..ee6ba74627a2 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -215,6 +215,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	unsigned long mode_clock = mode->clock * 1000;
-+	unsigned int hdse_offset;
- 	u32 dsmr;
- 	u32 escr;
- 
-@@ -298,10 +299,15 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	     | DSMR_DIPM_DISP | DSMR_CSPM;
- 	rcar_du_crtc_write(rcrtc, DSMR, dsmr);
- 
-+	hdse_offset = 19;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		hdse_offset += 25;
-+
- 	/* Display timings */
--	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start - 19);
-+	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start -
-+					hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HDER, mode->htotal - mode->hsync_start +
--					mode->hdisplay - 19);
-+					mode->hdisplay - hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HSWR, mode->hsync_end -
- 					mode->hsync_start - 1);
- 	rcar_du_crtc_write(rcrtc, HCR,  mode->htotal - 1);
-@@ -836,6 +842,7 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+	unsigned int min_sync_porch;
- 	unsigned int vbp;
- 
- 	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-@@ -843,9 +850,14 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
- 
- 	/*
- 	 * The hardware requires a minimum combined horizontal sync and back
--	 * porch of 20 pixels and a minimum vertical back porch of 3 lines.
-+	 * porch of 20 pixels (when CMM isn't used) or 45 pixels (when CMM is
-+	 * used), and a minimum vertical back porch of 3 lines.
- 	 */
--	if (mode->htotal - mode->hsync_start < 20)
-+	min_sync_porch = 20;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		min_sync_porch += 25;
-+
-+	if (mode->htotal - mode->hsync_start < min_sync_porch)
- 		return MODE_HBLANK_NARROW;
- 
- 	vbp = (mode->vtotal - mode->vsync_end) / (interlaced ? 2 : 1);
+minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
+n...86_kvm_guest | 1          =
 
-base-commit: c18c8891111bb5e014e144716044991112f16833
-prerequisite-patch-id: dc9121a1b85ea05bf3eae2b0ac2168d47101ee87
--- 
-Regards,
 
-Laurent Pinchart
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-11-29-v5.16-rc3/plan/baseline/
 
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-11-29-v5.16-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6a9c878a0d6706f56258f8a8b084df215b5bda0e =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
+c...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61a5224b68fdb49ac118f6de
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-29-v5.16-rc3/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-bcm2836-rpi-2-b.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-29-v5.16-rc3/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-bcm2836-rpi-2-b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/61a5224b68fdb49ac118f=
+6df
+        failing since 13 days (last pass: renesas-devel-2021-11-02-v5.15, f=
+irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
+
+ =
+
+
+
+platform                 | arch   | lab           | compiler | defconfig   =
+                 | regressions
+-------------------------+--------+---------------+----------+-------------=
+-----------------+------------
+minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
+n...86_kvm_guest | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61a51a6762ffe0ee9218f6d7
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86_kvm_guest
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-29-v5.16-rc3/x86_64/x86_64_defconfig+x86_kvm_guest/gcc-10/lab-collab=
+ora/baseline-minnowboard-turbot-E3826.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-11-29-v5.16-rc3/x86_64/x86_64_defconfig+x86_kvm_guest/gcc-10/lab-collab=
+ora/baseline-minnowboard-turbot-E3826.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-6-g8983f3b738df/x86/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/61a51a6762ffe0ee9218f=
+6d8
+        new failure (last pass: renesas-devel-2021-10-26-v5.15-rc7) =
+
+ =20
