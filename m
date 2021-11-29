@@ -2,67 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F03FC4621F4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 21:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 606BC46223F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 21:32:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231784AbhK2UQv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 15:16:51 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:45848 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233900AbhK2UOv (ORCPT
+        id S231422AbhK2Ufs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 15:35:48 -0500
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:40731 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234054AbhK2Udm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 15:14:51 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 0970B2063D6A
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] rcar-vin: Update format alignment constraints
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>
-CC:     <linux-renesas-soc@vger.kernel.org>
-References: <20211125230257.1334452-1-niklas.soderlund+renesas@ragnatech.se>
- <1cd39b05-8271-5a21-95f0-ba236e0325f3@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <e2fcce50-9f01-6efd-4b6f-e967f27632b6@omp.ru>
-Date:   Mon, 29 Nov 2021 23:11:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 29 Nov 2021 15:33:42 -0500
+Received: by mail-oi1-f172.google.com with SMTP id bk14so36896775oib.7;
+        Mon, 29 Nov 2021 12:30:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SFONEV/UGwOEr3r+xHFTXA5oWkpYZRs57IUMi4ZF0Is=;
+        b=1ii1+WNTHHiF6BzHvtMSRcNm2H99zttq8HM6aWb8HXUZbJWD/gRVNA6NchxcbGweU3
+         y64Gfu6CzpWskCoq1UlQ1QG+xnLu9TEFsC2EeefGKl+6WygXhxkLqR6Lo+U8yoad1ofj
+         Vyv/mV7moxHZ7GeNq0ysf7PtM7xwtgWiPNXwjfojq6o/hC56zeS7/F3wl7bGWb1KkLsC
+         cYjH6gWhHZIYrShr8g5SHjRCj9RFwowKR4KO/yBHuhpXJBt9XoyEuks2PINfp/L+huv+
+         1aqk6E3AlyQH35Vghyd8aV+LanXKLotXOBqRN6edpZlu/zEjr02zGgGPhGV5v3+RwS/l
+         ML0Q==
+X-Gm-Message-State: AOAM532AYcmBFm6WziWefAEUyyjrFD/acq+rFmdLgKnrEG7wuuAcZ3Ke
+        dhhjnqeVe2aa6eNRPHTjaA==
+X-Google-Smtp-Source: ABdhPJyH9rvLBU16jghDxM7d76Jt9/VJG4TmH8onMxCz82Eb5MwpFLkjbHO/1vdDGE7MnalqqZ8xSg==
+X-Received: by 2002:aca:b382:: with SMTP id c124mr273625oif.169.1638217823784;
+        Mon, 29 Nov 2021 12:30:23 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id v20sm2876399otj.27.2021.11.29.12.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 12:30:23 -0800 (PST)
+Received: (nullmailer pid 551568 invoked by uid 1000);
+        Mon, 29 Nov 2021 20:30:22 -0000
+Date:   Mon, 29 Nov 2021 14:30:22 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Amit Kucheria <amitk@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: thermal: Fix definition of cooling-maps
+ contribution property
+Message-ID: <YaU4XuiaJgEjGCdQ@robh.at.kernel.org>
+References: <20211109103045.1403686-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <1cd39b05-8271-5a21-95f0-ba236e0325f3@omp.ru>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+In-Reply-To: <20211109103045.1403686-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/27/21 6:02 PM, Sergey Shtylyov wrote:
-
->> This change fixes two issues with the size constraints for buffers.
->>
->> - There is no width alignment constraints for RGB formats. Prior to this
->>    change they where treated as YUV and as a result was more restricted
+On Tue, 09 Nov 2021 11:30:45 +0100, Niklas S�derlund wrote:
+> When converting the thermal-zones bindings to yaml the definition of the
+> contribution property changed. The intention is the same, an integer
+> value expressing a ratio of a sum on how much cooling is provided by the
+> device to the zone. But after the conversion the integer value is
+> limited to the range 0 to 100 and expressed as a percentage.
 > 
->    s/was/were/.
-
-   ... and s/where/were/ too. :-)
-
->>    then needed. Add a new check to different between the two.
+> This is problematic for two reasons.
 > 
->    Differ?
+> - This do not match how the binding is used. Out of the 18 files that
+>   make use of the property only two (ste-dbx5x0.dtsi and
+>   ste-hrefv60plus.dtsi) sets it at a value that satisfy the binding,
+>   100. The remaining 16 files set the value higher and fail to validate.
 > 
->> - The minimum width and height supported is 5x2, not 2x4, this is an
->>    artifact from the drivers soc-camera days. Fix this incorrect
->>    assumption.
->>
->> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> [...]
+> - Expressing the value as a percentage instead of a ratio of the sum is
+>   confusing as there is nothing to enforce the sum in the zone is not
+>   greater then 100.
+> 
+> This patch restore the pre yaml conversion description and removes the
+> value limitation allowing the usage of the bindings to validate.
+> 
+> Fixes: 1202a442a31fd2e5 ("dt-bindings: thermal: Add yaml bindings for thermal zones")
+> Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../devicetree/bindings/thermal/thermal-zones.yaml       | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
 
-MBR, Sergey
+Applied, thanks!
