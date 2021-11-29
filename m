@@ -2,216 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F20224611F4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 11:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C500B4613C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 12:19:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232306AbhK2KVa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 05:21:30 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:41868 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234650AbhK2KTa (ORCPT
+        id S240348AbhK2LW2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 06:22:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242732AbhK2LUQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 05:19:30 -0500
-Received: by mail-ua1-f42.google.com with SMTP id p37so32824699uae.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 02:16:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ApfswTLClXd7P1vfPysclDhxAh5BJExQ1LUH6zQE/1E=;
-        b=3cGchA1/fTeflKxUqwORrPiQY+EN3RJLdfsCjsMUwxa4TuhJ11YHqtJ6HERr2VAe3j
-         EZdvyPYyNgH/al/fW6ktzz7g2frBPoGQ/0cEkZi+LsnSOvhMeSmZgGklzCAaOc4TsC+p
-         2mA3gHjFTtCkad+9UF2YGqIKWlgg4H9mgSb5pCyiQsLhHFOFVkoP/mqdpVNE0tolNwgj
-         sZD3te7R9pRPeeRPLm+VxBwgMbhN+oxeNuuXBeit+a3lOdt8Q68ioTdwyCYLuMQxWzxL
-         duaWhEqsWTjQ0FeF0n1tM66FoAg8nPZL6UOTjs6J9/fg6vVQlE2QbO1BdqewWtEhlOcZ
-         nCtA==
-X-Gm-Message-State: AOAM5322bu8mIz0WyEcLtUXA2TS/Gx3jbC3lFAYCkDTzlSrlEL3oOPzC
-        mR5qvjx5Mkp919PP0L7Vt71+jEwK2uAtsg==
-X-Google-Smtp-Source: ABdhPJxEHolXbCCn/uqNc1sZbIU1XG9ouWpRhZFWE8FWeSTyWCkW5YaiLMs4LCHLwkoaau4WNBn/Bw==
-X-Received: by 2002:a67:6783:: with SMTP id b125mr30239036vsc.81.1638180972093;
-        Mon, 29 Nov 2021 02:16:12 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id g16sm7859707vsp.18.2021.11.29.02.16.11
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Nov 2021 02:16:11 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id t13so32835738uad.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 02:16:11 -0800 (PST)
-X-Received: by 2002:a05:6102:e10:: with SMTP id o16mr30760064vst.5.1638180970757;
- Mon, 29 Nov 2021 02:16:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
- <20211112184413.4391-4-biju.das.jz@bp.renesas.com> <c4869451-e879-aa58-29ba-ef3e94b03527@linaro.org>
- <OS0PR01MB592240481D7503FFC505BD5E86669@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592240481D7503FFC505BD5E86669@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Nov 2021 11:15:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUE3A0WwhGYpVK52S0C5xMqccpvHp0hHdnqq3aawzb7DQ@mail.gmail.com>
-Message-ID: <CAMuHMdUE3A0WwhGYpVK52S0C5xMqccpvHp0hHdnqq3aawzb7DQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM support
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Mon, 29 Nov 2021 06:20:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599FFC061A16;
+        Mon, 29 Nov 2021 02:34:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BFCADB80E58;
+        Mon, 29 Nov 2021 10:34:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F305C004E1;
+        Mon, 29 Nov 2021 10:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638182057;
+        bh=4iPiUiPIc+VM22h/qw+lAfg+m8wof+zg6KfOSm+51FY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=G4i9Thjj6feymwqEaOaOgswivNiP/FG+jmr6aCzKy9fTMBUh9B0MJRt4t8/EYn5au
+         g50j/NZI1RJ6BUfLDwof73QE69+RYp+umID5YOicNecbMg0hEbkXz67VcSYi6ggTwT
+         UMTzXYNZrHrJrRdHlejUYsoLxX7ml6Xt1oSUCXG03Z07J2c4aGUeIa24HAM/SBVILZ
+         BG9cdKpnSlUOn07bVqZ6eGQeEBvSSpgXcj72Y5VtL6QhTnpgoIarIH78AmDVKVSmZT
+         Nj+HZ+YlC5i4kJe+fc8SN/SnAdXG9XIQ8WX6sosJpwrT8o5IwvtnYK8SPxjBn1y42y
+         iCp/9/u5MeEAQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mrdzC-008Zjc-Ec; Mon, 29 Nov 2021 10:34:14 +0000
+Date:   Mon, 29 Nov 2021 10:34:14 +0000
+Message-ID: <87tufvmes9.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "kernel-team@android.com" <kernel-team@android.com>,
+        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
         Chris Brandt <Chris.Brandt@renesas.com>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <linux-renesas-soc@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
+In-Reply-To: <OSZPR01MB7019E7DD7119EFF9C994AA62AA649@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+References: <20211122103032.517923-1-maz@kernel.org>
+        <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
+        <8735no70tt.wl-maz@kernel.org>
+        <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
+        <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
+        <87tug3clvc.wl-maz@kernel.org>
+        <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
+        <87r1b7ck40.wl-maz@kernel.org>
+        <OSZPR01MB7019E7DD7119EFF9C994AA62AA649@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.mahadev-lad.rj@bp.renesas.com, geert@linux-m68k.org, robh@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kernel-team@android.com, john@phrozen.org, biwen.li@nxp.com, Chris.Brandt@renesas.com, linux-renesas-soc@vger.kernel.org, prabhakar.csengg@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju, Daniel,
-
-On Mon, Nov 29, 2021 at 11:06 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v3 3/4] clocksource/drivers/renesas-ostm: Add RZ/G2L
-> > OSTM support
-> >
-> > On 12/11/2021 19:44, Biju Das wrote:
-> > > RZ/G2L SoC has Generic Timer Module(a.k.a OSTM) which needs to
-> > > deassert the reset line before accessing any registers.
+On Sat, 27 Nov 2021 00:42:49 +0000,
+Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> 
+> Hi Marc,
+> 
+> > -----Original Message-----
+> > From: Marc Zyngier <maz@kernel.org>
+> > Sent: 23 November 2021 09:11
+> > To: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Cc: linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; kernel-team@android.com; Rob Herring
+> > <robh@kernel.org>; John Crispin <john@phrozen.org>; Biwen Li <biwen.li@nxp.com>; Chris Brandt
+> > <Chris.Brandt@renesas.com>; linux-renesas-soc@vger.kernel.org; Prabhakar Mahadev Lad
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
+> > 
+> > On Tue, 23 Nov 2021 08:44:19 +0000,
+> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 > > >
-> > > This patch adds an entry point for RZ/G2L so that we can deassert the
-> > > reset line in probe callback.
-> >
-> > What is the connection between adding the reset line control and the
-> > platform driver at the end of the driver ?
->
-> The original driver has no arm architecture timer, so it needs to be
-
-s/driver/SoC used with this driver/
-
-> called very early in the boot and using of calls for handling the clocks.
-
-Hence must be handled by TIMER_OF_DECLARE().
-
-> Where as RZ/G2L has arm architecture timer and it needs to release the module
-> Reset before accessing any registers. So it has to be built in and it needs cpg driver
-> which happens at later stage compared to the original case, for de-asserting the reset.
->
-> Geert, please correct me if I am wrong.
-
-The reset driver is not available yet at TIMER_OF_DECLARE() time,
-so of_reset_control_get_optional_exclusive() returns -EPROBE_DEFER
-on RZ/G2L.  Fortunately there is no need to have this timer available
-early on RZ/G2L, as it uses the arm architecture timer as the main
-clock source.  Still, to be available at all, the platform driver
-is needed to support re-probing after the reset driver has become
-available.
-
-
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > v2->v3:
-> > >  * Added reset_control_put() on error path.
-> > >  * enabled suppress_bind_attrs in ostm_device_driver structure
-> > > v1->v2:
-> > >  * Added reset handling inside ostm_init
-> > >  * Used same compatible for builtin driver aswell
-> > > ---
-> > >  drivers/clocksource/renesas-ostm.c | 39
-> > > +++++++++++++++++++++++++++++-
-> > >  1 file changed, 38 insertions(+), 1 deletion(-)
+> > > Hi Marc,
 > > >
-> > > diff --git a/drivers/clocksource/renesas-ostm.c
-> > > b/drivers/clocksource/renesas-ostm.c
-> > > index 3d06ba66008c..21d1392637b8 100644
-> > > --- a/drivers/clocksource/renesas-ostm.c
-> > > +++ b/drivers/clocksource/renesas-ostm.c
-> > > @@ -9,6 +9,8 @@
-> > >  #include <linux/clk.h>
-> > >  #include <linux/clockchips.h>
-> > >  #include <linux/interrupt.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/reset.h>
-> > >  #include <linux/sched_clock.h>
-> > >  #include <linux/slab.h>
+> > > On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > > On Tue, 23 Nov 2021 07:57:48 +0000,
+> > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > Summarized:
+> > > > >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
+> > > > >     and the number of interrupts seen is correct, but input events
+> > > > >     are doubled.
+> > > > >   - After the bad commit, irqc-rza1 is not invoked, and there is an
+> > > > >     interrupt storm, but input events are OK.
+> > > >
+> > > > OK, that's reassuring, even if the "twice the events" stuff isn't
+> > > > what you'd expect. We at least know this is a separate issue, and
+> > > > that this patch on top of -rc1 brings you back to the 5.15 behaviour.
+> > > >
+> > > > I'd expect it to be the case for the other platforms as well.
 > > >
-> > > @@ -159,6 +161,7 @@ static int __init ostm_init_clkevt(struct timer_of
-> > > *to)
+> > > OK.
 > > >
-> > >  static int __init ostm_init(struct device_node *np)  {
-> > > +   struct reset_control *rstc;
-> > >     struct timer_of *to;
-> > >     int ret;
-> > >
-> > > @@ -166,6 +169,14 @@ static int __init ostm_init(struct device_node *np)
-> > >     if (!to)
-> > >             return -ENOMEM;
-> > >
-> > > +   rstc = of_reset_control_get_optional_exclusive(np, NULL);
-> > > +   if (IS_ERR(rstc)) {
-> > > +           ret = PTR_ERR(rstc);
-> > > +           goto err_free;
-> > > +   }
-> > > +
-> > > +   reset_control_deassert(rstc);
-> > > +
-> > >     to->flags = TIMER_OF_BASE | TIMER_OF_CLOCK;
-> > >     if (system_clock) {
-> > >             /*
-> > > @@ -178,7 +189,7 @@ static int __init ostm_init(struct device_node
-> > > *np)
-> > >
-> > >     ret = timer_of_init(np, to);
-> > >     if (ret)
-> > > -           goto err_free;
-> > > +           goto err_reset;
-> > >
-> > >     /*
-> > >      * First probed device will be used as system clocksource. Any @@
-> > > -203,9 +214,35 @@ static int __init ostm_init(struct device_node *np)
-> > >
-> > >  err_cleanup:
-> > >     timer_of_cleanup(to);
-> > > +err_reset:
-> > > +   reset_control_assert(rstc);
-> > > +   reset_control_put(rstc);
-> > >  err_free:
-> > >     kfree(to);
-> > >     return ret;
-> > >  }
-> > >
-> > >  TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
-> > > +
-> > > +#ifdef CONFIG_ARCH_R9A07G044
-> > > +static int __init ostm_probe(struct platform_device *pdev) {
-> > > +   struct device *dev = &pdev->dev;
-> > > +
-> > > +   return ostm_init(dev->of_node);
-> > > +}
-> > > +
-> > > +static const struct of_device_id ostm_of_table[] = {
-> > > +   { .compatible = "renesas,ostm", },
-> > > +   { /* sentinel */ }
-> > > +};
-> > > +
-> > > +static struct platform_driver ostm_device_driver = {
-> > > +   .driver = {
-> > > +           .name = "renesas_ostm",
-> > > +           .of_match_table = of_match_ptr(ostm_of_table),
-> > > +           .suppress_bind_attrs = true,
-> > > +   },
-> > > +};
-> > > +builtin_platform_driver_probe(ostm_device_driver, ostm_probe); #endif
+> > > BTW, what would have been the correct way to do this for irqc-rza1?
+> > > I think we're about to make the same mistake with RZ/G2L IRQC
+> > > support[1]?
+> > 
+> > Indeed, and I was about to look into it.
+> > 
+> > There are multiple ways to skin this cat, including renaming 'interrupt-map' to 'my-own-private-
+> > interrupt-map'. Or use something akin the new 'msi-range' (which we could call interrupt-range), and
+> > replace:
+> > 
+> >   interrupt-map = <0 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <1 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <2 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <3 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <4 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <5 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <6 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
+> >                   <7 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+> > 
+> > with:
+> > 
+> >   interrupt-range = <&gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH 0 8>;
+> > 
+> Just to clarify, do you suggest to add interrupt-range as a generic
+> DT property or SoC/company specific property?
 
-Gr{oetje,eeting}s,
+As a generic one. I have no interest in SoC-specific stuff (though you
+are free to invent your own and run it by Rob).
 
-                        Geert
+> If you meant to add generic property where would you suggest to
+> document this property?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Ideally collocated with the rest of the interrupt properties.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
