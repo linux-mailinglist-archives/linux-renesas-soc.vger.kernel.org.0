@@ -2,178 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1BA4624F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 23:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4034623E8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 23:03:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232759AbhK2WdY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 17:33:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231237AbhK2WdC (ORCPT
+        id S233167AbhK2WG3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 17:06:29 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:42711 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231650AbhK2WE3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 17:33:02 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09EAC143242;
-        Mon, 29 Nov 2021 10:33:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 3A43ACE16B8;
-        Mon, 29 Nov 2021 18:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E27BC53FCD;
-        Mon, 29 Nov 2021 18:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638210793;
-        bh=NiqtQJK2sHeX2lVt677tbzluqXmsp5H2HGPufVwCMc8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hkm0J5Ph16y30WP4a1mX9EuPTdjSmUXqlqekf7IBvZbKcJfKHsINGdBr6OjmhtFfi
-         dZ/IHyY/mzYuaQdfL30uV8tJFiastI6rTknXCtBAP1/Q6DVDFYn/GgiSPBD/f8WjdR
-         GwAUBUMcxzcG6W5CnGOsvrVVinxngbHJV4wj92IAB/6kGdovFDweGZ7NBaoPJW7W6X
-         idamoPI/3N+QMn/h5oU+jf2NbNxl5G16Zr9+K2kpGWzyWp4lGE1SsgTsB4WyKmN46A
-         MMZ/Z+Z0YPBsk9RkbVMc6c2U/zBmhGQdEJ5vkXZhKjnJR529Nv5C84qrbPCZ5nJzBM
-         UbOo5+MeO6HpQ==
-Received: by mail-ed1-f48.google.com with SMTP id y12so75810077eda.12;
-        Mon, 29 Nov 2021 10:33:13 -0800 (PST)
-X-Gm-Message-State: AOAM531AXYYCIdr3tTxNg/KCnE1cJfxkd8NvfJ96QFMgb8z+R+HLskJQ
-        bCcMXyn9+VelUsWLVJjjzgBL6Nsa/+QHQMMDRw==
-X-Google-Smtp-Source: ABdhPJwUZPHj6f/VpSA6KGNJB42uc5qu2+wTI2KYNSGCauPuJWl7D7Y4gH5mfRFT0MXZ7P55yltJvJRhp617QgYXvsQ=
-X-Received: by 2002:aa7:dc07:: with SMTP id b7mr75860840edu.327.1638210791676;
- Mon, 29 Nov 2021 10:33:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
- <8735no70tt.wl-maz@kernel.org> <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
- <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
- <87tug3clvc.wl-maz@kernel.org> <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
- <87r1b7ck40.wl-maz@kernel.org> <OSZPR01MB7019E7DD7119EFF9C994AA62AA649@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <87tufvmes9.wl-maz@kernel.org> <CA+V-a8siHRjF+bJu88QFwz0a_MZ+kiJEwmER58_feyr8O+WNGA@mail.gmail.com>
-In-Reply-To: <CA+V-a8siHRjF+bJu88QFwz0a_MZ+kiJEwmER58_feyr8O+WNGA@mail.gmail.com>
+        Mon, 29 Nov 2021 17:04:29 -0500
+Received: by mail-ot1-f46.google.com with SMTP id 47-20020a9d0332000000b005798ac20d72so27448881otv.9;
+        Mon, 29 Nov 2021 14:01:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ntfA5gkRhMVJoS1Zo+ZVOScfKDImals7GHKfKOpJLx0=;
+        b=nHFnpRhuJwxmIlMcXzjDxuXOdUBhVqRpNZA5oxaEvDRM+Fk170yAP+ojiMML34RlGG
+         1c0vAWFMrEA/jtvhklbgAmi/3USyk4iW7u7kqi2Sz8Xq7jMO2SPIbqVctY8GdMoCH9Gd
+         g77Twxdpg2g3BEW6sZpZkrCRGIFGpIjEudMmWtg7r2tqgT+P3WCMZun9+k/S9MZLSWXE
+         CQZLAMTXrEr26idSTviKlNdqphWYx6peJKHwCj8lRHrNHDhrzDMGGvyPFHGck7xjGb3+
+         ngOhbys9KJPavw6tOe6a9gZERFQE0cYOgX3X+tQuUQYAbELd+NwMnswGn82EuYaip3s7
+         EN5w==
+X-Gm-Message-State: AOAM533TbnYYLsN5eLzrEE/kY2ozoQrU1Xflvfm127IaXjFuYsbtVhIs
+        xKyw5QzXDRshV3CBHaQC1phl43DlVw==
+X-Google-Smtp-Source: ABdhPJwz7RkFJIybwrrQobNKFCy9baUiR4GndvW31uDvqIQGPAuKgjPmQHzAAPPQ19/i1/FDIyg6Xw==
+X-Received: by 2002:a05:6830:44c:: with SMTP id d12mr46086049otc.66.1638223270667;
+        Mon, 29 Nov 2021 14:01:10 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id r10sm2523754ool.1.2021.11.29.14.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 14:01:09 -0800 (PST)
+Received: (nullmailer pid 687058 invoked by uid 1000);
+        Mon, 29 Nov 2021 22:01:09 -0000
+Date:   Mon, 29 Nov 2021 16:01:09 -0600
 From:   Rob Herring <robh@kernel.org>
-Date:   Mon, 29 Nov 2021 12:33:00 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqK+GcnChx3i9fsYnw+FzZgON4PtKB=CzYLUj6sXtxX6fQ@mail.gmail.com>
-Message-ID: <CAL_JsqK+GcnChx3i9fsYnw+FzZgON4PtKB=CzYLUj6sXtxX6fQ@mail.gmail.com>
-Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
- definition of interrupt-map
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kernel-team@android.com" <kernel-team@android.com>,
-        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Julien Massot <julien.massot@iot.bzh>
+Cc:     bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
+        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] dt-bindings: remoteproc: Add Renesas R-Car
+Message-ID: <YaVNpcv/R/iKxn1w@robh.at.kernel.org>
+References: <20211115135032.129227-1-julien.massot@iot.bzh>
+ <20211115135032.129227-2-julien.massot@iot.bzh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211115135032.129227-2-julien.massot@iot.bzh>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 6:13 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
+On Mon, Nov 15, 2021 at 02:50:30PM +0100, Julien Massot wrote:
+> Renesas R-Car SoCs may contains a Realtime processor.
+> This patch adds binding for this remote processor.
+> 
+> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+> ---
+> Change since RFC:
+> Adds missing address-cells and size-cells and change reg cell
+> accordingly.
+> ---
+>  .../remoteproc/renesas,rcar-rproc.yaml        | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+> new file mode 100644
+> index 000000000000..dcb6b0f75dda
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/remoteproc/renesas,rcar-rproc.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Renesas R-Car remote processor controller bindings
+> +
+> +maintainers:
+> +  - Julien Massot <julien.massot@iot.bzh>
+> +
+> +description: |
+> +  This document defines the binding for the remoteproc component that loads and
+> +  boots firmwares on the Renesas R-Car family chipset.
+> +  R-Car gen3 family may have a realtime processor, this processor share peripheral
+> +  and RAM with the host processor with the same address map.
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,rcar-cr7
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    description:
+> +      List of phandles to the reserved memory regions associated with the
+> +      remoteproc device. This is variable and describes the memories shared with
+> +      the remote processor (e.g. remoteproc firmware and carveouts, rpmsg
+> +      vrings, ...).
+> +      (see ../reserved-memory/reserved-memory.yaml)
+> +
+> +required:
+> +  - compatible
+> +  - resets
+> +  - memory-region
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +    reserved-memory {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        cr7_ram: cr7_ram@40040000 {
+> +            no-map;
+> +            reg = <0x0 0x40040000 0x0 0x1fc0000>;
+> +        };
+> +    };
+> +
+> +    cr7_rproc: cr7 {
+> +        compatible = "renesas,rcar-cr7";
+> +        memory-region = <&cr7_ram>;
+> +        power-domains = <&sysc R8A7795_PD_CR7>;
+> +        resets = <&cpg 222>;
+> +        status = "okay";
 
-I timed my vacation well...
+Don't show status in examples.
 
-> On Mon, Nov 29, 2021 at 10:34 AM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > On Sat, 27 Nov 2021 00:42:49 +0000,
-> > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > >
-> > > Hi Marc,
-> > >
-> > > > -----Original Message-----
-> > > > From: Marc Zyngier <maz@kernel.org>
-> > > > Sent: 23 November 2021 09:11
-> > > > To: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > Cc: linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; kernel-team@android.com; Rob Herring
-> > > > <robh@kernel.org>; John Crispin <john@phrozen.org>; Biwen Li <biwen.li@nxp.com>; Chris Brandt
-> > > > <Chris.Brandt@renesas.com>; linux-renesas-soc@vger.kernel.org; Prabhakar Mahadev Lad
-> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
-> > > >
-> > > > On Tue, 23 Nov 2021 08:44:19 +0000,
-> > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > >
-> > > > > Hi Marc,
-> > > > >
-> > > > > On Tue, Nov 23, 2021 at 9:33 AM Marc Zyngier <maz@kernel.org> wrote:
-> > > > > > On Tue, 23 Nov 2021 07:57:48 +0000,
-> > > > > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > > Summarized:
-> > > > > > >   - Before the bad commit, and after your fix, irqc-rza1 is invoked,
-> > > > > > >     and the number of interrupts seen is correct, but input events
-> > > > > > >     are doubled.
-> > > > > > >   - After the bad commit, irqc-rza1 is not invoked, and there is an
-> > > > > > >     interrupt storm, but input events are OK.
-> > > > > >
-> > > > > > OK, that's reassuring, even if the "twice the events" stuff isn't
-> > > > > > what you'd expect. We at least know this is a separate issue, and
-> > > > > > that this patch on top of -rc1 brings you back to the 5.15 behaviour.
-> > > > > >
-> > > > > > I'd expect it to be the case for the other platforms as well.
-> > > > >
-> > > > > OK.
-> > > > >
-> > > > > BTW, what would have been the correct way to do this for irqc-rza1?
-> > > > > I think we're about to make the same mistake with RZ/G2L IRQC
-> > > > > support[1]?
-> > > >
-> > > > Indeed, and I was about to look into it.
-> > > >
-> > > > There are multiple ways to skin this cat, including renaming 'interrupt-map' to 'my-own-private-
-> > > > interrupt-map'. Or use something akin the new 'msi-range' (which we could call interrupt-range), and
-> > > > replace:
-> > > >
-> > > >   interrupt-map = <0 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <1 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <2 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <3 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <4 0 &gic GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <5 0 &gic GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <6 0 &gic GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-> > > >                   <7 0 &gic GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-> > > >
-> > > > with:
-> > > >
-> > > >   interrupt-range = <&gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH 0 8>;
+With that,
 
-interrupts would work just fine here:
-
-interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-  <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-
-We don't need a different solution for N:1 interrupts from N:M. Sure,
-that could become unweldy if there are a lot of interrupts (just like
-interrupt-map), but is that an immediate problem?
-
-> > > >
-> > > Just to clarify, do you suggest to add interrupt-range as a generic
-> > > DT property or SoC/company specific property?
-> >
-> > As a generic one. I have no interest in SoC-specific stuff (though you
-> > are free to invent your own and run it by Rob).
-> >
-> OK will go with a generic one.
->
-> > > If you meant to add generic property where would you suggest to
-> > > document this property?
-> >
-> > Ideally collocated with the rest of the interrupt properties.
-> >
-> OK, I will go with interrupts.txt for now. Is that OK with you Rob?
-
-Nope. As the rest of interrupts are documented in DT Spec it goes
-there and there needs to be a schema (in dtschema).
-
-> (the reason I ask because interrupt-map/mask haven't been documented).
-
-Yes, they are. Only for the last 20+ years.
-
-Rob
+Reviewed-by: Rob Herring <robh@kernel.org>
