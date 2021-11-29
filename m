@@ -2,140 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86AA2461170
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 10:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D58D2461240
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Nov 2021 11:23:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240349AbhK2J4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 04:56:51 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:43954 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242267AbhK2Jyu (ORCPT
+        id S232785AbhK2K04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 05:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230402AbhK2KY4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 04:54:50 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id B0CCF212C5;
-        Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1638179492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
-        b=fdeT3YOS3f+xbRIObZrxnWZ7zT2K99y0ohEK3aFA1qxDASWi0RZUaWoPDcTE/QXLfVwIf1
-        56Q8g3/Jyw4Qs2UhvdJbb+AJrxzarAyRPEcHNXvgiTL4NjwHcCNQY4qGQymmFePIK2Vnb3
-        A+28c80ZbZzfInURiGClOe73qEaFKuc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1638179492;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
-        b=cPBAOQSZWaunvrcqI56YONEK40xnU/yAMf/ZxMLPumIOWgYTDKfL4PPyqcJ/kvfDwZySOX
-        gfmcIDCTbEQLj9Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C8CB13B53;
-        Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Hnz1HKSipGEnYgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 29 Nov 2021 09:51:32 +0000
-Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
-Date:   Mon, 29 Nov 2021 10:51:31 +0100
+        Mon, 29 Nov 2021 05:24:56 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81E7DC0613BF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 01:53:34 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id p18so14027862wmq.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Nov 2021 01:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1tIt1usm4A9wPgma7ntzt4rs6Rj3ONNUEdsoTNnKPZs=;
+        b=CyYBPySO96oEWEz4VfwZnYwcIC7Q3+71XMxBYDXGVV9MLS0i5XfkmVGyT70BCchp0f
+         O1SE5s/ykmf3HNTUVkOg1fzp3qMQZWmeX8IL8WAMgrc30CNBSmp5t0rj12Aec/hYulXe
+         7OczQnuqcT6R8fH6k/oDjXFq/X9VbYsMD7cUl8hTRhNbF+AsQ4ijQk4OVAwa7ffgXg3C
+         wubZa+KD27YUQji+drWAcLH20Uw5SaFq0LX6+KKawD4f+RXj/ijYEeFNeKfcGFyOMZ2a
+         0+TYXth+jsgmn7OKfjebuMqJ5lDzGjP6XYtmR3wr47dNTHvdespu9hLj45SX0484jR1K
+         8wTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1tIt1usm4A9wPgma7ntzt4rs6Rj3ONNUEdsoTNnKPZs=;
+        b=qS6DdC6exY9mEREv21sF9zQQsMtGC5bdh+7ywxI1EJG3czs26h14WQuf0PCDFcxD2V
+         bk9MidwI8MCI19RiK21MJP7HFeUc5kcwLZjbs6MSH+i7OlrE87TbAGIH0akgUpCNlO7n
+         H3MpbDeqc0L6J8/WH5+rAa5QZ4Xoucg4QodiQGs8q7NZNcFxZ2VyMcmQQikPJGBCpPD2
+         hQwBkBzbq4bXhFG87t6qG50eAII2stk6mUiRNAnEF7gBnIXdN2K8ovN4I1weRZa/xtal
+         Pw8+yQKa90yWucbrEp6fodPC7CvPgvd3HpkD+8GO2c+o5Z51uIMccDCKvomSXX4Vchxj
+         a6Lw==
+X-Gm-Message-State: AOAM5327USyKI48IslHlNhlYMIhD0BQ8RaMjHDoxG8PqwKl1Bm4sKOiR
+        GLOAq7LhHer5wC/sT4Xu3k3xCc2mYvHBwA==
+X-Google-Smtp-Source: ABdhPJyjEclD14Ye/OjLLAW8LWabyzB1tje+1xrK7n66sr0LMika3eVGTyKyeJ55JoT1Nt4GG64A+A==
+X-Received: by 2002:a7b:ce96:: with SMTP id q22mr35074559wmj.9.1638179612995;
+        Mon, 29 Nov 2021 01:53:32 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:8236:a2e5:8d62:e9cd? ([2a01:e34:ed2f:f020:8236:a2e5:8d62:e9cd])
+        by smtp.googlemail.com with ESMTPSA id v15sm13287125wro.35.2021.11.29.01.53.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Nov 2021 01:53:32 -0800 (PST)
+Subject: Re: [PATCH v3 3/4] clocksource/drivers/renesas-ostm: Add RZ/G2L OSTM
+ support
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
+ <20211112184413.4391-4-biju.das.jz@bp.renesas.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <c4869451-e879-aa58-29ba-ef3e94b03527@linaro.org>
+Date:   Mon, 29 Nov 2021 10:53:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
+In-Reply-To: <20211112184413.4391-4-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com,
-        laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20211115120148.21766-1-tzimmermann@suse.de>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CxkZP7xMadMy0QjpTSxpu0gZ"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CxkZP7xMadMy0QjpTSxpu0gZ
-Content-Type: multipart/mixed; boundary="------------1msTdiMgPe6TNWtS9FKGetcn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
-Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
-References: <20211115120148.21766-1-tzimmermann@suse.de>
-In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
+On 12/11/2021 19:44, Biju Das wrote:
+> RZ/G2L SoC has Generic Timer Module(a.k.a OSTM) which needs to
+> deassert the reset line before accessing any registers.
+> 
+> This patch adds an entry point for RZ/G2L so that we can deassert
+> the reset line in probe callback.
 
---------------1msTdiMgPe6TNWtS9FKGetcn
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+What is the connection between adding the reset line control and the
+platform driver at the end of the driver ?
 
-cGluZy4gQXJlIHRoZXJlIGZ1cnRoZXIgY29tbWVudHMgb24gdGhpcyBwYXRjaHNldD8NCg0K
-QW0gMTUuMTEuMjEgdW0gMTM6MDEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4gQ29u
-dmVydCBHRU0gQ01BIGZ1bmN0aW9ucyB0byBhY2NlcHQgc3RydWN0IGRybV9nZW1fY21hX29i
-amVjdCwgcHJvdmlkZQ0KPiBzbWFsbCB3cmFwcGVycyBmb3IgR0VNIG9iamVjdCBjYWxsYmFj
-a3MgYW5kIHVwZGF0ZSBhbGwgdXNlcnMuIEJyaW5ncw0KPiB1cCB0aGUgaW50ZXJmYWNlIHRv
-IHRoZSBwYXR0ZXJuIHVzZWQgaW4gU0hNRU0gYW5kIFZSQU0gaGVscGVycy4NCj4gDQo+IENv
-bnZlcnRpbmcgYWxsIEdFTSBvYmplY3QgZnVuY3Rpb25zIHRvIHVzZSBkcm1fZ2VtX2NtYV9v
-YmplY3QgZW5hYmxlcw0KPiB0eXBlIGNoZWNraW5nIGJ5IHRoZSBDIGNvbXBpbGVyLiBQcmV2
-aW91cyBjYWxsZXJzIGNvdWxkIGhhdmUgcGFzc2VkIGFueQ0KPiBpbXBsZW1lbnRhdGlvbiBv
-ZiBkcm1fZ2VtX29iamVjdCB0byB0aGUgR0VNIENNQSBoZWxwZXJzLiBJdCBhbHNvDQo+IHJl
-bW92ZXMgdXBjYXN0aW5nIGluIHRoZSBHRU0gZnVuY3Rpb25zIGFuZCBzaW1wbGlmaWVzIHRo
-ZSBjYWxsZXIgc2lkZS4NCj4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPiANCj4gRm9yIEdF
-TSBvYmplY3QgY2FsbGJhY2tzLCB0aGUgQ01BIGhlbHBlciBsaWJyYXJ5IG5vdyBwcm92aWRl
-cyBhDQo+IG51bWJlciBvZiBzbWFsbCB3cmFwcGVycyB0aGF0IGRvIHRoZSBuZWNlc3Nhcnkg
-dXBjYXN0aW5nLiBBZ2FpbiBubw0KPiBmdW5jdGlvbmFsIGNoYW5nZXMuDQo+IA0KPiBUaG9t
-YXMgWmltbWVybWFubiAoMyk6DQo+ICAgIGRybS9jbWEtaGVscGVyOiBNb3ZlIGRyaXZlciBh
-bmQgZmlsZSBvcHMgdG8gdGhlIGVuZCBvZiBoZWFkZXINCj4gICAgZHJtL2NtYS1oZWxwZXI6
-IEV4cG9ydCBkZWRpY2F0ZWQgd3JhcHBlcnMgZm9yIEdFTSBvYmplY3QgZnVuY3Rpb25zDQo+
-ICAgIGRybS9jbWEtaGVscGVyOiBQYXNzIEdFTSBDTUEgb2JqZWN0IGluIHB1YmxpYyBpbnRl
-cmZhY2VzDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIuYyAg
-fCAgNzMgKysrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVf
-a21zLmMgfCAgMTAgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jICAgICAg
-ICAgIHwgICA4ICstDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmggICAg
-ICB8IDE4OSArKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiAgIDQgZmlsZXMgY2hhbmdl
-ZCwgMTgwIGluc2VydGlvbnMoKyksIDEwMCBkZWxldGlvbnMoLSkNCj4gDQo+IA0KPiBiYXNl
-LWNvbW1pdDogOWZjY2QxMmNmYWMxYzg2M2ZhNDZkNGQxN2MyZDhhYzI1YTQ0YjE5MA0KPiAt
-LQ0KPiAyLjMzLjENCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Added reset_control_put() on error path.
+>  * enabled suppress_bind_attrs in ostm_device_driver structure
+> v1->v2:
+>  * Added reset handling inside ostm_init
+>  * Used same compatible for builtin driver aswell
+> ---
+>  drivers/clocksource/renesas-ostm.c | 39 +++++++++++++++++++++++++++++-
+>  1 file changed, 38 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/renesas-ostm.c
+> index 3d06ba66008c..21d1392637b8 100644
+> --- a/drivers/clocksource/renesas-ostm.c
+> +++ b/drivers/clocksource/renesas-ostm.c
+> @@ -9,6 +9,8 @@
+>  #include <linux/clk.h>
+>  #include <linux/clockchips.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reset.h>
+>  #include <linux/sched_clock.h>
+>  #include <linux/slab.h>
+>  
+> @@ -159,6 +161,7 @@ static int __init ostm_init_clkevt(struct timer_of *to)
+>  
+>  static int __init ostm_init(struct device_node *np)
+>  {
+> +	struct reset_control *rstc;
+>  	struct timer_of *to;
+>  	int ret;
+>  
+> @@ -166,6 +169,14 @@ static int __init ostm_init(struct device_node *np)
+>  	if (!to)
+>  		return -ENOMEM;
+>  
+> +	rstc = of_reset_control_get_optional_exclusive(np, NULL);
+> +	if (IS_ERR(rstc)) {
+> +		ret = PTR_ERR(rstc);
+> +		goto err_free;
+> +	}
+> +
+> +	reset_control_deassert(rstc);
+> +
+>  	to->flags = TIMER_OF_BASE | TIMER_OF_CLOCK;
+>  	if (system_clock) {
+>  		/*
+> @@ -178,7 +189,7 @@ static int __init ostm_init(struct device_node *np)
+>  
+>  	ret = timer_of_init(np, to);
+>  	if (ret)
+> -		goto err_free;
+> +		goto err_reset;
+>  
+>  	/*
+>  	 * First probed device will be used as system clocksource. Any
+> @@ -203,9 +214,35 @@ static int __init ostm_init(struct device_node *np)
+>  
+>  err_cleanup:
+>  	timer_of_cleanup(to);
+> +err_reset:
+> +	reset_control_assert(rstc);
+> +	reset_control_put(rstc);
+>  err_free:
+>  	kfree(to);
+>  	return ret;
+>  }
+>  
+>  TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
+> +
+> +#ifdef CONFIG_ARCH_R9A07G044
+> +static int __init ostm_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +
+> +	return ostm_init(dev->of_node);
+> +}
+> +
+> +static const struct of_device_id ostm_of_table[] = {
+> +	{ .compatible = "renesas,ostm", },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +static struct platform_driver ostm_device_driver = {
+> +	.driver = {
+> +		.name = "renesas_ostm",
+> +		.of_match_table = of_match_ptr(ostm_of_table),
+> +		.suppress_bind_attrs = true,
+> +	},
+> +};
+> +builtin_platform_driver_probe(ostm_device_driver, ostm_probe);
+> +#endif
+> 
 
---------------1msTdiMgPe6TNWtS9FKGetcn--
 
---------------CxkZP7xMadMy0QjpTSxpu0gZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGkoqMFAwAAAAAACgkQlh/E3EQov+D1
-8A/+PibFx3AiYi7VHqcu+ChB7aTvu//3yigbx9InM5eUFFmyJ1SSoh103U0zga6btCNRvsebfaQT
-2ZGQoLmXYjKudAflvNwaPxycJ2D9GIObVWvHinigxma3bB+mD9jprfyvaMgqTA5noCpnNl4yXJAJ
-hnw7tjy8yUeCQ8spUCVwUihmyU59P1NcSvre8UAP3hTaB39vG+vi9ajdCHH4ErSxeeMXWqQ5+cgw
-6LLrct995sK+eZSwjq8GAL++2NbKV2vHyuqshsNk9PBH/Puv1569yvk9P0UjBsfMdewhas/8sOa5
-vIKsRF2g6fp38MVXS6Yyi8OAdJJt791Pr4pg8DCqbI2+2bHttAo5BnI5lYJ0ua5u6XVws32Hl65+
-nLmxdEa1mW3o47jMz7sLWBhVx4dukAUgy6y/hzDUdqMNLZ0kKOfk/8KQUtoxWSwpICLhFySLF81e
-YYVMvOXW44KFUgXDuXcoZ1gTJf8yXd+iuSS6F9uAo9H+XF8m8kTN9bASTLIWDWIL43DOoLhx2ig0
-ZQdUwhtZNOrKEaL/Qn+JBi6zLXgyQwfSxqFQGrUP7Kqfep2l4jrf8t/a3Uc1l/q455Fp9D1Hrqlr
-hnmEXlekpSGDJaTQZo4mXHOovRtrWrTJPTFJXq/pBmeF76BvRz/XnXuJ0EeG0tkJYTKfAl7MwbZd
-czU=
-=0rdh
------END PGP SIGNATURE-----
-
---------------CxkZP7xMadMy0QjpTSxpu0gZ--
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
