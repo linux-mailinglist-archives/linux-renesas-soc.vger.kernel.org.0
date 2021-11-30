@@ -2,91 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 651AB463C3C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42330463C4B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:52:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244434AbhK3Qw6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 11:52:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244427AbhK3Qwz (ORCPT
+        id S239221AbhK3Qzn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Nov 2021 11:55:43 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44396 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238952AbhK3Qzm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:52:55 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C073C061746
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Nov 2021 08:49:34 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id n12so55453126lfe.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Nov 2021 08:49:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=y+9tzdDCGsDUUrL8c3qTMvpYPvBp/D8362sjA+sSoxc=;
-        b=b1YdeDgvuEBYxuKI5iRpU0uIL2G7IvIn23HtKfuf4Hu2s4ACAcbx21l/1IBuBD5haG
-         0c0nAuUIz27f9DBsXonJIoP2UimM6JXNlwFSyq18HBoZx1ab/eajk7U7rSzZsf2GDW5l
-         tFkNESpU7qRULDVUmZO6JfaomBw58IzyWkPiNi61lPpkM10mU5ULje4MEkEutwWoFb/q
-         ZdX/q1tAcuQtyp3H8SFBVto0UMUV66NV455soQ/BRjS2KhShnygJtxBYTiEwW6HehZj6
-         yqVs/DZwFONqhZaVUW8BP11WNYL/DBVKoEBnlqB6olE/zTlzHMq93mzQujRbzrETif7K
-         gxgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=y+9tzdDCGsDUUrL8c3qTMvpYPvBp/D8362sjA+sSoxc=;
-        b=flDSZXlW1tIE13bkPcdgmqtscuVr4rCYrMnz0rGvXSZMUZTn19vj5ezJ9hn99dI0G2
-         l1H6ynuAaiLYVXxvFeqS50jPZUCsCNuo1VnKjUol/o+mi2bN6SGDm/qvdMehv0Y5mfS4
-         OvCpZUE9a8VmmjriSgTeUYDn5qIoy/aPY89dc7JFmVZbmO+BYIiKuaKuPWdI9Q0durxj
-         Lf1Mzt4WfZqy9Ap3pJ6xqNyPkXpvUZznv1C6SqX+2kOZFnuHXObQWK9h0uqP4bXG9Y3E
-         B5170rGrHKDgJvyRu6Z7PzMyOQhHr+7zflRkwejMRT5oHVbHc4jYbXoK+/A/R+9w1TzR
-         1x2g==
-X-Gm-Message-State: AOAM530ix9BPGMzN4G32bEoyrvr0XeNLEf+pRUx9dAIUWFVWIKLMCPiL
-        u0ed2sgygGVicf/lW4lVePxFtjduWNQ2Wdtq
-X-Google-Smtp-Source: ABdhPJwW9pz1BIYwEbsOEzh9cfE3squ8ovlpDNkHfSy6oLtimjIT/JCgbbdRu/Nn+7KfqkAj2sjejA==
-X-Received: by 2002:a05:6512:3217:: with SMTP id d23mr367957lfe.572.1638290972757;
-        Tue, 30 Nov 2021 08:49:32 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id q1sm1771260lfh.234.2021.11.30.08.49.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 08:49:32 -0800 (PST)
-Date:   Tue, 30 Nov 2021 17:49:31 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 0/9] arm64: dts: renesas: Thermal binding validation
-Message-ID: <YaZWG6+ty4UCeQu8@oden.dyn.berto.se>
-References: <20211104224033.3997504-1-kieran.bingham+renesas@ideasonboard.com>
- <CAMuHMdXVBj58ZM3LqCN3cudsE3VJV8AQC5OCOJP96RaqYf4NDQ@mail.gmail.com>
- <YYo0syH9m/CYlB2d@oden.dyn.berto.se>
- <YYo62jdzSTxqCMtk@oden.dyn.berto.se>
- <CAMuHMdUNZ+TOGU-H9dZu08WKO2fO2sbgL1BbN3JzEVBkOyMhdA@mail.gmail.com>
+        Tue, 30 Nov 2021 11:55:42 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6E938F0;
+        Tue, 30 Nov 2021 17:52:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638291141;
+        bh=/qo/1h+AI+95RAVaCrSem/C7p8191icfDAyS7X505+o=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=AI4r0unlo95F6nqxljkuVGR0mRJ3qZuIIdaoQZFTLG/1ERwMee3D13Qhr163vjMoK
+         +e1PXTi+DYF/Czq5aaXoQegiB2r9rnVugg2uaJ5amOEWSjhcLCncXjPnpQO1VujXQc
+         azKOQM9kvc+FNc3K+xl03p0CZkvH3adhnnc3Pa+U=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUNZ+TOGU-H9dZu08WKO2fO2sbgL1BbN3JzEVBkOyMhdA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211130162513.2898302-3-kieran.bingham+renesas@ideasonboard.com>
+References: <20211130162513.2898302-1-kieran.bingham+renesas@ideasonboard.com> <20211130162513.2898302-3-kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] drm: rcar-du: mipi-dsi: Use devm_drm_of_get_bridge helper
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Date:   Tue, 30 Nov 2021 16:52:19 +0000
+Message-ID: <163829113971.3059017.15142528562599981704@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Laurent,
 
-On 2021-11-30 17:45:11 +0100, Geert Uytterhoeven wrote:
-> Given Rob said he applied your patch[1], does that mean this series
-> is good to be applied?
-> Thanks!
-> 
-> [1] https://lore.kernel.org/all/YaU4XuiaJgEjGCdQ@robh.at.kernel.org/
+Quoting Kieran Bingham (2021-11-30 16:25:13)
+> Instead of open coding the calls for
+>   drm_of_find_panel_or_bridge()
+>   devm_drm_panel_bridge_add()
+>=20
+> use the devm_drm_of_get_bridge() helper directly.
+>=20
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> v2:
+>  - New patch
+>=20
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 19 ++++---------------
+>  1 file changed, 4 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rc=
+ar-du/rcar_mipi_dsi.c
+> index 0a9f197ef62c..1dfe20d3d0f2 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -637,7 +637,7 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_=
+host *host,
+>                                         struct mipi_dsi_device *device)
+>  {
+>         struct rcar_mipi_dsi *dsi =3D host_to_rcar_mipi_dsi(host);
+> -       struct drm_panel *panel;
+> +       struct device *dev =3D dsi->dev;
+>         int ret;
+> =20
+>         if (device->lanes > dsi->num_data_lanes)
+> @@ -646,20 +646,9 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi=
+_host *host,
+>         dsi->lanes =3D device->lanes;
+>         dsi->format =3D device->format;
+> =20
+> -       ret =3D drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &pan=
+el,
+> -                                         &dsi->next_bridge);
+> -       if (ret) {
+> -               dev_err_probe(dsi->dev, ret, "could not find next bridge\=
+n");
+> -               return ret;
+> -       }
+> -
+> -       if (!dsi->next_bridge) {
+> -               dsi->next_bridge =3D devm_drm_panel_bridge_add(dsi->dev, =
+panel);
+> -               if (IS_ERR(dsi->next_bridge)) {
+> -                       dev_err(dsi->dev, "failed to create panel bridge\=
+n");
+> -                       return PTR_ERR(dsi->next_bridge);
+> -               }
+> -       }
+> +       dsi->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 1,=
+ 0);
+> +       if (IS_ERR(dsi->next_bridge))
+> +               return PTR_ERR(dsi->next_bridge);
 
-Yes, with that patch applied this change won't generate any (new)
-warnings from DT :-)
+I did make a change here to make this:
 
--- 
-Kind Regards,
-Niklas Söderlund
+	dsi->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+	if (IS_ERR(dsi->next_bridge)) {
+		dev_err(dev, "failed to get next bridge\n");
+		return PTR_ERR(dsi->next_bridge);
+	}
+
+But it seems I got out of sequence and saved out the wrong patch ;-(
+
+If you think it's better with the error print, please add it while
+squashing, or if you really need, I can send an updated patch and
+retest.
+
+--
+Kieran
+
+
+> =20
+>         /* Initialize the DRM bridge. */
+>         dsi->bridge.funcs =3D &rcar_mipi_dsi_bridge_ops;
+> --=20
+> 2.30.2
+>
