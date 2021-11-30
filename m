@@ -2,96 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B059463BB0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD78C463C10
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:43:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239198AbhK3Q2o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 11:28:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234056AbhK3Q2o (ORCPT
+        id S238257AbhK3Qqg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Nov 2021 11:46:36 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44234 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229975AbhK3Qqf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:28:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F769C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Nov 2021 08:25:24 -0800 (PST)
+        Tue, 30 Nov 2021 11:46:35 -0500
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8715E1447;
-        Tue, 30 Nov 2021 17:25:21 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5FA68F0;
+        Tue, 30 Nov 2021 17:43:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638289521;
-        bh=tPTO6x4/UmqDVDNMFfhIt7vn9FEScoUNFaizGSmWb3Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Erinv4cC7+StbzjmVPXo/DMz5PnMqVrzoPrrufyUAUIgrzoA8++rt0IjABmnDrfLy
-         cExEBcOZaZQS19qta0Ul92ePEbrOa/e8qn5v9/j78LyP1oYCYD+2TkasI5YX+RC1Rx
-         Sdwc+lMb95uI47b+CeEQWt5HJ3EgyrSTQFc1spE0=
+        s=mail; t=1638290595;
+        bh=z+LMhuJyOl8XHS0H27olkHCBfyz5TIWRovjEH5gs5MI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TYfN4JFFSWcFHch25cbgCI7yBywqY0ZXW/qYw91DQ1D3DxCltYJ7szXDbss0daSIQ
+         CwWMgM0bpMTgGyI4WeH6G2SDPd+mR5sdm5boWxhU/8GN+YEV8WpB4sKO69XAY4sbL1
+         SAmHtBFQNT2I5PFJEOUZEvnzz24kn79dq6jRHp88=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+        Geert Uytterhoeven <geert@glider.be>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v2 2/2] drm: rcar-du: mipi-dsi: Use devm_drm_of_get_bridge helper
-Date:   Tue, 30 Nov 2021 16:25:13 +0000
-Message-Id: <20211130162513.2898302-3-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v5 0/2] arm64: dts: renesas: r8a779a0 DU support
+Date:   Tue, 30 Nov 2021 16:43:09 +0000
+Message-Id: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211130162513.2898302-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211130162513.2898302-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Instead of open coding the calls for
-  drm_of_find_panel_or_bridge()
-  devm_drm_panel_bridge_add()
+Provide the DT nodes for the DSI found on the r8a779a0, and extend the
+falcon-cpu board add on with the TI SN65DSI86 bridge which is used to
+connect the DSI output to the mini display-port connector on the Falcon
+CPU board.
 
-use the devm_drm_of_get_bridge() helper directly.
+This has been successfully tested on a Falcon-V3U with patches to the
+rcar_du and sn65dsi86 which will be sent separately.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v2:
- - New patch
+Since the previous version, the core "r8a779a0: Add DU support" has
+already been accepted into the renesas-drivers tree, and the "r8a779a0:
+Provide default DSI data-lanes" patch has been dropped in favour of a
+better construction in the two patches supplied here.
 
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+Kieran Bingham (2):
+  arm64: dts: renesas: r8a779a0: Add DSI encoders
+  arm64: dts: renesas: r8a779a0: falcon-cpu: Add DSI display output
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 0a9f197ef62c..1dfe20d3d0f2 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -637,7 +637,7 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 					struct mipi_dsi_device *device)
- {
- 	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
--	struct drm_panel *panel;
-+	struct device *dev = dsi->dev;
- 	int ret;
- 
- 	if (device->lanes > dsi->num_data_lanes)
-@@ -646,20 +646,9 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 	dsi->lanes = device->lanes;
- 	dsi->format = device->format;
- 
--	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
--					  &dsi->next_bridge);
--	if (ret) {
--		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
--		return ret;
--	}
--
--	if (!dsi->next_bridge) {
--		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
--		if (IS_ERR(dsi->next_bridge)) {
--			dev_err(dsi->dev, "failed to create panel bridge\n");
--			return PTR_ERR(dsi->next_bridge);
--		}
--	}
-+	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-+	if (IS_ERR(dsi->next_bridge))
-+		return PTR_ERR(dsi->next_bridge);
- 
- 	/* Initialize the DRM bridge. */
- 	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
+ .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 79 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 60 ++++++++++++++
+ 2 files changed, 139 insertions(+)
+
 -- 
 2.30.2
 
