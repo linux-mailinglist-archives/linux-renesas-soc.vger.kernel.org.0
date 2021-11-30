@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09FDC462B06
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 04:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 729C8462B49
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 04:48:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237843AbhK3D2e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Nov 2021 22:28:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
+        id S237177AbhK3Dvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Nov 2021 22:51:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232594AbhK3D2e (ORCPT
+        with ESMTP id S229769AbhK3Dvw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Nov 2021 22:28:34 -0500
+        Mon, 29 Nov 2021 22:51:52 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6571C061574;
-        Mon, 29 Nov 2021 19:25:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2892AC061574;
+        Mon, 29 Nov 2021 19:48:34 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52A218F0;
-        Tue, 30 Nov 2021 04:25:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 642AB8F0;
+        Tue, 30 Nov 2021 04:48:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638242714;
-        bh=GWpugv4jnyFlulT3or9yRBAZ4QMbPljZiymoOFQR00A=;
+        s=mail; t=1638244111;
+        bh=Ju85iL4hNDoC8/eyKjROgknF4Z5dOgHf2nxHw5W0fyw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RnYBIRBE7hOmgrbiD2xVpmT9MO9Vfda/eJ+9GpveAXXyzCHiGTqDEh3J40/wBYT6O
-         UUUbA3DePBPuKc2esYmupTaxuNYBGYDXcE0bTh/8G8yfqeIQ8ZR70CJcKz/r85kjPK
-         63wMwbZw17VgC+DbbFVVyLD+xpGmRAOdi8M0/EKQ=
-Date:   Tue, 30 Nov 2021 05:24:50 +0200
+        b=FXXt811b8LE70eYPo2ULKzDpORmN/2tq+qjrkMX1DRvLYrQjfD29lRn/qNJWSsFbG
+         sWYocMrPzrwfOTPubgPTN58Nxv3dn4dRXvBGIVZHfcwhQAXqome8QRWRF3dMGG9wpM
+         HELbLmvn+QM54/Mzgt9CmknWjsYfTdCrt5E3o4w0=
+Date:   Tue, 30 Nov 2021 05:48:06 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] drm: rcar-du: mipi-dsi: Support bridge probe ordering
-Message-ID: <YaWZgkL6phajVdvy@pendragon.ideasonboard.com>
-References: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
- <20211126101518.938783-5-kieran.bingham+renesas@ideasonboard.com>
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm: rcar-du: crtc: Support external DSI dot clock
+Message-ID: <YaWe9nOzk+zN9d5u@pendragon.ideasonboard.com>
+References: <20211126093514.927340-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211126101518.938783-5-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20211126093514.927340-1-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -46,120 +47,49 @@ Hi Kieran,
 
 Thank you for the patch.
 
-On Fri, Nov 26, 2021 at 10:15:18AM +0000, Kieran Bingham wrote:
-> The bridge probe ordering for DSI devices has been clarified and further
-> documented in
-
-In what ? :-)
-
-> To support connecting with the SN65DSI86 device after commit c3b75d4734cb
-> ("drm/bridge: sn65dsi86: Register and attach our DSI device at probe"),
-> update to the new probe ordering to remove a perpetual -EPROBE_DEFER
-> loop between the two devices.
+On Fri, Nov 26, 2021 at 09:35:14AM +0000, Kieran Bingham wrote:
+> On platforms with an external clock, both the group and crtc must be
+> handled accordingly to correctly pass through the external clock and
+> configure the DU to use the external rate.
 > 
+> The CRTC support was missed while adding the DSI support on the r8a779a0
+> which led to the output clocks being incorrectly determined.
+> 
+> Ensure that when a CRTC is routed through the DSI encoder, the external
+> clock is used without any further divider being applied.
+> 
+> Fixes: b291fdcf5114 ("drm: rcar-du: Add r8a779a0 device support")
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Will you send a new version of this patch with Biju's comments taken
-into account ? I've already applied 1/4 to 3/4 to my tree, so there's no
-need to repost them.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 48 +++++++++++++------------
->  1 file changed, 26 insertions(+), 22 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index 833f4480bdf3..f783bacee8da 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -639,6 +639,8 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  					struct mipi_dsi_device *device)
->  {
->  	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	struct drm_panel *panel;
-> +	int ret;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 5672830ca184..5236f917cc68 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -261,12 +261,13 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>  		rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
 >  
->  	if (device->lanes > dsi->num_data_lanes)
->  		return -EINVAL;
-> @@ -646,12 +648,36 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  	dsi->lanes = device->lanes;
->  	dsi->format = device->format;
->  
-> +	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> +					  &dsi->next_bridge);
-> +	if (ret) {
-> +		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-> +		return ret;
-> +	}
-> +
-> +	if (!dsi->next_bridge) {
-> +		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-> +		if (IS_ERR(dsi->next_bridge)) {
-> +			dev_err(dsi->dev, "failed to create panel bridge\n");
-> +			return PTR_ERR(dsi->next_bridge);
-> +		}
-> +	}
-> +
-> +	/* Initialize the DRM bridge. */
-> +	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
-> +	dsi->bridge.of_node = dsi->dev->of_node;
-> +	drm_bridge_add(&dsi->bridge);
-> +
->  	return 0;
->  }
->  
->  static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
->  					struct mipi_dsi_device *device)
->  {
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +
-> +	drm_bridge_remove(&dsi->bridge);
-> +
->  	return 0;
->  }
->  
-> @@ -766,21 +792,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
->  		return PTR_ERR(dsi->rstc);
->  	}
->  
-> -	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> -					  &dsi->next_bridge);
-> -	if (ret) {
-> -		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-> -		return ret;
-> -	}
-> -
-> -	if (!dsi->next_bridge) {
-> -		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-> -		if (IS_ERR(dsi->next_bridge)) {
-> -			dev_err(dsi->dev, "failed to create panel bridge\n");
-> -			return PTR_ERR(dsi->next_bridge);
-> -		}
-> -	}
-> -
->  	/* Initialize the DSI host. */
->  	dsi->host.dev = dsi->dev;
->  	dsi->host.ops = &rcar_mipi_dsi_host_ops;
-> @@ -788,11 +799,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	/* Initialize the DRM bridge. */
-> -	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
-> -	dsi->bridge.of_node = dsi->dev->of_node;
-> -	drm_bridge_add(&dsi->bridge);
-> -
->  	return 0;
->  }
->  
-> @@ -800,8 +806,6 @@ static int rcar_mipi_dsi_remove(struct platform_device *pdev)
->  {
->  	struct rcar_mipi_dsi *dsi = platform_get_drvdata(pdev);
->  
-> -	drm_bridge_remove(&dsi->bridge);
-> -
->  	mipi_dsi_host_unregister(&dsi->host);
->  
->  	return 0;
+>  		escr = ESCR_DCLKSEL_DCLKIN | div;
+> -	} else if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
+> +	} else if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) ||
+> +		   rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
+>  		/*
+> -		 * Use the LVDS PLL output as the dot clock when outputting to
+> -		 * the LVDS encoder on an SoC that supports this clock routing
+> -		 * option. We use the clock directly in that case, without any
+> -		 * additional divider.
+> +		 * Use the external LVDS or DSI PLL output as the dot clock when
+> +		 * outputting to the LVDS or DSI encoder on an SoC that supports
+> +		 * this clock routing option. We use the clock directly in that
+> +		 * case, without any additional divider.
+>  		 */
+>  		escr = ESCR_DCLKSEL_DCLKIN;
+>  	} else {
 
 -- 
 Regards,
