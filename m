@@ -2,62 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD78C463C10
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C82463C11
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238257AbhK3Qqg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S244220AbhK3Qqg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 30 Nov 2021 11:46:36 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44234 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44240 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbhK3Qqf (ORCPT
+        with ESMTP id S230259AbhK3Qqg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:46:35 -0500
+        Tue, 30 Nov 2021 11:46:36 -0500
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5FA68F0;
-        Tue, 30 Nov 2021 17:43:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F10911C5;
+        Tue, 30 Nov 2021 17:43:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1638290595;
-        bh=z+LMhuJyOl8XHS0H27olkHCBfyz5TIWRovjEH5gs5MI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TYfN4JFFSWcFHch25cbgCI7yBywqY0ZXW/qYw91DQ1D3DxCltYJ7szXDbss0daSIQ
-         CwWMgM0bpMTgGyI4WeH6G2SDPd+mR5sdm5boWxhU/8GN+YEV8WpB4sKO69XAY4sbL1
-         SAmHtBFQNT2I5PFJEOUZEvnzz24kn79dq6jRHp88=
+        bh=w7su8/kwCx6CWfTEhlhNUnkf3j4MwZ1D2xFJ9I1Nk7g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JsH90Qz88wRxJDrhkv518x6vHUCBVBohBi4PvHE3lHueFf2TszcVJaatkt7cccjFA
+         z1HwZWLXGWGMU4mNwzZNw4XdjQGP+cTESTxG3EWaaHujCd4JFVYPUwDTD81rmjXsVO
+         AfxgfxgLgGhKTjQA3aYqQ4u0AQWwjDBaHaGqtLn8=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Geert Uytterhoeven <geert@glider.be>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v5 0/2] arm64: dts: renesas: r8a779a0 DU support
-Date:   Tue, 30 Nov 2021 16:43:09 +0000
-Message-Id: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v5 1/2] arm64: dts: renesas: r8a779a0: Add DSI encoders
+Date:   Tue, 30 Nov 2021 16:43:10 +0000
+Message-Id: <20211130164311.2909616-2-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
+References: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide the DT nodes for the DSI found on the r8a779a0, and extend the
-falcon-cpu board add on with the TI SN65DSI86 bridge which is used to
-connect the DSI output to the mini display-port connector on the Falcon
-CPU board.
+Provide the two MIPI DSI encoders on the V3U and connect them to the DU
+accordingly.
 
-This has been successfully tested on a Falcon-V3U with patches to the
-rcar_du and sn65dsi86 which will be sent separately.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+v2
+ - Fixup indentation
 
-Since the previous version, the core "r8a779a0: Add DU support" has
-already been accepted into the renesas-drivers tree, and the "r8a779a0:
-Provide default DSI data-lanes" patch has been dropped in favour of a
-better construction in the two patches supplied here.
+v3
+ - Fix the clock references
+ - Fixup dsi1 as well
 
-Kieran Bingham (2):
-  arm64: dts: renesas: r8a779a0: Add DSI encoders
-  arm64: dts: renesas: r8a779a0: falcon-cpu: Add DSI display output
+-v4:
+ - Use the correct pll clocks.
 
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 79 +++++++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 60 ++++++++++++++
- 2 files changed, 139 insertions(+)
+v5:
+ - Remove dsi_out port endpoints.
+ - They must be added by the definition that links them.
 
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 8ac1a31e4146..2bd241b2a588 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -2290,12 +2290,14 @@ ports {
+ 				port@0 {
+ 					reg = <0>;
+ 					du_out_dsi0: endpoint {
++						remote-endpoint = <&dsi0_in>;
+ 					};
+ 				};
+ 
+ 				port@1 {
+ 					reg = <1>;
+ 					du_out_dsi1: endpoint {
++						remote-endpoint = <&dsi1_in>;
+ 					};
+ 				};
+ 			};
+@@ -2633,6 +2635,64 @@ isp3vin31: endpoint {
+ 			};
+ 		};
+ 
++		dsi0: dsi-encoder@fed80000 {
++			compatible = "renesas,r8a779a0-dsi-csi2-tx";
++			reg = <0 0xfed80000 0 0x10000>;
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 415>,
++				 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
++				 <&cpg CPG_CORE R8A779A0_CLK_CL16MCK>;
++			clock-names = "fck", "dsi", "pll";
++
++			resets = <&cpg 415>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					dsi0_in: endpoint {
++						remote-endpoint = <&du_out_dsi0>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++			};
++		};
++
++		dsi1: dsi-encoder@fed90000 {
++			compatible = "renesas,r8a779a0-dsi-csi2-tx";
++			reg = <0 0xfed90000 0 0x10000>;
++			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 415>,
++				 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
++				 <&cpg CPG_CORE R8A779A0_CLK_CL16MCK>;
++			clock-names = "fck", "dsi", "pll";
++
++			resets = <&cpg 416>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					dsi1_in: endpoint {
++						remote-endpoint = <&du_out_dsi1>;
++					};
++				};
++
++				port@1 {
++					reg = <1>;
++				};
++			};
++		};
++
+ 		prr: chipid@fff00044 {
+ 			compatible = "renesas,prr";
+ 			reg = <0 0xfff00044 0 4>;
 -- 
 2.30.2
 
