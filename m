@@ -2,170 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 590E8463C15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8EA6463C22
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 17:45:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244351AbhK3Qqi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 11:46:38 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44250 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbhK3Qqh (ORCPT
+        id S238696AbhK3Qsm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Nov 2021 11:48:42 -0500
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:45650 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233320AbhK3Qsm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:46:37 -0500
-Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDEC21447;
-        Tue, 30 Nov 2021 17:43:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638290596;
-        bh=jlB2sdg+kf/oR6NWJ2UZDgcX8xPpxtftObNb0ng3GPc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=En3iFUHA1mfxCdJ8mA1eIX25GHjNzikYZ7UCNAWOweF67/OcBRDy/VBbnflicxZTv
-         yDKYMhDEQwoX0nIK67Z9bsMysMtZGnav74estXCOhTMcUUDVHHnyJdR2KIjE0lcOZh
-         PqZUM8XXVQ1MZjMoytczSIuurfbyqFg4c9h1xIdw=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v5 2/2] arm64: dts: renesas: r8a779a0: falcon-cpu: Add DSI display output
-Date:   Tue, 30 Nov 2021 16:43:11 +0000
-Message-Id: <20211130164311.2909616-3-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211130164311.2909616-1-kieran.bingham+renesas@ideasonboard.com>
+        Tue, 30 Nov 2021 11:48:42 -0500
+Received: by mail-ua1-f41.google.com with SMTP id ay21so42707061uab.12;
+        Tue, 30 Nov 2021 08:45:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iWgemuLdY/QvKYnwAaq261iQpjOIP4k64nwlshQt2Gk=;
+        b=06tGN5zT7nu8LL2I5jvkSjwI9uYYQXPRleYUx8BSWYfAWwN9TP6iNn98PUktY7ibyc
+         uGRjxHFZ4vEDU7keyaMe1T9Li7xf5L3xISg+tZXUlU+hdTQjQVjpe2bjemEIbZ0D9Pj6
+         MiZhh9ACG/k8FXTgjYRbFIityyZm55lv61gVokSy9ijOCaxLEpvO9CWZaaXJQh3K6NLP
+         9navW24vMwHADXt5kzcOOTaxgBeiiNUiQHGBNpVdgkOC6oGFAa5DxlJj9StNEAZhSBeW
+         r0XtwaHbkrj8Y0CU7QjpAE3U1FBpzoPX/ftkJyUmYZa8KO29CTzmi4yRtUeqEYXXTFFP
+         eKWQ==
+X-Gm-Message-State: AOAM531GMvFDw2drvg5xTElaU1CiLFMMqmgDpK64YXjoDj4GTUQMx7tO
+        1BDmH6vA+wwwReiJHyJlOqwZ6OwZc4uyug==
+X-Google-Smtp-Source: ABdhPJzWFBi+9YzLqxNYPpo5Vw5ER0M1AsEPaK939U5P1mm6CN5DHogz53UvV5qw4tbm5zk1phUy2Q==
+X-Received: by 2002:a67:eb54:: with SMTP id x20mr42992663vso.18.1638290722616;
+        Tue, 30 Nov 2021 08:45:22 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id j17sm10084776vkp.27.2021.11.30.08.45.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 08:45:22 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id p2so42632524uad.11;
+        Tue, 30 Nov 2021 08:45:22 -0800 (PST)
+X-Received: by 2002:a67:c106:: with SMTP id d6mr42038722vsj.77.1638290721992;
+ Tue, 30 Nov 2021 08:45:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211104224033.3997504-1-kieran.bingham+renesas@ideasonboard.com>
+ <CAMuHMdXVBj58ZM3LqCN3cudsE3VJV8AQC5OCOJP96RaqYf4NDQ@mail.gmail.com>
+ <YYo0syH9m/CYlB2d@oden.dyn.berto.se> <YYo62jdzSTxqCMtk@oden.dyn.berto.se>
+In-Reply-To: <YYo62jdzSTxqCMtk@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 30 Nov 2021 17:45:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUNZ+TOGU-H9dZu08WKO2fO2sbgL1BbN3JzEVBkOyMhdA@mail.gmail.com>
+Message-ID: <CAMuHMdUNZ+TOGU-H9dZu08WKO2fO2sbgL1BbN3JzEVBkOyMhdA@mail.gmail.com>
+Subject: Re: [PATCH 0/9] arm64: dts: renesas: Thermal binding validation
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Provide the display output using the sn65dsi86 MIPI DSI bridge
+Hi Niklas,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v3:
- - Fix the voltage regulator values
- - No longer override the clocks
- - use clk-x6 as clock node name
+On Tue, Nov 9, 2021 at 10:09 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2021-11-09 09:43:33 +0100, Niklas Söderlund wrote:
+> > > > linux/arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dt.yaml:
+> > > > thermal-zones: sensor3-thermal:cooling-maps:map0:contribution:0:0:
+> > > > 1024 is greater than the maximum of 100
+> > > >         From schema: Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> > > >
+> > > > This validation error appears to be pervasive across all of these
+> > > > bindings, but changing that will be more invasive and require someone to
+> > > > perform dedicated testing with the thermal drivers to ensure that the
+> > > > updates to the ranges do not cause unexpected side effects.
+> > >
+> > > Niklas?
+> >
+> > I will have a look. The thermal driver is the one driver where I have
+> > automated CI test running.
+>
+> So the core of the issue is that the definition of the property changed
+> in the txt to yaml conversion. The original definition was,
+>
+>   Optional property:
+>   - contribution:         The cooling contribution to the thermal zone of the
+>     Type: unsigned        referred cooling device at the referred trip point.
+>     Size: one cell        The contribution is a ratio of the sum
+>                             of all cooling contributions within a thermal zone.
+>
+> While the  new binding states,
+>
+>   contribution:
+>     $ref: /schemas/types.yaml#/definitions/uint32
+>     minimum: 0
+>     maximum: 100
+>     description:
+>       The percentage contribution of the cooling devices at the
+>       specific trip temperature referenced in this map
+>       to this thermal zone
+>
+> Looking at the real world usage of this only 2 out of 17 platforms sets
+> a contribution value less or equal to 100. I will send a patch to fix
+> the bindings.
 
-v4:
- - No change
+Given Rob said he applied your patch[1], does that mean this series
+is good to be applied?
+Thanks!
 
-v5:
- - Override/define dsi0_out endpoints entirely
+[1] https://lore.kernel.org/all/YaU4XuiaJgEjGCdQ@robh.at.kernel.org/
 
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 79 +++++++++++++++++++
- 1 file changed, 79 insertions(+)
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-index cd2f0d60f21a..b82f2e53403c 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-@@ -98,6 +98,15 @@ memory@700000000 {
- 		reg = <0x7 0x00000000 0x0 0x80000000>;
- 	};
- 
-+	reg_1p2v: regulator-1p2v {
-+		compatible = "regulator-fixed";
-+		regulator-name = "fixed-1.2V";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-boot-on;
-+		regulator-always-on;
-+	};
-+
- 	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
-@@ -115,6 +124,41 @@ reg_3p3v: regulator-3p3v {
- 		regulator-boot-on;
- 		regulator-always-on;
- 	};
-+
-+	mini-dp-con {
-+		compatible = "dp-connector";
-+		label = "CN5";
-+		type = "mini";
-+
-+		port {
-+			mini_dp_con_in: endpoint {
-+				remote-endpoint = <&sn65dsi86_out>;
-+			};
-+		};
-+	};
-+
-+	sn65dsi86_refclk: clk-x6 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi0_out: endpoint {
-+				remote-endpoint = <&sn65dsi86_in>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	status = "okay";
- };
- 
- &extal_clk {
-@@ -146,6 +190,41 @@ &i2c1 {
- 
- 	status = "okay";
- 	clock-frequency = <400000>;
-+
-+	sn65dsi86@2c {
-+		compatible = "ti,sn65dsi86";
-+		reg = <0x2c>;
-+
-+		clocks = <&sn65dsi86_refclk>;
-+		clock-names = "refclk";
-+
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		vccio-supply = <&reg_1p8v>;
-+		vpll-supply = <&reg_1p8v>;
-+		vcca-supply = <&reg_1p2v>;
-+		vcc-supply = <&reg_1p2v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				sn65dsi86_in: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				sn65dsi86_out: endpoint {
-+					remote-endpoint = <&mini_dp_con_in>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &i2c6 {
--- 
-2.30.2
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
