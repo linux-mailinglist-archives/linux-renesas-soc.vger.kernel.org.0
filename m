@@ -2,387 +2,304 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD0B463EE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 20:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AAC54640C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 22:51:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343544AbhK3T52 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 14:57:28 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:1793 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1343543AbhK3T52 (ORCPT
+        id S230023AbhK3Vyw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Nov 2021 16:54:52 -0500
+Received: from mga09.intel.com ([134.134.136.24]:13358 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232408AbhK3Vyv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 14:57:28 -0500
-X-IronPort-AV: E=Sophos;i="5.87,276,1631545200"; 
-   d="scan'208";a="101928858"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 01 Dec 2021 04:54:08 +0900
-Received: from localhost.localdomain (unknown [10.226.93.28])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E033D40065DB;
-        Wed,  1 Dec 2021 04:54:05 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-watchdog@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v5 2/2] watchdog: Add Watchdog Timer driver for RZ/G2L
-Date:   Tue, 30 Nov 2021 19:53:57 +0000
-Message-Id: <20211130195357.18626-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211130195357.18626-1-biju.das.jz@bp.renesas.com>
-References: <20211130195357.18626-1-biju.das.jz@bp.renesas.com>
+        Tue, 30 Nov 2021 16:54:51 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="236146626"
+X-IronPort-AV: E=Sophos;i="5.87,277,1631602800"; 
+   d="scan'208";a="236146626"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 13:51:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,277,1631602800"; 
+   d="scan'208";a="459776780"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 30 Nov 2021 13:51:28 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1msB27-000Dnu-N1; Tue, 30 Nov 2021 21:51:27 +0000
+Date:   Wed, 01 Dec 2021 05:50:42 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-drivers-for-v5.17] BUILD SUCCESS
+ 05b22caa7490e4f4c94bbde33c61cf72d187b8f7
+Message-ID: <61a69cb2.iVbJWWOH1ljBn5de%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Watchdog Timer driver for RZ/G2L SoC.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.17
+branch HEAD: 05b22caa7490e4f4c94bbde33c61cf72d187b8f7  soc: renesas: Consolidate product register handling
 
-WDT IP block supports normal watchdog timer function and reset
-request function due to CPU parity error.
+elapsed time: 726m
 
-This driver currently supports normal watchdog timer function
-and later will add support for reset request function due to
-CPU parity error.
+configs tested: 241
+configs skipped: 4
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211128
+i386                 randconfig-c001-20211201
+i386                 randconfig-c001-20211130
+sh                          rsk7269_defconfig
+arc                 nsimosci_hs_smp_defconfig
+sh                   secureedge5410_defconfig
+m68k                             allmodconfig
+arm                        realview_defconfig
+arm                          exynos_defconfig
+mips                       capcella_defconfig
+powerpc                     tqm8555_defconfig
+i386                                defconfig
+arm                         mv78xx0_defconfig
+sh                           se7750_defconfig
+powerpc                      pasemi_defconfig
+sh                               alldefconfig
+arm                       imx_v6_v7_defconfig
+powerpc                      acadia_defconfig
+m68k                        m5272c3_defconfig
+sh                          polaris_defconfig
+powerpc                    adder875_defconfig
+sh                        edosk7760_defconfig
+powerpc                       holly_defconfig
+arm                      footbridge_defconfig
+xtensa                  cadence_csp_defconfig
+arm                    vt8500_v6_v7_defconfig
+mips                          malta_defconfig
+arm                          ep93xx_defconfig
+xtensa                       common_defconfig
+arm                         s3c2410_defconfig
+powerpc                     kilauea_defconfig
+um                               alldefconfig
+mips                           ci20_defconfig
+sh                          rsk7201_defconfig
+arm                     davinci_all_defconfig
+riscv                            allyesconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                      cm5200_defconfig
+mips                        qi_lb60_defconfig
+mips                         cobalt_defconfig
+powerpc                       maple_defconfig
+sh                           se7722_defconfig
+sh                            titan_defconfig
+mips                    maltaup_xpa_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc                 mpc836x_rdk_defconfig
+powerpc                 canyonlands_defconfig
+sh                     sh7710voipgw_defconfig
+m68k                          hp300_defconfig
+arm                       omap2plus_defconfig
+powerpc                 mpc834x_itx_defconfig
+m68k                       m5208evb_defconfig
+powerpc                 linkstation_defconfig
+arm                            xcep_defconfig
+mips                         tb0287_defconfig
+arm                         s5pv210_defconfig
+powerpc                   currituck_defconfig
+arm                          imote2_defconfig
+arm                        mvebu_v7_defconfig
+x86_64                              defconfig
+arm                       versatile_defconfig
+microblaze                      mmu_defconfig
+arm                         orion5x_defconfig
+mips                           ip22_defconfig
+arm                     eseries_pxa_defconfig
+sparc64                             defconfig
+sh                            shmin_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                      ep88xc_defconfig
+arm                             mxs_defconfig
+arc                        nsimosci_defconfig
+powerpc                           allnoconfig
+mips                           ip28_defconfig
+mips                  maltasmvp_eva_defconfig
+m68k                        m5407c3_defconfig
+arc                        nsim_700_defconfig
+arm                         lubbock_defconfig
+sh                     magicpanelr2_defconfig
+powerpc                          g5_defconfig
+powerpc64                        alldefconfig
+openrisc                    or1ksim_defconfig
+powerpc                  iss476-smp_defconfig
+arm                         bcm2835_defconfig
+sh                               j2_defconfig
+powerpc                     tqm8548_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                           gcw0_defconfig
+mips                        omega2p_defconfig
+mips                           rs90_defconfig
+arm                           h5000_defconfig
+m68k                             allyesconfig
+sh                          landisk_defconfig
+ia64                         bigsur_defconfig
+powerpc                     stx_gp3_defconfig
+mips                       lemote2f_defconfig
+nds32                               defconfig
+openrisc                            defconfig
+arm                          pcm027_defconfig
+powerpc                        warp_defconfig
+mips                 decstation_r4k_defconfig
+parisc                              defconfig
+powerpc                 mpc834x_mds_defconfig
+arc                        vdk_hs38_defconfig
+mips                        workpad_defconfig
+nios2                            alldefconfig
+arm                         socfpga_defconfig
+mips                     decstation_defconfig
+arm                         vf610m4_defconfig
+arm                             pxa_defconfig
+powerpc                 mpc8540_ads_defconfig
+sh                         apsh4a3a_defconfig
+sparc                            alldefconfig
+powerpc                      katmai_defconfig
+mips                           ip27_defconfig
+arm                       aspeed_g5_defconfig
+powerpc                 mpc8560_ads_defconfig
+arm                        cerfcube_defconfig
+powerpc                      chrp32_defconfig
+arm                           h3600_defconfig
+arm                  randconfig-c002-20211129
+arm                  randconfig-c002-20211128
+arm                  randconfig-c002-20211130
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a005-20211130
+i386                 randconfig-a002-20211130
+i386                 randconfig-a006-20211130
+i386                 randconfig-a004-20211130
+i386                 randconfig-a003-20211130
+i386                 randconfig-a001-20211130
+i386                 randconfig-a001-20211129
+i386                 randconfig-a002-20211129
+i386                 randconfig-a006-20211129
+i386                 randconfig-a005-20211129
+i386                 randconfig-a004-20211129
+i386                 randconfig-a003-20211129
+x86_64               randconfig-a011-20211128
+x86_64               randconfig-a014-20211128
+x86_64               randconfig-a012-20211128
+x86_64               randconfig-a016-20211128
+x86_64               randconfig-a013-20211128
+x86_64               randconfig-a015-20211128
+i386                 randconfig-a015-20211128
+i386                 randconfig-a016-20211128
+i386                 randconfig-a013-20211128
+i386                 randconfig-a012-20211128
+i386                 randconfig-a014-20211128
+i386                 randconfig-a011-20211128
+x86_64               randconfig-a001-20211130
+x86_64               randconfig-a006-20211130
+x86_64               randconfig-a003-20211130
+x86_64               randconfig-a004-20211130
+x86_64               randconfig-a005-20211130
+x86_64               randconfig-a002-20211130
+arc                  randconfig-r043-20211129
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+
+clang tested configs:
+s390                 randconfig-c005-20211128
+i386                 randconfig-c001-20211128
+riscv                randconfig-c006-20211128
+arm                  randconfig-c002-20211128
+powerpc              randconfig-c003-20211128
+x86_64               randconfig-c007-20211128
+mips                 randconfig-c004-20211128
+s390                 randconfig-c005-20211130
+i386                 randconfig-c001-20211130
+powerpc              randconfig-c003-20211130
+riscv                randconfig-c006-20211130
+mips                 randconfig-c004-20211130
+arm                  randconfig-c002-20211130
+x86_64               randconfig-c007-20211130
+x86_64               randconfig-a001-20211128
+x86_64               randconfig-a006-20211128
+x86_64               randconfig-a003-20211128
+x86_64               randconfig-a005-20211128
+x86_64               randconfig-a004-20211128
+x86_64               randconfig-a002-20211128
+i386                 randconfig-a001-20211128
+i386                 randconfig-a002-20211128
+i386                 randconfig-a006-20211128
+i386                 randconfig-a005-20211128
+i386                 randconfig-a004-20211128
+i386                 randconfig-a003-20211128
+x86_64               randconfig-a014-20211130
+x86_64               randconfig-a016-20211130
+x86_64               randconfig-a013-20211130
+x86_64               randconfig-a012-20211130
+x86_64               randconfig-a015-20211130
+x86_64               randconfig-a011-20211130
+i386                 randconfig-a015-20211129
+i386                 randconfig-a016-20211129
+i386                 randconfig-a013-20211129
+i386                 randconfig-a012-20211129
+i386                 randconfig-a014-20211129
+i386                 randconfig-a011-20211129
+hexagon              randconfig-r045-20211129
+hexagon              randconfig-r041-20211129
+s390                 randconfig-r044-20211129
+riscv                randconfig-r042-20211129
+riscv                randconfig-r042-20211130
+hexagon              randconfig-r045-20211130
+s390                 randconfig-r044-20211130
+hexagon              randconfig-r041-20211130
+
 ---
-v4->v5:
- * Started using the macros MICRO and USEC_PER_SEC
- * renamed rzg2l_wdt_get_cycle_msec() to rzg2l_wdt_get_cycle_usec()
- * Fixed the value of priv->wdev.max_timeout in seconds.
-V3->V4:
- * Fixed the build issue reported by kernel test robot by Replacing the
-   macro WDT_CYCLE_MSEC with div64_ul for 64-bit division to fix 32-bit
-   kernels.
-V2->V3:
- * Added Rb tag from Guenter Roeck
-V1->V2:
- * started using clk_get/put instead of devm_clk_get/put
- * Moved devm_add_action_or_reset after set_drvdata() and 
- * removed redundant action on devm_add_action_or_reset() failure.
-RFC->V1
- * Removed pclk_rate from priv.
- * rzg2l_wdt_write() returns void and Removed tiemout related to register update 
- * rzg2l_wdt_init_timeout() returns void and removed delays.
- * removed set_bit(WDOG_HW_RUNNING,..) as we can stop watchdog
- * renamed reset_assert_clock_disable->reset_assert_pm_disable_put
- * started using devm_reset_control_get_exclusive()
- * removed platform_set_drvdata(pdev, priv) as there is no user
- * removed watchdog_set_restart_priority(&priv->wdev, 0) as 0 is the default.
- * removed remove callback as it is empty.
----
- drivers/watchdog/Kconfig     |   8 ++
- drivers/watchdog/Makefile    |   1 +
- drivers/watchdog/rzg2l_wdt.c | 263 +++++++++++++++++++++++++++++++++++
- 3 files changed, 272 insertions(+)
- create mode 100644 drivers/watchdog/rzg2l_wdt.c
-
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 9d222ba17ec6..4760ee981263 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -881,6 +881,14 @@ config RENESAS_RZAWDT
- 	  This driver adds watchdog support for the integrated watchdogs in the
- 	  Renesas RZ/A SoCs. These watchdogs can be used to reset a system.
- 
-+config RENESAS_RZG2LWDT
-+	tristate "Renesas RZ/G2L WDT Watchdog"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select WATCHDOG_CORE
-+	help
-+	  This driver adds watchdog support for the integrated watchdogs in the
-+	  Renesas RZ/G2L SoCs. These watchdogs can be used to reset a system.
-+
- config ASPEED_WATCHDOG
- 	tristate "Aspeed BMC watchdog support"
- 	depends on ARCH_ASPEED || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index 2ee97064145b..9a3dc0bd271b 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_LPC18XX_WATCHDOG) += lpc18xx_wdt.o
- obj-$(CONFIG_BCM7038_WDT) += bcm7038_wdt.o
- obj-$(CONFIG_RENESAS_WDT) += renesas_wdt.o
- obj-$(CONFIG_RENESAS_RZAWDT) += rza_wdt.o
-+obj-$(CONFIG_RENESAS_RZG2LWDT) += rzg2l_wdt.o
- obj-$(CONFIG_ASPEED_WATCHDOG) += aspeed_wdt.o
- obj-$(CONFIG_STM32_WATCHDOG) += stm32_iwdg.o
- obj-$(CONFIG_UNIPHIER_WATCHDOG) += uniphier_wdt.o
-diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-new file mode 100644
-index 000000000000..6b426df34fd6
---- /dev/null
-+++ b/drivers/watchdog/rzg2l_wdt.c
-@@ -0,0 +1,263 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/G2L WDT Watchdog Driver
-+ *
-+ * Copyright (C) 2021 Renesas Electronics Corporation
-+ */
-+#include <linux/bitops.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
-+#include <linux/units.h>
-+#include <linux/watchdog.h>
-+
-+#define WDTCNT		0x00
-+#define WDTSET		0x04
-+#define WDTTIM		0x08
-+#define WDTINT		0x0C
-+#define WDTCNT_WDTEN	BIT(0)
-+#define WDTINT_INTDISP	BIT(0)
-+
-+#define WDT_DEFAULT_TIMEOUT		60U
-+
-+/* Setting period time register only 12 bit set in WDTSET[31:20] */
-+#define WDTSET_COUNTER_MASK		(0xFFF00000)
-+#define WDTSET_COUNTER_VAL(f)		((f) << 20)
-+
-+#define F2CYCLE_NSEC(f)			(1000000000 / (f))
-+
-+static bool nowayout = WATCHDOG_NOWAYOUT;
-+module_param(nowayout, bool, 0);
-+MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (default="
-+				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
-+
-+struct rzg2l_wdt_priv {
-+	void __iomem *base;
-+	struct watchdog_device wdev;
-+	struct reset_control *rstc;
-+	unsigned long osc_clk_rate;
-+	unsigned long delay;
-+};
-+
-+static void rzg2l_wdt_wait_delay(struct rzg2l_wdt_priv *priv)
-+{
-+	/* delay timer when change the setting register */
-+	ndelay(priv->delay);
-+}
-+
-+static u32 rzg2l_wdt_get_cycle_usec(unsigned long cycle, u32 wdttime)
-+{
-+	u64 timer_cycle_us = 1024 * 1024 * (wdttime + 1) * MICRO;
-+
-+	return div64_ul(timer_cycle_us, cycle);
-+}
-+
-+static void rzg2l_wdt_write(struct rzg2l_wdt_priv *priv, u32 val, unsigned int reg)
-+{
-+	if (reg == WDTSET)
-+		val &= WDTSET_COUNTER_MASK;
-+
-+	writel_relaxed(val, priv->base + reg);
-+	/* Registers other than the WDTINT is always synchronized with WDT_CLK */
-+	if (reg != WDTINT)
-+		rzg2l_wdt_wait_delay(priv);
-+}
-+
-+static void rzg2l_wdt_init_timeout(struct watchdog_device *wdev)
-+{
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+	u32 time_out;
-+
-+	/* Clear Lapsed Time Register and clear Interrupt */
-+	rzg2l_wdt_write(priv, WDTINT_INTDISP, WDTINT);
-+	/* 2 consecutive overflow cycle needed to trigger reset */
-+	time_out = (wdev->timeout * (MICRO / 2)) /
-+		   rzg2l_wdt_get_cycle_usec(priv->osc_clk_rate, 0);
-+	rzg2l_wdt_write(priv, WDTSET_COUNTER_VAL(time_out), WDTSET);
-+}
-+
-+static int rzg2l_wdt_start(struct watchdog_device *wdev)
-+{
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	reset_control_deassert(priv->rstc);
-+	pm_runtime_get_sync(wdev->parent);
-+
-+	/* Initialize time out */
-+	rzg2l_wdt_init_timeout(wdev);
-+
-+	/* Initialize watchdog counter register */
-+	rzg2l_wdt_write(priv, 0, WDTTIM);
-+
-+	/* Enable watchdog timer*/
-+	rzg2l_wdt_write(priv, WDTCNT_WDTEN, WDTCNT);
-+
-+	return 0;
-+}
-+
-+static int rzg2l_wdt_stop(struct watchdog_device *wdev)
-+{
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	pm_runtime_put(wdev->parent);
-+	reset_control_assert(priv->rstc);
-+
-+	return 0;
-+}
-+
-+static int rzg2l_wdt_restart(struct watchdog_device *wdev,
-+			     unsigned long action, void *data)
-+{
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	/* Reset the module before we modify any register */
-+	reset_control_reset(priv->rstc);
-+	pm_runtime_get_sync(wdev->parent);
-+
-+	/* smallest counter value to reboot soon */
-+	rzg2l_wdt_write(priv, WDTSET_COUNTER_VAL(1), WDTSET);
-+
-+	/* Enable watchdog timer*/
-+	rzg2l_wdt_write(priv, WDTCNT_WDTEN, WDTCNT);
-+
-+	return 0;
-+}
-+
-+static const struct watchdog_info rzg2l_wdt_ident = {
-+	.options = WDIOF_MAGICCLOSE | WDIOF_KEEPALIVEPING | WDIOF_SETTIMEOUT,
-+	.identity = "Renesas RZ/G2L WDT Watchdog",
-+};
-+
-+static int rzg2l_wdt_ping(struct watchdog_device *wdev)
-+{
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	rzg2l_wdt_write(priv, WDTINT_INTDISP, WDTINT);
-+
-+	return 0;
-+}
-+
-+static const struct watchdog_ops rzg2l_wdt_ops = {
-+	.owner = THIS_MODULE,
-+	.start = rzg2l_wdt_start,
-+	.stop = rzg2l_wdt_stop,
-+	.ping = rzg2l_wdt_ping,
-+	.restart = rzg2l_wdt_restart,
-+};
-+
-+static void rzg2l_wdt_reset_assert_pm_disable_put(void *data)
-+{
-+	struct watchdog_device *wdev = data;
-+	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-+
-+	pm_runtime_put(wdev->parent);
-+	pm_runtime_disable(wdev->parent);
-+	reset_control_assert(priv->rstc);
-+}
-+
-+static int rzg2l_wdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct rzg2l_wdt_priv *priv;
-+	unsigned long pclk_rate;
-+	struct clk *wdt_clk;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->base))
-+		return PTR_ERR(priv->base);
-+
-+	/* Get watchdog main clock */
-+	wdt_clk = clk_get(&pdev->dev, "oscclk");
-+	if (IS_ERR(wdt_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no oscclk");
-+
-+	priv->osc_clk_rate = clk_get_rate(wdt_clk);
-+	clk_put(wdt_clk);
-+	if (!priv->osc_clk_rate)
-+		return dev_err_probe(&pdev->dev, -EINVAL, "oscclk rate is 0");
-+
-+	/* Get Peripheral clock */
-+	wdt_clk = clk_get(&pdev->dev, "pclk");
-+	if (IS_ERR(wdt_clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(wdt_clk), "no pclk");
-+
-+	pclk_rate = clk_get_rate(wdt_clk);
-+	clk_put(wdt_clk);
-+	if (!pclk_rate)
-+		return dev_err_probe(&pdev->dev, -EINVAL, "pclk rate is 0");
-+
-+	priv->delay = F2CYCLE_NSEC(priv->osc_clk_rate) * 6 + F2CYCLE_NSEC(pclk_rate) * 9;
-+
-+	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(priv->rstc))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->rstc),
-+				     "failed to get cpg reset");
-+
-+	reset_control_deassert(priv->rstc);
-+	pm_runtime_enable(&pdev->dev);
-+	ret = pm_runtime_resume_and_get(&pdev->dev);
-+	if (ret < 0) {
-+		dev_err(dev, "pm_runtime_resume_and_get failed ret=%pe", ERR_PTR(ret));
-+		goto out_pm_get;
-+	}
-+
-+	priv->wdev.info = &rzg2l_wdt_ident;
-+	priv->wdev.ops = &rzg2l_wdt_ops;
-+	priv->wdev.parent = dev;
-+	priv->wdev.min_timeout = 1;
-+	priv->wdev.max_timeout = rzg2l_wdt_get_cycle_usec(priv->osc_clk_rate, 0xfff) /
-+				 USEC_PER_SEC;
-+	priv->wdev.timeout = WDT_DEFAULT_TIMEOUT;
-+
-+	watchdog_set_drvdata(&priv->wdev, priv);
-+	ret = devm_add_action_or_reset(&pdev->dev,
-+				       rzg2l_wdt_reset_assert_pm_disable_put,
-+				       &priv->wdev);
-+	if (ret < 0)
-+		return ret;
-+
-+	watchdog_set_nowayout(&priv->wdev, nowayout);
-+	watchdog_stop_on_unregister(&priv->wdev);
-+
-+	ret = watchdog_init_timeout(&priv->wdev, 0, dev);
-+	if (ret)
-+		dev_warn(dev, "Specified timeout invalid, using default");
-+
-+	return devm_watchdog_register_device(&pdev->dev, &priv->wdev);
-+
-+out_pm_get:
-+	pm_runtime_disable(dev);
-+	reset_control_assert(priv->rstc);
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id rzg2l_wdt_ids[] = {
-+	{ .compatible = "renesas,rzg2l-wdt", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, rzg2l_wdt_ids);
-+
-+static struct platform_driver rzg2l_wdt_driver = {
-+	.driver = {
-+		.name = "rzg2l_wdt",
-+		.of_match_table = rzg2l_wdt_ids,
-+	},
-+	.probe = rzg2l_wdt_probe,
-+};
-+module_platform_driver(rzg2l_wdt_driver);
-+
-+MODULE_DESCRIPTION("Renesas RZ/G2L WDT Watchdog Driver");
-+MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
