@@ -2,111 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB91463DE6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 19:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCBE8463EE2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Nov 2021 20:54:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245513AbhK3SkZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 13:40:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244668AbhK3SkY (ORCPT
+        id S1343533AbhK3T5X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Nov 2021 14:57:23 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:46541 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1343530AbhK3T5X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 13:40:24 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF892C061574;
-        Tue, 30 Nov 2021 10:37:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 4313ACE1AEF;
-        Tue, 30 Nov 2021 18:37:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D832C53FC7;
-        Tue, 30 Nov 2021 18:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638297421;
-        bh=o3Iz7VwsUP948/hQZNiQs7goDefOwmFTcWB682uxvjY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZnsQZ77XCRuNu1E3WqhpiVkADzYug7CqIU0FQQK6xpUmZdnRp4uH6Y/qp8SJ15qCQ
-         7X1kEX2dgcxBJinvvujaJNDF5J6Qms1Y7AeDqdEb8FY8BlFPeVE0td+7uQlY+d3PiP
-         ylO6iP53N3/jvQJS0Ew3RTmnlKcDv8qfmGV9IAt0uQEMdlG+CKiF1MnFGSiGEldMJc
-         F8ZBhII/STPwnTl7IuDCbffvX4yOMJY2db76TZBXWgHXHCAg8Zr82qgslewkX92Yk6
-         yNCoUQdsxpZnp4Vuuud51AfR/2by0NiINvCLnGF9DrlNeh0X4zPTOtaREzXJAGrUKq
-         f4GV2RjctEQtQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1ms7zv-008xQB-M5; Tue, 30 Nov 2021 18:36:59 +0000
-Date:   Tue, 30 Nov 2021 18:36:59 +0000
-Message-ID: <87bl21mqwk.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>,
+        Tue, 30 Nov 2021 14:57:23 -0500
+X-IronPort-AV: E=Sophos;i="5.87,276,1631545200"; 
+   d="scan'208";a="102320739"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 01 Dec 2021 04:54:02 +0900
+Received: from localhost.localdomain (unknown [10.226.93.28])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C39C640065DB;
+        Wed,  1 Dec 2021 04:53:59 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kernel-team@android.com" <kernel-team@android.com>,
-        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own definition of interrupt-map
-In-Reply-To: <CA+V-a8sVS_1hUWJ3uM+VffGyMtdnctBOJTyHTQAoJZGOh0a1Tw@mail.gmail.com>
-References: <20211122103032.517923-1-maz@kernel.org>
-        <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
-        <8735no70tt.wl-maz@kernel.org>
-        <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
-        <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
-        <87tug3clvc.wl-maz@kernel.org>
-        <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
-        <87r1b7ck40.wl-maz@kernel.org>
-        <OSZPR01MB7019E7DD7119EFF9C994AA62AA649@OSZPR01MB7019.jpnprd01.prod.outlook.com>
-        <87tufvmes9.wl-maz@kernel.org>
-        <CA+V-a8siHRjF+bJu88QFwz0a_MZ+kiJEwmER58_feyr8O+WNGA@mail.gmail.com>
-        <CAL_JsqK+GcnChx3i9fsYnw+FzZgON4PtKB=CzYLUj6sXtxX6fQ@mail.gmail.com>
-        <CA+V-a8sVS_1hUWJ3uM+VffGyMtdnctBOJTyHTQAoJZGOh0a1Tw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, robh@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, geert@linux-m68k.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kernel-team@android.com, john@phrozen.org, biwen.li@nxp.com, Chris.Brandt@renesas.com, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v5 0/2] Add WDT driver for RZ/G2L
+Date:   Tue, 30 Nov 2021 19:53:55 +0000
+Message-Id: <20211130195357.18626-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 30 Nov 2021 12:52:21 +0000,
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> 
-> On Mon, Nov 29, 2021 at 6:33 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > interrupts would work just fine here:
-> >
-> > interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-> >   <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> > We don't need a different solution for N:1 interrupts from N:M. Sure,
-> > that could become unweldy if there are a lot of interrupts (just like
-> > interrupt-map), but is that an immediate problem?
-> >
-> It's just that with this approach the driver will have to index the
-> interrupts instead of reading from DT.
-> 
-> Marc - is it OK with the above approach?
+This patch series aims to add WDT driver support for RZ/G2L SoC's.
 
-Anything that uses standard properties in a standard way works for me.
+WDT has 3 channels 
+1) CH0 to check the operation of Cortex-A55-CPU Core0
+2) CH1 to check the operation of Cortex-A55-CPU Core1
+3) CH2 to check the operation of Cortex-M33 CPU
 
-	M.
+WDT IP supports 
+1) Normal Watchdog Timer Function
+2) Reset Request Function due to CPU Parity Error
+
+Once the software activates the watchdog timer, the watchdog timer does
+not stop until it is reset.
+
+Current driver supports Normal Watchdog Timer basic functionality.
+
+Tested WDT driver with selftests tool and reboot command
+
+All 3 channels tested with below command.
+
+cat /dev/watchdog  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800808; done
+cat /dev/watchdog1  & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800c08; done
+cat /dev/watchdog2 & for i in {1..60}; do sleep 1; echo $i; devmem2 0x12800408; done
+
+v4->v5:
+ * Started using the macros MICRO and USEC_PER_SEC
+ * Renamed rzg2l_wdt_get_cycle_msec() to rzg2l_wdt_get_cycle_usec()
+ * Fixed the value of priv->wdev.max_timeout in seconds.
+V3->V4:
+ * Fixed the build issue reported by kernel test robot
+V2->V3:
+ * Added Rb tag from Guenter Roeck
+ * Removed Removed patch#1, as the clock changes related to WDT reset selection
+   will be handled in TF-A.
+V1->V2:
+ * started using clk_get/put instead of devm_clk_get/put
+ * Moved devm_add_action_or_reset after set_drvdata() and 
+ * removed redundant action on devm_add_action_or_reset() failure.
+RFC->V1
+ * Removed patch#3, the clk patch is queued for 5.17
+ * Added clock-names and interrupt-names as required properties for RZ/G2L
+ * Re-order clocknames with internal module clock first
+ * Removed pclk_rate from priv.
+ * rzg2l_wdt_write() returns void and Removed tiemout related to register update 
+ * rzg2l_wdt_init_timeout() returns void and removed delays.
+ * removed set_bit(WDOG_HW_RUNNING,..) as we can stop watchdog
+ * renamed reset_assert_clock_disable->reset_assert_pm_disable_put
+ * started using devm_reset_control_get_exclusive()
+ * removed platform_set_drvdata(pdev, priv) as there is no user
+ * removed watchdog_set_restart_priority(&priv->wdev, 0) as 0 is the default.
+ * removed remove callback as it is empty.
+
+Biju Das (2):
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/G2L
+  watchdog: Add Watchdog Timer driver for RZ/G2L
+
+ .../bindings/watchdog/renesas,wdt.yaml        |  75 +++--
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzg2l_wdt.c                  | 263 ++++++++++++++++++
+ 4 files changed, 329 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/watchdog/rzg2l_wdt.c
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.17.1
+
