@@ -2,218 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1960C464BDC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Dec 2021 11:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80187464CC4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Dec 2021 12:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348761AbhLAKqr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Dec 2021 05:46:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50302 "EHLO
+        id S1348682AbhLALhc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348762AbhLAKqp (ORCPT
+        with ESMTP id S1348958AbhLALhY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Dec 2021 05:46:45 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7B3C061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Dec 2021 02:43:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 333DE8AE;
-        Wed,  1 Dec 2021 11:43:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638355401;
-        bh=oXwV38rKVcoI/JorLI65sUACRMR1IV84W+QOD7b9du4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=fXgdK6jqFmdmHMamTxNo+XhvOOPlTRjAmVHvmZVBwy6YowCBbTEUgVCsD5dFjJ6Al
-         kqy0KvsyNr4SsuYYyoJR4F2ZBDOagmkcD1mtCG9aU959pEh8rrgO5AeHuVluGhb+WB
-         3maqXwET7jUCq49CAoBIWlZp5xvB28AAN0snd2Lw=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 1 Dec 2021 06:37:24 -0500
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83ED7C0613F2
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Dec 2021 03:34:00 -0800 (PST)
+Received: by mail-ua1-x92f.google.com with SMTP id i6so48112839uae.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 01 Dec 2021 03:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=zMqErHv/K9pHHxitdOhJ9KPAbFHIwMPWL/zgVHKdHRFPIHBJ5QL4+P0J/6dK261yv2
+         2mveMmuIrkoRapwQfNV6GrWAnmkwvr192lenqbHYyEdNq5EVdcyhkaIHFu+YZpZlhZN5
+         ayB/CIhcHTR2DF8yCufmyEgyrGRsHfDgamaORPLTfoAWqnHkd3alhKI4rMXr6Evc0fA5
+         nroq5MRzmcArT2MXKaerZAXh9kcKv8x5+BhNWC0EllNNQRg/Q4qHG+Ft7501vsJSY8Ib
+         /Wnrp58lan8tuw2IfPXugtbtthWp56gxt73d4FO8DbfB6SEtbOGy3w5V5s2aNu74u95i
+         RJ2w==
+X-Gm-Message-State: AOAM530rIRB6GV6tv1cjOsf72q/reAu4BcmVM0SzT35hD/dlYNcH4qfp
+        sFYjD02mS+RHoIzhCEvNZ9K3Do2rVtqUmCqqoIY=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Yab8VhX9qTvUKEcP@pendragon.ideasonboard.com>
-References: <20211130162513.2898302-1-kieran.bingham+renesas@ideasonboard.com> <20211130162513.2898302-2-kieran.bingham+renesas@ideasonboard.com> <Yab8VhX9qTvUKEcP@pendragon.ideasonboard.com>
-Subject: Re: [PATCH v2 1/2] drm: rcar-du: mipi-dsi: Support bridge probe ordering
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Wed, 01 Dec 2021 10:43:18 +0000
-Message-ID: <163835539884.3059017.3883247315602947029@Monstersaurus>
-User-Agent: alot/0.10
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2021-12-01 04:38:46)
-> Hi Kieran,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Nov 30, 2021 at 04:25:12PM +0000, Kieran Bingham wrote:
-> > The bridge probe ordering for DSI devices has been clarified and further
-> > documented in
->=20
-> I've read the document and
->=20
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-Good, I'm glad you've fully got the
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
->=20
-> :-)
+Your Names: |
+Address: |
 
-Sorry, not sure how I missed that, I must have failed to paste in the
-link to the DSI probe documentation. But as you've read that, and now
-this is squashed, I think this is done anyway.
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
 
-Thanks for handling the integrations.
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
 
---
-Kieran
-
-
->=20
-> > To support connecting with the SN65DSI86 device after commit c3b75d4734=
-cb
-> > ("drm/bridge: sn65dsi86: Register and attach our DSI device at probe"),
-> > update to the new probe ordering to remove a perpetual -EPROBE_DEFER
-> > loop between the two devices.
-> >=20
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >=20
-> > ---
-> > v2
-> > - Remove now unused panel variable from rcar_mipi_dsi_probe()
-> >=20
-> >  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 49 +++++++++++++------------
-> >  1 file changed, 26 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/=
-rcar-du/rcar_mipi_dsi.c
-> > index 50e922328fed..0a9f197ef62c 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> > @@ -637,6 +637,8 @@ static int rcar_mipi_dsi_host_attach(struct mipi_ds=
-i_host *host,
-> >                                       struct mipi_dsi_device *device)
-> >  {
-> >       struct rcar_mipi_dsi *dsi =3D host_to_rcar_mipi_dsi(host);
-> > +     struct drm_panel *panel;
-> > +     int ret;
-> > =20
-> >       if (device->lanes > dsi->num_data_lanes)
-> >               return -EINVAL;
-> > @@ -644,12 +646,36 @@ static int rcar_mipi_dsi_host_attach(struct mipi_=
-dsi_host *host,
-> >       dsi->lanes =3D device->lanes;
-> >       dsi->format =3D device->format;
-> > =20
-> > +     ret =3D drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &pan=
-el,
-> > +                                       &dsi->next_bridge);
-> > +     if (ret) {
-> > +             dev_err_probe(dsi->dev, ret, "could not find next bridge\=
-n");
->=20
-> dev_err_probe() should only be used in probe(), and this function isn't
-> guaranteed to be called at probe time only.
->=20
-> This isn't a big deal as the next patch fixes this, and both will be
-> squashed. Furthermore, rcar_mipi_dsi_host_attach() should only be called
-> when the DSI device gets registered, which should happen after it
-> registers its bridge, so I don't think we can see a probe deferral here.
->=20
-> Other than that the patch looks fine, I'll squash it with the DSI
-> driver.
->=20
-> > +             return ret;
-> > +     }
-> > +
-> > +     if (!dsi->next_bridge) {
-> > +             dsi->next_bridge =3D devm_drm_panel_bridge_add(dsi->dev, =
-panel);
-> > +             if (IS_ERR(dsi->next_bridge)) {
-> > +                     dev_err(dsi->dev, "failed to create panel bridge\=
-n");
-> > +                     return PTR_ERR(dsi->next_bridge);
-> > +             }
-> > +     }
-> > +
-> > +     /* Initialize the DRM bridge. */
-> > +     dsi->bridge.funcs =3D &rcar_mipi_dsi_bridge_ops;
-> > +     dsi->bridge.of_node =3D dsi->dev->of_node;
-> > +     drm_bridge_add(&dsi->bridge);
-> > +
-> >       return 0;
-> >  }
-> > =20
-> >  static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
-> >                                       struct mipi_dsi_device *device)
-> >  {
-> > +     struct rcar_mipi_dsi *dsi =3D host_to_rcar_mipi_dsi(host);
-> > +
-> > +     drm_bridge_remove(&dsi->bridge);
-> > +
-> >       return 0;
-> >  }
-> > =20
-> > @@ -731,7 +757,6 @@ static int rcar_mipi_dsi_get_clocks(struct rcar_mip=
-i_dsi *dsi)
-> >  static int rcar_mipi_dsi_probe(struct platform_device *pdev)
-> >  {
-> >       struct rcar_mipi_dsi *dsi;
-> > -     struct drm_panel *panel;
-> >       struct resource *mem;
-> >       int ret;
-> > =20
-> > @@ -764,21 +789,6 @@ static int rcar_mipi_dsi_probe(struct platform_dev=
-ice *pdev)
-> >               return PTR_ERR(dsi->rstc);
-> >       }
-> > =20
-> > -     ret =3D drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &pan=
-el,
-> > -                                       &dsi->next_bridge);
-> > -     if (ret) {
-> > -             dev_err_probe(dsi->dev, ret, "could not find next bridge\=
-n");
-> > -             return ret;
-> > -     }
-> > -
-> > -     if (!dsi->next_bridge) {
-> > -             dsi->next_bridge =3D devm_drm_panel_bridge_add(dsi->dev, =
-panel);
-> > -             if (IS_ERR(dsi->next_bridge)) {
-> > -                     dev_err(dsi->dev, "failed to create panel bridge\=
-n");
-> > -                     return PTR_ERR(dsi->next_bridge);
-> > -             }
-> > -     }
-> > -
-> >       /* Initialize the DSI host. */
-> >       dsi->host.dev =3D dsi->dev;
-> >       dsi->host.ops =3D &rcar_mipi_dsi_host_ops;
-> > @@ -786,11 +796,6 @@ static int rcar_mipi_dsi_probe(struct platform_dev=
-ice *pdev)
-> >       if (ret < 0)
-> >               return ret;
-> > =20
-> > -     /* Initialize the DRM bridge. */
-> > -     dsi->bridge.funcs =3D &rcar_mipi_dsi_bridge_ops;
-> > -     dsi->bridge.of_node =3D dsi->dev->of_node;
-> > -     drm_bridge_add(&dsi->bridge);
-> > -
-> >       return 0;
-> >  }
-> > =20
-> > @@ -798,8 +803,6 @@ static int rcar_mipi_dsi_remove(struct platform_dev=
-ice *pdev)
-> >  {
-> >       struct rcar_mipi_dsi *dsi =3D platform_get_drvdata(pdev);
-> > =20
-> > -     drm_bridge_remove(&dsi->bridge);
-> > -
-> >       mipi_dsi_host_unregister(&dsi->host);
-> > =20
-> >       return 0;
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+Regards.
+Mrs ORGIL BAATAR
