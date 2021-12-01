@@ -2,121 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA335464608
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Dec 2021 05:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CF8E46467C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Dec 2021 06:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346595AbhLAEnj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Nov 2021 23:43:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230301AbhLAEnj (ORCPT
+        id S230444AbhLAF17 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Dec 2021 00:27:59 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53216 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230006AbhLAF16 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Nov 2021 23:43:39 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8E5C061574
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Nov 2021 20:40:19 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0231AA15;
-        Wed,  1 Dec 2021 05:40:17 +0100 (CET)
+        Wed, 1 Dec 2021 00:27:58 -0500
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C1BDA15;
+        Wed,  1 Dec 2021 06:24:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638333618;
-        bh=8VN2j4uJzeEwURf5h3e5B07WTOsIM2x5UrMpvp3kHjA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WO34FAJvjq8befW0H7YxdnU9eHf/N3NusxfPF4KAqQB6qwMLCUNck16TykouObJZj
-         GYtidFM3FDzgJsHZxFsMs2ODdSpPAjERNOLTfnqbS49hcDrBG0/zrq/axlvrK4babD
-         7GF+Q3TaYvHZiJcu7wlNcuu+/ZQznZIcWqSpedQQ=
-Date:   Wed, 1 Dec 2021 06:39:53 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm: rcar-du: mipi-dsi: Use
- devm_drm_of_get_bridge helper
-Message-ID: <Yab8mQL7g/thyS00@pendragon.ideasonboard.com>
-References: <20211130162513.2898302-1-kieran.bingham+renesas@ideasonboard.com>
- <20211130162513.2898302-3-kieran.bingham+renesas@ideasonboard.com>
- <163829113971.3059017.15142528562599981704@Monstersaurus>
+        s=mail; t=1638336277;
+        bh=OSsz52hZu3j3ZHtQWF1D4uqb6YzS5bc6/UgC9mxKUCg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qAcfhz2UIWSHtPR5L2+9ttkdOsOTsR9b77XFCoWOGapMgRNE62/hDbvvElavMId0+
+         y1tQH1pMSebgoFcjyMi59g0SgddJmi60Su3t5uKrs6V4UVYvGTcGO4ee9j3or3NPUs
+         4YvrXas7FdCYKhxqEeBweg4u+Lywf3VULK/zKMLo=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v3 0/2] R-Car DU: Add DSI encoder driver for V3U
+Date:   Wed,  1 Dec 2021 07:24:04 +0200
+Message-Id: <20211201052406.13074-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <163829113971.3059017.15142528562599981704@Monstersaurus>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hello,
 
-On Tue, Nov 30, 2021 at 04:52:19PM +0000, Kieran Bingham wrote:
-> Quoting Kieran Bingham (2021-11-30 16:25:13)
-> > Instead of open coding the calls for
-> >   drm_of_find_panel_or_bridge()
-> >   devm_drm_panel_bridge_add()
-> > 
-> > use the devm_drm_of_get_bridge() helper directly.
-> > 
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> > v2:
-> >  - New patch
-> > 
-> >  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 19 ++++---------------
-> >  1 file changed, 4 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> > index 0a9f197ef62c..1dfe20d3d0f2 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> > @@ -637,7 +637,7 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
-> >                                         struct mipi_dsi_device *device)
-> >  {
-> >         struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> > -       struct drm_panel *panel;
-> > +       struct device *dev = dsi->dev;
-> >         int ret;
-> >  
-> >         if (device->lanes > dsi->num_data_lanes)
-> > @@ -646,20 +646,9 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
-> >         dsi->lanes = device->lanes;
-> >         dsi->format = device->format;
-> >  
-> > -       ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> > -                                         &dsi->next_bridge);
-> > -       if (ret) {
-> > -               dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-> > -               return ret;
-> > -       }
-> > -
-> > -       if (!dsi->next_bridge) {
-> > -               dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-> > -               if (IS_ERR(dsi->next_bridge)) {
-> > -                       dev_err(dsi->dev, "failed to create panel bridge\n");
-> > -                       return PTR_ERR(dsi->next_bridge);
-> > -               }
-> > -       }
-> > +       dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> > +       if (IS_ERR(dsi->next_bridge))
-> > +               return PTR_ERR(dsi->next_bridge);
-> 
-> I did make a change here to make this:
-> 
-> 	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> 	if (IS_ERR(dsi->next_bridge)) {
-> 		dev_err(dev, "failed to get next bridge\n");
-> 		return PTR_ERR(dsi->next_bridge);
-> 	}
-> 
-> But it seems I got out of sequence and saved out the wrong patch ;-(
-> 
-> If you think it's better with the error print, please add it while
-> squashing, or if you really need, I can send an updated patch and
-> retest.
+This patch series adds a driver for the DSI encoder found in the R-Car
+V3U SoC, which is the first SoC in the family that supports DSI.
 
-I think an error message is useful, yes. I'll add it manually.
+The driver is based on an implementation from the BSP written by Luu
+Hoai, with lots of further rework. If anyone is interested in the
+history, a broken down v1 is available from [1].
 
-> >  
-> >         /* Initialize the DRM bridge. */
-> >         dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
+The driver has been successfully tested on the Falcon board, which
+connects an SN65DSI86 to the output of the DSI encoder. Further patches
+are needed for the ti-sn65dsi86 driver to enable usage in plain DP
+(non-eDP) mode, as the Falcon board has a mini-DP connector wired to the
+output of the SN65DSI86. This is work in progress (see [2]).
 
+[1] https://lore.kernel.org/linux-renesas-soc/189c7a07-29cd-39f4-1dec-56aa94c11fba@ideasonboard.com/T/#mafbe130386cbc8326f85cad46860813516ef4a80
+[2] https://lore.kernel.org/linux-renesas-soc/20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com/
+
+LUU HOAI (1):
+  drm: rcar-du: Add R-Car DSI driver
+
+Laurent Pinchart (1):
+  dt-bindings: display: bridge: Add binding for R-Car MIPI DSI/CSI-2 TX
+
+ .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 +++
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c       | 817 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h  | 172 ++++
+ 6 files changed, 1116 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+
+
+base-commit: c18c8891111bb5e014e144716044991112f16833
 -- 
 Regards,
 
 Laurent Pinchart
+
