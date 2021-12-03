@@ -2,172 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F8D4679D4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 15:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 904C6467B16
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 17:13:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381613AbhLCPBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 10:01:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381607AbhLCPBx (ORCPT
+        id S230370AbhLCQQ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 11:16:56 -0500
+Received: from mail-vk1-f176.google.com ([209.85.221.176]:35561 "EHLO
+        mail-vk1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229646AbhLCQQ4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 10:01:53 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D33BC061353
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 06:58:28 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id r11so12484048edd.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Dec 2021 06:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8uwnbjWCW2NbetnVwJHOczwYzHXg75SzbYiTjP9xuJM=;
-        b=itSYy8FbZ19oFa7QhxilrMw5H6qoyCm0duHgSQZbQOZROxNHOCqcDctnEx5vqzflDU
-         N6jUlqj5k29AnB79/vUGpAtkUodSRJHcft3WPsTtnSPJQdk/lrOcrTU3/GaERqzQj4Mo
-         0W6BuGJKAU5xA/nHZNlszqrv62hYMYuMezz68j1sH2gkG7Xlpgc2UbDoCR6J6Kb9E/aW
-         b/biOiolzetfN7+uKT0HLdFhhzQQkUKsenYBfJl2gCEL1DeHfv6+U+tfVD5KY7RmJeZS
-         t6fTQaJpGQZP7y/yzK971Engixb3kVh4nRb0xmUGeyjbPJwpZ+M9v8Hp9FcmUc6az5PQ
-         FQOw==
+        Fri, 3 Dec 2021 11:16:56 -0500
+Received: by mail-vk1-f176.google.com with SMTP id q21so2174800vkn.2;
+        Fri, 03 Dec 2021 08:13:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8uwnbjWCW2NbetnVwJHOczwYzHXg75SzbYiTjP9xuJM=;
-        b=Z42rNQmwXBKzJH9C8t6OcObrE1VRigxwS3rI3ewTlP45kY9Rnz65EZrEEi6DM+7Qr/
-         NK0bG9JcqZcnPp1OZ6C5eGHHFWPEBBbFB1g1QQm0s8/aE9rsQlvCz5m2CCndOM+wkAPr
-         EkjGQQ4HM3Ksm2LTz1g0fulj8LsfxP9FZlwyqtR+S+m6V5Vr6gFwYKLJlTK8Z6dd41iN
-         mlkAz8st50JLLU8cu4ic9r4rzHibmU5SBWCPZfwQpOudKOsXYu+2s+2egOPP5M1yTbET
-         XIlDKWuerQveVU92Xu9PxzNJl7mCaiR7w2gppd/r8XwQ2WmGjJSEFqidA1MZFtbDKJVm
-         3+FA==
-X-Gm-Message-State: AOAM531hyYPdwdp0itTx8t1ErdU78Ckz4zoBQNXqNOiC5s33qVX4ZZ4K
-        V29RiSV3tfmrT+AXTgZPcprSAaFrZSXc/o5UY6QSJA==
-X-Google-Smtp-Source: ABdhPJzxwFL6qWvmN/+BTvbHoiwaKvQaI0NVlklxFRKIO8SNlltV6yKzNybdFxvRBsZ6lYhom3cwTNMblsarjuCpmsw=
-X-Received: by 2002:aa7:cb45:: with SMTP id w5mr27367673edt.405.1638543503580;
- Fri, 03 Dec 2021 06:58:23 -0800 (PST)
+        bh=39T2rU0HxZ6gllucr8MX3fBGtYwp/6Fvgqc86vSz9Pg=;
+        b=EI9VJRdBqlYe6S/JrjMzoqztpbUn6bHWDhVzC5Z6BDuLVoHFR/UJFdedmTzXYnsU8W
+         80Z+GCkApJ97qZ1tLRvOt4d5DO7h2KNo3nj/u99AuUHe7HrSfpZgdPYQqRhMT3RwLpex
+         CNhhNrBrh5uo1g+JQqqKmMukNOtbn2WKjePHJP80VBX1EKwLFvw8n2pCp2oEqSgE0H6m
+         np5fGzKatoYVmX8ZAyYLv9qs7A0n5AKFvNrK/n98qzteDNlaeLB6JJEaZhXHpQ+jXRKc
+         cDlq1PM1iPtMPNDijvqCiksxVnP1zP6m4nhprwh4VFQzl5sDPEp2pV3HVH/HL5zjVrx+
+         udJw==
+X-Gm-Message-State: AOAM530Pb+8gz77wrtBMq+1nDVvTK3Vb4fVlkzdvMSghheFL3gk0wIdC
+        UDlx4phJuEoBWdrdyizYarg51q0AK7BFP1EL
+X-Google-Smtp-Source: ABdhPJwQaOK4kg7uOaIgXKhyGXj3YcKf5bZ3b8TXmpfcglDb8cG7sc/FbQHVDNbj2sxXdJ3bo9iI5g==
+X-Received: by 2002:a1f:ee07:: with SMTP id m7mr23474944vkh.27.1638548011182;
+        Fri, 03 Dec 2021 08:13:31 -0800 (PST)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id f132sm525922vkf.18.2021.12.03.08.13.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Dec 2021 08:13:30 -0800 (PST)
+Received: by mail-vk1-f170.google.com with SMTP id 188so2160514vku.8;
+        Fri, 03 Dec 2021 08:13:30 -0800 (PST)
+X-Received: by 2002:a1f:9f04:: with SMTP id i4mr22876526vke.33.1638548010501;
+ Fri, 03 Dec 2021 08:13:30 -0800 (PST)
 MIME-Version: 1.0
-References: <ba7f82f348d77b6a65498dd13a92550949e69cc3.1638540167.git.geert+renesas@glider.be>
- <CAMRc=Me2528N_jT6AoSSTajznY4EFP+cFvEbqnw4rONB5nJsQw@mail.gmail.com>
-In-Reply-To: <CAMRc=Me2528N_jT6AoSSTajznY4EFP+cFvEbqnw4rONB5nJsQw@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 3 Dec 2021 15:58:13 +0100
-Message-ID: <CAMRc=Mdw1pEUntRkJRYcuQH9ZhWc9=psPDe7bXwkj=RCYQKO=g@mail.gmail.com>
-Subject: Re: [PATCH resend] gpio: aggregator: Add interrupt support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Enrico Weigelt metux IT consult <info@metux.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+References: <20211201073308.1003945-1-yoshihiro.shimoda.uh@renesas.com> <20211201073308.1003945-2-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211201073308.1003945-2-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 3 Dec 2021 17:13:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV1Ri-yCeJSp6Gdw5ocAgXj4Yyc57ucN2DY=muj+dQV9A@mail.gmail.com>
+Message-ID: <CAMuHMdV1Ri-yCeJSp6Gdw5ocAgXj4Yyc57ucN2DY=muj+dQV9A@mail.gmail.com>
+Subject: Re: [PATCH v2 01/14] dt-bindings: arm: renesas: Document Renesas
+ Spider boards
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        stratos-dev@op-lists.linaro.org
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 3, 2021 at 3:56 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
-> On Fri, Dec 3, 2021 at 3:06 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> >
-> > Currently the GPIO Aggregator does not support interrupts.  This means
-> > that kernel drivers going from a GPIO to an IRQ using gpiod_to_irq(),
-> > and userspace applications using line events do not work.
-> >
-> > Add interrupt support by providing a gpio_chip.to_irq() callback, which
-> > just calls into the parent GPIO controller.
-> >
-> > Note that this does not implement full interrupt controller (irq_chip)
-> > support, so using e.g. gpio-keys with "interrupts" instead of "gpios"
-> > still does not work.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > I would prefer to avoid implementing irq_chip support, until there is a
-> > real use case for this.
-> >
-> > This has been tested with gpio-keys and gpiomon on the Koelsch
-> > development board:
-> >
-> >   - gpio-keys, using a DT overlay[1]:
-> >
-> >         $ overlay add r8a7791-koelsch-keyboard-controlled-led
-> >         $ echo gpio-aggregator > /sys/devices/platform/frobnicator/driver_override
-> >         $ echo frobnicator > /sys/bus/platform/drivers/gpio-aggregator/bind
-> >
-> >         $ gpioinfo frobnicator
-> >         gpiochip12 - 3 lines:
-> >                 line   0:      "light"      "light"  output  active-high [used]
-> >                 line   1:         "on"         "On"   input   active-low [used]
-> >                 line   2:        "off"        "Off"   input   active-low [used]
-> >
-> >         $ echo 255 > /sys/class/leds/light/brightness
-> >         $ echo 0 > /sys/class/leds/light/brightness
-> >
-> >         $ evtest /dev/input/event0
-> >
-> >   - gpiomon, using the GPIO sysfs API:
-> >
-> >         $ echo keyboard > /sys/bus/platform/drivers/gpio-keys/unbind
-> >         $ echo e6055800.gpio 2,6 > /sys/bus/platform/drivers/gpio-aggregator/new_device
-> >         $ gpiomon gpiochip12 0 1
-> >
-> > [1] "ARM: dts: koelsch: Add overlay for keyboard-controlled LED"
-> >     https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=c78d817869e63a3485bb4ab98aeea6ce368a396e
-> > ---
-> >  drivers/gpio/gpio-aggregator.c | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
-> > index e9671d1660ef4b40..869dc952cf45218b 100644
-> > --- a/drivers/gpio/gpio-aggregator.c
-> > +++ b/drivers/gpio/gpio-aggregator.c
-> > @@ -371,6 +371,13 @@ static int gpio_fwd_set_config(struct gpio_chip *chip, unsigned int offset,
-> >         return gpiod_set_config(fwd->descs[offset], config);
-> >  }
-> >
-> > +static int gpio_fwd_to_irq(struct gpio_chip *chip, unsigned int offset)
-> > +{
-> > +       struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> > +
-> > +       return gpiod_to_irq(fwd->descs[offset]);
-> > +}
-> > +
-> >  /**
-> >   * gpiochip_fwd_create() - Create a new GPIO forwarder
-> >   * @dev: Parent device pointer
-> > @@ -411,7 +418,8 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
-> >         for (i = 0; i < ngpios; i++) {
-> >                 struct gpio_chip *parent = gpiod_to_chip(descs[i]);
-> >
-> > -               dev_dbg(dev, "%u => gpio-%d\n", i, desc_to_gpio(descs[i]));
-> > +               dev_dbg(dev, "%u => gpio %d irq %d\n", i,
-> > +                       desc_to_gpio(descs[i]), gpiod_to_irq(descs[i]));
-> >
-> >                 if (gpiod_cansleep(descs[i]))
-> >                         chip->can_sleep = true;
-> > @@ -429,6 +437,7 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
-> >         chip->get_multiple = gpio_fwd_get_multiple_locked;
-> >         chip->set = gpio_fwd_set;
-> >         chip->set_multiple = gpio_fwd_set_multiple_locked;
-> > +       chip->to_irq = gpio_fwd_to_irq;
-> >         chip->base = -1;
-> >         chip->ngpio = ngpios;
-> >         fwd->descs = descs;
-> > --
-> > 2.25.1
-> >
->
-> Applied, thanks!
->
-> Bart
+Hi Shimoda-san,
 
-Eek, missed the explanation.
+On Wed, Dec 1, 2021 at 8:33 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add device tree bindings documentation for Renesas R-Car S4-8
+> Spider CPU and BreakOut boards.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-I think this is fine. For user-space eventual switch to a real
-irq_chip won't break anything so let's take it.
+Thanks for your patch!
 
-Bart
+> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+> @@ -317,6 +317,14 @@ properties:
+>
+>        - description: R-Car S4-8 (R8A779F0)
+>          items:
+> +          - enum:
+> +              - renesas,spider-cpu # Spider CPU board (RTP8A779FASKB0SC2S)
+
+In your reply to v1, you said that the part number should be
+RTP8A779F0ASKB0SC2S?
+
+> +          - const: renesas,r8a779f0
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,spider-breakout # Spider BreakOut board (RTP8A779F0ASKB0SB0S)
+> +          - const: renesas,spider-cpu
+>            - const: renesas,r8a779f0
+>
+>        - description: R-Car H3e (R8A779M0)
+
+I can fixup the above while applying, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.17.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
