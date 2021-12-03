@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A27AF46776F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 13:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31151467777
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 13:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380808AbhLCMe1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 07:34:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
+        id S1352238AbhLCMhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 07:37:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232849AbhLCMe1 (ORCPT
+        with ESMTP id S229952AbhLCMhK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 07:34:27 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E612C06173E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 04:31:02 -0800 (PST)
+        Fri, 3 Dec 2021 07:37:10 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F58AC06173E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 04:33:46 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
-        by laurent.telenet-ops.be with bizsmtp
-        id RoX02600w3eLghq01oX1Ec; Fri, 03 Dec 2021 13:31:01 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id RoZk2600B3eLghq01oZkLw; Fri, 03 Dec 2021 13:33:44 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt7iO-002KaG-G4; Fri, 03 Dec 2021 13:31:00 +0100
+        id 1mt7l1-002KeD-53; Fri, 03 Dec 2021 13:33:43 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt7iN-000ibd-Ry; Fri, 03 Dec 2021 13:30:59 +0100
+        id 1mt7l0-000ig1-OM; Fri, 03 Dec 2021 13:33:42 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v5.17
-Date:   Fri,  3 Dec 2021 13:30:58 +0100
-Message-Id: <cover.1638534376.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v5.17
+Date:   Fri,  3 Dec 2021 13:33:40 +0100
+Message-Id: <cover.1638534672.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,7 +40,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
 The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
@@ -49,87 +48,43 @@ The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v5.17-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.17-tag1
 
-for you to fetch changes up to 33b22d9c3272003a525ba2d6b7b851f3d4f30574:
+for you to fetch changes up to 7c50a407b8687ae3589c740d2347d9ae73887889:
 
-  clk: renesas: r9a07g044: Add TSU clock and reset entry (2021-11-26 14:06:16 +0100)
+  pinctrl: renesas: Remove unneeded locking around sh_pfc_read() calls (2021-11-19 10:55:21 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v5.17
+pinctrl: renesas: Updates for v5.17
 
-  - Add serial (SCI1), watchdog (WDT), timer (OSTM), SPI (RSPI), and
-    thermal (TSU) clocks and resets on RZ/G2L,
-  - Rework SDHI clock handling in the R-Car Gen3 and RZ/G2 clock
-    drivers, and in the Renesas SDHI driver,
-  - Make the Cortex-A55 (I) clock on RZ/G2L programmable,
-  - Document support for the new R-Car S4-8 (R8A779F0) SoC,
+  - Add generic support for output impedance,
+  - Add drive strength and output impedance support for the RZ/G2L SoC,
   - Miscellaneous fixes and improvements.
-
-Note that due to dependencies between Renesas Clock and Renesas SDHI
-driver changes, I'm handling Renesas SDHI changes for this cycle.
-Hence the presence of several Renesas SDHI commits.
 
 Thanks for pulling!
 ----------------------------------------------------------------
-Biju Das (6):
-      clk: renesas: r9a07g044: Add WDT clock and reset entries
-      clk: renesas: r9a07g044: Rename CLK_PLL2_DIV16 and CLK_PLL2_DIV20 macros
-      clk: renesas: r9a07g044: Add OSTM clock and reset entries
-      clk: renesas: rzg2l: Add CPG_PL1_DDIV macro
-      clk: renesas: r9a07g044: Change core clock "I" from DEF_FIXED->DEF_DIV
-      clk: renesas: r9a07g044: Add TSU clock and reset entry
-
 Geert Uytterhoeven (2):
-      clk: renesas: rzg2l: Add missing kerneldoc for resets
-      mmc: renesas_sdhi: Use devm_clk_get_optional() to obtain CD clock
+      pinctrl: renesas: rza1: Fix kerneldoc function names
+      pinctrl: renesas: Remove unneeded locking around sh_pfc_read() calls
 
-Lad Prabhakar (6):
-      clk: renesas: r9a07g044: Add clock and reset entry for SCI1
-      clk: renesas: r9a07g044: Add RSPI clock and reset entries
-      clk: renesas: rzg2l: Check return value of pm_genpd_init()
-      clk: renesas: rzg2l: propagate return value of_genpd_add_provider_simple()
-      clk: renesas: cpg-mssr: Check return value of pm_genpd_init()
-      clk: renesas: cpg-mssr: propagate return value of_genpd_add_provider_simple()
+Lad Prabhakar (8):
+      dt-bindings: pincfg-node: Add "output-impedance-ohms" property
+      pinctrl: pinconf-generic: Add support for "output-impedance-ohms" to be extracted from DT files
+      dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add output-impedance-ohms property
+      pinctrl: renesas: rzg2l: Rename RZG2L_SINGLE_PIN_GET_PORT macro
+      pinctrl: renesas: rzg2l: Add helper functions to read/write pin config
+      pinctrl: renesas: rzg2l: Add support to get/set pin config for GPIO port pins
+      pinctrl: renesas: rzg2l: Rename PIN_CFG_* macros to match HW manual
+      pinctrl: renesas: rzg2l: Add support to get/set drive-strength and output-impedance-ohms
 
-Wolfram Sang (9):
-      clk: renesas: rcar-gen3: Add dummy SDnH clock
-      clk: renesas: rcar-gen3: Add SDnH clock
-      clk: renesas: r8a779a0: Add SDnH clock to V3U
-      mmc: renesas_sdhi: Flag non-standard SDnH handling for V3M
-      clk: renesas: rcar-gen3: Switch to new SD clock handling
-      clk: renesas: rcar-gen3: Remove outdated SD_SKIP_FIRST
-      mmc: renesas_sdhi: Use dev_err_probe when getting clock fails
-      mmc: renesas_sdhi: Parse DT for SDnH
-      mmc: renesas_sdhi: Simplify an expression
-
-Yoshihiro Shimoda (1):
-      dt-bindings: clock: renesas,cpg-mssr: Document r8a779f0
-
- .../bindings/clock/renesas,cpg-mssr.yaml           |   1 +
- drivers/clk/renesas/r8a774a1-cpg-mssr.c            |  12 +-
- drivers/clk/renesas/r8a774b1-cpg-mssr.c            |  12 +-
- drivers/clk/renesas/r8a774c0-cpg-mssr.c            |   9 +-
- drivers/clk/renesas/r8a774e1-cpg-mssr.c            |  12 +-
- drivers/clk/renesas/r8a7795-cpg-mssr.c             |  12 +-
- drivers/clk/renesas/r8a7796-cpg-mssr.c             |  12 +-
- drivers/clk/renesas/r8a77965-cpg-mssr.c            |  12 +-
- drivers/clk/renesas/r8a77980-cpg-mssr.c            |   3 +-
- drivers/clk/renesas/r8a77990-cpg-mssr.c            |   9 +-
- drivers/clk/renesas/r8a77995-cpg-mssr.c            |   3 +-
- drivers/clk/renesas/r8a779a0-cpg-mssr.c            |  17 +-
- drivers/clk/renesas/r9a07g044-cpg.c                |  62 +++++-
- drivers/clk/renesas/rcar-cpg-lib.c                 | 211 +++------------------
- drivers/clk/renesas/rcar-cpg-lib.h                 |   7 +-
- drivers/clk/renesas/rcar-gen3-cpg.c                |  24 +--
- drivers/clk/renesas/rcar-gen3-cpg.h                |   4 +
- drivers/clk/renesas/renesas-cpg-mssr.c             |  18 +-
- drivers/clk/renesas/rzg2l-cpg.c                    |  18 +-
- drivers/clk/renesas/rzg2l-cpg.h                    |   5 +
- drivers/mmc/host/renesas_sdhi.h                    |   4 +
- drivers/mmc/host/renesas_sdhi_core.c               |  45 +++--
- drivers/mmc/host/renesas_sdhi_internal_dmac.c      |  21 ++
- 23 files changed, 269 insertions(+), 264 deletions(-)
+ .../devicetree/bindings/pinctrl/pincfg-node.yaml   |   3 +
+ .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    |   2 +
+ drivers/pinctrl/pinconf-generic.c                  |   2 +
+ drivers/pinctrl/renesas/pinctrl-rza1.c             |   6 +-
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c            | 310 ++++++++++++++-------
+ drivers/pinctrl/renesas/pinctrl.c                  |   9 +-
+ include/linux/pinctrl/pinconf-generic.h            |   3 +
+ 7 files changed, 224 insertions(+), 111 deletions(-)
 
 Gr{oetje,eeting}s,
 
