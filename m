@@ -2,41 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B7D84678EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 14:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C018E467914
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 15:06:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380508AbhLCOB7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 09:01:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46312 "EHLO
+        id S1381329AbhLCOKS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 09:10:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357714AbhLCOB6 (ORCPT
+        with ESMTP id S1352455AbhLCOKR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 09:01:58 -0500
+        Fri, 3 Dec 2021 09:10:17 -0500
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B69C061758
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 05:58:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF85C061757
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 06:06:53 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
         by albert.telenet-ops.be with bizsmtp
-        id RpyY2600D3eLghq06pyYiP; Fri, 03 Dec 2021 14:58:32 +0100
+        id Rq6p2600X3eLghq06q6pGr; Fri, 03 Dec 2021 15:06:51 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt956-002LiF-2g; Fri, 03 Dec 2021 14:58:32 +0100
+        id 1mt9D6-002LpO-U9; Fri, 03 Dec 2021 15:06:48 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt954-000lZ6-Ve; Fri, 03 Dec 2021 14:58:31 +0100
+        id 1mt9D6-000lfI-H9; Fri, 03 Dec 2021 15:06:48 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joe Hung <joe_hung@ilitek.com>, Marek Vasut <marex@denx.de>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v2] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb ili2xxx bindings
-Date:   Fri,  3 Dec 2021 14:58:26 +0100
-Message-Id: <0c5f06c9d262c1720b40d068b6eefe58ca406601.1638539806.git.geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Enrico Weigelt metux IT consult <info@metux.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        stratos-dev@op-lists.linaro.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH resend] gpio: aggregator: Add interrupt support
+Date:   Fri,  3 Dec 2021 15:06:44 +0100
+Message-Id: <ba7f82f348d77b6a65498dd13a92550949e69cc3.1638540167.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,94 +48,90 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-While Linux uses a different driver, the Ilitek
-ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
-binding documentation is very similar.
+Currently the GPIO Aggregator does not support interrupts.  This means
+that kernel drivers going from a GPIO to an IRQ using gpiod_to_irq(),
+and userspace applications using line events do not work.
 
-  - Drop the fixed reg value, as some controllers use a different
-    address,
-  - Make reset-gpios optional, as it is not always wired.
+Add interrupt support by providing a gpio_chip.to_irq() callback, which
+just calls into the parent GPIO controller.
+
+Note that this does not implement full interrupt controller (irq_chip)
+support, so using e.g. gpio-keys with "interrupts" instead of "gpios"
+still does not work.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-v2:
-  - Add Reviewed-by.
----
- .../bindings/input/ilitek,ili2xxx.txt         | 27 -------------------
- .../input/touchscreen/ilitek_ts_i2c.yaml      |  7 +++--
- 2 files changed, 5 insertions(+), 29 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
+I would prefer to avoid implementing irq_chip support, until there is a
+real use case for this.
 
-diff --git a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt b/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-deleted file mode 100644
-index cdcaa3f52d253670..0000000000000000
---- a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Ilitek ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller
--
--Required properties:
--- compatible:
--    ilitek,ili210x for ILI210x
--    ilitek,ili2117 for ILI2117
--    ilitek,ili2120 for ILI2120
--    ilitek,ili251x for ILI251x
--
--- reg: The I2C address of the device
--
--- interrupts: The sink for the touchscreen's IRQ output
--    See ../interrupt-controller/interrupts.txt
--
--Optional properties for main touchpad device:
--
--- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
--
--Example:
--
--	touchscreen@41 {
--		compatible = "ilitek,ili251x";
--		reg = <0x41>;
--		interrupt-parent = <&gpio4>;
--		interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
--		reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-index a190e7baac3162a3..9f732899975683a8 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-@@ -15,6 +15,9 @@ allOf:
- properties:
-   compatible:
-     enum:
-+      - ilitek,ili210x
-+      - ilitek,ili2117
-+      - ilitek,ili2120
-       - ilitek,ili2130
-       - ilitek,ili2131
-       - ilitek,ili2132
-@@ -22,11 +25,12 @@ properties:
-       - ilitek,ili2322
-       - ilitek,ili2323
-       - ilitek,ili2326
-+      - ilitek,ili251x
-       - ilitek,ili2520
-       - ilitek,ili2521
+This has been tested with gpio-keys and gpiomon on the Koelsch
+development board:
+
+  - gpio-keys, using a DT overlay[1]:
+
+	$ overlay add r8a7791-koelsch-keyboard-controlled-led
+	$ echo gpio-aggregator > /sys/devices/platform/frobnicator/driver_override
+	$ echo frobnicator > /sys/bus/platform/drivers/gpio-aggregator/bind
+
+	$ gpioinfo frobnicator
+	gpiochip12 - 3 lines:
+		line   0:      "light"      "light"  output  active-high [used]
+		line   1:         "on"         "On"   input   active-low [used]
+		line   2:        "off"        "Off"   input   active-low [used]
+
+	$ echo 255 > /sys/class/leds/light/brightness
+	$ echo 0 > /sys/class/leds/light/brightness
+
+	$ evtest /dev/input/event0
+
+  - gpiomon, using the GPIO sysfs API:
+
+	$ echo keyboard > /sys/bus/platform/drivers/gpio-keys/unbind
+	$ echo e6055800.gpio 2,6 > /sys/bus/platform/drivers/gpio-aggregator/new_device
+	$ gpiomon gpiochip12 0 1
+
+[1] "ARM: dts: koelsch: Add overlay for keyboard-controlled LED"
+    https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=c78d817869e63a3485bb4ab98aeea6ce368a396e
+---
+ drivers/gpio/gpio-aggregator.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
+index e9671d1660ef4b40..869dc952cf45218b 100644
+--- a/drivers/gpio/gpio-aggregator.c
++++ b/drivers/gpio/gpio-aggregator.c
+@@ -371,6 +371,13 @@ static int gpio_fwd_set_config(struct gpio_chip *chip, unsigned int offset,
+ 	return gpiod_set_config(fwd->descs[offset], config);
+ }
  
-   reg:
--    const: 0x41
-+    maxItems: 1
++static int gpio_fwd_to_irq(struct gpio_chip *chip, unsigned int offset)
++{
++	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
++
++	return gpiod_to_irq(fwd->descs[offset]);
++}
++
+ /**
+  * gpiochip_fwd_create() - Create a new GPIO forwarder
+  * @dev: Parent device pointer
+@@ -411,7 +418,8 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
+ 	for (i = 0; i < ngpios; i++) {
+ 		struct gpio_chip *parent = gpiod_to_chip(descs[i]);
  
-   interrupts:
-     maxItems: 1
-@@ -50,7 +54,6 @@ required:
-   - compatible
-   - reg
-   - interrupts
--  - reset-gpios
+-		dev_dbg(dev, "%u => gpio-%d\n", i, desc_to_gpio(descs[i]));
++		dev_dbg(dev, "%u => gpio %d irq %d\n", i,
++			desc_to_gpio(descs[i]), gpiod_to_irq(descs[i]));
  
- examples:
-   - |
+ 		if (gpiod_cansleep(descs[i]))
+ 			chip->can_sleep = true;
+@@ -429,6 +437,7 @@ static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
+ 	chip->get_multiple = gpio_fwd_get_multiple_locked;
+ 	chip->set = gpio_fwd_set;
+ 	chip->set_multiple = gpio_fwd_set_multiple_locked;
++	chip->to_irq = gpio_fwd_to_irq;
+ 	chip->base = -1;
+ 	chip->ngpio = ngpios;
+ 	fwd->descs = descs;
 -- 
 2.25.1
 
