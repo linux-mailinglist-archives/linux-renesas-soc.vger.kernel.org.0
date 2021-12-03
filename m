@@ -2,103 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7B3467338
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 09:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77CAC467660
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 12:31:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379182AbhLCI3b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 03:29:31 -0500
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:36789 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379143AbhLCI3a (ORCPT
+        id S243546AbhLCLfG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 06:35:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232921AbhLCLe4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 03:29:30 -0500
-Received: by mail-ua1-f41.google.com with SMTP id r15so4055170uao.3;
-        Fri, 03 Dec 2021 00:26:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nv8Jf49U8dHM6/sJsWSvwazrQnskBUzISoulkhKft80=;
-        b=L8t0rXDY8x2xXDbYuVWHPhDDMNxKk8NRu2hPgywrWYG3Kn3fSl/zEFZIenOJgCL6Hd
-         A3Fd5RMtWOTjVRLupH9fPusTqO4HXIVTWKjpfJBH0RzpeVkEGFnd1ebx9uip4NGOKjRn
-         eaNXT1kLbQMADNIcmf+iPL82y3Thf4OCHqxw/aqMZi1W+ixLPGczvPnn+pm/6+4Q1gfB
-         n0RV33ubNKQNnyoIs/ewKnR06b3ul75XRDqZvgYgn+wpu9uNE52BA1rumQM35DlUe3fY
-         DvCyaA2hkK+qwtXTs5xDAkvPoaVN2HatmfByB0kXZhUfBNMAfU9XbPosPiqLoWPxuFhJ
-         VyQg==
-X-Gm-Message-State: AOAM532X1mjDOKgcOB5Nqy6DTWosErW6TdnKDr+Y+SXIOfu9f39tn0GT
-        DlCphxBkKxo8ZYXQoIi8CQNwKfv0BE8Rncg9
-X-Google-Smtp-Source: ABdhPJyfSjm1n2ApUicTHkaVFy01cgH9A3aFLoRzPLPE++w/ueLdUaz2mW4rH0r5UQpmSrDQmryCPA==
-X-Received: by 2002:a67:e114:: with SMTP id d20mr20213817vsl.5.1638519966445;
-        Fri, 03 Dec 2021 00:26:06 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id q20sm362299uae.17.2021.12.03.00.26.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Dec 2021 00:26:06 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id t13so3985314uad.9;
-        Fri, 03 Dec 2021 00:26:06 -0800 (PST)
-X-Received: by 2002:a05:6102:c89:: with SMTP id f9mr19521165vst.68.1638519963327;
- Fri, 03 Dec 2021 00:26:03 -0800 (PST)
+        Fri, 3 Dec 2021 06:34:56 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44C5C06173E
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 03:31:31 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
+        by andre.telenet-ops.be with bizsmtp
+        id RnXT2600Y3eLghq01nXTGf; Fri, 03 Dec 2021 12:31:28 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mt6ml-002IYN-FF; Fri, 03 Dec 2021 12:31:27 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mt6mk-000hQn-QQ; Fri, 03 Dec 2021 12:31:26 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/4] Renesas SoC updates for v5.17
+Date:   Fri,  3 Dec 2021 12:31:17 +0100
+Message-Id: <cover.1638530605.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <c26dfdf9ce56e92d23530a09db386b283e62845d.1638289204.git.geert+renesas@glider.be>
- <20211203065726.GA3072@lst.de>
-In-Reply-To: <20211203065726.GA3072@lst.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 Dec 2021 09:25:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWR3hwBho3wDBPjGm4q==qrQn3PLdZN9CfVwX-aOMUW0A@mail.gmail.com>
-Message-ID: <CAMuHMdWR3hwBho3wDBPjGm4q==qrQn3PLdZN9CfVwX-aOMUW0A@mail.gmail.com>
-Subject: Re: [PATCH/RFC -nxt] mtd_blkdevs: Set GENHD_FL_NO_PART
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Michael Walle <michael@walle.cc>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        linux-block@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph,
+	Hi SoC folks,
 
-On Fri, Dec 3, 2021 at 7:57 AM Christoph Hellwig <hch@lst.de> wrote:
-> I think we need the patch below to restore the old behavior where a
-> partitions scan happens only for those sub-drivers that do report a
-> partition shift.
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.17.
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+It consists of 4 parts:
 
-> MTD maintainers: is this intentional that raw mtdblock does not support
-> partitions, but the various "FTL" modules do?
->
-> diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
-> index 113f86df76038..57a22d2ebaeca 100644
-> --- a/drivers/mtd/mtd_blkdevs.c
-> +++ b/drivers/mtd/mtd_blkdevs.c
-> @@ -345,6 +345,8 @@ int add_mtd_blktrans_dev(struct mtd_blktrans_dev *new)
->         gd->first_minor = (new->devnum) << tr->part_bits;
->         gd->minors = 1 << tr->part_bits;
->         gd->fops = &mtd_block_ops;
-> +       if (!tr->part_bits)
-> +               gd->flags |= GENHD_FL_NO_PART;
+  [GIT PULL 1/4] Renesas ARM DT updates for v5.17
 
-Move this into the "else" branch of the test below?
+    - Serial, SPI, timer, watchdog, operating points, and QSPI FLASH
+      support for the RZ/G2L SoC and the RZ/G2L SMARC EVK development
+      board,
+    - SDHI SDnH clocks for the R-Car Gen3 and RZ/G2 SoCs,
+    - Display Unit support for the R-Car V3U SoC,
+    - Miscellaneous fixes and improvements.
 
->         if (tr->part_bits)
->                 if (new->devnum < 26)
+  [GIT PULL 2/4] Renesas ARM SoC updates for v5.17
+
+    - Add a missing of_node_put().
+
+  [GIT PULL 3/4] Renesas driver updates for v5.17
+
+    - Add a remoteproc API for controlling the Cortex-R7 boot address on
+      R-Car Gen3 SoCs,
+    - Consolidate product register handling.
+
+  [GIT PULL 4/4] Renesas DT binding updates for v5.17
+
+    - Document SDHI SDnH clocks on R-Car Gen2 and later,
+    - Document core support for the R-Car S4-8 (R8A779F0) SoC.
+
+Note that due to dependencies between Renesas Clock and Renesas SDHI
+driver changes, I'm handling Renesas SDHI changes for this cycle.
+Hence the presence of a Renesas SDHI DT bindings update in part 4.
+
+Thanks for pulling!
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
