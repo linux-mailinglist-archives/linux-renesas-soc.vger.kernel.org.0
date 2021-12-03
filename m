@@ -2,51 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 904C6467B16
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 17:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF495467B20
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 17:17:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230370AbhLCQQ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 11:16:56 -0500
-Received: from mail-vk1-f176.google.com ([209.85.221.176]:35561 "EHLO
-        mail-vk1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbhLCQQ4 (ORCPT
+        id S239265AbhLCQU0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 11:20:26 -0500
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:41920 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238837AbhLCQUZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 11:16:56 -0500
-Received: by mail-vk1-f176.google.com with SMTP id q21so2174800vkn.2;
-        Fri, 03 Dec 2021 08:13:31 -0800 (PST)
+        Fri, 3 Dec 2021 11:20:25 -0500
+Received: by mail-ua1-f44.google.com with SMTP id p37so6415249uae.8;
+        Fri, 03 Dec 2021 08:17:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=39T2rU0HxZ6gllucr8MX3fBGtYwp/6Fvgqc86vSz9Pg=;
-        b=EI9VJRdBqlYe6S/JrjMzoqztpbUn6bHWDhVzC5Z6BDuLVoHFR/UJFdedmTzXYnsU8W
-         80Z+GCkApJ97qZ1tLRvOt4d5DO7h2KNo3nj/u99AuUHe7HrSfpZgdPYQqRhMT3RwLpex
-         CNhhNrBrh5uo1g+JQqqKmMukNOtbn2WKjePHJP80VBX1EKwLFvw8n2pCp2oEqSgE0H6m
-         np5fGzKatoYVmX8ZAyYLv9qs7A0n5AKFvNrK/n98qzteDNlaeLB6JJEaZhXHpQ+jXRKc
-         cDlq1PM1iPtMPNDijvqCiksxVnP1zP6m4nhprwh4VFQzl5sDPEp2pV3HVH/HL5zjVrx+
-         udJw==
-X-Gm-Message-State: AOAM530Pb+8gz77wrtBMq+1nDVvTK3Vb4fVlkzdvMSghheFL3gk0wIdC
-        UDlx4phJuEoBWdrdyizYarg51q0AK7BFP1EL
-X-Google-Smtp-Source: ABdhPJwQaOK4kg7uOaIgXKhyGXj3YcKf5bZ3b8TXmpfcglDb8cG7sc/FbQHVDNbj2sxXdJ3bo9iI5g==
-X-Received: by 2002:a1f:ee07:: with SMTP id m7mr23474944vkh.27.1638548011182;
-        Fri, 03 Dec 2021 08:13:31 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id f132sm525922vkf.18.2021.12.03.08.13.30
+        bh=vTMdRIwsH/kDMVgc+slBPmQYkV1EPreftAfvOdmGob8=;
+        b=o0GyXS/16GF68qA/OJFIQRmoks1VeDpOqxYDdXuMlNHgWdvwBpSpmuId3FyhI1JbDh
+         nxh+HH5Re66VnMcUiujSG4DmejbFr8k5rAfiNNb42EMHxhjQ8Q3qy9KJSD6gxKIXq5nl
+         cvTzeZorhuzPR2XRqbD5cs2ZrLChZLBhbltWU6XCPpamyqJgZsqKmoUb7Tdp2t+xjVwO
+         b7amswERAnRqQdHk1x6wRFpfwkp7x9JeEqJVhNk9di/xkwujz8y7h7Z0TvGa2s17vhog
+         B76FpX1YRBPbjElrCUQF/PdYbintEGyxiNrWxgeYhcOO88VvJxwx1bqijCXzJVVo23zd
+         rFRA==
+X-Gm-Message-State: AOAM532NuGPl20aQuhyewvCB5hNRJqK3FTce9gv1F0jYv07RaH+trwLB
+        BxsV9Zb2aNIWFnOUnua3XXoZZBQtpHpk0pvo
+X-Google-Smtp-Source: ABdhPJw7OxSrUDGoJf9Rp6oMprD5XJCI0qJfGdA/zJpBwoENVbZCz+k5JSfmdd6eGOx00VloEEVrPA==
+X-Received: by 2002:ab0:20d4:: with SMTP id z20mr22802186ual.23.1638548220481;
+        Fri, 03 Dec 2021 08:17:00 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id g21sm540225vkd.26.2021.12.03.08.17.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Dec 2021 08:13:30 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id 188so2160514vku.8;
-        Fri, 03 Dec 2021 08:13:30 -0800 (PST)
-X-Received: by 2002:a1f:9f04:: with SMTP id i4mr22876526vke.33.1638548010501;
- Fri, 03 Dec 2021 08:13:30 -0800 (PST)
+        Fri, 03 Dec 2021 08:17:00 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id j1so2195785vkr.1;
+        Fri, 03 Dec 2021 08:17:00 -0800 (PST)
+X-Received: by 2002:a05:6122:2193:: with SMTP id j19mr23812566vkd.7.1638548220004;
+ Fri, 03 Dec 2021 08:17:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20211201073308.1003945-1-yoshihiro.shimoda.uh@renesas.com> <20211201073308.1003945-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20211201073308.1003945-2-yoshihiro.shimoda.uh@renesas.com>
+References: <20211201073308.1003945-1-yoshihiro.shimoda.uh@renesas.com> <20211201073308.1003945-3-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211201073308.1003945-3-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 Dec 2021 17:13:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV1Ri-yCeJSp6Gdw5ocAgXj4Yyc57ucN2DY=muj+dQV9A@mail.gmail.com>
-Message-ID: <CAMuHMdV1Ri-yCeJSp6Gdw5ocAgXj4Yyc57ucN2DY=muj+dQV9A@mail.gmail.com>
-Subject: Re: [PATCH v2 01/14] dt-bindings: arm: renesas: Document Renesas
- Spider boards
+Date:   Fri, 3 Dec 2021 17:16:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWvGzEYO84YG2G6RWg8DHwt0FAMu1u727ooSJwfo_66pA@mail.gmail.com>
+Message-ID: <CAMuHMdWvGzEYO84YG2G6RWg8DHwt0FAMu1u727ooSJwfo_66pA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/14] dt-bindings: power: Add r8a779f0 SYSC power
+ domain definitions
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -61,42 +61,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
 On Wed, Dec 1, 2021 at 8:33 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add device tree bindings documentation for Renesas R-Car S4-8
-> Spider CPU and BreakOut boards.
+> Add power domain indices for R-Car S4-8 (r8a779f0).
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> @@ -317,6 +317,14 @@ properties:
->
->        - description: R-Car S4-8 (R8A779F0)
->          items:
-> +          - enum:
-> +              - renesas,spider-cpu # Spider CPU board (RTP8A779FASKB0SC2S)
-
-In your reply to v1, you said that the part number should be
-RTP8A779F0ASKB0SC2S?
-
-> +          - const: renesas,r8a779f0
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,spider-breakout # Spider BreakOut board (RTP8A779F0ASKB0SB0S)
-> +          - const: renesas,spider-cpu
->            - const: renesas,r8a779f0
->
->        - description: R-Car H3e (R8A779M0)
-
-I can fixup the above while applying, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.17.
+i.e. will queue in renesas-devel for v5.17, in a branch shared by
+driver and DTS.
 
 Gr{oetje,eeting}s,
 
