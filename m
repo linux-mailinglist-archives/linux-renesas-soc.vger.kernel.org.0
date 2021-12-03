@@ -2,35 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8B004676C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 12:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E0534676C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 12:52:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380585AbhLCLzc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 06:55:32 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:11027 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231944AbhLCLzb (ORCPT
+        id S1380589AbhLCLzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 06:55:35 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:36104 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231944AbhLCLzd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 06:55:31 -0500
+        Fri, 3 Dec 2021 06:55:33 -0500
 X-IronPort-AV: E=Sophos;i="5.87,284,1631545200"; 
-   d="scan'208";a="102302870"
+   d="scan'208";a="102706790"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2021 20:52:06 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 03 Dec 2021 20:52:09 +0900
 Received: from localhost.localdomain (unknown [10.226.93.66])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CEC354016D71;
-        Fri,  3 Dec 2021 20:52:04 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 598574016D6F;
+        Fri,  3 Dec 2021 20:52:07 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/6] clk: renesas: r9a07g044: Add GPU clock and reset entries
-Date:   Fri,  3 Dec 2021 11:51:51 +0000
-Message-Id: <20211203115154.31864-4-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 4/6] dt-bindings: gpu: mali-bifrost: Document RZ/G2L support
+Date:   Fri,  3 Dec 2021 11:51:52 +0000
+Message-Id: <20211203115154.31864-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211203115154.31864-1-biju.das.jz@bp.renesas.com>
 References: <20211203115154.31864-1-biju.das.jz@bp.renesas.com>
@@ -38,41 +39,91 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add GPU clock and reset entries to CPG driver.
+The Renesas RZ/G2{L, LC} SoC (a.k.a R9A07G044) has a Bifrost Mali-G31 GPU,
+add a compatible string for it.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g044-cpg.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 32 +++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 85132b6c97b7..79042bf46fe8 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -198,6 +198,12 @@ static struct rzg2l_mod_clk r9a07g044_mod_clks[] = {
- 				0x554, 6),
- 	DEF_MOD("sdhi1_aclk",	R9A07G044_SDHI1_ACLK, R9A07G044_CLK_P1,
- 				0x554, 7),
-+	DEF_MOD("gpu_clk",	R9A07G044_GPU_CLK, R9A07G044_CLK_G,
-+				0x558, 0),
-+	DEF_MOD("gpu_axi_clk",	R9A07G044_GPU_AXI_CLK, R9A07G044_CLK_P1,
-+				0x558, 1),
-+	DEF_MOD("gpu_ace_clk",	R9A07G044_GPU_ACE_CLK, R9A07G044_CLK_P1,
-+				0x558, 2),
- 	DEF_MOD("ssi0_pclk",	R9A07G044_SSI0_PCLK2, R9A07G044_CLK_P0,
- 				0x570, 0),
- 	DEF_MOD("ssi0_sfr",	R9A07G044_SSI0_PCLK_SFR, R9A07G044_CLK_P0,
-@@ -285,6 +291,9 @@ static struct rzg2l_reset r9a07g044_resets[] = {
- 	DEF_RST(R9A07G044_SPI_RST, 0x850, 0),
- 	DEF_RST(R9A07G044_SDHI0_IXRST, 0x854, 0),
- 	DEF_RST(R9A07G044_SDHI1_IXRST, 0x854, 1),
-+	DEF_RST(R9A07G044_GPU_RESETN, 0x858, 0),
-+	DEF_RST(R9A07G044_GPU_AXI_RESETN, 0x858, 1),
-+	DEF_RST(R9A07G044_GPU_ACE_RESETN, 0x858, 2),
- 	DEF_RST(R9A07G044_SSI0_RST_M2_REG, 0x870, 0),
- 	DEF_RST(R9A07G044_SSI1_RST_M2_REG, 0x870, 1),
- 	DEF_RST(R9A07G044_SSI2_RST_M2_REG, 0x870, 2),
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 6f98dd55fb4c..c9fac2498f5e 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -19,6 +19,7 @@ properties:
+           - amlogic,meson-g12a-mali
+           - mediatek,mt8183-mali
+           - realtek,rtd1619-mali
++          - renesas,r9a07g044-mali
+           - rockchip,px30-mali
+           - rockchip,rk3568-mali
+       - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+@@ -27,19 +28,30 @@ properties:
+     maxItems: 1
+ 
+   interrupts:
++    minItems: 3
+     items:
+       - description: Job interrupt
+       - description: MMU interrupt
+       - description: GPU interrupt
++      - description: EVENT interrupt
+ 
+   interrupt-names:
++    minItems: 3
+     items:
+       - const: job
+       - const: mmu
+       - const: gpu
++      - const: event
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: gpu
++      - const: bus
++      - const: bus_ace
+ 
+   mali-supply: true
+ 
+@@ -52,7 +64,8 @@ properties:
+     maxItems: 3
+ 
+   resets:
+-    maxItems: 2
++    minItems: 1
++    maxItems: 3
+ 
+   "#cooling-cells":
+     const: 2
+@@ -113,6 +126,21 @@ allOf:
+         - sram-supply
+         - power-domains
+         - power-domain-names
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a07g044-mali
++    then:
++      properties:
++        interrupt-names:
++          minItems: 4
++        clock-names:
++          minItems: 3
++      required:
++        - clock-names
++        - power-domains
++        - resets
+     else:
+       properties:
+         power-domains:
 -- 
 2.17.1
 
