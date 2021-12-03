@@ -2,37 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B2446781D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 14:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF26C46787A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Dec 2021 14:35:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352247AbhLCN0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Dec 2021 08:26:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37630 "EHLO
+        id S1381158AbhLCNio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Dec 2021 08:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244419AbhLCN0W (ORCPT
+        with ESMTP id S1381187AbhLCNii (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Dec 2021 08:26:22 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AACC06173E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 05:22:58 -0800 (PST)
+        Fri, 3 Dec 2021 08:38:38 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1EE8C0617A5
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Dec 2021 05:35:13 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
-        by xavier.telenet-ops.be with bizsmtp
-        id RpNw2601B3eLghq01pNw9y; Fri, 03 Dec 2021 14:22:56 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id RpbA2600G3eLghq06pbAi1; Fri, 03 Dec 2021 14:35:11 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8We-002LFl-CL; Fri, 03 Dec 2021 14:22:56 +0100
+        id 1mt8iT-002LQW-RS; Fri, 03 Dec 2021 14:35:09 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1mt8Wd-000kYw-RD; Fri, 03 Dec 2021 14:22:55 +0100
+        id 1mt8iT-000kka-5i; Fri, 03 Dec 2021 14:35:09 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: renesas: r8a779a0: Align comments
-Date:   Fri,  3 Dec 2021 14:22:55 +0100
-Message-Id: <886ef84ea6b8314d348953792c9616b3e5dc28c0.1638537704.git.geert+renesas@glider.be>
+Subject: [PATCH 0/3] Input: gpio-keys - Interrupt-related fixes
+Date:   Fri,  3 Dec 2021 14:35:05 +0100
+Message-Id: <cover.1638538079.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,37 +42,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Align the CANFD4_TX and AVB2_MDC comments with all others.
+	Hi all,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-pinctrl-for-v5.17.
----
- drivers/pinctrl/renesas/pfc-r8a779a0.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch series contains two interrupt-related fixes for the gpio-keys
+DT bindings and driver, and a small clean-up.
+The first two patches can be applied independently.
+The third patch, which is marked RFC, depends on the second.
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a779a0.c b/drivers/pinctrl/renesas/pfc-r8a779a0.c
-index ad6532443a785b13..83580385c3ca9b1c 100644
---- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
-@@ -3835,7 +3835,7 @@ static const struct pinmux_drive_reg pinmux_drive_regs[] = {
- 		{ RCAR_GP_PIN(3, 12), 16, 3 },	/* CANFD5_RX */
- 		{ RCAR_GP_PIN(3, 11), 12, 3 },	/* CANFD5_TX */
- 		{ RCAR_GP_PIN(3, 10),  8, 3 },	/* CANFD4_RX */
--		{ RCAR_GP_PIN(3,  9),  4, 3 },	/* CANFD4_TX*/
-+		{ RCAR_GP_PIN(3,  9),  4, 3 },	/* CANFD4_TX */
- 		{ RCAR_GP_PIN(3,  8),  0, 3 },	/* CANFD3_RX */
- 	} },
- 	{ PINMUX_DRIVE_REG("DRV2CTRL3", 0xe6058888) {
-@@ -4305,7 +4305,7 @@ static const struct pinmux_bias_reg pinmux_bias_regs[] = {
- 		[11] = RCAR_GP_PIN(6, 11),	/* AVB2_TD3 */
- 		[12] = RCAR_GP_PIN(6, 12),	/* AVB2_TXCREFCLK */
- 		[13] = RCAR_GP_PIN(6, 13),	/* AVB2_MDIO */
--		[14] = RCAR_GP_PIN(6, 14),	/* AVB2_MDC*/
-+		[14] = RCAR_GP_PIN(6, 14),	/* AVB2_MDC */
- 		[15] = RCAR_GP_PIN(6, 15),	/* AVB2_MAGIC */
- 		[16] = RCAR_GP_PIN(6, 16),	/* AVB2_PHY_INT */
- 		[17] = RCAR_GP_PIN(6, 17),	/* AVB2_LINK */
+Thanks for your comments!
+
+Geert Uytterhoeven (3):
+  dt-bindings: input: gpio-keys: Fix interrupts in example
+  Input: gpio-keys - Use input_report_key()
+  [WIP] [RFC] Input: gpio-keys - Fix ghost events with both-edge irqs
+
+ .../devicetree/bindings/input/gpio-keys.yaml  |  2 +-
+ drivers/input/keyboard/gpio_keys.c            | 38 ++++++++++++-------
+ 2 files changed, 25 insertions(+), 15 deletions(-)
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
