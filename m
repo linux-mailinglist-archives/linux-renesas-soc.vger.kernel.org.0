@@ -2,202 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D99C5469929
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 15:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 626D34699E9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 16:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244928AbhLFOlm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Dec 2021 09:41:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344364AbhLFOll (ORCPT
+        id S1345153AbhLFPE2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Dec 2021 10:04:28 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:37142 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1345158AbhLFPEB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Dec 2021 09:41:41 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEACC061746
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Dec 2021 06:38:12 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id i12so10335596pfd.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Dec 2021 06:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=qSm01b/R3QO1+IiJn8cp9f3ibME5iSPz64qd4drfE/s=;
-        b=qyrH0nBSX8xTvkNjOJ14P8mNtmiReYKkYdKoSohFYeCnsX7xG22w9ZSZscsfvxjxZr
-         GpCg/vTmpocewuBz5iwoYIfYjTUtTPitwZlubacHqogD7w+bvRl/79QxTFLemTc5hvpt
-         ssXU+L0oTwlxAo5QdnyRG/9B4hSeXZ1oZNaQhLTF4kRRcmR9B7BTD4SKMpLMT6lvevet
-         rr4EwfcbTK5Cm0Q8HBvNeRIRMSkwn8O6Raj3Dn+Sy+1cNnaz9MczYATl0gHH1uaKyLHo
-         /cgYX8zNGUkhotbNbNGRAGKiUDfm/wgvROWc5wHakGOsYRnhWCk+sGy6hArYTFbjIKz3
-         21hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=qSm01b/R3QO1+IiJn8cp9f3ibME5iSPz64qd4drfE/s=;
-        b=fk47d8d482O1UfY/Aq/VvM+W8HeomDVbr11OsOcZscLWdJPAQ8LQjznvpOxgDeLLz9
-         Bjnw3qcZi25P6f4HGRZnwRvc64kFZIYay4osCXk2/AoLCMreYQUEXqLDAMRaRDR+Cg6g
-         lsFGh9zXVb1iEIe0iVOu9k+oFLhxmohsJOjeM0GYixwmrGeN1QbAv65SKG9N/BZnoAIX
-         2xazbN/I3xyjQ7tjN7JPojOXet175qqEXzXWtEq1SB3XpAFbCKA8lDVQ5FRxIhlRpw/T
-         RQFjyTgByZ9p3tFiPPGm3vCXo1uII6L4F1hh/fZmUVIVchDh2xKhQ6U5bjxqdUCGRHxR
-         UPxQ==
-X-Gm-Message-State: AOAM532SBhTJ4dSqG2rrEtnhAYsmAK4WC+Zwaqe1S7jeoLynlEH7UY5+
-        Fsz6s+BzKXL862tN6eXHVAZw4b8jKIHD1ywd
-X-Google-Smtp-Source: ABdhPJzEB7FUNzdJFIEOh2WRo3BsBIf30g4q1ka1YmEfJnh5nLiKhJLQ/QALaOAI8oQ8fRNMczI8KQ==
-X-Received: by 2002:a63:2212:: with SMTP id i18mr18853960pgi.586.1638801491870;
-        Mon, 06 Dec 2021 06:38:11 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id q8sm429562pfk.152.2021.12.06.06.38.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 06:38:11 -0800 (PST)
-Message-ID: <61ae2053.1c69fb81.73454.1188@mx.google.com>
-Date:   Mon, 06 Dec 2021 06:38:11 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Kernel: renesas-devel-2021-12-06-v5.16-rc4
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 295 runs,
- 3 regressions (renesas-devel-2021-12-06-v5.16-rc4)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+        Mon, 6 Dec 2021 10:04:01 -0500
+X-IronPort-AV: E=Sophos;i="5.87,291,1631545200"; 
+   d="scan'208";a="102982266"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Dec 2021 00:00:30 +0900
+Received: from localhost.localdomain (unknown [10.226.93.57])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DC6BE43B6D99;
+        Tue,  7 Dec 2021 00:00:27 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/3] Add Mali-G31 GPU support for RZ/G2L SoC
+Date:   Mon,  6 Dec 2021 15:00:22 +0000
+Message-Id: <20211206150025.15703-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 295 runs, 3 regressions (renesas-devel-2021-12-06-=
-v5.16-rc4)
+RZ/G2L SoC embeds Mali-G31 bifrost GPU.
+This patch series aims to add support for the same
 
-Regressions Summary
--------------------
+It is tested with latest drm-misc-next + mesa 21.3.0 + 
+out of tree patch for (du + DSI) + 
+platfrom mesa configuration for RZ/G2L.
 
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-bcm2836-rpi-2-b     | arm   | lab-collabora | gcc-10   | multi_v7_defc...MB=
-2_KERNEL=3Dy | 1          =
+Tested the kmscube application.
 
-meson-gxbb-p200     | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
+test logs:-
+root@smarc-rzg2l:~# kmscube
+Using display 0xaaaadb6e7d30 with EGL version 1.4
+===================================
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+.....
+===================================
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.0"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  ....
+===================================
+^C
 
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig         =
-           | 1          =
+root@smarc-rzg2l:~# cat /proc/interrupts | grep panfrost
+ 82:     587287          0     GICv3 186 Level     panfrost-job
+ 83:          2          0     GICv3 187 Level     panfrost-mmu
+ 84:          8          0     GICv3 185 Level     panfrost-gpu
 
+root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
+     From  :   To
+           :  50000000  62500000 100000000 125000000 200000000 250000000 400000000 500000000   time(ms)
+*  50000000:         0         0         0         0         0         0         0         0        72
+   62500000:         0         0         0         0         0         0         0         0         0
+  100000000:         0         0         0         0         0         0         0         0         0
+  125000000:         0         0         0         0         0         0         0         1        68
+  200000000:         0         0         0         0         0         0         0         1        68
+  250000000:         1         0         0         0         0         0         0         0        84
+  400000000:         0         0         0         0         0         0         0         0         0
+  500000000:         0         0         0         1         1         1         0         0       736
+Total transition : 6
+root@smarc-rzg2l:~# kmscube
+Using display 0xaaaaf7a421b0 with EGL version 1.4
+===================================
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+  .....
+===================================
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.0"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  ......
+===================================
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-12-06-v5.16-rc4/plan/baseline/
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
+     From  :   To
+           :  50000000  62500000 100000000 125000000 200000000 250000000 400000000 500000000   time(ms)
+*  50000000:         0         0         0         0         0         0         0         1       144
+   62500000:         0         0         0         0         0         0         0         0         0
+  100000000:         0         0         0         0         0         0         0         9       524
+  125000000:         0         0         9         0         0         0         0         3      2544
+  200000000:         0         0         0        11         0         0         0        46      3304
+  250000000:         1         0         0         0        33         0         0         0      7496
+  400000000:         0         0         0         0        16        19         0         0      2024
+  500000000:         1         0         0         1         8        15        35         0      4032
+Total transition : 208
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-12-06-v5.16-rc4
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      8feef3cda1f4673737514cb20366eeeb69cc0be2 =
+Platform specific Mesa patch for RZ/G2L
+---------------------
+src/gallium/targets/dri/meson.build
++               'rcar-du_dri.so',
+src/gallium/targets/dri/target.c
++DEFINE_LOADER_DRM_ENTRYPOINT(rcar_du)
 
+V1->V2:
+ * Removed clock patches from this seies, as it is accepted for 5.17
+ * Added Rb tag from Geert
+ * Added reset-names required property for RZ/G2L and updated the board dtsi.
 
+Biju Das (3):
+  dt-bindings: gpu: mali-bifrost: Document RZ/G2L support
+  arm64: dts: renesas: r9a07g044: Add Mali-G31 GPU node
+  arm64: dts: renesas: rzg2l-smarc-som: Add vdd core regulator
 
-Test Regressions
----------------- =
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 39 ++++++++++-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 65 +++++++++++++++++++
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 13 ++++
+ 3 files changed, 115 insertions(+), 2 deletions(-)
 
+-- 
+2.17.1
 
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-bcm2836-rpi-2-b     | arm   | lab-collabora | gcc-10   | multi_v7_defc...MB=
-2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61adeb6ea6b980bc601a9486
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61adeb6ea6b980bc601a9=
-487
-        failing since 20 days (last pass: renesas-devel-2021-11-02-v5.15, f=
-irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-meson-gxbb-p200     | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61ade35b1d625f96d31a9482
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
-ylibre/baseline-meson-gxbb-p200.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
-ylibre/baseline-meson-gxbb-p200.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61ade35b1d625f96d31a9=
-483
-        failing since 5 days (last pass: renesas-devel-2021-11-29-v5.16-rc3=
-, first fail: renesas-devel-2021-11-30-v5.16-rc3) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig         =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61ade79722290d06fb1a9485
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-06-v5.16-rc4/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61ade79722290d06fb1a9=
-486
-        new failure (last pass: renesas-devel-2021-11-30-v5.16-rc3) =
-
- =20
