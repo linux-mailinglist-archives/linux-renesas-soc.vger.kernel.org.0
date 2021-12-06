@@ -2,207 +2,238 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 270F0468DB6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Dec 2021 23:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B385F4690EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 08:48:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235568AbhLEWba (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Dec 2021 17:31:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233833AbhLEWb3 (ORCPT
+        id S238588AbhLFHvn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Dec 2021 02:51:43 -0500
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:34369 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237150AbhLFHvn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Dec 2021 17:31:29 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B49FC061714;
-        Sun,  5 Dec 2021 14:28:02 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id q74so25956833ybq.11;
-        Sun, 05 Dec 2021 14:28:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SERoy8mNp8PYxIRCuBvgvbxWStiuaQfRrnBn5Hx8L44=;
-        b=ZAB2QYa1bE06WOta7EStJ9OiY7PjwDFED+bNlLIZluIwP6gjM6awoHbEahTmMgA5dc
-         HQWx11KjFFSXPPKkK3OxW5jNT6uuiYrHHiqxKSHbT+nvuYFFmOAUlkEucmtjzu/7PBfA
-         WMmpqzcuUQOLo92F+KwsstQYHejFeRXsMPOOsHY0lGl1Qf6uHZnKPqiL+X8Yztd3CzWm
-         xRltYjH23o6NniRHB2ElQSUCXcQg3xsf1dTHNR+1iiBqKmuyWE6HwD2K9KE4J2zjBE6Y
-         uuqSa/pSX22iShV2EWwQLwOFAyoVgolx0Lr/VlIAjGtYeB38iu33X2wiqAtK+BHgBtdn
-         Yo1A==
+        Mon, 6 Dec 2021 02:51:43 -0500
+Received: by mail-ua1-f47.google.com with SMTP id n6so17903657uak.1;
+        Sun, 05 Dec 2021 23:48:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SERoy8mNp8PYxIRCuBvgvbxWStiuaQfRrnBn5Hx8L44=;
-        b=An3TyTVkMCzp1HGwf4dX+998RlFLmwNguBf6KpzJTuzaL6FxDIGza3PySHDflWi+dp
-         bfO8MuBqs4oTSQyMA6Fe32Ce/DVQCaFph2X8EJFFYRu6KuVighOiqWBP5h3pTgCTp/gq
-         2mB6Z7Ccd8RqmUbZHiJnz7OjTv2juo3m+bROLGAQFDoMGXKpIcptXj0uodrR0vrGdPzH
-         nnaTNz4mL+mxeiUSZcQPWGG45khcsJeVY22RCULdSxw/oUKhVTGmMMQ9v2sO4cqfWAeO
-         FMu2w8mwS1TNUK9Nh6fQ8d2i9zdazueSmngIGj9ggRvZkDVkdCl/EskC8lWdn2w4oLTK
-         ZLSA==
-X-Gm-Message-State: AOAM532Xl1TksZrJr++AYMdvyhfbEZquxUpof5kjllQEzv5idpiWptvN
-        zNXFyTbGCROeOyOqZW9oqIWNDd7sP+JM5FN8kaQ=
-X-Google-Smtp-Source: ABdhPJw8wBVGUsiIWvYc9nptkmzmP+1mUFLQzE3TzCw9HJcWQmc68r/GlOuu+n1pj2Y4yS1dU62GpC3GzX8Yue/mO+4=
-X-Received: by 2002:a25:dc4d:: with SMTP id y74mr36554837ybe.422.1638743281180;
- Sun, 05 Dec 2021 14:28:01 -0800 (PST)
+        bh=tbRnBnaucpdNoeDbYtukU4vcheBiqVmH2qBmq2Nt9OY=;
+        b=tmqD+TFMeS6HiPSIMdVkx/5ydTc20fD9M2zgSKMW3rdc3Dl5Ca4n83kLY+KOSl+CMG
+         WUsEsM0DVFmRMEUzUWzLozCiQPCn76L+ymEYlJAMVAVihdOgthqi8wk1+ATeViumSgBX
+         XL/wJYsyquGBKA/e5vNES0AxCYgAy3cjCyjvdjnHpHO1Xf892G0RYsLGXaBL3WXKXad0
+         jYGFkTCurMr4NOKaLW+moPQ9iTwlh/QsmJlol5F8fSKMPDqXDrAUByaypG0gKd+7PfM2
+         TQpH3M9lXkM5+cGc2ueQEwAMwhXeQOfi82LIKznBVxtKudZRy6GFIHchfASr4sPp1BO+
+         felw==
+X-Gm-Message-State: AOAM533rcuhKm0qiqJdCh//xqb5emRzY+w+qiNfwLDnBaEZo66zud8IP
+        N0mIamjsjt/lJ7d3fmVoWYlzHxmQKRKGWw==
+X-Google-Smtp-Source: ABdhPJyiCg27T2Hnf2F82M6i/0OxAosUdvIfKMrNv3QezEcsHe9mQMIxFsDch+H/ztUxKxmR9/+pyQ==
+X-Received: by 2002:a67:b917:: with SMTP id q23mr35070667vsn.80.1638776894431;
+        Sun, 05 Dec 2021 23:48:14 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id b10sm4002231uad.8.2021.12.05.23.48.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Dec 2021 23:48:14 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id r15so17858895uao.3;
+        Sun, 05 Dec 2021 23:48:14 -0800 (PST)
+X-Received: by 2002:a67:c106:: with SMTP id d6mr34734189vsj.77.1638776893907;
+ Sun, 05 Dec 2021 23:48:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122103032.517923-1-maz@kernel.org> <CAMuHMdX2ZRvDYA3idmw3nBcP6CO=2od6ZU-UeJo9vYsuB=fQNQ@mail.gmail.com>
- <8735no70tt.wl-maz@kernel.org> <CAMuHMdVS67BLP2XEdD6ZvVBVE2x11gKnQa1TqG659HXPM5scqQ@mail.gmail.com>
- <CAMuHMdWJhnXabKGpW7k944dzQHtwQtxw-yb2bRBsoaMw6N6nuA@mail.gmail.com>
- <87tug3clvc.wl-maz@kernel.org> <CAMuHMdWGb2xik+94RVwtq8E6+9eN=HfQLX3a4sTjKQXR96Udkw@mail.gmail.com>
- <87r1b7ck40.wl-maz@kernel.org> <OSZPR01MB7019E7DD7119EFF9C994AA62AA649@OSZPR01MB7019.jpnprd01.prod.outlook.com>
- <87tufvmes9.wl-maz@kernel.org> <CA+V-a8siHRjF+bJu88QFwz0a_MZ+kiJEwmER58_feyr8O+WNGA@mail.gmail.com>
- <CAL_JsqK+GcnChx3i9fsYnw+FzZgON4PtKB=CzYLUj6sXtxX6fQ@mail.gmail.com>
- <CA+V-a8sVS_1hUWJ3uM+VffGyMtdnctBOJTyHTQAoJZGOh0a1Tw@mail.gmail.com>
- <87bl21mqwk.wl-maz@kernel.org> <CA+V-a8vA0P-yhm2SHJmVh+cuUw7qodQLQBqzNPTz31x5q18xaA@mail.gmail.com>
- <CAL_JsqJ1Dw9C_GQjto-E2ch7fdN=3f4Qz9qYuf2iYwMRLkdroA@mail.gmail.com> <CA+V-a8uOkkG8_mz-PjL2q22hfSXuKSpwuQ-E2_pvCc1sKCJ+zw@mail.gmail.com>
-In-Reply-To: <CA+V-a8uOkkG8_mz-PjL2q22hfSXuKSpwuQ-E2_pvCc1sKCJ+zw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sun, 5 Dec 2021 22:27:35 +0000
-Message-ID: <CA+V-a8uc0vHVRJ5_Zycw-qiZVbyNBw4HO2XVPbKba3ybooqFtQ@mail.gmail.com>
-Subject: Re: [PATCH] of/irq: Add a quirk for controllers with their own
- definition of interrupt-map
-To:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kernel-team@android.com" <kernel-team@android.com>,
-        John Crispin <john@phrozen.org>, Biwen Li <biwen.li@nxp.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+References: <163866408173.12449.1612367816588218523.sendpatchset@octo>
+In-Reply-To: <163866408173.12449.1612367816588218523.sendpatchset@octo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Dec 2021 08:48:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVwR+npNSHnetet3V6dj6y1yZjsASCTdvtgs_kdYi_qhA@mail.gmail.com>
+Message-ID: <CAMuHMdVwR+npNSHnetet3V6dj6y1yZjsASCTdvtgs_kdYi_qhA@mail.gmail.com>
+Subject: Re: [PATCH/RFC] serdev: BREAK/FRAME/PARITY/OVERRUN notification prototype
+To:     Magnus Damm <damm@opensource.se>
+Cc:     "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Jiri Slaby <jirislaby@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 1, 2021 at 4:16 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> On Wed, Dec 1, 2021 at 2:36 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Wed, Dec 1, 2021 at 7:37 AM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > >
-> > > Hi Marc/Rob,
-> > >
-> > > On Tue, Nov 30, 2021 at 6:37 PM Marc Zyngier <maz@kernel.org> wrote:
-> > > >
-> > > > On Tue, 30 Nov 2021 12:52:21 +0000,
-> > > > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Nov 29, 2021 at 6:33 PM Rob Herring <robh@kernel.org> wrote:
-> > > > > >
-> > > > > > interrupts would work just fine here:
-> > > > > >
-> > > > > > interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-> > > > > >   <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > >
-> > > > > > We don't need a different solution for N:1 interrupts from N:M. Sure,
-> > > > > > that could become unweldy if there are a lot of interrupts (just like
-> > > > > > interrupt-map), but is that an immediate problem?
-> > > > > >
-> > > > > It's just that with this approach the driver will have to index the
-> > > > > interrupts instead of reading from DT.
-> > > > >
-> > > > > Marc - is it OK with the above approach?
-> > > >
-> > > > Anything that uses standard properties in a standard way works for me.
-> > > >
-> > > I added interrupts property now instead of interrupt-map as below:
-> > >
-> > > irqc: interrupt-controller@110a0000 {
-> > >       compatible = "renesas,r9a07g044-irqc", "renesas,rzg2l-irqc";
-> > >        #address-cells = <0>;
-> > >        interrupt-parent = <&gic>;
-> > >        interrupt-controller;
-> > >        reg = <0 0x110a0000 0 0x10000>;
-> > >        interrupts =
-> > >                       <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 446 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 447 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 455 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 459 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 463 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 471 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
-> > >                       <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>,
-> > >                      <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>;
-> > >          clocks = <&cpg CPG_MOD R9A07G044_IA55_CLK>,
-> > >                        <&cpg CPG_MOD R9A07G044_IA55_PCLK>;
-> > >           clock-names = "clk", "pclk";
-> > >           power-domains = <&cpg>;
-> > >           resets = <&cpg R9A07G044_IA55_RESETN>;
-> > > };
-> > >
-> > >
-> > > In the hierarchal interrupt code its parsed as below:
-> > > on probe fetch the details:
-> > > range = of_get_property(np, "interrupts", &len);
-> > > if (!range)
-> > >       return -EINVAL;
-> > >
-> > > for (len /= sizeof(*range), j = 0; len >= 3; len -= 3) {
-> > >       if (j >= IRQC_NUM_IRQ)
-> > >             return -EINVAL;
-> > >
-> > >       priv->map[j].args[0] = be32_to_cpu(*range++);
-> > >       priv->map[j].args[1] = be32_to_cpu(*range++);
-> > >       priv->map[j].args[2] = be32_to_cpu(*range++);
-> > >       priv->map[j].args_count = 3;
-> > >       j++;
-> >
-> > Not sure what's wrong, but you shouldn't be doing your own parsing.
-> > The setup shouldn't look much different than a GPIO controller
-> > interrupts except you have multiple parent interrupts.
-> >
-> Sorry does that mean the IRQ domain should be chained handler and not
-> hierarchical? Or is it I have miss-understood.
->
-> If the IRQ domain has to be hierarchical how do we map to the parent?
-> (based on the previous reviews Marc had suggested to implement as
-> hierarchical  [1])
->
-Gentle ping.
+Hi Magnus,
 
-> [1] https://lore.kernel.org/lkml/20211110225808.16388-1-prabhakar.mahadev-lad.rj@bp.renesas.com/T/
+On Sun, Dec 5, 2021 at 2:19 AM Magnus Damm <damm@opensource.se> wrote:
+> From: Magnus Damm <damm+renesas@opensource.se>
 >
-> Cheers,
-> Prabhakar
+> A prototype patch to let serdev device drivers get notified by hardware
+> errors such as BREAK, FRAME, PARITY and OVERRUN.
+>
+> With this patch, in the event of an error detected in the UART device driver
+> the serdev_device_driver will get the newly introduced ->error() callback
+> invoked if serdev_device_set_error_mask() has previously been used to enable
+> the type of error. The errors are taken straight from the TTY layer and fed
+> into the serdev_device_driver after filtering out only enabled errors.
+>
+> Without this patch the hardware errors never reach the serdev_device_driver.
+>
+> Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+
+Thanks for your patch!
+
+> --- 0001/drivers/tty/serdev/core.c
+> +++ work/drivers/tty/serdev/core.c      2021-12-04 15:04:48.108809440 +0900
+> @@ -349,6 +349,17 @@ unsigned int serdev_device_set_baudrate(
+>  }
+>  EXPORT_SYMBOL_GPL(serdev_device_set_baudrate);
+>
+> +void serdev_device_set_error_mask(struct serdev_device *serdev, unsigned long mask)
+> +{
+> +       struct serdev_controller *ctrl = serdev->ctrl;
+> +
+> +       if (!ctrl || !ctrl->ops->set_error_mask)
+
+Can this happen?
+There's only a single serdev_controller_ops structure, and it provides
+.set_error_mask().
+
+> +               return;
+> +
+> +       ctrl->ops->set_error_mask(ctrl, mask);
+> +}
+> +EXPORT_SYMBOL_GPL(serdev_device_set_error_mask);
+> +
+>  void serdev_device_set_flow_control(struct serdev_device *serdev, bool enable)
+>  {
+>         struct serdev_controller *ctrl = serdev->ctrl;
+
+> @@ -27,11 +32,38 @@ static int ttyport_receive_buf(struct tt
+>  {
+>         struct serdev_controller *ctrl = port->client_data;
+>         struct serport *serport = serdev_controller_get_drvdata(ctrl);
+> -       int ret;
+> +       unsigned long errors = 0;
+> +       int i, ret;
+
+unsigned int i;
+
+>
+>         if (!test_bit(SERPORT_ACTIVE, &serport->flags))
+>                 return 0;
+>
+> +       for (i = 0; fp && i < count; i++) {
+> +               switch (fp[i]) {
+> +               case TTY_BREAK:
+> +                       if (test_bit(SERPORT_NOTIFY_BREAK, &serport->flags))
+> +                               set_bit(SERDEV_ERROR_BREAK, &errors);
+
+No need to use atomic ops for setting bits in errors.
+
+> +                       break;
+> +
+> +               case TTY_FRAME:
+> +                       if (test_bit(SERPORT_NOTIFY_FRAME, &serport->flags))
+> +                               set_bit(SERDEV_ERROR_FRAME, &errors);
+> +                       break;
+> +
+> +               case TTY_PARITY:
+> +                       if (test_bit(SERPORT_NOTIFY_PARITY, &serport->flags))
+> +                               set_bit(SERDEV_ERROR_PARITY, &errors);
+> +                       break;
+> +
+> +               case TTY_OVERRUN:
+> +                       if (test_bit(SERPORT_NOTIFY_OVERRUN, &serport->flags))
+> +                               set_bit(SERDEV_ERROR_OVERRUN, &errors);
+> +                       break;
+> +               }
+> +       }
+> +       if (errors)
+> +               serdev_controller_error(ctrl, errors);
+> +
+>         ret = serdev_controller_receive_buf(ctrl, cp, count);
+>
+>         dev_WARN_ONCE(&ctrl->dev, ret < 0 || ret > count,
+> @@ -180,6 +212,26 @@ static unsigned int ttyport_set_baudrate
+>         return ktermios.c_ospeed;
+>  }
+>
+> +static void ttyport_set_flags(struct serport *serport, unsigned long nflag,
+> +                             unsigned long mask, unsigned long eflag)
+> +{
+> +       if (test_bit(eflag, &mask))
+
+No need to use atomic ops for testing bits in mask.
+
+> +               set_bit(nflag, &serport->flags);
+> +       else
+> +               clear_bit(nflag, &serport->flags);
+> +}
+> +
+> +static void ttyport_set_error_mask(struct serdev_controller *ctrl,
+> +                                  unsigned long m)
+> +{
+> +       struct serport *sp = serdev_controller_get_drvdata(ctrl);
+> +
+> +       ttyport_set_flags(sp, SERPORT_NOTIFY_BREAK, m, SERDEV_ERROR_BREAK);
+> +       ttyport_set_flags(sp, SERPORT_NOTIFY_FRAME, m, SERDEV_ERROR_FRAME);
+> +       ttyport_set_flags(sp, SERPORT_NOTIFY_PARITY, m, SERDEV_ERROR_PARITY);
+> +       ttyport_set_flags(sp, SERPORT_NOTIFY_OVERRUN, m, SERDEV_ERROR_OVERRUN);
+> +}
+> +
+>  static void ttyport_set_flow_control(struct serdev_controller *ctrl, bool enable)
+>  {
+>         struct serport *serport = serdev_controller_get_drvdata(ctrl);
+> @@ -253,6 +305,7 @@ static const struct serdev_controller_op
+>         .write_room = ttyport_write_room,
+>         .open = ttyport_open,
+>         .close = ttyport_close,
+> +       .set_error_mask = ttyport_set_error_mask,
+>         .set_flow_control = ttyport_set_flow_control,
+>         .set_parity = ttyport_set_parity,
+>         .set_baudrate = ttyport_set_baudrate,
+> --- 0001/include/linux/serdev.h
+> +++ work/include/linux/serdev.h 2021-12-04 15:06:26.852815658 +0900
+> @@ -19,12 +19,15 @@ struct serdev_device;
+>
+>  /**
+>   * struct serdev_device_ops - Callback operations for a serdev device
+> + * @error:             Function called with errors received from device;
+> + *                     may sleep.
+>   * @receive_buf:       Function called with data received from device;
+>   *                     returns number of bytes accepted; may sleep.
+>   * @write_wakeup:      Function called when ready to transmit more data; must
+>   *                     not sleep.
+>   */
+>  struct serdev_device_ops {
+> +       void (*error)(struct serdev_device *, unsigned long);
+>         int (*receive_buf)(struct serdev_device *, const unsigned char *, size_t);
+>         void (*write_wakeup)(struct serdev_device *);
+>  };
+> @@ -76,6 +79,11 @@ enum serdev_parity {
+>         SERDEV_PARITY_ODD,
+>  };
+>
+> +#define SERDEV_ERROR_BREAK 0
+> +#define SERDEV_ERROR_FRAME 1
+> +#define SERDEV_ERROR_PARITY 2
+> +#define SERDEV_ERROR_OVERRUN 3
+> +
+>  /*
+>   * serdev controller structures
+>   */
+> @@ -85,6 +93,7 @@ struct serdev_controller_ops {
+>         int (*write_room)(struct serdev_controller *);
+>         int (*open)(struct serdev_controller *);
+>         void (*close)(struct serdev_controller *);
+> +       void (*set_error_mask)(struct serdev_controller *, unsigned long);
+>         void (*set_flow_control)(struct serdev_controller *, bool);
+>         int (*set_parity)(struct serdev_controller *, enum serdev_parity);
+>         unsigned int (*set_baudrate)(struct serdev_controller *, unsigned int);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
