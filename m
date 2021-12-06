@@ -2,54 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF50B4695DD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 13:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AFA34695E6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 13:43:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243278AbhLFMqS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Dec 2021 07:46:18 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:34322 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243223AbhLFMqQ (ORCPT
+        id S243315AbhLFMrW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Dec 2021 07:47:22 -0500
+Received: from mail-ua1-f42.google.com ([209.85.222.42]:38548 "EHLO
+        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243297AbhLFMrV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Dec 2021 07:46:16 -0500
-Received: by mail-ua1-f51.google.com with SMTP id n6so19274474uak.1;
-        Mon, 06 Dec 2021 04:42:47 -0800 (PST)
+        Mon, 6 Dec 2021 07:47:21 -0500
+Received: by mail-ua1-f42.google.com with SMTP id w23so19197567uao.5;
+        Mon, 06 Dec 2021 04:43:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6ZinrwU3GhnnnOlksQsuvBgeRa1fK5jzAPrFF7INP8Y=;
-        b=2a3iLE3yNDC9W9BYnUDVeb2i3mY6aP+E9ZXXeOJ/6D0BgpV3LZm8AawVxhpoQ8PV/B
-         H0sxch3Lj/5LAlI9NnhXCDVtNkT9zbIOLJXIPFtGByxMrbF/ltTnI4Awoi2hCJPEEUCS
-         KFssu3Ec+4HrFIu356KyhvDQnJJOk+szML8eDrgKPc7+z7IeqCNAdrPpknyFQIx+FCC7
-         M7rKzFHkFXEUaJ8N8ML+v6IOaUstgq/XUeIzPmFBWNoyJorPEQJ4Y+Tb50Jbrrg4pc4a
-         h2ivR3zYj4LBR7SI2urYFJeF2G1FblGWiFaJ06xYBOi1J/qOUEXy9MaYPA58hemEtoge
-         AUXQ==
-X-Gm-Message-State: AOAM532b/zMmpOfiKbtTiIjyA139hHJp6ZtwO9x3eC7N9o5sJYwI+xK5
-        UY80vyao0yDujRx+ErHYpChH0/0Y2Hss3g==
-X-Google-Smtp-Source: ABdhPJw7bLYxeSgnIlpLcBMb5ky5s4/7KUAs0AXcBVdn/UDhwZuutLMpGmhJv6h/NRLGEyq8Yt0NQg==
-X-Received: by 2002:ab0:1566:: with SMTP id p35mr39787579uae.20.1638794566698;
-        Mon, 06 Dec 2021 04:42:46 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id i24sm4094170vkk.5.2021.12.06.04.42.46
+        bh=diTFsItQxsjlWEXrD9HKHMo7eDvHbW5sddSfozLs0bY=;
+        b=0xfpd5gDO1e1iCiPxmQJK6YfNzBl9kE3xzHtWPQDM2KiiTb5KTT1kvK+8t7mtLe06j
+         eGaDUyCX+/RgSv0jY+e4R5sjN+XlNN0e3kS9H19Mr1R36LwF/JRiGcbMZCnrq6j4EFLc
+         Fr+HSAEh9ftXrtatP5wH8vp9W3yZy9iRnvq9mEjl70mHvUZfEbWSBJsdBgDAZFb8tXT3
+         safkNO7ZxdvKeFsDsSwdF2QEajAVc/zkkciVGo/9xnMldWVEPJxC17RMckLJwDvVnKzN
+         BX/x6pANtw+tQHrtR0FGf+9HwvD14UrYEZjR7lWNi1ObSqzqcognbKpZE+EGYO6hsnYi
+         gSIw==
+X-Gm-Message-State: AOAM530gikKoLZY+YIQqb5ozqL30jto0I4WN0Q+4plIIB4QTgKOayeXe
+        DAI118zj3XHssvrF6Ysx86P9Z+VqbPCUxA==
+X-Google-Smtp-Source: ABdhPJzl8vb4F9/DBncbNNN0L0/+LmmA8Bd348cKYUiTebxrsT93eWlfk/xwhFEaF9fGvRGHBe7Z5A==
+X-Received: by 2002:ab0:22d6:: with SMTP id z22mr39607552uam.65.1638794632414;
+        Mon, 06 Dec 2021 04:43:52 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id 186sm3934633vsd.30.2021.12.06.04.43.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Dec 2021 04:42:46 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id n6so19274337uak.1;
-        Mon, 06 Dec 2021 04:42:46 -0800 (PST)
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr39302663uai.89.1638794566075;
- Mon, 06 Dec 2021 04:42:46 -0800 (PST)
+        Mon, 06 Dec 2021 04:43:52 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id t13so19161730uad.9;
+        Mon, 06 Dec 2021 04:43:52 -0800 (PST)
+X-Received: by 2002:ab0:7354:: with SMTP id k20mr39571944uap.78.1638794631869;
+ Mon, 06 Dec 2021 04:43:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20211201073308.1003945-1-yoshihiro.shimoda.uh@renesas.com> <20211201073308.1003945-9-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20211201073308.1003945-9-yoshihiro.shimoda.uh@renesas.com>
+References: <20211201073308.1003945-1-yoshihiro.shimoda.uh@renesas.com> <20211201073308.1003945-10-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211201073308.1003945-10-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 6 Dec 2021 13:42:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwYqDO2q=SYC=r299QB0TRgga4-ijDCdA7tordBw1OUg@mail.gmail.com>
-Message-ID: <CAMuHMdXwYqDO2q=SYC=r299QB0TRgga4-ijDCdA7tordBw1OUg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/14] clk: renesas: rcar-gen4-cpg: Introduce R-Car
- Gen4 CPG driver
+Date:   Mon, 6 Dec 2021 13:43:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWx4fxjHrQn-7qbFkZwa31W_D-5zGnxRQqb+VRezjzs+w@mail.gmail.com>
+Message-ID: <CAMuHMdWx4fxjHrQn-7qbFkZwa31W_D-5zGnxRQqb+VRezjzs+w@mail.gmail.com>
+Subject: Re: [PATCH v2 09/14] clk: renesas: cpg-mssr: Add support for R-Car S4-8
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>,
@@ -62,111 +60,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
 On Wed, Dec 1, 2021 at 8:33 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> According to the official website [1], the R-Car V3U SoC is based
-> on the R-Car Gen4 architecture. So, introduce R-Car Gen4 CPG
-> driver.
+> Initial CPG support for R-Car S4-8 (r8a779f0).
 >
-> [1]
-> https://www.renesas.com/us/en/products/automotive-products/automotive-system-chips-socs/r-car-v3u-best-class-r-car-v3u-asil-d-system-chip-automated-driving
+> Inspired by patches in the BSP by LUU HOAI.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/clk/renesas/rcar-gen4-cpg.c
-
-> +/*
-> + * RPC Clocks
-> + */
-> +#define CPG_RPCCKCR 0x874
-
-This is also defined in rcar-gen4-cpg.h, so I will drop it while applying.
-
-> +
-
-> --- /dev/null
-> +++ b/drivers/clk/renesas/rcar-gen4-cpg.h
-> @@ -0,0 +1,76 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * R-Car Gen4 Clock Pulse Generator
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-> + *
-> + */
-> +
-> +#ifndef __CLK_RENESAS_RCAR_GEN4_CPG_H__
-> +#define __CLK_RENESAS_RCAR_GEN4_CPG_H__
-> +
-> +enum rcar_gen4_clk_types {
-> +       CLK_TYPE_GEN4_MAIN = CLK_TYPE_CUSTOM,
-> +       CLK_TYPE_GEN4_PLL1,
-> +       CLK_TYPE_GEN4_PLL2,
-> +       CLK_TYPE_GEN4_PLL2X_3X, /* r8a779a0 only */
-> +       CLK_TYPE_GEN4_PLL3,
-> +       CLK_TYPE_GEN4_PLL5,
-> +       CLK_TYPE_GEN4_PLL6,
-> +       CLK_TYPE_GEN4_SDSRC,
-> +       CLK_TYPE_GEN4_SDH,
-> +       CLK_TYPE_GEN4_SD,
-> +       CLK_TYPE_GEN4_MDSEL,    /* Select parent/divider using mode pin */
-> +       CLK_TYPE_GEN4_Z,
-> +       CLK_TYPE_GEN4_OSC,      /* OSC EXTAL predivider and fixed divider */
-> +       CLK_TYPE_GEN4_RPCSRC,
-> +       CLK_TYPE_GEN4_RPC,
-> +       CLK_TYPE_GEN4_RPCD2,
-> +
-> +       /* SoC specific definitions start here */
-> +       CLK_TYPE_GEN4_SOC_BASE,
-> +};
-> +
-> +#define DEF_GEN4_SDH(_name, _id, _parent, _offset)     \
-> +       DEF_BASE(_name, _id, CLK_TYPE_GEN4_SDH, _parent, .offset = _offset)
-> +
-> +#define DEF_GEN4_SD(_name, _id, _parent, _offset)      \
-> +       DEF_BASE(_name, _id, CLK_TYPE_GEN4_SD, _parent, .offset = _offset)
-> +
-> +#define DEF_GEN4_MDSEL(_name, _id, _md, _parent0, _div0, _parent1, _div1) \
-> +       DEF_BASE(_name, _id, CLK_TYPE_GEN4_MDSEL,       \
-> +                (_parent0) << 16 | (_parent1),         \
-> +                .div = (_div0) << 16 | (_div1), .offset = _md)
-> +
-> +#define DEF_GEN4_OSC(_name, _id, _parent, _div)                \
-> +       DEF_BASE(_name, _id, CLK_TYPE_GEN4_OSC, _parent, .div = _div)
-> +
-> +#define DEF_GEN4_Z(_name, _id, _type, _parent, _div, _offset)  \
-> +       DEF_BASE(_name, _id, _type, _parent, .div = _div, .offset = _offset)
-
-Is there any specific reason _type is not fixed to CLK_TYPE_GEN4_Z,
-like before? Perhaps you have a future use-case in mind?
-
-> +
-> +struct rcar_gen4_cpg_pll_config {
-> +       u8 extal_div;
-> +       u8 pll1_mult;
-> +       u8 pll1_div;
-> +       u8 pll2_mult;
-> +       u8 pll2_div;
-> +       u8 pll3_mult;
-> +       u8 pll3_div;
-> +       u8 pll5_mult;
-> +       u8 pll5_div;
-> +       u8 pll6_mult;
-> +       u8 pll6_div;
-> +       u8 osc_prediv;
-> +};
-> +
-> +#define CPG_RPCCKCR    0x874
-> +#define SD0CKCR1       0x8a4
-
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.17 when the above has been sorted
-out.
+i.e. will queue in renesas-clk-for-v5.17.
 
 Gr{oetje,eeting}s,
 
