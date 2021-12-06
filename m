@@ -2,87 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ECBF4697FB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 15:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B5F0469928
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Dec 2021 15:38:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245495AbhLFOKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Dec 2021 09:10:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
+        id S1344384AbhLFOll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Dec 2021 09:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245601AbhLFOKD (ORCPT
+        with ESMTP id S244928AbhLFOlj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Dec 2021 09:10:03 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033F2C0698C7
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Dec 2021 06:06:33 -0800 (PST)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83B03EE;
-        Mon,  6 Dec 2021 15:06:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638799592;
-        bh=cZT2SBcfWH0H0gI7gi7bgjX7Ar0Y5zrYq0N68SgLME8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pIhN4x65j62Y3DCzuHNzJXySpKufkTv/xX5q1xyQ391uJ/j8CVc1bymWXkunKbSKm
-         LuCD6kOQaL+WySyem5Yc1ETQbhh4BAL/fXTx6u0kwrEr+xN4paaXhwOKL7aDxs9Lqy
-         PbGIaXhfJBDX5NtTcz1/JylM2qWWoZeult/+I1RY=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH] drm: rcar-du: dsi: Fix hsfreq range matching
-Date:   Mon,  6 Dec 2021 16:06:01 +0200
-Message-Id: <20211206140601.18912-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
+        Mon, 6 Dec 2021 09:41:39 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 012B2C061746
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Dec 2021 06:38:11 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id p18so7158912plf.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Dec 2021 06:38:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=VlQMowiy1RvjHb4ycTf+CZ5f9eVsi1wYhK6YZUB5OQY=;
+        b=CMXZCx2FDukqFBSZt+0OCMLuU/V7PvTvL7/40wQdA0yxtPHRYpifqfcfJo972QOl4n
+         9iZFXWN0p3QuQapKiUouDuGk/dNreziFawrDvsECmvtbxNlisA19WbevTKlHAC7GmevL
+         p0i8j9jzCsl2F8bLO61mS7D3zr0Z9rpm0Z2bTk/+SEhKv2r7MUGDuybFsXxZ+ONr9cbT
+         Ti9zlGURiPnHgT6J8TLAUmL2B52dM4Ic89dzZQrSnT9Srua3Se23kvr4zgm92eBJHBtZ
+         jWDVOpvZtj9kwlghOKMfVFH6cBr07claqhNCrHWV+BuEIECie4PxnrchOs+Xj7hVCrK/
+         qFdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=VlQMowiy1RvjHb4ycTf+CZ5f9eVsi1wYhK6YZUB5OQY=;
+        b=1s89hL+Tj/WaUleoWbOnuLmA61MUZz6055bUus7zQCDbHamGpysDZxnJTNnoKPYqt+
+         0oF2E8she9vP0VqFJja1fWJnBtsrLKsoBch6JVXBZXAIWIOxI7sZZ9pO6Wj3qu3yaNDv
+         GEkaOnbZqUJ6UAqBngKZ1RZPIL9/Ec4hpdPgr39avYZ1hbd3OxUHmh2sd1rWnFrL9pab
+         3drcBtXwWBHmKa4PC8Dtjc+cnx5IcKkwKVVIsjcVLl2Nzxz3VwsiFJsKo21pOGq2eZzQ
+         kAheUVFIoBQdIiL1Sj43J530+rWLh8QTawLy+muMs7oooxDdjVgfBs1xf3oNOdzDrmP0
+         4PSw==
+X-Gm-Message-State: AOAM533xIUdazfUUREVyhijMYpNF/lSh9sL7Em6EIsDykoYvj95nbm0Q
+        HQY+JkAFim9NbHSuiXgpp2U9tMG7qpccBEhg
+X-Google-Smtp-Source: ABdhPJzAEEStQdq3+j6shC2BjZaOP9yZOQiUdarj8eor/jjMGDDLpc0dUIVshDIPdVPueiwZ/ovLkg==
+X-Received: by 2002:a17:90b:4a05:: with SMTP id kk5mr37530331pjb.142.1638801490396;
+        Mon, 06 Dec 2021 06:38:10 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id p3sm10484097pjd.45.2021.12.06.06.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 06:38:10 -0800 (PST)
+Message-ID: <61ae2052.1c69fb81.1d086.da50@mx.google.com>
+Date:   Mon, 06 Dec 2021 06:38:10 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2021-12-06-v5.16-rc4
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 40 runs,
+ 1 regressions (renesas-devel-2021-12-06-v5.16-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When iterating over hsfreqrange_table, rcar_mipi_dsi_parameters_calc()
-may dereference the sentinel table entry. Fix the loop condition to
-break as soon as a suitable entry is found, defined by the lower bound
-of the frequency range stored in the table being equal to or higher than
-the target frequency.
+renesas/master baseline-nfs: 40 runs, 1 regressions (renesas-devel-2021-12-=
+06-v5.16-rc4)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-I will squash this with "drm: rcar-du: Add R-Car DSI driver", but I'm
-posting it separately to ease review.
----
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Regressions Summary
+-------------------
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index faf993eae564..891bb956fd61 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -219,9 +219,8 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
- 	/* Find hsfreqrange */
- 	hsfreq = fout_target * 2;
- 	for (i = 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
--		if (hsfreq > hsfreqrange_table[i][0] &&
--			hsfreq <= hsfreqrange_table[i+1][0]) {
--			setup_info->hsfreqrange = hsfreqrange_table[i+1][1];
-+		if (hsfreqrange_table[i][0] >= hsfreq) {
-+			setup_info->hsfreqrange = hsfreqrange_table[i][1];
- 			break;
- 		}
- 	}
+platform            | arch  | lab          | compiler | defconfig | regress=
+ions
+--------------------+-------+--------------+----------+-----------+--------=
+----
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig | 1      =
+    =
 
-base-commit: c18c8891111bb5e014e144716044991112f16833
-prerequisite-patch-id: dc9121a1b85ea05bf3eae2b0ac2168d47101ee87
-prerequisite-patch-id: 6754b2ec4caec03e235550004003fe63c1cc793b
-prerequisite-patch-id: d69c605df34d40934fa5d4e00f23d5785105099d
-prerequisite-patch-id: 7d9edfb4758cafe8aec92d32709c0ad25a50942c
-prerequisite-patch-id: 86c526fb41f9f9cbe95c50ba8a140e20484f187f
-prerequisite-patch-id: a9649b53b55858f023b8d3d29afb9be7ad39ea3b
--- 
-Regards,
 
-Laurent Pinchart
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-12-06-v5.16-rc4/plan/baseline-nfs/
 
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-12-06-v5.16-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      8feef3cda1f4673737514cb20366eeeb69cc0be2 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch  | lab          | compiler | defconfig | regress=
+ions
+--------------------+-------+--------------+----------+-----------+--------=
+----
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/61ade8ff0d06e25b611a94a9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-06-v5.16-rc4/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a779=
+50-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-06-v5.16-rc4/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a779=
+50-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+211126.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/61ade8ff0d06e25b6=
+11a94aa
+        failing since 6 days (last pass: renesas-devel-2021-11-29-v5.16-rc3=
+, first fail: renesas-devel-2021-11-30-v5.16-rc3) =
+
+ =20
