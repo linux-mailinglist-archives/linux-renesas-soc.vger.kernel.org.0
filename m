@@ -2,100 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBB546BCDD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 14:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B62EB46BCE8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 14:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237184AbhLGNtL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Dec 2021 08:49:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232101AbhLGNtK (ORCPT
+        id S237305AbhLGNvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Dec 2021 08:51:55 -0500
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:39674 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237284AbhLGNvy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Dec 2021 08:49:10 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A29E9C061574;
-        Tue,  7 Dec 2021 05:45:39 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id o19-20020a1c7513000000b0033a93202467so2288514wmc.2;
-        Tue, 07 Dec 2021 05:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hborBrthxNbQAZArCMA4MiIrNEcRIe9EcwmyeOHHUJ0=;
-        b=KwioKg8aKiIAwqcRrerQOBq+2pCJ2noJDzLdEYT0nGbN8xeTiR1kypzDh3rAusGg1/
-         BbjhbpflDqERDU8n9tuDi2g9G1oGy2XUXHjJz05N+wkm9I0i/EqdIcxhPJTA//NyZGES
-         mky5qUXIyPMwph4iVFdoU4OJRqKVSXIqaJ27NkfQCQrq2oifGW31lQfZp0v9bAgZSyoB
-         jkvrEE+xq1H1Kx1W2Oq6I+lVXw2INETyIMAEzLQjuiJU0+QNfrGMNpp0Q4fYXgsSQE8p
-         FLt14202lMw46oGpzbZp3WV9W3vKo4fEppM3FcewYDvfrlrLWUYKPYkDO+BtqD3AZ9kX
-         Tadw==
+        Tue, 7 Dec 2021 08:51:54 -0500
+Received: by mail-vk1-f175.google.com with SMTP id 84so9295564vkc.6;
+        Tue, 07 Dec 2021 05:48:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hborBrthxNbQAZArCMA4MiIrNEcRIe9EcwmyeOHHUJ0=;
-        b=bfXT1Qa+e7/OJmIgVqpWvw0/I4yX/O12TP7z4d96dJLuGKsIa5WK0iJpX7yiWQJ43a
-         9PD/25hdjzOBBa7xtmDOIIuGk5wfjno1gHHpm1eMeAckzxowZ5JekiFfbtfGGE09+dQN
-         //iRC6DNAA6JOjxyR5/BY4A53DRK09ShOVppi6vf1qHUkeSW3sh13N29I8M86WHCy0DK
-         oma1uLyU+XyHHBGC/EsKU033pv6pUt8KLy42s3bSuCi3ij13JP0fGpAQSYpIPZNu0LbW
-         boIIgmWOR8aL0NPMwaR3qbLLEOYSJ+QTnJTGbG2M4Ocv4sir2s8UbXY6PDuDDTIUYd6r
-         rPHA==
-X-Gm-Message-State: AOAM532ZJFWWZ2hw3P08y1g+b0s4M/EWUp8//53GPIhS4D18io+3NW8z
-        HzaLxdMCKVSmH4Q+iGFm5Z0=
-X-Google-Smtp-Source: ABdhPJzt9o/ocPKsbNmeRRBU4lwVWkUk/+vqjSHNtgFCZ8vx5g2UUbxi4CHe1kWcOXN5YOzW/PppBQ==
-X-Received: by 2002:a1c:a592:: with SMTP id o140mr7041688wme.10.1638884738146;
-        Tue, 07 Dec 2021 05:45:38 -0800 (PST)
-Received: from localhost.elektrobit.com (eth1-fw1-nbg6.eb.noris.de. [213.95.148.172])
-        by smtp.gmail.com with ESMTPSA id x1sm14504594wru.40.2021.12.07.05.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 05:45:37 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0L/U4lHg7r2G0KTHxmsk0qHApW5otmpmmAocXJGGt5U=;
+        b=iA0/DjVbvId2nTmOPGhvVButYzdrUbnlTNksaWfsFuP7Rg0mAXRAh12G76Usa11QSH
+         wRUjLq6x5iHlMFDQgGG3nwhkGqnHeY/ZFbDJ0CWIAIIfGv9YzxSyLbOo/BULurrnUWWA
+         EqfYY2yA2HEjM8yCpJDsj0iqlNAuE2tIWtTGX2zDS+vi80qzn7SddTQvDAIcwGWo1IH9
+         C5lRWbpK2JaCR9Fat92nbVTMKO1hltw5vnAst1h5zrs+cqEgdBL1If3cGtxw4CZ114o8
+         yS1NKMEHuprGN6DlAh4Nr6AiMWRApImexnSdfSGtGPJQKfRcDiTgRLtFeUMSQGkpB+4Z
+         rz5g==
+X-Gm-Message-State: AOAM5320sMdAi1CQw4SwkgsF+kz3WXjtJ5rQBithkbH5G0ibGbG2xJqY
+        U+9MviS57nAPObLfKeqRl/9gQZIcCCVHUg==
+X-Google-Smtp-Source: ABdhPJzQfVkmQr0G4rezSnBKH3ssy4Sl1PxiiE73ADr3R+7kdw6EhgX/pt9QFl5WBZP3AsSylIetQw==
+X-Received: by 2002:a1f:a787:: with SMTP id q129mr52287113vke.40.1638884903059;
+        Tue, 07 Dec 2021 05:48:23 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id t20sm6519901vsj.27.2021.12.07.05.48.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Dec 2021 05:48:22 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a14so26752176uak.0;
+        Tue, 07 Dec 2021 05:48:22 -0800 (PST)
+X-Received: by 2002:a05:6102:e10:: with SMTP id o16mr44197529vst.5.1638884902312;
+ Tue, 07 Dec 2021 05:48:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20211207134531.19560-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20211207134531.19560-1-lukas.bulwahn@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 7 Dec 2021 14:48:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWUbSbWVexx+jRN+XQvpYFTZ3K1M13=x3AHQ-fqM8TYCg@mail.gmail.com>
+Message-ID: <CAMuHMdWUbSbWVexx+jRN+XQvpYFTZ3K1M13=x3AHQ-fqM8TYCg@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: rectify entry for ROHM MULTIFUNCTION
+ BD9571MWV-M PMIC DEVICE DRIVERS
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh@kernel.org>,
         Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: rectify entry for ROHM MULTIFUNCTION BD9571MWV-M PMIC DEVICE DRIVERS
-Date:   Tue,  7 Dec 2021 14:45:31 +0100
-Message-Id: <20211207134531.19560-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit 983b62975e90 ("dt-bindings: mfd: bd9571mwv: Convert to json-schema")
-converts bd9571mwv.txt to rohm,bd9571mwv.yaml, but missed to adjust its
-reference in MAINTAINERS.
+Hi Lukas,
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
-a broken reference. Repair this file reference in ROHM MULTIFUNCTION
-BD9571MWV-M PMIC DEVICE DRIVERS.
+On Tue, Dec 7, 2021 at 2:45 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> Commit 983b62975e90 ("dt-bindings: mfd: bd9571mwv: Convert to json-schema")
+> converts bd9571mwv.txt to rohm,bd9571mwv.yaml, but missed to adjust its
+> reference in MAINTAINERS.
+>
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
+> a broken reference. Repair this file reference in ROHM MULTIFUNCTION
+> BD9571MWV-M PMIC DEVICE DRIVERS.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Lee, please pick this minor clean-up patch into your -next tree on top
-of the commit mentioned above.
+Mea culpa
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+> Lee, please pick this minor clean-up patch into your -next tree on top
+> of the commit mentioned above.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 79ef55bf2ca7..842be45b37ab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16560,7 +16560,7 @@ M:	Marek Vasut <marek.vasut+renesas@gmail.com>
- L:	linux-kernel@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
--F:	Documentation/devicetree/bindings/mfd/bd9571mwv.txt
-+F:	Documentation/devicetree/bindings/mfd/rohm,bd9571mwv.yaml
- F:	drivers/gpio/gpio-bd9571mwv.c
- F:	drivers/mfd/bd9571mwv.c
- F:	drivers/regulator/bd9571mwv-regulator.c
--- 
-2.26.2
+Note that there's another broken reference that needs an update in
+Documentation/ABI/testing/sysfs-driver-bd9571mwv-regulator :-(
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
