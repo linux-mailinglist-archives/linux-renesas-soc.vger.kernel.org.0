@@ -2,94 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B62EB46BCE8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 14:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B51946BD14
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 14:58:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237305AbhLGNvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Dec 2021 08:51:55 -0500
-Received: from mail-vk1-f175.google.com ([209.85.221.175]:39674 "EHLO
-        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237284AbhLGNvy (ORCPT
+        id S237424AbhLGOCK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Dec 2021 09:02:10 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:44922 "EHLO frontal.iot.bzh"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237422AbhLGOCK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Dec 2021 08:51:54 -0500
-Received: by mail-vk1-f175.google.com with SMTP id 84so9295564vkc.6;
-        Tue, 07 Dec 2021 05:48:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0L/U4lHg7r2G0KTHxmsk0qHApW5otmpmmAocXJGGt5U=;
-        b=iA0/DjVbvId2nTmOPGhvVButYzdrUbnlTNksaWfsFuP7Rg0mAXRAh12G76Usa11QSH
-         wRUjLq6x5iHlMFDQgGG3nwhkGqnHeY/ZFbDJ0CWIAIIfGv9YzxSyLbOo/BULurrnUWWA
-         EqfYY2yA2HEjM8yCpJDsj0iqlNAuE2tIWtTGX2zDS+vi80qzn7SddTQvDAIcwGWo1IH9
-         C5lRWbpK2JaCR9Fat92nbVTMKO1hltw5vnAst1h5zrs+cqEgdBL1If3cGtxw4CZ114o8
-         yS1NKMEHuprGN6DlAh4Nr6AiMWRApImexnSdfSGtGPJQKfRcDiTgRLtFeUMSQGkpB+4Z
-         rz5g==
-X-Gm-Message-State: AOAM5320sMdAi1CQw4SwkgsF+kz3WXjtJ5rQBithkbH5G0ibGbG2xJqY
-        U+9MviS57nAPObLfKeqRl/9gQZIcCCVHUg==
-X-Google-Smtp-Source: ABdhPJzQfVkmQr0G4rezSnBKH3ssy4Sl1PxiiE73ADr3R+7kdw6EhgX/pt9QFl5WBZP3AsSylIetQw==
-X-Received: by 2002:a1f:a787:: with SMTP id q129mr52287113vke.40.1638884903059;
-        Tue, 07 Dec 2021 05:48:23 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id t20sm6519901vsj.27.2021.12.07.05.48.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Dec 2021 05:48:22 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a14so26752176uak.0;
-        Tue, 07 Dec 2021 05:48:22 -0800 (PST)
-X-Received: by 2002:a05:6102:e10:: with SMTP id o16mr44197529vst.5.1638884902312;
- Tue, 07 Dec 2021 05:48:22 -0800 (PST)
+        Tue, 7 Dec 2021 09:02:10 -0500
+Received: from frontal.iot.bzh (localhost [127.0.0.1])
+        by frontal.iot.bzh (Proxmox) with ESMTP id 42FD044819;
+        Tue,  7 Dec 2021 14:58:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
+        :content-transfer-encoding:content-type:content-type:date:from
+        :from:in-reply-to:message-id:mime-version:references:reply-to
+        :subject:subject:to:to; s=iot.bzh; bh=S9th2APfTI6XxcTWTT4s6iJmCj
+        a4Q8VizfkO5jFYODI=; b=VRJLgfzbB0wgAoePSmI/5FkRzCTH+SYfFC9N3v1whx
+        QgXi9u7JkzxJzP4zYccmzGfHs4ISSa1LlEQJ9QeBbD6URkYpVBTR5foz2c5zXMs0
+        iuUQhnO8B0R8vkP3uC29PXT3GW/3sfjHPu4C0GdiQ7dkcWsft3OK2QHZSHvCS9RR
+        ydStxipc9OFDn4E6XwOqSLAMJaMZDxCg23lCMhmlRXb1pcZ8BvtGlt+uCloyWYE8
+        hJzd+diBVeafFw2r0Y7PhEMcfA6GcB74IceEkqXBuJfC9ZQYcXDemPgF1k14A+NP
+        Ut5vHFM4UL5c6JDlL6orUWlJCNwihlVVIzl1KwWuEOsA==
+Message-ID: <40cee684-43d0-d060-ea3a-c0eaf1e81361@iot.bzh>
+Date:   Tue, 7 Dec 2021 14:58:31 +0100
 MIME-Version: 1.0
-References: <20211207134531.19560-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20211207134531.19560-1-lukas.bulwahn@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Dec 2021 14:48:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWUbSbWVexx+jRN+XQvpYFTZ3K1M13=x3AHQ-fqM8TYCg@mail.gmail.com>
-Message-ID: <CAMuHMdWUbSbWVexx+jRN+XQvpYFTZ3K1M13=x3AHQ-fqM8TYCg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: rectify entry for ROHM MULTIFUNCTION
- BD9571MWV-M PMIC DEVICE DRIVERS
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh@kernel.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: remoteproc: Add Renesas R-Car
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     =?UTF-8?Q?Bj=c3=b6rn_Andersson?= <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
+        <linux-remoteproc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>
+References: <20211130100049.129418-1-julien.massot@iot.bzh>
+ <20211130100049.129418-2-julien.massot@iot.bzh>
+ <CAMuHMdUoKvgvRcQwq4fuP4WHr5me5cXKG8w0fotVO3Eqrne-2A@mail.gmail.com>
+From:   Julien Massot <julien.massot@iot.bzh>
+In-Reply-To: <CAMuHMdUoKvgvRcQwq4fuP4WHr5me5cXKG8w0fotVO3Eqrne-2A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lukas,
+Hi Geert,
 
-On Tue, Dec 7, 2021 at 2:45 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> Commit 983b62975e90 ("dt-bindings: mfd: bd9571mwv: Convert to json-schema")
-> converts bd9571mwv.txt to rohm,bd9571mwv.yaml, but missed to adjust its
-> reference in MAINTAINERS.
->
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
-> a broken reference. Repair this file reference in ROHM MULTIFUNCTION
-> BD9571MWV-M PMIC DEVICE DRIVERS.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+On 12/2/21 14:22, Geert Uytterhoeven wrote:
+> Hi Julien,
+> 
+> Thanks for your patch!
+> 
+> On Tue, Nov 30, 2021 at 11:01 AM Julien Massot <julien.massot@iot.bzh> wrote:
+>> Renesas R-Car SoCs may contains a Realtime processor.
+> 
+> contain
+> 
+>> This patch adds binding for this remote processor.
+> 
+> bindings
+> 
+>>
+>> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+>> Reviewed-by: Rob Herring <robh@kernel.org>
+>> ---
+>> Changes since v1
+>> - dropped 'status = "okay";' in the sample
+>> - Add Rob's Reviewed-by tag
+>>
+>> ---
+>>   .../remoteproc/renesas,rcar-rproc.yaml        | 65 +++++++++++++++++++
+>>   1 file changed, 65 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+>> new file mode 100644
+>> index 000000000000..3fe8d49051e6
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+>> @@ -0,0 +1,65 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: "http://devicetree.org/schemas/remoteproc/renesas,rcar-rproc.yaml#"
+>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+>> +
+>> +title: Renesas R-Car remote processor controller bindings
+>> +
+>> +maintainers:
+>> +  - Julien Massot <julien.massot@iot.bzh>
+>> +
+>> +description: |
+>> +  This document defines the binding for the remoteproc component that loads and
+> 
+> bindings
+> 
+>> +  boots firmwares on the Renesas R-Car family chipset.
+>> +  R-Car gen3 family may have a realtime processor, this processor share peripheral
+> 
+> shares
+> 
+>> +  and RAM with the host processor with the same address map.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: renesas,rcar-cr7
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  memory-region:
+>> +    description:
+>> +      List of phandles to the reserved memory regions associated with the
+>> +      remoteproc device. This is variable and describes the memories shared with
+>> +      the remote processor (e.g. remoteproc firmware and carveouts, rpmsg
+Thanks for fixing all these english mistakes.
+Will resend this patch soon.
 
-Mea culpa
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> carve-out
 
-> ---
-> Lee, please pick this minor clean-up patch into your -next tree on top
-> of the commit mentioned above.
+Will keep 'carveouts' since this term is intensively used in the remoteproc core.
 
-Note that there's another broken reference that needs an update in
-Documentation/ABI/testing/sysfs-driver-bd9571mwv-regulator :-(
+> 
+>> +      vrings, ...).
+>> +      (see ../reserved-memory/reserved-memory.yaml)
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Regards,
 
-Gr{oetje,eeting}s,
+-- 
+Julien Massot [IoT.bzh]
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
