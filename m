@@ -2,269 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B97646C148
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 18:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5FC546C1A5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 18:21:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239782AbhLGRHV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Dec 2021 12:07:21 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:2363 "EHLO frontal.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235159AbhLGRHV (ORCPT
+        id S230193AbhLGRZY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Dec 2021 12:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229957AbhLGRZX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Dec 2021 12:07:21 -0500
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id B87F245628;
-        Tue,  7 Dec 2021 18:03:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:content-type:content-type:date:from
-        :from:in-reply-to:message-id:mime-version:references:reply-to
-        :subject:subject:to:to; s=iot.bzh; bh=95kJ63C8iLSh74RZfruzyxgCWL
-        zqRZfg00BCSQvmIG0=; b=XWvSp1CrWQeyX5mtI0gLQ3sncOVNoOZnO49YVxOVG0
-        dsrqVVuiV1m7i9fHqhQbduRTKr/O5IGx/msi27jXwUkF1rcyr2B63FtajcAKjlX0
-        X0ZjZ2Ox7oLTYNHISQPD4/YhxwhnMrrokBH6T9K6fmqXUt9/e66WT01l5o+NHSSc
-        GJIejrk7g24y66wWgNOmVnRITnC33Dz49gAPzOubzSWWymAwT+RstHn4gjBKpryC
-        Lg2r7dwh/8niLFYmsFJs4IixfrhFbFPiJ0O/rvWiCic8rtBQNuC+yTDfmg98vas7
-        zmgbmfTrCojnrBkt1TKSFriaCmU1ww9xVvX7/sEVgkpA==
-Message-ID: <4cf20793-9795-4126-4293-217041101852@iot.bzh>
-Date:   Tue, 7 Dec 2021 18:03:42 +0100
+        Tue, 7 Dec 2021 12:25:23 -0500
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A968C061574;
+        Tue,  7 Dec 2021 09:21:52 -0800 (PST)
+Received: by mail-oo1-xc30.google.com with SMTP id w5-20020a4a2745000000b002c2649b8d5fso5591389oow.10;
+        Tue, 07 Dec 2021 09:21:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wcvqGk84EZ35PlZnCOG85oW3RjIk0x8a8jSTbQt+xZQ=;
+        b=Xs6mZUdK2kV+Cg3jGc26ags7g3oKqXCZLLXLadNeobZG1KsKsl+5Dp9PcDVrb0r8GL
+         GLQykT5xwpTvgtHl9p349jTfqsD+L6E1PNizxxylMIJRUaQnPQpWnMbmWm+J4kvU/Mhc
+         9eGeNUC5qOzzlSFJ78O+cHTKItP9rY6WmA/arrZ5CDR4ev0SceJMODjUkJFLOdqIl7Vb
+         Ah66jBAph9vVX4wTMZTeVvLXSxK1y439tPnddGEkYmRW7RcAymn/T//iOFKHuWLMjj0A
+         UXCq2PG9BmgWACpCAvgDSBLNCoAZ8RffC16tM9FDERA7JCSIo50o2EyJHTm4wnxjsX5a
+         Vj5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wcvqGk84EZ35PlZnCOG85oW3RjIk0x8a8jSTbQt+xZQ=;
+        b=BZuRNZ0rB7AfLPC73NUxEBwcDkhiHLi9sWe6YXD504cISQSj+OERMeawDbBrAw3crm
+         +YnoB+eDNQcFNWbXjngvXnLhw2lrT8kW8py2vJAaEK9RwvhVQVpxYDGA9OCXh5CDFXKY
+         Iom0lfWH7ZBr0Xii0RcN6VgMCA3NRpYlMa8iF/J1zIDYdDb8iLrlL41Ho8CBZBmvoa35
+         EunijusfFBDwfhEUhZm523XSxrBW3CGi56PFxUVsoc+M0vijZm7JUWDidiZrDJR6sFUJ
+         9d624xD/2nk1dG9wiwYFRsEBjpDUATI4iHyg9Hi0hqMxm0z3RzWQx3/RFoovw+Jpmpg7
+         yM9A==
+X-Gm-Message-State: AOAM531XpE971r7epNlN0izxAOGZfTDkgSag+w/QuHiL9aFTIpBFtA9r
+        RNZfsq8ZtbO1ZAm2p9gB4Q7WLCd8VUk=
+X-Google-Smtp-Source: ABdhPJzzrwfZsAZrp0U7K2cvXWTtkpwdoReJvu46U4rGr2IYYloOpfhTlYj1oiiLo3bPjIAg8sME/A==
+X-Received: by 2002:a05:6820:1609:: with SMTP id bb9mr27706490oob.37.1638897711606;
+        Tue, 07 Dec 2021 09:21:51 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t14sm30723oth.81.2021.12.07.09.21.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Dec 2021 09:21:50 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v5 0/2] Add WDT driver for RZ/G2L
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20211130195357.18626-1-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB5922D81A09F4B51C771FE6D5866E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <cea6840b-31a8-d02c-19fc-9964f4d0be5b@roeck-us.net>
+Date:   Tue, 7 Dec 2021 09:21:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 2/2] remoteproc: Add Renesas rcar driver
+In-Reply-To: <OS0PR01MB5922D81A09F4B51C771FE6D5866E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     =?UTF-8?Q?Bj=c3=b6rn_Andersson?= <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-References: <20211130100049.129418-1-julien.massot@iot.bzh>
- <20211130100049.129418-3-julien.massot@iot.bzh>
- <CAMuHMdUuYHxNe_XOBGt+6cdB49zF5W0p25DbQJ0CZ7A=dE8pyg@mail.gmail.com>
-From:   Julien Massot <julien.massot@iot.bzh>
-In-Reply-To: <CAMuHMdUuYHxNe_XOBGt+6cdB49zF5W0p25DbQJ0CZ7A=dE8pyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-Thanks for taking time to review my patch.
+On 12/7/21 8:07 AM, Biju Das wrote:
+> Hi All,
+> 
+> Gentle ping.
+> 
+> Are we happy with this patch series? Please let me know.
+> 
 
-On 12/2/21 14:40, Geert Uytterhoeven wrote:
-> Hi Julien,
+I think so. You retained my Reviewed-by: tag, so I did not see
+a need to reply (again).
+
+Guenter
+
+> Regards,
+> Biju
 > 
-> Thanks for your patch!
 > 
-> On Tue, Nov 30, 2021 at 11:01 AM Julien Massot <julien.massot@iot.bzh> wrote:
->> Renesas Gen3 platform includes a Cortex-r7 processor.
+>> Subject: [PATCH v5 0/2] Add WDT driver for RZ/G2L
 >>
->> Both: the application cores (A5x) and the realtime core (CR7)
->> share access to the RAM and devices with the same address map,
->> so device addresses are equal to the Linux physical addresses.
+>> This patch series aims to add WDT driver support for RZ/G2L SoC's.
 >>
->> In order to initialize this remote processor we need to:
->> - power on the realtime core
->> - put the firmware in a ram area
-> 
-> RAM
-fixed
-> 
->> - set the boot address for this firmware (reset vector)
->> - Deassert the reset
+>> WDT has 3 channels
+>> 1) CH0 to check the operation of Cortex-A55-CPU Core0
+>> 2) CH1 to check the operation of Cortex-A55-CPU Core1
+>> 3) CH2 to check the operation of Cortex-M33 CPU
 >>
->> This initial driver allows to start and stop the Cortex R7
->> processor.
+>> WDT IP supports
+>> 1) Normal Watchdog Timer Function
+>> 2) Reset Request Function due to CPU Parity Error
 >>
->> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
-> 
->> --- a/drivers/remoteproc/Kconfig
->> +++ b/drivers/remoteproc/Kconfig
->> @@ -283,6 +283,17 @@ config QCOM_WCNSS_PIL
->>            verified and booted with the help of the Peripheral Authentication
->>            System (PAS) in TrustZone.
+>> Once the software activates the watchdog timer, the watchdog timer does
+>> not stop until it is reset.
 >>
->> +config RCAR_REMOTEPROC
->> +       tristate "Renesas R-CAR Gen3 remoteproc support"
+>> Current driver supports Normal Watchdog Timer basic functionality.
+>>
+>> Tested WDT driver with selftests tool and reboot command
+>>
+>> All 3 channels tested with below command.
+>>
+>> cat /dev/watchdog  & for i in {1..60}; do sleep 1; echo $i; devmem2
+>> 0x12800808; done cat /dev/watchdog1  & for i in {1..60}; do sleep 1; echo
+>> $i; devmem2 0x12800c08; done cat /dev/watchdog2 & for i in {1..60}; do
+>> sleep 1; echo $i; devmem2 0x12800408; done
+>>
+>> v4->v5:
+>>   * Started using the macros MICRO and USEC_PER_SEC
+>>   * Renamed rzg2l_wdt_get_cycle_msec() to rzg2l_wdt_get_cycle_usec()
+>>   * Fixed the value of priv->wdev.max_timeout in seconds.
+>> V3->V4:
+>>   * Fixed the build issue reported by kernel test robot
+>> V2->V3:
+>>   * Added Rb tag from Guenter Roeck
+>>   * Removed Removed patch#1, as the clock changes related to WDT reset
+>> selection
+>>     will be handled in TF-A.
+>> V1->V2:
+>>   * started using clk_get/put instead of devm_clk_get/put
+>>   * Moved devm_add_action_or_reset after set_drvdata() and
+>>   * removed redundant action on devm_add_action_or_reset() failure.
+>> RFC->V1
+>>   * Removed patch#3, the clk patch is queued for 5.17
+>>   * Added clock-names and interrupt-names as required properties for RZ/G2L
+>>   * Re-order clocknames with internal module clock first
+>>   * Removed pclk_rate from priv.
+>>   * rzg2l_wdt_write() returns void and Removed tiemout related to register
+>> update
+>>   * rzg2l_wdt_init_timeout() returns void and removed delays.
+>>   * removed set_bit(WDOG_HW_RUNNING,..) as we can stop watchdog
+>>   * renamed reset_assert_clock_disable->reset_assert_pm_disable_put
+>>   * started using devm_reset_control_get_exclusive()
+>>   * removed platform_set_drvdata(pdev, priv) as there is no user
+>>   * removed watchdog_set_restart_priority(&priv->wdev, 0) as 0 is the
+>> default.
+>>   * removed remove callback as it is empty.
+>>
+>> Biju Das (2):
+>>    dt-bindings: watchdog: renesas,wdt: Add support for RZ/G2L
+>>    watchdog: Add Watchdog Timer driver for RZ/G2L
+>>
+>>   .../bindings/watchdog/renesas,wdt.yaml        |  75 +++--
+>>   drivers/watchdog/Kconfig                      |   8 +
+>>   drivers/watchdog/Makefile                     |   1 +
+>>   drivers/watchdog/rzg2l_wdt.c                  | 263 ++++++++++++++++++
+>>   4 files changed, 329 insertions(+), 18 deletions(-)  create mode 100644
+>> drivers/watchdog/rzg2l_wdt.c
+>>
+>> --
+>> 2.17.1
 > 
-> R-Car
-fixed
-> 
->> +       depends on ARCH_RENESAS
-> 
-> || COMPILE_TEST?
-COMPILE_TEST has been added to v3
-
-> 
->> +       help
->> +         Say y here to support R-Car realtime processor via the
->> +         remote processor framework. An elf firmware can be loaded
-> 
-> ELF
-ok
-> 
->> +         thanks to sysfs remoteproc entries. The remote processor
->> +         can be started and stopped.
->> +         This can be either built-in or a loadable module.
->> +         If compiled as module (M), the module name is rcar_rproc.
->> +
->>   config ST_REMOTEPROC
->>          tristate "ST remoteproc support"
->>          depends on ARCH_STI
-> 
->> --- /dev/null
->> +++ b/drivers/remoteproc/rcar_rproc.c
-> 
->> +static int rcar_rproc_mem_alloc(struct rproc *rproc,
->> +                                struct rproc_mem_entry *mem)
->> +{
->> +       struct device *dev = &rproc->dev;
->> +       void *va;
->> +
->> +       dev_dbg(dev, "map memory: %pa+%zx\n", &mem->dma, mem->len);
->> +       va = ioremap_wc(mem->dma, mem->len);
->> +       if (IS_ERR_OR_NULL(va)) {
-> 
-> I think ioremap_*() never returns an error code, only NULL for failure.
-Changed to check against NULL.
-> 
->> +               dev_err(dev, "Unable to map memory region: %pa+%zx\n",
->> +                       &mem->dma, mem->len);
->> +               return -ENOMEM;
->> +       }
->> +
->> +       /* Update memory entry va */
->> +       mem->va = va;
->> +
->> +       return 0;
->> +}
-> 
->> +static int rcar_rproc_prepare(struct rproc *rproc)
->> +{
->> +       struct device *dev = rproc->dev.parent;
->> +       struct device_node *np = dev->of_node;
->> +       struct of_phandle_iterator it;
->> +       struct rproc_mem_entry *mem;
->> +       struct reserved_mem *rmem;
->> +       u64 da;
->> +
->> +       /* Register associated reserved memory regions */
->> +       of_phandle_iterator_init(&it, np, "memory-region", NULL, 0);
->> +       while (of_phandle_iterator_next(&it) == 0) {
->> +
->> +               rmem = of_reserved_mem_lookup(it.node);
->> +               if (!rmem) {
->> +                       dev_err(&rproc->dev,
->> +                               "unable to acquire memory-region\n");
->> +                       return -EINVAL;
->> +               }
->> +
->> +               /* No need to translate pa to da, R-Car use same map */
->> +               da = rmem->base;
->> +
->> +               mem = rproc_mem_entry_init(dev, NULL,
->> +                                          (dma_addr_t)rmem->base,
-> 
-> Do you need this cast?
-Looks like not. removed in v3
-
-> 
->> +                                          rmem->size, da,
-> 
-> da is u64, and thus truncated to u32.
-Ok thats indeed a limitation between the AP cores and the realtime core.
-In v3 there is a check for bad input from device tree.
-
-> 
->> +                                          rcar_rproc_mem_alloc,
->> +                                          rcar_rproc_mem_release,
->> +                                          it.node->name);
->> +
->> +               if (!mem)
->> +                       return -ENOMEM;
->> +
->> +               rproc_add_carveout(rproc, mem);
->> +       }
->> +
->> +       return 0;
->> +}
-> 
->> +static int rcar_rproc_probe(struct platform_device *pdev)
->> +{
->> +       struct device *dev = &pdev->dev;
->> +       struct device_node *np = dev->of_node;
->> +       struct rcar_rproc *priv;
->> +       struct rproc *rproc;
->> +       int ret;
->> +
->> +       rproc = rproc_alloc(dev, np->name, &rcar_rproc_ops,
->> +                           NULL, sizeof(*priv));
-> 
-> devm_rproc_alloc(), to simplify cleanup?
-Indeed devm_rproc_alloc is used in v3.
-> 
->> +       if (!rproc)
->> +               return -ENOMEM;
->> +
->> +       priv = rproc->priv;
->> +
->> +       priv->rst = devm_reset_control_get_exclusive(dev, NULL);
->> +       if (IS_ERR(priv->rst)) {
->> +               ret = PTR_ERR(priv->rst);
->> +               dev_err(dev, "fail to acquire rproc reset\n");
-> 
-> dev_err_probe() (which handles -EPROBE_DEFER, too)
-ok
-> 
->> +               goto free_rproc;
->> +       }
->> +
->> +       pm_runtime_enable(dev);
->> +       ret = pm_runtime_get_sync(dev);
->> +       if (ret) {
->> +               dev_err(dev, "failed to power up\n");
->> +               goto free_rproc;
->> +       }
->> +
->> +       dev_set_drvdata(dev, rproc);
->> +
->> +       /* Manually start the rproc */
->> +       rproc->auto_boot = false;
->> +
->> +       ret = rproc_add(rproc);
-> 
-> devm_rproc_add()?
-devm_rproc_add is now used in v3.
-
-> 
->> +       if (ret) {
->> +               dev_err(dev, "rproc_add failed\n");
->> +               goto pm_disable;
->> +       }
->> +
->> +       return 0;
->> +
->> +pm_disable:
->> +       pm_runtime_disable(dev);
->> +free_rproc:
->> +       rproc_free(rproc);
->> +
->> +       return ret;
->> +}
-> 
->> +MODULE_LICENSE("GPL v2");
->> +MODULE_DESCRIPTION("Renesas Gen3 R-Car remote processor control driver");
-> 
-> R-Car Gen3
-Ok
-
-All requested changes should be addressed in v3.
-
-Regards,
--- 
-Julien Massot [IoT.bzh]
 
