@@ -2,39 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22F8946C12A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 17:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4056A46C12E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Dec 2021 17:58:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239692AbhLGRCU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Dec 2021 12:02:20 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:55466 "EHLO frontal.iot.bzh"
+        id S239696AbhLGRCV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Dec 2021 12:02:21 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:35597 "EHLO frontal.iot.bzh"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239568AbhLGRCT (ORCPT
+        id S239691AbhLGRCV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Dec 2021 12:02:19 -0500
+        Tue, 7 Dec 2021 12:02:21 -0500
 Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id A5AC2455A8;
-        Tue,  7 Dec 2021 17:58:47 +0100 (CET)
+        by frontal.iot.bzh (Proxmox) with ESMTP id 1CEA645542;
+        Tue,  7 Dec 2021 17:58:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
         :content-transfer-encoding:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=
-        iot.bzh; bh=HbxUUmI5LbI+DFALMhYBxeBexPYGN4eu5ht9ZQuDbLc=; b=XuRq
-        YKZ97vJOaMmYw90HJnQhUFn/T/tsdj23y7GZ6iVZtFpV4hJfyskNwQEy3w/ifMzZ
-        C266tZRwQeMY3+ztiSTO+A3Owg9iqzzODxPkme3M8vbegi+hO5G4ONkfU1Zqz8Cv
-        Yp/rvfH1G30rf8RQd51QmUpPuqz6ebziBuaCn19hB2GR5pp2SyBA6EBTf/nmmPHh
-        WnyUUN2QldS7vk98df3/LGM4hG6yTIbAZSRo8yt1xuszvf/WiAT/ISnCcgDIDfqr
-        fhDa765N8HRjAoH3FTihKRQUIJoHULx//nLd/bJpccGiUaFSJmkTaWrGMr4j1ERn
-        79SoFalz0GQoHRtxvA==
+        iot.bzh; bh=8yeV5MyL5ekvP0jSG3ZFLoQPIWbg2w6cYA+STPOwNo8=; b=AOo/
+        hUxhccJCUmcKJj409OwyC02TQigYcdWXVh5ZJHUSy4LqRRjND+2ayxLNlZsWw6Dh
+        LGKpRlREXHFeDJrsQLQ7DM4RANdXwbXS/MxM2ldK7jufe5Glhygi5AnaL9xTToQ5
+        q3M7kjF16Ld31xz73BQe4abV238sngAzGf/hEiVIUm5pEzA7YgQDEuqxCuCCAjGf
+        vJ4AcDa2+gbO8LsgyB3xSS4gOjEAMWr3vvzHDZPw9raw4NQnbtfNyOGySYL9HRNd
+        uApcglmScIjVFxVPji5JZoperH4ZyhQkrCuNuqKlf884KeGaRBe64YrUYh5ajAbx
+        F+BZ7lpmh7Tu7H28TQ==
 From:   Julien Massot <julien.massot@iot.bzh>
 To:     bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
         robh+dt@kernel.org, geert+renesas@glider.be
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-        Julien Massot <julien.massot@iot.bzh>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 1/2] dt-bindings: remoteproc: Add Renesas R-Car
-Date:   Tue,  7 Dec 2021 17:58:28 +0100
-Message-Id: <20211207165829.195537-2-julien.massot@iot.bzh>
+        Julien Massot <julien.massot@iot.bzh>
+Subject: [PATCH v3 2/2] remoteproc: Add Renesas rcar driver
+Date:   Tue,  7 Dec 2021 17:58:29 +0100
+Message-Id: <20211207165829.195537-3-julien.massot@iot.bzh>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211207165829.195537-1-julien.massot@iot.bzh>
 References: <20211207165829.195537-1-julien.massot@iot.bzh>
@@ -44,93 +43,301 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Renesas R-Car SoCs may contain a Realtime processor.
-This patch adds bindings for this remote processor.
+Renesas Gen3 platform includes a Cortex-r7 processor.
+
+Both: the application cores (A5x) and the realtime core (CR7)
+share access to the RAM and devices with the same address map,
+so device addresses are equal to the Linux physical addresses.
+
+In order to initialize this remote processor we need to:
+- power on the realtime core
+- put the firmware in a RAM area
+- set the boot address for this firmware (reset vector)
+- Deassert the reset
+
+This initial driver allows to start and stop the Cortex R7
+processor.
 
 Signed-off-by: Julien Massot <julien.massot@iot.bzh>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-
 Changes since v2:
-Fix spelling
+Address Geert's comments
+- Remove unecessay cast
+- Use devm_rproc_add/alloc
+- Add sanity check when truncating u64 address to u32
+- Some spelling fix
 
 ---
- .../remoteproc/renesas,rcar-rproc.yaml        | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+ drivers/remoteproc/Kconfig      |  11 ++
+ drivers/remoteproc/Makefile     |   1 +
+ drivers/remoteproc/rcar_rproc.c | 224 ++++++++++++++++++++++++++++++++
+ 3 files changed, 236 insertions(+)
+ create mode 100644 drivers/remoteproc/rcar_rproc.c
 
-diff --git a/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+index f2e961f998ca..3ddd426fc969 100644
+--- a/drivers/remoteproc/Kconfig
++++ b/drivers/remoteproc/Kconfig
+@@ -283,6 +283,17 @@ config QCOM_WCNSS_PIL
+ 	  verified and booted with the help of the Peripheral Authentication
+ 	  System (PAS) in TrustZone.
+ 
++config RCAR_REMOTEPROC
++	tristate "Renesas R-Car Gen3 remoteproc support"
++	depends on ARCH_RENESAS || COMPILE_TEST
++	help
++	  Say y here to support R-Car realtime processor via the
++	  remote processor framework. An ELF firmware can be loaded
++	  thanks to sysfs remoteproc entries. The remote processor
++	  can be started and stopped.
++	  This can be either built-in or a loadable module.
++	  If compiled as module (M), the module name is rcar_rproc.
++
+ config ST_REMOTEPROC
+ 	tristate "ST remoteproc support"
+ 	depends on ARCH_STI
+diff --git a/drivers/remoteproc/Makefile b/drivers/remoteproc/Makefile
+index 0ac256b6c977..5478c7cb9e07 100644
+--- a/drivers/remoteproc/Makefile
++++ b/drivers/remoteproc/Makefile
+@@ -32,6 +32,7 @@ obj-$(CONFIG_QCOM_SYSMON)		+= qcom_sysmon.o
+ obj-$(CONFIG_QCOM_WCNSS_PIL)		+= qcom_wcnss_pil.o
+ qcom_wcnss_pil-y			+= qcom_wcnss.o
+ qcom_wcnss_pil-y			+= qcom_wcnss_iris.o
++obj-$(CONFIG_RCAR_REMOTEPROC)		+= rcar_rproc.o
+ obj-$(CONFIG_ST_REMOTEPROC)		+= st_remoteproc.o
+ obj-$(CONFIG_ST_SLIM_REMOTEPROC)	+= st_slim_rproc.o
+ obj-$(CONFIG_STM32_RPROC)		+= stm32_rproc.o
+diff --git a/drivers/remoteproc/rcar_rproc.c b/drivers/remoteproc/rcar_rproc.c
 new file mode 100644
-index 000000000000..a7d25fa920e5
+index 000000000000..34fd867f9f8c
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/remoteproc/renesas,rcar-rproc.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++++ b/drivers/remoteproc/rcar_rproc.c
+@@ -0,0 +1,224 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) IoT.bzh 2021
++ */
 +
-+title: Renesas R-Car remote processor controller bindings
++#include <linux/limits.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of_reserved_mem.h>
++#include <linux/pm_runtime.h>
++#include <linux/remoteproc.h>
++#include <linux/reset.h>
++#include <linux/soc/renesas/rcar-rst.h>
 +
-+maintainers:
-+  - Julien Massot <julien.massot@iot.bzh>
++#include "remoteproc_internal.h"
 +
-+description: |
-+  This document defines the bindings for the remoteproc component that loads and
-+  boots firmwares on the Renesas R-Car family chipset.
-+  R-Car gen3 family may have a realtime processor, this processor shares peripheral
-+  and RAM with the host processor with the same address map.
++struct rcar_rproc {
++	struct reset_control *rst;
++};
 +
-+properties:
-+  compatible:
-+    const: renesas,rcar-cr7
++static int rcar_rproc_mem_alloc(struct rproc *rproc,
++				 struct rproc_mem_entry *mem)
++{
++	struct device *dev = &rproc->dev;
++	void *va;
 +
-+  resets:
-+    maxItems: 1
++	dev_dbg(dev, "map memory: %pa+%zx\n", &mem->dma, mem->len);
++	va = ioremap_wc(mem->dma, mem->len);
++	if (!va) {
++		dev_err(dev, "Unable to map memory region: %pa+%zx\n",
++			&mem->dma, mem->len);
++		return -ENOMEM;
++	}
 +
-+  power-domains:
-+    maxItems: 1
++	/* Update memory entry va */
++	mem->va = va;
 +
-+  memory-region:
-+    description:
-+      List of phandles to the reserved memory regions associated with the
-+      remoteproc device. This is variable and describes the memories shared with
-+      the remote processor (e.g. remoteproc firmware and carveouts, rpmsg
-+      vrings, ...).
-+      (see ../reserved-memory/reserved-memory.yaml)
++	return 0;
++}
 +
-+required:
-+  - compatible
-+  - resets
-+  - memory-region
-+  - power-domains
++static int rcar_rproc_mem_release(struct rproc *rproc,
++				   struct rproc_mem_entry *mem)
++{
++	dev_dbg(&rproc->dev, "unmap memory: %pa\n", &mem->dma);
++	iounmap(mem->va);
 +
-+additionalProperties: false
++	return 0;
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+    reserved-memory {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
++static int rcar_rproc_prepare(struct rproc *rproc)
++{
++	struct device *dev = rproc->dev.parent;
++	struct device_node *np = dev->of_node;
++	struct of_phandle_iterator it;
++	struct rproc_mem_entry *mem;
++	struct reserved_mem *rmem;
++	u32 da;
 +
-+        cr7_ram: cr7_ram@40040000 {
-+            no-map;
-+            reg = <0x0 0x40040000 0x0 0x1fc0000>;
-+        };
-+    };
++	/* Register associated reserved memory regions */
++	of_phandle_iterator_init(&it, np, "memory-region", NULL, 0);
++	while (of_phandle_iterator_next(&it) == 0) {
 +
-+    cr7_rproc: cr7 {
-+        compatible = "renesas,rcar-cr7";
-+        memory-region = <&cr7_ram>;
-+        power-domains = <&sysc R8A7795_PD_CR7>;
-+        resets = <&cpg 222>;
-+    };
++		rmem = of_reserved_mem_lookup(it.node);
++		if (!rmem) {
++			dev_err(&rproc->dev,
++				"unable to acquire memory-region\n");
++			return -EINVAL;
++		}
 +
-+...
++		if (rmem->base > U32_MAX)
++			return -EINVAL;
++
++		/* No need to translate pa to da, R-Car use same map */
++		da = rmem->base;
++		mem = rproc_mem_entry_init(dev, NULL,
++					   rmem->base,
++					   rmem->size, da,
++					   rcar_rproc_mem_alloc,
++					   rcar_rproc_mem_release,
++					   it.node->name);
++
++		if (!mem)
++			return -ENOMEM;
++
++		rproc_add_carveout(rproc, mem);
++	}
++
++	return 0;
++}
++
++static int rcar_rproc_parse_fw(struct rproc *rproc, const struct firmware *fw)
++{
++	int ret;
++
++	ret = rproc_elf_load_rsc_table(rproc, fw);
++	if (ret)
++		dev_info(&rproc->dev, "No resource table in elf\n");
++
++	return 0;
++}
++
++static int rcar_rproc_start(struct rproc *rproc)
++{
++	struct rcar_rproc *priv = rproc->priv;
++	int err;
++
++	if (!rproc->bootaddr)
++		return -EINVAL;
++
++	err = rcar_rst_set_rproc_boot_addr(rproc->bootaddr);
++	if (err) {
++		dev_err(&rproc->dev, "failed to set rproc boot addr\n");
++		return err;
++	}
++
++	err = reset_control_deassert(priv->rst);
++	if (err)
++		dev_err(&rproc->dev, "failed to deassert reset\n");
++
++	return err;
++}
++
++static int rcar_rproc_stop(struct rproc *rproc)
++{
++	struct rcar_rproc *priv = rproc->priv;
++	int err;
++
++	err = reset_control_assert(priv->rst);
++	if (err)
++		dev_err(&rproc->dev, "failed to assert reset\n");
++
++	return err;
++}
++
++static struct rproc_ops rcar_rproc_ops = {
++	.prepare	= rcar_rproc_prepare,
++	.start		= rcar_rproc_start,
++	.stop		= rcar_rproc_stop,
++	.load		= rproc_elf_load_segments,
++	.parse_fw	= rcar_rproc_parse_fw,
++	.find_loaded_rsc_table = rproc_elf_find_loaded_rsc_table,
++	.sanity_check	= rproc_elf_sanity_check,
++	.get_boot_addr	= rproc_elf_get_boot_addr,
++
++};
++
++static int rcar_rproc_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	struct rcar_rproc *priv;
++	struct rproc *rproc;
++	int ret;
++
++	rproc = devm_rproc_alloc(dev, np->name, &rcar_rproc_ops,
++				NULL, sizeof(*priv));
++	if (!rproc)
++		return -ENOMEM;
++
++	priv = rproc->priv;
++
++	priv->rst = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(priv->rst)) {
++		ret = PTR_ERR(priv->rst);
++		dev_err_probe(dev, ret, "fail to acquire rproc reset\n");
++		return ret;;
++	}
++
++	pm_runtime_enable(dev);
++	ret = pm_runtime_get_sync(dev);
++	if (ret) {
++		dev_err(dev, "failed to power up\n");
++		return ret;
++	}
++
++	dev_set_drvdata(dev, rproc);
++
++	/* Manually start the rproc */
++	rproc->auto_boot = false;
++
++	ret = devm_rproc_add(dev, rproc);
++	if (ret) {
++		dev_err(dev, "rproc_add failed\n");
++		goto pm_disable;
++	}
++
++	return 0;
++
++pm_disable:
++	pm_runtime_disable(dev);
++
++	return ret;
++}
++
++static int rcar_rproc_remove(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++
++	pm_runtime_disable(dev);
++
++	return 0;
++}
++
++static const struct of_device_id rcar_rproc_of_match[] = {
++	{ .compatible = "renesas,rcar-cr7" },
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, rcar_rproc_of_match);
++
++static struct platform_driver rcar_rproc_driver = {
++	.probe = rcar_rproc_probe,
++	.remove = rcar_rproc_remove,
++	.driver = {
++		.name = "rcar-rproc",
++		.of_match_table = rcar_rproc_of_match,
++	},
++};
++
++module_platform_driver(rcar_rproc_driver);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Renesas R-Car Gen3 remote processor control driver");
++MODULE_AUTHOR("Julien Massot <julien.massot@iot.bzh>");
 -- 
 2.33.1
 
