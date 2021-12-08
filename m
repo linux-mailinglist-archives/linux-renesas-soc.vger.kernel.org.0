@@ -2,102 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C33BF46D321
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 13:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1720A46D328
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 13:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233215AbhLHMWC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 07:22:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38674 "EHLO
+        id S233235AbhLHMX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 07:23:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233208AbhLHMWB (ORCPT
+        with ESMTP id S233232AbhLHMX5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 07:22:01 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126BAC061746
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 04:18:30 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id t9so3750169wrx.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 04:18:30 -0800 (PST)
+        Wed, 8 Dec 2021 07:23:57 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4B8C0617A1
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 04:20:25 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id a37so2501236ljq.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 04:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JBz1CYJlqFlyc33DhEvmNhqSn4/EdXinmBtKY4GLl0c=;
-        b=K/9zl4kN4iO5SvLBsTYiUtmuTeBVvsU+lYY8PYbT80X7Gt4qpDl8qQG3J3l7ISdTQR
-         wmVn7j1KHm39akckfD+FhD3jmzybF6T5T9lfCo2yeKD9DuXMehTLm509OAUxTNhelT/k
-         GQR1YdtYe4OGO11FN9fuZB1DdErXVa0poEoaZRfgOLPSwVjJ45myr+p5hroCt1pLfyZn
-         A1wrKDVfoaM2joslX0K3IxTJd+m9jHvkMxHCBBYYiKJwTJtohumlZh5XdBL7vfRPIcmU
-         o//idQ8x1ry9lFA0RFVVY8z8/6gp3shbhrpWJVbOgfBgYUicuZ/v/gt1ma5GJ5ctcZ0c
-         /Mtg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=cxIhJxLH45f3paJwvO3rHF1VnfiXGcMj12zNmLMco38=;
+        b=2vhabGUZOYSFdB90pMpxcPPCsyWSf05R+wNg9Is0AzhRA7xlZWr1sFZT5C9wZkSQO0
+         dIUY4HATKEXat9kbLW3ZlaoJ4DL0vbul0zmDgjgHTLzM/nvzhwKEc+RJYR7VILcRZYjo
+         g7AvLgH2798JqiCVcQjLAsYSqy8Tl8d7AnGN8SZ6NrqVQJBYRyrjCAPipYW40T7PCpow
+         /jBevIE1ZT1NjnuCNqRcWTxU+nLa7Kfi05myozS/A1WyegZwKj0jdzGwB6bNTb3SephP
+         jsCQIZ99IwZ+MU5s+jBg3RVQVlutWF6TUXsi29EPl0jREOabafq3ZSpLKHd49JfmKNRl
+         4zPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JBz1CYJlqFlyc33DhEvmNhqSn4/EdXinmBtKY4GLl0c=;
-        b=PuYImQHxvIfODen9cR/iVAVRrcYQ6/9cOVpxebV9Pf241PzTT28mmHyho1yFTMQIPK
-         EQ7P/ie+zL/BoeeVrLuSPT/Cf9GqpRLHMaSKKyvsdMResevM/ydNBiDPeMAja1+lTJgT
-         2U6djVkg+pRM3vUjFDMzUqybcTUd8/yGB21bgk84Yn6g47dhhoEuIMp+UZPiCZTSdXww
-         Y4cGNMOtUVUJg1p/d6TUgBJwvVdMEQVon/S0WrNcbl3pOvD5mvo4kRXQrGBPieq0jl2+
-         7x5HDD/rwYBGdWq2U0P2p9XFudIzJz2Anqu8agjweq7TAi8FdBvrl1xHKkMNQOmOXMPV
-         shxg==
-X-Gm-Message-State: AOAM531AX2uVPFyAsDjC11AUfWjm4dCDvbdDrEwrI5VV1Kfy2GZAUzx0
-        MMJZSoLXKii6jjCw90oPX9FwXg==
-X-Google-Smtp-Source: ABdhPJwfdPYN0qlT+8NZ6nK0vQTyEXNlds6dLsTrDo9vH6Lsp/8b+QMqAL8SfZMXZnhqPpaQH0q+0Q==
-X-Received: by 2002:adf:e8d1:: with SMTP id k17mr57226421wrn.465.1638965908707;
-        Wed, 08 Dec 2021 04:18:28 -0800 (PST)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id l11sm2532997wrp.61.2021.12.08.04.18.27
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=cxIhJxLH45f3paJwvO3rHF1VnfiXGcMj12zNmLMco38=;
+        b=xKHMXgSQtwhq0TKKDYdfLZthU5uAgidTXVhNDPMne4fJOKyqE+5zekb2bit1NhD60P
+         JW4guAjUp7WenBvfCvai/XKVt/d5zdfbZC/dGwCqDNOfhOavtf/XIkgab/yNA0Q1fwJm
+         dDLrHk+Szdx71t2Nr4k80okwk6DUQK6nhH/hKuGDJO1MHmd9GzOi9zhyeOP8m5IIcKqz
+         Ki5LR026C8DWSJYbixpsxFowF7kOAPjFH4/Y+e+aU+RLUk7/YPvz7WJLiqq3tI44oAjW
+         Fd5XhNdAJRQEEnuVrMG206urLr15oGmRU2WBCA0eC0E5Y6VwhRwJUEBiZHRVl3vJr3Zs
+         srZA==
+X-Gm-Message-State: AOAM533UNVj5suqiKLNb0jHY4I9Nl4CO2fLmKUSS8CHrFax+OvpTiVkk
+        YMRDkFi9p/dU21S7gE0QUCpesA==
+X-Google-Smtp-Source: ABdhPJzVPn2LMqqZTY7tri4yJxfa+HUF9BmoHhAPU9CirLglXWr/b0lKQtT/FKueM7/ZdE3CHiyU2w==
+X-Received: by 2002:a2e:a28e:: with SMTP id k14mr4404242lja.488.1638966023694;
+        Wed, 08 Dec 2021 04:20:23 -0800 (PST)
+Received: from localhost (h-46-59-90-226.A463.priv.bahnhof.se. [46.59.90.226])
+        by smtp.gmail.com with ESMTPSA id p10sm299115lja.0.2021.12.08.04.20.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 04:18:28 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] media: i2c: max9286: Use dev_err_probe() helper
-Date:   Wed,  8 Dec 2021 13:17:56 +0100
-Message-Id: <20211208121756.3051565-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.1
+        Wed, 08 Dec 2021 04:20:23 -0800 (PST)
+Date:   Wed, 8 Dec 2021 13:20:22 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] sh_eth: Use dev_err_probe() helper
+Message-ID: <YbCjBk0ibN1ga3Qm@oden.dyn.berto.se>
+References: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the dev_err_probe() helper, instead of open-coding the same
-operation. While at it retrieve the error once and use it from
-'ret' instead of retrieving it twice.
+Hi Geert,
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/i2c/max9286.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Thanks for your work, I learnt something new.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 7c663fd587bbeefa..16aa7e5b0e81c210 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -1295,11 +1295,9 @@ static int max9286_probe(struct i2c_client *client)
- 
- 	priv->regulator = devm_regulator_get(&client->dev, "poc");
- 	if (IS_ERR(priv->regulator)) {
--		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Unable to get PoC regulator (%ld)\n",
--				PTR_ERR(priv->regulator));
- 		ret = PTR_ERR(priv->regulator);
-+		dev_err_probe(&client->dev, ret,
-+			      "Unable to get PoC regulator\n");
- 		goto err_powerdown;
- 	}
- 
+On 2021-12-08 11:32:07 +0100, Geert Uytterhoeven wrote:
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> Use the dev_err_probe() helper, instead of open-coding the same
+> operation.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/net/ethernet/renesas/sh_eth.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+> index 223626290ce0e278..d947a628e1663009 100644
+> --- a/drivers/net/ethernet/renesas/sh_eth.c
+> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> @@ -3368,8 +3368,7 @@ static int sh_eth_drv_probe(struct platform_device *pdev)
+>  	/* MDIO bus init */
+>  	ret = sh_mdio_init(mdp, pd);
+>  	if (ret) {
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(&pdev->dev, "MDIO init failed: %d\n", ret);
+> +		dev_err_probe(&pdev->dev, ret, "MDIO init failed\n");
+>  		goto out_release;
+>  	}
+>  
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.34.1
-
+Kind Regards,
+Niklas Söderlund
