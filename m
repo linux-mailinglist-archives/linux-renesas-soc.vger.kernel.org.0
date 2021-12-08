@@ -2,130 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C0DD46CF54
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 09:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C60F46CFB9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 10:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhLHIta (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 03:49:30 -0500
-Received: from www.zeus03.de ([194.117.254.33]:51524 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229529AbhLHIt3 (ORCPT
+        id S230045AbhLHJMh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 04:12:37 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:44875 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229604AbhLHJMh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 03:49:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=sde5C8iKX6z/QR
-        RzCq5HMFRRgs1YJgDByVp81kFPX/o=; b=lqQANUgQqqFcVMFzB2G79/Qbc2KxNm
-        5OSJIgXr8cvafh09wLQb5lpBkvH9ALdZfb5eSf+ALaaR2KG4aHu/NNN72OvpwIsC
-        MHYjaEUBJ1ONKDLmcH0JhMmp6ELi4Xj9XuA+hYOLeHZ/SyyiyWYyyqXpeKx/e9uY
-        Fv1FJOQG14NwY=
-Received: (qmail 562706 invoked from network); 8 Dec 2021 09:45:56 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Dec 2021 09:45:56 +0100
-X-UD-Smtp-Session: l3s3148p1@SFmxhJ7SprIgAwDPXwXFABlafC1M4YKF
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 2/2] i2c: sh_mobile: update to new DMAENGINE API when terminating
-Date:   Wed,  8 Dec 2021 09:45:43 +0100
-Message-Id: <20211208084543.20181-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211208084543.20181-1-wsa+renesas@sang-engineering.com>
-References: <20211208084543.20181-1-wsa+renesas@sang-engineering.com>
+        Wed, 8 Dec 2021 04:12:37 -0500
+Received: by mail-ua1-f54.google.com with SMTP id p2so3427534uad.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 01:09:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DJ1mhirfYAO+3CwIc8GlggxLDirvHXshFClZNphPW7Q=;
+        b=2C/Sya2TiDF4bwpjEOoHnJUNk4wTduIlUu4f5LiBSeD41p/rJufWY15yi452DkDjxW
+         qnRw3d5U41TSmS7WIMQuFRZ1gEL6KPExNn8XRyeOUBfVPPoSgsZahNQVJlMZ9NzmJ3MV
+         +rX2TpVVPlM4H4h8GlPon5NhP1lmz0mSe+GdUYoJ43pQy4LeOHcc3IPcXDr1YRFrkMwb
+         BmD7DOMmNjCiSx9tE2LBbS+7uAnwilt+dYOCAGjhkMB/lXGEVUpc+pHRNJEQk+5T+X9D
+         CHyGAFcEMXsYbZi3YkZyGE9mXR5YGDmgXpfzu52ZAijTLgb9rhaOVc5+HYy6n35wINkN
+         +HDg==
+X-Gm-Message-State: AOAM5331Uy1S1yoTBdZ8Gjp56JjZc18kTrO5vSmM3TQzR9L0uFSsBD43
+        H2v5JfbhAbE4MKpjsRe7vPOi21bt/77p9w==
+X-Google-Smtp-Source: ABdhPJzCmGRa9dsV768Qq1OogxNMGGEPFzj+xKWZlGmLUg7ZdQs6HYL8wzZBBM6ywbrBjcIFwutGng==
+X-Received: by 2002:a05:6102:105b:: with SMTP id h27mr51748187vsq.60.1638954545093;
+        Wed, 08 Dec 2021 01:09:05 -0800 (PST)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
+        by smtp.gmail.com with ESMTPSA id g187sm1359213vsc.10.2021.12.08.01.09.04
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 01:09:04 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id 188so1114877vku.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 01:09:04 -0800 (PST)
+X-Received: by 2002:a05:6122:104f:: with SMTP id z15mr61764911vkn.39.1638954544599;
+ Wed, 08 Dec 2021 01:09:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <202112081010.7vN3rLa4-lkp@intel.com>
+In-Reply-To: <202112081010.7vN3rLa4-lkp@intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Dec 2021 10:08:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVwKAp3pcC1oMz_X91YDt_gzT6tFqfWsEBcmCpTMCTwfA@mail.gmail.com>
+Message-ID: <CAMuHMdVwKAp3pcC1oMz_X91YDt_gzT6tFqfWsEBcmCpTMCTwfA@mail.gmail.com>
+Subject: Re: [geert-renesas-drivers:renesas-clk-for-v5.17 25/30]
+ aarch64-linux-ld: drivers/clk/renesas/r8a779a0-cpg-mssr.o:undefined reference
+ to `rcar_gen4_cpg_clk_register'
+To:     kernel test robot <lkp@intel.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        kbuild-all@lists.01.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-dmaengine_terminate_all() is deprecated. When converting the existing
-calls, it turned out that the termination in the DMA setup and callback
-were superfluous and only a side effect of simply calling
-rcar_i2c_cleanup_dma(). As either no DMA transfers have been submitted
-yet or the last one has successfully completed, there is nothing to
-terminate and we can leave it out. So, merge the DMA unmap and cleanup
-function to save some code. Then, add a flag if the new cleanup function
-needs to terminate DMA. This is only the case for the erorr handling in
-the main thread, so we can finally switch from dmaengine_terminate_all()
-to dmaengine_terminate_sync() here.
+Hi Kernel Test Robot,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/busses/i2c-sh_mobile.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+On Wed, Dec 8, 2021 at 3:24 AM kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.17
+> head:   6496166cb5d7dd163ceea55390060d77f008bc8b
+> commit: 3e7c1099d948a41fbb99b7f6bc49189b66f81279 [25/30] clk: renesas: rcar-gen4: Introduce R-Car Gen4 CPG driver
+> config: arm64-randconfig-p002-20211207 (https://download.01.org/0day-ci/archive/20211208/202112081010.7vN3rLa4-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 11.2.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=3e7c1099d948a41fbb99b7f6bc49189b66f81279
+>         git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+>         git fetch --no-tags geert-renesas-drivers renesas-clk-for-v5.17
+>         git checkout 3e7c1099d948a41fbb99b7f6bc49189b66f81279
+>         # save the config file to linux build tree
+>         mkdir build_dir
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>    aarch64-linux-ld: drivers/clk/renesas/r8a779a0-cpg-mssr.o: in function `r8a779a0_cpg_mssr_init':
+>    r8a779a0-cpg-mssr.c:(.init.text+0x90): undefined reference to `rcar_gen4_cpg_init'
+> >> aarch64-linux-ld: drivers/clk/renesas/r8a779a0-cpg-mssr.o:(.init.rodata+0x70): undefined reference to `rcar_gen4_cpg_clk_register'
 
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index db8fa4186814..7b8caf172851 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -442,34 +442,26 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static void sh_mobile_i2c_dma_unmap(struct sh_mobile_i2c_data *pd)
-+static void sh_mobile_i2c_cleanup_dma(struct sh_mobile_i2c_data *pd, bool terminate)
- {
- 	struct dma_chan *chan = pd->dma_direction == DMA_FROM_DEVICE
- 				? pd->dma_rx : pd->dma_tx;
- 
-+	/* only allowed from thread context! */
-+	if (terminate)
-+		dmaengine_terminate_sync(chan);
+Thanks for your report!
+
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -149,8 +149,7 @@ config CLK_R8A77995
+
+ config CLK_R8A779A0
+  bool "R-Car V3U clock support" if COMPILE_TEST
+- select CLK_RCAR_CPG_LIB
+- select CLK_RENESAS_CPG_MSSR
++ select CLK_RCAR_GEN4_CPG
+
+ config CLK_R9A06G032
+  bool "RZ/N1D clock support" if COMPILE_TEST
+@@ -178,6 +177,11 @@ config CLK_RCAR_GEN3_CPG
+  select CLK_RCAR_CPG_LIB
+  select CLK_RENESAS_CPG_MSSR
+
++config CLK_RCAR_GEN4_CPG
++ bool "R-Car Gen4 clock support" if COMPILE_TEST
++ select CLK_RCAR_CPG_LIB
++ select CLK_RENESAS_CPG_MSSR
 +
- 	dma_unmap_single(chan->device->dev, sg_dma_address(&pd->sg),
- 			 pd->msg->len, pd->dma_direction);
- 
- 	pd->dma_direction = DMA_NONE;
- }
- 
--static void sh_mobile_i2c_cleanup_dma(struct sh_mobile_i2c_data *pd)
--{
--	if (pd->dma_direction == DMA_NONE)
--		return;
--	else if (pd->dma_direction == DMA_FROM_DEVICE)
--		dmaengine_terminate_sync(pd->dma_rx);
--	else if (pd->dma_direction == DMA_TO_DEVICE)
--		dmaengine_terminate_sync(pd->dma_tx);
--
--	sh_mobile_i2c_dma_unmap(pd);
--}
--
- static void sh_mobile_i2c_dma_callback(void *data)
- {
- 	struct sh_mobile_i2c_data *pd = data;
- 
--	sh_mobile_i2c_dma_unmap(pd);
-+	sh_mobile_i2c_cleanup_dma(pd, false);
- 	pd->pos = pd->msg->len;
- 	pd->stop_after_dma = true;
- 
-@@ -549,7 +541,7 @@ static void sh_mobile_i2c_xfer_dma(struct sh_mobile_i2c_data *pd)
- 					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
- 	if (!txdesc) {
- 		dev_dbg(pd->dev, "dma prep slave sg failed, using PIO\n");
--		sh_mobile_i2c_cleanup_dma(pd);
-+		sh_mobile_i2c_cleanup_dma(pd, false);
- 		return;
- 	}
- 
-@@ -559,7 +551,7 @@ static void sh_mobile_i2c_xfer_dma(struct sh_mobile_i2c_data *pd)
- 	cookie = dmaengine_submit(txdesc);
- 	if (dma_submit_error(cookie)) {
- 		dev_dbg(pd->dev, "submitting dma failed, using PIO\n");
--		sh_mobile_i2c_cleanup_dma(pd);
-+		sh_mobile_i2c_cleanup_dma(pd, false);
- 		return;
- 	}
- 
-@@ -698,7 +690,7 @@ static int sh_mobile_xfer(struct sh_mobile_i2c_data *pd,
- 		if (!time_left) {
- 			dev_err(pd->dev, "Transfer request timed out\n");
- 			if (pd->dma_direction != DMA_NONE)
--				sh_mobile_i2c_cleanup_dma(pd);
-+				sh_mobile_i2c_cleanup_dma(pd, true);
- 
- 			err = -ETIMEDOUT;
- 			break;
--- 
-2.30.2
+ config CLK_RCAR_USB2_CLOCK_SEL
+  bool "Renesas R-Car USB2 clock selector support"
+  depends on ARCH_RENESAS || COMPILE_TEST
 
+The first hunk was missing completely.
+The second hunk was present, but only in a later patch.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
