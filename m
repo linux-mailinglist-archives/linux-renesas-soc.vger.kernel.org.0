@@ -2,40 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70E4446D143
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 11:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A79D46D148
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 11:46:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbhLHKt3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 05:49:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
+        id S229446AbhLHKta (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 05:49:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbhLHKt3 (ORCPT
+        with ESMTP id S231841AbhLHKt3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 8 Dec 2021 05:49:29 -0500
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FCFC0617A2
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36814C061B38
         for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 02:45:57 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:a0bd:6217:e9a0:bd39])
         by xavier.telenet-ops.be with bizsmtp
-        id Tmlt2600B2LoXaB01mltK1; Wed, 08 Dec 2021 11:45:53 +0100
+        id Tmlt260072LoXaB01mltK0; Wed, 08 Dec 2021 11:45:53 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1muuSP-003dvS-0M; Wed, 08 Dec 2021 11:45:53 +0100
+        id 1muuSO-003dvS-Uq; Wed, 08 Dec 2021 11:45:52 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1muuDu-00BVhx-8b; Wed, 08 Dec 2021 11:30:54 +0100
+        id 1muuF5-00BVl0-Vp; Wed, 08 Dec 2021 11:32:08 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: rcar-du: Use dev_err_probe() helper
-Date:   Wed,  8 Dec 2021 11:30:53 +0100
-Message-Id: <62adddea1fc5e9133766af2d953be7334f4622aa.1638959417.git.geert+renesas@glider.be>
+Subject: [PATCH] sh_eth: Use dev_err_probe() helper
+Date:   Wed,  8 Dec 2021 11:32:07 +0100
+Message-Id: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,23 +47,21 @@ operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/net/ethernet/renesas/sh_eth.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 5612a9e7a9056cf7..86eeda769e2ebd10 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -661,9 +661,8 @@ static int rcar_du_probe(struct platform_device *pdev)
- 	/* DRM/KMS objects */
- 	ret = rcar_du_modeset_init(rcdu);
- 	if (ret < 0) {
+diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+index 223626290ce0e278..d947a628e1663009 100644
+--- a/drivers/net/ethernet/renesas/sh_eth.c
++++ b/drivers/net/ethernet/renesas/sh_eth.c
+@@ -3368,8 +3368,7 @@ static int sh_eth_drv_probe(struct platform_device *pdev)
+ 	/* MDIO bus init */
+ 	ret = sh_mdio_init(mdp, pd);
+ 	if (ret) {
 -		if (ret != -EPROBE_DEFER)
--			dev_err(&pdev->dev,
--				"failed to initialize DRM/KMS (%d)\n", ret);
-+		dev_err_probe(&pdev->dev, ret,
-+			      "failed to initialize DRM/KMS\n");
- 		goto error;
+-			dev_err(&pdev->dev, "MDIO init failed: %d\n", ret);
++		dev_err_probe(&pdev->dev, ret, "MDIO init failed\n");
+ 		goto out_release;
  	}
  
 -- 
