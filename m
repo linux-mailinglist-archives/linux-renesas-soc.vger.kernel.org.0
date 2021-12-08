@@ -2,249 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B1746CCE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 06:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D4A46CF56
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 09:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231994AbhLHFVA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 00:21:00 -0500
-Received: from mga07.intel.com ([134.134.136.100]:41457 "EHLO mga07.intel.com"
+        id S229529AbhLHIta (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 03:49:30 -0500
+Received: from www.zeus03.de ([194.117.254.33]:51508 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231827AbhLHFVA (ORCPT
+        id S229537AbhLHIt3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 00:21:00 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="301140874"
-X-IronPort-AV: E=Sophos;i="5.87,296,1631602800"; 
-   d="scan'208";a="301140874"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2021 21:17:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,296,1631602800"; 
-   d="scan'208";a="502916681"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 07 Dec 2021 21:17:27 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mupKY-00006t-Mu; Wed, 08 Dec 2021 05:17:26 +0000
-Date:   Wed, 08 Dec 2021 13:16:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dt-bindings-for-v5.17] BUILD SUCCESS d01986bec3887a3dbf61cbd821979f91cf0bb2dc
-Message-ID: <61b03fc5.vJ1hDzb+c92UrU+m%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 8 Dec 2021 03:49:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=hKlYOOujtt6xvfk3cIOEDYTH9sV
+        0I+ud6x4mCtg+Q+M=; b=Jk2Y5iuiYVAILM+HMKXij6N83j7g9dy/9TB+SmXjKIJ
+        esQJsJERrZXPlIXZGlQgYzSd38yIHj/ZYj/x4I/pkqul801S2p0qE0oeGhAaT+m8
+        I+ZqDOHovqZRk1ddPubPILBF+Fw3uLJ13t0vqur8wX9yKhtGdONgm+zCMhVkv8HQ
+        =
+Received: (qmail 562677 invoked from network); 8 Dec 2021 09:45:56 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Dec 2021 09:45:56 +0100
+X-UD-Smtp-Session: l3s3148p1@QeJ6hJ7SpLIgAwDPXwXFABlafC1M4YKF
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 1/2] i2c: rcar: update to new DMAENGINE API when terminating
+Date:   Wed,  8 Dec 2021 09:45:42 +0100
+Message-Id: <20211208084543.20181-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v5.17
-branch HEAD: d01986bec3887a3dbf61cbd821979f91cf0bb2dc  dt-bindings: arm: renesas: Document Renesas Spider boards
+dmaengine_terminate_all() is deprecated. When converting the existing
+calls, it turned out that the termination in the interrupt handlers was
+superfluous and only a side effect of simply calling
+rcar_i2c_cleanup_dma(). As either no DMA transfers have been submitted
+yet or the last one has successfully completed, there is nothing to
+terminate and we can leave it out. So, merge the DMA unmap and cleanup
+function to save some code. Then, add a flag if the new cleanup function
+needs to terminate DMA. This is only the case for the erorr handling in
+the main thread, so we can finally switch from dmaengine_terminate_all()
+to dmaengine_terminate_sync() here.
 
-elapsed time: 734m
-
-configs tested: 189
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211207
-m68k                             alldefconfig
-csky                                defconfig
-arc                           tb10x_defconfig
-arm                           tegra_defconfig
-powerpc                 mpc837x_rdb_defconfig
-xtensa                           allyesconfig
-arm                           stm32_defconfig
-powerpc                  storcenter_defconfig
-arm                          imote2_defconfig
-m68k                          atari_defconfig
-arm                           sama7_defconfig
-arm                         s5pv210_defconfig
-arm                       spear13xx_defconfig
-powerpc                  iss476-smp_defconfig
-h8300                     edosk2674_defconfig
-mips                           rs90_defconfig
-mips                      maltasmvp_defconfig
-h8300                            allyesconfig
-nds32                            alldefconfig
-powerpc                     redwood_defconfig
-sh                          sdk7786_defconfig
-arm                           h5000_defconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                     ppa8548_defconfig
-mips                         tb0287_defconfig
-sh                                  defconfig
-powerpc                    mvme5100_defconfig
-sh                            shmin_defconfig
-mips                        bcm63xx_defconfig
-sh                           se7705_defconfig
-mips                           xway_defconfig
-powerpc                      cm5200_defconfig
-sparc64                             defconfig
-powerpc                         wii_defconfig
-sh                   sh7724_generic_defconfig
-mips                      pic32mzda_defconfig
-powerpc64                        alldefconfig
-powerpc                     kilauea_defconfig
-powerpc                   motionpro_defconfig
-parisc                           alldefconfig
-arm                           h3600_defconfig
-mips                      loongson3_defconfig
-sh                  sh7785lcr_32bit_defconfig
-mips                           ip22_defconfig
-arm                        shmobile_defconfig
-powerpc                 mpc8313_rdb_defconfig
-arm                           omap1_defconfig
-powerpc                       holly_defconfig
-arm                      pxa255-idp_defconfig
-sh                   rts7751r2dplus_defconfig
-mips                        workpad_defconfig
-sh                             espt_defconfig
-arm                      footbridge_defconfig
-powerpc                      acadia_defconfig
-sh                     sh7710voipgw_defconfig
-sh                           se7721_defconfig
-arm                        mvebu_v7_defconfig
-riscv             nommu_k210_sdcard_defconfig
-sh                         ecovec24_defconfig
-arm                         orion5x_defconfig
-sh                           se7780_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                   microwatt_defconfig
-mips                         tb0226_defconfig
-arm                          pxa910_defconfig
-i386                             allyesconfig
-mips                         db1xxx_defconfig
-arc                            hsdk_defconfig
-powerpc                      katmai_defconfig
-s390                                defconfig
-powerpc                      tqm8xx_defconfig
-parisc                generic-64bit_defconfig
-sparc64                          alldefconfig
-arm                         mv78xx0_defconfig
-mips                          ath79_defconfig
-arm                          pcm027_defconfig
-m68k                          sun3x_defconfig
-m68k                        m5272c3_defconfig
-powerpc                     powernv_defconfig
-arc                      axs103_smp_defconfig
-mips                     cu1000-neo_defconfig
-arm                        cerfcube_defconfig
-arm                  colibri_pxa270_defconfig
-m68k                            q40_defconfig
-nds32                             allnoconfig
-powerpc                     tqm8548_defconfig
-sh                        sh7757lcr_defconfig
-nios2                            allyesconfig
-sh                 kfr2r09-romimage_defconfig
-arm                         at91_dt_defconfig
-sparc                               defconfig
-mips                       rbtx49xx_defconfig
-xtensa                  nommu_kc705_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc                      walnut_defconfig
-arm                   milbeaut_m10v_defconfig
-arm                  randconfig-c002-20211207
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20211207
-x86_64               randconfig-a005-20211207
-x86_64               randconfig-a001-20211207
-x86_64               randconfig-a002-20211207
-x86_64               randconfig-a004-20211207
-x86_64               randconfig-a003-20211207
-i386                 randconfig-a001-20211207
-i386                 randconfig-a005-20211207
-i386                 randconfig-a002-20211207
-i386                 randconfig-a003-20211207
-i386                 randconfig-a006-20211207
-i386                 randconfig-a004-20211207
-x86_64               randconfig-a016-20211208
-x86_64               randconfig-a011-20211208
-x86_64               randconfig-a013-20211208
-x86_64               randconfig-a012-20211208
-x86_64               randconfig-a015-20211208
-x86_64               randconfig-a014-20211208
-i386                 randconfig-a013-20211208
-i386                 randconfig-a016-20211208
-i386                 randconfig-a011-20211208
-i386                 randconfig-a014-20211208
-i386                 randconfig-a012-20211208
-i386                 randconfig-a015-20211208
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-c007-20211207
-arm                  randconfig-c002-20211207
-riscv                randconfig-c006-20211207
-mips                 randconfig-c004-20211207
-i386                 randconfig-c001-20211207
-powerpc              randconfig-c003-20211207
-s390                 randconfig-c005-20211207
-x86_64               randconfig-a016-20211207
-x86_64               randconfig-a011-20211207
-x86_64               randconfig-a013-20211207
-x86_64               randconfig-a014-20211207
-x86_64               randconfig-a015-20211207
-x86_64               randconfig-a012-20211207
-i386                 randconfig-a016-20211207
-i386                 randconfig-a013-20211207
-i386                 randconfig-a011-20211207
-i386                 randconfig-a014-20211207
-i386                 randconfig-a012-20211207
-i386                 randconfig-a015-20211207
-hexagon              randconfig-r045-20211207
-s390                 randconfig-r044-20211207
-riscv                randconfig-r042-20211207
-hexagon              randconfig-r041-20211207
-
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/i2c/busses/i2c-rcar.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index fc13511f4562..f71c730f9838 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -367,11 +367,15 @@ static void rcar_i2c_next_msg(struct rcar_i2c_priv *priv)
+ 	rcar_i2c_prepare_msg(priv);
+ }
+ 
+-static void rcar_i2c_dma_unmap(struct rcar_i2c_priv *priv)
++static void rcar_i2c_cleanup_dma(struct rcar_i2c_priv *priv, bool terminate)
+ {
+ 	struct dma_chan *chan = priv->dma_direction == DMA_FROM_DEVICE
+ 		? priv->dma_rx : priv->dma_tx;
+ 
++	/* only allowed from thread context! */
++	if (terminate)
++		dmaengine_terminate_sync(chan);
++
+ 	dma_unmap_single(chan->device->dev, sg_dma_address(&priv->sg),
+ 			 sg_dma_len(&priv->sg), priv->dma_direction);
+ 
+@@ -386,25 +390,13 @@ static void rcar_i2c_dma_unmap(struct rcar_i2c_priv *priv)
+ 	rcar_i2c_write(priv, ICDMAER, 0);
+ }
+ 
+-static void rcar_i2c_cleanup_dma(struct rcar_i2c_priv *priv)
+-{
+-	if (priv->dma_direction == DMA_NONE)
+-		return;
+-	else if (priv->dma_direction == DMA_FROM_DEVICE)
+-		dmaengine_terminate_all(priv->dma_rx);
+-	else if (priv->dma_direction == DMA_TO_DEVICE)
+-		dmaengine_terminate_all(priv->dma_tx);
+-
+-	rcar_i2c_dma_unmap(priv);
+-}
+-
+ static void rcar_i2c_dma_callback(void *data)
+ {
+ 	struct rcar_i2c_priv *priv = data;
+ 
+ 	priv->pos += sg_dma_len(&priv->sg);
+ 
+-	rcar_i2c_dma_unmap(priv);
++	rcar_i2c_cleanup_dma(priv, false);
+ }
+ 
+ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
+@@ -456,7 +448,7 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
+ 					 DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+ 	if (!txdesc) {
+ 		dev_dbg(dev, "dma prep slave sg failed, using PIO\n");
+-		rcar_i2c_cleanup_dma(priv);
++		rcar_i2c_cleanup_dma(priv, false);
+ 		return false;
+ 	}
+ 
+@@ -466,7 +458,7 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
+ 	cookie = dmaengine_submit(txdesc);
+ 	if (dma_submit_error(cookie)) {
+ 		dev_dbg(dev, "submitting dma failed, using PIO\n");
+-		rcar_i2c_cleanup_dma(priv);
++		rcar_i2c_cleanup_dma(priv, false);
+ 		return false;
+ 	}
+ 
+@@ -846,7 +838,7 @@ static int rcar_i2c_master_xfer(struct i2c_adapter *adap,
+ 
+ 	/* cleanup DMA if it couldn't complete properly due to an error */
+ 	if (priv->dma_direction != DMA_NONE)
+-		rcar_i2c_cleanup_dma(priv);
++		rcar_i2c_cleanup_dma(priv, true);
+ 
+ 	if (!time_left) {
+ 		rcar_i2c_init(priv);
+-- 
+2.30.2
+
