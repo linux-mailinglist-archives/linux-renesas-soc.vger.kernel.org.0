@@ -2,85 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1DE246D358
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 13:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D49B46D5A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 15:27:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbhLHMfD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 07:35:03 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51966 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233437AbhLHMfC (ORCPT
+        id S235114AbhLHObH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 09:31:07 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:30372 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235110AbhLHObH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 07:35:02 -0500
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 098CA8BB;
-        Wed,  8 Dec 2021 13:31:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638966690;
-        bh=yJVCk5jmq4sQLYV/FGSqcIN1gvW0jgXSAV2v3ROr/io=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=h9KWJldzs66gnY5GVcdINTk8/QkaWToOa9qCfN23EpVWv0hU2XalVH36V1JUYGxL5
-         fUjuEdzUskdmF42F4VIuMr1aXeWp90mU1QkNhwGz87yE1RKfxRBqv0FyfAUkcGe+HA
-         gMcpxkt/CgEIMX+Cijx4yATU69JzOWAgwdz1vEd4=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211208121756.3051565-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20211208121756.3051565-1-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH] media: i2c: max9286: Use dev_err_probe() helper
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Date:   Wed, 08 Dec 2021 12:31:27 +0000
-Message-ID: <163896668772.1970692.10840510075161830431@Monstersaurus>
-User-Agent: alot/0.10
+        Wed, 8 Dec 2021 09:31:07 -0500
+X-IronPort-AV: E=Sophos;i="5.88,189,1635174000"; 
+   d="scan'208";a="102813262"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Dec 2021 23:27:34 +0900
+Received: from localhost.localdomain (unknown [10.226.92.71])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3F68F43E1537;
+        Wed,  8 Dec 2021 23:27:32 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Enable Thermal support for RZ/G2L
+Date:   Wed,  8 Dec 2021 14:27:27 +0000
+Message-Id: <20211208142729.2456-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2021-12-08 12:17:56)
-> Use the dev_err_probe() helper, instead of open-coding the same
-> operation. While at it retrieve the error once and use it from
-> 'ret' instead of retrieving it twice.
->=20
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+This patch series aims to enable TSU support for RZ/G2L.
 
-Looks better already...
+it depend upon [1] and [2]
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20211208&id=9460347192add5644236d492f79ecab6d83504d4
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20211208&id=673c68bd48390dad01f7d17670de3e33b60860ac
 
-> ---
->  drivers/media/i2c/max9286.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 7c663fd587bbeefa..16aa7e5b0e81c210 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1295,11 +1295,9 @@ static int max9286_probe(struct i2c_client *client)
-> =20
->         priv->regulator =3D devm_regulator_get(&client->dev, "poc");
->         if (IS_ERR(priv->regulator)) {
-> -               if (PTR_ERR(priv->regulator) !=3D -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "Unable to get PoC regulator (%ld)\n",
-> -                               PTR_ERR(priv->regulator));
->                 ret =3D PTR_ERR(priv->regulator);
-> +               dev_err_probe(&client->dev, ret,
-> +                             "Unable to get PoC regulator\n");
->                 goto err_powerdown;
->         }
-> =20
-> --=20
-> 2.34.1
->
+Biju Das (2):
+  arm64: dts: renesas: r9a07g044: Add TSU node
+  arm64: dts: renesas: r9a07g044: Create thermal zone to support IPA
+
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 42 ++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+-- 
+2.17.1
+
