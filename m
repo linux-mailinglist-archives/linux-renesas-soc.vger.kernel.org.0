@@ -2,82 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BFF346D8AB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 17:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01B1546D922
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 18:02:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234760AbhLHQns (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 11:43:48 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:38284 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S234715AbhLHQns (ORCPT
+        id S237480AbhLHRF5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 12:05:57 -0500
+Received: from mxout02.lancloud.ru ([45.84.86.82]:38976 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237476AbhLHRF4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 11:43:48 -0500
-X-IronPort-AV: E=Sophos;i="5.88,190,1635174000"; 
-   d="scan'208";a="102820885"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Dec 2021 01:40:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.71])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A22B7400F7AA;
-        Thu,  9 Dec 2021 01:40:12 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] thermal/drivers: Add error check for reset_control_deassert()
-Date:   Wed,  8 Dec 2021 16:40:09 +0000
-Message-Id: <20211208164010.4130-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 8 Dec 2021 12:05:56 -0500
+X-Greylist: delayed 362 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Dec 2021 12:05:56 EST
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru AB0B120779E1
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH] sh_eth: Use dev_err_probe() helper
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <aa1bcc04-b6f3-b843-9214-fef60c4131a0@omp.ru>
+Date:   Wed, 8 Dec 2021 19:56:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-If reset_control_deassert() fails, then we won't be able to access
-the device registers. Therefore check the return code of
-reset_control_deassert() and bail out in case of error.
+Hello!
 
-While at it replace the parameter "&pdev->dev" -> "dev" in
-devm_reset_control_get_exclusive().
+On 12/8/21 1:32 PM, Geert Uytterhoeven wrote:
 
-Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-v1->v2:
- * removed the cast operation "PTR_ERR(ret)" -> ret
- * Added Rb tag from Philipp.
----
- drivers/thermal/rzg2l_thermal.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> Use the dev_err_probe() helper, instead of open-coding the same
+> operation.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_thermal.c
-index d47d4a30cd6c..7a9cdc1f37ca 100644
---- a/drivers/thermal/rzg2l_thermal.c
-+++ b/drivers/thermal/rzg2l_thermal.c
-@@ -170,12 +170,14 @@ static int rzg2l_thermal_probe(struct platform_device *pdev)
- 		return PTR_ERR(priv->base);
- 
- 	priv->dev = dev;
--	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-+	priv->rstc = devm_reset_control_get_exclusive(dev, NULL);
- 	if (IS_ERR(priv->rstc))
- 		return dev_err_probe(dev, PTR_ERR(priv->rstc),
- 				     "failed to get cpg reset");
- 
--	reset_control_deassert(priv->rstc);
-+	ret = reset_control_deassert(priv->rstc);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to deassert");
- 
- 	pm_runtime_enable(dev);
- 	pm_runtime_get_sync(dev);
--- 
-2.17.1
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
+[...]
+
+MBR, Sergey
