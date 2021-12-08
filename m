@@ -2,101 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DAFE46DBBA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 20:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4BFA46DC8F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 20:56:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239522AbhLHTDz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 14:03:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49380 "EHLO
+        id S236537AbhLHUAM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 15:00:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239511AbhLHTDy (ORCPT
+        with ESMTP id S234014AbhLHUAM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 14:03:54 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D52FC061746
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 11:00:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94AEDB6C;
-        Wed,  8 Dec 2021 20:00:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638990018;
-        bh=xP/HJwclbv3GF7vnqrU0J6DNf0Kyn0iJpJC39G0OwJk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jAthFaj4YCE6DY2zI8AjIk5F87w1MEIMbDfUfCK+AjiICac0d50Etg1dF+gaxItfX
-         wrN9uAfcSglgNrVw3EAa1a8FFiEfaWpq32wfRTKWnogQFKGm7nttOJAxKIcSbo7Fo0
-         YQPTbhtfwkZdYmtkHjyYkYD8jMUriu06brk7LRTo=
-Date:   Wed, 8 Dec 2021 20:59:49 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar-du: Use dev_err_probe() helper
-Message-ID: <YbEApc0JAKZ1vcrJ@pendragon.ideasonboard.com>
-References: <62adddea1fc5e9133766af2d953be7334f4622aa.1638959417.git.geert+renesas@glider.be>
- <163896464129.995700.3492964836875185548@Monstersaurus>
- <YbDyjFEJuAgROwqU@pendragon.ideasonboard.com>
- <CAMuHMdUq0F-fiqwxOuyQHv7VNfXC0De2gxBCwCyC6iOjEBk7NQ@mail.gmail.com>
+        Wed, 8 Dec 2021 15:00:12 -0500
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D904C061746
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 11:56:40 -0800 (PST)
+Received: by mail-vk1-xa33.google.com with SMTP id s17so2312897vka.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 11:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0QynZZFugsFiBjd5RUiN/D0nDwNGP0tAW492krpmYPs=;
+        b=mBjBifOdQqmyPtegFy4/EPbdj3luDB5l7QMUhi5NeBi2QdHqUhH5HAXk+LUszL8i9Z
+         vYUnuBDqC94r/HAR2zsEkh4YiFtqcX9WWn+7X04rQpZfZhgf8eEJRxzS8xWIkQJ0r1FI
+         jQ4tJCJSHifqeR8ldYiNaONoXjAFJZOiJjE6w1XAPPWRBytu1aW+K8OkEpRt4oMnBEpW
+         qsxgXn0LsqpeAcXpLHIv0D3hwHhcSBs7ZRSg+K4zZ8zCBEhgYnxZ/HwtnYzIfyOd/aNE
+         ZjMc4HiEn5crDZ6EN6vn6WrgWZt7/3pUrF/4t2cmAwfmbyDGP8XI12o0TBsI26B5lYdb
+         0Bug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0QynZZFugsFiBjd5RUiN/D0nDwNGP0tAW492krpmYPs=;
+        b=TW9nMhytQsLYnjnOq2+65Q6fWW5oTjmXPR9EuJnIL7CCYsRRbi+1FAX1j3zOnLioTV
+         56UTex08faUQfOFNKXwmpA+MC9BRZ4PeUaz8S6stOn4UMm1cfPCkg7JlTxNra2tCXlud
+         cnLZ98k2ZNRFwat92shIAco1o6auqC8lxRveBSmxZzkEXb3yD0FtlpHbgyS4xxBIoTS4
+         9Ke30oy1xp0TwdBmGjb/QBNP+Ye0CecRUffcT886NXc1UKVa91t+03bOyY0udfwo2tdx
+         KW3OZvPs/5dqOadU41kNALtPOiO6tMfjABMWkgff8jRqdmwUfqc9ahVMvf1mtzifUozQ
+         Uj4g==
+X-Gm-Message-State: AOAM532UBm74GOZw7LpyUgGwJBtRvnFvJ67c1ip/oEs7CuJQvMCuhLWA
+        CKfrXbgIgFUggj2/HPYIOjA=
+X-Google-Smtp-Source: ABdhPJw1STFoYDIm0eXg6rMVODFey4HErivKFYXtQwqFtj//TBAfa1xfW6hDJuaWGb1cBKOw6AHI0g==
+X-Received: by 2002:a1f:c193:: with SMTP id r141mr1082089vkf.27.1638993398350;
+        Wed, 08 Dec 2021 11:56:38 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:485:504a:c3e6:fc47:f272:572b])
+        by smtp.gmail.com with ESMTPSA id u145sm2607346vsu.25.2021.12.08.11.56.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 11:56:37 -0800 (PST)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     geert+renesas@glider.be
+Cc:     aford173@gmail.com, linux-renesas-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] arm64: dts: beacon-renesom-som: Remove the 'pm-ignore-notify' property
+Date:   Wed,  8 Dec 2021 16:56:24 -0300
+Message-Id: <20211208195624.1864654-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUq0F-fiqwxOuyQHv7VNfXC0De2gxBCwCyC6iOjEBk7NQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+The 'pm-ignore-notify' property is not a valid property and there is
+no bindings documentation for it.
 
-On Wed, Dec 08, 2021 at 07:23:25PM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 8, 2021 at 7:00 PM Laurent Pinchart wrote:
-> > On Wed, Dec 08, 2021 at 11:57:21AM +0000, Kieran Bingham wrote:
-> > > Quoting Geert Uytterhoeven (2021-12-08 10:30:53)
-> > > > Use the dev_err_probe() helper, instead of open-coding the same
-> > > > operation.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 ++---
-> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > > index 5612a9e7a9056cf7..86eeda769e2ebd10 100644
-> > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > > @@ -661,9 +661,8 @@ static int rcar_du_probe(struct platform_device *pdev)
-> > > >         /* DRM/KMS objects */
-> > > >         ret = rcar_du_modeset_init(rcdu);
-> > > >         if (ret < 0) {
-> > > > -               if (ret != -EPROBE_DEFER)
-> > > > -                       dev_err(&pdev->dev,
-> > > > -                               "failed to initialize DRM/KMS (%d)\n", ret);
-> > > > +               dev_err_probe(&pdev->dev, ret,
-> > > > +                             "failed to initialize DRM/KMS\n");
-> > >
-> > > I've just learned that dev_err_probe() sets a 'reason' for the deferral.
-> > > Seems like a nice feature when exploring devices that are still waiting
-> > > to probe. Is the message still appropriate enough in that case?
-> >
-> > It's a very generic message, so it's not ideal. One issue is that
-> > dev_err_probe() replaces any currently stored probe deferral reason
-> > message, which means that we'll override any message previously set. We
-> > don't set any message now, but we should (in rcar_du_encoder_init(),
-> > there are two main code paths where -EPROBE_DEFER is expected), so this
-> > patch would then get in the way I'm afraid.
-> 
-> If rcar_du_encoder_init() will handle the printing of errors, there is indeed
-> no more reason for rcar_du_probe() to do that, so the existing dev_err()
-> with the fuzzy message can be removed?
+Drop such invalid property.
 
-We could drop the above message indeed, at least once all the error
-paths deeper in the call stack will print a detailed message. The
-message here is useful in case an error path forgets to print anything,
-to avoid the worst case of probe() failing silently.
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+index 0d136809eb96..17d5c4501bbe 100644
+--- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+@@ -293,7 +293,6 @@ &sdhi2 {
+ 	vqmmc-supply = <&reg_1p8v>;
+ 	non-removable;
+ 	cap-power-off-card;
+-	pm-ignore-notify;
+ 	keep-power-in-suspend;
+ 	mmc-pwrseq = <&wlan_pwrseq>;
+ 	status = "okay";
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
