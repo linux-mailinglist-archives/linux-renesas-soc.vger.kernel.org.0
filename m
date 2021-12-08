@@ -2,96 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8876646D5A5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 15:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D5A46D71C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 16:36:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235118AbhLHObM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 09:31:12 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:61589 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S235115AbhLHObM (ORCPT
+        id S236151AbhLHPjd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 10:39:33 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:50510 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230518AbhLHPjd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 09:31:12 -0500
+        Wed, 8 Dec 2021 10:39:33 -0500
 X-IronPort-AV: E=Sophos;i="5.88,189,1635174000"; 
-   d="scan'208";a="103239368"
+   d="scan'208";a="102817348"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Dec 2021 23:27:39 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 09 Dec 2021 00:35:52 +0900
 Received: from localhost.localdomain (unknown [10.226.92.71])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 31FCE43E1537;
-        Wed,  8 Dec 2021 23:27:37 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 318B8400AFD5;
+        Thu,  9 Dec 2021 00:35:50 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a07g044: Create thermal zone to support IPA
-Date:   Wed,  8 Dec 2021 14:27:29 +0000
-Message-Id: <20211208142729.2456-3-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] thermal/drivers: Add error check for reset_control_deassert()
+Date:   Wed,  8 Dec 2021 15:35:47 +0000
+Message-Id: <20211208153547.3612-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211208142729.2456-1-biju.das.jz@bp.renesas.com>
-References: <20211208142729.2456-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Setup a thermal zone driven by SoC temperature sensor.
-Create passive trip points and bind them to CPUFreq cooling
-device that supports power extension.
+If reset_control_deassert() fails, then we won't be able to access
+the device registers. Therefore check the return code of
+reset_control_deassert() and bail out in case of error.
 
-Based on the work done by Dien Pham <dien.pham.ry@renesas.com>
-and others for r8a77990 SoC.
+While at it replace the parameter "&pdev->dev" -> "dev" in
+devm_reset_control_get_exclusive().
 
+Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/thermal/rzg2l_thermal.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index ea528580f306..2639fd383010 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -88,6 +88,7 @@
- 			compatible = "arm,cortex-a55";
- 			reg = <0>;
- 			device_type = "cpu";
-+			#cooling-cells = <2>;
- 			next-level-cache = <&L3_CA55>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R9A07G044_CLK_I>;
-@@ -917,6 +918,15 @@
- 			polling-delay-passive = <250>;
- 			polling-delay = <1000>;
- 			thermal-sensors = <&tsu 0>;
-+			sustainable-power = <717>;
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&target>;
-+					cooling-device = <&cpu0 0 2>;
-+					contribution = <1024>;
-+				};
-+			};
+diff --git a/drivers/thermal/rzg2l_thermal.c b/drivers/thermal/rzg2l_thermal.c
+index d47d4a30cd6c..b069cbfa6795 100644
+--- a/drivers/thermal/rzg2l_thermal.c
++++ b/drivers/thermal/rzg2l_thermal.c
+@@ -170,12 +170,14 @@ static int rzg2l_thermal_probe(struct platform_device *pdev)
+ 		return PTR_ERR(priv->base);
  
- 			trips {
- 				sensor_crit: sensor-crit {
-@@ -924,6 +934,12 @@
- 					hysteresis = <1000>;
- 					type = "critical";
- 				};
-+
-+				target: trip-point {
-+					temperature = <100000>;
-+					hysteresis = <1000>;
-+					type = "passive";
-+				};
- 			};
- 		};
- 	};
+ 	priv->dev = dev;
+-	priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
++	priv->rstc = devm_reset_control_get_exclusive(dev, NULL);
+ 	if (IS_ERR(priv->rstc))
+ 		return dev_err_probe(dev, PTR_ERR(priv->rstc),
+ 				     "failed to get cpg reset");
+ 
+-	reset_control_deassert(priv->rstc);
++	ret = reset_control_deassert(priv->rstc);
++	if (ret)
++		return dev_err_probe(dev, PTR_ERR(ret), "failed to deassert");
+ 
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_get_sync(dev);
 -- 
 2.17.1
 
