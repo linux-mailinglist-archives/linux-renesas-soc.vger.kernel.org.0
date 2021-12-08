@@ -2,107 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1720A46D328
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 13:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55CA746D33E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Dec 2021 13:25:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233235AbhLHMX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Dec 2021 07:23:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39102 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233232AbhLHMX5 (ORCPT
+        id S229531AbhLHM32 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Dec 2021 07:29:28 -0500
+Received: from mail-ua1-f44.google.com ([209.85.222.44]:46992 "EHLO
+        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231815AbhLHM31 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Dec 2021 07:23:57 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4B8C0617A1
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Dec 2021 04:20:25 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id a37so2501236ljq.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 04:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=cxIhJxLH45f3paJwvO3rHF1VnfiXGcMj12zNmLMco38=;
-        b=2vhabGUZOYSFdB90pMpxcPPCsyWSf05R+wNg9Is0AzhRA7xlZWr1sFZT5C9wZkSQO0
-         dIUY4HATKEXat9kbLW3ZlaoJ4DL0vbul0zmDgjgHTLzM/nvzhwKEc+RJYR7VILcRZYjo
-         g7AvLgH2798JqiCVcQjLAsYSqy8Tl8d7AnGN8SZ6NrqVQJBYRyrjCAPipYW40T7PCpow
-         /jBevIE1ZT1NjnuCNqRcWTxU+nLa7Kfi05myozS/A1WyegZwKj0jdzGwB6bNTb3SephP
-         jsCQIZ99IwZ+MU5s+jBg3RVQVlutWF6TUXsi29EPl0jREOabafq3ZSpLKHd49JfmKNRl
-         4zPA==
+        Wed, 8 Dec 2021 07:29:27 -0500
+Received: by mail-ua1-f44.google.com with SMTP id 30so4289346uag.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 04:25:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=cxIhJxLH45f3paJwvO3rHF1VnfiXGcMj12zNmLMco38=;
-        b=xKHMXgSQtwhq0TKKDYdfLZthU5uAgidTXVhNDPMne4fJOKyqE+5zekb2bit1NhD60P
-         JW4guAjUp7WenBvfCvai/XKVt/d5zdfbZC/dGwCqDNOfhOavtf/XIkgab/yNA0Q1fwJm
-         dDLrHk+Szdx71t2Nr4k80okwk6DUQK6nhH/hKuGDJO1MHmd9GzOi9zhyeOP8m5IIcKqz
-         Ki5LR026C8DWSJYbixpsxFowF7kOAPjFH4/Y+e+aU+RLUk7/YPvz7WJLiqq3tI44oAjW
-         Fd5XhNdAJRQEEnuVrMG206urLr15oGmRU2WBCA0eC0E5Y6VwhRwJUEBiZHRVl3vJr3Zs
-         srZA==
-X-Gm-Message-State: AOAM533UNVj5suqiKLNb0jHY4I9Nl4CO2fLmKUSS8CHrFax+OvpTiVkk
-        YMRDkFi9p/dU21S7gE0QUCpesA==
-X-Google-Smtp-Source: ABdhPJzVPn2LMqqZTY7tri4yJxfa+HUF9BmoHhAPU9CirLglXWr/b0lKQtT/FKueM7/ZdE3CHiyU2w==
-X-Received: by 2002:a2e:a28e:: with SMTP id k14mr4404242lja.488.1638966023694;
-        Wed, 08 Dec 2021 04:20:23 -0800 (PST)
-Received: from localhost (h-46-59-90-226.A463.priv.bahnhof.se. [46.59.90.226])
-        by smtp.gmail.com with ESMTPSA id p10sm299115lja.0.2021.12.08.04.20.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 04:20:23 -0800 (PST)
-Date:   Wed, 8 Dec 2021 13:20:22 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] sh_eth: Use dev_err_probe() helper
-Message-ID: <YbCjBk0ibN1ga3Qm@oden.dyn.berto.se>
-References: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8jEZuxyTH0INbolsiPEAQffoHG2ckrzZgo9Hq7QWaxk=;
+        b=Ji+J6vZFa/3j5SthkZ6G5OQf4+yi9QHKAKAOieBHNntF1bEiwVgzpAjAxO4CyivJka
+         yCnJYQXkMDgFnGwPlZ++5h6fzxhb3CQeXDcORdyBnCB8gBzmvrLWD4sGdWOiPbVYugBv
+         HdAZCNvsP9oDpZpaAicH9Tus4IJ9N9cK9lD8FViFjU0w/P1QrjHXOJ+2MJYej9/fV6/U
+         8yFRU1MxdueBqmJ2HWSJKCNm4zpAdPfISQLFexFa2N9gOhyhI468cUO2KicIAv5iCC7O
+         KerJLzF1gZcaveQpI38ZN0iZcuzPnq8IEOjnhb1n+u6DCIELSfKjIuHa4px18d90sJ33
+         N/Lg==
+X-Gm-Message-State: AOAM532QqdZHpfSf6HJkDu5M10SilwEHjFt7xawJ1uqfmjpUtgDyorSU
+        xZdL5+N0nPATLUIume8G3InWqJA/bdwv4g==
+X-Google-Smtp-Source: ABdhPJxP33EmqCDIe/VIgTw/ldly71bHFOiXumUMtUBRZbrQGQJZXrmGDOaHnUneIXdOFXVJ7YX0YA==
+X-Received: by 2002:a67:f8c2:: with SMTP id c2mr49009077vsp.62.1638966355120;
+        Wed, 08 Dec 2021 04:25:55 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id i24sm1684497vkk.5.2021.12.08.04.25.54
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 04:25:54 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id y5so4341236ual.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Dec 2021 04:25:54 -0800 (PST)
+X-Received: by 2002:ab0:15a1:: with SMTP id i30mr8228271uae.122.1638966354316;
+ Wed, 08 Dec 2021 04:25:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2576cc15bdbb5be636640f491bcc087a334e2c02.1638959463.git.geert+renesas@glider.be>
+References: <62adddea1fc5e9133766af2d953be7334f4622aa.1638959417.git.geert+renesas@glider.be>
+ <163896464129.995700.3492964836875185548@Monstersaurus>
+In-Reply-To: <163896464129.995700.3492964836875185548@Monstersaurus>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Dec 2021 13:25:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX8=ZftyH2_WVxQ6_=X81UniF3q+uGveHAv+nz2QYtjrQ@mail.gmail.com>
+Message-ID: <CAMuHMdX8=ZftyH2_WVxQ6_=X81UniF3q+uGveHAv+nz2QYtjrQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Use dev_err_probe() helper
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Kieran,
 
-Thanks for your work, I learnt something new.
+On Wed, Dec 8, 2021 at 12:57 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> Quoting Geert Uytterhoeven (2021-12-08 10:30:53)
+> > Use the dev_err_probe() helper, instead of open-coding the same
+> > operation.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > index 5612a9e7a9056cf7..86eeda769e2ebd10 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > @@ -661,9 +661,8 @@ static int rcar_du_probe(struct platform_device *pdev)
+> >         /* DRM/KMS objects */
+> >         ret = rcar_du_modeset_init(rcdu);
+> >         if (ret < 0) {
+> > -               if (ret != -EPROBE_DEFER)
+> > -                       dev_err(&pdev->dev,
+> > -                               "failed to initialize DRM/KMS (%d)\n", ret);
+> > +               dev_err_probe(&pdev->dev, ret,
+> > +                             "failed to initialize DRM/KMS\n");
+>
+> I've just learned that dev_err_probe() sets a 'reason' for the deferral.
+> Seems like a nice feature when exploring devices that are still waiting
+> to probe. Is the message still appropriate enough in that case?
+>
+> I think it's probably fine, so
 
-On 2021-12-08 11:32:07 +0100, Geert Uytterhoeven wrote:
+I have no idea why it could fail. So if you think the message is
+fine, it must be fine ;-)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> Use the dev_err_probe() helper, instead of open-coding the same
-> operation.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/net/ethernet/renesas/sh_eth.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-> index 223626290ce0e278..d947a628e1663009 100644
-> --- a/drivers/net/ethernet/renesas/sh_eth.c
-> +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> @@ -3368,8 +3368,7 @@ static int sh_eth_drv_probe(struct platform_device *pdev)
->  	/* MDIO bus init */
->  	ret = sh_mdio_init(mdp, pd);
->  	if (ret) {
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(&pdev->dev, "MDIO init failed: %d\n", ret);
-> +		dev_err_probe(&pdev->dev, ret, "MDIO init failed\n");
->  		goto out_release;
->  	}
->  
-> -- 
-> 2.25.1
-> 
+Thanks!
 
--- 
-Kind Regards,
-Niklas Söderlund
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
