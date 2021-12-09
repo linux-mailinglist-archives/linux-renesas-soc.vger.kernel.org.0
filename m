@@ -2,88 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E06F46E7AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 12:36:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCECD46E8D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 14:09:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236792AbhLILkB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Dec 2021 06:40:01 -0500
-Received: from mail-ua1-f43.google.com ([209.85.222.43]:37697 "EHLO
-        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbhLILkA (ORCPT
+        id S233843AbhLINN3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Dec 2021 08:13:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43374 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237601AbhLINN2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Dec 2021 06:40:00 -0500
-Received: by mail-ua1-f43.google.com with SMTP id o1so10172612uap.4;
-        Thu, 09 Dec 2021 03:36:27 -0800 (PST)
+        Thu, 9 Dec 2021 08:13:28 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2AEC061746
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Dec 2021 05:09:55 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id i5so9634131wrb.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Dec 2021 05:09:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3bjwCxLCEkEf4XktkLjCNVUh5mwuThyxbAeXZ9+rfcY=;
+        b=ng8nx6MqlJ0q3GIgG5KIEaWMgd0z7E/22KvDDJebp1cXFJ8msc6LFRPT0uN5PI3Bi1
+         zgsJmXpWYO8uWagW2HlxSHniV5t+Sxs6qRMmPanGZk+vGPcgdcZT2l1sNqVsDIlL3MaV
+         oc1EqMmzz/tUOw0EKEAXjRY5UKldAJIpGdPeKEWz2etc5lQpqbW5HBjVcRRsRc6qSD0f
+         1Yj4UPBe3vSpkO+Nv+skcDQeLfhZCIcLHogcv6a69I2UKO1yVSo8hr4y3eiJpT6Q4o3O
+         Wo/+RWm09THjtBDY7/pQzsiJqKpveO2riAihkuOqajyzoBcLGaWaa9KVJnjkg8XEC2ur
+         O9pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bCAtLuHkBfdhNiNN7zTcPyUKHpXBqsilvJRiJ7D60To=;
-        b=R8Z3MR8hM7pk/JOA52N2phoE2B2n7i+JSZIomhCJnde7XqW+IxB+hvlkL5DDlqbsOI
-         aYdaDY7Q/lEzQfuzyd9BXdFhL8X0p67tiKyIXbDRdwGCezKU+SAz4ZF6lhsST6xTsKEu
-         XN1BuNh+Qvh5AOOC6dGsHCKfMDZKfAxHNqKOPQXHKy2CpgkjZhO2DaQIKiZcBd0hPFpg
-         CpD9HO4kQyq+N+ZpqEGYg5feBzGywAAE4mgOg0mkPTNyuVSFnKYMymG+MSQ38YtnEDNc
-         IKwyVRTyCmhc5Xw4xa4BUFPDWPpwOxOQUlsLnjhdwOXsb7NMfX793UXdSOO0F4vO2N5T
-         N8AQ==
-X-Gm-Message-State: AOAM530qC8mgjoF6bwWjz+zJHGhCSR+akuy8xvjMRJp7rllZTgpiu6bO
-        gjTY/TOScvFN1aKzgjwjbk1GLJ3OIEtW9w==
-X-Google-Smtp-Source: ABdhPJydCmav7OT9vNc5YKZOC63I3sZZ5BfOqY7tCiH/XQb8IT0exMJaVDJzUcujWqjf4ubt55PD+g==
-X-Received: by 2002:a9f:2329:: with SMTP id 38mr18071745uae.124.1639049786061;
-        Thu, 09 Dec 2021 03:36:26 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id a128sm3662624vki.11.2021.12.09.03.36.25
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3bjwCxLCEkEf4XktkLjCNVUh5mwuThyxbAeXZ9+rfcY=;
+        b=FBOczwltLgdsyp3u5UWracB4GuRoS/fPBUeWmr5ro7YqMGZcsXemJh32i1UKBTt5gp
+         +xr3uVbr7lcFhACOYfUxcoDOrosPnqUWIiRcxpX7cKFM2PgvdxeB+wrNgffBUCTAICF3
+         sxzpwtx8b1O7BRkoaMCr6zsctbg7x0+/KZuWVC0H56x4L7mMa3B3GzC85/GdzAUX6U6x
+         gNc8m5Kwan9HoTeJn3gvFdCkVEV+RuzQO3FUPT/yBvsAeZ8ZzenYThyAAGgqXl8+H8t9
+         1Ir+zvFLxBz1jXFSf7ez4yHx9MSgY0+uQcYlUVYJCqupa+rGCsxRyRS3345WRNn3zZNf
+         6u+A==
+X-Gm-Message-State: AOAM532FZ6myiyDPETp+p6gEzTfhRNH0RVKVqTY6JIds3qhJ5BIWVJiu
+        OjRybFXlg4MWqoIKdjYT40EFxXE7vCArtg==
+X-Google-Smtp-Source: ABdhPJyXkT1PNpxQ/++/AgG+2uT8SpL6qRoMakrkAoO0HNxkF57px99gYEv85WlGQy2q4AAkTnmXZw==
+X-Received: by 2002:adf:cf0a:: with SMTP id o10mr6618994wrj.84.1639055393703;
+        Thu, 09 Dec 2021 05:09:53 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:8ae8:ca1f:ff1a:a23d? ([2a01:e34:ed2f:f020:8ae8:ca1f:ff1a:a23d])
+        by smtp.googlemail.com with ESMTPSA id b15sm7855534wri.62.2021.12.09.05.09.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 03:36:25 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id m16so3478173vkl.13;
-        Thu, 09 Dec 2021 03:36:25 -0800 (PST)
-X-Received: by 2002:a05:6122:104f:: with SMTP id z15mr8304256vkn.39.1639049785213;
- Thu, 09 Dec 2021 03:36:25 -0800 (PST)
+        Thu, 09 Dec 2021 05:09:53 -0800 (PST)
+Subject: Re: [PATCH v3 1/4] reset: Add
+ of_reset_control_get_optional_exclusive()
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20211112184413.4391-1-biju.das.jz@bp.renesas.com>
+ <20211112184413.4391-2-biju.das.jz@bp.renesas.com>
+ <b3bfa4b6e96f8a057c0ee7743a4e11aa9be4e8bb.camel@pengutronix.de>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <a8acecc3-203c-6551-987d-14e73cd8a785@linaro.org>
+Date:   Thu, 9 Dec 2021 14:09:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211209111506.217637-1-arnd@kernel.org>
-In-Reply-To: <20211209111506.217637-1-arnd@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Dec 2021 12:36:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW-g8TsBiOK9LKwtpvo933nuCN3HsGkz9sxuLnMgb4kbg@mail.gmail.com>
-Message-ID: <CAMuHMdW-g8TsBiOK9LKwtpvo933nuCN3HsGkz9sxuLnMgb4kbg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: fix R-Car S4-8 link failure
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b3bfa4b6e96f8a057c0ee7743a4e11aa9be4e8bb.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+On 19/11/2021 12:37, Philipp Zabel wrote:
+> Hi Daniel, Thomas,
+> 
+> On Fri, 2021-11-12 at 18:44 +0000, Biju Das wrote:
+>> Add optional variant of of_reset_control_get_exclusive(). If the
+>> requested reset is not specified in the device tree, this function
+>> returns NULL instead of an error.
+>>
+>> Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> ---
+>> v2->v3:
+>>  * Added Geert's Rb tag
+>> ---
+> 
+> I've picked up this patch for the reset/next branch:
+> 
+> ----------8<----------
+> The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
+> 
+>   Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.pengutronix.de/pza/linux reset/of-get-optional-exclusive
+> 
+> for you to fetch changes up to c4f5b30dda01f2f6979a9681142de454991182ee:
+> 
+>   reset: Add of_reset_control_get_optional_exclusive() (2021-11-19 12:23:45 +0100)
 
-On Thu, Dec 9, 2021 at 12:15 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Without CONFIG_CLK_RCAR_GEN4_CPG, this driver fails to link:
->
-> x86_64-linux-ld: drivers/clk/renesas/r8a779a0-cpg-mssr.o:(.init.rodata+0x70): undefined reference to `rcar_gen4_cpg_clk_register'
->
-> Fixes: 95d3d41f958f ("clk: renesas: cpg-mssr: Add support for R-Car S4-8")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Thanks, I've merged your branch. Please do not remove it
 
-Thanks, but this is already fixed.
-https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=renesas-clk-for-v5.17&id=470e3f0d0b1529abf9759c93e23ac8dd678e0e70
+  -- Daniel
 
-Gr{oetje,eeting}s,
 
-                        Geert
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
