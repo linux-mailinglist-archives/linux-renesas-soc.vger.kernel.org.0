@@ -2,103 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DA7146EA88
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 16:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 337F446F502
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 21:34:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239140AbhLIPG5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Dec 2021 10:06:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239153AbhLIPGu (ORCPT
+        id S232099AbhLIUi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Dec 2021 15:38:29 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:33836 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229446AbhLIUi3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Dec 2021 10:06:50 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ADE7C061353
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Dec 2021 07:03:16 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id u17so10217316wrt.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Dec 2021 07:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DceIKBZdPfWWzEFspshwq/4AFcE8dKQFPMvGqy4h/Bo=;
-        b=VfAKC5JSeTF8Ez8AZKvX4Oo3uelD+ija3DgYdTLltbQiXXSYaNCTw1T56ixnwxNuwp
-         cMBQ3coAIcTKM69H8pTLrhDtTajoXhvosYQ+oDfJ4dSeMNxsAfYloKkA8boeAoaRil8f
-         cPwNfAwwQcH16t4+St+HYwdRmbJGGpiXzajkLtizsv3MWb9tTUENHIsuIhtMFZDM+ar2
-         HZWmPR/cx+myM3qZ5I17OhAUDkqFKxdyCzmVuwPhd6D4IHaNlaRdRzfotEW7LBFI7grc
-         bK1Qoogt85nzeVPJAkH3XQGQ6GAd2ugUA9A5OxtYtVnZyRQ5eHHcA17355MM/4mAHoBn
-         XXsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DceIKBZdPfWWzEFspshwq/4AFcE8dKQFPMvGqy4h/Bo=;
-        b=hgAkstb6bPO/HaCuMfZZGdqYEvxW4jhNXFh2rJwX4fuBvGRwteGcGgDdwlMeScO6Ic
-         e3lq6EsPFve3tXRoPMLI1Qh6h4UHtNX1OHLzNV3mxhGR5MqDwGzfXFR9CxUNeOQpPGGm
-         HaN9Iv5WZw3L3++O3ECesKnToQblVa+7yLak6ShvbjUfjyS5wJbxNm7kk55xcac+4udf
-         V5sEe2NFbhj0n3Y0zuTtRmLMdSs4edcrLlMafIyygIi79WibetlFDTpQbPwjSwnuLezw
-         lgsPxSNMcAGejksWix2e1A0x9w51se9ptRgU4Y3BSwEdB+Bl+QoSw0+s8LDWa0cvYNGU
-         EQ/Q==
-X-Gm-Message-State: AOAM532UAEV3wwfVvMU7ZkIr97+j8sJen6z6X+1EZKkdD7Te0At4ibJt
-        jJ+dqhw/Gne33pOzus5cvwmaxpV4V1ArdA==
-X-Google-Smtp-Source: ABdhPJy1XiTFFujehS1Js8gTZlxNuKCjNd0fWSEy86Yl1IrdvO4noh13q6pm2f9ohGKmzph+quIPcQ==
-X-Received: by 2002:adf:aa08:: with SMTP id p8mr7001130wrd.572.1639062194508;
-        Thu, 09 Dec 2021 07:03:14 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:7191:566f:2b5:22f1? ([2a01:e34:ed2f:f020:7191:566f:2b5:22f1])
-        by smtp.googlemail.com with ESMTPSA id a1sm8261698wri.89.2021.12.09.07.03.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 07:03:13 -0800 (PST)
-Subject: Re: [PATCH v2] thermal/drivers: Add error check for
- reset_control_deassert()
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20211208164010.4130-1-biju.das.jz@bp.renesas.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <4a0ab27a-a5ba-5ad8-5ad7-be883b661b67@linaro.org>
-Date:   Thu, 9 Dec 2021 16:03:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Thu, 9 Dec 2021 15:38:29 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id D600FCE25DC;
+        Thu,  9 Dec 2021 20:34:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0671FC341C7;
+        Thu,  9 Dec 2021 20:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639082092;
+        bh=8OIODPu60ojwJLuPAooGJ33W0G3lVL6ddOC3nAtXdcY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=anYTLate8ia7xVbzhhv7Gb24kTiUz12Mzmz/6Y1GG5G5AfbaVXVTCPiVN7s6bRhLM
+         MaWuyF2HWmYX86sMVu1brYdp2PWaKC4w4kQQGDX7nJfmJAWiVdjq/fbRIbNUp0KWEw
+         S3JAttR17lxhr+ckMTLScuGIEalH98V1XM6gsGuEkad4GuuxXFngl7GKJlbds4xaGj
+         u6fM2PHjp4RHypTKaQRZmjXpMHr8lBWiHx5lv1/QaW4YFEAtfQ9HH4LBxxpkos2TwG
+         o0Gb1ehjjDDSYf/ZBoS3KoJ5xZ8as/G2Q1gbQndz0rCCXmHXqTy7wTR6J6fgLtJ3dd
+         aFcxCF4Um9i9A==
+Received: by mail-ed1-f52.google.com with SMTP id x10so6143339edd.5;
+        Thu, 09 Dec 2021 12:34:51 -0800 (PST)
+X-Gm-Message-State: AOAM531X9tBcs2r80JgrmGksHXJruCfPW9spL6vE8LDHN8Zb6yhj2JUu
+        K0R71SZ4A1leRXLesPagOAbsz+ZnDZzpFDqmGQ==
+X-Google-Smtp-Source: ABdhPJxabk3IUkwoF8SyW/p7rw1cBHsKcMY0eJTM6vMEIFjCFicfsbuIVXNI72XoPrtQ3AEtms/uq8ddZt7bcqMYUaI=
+X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr31830041edx.306.1639082090290;
+ Thu, 09 Dec 2021 12:34:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211208164010.4130-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <d290850bf95f4bdf0c329f278db458c7@kernel.org> <CA+V-a8vUCXQa38NmYu9znakcq4A=Uedyn8w5+hXQ_WKf58oHRQ@mail.gmail.com>
+ <875yry1316.wl-maz@kernel.org> <CA+V-a8vNUhVBFNf-M6s1BmXbdCpdyJOx2g=t=QJf1jQzUA3xow@mail.gmail.com>
+In-Reply-To: <CA+V-a8vNUhVBFNf-M6s1BmXbdCpdyJOx2g=t=QJf1jQzUA3xow@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 9 Dec 2021 14:34:38 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+H54oX8GCHcwPVaUC3brjJa+5+OTU21D-3d7QUqM+jcg@mail.gmail.com>
+Message-ID: <CAL_Jsq+H54oX8GCHcwPVaUC3brjJa+5+OTU21D-3d7QUqM+jcg@mail.gmail.com>
+Subject: Re: [RFC PATCH] of: platform: Skip mapping of interrupts in of_device_alloc()
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 08/12/2021 17:40, Biju Das wrote:
-> If reset_control_deassert() fails, then we won't be able to access
-> the device registers. Therefore check the return code of
-> reset_control_deassert() and bail out in case of error.
-> 
-> While at it replace the parameter "&pdev->dev" -> "dev" in
-> devm_reset_control_get_exclusive().
-> 
-> Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
-> v1->v2:
->  * removed the cast operation "PTR_ERR(ret)" -> ret
->  * Added Rb tag from Philipp.
-> ---
+On Thu, Dec 9, 2021 at 5:35 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Rob and Marc,
+>
+> On Thu, Dec 9, 2021 at 10:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> >
+> > On Thu, 09 Dec 2021 10:00:44 +0000,
+> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > > The root of the issue is that all the resource allocation is done
+> > > > upfront, way before we even have a driver that could potentially
+> > > > deal with this device. This is a potential waste of resource, and
+> > > > it triggers the issue you noticed.
+> > > >
+> > > > If you delay the resource allocation until there is an actual
+> > > > match with a driver, you could have a per-driver flag telling you
+> > > > whether the IRQ allocation should be performed before the probe()
+> > > > function is called.
+> > > >
+> > > As suggested by Rob, if we switch the drivers to use
+> > > platform_get_resource(pdev, IORESOURCE_IRQ, n) call with
+> > > platform_get_irq() this code should go away and with this switch the
+> > > resource allocation will happen demand. Is this approach OK?
+> >
+> > If you get rid of of_irq_to_resource_table() altogether, then yes,
+> > this has a fighting chance to work.
+> >
+> Yes, switching to platform_get_irq() will eventually cause
+> of_irq_to_resource_table() to go away.
+>
+> On second thought, instead of touching all the drivers, if we update
+> platform_get_resource/platform_get_resource_byname to internally call
+> platform_get_irq() internally if it's a IORESOURCE_IRQ resource. Does
+> that sound good or should I just get on changing all the drivers to
+> use platform_get_irq() instead?
 
-Applied, thanks
+Except that platform_get_irq() already internally calls
+platform_get_resource()... I think changing the drivers is the right
+way. Happy to do some if you want to divide it up.
 
+Using coccigrep, I think I've found all the places using
+platform_device.resource directly. A large swath are Sparc drivers
+which don't matter. The few that do matter I've prepared patches for
+here[1]. Most of what I found were DT based drivers that copy
+resources to a child platform device. That case will not work with
+platform_get_irq() callers either unless the child device has it's DT
+node set to the parent node which is the change I made.
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Rob
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+[1] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
