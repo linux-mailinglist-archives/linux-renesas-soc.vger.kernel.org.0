@@ -2,19 +2,19 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC3346EA05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 15:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F066D46EA07
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Dec 2021 15:32:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238653AbhLIOgL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Dec 2021 09:36:11 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:36247 "EHLO
+        id S238664AbhLIOgN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Dec 2021 09:36:13 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:45221 "EHLO
         relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238649AbhLIOgL (ORCPT
+        with ESMTP id S238649AbhLIOgM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Dec 2021 09:36:11 -0500
+        Thu, 9 Dec 2021 09:36:12 -0500
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D90A5200011;
-        Thu,  9 Dec 2021 14:32:35 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 5C8CC200006;
+        Thu,  9 Dec 2021 14:32:37 +0000 (UTC)
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Richard Weinberger <richard@nod.at>,
         Vignesh Raghavendra <vigneshr@ti.com>,
@@ -30,9 +30,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v3 3/4] MAINTAINERS: Add an entry for Renesas RZ/N1 NAND controller
-Date:   Thu,  9 Dec 2021 15:32:27 +0100
-Message-Id: <20211209143228.525234-4-miquel.raynal@bootlin.com>
+Subject: [PATCH v3 4/4] ARM: dts: r9a06g032: Describe NAND controller
+Date:   Thu,  9 Dec 2021 15:32:28 +0100
+Message-Id: <20211209143228.525234-5-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211209143228.525234-1-miquel.raynal@bootlin.com>
 References: <20211209143228.525234-1-miquel.raynal@bootlin.com>
@@ -43,31 +43,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Point to the driver and the bindings.
+Describe the NAND controller contained in r9a06g032 SoCs.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 43007f2d29e0..48be4107d05e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16287,6 +16287,13 @@ S:	Supported
- F:	Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
- F:	drivers/iio/adc/rzg2l_adc.c
+diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+index c47896e4ab58..50198243d674 100644
+--- a/arch/arm/boot/dts/r9a06g032.dtsi
++++ b/arch/arm/boot/dts/r9a06g032.dtsi
+@@ -173,6 +173,18 @@ pinctrl: pinctrl@40067000 {
+ 			status = "okay";
+ 		};
  
-+RENESAS RZ/N1X NAND CONTROLLER DRIVER
-+M:	Miquel Raynal <miquel.raynal@bootlin.com>
-+L:	linux-mtd@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mtd/renesas,rzn1-nand-controller.yaml
-+F:	drivers/mtd/nand/raw/rzn1-nand-controller.c
++		nand_controller: nand-controller@40102000 {
++			compatible = "renesas,r9a06g032-nand-controller",
++				     "renesas,rzn1-nand-controller";
++			reg = <0x40102000 0x2000>;
++			interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&sysctrl R9A06G032_HCLK_NAND>, <&sysctrl R9A06G032_CLK_NAND>;
++			clock-names = "nand_hclk", "nand_eclk";
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
 +
- RESET CONTROLLER FRAMEWORK
- M:	Philipp Zabel <p.zabel@pengutronix.de>
- S:	Maintained
+ 		gic: interrupt-controller@44101000 {
+ 			compatible = "arm,gic-400", "arm,cortex-a7-gic";
+ 			interrupt-controller;
 -- 
 2.27.0
 
