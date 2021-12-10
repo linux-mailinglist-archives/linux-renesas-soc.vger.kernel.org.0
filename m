@@ -2,72 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 154AA46FFF0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Dec 2021 12:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0464147029D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Dec 2021 15:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240453AbhLJLgH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Dec 2021 06:36:07 -0500
-Received: from www.zeus03.de ([194.117.254.33]:39336 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240461AbhLJLgG (ORCPT
+        id S234780AbhLJOXx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Dec 2021 09:23:53 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:43002 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232148AbhLJOXx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Dec 2021 06:36:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=HBGSJTqJZPEsWnlxACLMR2ZFB/n
-        N4HLQcOqEP/WTnok=; b=a+4zh2ZIw0+SIubGqU/1B1ON6Q00LywhpQPojOehMQg
-        kypThyYZNRGzgO4mA4i3ZKqEERSdSnKsqxynsQNQz/k1+INnEmG6S71rWoZzXJl+
-        Jho/SHPRa0ZUCavMqTMyrQkRMZjPVprAjTe6oNOvQNqeM/sMgPFUCZEVbAGbM+rk
-        =
-Received: (qmail 1447484 invoked from network); 10 Dec 2021 12:32:31 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Dec 2021 12:32:31 +0100
-X-UD-Smtp-Session: l3s3148p1@ZGMVFMnSpJEgAQnoAEPjAJzPXF1eIEK3
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFC PATCH] pinctrl: renesas: rcar: don't enforce GPIO if already muxed
-Date:   Fri, 10 Dec 2021 12:32:26 +0100
-Message-Id: <20211210113226.40111-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 10 Dec 2021 09:23:53 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BCE1FB8281A;
+        Fri, 10 Dec 2021 14:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A69CC00446;
+        Fri, 10 Dec 2021 14:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639146015;
+        bh=OfD1bwhUCRhdGG4qwjkqG1Z4nuGfYEuNGjW+M53Aq2o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=S87YIK4gn3loT9LgN9GoEZnbH/gV2l5Nno7kMs3MSMcjvlMqe0BjqQsgP7cjA1mwQ
+         CU7AY4EUd5DEwfVITdXZNE0/UfWFulNhbfR7QQhrsKJxaob3DXOpDAOY+F5tCyVo1z
+         6PrlrL0jH+TCN+ElrokfPrkbbUbCYKy35HOaBHZC4hDbXg2bfQfItsmQboJ4W1vF+a
+         5gbn53DVQvKeyJF26U0C2IDGHAUPbQ45iWBLc2BNYeX5w0a+JUblwOL3VgA1gVaPjb
+         fBZ/r5+dsAVXqX2+XCkcAJpRNcRXdNjxNiV1T0c8aE+wzhWQ9mHZTVRhBdTupRaZEA
+         cPJpuZuvJ3lQA==
+Received: by mail-ed1-f50.google.com with SMTP id r11so29953103edd.9;
+        Fri, 10 Dec 2021 06:20:15 -0800 (PST)
+X-Gm-Message-State: AOAM532tyZvNl4H6Uz61O4JK4+AA/aoYtW08+1bKTsQp417lr0BwBjxB
+        7j78NSDFHACX6o1Z0Cm0WvEZPro6utlUNUWZZw==
+X-Google-Smtp-Source: ABdhPJwlX3Y0JajtJITVeG8yQcVy5/Ih1tDAFptuNFnlrG9NxFmfWWCyqf8KrMFgKkEjVaCJ4q9nYjRbaJZ+3MIn8uE=
+X-Received: by 2002:a17:906:fcbb:: with SMTP id qw27mr23796249ejb.320.1639146010345;
+ Fri, 10 Dec 2021 06:20:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <d290850bf95f4bdf0c329f278db458c7@kernel.org> <CA+V-a8vUCXQa38NmYu9znakcq4A=Uedyn8w5+hXQ_WKf58oHRQ@mail.gmail.com>
+ <875yry1316.wl-maz@kernel.org> <CA+V-a8vNUhVBFNf-M6s1BmXbdCpdyJOx2g=t=QJf1jQzUA3xow@mail.gmail.com>
+ <CAL_Jsq+H54oX8GCHcwPVaUC3brjJa+5+OTU21D-3d7QUqM+jcg@mail.gmail.com> <CA+V-a8sifb8zpMB=VwBn6qXob=3JRQdMTh1PWD-M7SquP9S9+g@mail.gmail.com>
+In-Reply-To: <CA+V-a8sifb8zpMB=VwBn6qXob=3JRQdMTh1PWD-M7SquP9S9+g@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 10 Dec 2021 08:19:58 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+jyqbhA1jpgZ+yTwWGvCMRu9VmgoDq8MDM9SMqJ-XSBw@mail.gmail.com>
+Message-ID: <CAL_Jsq+jyqbhA1jpgZ+yTwWGvCMRu9VmgoDq8MDM9SMqJ-XSBw@mail.gmail.com>
+Subject: Re: [RFC PATCH] of: platform: Skip mapping of interrupts in of_device_alloc()
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-For Renesas PFCs not setting .strict, we can snoop GPIOs which are
-already muxed to some other function. To actually make use of that, we
-shouldn't mux them back to GPIO if they have been already muxed to
-something.
+On Thu, Dec 9, 2021 at 7:16 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> On Thu, Dec 9, 2021 at 8:34 PM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Thu, Dec 9, 2021 at 5:35 AM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > Hi Rob and Marc,
+> > >
+> > > On Thu, Dec 9, 2021 at 10:33 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > >
+> > > > On Thu, 09 Dec 2021 10:00:44 +0000,
+> > > > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > > > >
+> > > > > > The root of the issue is that all the resource allocation is done
+> > > > > > upfront, way before we even have a driver that could potentially
+> > > > > > deal with this device. This is a potential waste of resource, and
+> > > > > > it triggers the issue you noticed.
+> > > > > >
+> > > > > > If you delay the resource allocation until there is an actual
+> > > > > > match with a driver, you could have a per-driver flag telling you
+> > > > > > whether the IRQ allocation should be performed before the probe()
+> > > > > > function is called.
+> > > > > >
+> > > > > As suggested by Rob, if we switch the drivers to use
+> > > > > platform_get_resource(pdev, IORESOURCE_IRQ, n) call with
+> > > > > platform_get_irq() this code should go away and with this switch the
+> > > > > resource allocation will happen demand. Is this approach OK?
+> > > >
+> > > > If you get rid of of_irq_to_resource_table() altogether, then yes,
+> > > > this has a fighting chance to work.
+> > > >
+> > > Yes, switching to platform_get_irq() will eventually cause
+> > > of_irq_to_resource_table() to go away.
+> > >
+> > > On second thought, instead of touching all the drivers, if we update
+> > > platform_get_resource/platform_get_resource_byname to internally call
+> > > platform_get_irq() internally if it's a IORESOURCE_IRQ resource. Does
+> > > that sound good or should I just get on changing all the drivers to
+> > > use platform_get_irq() instead?
+> >
+> > Except that platform_get_irq() already internally calls
+> > platform_get_resource()... I think changing the drivers is the right
+> > way. Happy to do some if you want to divide it up.
+> >
+> Thank you, I think I'll manage.
+>
+> > Using coccigrep, I think I've found all the places using
+> > platform_device.resource directly. A large swath are Sparc drivers
+> > which don't matter. The few that do matter I've prepared patches for
+> > here[1]. Most of what I found were DT based drivers that copy
+> > resources to a child platform device. That case will not work with
+> > platform_get_irq() callers either unless the child device has it's DT
+> > node set to the parent node which is the change I made.
+> >
+> Thank you for getting this done. Do you want me to include those along
+> with my conversion patches?
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+No, I'll send them out.
 
-Not sure if this is a proper solution, but at least this is a
-proof-of-concept. It makes the sloppy GPIO analyzer work by assigning it
-GPIOs which are already muxed to, say, I2C or PWM. I didn't see any
-side-effects, but there may be some I missed. Tested on a Salvator-XS
-with R-Car M3-N where the only occasions of MUX+GPIO at the same time
-were the logic analyzer. AFAIU if '.strict' is set, the request will be
-rejected at higher levels, so on those systems should be no harm.
+> Any reason why we dont care for Sparc drivers?
 
- drivers/pinctrl/renesas/pinctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sparc does its own thing and doesn't use drivers/of/platform.c to
+create devices. I'm sure we could modernize a bunch of them, but
+that's not a blocker.
 
-diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index f3eecb20c086..8d4541ac43a9 100644
---- a/drivers/pinctrl/renesas/pinctrl.c
-+++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -397,7 +397,7 @@ static int sh_pfc_gpio_request_enable(struct pinctrl_dev *pctldev,
- 
- 	spin_lock_irqsave(&pfc->lock, flags);
- 
--	if (!pfc->gpio) {
-+	if (!pfc->gpio && !cfg->mux_mark) {
- 		/* If GPIOs are handled externally the pin mux type needs to be
- 		 * set to GPIO here.
- 		 */
--- 
-2.30.2
-
+Rob
