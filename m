@@ -2,138 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93DAF471726
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Dec 2021 23:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C155A4717A1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Dec 2021 02:34:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbhLKW2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Dec 2021 17:28:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60516 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbhLKW2F (ORCPT
+        id S229905AbhLLBe1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Dec 2021 20:34:27 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34696 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhLLBe1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Dec 2021 17:28:05 -0500
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A074C061714;
-        Sat, 11 Dec 2021 14:28:05 -0800 (PST)
-Received: by mail-oi1-x22d.google.com with SMTP id 7so18134584oip.12;
-        Sat, 11 Dec 2021 14:28:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=s26melcoJrCidVbqx79S5qGLEKqpilbd+ljQbRAxhuE=;
-        b=EAIwZuwsdtaWo1HQrjvx+z2S/JOBORKzx1uRsbjui8+S9Xsz4hb8FGrF3j54TtwPc7
-         7F9FKCFnrmWiwwe9ypifMscaAfANA86u29Q4pssKHV7tEhonPAcBBJLRy+HfkBPtpMLB
-         ZWeZhn0Xy/iKmwOmlyoSaQj1N9KLHFB7pdNe8np5o9Rj6TLRp+MsRL3uCkUcj5Gr3Kmn
-         8Ts3d/I5jaE2N+roniJM+VHvpIuuXqP6ZfrJb2qKRh83JnKR1x3Xic2EhDGAhvREKYRS
-         bGKyqXJEzzLW57zVcQXGn87lT7k2csFwIErYVFZxByykXkcGLAnlGR+DYle85Rf8H0gI
-         iCEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=s26melcoJrCidVbqx79S5qGLEKqpilbd+ljQbRAxhuE=;
-        b=6Wms+/rabXJfKpYZwhdZ2MSVo6cRFPyFJlr0pVP0VQr33+/TjWNRl41XLERLWAu4OJ
-         P1C0OCxWaS33U1b/1unkA0MMIW9dPIkfgSHbHVoRKUW7WMkYQerwSrdZ+KM0uFhJfCX0
-         jNdakNwF/jJM8QkMDKjk/3c7Ycne3irAUyuAf11ZhBgqCjbRLXvwE7TELOuzk//2xf8K
-         KiTiKtoLCRYaNamX7EKRBwmSZ2MOLs5SUOY4QzIER27ib15nxpXq9KphgCUH7hkpT57T
-         KHx0nkkU0Qg+sm8afamakNpj65eCIFdit8ES+tcdyPVaKguxAarOLfnfeGCMZq92AgkU
-         lTnA==
-X-Gm-Message-State: AOAM530ZFYF4E5Y279jiLlSmZALgI+ePQfmC+TlB6grG6xrGyaRxQbkh
-        7GcQLwP6WuZM9cCUEpeW5NBpe77x7c4=
-X-Google-Smtp-Source: ABdhPJw2Uqp7K/PK1HARbbH2Lm40wVBAPyMOIYKe6tdwyAaGNAKhxyX8VdUtKPb1kYIwYmPd7Xr2ZA==
-X-Received: by 2002:a05:6808:2216:: with SMTP id bd22mr19601525oib.27.1639261684214;
-        Sat, 11 Dec 2021 14:28:04 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e4sm243360oiy.12.2021.12.11.14.28.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Dec 2021 14:28:03 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 3/4] watchdog: rzg2l_wdt: Add set_timeout callback
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc:     linux-watchdog@vger.kernel.org,
+        Sat, 11 Dec 2021 20:34:27 -0500
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65ED33F0;
+        Sun, 12 Dec 2021 02:34:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639272866;
+        bh=4RRw4M8FTqfwYR+ChjILPvdXR46Gro8CuvEuWjm87Us=;
+        h=From:To:Cc:Subject:Date:From;
+        b=In5DLud8ZaH1LgX/AKLIsOx7q8CYglXp1LanQ+BIKIDa1j8A7FAbGb4ySv0iJn00P
+         utjbJEQ9vFOaY5/XzFhjho56wZQOL5BqOmidKaUIQ6lSY5RWFx/7A26xNxa7ue2na9
+         CZpZNOd1zZj8WQflq7mOHJM6WRM8G4YGq5SANg0w=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20211211212617.19639-1-biju.das.jz@bp.renesas.com>
- <20211211212617.19639-3-biju.das.jz@bp.renesas.com>
- <4d5f3e8d-ff4d-27a1-d0b5-55be69d025c2@roeck-us.net>
-Message-ID: <4ab667fa-2d89-53c8-edd8-a0b5e4305e80@roeck-us.net>
-Date:   Sat, 11 Dec 2021 14:28:02 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH 0/3] arm64: dts: renesas: Add DT overlays for LVDS panel
+Date:   Sun, 12 Dec 2021 03:33:48 +0200
+Message-Id: <20211212013351.595-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <4d5f3e8d-ff4d-27a1-d0b5-55be69d025c2@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/11/21 1:38 PM, Guenter Roeck wrote:
-> On 12/11/21 1:26 PM, Biju Das wrote:
->> Add support for set_timeout() callback.
->>
-> This needs an explanation. WDIOF_SETTIMEOUT is, after all,
-> already supported. I can see that 'count' is not recalculated,
-> so that is one of the reasons. However, it also needs to be explained
-> why it is necessary to stop and restart the watchdog.
-> 
->> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->> ---
->>   drivers/watchdog/rzg2l_wdt.c | 10 ++++++++++
->>   1 file changed, 10 insertions(+)
->>
->> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
->> index 58fe4efd9a89..c81b9dd05e63 100644
->> --- a/drivers/watchdog/rzg2l_wdt.c
->> +++ b/drivers/watchdog/rzg2l_wdt.c
->> @@ -117,6 +117,15 @@ static int rzg2l_wdt_stop(struct watchdog_device *wdev)
->>       return 0;
->>   }
->> +static int rzg2l_wdt_set_timeout(struct watchdog_device *wdev, unsigned int timeout)
->> +{
->> +    wdev->timeout = timeout;
->> +    rzg2l_wdt_stop(wdev);
->> +    rzg2l_wdt_start(wdev);
-> 
-> Is it necessary to stop and restart the timeout, or would it be sufficient
-> to call rza_wdt_calc_timeout() ? If it is necessary, please add a comment
+Hello,
 
-That should have been rzg2l_wdt_init_timeout(). Also, as mentioned in
-the second patch of the series, the return value of rzg2l_wdt_start()
-needs to be checked if the watchdog needs to be stopped and restarted.
+This small patchs series adds two DT overlays that model a Mitsubishi
+AA1024XD12 panel connected to a Salvator-X(S) board or a Draak or Ebisu
+board.
 
-Thanks,
-Guenter
+The panel is external to the development board and is optional, so DT
+overlays seem to be the best option to me. They can easily be applied by
+U-Boot. For instance, when booting a FIT image, a list of configurations
+can be specified. Here's the boot script I'm using (with the U-Boot
+bootcmd simply set to "dhcp && source"):
 
-> describing the reason.
-> 
-> Either case, calling rzg2l_wdt_start() unconditionally is wrong because
-> the watchdog might be stopped.
-> 
-> Guenter
-> 
->> +
->> +    return 0;
->> +}
->> +
->>   static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->>                    unsigned long action, void *data)
->>   {
->> @@ -160,6 +169,7 @@ static const struct watchdog_ops rzg2l_wdt_ops = {
->>       .start = rzg2l_wdt_start,
->>       .stop = rzg2l_wdt_stop,
->>       .ping = rzg2l_wdt_ping,
->> +    .set_timeout = rzg2l_wdt_set_timeout,
->>       .restart = rzg2l_wdt_restart,
->>   };
->>
-> 
+--------
+setenv bootargs "console=ttySC0,115200 rw root=/dev/nfs ip=dhcp"
+setenv bootfile gen3/kernel_fdt.itb
+setenv fdtfile r8a77965-salvator-xs.dtb
+setenv overlay_files "salvator-panel-aa104xd12.dtbo"
+
+for overlay in ${overlay_files}; do
+        setenv overlaystring "${overlaystring}\\#conf-${overlay}"
+done
+
+tftpboot ${bootfile}
+bootm ${fileaddr}#conf-${fdtfile}${overlaystring}
+--------
+
+This is much simpler than the hack branch I used to carry with per-board
+DT changes to enable panel support on a particular board (and last but
+not least, it hopefully can be merged in mainline !).
+
+The only difference between the two overlays is the LVDS output that the
+panel is connected to (LVDS0 on Salvator-X(S), and LVDS1 on Draak and
+Ebisu). On my xmas wish list is a mechanism to make this configurable at
+the time the overlay is applied, but I think I'll be a sad little boy on
+xmas day.
+
+As these are the first DT overlays for Renesas boards in the mainline
+kernel, comments are welcome. If the approach gets positive feedback, we
+could turn other external add-ons (panels, camera modules, ...) into
+overlays as well.
+
+Laurent Pinchart (3):
+  arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay
+    support
+  arm64: dts: renesas: Add panel overlay for Salvator-X(S) boards
+  arm64: dts: renesas: Add panel overlay for Draak and Ebisu boards
+
+ .../arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi | 39 -------------------
+ arch/arm64/boot/dts/renesas/Makefile          |  3 ++
+ .../renesas/draak-ebisu-panel-aa104xd12.dts   | 32 +++++++++++++++
+ .../boot/dts/renesas/panel-aa104xd12.dtsi     | 30 ++++++++++++++
+ .../dts/renesas/salvator-panel-aa104xd12.dts  | 32 +++++++++++++++
+ 5 files changed, 97 insertions(+), 39 deletions(-)
+ delete mode 100644 arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts
+
+
+base-commit: 211b4dbc070090b4183d6f9db7dd3bd4e6170447
+-- 
+Regards,
+
+Laurent Pinchart
 
