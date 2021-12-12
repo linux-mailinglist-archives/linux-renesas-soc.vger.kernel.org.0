@@ -2,29 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 985374717A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Dec 2021 02:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 817E14717A3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Dec 2021 02:34:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231674AbhLLBea (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Dec 2021 20:34:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231649AbhLLBe3 (ORCPT
-        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        id S231637AbhLLBe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Sat, 11 Dec 2021 20:34:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81045C061714;
-        Sat, 11 Dec 2021 17:34:29 -0800 (PST)
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34716 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhLLBe2 (ORCPT
+        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        Sat, 11 Dec 2021 20:34:28 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D7341849;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10731187F;
         Sun, 12 Dec 2021 02:34:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639272866;
-        bh=DI/RGTpnR8cvi5weHg5ipQwKCg/FQUnv5rleojLFl7I=;
+        s=mail; t=1639272867;
+        bh=fs4QfEGlFq9j1i0ne/o1LJmIXJrV5BBKLaJ0iYejyPI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rCalj/OB6DZyQg7NzZMw6UewhzChAv21JYZAXaq2IQcJ3xUvTdw5gf8LLGyS1/WzF
-         lqtMxtqKc0j1m7J5WlwrDt8FPOnFAfsMDKk35xSVvAaghH0hV27lLIrcBhj5xozmdU
-         Ouh3OwhLCJn60H8ATN2RMBDI0hTPTxw6BpadY5Ec=
+        b=ZZ2Gt6Bll4/nLW4JowX2hYhKoDJnfESeKa/9GtEfBABtn3tjht2VtLXek+yDG+u3p
+         2dOOkDdzvXkNr/BEGu55k3fDh5RQaUQzs0u4FUqNYoI86TQ1HzYYEQuyfwSvcoX4M9
+         0HjC6E9sHcBBUd+e9zVmZf43nunsZql5ojfjjELw=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
@@ -32,9 +29,9 @@ Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH 1/3] arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay support
-Date:   Sun, 12 Dec 2021 03:33:49 +0200
-Message-Id: <20211212013351.595-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 2/3] arm64: dts: renesas: Add panel overlay for Salvator-X(S) boards
+Date:   Sun, 12 Dec 2021 03:33:50 +0200
+Message-Id: <20211212013351.595-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211212013351.595-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20211212013351.595-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -44,113 +41,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Mitsubishi AA1024XD12 panel can be used for R-Car Gen2 and Gen3
-boards as an optional external panel. It is described in the
-arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi file as a direct child of the
-DT root node. This allows including r8a77xx-aa104xd12-panel.dtsi in
-board device trees, with other minor modifications, to enable the panel.
-
-This is however not how external components should be modelled. Instead
-of modifying the board device tree to enable the panel, it should be
-compiled as a DT overlay, to be loaded by the boot loader.
-
-Prepare the r8a77xx-aa104xd12-panel.dtsi file for this usage by
-declaring a panel node only, without hardcoding its path. Overlay
-sources can then include r8a77xx-aa104xd12-panel.dtsi where appropriate.
-
-This change doesn't cause any regression as r8a77xx-aa104xd12-panel.dtsi
-is currently unused. As overlay support for this panel has only been
-tested with Gen3 hardware, and Gen2 support will require more
-development, move the file to arch/arm64/boot/dts/renesas/.
+The Salvator-X and Salvator-XS boards support an optional LVDS panel.
+One compatible panel is the Mitsubishi AA104XD12. Add a corresponding DT
+overlay.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi | 39 -------------------
- .../boot/dts/renesas/panel-aa104xd12.dtsi     | 30 ++++++++++++++
- 2 files changed, 30 insertions(+), 39 deletions(-)
- delete mode 100644 arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
+ arch/arm64/boot/dts/renesas/Makefile          |  2 ++
+ .../dts/renesas/salvator-panel-aa104xd12.dts  | 32 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts
 
-diff --git a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi b/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-deleted file mode 100644
-index 79fce67ebb1c..000000000000
---- a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-+++ /dev/null
-@@ -1,39 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Common file for the AA104XD12 panel connected to Renesas R-Car boards
-- *
-- * Copyright (C) 2014 Renesas Electronics Corp.
-- */
--
--/ {
--	panel {
--		compatible = "mitsubishi,aa104xd12", "panel-lvds";
--
--		width-mm = <210>;
--		height-mm = <158>;
--		data-mapping = "jeida-18";
--
--		panel-timing {
--			/* 1024x768 @65Hz */
--			clock-frequency = <65000000>;
--			hactive = <1024>;
--			vactive = <768>;
--			hsync-len = <136>;
--			hfront-porch = <20>;
--			hback-porch = <160>;
--			vfront-porch = <3>;
--			vback-porch = <29>;
--			vsync-len = <6>;
--		};
--
--		port {
--			panel_in: endpoint {
--				remote-endpoint = <&lvds_connector>;
--			};
--		};
--	};
--};
--
--&lvds_connector {
--	remote-endpoint = <&panel_in>;
--};
-diff --git a/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index d1c5c21d8d14..982ca3e0e86f 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -74,3 +74,5 @@ dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-ulcb-kf.dtb
+ dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb
+ 
+ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
++
++dtb-$(CONFIG_ARCH_RCAR_GEN3) += salvator-panel-aa104xd12.dtbo
+diff --git a/arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts b/arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts
 new file mode 100644
-index 000000000000..6e9f447d8fe1
+index 000000000000..ca2d579fe42f
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
-@@ -0,0 +1,30 @@
++++ b/arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts
+@@ -0,0 +1,32 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
-+ * Common file for the AA104XD12 panel connected to Renesas R-Car Gen3 boards.
++ * Device Tree overlay for the AA104XD12 panel connected to LVDS0 on a
++ * Salvator-X or Salvator-XS board
 + *
-+ * Copyright (C) 2021 Renesas Electronics Corp.
++ * Copyright 2021 Ideas on Board Oy
 + */
 +
-+panel {
-+	compatible = "mitsubishi,aa104xd12", "panel-lvds";
++/dts-v1/;
++/plugin/;
 +
-+	width-mm = <210>;
-+	height-mm = <158>;
-+	data-mapping = "jeida-18";
++&{/} {
++#include "panel-aa104xd12.dtsi"
++};
 +
-+	panel-timing {
-+		/* 1024x768 @65Hz */
-+		clock-frequency = <65000000>;
-+		hactive = <1024>;
-+		vactive = <768>;
-+		hsync-len = <136>;
-+		hfront-porch = <20>;
-+		hback-porch = <160>;
-+		vfront-porch = <3>;
-+		vback-porch = <29>;
-+		vsync-len = <6>;
-+	};
++&{/panel} {
++	backlight = <&backlight>;
 +
 +	port {
++		panel_in: endpoint {
++			remote-endpoint = <&lvds0_out>;
++		};
 +	};
++};
++
++&lvds0 {
++	status = "okay";
++};
++
++&lvds0_out {
++	remote-endpoint = <&panel_in>;
 +};
 -- 
 Regards,
