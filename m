@@ -2,170 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C41147322C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 17:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB2314733C6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 19:18:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241030AbhLMQqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 11:46:20 -0500
-Received: from foss.arm.com ([217.140.110.172]:60116 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241018AbhLMQqH (ORCPT
+        id S239498AbhLMSSP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 13:18:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38242 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236187AbhLMSSO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 11:46:07 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A3FD1FB;
-        Mon, 13 Dec 2021 08:46:05 -0800 (PST)
-Received: from [10.57.6.131] (unknown [10.57.6.131])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9DCE33F73B;
-        Mon, 13 Dec 2021 08:46:03 -0800 (PST)
-Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: mali-bifrost: Document RZ/G2L
- support
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        tomeu.vizoso@collabora.com,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Robin Murphy <robin.murphy@arm.com>
-References: <20211208104026.421-1-biju.das.jz@bp.renesas.com>
- <20211208104026.421-2-biju.das.jz@bp.renesas.com>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <46cf467b-8385-167e-1fde-64fcb9859bc6@arm.com>
-Date:   Mon, 13 Dec 2021 16:46:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Mon, 13 Dec 2021 13:18:14 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A55EDC061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:18:14 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id q16so15250927pgq.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Rp7zLJnKXfkHyHE5dV/iJGgDRTE1lO4E2SQUFqFSluI=;
+        b=IEV2HIcbfAeFJQ2gjfgbp3kMevpISfYmUG5//XODZGlX0LRCpvWoZ4RqGsdDTVA9ml
+         69rETpbOIZUaJ7ZmFdzfw9i2RMWAcy6IjnO3KbIK5a/deZtoNf6Zr/jvF3UBF9NBLeS+
+         ujKbnpDrwdOXb1hHSqZ4FWsjisw747khWjBIM+UsAOBRHeCkq0JZFbW0C07nWypoEJbg
+         fYOWNOfO/MzNZt6blJ5yuWO34WGMVvVDSqRGQ6dOSo8HlkuyokcyyVq54CE53x8IZG7F
+         ceRHFeRG7ZwyUasMkj65ClH29D4BqO+lfOUxcq6NNE0/iZn4FOX5xkDFzVHwH+I9dhmP
+         tkdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Rp7zLJnKXfkHyHE5dV/iJGgDRTE1lO4E2SQUFqFSluI=;
+        b=CCSXh3gzc4tkb5ZCLp9Y3jjvldz1Y/A8PLsg7C0LQGc7F7CZbI0BOcqzLANZqbyPVG
+         C+YiWG5ESvGAgS+uSMnerGSjv3f457OA3yv9LYAnYdr3Ux9W5DP4s0T49zaX7Ek0+1Yi
+         LNJpijtKDmgA9ebxXHI6dnUmEIRKvJTnUJnSfmogTnEdgVph2cnQnQ4JrlwAv0M1/bhZ
+         OwTuFKYiBaecLBKGFQZLMlMcbfRNv+yO4CaQi+C3RClN0awMSjymP28+DRtVNmXEZ01f
+         z2Y+VWZGG1Ui1liw/wk+zx0TQE0G2Rmm/3WkljPL6fVeUc8GFuqtnPNUtPdoDs3oow08
+         5ZGQ==
+X-Gm-Message-State: AOAM530FyuHBUdUFumWWiw7VTqspjTgfnI811CUrb5kx+a2Lntw+nFde
+        7RKkc1hijcvwKzbPTCmfuId7Sp9G8T7M7Exp
+X-Google-Smtp-Source: ABdhPJyyU/cI0YsssgGE+e/Ig3+P3YIGh7hsnusOWGNWarjsDe99u/5KB07kNTYttp4P+k5NWzQmkQ==
+X-Received: by 2002:a63:8a43:: with SMTP id y64mr182486pgd.364.1639419494067;
+        Mon, 13 Dec 2021 10:18:14 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y4sm13679681pfi.178.2021.12.13.10.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 10:18:13 -0800 (PST)
+Message-ID: <61b78e65.1c69fb81.8879e.604d@mx.google.com>
+Date:   Mon, 13 Dec 2021 10:18:13 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211208104026.421-2-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-12-13-v5.16-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master sleep: 5 runs,
+ 1 regressions (renesas-devel-2021-12-13-v5.16-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 08/12/2021 10:40, Biju Das wrote:
-> The Renesas RZ/G2{L, LC} SoC (a.k.a R9A07G044) has a Bifrost Mali-G31 GPU,
-> add a compatible string for it.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
->  * Moved optional clock-names and reset-names to SoC-specific conditional schemas.
->  * minimum number of reset for the generic GPU is set to 1.
->  * Documented number of clocks, resets, interrupts and interrupt-names in RZ/G2L
->    SoC-specific conditional schemas.
-> v1->v2:
->  * Updated minItems for resets as 2
->  * Documented optional property reset-names
->  * Documented reset-names as required property for RZ/G2L SoC.
-> ---
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 45 ++++++++++++++++++-
->  1 file changed, 43 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 6f98dd55fb4c..63a08f3f321d 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -19,6 +19,7 @@ properties:
->            - amlogic,meson-g12a-mali
->            - mediatek,mt8183-mali
->            - realtek,rtd1619-mali
-> +          - renesas,r9a07g044-mali
->            - rockchip,px30-mali
->            - rockchip,rk3568-mali
->        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> @@ -27,19 +28,26 @@ properties:
->      maxItems: 1
->  
->    interrupts:
-> +    minItems: 3
->      items:
->        - description: Job interrupt
->        - description: MMU interrupt
->        - description: GPU interrupt
-> +      - description: Event interrupt
->  
->    interrupt-names:
-> +    minItems: 3
->      items:
->        - const: job
->        - const: mmu
->        - const: gpu
-> +      - const: event
+renesas/master sleep: 5 runs, 1 regressions (renesas-devel-2021-12-13-v5.16=
+-rc5)
 
-FWIW: I think it's fair to add the "event" interrupt even if it isn't
-included in the bindings for kbase. While pretty much useless on Bifrost
-it is a hardware feature and in theory it could be used.
+Regressions Summary
+-------------------
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
 
-Steve
 
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 3
-> +
-> +  clock-names: true
->  
->    mali-supply: true
->  
-> @@ -52,7 +60,10 @@ properties:
->      maxItems: 3
->  
->    resets:
-> -    maxItems: 2
-> +    minItems: 1
-> +    maxItems: 3
-> +
-> +  reset-names: true
->  
->    "#cooling-cells":
->      const: 2
-> @@ -94,6 +105,36 @@ allOf:
->      then:
->        required:
->          - resets
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g044-mali
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 4
-> +        interrupt-names:
-> +          minItems: 4
-> +        clocks:
-> +          minItems: 3
-> +        clock-names:
-> +          items:
-> +            - const: gpu
-> +            - const: bus
-> +            - const: bus_ace
-> +        resets:
-> +          minItems: 3
-> +        reset-names:
-> +          items:
-> +            - const: rst
-> +            - const: axi_rst
-> +            - const: ace_rst
-> +      required:
-> +        - clock-names
-> +        - power-domains
-> +        - resets
-> +        - reset-names
->    - if:
->        properties:
->          compatible:
-> 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-12-13-v5.16-rc5/plan/sleep/
 
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-12-13-v5.16-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      2d93a61c003c8e6bbc9e44c5ffc3eb00242028ef =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61b780f10ff9f0b90b39711e
+
+  Results:     22 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-13-v5.16-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
+bora/sleep-hp-11A-G6-EE-grunt.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-13-v5.16-rc5/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
+bora/sleep-hp-11A-G6-EE-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+211203.0/amd64/rootfs.cpio.gz =
+
+
+
+  * sleep.rtcwake-freeze-2: https://kernelci.org/test/case/id/61b780f10ff9f=
+0b90b397128
+        new failure (last pass: renesas-devel-2021-12-06-v5.16-rc4-15-g9f95=
+ae4ce1f1)
+
+    2021-12-13T17:19:40.607503  rtcwake: assuming RTC uses UTC ...
+    2021-12-13T17:19:40.613973  rtcwake: wakeup from \"freeze\" using rtc0 =
+at Mon Dec 13 17:19:46 2021
+    2021-12-13T17:19:40.617783  <6>[   34.724490] PM: suspend entry (deep)
+    2021-12-13T17:19:40.623958  <6>[   34.737237] Filesystems sync: 0.000 s=
+econds
+    2021-12-13T17:19:40.627012  <6>[   34.741871] PM: suspend entry (s2idle)
+    2021-12-13T17:19:40.630928  <6>[   34.742105] Freezing user space proce=
+sses ... =
+
+    2021-12-13T17:19:40.634079  <6>[   34.745893] PM: suspend exit
+    2021-12-13T17:19:40.644233  <4>[   34.758376] (elapsed 0.012 seconds) d=
+one.
+    2021-12-13T17:19:40.647488  <6>[   34.762660] OOM killer disabled.
+    2021-12-13T17:19:40.650548  <6>[   34.764318] r8152 2-4:1.0 eth0: carri=
+er on =
+
+    ... (1151 line(s) more)  =
+
+ =20
