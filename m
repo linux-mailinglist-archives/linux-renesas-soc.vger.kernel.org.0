@@ -2,90 +2,318 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D50A4735A5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 21:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42309473630
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 21:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242773AbhLMUNz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 15:13:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242639AbhLMUNy (ORCPT
+        id S242991AbhLMUlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 15:41:49 -0500
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:41734 "EHLO
+        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242986AbhLMUls (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 15:13:54 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F17C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:13:54 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id l22so32982927lfg.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:13:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Inc9uwWHZAbgsb1N/697Z2eLvfAIiFt1soOcNLmt1G8=;
-        b=6oLIom7ZwqLYzavR342gVTMOEeigQLXjS/ORPSdo8LbI1Ju5TKXSt6zhKtnE5z1oLS
-         BQ//Klh6xjFKlwXLZidL92utkY0TXuskOdTNfPlk46UWBTTW6r3MPJr9wwKtzDqnqUKC
-         wYR6ErbJ/+o+NsVwPXDeB1e7R4bVPNtVtwSNYtB2u26jNokH4hsEbKyLKH7o/WVahfz+
-         qCq1T0KvZYjItdNpSi984BtjT+/7b8YD+GshHdfBea8ASzdrUUaJH23FMf0McSQVTH/c
-         ByA9jyKgFBaH5vGI3qYzlC7tXBrA1h1r9qMXEBI7Szke/j3RtPPPIjhKCZF1ycM2z47q
-         8h+Q==
+        Mon, 13 Dec 2021 15:41:48 -0500
+Received: by mail-ot1-f47.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so18755660otl.8;
+        Mon, 13 Dec 2021 12:41:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Inc9uwWHZAbgsb1N/697Z2eLvfAIiFt1soOcNLmt1G8=;
-        b=FhoQ1ZRyMY1awBrp9deobUJx8NG5yeCht3SBLWVxLu5GyqYW9R4mBwuN5Mu/EuaKE0
-         YakJd8/uxH6aIppRa8BBjDowEO1kCy25ysa7yWcgS3CAIIYocjK8V75UmfFLwmSmB8S0
-         GQDmmxXfqPJcdoD21UntO1uRbkwrM/bhvZVceu1SYEhIflu/swMSX+FmbjEgiFDUS63c
-         Eso0lRbGQiUd90WbqbPJqso5nbI1v/8pQujuy2z+opQcOfmLvcHIqe24r53gQZiYB5KF
-         7N5q+IJD0zR6Ssc5QVCzl19EwEw89bSl0eYVQ0PPCjfplbTnPGqGp4aaJ/siGX2LpLCs
-         299g==
-X-Gm-Message-State: AOAM533N9paLjFVuy9ZClLEW9tg5Xlt0ZkBUFJKD5J0rdY+JNcBOKWmw
-        wtTmIKzevQDt3cUibxXroil7hQ==
-X-Google-Smtp-Source: ABdhPJy5+hI4Th1rzQy0VsBWT6017dzMDLjnH12PdagwvSjIvTACVRclon2FTbZbTDF5VNQ9LzTcyw==
-X-Received: by 2002:a05:6512:23a7:: with SMTP id c39mr470971lfv.655.1639426432419;
-        Mon, 13 Dec 2021 12:13:52 -0800 (PST)
-Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id g26sm1528888ljn.107.2021.12.13.12.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Dec 2021 12:13:51 -0800 (PST)
-Subject: Re: [PATCH] media: vsp1: mask interrupts before enabling
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-References: <20210926155356.23861-1-nikita.yoush@cogentembedded.com>
- <163455832550.1371157.18009256492359430197@Monstersaurus>
- <f91c4f16-fd81-5d70-0146-e9aa2d128da9@cogentembedded.com>
- <163585162705.1097798.16604551366893944884@Monstersaurus>
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Message-ID: <4f2a2dc5-f145-ce20-eebe-08a6e084ef66@cogentembedded.com>
-Date:   Mon, 13 Dec 2021 23:13:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=25ioXPY/AOVS3YueKdRc1q0EVZSVsM2ElEwo/uzKcSo=;
+        b=IwaJyHuXOeVIm6z6gq8KItM3D9bowiLmVF86zsWjCgHXCG+T2vcfD9ABRAuQNGNKgv
+         AT1tjzTFXc5UGYS1IcAez+V5VUZP2tkdSihh74vRZZBbUPKBnAcvpq7M2jkmcmxHiO8u
+         XOXtYjdEljZhNeXE6WRctiiOnxyTQyDb6AHWPtVf9FbDhoB6H5qmB1SZc1ZmRwL7I+nr
+         Qfae/dqJ3MA40AOc8ZjRtS2Mz/WQmgvCbxSUYd6MRiH0PqjjpUqshNB4BAKpmrqe3EeR
+         8DpgD9dTm9vRDCB8xBPwwAfUod+OzyVKSSVJeTAGfYEY+BA6Q1z8dAFvV8z5F2yCnFLv
+         kxVQ==
+X-Gm-Message-State: AOAM533RDAH0f2ljAdgIvgxXkS74iB1gGxJvhxZhGqH6mUryzXfB3mSp
+        dsXhWpdo873M+S7v/0Cirg==
+X-Google-Smtp-Source: ABdhPJw9rRgNPRmGjpqVhqYCjMgYD/WWcd90egkMtWcWUVkoDSDb+PaT8MuUJqp2XV6XNys7VQ+Yfg==
+X-Received: by 2002:a05:6830:22cf:: with SMTP id q15mr703178otc.255.1639428108048;
+        Mon, 13 Dec 2021 12:41:48 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id t18sm2378936ott.2.2021.12.13.12.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 12:41:47 -0800 (PST)
+Received: (nullmailer pid 1535938 invoked by uid 1000);
+        Mon, 13 Dec 2021 20:41:46 -0000
+Date:   Mon, 13 Dec 2021 14:41:46 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Boris Brezillon <bbrezillon@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH/RFC v2] dt-bindings: display: bridge: sil,sii9022:
+ Convert to json-schema
+Message-ID: <YbewCv1uWhi5xPfW@robh.at.kernel.org>
+References: <3b2619682694050696e5c85269ccc4f864590e66.1638540704.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <163585162705.1097798.16604551366893944884@Monstersaurus>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b2619682694050696e5c85269ccc4f864590e66.1638540704.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi.
+On Fri, Dec 03, 2021 at 03:14:07PM +0100, Geert Uytterhoeven wrote:
+> Convert the Silicon Image sii902x HDMI bridge Device Tree binding
+> documentation to json-schema.
+> 
+> Add missing sil,sii9022-cpi and sil,sii9022-tpi compatible values.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> RFC as I do not know the meaning of the various ports subnodes.
 
-Now I'm finally looking at this again.
+Is that too hard to figure out? There's no examples in the tree?
 
-> I think I would rather see the code to reset them done in
-> vsp1_reset_wpf(), rather than in probe directly as that is what we are
-> doing, and is I believe already in the call path.
+> 
+> v2:
+>   - Rework sil,i2s-data-lanes,
+>   - Add schema reference to ports.
+> ---
+>  .../bindings/display/bridge/sii902x.txt       |  78 ----------
+>  .../bindings/display/bridge/sil,sii9022.yaml  | 133 ++++++++++++++++++
+>  2 files changed, 133 insertions(+), 78 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/sii902x.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+> deleted file mode 100644
+> index 3bc760cc31cbbeee..0000000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+> +++ /dev/null
+> @@ -1,78 +0,0 @@
+> -sii902x HDMI bridge bindings
+> -
+> -Required properties:
+> -	- compatible: "sil,sii9022"
+> -	- reg: i2c address of the bridge
+> -
+> -Optional properties:
+> -	- interrupts: describe the interrupt line used to inform the host
+> -	  about hotplug events.
+> -	- reset-gpios: OF device-tree gpio specification for RST_N pin.
+> -	- iovcc-supply: I/O Supply Voltage (1.8V or 3.3V)
+> -	- cvcc12-supply: Digital Core Supply Voltage (1.2V)
+> -
+> -	HDMI audio properties:
+> -	- #sound-dai-cells: <0> or <1>. <0> if only i2s or spdif pin
+> -	   is wired, <1> if the both are wired. HDMI audio is
+> -	   configured only if this property is found.
+> -	- sil,i2s-data-lanes: Array of up to 4 integers with values of 0-3
+> -	   Each integer indicates which i2s pin is connected to which
+> -	   audio fifo. The first integer selects i2s audio pin for the
+> -	   first audio fifo#0 (HDMI channels 1&2), second for fifo#1
+> -	   (HDMI channels 3&4), and so on. There is 4 fifos and 4 i2s
+> -	   pins (SD0 - SD3). Any i2s pin can be connected to any fifo,
+> -	   but there can be no gaps. E.g. an i2s pin must be mapped to
+> -	   fifo#0 and fifo#1 before mapping a channel to fifo#2. Default
+> -	   value is <0>, describing SD0 pin beiging routed to hdmi audio
+> -	   fifo #0.
+> -	- clocks: phandle and clock specifier for each clock listed in
+> -           the clock-names property
+> -	- clock-names: "mclk"
+> -	   Describes SII902x MCLK input. MCLK can be used to produce
+> -	   HDMI audio CTS values. This property follows
+> -	   Documentation/devicetree/bindings/clock/clock-bindings.txt
+> -	   consumer binding.
+> -
+> -	If HDMI audio is configured the sii902x device becomes an I2S
+> -	and/or spdif audio codec component (e.g a digital audio sink),
+> -	that can be used in configuring a full audio devices with
+> -	simple-card or audio-graph-card binding. See their binding
+> -	documents on how to describe the way the sii902x device is
+> -	connected to the rest of the audio system:
+> -	Documentation/devicetree/bindings/sound/simple-card.yaml
+> -	Documentation/devicetree/bindings/sound/audio-graph-card.yaml
+> -	Note: In case of the audio-graph-card binding the used port
+> -	index should be 3.
 
-Could you please explain, how that is intended to be called on the probe path?
 
-As far as can read from the code, vsp1_reset_wpf() is only called from vsp1_device_init(), which in turn 
-is called only from PM resume hook and only if vsp1->info is already set. However, in the probe path, 
-pm_runtime_enable() is called before vsp1->info is set.
+At least the audio port was defined.
 
-Nikita
+
+> -
+> -Optional subnodes:
+> -	- video input: this subnode can contain a video input port node
+> -	  to connect the bridge to a display controller output (See this
+> -	  documentation [1]).
+> -
+> -[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -Example:
+> -	hdmi-bridge@39 {
+> -		compatible = "sil,sii9022";
+> -		reg = <0x39>;
+> -		reset-gpios = <&pioA 1 0>;
+> -		iovcc-supply = <&v3v3_hdmi>;
+> -		cvcc12-supply = <&v1v2_hdmi>;
+> -
+> -		#sound-dai-cells = <0>;
+> -		sil,i2s-data-lanes = < 0 1 2 >;
+> -		clocks = <&mclk>;
+> -		clock-names = "mclk";
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -				bridge_in: endpoint {
+> -					remote-endpoint = <&dc_out>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+> new file mode 100644
+> index 0000000000000000..b39537f4fe8694ef
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+> @@ -0,0 +1,133 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/sil,sii9022.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Silicon Image sii902x HDMI bridge
+> +
+> +maintainers:
+> +  - Boris Brezillon <bbrezillon@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - sil,sii9022-cpi
+> +              - sil,sii9022-tpi
+> +          - const: sil,sii9022
+> +      - const: sil,sii9022
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Interrupt line used to inform the host about hotplug events.
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  iovcc-supply:
+> +    description: I/O Supply Voltage (1.8V or 3.3V)
+> +
+> +  cvcc12-supply:
+> +    description: Digital Core Supply Voltage (1.2V)
+> +
+> +  '#sound-dai-cells':
+> +    enum: [ 0, 1 ]
+> +    description: |
+> +      <0> if only i2s or spdif pin is wired,
+> +      <1> if both are wired.
+> +      HDMI audio is configured only if this property is found.
+> +      If HDMI audio is configured the sii902x device becomes an I2S and/or
+> +      spdif audio codec component (e.g. a digital audio sink), that can be used
+> +      in configuring a full audio devices with simple-card or audio-graph-card
+> +      binding. See their binding documents on how to describe the way the
+> +      sii902x device is connected to the rest of the audio system:
+> +      Documentation/devicetree/bindings/sound/simple-card.yaml
+> +      Documentation/devicetree/bindings/sound/audio-graph-card.yaml
+> +      Note: In case of the audio-graph-card binding the used port index should
+> +      be 3.
+> +
+> +  sil,i2s-data-lanes:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 4
+> +    uniqueItems: true
+> +    items:
+> +      enum: [ 0, 1, 2, 3 ]
+> +    description:
+> +      Each integer indicates which i2s pin is connected to which audio fifo.
+> +      The first integer selects i2s audio pin for the first audio fifo#0 (HDMI
+> +      channels 1&2), second for fifo#1 (HDMI channels 3&4), and so on. There
+> +      are 4 fifos and 4 i2s pins (SD0 - SD3). Any i2s pin can be connected to
+> +      any fifo, but there can be no gaps. E.g. an i2s pin must be mapped to
+> +      fifo#0 and fifo#1 before mapping a channel to fifo#2. Default value is
+> +      <0>, describing SD0 pin being routed to hdmi audio fifo #0.
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: MCLK input. MCLK can be used to produce HDMI audio CTS values.
+> +
+> +  clock-names:
+> +    const: mclk
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+
+$ref: /schemas/graph.yaml#/properties/port
+
+> +        description: FIXME
+> +
+> +      port@1:
+> +        type: object
+
+$ref: /schemas/graph.yaml#/properties/port
+
+> +        description: FIXME
+> +
+> +      port@2:
+> +        type: object
+> +        description: FIXME
+> +
+> +      port@3:
+> +        type: object
+> +        description: FIXME
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hdmi-bridge@39 {
+> +            compatible = "sil,sii9022";
+> +            reg = <0x39>;
+> +            reset-gpios = <&pioA 1 0>;
+> +            iovcc-supply = <&v3v3_hdmi>;
+> +            cvcc12-supply = <&v1v2_hdmi>;
+> +
+> +            #sound-dai-cells = <0>;
+> +            sil,i2s-data-lanes = < 0 1 2 >;
+> +            clocks = <&mclk>;
+> +            clock-names = "mclk";
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    bridge_in: endpoint {
+> +                        remote-endpoint = <&dc_out>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.25.1
+> 
+> 
