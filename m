@@ -2,83 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D7AE4729BA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 11:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FDA1473069
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 16:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242826AbhLMKYN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 05:24:13 -0500
-Received: from mail-vk1-f172.google.com ([209.85.221.172]:36601 "EHLO
-        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245064AbhLMKVq (ORCPT
+        id S240078AbhLMP1G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 10:27:06 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:59115 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S240079AbhLMP1F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 05:21:46 -0500
-Received: by mail-vk1-f172.google.com with SMTP id b192so10058125vkf.3;
-        Mon, 13 Dec 2021 02:21:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VWiyJhQSLDtfV5u6dnGa8mJ9e45sI54iCH3u9ONS/1Q=;
-        b=WWkfQSlbmnxy/bBWi3e0BCp1Xmde/24Er0TM/iORFXZeFFFSaap+V6lN0MWqp3s3xU
-         FeJHp7s2aGNmrGr4pSwhEj7AAxmtVC7umJiF6qEhkFbMQ1wLBhtCy6inPw69yyfNdqOn
-         GNElZHwV7X0eTOpY7DjtmTz8CUL2t241UGARJOzjQrBAlxMM5M5K179U4TxWnK9c2KAF
-         AeaBy2RG9olfBOlUPWo5MjbUO8+P6Nmmw+pqdWGbEqdpWUlrl85qf2VmMN1nbyRMGHK3
-         4OWw+VssUexs2HL+DjemwfVpnCazm7037KallEkowuMe4qaKug4RN28w97EJN7YtF9JK
-         cNiQ==
-X-Gm-Message-State: AOAM530eR85tgMnntznwEZMozliqoLqv0OYlvKX/+WCb0JEiv8Ypxpcu
-        Nvc53SEs4WQ5HvElGqZ8oIsFI4zqbYnNlA==
-X-Google-Smtp-Source: ABdhPJw1+q9EC6p2AQdcNoZdTEO9aThA2NMwwBHZmBP9ytIsRJT1cf7V7utuLzqKbZCWG0b93RxqVg==
-X-Received: by 2002:a1f:a556:: with SMTP id o83mr30299514vke.9.1639390904533;
-        Mon, 13 Dec 2021 02:21:44 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id g28sm3811333vkl.16.2021.12.13.02.21.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Dec 2021 02:21:44 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id 70so10043118vkx.7;
-        Mon, 13 Dec 2021 02:21:43 -0800 (PST)
-X-Received: by 2002:a05:6122:920:: with SMTP id j32mr31530370vka.20.1639390903821;
- Mon, 13 Dec 2021 02:21:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20211211212617.19639-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211211212617.19639-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Dec 2021 11:21:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWJ=HjRbdfWdwuLAZogg2zeuNZbAePdnrKOTEBKQgr-=w@mail.gmail.com>
-Message-ID: <CAMuHMdWJ=HjRbdfWdwuLAZogg2zeuNZbAePdnrKOTEBKQgr-=w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] watchdog: rzg2l_wdt: Fix 32bit overflow issue
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Mon, 13 Dec 2021 10:27:05 -0500
+X-IronPort-AV: E=Sophos;i="5.88,202,1635174000"; 
+   d="scan'208";a="103767722"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 14 Dec 2021 00:27:03 +0900
+Received: from localhost.localdomain (unknown [10.226.92.170])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6762D4008C53;
+        Tue, 14 Dec 2021 00:27:01 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-watchdog@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/4] watchdog: rzg2l_wdt: Fix 32bit overflow issue
+Date:   Mon, 13 Dec 2021 15:26:55 +0000
+Message-Id: <20211213152658.26225-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Dec 11, 2021 at 10:26 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The value of timer_cycle_us can be 0 due to 32bit overflow.
-> For eg:- If we assign the counter value "0xfff" for computing
-> maxval.
->
-> This patch fixes this issue by appending ULL to 1024, so that
-> it is promoted to 64bit.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+The value of timer_cycle_us can be 0 due to 32bit overflow.
+For eg:- If we assign the counter value "0xfff" for computing
+maxval.
 
+This patch fixes this issue by appending ULL to 1024, so that
+it is promoted to 64bit.
+
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+V1->V2:
+ * Added Rb tag from Guenter and Geert.
+---
+ drivers/watchdog/rzg2l_wdt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
+index 6b426df34fd6..96f2a018ab62 100644
+--- a/drivers/watchdog/rzg2l_wdt.c
++++ b/drivers/watchdog/rzg2l_wdt.c
+@@ -53,7 +53,7 @@ static void rzg2l_wdt_wait_delay(struct rzg2l_wdt_priv *priv)
+ 
+ static u32 rzg2l_wdt_get_cycle_usec(unsigned long cycle, u32 wdttime)
+ {
+-	u64 timer_cycle_us = 1024 * 1024 * (wdttime + 1) * MICRO;
++	u64 timer_cycle_us = 1024 * 1024ULL * (wdttime + 1) * MICRO;
+ 
+ 	return div64_ul(timer_cycle_us, cycle);
+ }
+-- 
+2.17.1
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
