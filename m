@@ -2,164 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9131B473643
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 21:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D2047367B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 22:19:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242489AbhLMUsR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 15:48:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
+        id S239012AbhLMVTL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 16:19:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236136AbhLMUsR (ORCPT
+        with ESMTP id S230008AbhLMVTK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 15:48:17 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AEB1C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:48:17 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id 200so6762275pgg.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:48:17 -0800 (PST)
+        Mon, 13 Dec 2021 16:19:10 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99797C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 13:19:09 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id c32so33369183lfv.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 13:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=Hox9NkczKpCbEYYZegZ/NMDNAcRQ3KIJ5cRJTQ32wDM=;
-        b=yoNqnrnq2Te5dv3Wzrocv98y05JIT+7J77Xqx5vbyjKqi8ESc9DMIth4rEDLlG2Uio
-         CgVzRD23dVavulNmDKc0xOKwydaSzqFVdWDkJoL6eslxu1b8+piKe5ybMQNpL6h6QQ1L
-         wBl2GS/b8U2zOoKVB7GNpdm1Sp6telse+vz7NnFlpOorFG3XfIlDPk0bh5pQqqUsRL6P
-         axqLOaR+hrX0RUqkNgP0KxRBzQbPqYkkFjUFkFIAd2zn9JH5alojlZ5cKm/L1l5ZBeNZ
-         Zbz1sTOLIhReyUoaAubmn74bKnYxJvRI1XD4lZcd/Id38j/jTKWtodTo/5FQWX/BRst7
-         7sdw==
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zUxwvp9vYwyJcQZmzhjmfM3rufvm3bxRQemKOq+WF8Q=;
+        b=BepgohHib2ilglMUKoAF4i0Q9de8231SPgv/vmLejAwIRYhRCHc1MRBhI2mBOVtely
+         xhZYEjEsNhFtz5WxStJrHyCJZPjIQO8FVHAp9m3vBtIDwMWLzETMOm8Q9ShsC5LktX/0
+         x4p5xyOkT2KlvcQHrwN9a9KE0KO0tsPKk9RvAKT4pt/F5o1elW9AxFMN9MdJgKVthKTl
+         F2TR09q0pXdsRtjJR+P9CgXFg5U9/MNmw67+mpcxuDLECZm/Wep4X6MbesxC9SEPs6IU
+         lJIgOzLBnvLtMOzhIsu+RwKOxLp364zpJ7bxGLp6AERqzdBXAasg6gF/kRUvRyuVlLZD
+         wT8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=Hox9NkczKpCbEYYZegZ/NMDNAcRQ3KIJ5cRJTQ32wDM=;
-        b=1N1mRRGUFhN+tebSvqe84Vg1huZyMtYlHxV4vqadPiynBWry5StHh+zNITCQOq18I8
-         IiJ1ab9fycXJ3czRCbXewJUn9xNtwAlgbxEP7D+VyH7ucFsYkHYk6GLYa+7VcJB1xcOZ
-         aQ7BNcNXcRf6706VkQO732B1HGBnCQayJOhvuR1HfxkIOr+09MlWKbbCuWBL7azJ01RO
-         2lnPXPFBg5yWJAR7Hf6bvq7pyN8bEfdz7+O0uSSmKNl0JhJ4FqIqsGoJPOkVaTjU5UIM
-         vyXVOUKfnvT5Q/I9CAc5H1UavhZJGy0IqrETSdgp7bbJW7DyW/hTPtZVr36LO2FvyxBq
-         vzbA==
-X-Gm-Message-State: AOAM5339pp3tyLhb4JDMvewqkJc3yZF3iy5oCLAwGc9uvJVw/nSLViCf
-        eesezmWHzFJAjnp0HwdI9W3HS3ooZIVTzPgX
-X-Google-Smtp-Source: ABdhPJx+NgvsrjRwNnO/kkXd0aBnXFY2Gaf2wf//ajJGOGm2vuiBxUemfXzN1pwVSAFvzcGda1Jz9A==
-X-Received: by 2002:a63:f150:: with SMTP id o16mr704294pgk.21.1639428496657;
-        Mon, 13 Dec 2021 12:48:16 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id t2sm13776032pfd.36.2021.12.13.12.48.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zUxwvp9vYwyJcQZmzhjmfM3rufvm3bxRQemKOq+WF8Q=;
+        b=kuRFinHDR1ScLXnCHFEuLhjFPClzdmb3oIWIgqBZNmTZIO/5vRUylUVcjrKX9+yhWH
+         HgbZFLHiFrsor5StHpPSSeuOKvU61X7Wnzkb0FkYdSszcdWUqpy+HZk0qEXnFNMZYVrt
+         fhb6uCh4bEOfY+XZYHWB0puQgq9wVJUsKhYW1yI4S622wvJh2F8cVxl4K/bBA0SYqQaf
+         6l0sGnZ0Df5v8xwyzvLoiFPr5LsuirFwr6UeMo3nRBIqzrH0LoWkecLFPQaP+4cD0GSO
+         LxRRUJluP/yvBKPU1giM4PmPkw6CpxKZqWAVw6k+ksRM7wNsxDYAKTj5V8xN626htWPt
+         DC6A==
+X-Gm-Message-State: AOAM530kTXMXjqbWKAJWqDKMo495UPAK6JxENWape7QCIPl+dBnqd89M
+        ghR7V4NBcF68txsFqevfVdqs1g==
+X-Google-Smtp-Source: ABdhPJw1q7FMK03KgySTCBv1JP8ARKdSQFa+PNCLG7CJSlWWm8Rm4MGVvbfvJnDdFOOgJ5lhfPLffg==
+X-Received: by 2002:a05:6512:12c8:: with SMTP id p8mr790416lfg.69.1639430347911;
+        Mon, 13 Dec 2021 13:19:07 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id f35sm1567100lfv.98.2021.12.13.13.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 12:48:16 -0800 (PST)
-Message-ID: <61b7b190.1c69fb81.9114c.6a2b@mx.google.com>
-Date:   Mon, 13 Dec 2021 12:48:16 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 13 Dec 2021 13:19:07 -0800 (PST)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] arm64: dts: renesas: r8a77961: Add lvsd0 device node
+Date:   Tue, 14 Dec 2021 00:18:55 +0300
+Message-Id: <20211213211855.1052211-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-12-13-v5.16-rc5
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 471 runs,
- 2 regressions (renesas-devel-2021-12-13-v5.16-rc5)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 471 runs, 2 regressions (renesas-devel-2021-12-13-=
-v5.16-rc5)
+Add the missing lvds0 node for the R-Car M3-W+ SoC.
 
-Regressions Summary
--------------------
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...MB2_KERNEL=3Dy | 1          =
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 86d59e7e1a87..d324dfd0d1f7 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
+ 				port@2 {
+ 					reg = <2>;
+ 					du_out_lvds0: endpoint {
++						remote-endpoint = <&lvds0_in>;
++					};
++				};
++			};
++		};
++
++		lvds0: lvds@feb90000 {
++			compatible = "renesas,r8a7796-lvds";
++			reg = <0 0xfeb90000 0 0x14>;
++			clocks = <&cpg CPG_MOD 727>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 727>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					lvds0_in: endpoint {
++						remote-endpoint = <&du_out_lvds0>;
++					};
++				};
++				port@1 {
++					reg = <1>;
++					lvds0_out: endpoint {
+ 					};
+ 				};
+ 			};
+-- 
+2.30.2
 
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-nfig             | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-12-13-v5.16-rc5/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-12-13-v5.16-rc5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      2d93a61c003c8e6bbc9e44c5ffc3eb00242028ef =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...MB2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61b792bb55b10a5c3b39722f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61b792bb55b10a5c3b397=
-230
-        failing since 27 days (last pass: renesas-devel-2021-11-02-v5.15, f=
-irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-nfig             | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61b77a88e51775d49939718c
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/x86_64/x86_64_defconfig/gcc-10/lab-collabora/baseline-m=
-innowboard-turbot-E3826.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/x86_64/x86_64_defconfig/gcc-10/lab-collabora/baseline-m=
-innowboard-turbot-E3826.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-6-g8983f3b738df/x86/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61b77a88e51775d499397=
-18d
-        new failure (last pass: renesas-devel-2021-12-06-v5.16-rc4) =
-
- =20
