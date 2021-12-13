@@ -2,114 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D2047367B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 22:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3453D473773
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 23:29:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239012AbhLMVTL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 16:19:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbhLMVTK (ORCPT
+        id S239112AbhLMW3A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 17:29:00 -0500
+Received: from mga07.intel.com ([134.134.136.100]:45004 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243575AbhLMW3A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 16:19:10 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99797C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 13:19:09 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id c32so33369183lfv.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 13:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zUxwvp9vYwyJcQZmzhjmfM3rufvm3bxRQemKOq+WF8Q=;
-        b=BepgohHib2ilglMUKoAF4i0Q9de8231SPgv/vmLejAwIRYhRCHc1MRBhI2mBOVtely
-         xhZYEjEsNhFtz5WxStJrHyCJZPjIQO8FVHAp9m3vBtIDwMWLzETMOm8Q9ShsC5LktX/0
-         x4p5xyOkT2KlvcQHrwN9a9KE0KO0tsPKk9RvAKT4pt/F5o1elW9AxFMN9MdJgKVthKTl
-         F2TR09q0pXdsRtjJR+P9CgXFg5U9/MNmw67+mpcxuDLECZm/Wep4X6MbesxC9SEPs6IU
-         lJIgOzLBnvLtMOzhIsu+RwKOxLp364zpJ7bxGLp6AERqzdBXAasg6gF/kRUvRyuVlLZD
-         wT8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zUxwvp9vYwyJcQZmzhjmfM3rufvm3bxRQemKOq+WF8Q=;
-        b=kuRFinHDR1ScLXnCHFEuLhjFPClzdmb3oIWIgqBZNmTZIO/5vRUylUVcjrKX9+yhWH
-         HgbZFLHiFrsor5StHpPSSeuOKvU61X7Wnzkb0FkYdSszcdWUqpy+HZk0qEXnFNMZYVrt
-         fhb6uCh4bEOfY+XZYHWB0puQgq9wVJUsKhYW1yI4S622wvJh2F8cVxl4K/bBA0SYqQaf
-         6l0sGnZ0Df5v8xwyzvLoiFPr5LsuirFwr6UeMo3nRBIqzrH0LoWkecLFPQaP+4cD0GSO
-         LxRRUJluP/yvBKPU1giM4PmPkw6CpxKZqWAVw6k+ksRM7wNsxDYAKTj5V8xN626htWPt
-         DC6A==
-X-Gm-Message-State: AOAM530kTXMXjqbWKAJWqDKMo495UPAK6JxENWape7QCIPl+dBnqd89M
-        ghR7V4NBcF68txsFqevfVdqs1g==
-X-Google-Smtp-Source: ABdhPJw1q7FMK03KgySTCBv1JP8ARKdSQFa+PNCLG7CJSlWWm8Rm4MGVvbfvJnDdFOOgJ5lhfPLffg==
-X-Received: by 2002:a05:6512:12c8:: with SMTP id p8mr790416lfg.69.1639430347911;
-        Mon, 13 Dec 2021 13:19:07 -0800 (PST)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id f35sm1567100lfv.98.2021.12.13.13.19.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 13:19:07 -0800 (PST)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH] arm64: dts: renesas: r8a77961: Add lvsd0 device node
-Date:   Tue, 14 Dec 2021 00:18:55 +0300
-Message-Id: <20211213211855.1052211-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 13 Dec 2021 17:29:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1639434539; x=1670970539;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=f/e3/Xj7VgNzLzQCcmOCyqI+SFqrXxeXnRIZkIqbUMY=;
+  b=Md4IVEqX5l8EL3U0n18GzZMKGYFxn92cXcUzYCMKXKECzh6e1ahqgv+s
+   1mjAr4jiHRPk82crKsmO4lBAXjwhHs3ptEudzgrZj51VuaJ6SwnkeKZ18
+   WZczLgEl/JvLq1I1sdT1G8A0aa0rSTh6uFeh65u2WG0bicrUGS7lKjHUT
+   4RY1XHeI72fr4blcKPBPW77yj9HD26p0tln84Hd2emF1AYfo8J/Gm58ZZ
+   nl0KIjiREsCkK43TRSQOWWkbArktBBWP078fmEOZab0W87+jpMuM3Xjzh
+   075k229TTTPYMq76aPjrj+5BXJsDI41YV/k917HpvHJvMnvQhhqKPdgXB
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="302225911"
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; 
+   d="scan'208";a="302225911"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2021 14:28:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; 
+   d="scan'208";a="464824890"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 13 Dec 2021 14:28:58 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mwtoX-00077w-LX; Mon, 13 Dec 2021 22:28:57 +0000
+Date:   Tue, 14 Dec 2021 06:28:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 2d93a61c003c8e6bbc9e44c5ffc3eb00242028ef
+Message-ID: <61b7c90a.7oeaSTqCtud50FzC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the missing lvds0 node for the R-Car M3-W+ SoC.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 2d93a61c003c8e6bbc9e44c5ffc3eb00242028ef  Merge tag 'v5.16-rc5' into renesas-devel
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+elapsed time: 725m
+
+configs tested: 103
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211213
+powerpc                      ep88xc_defconfig
+arm                           h3600_defconfig
+sh                        edosk7760_defconfig
+um                             i386_defconfig
+sh                        sh7757lcr_defconfig
+arc                        vdk_hs38_defconfig
+xtensa                              defconfig
+powerpc                 mpc834x_mds_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                         axm55xx_defconfig
+arm                         lubbock_defconfig
+sh                        apsh4ad0a_defconfig
+arm                            dove_defconfig
+powerpc                 mpc836x_rdk_defconfig
+mips                         tb0287_defconfig
+arm                          pxa3xx_defconfig
+powerpc                      pasemi_defconfig
+sh                          r7780mp_defconfig
+ia64                        generic_defconfig
+sh                           sh2007_defconfig
+arm                  randconfig-c002-20211213
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+sparc                            allyesconfig
+mips                             allmodconfig
+mips                             allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a011-20211213
+x86_64               randconfig-a012-20211213
+x86_64               randconfig-a014-20211213
+x86_64               randconfig-a013-20211213
+x86_64               randconfig-a016-20211213
+x86_64               randconfig-a015-20211213
+i386                 randconfig-a013-20211213
+i386                 randconfig-a011-20211213
+i386                 randconfig-a016-20211213
+i386                 randconfig-a014-20211213
+i386                 randconfig-a015-20211213
+i386                 randconfig-a012-20211213
+arc                  randconfig-r043-20211213
+s390                 randconfig-r044-20211213
+riscv                randconfig-r042-20211213
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                          rhel-8.3-func
+
+clang tested configs:
+x86_64               randconfig-c007-20211213
+arm                  randconfig-c002-20211213
+mips                 randconfig-c004-20211213
+i386                 randconfig-c001-20211213
+s390                 randconfig-c005-20211213
+powerpc              randconfig-c003-20211213
+riscv                randconfig-c006-20211213
+i386                 randconfig-a001-20211213
+i386                 randconfig-a002-20211213
+i386                 randconfig-a003-20211213
+i386                 randconfig-a004-20211213
+i386                 randconfig-a005-20211213
+i386                 randconfig-a006-20211213
+hexagon              randconfig-r045-20211213
+hexagon              randconfig-r041-20211213
+
 ---
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 86d59e7e1a87..d324dfd0d1f7 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
- 				port@2 {
- 					reg = <2>;
- 					du_out_lvds0: endpoint {
-+						remote-endpoint = <&lvds0_in>;
-+					};
-+				};
-+			};
-+		};
-+
-+		lvds0: lvds@feb90000 {
-+			compatible = "renesas,r8a7796-lvds";
-+			reg = <0 0xfeb90000 0 0x14>;
-+			clocks = <&cpg CPG_MOD 727>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 727>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					lvds0_in: endpoint {
-+						remote-endpoint = <&du_out_lvds0>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					lvds0_out: endpoint {
- 					};
- 				};
- 			};
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
