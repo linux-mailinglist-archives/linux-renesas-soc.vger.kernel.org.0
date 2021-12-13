@@ -2,121 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB10473473
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 19:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D50A4735A5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 21:13:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242025AbhLMS5G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 13:57:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47240 "EHLO
+        id S242773AbhLMUNz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 15:13:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242039AbhLMS5F (ORCPT
+        with ESMTP id S242639AbhLMUNy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 13:57:05 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A4CC061756
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:57:00 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id gf14-20020a17090ac7ce00b001a7a2a0b5c3so15314563pjb.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:57:00 -0800 (PST)
+        Mon, 13 Dec 2021 15:13:54 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F17C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:13:54 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id l22so32982927lfg.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 12:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SJQo48NUmZkGZt1euitJNnArwB/A5OwQryrDW1DTEUY=;
-        b=mR4sP0FAduGkecIn78GO9pfQYM8sqxaO605tT2SSIoABlfHhgJEJtGLj1fKdGDYyha
-         JGusEx08UFDd9brckayAl3rjS3zMN9ufR3X1jGkfyUOMa1ukqvCyminJ3i5hRLHHknzf
-         Yk3sIFomgNgoq8rQ0hZA405oKbUVgSBZ/FCSZ7stLCH52jESvlh2txxomi8Ik+Gj9ivS
-         EsTK8YqAGFxPPDZBpnbNAkz6/60K4ZAXqoQdtAT7Y7dItfzAn5juFFIioZQz/vyisf+n
-         IZXjPKX7GOrmcrku+Z7/BwQZfyZwt8IS+BwZZmtcJ2PlvjYa1cnoDIGiGV4j4oXo+ho3
-         j9Dg==
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Inc9uwWHZAbgsb1N/697Z2eLvfAIiFt1soOcNLmt1G8=;
+        b=6oLIom7ZwqLYzavR342gVTMOEeigQLXjS/ORPSdo8LbI1Ju5TKXSt6zhKtnE5z1oLS
+         BQ//Klh6xjFKlwXLZidL92utkY0TXuskOdTNfPlk46UWBTTW6r3MPJr9wwKtzDqnqUKC
+         wYR6ErbJ/+o+NsVwPXDeB1e7R4bVPNtVtwSNYtB2u26jNokH4hsEbKyLKH7o/WVahfz+
+         qCq1T0KvZYjItdNpSi984BtjT+/7b8YD+GshHdfBea8ASzdrUUaJH23FMf0McSQVTH/c
+         ByA9jyKgFBaH5vGI3qYzlC7tXBrA1h1r9qMXEBI7Szke/j3RtPPPIjhKCZF1ycM2z47q
+         8h+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SJQo48NUmZkGZt1euitJNnArwB/A5OwQryrDW1DTEUY=;
-        b=IsnqXn9kbvpa4IyoHdw76ge9YwMUtvFHtv20gFpV58bdLPdfmJznhBrqoEpQOpwAGp
-         hkFQJb/MVRc5m/Ty5MvHI5QBw3Jz+1+1afCDrSYs4gUHi0AYp009XnI/Pr2+ETZje8cy
-         GqJ+hy8GYThVgxRXQBiDJZfHZffJwldcm5gj6a9Kyjjlv5XXBAJNvdXXS2Ywxs4yFSHc
-         DyEWxKkyWeAwtr0H2aXG+Nlbm4WAMMRnYhne0vkB+Adq41Jj42chQRnkRtJTR9C1sIJC
-         AQ0cShDgVR2zRsbW8oBgPNWb5XtED/UNVF6M4k6VDvT4RCW7t04gFL4s+JGVsgYoSPpz
-         dGVg==
-X-Gm-Message-State: AOAM532+pJvbf2wjOdOrDauZcnSKHvr86f9mMR2iCuPbI2YrSCX2UoNj
-        fKjT0K4xUzzbybO46BM5lZGiqA==
-X-Google-Smtp-Source: ABdhPJxNnuxdKkqPual8sYPX1MjA5j+lejydfjOREey1YjoX3NWB2OsK6FTTT64wcd8+cJTIvJ6K5A==
-X-Received: by 2002:a17:90b:3850:: with SMTP id nl16mr160887pjb.10.1639421820424;
-        Mon, 13 Dec 2021 10:57:00 -0800 (PST)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id t191sm5615027pgd.3.2021.12.13.10.56.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 10:56:59 -0800 (PST)
-Date:   Mon, 13 Dec 2021 11:56:57 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Initial Renesas R-Car remoteproc support
-Message-ID: <20211213185657.GB1474575@p14s>
-References: <20211207165829.195537-1-julien.massot@iot.bzh>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Inc9uwWHZAbgsb1N/697Z2eLvfAIiFt1soOcNLmt1G8=;
+        b=FhoQ1ZRyMY1awBrp9deobUJx8NG5yeCht3SBLWVxLu5GyqYW9R4mBwuN5Mu/EuaKE0
+         YakJd8/uxH6aIppRa8BBjDowEO1kCy25ysa7yWcgS3CAIIYocjK8V75UmfFLwmSmB8S0
+         GQDmmxXfqPJcdoD21UntO1uRbkwrM/bhvZVceu1SYEhIflu/swMSX+FmbjEgiFDUS63c
+         Eso0lRbGQiUd90WbqbPJqso5nbI1v/8pQujuy2z+opQcOfmLvcHIqe24r53gQZiYB5KF
+         7N5q+IJD0zR6Ssc5QVCzl19EwEw89bSl0eYVQ0PPCjfplbTnPGqGp4aaJ/siGX2LpLCs
+         299g==
+X-Gm-Message-State: AOAM533N9paLjFVuy9ZClLEW9tg5Xlt0ZkBUFJKD5J0rdY+JNcBOKWmw
+        wtTmIKzevQDt3cUibxXroil7hQ==
+X-Google-Smtp-Source: ABdhPJy5+hI4Th1rzQy0VsBWT6017dzMDLjnH12PdagwvSjIvTACVRclon2FTbZbTDF5VNQ9LzTcyw==
+X-Received: by 2002:a05:6512:23a7:: with SMTP id c39mr470971lfv.655.1639426432419;
+        Mon, 13 Dec 2021 12:13:52 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id g26sm1528888ljn.107.2021.12.13.12.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Dec 2021 12:13:51 -0800 (PST)
+Subject: Re: [PATCH] media: vsp1: mask interrupts before enabling
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+References: <20210926155356.23861-1-nikita.yoush@cogentembedded.com>
+ <163455832550.1371157.18009256492359430197@Monstersaurus>
+ <f91c4f16-fd81-5d70-0146-e9aa2d128da9@cogentembedded.com>
+ <163585162705.1097798.16604551366893944884@Monstersaurus>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <4f2a2dc5-f145-ce20-eebe-08a6e084ef66@cogentembedded.com>
+Date:   Mon, 13 Dec 2021 23:13:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211207165829.195537-1-julien.massot@iot.bzh>
+In-Reply-To: <163585162705.1097798.16604551366893944884@Monstersaurus>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 05:58:27PM +0100, Julien Massot wrote:
-> Most of the SoCs in the R-Car gen3 SoC series such as
-> H3,M3 and E3 have an 'Arm Realtime Core'.
-> This Realtime core is an Arm Cortex-R7 clocked at 800MHz.
-> This series adds initial support to load a firmware and start
-> this remote processor through the remoteproc subsystem.
-> 
-> This series depends on
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20211022122101.66998-1-julien.massot@iot.bzh/
-> to be able to set the Cortex-R7 boot address.
-> 
-> One of the way to test this driver is to use the zephyr upstream support
-> for h3ulcb board 'blinky' demo is my favorite testing firmware.
-> 
-> To generate a firmware with the zephyr project.
-> 
-> follow this starting guide
-> https://docs.zephyrproject.org/2.7.0/getting_started/index.html
-> 
-> Then compile your zephyr demo
-> west build -b rcar_h3ulcb_cr7 zephyr/samples/basic/blinky \
->     -DCONFIG_KERNEL_ENTRY=\"_vector_table\" \
->     --build-dir h3-blinky
-> 
-> Then you can use h3-blinky/zephyr/zephyr.elf as a testing
-> firmware.
-> 
-> Patch 1/2 adds the dt-bindings
-> 
-> Patch 2/2 is a small driver to cover basic remoteproc
-> usage: loading firmware from filesystem, starting and stopping the
-> Cortex-r7 processor.
-> 
-> Julien Massot (2):
->   dt-bindings: remoteproc: Add Renesas R-Car
->   remoteproc: Add Renesas rcar driver
-> 
->  .../remoteproc/renesas,rcar-rproc.yaml        |  65 +++++
->  drivers/remoteproc/Kconfig                    |  11 +
->  drivers/remoteproc/Makefile                   |   1 +
->  drivers/remoteproc/rcar_rproc.c               | 223 ++++++++++++++++++
+Hi.
 
-I have applied this set.
+Now I'm finally looking at this again.
 
-Thanks,
-Mathieu
+> I think I would rather see the code to reset them done in
+> vsp1_reset_wpf(), rather than in probe directly as that is what we are
+> doing, and is I believe already in the call path.
 
->  4 files changed, 300 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
->  create mode 100644 drivers/remoteproc/rcar_rproc.c
-> 
-> -- 
-> 2.33.1
-> 
-> 
+Could you please explain, how that is intended to be called on the probe path?
+
+As far as can read from the code, vsp1_reset_wpf() is only called from vsp1_device_init(), which in turn 
+is called only from PM resume hook and only if vsp1->info is already set. However, in the probe path, 
+pm_runtime_enable() is called before vsp1->info is set.
+
+Nikita
