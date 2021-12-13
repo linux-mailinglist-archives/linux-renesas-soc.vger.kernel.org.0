@@ -2,146 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E1F4733C7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 19:18:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB10473473
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 19:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236187AbhLMSSQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 13:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38246 "EHLO
+        id S242025AbhLMS5G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 13:57:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238893AbhLMSSP (ORCPT
+        with ESMTP id S242039AbhLMS5F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 13:18:15 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387DBC061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:18:15 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so15274812pja.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:18:15 -0800 (PST)
+        Mon, 13 Dec 2021 13:57:05 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A4CC061756
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:57:00 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id gf14-20020a17090ac7ce00b001a7a2a0b5c3so15314563pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:57:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=JecvUkv+prObsOj2F+C77q+kzTipVzsFUBAndGElTak=;
-        b=dIbX7V3eTzhwEToE3WRtBSuCuf9PsxkcS30MEkI97E65GTnidNOVT6ZC9f0Or9Elev
-         d5i2URK4EI+SNYWhucyfMkewPk6LC8lsPNrG9FCeoDy/MxIXP7rxVIzJvPutMqrtkenf
-         xTBAv2IGYZ9V13UQMRlvOouaQtB0SLEoV1NIvzap36j3NXES6UR7xVr32aW5O5gkrGJg
-         nLeM2rkN15aD9vKJdDltACGFhU/TcY+o33YKCld/IIuN6EyvH58d0dtqNxlu/HFx2oQL
-         fUCiV9UyW8RULxlE/20ZAOEXF8EqJFAsTAQIo7UAGMCDzrfiOQ9XVhq71VKvspfbGInv
-         2v3A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SJQo48NUmZkGZt1euitJNnArwB/A5OwQryrDW1DTEUY=;
+        b=mR4sP0FAduGkecIn78GO9pfQYM8sqxaO605tT2SSIoABlfHhgJEJtGLj1fKdGDYyha
+         JGusEx08UFDd9brckayAl3rjS3zMN9ufR3X1jGkfyUOMa1ukqvCyminJ3i5hRLHHknzf
+         Yk3sIFomgNgoq8rQ0hZA405oKbUVgSBZ/FCSZ7stLCH52jESvlh2txxomi8Ik+Gj9ivS
+         EsTK8YqAGFxPPDZBpnbNAkz6/60K4ZAXqoQdtAT7Y7dItfzAn5juFFIioZQz/vyisf+n
+         IZXjPKX7GOrmcrku+Z7/BwQZfyZwt8IS+BwZZmtcJ2PlvjYa1cnoDIGiGV4j4oXo+ho3
+         j9Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=JecvUkv+prObsOj2F+C77q+kzTipVzsFUBAndGElTak=;
-        b=bpJDal/ZKj/fdViqpLfkOVsfUIqM5C7gCuELK0MUC8K9v3XSaag4BsHgY7N5aP91sZ
-         dVLYQeiza5yX3fJR/XLdi98CxyjghOv4LphBYhYXsiySFtwluueTeF921epH3afD9hjl
-         M6x4RHy63zy73XGXr6mBrfTQe/yRiZUJ/39MK045mFlnyIN++QMvJxuf/dD9T2IBvv/u
-         d9Fv4n8XKV/gwdMKl7RXYxrIZpY39rubwaJXZUTEc/gr71Egwf18z2nSmtA1EGGopZ8S
-         GP1Y/18Du/DZeC7fN8oi507s/106xH15glpaaklqubQTay2BKIdeD9G9ZigmNmcdFC5k
-         0/wA==
-X-Gm-Message-State: AOAM532Yz/VYid4RHyJHBkwjQ3eI+O9dSrwWdqZ15zdiXCDN+Gpv3un4
-        l3yYBHdRZKXz1yZI6O68VIhXoIhWcs3qs6r4
-X-Google-Smtp-Source: ABdhPJxbgg91LQxT6CsZoTbgtoE4kw7THKAxGIboH+LPya/X+WprCm6xYD+Z1g3wcmOa7gwc+S48Ug==
-X-Received: by 2002:a17:902:db12:b0:142:3ac:7ec3 with SMTP id m18-20020a170902db1200b0014203ac7ec3mr87467plx.2.1639419494594;
-        Mon, 13 Dec 2021 10:18:14 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id pj12sm7731499pjb.51.2021.12.13.10.18.14
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SJQo48NUmZkGZt1euitJNnArwB/A5OwQryrDW1DTEUY=;
+        b=IsnqXn9kbvpa4IyoHdw76ge9YwMUtvFHtv20gFpV58bdLPdfmJznhBrqoEpQOpwAGp
+         hkFQJb/MVRc5m/Ty5MvHI5QBw3Jz+1+1afCDrSYs4gUHi0AYp009XnI/Pr2+ETZje8cy
+         GqJ+hy8GYThVgxRXQBiDJZfHZffJwldcm5gj6a9Kyjjlv5XXBAJNvdXXS2Ywxs4yFSHc
+         DyEWxKkyWeAwtr0H2aXG+Nlbm4WAMMRnYhne0vkB+Adq41Jj42chQRnkRtJTR9C1sIJC
+         AQ0cShDgVR2zRsbW8oBgPNWb5XtED/UNVF6M4k6VDvT4RCW7t04gFL4s+JGVsgYoSPpz
+         dGVg==
+X-Gm-Message-State: AOAM532+pJvbf2wjOdOrDauZcnSKHvr86f9mMR2iCuPbI2YrSCX2UoNj
+        fKjT0K4xUzzbybO46BM5lZGiqA==
+X-Google-Smtp-Source: ABdhPJxNnuxdKkqPual8sYPX1MjA5j+lejydfjOREey1YjoX3NWB2OsK6FTTT64wcd8+cJTIvJ6K5A==
+X-Received: by 2002:a17:90b:3850:: with SMTP id nl16mr160887pjb.10.1639421820424;
+        Mon, 13 Dec 2021 10:57:00 -0800 (PST)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id t191sm5615027pgd.3.2021.12.13.10.56.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 10:18:14 -0800 (PST)
-Message-ID: <61b78e66.1c69fb81.32b4e.431a@mx.google.com>
-Date:   Mon, 13 Dec 2021 10:18:14 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 13 Dec 2021 10:56:59 -0800 (PST)
+Date:   Mon, 13 Dec 2021 11:56:57 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Julien Massot <julien.massot@iot.bzh>
+Cc:     bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Initial Renesas R-Car remoteproc support
+Message-ID: <20211213185657.GB1474575@p14s>
+References: <20211207165829.195537-1-julien.massot@iot.bzh>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-12-13-v5.16-rc5
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master usb: 2 runs,
- 1 regressions (renesas-devel-2021-12-13-v5.16-rc5)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211207165829.195537-1-julien.massot@iot.bzh>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 2 runs, 1 regressions (renesas-devel-2021-12-13-v5.16-r=
-c5)
+On Tue, Dec 07, 2021 at 05:58:27PM +0100, Julien Massot wrote:
+> Most of the SoCs in the R-Car gen3 SoC series such as
+> H3,M3 and E3 have an 'Arm Realtime Core'.
+> This Realtime core is an Arm Cortex-R7 clocked at 800MHz.
+> This series adds initial support to load a firmware and start
+> this remote processor through the remoteproc subsystem.
+> 
+> This series depends on
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20211022122101.66998-1-julien.massot@iot.bzh/
+> to be able to set the Cortex-R7 boot address.
+> 
+> One of the way to test this driver is to use the zephyr upstream support
+> for h3ulcb board 'blinky' demo is my favorite testing firmware.
+> 
+> To generate a firmware with the zephyr project.
+> 
+> follow this starting guide
+> https://docs.zephyrproject.org/2.7.0/getting_started/index.html
+> 
+> Then compile your zephyr demo
+> west build -b rcar_h3ulcb_cr7 zephyr/samples/basic/blinky \
+>     -DCONFIG_KERNEL_ENTRY=\"_vector_table\" \
+>     --build-dir h3-blinky
+> 
+> Then you can use h3-blinky/zephyr/zephyr.elf as a testing
+> firmware.
+> 
+> Patch 1/2 adds the dt-bindings
+> 
+> Patch 2/2 is a small driver to cover basic remoteproc
+> usage: loading firmware from filesystem, starting and stopping the
+> Cortex-r7 processor.
+> 
+> Julien Massot (2):
+>   dt-bindings: remoteproc: Add Renesas R-Car
+>   remoteproc: Add Renesas rcar driver
+> 
+>  .../remoteproc/renesas,rcar-rproc.yaml        |  65 +++++
+>  drivers/remoteproc/Kconfig                    |  11 +
+>  drivers/remoteproc/Makefile                   |   1 +
+>  drivers/remoteproc/rcar_rproc.c               | 223 ++++++++++++++++++
 
-Regressions Summary
--------------------
+I have applied this set.
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 1          =
+Thanks,
+Mathieu
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-12-13-v5.16-rc5/plan/usb/
-
-  Test:     usb
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-12-13-v5.16-rc5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      2d93a61c003c8e6bbc9e44c5ffc3eb00242028ef =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61b786656f81bfa258397179
-
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-rock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-13-v5.16-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-rock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-211203.0/armhf/rootfs.cpio.gz =
-
-
-
-  * usb.compare-freeze: https://kernelci.org/test/case/id/61b786656f81bfa25=
-839717b
-        new failure (last pass: renesas-devel-2021-12-06-v5.16-rc4-15-g9f95=
-ae4ce1f1)
-
-    2021-12-13T17:38:51.496178  G Controller Bus 003 Device 003: ID 0ea0:21=
-68 USB Flash Disk Bus 003 Device 002: ID 05e3:0608 USB2.0 Hub Bus 003 Devic=
-e 001: ID 1d6b:0002 Linux 5.16.0-rc5 ehci_hcd EHCI Host Controller\"
-    2021-12-13T17:38:51.496685  + lsusb
-    2021-12-13T17:38:51.497096  + awk {print $6}
-    2021-12-13T17:38:51.497481  + sort
-    2021-12-13T17:38:51.497854  + seq 1 3
-    2021-12-13T17:38:51.498310  + /usr/sbin/rtcwake -d rtc0 -m freeze -s 1
-    2021-12-13T17:38:51.498679  rtcwake: assuming RTC uses UTC ...
-    2021-12-13T17:38:51.499034  rtcwake: wakeup from \"freeze\" using rtc0 =
-at Mon Dec 13 17:38:53 2021
-    2021-12-13T17:38:51.499386  <6>[   15.999874] PM: suspend entry (s2idle)
-    2021-12-13T17:38:51.499782  <6>[   16.004612] Filesystems sync: 0.000 s=
-econds =
-
-    ... (138 line(s) more)  =
-
- =20
+>  4 files changed, 300 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/remoteproc/renesas,rcar-rproc.yaml
+>  create mode 100644 drivers/remoteproc/rcar_rproc.c
+> 
+> -- 
+> 2.33.1
+> 
+> 
