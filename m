@@ -2,64 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3D90472990
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 11:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7AE4729BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Dec 2021 11:24:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239240AbhLMKXZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Dec 2021 05:23:25 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:34722 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242167AbhLMKUW (ORCPT
+        id S242826AbhLMKYN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Dec 2021 05:24:13 -0500
+Received: from mail-vk1-f172.google.com ([209.85.221.172]:36601 "EHLO
+        mail-vk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245064AbhLMKVq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Dec 2021 05:20:22 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 092EDB81015
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF8C3C34603
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639390819;
-        bh=HiDgpHPkg93WDB7+9FAMsW636TED6aUy8aIcyJN4T+8=;
-        h=Subject:From:Date:To:From;
-        b=IhUnsqCXiwncfFSypiJl4xE0mWfVYANvzKg2k+DZW7kFLCp7qZUGSZvK+xzJzFdgN
-         Pxh9ISuE/v7sY2BAqjubOWDf6HLgTtOaT7pd5nLC/1VYMa14aI2d3SHQySEe+mKKtH
-         vuO54M4cQLMRUGxSwAQmIjtGHYw7VRRvkGHG6LufgSy4x4Byn8Qj6fRDBSld07awve
-         9bss86tjCzqPe/kE4h2LZBZeIDCbFlJtF9wZb6+HsEZmwdkRihhHiHTnoCWj491D07
-         AseYhk9cmIhVDBxi5iP8mhThw0aBKdkxjG3WsibOJ5fgWa/psYgT86sXH4IZKAvCsM
-         6KwloSprwf9Dg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 8C293609CD
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Dec 2021 10:20:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 13 Dec 2021 05:21:46 -0500
+Received: by mail-vk1-f172.google.com with SMTP id b192so10058125vkf.3;
+        Mon, 13 Dec 2021 02:21:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VWiyJhQSLDtfV5u6dnGa8mJ9e45sI54iCH3u9ONS/1Q=;
+        b=WWkfQSlbmnxy/bBWi3e0BCp1Xmde/24Er0TM/iORFXZeFFFSaap+V6lN0MWqp3s3xU
+         FeJHp7s2aGNmrGr4pSwhEj7AAxmtVC7umJiF6qEhkFbMQ1wLBhtCy6inPw69yyfNdqOn
+         GNElZHwV7X0eTOpY7DjtmTz8CUL2t241UGARJOzjQrBAlxMM5M5K179U4TxWnK9c2KAF
+         AeaBy2RG9olfBOlUPWo5MjbUO8+P6Nmmw+pqdWGbEqdpWUlrl85qf2VmMN1nbyRMGHK3
+         4OWw+VssUexs2HL+DjemwfVpnCazm7037KallEkowuMe4qaKug4RN28w97EJN7YtF9JK
+         cNiQ==
+X-Gm-Message-State: AOAM530eR85tgMnntznwEZMozliqoLqv0OYlvKX/+WCb0JEiv8Ypxpcu
+        Nvc53SEs4WQ5HvElGqZ8oIsFI4zqbYnNlA==
+X-Google-Smtp-Source: ABdhPJw1+q9EC6p2AQdcNoZdTEO9aThA2NMwwBHZmBP9ytIsRJT1cf7V7utuLzqKbZCWG0b93RxqVg==
+X-Received: by 2002:a1f:a556:: with SMTP id o83mr30299514vke.9.1639390904533;
+        Mon, 13 Dec 2021 02:21:44 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id g28sm3811333vkl.16.2021.12.13.02.21.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Dec 2021 02:21:44 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id 70so10043118vkx.7;
+        Mon, 13 Dec 2021 02:21:43 -0800 (PST)
+X-Received: by 2002:a05:6122:920:: with SMTP id j32mr31530370vka.20.1639390903821;
+ Mon, 13 Dec 2021 02:21:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <163939081951.29760.7748193653364482747.git-patchwork-summary@kernel.org>
-Date:   Mon, 13 Dec 2021 10:20:19 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20211211212617.19639-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211211212617.19639-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Dec 2021 11:21:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWJ=HjRbdfWdwuLAZogg2zeuNZbAePdnrKOTEBKQgr-=w@mail.gmail.com>
+Message-ID: <CAMuHMdWJ=HjRbdfWdwuLAZogg2zeuNZbAePdnrKOTEBKQgr-=w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] watchdog: rzg2l_wdt: Fix 32bit overflow issue
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Sat, Dec 11, 2021 at 10:26 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The value of timer_cycle_us can be 0 due to 32bit overflow.
+> For eg:- If we assign the counter value "0xfff" for computing
+> maxval.
+>
+> This patch fixes this issue by appending ULL to 1024, so that
+> it is promoted to 64bit.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Patch: mmc: renesas_sdhi: initialize variable properly when tuning
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Ulf Hansson <ulf.hansson@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=587847
-  Lore link: https://lore.kernel.org/r/20211130132309.18246-1-wsa+renesas@sang-engineering.com
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Total patches: 1
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
