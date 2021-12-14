@@ -2,69 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A944742C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Dec 2021 13:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3EA14742DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Dec 2021 13:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234066AbhLNMkO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Dec 2021 07:40:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234075AbhLNMkM (ORCPT
+        id S234110AbhLNMpR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Dec 2021 07:45:17 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:50289 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230205AbhLNMpR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Dec 2021 07:40:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD38C06173F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Dec 2021 04:40:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 72D24B8190A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Dec 2021 12:40:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D8BBC34605
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Dec 2021 12:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639485609;
-        bh=Q1vyrEFt/DZV+j1+BkV39Sjp371OXbAla9LZngDZVeY=;
-        h=Subject:From:Date:To:From;
-        b=n6Uu5iaZL4LUpeSWNPD9loTk3VEliybIYxB4wouosAq67c24XKZRTS9SZp5wG4DGU
-         yenJ0EkfFoVeKWqmcoXjDROG1QQRKXwDwGZy3YMCX7AkToPRBVMst7x3hkUGS+BpTz
-         iKeoShkfh+51C77BhyB7dsHkl1Wc61kADDqulUEG7aF2FfnjSbxsHMDE+UyasaOPpT
-         ODhtniv0GKCEZUjJm86jk6ozQDAeAi+lU1j7eMzLyyawZ0bQvn/YYskr57yvvSYi0m
-         T0r8PK61kNacngGaMUwbGKiy5DGFvkXQkRHI+9qO5ZYYCKaFcf1tPSUhTsj0KmehZF
-         52Rv8WiGR3xYQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 1F35A609BA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Dec 2021 12:40:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 14 Dec 2021 07:45:17 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 55BFC2000C;
+        Tue, 14 Dec 2021 12:45:13 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v7 0/7] arm64: dts: renesas: Enable MAX9286 on Eagle and Condor
+Date:   Tue, 14 Dec 2021 13:45:51 +0100
+Message-Id: <20211214124558.383137-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <163948560906.12013.16279257264345385886.git-patchwork-summary@kernel.org>
-Date:   Tue, 14 Dec 2021 12:40:09 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hello,
+  v7 is rebased on lates renesas-drivers.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+I have removed depencies on the post_register() v4l2 subdev operation to have
+this integrated separately.
 
-Series: Enable Thermal support for RZ/G2L
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=592337
-  Lore link: https://lore.kernel.org/r/20211208142729.2456-1-biju.das.jz@bp.renesas.com
-    Patches: [1/2] arm64: dts: renesas: r9a07g044: Add TSU node
-             [2/2] arm64: dts: renesas: r9a07g044: Create thermal zone to support IPA
+This change upports BSP 5.1 commit
+https://github.com/renesas-rcar/linux-bsp/commit/28fdde07b28d5ae17ad6fb472ff4b52a4835cbee
 
+The usual note about condor:
 
-Total patches: 2
+Condor has 2 GMSL channels, something the current version of the MAX9286 driver
+does not support. However the DTS integration can be upstreamed but a single
+channel can be used at a time.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Integration of the new "maxim,gpio-poc" property required for Eagle/Condor is
+fully reviewed and can be eventually fast-tracked.
 
+The series has been tested on Eagle V3H board, while only compile tested for
+Condor.
+
+Jacopo Mondi (4):
+  dt-bindings: media: max9286: Re-indent example
+  dt-bindings: media: max9286: Define 'maxim,gpio-poc'
+  media: i2c: max9286: Use "maxim,gpio-poc" property
+  arm64: dts: renesas: condor: Enable MAX9286
+
+Kieran Bingham (3):
+  arm64: dts: renesas: eagle: Enable MAX9286
+  arm64: dts: renesas: Add GMSL cameras .dtsi
+  DNI: arm64: dts: renesas: eagle: Include eagle-gmsl
+
+ .../bindings/media/i2c/maxim,max9286.yaml     | 275 +++++++++------
+ arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi | 332 ++++++++++++++++++
+ .../arm64/boot/dts/renesas/r8a77970-eagle.dts | 112 ++++++
+ .../boot/dts/renesas/r8a77980-condor.dts      | 193 ++++++++++
+ drivers/media/i2c/max9286.c                   | 125 +++++--
+ 5 files changed, 901 insertions(+), 136 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
+
+--
+2.33.1
 
