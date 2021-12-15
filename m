@@ -2,52 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A0B4755EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Dec 2021 11:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD464755F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Dec 2021 11:12:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229917AbhLOKMr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Dec 2021 05:12:47 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:45612 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236695AbhLOKMq (ORCPT
+        id S241560AbhLOKMw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Dec 2021 05:12:52 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51976 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241529AbhLOKMv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Dec 2021 05:12:46 -0500
-Received: by mail-ua1-f49.google.com with SMTP id ay21so39963933uab.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Dec 2021 02:12:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oYyudWNRvP8Hla1hFk2l+R+UaR2deY6N33lbhAdimyI=;
-        b=LRQNi85hfxA9qiZWYThxMl++Xy0SpuhTbhvEujTArcTYPufXRYM+HP5va2iR5lGxcy
-         R2LySaZ3UZ1YCl0Qv3TwBUo4NEkQkK8ke8ABNudCao5+IxJh8gd05druTUxWpAmeUvu+
-         IiZuK0ZZMlOrTqQgjadLePL/ETQsBOGJqIHI3eLtqjgi8ZQLKkYRK72/1iKYqu9atbBx
-         5dS/d86h101RxQgntr2MQeufdiJeofFaZjmf4EksDmEkyKSs9GP6hLFeZHJJ4a4Aq867
-         BEGbXlhAlu6qNvbiC4n1erFI8eGFdIi6qoXeBVYEM0CKjcypr2WgdaT7ucoETxOJQo5v
-         6PTg==
-X-Gm-Message-State: AOAM530I9F/Aj/EMn93Akcu4ZwzsCCqLqxj0uecCI1COVChz4okBydmZ
-        wJqTicowNpEt8H34V0bjKM6QKDYXdxTX5A==
-X-Google-Smtp-Source: ABdhPJxgAc1WM4gcXxsoDP964arSYXvrsN8miUJf4MsnrjzdRAFGJjhesJtUd6Nt7cQpVEjkk5Gjhw==
-X-Received: by 2002:ab0:66c7:: with SMTP id d7mr9126111uaq.94.1639563165625;
-        Wed, 15 Dec 2021 02:12:45 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id l28sm360111vkn.45.2021.12.15.02.12.44
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Dec 2021 02:12:45 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id p37so40002604uae.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Dec 2021 02:12:44 -0800 (PST)
-X-Received: by 2002:a05:6102:21dc:: with SMTP id r28mr2373758vsg.57.1639563164657;
- Wed, 15 Dec 2021 02:12:44 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1639559338.git.geert+renesas@glider.be> <Ybm4oFaYgtl5+MRk@pendragon.ideasonboard.com>
-In-Reply-To: <Ybm4oFaYgtl5+MRk@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Dec 2021 11:12:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWKdWvTPQ=9EHpEr5Rb_sSAQ=3cgchmeSFpEXs2_we4wA@mail.gmail.com>
-Message-ID: <CAMuHMdWKdWvTPQ=9EHpEr5Rb_sSAQ=3cgchmeSFpEXs2_we4wA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm: rcar-du: Add missing dependencies
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Wed, 15 Dec 2021 05:12:51 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7E84292;
+        Wed, 15 Dec 2021 11:12:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639563170;
+        bh=goEIDe4d3+HUzUYlkmvqZx/CIz+ORjMaI5GvlhYUmLI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OjqxhuMOEM6lsZYKtp47lwxPR9jx8RS6ID1nmYxZwov0CF4zuM8Qp4BExkP31wo8c
+         P1RYu/TonrE6eYTf7dih+uMNWOC51KuGPb1SR1sTWSuJDwPPk8o1/zw8F6QwCJlz19
+         OMOafCsLPaJUfbVyk8v0n8aR7ji9mK8LM2enxzC8=
+Date:   Wed, 15 Dec 2021 12:12:47 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -55,43 +32,62 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
         Arnd Bergmann <arnd@arndb.de>,
         LUU HOAI <hoai.luu.ub@renesas.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/3] drm: rcar-du: DRM_RCAR_USE_LVDS should depend on
+ DRM_RCAR_DU
+Message-ID: <Ybm/nwT9hx/dapdg@pendragon.ideasonboard.com>
+References: <cover.1639559338.git.geert+renesas@glider.be>
+ <b1fa94f611a5c32c5d70516d1a39973f518fb06a.1639559338.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b1fa94f611a5c32c5d70516d1a39973f518fb06a.1639559338.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Geert,
 
-On Wed, Dec 15, 2021 at 10:43 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Dec 15, 2021 at 10:27:44AM +0100, Geert Uytterhoeven wrote:
-> > This patch series adds missing dependencies to Kconfig symbols related
-> > to the R-Car Display Unit.  These dependencies prevent asking the user
-> > about R-Car display drivers when configuring a kernel without Renesas
-> > SoC support, or when the answer wouldn't have any impact on the kernel
-> > build.
->
-> Won't this have an impact when someone will regenerate an ARM64
-> defconfig, given that we want to keep those options enabled in
-> arch/arm64/configs/defconfig ?
+Thank you for the patch.
 
-arch/arm64/configs/defconfig has CONFIG_ARCH_RENESAS=y, so it is
-not impacted.
+On Wed, Dec 15, 2021 at 10:27:46AM +0100, Geert Uytterhoeven wrote:
+> The Renesas R-Car LVDS encoder driver is a subdriver of the R-Car
+> Display Unit driver, and enabling DRM_RCAR_USE_LVDS while DRM_RCAR_DU is
+> disabled doesn't have any impact on the kernel built.  Hence add a
+> dependency on DRM_RCAR_DU, to prevent asking the user about this driver
+> when configuring a kernel without R-Car Display Unit support, like is
+> already done for DRM_RCAR_CMM.
+> 
+> Fixes: 42d95d1b3a9c649b ("drm/rcar: stop using 'imply' for dependencies")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> The problem pre-existed before commit 42d95d1b3a9c649b, as the
+> dependency of DRM_RCAR_LVDS on DRM_RCAR_DU was accidentally removed
+> before.
+> Fixes: c6a27fa41fabb35f ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 65d72be50f46f19e..a7aa556e301d1087 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -32,7 +32,7 @@ config DRM_RCAR_DW_HDMI
+>  
+>  config DRM_RCAR_USE_LVDS
+>  	bool "R-Car DU LVDS Encoder Support"
+> -	depends on DRM_BRIDGE && OF
+> +	depends on DRM_BRIDGE && OF && DRM_RCAR_DU
 
-> > Geert Uytterhoeven (3):
-> >   drm: rcar-du: DRM_RCAR_DW_HDMI should depend on ARCH_RENESAS
-> >   drm: rcar-du: DRM_RCAR_USE_LVDS should depend on DRM_RCAR_DU
-> >   drm: rcar-du: DRM_RCAR_MIPI_DSI should depend on ARCH_RENESAS
+Shouldn't the same be done for DRM_RCAR_DW_HDMI ? Even better, we could
+wrap all the entries for the subdrivers in a 'if DRM_RCAR_DU'.
 
-Gr{oetje,eeting}s,
+>  	default DRM_RCAR_DU
+>  	help
+>  	  Enable support for the R-Car Display Unit embedded LVDS encoders.
 
-                        Geert
+-- 
+Regards,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
