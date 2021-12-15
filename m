@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B044475074
+	by mail.lfdr.de (Postfix) with ESMTP id DF424475076
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Dec 2021 02:21:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235127AbhLOBT6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Dec 2021 20:19:58 -0500
-Received: from mga07.intel.com ([134.134.136.100]:21462 "EHLO mga07.intel.com"
+        id S235228AbhLOBUl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Dec 2021 20:20:41 -0500
+Received: from mga05.intel.com ([192.55.52.43]:30737 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235304AbhLOBT6 (ORCPT
+        id S235304AbhLOBUk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Dec 2021 20:19:58 -0500
+        Tue, 14 Dec 2021 20:20:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639531198; x=1671067198;
+  t=1639531240; x=1671067240;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=F+RS2O74u5/pT/28K6U0/RFjH7SfY8Fz6LTCuHzHYTc=;
-  b=ADgGEWAHzxm88Shg+Nym26ZO+OldOcS/eT7ljlGsjF/pbaZNcBIyQHdf
-   Fw8KAWo7DLjMHTqjA/PFCQD0ibfPGPpu13QzcKPTZc5OXaxkLVL2+qqh2
-   KNQxAJFdYYc+au2pFnr8w2E0ICPYz8HjzBibUnzthxob7m1M1qeyQ3j8J
-   bZtRzjHHZWuVjW4zSjR7210VJDCoyll4QZH4le+ehwpJUtMA/wddOvZ6K
-   gu/w2JXWNUWrk9O96zdnBFcAeieAAeRZB7ne0KHVTWV6ehdMsXGCMSCiC
-   1eFJoYoeB0Jhm6cl2iZ/VwKE/yBanhHN3GEKJTCd+9i+F4iRxMOj13Bkn
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="302497022"
+  bh=cook44DESqxt5M3kSS0o1Mi4sBvfMKSANHT123P+jBw=;
+  b=QfsCb8+6m+V6YaARn1zmLxJ3TELTEF06q+pL0Cm2wsDfRwEJLq4i/xpY
+   oY7gqyh8Z/khwlg6W+0W4btyvxw3ZqnuLqf64SOUPTGofjOGaHAbAK19J
+   b6YRxhB+O71QovVCC3vIG1aHFSo8gUZTgLz3YIhRmUqEdumxH+V0hgLi3
+   /Y3kYAVYtM+ij7nKGQQTZRmX9T5wjqEPm3mDuNn7hzJgwSpcSDcgU1vDr
+   W5tL/xEMIoW7NxV8Lv9gmy/A9atG2njVD18JinxbPnPlAlz1x6E+MSETw
+   T8tROsp5vBZ/HG0g6QfUhCmJL1wpVrB8VM8ZHceB+/hfL38ODmFhrVIqs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="325399118"
 X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; 
-   d="scan'208";a="302497022"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 17:19:57 -0800
+   d="scan'208";a="325399118"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 17:20:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; 
-   d="scan'208";a="682291386"
+   d="scan'208";a="567622351"
 Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2021 17:19:37 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 14 Dec 2021 17:20:38 -0800
 Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mxIxF-00012S-9h; Wed, 15 Dec 2021 01:19:37 +0000
-Date:   Wed, 15 Dec 2021 09:19:29 +0800
+        id 1mxIyE-00012p-7i; Wed, 15 Dec 2021 01:20:38 +0000
+Date:   Wed, 15 Dec 2021 09:19:39 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.17] BUILD SUCCESS
- 88404c56fde05eb741552a33fdfe6d7d20c1c986
-Message-ID: <61b942a1./teo0Nb7MNMWMlMR%lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ 54477c542f92fb4b93370861899dd916f8ced73d
+Message-ID: <61b942ab.flRF5Y7kB6K8+EJy%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -53,8 +53,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.17
-branch HEAD: 88404c56fde05eb741552a33fdfe6d7d20c1c986  arm64: dts: renesas: r9a07g044: Create thermal zone to support IPA
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: 54477c542f92fb4b93370861899dd916f8ced73d  Merge branch 'renesas-arm-dt-for-v5.17' into renesas-next
 
 elapsed time: 724m
 
@@ -183,9 +183,9 @@ ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
 m68k                             allyesconfig
+nds32                             allnoconfig
 nios2                               defconfig
 arc                              allyesconfig
-nds32                             allnoconfig
 nds32                               defconfig
 nios2                            allyesconfig
 csky                                defconfig
