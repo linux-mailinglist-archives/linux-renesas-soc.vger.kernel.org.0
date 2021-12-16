@@ -2,292 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E5AF4770D1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 12:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4159E4771F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 13:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233316AbhLPLnT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 06:43:19 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:8013 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232241AbhLPLnS (ORCPT
+        id S234165AbhLPMjO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 07:39:14 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37048 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229747AbhLPMjO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 06:43:18 -0500
-X-IronPort-AV: E=Sophos;i="5.88,211,1635174000"; 
-   d="scan'208";a="103716764"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Dec 2021 20:43:18 +0900
-Received: from localhost.localdomain (unknown [10.226.92.40])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F34F640121C6;
-        Thu, 16 Dec 2021 20:43:15 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: dts: renesas: Add initial device tree for RZ/G2LC SMARC EVK
-Date:   Thu, 16 Dec 2021 11:43:05 +0000
-Message-Id: <20211216114305.5842-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211216114305.5842-1-biju.das.jz@bp.renesas.com>
-References: <20211216114305.5842-1-biju.das.jz@bp.renesas.com>
+        Thu, 16 Dec 2021 07:39:14 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4C9B3F6;
+        Thu, 16 Dec 2021 13:39:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639658353;
+        bh=yv6a7OIfZwnB5j0HMiQW5n8V5kL9wz6Q/Dy9DoEX12w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FROHEYg/rJ9omALe8S3++KciLd4hP85/89+lPyXB2vljkFEeZsll5mdPxDheFwFVc
+         he5i7GVc8f3tFDC6NafOLoUI48NYZFGqRqz/G3/bRzUV2qsKf96x7gobF5waRgcvnO
+         wWrpyI5HjKghK/l6d/i9RIDoFiIu47VIRpF4pV+U=
+Date:   Thu, 16 Dec 2021 14:39:09 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] media: max9286: Add support for
+ v4l2_subdev_state
+Message-ID: <YbszbYppvy7M9KIw@pendragon.ideasonboard.com>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-2-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211017182449.64192-2-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add basic support for RZ/G2LC SMARC EVK (based on R9A07G044C2):
-- memory
-- External input clock
-- SCIF
-- GbEthernet
-- Audio Clock
+Hi Jacopo,
 
-It shares the same carrier board with RZ/G2L, but the pin mapping is
-different. Disable the device nodes which is not tested and
-delete the corresponding pinctrl definitions.
+Thank you for the patch.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/Makefile          |  1 +
- .../boot/dts/renesas/r9a07g044c2-smarc.dts    | 99 +++++++++++++++++++
- .../dts/renesas/rzg2lc-smarc-pinfunction.dtsi | 25 +++++
- .../boot/dts/renesas/rzg2lc-smarc-som.dtsi    | 76 ++++++++++++++
- 4 files changed, 201 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
- create mode 100644 arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
+On Sun, Oct 17, 2021 at 08:24:37PM +0200, Jacopo Mondi wrote:
+> Create and initialize the v4l2_subdev_state for the max9286 driver in
+> order to prepare to support routing operations and multiplexed streams.
+> 
+> Create the subdevice state with v4l2_subdev_init_finalize() and
+> implement the init_cfg() operation to guarantee the state is initialized
+> correctly with the default device format.
+> 
+> Remove the max9286_open() subdev internal operation as the format of the
+> file-handle state is now initialized by init_cfg().
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 90 +++++++++++++++++++++++--------------
+>  1 file changed, 57 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1b92d18a1f94..5997fe40509f 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -215,6 +215,17 @@ static inline struct max9286_priv *sd_to_max9286(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct max9286_priv, sd);
+>  }
+>  
+> +static const struct v4l2_mbus_framefmt max9286_default_format = {
+> +	.width		= 1280,
+> +	.height		= 800,
+> +	.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+> +	.colorspace	= V4L2_COLORSPACE_SRGB,
+> +	.field		= V4L2_FIELD_NONE,
+> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * I2C IO
+>   */
+> @@ -822,11 +833,45 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int max9286_init_cfg(struct v4l2_subdev *sd,
+> +			    struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_subdev_route routes[MAX9286_NUM_GMSL];
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	struct v4l2_subdev_krouting routing;
+> +	struct max9286_source *source;
+> +	unsigned int num_routes = 0;
+> +	int ret;
+> +
+> +	/* Create a route for each enable source. */
+> +	for_each_source(priv, source) {
+> +		struct v4l2_subdev_route *route = &routes[num_routes++];
+> +		unsigned int idx = to_index(priv, source);
+> +
+> +		route->sink_pad = idx;
+> +		route->sink_stream = 0;
+> +		route->source_pad = MAX9286_SRC_PAD;
+> +		route->source_stream = idx;
+> +		route->flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
+> +	}
+> +
+> +	routing.num_routes = num_routes;
+> +	routing.routes = routes;
+> +
+> +	state = v4l2_subdev_validate_and_lock_state(sd, state);
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> +					       &max9286_default_format);
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops max9286_video_ops = {
+>  	.s_stream	= max9286_s_stream,
+>  };
+>  
+>  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> +	.init_cfg	= max9286_init_cfg,
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+>  	.get_fmt	= max9286_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+> @@ -837,35 +882,6 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
+>  	.pad		= &max9286_pad_ops,
+>  };
+>  
+> -static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
+> -{
+> -	fmt->width		= 1280;
+> -	fmt->height		= 800;
+> -	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
+> -	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
+> -	fmt->field		= V4L2_FIELD_NONE;
+> -	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
+> -	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
+> -	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
+> -}
+> -
+> -static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+> -{
+> -	struct v4l2_mbus_framefmt *format;
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < MAX9286_N_SINKS; i++) {
+> -		format = v4l2_subdev_get_try_format(subdev, fh->state, i);
+> -		max9286_init_format(format);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> -	.open = max9286_open,
+> -};
+> -
+>  static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	switch (ctrl->id) {
+> @@ -897,11 +913,11 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	/* Configure V4L2 for the MAX9286 itself */
+>  
+>  	for (i = 0; i < MAX9286_N_SINKS; i++)
+> -		max9286_init_format(&priv->fmt[i]);
+> +		priv->fmt[i] = max9286_default_format;
+>  
+>  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+> -	priv->sd.internal_ops = &max9286_subdev_internal_ops;
+> -	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			  V4L2_SUBDEV_FL_MULTIPLEXED;
+>  
+>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+>  	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> @@ -933,14 +949,21 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	}
+>  	priv->sd.fwnode = ep;
+>  
+> +	ret = v4l2_subdev_init_finalize(&priv->sd);
+> +	if (ret)
+> +		goto err_put_node;
+> +
+>  	ret = v4l2_async_register_subdev(&priv->sd);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Unable to register subdevice\n");
+> -		goto err_put_node;
+> +		goto err_free_state;
+>  	}
+>  
+>  	return 0;
+>  
+> +err_free_state:
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 5bc8065a7864..8e696a38c560 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -76,3 +76,4 @@ dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-ulcb-kf.dtb
- dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb
- 
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
-+dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-new file mode 100644
-index 000000000000..53845823d0dc
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -0,0 +1,99 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G2LC SMARC EVK board
-+ *
-+ * Copyright (C) 2021 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r9a07g044c2.dtsi"
-+#include "rzg2lc-smarc-som.dtsi"
-+#include "rzg2lc-smarc-pinfunction.dtsi"
-+#include "rzg2l-smarc.dtsi"
-+
-+/ {
-+	model = "Renesas SMARC EVK based on r9a07g044c2";
-+	compatible = "renesas,smarc-evk", "renesas,r9a07g044c2", "renesas,r9a07g044";
-+
-+};
-+
-+&canfd {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&ehci0 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&ehci1 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&hsusb {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&i2c0 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&i2c1 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&i2c3 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&ohci0 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&ohci1 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&phyrst {
-+	status = "disabled";
-+};
-+
-+&scif2 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&sdhi1 {
-+	/delete-property/ pinctrl-0;
-+	/delete-property/ pinctrl-1;
-+	/delete-property/ vmmc-supply;
-+	status = "disabled";
-+};
-+
-+&spi1 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&ssi0 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&usb2_phy0 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+
-+&usb2_phy1 {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-new file mode 100644
-index 000000000000..5333a1f9a0e7
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G2LC SMARC pincontrol parts
-+ *
-+ * Copyright (C) 2021 Renesas Electronics Corp.
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-+
-+&pinctrl {
-+	pinctrl-0 = <&sound_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	scif0_pins: scif0 {
-+		pinmux = <RZG2L_PORT_PINMUX(38, 0, 1)>,	/* TxD */
-+			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
-+	};
-+
-+	sound_clk_pins: sound_clk {
-+		pins = "AUDIO_CLK1", "AUDIO_CLK2";
-+		input-enable;
-+	};
-+};
-+
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-new file mode 100644
-index 000000000000..e1d7a3a689c6
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G2LC SMARC SOM common parts
-+ *
-+ * Copyright (C) 2021 Renesas Electronics Corp.
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-+
-+/ {
-+	aliases {
-+		ethernet0 = &eth0;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
-+	};
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x0 0x38000000>;
-+	};
-+};
-+
-+&eth0 {
-+	pinctrl-0 = <&eth0_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	phy-mode = "rgmii-id";
-+	status = "okay";
-+
-+	phy0: ethernet-phy@7 {
-+		compatible = "ethernet-phy-id0022.1640",
-+			     "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+		rxc-skew-psec = <2400>;
-+		txc-skew-psec = <2400>;
-+		rxdv-skew-psec = <0>;
-+		txdv-skew-psec = <0>;
-+		rxd0-skew-psec = <0>;
-+		rxd1-skew-psec = <0>;
-+		rxd2-skew-psec = <0>;
-+		rxd3-skew-psec = <0>;
-+		txd0-skew-psec = <0>;
-+		txd1-skew-psec = <0>;
-+		txd2-skew-psec = <0>;
-+		txd3-skew-psec = <0>;
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <24000000>;
-+};
-+
-+&pinctrl {
-+	eth0_pins: eth0 {
-+		pinmux = <RZG2L_PORT_PINMUX(28, 1, 1)>, /* ET0_LINKSTA */
-+			 <RZG2L_PORT_PINMUX(27, 1, 1)>, /* ET0_MDC */
-+			 <RZG2L_PORT_PINMUX(28, 0, 1)>, /* ET0_MDIO */
-+			 <RZG2L_PORT_PINMUX(20, 0, 1)>, /* ET0_TXC */
-+			 <RZG2L_PORT_PINMUX(20, 1, 1)>, /* ET0_TX_CTL */
-+			 <RZG2L_PORT_PINMUX(20, 2, 1)>, /* ET0_TXD0 */
-+			 <RZG2L_PORT_PINMUX(21, 0, 1)>, /* ET0_TXD1 */
-+			 <RZG2L_PORT_PINMUX(21, 1, 1)>, /* ET0_TXD2 */
-+			 <RZG2L_PORT_PINMUX(22, 0, 1)>, /* ET0_TXD3 */
-+			 <RZG2L_PORT_PINMUX(24, 0, 1)>, /* ET0_RXC */
-+			 <RZG2L_PORT_PINMUX(24, 1, 1)>, /* ET0_RX_CTL */
-+			 <RZG2L_PORT_PINMUX(25, 0, 1)>, /* ET0_RXD0 */
-+			 <RZG2L_PORT_PINMUX(25, 1, 1)>, /* ET0_RXD1 */
-+			 <RZG2L_PORT_PINMUX(26, 0, 1)>, /* ET0_RXD2 */
-+			 <RZG2L_PORT_PINMUX(26, 1, 1)>; /* ET0_RXD3 */
-+	};
-+};
-+
+I'd call this new label err_subdev_cleanup.
+
+> +	v4l2_subdev_cleanup(&priv->sd);
+> +
+>  err_put_node:
+>  	fwnode_handle_put(ep);
+>  err_async:
+> @@ -953,6 +976,7 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>  {
+>  	fwnode_handle_put(priv->sd.fwnode);
+>  	v4l2_async_unregister_subdev(&priv->sd);
+> +	v4l2_subdev_cleanup(&priv->sd);
+>  	max9286_v4l2_notifier_unregister(priv);
+>  }
+>  
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
