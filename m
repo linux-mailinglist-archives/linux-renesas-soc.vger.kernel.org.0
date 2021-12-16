@@ -2,38 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD674776EB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 17:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E574477926
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 17:33:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238902AbhLPQHk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 11:07:40 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:48012 "EHLO frontal.iot.bzh"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238912AbhLPQHg (ORCPT
+        id S236208AbhLPQd6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 11:33:58 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:59523 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232915AbhLPQd6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 11:07:36 -0500
-Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id 4B5D510299;
-        Thu, 16 Dec 2021 17:07:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
-        :content-transfer-encoding:date:from:from:message-id
-        :mime-version:reply-to:subject:subject:to:to; s=iot.bzh; bh=fYWw
-        n03jiiuLczTKdRmbPfCPUYmu7Pgk7nhBh9DjseI=; b=An28merbAJfinfFO/fkC
-        oBl5p13bUMIiwZ3BOG5+eiRGLRgXr1k9+iaEBhHHfx/ZZLw1V3GJEE51Dv9tNa2w
-        /aYUmugcXWZGFjbUjmqSfhgHgLAcwmuBGI+gN7Kt/AtIahF5S8zAf/Sl03BtSgkt
-        kdz35gzyNxX/JQTmXpH3WesHbPaWdLHUI4Gu0Q5iNtRUE+AMUENUweGYui3UxuEl
-        zO6/qpKPzl2AUED9mh80jgk4arTBFTlbkOBytYNY7UHaOCYgSwCKWjhegw6xXAni
-        83ft1NtL2+LIknRir8NMGryxQhzGpRs1UBvmIq2fe3C0nYrnxiNcR9x8v92WAhwx
-        5A==
-From:   Julien Massot <julien.massot@iot.bzh>
-To:     bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
-        geert+renesas@glider.be
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        Julien Massot <julien.massot@iot.bzh>
-Subject: [PATCH 2/2] remoteproc: rcar_rproc: remove trailing semicolon
-Date:   Thu, 16 Dec 2021 17:07:21 +0100
-Message-Id: <20211216160721.203794-1-julien.massot@iot.bzh>
+        Thu, 16 Dec 2021 11:33:58 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6328E10000B;
+        Thu, 16 Dec 2021 16:33:51 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v8 0/7] arm64: dts: renesas: Enable MAX9286 on Eagle and Condor
+Date:   Thu, 16 Dec 2021 17:34:32 +0100
+Message-Id: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,27 +35,66 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Remove trailing semicolon.
+Hello,
+  v8 is rebased on lates renesas-drivers.
 
-Signed-off-by: Julien Massot <julien.massot@iot.bzh>
----
- drivers/remoteproc/rcar_rproc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Minor changes compared to v7: address Geert's comments on the 'gpio-poc'
+property parsing and power enable/disable routine.
 
-diff --git a/drivers/remoteproc/rcar_rproc.c b/drivers/remoteproc/rcar_rproc.c
-index 3408c6e51a7c..aa86154109c7 100644
---- a/drivers/remoteproc/rcar_rproc.c
-+++ b/drivers/remoteproc/rcar_rproc.c
-@@ -163,7 +163,7 @@ static int rcar_rproc_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->rst)) {
- 		ret = PTR_ERR(priv->rst);
- 		dev_err_probe(dev, ret, "fail to acquire rproc reset\n");
--		return ret;;
-+		return ret;
- 	}
- 
- 	pm_runtime_enable(dev);
--- 
+The new property parsing logic reads like
+
+	ret = of_property_read_u32_array();
+	if (ret == -EVINAL) {
+		/* Use regulator */
+
+		return 0;
+	}
+
+	/* Make sure the property is well formed. */
+	if (ret || gpio_poc[0] > 1 && (gpio_poc[1] != HIGH/LOW)
+		return -EINVAL;
+
+	return 0;
+
+Same as in v7:
+
+I have removed depencies on the post_register() v4l2 subdev operation to have
+this integrated separately.
+
+This change upports BSP 5.1 commit
+https://github.com/renesas-rcar/linux-bsp/commit/28fdde07b28d5ae17ad6fb472ff4b52a4835cbee
+
+The usual note about condor:
+
+Condor has 2 GMSL channels, something the current version of the MAX9286 driver
+does not support. However the DTS integration can be upstreamed but a single
+channel can be used at a time.
+
+Integration of the new "maxim,gpio-poc" property required for Eagle/Condor is
+fully reviewed and can be eventually fast-tracked.
+
+The series has been tested on Eagle V3H board, while only compile tested for
+Condor.
+
+Jacopo Mondi (4):
+  dt-bindings: media: max9286: Re-indent example
+  dt-bindings: media: max9286: Define 'maxim,gpio-poc'
+  media: i2c: max9286: Use "maxim,gpio-poc" property
+  arm64: dts: renesas: condor: Enable MAX9286
+
+Kieran Bingham (3):
+  arm64: dts: renesas: eagle: Enable MAX9286
+  arm64: dts: renesas: Add GMSL cameras .dtsi
+  DNI: arm64: dts: renesas: eagle: Include eagle-gmsl
+
+ .../bindings/media/i2c/maxim,max9286.yaml     | 275 +++++++++------
+ arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi | 332 ++++++++++++++++++
+ .../arm64/boot/dts/renesas/r8a77970-eagle.dts | 112 ++++++
+ .../boot/dts/renesas/r8a77980-condor.dts      | 193 ++++++++++
+ drivers/media/i2c/max9286.c                   | 124 +++++--
+ 5 files changed, 899 insertions(+), 137 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/gmsl-cameras.dtsi
+
+--
 2.33.1
-
 
