@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B9C8477A57
+	by mail.lfdr.de (Postfix) with ESMTP id EE750477A58
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 18:17:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239913AbhLPRRH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 12:17:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56666 "EHLO
+        id S235646AbhLPRRJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 12:17:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233283AbhLPRRH (ORCPT
+        with ESMTP id S233283AbhLPRRI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 12:17:07 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E666C061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:07 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id y8so19973936plg.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:07 -0800 (PST)
+        Thu, 16 Dec 2021 12:17:08 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2CB1C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:08 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so3872421pjw.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=azZBQBPE6C02RA0P7GywOJVxQ1FdRDp0rTH9pTFQy+g=;
-        b=H2sv8XQBZmmsxx06JL7s8eqDKeZgZXU1PQm5xgrNkEEXpnOsFUwvYaDqdfmoKIRIf2
-         8wpSO5uIwJ35TKZtNFbIalZQW7cLJSJGVkAJP5Q+GHr/H/qS2p/qzKJe6fimfTEM/Hvg
-         3bcJzlV4cSc1jxgDBR/jeKeNWXGDgXd6n0sbvTm5KIUNhT+jIwCcpBcHPZvccPvwHkwt
-         rUEwloZgy04Sazrw2ydVXxF6egr3i6JFHMW5mnMZ3ViMFc32tLRA/O4fREDGX5UUBD5I
-         Z7FzX6o6MHaJrTOIz9WpInRHcCj9VzrTn0fHidObG7KvZE0XoA3ddzRJ4SGoEruLCBvh
-         LaHQ==
+        bh=cdg5Ljk2EpBHDszhC5V/t+q0bXgcAkc+sRjGelKvTH0=;
+        b=WsaU1N+vB9pSe7um0LxetuyV9EfIYooma93772+Szz/9ww9GFmPqdJDBCfVauvPgyD
+         ubeDRRJ+Cn15RJ7ktQOqsFhgK5oakz0W4Q7hbe7TICXmGBvySG3O3jCqHz5B3HlEIyyy
+         7YCr1nXmM73Wvy+fAO36/7YCTY0d3ysf/i6Og2Si0BPhp6GgMCAUZZd9WdoaaBoEyvdi
+         GAeuPuSVYDhyl47iiMc1eWL4s+H7ieA//4imBYUn3r7ArPBiAeFle4tRUHGR5qGhQ3JJ
+         yonMP/mNAN3b9gOlztPFiBd5tXp7MdG7o+rwhEDhbDHf8VIvONYIDpmw0Ib15kBPtjFh
+         xzrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=azZBQBPE6C02RA0P7GywOJVxQ1FdRDp0rTH9pTFQy+g=;
-        b=eVFNZPmY+GFGW5bk+VDMsTKgU/4mFaAKVGIryR5Jqyu6kYWQj5ozRliQzRFQsPlItY
-         BHDEkO4rTO0455k5k+jBZA2WXYkf3Sc8aKmlOtCygJEMSDDYSmF0eNsPD9M5nDHr1GZK
-         pi2PEg4YNaN6P1Nt+GZ4JdHwZvwgxJmXkZHXjHOoBOzRgWRQnNnk7FnOAxh8er2q0TOp
-         G/qovl5EpmDv42dRvms/C6MifpXkjD7Nm8i0hu6qor88OZHl6gB5CCmaoJ/682CxpGpN
-         1xmFFv64PNXJm+geZnnLItAmSWaNf9dN/84G9pVWfXKj4iv5zFS1Wsa/qLsDqxcwDjZa
-         lBSw==
-X-Gm-Message-State: AOAM533e3KAO2NqHYyOzRWGRl8z690fXGUDXUFIHEDv3eBmmTaXL3mI+
-        LxQKA1UIDPqfKFM3FUmwg+SC3NRxcM7vx1Ik
-X-Google-Smtp-Source: ABdhPJwwzkgGzJ3IPzaHtPTQmuOULcEpKRqHAZLUtn6cXWSF495By+rp0ajNmXMGKmGNGeIFcIQQGQ==
-X-Received: by 2002:a17:902:c40f:b0:148:a668:3506 with SMTP id k15-20020a170902c40f00b00148a6683506mr9370921plk.108.1639675026451;
-        Thu, 16 Dec 2021 09:17:06 -0800 (PST)
+        bh=cdg5Ljk2EpBHDszhC5V/t+q0bXgcAkc+sRjGelKvTH0=;
+        b=oay6uy7CsjHEinVjEyw9OXRDVwOr0kUAwfLQmzUESDD+a0qHBcu9E2QWKFvvHrSbPx
+         GBVJnSrQsW9Z9pzbbIT+UNMwqKdNadu+wORnvfkFuGZse24BCI8T4lExq4ZWlP7G/4dN
+         dGAQiupV8t90UsR708pJHAZaadvqceiY97N+mORBXzAqWBQAOd0vwxeg8MmRZ/tcxvvo
+         DjQiVFQ5SVyNMjpcDPfuNuhk6ioRObE/KF07+sshQFCWNTnstV3Ttv+gewK8oFn0OSiH
+         PLQOtBzVXpywFEllt/Xin4kYukNuhINClyHHbiRQwMTa9ttoS5/uCKL7aypDob0m4CoW
+         ZPwQ==
+X-Gm-Message-State: AOAM530Wluk7Kp+Qd6cbru7k7AEPZWhNCOCFKBTEyJCn+e2X1s1HNk1R
+        pVCyis1nEtAvGSivLoi0ozBLqfZ7XObXbvbv
+X-Google-Smtp-Source: ABdhPJzDvAJ9yDcIQoOsJ1Hnpv5wcRltypbjBwdEvx3QXSKuiU3nuvQQXyP6C3gwpz6fjbBfiUnAGA==
+X-Received: by 2002:a17:902:b615:b0:143:bbf0:aad0 with SMTP id b21-20020a170902b61500b00143bbf0aad0mr17273889pls.12.1639675027946;
+        Thu, 16 Dec 2021 09:17:07 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id p16sm7630550pfh.97.2021.12.16.09.17.06
+        by smtp.gmail.com with ESMTPSA id h128sm6360267pfg.212.2021.12.16.09.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 09:17:06 -0800 (PST)
-Message-ID: <61bb7492.1c69fb81.efb96.3e81@mx.google.com>
-Date:   Thu, 16 Dec 2021 09:17:06 -0800 (PST)
+        Thu, 16 Dec 2021 09:17:07 -0800 (PST)
+Message-ID: <61bb7493.1c69fb81.4307a.14fd@mx.google.com>
+Date:   Thu, 16 Dec 2021 09:17:07 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,46 +57,38 @@ X-Kernelci-Kernel: renesas-next-2021-12-16-v5.16-rc1
 X-Kernelci-Report-Type: test
 X-Kernelci-Branch: next
 X-Kernelci-Tree: renesas
-Subject: renesas/next igt-gpu-panfrost: 1 runs,
- 1 regressions (renesas-next-2021-12-16-v5.16-rc1)
+Subject: renesas/next sleep: 3 runs,
+ 2 regressions (renesas-next-2021-12-16-v5.16-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next igt-gpu-panfrost: 1 runs, 1 regressions (renesas-next-2021-12-=
-16-v5.16-rc1)
+renesas/next sleep: 3 runs, 2 regressions (renesas-next-2021-12-16-v5.16-rc=
+1)
 
 Regressions Summary
 -------------------
 
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig | 1        =
-  =
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 2          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-12-16-v5.16-rc1/plan/igt-gpu-panfrost/
+s-next-2021-12-16-v5.16-rc1/plan/sleep/
 
-  Test:     igt-gpu-panfrost
+  Test:     sleep
   Tree:     renesas
   Branch:   next
   Describe: renesas-next-2021-12-16-v5.16-rc1
   URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
 evel.git
-  SHA:      a155038f641134b0272d26f75d1ab4a805013e48
-
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  136258e86a093fdb50a7a341de1c09ac9a076fea =
+  SHA:      a155038f641134b0272d26f75d1ab4a805013e48 =
 
 
 
@@ -105,56 +97,84 @@ Test Regressions
 
 
 
-platform         | arch  | lab           | compiler | defconfig | regressio=
-ns
------------------+-------+---------------+----------+-----------+----------=
---
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig | 1        =
-  =
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 2          =
 
 
-  Details:     https://kernelci.org/test/plan/id/61bb6312144a824af339711f
+  Details:     https://kernelci.org/test/plan/id/61bb6977154f56f0fd397126
 
-  Results:     15 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
+  Results:     3 PASS, 9 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
   Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--12-16-v5.16-rc1/arm64/defconfig/gcc-10/lab-collabora/igt-gpu-panfrost-rk33=
-99-gru-kevin.txt
+-12-16-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk3288-r=
+ock2-square.txt
   HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--12-16-v5.16-rc1/arm64/defconfig/gcc-10/lab-collabora/igt-gpu-panfrost-rk33=
-99-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
-t/20211210.0/arm64/rootfs.cpio.gz =
+-12-16-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk3288-r=
+ock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+211210.0/armhf/rootfs.cpio.gz =
 
 
 
-  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
-lci.org/test/case/id/61bb6312144a824af3397122
-        new failure (last pass: renesas-next-2021-11-30-v5.16-rc1-14-g09403=
-00f8e1d)
+  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/61bb6977154f56f0=
+fd39712d
+        failing since 16 days (last pass: renesas-next-2021-11-19-v5.16-rc1=
+, first fail: renesas-next-2021-11-30-v5.16-rc1)
 
-    2021-12-16T15:53:44.148266  <6>[   23.992633] Console: switching to col=
-our dummy device 80x25
-    2021-12-16T15:53:44.153912  <14>[   23.999864] [IGT] panfrost_submit: e=
-xecuting
-    2021-12-16T15:53:44.160975  IGT-Version: 1.26-g136258e (aarch64) (Linux=
-: 5.16.0-rc1 aarch64)
-    2021-12-16T15:53:44.172608  <14>[   24.015298] [IGT] panfrost_submit: s=
-tarting subtest pan-unhandled-pagefault
-    2021-12-16T15:53:44.176877  Starting subtest: pan-unhandled-pagefault
-    2021-12-16T15:53:44.293309  (panfrost_submit:338) CRITICAL: Test assert=
-ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
-bmit.c:178<14>[   24.135116] [IGT] panfrost_submit: exiting, ret=3D98
-    2021-12-16T15:53:44.293888  :
-    2021-12-16T15:53:44.307048  (panfrost_submit:338) CRITICAL: Failed asse=
-rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
-NSEC), 0, NULL)
-    2021-12-16T15:53:44.308494  Stack trace:
-    2021-12-16T15:53:44.313424    #0 ../lib/igt_core.c:1745 __igt_fail_asse=
-rt() =
+    2021-12-16T16:25:40.564057  rtcwake: assuming RTC uses UTC ...
+    2021-12-16T16:25:40.564435  rtcwake: wakeup from \"mem\" using rtc0 at =
+Thu Dec 16 16:25:47 2021
+    2021-12-16T16:25:40.586327  <6>[   76.469190] PM: suspend entry (deep)
+    2021-12-16T16:25:40.586819  <6>[   76.473605] Filesystems sync: 0.000 s=
+econds
+    2021-12-16T16:26:00.628814  <6>[   76.479439] Freezing user space proce=
+sses ... =
 
-    ... (15 line(s) more)  =
+    2021-12-16T16:26:00.629099  <3>[   96.489683] Freezing of tasks failed =
+after 20.006 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2021-12-16T16:26:00.629280  <6>[   96.500118] task:systemd-udevd   stat=
+e:D stack:    0 pid:  129 ppid:   118 flags:0x00000081
+    2021-12-16T16:26:00.629435  <6>[   96.509843] [<c10856f4>] (__schedule)=
+ from [<c1085bdc>] (schedule+0x48/0xd0)
+    2021-12-16T16:26:00.629601  <6>[   96.518103] [<c1085bdc>] (schedule) f=
+rom [<c1085cbc>] (io_schedule+0x34/0x44)
+    2021-12-16T16:26:00.629738  <6>[   96.526474] [<c1085cbc>] (io_schedule=
+) from [<c043f3d8>] (folio_wait_bit_common+0x1cc/0x32c) =
+
+    ... (14 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-3: https://kernelci.org/test/case/id/61bb6977154f56f0=
+fd39712e
+        failing since 16 days (last pass: renesas-next-2021-11-19-v5.16-rc1=
+, first fail: renesas-next-2021-11-30-v5.16-rc1)
+
+    2021-12-16T16:25:20.378786  rtcwake: assuming RTC uses UTC ...
+    2021-12-16T16:25:20.379170  rtcwake: wakeup from \"mem\" using rtc0 at =
+Thu Dec 16 16:25:27 2021
+    2021-12-16T16:25:20.400187  <6>[   56.284617] PM: suspend entry (deep)
+    2021-12-16T16:25:20.400674  <6>[   56.289149] Filesystems sync: 0.000 s=
+econds
+    2021-12-16T16:25:40.436153  <6>[   56.295831] Freezing user space proce=
+sses ... =
+
+    2021-12-16T16:25:40.436778  <3>[   76.298889] Freezing of tasks failed =
+after 20.002 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2021-12-16T16:25:40.437207  <6>[   76.309509] task:systemd-udevd   stat=
+e:D stack:    0 pid:  129 ppid:   118 flags:0x00000081
+    2021-12-16T16:25:40.437635  <6>[   76.319339] [<c10856f4>] (__schedule)=
+ from [<c1085bdc>] (schedule+0x48/0xd0)
+    2021-12-16T16:25:40.438004  <6>[   76.327738] [<c1085bdc>] (schedule) f=
+rom [<c1085cbc>] (io_schedule+0x34/0x44)
+    2021-12-16T16:25:40.485187  <6>[   76.336192] [<c1085cbc>] (io_schedule=
+) from [<c043f3d8>] (folio_wait_bit_common+0x1cc/0x32c) =
+
+    ... (14 line(s) more)  =
 
  =20
