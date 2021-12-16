@@ -2,68 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FC4F477940
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 17:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 378544779E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 18:02:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239720AbhLPQeX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 11:34:23 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:54133 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239736AbhLPQeX (ORCPT
+        id S239882AbhLPRCm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 12:02:42 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:54989 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235478AbhLPRCm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 11:34:23 -0500
+        Thu, 16 Dec 2021 12:02:42 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 1B6A6100008;
-        Thu, 16 Dec 2021 16:34:18 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 3926F1BF20F;
+        Thu, 16 Dec 2021 17:02:36 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
+To:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v8 7/7] DNI: arm64: dts: renesas: eagle: Include eagle-gmsl
-Date:   Thu, 16 Dec 2021 17:34:39 +0100
-Message-Id: <20211216163439.139579-8-jacopo+renesas@jmondi.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/5] media: adv748x: Add CSI-2 VC support
+Date:   Thu, 16 Dec 2021 18:03:18 +0100
+Message-Id: <20211216170323.141321-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
-References: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Hello
+   based on Tomi's v10, this series adds support for configurable virtual
+channel selection to the adv748x driver.
 
-Include the eagle-gmsl.dtsi to enable GMSL camera support on the
-Eagle-V3M platform.
+A branch for testing is available at
+https://git.sr.ht/~jmondi_/linux #multistream/tomba-v10/gmsl
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This series upports BSP commit
+https://github.com/renesas-rcar/linux-bsp/commit/8340a028b21a5ba1dc09a55a6d2ec6cbd47d557b?diff=unified
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index 91b9fab6afbc..288828d4007e 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -388,3 +388,11 @@ &scif0 {
- 
- 	status = "okay";
- };
-+
-+/* FAKRA Overlay */
-+#define GMSL_CAMERA_RDACM20
-+#define GMSL_CAMERA_0
-+#define GMSL_CAMERA_1
-+#define GMSL_CAMERA_2
-+#define GMSL_CAMERA_3
-+#include "gmsl-cameras.dtsi"
--- 
+Tested on R-Car M3-W
+
+Thanks
+   j
+
+Jacopo Mondi (5):
+  media: adv748x: Add flags to adv748x_subdev_init()
+  media: adv748x: Add support for v4l2_subdev_state
+  media: adv748x: Move format to subdev state
+  media: adv748x: Implement .get_frame_desc()
+  media: adv748x: Implement set_routing
+
+ drivers/media/i2c/adv748x/adv748x-afe.c  |   2 +-
+ drivers/media/i2c/adv748x/adv748x-core.c |   4 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c | 292 ++++++++++++++++++-----
+ drivers/media/i2c/adv748x/adv748x-hdmi.c |   2 +-
+ drivers/media/i2c/adv748x/adv748x.h      |   6 +-
+ 5 files changed, 244 insertions(+), 62 deletions(-)
+
+--
 2.33.1
 
