@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 356CB4774FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 15:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0033477504
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 15:53:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237975AbhLPOwI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 09:52:08 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38720 "EHLO
+        id S234988AbhLPOxD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 09:53:03 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38756 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237955AbhLPOwH (ORCPT
+        with ESMTP id S234948AbhLPOxC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 09:52:07 -0500
+        Thu, 16 Dec 2021 09:53:02 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E9493F6;
-        Thu, 16 Dec 2021 15:52:05 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44B9C3F6;
+        Thu, 16 Dec 2021 15:53:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639666325;
-        bh=7tR2zj9LiJsFgIWk69oL/8FuB0C4Ixxh7BTB5Pvw2KU=;
+        s=mail; t=1639666381;
+        bh=VLX0xaVZa/hiaGGAk3greverWGlYz6+uneCr03lWoMo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nn8iln8MGdfagy0tOiEfSGNIr3Wjd0cMOz4jEo0ARxrZHESssG9kag7Xuip5HqkMx
-         681UaVi7rPfOoFCszTKB0O0V8yNEU643hH7eo5nOkgFyQPJLRSrVv8OExzcq00g73I
-         wZ9OYjJ1+x3p7igoHLJUDbXJcWqQ5rm5YyzySF3Y=
-Date:   Thu, 16 Dec 2021 16:52:03 +0200
+        b=irfkcyA04LcfEymUfHF2hBnZg9+dCtmOmzvkVzLKTgaoXI/JDuOXTWSlbfkpKqZvG
+         JS9ggX76JGcdVzM+hYMogKGBxOFVrxOTak31NdnMKqjQLTsKm/EL/BrK1xaPMVN/ZZ
+         1Ucc9kQPud1perp4wC8Zfast2FnSdBRTfGEIWrpU=
+Date:   Thu, 16 Dec 2021 16:52:59 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,14 +31,14 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Ulrich Hecht <uli+renesas@fpond.eu>,
         linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-sh@vger.kernel.org, uclinux-h8-devel@lists.sourceforge.jp
-Subject: Re: [PATCH 2/3] serial: sh-sci: Use dev_err_probe()
-Message-ID: <YbtSk+K6Ald6aq4u@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] serial: sh-sci: Drop support for "sci_ick" clock
+Message-ID: <YbtSy9lkAQB7B3EX@pendragon.ideasonboard.com>
 References: <cover.1639663832.git.geert+renesas@glider.be>
- <5c4dd8df1f8d0d14786f26ee80b77f3eb8e06cd5.1639663832.git.geert+renesas@glider.be>
+ <b4103e44d6ac46b6c1c264e2aeac80b39941fe74.1639663832.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5c4dd8df1f8d0d14786f26ee80b77f3eb8e06cd5.1639663832.git.geert+renesas@glider.be>
+In-Reply-To: <b4103e44d6ac46b6c1c264e2aeac80b39941fe74.1639663832.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -47,41 +47,48 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Dec 16, 2021 at 03:17:33PM +0100, Geert Uytterhoeven wrote:
-> Use the dev_err_probe() helper to streamline error handling.
+On Thu, Dec 16, 2021 at 03:17:32PM +0100, Geert Uytterhoeven wrote:
+> Since commit 1b463bd51042927e ("ARM: dts: r8a7794: Rename the serial
+> port clock to fck") in v4.6, all upstream DTS files call the SCIF
+> functional clock "fck".
+> 
+> Hence the time is ripe to drop backward-compatibility with old DTBs that
+> use the old "sci_ick" name.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/tty/serial/sh-sci.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+> Note that such old DTBs have stopped working anyway since commit
+> 58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
+> support") in v5.5.
+> ---
+>  drivers/tty/serial/sh-sci.c | 11 -----------
+>  1 file changed, 11 deletions(-)
 > 
 > diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index 686ca1777222b1d4..5f6d85b8e3dd4173 100644
+> index 88005d2fc2a00b0b..686ca1777222b1d4 100644
 > --- a/drivers/tty/serial/sh-sci.c
 > +++ b/drivers/tty/serial/sh-sci.c
-> @@ -2790,15 +2790,12 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
->  			 * global "peripheral_clk" clock.
->  			 */
->  			clk = devm_clk_get(dev, "peripheral_clk");
+> @@ -2784,17 +2784,6 @@ static int sci_init_clocks(struct sci_port *sci_port, struct device *dev)
+>  			return -EPROBE_DEFER;
+>  
+>  		if (IS_ERR(clk) && i == SCI_FCK) {
+> -			/*
+> -			 * "fck" used to be called "sci_ick", and we need to
+> -			 * maintain DT backward compatibility.
+> -			 */
+> -			clk = devm_clk_get(dev, "sci_ick");
+> -			if (PTR_ERR(clk) == -EPROBE_DEFER)
+> -				return -EPROBE_DEFER;
+> -
 > -			if (!IS_ERR(clk))
 > -				goto found;
 > -
-> -			dev_err(dev, "failed to get %s (%ld)\n", clk_names[i],
-> -				PTR_ERR(clk));
-> -			return PTR_ERR(clk);
-> +			if (IS_ERR(clk))
-> +				return dev_err_probe(dev, PTR_ERR(clk),
-> +						     "failed to get %s\n",
-> +						     clk_names[i]);
->  		}
->  
-> -found:
->  		if (IS_ERR(clk))
->  			dev_dbg(dev, "failed to get %s (%ld)\n", clk_names[i],
->  				PTR_ERR(clk));
+>  			/*
+>  			 * Not all SH platforms declare a clock lookup entry
+>  			 * for SCI devices, in which case we need to get the
 
 -- 
 Regards,
