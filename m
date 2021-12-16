@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DDA477384
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 14:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03C0D4773B1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 14:54:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbhLPNs2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 08:48:28 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:43842 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229917AbhLPNs1 (ORCPT
+        id S237058AbhLPNyq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 08:54:46 -0500
+Received: from mail-qt1-f170.google.com ([209.85.160.170]:45645 "EHLO
+        mail-qt1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229947AbhLPNyp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 08:48:27 -0500
-Received: by mail-ua1-f54.google.com with SMTP id 107so6847309uaj.10;
-        Thu, 16 Dec 2021 05:48:27 -0800 (PST)
+        Thu, 16 Dec 2021 08:54:45 -0500
+Received: by mail-qt1-f170.google.com with SMTP id p19so25409828qtw.12;
+        Thu, 16 Dec 2021 05:54:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GwUf1MNdbmgw1pD6FZTK0J55XMOIj4oBEJuIlJQ7QX8=;
-        b=lWzINCKwxWH3WIK087K9YInfBEaVVXqesaRYG0oxNbIlKS0fuJFC6/a0AwI2zjrh0R
-         wtE8zf2/08h+amkJt6Sf/RJkPZDUebRLcb1a2M69xHiYYBZqkJfdo2ijkbKmqAfiVXZD
-         WxN/tjz+hPlQqhrxYfmBnnS5r0h/KSeKThoERcWSjc4J8Xj+ucj+9FlkjXJcnWWgwM+1
-         RFaA/pzbvWDB/JsGOLbsElZ5628Ai1hEyZRRmn0Ej/fgtB8NaxmPAN78JC9I/O50size
-         vMs75cbwAvb0+tBcSGIf4tO1jtRDx1Jjz5NqVDfkz1jRmjasHwWd2Cp8FzYDva1VdTSu
-         JWqA==
-X-Gm-Message-State: AOAM530X/im7gjIUxO+9RvgPzqvMCDsJcGPc7uwncPgrRQPT3bex6EaI
-        35xG3kHvPqBSqlV0eZOrox1Y5c8W0SoYtA==
-X-Google-Smtp-Source: ABdhPJwqaUS1nG1kWLlUXyNY4TlRzaBBUAaq54M6E5gpV3v8FUHbK+8j3iofXYFbyyuNTzPzJ8JgyA==
-X-Received: by 2002:a67:dd12:: with SMTP id y18mr5482184vsj.56.1639662507137;
-        Thu, 16 Dec 2021 05:48:27 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 66sm1213363uao.0.2021.12.16.05.48.26
+        bh=r7QJ5cBXo5bJMtT1p7qM3PpjXsDY7rDmJRqDoolDi0U=;
+        b=2VMxLStHSVZYdS47OWgNslnuumpW3odB99V7quDr3014FupJ2xnUqBtKP1uqvlHWfU
+         45HnLuaeXq2hM7WQN5yr/OjOcwhEHRSNrQX0rCpkouHDb4OZVXpQ570sAZw8E83l3LJo
+         GQpAAFOzjAdMNmJllbbswnr/UsrafqlgqOOZ7m/aqSLm45JnjcMrtwPodcwq5uuSqWvj
+         4st1DwmsJbYUgLOiJ0v9YpXqZQiumQWf+CThspRlDKs7ozmIAKesZLqmK9jaTo1Y8Q2S
+         nXV6JoNfEkyhhsIwCYzdT243ixFUs8v0/oCBA6Nuycxk9N83810QpVl/iCkr2qmjZhgB
+         WpeQ==
+X-Gm-Message-State: AOAM533uG0VRrvMjqvobDo0Depv1zSqupOlL7gkcnIR7Vf9tMQRDWl56
+        vRunaAGjcG9XVLTtp3B+co4IgtPG6758rw==
+X-Google-Smtp-Source: ABdhPJzFi1gUgt5i49QeCUL1jC2S3FXc0uZJARrSUSpQ7W0HjHpzhRkSXqSQfWNtmthWx7GJ6yzkTg==
+X-Received: by 2002:a05:622a:413:: with SMTP id n19mr16757097qtx.69.1639662884927;
+        Thu, 16 Dec 2021 05:54:44 -0800 (PST)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
+        by smtp.gmail.com with ESMTPSA id n22sm4192703qtk.38.2021.12.16.05.54.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Dec 2021 05:48:27 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id 107so6847259uaj.10;
-        Thu, 16 Dec 2021 05:48:26 -0800 (PST)
-X-Received: by 2002:a05:6102:3232:: with SMTP id x18mr5387370vsf.38.1639662506625;
- Thu, 16 Dec 2021 05:48:26 -0800 (PST)
+        Thu, 16 Dec 2021 05:54:44 -0800 (PST)
+Received: by mail-qv1-f42.google.com with SMTP id kj6so8123000qvb.2;
+        Thu, 16 Dec 2021 05:54:44 -0800 (PST)
+X-Received: by 2002:a05:6102:c89:: with SMTP id f9mr5601778vst.68.1639662529143;
+ Thu, 16 Dec 2021 05:48:49 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1639661878.git.geert@linux-m68k.org> <20211215154619.166360-1-miquel.raynal@bootlin.com>
+References: <cover.1639662093.git.geert@linux-m68k.org> <20211215154619.166360-1-miquel.raynal@bootlin.com>
 In-Reply-To: <20211215154619.166360-1-miquel.raynal@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Dec 2021 14:48:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwBNm=hG7mCgnpGAHFGHEmTBM0cGoVBDiqWGq9Go5+5A@mail.gmail.com>
-Message-ID: <CAMuHMdXwBNm=hG7mCgnpGAHFGHEmTBM0cGoVBDiqWGq9Go5+5A@mail.gmail.com>
+Date:   Thu, 16 Dec 2021 14:48:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUx0=b+GFP7Qvr9=L4tnf3K-UHatgKX=92EwRu3_7Bs_w@mail.gmail.com>
+Message-ID: <CAMuHMdUx0=b+GFP7Qvr9=L4tnf3K-UHatgKX=92EwRu3_7Bs_w@mail.gmail.com>
 Subject: Re: [PATCH v4 0/4] Renesas RZ/N1 NAND controller support
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
+        Anup Patel <anup.patel@wdc.com>,
         Richard Weinberger <richard@nod.at>,
         Vignesh Raghavendra <vigneshr@ti.com>,
         Tudor Ambarus <Tudor.Ambarus@microchip.com>,
@@ -75,7 +75,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 2:41 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Thu, Dec 16, 2021 at 2:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
 > From: Miquel Raynal <miquel.raynal@bootlin.com>
 >
 > Hello,
