@@ -2,130 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11437477D71
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 21:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB120477DA5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 21:32:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235034AbhLPUXH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 15:23:07 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:45830 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233985AbhLPUXG (ORCPT
+        id S241240AbhLPUcK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 15:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236123AbhLPUcJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 15:23:06 -0500
-Received: by mail-ot1-f47.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso262907otf.12;
-        Thu, 16 Dec 2021 12:23:06 -0800 (PST)
+        Thu, 16 Dec 2021 15:32:09 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1227C061574
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 12:32:09 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id k64so324145pfd.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 12:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Q/YE5hPGnfhSVUcG8nOoWhj1ihnxA6JI2qElUSzJNu4=;
+        b=NtRfWNriBItlo0gSzDHKFd59nSgelfI8XR9tM55iSSQLWcnyTPqsnqIh9WgjcUIj21
+         qxCAzS9a7/6HmuvzmPW8QI+TjFzlT+z3/7ONWMbD5bAXY44j1W2/XFm7xIzpfR4DNGtE
+         0gMJMEr4HZMsWezWl9pfQi81ig9FshJzw4zMvRkUehNW1xGhDj0etd3zboLzpaicyW8m
+         w6mW4EPqYayb0mhPz07dUZ9FbGd0AqqarzQGIHQfk/i1mYq3xaYhIa6mDVvPgb2Dhy5U
+         w94vCLrVCTaLjml/Pi8EmtVeXJBUil3h+oiHZSTQ/zx+opVg40bPMAjEDx0S7vDFu7I/
+         qIng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=O8UFdnai6s7snpmbwkSl36M4XrxKlc+aoRmeuFCVzpU=;
-        b=bJU1uDt7wZScVoy+c2bBj0kmanZepJonRt5Tr9tUVKsOr8+bFhPYBIHNwkp113822H
-         YxTjcPTp+6h0Viretl5KJKfVXEZzfAY5b5oOSDLJUNtaOEH9mKiWHQi5ojnDUzywTajg
-         nm2K7jHPpgWJAQbDkG8RsveoZS2pa3QPoHWM+0iJ8ryXpcLHv+bmZHrXTbsOg4wlOTxs
-         qYdtzAFLUhnMoKrrJSkhKQibEL7mGUxel+2lZuRLGONWth4cfyxv4euLL1hWOBrLA/Pq
-         HmwbL8AIYT2SZ8XImpfugCXwgVL6uWauMeUpZrJ9ELCMd9GcJ/JRn2OOoT5ilbRQojqR
-         4T7w==
-X-Gm-Message-State: AOAM532e1uS3ugAzn9TH8btzERxDurO6GKWzg4Np7t2Ug+NKU3LC1gZ7
-        CPUTDcV5pzcjqhlnGIdlRg==
-X-Google-Smtp-Source: ABdhPJyndhm5K0m9V6/DCjWTrWsPJVH01HL98W25VKieC8BJwh1QrMqZCdZpi152ne28QCC7piMKew==
-X-Received: by 2002:a05:6830:2693:: with SMTP id l19mr14584490otu.338.1639686185961;
-        Thu, 16 Dec 2021 12:23:05 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id j5sm1223576oou.23.2021.12.16.12.23.04
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Q/YE5hPGnfhSVUcG8nOoWhj1ihnxA6JI2qElUSzJNu4=;
+        b=bdRuyl9lMIzmgBkdh7N7pzR61no/CqczkBmNeFXozNx0RLiigzz/xUK990Z/Tmk+Aj
+         OmzojlSC6zUOT5E2vqWgRcMKDQ6PwriHyrocmj074C7QuQgpoIbtAx8RaHYGB6bP2Hp+
+         ri7r1gUtXs41O+Gq7l1sz+CdpqtjHtpKokG4q9XfJoSiwmqZMCEchdf+XPn44KK9UKtz
+         DxPTBPTT+NIfKzCQDnPcJKFBfWVBDzCBUF5Glx9TF6xCtHtvn8hGGru3jggXhRXTDYVQ
+         JjLq2+BrEVcLWD4BVkO9Ur7U0U9GDfJO0a2GnS8BM1yhapiKNx7kmm7tKu241D7AmkRr
+         ECHw==
+X-Gm-Message-State: AOAM531pJmm5aLCl+t98DzWfU/QmOKNTOFPVzUWKsAOBCj+dc2Z0FL6s
+        EylxH15Z/J9N0fPPrO23er92RY29/V8+8Epk
+X-Google-Smtp-Source: ABdhPJyoIQOzhtyKVluEggO7Vbb981OQ05wnneOLOwoE52eWyL+ZnT25BL1akyLZCAyQpTcNSerLUg==
+X-Received: by 2002:a63:5d61:: with SMTP id o33mr7186510pgm.341.1639686729075;
+        Thu, 16 Dec 2021 12:32:09 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id k16sm7538246pfu.183.2021.12.16.12.32.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 12:23:05 -0800 (PST)
-Received: (nullmailer pid 693232 invoked by uid 1000);
-        Thu, 16 Dec 2021 20:23:04 -0000
-Date:   Thu, 16 Dec 2021 14:23:04 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v4 1/4] dt-bindings: mtd: rzn1: Describe Renesas RZ/N1
- NAND controller
-Message-ID: <YbugKD5KH/x+NavY@robh.at.kernel.org>
-References: <20211215154619.166360-1-miquel.raynal@bootlin.com>
- <20211215154619.166360-2-miquel.raynal@bootlin.com>
+        Thu, 16 Dec 2021 12:32:08 -0800 (PST)
+Message-ID: <61bba248.1c69fb81.c763b.4056@mx.google.com>
+Date:   Thu, 16 Dec 2021 12:32:08 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211215154619.166360-2-miquel.raynal@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2021-12-16-v5.16-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 66 runs,
+ 1 regressions (renesas-devel-2021-12-16-v5.16-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 04:46:16PM +0100, Miquel Raynal wrote:
-> Add a Yaml description for this Renesas NAND controller bindings.
-> 
-> Provide a family-specific "rzn1" compatible and a more specific
-> "r9a06g032" one.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../mtd/renesas,rzn1-nand-controller.yaml     | 64 +++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mtd/renesas,rzn1-nand-controller.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mtd/renesas,rzn1-nand-controller.yaml b/Documentation/devicetree/bindings/mtd/renesas,rzn1-nand-controller.yaml
-> new file mode 100644
-> index 000000000000..03a4e99b4d89
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mtd/renesas,rzn1-nand-controller.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mtd/renesas,rzn1-nand-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/N1x NAND flash controller device tree bindings
-> +
-> +maintainers:
-> +  - Miquel Raynal <miquel.raynal@bootlin.com>
-> +
-> +allOf:
-> +  - $ref: "nand-controller.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-nand-controller
-> +      - const: renesas,rzn1-nand-controller
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: APB host controller clock
-> +      - description: External NAND bus clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hclk
-> +      - const: eclk
-> +
-> +  "#address-cells": true
-> +  "#size-cells": true
+renesas/master baseline-nfs: 66 runs, 1 regressions (renesas-devel-2021-12-=
+16-v5.16-rc5)
 
-You can drop these 2 as nand-controller.yaml should cover them.
+Regressions Summary
+-------------------
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+platform                     | arch  | lab          | compiler | defconfig =
+| regressions
+-----------------------------+-------+--------------+----------+-----------=
++------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig =
+| 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-12-16-v5.16-rc5/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-12-16-v5.16-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b33e75b3e597788be243c04aba22d39431b9ecfb =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab          | compiler | defconfig =
+| regressions
+-----------------------------+-------+--------------+----------+-----------=
++------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre | gcc-10   | defconfig =
+| 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61bb69cc269537d5e639713c
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-16-v5.16-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-12-16-v5.16-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+211210.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/61bb69cc269537d5e=
+639713d
+        new failure (last pass: renesas-devel-2021-12-14-v5.16-rc5) =
+
+ =20
