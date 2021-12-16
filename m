@@ -2,179 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE750477A58
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 18:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00131477AC3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 18:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235646AbhLPRRJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 12:17:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56674 "EHLO
+        id S235565AbhLPRh0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 12:37:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233283AbhLPRRI (ORCPT
+        with ESMTP id S230338AbhLPRh0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 12:17:08 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2CB1C061574
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:08 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so3872421pjw.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Dec 2021 09:17:08 -0800 (PST)
+        Thu, 16 Dec 2021 12:37:26 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E60C8C061574;
+        Thu, 16 Dec 2021 09:37:25 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id g17so66438911ybe.13;
+        Thu, 16 Dec 2021 09:37:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=cdg5Ljk2EpBHDszhC5V/t+q0bXgcAkc+sRjGelKvTH0=;
-        b=WsaU1N+vB9pSe7um0LxetuyV9EfIYooma93772+Szz/9ww9GFmPqdJDBCfVauvPgyD
-         ubeDRRJ+Cn15RJ7ktQOqsFhgK5oakz0W4Q7hbe7TICXmGBvySG3O3jCqHz5B3HlEIyyy
-         7YCr1nXmM73Wvy+fAO36/7YCTY0d3ysf/i6Og2Si0BPhp6GgMCAUZZd9WdoaaBoEyvdi
-         GAeuPuSVYDhyl47iiMc1eWL4s+H7ieA//4imBYUn3r7ArPBiAeFle4tRUHGR5qGhQ3JJ
-         yonMP/mNAN3b9gOlztPFiBd5tXp7MdG7o+rwhEDhbDHf8VIvONYIDpmw0Ib15kBPtjFh
-         xzrA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jtD1KjJehQGfe067+3HdZnPPiII65H/dQIq6Z+QIy+A=;
+        b=TRxlsLo/T48PN/QFUQ3g+c9fb+l3MZ8y+iTe+CAssMC8lA+ad0KcRnhP80gpPAaCHp
+         OJgo5O99rQfYPbg0f3vaO2Ayb6Kr2KypliQuE9GwKs/YT5ghpWYg+OJB7vRL3YUVoQKI
+         I7Gufv+0zZU3CYQok5KLeOINSR0fvHq7IRCFooQAUkcDNA1kp7fSu2SekOwrCeK0epn9
+         0SYdlfzLJtgbgwEQwjJtdaRTmkTf5JIEr54slCEKwV2Gxo7Nq4DIWQXrjmeBLULHHwnX
+         t1NHjqML1KdlVsa34uK/gaUIxkgsB2ww00l+KAGCIG8vyFXH8+h4iskElkisVEL4pP0C
+         tmSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=cdg5Ljk2EpBHDszhC5V/t+q0bXgcAkc+sRjGelKvTH0=;
-        b=oay6uy7CsjHEinVjEyw9OXRDVwOr0kUAwfLQmzUESDD+a0qHBcu9E2QWKFvvHrSbPx
-         GBVJnSrQsW9Z9pzbbIT+UNMwqKdNadu+wORnvfkFuGZse24BCI8T4lExq4ZWlP7G/4dN
-         dGAQiupV8t90UsR708pJHAZaadvqceiY97N+mORBXzAqWBQAOd0vwxeg8MmRZ/tcxvvo
-         DjQiVFQ5SVyNMjpcDPfuNuhk6ioRObE/KF07+sshQFCWNTnstV3Ttv+gewK8oFn0OSiH
-         PLQOtBzVXpywFEllt/Xin4kYukNuhINClyHHbiRQwMTa9ttoS5/uCKL7aypDob0m4CoW
-         ZPwQ==
-X-Gm-Message-State: AOAM530Wluk7Kp+Qd6cbru7k7AEPZWhNCOCFKBTEyJCn+e2X1s1HNk1R
-        pVCyis1nEtAvGSivLoi0ozBLqfZ7XObXbvbv
-X-Google-Smtp-Source: ABdhPJzDvAJ9yDcIQoOsJ1Hnpv5wcRltypbjBwdEvx3QXSKuiU3nuvQQXyP6C3gwpz6fjbBfiUnAGA==
-X-Received: by 2002:a17:902:b615:b0:143:bbf0:aad0 with SMTP id b21-20020a170902b61500b00143bbf0aad0mr17273889pls.12.1639675027946;
-        Thu, 16 Dec 2021 09:17:07 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id h128sm6360267pfg.212.2021.12.16.09.17.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 09:17:07 -0800 (PST)
-Message-ID: <61bb7493.1c69fb81.4307a.14fd@mx.google.com>
-Date:   Thu, 16 Dec 2021 09:17:07 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jtD1KjJehQGfe067+3HdZnPPiII65H/dQIq6Z+QIy+A=;
+        b=qWTAbKXXTyn9fRhcvYav+Ar3R9VdITDXIZZTL1a/fgvw8OvB7TtVl58UCPBa18YoUp
+         uKKzQwdwRvfAnuzy6CuCEV556CN/7JSTMLb3t0Pk/0MDI5wcfF/Z3bwjfJ21Ks71hetX
+         /W8PNW7doT9q/aS0f5GvdC0KbG1aMsRsBibbwR6twGEocyIEv/cAOnnKK6aF7luZ9nsb
+         ixmuZsLvOapjqF1w6YqWproi5A6u+kg9kU0h4C2dVjuWGqJVmN5dbqaRGM8yFJm82a5z
+         J+vFNOf6Luf+ZOVUw6MOC8ntfynoMsX0HAcEi6dIc51xl/jAGOHYE0SRzb4u/FbIyn9+
+         cytQ==
+X-Gm-Message-State: AOAM532fmg8XYrNalfgg9R0s3GxRQP+5YSThNjy5bBKQO9eyNBnYI4++
+        tTe+WnQyEqc0tA/Q8j9/OdjHBcX9/CHh8OryI54=
+X-Google-Smtp-Source: ABdhPJyfMtFm0yQRd+kvj9a1D94IsLTbkRk34pv6ajb9LkI5n6//mWVcwJDdiO6xD/DDbU3ATGc0mA1B13jAyvdac9Y=
+X-Received: by 2002:a25:84c1:: with SMTP id x1mr14668634ybm.690.1639676245159;
+ Thu, 16 Dec 2021 09:37:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2021-12-16-v5.16-rc1
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-Subject: renesas/next sleep: 3 runs,
- 2 regressions (renesas-next-2021-12-16-v5.16-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20211215234448.5631-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXObL9brpFQL87qe79HcxXjjMqQ_oKdEwcRyH0CW1mJeg@mail.gmail.com>
+ <CA+V-a8vs1qVKXDwnw9ZK3=N3JsrdnmH+WZ265gzUeg_AmmcfDg@mail.gmail.com> <CAMuHMdX6uC2siQ6+g4RTPk4vvxi4y17WCdU6GhQf6j5fuo34nw@mail.gmail.com>
+In-Reply-To: <CAMuHMdX6uC2siQ6+g4RTPk4vvxi4y17WCdU6GhQf6j5fuo34nw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 16 Dec 2021 17:36:59 +0000
+Message-ID: <CA+V-a8uRtzNuibBnnWi-OKx0dSaK=f0Ddb_fFXjj_F55bNGzKw@mail.gmail.com>
+Subject: Re: [PATCH] irqchip/renesas-intc-irqpin: Use platform_get_irq_optional()
+ to get the interrupt
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next sleep: 3 runs, 2 regressions (renesas-next-2021-12-16-v5.16-rc=
-1)
+Hi Geert,
 
-Regressions Summary
--------------------
+On Thu, Dec 16, 2021 at 2:31 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Dec 16, 2021 at 3:23 PM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Thu, Dec 16, 2021 at 8:45 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Thu, Dec 16, 2021 at 12:45 AM Lad Prabhakar
+> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> > > > allocation of IRQ resources in DT core code, this causes an issue
+> > > > when using hierarchical interrupt domains using "interrupts" property
+> > > > in the node as this bypassed the hierarchical setup and messed up the
+> > > > irq chaining.
+> > > >
+> > > > In preparation for removal of static setup of IRQ resource from DT core
+> > > > code use platform_get_irq_optional().
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > > --- a/drivers/irqchip/irq-renesas-intc-irqpin.c
+> > > > +++ b/drivers/irqchip/irq-renesas-intc-irqpin.c
+> > >
+> > > > @@ -418,12 +417,14 @@ static int intc_irqpin_probe(struct platform_device *pdev)
+> > > >
+> > > >         /* allow any number of IRQs between 1 and INTC_IRQPIN_MAX */
+> > > >         for (k = 0; k < INTC_IRQPIN_MAX; k++) {
+> > > > -               irq = platform_get_resource(pdev, IORESOURCE_IRQ, k);
+> > > > -               if (!irq)
+> > > > +               ret = platform_get_irq_optional(pdev, k);
+> > > > +               if (ret == -EPROBE_DEFER)
+> > > > +                       goto err0;
+> > > > +               if (ret < 0)
+> > > >                         break;
+> > >
+> > > Shouldn't all errors be considered fatal, except for -ENXIO (no
+> > > interrupt)?
+> > >
+> > Initial behavior of this driver was even if one
+> > platform_get_resource() succeeded the probe continued further, this is
+>
+> Indeed, the loop obtained all interrupts present, until no more are to found.
+> In the old logic, it would return a NULL resource for the first
+> non-existing one.
+> In the new logic, it would return -ENXIO.
+> Hence you need to check for -ENXIO in the loop, to distinguish "no more
+> interrupts" from actual errors.
+>
+Thanks for the clarification, I'll post a v2 with the changes.
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 2          =
+> > the same behavior which I wanted to keep with this code while using
+> > platform_get_irq_optional(). But as you pointed out I'll change it to below:
+> >
+> > +               ret = platform_get_irq(pdev, k);
+> > +               if (ret < 0)
+> > +                       goto err0;
+> >
+> > We bail out any error case and will also drop the check for (nirqs < 1).
+>
+> I think that check should stay: there should be at least one interrupt.
+>
+Agreed.
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2021-12-16-v5.16-rc1/plan/sleep/
-
-  Test:     sleep
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2021-12-16-v5.16-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a155038f641134b0272d26f75d1ab4a805013e48 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61bb6977154f56f0fd397126
-
-  Results:     3 PASS, 9 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2021=
--12-16-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk3288-r=
-ock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2021=
--12-16-v5.16-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk3288-r=
-ock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-211210.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/61bb6977154f56f0=
-fd39712d
-        failing since 16 days (last pass: renesas-next-2021-11-19-v5.16-rc1=
-, first fail: renesas-next-2021-11-30-v5.16-rc1)
-
-    2021-12-16T16:25:40.564057  rtcwake: assuming RTC uses UTC ...
-    2021-12-16T16:25:40.564435  rtcwake: wakeup from \"mem\" using rtc0 at =
-Thu Dec 16 16:25:47 2021
-    2021-12-16T16:25:40.586327  <6>[   76.469190] PM: suspend entry (deep)
-    2021-12-16T16:25:40.586819  <6>[   76.473605] Filesystems sync: 0.000 s=
-econds
-    2021-12-16T16:26:00.628814  <6>[   76.479439] Freezing user space proce=
-sses ... =
-
-    2021-12-16T16:26:00.629099  <3>[   96.489683] Freezing of tasks failed =
-after 20.006 seconds (1 tasks refusing to freeze, wq_busy=3D0):
-    2021-12-16T16:26:00.629280  <6>[   96.500118] task:systemd-udevd   stat=
-e:D stack:    0 pid:  129 ppid:   118 flags:0x00000081
-    2021-12-16T16:26:00.629435  <6>[   96.509843] [<c10856f4>] (__schedule)=
- from [<c1085bdc>] (schedule+0x48/0xd0)
-    2021-12-16T16:26:00.629601  <6>[   96.518103] [<c1085bdc>] (schedule) f=
-rom [<c1085cbc>] (io_schedule+0x34/0x44)
-    2021-12-16T16:26:00.629738  <6>[   96.526474] [<c1085cbc>] (io_schedule=
-) from [<c043f3d8>] (folio_wait_bit_common+0x1cc/0x32c) =
-
-    ... (14 line(s) more)  =
-
-
-  * sleep.rtcwake-mem-3: https://kernelci.org/test/case/id/61bb6977154f56f0=
-fd39712e
-        failing since 16 days (last pass: renesas-next-2021-11-19-v5.16-rc1=
-, first fail: renesas-next-2021-11-30-v5.16-rc1)
-
-    2021-12-16T16:25:20.378786  rtcwake: assuming RTC uses UTC ...
-    2021-12-16T16:25:20.379170  rtcwake: wakeup from \"mem\" using rtc0 at =
-Thu Dec 16 16:25:27 2021
-    2021-12-16T16:25:20.400187  <6>[   56.284617] PM: suspend entry (deep)
-    2021-12-16T16:25:20.400674  <6>[   56.289149] Filesystems sync: 0.000 s=
-econds
-    2021-12-16T16:25:40.436153  <6>[   56.295831] Freezing user space proce=
-sses ... =
-
-    2021-12-16T16:25:40.436778  <3>[   76.298889] Freezing of tasks failed =
-after 20.002 seconds (1 tasks refusing to freeze, wq_busy=3D0):
-    2021-12-16T16:25:40.437207  <6>[   76.309509] task:systemd-udevd   stat=
-e:D stack:    0 pid:  129 ppid:   118 flags:0x00000081
-    2021-12-16T16:25:40.437635  <6>[   76.319339] [<c10856f4>] (__schedule)=
- from [<c1085bdc>] (schedule+0x48/0xd0)
-    2021-12-16T16:25:40.438004  <6>[   76.327738] [<c1085bdc>] (schedule) f=
-rom [<c1085cbc>] (io_schedule+0x34/0x44)
-    2021-12-16T16:25:40.485187  <6>[   76.336192] [<c1085cbc>] (io_schedule=
-) from [<c043f3d8>] (folio_wait_bit_common+0x1cc/0x32c) =
-
-    ... (14 line(s) more)  =
-
- =20
+Cheers,
+Prabhakar
+> > > >                 p->irq[k].p = p;
+> > > > -               p->irq[k].requested_irq = irq->start;
+> > > > +               p->irq[k].requested_irq = ret;
+> > > >         }
+> > > >
+> > > >         nirqs = k;
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
