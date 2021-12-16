@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB9014776DD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 17:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD674776EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 17:07:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238877AbhLPQHP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 11:07:15 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:64067 "EHLO frontal.iot.bzh"
+        id S238902AbhLPQHk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 11:07:40 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:48012 "EHLO frontal.iot.bzh"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238898AbhLPQHM (ORCPT
+        id S238912AbhLPQHg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 11:07:12 -0500
+        Thu, 16 Dec 2021 11:07:36 -0500
 Received: from frontal.iot.bzh (localhost [127.0.0.1])
-        by frontal.iot.bzh (Proxmox) with ESMTP id D633310308;
-        Thu, 16 Dec 2021 17:07:09 +0100 (CET)
+        by frontal.iot.bzh (Proxmox) with ESMTP id 4B5D510299;
+        Thu, 16 Dec 2021 17:07:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; h=cc:cc
         :content-transfer-encoding:date:from:from:message-id
-        :mime-version:reply-to:subject:subject:to:to; s=iot.bzh; bh=DV8D
-        SOsgN21ssw6Dl4edg2TiykDN2Fiu/h2qfb7vOWw=; b=jOm92vhN6veL9BXgoN8H
-        Z+hdpxEqyGlGfYDmaX7G/GIhbRPJc0w4cx59fe02rDYtXdqkQPkPkzVmeAALMrHN
-        HP5wV7gWE1B+/wC+lhISfEshrdNbtTW7Qoj299L7TbCctdcEuUIyEyebgEyQlKdT
-        W+tjql6NXORQpurdpUoN00suy/Asq3NX+TjVEpH9tJvaC6+a6yIWnOuJ44CHRDk8
-        7YQEumbl6MRpawpybpSk3kgLeh1bcgbs/+WNe04f348UKQzOiCIk+R79NDlGQ4wr
-        Z61r0TiiGVupBglf9iH2C+X8uUi1+hdqUEf2+lTcaA8A1+JbXqbRmQnt/cL9TUHF
-        JA==
+        :mime-version:reply-to:subject:subject:to:to; s=iot.bzh; bh=fYWw
+        n03jiiuLczTKdRmbPfCPUYmu7Pgk7nhBh9DjseI=; b=An28merbAJfinfFO/fkC
+        oBl5p13bUMIiwZ3BOG5+eiRGLRgXr1k9+iaEBhHHfx/ZZLw1V3GJEE51Dv9tNa2w
+        /aYUmugcXWZGFjbUjmqSfhgHgLAcwmuBGI+gN7Kt/AtIahF5S8zAf/Sl03BtSgkt
+        kdz35gzyNxX/JQTmXpH3WesHbPaWdLHUI4Gu0Q5iNtRUE+AMUENUweGYui3UxuEl
+        zO6/qpKPzl2AUED9mh80jgk4arTBFTlbkOBytYNY7UHaOCYgSwCKWjhegw6xXAni
+        83ft1NtL2+LIknRir8NMGryxQhzGpRs1UBvmIq2fe3C0nYrnxiNcR9x8v92WAhwx
+        5A==
 From:   Julien Massot <julien.massot@iot.bzh>
 To:     bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
-        geert+renesas@glider.be, dan.carpenter@oracle.com
+        geert+renesas@glider.be
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-remoteproc@vger.kernel.org,
         Julien Massot <julien.massot@iot.bzh>
-Subject: [PATCH 1/2] remoteproc: rcar_rproc: fix pm_runtime_get_sync error check
-Date:   Thu, 16 Dec 2021 17:06:53 +0100
-Message-Id: <20211216160653.203768-1-julien.massot@iot.bzh>
+Subject: [PATCH 2/2] remoteproc: rcar_rproc: remove trailing semicolon
+Date:   Thu, 16 Dec 2021 17:07:21 +0100
+Message-Id: <20211216160721.203794-1-julien.massot@iot.bzh>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -41,14 +41,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pm_runtime_get_sync can also return 1 on success, change
-to use pm_runtime_resume_and_get which return 0 only on
-success.
-
-This bug has been discovered by Dan Carpenter by using Smatch
-static checker.
-
-Fixes: 285892a74f13 ("remoteproc: Add Renesas rcar driver")
+Remove trailing semicolon.
 
 Signed-off-by: Julien Massot <julien.massot@iot.bzh>
 ---
@@ -56,18 +49,18 @@ Signed-off-by: Julien Massot <julien.massot@iot.bzh>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/remoteproc/rcar_rproc.c b/drivers/remoteproc/rcar_rproc.c
-index 34fd867f9f8c..3408c6e51a7c 100644
+index 3408c6e51a7c..aa86154109c7 100644
 --- a/drivers/remoteproc/rcar_rproc.c
 +++ b/drivers/remoteproc/rcar_rproc.c
-@@ -167,7 +167,7 @@ static int rcar_rproc_probe(struct platform_device *pdev)
+@@ -163,7 +163,7 @@ static int rcar_rproc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->rst)) {
+ 		ret = PTR_ERR(priv->rst);
+ 		dev_err_probe(dev, ret, "fail to acquire rproc reset\n");
+-		return ret;;
++		return ret;
  	}
  
  	pm_runtime_enable(dev);
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret) {
- 		dev_err(dev, "failed to power up\n");
- 		return ret;
 -- 
 2.33.1
 
