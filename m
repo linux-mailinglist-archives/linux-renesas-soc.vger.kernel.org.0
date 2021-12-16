@@ -2,86 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F559477EB3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 22:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D976477FDC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Dec 2021 23:09:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236913AbhLPVXv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Dec 2021 16:23:51 -0500
-Received: from www.zeus03.de ([194.117.254.33]:51306 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235310AbhLPVXv (ORCPT
+        id S240392AbhLPWJz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Dec 2021 17:09:55 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45428 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234331AbhLPWJz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Dec 2021 16:23:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=i1BF9ZY4zSrk0Ybh6RllYNXuCels
-        VczKSY/PVjeYXD4=; b=10NwK+ww8/mhQaDEKvYHJdEOOuYDMLCretfIvfNlxOSW
-        kU2l/82DZq+Z6l22/EZGwUJVzFeFemXATFizwbJJOr7xONuWy824bhEENUU8Nd1n
-        Is/eCfKugArHuSw4Ne3+3kcBrYW6hXeuDOSTg6NBwV2iNpOzRliwAuAw7kW5kvo=
-Received: (qmail 3861112 invoked from network); 16 Dec 2021 22:23:50 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Dec 2021 22:23:50 +0100
-X-UD-Smtp-Session: l3s3148p1@G0bZCUrTLqAgAQnoAGshAMNCcCooTOTk
-Date:   Thu, 16 Dec 2021 22:23:49 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] i2c: sh_mobile: update to new DMAENGINE API when
- terminating
-Message-ID: <YbuuZTZwjCQ04rIw@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20211208084543.20181-1-wsa+renesas@sang-engineering.com>
- <20211208084543.20181-2-wsa+renesas@sang-engineering.com>
+        Thu, 16 Dec 2021 17:09:55 -0500
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE9CCD84;
+        Thu, 16 Dec 2021 23:09:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639692593;
+        bh=tYoDLDEa7BrDC+zOWYwK6ISQVgbOwH7zZKJrSOqFvfI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=W0iOc734o2drBFzlZR3hjDeccOIAk2QYBF3kMepK9E+qGPzjHjYJUObkga47AehHh
+         24kIRCq1/S5yATHMkcVaFo9L8M2cc6MUJb9yXVD8zAx2AUbO+t5I3+W7U8HGJ5iGnE
+         tWFP0Dj6Fq8b3o6c+aKt7OeKS1+VcQVMgt/lK/Fw=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 0/3] media: i2c: max9286: Small new features
+Date:   Fri, 17 Dec 2021 00:09:43 +0200
+Message-Id: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bHQYOl6mU3wTxe89"
-Content-Disposition: inline
-In-Reply-To: <20211208084543.20181-2-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello,
 
---bHQYOl6mU3wTxe89
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This small patch series adds two new features to the max9286 driver:
+support for per-port supplies, and support for manual framesync
+operation. Please see individual patches for details.
 
-On Wed, Dec 08, 2021 at 09:45:43AM +0100, Wolfram Sang wrote:
-> dmaengine_terminate_all() is deprecated. When converting the existing
-> calls, it turned out that the termination in the DMA setup and callback
-> were superfluous and only a side effect of simply calling
-> rcar_i2c_cleanup_dma(). As either no DMA transfers have been submitted
-> yet or the last one has successfully completed, there is nothing to
-> terminate and we can leave it out. So, merge the DMA unmap and cleanup
-> function to save some code. Then, add a flag if the new cleanup function
-> needs to terminate DMA. This is only the case for the erorr handling in
-> the main thread, so we can finally switch from dmaengine_terminate_all()
-> to dmaengine_terminate_sync() here.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thomas, patch 2/3 is authored by you (and modified by me, see its commit
+message, feedback is welcome) but the initial version from your branch
+didn't include your Signed-off-by. Could you reply to the mail with an
+SoB line ?
 
-Applied to for-next, thanks!
+Laurent Pinchart (2):
+  dt-bindings: media: i2c: max9286: Add support for per-port supplies
+  media: i2c: max9286: Support manual framesync operation
+
+Thomas Nizan (1):
+  media: i2c: max9286: Add support for port regulators
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  25 ++-
+ drivers/media/i2c/max9286.c                   | 178 ++++++++++++++++--
+ 2 files changed, 185 insertions(+), 18 deletions(-)
 
 
---bHQYOl6mU3wTxe89
-Content-Type: application/pgp-signature; name="signature.asc"
+base-commit: 9b4d7b5c81a2578e080da33b5cddc3149fa611aa
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Laurent Pinchart
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG7rmUACgkQFA3kzBSg
-KbZm/Q//RAXBuvrS9R5zUaHG397fX1gz7n6E6NdbQvbpcT4lf+s1lND+lxwvGD5G
-lNisSJZIkwqLm7ylqYtraih/5U7iDoL96OIH0AdgCyl3t87NjC78mjs5PSk43SKT
-XTtO0Ly7azdMneOhGezV7oC9nCyJmcawZq/1oVKvoeKD+JeJieSs3D1PR+H0U1y3
-f02qENU4cZCNNQifmEFTf66mxaKNlQaBSBkY8Xaem8Rmh8qUabMKyigpXLaHZ1J2
-Z1YfuhvpBvuM2lrDywRfn+BHF7ggqVc8TGPPkUl9iXDleHvdEoUSROejEncX1MFZ
-oB6jGpBEEAIFVUeQjO/AjnQYQ6bF0YYBA+/+VN3U7i6/anoVtG7N31JZJIjSt6sO
-RzBhm5VXeJ6nPttmwgJ0O9quZG6x6o9GPu9Qd65IWDyMwKt1JLpGspo3Zof2Rn7N
-RijDlgFT/y2ADZR0PI6B++7Gp/yxSZab2gJ2fnDeFZluvOGvbIGYs6GX8nWD0moF
-c1MWOilhtsDyhDZTixDaTMXW6QS9YMGyCuF2c8jAVs8RTOkgh4Nq9SCDSXvXrkK1
-dclGSQLDhOcm+VEN4YZwDN2wDLPvbLohPYgCYgjCzXelqTQuFc5mYF5vfnbNvTjG
-Q6qVCX5Jn1Csv1iGuioweN0GfRqeLEWBlR4tOiX820Lue24ZzXc=
-=92vO
------END PGP SIGNATURE-----
-
---bHQYOl6mU3wTxe89--
