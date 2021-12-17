@@ -2,234 +2,241 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 471A5478C6F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 14:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7ED9478CF4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 14:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234417AbhLQNh1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Dec 2021 08:37:27 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:44721 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231836AbhLQNh1 (ORCPT
+        id S232807AbhLQN7x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Dec 2021 08:59:53 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:35139 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231337AbhLQN7x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Dec 2021 08:37:27 -0500
+        Fri, 17 Dec 2021 08:59:53 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 885D3240006;
-        Fri, 17 Dec 2021 13:37:23 +0000 (UTC)
-Date:   Fri, 17 Dec 2021 14:38:16 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 8966C6000D;
+        Fri, 17 Dec 2021 13:59:47 +0000 (UTC)
+Date:   Fri, 17 Dec 2021 15:00:40 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] media: max9286: Use routes to configure link order
-Message-ID: <20211217133816.smgsg7e7pj2jcvpp@uno.localdomain>
-References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
- <20211216174746.147233-5-jacopo+renesas@jmondi.org>
- <Ybv3Z9bd51KTwvqD@pendragon.ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH 2/3] media: i2c: max9286: Add support for port regulators
+Message-ID: <20211217140040.qd2leyyyu7znkrrv@uno.localdomain>
+References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20211216220946.20771-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Ybv3Z9bd51KTwvqD@pendragon.ideasonboard.com>
+In-Reply-To: <20211216220946.20771-3-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hello again
 
-On Fri, Dec 17, 2021 at 04:35:19AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Fri, Dec 17, 2021 at 12:09:45AM +0200, Laurent Pinchart wrote:
+> From: Thomas Nizan <tnizan@witekio.com>
 >
-> Thank you for the patch.
+> Allow users to use one PoC regulator per port, instead of a global
+> regulator.
 >
-> On Thu, Dec 16, 2021 at 06:47:44PM +0100, Jacopo Mondi wrote:
-> > Use the routing table to configure the link output order and link
-> > masking.
-> >
-> > The link output order defines the CSI-2 virtual channel a GSML stream
-> > is output on. Configure ordering at stream start time and at chip
-> > setup time. This last step requires to move the chip initialization
-> > function after the V4L2 setup phase as it requires the subdev state from
-> > where the routing table is retrieved from to be initialized.
+> The properties '^port[0-3]-poc-supply$' in the DT node are used to
+> indicate the regulators for individual ports.
 >
-> I wonder if we could drop some of the configuration from
-> max9286_setup().
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 112 +++++++++++++++++++++++++++++++-----
+>  1 file changed, 98 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 7c663fd587bb..fa2f6a823fe6 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -136,8 +136,10 @@
+>  #define MAX9286_SRC_PAD			4
+>
+>  struct max9286_source {
+> +	unsigned int index;
+>  	struct v4l2_subdev *sd;
+>  	struct fwnode_handle *fwnode;
+> +	struct regulator *regulator;
+>  };
+>
+>  struct max9286_asd {
+> @@ -1072,6 +1074,49 @@ static int max9286_register_gpio(struct max9286_priv *priv)
+>  	return ret;
+>  }
+>
+> +static int max9286_poc_power_on(struct max9286_priv *priv)
+> +{
+> +	struct max9286_source *source;
+> +	unsigned int enabled = 0;
+> +	int ret;
+> +
+> +	/* Enable the global regulator if available. */
+> +	if (priv->regulator)
+> +		return regulator_enable(priv->regulator);
+> +
+> +	/* Otherwise use the per-port regulators. */
+> +	for_each_source(priv, source) {
+> +		ret = regulator_enable(source->regulator);
+> +		if (ret < 0)
+> +			goto error;
+> +
+> +		enabled |= BIT(source->index);
+> +	}
+> +
+> +	return 0;
+> +
+> +error:
+> +	for_each_source(priv, source) {
+> +		if (enabled & BIT(source->index))
+> +			regulator_disable(source->regulator);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static void max9286_poc_power_off(struct max9286_priv *priv)
+> +{
+> +	struct max9286_source *source;
+> +
+> +	if (priv->regulator) {
+> +		regulator_disable(priv->regulator);
+> +		return;
+> +	}
+> +
+> +	for_each_source(priv, source)
+> +		regulator_disable(source->regulator);
+> +}
+> +
+>  static int max9286_init(struct device *dev)
+>  {
+>  	struct max9286_priv *priv;
+> @@ -1082,9 +1127,9 @@ static int max9286_init(struct device *dev)
+>  	priv = i2c_get_clientdata(client);
+>
+>  	/* Enable the bus power. */
+> -	ret = regulator_enable(priv->regulator);
+> +	ret = max9286_poc_power_on(priv);
+>  	if (ret < 0) {
+> -		dev_err(&client->dev, "Unable to turn PoC on\n");
+> +		dev_err(dev, "Unable to turn PoC on\n");
+>  		return ret;
+>  	}
+>
+> @@ -1118,7 +1163,7 @@ static int max9286_init(struct device *dev)
+>  err_v4l2_register:
+>  	max9286_v4l2_unregister(priv);
+>  err_regulator:
+> -	regulator_disable(priv->regulator);
+> +	max9286_poc_power_off(priv);
+>
+>  	return ret;
+>  }
+> @@ -1215,6 +1260,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  		}
+>
+>  		source = &priv->sources[ep.port];
+> +		source->index = ep.port;
+>  		source->fwnode = fwnode_graph_get_remote_endpoint(
+>  						of_fwnode_handle(node));
+>  		if (!source->fwnode) {
+> @@ -1249,6 +1295,50 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	return 0;
+>  }
+>
+> +static int max9286_get_poc_supplies(struct max9286_priv *priv)
+> +{
+> +	struct device *dev = &priv->client->dev;
+> +	struct max9286_source *source;
+> +
+> +	/*
+> +	 * Start by getting the global regulator. Usage of the exclusive API is
+> +	 * required to receive an error in case the supply isn't specified in
+> +	 * the device tree.
+> +	 */
+> +	priv->regulator = devm_regulator_get_exclusive(dev, "poc");
+> +	if (!IS_ERR(priv->regulator))
+> +		return 0;
+> +
+> +	if (PTR_ERR(priv->regulator) != -ENODEV) {
+> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
 
-Do you mean move it to a later time ?
+Use of the dev_err_probe() intoduced by a787e5400a1ceeb0ef92d71ec43aeb35b1fa1334
+would save you from open-coding this
 
->
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/max9286.c | 103 ++++++++++++++++++++++--------------
-> >  1 file changed, 64 insertions(+), 39 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 1395eb783dc0..5d728fa23f01 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -499,6 +499,61 @@ static int max9286_check_config_link(struct max9286_priv *priv,
-> >  	return 0;
-> >  }
-> >
-> > +/*
-> > + * Configure the links output order (which defines on which CSI-2 VC a
-> > + * link is output on) and configure link masking.
-> > + */
-> > +static void max9286_config_links(struct max9286_priv *priv)
-> > +{
-> > +	const struct v4l2_subdev_krouting *routing;
-> > +	struct v4l2_subdev_state *state;
-> > +	u8 link_order = 0;
-> > +	u8 vc_mask = 0xf;
-> > +	unsigned int i;
-> > +
-> > +	state = v4l2_subdev_lock_active_state(&priv->sd);
-> > +	routing = &state->routing;
-> > +
-> > +	for (i = 0; i < routing->num_routes; ++i) {
-> > +		struct v4l2_subdev_route *route = &routing->routes[i];
-> > +
-> > +		if (!(priv->route_mask & BIT(i)))
-> > +			continue;
->
-> Is this check needed ?
->
+Thanks
+  j
 
-It is, I need to first assign a VC to the enabled routes.
-I could replace it with for_each_active_route() probably!
-
-> > +
-> > +		/* Assign the CSI-2 VC using the source stream number. */
-> > +		link_order |= route->source_stream << (2 * route->sink_pad);
-> > +		vc_mask &= ~BIT(route->source_stream);
-> > +	}
-> > +
-> > +	/*
-> > +	 * This might look rather silly, but now that we have assigned a
-> > +	 * VC to the enabled routes, we have to assign one to the disabled
-> > +	 * routes as well, as there cannot be two sources with the same VC.
-> > +	 */
-> > +	for (i = 0; i < MAX9286_NUM_GMSL; ++i) {
-> > +		unsigned int vc;
-> > +
-> > +		if (priv->route_mask & BIT(i))
-> > +			continue;
-> > +
-> > +		/* ffs() counts from 1. */
-> > +		vc = ffs(vc_mask) - 1;
+> +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
+> +				PTR_ERR(priv->regulator));
+> +		return PTR_ERR(priv->regulator);
+> +	}
+> +
+> +	/* If there's no global regulator, get per-port regulators. */
+> +	dev_dbg(dev,
+> +		"No global PoC regulator, looking for per-port regulators\n");
+> +	priv->regulator = NULL;
+> +
+> +	for_each_source(priv, source) {
+> +		char name[10];
+> +
+> +		snprintf(name, sizeof(name), "port%u-poc", source->index);
+> +		source->regulator = devm_regulator_get_exclusive(dev, name);
+> +		if (IS_ERR(source->regulator)) {
+> +			if (PTR_ERR(source->regulator) != -EPROBE_DEFER)
+> +				dev_err(dev,
+> +					"Unable to get port %u PoC regulator: %ld\n",
+> +					source->index,
+> +					PTR_ERR(source->regulator));
+> +			return PTR_ERR(source->regulator);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int max9286_probe(struct i2c_client *client)
+>  {
+>  	struct max9286_priv *priv;
+> @@ -1293,17 +1383,11 @@ static int max9286_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto err_powerdown;
 >
-> You can use __ffs(), which counts from 0 (but has an undefined behaviour
-> when no bit is set).
-
-That's why I didn't want to use it :)
-
+> -	priv->regulator = devm_regulator_get(&client->dev, "poc");
+> -	if (IS_ERR(priv->regulator)) {
+> -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> -			dev_err(&client->dev,
+> -				"Unable to get PoC regulator (%ld)\n",
+> -				PTR_ERR(priv->regulator));
+> -		ret = PTR_ERR(priv->regulator);
+> -		goto err_powerdown;
+> -	}
+> -
+>  	ret = max9286_parse_dt(priv);
+> +	if (ret)
+> +		goto err_cleanup_dt;
+> +
+> +	ret = max9286_get_poc_supplies(priv);
+>  	if (ret)
+>  		goto err_powerdown;
 >
-> > +		link_order |= vc << (2 * i);
-> > +		vc_mask &= ~BIT(vc);
-> > +	}
-> > +
-> > +	/*
-> > +	 * Use the enabled routes to enable GMSL links, configure the CSI-2
-> > +	 * output order, mask unused links and autodetect link used as CSI
-> > +	 * clock source.
-> > +	 */
-> > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> > +	max9286_write(priv, 0x0b, link_order);
-> > +	max9286_write(priv, 0x69, 0xf & ~priv->route_mask);
-> > +
-> > +	v4l2_subdev_unlock_state(state);
-> > +}
-> > +
-> >  /* -----------------------------------------------------------------------------
-> >   * V4L2 Subdev
-> >   */
-> > @@ -700,6 +755,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	int ret;
-> >
-> >  	if (enable) {
-> > +		max9286_config_links(priv);
-> > +
-> >  		/*
-> >  		 * The frame sync between cameras is transmitted across the
-> >  		 * reverse channel as GPIO. We must open all channels while
-> > @@ -1108,32 +1165,6 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
-> >
-> >  static int max9286_setup(struct max9286_priv *priv)
-> >  {
-> > -	/*
-> > -	 * Link ordering values for all enabled links combinations. Orders must
-> > -	 * be assigned sequentially from 0 to the number of enabled links
-> > -	 * without leaving any hole for disabled links. We thus assign orders to
-> > -	 * enabled links first, and use the remaining order values for disabled
-> > -	 * links are all links must have a different order value;
-> > -	 */
-> > -	static const u8 link_order[] = {
-> > -		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xxxx */
-> > -		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xxx0 */
-> > -		(3 << 6) | (2 << 4) | (0 << 2) | (1 << 0), /* xx0x */
-> > -		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xx10 */
-> > -		(3 << 6) | (0 << 4) | (2 << 2) | (1 << 0), /* x0xx */
-> > -		(3 << 6) | (1 << 4) | (2 << 2) | (0 << 0), /* x1x0 */
-> > -		(3 << 6) | (1 << 4) | (0 << 2) | (2 << 0), /* x10x */
-> > -		(3 << 6) | (1 << 4) | (1 << 2) | (0 << 0), /* x210 */
-> > -		(0 << 6) | (3 << 4) | (2 << 2) | (1 << 0), /* 0xxx */
-> > -		(1 << 6) | (3 << 4) | (2 << 2) | (0 << 0), /* 1xx0 */
-> > -		(1 << 6) | (3 << 4) | (0 << 2) | (2 << 0), /* 1x0x */
-> > -		(2 << 6) | (3 << 4) | (1 << 2) | (0 << 0), /* 2x10 */
-> > -		(1 << 6) | (0 << 4) | (3 << 2) | (2 << 0), /* 10xx */
-> > -		(2 << 6) | (1 << 4) | (3 << 2) | (0 << 0), /* 21x0 */
-> > -		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
-> > -		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
-> > -	};
-> > -
-> >  	/*
-> >  	 * Set the I2C bus speed.
-> >  	 *
-> > @@ -1143,13 +1174,7 @@ static int max9286_setup(struct max9286_priv *priv)
-> >  	max9286_configure_i2c(priv, true);
-> >  	max9286_reverse_channel_setup(priv, priv->init_rev_chan_mv);
-> >
-> > -	/*
-> > -	 * Enable GMSL links, mask unused ones and autodetect link
-> > -	 * used as CSI clock source.
-> > -	 */
-> > -	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> > -	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> > -	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> > +	max9286_config_links(priv);
-> >
-> >  	/*
-> >  	 * Video format setup:
-> > @@ -1321,12 +1346,6 @@ static int max9286_init(struct device *dev)
-> >  	if (ret)
-> >  		return ret;
-> >
-> > -	ret = max9286_setup(priv);
-> > -	if (ret) {
-> > -		dev_err(dev, "Unable to setup max9286\n");
-> > -		goto err_poc_disable;
-> > -	}
-> > -
-> >  	/*
-> >  	 * Register all V4L2 interactions for the MAX9286 and notifiers for
-> >  	 * any subdevices connected.
-> > @@ -1337,6 +1356,12 @@ static int max9286_init(struct device *dev)
-> >  		goto err_poc_disable;
-> >  	}
-> >
-> > +	ret = max9286_setup(priv);
-> > +	if (ret) {
-> > +		dev_err(dev, "Unable to setup max9286\n");
-> > +		goto err_poc_disable;
-> > +	}
-> > +
-> >  	ret = max9286_i2c_mux_init(priv);
-> >  	if (ret) {
-> >  		dev_err(dev, "Unable to initialize I2C multiplexer\n");
+> @@ -1329,7 +1413,7 @@ static int max9286_remove(struct i2c_client *client)
+>
+>  	max9286_v4l2_unregister(priv);
+>
+> -	regulator_disable(priv->regulator);
+> +	max9286_poc_power_off(priv);
+>
+>  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
 >
 > --
 > Regards,
 >
 > Laurent Pinchart
+>
