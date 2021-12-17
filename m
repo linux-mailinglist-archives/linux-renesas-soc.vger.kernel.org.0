@@ -2,173 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C63404790C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 16:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E31964790CB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 16:58:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235599AbhLQP5i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Dec 2021 10:57:38 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:44580 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238669AbhLQP5h (ORCPT
+        id S235598AbhLQP6Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Dec 2021 10:58:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233490AbhLQP6X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Dec 2021 10:57:37 -0500
-Received: by mail-vk1-f170.google.com with SMTP id u68so1808406vke.11;
-        Fri, 17 Dec 2021 07:57:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SB2NWsmLTsepxyoQU9H+PL596jXArbv3qXU+p+X0c80=;
-        b=LtVgfeYoZkVvUL6I8Dab81L+1ffJnXokdCDuhHvrBNci5Pjm5a7GmbAMEtKgEjpynv
-         9rmQOdWkhVZeb52H3sx8Odj+NXAPkygbJrpoHe70m6jwvf+KJb9lzIYzfjY8UrODoMsY
-         RaVTylSlDBPK+PBvuL6EcEhSgCe3ULe1mltxxG7W4MQLMuvpABBIDg7/eTbmDhxg5f1W
-         y3am+g/NRtdpIcA9F6JZnQAnIkyTO8sauM7Wlj5/KLlzHCBXK+YTuxWth2Egj8uZOYmb
-         ZkqX+6xbL3oAZM9TAqB6/v8NdCbw1iKk5vU2AXoXTVSEGAn4ubtitqosM05Hn/DA+6Pn
-         Do3g==
-X-Gm-Message-State: AOAM533Cn8FsCmmk8Ib8v42J6CwTQrWYXXuvSwD8/PMwXXfTqm7JRzby
-        +VDd58PxH96QJT5pRapmV1Qx47fGN9iD+A==
-X-Google-Smtp-Source: ABdhPJx47cEiW/iuReh+eN3IzGyFTt7KoF2ASY/Bn814a+Srm/9DkA4ompCtxT0b2NYkqXGruIp85A==
-X-Received: by 2002:a05:6122:21a2:: with SMTP id j34mr1553066vkd.17.1639756656874;
-        Fri, 17 Dec 2021 07:57:36 -0800 (PST)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
-        by smtp.gmail.com with ESMTPSA id r202sm125674vkf.28.2021.12.17.07.57.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Dec 2021 07:57:36 -0800 (PST)
-Received: by mail-vk1-f176.google.com with SMTP id 70so1819428vkx.7;
-        Fri, 17 Dec 2021 07:57:36 -0800 (PST)
-X-Received: by 2002:a1f:9f04:: with SMTP id i4mr1456326vke.33.1639756341701;
- Fri, 17 Dec 2021 07:52:21 -0800 (PST)
+        Fri, 17 Dec 2021 10:58:23 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE5CC061574;
+        Fri, 17 Dec 2021 07:58:23 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9797993;
+        Fri, 17 Dec 2021 16:58:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639756700;
+        bh=JkLii9T2WWrUNZoROunvkagh5bYJcnCr3thbWToNvxQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MyW6oYcNeIy1XQbuYlRiN3Xy6m2+DH+TOHRFKi6+3/IfazRYkAy9Xn5/PX8vPVAYJ
+         oK4nEUbmNM3VMkPhWBaPnzKy3Xsg8OWZ60X9Zdw9AcKIUC6rsxlPh/OMvs8gZm/rOT
+         6rTuvwCPpgQO/rHMtnTs0WhU/6N+gw+w0J3/NII4=
+Date:   Fri, 17 Dec 2021 17:58:18 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: max9286: Add support for
+ per-port supplies
+Message-ID: <Ybyzmtpf+vwRz24L@pendragon.ideasonboard.com>
+References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20211216220946.20771-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20211217104710.76ofsnwmrsfdm5fe@uno.localdomain>
 MIME-Version: 1.0
-References: <20211217142033.353599-1-miquel.raynal@bootlin.com>
- <20211217142033.353599-2-miquel.raynal@bootlin.com> <CAMuHMdWnyLjzDf0oC1ttTarY4kaJD+xcrnkvug-i+8GHgRWmyg@mail.gmail.com>
- <20211217165102.6950cf40@xps13>
-In-Reply-To: <20211217165102.6950cf40@xps13>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Dec 2021 16:52:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVbusN_wdLYPP4DuVJ+E+OAw7_v-9o9sY-t=YdiM7271g@mail.gmail.com>
-Message-ID: <CAMuHMdVbusN_wdLYPP4DuVJ+E+OAw7_v-9o9sY-t=YdiM7271g@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] dt-bindings: mtd: renesas: Describe Renesas R-Car
- Gen3 & RZ/N1 NAND controller
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        Ralph Siemsen <ralph.siemsen@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211217104710.76ofsnwmrsfdm5fe@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi Jacopo,
 
-On Fri, Dec 17, 2021 at 4:51 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> geert@linux-m68k.org wrote on Fri, 17 Dec 2021 16:44:59 +0100:
-> > On Fri, Dec 17, 2021 at 3:20 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> > > Add a Yaml description for this Renesas NAND controller.
-> > >
-> > > As this controller is embedded on different SoC families, provide:
-> > > * a family-specific "r-car-gen3" compatible and a more specific
-> > >   "r8a77951" one
-> > > * a family-specific "rzn1" compatible and a more specific "r9a06g032"
-> > >   one
-> > >
-> > > More compatibles can be added later if new SoCs with this controller
-> > > must be supported.
-> > >
-> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
+On Fri, Dec 17, 2021 at 11:47:10AM +0100, Jacopo Mondi wrote:
+> On Fri, Dec 17, 2021 at 12:09:44AM +0200, Laurent Pinchart wrote:
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > >
-> > Thanks for the update!
+> > Power supplies for the ports can be controlled per port depending on the
+> > hardware design. Support per-port supplies in the DT bindings, mutually
+> > exclusive with the global supply.
 > >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
-> > > @@ -0,0 +1,66 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/mtd/renesas-nandc.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas R-Car Gen3 & RZ/N1x NAND flash controller device tree bindings
-> > > +
-> > > +maintainers:
-> > > +  - Miquel Raynal <miquel.raynal@bootlin.com>
-> > > +
-> > > +allOf:
-> > > +  - $ref: "nand-controller.yaml"
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,r8a77951-nandc
-> > > +          - const: renesas,rcar-gen3-nandc
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 25 ++++++++++++++++++-
+> >  1 file changed, 24 insertions(+), 1 deletion(-)
 > >
-> > Might be a bit premature to add these before they have been tested,
-> > and because there are small differences in integration, cfr. below.
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index 02f656e78700..33aa307e8ee5 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -39,7 +39,7 @@ properties:
+> >      maxItems: 1
 > >
-> > > +
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,r9a06g032-nandc
-> > > +          - const: renesas,rzn1-nandc
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: APB host controller clock
-> > > +      - description: External NAND bus clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: hclk
-> > > +      - const: eclk
+> >    poc-supply:
+> > -    description: Regulator providing Power over Coax to the cameras
+> > +    description: Regulator providing Power over Coax to all the ports
 > >
-> > On R-Car Gen3, there's a single module clock.
-> > Plus a power-domain to manage that.
+> 
+> Can anything but a camera be connected to a port ?
+> 
+> >    enable-gpios:
+> >      description: GPIO connected to the \#PWDN pin with inverted polarity
+> > @@ -160,6 +160,10 @@ properties:
 > >
-> > Actually the RZ/N1 clock driver also registers a PM Domain, so letting
-> > Runtime PM manage the clocks may work on RZ/N1, too...
+> >              additionalProperties: false
 > >
-> > On R-Car Gen3, there's also a module reset.
->
-> Ok, I didn't know. I propose to drop the r-car-gen3 compatible entirely
-> from the driver and the binding when I'll apply the series. Is it fine
-> for you?
+> > +patternProperties:
+> > +  "^port[0-3]-poc-supply$":
+> > +    description: Regulator providing Power over Coax for a particular port
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > @@ -167,6 +171,25 @@ required:
+> >    - i2c-mux
+> >    - gpio-controller
+> >
+> > +allOf:
+> > +  - if:
+> > +      required:
+> > +        - poc-supply
+> > +    then:
+> > +      allOf:
+> > +        - not:
+> > +            required:
+> > +              - port0-poc-supply
+> > +        - not:
+> > +            required:
+> > +              - port1-poc-supply
+> > +        - not:
+> > +            required:
+> > +              - port2-poc-supply
+> > +        - not:
+> > +            required:
+> > +              - port3-poc-supply
+> 
+> Isn't this simply expressed as
+> 
+> if:
+>   required:
+>     - poc-supply
+> then:
+>   properties:
+>     port0-poc-supply: false
+>     port1-poc-supply: false
+>     port2-poc-supply: false
+>     port3-poc-supply: false
 
-Yes, that's fine for me. Thanks!
+I would have sworn I had tried that and that it didn't work... I now
+have
 
-Gr{oetje,eeting}s,
+allOf:
+  - if:
+      required:
+        - poc-supply
+    then:
+      patternProperties:
+        '^port[0-3]-poc-supply$': false
 
-                        Geert
+additionalProperties: false
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+and it seems to do the job. I'll use that in a v2.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> I tried tweaking the DTS file example with the above applied as
+> 
+>         poc-supply = <&camera_poc_12v>;
+>         port0-poc-supply = <&camera0_poc>;
+> 
+> And validation fails as expected
+> .../maxim,max9286.example.dt.yaml: gmsl-deserializer@2c: port0-poc-supply: False schema does not allow [[4294967295]]
+> 
+> Also, could you make sure this does not conflict with the introduction
+> of gpio-poc in "dt-bindings: media: max9286: Define 'maxim,gpio-poc'".
+> 
+> > +
+> >  additionalProperties: false
+> >
+> >  examples:
+
+-- 
+Regards,
+
+Laurent Pinchart
