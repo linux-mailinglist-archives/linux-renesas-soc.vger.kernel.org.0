@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D90AE47964F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 22:34:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02113479659
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Dec 2021 22:37:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhLQVeg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Dec 2021 16:34:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
+        id S229812AbhLQVh3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Dec 2021 16:37:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbhLQVef (ORCPT
+        with ESMTP id S229806AbhLQVh3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Dec 2021 16:34:35 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E482C061574;
-        Fri, 17 Dec 2021 13:34:35 -0800 (PST)
+        Fri, 17 Dec 2021 16:37:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D91CC061574;
+        Fri, 17 Dec 2021 13:37:28 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0F928B82AE3;
-        Fri, 17 Dec 2021 21:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C2BC36AE2;
-        Fri, 17 Dec 2021 21:34:31 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DBADD623BE;
+        Fri, 17 Dec 2021 21:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCD7C36AE5;
+        Fri, 17 Dec 2021 21:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639776872;
-        bh=Kw0iKGdVy8Fi/XFJiR6dOzi8M/aGluWyy00V2duZ3g0=;
+        s=k20201202; t=1639777047;
+        bh=QX9eoTmdYgVC8Rce8OzTB67gJaOLDMxWmsBK3LeWfYk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k83xh3KoXNhIJdROmeVDWCGHT1MqKE8y94KbU8NLPOG2wjDyN3lAABuSi8GBasuIj
-         +HFx+sCv+DM2zdVTd2xLrAymkd0orbNE8NBgodn8C+IoIwGNe46XGR48Ysj6UTNa3b
-         331pNO3k+IAONxCjbnA/30Mj1ZECVjUCcRzgSO0n0d1geX0wPlDGz8OS5z3CjfjS0G
-         u7hb6Meg38lBApyQs5GExeota3Nu3EoIv28fo0EbqcRd8JtRVjJ8V6kZR18heKiB29
-         R6DiQCX6R6adsrhtIT7rhWClkqk4Ox/7hk33yuTe61zAPPYLkFbU38yRXHJEpl9YUT
-         DAWfNScuVoS3A==
-Date:   Fri, 17 Dec 2021 22:34:26 +0100
+        b=O0rwfNsVmqwki+DDQlty5BuW3EBu92vTMi5plo6U1H3et5r/pKKNju/7USCP469dc
+         4SJks8bdE9mGd8UsMDWIfONP6ZlBK9mnpKGQmgCvoC1kjcXH8ETwnNvVNsbxcFHArH
+         BEp/hRR3MPWgNQZB0WrJKZlUdkNqWiaxuzcutUit69gcxqYmKXkOo1+ImjxEeJB0/6
+         /NgN7vXFX3M145KNUJRWqCjCM0y1CtWGmd/CEzfHAQfnePj2ElknAT3juS00N5qekr
+         8TbXHYclzVSd1lLix65q3NPJkBWYfL0PAmN0aHsMOSPkhMTC9AMCc6outXp2ah9EBB
+         Et/dpNLIFWC0A==
+Date:   Fri, 17 Dec 2021 22:37:24 +0100
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
 Cc:     Richard Weinberger <richard@nod.at>,
@@ -52,9 +52,9 @@ Cc:     Richard Weinberger <richard@nod.at>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Chris Brandt <Chris.Brandt@renesas.com>,
         Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: Re: [PATCH v6 3/4] MAINTAINERS: Add an entry for Renesas NAND
- controller
-Message-ID: <Yb0CYpCBFA/bQFjF@kunai>
+Subject: Re: [PATCH v6 2/4] mtd: rawnand: renesas: Add new NAND controller
+ driver
+Message-ID: <Yb0DFEsjlScimzU2@kunai>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Miquel Raynal <miquel.raynal@bootlin.com>,
         Richard Weinberger <richard@nod.at>,
@@ -74,54 +74,64 @@ Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Chris Brandt <Chris.Brandt@renesas.com>,
         Ralph Siemsen <ralph.siemsen@linaro.org>
 References: <20211217142033.353599-1-miquel.raynal@bootlin.com>
- <20211217142033.353599-4-miquel.raynal@bootlin.com>
+ <20211217142033.353599-3-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="YgipmO8J0jnQIUmg"
+        protocol="application/pgp-signature"; boundary="BnlVJ5G7tN0TUvEW"
 Content-Disposition: inline
-In-Reply-To: <20211217142033.353599-4-miquel.raynal@bootlin.com>
+In-Reply-To: <20211217142033.353599-3-miquel.raynal@bootlin.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---YgipmO8J0jnQIUmg
+--BnlVJ5G7tN0TUvEW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Dec 17, 2021 at 03:20:31PM +0100, Miquel Raynal wrote:
+> Introduce Renesas NAND controller driver which currently supports the
+> following features on R-Car Gen3 and RZ/N1 SoCs:
+> - All ONFI timing modes
+> - Different configurations of its internal ECC controller
+> - On-die (not tested) and software ECC support
+> - Several chips (not tested)
+> - Subpage accesses
+> - DMA and PIO
+>=20
+> This controller was originally provided by Evatronix before being bought
+> by Cadence.
+>=20
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Tested-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+
+As I mentioned before, I can't test the driver and have no bandwidth for
+a proper review. However, it looks really good from a glimpse and I
+think we are in good shape for Gen3 additions if we need them somewhen.
+So:
+
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
-> +RENESAS R-CAR GEN3 & RZ/N1 NAND CONTROLLER DRIVER
-> +M:	Miquel Raynal <miquel.raynal@bootlin.com>
-> +L:	linux-mtd@lists.infradead.org
-
-Could you add
-
-L:      linux-renesas-soc@vger.kernel.org
-
-as well please?
-
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
-> +F:	drivers/mtd/nand/raw/renesas-nand-controller.c
-
---YgipmO8J0jnQIUmg
+--BnlVJ5G7tN0TUvEW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG9Al4ACgkQFA3kzBSg
-KbbyaxAAjM28xHUCttzmmsIUBoWM5VyuLEiozGDzNaFVk5nssyFKz7x3G1JZwCpv
-lyTibV/kIiuX3Lmiu4Aq954kOnCZnWaMxpAV64cpvxcSiBty+avhbGk8nLMxaPx3
-lCoI7ySHvo1dqvUCpjrX2mQZamGsi0vkyU1IcwHh3904FpoYUdDoX1Z7fggVr7PD
-UOOph53HSOUqJJGs79UNsqGcrcK/R2W7bMTq9yhLQjMLjuNvl/iWWM24jxw0lurx
-FBwTp3HliFu0vNFZFMyh0N0iZPy/J1+BnnWyCj5OFMYoH1rDtJ9mu3JRw2Cjirzd
-5JpAZuuvjI2a2jnIqtouJ8iZMKv4eKz63Lw7nkPhKxLJxacLXWdvDAUtp6e2B5oo
-qMmHy92NH6adu4+wj2ttWwBmxVNVOYjcugM7SL9rUqOhBuh4ALFDxvNKgdeaGSTs
-FL2x1mIcuUv3g+dTxQpJYimDmZWRM+UM9PY7OF3VvLT6Twb6CDiWZ+7KlA8fjvrX
-rxeSW11JhacxfV32bLbupswb2cryMlwO/Xee9DtftOhg5f0CDiSWj52lv+zJXcwt
-p3r1NFFb2rtPnWt9bHmUFOaF4iq9aIYJGZBAgs0mf91r42l4q4DQ/Y6mopHIL8H7
-1vUkFBVgCz3OPejJvQTuW4cuOVJrXILzlr7yfU5/5wl6fwa7w74=
-=DqmB
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG9AxQACgkQFA3kzBSg
+KbbEFw//XIE8XtvyCbxPj+leDzS57Fu7Yc+wwqYIs9cbDB2kLl5CuXQX6wOX6Fqp
+8jhdu3zr5M+wkLXw2SeWmyGnZEXjIxPmsmhHSNkNt885h/RoK5rPTadIx5L3IZey
+1nha1nkJbgn9uqAEmSfxqI51wIzCAg2qtjPR7fMKbWQSodFyp6bQec9vkkypEj0x
+kLbmm/R3jQioRIIJrC/jSzEgR+QE+PEzyiElnE5ix8pqdpm3wlWsP1lG9mHzLlom
+mve8hXXrCZRtP6EAmdzLEiz1Gl1H4aThx1GblBBf8wR4K29DaKnmgbog/Ekk6lDo
+5TKVfEfW5Uu6+3JP5L3CBHaVk1S8xFdouMzSfma2jcsXdwTB0VDHPsedZlbTVGT4
+NvAPek2dgGL9q3Z0hAfzsxmPQoEXIo6W7i+fajuVeR09SWE/mxvMwqKMOn+K2mp7
+UI9rDxMhK3bEeiJ+ajuxTLuPOl3WkGaEVIocrRDUXHSM6xb/eZraD1CXgvX+U9ts
+DtUDSBFSscpnkCZasfT91wo49Mj8UGD273RRKASwsyKi2fMQgvQBPH/pch3sBfc5
+Sn5r+YzjrVf5GSFMyl8TvIutg5DfgLo8k1Rt1FRZMZz1b3oTz9esvPjILhjIXEq3
+i/rP556V1LElDKDewaHprUA/dBpSIVO3PGS5juYtjwYzS8fmAzY=
+=ftDR
 -----END PGP SIGNATURE-----
 
---YgipmO8J0jnQIUmg--
+--BnlVJ5G7tN0TUvEW--
