@@ -2,235 +2,240 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E463A479932
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Dec 2021 07:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 974D64799FB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Dec 2021 10:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbhLRGmi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 18 Dec 2021 01:42:38 -0500
-Received: from mga07.intel.com ([134.134.136.100]:51055 "EHLO mga07.intel.com"
+        id S232542AbhLRJkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 Dec 2021 04:40:40 -0500
+Received: from www.zeus03.de ([194.117.254.33]:56700 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232203AbhLRGmh (ORCPT
+        id S232531AbhLRJkj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 18 Dec 2021 01:42:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639809757; x=1671345757;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cYNntU7OQW8HHAAG+S3aLKNjQxomh1GvW7XBfgfCFkQ=;
-  b=X+Sz9wVDjluUG1Ar1UwZW7N1z9HK4+8fEuSk1S4RYZZWrALv70KqFZ50
-   hEk0t6W3gaWaFeWUh+3kc+eqlXSXF2QI9qCaFXpiZl4FU3t3Mb/Qla7Rx
-   xqI+ZBBeQV60BjgqII+R276EEXg2e/06+xEz+Dr3b4dLibJuVq5WE5HdA
-   BFOtlgmP/LkSrm84ureKxZ3xVRkeqEopNyUiqNIPYJ1uJqFSuibBBH5x4
-   IS1tuIysDgBo/iaTzILcU6E4dm+u7Gb0QyErICaxktdpM137oRYZ+HClx
-   C9+gaL/ZPlBwM9nUdLhZxQZvsMIxeobyWRM/r8HqBEI7anY3GPU6WSTG9
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="303269791"
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; 
-   d="scan'208";a="303269791"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 22:42:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; 
-   d="scan'208";a="683644746"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Dec 2021 22:42:36 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1myTQR-0005ig-Jj; Sat, 18 Dec 2021 06:42:35 +0000
-Date:   Sat, 18 Dec 2021 14:41:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 9aa3a08281f795eec94a1d7ee8c48ed7dec31a7c
-Message-ID: <61bd82b4.aH9j7cl1+0qwWMQo%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 18 Dec 2021 04:40:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=01B0qNWU0+z7ea4VytjhqQ7lyoMH
+        ToAZMg780ztv3j8=; b=dOBQIh3/6v2yYD2fnPrZL0bJayC2uva12DT+dPQ1dE5/
+        TGr5GRvaQ5ATLStkNXTITamq6IQ8eLTdUmH/W9GptW2nRB4JdZWYssmMqGl/TnoX
+        ZRX02EEGHisurL2lFnpQh3LXmtiebffOzsvkDTA1JEyQ7oqsIlMoPirKFNeJ4Nw=
+Received: (qmail 241675 invoked from network); 18 Dec 2021 10:40:37 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Dec 2021 10:40:37 +0100
+X-UD-Smtp-Session: l3s3148p1@vk52cmjT+uYgAQnoAHcYABNC0nuAbl2v
+Date:   Sat, 18 Dec 2021 10:40:33 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <Yb2skaWF7cx6PHLO@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
+References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
+ <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
+ <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="uKScydRu35zTx0SP"
+Content-Disposition: inline
+In-Reply-To: <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 9aa3a08281f795eec94a1d7ee8c48ed7dec31a7c  Merge branch 'renesas-next' into renesas-devel
 
-elapsed time: 1205m
+--uKScydRu35zTx0SP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 163
-configs skipped: 3
+Hi Andy,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > +Result is a .sr file to be consumed with PulseView or sigrok-cli from =
+the free
+> > +`sigrok`_ project. It is a zip file which also contains the binary sam=
+ple data
+> > +which may be consumed by other software. The filename is the logic ana=
+lyzer
+> > +instance name plus a since-epoch timestamp.
+> > +
+> > +.. _sigrok: https://sigrok.org/
+>=20
+> Alas, yet another tool required... (Sad thoughts since recently has insta=
+lled
+> PicoScope software).
 
-gcc tested configs:
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm                              allmodconfig
-arm64                            allyesconfig
-i386                 randconfig-c001-20211216
-mips                         rt305x_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                      bamboo_defconfig
-powerpc                     ppa8548_defconfig
-sh                           se7780_defconfig
-mips                            ar7_defconfig
-m68k                       bvme6000_defconfig
-arm                              alldefconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                 mpc8560_ads_defconfig
-x86_64                           allyesconfig
-arm                           sama5_defconfig
-sh                   secureedge5410_defconfig
-h8300                    h8300h-sim_defconfig
-arm                          collie_defconfig
-arc                                 defconfig
-sparc                               defconfig
-arm                       imx_v6_v7_defconfig
-powerpc                      cm5200_defconfig
-arm                   milbeaut_m10v_defconfig
-arm                        multi_v7_defconfig
-arm                            pleb_defconfig
-mips                       bmips_be_defconfig
-arm                       multi_v4t_defconfig
-arm                         orion5x_defconfig
-sh                           se7750_defconfig
-mips                  cavium_octeon_defconfig
-powerpc                 mpc832x_mds_defconfig
-mips                    maltaup_xpa_defconfig
-m68k                        stmark2_defconfig
-powerpc                      makalu_defconfig
-arc                        vdk_hs38_defconfig
-sh                            titan_defconfig
-arm                           stm32_defconfig
-arm                        neponset_defconfig
-powerpc                     tqm8540_defconfig
-mips                        bcm63xx_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc                      walnut_defconfig
-mips                        omega2p_defconfig
-arm                         lubbock_defconfig
-arm                        magician_defconfig
-sh                           se7721_defconfig
-arc                     haps_hs_smp_defconfig
-sh                           se7724_defconfig
-powerpc                 linkstation_defconfig
-powerpc                        fsp2_defconfig
-powerpc                        cell_defconfig
-arm                         axm55xx_defconfig
-parisc                           alldefconfig
-m68k                          amiga_defconfig
-m68k                        mvme147_defconfig
-sh                        sh7757lcr_defconfig
-arm                       omap2plus_defconfig
-parisc                generic-32bit_defconfig
-h8300                            allyesconfig
-powerpc                    adder875_defconfig
-arm                         s3c6400_defconfig
-mips                      pic32mzda_defconfig
-powerpc                    mvme5100_defconfig
-arm                          iop32x_defconfig
-arm                         vf610m4_defconfig
-arm                         assabet_defconfig
-arm                  randconfig-c002-20211216
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-nds32                               defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-xtensa                           allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-sparc                            allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a006-20211216
-x86_64               randconfig-a005-20211216
-x86_64               randconfig-a001-20211216
-x86_64               randconfig-a002-20211216
-x86_64               randconfig-a003-20211216
-x86_64               randconfig-a004-20211216
-i386                 randconfig-a001-20211216
-i386                 randconfig-a002-20211216
-i386                 randconfig-a005-20211216
-i386                 randconfig-a003-20211216
-i386                 randconfig-a006-20211216
-i386                 randconfig-a004-20211216
-x86_64               randconfig-a011-20211217
-x86_64               randconfig-a014-20211217
-x86_64               randconfig-a012-20211217
-x86_64               randconfig-a013-20211217
-x86_64               randconfig-a016-20211217
-x86_64               randconfig-a015-20211217
-arc                  randconfig-r043-20211216
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                    rhel-8.3-kselftests
+? For sure, another tool is required. Do you want the analyzer itself to
+output pretty SVG files? :)
 
-clang tested configs:
-x86_64               randconfig-a006-20211217
-x86_64               randconfig-a005-20211217
-x86_64               randconfig-a001-20211217
-x86_64               randconfig-a002-20211217
-x86_64               randconfig-a003-20211217
-x86_64               randconfig-a004-20211217
-x86_64               randconfig-a011-20211216
-x86_64               randconfig-a014-20211216
-x86_64               randconfig-a012-20211216
-x86_64               randconfig-a013-20211216
-x86_64               randconfig-a016-20211216
-x86_64               randconfig-a015-20211216
-x86_64               randconfig-a011-20211214
-x86_64               randconfig-a014-20211214
-x86_64               randconfig-a012-20211214
-x86_64               randconfig-a013-20211214
-x86_64               randconfig-a016-20211214
-x86_64               randconfig-a015-20211214
-i386                 randconfig-a011-20211216
-i386                 randconfig-a014-20211216
-i386                 randconfig-a012-20211216
-i386                 randconfig-a013-20211216
-i386                 randconfig-a015-20211216
-i386                 randconfig-a016-20211216
-hexagon              randconfig-r045-20211216
-s390                 randconfig-r044-20211216
-riscv                randconfig-r042-20211216
-hexagon              randconfig-r041-20211216
+>=20
+> >     kgdb
+> >     kselftest
+> >     kunit/index
+>=20
+> > +   gpio-sloppy-logic-analyzer
+>=20
+> Above looks like ordered, do we need some groups here or so?
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+No feedback from the doc-maintainers so far. Can easily be fixed
+afterwards if needed.
+
+> > +	mutex_lock(&priv->lock);
+>=20
+> > +	if (priv->blob_dent) {
+>=20
+> Redundant (i.e. duplicate).
+
+Nope, it can be NULL if allocating memory all goes wrong.
+
+> > +gpio_err:
+>=20
+> A bit confusing name. What about
+>=20
+> enable_irq_and_free_data:
+
+Yes, fixed in v6.
+
+> > +	char *meta =3D NULL;
+> > +	unsigned int i, meta_len =3D 0;
+> > +	int ret;
+>=20
+> Perhaps
+>=20
+> 	unsigned int i, meta_len =3D 0;
+> 	char *meta =3D NULL;
+> 	int ret;
+
+I'd like to keep the pointers grouped together.
+
+> > +	if (ret >=3D 0 && ret !=3D priv->descs->ndescs)
+>=20
+> > +		ret =3D -ENODATA;
+>=20
+> Don't remember if we already discussed this error code, but data is there,
+> it's not correct. EBADSLT? EBADR? ECHRNG?
+
+In your V1 review, you suggested -ENODATA. I will pick yet another one,
+but it really matters zero in practice.
+
+> > +		meta_len +=3D snprintf(meta + meta_len, add_len, "probe%02u=3D%s\n",
+> > +				     i + 1, gpio_names[i]);
+>=20
+> Do we really need the 'probe%02u=3D' part? It's redundant since it may be=
+ derived
+> from the line number of the output (and it always in [1..ndescs+1]).
+
+It makes creating the .sr-file a lot easier. If you feel strong about
+it, then you can later remove it and also update the script, I'd say.
+
+> > +	dev_info(dev, "initialized");
+>=20
+> Is it useful?
+
+For the third time, yes!
+
+> > +	cat <<EOF
+>=20
+> 	cat << EOF
+>=20
+> is slightly easier to read.
+
+I'll fix it.
+
+> > +	[ -d $cpusetdir ] || mkdir $cpusetdir
+>=20
+> `mkdir -p` and drop needless test.
+
+It is not the same. I prefer to bail out if e.g. '/dev/' does not exist
+rather than silently create it.
+
+> > +	val=3D$((0x$oldmask & ~(1 << isol_cpu)))
+> > +	newmask=3D$(printf "%x" $val)
+>=20
+> Can be on one line (in a single expression).
+
+Ok.
+
+> `> /dev/null 2>&1` is idiomatic. And I think there is actually a subtle
+> difference between two.
+
+What is the difference? Does it matter here?
+
+> > +			[ "$chan" !=3D "$elem" ] && [ "$chan" -le $max_chans ] || fail "Tri=
+gger syntax error: $elem"
+>=20
+> No need to execute `test` twice:
+>=20
+> 			[ "$chan" !=3D "$elem" -a "$chan" -le $max_chans ] || fail "Trigger sy=
+ntax error: $elem"
+
+I read that '-a' and '-o' are deprecated. Dunno where but looking again
+I found this: https://stackoverflow.com/questions/20449680/boolean-operator=
+s-a-o-in-bash
+
+>=20
+> > +			bit=3D$((1 << (chan - 1)))
+> > +			mask=3D$((mask | bit))
+> > +			case $mode in
+> > +				[hH]) val1=3D$((val1 | bit)); val2=3D$((val2 | bit));;
+> > +				[fF]) val1=3D$((val1 | bit));;
+> > +				[rR]) val2=3D$((val2 | bit));;
+> > +			esac
+> > +		done
+>=20
+> > +		trigger_bindat=3D"$trigger_bindat$(printf '\\%o\\%o' $mask $val1)"
+> > +		[ $val1 -ne $val2 ] && trigger_bindat=3D"$trigger_bindat$(printf '\\=
+%o\\%o' $mask $val2)"
+>=20
+> `printf` with arguments may be split to a separate helper function.
+
+I think this is a micro-optimization, but feel free to change it later.
+
+> > +	taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture error! C=
+heck kernel log"
+>=20
+> Shouldn't this function setup signal TRAPs?
+
+To do what?
+
+> $@ is better, actually one should never use $*.
+
+What difference does it make when expanding into a string?
+
+> Wondering, shouldn't be a simple validator before start that we have comm=
+ands
+> present, such as zip?
+
+This is what the variable 'neededcmds' is for...
+
+Kind regards,
+
+   Wolfram
+
+
+--uKScydRu35zTx0SP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG9rI0ACgkQFA3kzBSg
+KbY3vQ//XZgYs/+nFBed+r2i0GulvWh1/qdmjU5SyG26r2hYQTcOda/Boetjon7L
+GwZFrw3tR8EfDDJnCrBGs7pFHMjBdIAL0u31T8lnf9hBasuPKNx2PFgAJIWmAArH
+xZBw8Xb0NSVMkvkkWsfmLms9DAR/3BHw6vyKcLNFU+hDXySbH5yS22VVYiB7tbwD
+zt+parVny/S+rFBv5CneuDktzKmqrMNWTu/JsrgpqTQAf0Wp0M06aykV35m06OUr
+M3zP04iJAuTPO4r9KjIOpSliT3bSiMi+XQRbR/Ym56JhRrZ8xcEuAHGXNGLgrmls
+IKUYxy1BhDQmsGpEVVMbVTN+XSbz+a1hRhxBTt4X0BObBoPylQ6BvJ+XUJ0nFENm
+da8TsgFpHXQKMTRzVnS8/74Yrg7AI+MkwcAr8wziBITb0zmxkkicQwHfYMt51Yf1
+SxvhoEVJ/scss4RkiD46itzK+xKNCe7a3klHeNkSamBoTuAlT8XgoxiTxrOVSn8D
+Iu4jnbIuGd4zTJYLvpLLyhGlKxACcvPS7EwBDhDgTISY81CdK/z3OlGH5X3nCq/j
+ZU/6wn2TFopn+NEFWhpK4n/0t7WiGC0aEmWm+3lc+oL4MZ1/zxM/4W7bXdSoaWVZ
+SEpobFHJ7VojvRxfm4jO5Q8UVzitrIWRVyz8MuTKZo8/aH+Rs/M=
+=PKTE
+-----END PGP SIGNATURE-----
+
+--uKScydRu35zTx0SP--
