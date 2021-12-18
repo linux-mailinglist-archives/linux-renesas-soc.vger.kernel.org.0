@@ -2,54 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63497479B70
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Dec 2021 15:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20DA8479BCA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Dec 2021 17:53:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233315AbhLROlp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 18 Dec 2021 09:41:45 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:21274 "EHLO
+        id S233637AbhLRQxH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 Dec 2021 11:53:07 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:49487 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230522AbhLROlp (ORCPT
+        by vger.kernel.org with ESMTP id S229552AbhLRQxG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 18 Dec 2021 09:41:45 -0500
+        Sat, 18 Dec 2021 11:53:06 -0500
 X-IronPort-AV: E=Sophos;i="5.88,216,1635174000"; 
-   d="scan'208";a="104382932"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Dec 2021 23:41:43 +0900
+   d="scan'208";a="104388663"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Dec 2021 01:53:05 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 85B6D4006DEE;
-        Sat, 18 Dec 2021 23:41:41 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 25B6B40A5168;
+        Sun, 19 Dec 2021 01:53:01 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+To:     Rob Herring <robh+dt@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] thermal: rcar_thermal: Use platform_get_irq_optional() to get the interrupt
-Date:   Sat, 18 Dec 2021 14:41:36 +0000
-Message-Id: <20211218144136.6663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] i2c/busses: Use platform_get_irq/_optional() variants to fetch IRQ's
+Date:   Sat, 18 Dec 2021 16:52:55 +0000
+Message-Id: <20211218165258.16716-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+Hi All,
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq_optional().
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Hi,
+This patch series aims to drop using platform_get_resource() for IRQ types
+in preparation for removal of static setup of IRQ resource from DT core
+code.
 
 Dropping usage of platform_get_resource() was agreed based on
 the discussion [0].
@@ -57,53 +53,21 @@ the discussion [0].
 [0] https://patchwork.kernel.org/project/linux-renesas-soc/
 patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+Note: I have just build tested the patches.
+
 Cheers,
 Prabhakar
----
- drivers/thermal/rcar_thermal.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index b49f04daaf47..e4c7bc1bf7ef 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 	struct rcar_thermal_common *common;
- 	struct rcar_thermal_priv *priv;
- 	struct device *dev = &pdev->dev;
--	struct resource *res, *irq;
-+	struct resource *res;
- 	const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
- 	int mres = 0;
- 	int i;
-@@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 	pm_runtime_get_sync(dev);
- 
- 	for (i = 0; i < chip->nirqs; i++) {
--		irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
--		if (!irq)
-+		int irq;
-+
-+		irq = platform_get_irq_optional(pdev, i);
-+		if (irq <= 0 && irq != -ENXIO) {
-+			ret = irq ? irq : -ENXIO;
-+			goto error_unregister;
-+		}
-+		if (irq == -ENXIO)
- 			continue;
-+
- 		if (!common->base) {
- 			/*
- 			 * platform has IRQ support.
-@@ -487,7 +494,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 			idle = 0; /* polling delay is not needed */
- 		}
- 
--		ret = devm_request_irq(dev, irq->start, rcar_thermal_irq,
-+		ret = devm_request_irq(dev, irq, rcar_thermal_irq,
- 				       IRQF_SHARED, dev_name(dev), common);
- 		if (ret) {
- 			dev_err(dev, "irq request failed\n ");
+Lad Prabhakar (3):
+  i2c: bcm2835: Use platform_get_irq() to get the interrupt
+  i2c: sh_mobile: Use platform_get_irq_optional() to get the interrupt
+  i2c: riic: Use platform_get_irq() to get the interrupt
+
+ drivers/i2c/busses/i2c-bcm2835.c   | 11 +++------
+ drivers/i2c/busses/i2c-riic.c      | 10 ++++----
+ drivers/i2c/busses/i2c-sh_mobile.c | 39 +++++++++++++++++++++++-------
+ 3 files changed, 39 insertions(+), 21 deletions(-)
+
 -- 
 2.17.1
 
