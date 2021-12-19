@@ -2,96 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0922747A040
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Dec 2021 11:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1836447A04A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Dec 2021 12:05:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234200AbhLSKyG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Dec 2021 05:54:06 -0500
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:43716 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbhLSKyF (ORCPT
+        id S233325AbhLSLFh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Dec 2021 06:05:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229801AbhLSLFh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Dec 2021 05:54:05 -0500
-Received: by mail-ua1-f50.google.com with SMTP id 107so12556551uaj.10;
-        Sun, 19 Dec 2021 02:54:05 -0800 (PST)
+        Sun, 19 Dec 2021 06:05:37 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935B5C061574;
+        Sun, 19 Dec 2021 03:05:36 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id j21so22096008edt.9;
+        Sun, 19 Dec 2021 03:05:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=D8Wo6P86udUrMcKv2I4dmw18ULaeqRo28Xqqp2K2xN0=;
+        b=UbUFPVYlx4sX12Mpz7R3BTcxi8qfwUVrtgG2pa6S7a0iYfvD+3b/RFNoVAWwxKpdqb
+         4+9fOPDR64/1sBC/boM/uoKGV5eSpWcJEt0xMunv7u7OEsB5tBxGcQL2Kacf5A9S/S86
+         3bugRgCbL69cGzIr0Q75FfT4l93kG4sicmN6MKKMe/YtyVBi9lJf6JZ4e4LE1jVEdm1d
+         kwZYc++x+3VCVUV8+oQ+txgs75Q8ur1ZByX/sgS0On+52NRt4lMtIovDtvjrhl2qpLMe
+         4X2xXBDPgCUdM2X7SrTBqJC5moRaXohtGKgKkfNU/J2rNTB3eqQY/jd1wTZe5C+8bqGw
+         ETWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gx6FC+488czg1h6H33oJ6TYpz44UC/QYFVfQmRe/T6Q=;
-        b=0tH3+S6znpCM46+oEq2u7VcFXEoJE0psqKtqLfQAXxQRiqgRtbYTjudKh3YFoa6MVZ
-         57xdxg2nWDryIkOxuLCL6tTbIMZor90JCrIEk0/nTibzK2NVxAYSYEEMH3x5ke7GzJHm
-         SpZLsPpUy04zTJYtDmXC9Mt5x5K9qfIUqH806Y12vHBltKjcA78vChwjb/ADl3LySQRI
-         yeqe2JXeTuPBR/Y5OzsjOoe2gwCrQkhnmukGr4XufTicraq1aHIFUft8MTweadl/UF9/
-         vo3F61s8Y6jER7wZyYDHAbUWLxDsUAoKwmSgHbAYq3+I2rvT3cDW0+00v37s/36amhuh
-         poug==
-X-Gm-Message-State: AOAM531+epOJOv2PzbaGuBWFwhmiC5fT7oiYRDa5K1DnEJGFhWB/Ogf9
-        X/WdAYGrzUkCCKIosBamryiiBxRW5qGDwA==
-X-Google-Smtp-Source: ABdhPJw2aysjag0r92Gz8aq5qwqyp6bxsDrvBFHChDVm6cOY7vNa6/oGHWZnR/ecO4XanXyd2er5Ow==
-X-Received: by 2002:ab0:b88:: with SMTP id c8mr3492452uak.130.1639911244347;
-        Sun, 19 Dec 2021 02:54:04 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id 92sm2481939uar.19.2021.12.19.02.54.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Dec 2021 02:54:04 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id y23so12589369uay.7;
-        Sun, 19 Dec 2021 02:54:03 -0800 (PST)
-X-Received: by 2002:ab0:15a1:: with SMTP id i30mr3571855uae.122.1639911243550;
- Sun, 19 Dec 2021 02:54:03 -0800 (PST)
+         :message-id:subject:to;
+        bh=D8Wo6P86udUrMcKv2I4dmw18ULaeqRo28Xqqp2K2xN0=;
+        b=3QEINs0TSfMS76FFggpFo3AnuIbsgJO5AwcvL8eyUU+fwjS3FdhpoF5pNQlRGPq1yY
+         bjcS6X4PoAtS5GQhmFwz6R1fC08AYNHmPBtkqZht5KEX7NXUjNHc//iwfSxsJaqW+Bnc
+         P3EYJC7+kIO17qW8P0EcdjB/Da3KriYLavF2Qt7ht1fzjeIT0ysdA1kfafPSBOFKdVOj
+         2cMYLItZay8JK9iYfJnosQyqaHgxCatWrEqwsbsBnThW0kJtP3y9LgtvKi+91K4l4yBS
+         MSkEtzf1Fo0eV1QgB8yWH2yE/FjZQdRXJkHnUaUYKapuxOW/GRXDAHRCi/miuDMdapOD
+         RZsg==
+X-Gm-Message-State: AOAM533Fr8UvHiDE3CkehsnOkdqbdIywacgkZpWIaoAicS1gT7NXAJtU
+        WhpSrEdw/dHd9DqqFMdgAGJuj63NsSIx6b7c2rQ=
+X-Google-Smtp-Source: ABdhPJx9pEwuEYJwjhPEdlK1QpzutFYKqEf7NqNjE91fZEuIRc6qKv49xVb9XAff9cZCIcaa6n3KHTRbRBnYu2qnQDg=
+X-Received: by 2002:a05:6402:270c:: with SMTP id y12mr11047178edd.258.1639911934984;
+ Sun, 19 Dec 2021 03:05:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1639663832.git.geert+renesas@glider.be> <7cbec488-01d1-1ee2-006a-a3835d42a0a7@landley.net>
-In-Reply-To: <7cbec488-01d1-1ee2-006a-a3835d42a0a7@landley.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 19 Dec 2021 11:53:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUYu4hOjZMHy+bPrLpJ6=3tja0kJ7WwJ5TFhHivvi0DNQ@mail.gmail.com>
-Message-ID: <CAMuHMdUYu4hOjZMHy+bPrLpJ6=3tja0kJ7WwJ5TFhHivvi0DNQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] serial: sh-sci: Clock handling improvements
-To:     Rob Landley <rob@landley.net>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
+ <20211123164902.35370-2-wsa+renesas@sang-engineering.com> <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
+ <Yb2skaWF7cx6PHLO@kunai>
+In-Reply-To: <Yb2skaWF7cx6PHLO@kunai>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 19 Dec 2021 13:04:58 +0200
+Message-ID: <CAHp75VcV35r_54FXRGS31VT7W0LV6-U+PJOL46L49ro-T_hp4A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "moderated list:H8/300 ARCHITECTURE" 
-        <uclinux-h8-devel@lists.sourceforge.jp>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On Sat, Dec 18, 2021 at 11:21 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 
-On Sun, Dec 19, 2021 at 11:34 AM Rob Landley <rob@landley.net> wrote:
-> On 12/16/21 8:17 AM, Geert Uytterhoeven wrote:
-> >       Hi Greg, Jiri,
+> > > +Result is a .sr file to be consumed with PulseView or sigrok-cli from the free
+> > > +`sigrok`_ project. It is a zip file which also contains the binary sample data
+> > > +which may be consumed by other software. The filename is the logic analyzer
+> > > +instance name plus a since-epoch timestamp.
+> > > +
+> > > +.. _sigrok: https://sigrok.org/
 > >
-> > This patch series contains a legacy cleanup and two small improvements
-> > for the Renesas (H)SCI(F) serial driver.
+> > Alas, yet another tool required... (Sad thoughts since recently has installed
+> > PicoScope software).
 >
-> Tested-by: Rob Landley <rob@landley.net>
+> ? For sure, another tool is required. Do you want the analyzer itself to
+> output pretty SVG files? :)
 
-Thanks!
+I mean that there are similar functionality in different tools and for
+one purpose you need one, for another another and there is no format
+file convertors available (as far as my shallow googling shows).
 
-> By the way, did you ever figure out how to get the first serial port to work on
-> qemu so qemu-system-sh4 doesn't have to "-serial null -serial mon:stdio" to get
-> a serial console?
+...
 
-Nope, same as last time you asked ;-)
+> > > +   if (ret >= 0 && ret != priv->descs->ndescs)
+> >
+> > > +           ret = -ENODATA;
+> >
+> > Don't remember if we already discussed this error code, but data is there,
+> > it's not correct. EBADSLT? EBADR? ECHRNG?
+>
+> In your V1 review, you suggested -ENODATA. I will pick yet another one,
+> but it really matters zero in practice.
 
-However, upon a fresh look at linux/arch/sh/boards/mach-r2d/setup.c,
-I noticed something I missed before: the SCI port is not available
-as a UART, as it is used to talk SPI to an RTC.  So that means qemu
-has the hardware description wrong?
+Ah, okay, then choose the one you think fits most.
 
-Gr{oetje,eeting}s,
+...
 
-                        Geert
+> > Do we really need the 'probe%02u=' part? It's redundant since it may be derived
+> > from the line number of the output (and it always in [1..ndescs+1]).
+>
+> It makes creating the .sr-file a lot easier. If you feel strong about
+> it, then you can later remove it and also update the script, I'd say.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+No strong opinion, I don't know the Sigrok tool and its file format,
+so I can't tell if it makes sense or doesn't.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+...
+
+> > `> /dev/null 2>&1` is idiomatic. And I think there is actually a subtle
+> > difference between two.
+>
+> What is the difference? Does it matter here?
+
+I'm a bit lost in the context here, but the ' > /dev/null 2>&1' means
+to redirect stdout to the /dev/null followed by redirecting stderr to
+stdout (which is redirected to /dev/null). The other construction
+might have side effects IIRC.
+
+...
+
+> > > +                   [ "$chan" != "$elem" ] && [ "$chan" -le $max_chans ] || fail "Trigger syntax error: $elem"
+> >
+> > No need to execute `test` twice:
+> >
+> >                       [ "$chan" != "$elem" -a "$chan" -le $max_chans ] || fail "Trigger syntax error: $elem"
+>
+> I read that '-a' and '-o' are deprecated. Dunno where but looking again
+> I found this: https://stackoverflow.com/questions/20449680/boolean-operators-a-o-in-bash
+
+The SO talks about _bash_, your script is a plain Shell one, right?
+And for the record, I don't like bashisms in some generic code, like
+the one we use with Linux kernel.
+
+...
+
+> > > +   taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture error! Check kernel log"
+> >
+> > Shouldn't this function setup signal TRAPs?
+>
+> To do what?
+
+To clean up the garbage it may leave in case of the interrupted run, no?
+
+...
+
+> > $@ is better, actually one should never use $*.
+>
+> What difference does it make when expanding into a string?
+
+The difference is on how the  "foo bar" (with double quotes!) will be
+represented. In your case it will be translated as "foo" and "bar", in
+the case I'm saying it will be "foo bar".
+
+-- 
+With Best Regards,
+Andy Shevchenko
