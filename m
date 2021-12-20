@@ -2,147 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C44CF47A893
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 12:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9000747A90C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 12:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231768AbhLTL0E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Dec 2021 06:26:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42990 "EHLO
+        id S231438AbhLTLxi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 06:53:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230469AbhLTL0E (ORCPT
+        with ESMTP id S230429AbhLTLxh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Dec 2021 06:26:04 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3355DC061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 03:26:04 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id d11so9122969pgl.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 03:26:04 -0800 (PST)
+        Mon, 20 Dec 2021 06:53:37 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E22CC061574;
+        Mon, 20 Dec 2021 03:53:37 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id l22so21028731lfg.7;
+        Mon, 20 Dec 2021 03:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=iQ1eB0lQj8SkXNyB5srr6shYN2kDPzMa8lkKri7+csI=;
-        b=UkLzQlO91juFwJ5L5fixSEC3OJH+DbzT2JQMRfQ8+70Wmi9LvatOBeCCCuqLvUG7fj
-         3aGMQBoJIOJXcDo/Xi4FZOiiZXSs+jO2MvpaeI4q0wXqGSC1aIYBMUFnAvQtYXFsrhFi
-         5HpVpAasykHj61QuANGqQpWHYqh+SVlDO2oSVwrX0Om0E03htlBWChEX93orGEODzkNm
-         Xzt5VqA13wfyTgK0RiVgLqW4EJi0eeczuCQu5TO9RqPtLHhj7qv6nLNBZ+c5Ryj9NoOr
-         Rw8AQs76t4k3SVV/93mdiUsP+8xf7Rez9BLL+/HlHsD5zoHSiIyGCcDgdiDXMoyUX/xc
-         WzLQ==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=26xwnj5Rc4PxUxWQ0D4wRedOgH4U0TnIyB5Pyr5ElXM=;
+        b=puS2aGCNbSMFjhnD38Y8XSMXeVjdv5GML2E0GBnEjRppvkzbEgR0Tro45eqcyQJrhu
+         BHBH1cfwa/nWE/fuxBIWrmlkMvXBdrAmQtxCdsNWDWC42WdDQ5HY1+LZc4jM4RVcL1pv
+         HS64ocU6jjBlRGziB8kzJUbU0zBPlsw1jHxSFFgiBCm+oImX1h8Vt5DxZXmF/DkbTxao
+         m4k2dFmai2Yf1o9nL8etwhFpEXaKr02wR8BXo9PW3WrfAWROklN6BUaPNno/S1EjQ1EI
+         i+ICSCKkbCB3/TuES4c0o4zrQHaa+G91qzCErZ0KzWl6O9OxQbx7BNMaUU+CsL9u5f0Z
+         B5jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=iQ1eB0lQj8SkXNyB5srr6shYN2kDPzMa8lkKri7+csI=;
-        b=13Ma+8Ees9TpkNt625fuategGONRhHPf4pgWIV5/gk8F5j9JLD90AmuWS5gL1HsjIJ
-         IvxfPMKlkO5Wb8cAN7a5PWdc4XOG2sKlFDEBFwfplZfsNq3XTJ3J9Oi6pxeVWyes+cLc
-         JYCtWUGy4a3ebqN+MtRA6FXV/mUy+yhuH+GUrDanD3dMHrA7GPhcgtFIQ2fihFj/Pk79
-         P2EkDUFXu3rLs86y89O0D1/d2JxKubIXY3sPJToEsT8Lg7GA7wKO/bxTR7BCeQP4RKzA
-         /y6Cc00PnjJnmasoAP4HsSKKLK89syncrQDnmu1KzdKEVVSm1+41HWECvI1hNIlmmVA3
-         ay6w==
-X-Gm-Message-State: AOAM533Q8LdQS1+PZQfH5SbYw1ms5m5HZUoQmzXZ6Sv7WB33gGOzr6ws
-        I00aPe7ghbBX9zINl8L5GOVLFWnd7ml/QAJT
-X-Google-Smtp-Source: ABdhPJyx1OQ875EX5g8oh9aiFftjoGww4sJP3Qy88+ob+VT/22o6T71/C9gusn6PuIRP5RyynmLAwQ==
-X-Received: by 2002:a63:4564:: with SMTP id u36mr14328625pgk.27.1639999563455;
-        Mon, 20 Dec 2021 03:26:03 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id g17sm16518341pgh.46.2021.12.20.03.26.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 03:26:03 -0800 (PST)
-Message-ID: <61c0684b.1c69fb81.d3f12.d658@mx.google.com>
-Date:   Mon, 20 Dec 2021 03:26:03 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=26xwnj5Rc4PxUxWQ0D4wRedOgH4U0TnIyB5Pyr5ElXM=;
+        b=cxWgMoCb49XwyEb94LAvYATbAk8hYvhtWaFAB9G3NE2DRcys2u/QLJGRHbed6D71Iv
+         v3dX6laaZ9rq/8GVuYkN/uYOrBfKM1bln6umMgIrkEcJ3rSpZP+lrYPVnWRLL7ZUT7IT
+         RK1W6w+uA4CABgjG2u+miV/cAndzGp8W7v6YWmOyz0Z3R5OM+Pi/DTJhFFsisj++nc/2
+         kbXGGRZp8tpXnwVdYD8vcaq8RJpz62g5N/wvQgmUGq7w/I/F6ErXEsFtFbVpBqYqwWWq
+         UQrDwh73qZEHQsgBhd/fnNRr0s9+O4fnnlovENB56v6UVbTdRXMgkOOKVx4QOT6HkYNm
+         diiA==
+X-Gm-Message-State: AOAM5319QDluMW2I0vLDXLvpeJQ0KkXa/JMwU+HL1EjGXIrD2r9L5Zkg
+        S9azo1KBCD9N/yUdX7/10JQ=
+X-Google-Smtp-Source: ABdhPJzvCk2woxK/Bccuz0lcve5nuC7UjZgBk2V0xbwweezLib7eEYvCugQEhe0cBGr2KRpO6gA+QA==
+X-Received: by 2002:a05:6512:ea2:: with SMTP id bi34mr15866909lfb.12.1640001215406;
+        Mon, 20 Dec 2021 03:53:35 -0800 (PST)
+Received: from [192.168.1.100] ([31.173.82.33])
+        by smtp.gmail.com with ESMTPSA id g26sm945488lfb.158.2021.12.20.03.53.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Dec 2021 03:53:34 -0800 (PST)
+Message-ID: <042a2183-3f04-088c-1861-656de870337d@gmail.com>
+Date:   Mon, 20 Dec 2021 14:53:27 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-12-20-v5.16-rc6
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master usb: 2 runs,
- 1 regressions (renesas-devel-2021-12-20-v5.16-rc6)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/3] i2c: sh_mobile: Use platform_get_irq_optional() to
+ get the interrupt
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+References: <20211218165258.16716-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211218165258.16716-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUg3=q7gyaVHP0XcYUOo3PQUUv8Hc8wp5faVQ+bTBpg4A@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+In-Reply-To: <CAMuHMdUg3=q7gyaVHP0XcYUOo3PQUUv8Hc8wp5faVQ+bTBpg4A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master usb: 2 runs, 1 regressions (renesas-devel-2021-12-20-v5.16-r=
-c6)
+On 20.12.2021 13:17, Geert Uytterhoeven wrote:
 
-Regressions Summary
--------------------
+[...]
+>> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+>> allocation of IRQ resources in DT core code, this causes an issue
+>> when using hierarchical interrupt domains using "interrupts" property
+>> in the node as this bypasses the hierarchical setup and messes up the
+>> irq chaining.
+> 
+> Thanks for your patch!
+> 
+>> In preparation for removal of static setup of IRQ resource from DT core
+>> code use platform_get_irq_optional() for DT users only.
+> 
+> Why only for DT users?
+> Plenty of driver code shared by Renesas ARM (DT-based) on SuperH
+> (non-DT) SoCs already uses platform_get_irq_optional(), so I expect
+> that to work for both.
+> 
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+>> --- a/drivers/i2c/busses/i2c-sh_mobile.c
+>> +++ b/drivers/i2c/busses/i2c-sh_mobile.c
+>> @@ -830,20 +830,41 @@ static void sh_mobile_i2c_release_dma(struct sh_mobile_i2c_data *pd)
+>>
+>>   static int sh_mobile_i2c_hook_irqs(struct platform_device *dev, struct sh_mobile_i2c_data *pd)
+>>   {
+>> -       struct resource *res;
+>> -       resource_size_t n;
+>> +       struct device_node *np = dev_of_node(&dev->dev);
+>>          int k = 0, ret;
+>>
+>> -       while ((res = platform_get_resource(dev, IORESOURCE_IRQ, k))) {
+>> -               for (n = res->start; n <= res->end; n++) {
+>> -                       ret = devm_request_irq(&dev->dev, n, sh_mobile_i2c_isr,
+>> -                                         0, dev_name(&dev->dev), pd);
+>> +       if (!np) {
+>> +               struct resource *res;
+>> +               resource_size_t n;
+>> +
+>> +               while ((res = platform_get_resource(dev, IORESOURCE_IRQ, k))) {
+>> +                       for (n = res->start; n <= res->end; n++) {
+>> +                               ret = devm_request_irq(&dev->dev, n, sh_mobile_i2c_isr,
+>> +                                                      0, dev_name(&dev->dev), pd);
+>> +                               if (ret) {
+>> +                                       dev_err(&dev->dev, "cannot request IRQ %pa\n", &n);
+>> +                                       return ret;
+>> +                               }
+>> +                       }
+>> +                       k++;
+>> +               }
+>> +       } else {
+>> +               int irq;
+>> +
+>> +               do {
+>> +                       irq = platform_get_irq_optional(dev, k);
+> 
+> Check for irq == -ENXIO first, to simplify the checks below?
+> 
+>> +                       if (irq <= 0 && irq != -ENXIO)
+>> +                               return irq ? irq : -ENXIO;
+> 
+> Can irq == 0 really happen?
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 1          =
+    Doesn't matter much in this case -- devm_request_irq() happily takes IRQ0. :-)
 
+> All SuperH users of the "i2c-sh_mobile" platform device use an
+> evt2irq() value that is non-zero.
+> 
+> I might have missed something, but it seems the only user of IRQ 0 on
+> SuperH is smsc911x Ethernet in arch/sh/boards/board-apsh4a3a.c and
+> arch/sh/boards/board-apsh4ad0a.c, which use evt2irq(0x200).
+> These should have been seeing the "0 is an invalid IRQ number"
+> warning splat since it was introduced in commit a85a6c86c25be2d2
+> ("driver core: platform: Clarify that IRQ 0 is invalid"). Or not:
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-12-20-v5.16-rc6/plan/usb/
+    Warning or no warning, 0 is still returned. :-/
+    My attempt to put an end to this has stuck waiting a review from the IRQ 
+people...
 
-  Test:     usb
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-12-20-v5.16-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      8398a361cd075d8ec3e1d68b246a67148a1486d1 =
+> the rare users may not have upgraded their kernels beyond v5.8 yet...
+> 
+>> +                       if (irq == -ENXIO)
+>> +                               break;
+>> +                       ret = devm_request_irq(&dev->dev, irq, sh_mobile_i2c_isr,
+>> +                                              0, dev_name(&dev->dev), pd);
+>>                          if (ret) {
+>> -                               dev_err(&dev->dev, "cannot request IRQ %pa\n", &n);
+>> +                               dev_err(&dev->dev, "cannot request IRQ %d\n", irq);
+>>                                  return ret;
+>>                          }
+>> -               }
+>> -               k++;
+>> +                       k++;
+>> +               } while (irq);
+>>          }
+>>
+>>          return k > 0 ? 0 : -ENOENT;
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
 
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c059eee19e3037be39712d
-
-  Results:     2 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-rock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig/gcc-10/lab-collabora/usb-rk3288-=
-rock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-211210.0/armhf/rootfs.cpio.gz =
-
-
-
-  * usb.compare-freeze: https://kernelci.org/test/case/id/61c059eee19e3037b=
-e39712f
-        new failure (last pass: renesas-devel-2021-12-17-v5.16-rc5)
-
-    2021-12-20T10:19:35.132338   001 Device 001: ID 1d6b:0002 Linux 5.16.0-=
-rc6 dwc2_hsotg DWC OT<8>[   14.220598] <LAVA_SIGNAL_TESTCASE TEST_CASE_ID=
-=3Dusb-presence RESULT=3Dpass>
-    2021-12-20T10:19:35.132854  G Controller Bus 003 Device 003: ID 0ea0:21=
-68 USB Flash Disk Bus 003 Device 002: ID 05e3:0608 USB2.0 Hub Bus 003 Devic=
-e 001: ID 1d6b:0002 Linux 5.16.0-rc6 ehci_hcd EHCI Host Controller\"
-    2021-12-20T10:19:35.133272  + lsusb
-    2021-12-20T10:19:35.133699  + awk {print $6}
-    2021-12-20T10:19:35.134108  + sort
-    2021-12-20T10:19:35.134486  + seq 1 3
-    2021-12-20T10:19:35.134859  + /usr/sbin/rtcwake -d rtc0 -m freeze -s 1
-    2021-12-20T10:19:35.135216  rtcwake: assuming RTC uses UTC ...
-    2021-12-20T10:19:35.135565  rtcwake: wakeup from \"freeze\" using rtc0 =
-at Mon Dec 20 10:19:37 2021
-    2021-12-20T10:19:35.182804  <6>[   14.268694] PM: suspend entry (s2idle=
-) =
-
-    ... (95 line(s) more)  =
-
- =20
