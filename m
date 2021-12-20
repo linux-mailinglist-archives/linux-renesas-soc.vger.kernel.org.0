@@ -2,200 +2,217 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F8D847AB16
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 15:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4084247AB2F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 15:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233495AbhLTOND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Dec 2021 09:13:03 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:33620 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbhLTOND (ORCPT
+        id S233593AbhLTOTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 09:19:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233605AbhLTOTR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Dec 2021 09:13:03 -0500
-Received: by mail-ua1-f48.google.com with SMTP id a14so17997274uak.0;
-        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
+        Mon, 20 Dec 2021 09:19:17 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02829C06173E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 06:19:17 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id c66so3272888wma.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 06:19:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sc+7jY7u7JL3gjoK1ONPiTQNSX0Y662aLa89J2Uhm6Q=;
+        b=GvOUtgsXbwOppDo6i/VTH9j6pgkj/GVh3MaAqceDl2RuErlaE4xIDrswa9hWC4L4VW
+         JQwWeZC5Zyq3r0NgTx81m42ml/LxAly2FS4wFq7EwzA7xQIUsiO49DbcNvp4oqIzWu1J
+         iScxmgw3qRri1rD1Mt9azhAcafL5hsdgLNS1s9cp8rPiNiVxWHWYYZAVFX6tD6mybkHL
+         tdsfOSx3VZfVvQakWy/TeWnuqCNl3qGposFCsvBCbthGTPWwg7iHZ6ODTnInbh5auj38
+         9X3O2RZhDXiwJxSNihYf4rry41bBF4zWSzNbwPe5XomCu0NcQmhZNfbaYHcNtRgyLguX
+         rH9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qI2m0RuJx2HJ9/PBBEh4eurnObxLQchHY+T7nx9ViKc=;
-        b=YtqSaOJWjKpdtqi1nbMl6JvU9MIBJjk4bb5oqYIaC+EJ9bZkZIVxi/hZGsoybu6hxr
-         ufkh29dIa3R2s/MX1IuRroBwH6/SPoft1FYhem4BixzlTtDxVukf2milF7mkavySMP0G
-         DjoRQDOqaNmCbTjyvoYzWZaCmPJfofRfeb9fan0OeCoNCfN0wZzXo7fJuDDoz19Ca83w
-         AxgT9H1WnPYXSi4v+Qba8+Dgun+eALnOqWKOoADL6tzZPSqaNDQJCFGKVwKL3ATlRA0T
-         nunFarF0R1yxksG5tN7bbZzsl5711R9AMih9F3NT9Xq88HieKUts8T32/BDD6fTcNdOh
-         HYHg==
-X-Gm-Message-State: AOAM531tfMK2//mrQ7xLtVTpZlnd6lJvYV8SQyxztRBq9poGSl41KKwP
-        +2DzJxBXVBP7aFGH4e3FikAC36j2vCwtlQ==
-X-Google-Smtp-Source: ABdhPJyRr92PJLwZzQ3nuH3AzmoyA4eQRjGR+og7zdX8nzSR1MOcetA1t5mTqROOImC583py0d4ruw==
-X-Received: by 2002:a67:f1d8:: with SMTP id v24mr5215933vsm.8.1640009582261;
-        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id k131sm2109132vka.30.2021.12.20.06.13.01
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sc+7jY7u7JL3gjoK1ONPiTQNSX0Y662aLa89J2Uhm6Q=;
+        b=kAvmRxe68+WzWVzexcOIqnNE0rraPS6c0vqqGjtuHIh/8blRlg1EsADdAGOwgAE7ne
+         XfnhImWetYc3mOuXQyEziaGIje/ZlpAyQVv8SsqMx+Vt7paa/E25l+558YhrU06SG2ti
+         BSt2lBBSI5lV+vDyj+wl0tBVCaFVcZtYdm4ZNZvY/CJD9MXe2lqwGWSLkQX48wrqP50f
+         DdpOmhQhJkvW3o5m1eWYS9wZLe3sz2CLVCoSTdS9I4hFpMxFkNwG2/50bp3Dhw89R90O
+         ATJLgNX2Ut19JGy7X/uFen69dqlb8vNiCnQrbFPi1/wSZ1HdEBjO+7G4cEKqtj3wYLa7
+         ZSmA==
+X-Gm-Message-State: AOAM532CzL8bKWmzdyA0mP/qDIMKJN1iIqINctPhr9t5X9d14LgKuSEF
+        Lo0cDX6UX+x8Javjgh7wtmWz4w==
+X-Google-Smtp-Source: ABdhPJy/8Z6x62OBpzx2JyHeAdaUAF/0h3nRSDXoHeSzSV1zfT+Pj6SrVxraZs8AbL0VO89RZcJxkg==
+X-Received: by 2002:a05:600c:a0e:: with SMTP id z14mr7100429wmp.43.1640009955498;
+        Mon, 20 Dec 2021 06:19:15 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:ac6:da31:b84c:183? ([2a01:e34:ed2f:f020:ac6:da31:b84c:183])
+        by smtp.googlemail.com with ESMTPSA id p13sm4039540wmq.19.2021.12.20.06.19.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id a14so17997157uak.0;
-        Mon, 20 Dec 2021 06:13:01 -0800 (PST)
-X-Received: by 2002:a9f:22ca:: with SMTP id 68mr4899782uan.78.1640009581604;
- Mon, 20 Dec 2021 06:13:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20211219132442.4080-1-wsa+renesas@sang-engineering.com> <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Dec 2021 15:12:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
-Message-ID: <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/1] gpio: add sloppy logic analyzer using polling
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Mon, 20 Dec 2021 06:19:15 -0800 (PST)
+Subject: Re: [PATCH] thermal: rcar_thermal: Use platform_get_irq_optional() to
+ get the interrupt
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+References: <20211218144136.6663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <5f8e2432-1214-3435-fb62-2f407ced0472@linaro.org>
+ <CAMuHMdXgRzM4+OjR0or0aTk-ogPcAYajaVALsLF6E=MxEzeRQg@mail.gmail.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <bdec1a89-ad1b-1e16-a248-029f7f02ae80@linaro.org>
+Date:   Mon, 20 Dec 2021 15:19:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdXgRzM4+OjR0or0aTk-ogPcAYajaVALsLF6E=MxEzeRQg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 20/12/2021 14:48, Geert Uytterhoeven wrote:
+> On Mon, Dec 20, 2021 at 1:29 PM Daniel Lezcano
+> <daniel.lezcano@linaro.org> wrote:
+>> On 18/12/2021 15:41, Lad Prabhakar wrote:
+>>> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+>>> allocation of IRQ resources in DT core code, this causes an issue
+>>> when using hierarchical interrupt domains using "interrupts" property
+>>> in the node as this bypasses the hierarchical setup and messes up the
+>>> irq chaining.
+>>>
+>>> In preparation for removal of static setup of IRQ resource from DT core
+>>> code use platform_get_irq_optional().
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> ---
+>>> Hi,
+>>>
+>>> Dropping usage of platform_get_resource() was agreed based on
+>>> the discussion [0].
+>>>
+>>> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
+>>> patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+>>>
+>>> Cheers,
+>>> Prabhakar
+>>> ---
+>>>  drivers/thermal/rcar_thermal.c | 15 +++++++++++----
+>>>  1 file changed, 11 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+>>> index b49f04daaf47..e4c7bc1bf7ef 100644
+>>> --- a/drivers/thermal/rcar_thermal.c
+>>> +++ b/drivers/thermal/rcar_thermal.c
+>>> @@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>>>       struct rcar_thermal_common *common;
+>>>       struct rcar_thermal_priv *priv;
+>>>       struct device *dev = &pdev->dev;
+>>> -     struct resource *res, *irq;
+>>> +     struct resource *res;
+>>>       const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
+>>>       int mres = 0;
+>>>       int i;
+>>> @@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>>>       pm_runtime_get_sync(dev);
+>>>
+>>>       for (i = 0; i < chip->nirqs; i++) {
+>>> -             irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+>>> -             if (!irq)
+>>> +             int irq;
+>>> +
+>>> +             irq = platform_get_irq_optional(pdev, i);
+>>> +             if (irq <= 0 && irq != -ENXIO) {
+>>> +                     ret = irq ? irq : -ENXIO;
+>>> +                     goto error_unregister;
+>>> +             }
+>>> +             if (irq == -ENXIO)
+>>>                       continue;
+>>
+>> Why not invert the conditions?
+>>
+>>                 if (irq == -ENXIO)
+>>                         continue;
+> 
+> And this can be break.
+> 
+>>
+>>                 if (irq <= 0) {
+>>                         ret = irq ? irq : -ENXIO;
+> 
+> irq == 0 cannot happen.
+> 
+>>                         goto out_unregister;
+>>                 }
 
-On Mon, Dec 20, 2021 at 10:07 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This is a sloppy logic analyzer using GPIOs. It comes with a script to
-> isolate a CPU for polling. While this is definitely not a production
-> level analyzer, it can be a helpful first view when remote debugging.
-> Read the documentation for details.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Sorry, I don't get the two comments. May be I missed something but it
+seems for me the results are the same with the inverted conditions or not.
 
-Thanks for your patch!
+if (irq <= 0 && irq != -ENXIO)
+	goto out;
 
-> --- /dev/null
-> +++ b/tools/gpio/gpio-sloppy-logic-analyzer
-> @@ -0,0 +1,221 @@
-> +#!/bin/sh -eu
-> +# Helper script for the Linux Kernel GPIO sloppy logic analyzer
-> +#
-> +# Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
-> +# Copyright (C) Renesas Electronics Corporation
-> +#
-> +# TODO: support SI units in command line parameters?
-> +
-> +samplefreq=1000000
-> +numsamples=250000
-> +cpusetdir='/dev/cpuset'
-> +debugdir='/sys/kernel/debug'
-> +ladirname='gpio-sloppy-logic-analyzer'
-> +outputdir="$PWD"
-> +neededcmds='taskset zip'
-> +max_chans=8
-> +duration=
-> +initcpu=
-> +lainstance=
-> +lasysfsdir=
-> +triggerdat=
-> +trigger_bindat=
-> +progname="${0##*/}"
-> +print_help()
-> +{
-> +       cat << EOF
-> +$progname - helper script for the Linux Kernel Sloppy GPIO Logic Analyzer
-> +Available options:
-> +       -c|--cpu <n>: which CPU to isolate for sampling. Only needed once. Default <1>.
-> +                     Remember that a more powerful CPU gives you higher sampling speeds.
-> +                     Also CPU0 is not recommended as it usually does extra bookkeeping.
-> +       -d|--duration-us <n>: number of microseconds to sample. Overrides -n, no default value.
-> +       -h|--help: print this help
-> +       -i|--instance <str>: name of the logic analyzer in case you have multiple instances. Default
-> +                            to first instance found
-> +       -k|--kernel-debug-dir: path to the kernel debugfs mountpoint. Default: <$debugdir>
-> +       -n|--num_samples <n>: number of samples to acquire. Default <$numsamples>
-> +       -o|--output-dir <str>: directory to put the result files. Default: current dir
-> +       -s|--sample_freq <n>: desired sampling frequency. Might be capped if too large. Default: 1MHz.
-> +       -t|--trigger <str>: pattern to use as trigger. <str> consists of two-char pairs. First
-> +                           char is channel number starting at "1". Second char is trigger level:
-> +                           "L" - low; "H" - high; "R" - rising; "F" - falling
-> +                           These pairs can be combined with "+", so "1H+2F" triggers when probe 1
-> +                           is high while probe 2 has a falling edge. You can have multiple triggers
-> +                           combined with ",". So, "1H+2F,1H+2R" is like the example before but it
-> +                           waits for a rising edge on probe 2 while probe 1 is still high after the
-> +                           first trigger has been met.
-> +                           Trigger data will only be used for the next capture and then be erased.
-> +Examples:
-> +Samples $numsamples values at 1MHz with an already prepared CPU or automatically prepares CPU1 if needed,
-> +use the first logic analyzer instance found:
-> +       '$progname'
-> +Samples 50us at 2MHz waiting for a falling edge on channel 2. CPU and instance as above:
-> +       '$progname -d 50 -s 2000000 -t "2F"'
-> +
-> +Note that the process exits after checking all parameters but a sub-process still works in
-> +the background. The result is only available once the sub-process finishes.
-> +
-> +Result is a .sr file to be consumed with PulseView from the free Sigrok project. It is
-> +a zip file which also contains the binary sample data which may be consumed by others.
-> +The filename is the logic analyzer instance name plus a since-epoch timestamp.
-> +EOF
-> +}
-> +
-> +fail()
-> +{
-> +       echo "$1"
-> +       exit 1
-> +}
-> +
-> +set_newmask()
-> +{
-> +       for f in $(find "$1" -iname "$2"); do echo "$newmask" > "$f" 2>/dev/null || true; done
-> +}
-> +
-> +init_cpu()
-> +{
-> +       isol_cpu="$1"
-> +       [ -d $cpusetdir ] || mkdir $cpusetdir
-> +       mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
+if (irq == -ENXIO)
+	continue;
 
-This needs CONFIG_CPUSETS=y, so you may want to document that.
+Can be changed to:
 
-> +       [ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
-> +
-> +       cur_cpu="$(cat "$lacpusetdir"/cpus)"
+if (irq != -ENXIO)
+	if (irq <= 0)
+		goto out;
 
-cat: /dev/cpuset/gpio-sloppy-logic-analyzer/cpus: No such file or directory
+if (irq == -ENXIO)
+	continue;
 
-I do have a "cpuset.cpus" file.
+Can be changed to:
 
-> +       [ "$cur_cpu" = "$isol_cpu" ] && return
-> +       [ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
-> +
-> +       echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$isol_cpu. Does it exist?"
-> +       echo 1 > "$lacpusetdir"/cpu_exclusive
-> +       echo 0 > "$lacpusetdir"/mems
 
-No complaint, although the real files have a "cpuset."-prefix again.
+if (irq == -ENXIO)
+	continue;
 
-[...]
+if (irq != -ENXIO)
+	if (irq <= 0)
+		goto out;
 
-> +workcpu=$(cat "$lacpusetdir"/effective_cpus)
+The second condition is always true because the first condition is the
+opposite of the second condition, if the second condition block is
+reached, that means irq != -ENXIO, so we can remove the second condition
+and that results into:
 
-cat: /dev/cpuset/gpio-sloppy-logic-analyzer/effective_cpus: No such
-file or directory
+if (irq == -ENXIO)
+	continue;
 
-I do have a "cpuset.effective_cpus" file.
+if (irq <= 0)
+	goto out;
 
-> +[ -n "$workcpu" ] || fail "No isolated CPU found"
-> +cpumask=$(printf '%x' $((1 << workcpu)))
-> +instance=${lasysfsdir##*/}
-> +echo "Setting up '$instance': $numsamples samples at ${samplefreq}Hz with ${triggerdat:-no} trigger using CPU$workcpu"
-> +do_capture "$cpumask" &
 
-Anyone with a clue? Thanks!
+Did I miss your point ?
 
-Gr{oetje,eeting}s,
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
