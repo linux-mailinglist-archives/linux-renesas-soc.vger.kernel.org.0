@@ -2,247 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7C747B021
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 16:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F77147B06A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 16:37:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237518AbhLTPZx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Dec 2021 10:25:53 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55532 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237174AbhLTPZO (ORCPT
+        id S236633AbhLTPhc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 10:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236477AbhLTPhb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Dec 2021 10:25:14 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4BF8B9C;
-        Mon, 20 Dec 2021 16:25:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640013912;
-        bh=Y+J9G6qOPHI+Xmgx1ca4rCM8oO7TIic6/MDeOCc6XQc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HOH8HUe8NLwQ0zENFx/X0dBbCxUTbQjXybDHLh1SVdlKdvFE4IBjkegRQNfTpiEqb
-         jkEhWj8k5ozwshtK10a1JuNBdkdQGbaWXSZsbFRYzvNG1M5K/yeK2lErtmhOro7FEF
-         JJiB8BKZydS5IcNQ7qRIjpH65gOSUO0AUFm42njo=
-Date:   Mon, 20 Dec 2021 17:25:10 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Thomas Nizan <tomniz035@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH 2/3] media: i2c: max9286: Add support for port regulators
-Message-ID: <YcCgVvppKkSwRHuu@pendragon.ideasonboard.com>
-References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
- <20211216220946.20771-3-laurent.pinchart+renesas@ideasonboard.com>
- <351eddd4-fc73-420e-0817-7282e413c126@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <351eddd4-fc73-420e-0817-7282e413c126@gmail.com>
+        Mon, 20 Dec 2021 10:37:31 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCD2C061574
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 07:37:31 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id bm14so27080352edb.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 07:37:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:content-transfer-encoding:date:message-id:subject:from
+         :to:cc:references:in-reply-to;
+        bh=Hu5iDisR7EDNko6/1UheOiwFNf5HuOYdbuiMvDAkPr8=;
+        b=awS6r+yj1kX54JiC6uQ4UGUPUuKxDqlZGh8Wvb6mS4CUHItoYJL47NOjzIoHWwwKqa
+         hOCRtj56AFhAm/Psev43HKVOavvv70ux9Hjc4anUbwhzGNeqcBiM78ZCJ0dKjpy2dmBG
+         I4c+CeddSLfYPEtlXdwZGMYgOz8QsR9ZAMmS/bw43B3Cf5qQ0qRKlVtWkf5eb0i0E9HO
+         7djFJBWjqzjtiYejt4CbszOwvkF9mlG8BzxrO3z01UUkxErKCKaVJEHNpd+5gJV578SW
+         JTCziv/PKb+5MhzVKII/IWr0uB3fmx0D2VXeKmPkPM5iKg9OYk+1+J2gSK32dKtTsf3z
+         WXhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:subject:from:to:cc:references:in-reply-to;
+        bh=Hu5iDisR7EDNko6/1UheOiwFNf5HuOYdbuiMvDAkPr8=;
+        b=ZhWENGQWU5F9cUisa6skDTQaRsO2LAoCXph0uG1ZR2zponil1ZC06JVjsUsgjbJiv/
+         dX4XmAHZhbyKjR799jyWRiACt9KklYAWxGqPRBGH+PoR59sDakNAuINwqm+fcK/1kc0E
+         +f4HOI8b93QPnREiH7Xut1pGqmenlxZR6lwIc6euH21WYsZwyQ+iqEKajSBTSg+NEMs1
+         6M+0rh/fad3FG9pYXw/36mpmcLWhIiutiG9BEQJ75eWRjXP6xqnAkfRcz3t0QIf7w8pp
+         iSAtfQaDRiz0q9toPi4rARiBo0vY4hzpQvQLcOgzzL9ejSZ7y/bkOXI2r9RSg66ESoLZ
+         jnHw==
+X-Gm-Message-State: AOAM533xKg4E9psQl61VFLP676nCo8vddsQpe01PEBxMVhF7BWwDgCzQ
+        kkwVbPTUkhvIEVG660/ELIrucA==
+X-Google-Smtp-Source: ABdhPJxk2P6RffxSmBWcsYri0yKYsj0/TdqH1vYXh0e1KLw0oC1SCQPXZO3W8zNYh9OK26O6K9VlsQ==
+X-Received: by 2002:a05:6402:348b:: with SMTP id v11mr16220893edc.276.1640014649832;
+        Mon, 20 Dec 2021 07:37:29 -0800 (PST)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id r17sm3489883edd.53.2021.12.20.07.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Dec 2021 07:37:29 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 20 Dec 2021 15:37:28 +0000
+Message-Id: <CGK8O8M50JX6.3E0WU3HUN6K5W@arch-thunder>
+Subject: Re: [PATCH 4/6] usb: isp1760: Use platform_get_irq() to get the
+ interrupt
+From:   "Rui Miguel Silva" <rui.silva@linaro.org>
+To:     "Lad Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, "Peter Chen" <peter.chen@kernel.org>,
+        "Pawel Laszczak" <pawell@cadence.com>,
+        "Roger Quadros" <rogerq@kernel.org>,
+        "Aswath Govindraju" <a-govindraju@ti.com>,
+        "Felipe Balbi" <balbi@kernel.org>, "Bin Liu" <b-liu@ti.com>
+Cc:     <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Prabhakar" <prabhakar.csengg@gmail.com>
+References: <20211220010411.12075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211220010411.12075-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211220010411.12075-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+Hi Lad,
+Thanks for the patch.
 
-On Mon, Dec 20, 2021 at 04:06:26PM +0100, Thomas Nizan wrote:
-> On 2021-12-16 11:09 p.m., Laurent Pinchart wrote:
-> > From: Thomas Nizan <tnizan@witekio.com>
-> > 
-> > Allow users to use one PoC regulator per port, instead of a global
-> > regulator.
-> > 
-> > The properties '^port[0-3]-poc-supply$' in the DT node are used to
-> > indicate the regulators for individual ports.
+On Mon Dec 20, 2021 at 1:04 AM WET, Lad Prabhakar wrote:
+
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
 >
-> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq(). Also use irq_get_trigger_type to get the
+> IRQ trigger flags.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you.
+LGTM.
+Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/max9286.c | 112 +++++++++++++++++++++++++++++++-----
-> >  1 file changed, 98 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 7c663fd587bb..fa2f6a823fe6 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -136,8 +136,10 @@
-> >  #define MAX9286_SRC_PAD			4
-> >  
-> >  struct max9286_source {
-> > +	unsigned int index;
-> >  	struct v4l2_subdev *sd;
-> >  	struct fwnode_handle *fwnode;
-> > +	struct regulator *regulator;
-> >  };
-> >  
-> >  struct max9286_asd {
-> > @@ -1072,6 +1074,49 @@ static int max9286_register_gpio(struct max9286_priv *priv)
-> >  	return ret;
-> >  }
-> >  
-> > +static int max9286_poc_power_on(struct max9286_priv *priv)
-> > +{
-> > +	struct max9286_source *source;
-> > +	unsigned int enabled = 0;
-> > +	int ret;
-> > +
-> > +	/* Enable the global regulator if available. */
-> > +	if (priv->regulator)
-> > +		return regulator_enable(priv->regulator);
-> > +
-> > +	/* Otherwise use the per-port regulators. */
-> > +	for_each_source(priv, source) {
-> > +		ret = regulator_enable(source->regulator);
-> > +		if (ret < 0)
-> > +			goto error;
-> > +
-> > +		enabled |= BIT(source->index);
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	for_each_source(priv, source) {
-> > +		if (enabled & BIT(source->index))
-> > +			regulator_disable(source->regulator);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void max9286_poc_power_off(struct max9286_priv *priv)
-> > +{
-> > +	struct max9286_source *source;
-> > +
-> > +	if (priv->regulator) {
-> > +		regulator_disable(priv->regulator);
-> > +		return;
-> > +	}
-> > +
-> > +	for_each_source(priv, source)
-> > +		regulator_disable(source->regulator);
-> > +}
-> > +
-> >  static int max9286_init(struct device *dev)
-> >  {
-> >  	struct max9286_priv *priv;
-> > @@ -1082,9 +1127,9 @@ static int max9286_init(struct device *dev)
-> >  	priv = i2c_get_clientdata(client);
-> >  
-> >  	/* Enable the bus power. */
-> > -	ret = regulator_enable(priv->regulator);
-> > +	ret = max9286_poc_power_on(priv);
-> >  	if (ret < 0) {
-> > -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> > +		dev_err(dev, "Unable to turn PoC on\n");
-> >  		return ret;
-> >  	}
-> >  
-> > @@ -1118,7 +1163,7 @@ static int max9286_init(struct device *dev)
-> >  err_v4l2_register:
-> >  	max9286_v4l2_unregister(priv);
-> >  err_regulator:
-> > -	regulator_disable(priv->regulator);
-> > +	max9286_poc_power_off(priv);
-> >  
-> >  	return ret;
-> >  }
-> > @@ -1215,6 +1260,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  		}
-> >  
-> >  		source = &priv->sources[ep.port];
-> > +		source->index = ep.port;
-> >  		source->fwnode = fwnode_graph_get_remote_endpoint(
-> >  						of_fwnode_handle(node));
-> >  		if (!source->fwnode) {
-> > @@ -1249,6 +1295,50 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  	return 0;
-> >  }
-> >  
-> > +static int max9286_get_poc_supplies(struct max9286_priv *priv)
-> > +{
-> > +	struct device *dev = &priv->client->dev;
-> > +	struct max9286_source *source;
-> > +
-> > +	/*
-> > +	 * Start by getting the global regulator. Usage of the exclusive API is
-> > +	 * required to receive an error in case the supply isn't specified in
-> > +	 * the device tree.
-> > +	 */
-> > +	priv->regulator = devm_regulator_get_exclusive(dev, "poc");
-> > +	if (!IS_ERR(priv->regulator))
-> > +		return 0;
-> > +
-> > +	if (PTR_ERR(priv->regulator) != -ENODEV) {
-> > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
-> > +				PTR_ERR(priv->regulator));
-> > +		return PTR_ERR(priv->regulator);
-> > +	}
-> > +
-> > +	/* If there's no global regulator, get per-port regulators. */
-> > +	dev_dbg(dev,
-> > +		"No global PoC regulator, looking for per-port regulators\n");
-> > +	priv->regulator = NULL;
-> > +
-> > +	for_each_source(priv, source) {
-> > +		char name[10];
-> > +
-> > +		snprintf(name, sizeof(name), "port%u-poc", source->index);
-> > +		source->regulator = devm_regulator_get_exclusive(dev, name);
-> > +		if (IS_ERR(source->regulator)) {
-> > +			if (PTR_ERR(source->regulator) != -EPROBE_DEFER)
-> > +				dev_err(dev,
-> > +					"Unable to get port %u PoC regulator: %ld\n",
-> > +					source->index,
-> > +					PTR_ERR(source->regulator));
-> > +			return PTR_ERR(source->regulator);
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int max9286_probe(struct i2c_client *client)
-> >  {
-> >  	struct max9286_priv *priv;
-> > @@ -1293,17 +1383,11 @@ static int max9286_probe(struct i2c_client *client)
-> >  	if (ret)
-> >  		goto err_powerdown;
-> >  
-> > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> > -	if (IS_ERR(priv->regulator)) {
-> > -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > -			dev_err(&client->dev,
-> > -				"Unable to get PoC regulator (%ld)\n",
-> > -				PTR_ERR(priv->regulator));
-> > -		ret = PTR_ERR(priv->regulator);
-> > -		goto err_powerdown;
-> > -	}
-> > -
-> >  	ret = max9286_parse_dt(priv);
-> > +	if (ret)
-> > +		goto err_cleanup_dt;
-> > +
-> > +	ret = max9286_get_poc_supplies(priv);
-> >  	if (ret)
-> >  		goto err_powerdown;
-> >  
-> > @@ -1329,7 +1413,7 @@ static int max9286_remove(struct i2c_client *client)
-> >  
-> >  	max9286_v4l2_unregister(priv);
-> >  
-> > -	regulator_disable(priv->regulator);
-> > +	max9286_poc_power_off(priv);
-> >  
-> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> >  
+------
+Cheers,
+     Rui
 
--- 
-Regards,
+> ---
+>  drivers/usb/isp1760/isp1760-if.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/usb/isp1760/isp1760-if.c b/drivers/usb/isp1760/isp17=
+60-if.c
+> index 7cc349c0b2ad..65ba5aca2a4f 100644
+> --- a/drivers/usb/isp1760/isp1760-if.c
+> +++ b/drivers/usb/isp1760/isp1760-if.c
+> @@ -13,6 +13,7 @@
+> =20
+>  #include <linux/usb.h>
+>  #include <linux/io.h>
+> +#include <linux/irq.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> @@ -191,17 +192,15 @@ static int isp1760_plat_probe(struct platform_devic=
+e *pdev)
+>  	unsigned long irqflags;
+>  	unsigned int devflags =3D 0;
+>  	struct resource *mem_res;
+> -	struct resource *irq_res;
+> +	int irq;
+>  	int ret;
+> =20
+>  	mem_res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> =20
+> -	irq_res =3D platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+> -	if (!irq_res) {
+> -		pr_warn("isp1760: IRQ resource not available\n");
+> -		return -ENODEV;
+> -	}
+> -	irqflags =3D irq_res->flags & IRQF_TRIGGER_MASK;
+> +	irq =3D platform_get_irq(pdev, 0);
+> +	if (irq < 0)
+> +		return irq;
+> +	irqflags =3D irq_get_trigger_type(irq);
+> =20
+>  	if (IS_ENABLED(CONFIG_OF) && pdev->dev.of_node) {
+>  		struct device_node *dp =3D pdev->dev.of_node;
+> @@ -239,8 +238,7 @@ static int isp1760_plat_probe(struct platform_device =
+*pdev)
+>  		return -ENXIO;
+>  	}
+> =20
+> -	ret =3D isp1760_register(mem_res, irq_res->start, irqflags, &pdev->dev,
+> -			       devflags);
+> +	ret =3D isp1760_register(mem_res, irq, irqflags, &pdev->dev, devflags);
+>  	if (ret < 0)
+>  		return ret;
+> =20
+> --=20
+> 2.17.1
 
-Laurent Pinchart
+
+
