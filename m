@@ -2,311 +2,200 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8205C47AAB6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 14:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F8D847AB16
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 15:13:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbhLTN4F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Dec 2021 08:56:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229979AbhLTN4E (ORCPT
+        id S233495AbhLTOND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 09:13:03 -0500
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:33620 "EHLO
+        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230064AbhLTOND (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Dec 2021 08:56:04 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E66C061574
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 05:56:04 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id y9so9469242pgj.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 05:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=vl1K34C6CZ172eelDxUFvglsb+b8rGoaCQYPsTetOlw=;
-        b=AH+1naXAHH+s5wjGZPBfQ+hvX12l1SLmpBIj2Lx2CJ6yu0aSqsAvcdKDeYk+QIBw61
-         77mjCEXHyqJ6L7Tzc2dPT/V1XulJpLaPvNJFs3SHf+ctR/zRZaZNZ24XbhmHcC+hJE2R
-         aBT2MbkiZEDfdJFpSN9kDefrHZQ9O5uf98pzgf1cPcXaEaIN0A2TCuYCU8SlFTza9Oal
-         2/PSKSszzP99qbEPYDUX+LHqN9QGi2kjY9dtEtEn0+dnnnHM3Vof/YHHakY4tB07bMv8
-         4YYRMIiFs6CwY0AIbIOpCUUAQ1VdNdam6xeJ1ND+ixiW8mEVaGkcZtpPeA71/JL8KU8p
-         YiqA==
+        Mon, 20 Dec 2021 09:13:03 -0500
+Received: by mail-ua1-f48.google.com with SMTP id a14so17997274uak.0;
+        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=vl1K34C6CZ172eelDxUFvglsb+b8rGoaCQYPsTetOlw=;
-        b=QWWwIeE77FWRvGAiZTmLqvwMfz3SXeREUIebkUgk9ksQxBx25lV2/banFLHR2oc4SC
-         OxCtxQcx4jH/6sr4sFz6UIXqNSonCIz11t1mOd8RYJjZaqaWE6SB/zkbkApxF8xR5pEf
-         LTIzr3DrBWqECn+M49xbRrMcKkyijF6XVfhj8w2swD3x3OgzN9MLO4EjFOMkm6t8OAXs
-         q2zI+GgKkL9RNY+PlwLKN+gs+svYSzcAMq/7Mf0MIVBVUhflneB13VPT113Hj5WVWJVO
-         mkNM321eJv/SF2/xzklKGwNhHYaA0FP9SJg2xkvPkB/j52SZ23Y8PzC2rUrrTZPnt99k
-         pqOQ==
-X-Gm-Message-State: AOAM533NxfhZ4XU5nYUHpzKMWtDUvxsLG5STxgcM+DhOPso/cO2D/biE
-        173vkb+GLVNHqQT0p58wfwP8V/kSYtUdjleQ
-X-Google-Smtp-Source: ABdhPJxhhu4VrEoLBkRQIPg6c51YVVXSI2L/vnt4D/1tWq4QpSUYaqDvESlU2zmWtvAlWmrKWeHoaw==
-X-Received: by 2002:a63:114:: with SMTP id 20mr11245324pgb.342.1640008563942;
-        Mon, 20 Dec 2021 05:56:03 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id t3sm18928394pfj.207.2021.12.20.05.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 05:56:03 -0800 (PST)
-Message-ID: <61c08b73.1c69fb81.1d7bd.401b@mx.google.com>
-Date:   Mon, 20 Dec 2021 05:56:03 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qI2m0RuJx2HJ9/PBBEh4eurnObxLQchHY+T7nx9ViKc=;
+        b=YtqSaOJWjKpdtqi1nbMl6JvU9MIBJjk4bb5oqYIaC+EJ9bZkZIVxi/hZGsoybu6hxr
+         ufkh29dIa3R2s/MX1IuRroBwH6/SPoft1FYhem4BixzlTtDxVukf2milF7mkavySMP0G
+         DjoRQDOqaNmCbTjyvoYzWZaCmPJfofRfeb9fan0OeCoNCfN0wZzXo7fJuDDoz19Ca83w
+         AxgT9H1WnPYXSi4v+Qba8+Dgun+eALnOqWKOoADL6tzZPSqaNDQJCFGKVwKL3ATlRA0T
+         nunFarF0R1yxksG5tN7bbZzsl5711R9AMih9F3NT9Xq88HieKUts8T32/BDD6fTcNdOh
+         HYHg==
+X-Gm-Message-State: AOAM531tfMK2//mrQ7xLtVTpZlnd6lJvYV8SQyxztRBq9poGSl41KKwP
+        +2DzJxBXVBP7aFGH4e3FikAC36j2vCwtlQ==
+X-Google-Smtp-Source: ABdhPJyRr92PJLwZzQ3nuH3AzmoyA4eQRjGR+og7zdX8nzSR1MOcetA1t5mTqROOImC583py0d4ruw==
+X-Received: by 2002:a67:f1d8:: with SMTP id v24mr5215933vsm.8.1640009582261;
+        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id k131sm2109132vka.30.2021.12.20.06.13.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Dec 2021 06:13:02 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a14so17997157uak.0;
+        Mon, 20 Dec 2021 06:13:01 -0800 (PST)
+X-Received: by 2002:a9f:22ca:: with SMTP id 68mr4899782uan.78.1640009581604;
+ Mon, 20 Dec 2021 06:13:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2021-12-20-v5.16-rc6
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline: 383 runs,
- 6 regressions (renesas-devel-2021-12-20-v5.16-rc6)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20211219132442.4080-1-wsa+renesas@sang-engineering.com> <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Dec 2021 15:12:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
+Message-ID: <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/1] gpio: add sloppy logic analyzer using polling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 383 runs, 6 regressions (renesas-devel-2021-12-20-=
-v5.16-rc6)
+Hi Wolfram,
+
+On Mon, Dec 20, 2021 at 10:07 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> isolate a CPU for polling. While this is definitely not a production
+> level analyzer, it can be a helpful first view when remote debugging.
+> Read the documentation for details.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/tools/gpio/gpio-sloppy-logic-analyzer
+> @@ -0,0 +1,221 @@
+> +#!/bin/sh -eu
+> +# Helper script for the Linux Kernel GPIO sloppy logic analyzer
+> +#
+> +# Copyright (C) Wolfram Sang <wsa@sang-engineering.com>
+> +# Copyright (C) Renesas Electronics Corporation
+> +#
+> +# TODO: support SI units in command line parameters?
+> +
+> +samplefreq=1000000
+> +numsamples=250000
+> +cpusetdir='/dev/cpuset'
+> +debugdir='/sys/kernel/debug'
+> +ladirname='gpio-sloppy-logic-analyzer'
+> +outputdir="$PWD"
+> +neededcmds='taskset zip'
+> +max_chans=8
+> +duration=
+> +initcpu=
+> +lainstance=
+> +lasysfsdir=
+> +triggerdat=
+> +trigger_bindat=
+> +progname="${0##*/}"
+> +print_help()
+> +{
+> +       cat << EOF
+> +$progname - helper script for the Linux Kernel Sloppy GPIO Logic Analyzer
+> +Available options:
+> +       -c|--cpu <n>: which CPU to isolate for sampling. Only needed once. Default <1>.
+> +                     Remember that a more powerful CPU gives you higher sampling speeds.
+> +                     Also CPU0 is not recommended as it usually does extra bookkeeping.
+> +       -d|--duration-us <n>: number of microseconds to sample. Overrides -n, no default value.
+> +       -h|--help: print this help
+> +       -i|--instance <str>: name of the logic analyzer in case you have multiple instances. Default
+> +                            to first instance found
+> +       -k|--kernel-debug-dir: path to the kernel debugfs mountpoint. Default: <$debugdir>
+> +       -n|--num_samples <n>: number of samples to acquire. Default <$numsamples>
+> +       -o|--output-dir <str>: directory to put the result files. Default: current dir
+> +       -s|--sample_freq <n>: desired sampling frequency. Might be capped if too large. Default: 1MHz.
+> +       -t|--trigger <str>: pattern to use as trigger. <str> consists of two-char pairs. First
+> +                           char is channel number starting at "1". Second char is trigger level:
+> +                           "L" - low; "H" - high; "R" - rising; "F" - falling
+> +                           These pairs can be combined with "+", so "1H+2F" triggers when probe 1
+> +                           is high while probe 2 has a falling edge. You can have multiple triggers
+> +                           combined with ",". So, "1H+2F,1H+2R" is like the example before but it
+> +                           waits for a rising edge on probe 2 while probe 1 is still high after the
+> +                           first trigger has been met.
+> +                           Trigger data will only be used for the next capture and then be erased.
+> +Examples:
+> +Samples $numsamples values at 1MHz with an already prepared CPU or automatically prepares CPU1 if needed,
+> +use the first logic analyzer instance found:
+> +       '$progname'
+> +Samples 50us at 2MHz waiting for a falling edge on channel 2. CPU and instance as above:
+> +       '$progname -d 50 -s 2000000 -t "2F"'
+> +
+> +Note that the process exits after checking all parameters but a sub-process still works in
+> +the background. The result is only available once the sub-process finishes.
+> +
+> +Result is a .sr file to be consumed with PulseView from the free Sigrok project. It is
+> +a zip file which also contains the binary sample data which may be consumed by others.
+> +The filename is the logic analyzer instance name plus a since-epoch timestamp.
+> +EOF
+> +}
+> +
+> +fail()
+> +{
+> +       echo "$1"
+> +       exit 1
+> +}
+> +
+> +set_newmask()
+> +{
+> +       for f in $(find "$1" -iname "$2"); do echo "$newmask" > "$f" 2>/dev/null || true; done
+> +}
+> +
+> +init_cpu()
+> +{
+> +       isol_cpu="$1"
+> +       [ -d $cpusetdir ] || mkdir $cpusetdir
+> +       mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
+
+This needs CONFIG_CPUSETS=y, so you may want to document that.
+
+> +       [ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
+> +
+> +       cur_cpu="$(cat "$lacpusetdir"/cpus)"
 
-Regressions Summary
--------------------
+cat: /dev/cpuset/gpio-sloppy-logic-analyzer/cpus: No such file or directory
 
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...MB2_KERNEL=3Dy | 1          =
+I do have a "cpuset.cpus" file.
 
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-nfig             | 1          =
+> +       [ "$cur_cpu" = "$isol_cpu" ] && return
+> +       [ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
+> +
+> +       echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$isol_cpu. Does it exist?"
+> +       echo 1 > "$lacpusetdir"/cpu_exclusive
+> +       echo 0 > "$lacpusetdir"/mems
 
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-n...86_kvm_guest | 1          =
+No complaint, although the real files have a "cpuset."-prefix again.
 
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-n...ebook+amdgpu | 1          =
+[...]
 
-r8a77950-salvator-x      | arm64  | lab-baylibre  | gcc-10   | defconfig   =
-                 | 1          =
+> +workcpu=$(cat "$lacpusetdir"/effective_cpus)
 
-rk3288-veyron-jaq        | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...CONFIG_SMP=3Dn | 1          =
+cat: /dev/cpuset/gpio-sloppy-logic-analyzer/effective_cpus: No such
+file or directory
 
+I do have a "cpuset.effective_cpus" file.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2021-12-20-v5.16-rc6/plan/baseline/
+> +[ -n "$workcpu" ] || fail "No isolated CPU found"
+> +cpumask=$(printf '%x' $((1 << workcpu)))
+> +instance=${lasysfsdir##*/}
+> +echo "Setting up '$instance': $numsamples samples at ${samplefreq}Hz with ${triggerdat:-no} trigger using CPU$workcpu"
+> +do_capture "$cpumask" &
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2021-12-20-v5.16-rc6
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      8398a361cd075d8ec3e1d68b246a67148a1486d1 =
+Anyone with a clue? Thanks!
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Test Regressions
----------------- =
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-bcm2836-rpi-2-b          | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...MB2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c054cdc1b68664ba39714d
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61c054cdc1b68664ba397=
-14e
-        failing since 34 days (last pass: renesas-devel-2021-11-02-v5.15, f=
-irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-nfig             | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c0520eab491cedc03971c5
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig/gcc-10/lab-collabora/baseline-m=
-innowboard-turbot-E3826.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig/gcc-10/lab-collabora/baseline-m=
-innowboard-turbot-E3826.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/x86/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61c0520eab491cedc0397=
-1c6
-        new failure (last pass: renesas-devel-2021-12-16-v5.16-rc5) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-n...86_kvm_guest | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c054b6217f7a5989397148
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86_kvm_guest
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig+x86_kvm_guest/gcc-10/lab-collab=
-ora/baseline-minnowboard-turbot-E3826.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig+x86_kvm_guest/gcc-10/lab-collab=
-ora/baseline-minnowboard-turbot-E3826.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/x86/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61c054b6217f7a5989397=
-149
-        new failure (last pass: renesas-devel-2021-12-17-v5.16-rc5) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-minnowboard-turbot-E3826 | x86_64 | lab-collabora | gcc-10   | x86_64_defco=
-n...ebook+amdgpu | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c056640cad28d433397122
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-chromebook+amdgpu
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/la=
-b-collabora/baseline-minnowboard-turbot-E3826.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/x86_64/x86_64_defconfig+x86-chromebook+amdgpu/gcc-10/la=
-b-collabora/baseline-minnowboard-turbot-E3826.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/x86/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61c056640cad28d433397=
-123
-        failing since 3 days (last pass: renesas-devel-2021-12-14-v5.16-rc5=
-, first fail: renesas-devel-2021-12-16-v5.16-rc5) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-r8a77950-salvator-x      | arm64  | lab-baylibre  | gcc-10   | defconfig   =
-                 | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c05be7ca53f77c49397120
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61c05be7ca53f77c49397=
-121
-        new failure (last pass: renesas-devel-2021-12-17-v5.16-rc5) =
-
- =
-
-
-
-platform                 | arch   | lab           | compiler | defconfig   =
-                 | regressions
--------------------------+--------+---------------+----------+-------------=
------------------+------------
-rk3288-veyron-jaq        | arm    | lab-collabora | gcc-10   | multi_v7_def=
-c...CONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61c0799a2e1452d288397124
-
-  Results:     69 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-collab=
-ora/baseline-rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-021-12-20-v5.16-rc6/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-10/lab-collab=
-ora/baseline-rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.cros-ec-keyb-probed: https://kernelci.org/test/case/id/=
-61c0799a2e1452d28839715f
-        new failure (last pass: renesas-devel-2021-12-17-v5.16-rc5)
-
-    2021-12-20T12:39:35.244215  /lava-5269758/1/../bin/lava-test-case<8>[  =
- 12.950480] <LAVA_SIGNAL_TESTCASE TEST_CASE_ID=3Dcros-ec-keyb-probed RESULT=
-=3Dfail>   =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
