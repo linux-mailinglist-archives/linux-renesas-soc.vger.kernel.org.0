@@ -2,78 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B608047A37E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 03:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A7D47A4C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 06:58:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234429AbhLTCP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Dec 2021 21:15:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34640 "EHLO
+        id S235275AbhLTF6b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 00:58:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232388AbhLTCP0 (ORCPT
+        with ESMTP id S231863AbhLTF6b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Dec 2021 21:15:26 -0500
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161E7C061574
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Dec 2021 18:15:26 -0800 (PST)
-Received: by mail-ot1-x330.google.com with SMTP id n104-20020a9d2071000000b005799790cf0bso10806944ota.5
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Dec 2021 18:15:26 -0800 (PST)
+        Mon, 20 Dec 2021 00:58:31 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6CBC061574
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Dec 2021 21:58:30 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id z29so33664616edl.7
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Dec 2021 21:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5h2KtcdPv4y3SmM2InmueE/jIOkvBdjenQb53tW6148=;
-        b=cBz4mUamnc7CUE7Ih+IjPPfzhfBNJT3KyyvkV3qZpgW6EuQhCh/mJ7JI0tGzfWkPBQ
-         cawyvcHPm6Byz3w2Po4WAg13M2r8VqieV/yN+xTmIcs7HhmkWvWLNDqi/6RFDfYhNX5p
-         EbuxC514XghPW4Zo1HzZK/Q9O8H+oXXgXySOH4qnwe78n7GCvJ8MqvpP64xDf1hJVhd4
-         t4YWCQ30Te2/v3pHOIyUOv4AX1dHxZZdWmPPUgFspQy/GLmLBv1dEk81D4vd9K7UamXW
-         Uex1RIBASXN8I/HaNiArw6ZCHZQqL8oqb9Qg4sxUJnBfIRGfjBGl3m3Et0IS/4XlCnZf
-         Vekg==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=8+uGp3bIOUYzpQ74A3QoHEvyTm1vHpJThhDODk8qS0o=;
+        b=MBqMb3+lBGAXEGYML+qRW0VLrRbODT6A5/3tief7oA+goApelXm647A/SvG5wu/wQl
+         W5IeBzVUexvyEIOzJeBX9OTLkwzGtP9XfDgO3uzxuKfeIRsLPWW4tBkZwXK6UWkipmNJ
+         jVI+ieslyKLYGt1FdpGiAkPYLKzOgXDFgJlodBHv+KaPZRv7VNUgkkCRAlTt5u5/8jG2
+         qbcQLvQDl81b/IP8H202ZBlhybtGygiOSThHCL46INKxj4tst/Z1EPbRxoDlF/YijcrQ
+         DRUMht6vCyVkcA9VNocnLFiQFXOY31hduFB6yjk26NuVRS4KSuIPxecF4jrVy644KkwX
+         6Sqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5h2KtcdPv4y3SmM2InmueE/jIOkvBdjenQb53tW6148=;
-        b=MuknEYBtA8mCCtS0gqh2pLbxEQQwB2hez5RHRo8YhJyw+FEeJriUVAMOzZe1o9PYCQ
-         iyZXjmuaRmB6fS2DBln2aE+NaOJEZ0ZGr/m5nDRNrgff2eLB23HqX0zJeTVuQJSIkT65
-         SlmK231198uqxl4KviYWy5yeLPUv1DhsUVdwq3oG0vvDqomrnZi3cgcCmlrX/jWv+oPx
-         2Yw9uQPcogCPytIOPvm5QNtEzTzJW2ugFrZKoVPOoy2AZpLcKRrcVaQito0pwFRL5Zba
-         Vta0HJk5L1SpfIzC7u3RtyTIwYz7YyBbrLa4U9owVVhE+RSn2/cpo2uIEvVpV4danqyb
-         /8CQ==
-X-Gm-Message-State: AOAM5302X4iahTQlAyX+wMQH9S8p85YRIfgCsEzDkHv0xgRjXOtnngfz
-        BRkqkIcVAqQOc4Hkp0F4GTi9s+of5x07/++BXWBLAg==
-X-Google-Smtp-Source: ABdhPJxVAFt48JolAeGMsaufCVGExDvCPz3S/Yp8XmDDk3CKAwtkfbSRI4yVpcEjwc04TzWmalvEs7oFGVMBIadtX8c=
-X-Received: by 2002:a9d:74d0:: with SMTP id a16mr9557267otl.237.1639966525423;
- Sun, 19 Dec 2021 18:15:25 -0800 (PST)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=8+uGp3bIOUYzpQ74A3QoHEvyTm1vHpJThhDODk8qS0o=;
+        b=HvLZQfFF1eEwAA15NRQlkruPnNHoOzOasUiX8QcyOMAb+i27YNRP7/NXVYPmsteFsg
+         HFLB+jLEeYqXUp9vExfPRWrjEAIUbzpzKBbCFZtJNxOMlcI2CA2hYeGjpz+3yDfd+YHD
+         tZkIQuKM4zPeiZoS/ka5NrpB/4OplY1IKMn9QwgvnSKRgC6PxUJd8HW6qlD8eBXuMKwf
+         67q4PSIOTOztYmyYPtJJ+F1XtdhkO934q5zOzpy8rmVG2dSbkc6lVUGBvfEDt4a6kKKk
+         qS4AX3IDnjyLd/2p289uoQ9oRL4LkPxdY9SmjlCELa0hnDborD49eTCSjZEFAhtQ4/0/
+         EdMA==
+X-Gm-Message-State: AOAM532FHYmIuLCxZ/T+bhWejQEilPZ9/eHtPkWzz3/RTyQ2CZnMy3FW
+        tLVTKx82DtCeGrCC0MlITKy6z715Z/ODZrgmRjU=
+X-Google-Smtp-Source: ABdhPJxn02lJVqdWygszl5BpvqOEcv2rojyTno/PUxMO+rnB+JwVGzPASN8I9lHdHxXEVV0U0Dlom91cSt3B/tj6i5Y=
+X-Received: by 2002:a17:906:3456:: with SMTP id d22mr11608206ejb.655.1639979908927;
+ Sun, 19 Dec 2021 21:58:28 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1639736856.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1639736856.git.geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 20 Dec 2021 03:15:13 +0100
-Message-ID: <CACRpkdYVuyBMvo4MnKzwfzv88-d1mu+jW_XZ9jRChSm21=ff0w@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.17 (take two)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Sender: lisaragnvard@gmail.com
+Received: by 2002:a17:907:7f15:0:0:0:0 with HTTP; Sun, 19 Dec 2021 21:58:28
+ -0800 (PST)
+From:   Jackie Fowler <jackiefowler597@gmail.com>
+Date:   Mon, 20 Dec 2021 05:58:28 +0000
+X-Google-Sender-Auth: do8l5xvA4IQANbY2gtwvxC20X70
+Message-ID: <CAEtDg5BX7A8nN_WqUv9qb_WwLg1XQiTseyBC5+0vZixVi1azZg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 12:07 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Gooday my deares't,
 
-> The following changes since commit 7c50a407b8687ae3589c740d2347d9ae73887889:
->
->   pinctrl: renesas: Remove unneeded locking around sh_pfc_read() calls (2021-11-19 10:55:21 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.17-tag2
->
-> for you to fetch changes up to ea7e26ebe6a90fe7962823a70ac91f010df71239:
->
->   pinctrl: renesas: r8a779a0: Align comments (2021-12-07 16:58:02 +0100)
 
-Pulled in!
+ I sent this mail praying it will get to you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day. I bring peace and love to you. It is by the grace of God, I
+had no choice than to do what is lawful and right in the sight of God
+for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
+y
+and glory upon my life. I am Mrs.Jackie.Fowler,a widow and citizen of
+Canada. I am suffering from a long time brain tumor, It has defiled
+all forms of medical treatment, and right now I have about a few
+months to leave, according to medical experts.
 
-Yours,
-Linus Walleij
+ The situation has gotten complicated recently with my inability to
+hear proper, am communicating with you with the help of the chief
+nurse herein the hospital, from all indication my conditions is really
+deteriorating and it is quite obvious that, according to my doctors
+they have advised me that I may not live too long, Because this
+illness has gotten to a very bad stage. I plead that you will not
+expose or betray this trust and confidence that I am about to repose
+on you for the mutual benefit of the orphans and the less privilege. I
+have some funds I inherited from my late husband, the sum of ($
+12,500,000.00 Dollars).Having known my condition, I decided to donate
+this fund to you believing that you will utilize it the way i am going
+to instruct herein.
+ I need you to assist me and reclaim this money and use it for Charity
+works, for orphanages and gives justice and help to the poor, needy
+and widows says The Lord." Jeremiah 22:15-16.=E2=80=9C and also build schoo=
+ls
+for less privilege that will be named after my late husband if
+possible and to promote the word of God and the effort that the house
+of God is maintained. I do not want a situation where this money will
+be used in an ungodly manner. That's why I'm taking this decision. I'm
+not afraid of death, so I know where I'm going.
+
+ I accept this decision because I do not have any child who will
+inherit this money after I die. Please I want your sincerely and
+urgent answer to know if you will be able to execute this project for
+the glory of God, and I will give you more information on how the fund
+will be transferred to your bank account. May the grace, peace, love
+and the truth in the Word of God be with you and all those that you
+love and care for.
+I'm waiting for your immediate reply.
+May God Bless you,
+Respectfully.
+Mrs.Jackie.Fowler,
