@@ -2,217 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4084247AB2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 15:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35E1447AB36
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Dec 2021 15:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233593AbhLTOTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Dec 2021 09:19:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233605AbhLTOTR (ORCPT
+        id S230437AbhLTOV2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Dec 2021 09:21:28 -0500
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:33378 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229759AbhLTOV2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Dec 2021 09:19:17 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02829C06173E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 06:19:17 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id c66so3272888wma.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Dec 2021 06:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sc+7jY7u7JL3gjoK1ONPiTQNSX0Y662aLa89J2Uhm6Q=;
-        b=GvOUtgsXbwOppDo6i/VTH9j6pgkj/GVh3MaAqceDl2RuErlaE4xIDrswa9hWC4L4VW
-         JQwWeZC5Zyq3r0NgTx81m42ml/LxAly2FS4wFq7EwzA7xQIUsiO49DbcNvp4oqIzWu1J
-         iScxmgw3qRri1rD1Mt9azhAcafL5hsdgLNS1s9cp8rPiNiVxWHWYYZAVFX6tD6mybkHL
-         tdsfOSx3VZfVvQakWy/TeWnuqCNl3qGposFCsvBCbthGTPWwg7iHZ6ODTnInbh5auj38
-         9X3O2RZhDXiwJxSNihYf4rry41bBF4zWSzNbwPe5XomCu0NcQmhZNfbaYHcNtRgyLguX
-         rH9Q==
+        Mon, 20 Dec 2021 09:21:28 -0500
+Received: by mail-ua1-f46.google.com with SMTP id a14so18051194uak.0;
+        Mon, 20 Dec 2021 06:21:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sc+7jY7u7JL3gjoK1ONPiTQNSX0Y662aLa89J2Uhm6Q=;
-        b=kAvmRxe68+WzWVzexcOIqnNE0rraPS6c0vqqGjtuHIh/8blRlg1EsADdAGOwgAE7ne
-         XfnhImWetYc3mOuXQyEziaGIje/ZlpAyQVv8SsqMx+Vt7paa/E25l+558YhrU06SG2ti
-         BSt2lBBSI5lV+vDyj+wl0tBVCaFVcZtYdm4ZNZvY/CJD9MXe2lqwGWSLkQX48wrqP50f
-         DdpOmhQhJkvW3o5m1eWYS9wZLe3sz2CLVCoSTdS9I4hFpMxFkNwG2/50bp3Dhw89R90O
-         ATJLgNX2Ut19JGy7X/uFen69dqlb8vNiCnQrbFPi1/wSZ1HdEBjO+7G4cEKqtj3wYLa7
-         ZSmA==
-X-Gm-Message-State: AOAM532CzL8bKWmzdyA0mP/qDIMKJN1iIqINctPhr9t5X9d14LgKuSEF
-        Lo0cDX6UX+x8Javjgh7wtmWz4w==
-X-Google-Smtp-Source: ABdhPJy/8Z6x62OBpzx2JyHeAdaUAF/0h3nRSDXoHeSzSV1zfT+Pj6SrVxraZs8AbL0VO89RZcJxkg==
-X-Received: by 2002:a05:600c:a0e:: with SMTP id z14mr7100429wmp.43.1640009955498;
-        Mon, 20 Dec 2021 06:19:15 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:ac6:da31:b84c:183? ([2a01:e34:ed2f:f020:ac6:da31:b84c:183])
-        by smtp.googlemail.com with ESMTPSA id p13sm4039540wmq.19.2021.12.20.06.19.14
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VBIOg+699OF2vWA/PGRG8mcPD9eo4a27l9bsWnwdKZk=;
+        b=j+BO694ortjTH2+dXjQsgM5YPqNawZzco84DFK6FG/QVWHfoJaE9HkzWFJNbXEDiXC
+         YAwhe4kUG9t8p6KXkMeDE8KUQuC+etpDMtZV1kxxWM/xTYE01WlaKVmFcXDzzNxaD8M3
+         pDxyI0WXiex0GO/JjMt0ID8EMwVpw587PVuvU+bhRoq9WnqWVl9drSOwFD/X2faV9bu/
+         4JurrDyCW5azYCQQP5jlFqwVW7kRGlC9yKJjtZu2dWXjbZFx8yXR4utQdKGKsRpDUzM6
+         D7/lr/TtHvr1jU3Y4KM8URZ2VB/URHU3AzFondvx7mtOIxz8zPssOMRlY3Cvzn+AzlpY
+         AJ4g==
+X-Gm-Message-State: AOAM532aEvyHG2xTNY69QCIHgwhLJACmKLce9FqlBmrlo/qWfsNnhJkT
+        reDiKVmDHIefB+cdsfAg5wn/f3sagIMtWQ==
+X-Google-Smtp-Source: ABdhPJxwshOqTIxSXjSZNa/PpWXH4C6eDiVXNWtoURsi8/M9fTHyuQC5MiUSE9z1DZSXZBIWr8Jnyw==
+X-Received: by 2002:a67:fb8a:: with SMTP id n10mr5124548vsr.6.1640010086997;
+        Mon, 20 Dec 2021 06:21:26 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id d124sm112449vkb.9.2021.12.20.06.21.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Dec 2021 06:19:15 -0800 (PST)
-Subject: Re: [PATCH] thermal: rcar_thermal: Use platform_get_irq_optional() to
- get the interrupt
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20211218144136.6663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <5f8e2432-1214-3435-fb62-2f407ced0472@linaro.org>
- <CAMuHMdXgRzM4+OjR0or0aTk-ogPcAYajaVALsLF6E=MxEzeRQg@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <bdec1a89-ad1b-1e16-a248-029f7f02ae80@linaro.org>
-Date:   Mon, 20 Dec 2021 15:19:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Mon, 20 Dec 2021 06:21:26 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id p2so17893452uad.11;
+        Mon, 20 Dec 2021 06:21:26 -0800 (PST)
+X-Received: by 2002:a67:c81c:: with SMTP id u28mr4281638vsk.38.1640010086188;
+ Mon, 20 Dec 2021 06:21:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXgRzM4+OjR0or0aTk-ogPcAYajaVALsLF6E=MxEzeRQg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <d4a00def-7765-e0e4-c5c7-8d648eeb8cf2@omp.ru> <20211214140607.1147976-1-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20211214140607.1147976-1-nikita.yoush@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Dec 2021 15:21:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=MytCOsghcH9p1GXOPCO3=1mSF8PKj_UAjYEqAq4-1Q@mail.gmail.com>
+Message-ID: <CAMuHMdW=MytCOsghcH9p1GXOPCO3=1mSF8PKj_UAjYEqAq4-1Q@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 20/12/2021 14:48, Geert Uytterhoeven wrote:
-> On Mon, Dec 20, 2021 at 1:29 PM Daniel Lezcano
-> <daniel.lezcano@linaro.org> wrote:
->> On 18/12/2021 15:41, Lad Prabhakar wrote:
->>> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
->>> allocation of IRQ resources in DT core code, this causes an issue
->>> when using hierarchical interrupt domains using "interrupts" property
->>> in the node as this bypasses the hierarchical setup and messes up the
->>> irq chaining.
->>>
->>> In preparation for removal of static setup of IRQ resource from DT core
->>> code use platform_get_irq_optional().
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> ---
->>> Hi,
->>>
->>> Dropping usage of platform_get_resource() was agreed based on
->>> the discussion [0].
->>>
->>> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
->>> patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->>>
->>> Cheers,
->>> Prabhakar
->>> ---
->>>  drivers/thermal/rcar_thermal.c | 15 +++++++++++----
->>>  1 file changed, 11 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
->>> index b49f04daaf47..e4c7bc1bf7ef 100644
->>> --- a/drivers/thermal/rcar_thermal.c
->>> +++ b/drivers/thermal/rcar_thermal.c
->>> @@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->>>       struct rcar_thermal_common *common;
->>>       struct rcar_thermal_priv *priv;
->>>       struct device *dev = &pdev->dev;
->>> -     struct resource *res, *irq;
->>> +     struct resource *res;
->>>       const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
->>>       int mres = 0;
->>>       int i;
->>> @@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
->>>       pm_runtime_get_sync(dev);
->>>
->>>       for (i = 0; i < chip->nirqs; i++) {
->>> -             irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
->>> -             if (!irq)
->>> +             int irq;
->>> +
->>> +             irq = platform_get_irq_optional(pdev, i);
->>> +             if (irq <= 0 && irq != -ENXIO) {
->>> +                     ret = irq ? irq : -ENXIO;
->>> +                     goto error_unregister;
->>> +             }
->>> +             if (irq == -ENXIO)
->>>                       continue;
->>
->> Why not invert the conditions?
->>
->>                 if (irq == -ENXIO)
->>                         continue;
-> 
-> And this can be break.
-> 
->>
->>                 if (irq <= 0) {
->>                         ret = irq ? irq : -ENXIO;
-> 
-> irq == 0 cannot happen.
-> 
->>                         goto out_unregister;
->>                 }
+Hi Nikita,
 
-Sorry, I don't get the two comments. May be I missed something but it
-seems for me the results are the same with the inverted conditions or not.
+On Tue, Dec 14, 2021 at 3:06 PM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> Add the missing lvds0 node for the R-Car M3-W+ SoC.
+>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
-if (irq <= 0 && irq != -ENXIO)
-	goto out;
+Thanks for your patch!
 
-if (irq == -ENXIO)
-	continue;
+> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> @@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
+>                                 port@2 {
+>                                         reg = <2>;
+>                                         du_out_lvds0: endpoint {
+> +                                               remote-endpoint = <&lvds0_in>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               lvds0: lvds@feb90000 {
+> +                       compatible = "renesas,r8a7796-lvds";
 
-Can be changed to:
+This should be "renesas,r8a77961-lvds".
+To handle that, both the DT bindings[1] and the driver[2] should
+be updated.
 
-if (irq != -ENXIO)
-	if (irq <= 0)
-		goto out;
+[1] Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+[2] drivers/gpu/drm/rcar-du/rcar_lvds.c
 
-if (irq == -ENXIO)
-	continue;
+> +                       reg = <0 0xfeb90000 0 0x14>;
+> +                       clocks = <&cpg CPG_MOD 727>;
+> +                       power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 727>;
+> +                       status = "disabled";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                                       lvds0_in: endpoint {
+> +                                               remote-endpoint = <&du_out_lvds0>;
+> +                                       };
+> +                               };
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       lvds0_out: endpoint {
+>                                         };
+>                                 };
+>                         };
 
-Can be changed to:
+Gr{oetje,eeting}s,
 
+                        Geert
 
-if (irq == -ENXIO)
-	continue;
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-if (irq != -ENXIO)
-	if (irq <= 0)
-		goto out;
-
-The second condition is always true because the first condition is the
-opposite of the second condition, if the second condition block is
-reached, that means irq != -ENXIO, so we can remove the second condition
-and that results into:
-
-if (irq == -ENXIO)
-	continue;
-
-if (irq <= 0)
-	goto out;
-
-
-Did I miss your point ?
-
-
-
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
