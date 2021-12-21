@@ -2,101 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D075B47C199
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 15:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CCDE47C1CF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 15:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238516AbhLUOgN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Dec 2021 09:36:13 -0500
-Received: from mail-qv1-f54.google.com ([209.85.219.54]:39554 "EHLO
-        mail-qv1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234548AbhLUOgM (ORCPT
+        id S234428AbhLUOrh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Dec 2021 09:47:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232589AbhLUOrh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Dec 2021 09:36:12 -0500
-Received: by mail-qv1-f54.google.com with SMTP id g15so11243446qvi.6;
-        Tue, 21 Dec 2021 06:36:11 -0800 (PST)
+        Tue, 21 Dec 2021 09:47:37 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6F4C061574;
+        Tue, 21 Dec 2021 06:47:37 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id v64so39473774ybi.5;
+        Tue, 21 Dec 2021 06:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GU6wzEeFNn3YRvVSxXSOJk8zG0NRfB2QGurzvUFCC/8=;
+        b=ZviMg9zoyQZ7w4BLqwW383ezcQve57tK3X/iz5L32Jj3mvcljVbdu+Tiaq077PXwAp
+         HwhOvKPlU+p1cnN8S9BZJ2xFgRX2Y0AR656TkMqI3FRPqA417fWSEE1y2lQoK4D8L6Mk
+         Nu0Ji7UxLtx6nhwp8iomr+BO/yrdxB9OzKkKT6z74pVT22NJkahqeucySNcg88NcgClw
+         2hdCYUsj7vpnlstxVw5sq7dLF0yXlwxQEGTpfi+rJm6tp+xf7lAio2n1qg/SkgCIRXyG
+         pbDd7UtfWct4/me7OCABkp32FrmX23KE2PqarvyqXIR4YB9MJDGc/nm7lVgu71TfwTUS
+         Nt0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=DAgxIL5+LfBMOUij7dixBA2kzok+uhqjW0YOVP3FJ64=;
-        b=iPqQbnlc5nFOllfSKi7vz2BQst5cYpXBWvcKH2KEQVbvvGNBfbr+wC0BXMaOBbw9Um
-         UyMfW2guV3g5SFzi4Xf8nar2CaS3crpjp1IAAL2FrmF8xwLnkLJf2zWmPna5MELV7PHz
-         +k3RCGkJFLhPc8wlQR4x6PV1EhNEiHrdiTvZVqhT4MVUNtxpnE1vXzfOarVFA+dPiCzO
-         i7S7qLgTTGh27JYGlwvzSlJH7xghu5w7FGKHGuJg/EYubAwu5Hv2O8wC4pka/djP58Mx
-         MpiEp9q9Vdopi3DLSDpOTJpIKwqmbrn77WJ7KQthDW5NZFZqKQgo37laEXnZ1zewMoC0
-         KK/g==
-X-Gm-Message-State: AOAM532vTVHO4fFFcIHdRgKp7fQgXmfW6zSPkvmefcyczcjVjfgxpT6A
-        QOoZ4Mm9inVrPILzKNq7hA==
-X-Google-Smtp-Source: ABdhPJylBXG4muz9ukCyJcRPgG5j/wh/YvvIRKT8d1OTxRKfi+lOHWdekpwKJ6hBomGZ8F/6CfNqsA==
-X-Received: by 2002:a05:6214:76a:: with SMTP id f10mr2246866qvz.80.1640097371373;
-        Tue, 21 Dec 2021 06:36:11 -0800 (PST)
-Received: from robh.at.kernel.org ([24.55.105.145])
-        by smtp.gmail.com with ESMTPSA id u7sm14864481qkp.17.2021.12.21.06.36.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 06:36:10 -0800 (PST)
-Received: (nullmailer pid 1365872 invoked by uid 1000);
-        Tue, 21 Dec 2021 14:36:08 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
-        linux-serial@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GU6wzEeFNn3YRvVSxXSOJk8zG0NRfB2QGurzvUFCC/8=;
+        b=MtOOkWB03cNlbK+0djrI3CM/kYT0oCxK/GmOZFJutae6Vzz+eLtQMCL0HdF2cv7HkT
+         f7QahglPG8AHRRfHCfm3iunlDDybTDBUftMY2cPRhpwnqIXQ8WfTtT3bXTXx9JdBasRU
+         WPlrCyO5dMBeZgJxGEf9+iQGcfDvZxrAKjTGB28HLBCLu2JN7npJWTPU2HGi4CXuqbQM
+         4t2G+vBrIXxHxel+OAlYvodgHpdDtgDn3+NA+UD3iJ8/5RcVBmrRe0mXw40te03AzbJl
+         3ibE1WHtwtiH1FUeou69yTw5O42k8DofJJI91sD+7GX+CffRZSVAapfKdDqipc88vCh/
+         EyBg==
+X-Gm-Message-State: AOAM532A3bAYMcHjUD3e3rSC9I8xJD1ZLfUXmfyCGQ9Nxhu6uhE5Vt9R
+        bzG9C53EBJa1bjCehBlX27gXrRuM/eGWyYpO4Kw=
+X-Google-Smtp-Source: ABdhPJzs8RuDTRwJ7yxPk2GSySEz8QjBuV5CIoO6G0G2uUZcwRZAQUqw67fI02Vp76SkXeHwSalx2C7m4J4hYhECZzg=
+X-Received: by 2002:a25:1004:: with SMTP id 4mr4999916ybq.669.1640098056237;
+ Tue, 21 Dec 2021 06:47:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <8b5d4928-2921-b876-7d1e-04bb42eff4fa@st.com> <3b54ab9b-4ffd-ab32-d495-fad6132ea504@microchip.com>
+ <5c56c87d-ca48-5573-0606-da1441fab7ff@microchip.com>
+In-Reply-To: <5c56c87d-ca48-5573-0606-da1441fab7ff@microchip.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 21 Dec 2021 14:47:10 +0000
+Message-ID: <CA+V-a8uk3h95aL7n7cDjYdXJBbE6GWF_LkiAVMOFtVzv-83ZpQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
+ mode unless streaming
+To:     Eugen Hristev <Eugen.Hristev@microchip.com>
+Cc:     Hugues Fruchet <hugues.fruchet@st.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Paul <paul.kocialkowski@bootlin.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        netdev@vger.kernel.org, linux-clk@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20211221094717.16187-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211221094717.16187-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211221094717.16187-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 11/16] dt-bindings: pinctrl: renesas: Document RZ/V2L pinctrl
-Date:   Tue, 21 Dec 2021 10:36:08 -0400
-Message-Id: <1640097368.261963.1365871.nullmailer@robh.at.kernel.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 21 Dec 2021 09:47:12 +0000, Lad Prabhakar wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> Document Renesas RZ/V2L pinctrl bindings. The RZ/V2L is package- and
-> pin-compatible with the RZ/G2L. No driver changes are required as RZ/G2L
-> compatible string "renesas,r9a07g044-pinctrl" will be used as a fallback.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml   | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
+Hi,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Sorry for the delay.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml:26:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
+On Tue, Dec 21, 2021 at 7:37 AM <Eugen.Hristev@microchip.com> wrote:
+>
+> On 6/29/21 1:47 PM, Eugen Hristev - M18282 wrote:
+> > On 9/9/20 7:16 PM, Hugues FRUCHET wrote:
+> >> Hi Prabhakar,
+> >>
+> >> As discussed separately I would prefer to better understand issue before
+> >> going to this patch.
+> >> Nevertheless I have some remarks in code in case we'll need it at the end.
+> >>
+> >> On 9/4/20 10:18 PM, Lad Prabhakar wrote:
+> >>> Keep the sensor in software power down mode and wake up only in
+> >>> ov5640_set_stream_dvp() callback.
+> >>>
+> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >>> Tested-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>> ---
+> >>>     drivers/media/i2c/ov5640.c | 19 ++++++++++++++++---
+> >>>     1 file changed, 16 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> >>> index 2fe4a7ac0592..880fde73a030 100644
+> >>> --- a/drivers/media/i2c/ov5640.c
+> >>> +++ b/drivers/media/i2c/ov5640.c
+> >>> @@ -34,6 +34,8 @@
+> >>>     #define OV5640_REG_SYS_RESET02              0x3002
+> >>>     #define OV5640_REG_SYS_CLOCK_ENABLE02       0x3006
+> >>>     #define OV5640_REG_SYS_CTRL0                0x3008
+> >>> +#define OV5640_REG_SYS_CTRL0_SW_PWDN 0x42
+> >>> +#define OV5640_REG_SYS_CTRL0_SW_PWUP 0x02
+> >>
+> >> For the time being this section was only referring to registers
+> >> addresses and bit details was explained into a comment right before
+> >> affectation, see OV5640_REG_IO_MIPI_CTRL00 for example.
+> >>
+> >>>     #define OV5640_REG_CHIP_ID          0x300a
+> >>>     #define OV5640_REG_IO_MIPI_CTRL00   0x300e
+> >>>     #define OV5640_REG_PAD_OUTPUT_ENABLE01      0x3017
+> >>> @@ -1120,6 +1122,12 @@ static int ov5640_load_regs(struct ov5640_dev *sensor,
+> >>>                 val = regs->val;
+> >>>                 mask = regs->mask;
+> >>>
+> >>> +             /* remain in power down mode for DVP */
+> >>> +             if (regs->reg_addr == OV5640_REG_SYS_CTRL0 &&
+> >>> +                 val == OV5640_REG_SYS_CTRL0_SW_PWUP &&
+> >>> +                 sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
+> >>> +                     continue;
+> >>> +
+> >>
+> >> I understand that more or less register OV5640_REG_SYS_CTRL0 (0x3008)
+> >> has been partially removed from big init sequence: for power-up part,
+> >> but power-dwn remains at very beginning of sequence.
+> >> We should completely remove 0x3008 from init sequence, including
+> >> power-dwn, and introduce a new function ov5640_sw_powerdown(on/off) that
+> >> should be called at the right place instead.
+> >>
+> >>
+> >>>                 if (mask)
+> >>>                         ret = ov5640_mod_reg(sensor, reg_addr, mask, val);
+> >>>                 else
+> >>> @@ -1297,9 +1305,14 @@ static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+> >>>          * PAD OUTPUT ENABLE 02
+> >>>          * - [7:2]:     D[5:0] output enable
+> >>>          */
+> >>> -     return ov5640_write_reg(sensor,
+> >>> -                             OV5640_REG_PAD_OUTPUT_ENABLE02,
+> >>> -                             on ? 0xfc : 0);
+> >>> +     ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02,
+> >>> +                            on ? 0xfc : 0);
+> >>> +     if (ret)
+> >>> +             return ret;
+> >>> +
+> >>> +     return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+> >>> +                             OV5640_REG_SYS_CTRL0_SW_PWUP :
+> >>> +                             OV5640_REG_SYS_CTRL0_SW_PWDN);
+> >>>     }
+> >>>
+> >>>     static int ov5640_set_stream_mipi(struct ov5640_dev *sensor, bool on)
+> >>>
+> >>
+> >>
+> >> BR,
+> >> Hugues.
+> >>
+> >
+> >
+> > Hello everyone,
+> >
+> > When I updated driver in my tree with this patch, I noticed that my
+> > setup using the ATMEL isc platform + ov5640 in parallel bus mode stopped
+> > working.
+> >
+> > It looks like the culprit is this patch.
+> > I am not sure which is the best way to fix it.
+> > It looks like initially things work fine when probing the driver, but
+> > when we want to start streaming at a later point, the register SYS_CTRL0
+> > cannot be written anymore.
+> > Here is an output of the log:
+> >
+> >    --- Opening /dev/video0...
+> >       Trying source module v4l2...
+> >       /dev/video0 opened.
+> >       No input was specified, using the first.
+> >       ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> >       atmel-sama5d2-isc f0008000.isc: stream on failed in subdev -121
+> >       Error starting stream.
+> >       VIDIOC_STREAMON: Remote I/O error
+> >       Unable to use mmap. Using read instead.
+> >       Unable to use read.
+> >
+> > I am using a simple application to read from /dev/video0 (which is
+> > registered by the atmel-isc once the sensor probed)
+> >
+> > I have a feeling that something is wrong related to power, but I cannot
+> > tell for sure.
+> >
+> > Reverting this patch makes it work fine again.
+> >
+> > Help is appreciated,
+> > Thanks,
+> > Eugen
+> >
+>
+>
+> Gentle ping.
+>
+> I would like to send a revert patch if nobody cares about this
+> driver/patch except me.
+>
+I powered up the Renesas RZ/G1H connected with an ov5640 sensor and
+was able to capture the video data [0] using the yavta application.
+I'm fine with reverting the patch too as this works fine as well.
 
-dtschema/dtc warnings/errors:
+Just some suggestions:
+- What is the application you are trying to use for capturing?
+- Have you tried reducing the i2c clock speed?
+- Can you try and do a dummy write for some other register in
+ov5640_set_stream_dvp() to see if i2c writes are failing for all regs?
+- Can you add ov5640_read_reg() in ov5640_write_reg() when
+i2c_transfer() fails to check if read too is failing.
 
-doc reference errors (make refcheckdocs):
+[0] https://paste.debian.net/1224317/
 
-See https://patchwork.ozlabs.org/patch/1571555
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Cheers,
+Prabhakar
