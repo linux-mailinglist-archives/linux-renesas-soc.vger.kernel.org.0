@@ -2,71 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8671147C4BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 18:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BD4047C579
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 18:53:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240218AbhLURK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Dec 2021 12:10:26 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:45589 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240185AbhLURKZ (ORCPT
+        id S240686AbhLURxa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Dec 2021 12:53:30 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:48991 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231318AbhLURxa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Dec 2021 12:10:25 -0500
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 7BE5FE000A;
-        Tue, 21 Dec 2021 17:10:21 +0000 (UTC)
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        Ralph Siemsen <ralph.siemsen@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 1/4] dt-bindings: mtd: renesas: Describe Renesas R-Car Gen3 & RZ/N1 NAND controller
-Date:   Tue, 21 Dec 2021 18:10:21 +0100
-Message-Id: <20211221171021.20101-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20211217142033.353599-2-miquel.raynal@bootlin.com>
-References: 
-MIME-Version: 1.0
-X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: b'6b85a71cace75c9e06eb02f76216be1e26530058'
-Content-Transfer-Encoding: 8bit
+        Tue, 21 Dec 2021 12:53:30 -0500
+X-IronPort-AV: E=Sophos;i="5.88,224,1635174000"; 
+   d="scan'208";a="104728781"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Dec 2021 02:53:28 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A303440C95EF;
+        Wed, 22 Dec 2021 02:53:25 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Prabhakarprabhakar.csengg@gmail.com,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] i2c/busses: Use platform_get_irq/_optional() variants to fetch IRQ's
+Date:   Tue, 21 Dec 2021 17:53:19 +0000
+Message-Id: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 2021-12-17 at 14:20:30 UTC, Miquel Raynal wrote:
-> Add a Yaml description for this Renesas NAND controller.
-> 
-> As this controller is embedded on different SoC families, provide:
-> * a family-specific "r-car-gen3" compatible and a more specific
->   "r8a77951" one
-> * a family-specific "rzn1" compatible and a more specific "r9a06g032"
->   one
-> 
-> More compatibles can be added later if new SoCs with this controller
-> must be supported.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi All,
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next.
+This patch series aims to drop using platform_get_resource() for IRQ types
+in preparation for removal of static setup of IRQ resource from DT core
+code.
 
-Miquel
+Dropping usage of platform_get_resource() was agreed based on
+the discussion [0].
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/
+patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  i2c: bcm2835: Use platform_get_irq() to get the interrupt
+  i2c: sh_mobile: Use platform_get_irq_optional() to get the interrupt
+  i2c: riic: Use platform_get_irq() to get the interrupt
+
+ drivers/i2c/busses/i2c-bcm2835.c   | 11 ++++------
+ drivers/i2c/busses/i2c-riic.c      | 10 ++++-----
+ drivers/i2c/busses/i2c-sh_mobile.c | 34 +++++++++++++++++++++++-------
+ 3 files changed, 35 insertions(+), 20 deletions(-)
+
+-- 
+2.17.1
+
