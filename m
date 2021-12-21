@@ -2,75 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8600047BB4D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 08:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7500447BB7C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 09:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbhLUHv6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Dec 2021 02:51:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230519AbhLUHv6 (ORCPT
+        id S235404AbhLUIKO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Dec 2021 03:10:14 -0500
+Received: from mail-ua1-f53.google.com ([209.85.222.53]:40759 "EHLO
+        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234701AbhLUIKO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Dec 2021 02:51:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D7BC061574;
-        Mon, 20 Dec 2021 23:51:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95A4661154;
-        Tue, 21 Dec 2021 07:51:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E1B6C36AE7;
-        Tue, 21 Dec 2021 07:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1640073117;
-        bh=cypPDxSfVxgOOboAL2pFSKiinIHAewVmcNUvWE/4nEo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=maexsRSHcmReHiEI7Xjz+5SnMlFU7vOn5qNK5cqeoYgheLb5KMey9m1OJ8JKFBQaN
-         I7gkE0hD7FzEAK5GEhrOatB7utI9xcpT21JNpc9Zqj1nB7Cl7AYiQtxWaggzecUn7C
-         qI9bqezJnHFbmbC0j4tgYSp+JxysYbR7HFEjGkIU=
-Date:   Tue, 21 Dec 2021 08:51:54 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
-        Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Bin Liu <b-liu@ti.com>, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 0/6] usb: sound/soc: Use platform_get_irq*() variants to
- fetch IRQ's
-Message-ID: <YcGHmhDWppgtLcTS@kroah.com>
-References: <20211220010411.12075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 21 Dec 2021 03:10:14 -0500
+Received: by mail-ua1-f53.google.com with SMTP id y23so22264844uay.7;
+        Tue, 21 Dec 2021 00:10:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HKbsUsTWg5rR37I9v1ro7oc9SV5nTeoertYyKpAWEiI=;
+        b=aVloi6JHVrmKJ7rdCXH8SI0VeR57hifRtNN0/SXniBP++Z+VT43uuppBdaioAMo8L8
+         wPOyu8iHSllSmpI/dKVLJ1LF7mVmCPBR835fDXseHXs+SjDSWeKMexH+XHJqka1I+iJV
+         DECQFSaR8g3TYA7/6dQWxSR8D4R74ACp/8fK+NKXmycDh63NFjzNye7qz/n1Q+VZfyHu
+         aPDPU/VFfL/eYUawOPzTJDMPD5gi2AUI7cMpIdtyb0xmqwpCaZ6B7qDZeTreRvQy7GKO
+         iOagRRZj3TyApKQdvXxoMKGeOqZsUEuifHYj46L1wenyQiMXt2tEb4NskYGKlxoTsE7Q
+         hHXg==
+X-Gm-Message-State: AOAM530LqEUmpwWk1qEe0ehyS0UFvCzO7RRNbmbOEAum46lsOdtbZGmf
+        uGzd5gursW8rAZRMMH5jUozUX3JW12H3OQ==
+X-Google-Smtp-Source: ABdhPJyz/UDz5E1/agrjv31fPxfaJfVjXpvzLImApt4ylVnG6f5Dh27nyzAcSwzzZSelRuqV+XyKYg==
+X-Received: by 2002:a05:6102:903:: with SMTP id x3mr798646vsh.41.1640074213575;
+        Tue, 21 Dec 2021 00:10:13 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id p46sm3747696uad.16.2021.12.21.00.10.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Dec 2021 00:10:13 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id i6so22298698uae.6;
+        Tue, 21 Dec 2021 00:10:13 -0800 (PST)
+X-Received: by 2002:ab0:3b06:: with SMTP id n6mr101595uaw.14.1640074213057;
+ Tue, 21 Dec 2021 00:10:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211220010411.12075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211221052423.597283-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211221052423.597283-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 21 Dec 2021 09:10:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXYJ2NyZYHC-Zi=yC1dCNYiDSkqG04C=54mxKH4e14d3g@mail.gmail.com>
+Message-ID: <CAMuHMdXYJ2NyZYHC-Zi=yC1dCNYiDSkqG04C=54mxKH4e14d3g@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r8a779f0: add sys-dmac clocks
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 20, 2021 at 01:04:05AM +0000, Lad Prabhakar wrote:
-> Hi All,
-> 
-> This patch series aims to drop using platform_get_resource() for IRQ types
-> in preparation for removal of static setup of IRQ resource from DT core
-> code.
-> 
-> Dropping usage of platform_get_resource() was agreed based on
-> the discussion [0].
-> 
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
-> patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> 
-> Note: I have just build tested the patches.
+On Tue, Dec 21, 2021 at 6:24 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add sys-dmac clocks on r8a779f0.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-I don't think "sound/soc" mattered here in your subject line :)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.18.
 
-I'll go queue these up now, thanks.
+Gr{oetje,eeting}s,
 
-greg k-h
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
