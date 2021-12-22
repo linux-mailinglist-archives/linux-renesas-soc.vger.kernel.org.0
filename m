@@ -2,94 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F37947C956
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Dec 2021 23:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F88747CEE8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 10:13:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233886AbhLUWpk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Dec 2021 17:45:40 -0500
-Received: from mail-qt1-f174.google.com ([209.85.160.174]:35335 "EHLO
-        mail-qt1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233236AbhLUWpj (ORCPT
+        id S243789AbhLVJNJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 04:13:09 -0500
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:41833 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236486AbhLVJNI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Dec 2021 17:45:39 -0500
-Received: by mail-qt1-f174.google.com with SMTP id j17so315667qtx.2;
-        Tue, 21 Dec 2021 14:45:39 -0800 (PST)
+        Wed, 22 Dec 2021 04:13:08 -0500
+Received: by mail-ua1-f41.google.com with SMTP id p37so2988149uae.8;
+        Wed, 22 Dec 2021 01:13:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=x/A60G0kM02XRH/dAeHery1JpbFGVP5ZMcG3xwB6KGo=;
-        b=5lNJ3M+BdAl6j03THWwFQwCGRszv4B5h5RHgE0VkBnZDghK8NIkiVgj4EIYxja+9n2
-         5NAknyl0uvm9Pt7wRhpXxD4/OqYbdiD+0NvnXIs8Oz2doGhJ8tASdRpstN4A8jIaFOhV
-         yLRQwHd42lWWxbAZxF0jjnJCo5G9//P3/YtTAJ2Y2JlUNXNOQGPRKIy/EGxe5WQstgQ9
-         bFlxv2D8SjmH0Nzhe/9KJ0lofhMwgEUrqXtYSJX4pCTzYD43MWOWpe02n3Mm2leUVC1l
-         sgm+VoFauwcOODvu1aC8IZCeTLt1iX9QiJiSdYcYYK9hOsfSaN/hA/pIkIlOvNZ+bgtV
-         9xaw==
-X-Gm-Message-State: AOAM533ASCtsZZar9qmEK+5RN/n5RE5yiZyLATVHUEzapEK33suiJNwX
-        r5K1TaloVf4GAgejQ5ViSQ==
-X-Google-Smtp-Source: ABdhPJx0GBuZaiayfR04hPbCCwiohMvoN3CZEUJd+pEe4HxNmjTC8HaesqCBlAG9ffXl20qmAmRlFg==
-X-Received: by 2002:ac8:5993:: with SMTP id e19mr297744qte.239.1640126738858;
-        Tue, 21 Dec 2021 14:45:38 -0800 (PST)
-Received: from robh.at.kernel.org ([24.55.105.145])
-        by smtp.gmail.com with ESMTPSA id a16sm220047qta.94.2021.12.21.14.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 14:45:38 -0800 (PST)
-Received: (nullmailer pid 1654438 invoked by uid 1000);
-        Tue, 21 Dec 2021 22:45:31 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20211221161224.71258-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20211221161224.71258-1-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v2] dt-bindings: i2c: maxim,max96712: Add bindings for Maxim Integrated MAX96712
-Date:   Tue, 21 Dec 2021 18:45:31 -0400
-Message-Id: <1640126731.367259.1654437.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VW/Pwg5Ke22MAchuX1prlmMQk+F7qSVh6AcCbguvgR0=;
+        b=6K3RJGybQlQfcYETAcJ+fZP7vph3Scl5F+ZGxIGwucDAzdjmI5yQzQa2E+YWmOjd6t
+         TCUlXl+xdBWaEADREucAOndI5t0tNVP31GXu48S3AZhH41jqJpOoO3C0JRy6P1y+UvTC
+         C2vuPI1kATiwDLjhUcUuxGjM940ajZwpncPLzksB0lL2L47p4fnH5Pk1ZUm2DC3SaFax
+         BBBUR2aliPVsYYugl1omj3XGt+68HZvorYotoSNH1u5nnjmisl2k0BLTvhAEQA7MNN1/
+         iZFESp0kGztbmX7B6kX1B45NqxmP7Fmq1TM7VBXspr2HVLF/bZDZzqiLD8WPoA4O5xtj
+         JUFQ==
+X-Gm-Message-State: AOAM531j90oDOCTsZT+5secCHO7IkET4jfmru1rb6XcxHLeT2W2DXhHt
+        Ct6AI6TsEnsCNvntQdA4cN1rT9HLSzciqw==
+X-Google-Smtp-Source: ABdhPJxePAvMnmofP8+cl0tRMycrkicpCdPZCT2Ha13eW8cHO4Qe+UVcJKjCweHt3QQNL5fJILlCFw==
+X-Received: by 2002:ab0:3c4f:: with SMTP id u15mr709432uaw.108.1640164387237;
+        Wed, 22 Dec 2021 01:13:07 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id r2sm283609vsk.28.2021.12.22.01.13.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Dec 2021 01:13:07 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id n7so2970857uaq.12;
+        Wed, 22 Dec 2021 01:13:07 -0800 (PST)
+X-Received: by 2002:a05:6102:2155:: with SMTP id h21mr605418vsg.68.1640164386939;
+ Wed, 22 Dec 2021 01:13:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20211221052722.597407-1-yoshihiro.shimoda.uh@renesas.com> <20211221052722.597407-2-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20211221052722.597407-2-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 22 Dec 2021 10:12:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWS+6wdN+3eE-A3EF74-SsY4bZrFZ+8-Now78H0U+fG1g@mail.gmail.com>
+Message-ID: <CAMuHMdWS+6wdN+3eE-A3EF74-SsY4bZrFZ+8-Now78H0U+fG1g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: renesas,rcar-dmac: Add r8a779f0 support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 21 Dec 2021 17:12:24 +0100, Niklas Söderlund wrote:
-> Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-> deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-> or C-PHY formatted outputs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> * Changes since v1
-> - Fixed spelling in binding description.
-> - Drop 'staging' per Rob's suggestion.
-> ---
->  .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
->  1 file changed, 111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> 
+Hi Shimoda-san,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Thanks for your patch!
 
-yamllint warnings/errors:
+On Tue, Dec 21, 2021 at 10:50 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Document the compatible value for the Direct Memory Access Controller
+> blocks in the Renesas R-Car S4-8 (R8A779F0) SoC.
+>
+> The most visible difference with DMAC blocks on other R-Car SoCs
+> (except R8A779F0) is the move of the per-channel registers to
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/media/i2c/maxim,max96712.yaml#
+R8A779A0.
 
-doc reference errors (make refcheckdocs):
+> a separate register block.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-See https://patchwork.ozlabs.org/patch/1571752
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+Gr{oetje,eeting}s,
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+                        Geert
 
-pip3 install dtschema --upgrade
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Please check and re-submit.
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
