@@ -2,60 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85E8B47D408
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 15:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4113047D4F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 17:15:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343610AbhLVO7W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 09:59:22 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:46439 "EHLO
+        id S234964AbhLVQPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 11:15:45 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:29248 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S241422AbhLVO7V (ORCPT
+        by vger.kernel.org with ESMTP id S234060AbhLVQPo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 09:59:21 -0500
+        Wed, 22 Dec 2021 11:15:44 -0500
 X-IronPort-AV: E=Sophos;i="5.88,226,1635174000"; 
-   d="scan'208";a="104370103"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Dec 2021 23:59:20 +0900
+   d="scan'208";a="104375071"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Dec 2021 01:15:42 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3BC834004BC3;
-        Wed, 22 Dec 2021 23:59:18 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 41CE640A14AC;
+        Thu, 23 Dec 2021 01:15:40 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Sean Wang <sean.wang@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add description for power-source property
-Date:   Wed, 22 Dec 2021 14:59:01 +0000
-Message-Id: <20211222145901.23661-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] dmaengine: Use platform_get_irq*() variants to fetch IRQ's
+Date:   Wed, 22 Dec 2021 16:15:31 +0000
+Message-Id: <20211222161534.1263-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add description for "power-source" property mentioning the values in enum
-are in millivolts.
+Hi All,
 
-Suggested-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml       | 1 +
- 1 file changed, 1 insertion(+)
+This patch series aims to drop using platform_get_resource() for IRQ types
+in preparation for removal of static setup of IRQ resource from DT core
+code.
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-index b749c82edebd..2d59c341c28c 100644
---- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-@@ -76,6 +76,7 @@ additionalProperties:
-         output-impedance-ohms:
-           enum: [ 33, 50, 66, 100 ]
-         power-source:
-+          description: IO voltage in millivolts.
-           enum: [ 1800, 2500, 3300 ]
-         slew-rate: true
-         gpio-hog: true
+Dropping usage of platform_get_resource() was agreed based on
+the discussion [0].
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/
+patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  dmaengine: nbpfaxi: Use platform_get_irq_optional() to get the
+    interrupt
+  dmaengine: mediatek: mtk-hsdma: Use platform_get_irq() to get the
+    interrupt
+  dmaengine: mediatek-cqdma: Use platform_get_irq() to get the interrupt
+
+ drivers/dma/mediatek/mtk-cqdma.c | 12 ++++--------
+ drivers/dma/mediatek/mtk-hsdma.c | 11 ++++-------
+ drivers/dma/nbpfaxi.c            | 13 ++++++-------
+ 3 files changed, 14 insertions(+), 22 deletions(-)
+
 -- 
 2.17.1
 
