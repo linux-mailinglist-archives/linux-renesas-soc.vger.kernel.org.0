@@ -2,134 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A07847D287
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 13:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56D9047D292
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 14:01:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245058AbhLVM6a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 07:58:30 -0500
-Received: from www.zeus03.de ([194.117.254.33]:44760 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233901AbhLVM63 (ORCPT
+        id S245153AbhLVNBB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 08:01:01 -0500
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:33544 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245117AbhLVNBB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 07:58:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=1nIjg3+81S8PpIpyM/622UZk5jW8
-        luO276mlBCCaRH0=; b=k58GqFsJm7Jol5kpL42DPmyYaeBhfdWtkophTQQ75lgW
-        fcs4OCEtq0QMWgjCtTl7LHj7gXsFXwO1G28KH+eWX/RArHbYZCmUtaiiLHq05b7b
-        tv8B+oeDCfBJutQr7H6ewMqa4SYBzstQOTDy2I5DbOpy9iV+6LtoAVFZFQD0JnQ=
-Received: (qmail 1769551 invoked from network); 22 Dec 2021 13:58:27 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Dec 2021 13:58:27 +0100
-X-UD-Smtp-Session: l3s3148p1@KgpYrbvTiMYgAQnoAE7AABWUu3WTN36y
-Date:   Wed, 22 Dec 2021 13:58:24 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <YcMg8NzjlNDLksNT@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20211219132442.4080-1-wsa+renesas@sang-engineering.com>
- <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
- <YcL7p5nzZs8vnojl@shikoro>
- <CAMuHMdXn-cmK1HewukjOnjC1JEgfFfH7FW23YvPTKHcNCiet2w@mail.gmail.com>
+        Wed, 22 Dec 2021 08:01:01 -0500
+Received: by mail-ua1-f43.google.com with SMTP id a14so4336572uak.0;
+        Wed, 22 Dec 2021 05:01:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Yxte1rmkLG8Gm4NdhjyMtfcy7DGtqwrDwC8ez4uL4ug=;
+        b=7aexI+22OuVkLdZeWSxCPzvWM9o48o4yUTmU8QjcyHW5hICJSXWaqqIYXRXN0B33MT
+         c7mQIOLPQDLPzU5493ZJo7+/YkBoAEyjg8reCwcbxzjoQi62TASVIC+9OeTSQ1vaA2A1
+         Vk9AIb6kdCIoQ/6g1Wm9gaTfFwoCtkpVz6CZ12BE58jiLbQvIEhr3AqW3RnmaDJ4a8Jf
+         1m4iT3DXQETQfdqQXu6z4XMswdcvpGW46/BMqLM1XE803IqUdHKIs95M4CIT7DNKCjd5
+         7x1w6/0IhOMBGM1C6UubsmBK1dDOiZj9JkpsWpzBSGk4ZkYudLehfLG3o9mxVg25xNG2
+         TgiA==
+X-Gm-Message-State: AOAM531bXCST4l0bOV/x434y5txFEEfBKS+ZUHe0RXiJfNYcJBmYFbru
+        DfM+geAWbAKcRtt7gNxyEYYhA8juUlMy1Q==
+X-Google-Smtp-Source: ABdhPJxv37cvs2r4zsJg2ebG9OgCzjGonPx8m71eAcn0O3DfWWsNnb5//UdHj4scngwnsn13jQHMqA==
+X-Received: by 2002:ab0:70ce:: with SMTP id r14mr892472ual.76.1640178060090;
+        Wed, 22 Dec 2021 05:01:00 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id bc2sm369283vkb.53.2021.12.22.05.00.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Dec 2021 05:00:59 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id m185so1263688vkm.5;
+        Wed, 22 Dec 2021 05:00:59 -0800 (PST)
+X-Received: by 2002:a1f:2196:: with SMTP id h144mr984968vkh.7.1640178059508;
+ Wed, 22 Dec 2021 05:00:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="88VcK3OE27ZRg7Tw"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXn-cmK1HewukjOnjC1JEgfFfH7FW23YvPTKHcNCiet2w@mail.gmail.com>
+References: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211221175322.7096-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211221175322.7096-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 22 Dec 2021 14:00:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVc-t_7-HRiM=nubmBHGRUvC+ihRa1M287LMdD3RD2dnw@mail.gmail.com>
+Message-ID: <CAMuHMdVc-t_7-HRiM=nubmBHGRUvC+ihRa1M287LMdD3RD2dnw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] i2c: riic: Use platform_get_irq() to get the interrupt
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakarprabhakar.csengg@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Dec 21, 2021 at 7:25 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
+>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq().
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---88VcK3OE27ZRg7Tw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
 
-> > Yes, the search engines helped[1]. I run a minimal system, so when I
-> > mount cpusets, it will actually mount cgroups with a default mount
-> > option of "noprefix". But you likely run a rootfs with cgroups already,
-> > so it gets mounted directly without "noprefix". Then, when the logic
-> > analyzer tries to mount again, the implied default "noprefix" is
-> > discarded.
->=20
-> Yeah, systemd on Debian has it mounted.
+                        Geert
 
-So, the proper solution is to use/mount 'cgroups2' instead of 'cpuset'.
-But this needs more thinking and testing and, thus, another revision.
-Dunno if I can make it this year, so I am probably going to miss the
-next merge window after all :(
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Geert, if you still want to test the PFC patch I sent, then this patch
-for the script should get you going:
-
-diff --git a/tools/gpio/gpio-sloppy-logic-analyzer b/tools/gpio/gpio-sloppy=
--logic-analyzer
-index eb2065fe6733..f1bfdd3568cf 100755
---- a/tools/gpio/gpio-sloppy-logic-analyzer
-+++ b/tools/gpio/gpio-sloppy-logic-analyzer
-@@ -80,13 +80,13 @@ init_cpu()
- 	mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
- 	[ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
-=20
--	cur_cpu=3D"$(cat "$lacpusetdir"/cpus)"
-+	cur_cpu=3D"$(cat "$lacpusetdir"/cpuset.cpus)"
- 	[ "$cur_cpu" =3D "$isol_cpu" ] && return
- 	[ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already=
- isolated"
-=20
--	echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$iso=
-l_cpu. Does it exist?"
--	echo 1 > "$lacpusetdir"/cpu_exclusive
--	echo 0 > "$lacpusetdir"/mems
-+	echo "$isol_cpu" > "$lacpusetdir"/cpuset.cpus || fail "Could not isolate =
-CPU$isol_cpu. Does it exist?"
-+	echo 1 > "$lacpusetdir"/cpuset.cpu_exclusive
-+	echo 0 > "$lacpusetdir"/cpuset.mems
-=20
- 	oldmask=3D$(cat /proc/irq/default_smp_affinity)
- 	newmask=3D$(printf "%x" $((0x$oldmask & ~(1 << isol_cpu))))
-@@ -213,7 +213,7 @@ if [ -n "$triggerdat" ]; then
- 	printf "$trigger_bindat" > "$lasysfsdir"/trigger 2>/dev/null || fail "Tri=
-gger data '$triggerdat' rejected"
- fi
-=20
--workcpu=3D$(cat "$lacpusetdir"/effective_cpus)
-+workcpu=3D$(cat "$lacpusetdir"/cpuset.effective_cpus)
- [ -n "$workcpu" ] || fail "No isolated CPU found"
- cpumask=3D$(printf '%x' $((1 << workcpu)))
- instance=3D${lasysfsdir##*/}
-
-
---88VcK3OE27ZRg7Tw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHDIOwACgkQFA3kzBSg
-KbYTQxAAg4lBRLmsgJwsKmT7aqv9a24V8wcazaw2rI1QhCx34BgfxAko/CgO7Tah
-mny71vhIk+cSKdkBMnXU2gTG2V7Dx6kb5XVI9IXTIc1PBnJ/syS1M1ao8QmGenkK
-+lp+NBQT+lCcgPVOHP36Er9G5CG+yn4NH4VK1mT53d63KsdGyUGCi0xyB01tSwNl
-vok6xNZFksOvzWivCd7HKEVK26pK8gDYkFOrVwVx7clgAIOMurZTtEWI+ejNB11s
-DJx0kQl6ouOh0B7VZndGEQTvoOwR6hCWJ3R32z61sMO4h5hQIMfEznAVTiBRqNqQ
-2z1pzbwNq10kkQIyAKeOotxOuHzVdsZ5/yXl4JJUdn8rxxBhJXlMggAjYfKST3Qd
-pL3xcZeC+kIYiNP/QWgO5M2n+x3SFChY/jbAmUXw0N+3XL/K+6nCeMhcKLxfK+/A
-8Zpgzxd3rMbfFzg5A8TIuCojorgpKQ9XEuKbmJdu7KW2MlHiHqqTjI/kjinvjkbw
-Hqr7MkoC9QgUBZU/LmfFVV/NG4DVFhGHRVTNaOif5Tj7jx/p+daRYox7z8thMvDl
-vse5sBH0kulMdvSynvUNceKhk/tzJ/pvTYNTtyj/5Huywv9W1satgpRQbcy3V3or
-9MT+wpYFLq4SY39+/6xNgPv6sVAU/M4bUv2t/r4wR1EOcMIsYy0=
-=T8QE
------END PGP SIGNATURE-----
-
---88VcK3OE27ZRg7Tw--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
