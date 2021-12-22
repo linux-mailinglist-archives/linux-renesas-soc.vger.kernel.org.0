@@ -2,98 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F089947CFBB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 11:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A3247CFD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 11:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239929AbhLVKK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 05:10:29 -0500
-Received: from mail-vk1-f175.google.com ([209.85.221.175]:40564 "EHLO
-        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232631AbhLVKK3 (ORCPT
+        id S239925AbhLVKTV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 05:19:21 -0500
+Received: from www.zeus03.de ([194.117.254.33]:44914 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234441AbhLVKTU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 05:10:29 -0500
-Received: by mail-vk1-f175.google.com with SMTP id 70so989253vkx.7;
-        Wed, 22 Dec 2021 02:10:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MFNPNVaT4uT5sTxBbDK7W+4/2BKnEWtptYUvYSGupsA=;
-        b=OSYGb5XpAIKLrjQUCyYmQFh5pZPB/ILlQV7bPLg4uMfXRZvDk75q0OYl++5KBzCVTo
-         yszhx4BoM+2FkJFptbyra5LQxyJpCIF1LsV4EaU4fRDD0GS+c5WKZtUv5nfUm/n5CsiF
-         K27Y1IJf6Ybg3218u6oD+aks+B42L2AZLClcxgU9rj7+AXAbEXxo7y9yLtbY8pwLVa3a
-         z3B538HNx4zCoW96fnEQunDI96X9JcJ7mlvEZsS1kgbxvGnobDI0SyO3Wt9JYITeyt7x
-         IzDBHGG91KDTutgQGnEBSUk6nGJu5X6XPhM8s+Sj+0KVonLriNNoWOH994DjGic+Zzdl
-         mGRg==
-X-Gm-Message-State: AOAM5337uifvCLATWNRDmtzzj1toB/CMTiGKL2V/QlPwjNvBpYJfalTh
-        VIcOuLmZ8o/HneIQpJMTusNl7BWlgznFwg==
-X-Google-Smtp-Source: ABdhPJwg7DtgtzmM+oOEQZB8B3w7xxoTEP1sHRuXCct8dE7pqzgnpSVXATg5kQ3cxTHedgByibCaKw==
-X-Received: by 2002:a05:6122:2188:: with SMTP id j8mr761062vkd.11.1640167828305;
-        Wed, 22 Dec 2021 02:10:28 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
-        by smtp.gmail.com with ESMTPSA id n46sm185944uae.2.2021.12.22.02.10.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Dec 2021 02:10:28 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id p2so3207194uad.11;
-        Wed, 22 Dec 2021 02:10:27 -0800 (PST)
-X-Received: by 2002:a9f:22ca:: with SMTP id 68mr712218uan.78.1640167827839;
- Wed, 22 Dec 2021 02:10:27 -0800 (PST)
+        Wed, 22 Dec 2021 05:19:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=R5JyNbV41eVlN2rpLYyTGZBmbf0D
+        gJKsxksorKk3WpM=; b=D1Ru1GyHecO5uI+4F743tKOu7AkcOEvxiZCU2kE0y++K
+        dYhZsOIfjDoa6PlviH23EVg4EvjZwaYoa3o2V2DIAaJjUps3x5vvwDNEum4H++Y8
+        UQ8sGrPmAsO03P7wlwnvHZjIK6R7Er4ZCSVFFp/p72L6Sh2J2yCBjySBhgJb2V4=
+Received: (qmail 1711019 invoked from network); 22 Dec 2021 11:19:19 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Dec 2021 11:19:19 +0100
+X-UD-Smtp-Session: l3s3148p1@Vz9rdLnTYLYgAQnoAFCUAc+q0T6Ni/m/
+Date:   Wed, 22 Dec 2021 11:19:19 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <YcL7p5nzZs8vnojl@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211219132442.4080-1-wsa+renesas@sang-engineering.com>
+ <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211221052722.597407-1-yoshihiro.shimoda.uh@renesas.com>
- <20211221052722.597407-3-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdX81Ed-U_DSTKtv074qAq0yB0DJA4YnF9XS1YfEi2zW=g@mail.gmail.com> <TY2PR01MB3692659BC6251EED054C326BD87D9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB3692659BC6251EED054C326BD87D9@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Dec 2021 11:10:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVb3gfsNLO4tB8nh9sWeHYJZdxd3aZGRHxSEPZGE+Qi8Q@mail.gmail.com>
-Message-ID: <CAMuHMdVb3gfsNLO4tB8nh9sWeHYJZdxd3aZGRHxSEPZGE+Qi8Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dmaengine: rcar-dmac: Add support for R-Car S4-8
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="1KCfx6qEZh2LZMVG"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
 
-On Wed, Dec 22, 2021 at 11:08 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, December 22, 2021 6:17 PM
-> > As some registers do not exist (or are not documented) on R-Car S4-8, perhaps you want to document that in the comments
-> > for the register definitions, too? Fortunately none of them are used by the driver.
->
-> You're correct. So, I'll modify the following code:
->
-> -#define RCAR_DMACHCLR                   0x0080  /* Not on R-Car V3U */
-> +#define RCAR_DMACHCLR                   0x0080  /* Not on R-Car Gen4 */
-> (sorry these tabs are replaced as spaces)
->
-> Also, I'll add such information in the commit description
-> like below.
-> -----
-> Add support for R-Car S4-8. We can reuse R-Car V3U code so that
-> renames variable names as "gen4".
->
-> Note that some registers of R-Car V3U do not exist on R-Car S4-8,
-> but none of them are used by the driver for now.
-> -----
->
-> Are they acceptable?
+--1KCfx6qEZh2LZMVG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Perfect! Thanks!
 
-Gr{oetje,eeting}s,
+> Anyone with a clue? Thanks!
 
-                        Geert
+Yes, the search engines helped[1]. I run a minimal system, so when I
+mount cpusets, it will actually mount cgroups with a default mount
+option of "noprefix". But you likely run a rootfs with cgroups already,
+so it gets mounted directly without "noprefix". Then, when the logic
+analyzer tries to mount again, the implied default "noprefix" is
+discarded.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[1] https://cgroups.vger.kernel.narkive.com/20fAhMNN/noprefix-mount-option
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So, I will update the script to mount "cgroups" instead of "cpuset" and
+use the newer filenames instead. This seems to be the proper way.
+
+Thanks for testing, Geert!
+
+
+--1KCfx6qEZh2LZMVG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHC+6YACgkQFA3kzBSg
+KbYZ/hAAhaxLkQWTonCJs1G98B3/mfZNfYHQDq+pWhpe7vyBmMo7ah1mAaqRnP/a
+c6hXnhvMchXz0jsJUEMi6PVYN46QZsBXJYsCTMvWeBiiKYFEZgJTrDSwMpU6cQXj
+ZJ4bq/1EI00d3jlITnMs1BJPjo9jvgJgJ7L0pULBxg9U9z/3d8qnwfRg5/uF4f3E
+y6f/ogbv6QCqiOXBwz3e7esIfICuYJrU/4jFhl52TKUEITCdYrujdcpc19vF9NG+
+gB4Tvbds81QbE7vL0yzMNlV/8kk0iG/nEylxBr/8C6UQ0TdlSpXc+CekrFkaWyrn
+wgyj5L2hp5inLhTGyWr3QLi9GKpgs2+Uy6VS0HhDLD3AISMfGRS96AhlnaLQ2vWj
+mC6o0AdWqJh64P+SpeWhND9/SgcFneTw/rGyvlCGnI2ohS8GrkrFnyGDyvVjKt/9
+K9Y6licQti5S3JMNh26+P2Jbkoamhe/PGdb3RSOWPPd3YuAWUknAb10iKPqHjAvG
+mML6xLdEeeItxsQXCelnTbLUaIqC3s6QtiOWLEHRnrXwif/oq1PljOWQZ6GFzK/A
+u3ce9zKci9vp+PDYGoChRQWEk/PQ6/vRlBAhJSHASnuRU/2rjXVaq5Wxlwic6aJJ
+izl120QmSEIiuIctzC0DhfQhHkjUZDok1WOTSBzLXK8wLziMw4s=
+=W980
+-----END PGP SIGNATURE-----
+
+--1KCfx6qEZh2LZMVG--
