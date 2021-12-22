@@ -2,92 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B48EA47CF14
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 10:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FE3447CF5C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 10:35:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243870AbhLVJUR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 04:20:17 -0500
-Received: from mail-ua1-f43.google.com ([209.85.222.43]:40865 "EHLO
-        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239569AbhLVJUQ (ORCPT
+        id S239849AbhLVJfO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 04:35:14 -0500
+Received: from mail04.asahi-net.or.jp ([202.224.55.44]:37207 "EHLO
+        mail04.asahi-net.or.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229987AbhLVJfN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 04:20:16 -0500
-Received: by mail-ua1-f43.google.com with SMTP id y23so3019941uay.7;
-        Wed, 22 Dec 2021 01:20:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a5KXFkJczT+loL4bmBd/xTV7aUTkBhT057Cylmeu8aM=;
-        b=B63M9lnNYHxhCs876fSKbCSpVLD3SfeHDCQ77UUuhAJIjPE0tI/K0QZ/ug73+1jqta
-         lz+bns5TmqLV1byR0NQHxegThxqZFm7zeOyw4s8f0D2I4OFLR067nmkfg8dL9+O8UIqb
-         9EUSrQtkweKOX/0xI25uRnG+RgQew75PkNL6Hd3hRVhp5bkJMySnkLOlCm1ikQjvmJvn
-         gYb1fqB3hss1eLowdUPZIAN+es6xsFyxHQoJPhwzBt63u4jQcdsWWOSVilR/RgXg+OWp
-         jA5ze6crTQxXH5UhafeaF7QpPch9aoiD83x5Mne4OpplJbpItpwm2+PwgAhrYfAjrPxB
-         dROA==
-X-Gm-Message-State: AOAM530RprnitFafJVAQX54NdesjpiBUpGz7g/OwzzjgRZh6wgycFlqz
-        Xx3YztjPSaxiX9b6FrH5RiBZxF8990/y3g==
-X-Google-Smtp-Source: ABdhPJwF9jaHNu77S8dTJ0lF2VMZJwYVQ2Lk62/GUHrzODlWm4y4qhZpM09z2gYL0qwrD/XRcwqQNA==
-X-Received: by 2002:a67:e109:: with SMTP id d9mr631850vsl.11.1640164815641;
-        Wed, 22 Dec 2021 01:20:15 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id i123sm281897vkb.20.2021.12.22.01.20.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Dec 2021 01:20:15 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id m185so933582vkm.5;
-        Wed, 22 Dec 2021 01:20:15 -0800 (PST)
-X-Received: by 2002:a05:6122:21a6:: with SMTP id j38mr685592vkd.39.1640164815041;
- Wed, 22 Dec 2021 01:20:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211221175322.7096-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211221175322.7096-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Dec 2021 10:20:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXhenTpAqYkZhgnxOWZPgJah0_UeWC_sC9Me+AA1YDBMQ@mail.gmail.com>
-Message-ID: <CAMuHMdXhenTpAqYkZhgnxOWZPgJah0_UeWC_sC9Me+AA1YDBMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] i2c: sh_mobile: Use platform_get_irq_optional() to
- get the interrupt
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
+        Wed, 22 Dec 2021 04:35:13 -0500
+X-Greylist: delayed 546 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Dec 2021 04:35:12 EST
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp [153.127.30.23])
+        (Authenticated sender: PQ4Y-STU)
+        by mail04.asahi-net.or.jp (Postfix) with ESMTPA id 4DABC10C7FE;
+        Wed, 22 Dec 2021 18:26:01 +0900 (JST)
+Received: from SIOS1075.ysato.ml (v096121.dynamic.ppp.asahi-net.or.jp [124.155.96.121])
+        by sakura.ysato.name (Postfix) with ESMTPSA id C44351C04FA;
+        Wed, 22 Dec 2021 18:26:00 +0900 (JST)
+Date:   Wed, 22 Dec 2021 18:25:57 +0900
+Message-ID: <87v8zhkn2y.wl-ysato@users.sourceforge.jp>
+From:   Yoshinori Sato <ysato@users.sourceforge.jp>
+To:     Rob Landley <rob@landley.net>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakarprabhakar.csengg@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        "moderated list:H8/300 ARCHITECTURE" 
+        <uclinux-h8-devel@lists.sourceforge.jp>,
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 0/3] serial: sh-sci: Clock handling improvements
+In-Reply-To: <ffd9ed49-69eb-0508-d2fa-5585a1421d78@landley.net>
+References: <cover.1639663832.git.geert+renesas@glider.be>
+        <7cbec488-01d1-1ee2-006a-a3835d42a0a7@landley.net>
+        <CAMuHMdUYu4hOjZMHy+bPrLpJ6=3tja0kJ7WwJ5TFhHivvi0DNQ@mail.gmail.com>
+        <ffd9ed49-69eb-0508-d2fa-5585a1421d78@landley.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 7:21 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> allocation of IRQ resources in DT core code, this causes an issue
-> when using hierarchical interrupt domains using "interrupts" property
-> in the node as this bypasses the hierarchical setup and messes up the
-> irq chaining.
->
-> In preparation for removal of static setup of IRQ resource from DT core
-> code use platform_get_irq_optional() for DT users only.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, 20 Dec 2021 19:29:24 +0900,
+Rob Landley wrote:
+> 
+> On 12/19/21 4:53 AM, Geert Uytterhoeven wrote:
+> >> By the way, did you ever figure out how to get the first serial port to work on
+> >> qemu so qemu-system-sh4 doesn't have to "-serial null -serial mon:stdio" to get
+> >> a serial console?
+> > 
+> > Nope, same as last time you asked ;-)
+> 
+> Well it had been a couple years, you never know...
+> 
+> > However, upon a fresh look at linux/arch/sh/boards/mach-r2d/setup.c,
+> > I noticed something I missed before: the SCI port is not available
+> > as a UART, as it is used to talk SPI to an RTC.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Yes.
+R2D plus serial port connected SuperI/O UART. It not cpu on-chip SCI.
+It is not possible to check SCI with the standard version of qemu-system-sh4.
+There is SCI emulation, so you can change it to connect to the qemu serial port.
 
-Gr{oetje,eeting}s,
+> /* Single Epson RTC-9701JE attached on CS0 */
+> 
+> Huh. That does explain the CONFIG_RTC_DRV_R9701=y in rts7751r2d*_defconfig.
+> (And also SPI SPI_SH_SCI MFD_SM501 RTC_CLASS and RTC_DRV_SH RTC_HCTOSYS which
+> I've never gotten connected to QEMU.)
 
-                        Geert
+SPI_SH_SCI using SCI pin like GPIO.
+qemu-system-sh4 is not support this.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > So that means qemu
+> > has the hardware description wrong?
+> 
+> It would be nice if qemu-system-sh4 grew an RTC. Looks like Sato-san and Magnus
+> Damm are the qemu-system-sh4 maintainers? (cc'd)
+> 
+> Thanks,
+> 
+> Rob
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Yosinori Sato
