@@ -2,120 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9FAB47D130
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 12:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A07847D287
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 13:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235065AbhLVLpZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 06:45:25 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:11649 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232268AbhLVLpY (ORCPT
+        id S245058AbhLVM6a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 07:58:30 -0500
+Received: from www.zeus03.de ([194.117.254.33]:44760 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233901AbhLVM63 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 06:45:24 -0500
-X-IronPort-AV: E=Sophos;i="5.88,226,1635174000"; 
-   d="scan'208";a="104359104"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 22 Dec 2021 20:45:23 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3B06B42E47B8;
-        Wed, 22 Dec 2021 20:45:23 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org, robh+dt@kernel.org
-Cc:     dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/2] dmaengine: rcar-dmac: Add support for R-Car S4-8
-Date:   Wed, 22 Dec 2021 20:45:07 +0900
-Message-Id: <20211222114507.1252947-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211222114507.1252947-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20211222114507.1252947-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 22 Dec 2021 07:58:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=1nIjg3+81S8PpIpyM/622UZk5jW8
+        luO276mlBCCaRH0=; b=k58GqFsJm7Jol5kpL42DPmyYaeBhfdWtkophTQQ75lgW
+        fcs4OCEtq0QMWgjCtTl7LHj7gXsFXwO1G28KH+eWX/RArHbYZCmUtaiiLHq05b7b
+        tv8B+oeDCfBJutQr7H6ewMqa4SYBzstQOTDy2I5DbOpy9iV+6LtoAVFZFQD0JnQ=
+Received: (qmail 1769551 invoked from network); 22 Dec 2021 13:58:27 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Dec 2021 13:58:27 +0100
+X-UD-Smtp-Session: l3s3148p1@KgpYrbvTiMYgAQnoAE7AABWUu3WTN36y
+Date:   Wed, 22 Dec 2021 13:58:24 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <YcMg8NzjlNDLksNT@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211219132442.4080-1-wsa+renesas@sang-engineering.com>
+ <20211219132442.4080-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVh60ocfzkJKz8zR1hODr8SWp=sbyHrR3KGx2ntLmuFGQ@mail.gmail.com>
+ <YcL7p5nzZs8vnojl@shikoro>
+ <CAMuHMdXn-cmK1HewukjOnjC1JEgfFfH7FW23YvPTKHcNCiet2w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="88VcK3OE27ZRg7Tw"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXn-cmK1HewukjOnjC1JEgfFfH7FW23YvPTKHcNCiet2w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for R-Car S4-8. We can reuse R-Car V3U code so that
-renames variable names as "gen4".
 
-Note that some registers of R-Car V3U do not exist on R-Car S4-8,
-but none of them are used by the driver for now.
+--88VcK3OE27ZRg7Tw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/dma/sh/rcar-dmac.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
-index 5c7716fd6bc5..481f45c77ce1 100644
---- a/drivers/dma/sh/rcar-dmac.c
-+++ b/drivers/dma/sh/rcar-dmac.c
-@@ -236,7 +236,7 @@ struct rcar_dmac_of_data {
- #define RCAR_DMAOR_PRI_ROUND_ROBIN	(3 << 8)
- #define RCAR_DMAOR_AE			(1 << 2)
- #define RCAR_DMAOR_DME			(1 << 0)
--#define RCAR_DMACHCLR			0x0080	/* Not on R-Car V3U */
-+#define RCAR_DMACHCLR			0x0080	/* Not on R-Car Gen4 */
- #define RCAR_DMADPSEC			0x00a0
- 
- #define RCAR_DMASAR			0x0000
-@@ -299,8 +299,8 @@ struct rcar_dmac_of_data {
- #define RCAR_DMAFIXDAR			0x0014
- #define RCAR_DMAFIXDPBASE		0x0060
- 
--/* For R-Car V3U */
--#define RCAR_V3U_DMACHCLR		0x0100
-+/* For R-Car Gen4 */
-+#define RCAR_GEN4_DMACHCLR		0x0100
- 
- /* Hardcode the MEMCPY transfer size to 4 bytes. */
- #define RCAR_DMAC_MEMCPY_XFER_SIZE	4
-@@ -345,7 +345,7 @@ static void rcar_dmac_chan_clear(struct rcar_dmac *dmac,
- 				 struct rcar_dmac_chan *chan)
- {
- 	if (dmac->chan_base)
--		rcar_dmac_chan_write(chan, RCAR_V3U_DMACHCLR, 1);
-+		rcar_dmac_chan_write(chan, RCAR_GEN4_DMACHCLR, 1);
- 	else
- 		rcar_dmac_write(dmac, RCAR_DMACHCLR, BIT(chan->index));
- }
-@@ -357,7 +357,7 @@ static void rcar_dmac_chan_clear_all(struct rcar_dmac *dmac)
- 
- 	if (dmac->chan_base) {
- 		for_each_rcar_dmac_chan(i, dmac, chan)
--			rcar_dmac_chan_write(chan, RCAR_V3U_DMACHCLR, 1);
-+			rcar_dmac_chan_write(chan, RCAR_GEN4_DMACHCLR, 1);
- 	} else {
- 		rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
- 	}
-@@ -2009,7 +2009,7 @@ static const struct rcar_dmac_of_data rcar_dmac_data = {
- 	.chan_offset_stride	= 0x80,
- };
- 
--static const struct rcar_dmac_of_data rcar_v3u_dmac_data = {
-+static const struct rcar_dmac_of_data rcar_gen4_dmac_data = {
- 	.chan_offset_base	= 0x0,
- 	.chan_offset_stride	= 0x1000,
- };
-@@ -2018,9 +2018,12 @@ static const struct of_device_id rcar_dmac_of_ids[] = {
- 	{
- 		.compatible = "renesas,rcar-dmac",
- 		.data = &rcar_dmac_data,
-+	}, {
-+		.compatible = "renesas,rcar-gen4-dmac",
-+		.data = &rcar_gen4_dmac_data,
- 	}, {
- 		.compatible = "renesas,dmac-r8a779a0",
--		.data = &rcar_v3u_dmac_data,
-+		.data = &rcar_gen4_dmac_data,
- 	},
- 	{ /* Sentinel */ }
- };
--- 
-2.25.1
+> > Yes, the search engines helped[1]. I run a minimal system, so when I
+> > mount cpusets, it will actually mount cgroups with a default mount
+> > option of "noprefix". But you likely run a rootfs with cgroups already,
+> > so it gets mounted directly without "noprefix". Then, when the logic
+> > analyzer tries to mount again, the implied default "noprefix" is
+> > discarded.
+>=20
+> Yeah, systemd on Debian has it mounted.
 
+So, the proper solution is to use/mount 'cgroups2' instead of 'cpuset'.
+But this needs more thinking and testing and, thus, another revision.
+Dunno if I can make it this year, so I am probably going to miss the
+next merge window after all :(
+
+Geert, if you still want to test the PFC patch I sent, then this patch
+for the script should get you going:
+
+diff --git a/tools/gpio/gpio-sloppy-logic-analyzer b/tools/gpio/gpio-sloppy=
+-logic-analyzer
+index eb2065fe6733..f1bfdd3568cf 100755
+--- a/tools/gpio/gpio-sloppy-logic-analyzer
++++ b/tools/gpio/gpio-sloppy-logic-analyzer
+@@ -80,13 +80,13 @@ init_cpu()
+ 	mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
+ 	[ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
+=20
+-	cur_cpu=3D"$(cat "$lacpusetdir"/cpus)"
++	cur_cpu=3D"$(cat "$lacpusetdir"/cpuset.cpus)"
+ 	[ "$cur_cpu" =3D "$isol_cpu" ] && return
+ 	[ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already=
+ isolated"
+=20
+-	echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$iso=
+l_cpu. Does it exist?"
+-	echo 1 > "$lacpusetdir"/cpu_exclusive
+-	echo 0 > "$lacpusetdir"/mems
++	echo "$isol_cpu" > "$lacpusetdir"/cpuset.cpus || fail "Could not isolate =
+CPU$isol_cpu. Does it exist?"
++	echo 1 > "$lacpusetdir"/cpuset.cpu_exclusive
++	echo 0 > "$lacpusetdir"/cpuset.mems
+=20
+ 	oldmask=3D$(cat /proc/irq/default_smp_affinity)
+ 	newmask=3D$(printf "%x" $((0x$oldmask & ~(1 << isol_cpu))))
+@@ -213,7 +213,7 @@ if [ -n "$triggerdat" ]; then
+ 	printf "$trigger_bindat" > "$lasysfsdir"/trigger 2>/dev/null || fail "Tri=
+gger data '$triggerdat' rejected"
+ fi
+=20
+-workcpu=3D$(cat "$lacpusetdir"/effective_cpus)
++workcpu=3D$(cat "$lacpusetdir"/cpuset.effective_cpus)
+ [ -n "$workcpu" ] || fail "No isolated CPU found"
+ cpumask=3D$(printf '%x' $((1 << workcpu)))
+ instance=3D${lasysfsdir##*/}
+
+
+--88VcK3OE27ZRg7Tw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHDIOwACgkQFA3kzBSg
+KbYTQxAAg4lBRLmsgJwsKmT7aqv9a24V8wcazaw2rI1QhCx34BgfxAko/CgO7Tah
+mny71vhIk+cSKdkBMnXU2gTG2V7Dx6kb5XVI9IXTIc1PBnJ/syS1M1ao8QmGenkK
++lp+NBQT+lCcgPVOHP36Er9G5CG+yn4NH4VK1mT53d63KsdGyUGCi0xyB01tSwNl
+vok6xNZFksOvzWivCd7HKEVK26pK8gDYkFOrVwVx7clgAIOMurZTtEWI+ejNB11s
+DJx0kQl6ouOh0B7VZndGEQTvoOwR6hCWJ3R32z61sMO4h5hQIMfEznAVTiBRqNqQ
+2z1pzbwNq10kkQIyAKeOotxOuHzVdsZ5/yXl4JJUdn8rxxBhJXlMggAjYfKST3Qd
+pL3xcZeC+kIYiNP/QWgO5M2n+x3SFChY/jbAmUXw0N+3XL/K+6nCeMhcKLxfK+/A
+8Zpgzxd3rMbfFzg5A8TIuCojorgpKQ9XEuKbmJdu7KW2MlHiHqqTjI/kjinvjkbw
+Hqr7MkoC9QgUBZU/LmfFVV/NG4DVFhGHRVTNaOif5Tj7jx/p+daRYox7z8thMvDl
+vse5sBH0kulMdvSynvUNceKhk/tzJ/pvTYNTtyj/5Huywv9W1satgpRQbcy3V3or
+9MT+wpYFLq4SY39+/6xNgPv6sVAU/M4bUv2t/r4wR1EOcMIsYy0=
+=T8QE
+-----END PGP SIGNATURE-----
+
+--88VcK3OE27ZRg7Tw--
