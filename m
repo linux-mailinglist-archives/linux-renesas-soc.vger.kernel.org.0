@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5712247E4ED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 15:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8FE47E502
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 15:42:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348932AbhLWOme (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Dec 2021 09:42:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348962AbhLWOmT (ORCPT
+        id S243969AbhLWOmi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Dec 2021 09:42:38 -0500
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:45196 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348954AbhLWOmU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Dec 2021 09:42:19 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A555C061190
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 06:42:18 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id ZqiF2600M4C55Sk01qiF1i; Thu, 23 Dec 2021 15:42:15 +0100
+        Thu, 23 Dec 2021 09:42:20 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4JKXw731PhzMqplQ
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 15:42:15 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:a9f6:6306:a80a:fe6a])
+        by andre.telenet-ops.be with bizsmtp
+        id ZqiF2600K1rdBcm01qiFQF; Thu, 23 Dec 2021 15:42:15 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1n0PIM-006aCn-Ig; Thu, 23 Dec 2021 15:42:14 +0100
+        id 1n0PIM-006aCq-Ib; Thu, 23 Dec 2021 15:42:14 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1n0PIL-003rjc-MO; Thu, 23 Dec 2021 15:42:13 +0100
+        id 1n0PIL-003rkL-N6; Thu, 23 Dec 2021 15:42:13 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 57/60] pinctrl: renesas: r8a77951: Share more VIN pin group data
-Date:   Thu, 23 Dec 2021 15:42:07 +0100
-Message-Id: <100605798d02cbd8695aedfaaaa8a3b63e3a281f.1640269757.git.geert+renesas@glider.be>
+Subject: [PATCH 58/60] pinctrl: renesas: r8a7796: Share more VIN pin group data
+Date:   Thu, 23 Dec 2021 15:42:08 +0100
+Message-Id: <1fc04bb08e2c26109509bd53b19ffbf9ce83d2f1.1640269757.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1640269757.git.geert+renesas@glider.be>
 References: <cover.1640269757.git.geert+renesas@glider.be>
@@ -49,14 +49,14 @@ This reduces kernel size by 128 bytes.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pinctrl/renesas/pfc-r8a77951.c | 28 ++------------------------
+ drivers/pinctrl/renesas/pfc-r8a7796.c | 28 ++-------------------------
  1 file changed, 2 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77951.c b/drivers/pinctrl/renesas/pfc-r8a77951.c
-index 7a71798df79aa969..bd6f83485e565210 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77951.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77951.c
-@@ -4067,18 +4067,6 @@ static const unsigned int vin4_data_b_mux[] = {
+diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
+index f74b424fa8e4230f..6079f588a201430d 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a7796.c
++++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
+@@ -4042,18 +4042,6 @@ static const unsigned int vin4_data_b_mux[] = {
  	VI4_DATA20_MARK, VI4_DATA21_MARK,
  	VI4_DATA22_MARK, VI4_DATA23_MARK,
  };
@@ -75,7 +75,7 @@ index 7a71798df79aa969..bd6f83485e565210 100644
  static const unsigned int vin4_sync_pins[] = {
  	/* HSYNC#, VSYNC# */
  	RCAR_GP_PIN(1, 18), RCAR_GP_PIN(1, 17),
-@@ -4129,18 +4117,6 @@ static const unsigned int vin5_data_mux[] = {
+@@ -4104,18 +4092,6 @@ static const unsigned int vin5_data_mux[] = {
  	VI5_DATA12_MARK, VI5_DATA13_MARK,
  	VI5_DATA14_MARK, VI5_DATA15_MARK,
  };
@@ -94,7 +94,7 @@ index 7a71798df79aa969..bd6f83485e565210 100644
  static const unsigned int vin5_sync_pins[] = {
  	/* HSYNC#, VSYNC# */
  	RCAR_GP_PIN(1, 10), RCAR_GP_PIN(1, 9),
-@@ -4491,7 +4467,7 @@ static const struct {
+@@ -4462,7 +4438,7 @@ static const struct {
  		SH_PFC_PIN_GROUP(vin4_data18_b),
  		BUS_DATA_PIN_GROUP(vin4_data, 20, _b),
  		BUS_DATA_PIN_GROUP(vin4_data, 24, _b),
@@ -103,7 +103,7 @@ index 7a71798df79aa969..bd6f83485e565210 100644
  		SH_PFC_PIN_GROUP(vin4_sync),
  		SH_PFC_PIN_GROUP(vin4_field),
  		SH_PFC_PIN_GROUP(vin4_clkenb),
-@@ -4500,7 +4476,7 @@ static const struct {
+@@ -4471,7 +4447,7 @@ static const struct {
  		BUS_DATA_PIN_GROUP(vin5_data, 10),
  		BUS_DATA_PIN_GROUP(vin5_data, 12),
  		BUS_DATA_PIN_GROUP(vin5_data, 16),
