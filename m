@@ -2,53 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 910D047E00B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 08:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C815E47E0E0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 10:32:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239576AbhLWH4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Dec 2021 02:56:51 -0500
-Received: from mail.BETTERBIZ.PL ([45.86.209.138]:58418 "EHLO
-        mail.betterbiz.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239468AbhLWH4v (ORCPT
+        id S1347461AbhLWJc2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Dec 2021 04:32:28 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:16249 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234179AbhLWJc2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Dec 2021 02:56:51 -0500
-X-Greylist: delayed 458 seconds by postgrey-1.27 at vger.kernel.org; Thu, 23 Dec 2021 02:56:51 EST
-Received: by mail.betterbiz.pl (Postfix, from userid 1001)
-        id A5121831BD; Thu, 23 Dec 2021 02:45:44 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=betterbiz.pl; s=mail;
-        t=1640245753; bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
-        h=Date:From:To:Subject:From;
-        b=Igm3nuXxZktP4hYOW7FOi38rf2eF55zZ1xVZ7ACLRhz5F4pa9BlZvpY4Xk/FWqx1y
-         8G0d9DghGFb7AdXgbSbXZRI3g1hJyPBuOFqoZN0Dl/NsybF08fBKRE17vwQKh2ILqX
-         Yhh+Mtwwrs3eDMoNhhny4zxRZB8nrEZQHwc85s7c3idM9ibc2unQu9OAtBJdvruSKe
-         I4DficrfJHNuOWCg23+mS7pxMNGM8fY0I7wi/N2nhTAxlSowc0Mc5QFRiYONqUKLyA
-         OLwoqiyIv2D2WmOK/ahc5+pDhhQ5+mgpgvupp0ohMykoX2I81Dlp0N9wapo2NjLQEu
-         CZpU9lTV1ORHw==
-Received: by mail.betterbiz.pl for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 07:45:38 GMT
-Message-ID: <20211223024500-0.1.f.zbo.0.3vn003pgc4@betterbiz.pl>
-Date:   Thu, 23 Dec 2021 07:45:38 GMT
-From:   "Jakub Daroch" <jakub.daroch@betterbiz.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.betterbiz.pl
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 23 Dec 2021 04:32:28 -0500
+X-IronPort-AV: E=Sophos;i="5.88,229,1635174000"; 
+   d="scan'208";a="104472104"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Dec 2021 18:32:26 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A765C4012B0D;
+        Thu, 23 Dec 2021 18:32:24 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH] clk: renesas: r9a07g044: Update multiplier and divider values for PLL2/3
+Date:   Thu, 23 Dec 2021 09:32:23 +0000
+Message-Id: <20211223093223.4725-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+As per the HW manual (Rev.1.00 Sep, 2021) PLL2 and PLL3 should be 1600MHz,
+but with current multiplier and divider values this resulted to 1596MHz.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+This patch updates the multiplier and divider values for PLL2 and PLL3
+so that we get the exact (1600MHz) values.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+Fixes: 17f0ff3d49ff1 ("clk: renesas: Add support for R9A07G044 SoC")
+Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Hi,
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Below is the log for before and after this patch.
 
+Clock output before the patch:
+root@smarc-rzg2l:~# cat /sys/kernel/debug/clk/clk_summary | grep -E 'pll1|pll2|pll3'
+    .pll3                             1        2        0  1596000000          0     0  50000         Y
+       .pll3_div2                     1        1        0   798000000          0     0  50000         Y
+          .pll3_div2_4                3        3        0   199500000          0     0  50000         Y
+             .pll3_div2_4_2           2        2        0    99750000          0     0  50000         Y
+          .pll3_div2_2                0        0        0   399000000          0     0  50000         Y
+       .pll3_533                      0        2        0   532000000          0     0  50000         Y
+          .sel_pll3_3                 0        1        0   532000000          0     0  50000         Y
+       .pll3_400                      0        0        0   399000000          0     0  50000         Y
+    .pll2                             2        2        0  1596000000          0     0  50000         Y
+       .pll2_div2                     1        2        0   798000000          0     0  50000         Y
+          .pll2_div2_10               0        1        0    79800000          0     0  50000         Y
+          .pll2_div2_8                1        1        0    99750000          0     0  50000         Y
+    .pll1                             0        0        0  1200000000          0     0  50000         Y
+root@smarc-rzg2l:~#
 
-Pozdrawiam,
-Jakub Daroch
+Clock output after the patch:
+root@smarc-rzg2l:~# cat /sys/kernel/debug/clk/clk_summary | grep -E 'pll1|pll2|pll3'
+    .pll3                             1        2        0  1600000000          0     0  50000         Y
+       .pll3_div2                     1        1        0   800000000          0     0  50000         Y
+          .pll3_div2_4                3        3        0   200000000          0     0  50000         Y
+             .pll3_div2_4_2           2        2        0   100000000          0     0  50000         Y
+          .pll3_div2_2                0        0        0   400000000          0     0  50000         Y
+       .pll3_533                      0        2        0   533333333          0     0  50000         Y
+          .sel_pll3_3                 0        1        0   533333333          0     0  50000         Y
+       .pll3_400                      0        0        0   400000000          0     0  50000         Y
+    .pll2                             2        2        0  1600000000          0     0  50000         Y
+       .pll2_div2                     1        2        0   800000000          0     0  50000         Y
+          .pll2_div2_10               0        1        0    80000000          0     0  50000         Y
+          .pll2_div2_8                1        1        0   100000000          0     0  50000         Y
+    .pll1                             0        0        0  1200000000          0     0  50000         Y
+root@smarc-rzg2l:~#
+
+Cheers,
+Prabhakar
+---
+ drivers/clk/renesas/r9a07g044-cpg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index f4537345126d..22923f8949b1 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -89,8 +89,8 @@ static const struct cpg_core_clk r9a07g044_core_clks[] __initconst = {
+ 	DEF_FIXED(".osc", R9A07G044_OSCCLK, CLK_EXTAL, 1, 1),
+ 	DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
+ 	DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
+-	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 133, 2),
+-	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 133, 2),
++	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
++	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
+ 	DEF_FIXED(".pll3_400", CLK_PLL3_400, CLK_PLL3, 1, 4),
+ 	DEF_FIXED(".pll3_533", CLK_PLL3_533, CLK_PLL3, 1, 3),
+ 
+-- 
+2.17.1
+
