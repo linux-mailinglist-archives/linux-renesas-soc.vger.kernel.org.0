@@ -2,120 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0BA247E4FF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 15:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF77447E532
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 15:56:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239732AbhLWOmh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Dec 2021 09:42:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49004 "EHLO
+        id S243954AbhLWO4f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Dec 2021 09:56:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348970AbhLWOmU (ORCPT
+        with ESMTP id S243965AbhLWO4c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Dec 2021 09:42:20 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0629EC061759
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 06:42:18 -0800 (PST)
+        Thu, 23 Dec 2021 09:56:32 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44734C061792
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 06:56:31 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id ZqiF260174C55Sk01qiFdb; Thu, 23 Dec 2021 15:42:15 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id ZqwV2600c4C55Sk01qwVZM; Thu, 23 Dec 2021 15:56:29 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1n0PIM-006aCy-Pf; Thu, 23 Dec 2021 15:42:14 +0100
+        id 1n0PW9-006aMA-8X; Thu, 23 Dec 2021 15:56:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1n0PIL-003rku-Oo; Thu, 23 Dec 2021 15:42:13 +0100
+        id 1n0PW7-003rwS-Tl; Thu, 23 Dec 2021 15:56:27 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 60/60] pinctrl: renesas: r8a77990: Share more VIN pin group data
-Date:   Thu, 23 Dec 2021 15:42:10 +0100
-Message-Id: <cfb71c90c19723ba2770f7512f138e4b17857141.1640269757.git.geert+renesas@glider.be>
+Subject: [PATCH 00/10] pinctrl: renesas: checker: Miscellaneous improvements
+Date:   Thu, 23 Dec 2021 15:56:16 +0100
+Message-Id: <cover.1640270559.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1640269757.git.geert+renesas@glider.be>
-References: <cover.1640269757.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Pin group vin4_g8 is a subset of vin4_data24_a.
-Pin group vin5_high8 is a subset of vin5_data16_a.
+	Hi Linus,
 
-This reduces kernel size by 128 bytes.
+This patch series improves the Renesas pin control table validator
+(enabled when DEBUG is defined, e.g. with CONFIG_DEBUG_PINCTRL=y), by:
+  1. Suggesting which pin groups can share pins,
+  2. Adding more checks to catch common errors.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pinctrl/renesas/pfc-r8a77990.c | 32 ++------------------------
- 1 file changed, 2 insertions(+), 30 deletions(-)
+If you enable the checker, you may be disappointed by the (lack of)
+output.  Indeed, it is much easier to fix detected issues, than to get
+the checker code in a state that is suitable for upstream submission
+;-)
+Hence most issues detected have been fixed already for quite some time,
+or never arrived upstream in the first place. Recent fixes are [1] and
+[2].
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77990.c b/drivers/pinctrl/renesas/pfc-r8a77990.c
-index 37db292b649a700b..68e82d4bc06ec663 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77990.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77990.c
-@@ -3636,20 +3636,6 @@ static const unsigned int vin4_data_b_mux[] = {
- 	VI4_DATA22_MARK,  VI4_DATA23_MARK,
- };
- 
--static const unsigned int vin4_g8_pins[] = {
--	RCAR_GP_PIN(1, 4),  RCAR_GP_PIN(1, 5),
--	RCAR_GP_PIN(1, 6),  RCAR_GP_PIN(1, 7),
--	RCAR_GP_PIN(1, 3),  RCAR_GP_PIN(1, 10),
--	RCAR_GP_PIN(1, 13), RCAR_GP_PIN(1, 14),
--};
--
--static const unsigned int vin4_g8_mux[] = {
--	VI4_DATA8_MARK,  VI4_DATA9_MARK,
--	VI4_DATA10_MARK, VI4_DATA11_MARK,
--	VI4_DATA12_MARK, VI4_DATA13_MARK,
--	VI4_DATA14_MARK, VI4_DATA15_MARK,
--};
--
- static const unsigned int vin4_sync_pins[] = {
- 	/* HSYNC, VSYNC */
- 	RCAR_GP_PIN(2, 25), RCAR_GP_PIN(2, 24),
-@@ -3720,20 +3706,6 @@ static const unsigned int vin5_data8_b_mux[] = {
- 	VI5_DATA6_B_MARK,  VI5_DATA7_B_MARK,
- };
- 
--static const unsigned int vin5_high8_pins[] = {
--	RCAR_GP_PIN(0, 12), RCAR_GP_PIN(0, 13),
--	RCAR_GP_PIN(0, 9),  RCAR_GP_PIN(0, 11),
--	RCAR_GP_PIN(0, 8),  RCAR_GP_PIN(0, 10),
--	RCAR_GP_PIN(0, 2),  RCAR_GP_PIN(0, 3),
--};
--
--static const unsigned int vin5_high8_mux[] = {
--	VI5_DATA8_A_MARK,  VI5_DATA9_A_MARK,
--	VI5_DATA10_A_MARK, VI5_DATA11_A_MARK,
--	VI5_DATA12_A_MARK, VI5_DATA13_A_MARK,
--	VI5_DATA14_A_MARK, VI5_DATA15_A_MARK,
--};
--
- static const unsigned int vin5_sync_a_pins[] = {
- 	/* HSYNC_N, VSYNC_N */
- 	RCAR_GP_PIN(1, 8), RCAR_GP_PIN(1, 9),
-@@ -4021,7 +3993,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(vin4_data18_b),
- 		BUS_DATA_PIN_GROUP(vin4_data, 20, _b),
- 		BUS_DATA_PIN_GROUP(vin4_data, 24, _b),
--		SH_PFC_PIN_GROUP(vin4_g8),
-+		SH_PFC_PIN_GROUP_SUBSET(vin4_g8, vin4_data_a, 8, 8),
- 		SH_PFC_PIN_GROUP(vin4_sync),
- 		SH_PFC_PIN_GROUP(vin4_field),
- 		SH_PFC_PIN_GROUP(vin4_clkenb),
-@@ -4031,7 +4003,7 @@ static const struct {
- 		BUS_DATA_PIN_GROUP(vin5_data, 12, _a),
- 		BUS_DATA_PIN_GROUP(vin5_data, 16, _a),
- 		SH_PFC_PIN_GROUP(vin5_data8_b),
--		SH_PFC_PIN_GROUP(vin5_high8),
-+		SH_PFC_PIN_GROUP_SUBSET(vin5_high8, vin5_data_a, 8, 8),
- 		SH_PFC_PIN_GROUP(vin5_sync_a),
- 		SH_PFC_PIN_GROUP(vin5_field_a),
- 		SH_PFC_PIN_GROUP(vin5_clkenb_a),
+If accepted, I intend to queue this in renesas-pinctrl for v5.18.
+Thanks for your comments!
+
+[1] "[PATCH 00/60] pinctrl: renesas: Share more pin group data"
+    https://lore.kernel.org/r/cover.1640269757.git.geert+renesas@glider.be/
+[2] "[PATCH] pinctrl: renesas: r8a7794: Add range checking to
+     .pin_to_pocctrl()"
+    https://lore.kernel.org/r/d23767ad7152327654192d7191f4b8ae19493966.1640269510.git.geert+renesas@glider.be/
+
+Geert Uytterhoeven (10):
+  pinctrl: renesas: Remove unused pfc parameter from .pin_to_pocctrl()
+  pinctrl: renesas: Factor out .pin_to_portcr() address handling
+  pinctrl: renesas: Pass sh_pfc_soc_info to rcar_pin_to_bias_reg()
+  pinctrl: renesas: checker: Simplify same_name()
+  pinctrl: renesas: checker: Add pin group sharing checks
+  pinctrl: renesas: checker: Validate bias configs consistency
+  pinctrl: renesas: checker: Validate drive strength configs consistency
+  pinctrl: renesas: checker: Validate I/O voltage configs consistency
+  pinctrl: renesas: checker: Check bias pin conflicts
+  pinctrl: renesas: checker: Check drive pin conflicts
+
+ drivers/pinctrl/renesas/core.c         | 208 ++++++++++++++++++++++---
+ drivers/pinctrl/renesas/pfc-r8a73a4.c  |   4 +-
+ drivers/pinctrl/renesas/pfc-r8a7740.c  |   6 +-
+ drivers/pinctrl/renesas/pfc-r8a77470.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a7790.c  |   2 +-
+ drivers/pinctrl/renesas/pfc-r8a7791.c  |   2 +-
+ drivers/pinctrl/renesas/pfc-r8a7794.c  |   2 +-
+ drivers/pinctrl/renesas/pfc-r8a77950.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77951.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a7796.c  |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77965.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77970.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77980.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77990.c |   3 +-
+ drivers/pinctrl/renesas/pfc-r8a77995.c |   4 +-
+ drivers/pinctrl/renesas/pfc-r8a779a0.c |   3 +-
+ drivers/pinctrl/renesas/pfc-sh73a0.c   |   4 +-
+ drivers/pinctrl/renesas/pinctrl.c      |  24 +--
+ drivers/pinctrl/renesas/sh_pfc.h       |   6 +-
+ 19 files changed, 227 insertions(+), 62 deletions(-)
+
 -- 
 2.25.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
