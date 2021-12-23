@@ -2,123 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F8C347D7DC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Dec 2021 20:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55C9447DCB1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Dec 2021 02:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345287AbhLVThx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Dec 2021 14:37:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232808AbhLVThv (ORCPT
+        id S240005AbhLWBMg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Dec 2021 20:12:36 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:57946 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345786AbhLWBLq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Dec 2021 14:37:51 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7323EC061574;
-        Wed, 22 Dec 2021 11:37:51 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id q74so9639404ybq.11;
-        Wed, 22 Dec 2021 11:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JdkYvs20BpJlttg/sO+h+d7jCfULBOe8+I92ZlF90H0=;
-        b=Q1SAHaetYjQ/EOwOdwCaMPzNpCC+yMulPpy3xC4P1n19cq+11tylhwX0k6W8UYmDEB
-         qJG3I7vxY3wzMJ9uCaj3zIrN7J93ORZKhnFpqpUaUK0hklS7plLdvDwdhP5WBiwtaYPz
-         CyyAkv4ltoO09LoarJUNRgGQW2vpi2PucDuLFLyfrXv2v8WGI2UMC5Oh09LslXPY/cMk
-         9kjVER97cD+wAeNdu3Xx2lH2SZeOKDlLO3Upv/1uW3Ya1MvNwgP3UIMZAMN2qILUuiYR
-         8gKNpomh6OKHjbCMWpCK1W2kK3fcMXcEf2pPNUpWEhhYc/eADZNhg5E2ZRiSia6njllX
-         QVbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JdkYvs20BpJlttg/sO+h+d7jCfULBOe8+I92ZlF90H0=;
-        b=WclQ4xllO6XTd1+Yk0uqVyhVcRGCTORLVTO3ayrQfNeLU8iSmjTn56LOQNVyHqYn77
-         pkWcqqNSCgV9qZaz/IH54m+/kWsnTpmpciS4TqjoD4d364ZeSakj1nC1Vba5uPJSsHyT
-         CrLuiOHU2lsw9viqsBty6pEj+QLFX/qG3YtZVs/eqbUol5FegIDA45T2GM74t9B+ekDb
-         XvzQFxde9SQwvA+tw8qfgx9MNDiY+qP90sbB1O63f9cyybdGCuwHEAkkpLZniubzYS1v
-         nFV/xHsUdEoez9hFkQgzyL17lokvdObUnBFUeYW2MxUpHMGYf/BT7iwjzeQS3qDCtTkw
-         GeWg==
-X-Gm-Message-State: AOAM531AJ4Hef8fdw3YeQwTtfyiXMiyt5W/9yBohu9XnBWlpOc5xdV6z
-        kNnJx4Eo9jR8ZOaGa8P6GeZCvFp8drGpzGxbwWM=
-X-Google-Smtp-Source: ABdhPJzdVT+SQRtJbDPy9fx/RFt9bR29nRb5pHIcRNYiRMiQ6ON6WRwM9HPCPHaWh3ZtBJTxcH+1lkFSG0nAeaKi6ro=
-X-Received: by 2002:a25:98c4:: with SMTP id m4mr6431027ybo.613.1640201870647;
- Wed, 22 Dec 2021 11:37:50 -0800 (PST)
+        Wed, 22 Dec 2021 20:11:46 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 4859BCE1EFD;
+        Thu, 23 Dec 2021 01:11:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53991C36AEB;
+        Thu, 23 Dec 2021 01:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640221902;
+        bh=LFg3f+vxhc16OiGKNO9DQqvVW+Fx4PcKl6aq6BZtG3Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qHjAgDrE+WWnLnH/YfCSYiGYmFP3MNAlBQLYffSYSwj/hC0+g4Nac7mY7Ivkg1bvu
+         i1hQ/QFtSXiJ48k7TmMab4HNFvF+oJVd0Ttq1d9hHc6sj8H6i0Ui1sNgAJNSz27xxO
+         1DVyZNiLxkrltMG1hq1AKGjYtFUnghQAy0Mq9OSvx+sjkxz2AnHeWkrMfxYOK3yn9L
+         PbEDJQoxiu//L0qhhx8Vpu3wv1mG2tIOeVk1NRUz/qMOdtwiPvka92S5Xo0Jdj/NDz
+         BbYbaZp7gQxazMfRVqveTm50lS3eupXkIkXCUIKMCS6FjEo7HrxksPhjs1JKcvaj16
+         Xa4Maj8K2MEWA==
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     linux-pci@vger.kernel.org, Fan Fei <ffclaire1224@gmail.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 18/23] PCI: rcar-gen2: Rename rcar_pci_priv to rcar_pci
+Date:   Wed, 22 Dec 2021 19:10:49 -0600
+Message-Id: <20211223011054.1227810-19-helgaas@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
+References: <20211223011054.1227810-1-helgaas@kernel.org>
 MIME-Version: 1.0
-References: <20211221094717.16187-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211221094717.16187-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <YcNtMMNKHIgGFZ+V@robh.at.kernel.org>
-In-Reply-To: <YcNtMMNKHIgGFZ+V@robh.at.kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 22 Dec 2021 19:37:24 +0000
-Message-ID: <CA+V-a8tUyRUaEVhh9_xdHEzYnuYTaj2M6dqqvQGYOgoXOjWxxQ@mail.gmail.com>
-Subject: Re: [PATCH 02/16] dt-bindings: arm: renesas: Document SMARC EVK
-To:     Rob Herring <robh@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Thank you for the review.
+Rename struct rcar_pci_priv to rcar_pci to match the convention of
+<driver>_pci. No functional change intended.
 
-On Wed, Dec 22, 2021 at 6:23 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, Dec 21, 2021 at 09:47:03AM +0000, Lad Prabhakar wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Document Renesas SMARC EVK board which is based on RZ/V2L (R9A07G054)
-> > SoC. The SMARC EVK consists of RZ/V2L SoM module and SMARC carrier board,
-> > the SoM module sits on top of the carrier board.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/arm/renesas.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > index 55a5aec418ab..fa435d6fda77 100644
-> > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > @@ -423,6 +423,8 @@ properties:
-> >
-> >        - description: RZ/V2L (R9A07G054)
-> >          items:
-> > +          - enum:
-> > +              - renesas,smarc-evk # SMARC EVK
->
-> This and patch 1 should be combined. Changing the number of compatible
-> entries doesn't make sense.
->
-Will merge this with patch 1. Is it OK if I include your Ack when merged?
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/controller/pci-rcar-gen2.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/controller/pci-rcar-gen2.c
+index afde4aa8f6dc..35804ea394fd 100644
+--- a/drivers/pci/controller/pci-rcar-gen2.c
++++ b/drivers/pci/controller/pci-rcar-gen2.c
+@@ -93,7 +93,7 @@
+ 
+ #define RCAR_PCI_UNIT_REV_REG		(RCAR_AHBPCI_PCICOM_OFFSET + 0x48)
+ 
+-struct rcar_pci_priv {
++struct rcar_pci {
+ 	struct device *dev;
+ 	void __iomem *reg;
+ 	struct resource mem_res;
+@@ -105,7 +105,7 @@ struct rcar_pci_priv {
+ static void __iomem *rcar_pci_cfg_base(struct pci_bus *bus, unsigned int devfn,
+ 				       int where)
+ {
+-	struct rcar_pci_priv *priv = bus->sysdata;
++	struct rcar_pci *priv = bus->sysdata;
+ 	int slot, val;
+ 
+ 	if (!pci_is_root_bus(bus) || PCI_FUNC(devfn))
+@@ -132,7 +132,7 @@ static void __iomem *rcar_pci_cfg_base(struct pci_bus *bus, unsigned int devfn,
+ 
+ static irqreturn_t rcar_pci_err_irq(int irq, void *pw)
+ {
+-	struct rcar_pci_priv *priv = pw;
++	struct rcar_pci *priv = pw;
+ 	struct device *dev = priv->dev;
+ 	u32 status = ioread32(priv->reg + RCAR_PCI_INT_STATUS_REG);
+ 
+@@ -148,7 +148,7 @@ static irqreturn_t rcar_pci_err_irq(int irq, void *pw)
+ 	return IRQ_NONE;
+ }
+ 
+-static void rcar_pci_setup_errirq(struct rcar_pci_priv *priv)
++static void rcar_pci_setup_errirq(struct rcar_pci *priv)
+ {
+ 	struct device *dev = priv->dev;
+ 	int ret;
+@@ -166,11 +166,11 @@ static void rcar_pci_setup_errirq(struct rcar_pci_priv *priv)
+ 	iowrite32(val, priv->reg + RCAR_PCI_INT_ENABLE_REG);
+ }
+ #else
+-static inline void rcar_pci_setup_errirq(struct rcar_pci_priv *priv) { }
++static inline void rcar_pci_setup_errirq(struct rcar_pci *priv) { }
+ #endif
+ 
+ /* PCI host controller setup */
+-static void rcar_pci_setup(struct rcar_pci_priv *priv)
++static void rcar_pci_setup(struct rcar_pci *priv)
+ {
+ 	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(priv);
+ 	struct device *dev = priv->dev;
+@@ -279,7 +279,7 @@ static int rcar_pci_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct resource *cfg_res, *mem_res;
+-	struct rcar_pci_priv *priv;
++	struct rcar_pci *priv;
+ 	struct pci_host_bridge *bridge;
+ 	void __iomem *reg;
+ 
+-- 
+2.25.1
 
-> >            - enum:
-> >                - renesas,r9a07g054l1 # Single Cortex-A55 RZ/V2L
-> >                - renesas,r9a07g054l2 # Dual Cortex-A55 RZ/V2L
-> > --
-> > 2.17.1
-> >
-> >
