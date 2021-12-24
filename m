@@ -2,92 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1585347EB7A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 06:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F120D47EB8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 06:23:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbhLXFAt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Dec 2021 00:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40608 "EHLO
+        id S243169AbhLXFXm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Dec 2021 00:23:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbhLXFAt (ORCPT
+        with ESMTP id S229946AbhLXFXl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Dec 2021 00:00:49 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C608BC061401
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:00:48 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id r22so12235294ljk.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:00:48 -0800 (PST)
+        Fri, 24 Dec 2021 00:23:41 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490FFC061401
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:41 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id bu9so16899374lfb.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KBZtx1t4O7jcjLyj3KoOrsSaHHzrz6VZtAHz9lqXNEg=;
-        b=WYwC1Y0lP9iwsck2v6MxJtpICj1r+JKKI0ZiTjAp/krmob0OcIL105OtDXBUf3e6lz
-         qb3wt9VNbEX3avFKZqy9umhzcdfOj5Q7QruzjICZagwtxmY2oDqoCepEXB+G+wuHtXQU
-         yiXJ8lFosIU5e49pudSN+9Z+h1gNg/R3XkqEEyjwwVyAO8EOhIp3dVn5o24L9ZVe03Da
-         pSz/70WrRlPSrBFiwtVS+hVwJUhkPvId568oHkuRMISOPl2GV4MQ474nJhC175vP30GL
-         RR9s128KlaB+jppOf1Qk9lW5FlOjWB+hPwe81qxNyhK0LMnHmwRZ1GbCDVj1hK/t5NAh
-         EQSg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3hqZ/4rm/mROQ5eziTAE/Z4BmR3YKmyI30tkx1zQHhg=;
+        b=2KUMOPpdDIL7E1pp7ENF81+xjGCtKbQa4Q9uc17QZHXo2/K2UNLqbtuOz2Vd5r4L9q
+         JhtZGM6fyB7UtuH7a3rugxV7y5ynPe729CltDoYASuHqfsGAnNcNxBj/ncFfj70THD2M
+         nIPR1C7CZJWB8HsW1AaAZAEGtu60OS/bwvt0Zi8wrwu/ZHMbSOJVk0HsOP0H/HnkcBbg
+         oyuFXK+8MzomeVOnY0nQM9QcRJcNe4Nck1S+MXGJa7qV+bL8qpOw4Lrvf6kCaDGliXn7
+         g/WkltahELXil0G/hE6hTYQ18x03rpT75nbXnj1kZAA1sJjPlKjSFlLodOtTgC7bx8wC
+         9icg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KBZtx1t4O7jcjLyj3KoOrsSaHHzrz6VZtAHz9lqXNEg=;
-        b=F8/vkbjSkuss+zF8dqkghqRZ7xtesByzemGG0hLoNDmkruhoLoyEPJ/OT8sSuCo/uZ
-         bU5rKsdh7CZ81VoEJYH6lZqeUM1QkXR+Xjyyoua0vbAih6VV63NW+7yk0BQnUiGtwuiJ
-         bI94zOP5i/YsYXhLk/m17Q/vT4e9963dY6o4yidRrdMjG96T7588ttB4YgQ/Ekv6NTQD
-         S+i97Of7RXUtpFc0Uw+LmjLHURPvrmvM6+sDg/oO7gvyBInnvEofj7s2hW9auQ7ka1Cg
-         3LVRukus1PoOvSWyE/o7KnSC3JOEAOCBd3/J4uCBpQYD+Ph0LhG8vMIkhQqRo5JxC4gj
-         S0Iw==
-X-Gm-Message-State: AOAM531NEeUld0sPV7cTrj1aUbPV+6gkNMxTHQuCg7pPxS7NNHkXAcc0
-        17JTNxdYreFQOk05HC56NbxoTA==
-X-Google-Smtp-Source: ABdhPJwIM4jUAL4q1SIdjv85L76NJHlDTe5hACOyquxB58ef1wDzVCeH0WqytWbiEmlWA5jBXDdewA==
-X-Received: by 2002:a05:651c:235:: with SMTP id z21mr3742094ljn.473.1640322046996;
-        Thu, 23 Dec 2021 21:00:46 -0800 (PST)
-Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id z24sm693895lfh.289.2021.12.23.21.00.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Dec 2021 21:00:46 -0800 (PST)
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a77961: Add lvds0 device node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <d4a00def-7765-e0e4-c5c7-8d648eeb8cf2@omp.ru>
- <20211214140607.1147976-1-nikita.yoush@cogentembedded.com>
- <CAMuHMdW=MytCOsghcH9p1GXOPCO3=1mSF8PKj_UAjYEqAq4-1Q@mail.gmail.com>
+        bh=3hqZ/4rm/mROQ5eziTAE/Z4BmR3YKmyI30tkx1zQHhg=;
+        b=rbMH64WeSI6A5+85ldoLZE3JEcZIQDh+LFzEloizOGUe4TemNkWfaByLeKMOrd+ffk
+         OY7ZNwSIZuY9pLCT3aDBqzxKw3gtxlN4hvmly1dfsI2wUqJYG1+9/JugGkL+TAXk1F88
+         O1CtgrXH8oVb/pMS5nYozq3WLB6cl0Oe6svNv0CIM0LB1sCtiRH4edImG2r/phMCaq5r
+         RquYrZlTxUnxjl7d4NIHfGjejQ9oVT1gEeWKh8vAKjb9Wx021ZgHeYPrq000k6BVBSZY
+         4aoYgkrO4DSiOdIXcD4nPwZ1rUGQuHKhnJpXJG/jiOZl1HzxNCRo6Ukn56lru5qWF0aR
+         FcpA==
+X-Gm-Message-State: AOAM533AtzYn5bBEisFmalxyZoKnDwGx3tUBQp76MWn98tbErrNnVIip
+        a6FW8bA3YGAVFo/JiUi3PI5pgf7JPITCRwMM
+X-Google-Smtp-Source: ABdhPJxLPn8Kg5/Hzg/ID38WBqGzyJktOBSpOmtsdh61RiMMcDifHNhHMdly1GBALg693nCfUxU0fw==
+X-Received: by 2002:a05:6512:22d6:: with SMTP id g22mr4214072lfu.199.1640323419570;
+        Thu, 23 Dec 2021 21:23:39 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id e13sm702858lfs.306.2021.12.23.21.23.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Dec 2021 21:23:39 -0800 (PST)
 From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Message-ID: <82b37f1e-a461-8d16-219b-2319e11e1991@cogentembedded.com>
-Date:   Fri, 24 Dec 2021 08:00:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH 0/3] add R-Car M3-W+ (r8a99761) LVDS encoder support
+Date:   Fri, 24 Dec 2021 08:23:06 +0300
+Message-Id: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdW=MytCOsghcH9p1GXOPCO3=1mSF8PKj_UAjYEqAq4-1Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
->> +               lvds0: lvds@feb90000 {
->> +                       compatible = "renesas,r8a7796-lvds";
-> 
-> This should be "renesas,r8a77961-lvds".
-> To handle that, both the DT bindings[1] and the driver[2] should
-> be updated.
-> 
-> [1] Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> [2] drivers/gpu/drm/rcar-du/rcar_lvds.c
+This patchset adds support for the LVDS encoder inside R-Car M3-W+ SoC.
+Hardware is the same as on other R-Car Gen-3 chips.
 
-Ok, will redo that way, although I don't really understand what for to have different compatible strings 
-for exactly same IP inside different chips.
+Nikita Yushchenko (3):
+  drm: rcar-du: lvds: Add r8a77961 support
+  arm64: dts: renesas: r8a77961: Add lvds0 device node
+  dt-bindings: display: bridge: renesas,lvds: Document r8a77961 bindings
 
-Also note that arch/arm64/boot/dts/renesas/r8a77951.dtsi currently has renesas,r8a7795-lvds
+ .../bindings/display/bridge/renesas,lvds.yaml |  1 +
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi     | 27 +++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |  1 +
+ 3 files changed, 29 insertions(+)
 
-Nikita
+-- 
+2.30.2
+
