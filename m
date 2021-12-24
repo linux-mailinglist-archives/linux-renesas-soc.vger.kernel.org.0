@@ -2,95 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C2747EB95
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 06:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F2547EDDE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 10:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351345AbhLXFXq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Dec 2021 00:23:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45562 "EHLO
+        id S1352298AbhLXJhH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Dec 2021 04:37:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351338AbhLXFXo (ORCPT
+        with ESMTP id S1352292AbhLXJhH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Dec 2021 00:23:44 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB41EC061401
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:43 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id bq20so16913313lfb.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:43 -0800 (PST)
+        Fri, 24 Dec 2021 04:37:07 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E6A3C061757
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Dec 2021 01:37:07 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id i187so5770441qkf.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Dec 2021 01:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+A6R7NBtfUQnLlLDkSBl+KL94Li6QNQFhWmSmSRXFes=;
-        b=T+j4o5YtE3hx3HWodazGWr+DMJhdsDMjBjNNr4kfrcKEjB/Y+DnF80FniEAppTSWJZ
-         fI2O5+RlOFitBe88RtpukpDWl+6K/rT0/dD8YzPDqH8rooaogqsUe9CMFaDw771YLCSz
-         5MzAlJGEHjfDMwMHb0/l82bvl5RXauwU9xBpmhdM4KXf+9A3lAYQIauW2QaZbEvl+Q0B
-         4a0a98BtRewN1Zdzkp3Xk6Je0rFf//bGxe1b+wY0KpnxmwOY6LeetVrlPiuBj2tlgyqH
-         BE1pWujq2lYxsZglorCeEMdwZHSC3rTvvC2IG5FHrRcPTeENjJV3XU+hlag1ZhIgD2CQ
-         MtLg==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=fGBFAZC5IG800eIqyM2L9+g5PEpApxyiqIGMoZXn3VqVWUMXTaRh/qDLMN36lIjmpB
+         PbPPsN6IQfInt+oKH8a4zdFtNA9g+/Qw8YYLB5n/fRCQQ3DzIrquDUA3CwlQ5255BP8F
+         Wf6eX0i4rU9kQ60szdFo2yLoJEVAv/s4SWHZ2eqrefiGA7v5Jy6OelkWv5rS8PpB/ZG0
+         pxOEmvvl6AunzQtwJZXo0hxcMlx/lvRQjlc4/n+IBqfn2c13KbToqzpQwRibf9p3ac41
+         xSjklIYU2jwL8v0BttY3xJUB7hWHg72uR75TjF80dZ9dS5lXFyonokz8wIZ3iriElzs9
+         mWLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+A6R7NBtfUQnLlLDkSBl+KL94Li6QNQFhWmSmSRXFes=;
-        b=i9KN2QAwKQ4fWiGKxyBROZiUkMDBUMXjjmC1b7GPdYjI4SthmbjBlBNYhOR3PAELnE
-         wD3Kr5K1glu0IMfqujbkd2Vhr+zlKpXR/sxPhOOt/6oyj1Zuuj+TO5mIOfmwKNpdALS7
-         QZ6lpIZK4EbCemPZPjZ62mD+AzU1eRMG1b838NO75w5qQ1tN9rxaYteQ610SwnCXf3cQ
-         lDSLl7nGxRpM/8OaNtWvMKI7zYZTkQ+lA25N3o4wuddzNUGcVYgfA4ARmt+fCTEH/THr
-         wskvMTXrOkkVEY46IKWKXdkdvDz6XyXkQERnyIeFmHy7mjwjkxEMn7N8wtl7gyVvmMx8
-         QpiQ==
-X-Gm-Message-State: AOAM531KkHxv2gs/UcCjdiIRHiTa49GOoUNnXoTqNXrgXD6NrJRGpjA8
-        mfrfWyqkpRWK+zRe53rERSmDRQ==
-X-Google-Smtp-Source: ABdhPJw2hgZNyZhh1NpwjrhB8tKAf5hRDZK9f2T43eAkIbL4fGq35UrtZxCmRf3mIhJTxldmA6SbVQ==
-X-Received: by 2002:a05:6512:10d3:: with SMTP id k19mr4010796lfg.448.1640323422107;
-        Thu, 23 Dec 2021 21:23:42 -0800 (PST)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id e13sm702858lfs.306.2021.12.23.21.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Dec 2021 21:23:41 -0800 (PST)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH 3/3] dt-bindings: display: bridge: renesas,lvds: Document r8a77961 bindings
-Date:   Fri, 24 Dec 2021 08:23:09 +0300
-Message-Id: <20211224052309.1997096-4-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=BBy/ZXLHTcSFBu2onsFA4lqG81IGfGxTdLW5DcxlDomQLhrjxxbKHZwpGXzuxHivI9
+         nM7gkZRzHL9/LYIP48uHwiWE9w48j48iq3jA2IZnh95cfXSn6nHffI1PnE7Uaty/bKYK
+         JohybvNo76LevzAb4yozr0WAtkDZ4TuIxC/xGHYznYSKh8LLjcyaj03vLyUOYA2VxucD
+         WEFNJmRMIlbn0LK4FtOBOAf5GsSZNZUHiU6cGa8AXHzm8c1r3t9/73VX5g8mBFTdDZqp
+         K6sOaPohl5WLQCVbcsUjbojP6kejPfz0qIREyzhe5WPVIMq+Gaw7vdDuvwkc20z6kxmf
+         rvhw==
+X-Gm-Message-State: AOAM530GAj6zhdmAGiX1ZpMJYbb5FUkkyzkUZmviSdKZ9N/3birh/6LZ
+        AGbNbo4BD81phVWQYYKskEQJawnQdXHkwtaSoV0=
+X-Google-Smtp-Source: ABdhPJz8kGhr2nfAUNtvmVLe2+HEMzspmyicFORrIaP24SxfQ12mEW8X9CUSSLJMiPh16yxhSlwEZicda/SFnhNQ03c=
+X-Received: by 2002:a37:9d14:: with SMTP id g20mr4184666qke.324.1640338626498;
+ Fri, 24 Dec 2021 01:37:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 01:37:06
+ -0800 (PST)
+Reply-To: williamsreneta2019@gmail.com
+From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
+Date:   Fri, 24 Dec 2021 01:37:06 -0800
+Message-ID: <CAM-qQYb3K0reteFhkQj-URnt-79NQHWn-+cZhyHoT7NVQFy-Mw@mail.gmail.com>
+Subject: Greetings Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the R-Car M3-W+ (R8A77961) SoC in the R-Car LVDS encoder
-bindings.
+Greetings Dearest One,
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
- .../devicetree/bindings/display/bridge/renesas,lvds.yaml         | 1 +
- 1 file changed, 1 insertion(+)
+How are you today, together with your family?Hope fine.I would like to
+use this opportunity to introduce myself to you. I am Miss Reneta
+Williams, From Benin Republic, West Africa. And my late parents are
+Mr. and Mrs. Dikko Williams; my father was a highly reputable business
+magnet who operated in Benin Republic during his days.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-index acfc327f70a7..ca5443e5c2e3 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-@@ -27,6 +27,7 @@ properties:
-       - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-       - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-       - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-+      - renesas,r8a77961-lvds # for R-Car M3-W+ compatible LVDS encoders
-       - renesas,r8a7796-lvds # for R-Car M3-W compatible LVDS encoders
-       - renesas,r8a77965-lvds # for R-Car M3-N compatible LVDS encoders
-       - renesas,r8a77970-lvds # for R-Car V3M compatible LVDS encoders
--- 
-2.30.2
+I am writing this mail to you with tears and sorrow from my heart.
+With due respect trust and humanity, I know this mail will come to you
+as a surprise since we haven't known or come across each other before,
+considering the fact that I sourced your email contact through the
+Internet in search of trusted person who can be trusted and will
+assist me.
 
+It is sad to say that he passed away mysteriously in France during one
+of his business trips abroad. Though his sudden death was linked or
+rather suspected to have been masterminded by an uncle of his who
+traveled with him at that time. But God knows the truth! My mother
+died when I was just 6yrs old, and since then my father took me so
+special.
+
+Before his death, he called me and informed me that he has the sum of
+Eighteen Million Five Hundred , United State Dollar
+(USD$18.500,000.00) left in fixed deposit account in one of the
+leading banks in Africa. He further told me that he deposited the
+money in my name, and also gave me all the necessary but legal
+documents to this fund with the bank.
+
+I am 21 years old and a university undergraduate and really don't know
+what to do. Now I want an account overseas where I can transfer this
+funds and after the transaction I will come and reside permanently in
+your country till such a time that it will be convenient for me to
+return back home if I so desire.
+
+The death of my father actually brought sorrow to my life. I also want
+to invest the fund under your care because I am ignorant of business
+world. I am in a sincere desire of your humble assistance in this
+regards. Your suggestions and ideas will be highly regarded.
+
+Now permit me to ask these few questions:
+
+1. Can you honestly help me from your heart?
+
+2. Can I completely trust you?
+
+3. What percentage of the total amount in question will be good for
+you after the money is in your account?
+
+Please, consider this and get back to me as soon as
+possible.Immediately and confirm your willingness on this my
+email(williamsreneta2019@gmail.com), here is one of my Picture and
+also i will inform you more details involved in this matter.
+
+Regards,
+
+Miss Reneta Williams.
