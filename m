@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14B5C47EB91
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 06:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44BCD47EB94
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Dec 2021 06:23:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351318AbhLXFXn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Dec 2021 00:23:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45544 "EHLO
+        id S1351336AbhLXFXp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Dec 2021 00:23:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351105AbhLXFXm (ORCPT
+        with ESMTP id S1351317AbhLXFXn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Dec 2021 00:23:42 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338AEC061759
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:42 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id g11so16962800lfu.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:42 -0800 (PST)
+        Fri, 24 Dec 2021 00:23:43 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E738C061759
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:43 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id bp20so16899991lfb.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Dec 2021 21:23:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3vLn3V8hakrMnbWh9eTJX5Ws7e/fiZzoe10eOrTOCq8=;
-        b=FHrkXdgcVJ6I4Cr7CEfnkrWcfzhb5v4om4TFV9enflli5haSp9odJBhecbmC0B6AxC
-         KhnWcCb5UIRr97Mz8M9vGJrPmONYz1N/M5slOOb13NiXTQ3Y1NDq8kz2GYav6Q2dl6Gh
-         Swfa1I2I1CGrFdWpDd4mghTZ4OrSM+NwvmWs4kl7dX8smza3jVzszNAsyxLzCfAZCc7R
-         wSmZg0Vao3qr3XblzmeDyVm0Z/ziLWxLk1zdXJEzkqIOoZczP/ePCMKYCokEz+xI6Zw8
-         BhSJggBkaTjwZqLz44xkUebaHLarLYH5rAncMhcVLfSk5+2aEny3N/Rm9VMP/bCC9jz4
-         ZD9A==
+        bh=8p5cAhIlsS0RVNWJwJlMF76TH5CwTtvB0RF/Dz+Mi38=;
+        b=baDEms+uzCHi3HYHok74MXuUK46KTsfuP+YqAZsGbvywpwmxu85G64pCns3LNg5DMj
+         KvYpjVmlpfJIVLW+YVLOUBXNMPFfjT+Mso/TSTweOI7XL4chwg7e5beZKzLhRebQsfel
+         MeMg5iU6Kt6QLWm9UIruT5H32QK0aZ5y6Fqa51RxIi4hH4zr9zn514OqyJR/2TQJy0Mp
+         F1Wei/sB1BvZe7YoM5YxUqL47A9uZ+/T6vrw9VXwjVTweXHkyF9v6sqEGfjg7cVGlDmI
+         L8SlMVzOCw+M6puwGUckor6tOuzmGewZ9wwWJdOl7fIgfoqCJ+FkloY386QdSKQupmOg
+         QkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3vLn3V8hakrMnbWh9eTJX5Ws7e/fiZzoe10eOrTOCq8=;
-        b=SSCdvO4izSOuCmCe2WqXelr1L1RUR7mU4hYCWdoAvKG7GU+wc82bAuB6H/oUjBolMs
-         ZxnlKB6K+GIjKkN60wpBX5EdPitM8kKpdbFDBBsESMbcCAPsUeQxeGENtQRN2K2qWSdL
-         DwczizQssUtTuWNBR5rggruzrTjJ4l6AmvCGDllPaDEkDEBnCHejTKsY0VVutIdm4Pl2
-         U1GcVLZph7C6E4L0fGZfEDcex4W9mTZGxac5okENrDyLR3AHMzWZygb2N/HMLn8QhXRU
-         X/Cth33teTK7963wgV8c1pEIowpFMMTpEuqASx8hRO1GNc/uy9vG7BqV4qFIjt/M9sqv
-         SLCg==
-X-Gm-Message-State: AOAM531x26TWSCzkjJFQIU+Oo7L9D2oXX7/bJxLQCmgPZ0zXFzU7FCMm
-        03N9JBupwqpJKUVra+5BshcLvg==
-X-Google-Smtp-Source: ABdhPJycx87ictKT8G0oaGXYgKX3KGQb93rTh2lVD1X1vPRpPeQuD1GsvVvaBwhKLFj/JYCBabnhFw==
-X-Received: by 2002:a19:f241:: with SMTP id d1mr3883660lfk.131.1640323420407;
-        Thu, 23 Dec 2021 21:23:40 -0800 (PST)
+        bh=8p5cAhIlsS0RVNWJwJlMF76TH5CwTtvB0RF/Dz+Mi38=;
+        b=8Gmn3kNycmDexQ4ABzFwziSB5j2OYCuRqkkskuNRAppkKZHwHb0gAjL1Mvs16So+DH
+         TI6hVGxauzXKdCJHfdN8OV+uStxSFK8dKMhS5Gc5k2Zd/OUZFPDulxmasKTgJ9JZ6y0i
+         d63P1ovTOj3sLMVLi7eP/HaUnYmBl9fJDQ3LtZi9bovXLw+W+2kuIuvukax6eIMq1Tlg
+         iEWdEtDgX8CDsuXpRXp3SRQxS4Ems2fNsOtoRY+uvvn6wzKWPmAry8LRnKz35f/OLs7u
+         hIDUQvYL6cMgxZWgx9V2omcdEuVq8NPmlzDKHXJ6QCfy2H65BaQbhvrp+VxNfky6M+RL
+         Ol9A==
+X-Gm-Message-State: AOAM532P6xPX/r7ER2iWRuTH8OfovWe+ys9dLm37V9gMyNUjsdxBy2B1
+        1pDA9nRubiQhts8/bNwoLejxcQ==
+X-Google-Smtp-Source: ABdhPJy+HN9Nf9T96QkeX0cpn8ucbeHE1l2R9SUX2XR+Qg6BdgeJDGp6k+PB5axfuBITIXZDhvTjTA==
+X-Received: by 2002:a05:6512:15a7:: with SMTP id bp39mr2903128lfb.363.1640323421226;
+        Thu, 23 Dec 2021 21:23:41 -0800 (PST)
 Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id e13sm702858lfs.306.2021.12.23.21.23.39
+        by smtp.gmail.com with ESMTPSA id e13sm702858lfs.306.2021.12.23.21.23.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 23 Dec 2021 21:23:40 -0800 (PST)
 From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
@@ -59,9 +59,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH 1/3] drm: rcar-du: lvds: Add r8a77961 support
-Date:   Fri, 24 Dec 2021 08:23:07 +0300
-Message-Id: <20211224052309.1997096-2-nikita.yoush@cogentembedded.com>
+Subject: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+Date:   Fri, 24 Dec 2021 08:23:08 +0300
+Message-Id: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
 References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
@@ -71,26 +71,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The M3-W+ SoC has the same LVDS encoder as other R-Car Gen3 chips.
-Add support for M3-W+ (R8A77961) SoC to the LVDS encoder driver.
+Add the missing lvds0 node for the R-Car M3-W+ SoC.
 
 Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 72a272cfc11e..8dbfbbd3cad1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -901,6 +901,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
- 	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a7796-lvds", .data = &rcar_lvds_gen3_info },
-+	{ .compatible = "renesas,r8a77961-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a77965-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a77970-lvds", .data = &rcar_lvds_r8a77970_info },
- 	{ .compatible = "renesas,r8a77980-lvds", .data = &rcar_lvds_gen3_info },
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 86d59e7e1a87..a34d5b1d6431 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
+ 				port@2 {
+ 					reg = <2>;
+ 					du_out_lvds0: endpoint {
++						remote-endpoint = <&lvds0_in>;
++					};
++				};
++			};
++		};
++
++		lvds0: lvds@feb90000 {
++			compatible = "renesas,r8a77961-lvds";
++			reg = <0 0xfeb90000 0 0x14>;
++			clocks = <&cpg CPG_MOD 727>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 727>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++					lvds0_in: endpoint {
++						remote-endpoint = <&du_out_lvds0>;
++					};
++				};
++				port@1 {
++					reg = <1>;
++					lvds0_out: endpoint {
+ 					};
+ 				};
+ 			};
 -- 
 2.30.2
 
