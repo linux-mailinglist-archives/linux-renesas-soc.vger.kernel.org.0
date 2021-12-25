@@ -2,128 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB4747F429
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Dec 2021 18:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FD647F44B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Dec 2021 20:17:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230274AbhLYRxm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Dec 2021 12:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
+        id S232717AbhLYTRU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Dec 2021 14:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhLYRxm (ORCPT
+        with ESMTP id S232677AbhLYTRU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Dec 2021 12:53:42 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C25C061401;
-        Sat, 25 Dec 2021 09:53:41 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id l5so10139580edj.13;
-        Sat, 25 Dec 2021 09:53:41 -0800 (PST)
+        Sat, 25 Dec 2021 14:17:20 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D381EC061757
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Dec 2021 11:17:19 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id h2so15189314lfv.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Dec 2021 11:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bvBcn3go1F0UEyng6sygvztSeY/tE15qrvLo8Sthp8E=;
-        b=jm5No03DzpQHKfB3xjgoBgb52aAfH/3xSxsf+RLSzXaDBiitmSsy/PMor5903XxSx2
-         D6MzQdIBx+3gFsOA0x+OMUmfR5TtuhvPLaJOqMerG4cRDWiCYEco+nfm2AJo7QeBRnaN
-         R7G3rHmBx+t2vod7yIls23tKHAeEOBQwEd5IRr2heyBCq9zF2QYnSmRXCb6vfjuP96lu
-         rVYJy6cP7HpshLMsPYEkVHIuv0pV/fx6McEjNFi3bDRirYtNw572P9/bC1wQmrzjAEe3
-         162X1LJRmVvk6nr1larRoervN0ZUJCRBHrVFnsuvylf2+gQZqVPz5VYky7WBX3s/DfWv
-         tHcQ==
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WJNrRIjHHYf+GPgQViyRAYjVslLnt06sXu04ZoOwHts=;
+        b=Gveyeo2okQd7D9oOp4BlMV4Mo7gu3+oAU+tPjrgT/XFk1Jo+YQmG89VxkSf1jUI8UR
+         0seCzeyaJggnIzbGhAbmIwRgz8Nm0NTZiEFKAwyk3G8gCyVde2hmcnOrBPVq9Ksi1s+q
+         aoEjGOuNn87Z3TTyVr+bTnUIloztyFyoHwW2luJJYhSQV+XAIopPpeOU7sR6DM/XqUWd
+         Qjtcn0N3aJaxjlfEYIhnPtFcjcXu/ts/m8f6i0kuMgqW/5BtGYFz4TgFoaFHsPv0Ha5M
+         GYFiAHhXrrdeNKCaC/lq1wLLv3tmD4oCryw5ewOCJlkdnt++7o3aqiVeteb/1kNqff81
+         5YhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bvBcn3go1F0UEyng6sygvztSeY/tE15qrvLo8Sthp8E=;
-        b=nAyZcDPyFbqVy/kTxGGpA0R8oz149rHHURO7KRa7O+UqH2Kh2obKaEk2kXfqcA2gjL
-         UmDFumd3ds46pJUjs0/PtkC5AX6NmSSqqe3LuiraBRtOgk8cdkBpM5N7xwR08zC++p6a
-         ic/gBfiOhl+nBsUQwl7LyYYnQf3HF/CIr8jQ1SZHtLa+UGTnTzCcZa8DF4rSwKa2LvJ9
-         qN6jboBJGd17zLZbzWIdq9ZnciaGzGPgOBomV5H8Wd5EiSDD92fxDPiypEJ0evqIAsM5
-         t9cNymfqitHhjF1xHG0PQdHAEbn5qy0M/M5vLJ3aVeXkgIjZQ3ErHoF3YqzaAre9kE/C
-         DqAw==
-X-Gm-Message-State: AOAM5320Cr7JewvZmmfOokbHLmnQmaGk2GXVch+UFa40A3KFJa46YKpB
-        qML0HCLGveWP3sELyd21JD/MMB2Kw/92MzV/WGM=
-X-Google-Smtp-Source: ABdhPJwf4DKDgBNSmgD5A7KJ3JAODmu7a9nqSr92jT1HXJ33P85sZgHGahAW42Hz1Z0RxuStNOYhe93YX+kxb1LB1XQ=
-X-Received: by 2002:a05:6402:12c5:: with SMTP id k5mr10300335edx.296.1640454820084;
- Sat, 25 Dec 2021 09:53:40 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WJNrRIjHHYf+GPgQViyRAYjVslLnt06sXu04ZoOwHts=;
+        b=0Ix7OWn4VM9c0mfa+2VM96zlng8OZRjtSmtDkwFPuWKaBjT23IGo129gdAlLU2QugG
+         Wt9gxSIq0O+2TwkFFiLTsEY8OdYHAPQP5RyIqQsHxhBnUsDVHcgnuQ2gtJoOoCso70+u
+         kcHMLaU9o4Z9NGqRyCHv6Ok19yv4tbqeu7EUhJQonOQ2p7WnvL83h0JPGBg67nwkTAoA
+         55J9CMpIyQwn6MRwx+xFtBI5Vb4rreH74HewztmVuXyFFHyXWPfWICMsKBVFhnx1rKVQ
+         9BL8gLCYTXpjRJUxMtJ5IVK4hB7wjQ79yAfYygUejsiNg+ffeKWyVw9hkX4o4YphaeOZ
+         +tYw==
+X-Gm-Message-State: AOAM533gNDhKyVmOsbUevOO/KJc5sj9twdLcDwQfnot27pxwM5dsNfoc
+        78CHLrwUrBbpFs78TwjTEaNg+Q==
+X-Google-Smtp-Source: ABdhPJzIjE8GJoJ+svQ3ALHAQwA3mymJTGLISXogHXHEsapsVqXpYH+w83Iux53FVVo+kHxa2lyNow==
+X-Received: by 2002:a05:6512:3996:: with SMTP id j22mr2600088lfu.74.1640459837886;
+        Sat, 25 Dec 2021 11:17:17 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id 194sm252169ljj.60.2021.12.25.11.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Dec 2021 11:17:17 -0800 (PST)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] pinctrl: renesas: r8a7799[05]: Add MediaLB pins
+Date:   Sat, 25 Dec 2021 22:17:13 +0300
+Message-Id: <20211225191713.2187975-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211218144136.6663-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <5f8e2432-1214-3435-fb62-2f407ced0472@linaro.org> <CAMuHMdXgRzM4+OjR0or0aTk-ogPcAYajaVALsLF6E=MxEzeRQg@mail.gmail.com>
- <bdec1a89-ad1b-1e16-a248-029f7f02ae80@linaro.org> <CAMuHMdWjUG57trhkOevb0Pju1fFptXZwM+BKKvgnG0+vAM64gA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWjUG57trhkOevb0Pju1fFptXZwM+BKKvgnG0+vAM64gA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 25 Dec 2021 19:53:04 +0200
-Message-ID: <CAHp75VdgC=605KMonG_86rzZxSFdurXtWCpuWr-1DtgvxEXfDw@mail.gmail.com>
-Subject: Re: [PATCH] thermal: rcar_thermal: Use platform_get_irq_optional() to
- get the interrupt
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 20, 2021 at 8:08 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Dec 20, 2021 at 3:19 PM Daniel Lezcano
-> <daniel.lezcano@linaro.org> wrote:
-> > On 20/12/2021 14:48, Geert Uytterhoeven wrote:
-> > > On Mon, Dec 20, 2021 at 1:29 PM Daniel Lezcano
-> > > <daniel.lezcano@linaro.org> wrote:
-> > >> On 18/12/2021 15:41, Lad Prabhakar wrote:
+This adds pins, groups, and functions for MediaLB devices on Renesas
+R-Car E3 and D3 SoCs.
 
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/pinctrl/renesas/pfc-r8a77990.c | 22 ++++++++++++++++++++--
+ drivers/pinctrl/renesas/pfc-r8a77995.c | 14 ++++++++++++++
+ 2 files changed, 34 insertions(+), 2 deletions(-)
 
-> > >>> +             irq = platform_get_irq_optional(pdev, i);
-> > >>> +             if (irq <= 0 && irq != -ENXIO) {
-> > >>> +                     ret = irq ? irq : -ENXIO;
-> > >>> +                     goto error_unregister;
-> > >>> +             }
-> > >>> +             if (irq == -ENXIO)
-> > >>>                       continue;
-> > >>
-> > >> Why not invert the conditions?
-> > >>
-> > >>                 if (irq == -ENXIO)
-> > >>                         continue;
-> > >
-> > > And this can be break.
-> > >
-> > >>
-> > >>                 if (irq <= 0) {
-> > >>                         ret = irq ? irq : -ENXIO;
-> > >
-> > > irq == 0 cannot happen.
-
-Even if it's so, it adds a burden on my shoulders in the future.
-
-> > >>                         goto out_unregister;
-> > >>                 }
-
-> I think so, as I don't see your point, neither ;-)
->
-> I meant (a) there is no need to continue the loop when there are no
-> more interrupts present, and (b) irq == 0 cannot happen, so the cod
-> can be simplified to:
->
->     if (irq == -ENXIO)
->             break;
-
-This should be a better check to include 0 as no IRQ case. It will
-allow the platform_get_irq_optional() API to be aligned with other
-_optional() APIs.
-
->     if (irq < 0) {
->             ret = irq;
->             goto out_unregister;
->     }
-
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77990.c b/drivers/pinctrl/renesas/pfc-r8a77990.c
+index f44c7da3ec16..b7ab4c520ae5 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77990.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77990.c
+@@ -2339,6 +2339,16 @@ static const unsigned int intc_ex_irq5_mux[] = {
+ 	IRQ5_MARK,
+ };
+ 
++#ifdef CONFIG_PINCTRL_PFC_R8A77990
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(5, 17), RCAR_GP_PIN(5, 18), RCAR_GP_PIN(5, 19),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++#endif /* CONFIG_PINCTRL_PFC_R8A77990 */
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -3842,7 +3852,7 @@ static const unsigned int vin5_clk_b_mux[] = {
+ static const struct {
+ 	struct sh_pfc_pin_group common[255];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77990
+-	struct sh_pfc_pin_group automotive[21];
++	struct sh_pfc_pin_group automotive[22];
+ #endif
+ } pinmux_groups = {
+ 	.common = {
+@@ -4125,6 +4135,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(drif3_ctrl_b),
+ 		SH_PFC_PIN_GROUP(drif3_data0_b),
+ 		SH_PFC_PIN_GROUP(drif3_data1_b),
++		SH_PFC_PIN_GROUP(mlb_3pin),
+ 	}
+ #endif /* CONFIG_PINCTRL_PFC_R8A77990 */
+ };
+@@ -4315,6 +4326,12 @@ static const char * const intc_ex_groups[] = {
+ 	"intc_ex_irq5",
+ };
+ 
++#ifdef CONFIG_PINCTRL_PFC_R8A77990
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++#endif /* CONFIG_PINCTRL_PFC_R8A77990 */
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -4569,7 +4586,7 @@ static const char * const vin5_groups[] = {
+ static const struct {
+ 	struct sh_pfc_function common[49];
+ #ifdef CONFIG_PINCTRL_PFC_R8A77990
+-	struct sh_pfc_function automotive[4];
++	struct sh_pfc_function automotive[5];
+ #endif
+ } pinmux_functions = {
+ 	.common = {
+@@ -4629,6 +4646,7 @@ static const struct {
+ 		SH_PFC_FUNCTION(drif1),
+ 		SH_PFC_FUNCTION(drif2),
+ 		SH_PFC_FUNCTION(drif3),
++		SH_PFC_FUNCTION(mlb_3pin),
+ 	}
+ #endif /* CONFIG_PINCTRL_PFC_R8A77990 */
+ };
+diff --git a/drivers/pinctrl/renesas/pfc-r8a77995.c b/drivers/pinctrl/renesas/pfc-r8a77995.c
+index c56e1e4c13b3..d0f0d6b0f979 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a77995.c
++++ b/drivers/pinctrl/renesas/pfc-r8a77995.c
+@@ -1295,6 +1295,14 @@ static const unsigned int mmc_ctrl_mux[] = {
+ 	MMC_CLK_MARK, MMC_CMD_MARK,
+ };
+ 
++/* - MLB+ ------------------------------------------------------------------- */
++static const unsigned int mlb_3pin_pins[] = {
++	RCAR_GP_PIN(0, 6), RCAR_GP_PIN(0, 7), RCAR_GP_PIN(0, 8),
++};
++static const unsigned int mlb_3pin_mux[] = {
++	MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
++};
++
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+ 	/* SCK */
+@@ -2049,6 +2057,7 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(i2c2_b),
+ 	SH_PFC_PIN_GROUP(i2c3_a),
+ 	SH_PFC_PIN_GROUP(i2c3_b),
++	SH_PFC_PIN_GROUP(mlb_3pin),
+ 	SH_PFC_PIN_GROUP(mmc_data1),
+ 	SH_PFC_PIN_GROUP(mmc_data4),
+ 	SH_PFC_PIN_GROUP(mmc_data8),
+@@ -2314,6 +2323,10 @@ static const char * const vin4_groups[] = {
+ 	"vin4_clk",
+ };
+ 
++static const char * const mlb_3pin_groups[] = {
++	"mlb_3pin",
++};
++
+ static const char * const msiof0_groups[] = {
+ 	"msiof0_clk",
+ 	"msiof0_sync",
+@@ -2370,6 +2383,7 @@ static const struct sh_pfc_function pinmux_functions[] = {
+ 	SH_PFC_FUNCTION(i2c1),
+ 	SH_PFC_FUNCTION(i2c2),
+ 	SH_PFC_FUNCTION(i2c3),
++	SH_PFC_FUNCTION(mlb_3pin),
+ 	SH_PFC_FUNCTION(mmc),
+ 	SH_PFC_FUNCTION(msiof0),
+ 	SH_PFC_FUNCTION(msiof1),
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
