@@ -2,70 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B4F147F415
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Dec 2021 18:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B80547F424
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Dec 2021 18:47:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232512AbhLYRcz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Dec 2021 12:32:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33390 "EHLO
+        id S232587AbhLYRrY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Dec 2021 12:47:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhLYRcy (ORCPT
+        with ESMTP id S229488AbhLYRrX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Dec 2021 12:32:54 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6678FC061401;
-        Sat, 25 Dec 2021 09:32:54 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id x15so44830624edv.1;
-        Sat, 25 Dec 2021 09:32:54 -0800 (PST)
+        Sat, 25 Dec 2021 12:47:23 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B5B9C061401;
+        Sat, 25 Dec 2021 09:47:23 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id y22so44909930edq.2;
+        Sat, 25 Dec 2021 09:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7hA3vEaUDHtlb/RnlEjxAhRWJLgHlZ5Yq9n1C69h8n8=;
-        b=WlISJVC80nmEzfyrb0cNoo5UNH86bU7vaS7ppzOX3dYAzEEv98k+Q1R3qK0IkdlI8+
-         FXJBWS7j7iICn2GJIjD/g2wRRvujzmUxYYUzaDoxI7O3qxhsfVkFyxfnU36OxTFj1JzL
-         O++gPG8eI0qOCddWpK3cU+hMMzlLl19jfBH5meXCvQ5r7ddC36ZdsM0d6FZpX2nSd+ec
-         UISEBT/CZUSjK4/WlGbmN/KTSsdZhPzVExw60cVMrTEt4wme4GkjDZn9FLv9VmnDCOcA
-         2j+gX+MJAbKDiakC7uNnwbdFkK97QVrHfoTm+UdnMj5O7MXEVR5SXoMu1zbBeJ5KUCYV
-         D6Tg==
+        bh=LGUNV55wraKWttlHu9LEsxw2TMdFSIetUkp+Aa5vOlw=;
+        b=jvMxGG2qz701VH7PS5s1+nb3Z9EUfyfO+MeYE6dw1gHB7kICCA0bZUN9qosVmcpvrD
+         Vv2jc+BnVukAgcIKHQAhvF6bZ5nLDjQNTDfJAmG/UBV1vhY+8QZLg9mORq8BGvRRTbML
+         JKvGPmuvE3UcRMumC002eUUO7X26fvTPYhdqhC1jApLGt0lhX7hSy7I20913r6/9CtsV
+         atUnvumDY17hms6SByBTOgwN5Bzkls9ePsKjDMURaYSqkbH0jmcUXZZDBaBAVJY4EerO
+         BuanjrOvfciZZFIVPijfT5OnxsNYbIHd/LXYzM5mXaa2Qr6qwrXM7tRp6ipvYyB3WCek
+         316Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7hA3vEaUDHtlb/RnlEjxAhRWJLgHlZ5Yq9n1C69h8n8=;
-        b=oFsZgd0L0Oh3cVkn/DgWCNJUj81U6DDmQ5srEPCOjVTzebllLudM1TiMKQPC/cCNGb
-         tvnQV6wweEx/HVxBeIf3typvId72sre80qY1D/ldUIn/wOatdMdFa9WutYOwBzKKNYJO
-         cKx5fxBbEcm94FabIVFGhzSozzszi5t/Fxi6a0sleChR6VItmH4mP09iJLK6fYg98V1z
-         c99XHCBGNzmSLoF3c26mXH6yWbmTcsPZ3MAmsZzAR5NFqZhX1cMdbr7JtxSWnGJMaumD
-         3oum1fi1arS+54J53SA1djH6blTrn/yhgapEDCDe7+TALGJVKWAcRuc+4sGPwuosH66a
-         P9XA==
-X-Gm-Message-State: AOAM5310BXBdpJAvwpRUGMVZugkHQUe6HScZLxXNLcMPyc4G+UpAY2KY
-        cRFGKWY4i5+eXizpAsUvm3akRlKZcP7B+x2HRGc=
-X-Google-Smtp-Source: ABdhPJxCn9ixI/IpsGfA5APrN63l1h69JQwI08xALHCyy0+eotTLl5H85EUZyjZqIut7zSx3mKcQ8iknsdMvFmcM/3Y=
-X-Received: by 2002:a17:906:a3c6:: with SMTP id ca6mr8546557ejb.639.1640453572898;
- Sat, 25 Dec 2021 09:32:52 -0800 (PST)
+        bh=LGUNV55wraKWttlHu9LEsxw2TMdFSIetUkp+Aa5vOlw=;
+        b=JCuIPR1/XbYauxGS5wdkzd+5gQ0V88lQT0XFfvZlxGhUwPRut1kIzqvIJ/e62l059D
+         Hr7Svq9CVHSXdPU7t7a5abrKWPuzJ5zkJ+AtGHwbEru0RkicNmcKn8zNenRn8FL8+unx
+         wbqos2O8ynQXquOgo+BUf5mBBr1LG08+JMusl4u2bnKgfhJTrwPZnIPrY9+s06uuKfu9
+         6YxQDOv6R2UfJlnH10iyjiqEeQzcEoe20WNKK+Rt3arGoZXhA1yfEV1SsFPxMkuwKikW
+         ANe6RbWAI1ZhgM0J0iKHZcvs4tJsejUq3yRA0NLNi5VBQcfOJRa/tI1Dx55f+1K5xeYr
+         9wPw==
+X-Gm-Message-State: AOAM533PXsEUj3lduur4cRsL75vkZATSsoBR7mg2mp6UbxoDNr1VFZCl
+        R6Zn1LoGS8Y6Ogz5CnleKHrgCZmAqVL5AFOHeB8=
+X-Google-Smtp-Source: ABdhPJyidpd9u5ux/81gVytN22NQ9SN65KnC06z6cIHTHqerrI7WWeQin+0FapdM5Hb1MSG1DYvDHJ8AKXbcja9W6Bw=
+X-Received: by 2002:a17:907:76d4:: with SMTP id kf20mr8680594ejc.44.1640454441883;
+ Sat, 25 Dec 2021 09:47:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211222161534.1263-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211222161534.1263-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211222161534.1263-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 25 Dec 2021 19:32:16 +0200
-Message-ID: <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
-Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
+Date:   Sat, 25 Dec 2021 19:46:45 +0200
+Message-ID: <CAHp75VfC-1Lt2JZ-e_ReySNQTOwOfBi6JLOjEHUMNEyYk5JVyg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dmaengine: nbpfaxi: Use platform_get_irq_optional()
  to get the interrupt
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Sean Wang <sean.wang@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
+On Fri, Dec 24, 2021 at 3:14 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 >
 > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
@@ -77,53 +80,26 @@ On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
 > In preparation for removal of static setup of IRQ resource from DT core
 > code use platform_get_irq_optional().
 >
-> Also this patch propagates error code in case devm_request_irq()
-> fails instead of returing -EINVAL.
+> There are no non-DT users for this driver so interrupt range
+> (irq_res->start-irq_res->end) is no longer required and with DT we will
+> be sure it will be a single IRQ resource for each index.
 
-returning
-
-...
-
-> +       res_irq->flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
-> +       res_irq->start = irq;
-> +       res_irq->end = irq;
-> +       res_irq->name = dev_of_node(&pdev->dev) ? of_node_full_name(pdev->dev.of_node) : NULL;
-
-If you convert DEFINE_RES_NAMED() to return a compound literal, then
-you may use it here like
-
-res_irq = DEFINE_RES_NAMED(...);
-
-or even do like this
-
-if (dev_of_node(...))
-  res_irq = DEFINE_RES_IRQ_NAMED(...)
-else
-  res_irq = DEFINE_RES_IRQ(...);
-res_irq->flags |= irq_get_trigger_type(irq);
-
-I'm not sure why you can't simply use the NAMED variant in both cases
-(yes, I see that of_node_full_name() will return something, not NULL).
-
-...
-
-> +       while ((err = platform_get_irq_optional(pdev, res_idx)) != -ENXIO) {
-> +               if (err < 0)
-> +                       goto vpif_unregister;
-
-Needs a better error checking, i.e. consider 0 as no-IRQ (equivalent
-to -ENXIO (note, OF code never returns 0 as valid vIRQ).
-
->                 res_idx++;
+>         for (i = 0; irqs < ARRAY_SIZE(irqbuf); i++) {
+> -               irq_res = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+> -               if (!irq_res)
+> +               irq = platform_get_irq_optional(pdev, i);
+> +               if (irq == -ENXIO)
+>                         break;
+> -
+> -               for (irq = irq_res->start; irq <= irq_res->end;
+> -                    irq++, irqs++)
+> -                       irqbuf[irqs] = irq;
+> +               if (irq < 0)
+> +                       return irq;
+> +               irqbuf[irqs++] = irq;
 >         }
 
-...
-
-> +       while ((err = platform_get_irq_optional(pdev, res_idx)) != -ENXIO) {
-> +               if (err < 0)
-> +                       goto vpif_unregister;
-
-Ditto.
+Same comment as per other patch(es), i.e. consider 0 as no IRQ.
 
 -- 
 With Best Regards,
