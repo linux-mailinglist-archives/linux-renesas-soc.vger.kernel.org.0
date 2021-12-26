@@ -2,51 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C196E47F61F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Dec 2021 10:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EEE647F65D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Dec 2021 11:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbhLZJlo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 Dec 2021 04:41:44 -0500
-Received: from slot0.jllresort.com ([62.197.136.5]:57010 "EHLO
-        slot0.jllresort.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233158AbhLZJlo (ORCPT
+        id S229736AbhLZKDt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 26 Dec 2021 05:03:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47274 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229709AbhLZKDt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 Dec 2021 04:41:44 -0500
-X-Greylist: delayed 712 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Dec 2021 04:41:43 EST
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=jllresort.com;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ele.mon@jllresort.com;
- bh=T18Z2RiTi0M1Kva9jsHx2L0fbHU=;
- b=z76gaKACczyqt6AJ7+pK/Ogaq4cu1wtzrOwMLIJNpwh6eM1DEjyhTTTeN+D91YgG6WnNtfk82d9F
-   iiycTcBBSYt/24gjsTIJATLZk6mTMCWCcM7cN1PNs99Q0ezc8cvcDrXM2F1vejkQjYFZOD9a9LLy
-   z7V4L0oOkHrJH/tuubyHawzze0RRcLLDDTDTopMCd9SS/AQm/qAbvgne4gw6NvDlDM1ASJ72TasB
-   I5vEpl1H6qSsEXtRvTrWrdJ0MA37LzvnaXPpyNCQ6K9XNrcTG2yaunyU5CBF2yAtdoKlTilOuGxG
-   XpAk7PC1GqAgONXtHbIRB1unovneiuj3YFpQ7Q==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=jllresort.com;
- b=Gh4RJZ9RwGslicqfmFbGBjZrzOKUlMwF4o3k+jbE/fO/0c8s7balzeqJ8D9U0f4Pq64empeadzYG
-   CPwrIcsez1W8NlS2FyLNUi/wsfTf+DTDyGFtzDbL1A6wKWZhHoSgre47mh1OnSdecRMVpO6dbkLd
-   81q8SjkeG60VNDJqxh36TMpca3QlsHbxcrVXuKF6TZcCNmPPGT8GjTWL6j8ZcBaj+KVPG/UoTUqF
-   st4de4lVtAFJ+Tjzys3k30d3ko8/RNoCITCaHSNTKH5qVMv2Br4PrpxUSRk7+jMOD6qcxI8SnblF
-   gjMnZn+dnKGjXlB5Vwp40aFvsNBUJ5aFihS4TA==;
-Reply-To: mustafa.ayvaz@ayvazburosu.com
-From:   ele.mon@jllresort.com
-To:     linux-renesas-soc@vger.kernel.org
-Subject: Happy Weekend:
-Date:   26 Dec 2021 10:29:26 +0100
-Message-ID: <20211226102855.E121DC0E792722FB@jllresort.com>
+        Sun, 26 Dec 2021 05:03:49 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF574C06173E;
+        Sun, 26 Dec 2021 02:03:48 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id y130so11412434ybe.8;
+        Sun, 26 Dec 2021 02:03:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PcIdhYGtAe5wiGEmCP4ZpgqtofQF1fYABhObn5o2LIM=;
+        b=Tqi139SclsNTIfh4oyAGZJUQASq4/f+eBNWk4N0vBVBjYr1fJoIf2MChB6Lq+bBEwy
+         HVAPn8ipsSddzr4zed1Lxj95XO6FIqYvyTyhmsnT3Gwpgl1oJex9Nkg3W9BY1aRfChzc
+         RE54WE8HqPET/SGIWXPuCiZmmCyhJq2shQGFATYOtS0rDKEjDcUkiNH7JDrt6QInoaeT
+         7RN0NqHa8EMOUIjdg6uxQ0WEMmoRBm7CMhe55mm9i4QBLZhKLaCILdp4nyMEuwhb2HOk
+         NKCzpoenct8cl3AwHn8Pqcl8MF19YQqn11zN9PcbJVGB/LHK1QMmJ43ztW+zzlEWrufz
+         u2pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PcIdhYGtAe5wiGEmCP4ZpgqtofQF1fYABhObn5o2LIM=;
+        b=pUKDouBNnMpNOosDwI/5rUmf2z6gnCOlHExdXu3xNaFC/55Jgbs2OqUBZ0vrSJ65tK
+         UBF5PfTZAu3ChgPA8EOJrMAhyR6ywVvwECn+kMJwSAMiUIl4HrfZuBptkzhliw8cJAqa
+         OMkfMeSyCXgmD3T/TjmkoggarVGQKRZ2KN6WuEPRohWSThnpsWA7Z4UujsOyA9BEBafo
+         32I8MYZz+q6+3bRquGCsXCBuf6k4XFWtrnUO58oZPqD8lp/G/6SIFmdvBTWN9E9hTVP+
+         9waB4XfAXhkGaZbRHQcTa3Fh4GpY2MqBtUaHDayZKpsKqpEejQKAHl/uv+jkNdfq0gxk
+         +sRg==
+X-Gm-Message-State: AOAM531gCvW4dddjwjO90jAJO5I4NN/jPF0bN+sAx0XlASBjWNQvUe5V
+        aXMcOBPX++PhHScsaHLA/mVGmtWMhpGMy8Hcpg8=
+X-Google-Smtp-Source: ABdhPJy5eauPTYjIdf+IeTzl2CnArYlq43PzOJd+NA5Yj14nbn8+5xGo3U9BQ3S8h4SL1usNm3g+exbbRtvb7xqb6f0=
+X-Received: by 2002:a25:98c4:: with SMTP id m4mr16123099ybo.613.1640513028115;
+ Sun, 26 Dec 2021 02:03:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211221175322.7096-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAHp75VcxCGjPiuQi9w5M3Gv97nj+TQVMdF86TQXi6bxgSTL1mQ@mail.gmail.com>
+ <OSZPR01MB70197F402C7BA0147AD50DF6AA409@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <CAHp75VfzzVuVbP41B-02CT3EdEBoDh-Ewj2KAYdw7jdaHmFvzQ@mail.gmail.com>
+In-Reply-To: <CAHp75VfzzVuVbP41B-02CT3EdEBoDh-Ewj2KAYdw7jdaHmFvzQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sun, 26 Dec 2021 10:03:22 +0000
+Message-ID: <CA+V-a8vPfRK66BFgO9tQ8kBxC5OkXawmK_5shVMgq+NS97QfaA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] i2c: sh_mobile: Use platform_get_irq_optional() to
+ get the interrupt
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Greetings to you linux-renesas-soc,
+On Sun, Dec 26, 2021 at 8:41 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sun, Dec 26, 2021 at 1:45 AM Prabhakar Mahadev Lad
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > On Wed, Dec 22, 2021 at 2:41 PM Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> ...
+>
+> > > > +       if (np) {
+> > >
+> > > Same comments as per your other patches, i.e.
+> > > Why is this check here?
+> > >
+> > Because the interrupt resource has range of interrupts in one IRQ resource [0]. Let me know if there is any other alternative way to avoid such case.
+>
+> Shouldn't be fixed in platform_get_irq_optional() to return IRQ by
+> index for all cases?
+>
+Sorry, I don't get you here. Wasn't your earlier comment for np check?
 
-I was wondering if you got my previous email? I have been trying=20
-to reach you by email linux-renesas-soc@vger.kernel.org, kindly=20
-get back to me swiftly, it is very important and urgent.
-
-Thanks
-Mustafa Ayvaz
-Email: mustafa.ayvaz@ayvazburosu.com
+Cheers,
+Prabhakar
