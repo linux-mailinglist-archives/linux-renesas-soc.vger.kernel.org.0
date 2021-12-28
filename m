@@ -2,194 +2,330 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AEC9480B41
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Dec 2021 17:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9C7F480C0A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Dec 2021 18:23:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233776AbhL1Q2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Dec 2021 11:28:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54686 "EHLO
+        id S236652AbhL1RXV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Dec 2021 12:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233260AbhL1Q2A (ORCPT
+        with ESMTP id S236642AbhL1RXV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Dec 2021 11:28:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E586C061574;
-        Tue, 28 Dec 2021 08:28:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C92B4611DF;
-        Tue, 28 Dec 2021 16:27:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35821C36AF3;
-        Tue, 28 Dec 2021 16:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640708879;
-        bh=R6Jv9J0BxrC+z8teg96UirleOKuDMCl+//tC6vwo9E8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tsykbORowRces+IbbOhfubWCPPC04lZjK75CaQHoSiv5jau0xuN8Ayvl2Zov+figH
-         3xoFpTepFdEafLdGhdVtjgSOmvpKNPVR+dflxiIEKURY2QLsitdSdaugG8ARIapA4T
-         J0UhDzZvozjcxNegj7+U5rYCbEHou395dgj/kmViDlTph7WndJ3HvYz4Ta7wQGlX//
-         T5NmAwMmOWXYFZopKRkFmkQgFpnDYxxSl08sSqFP4bSJg+ShsNrIaz9TmoEIrA3DFG
-         LaOm+Qhfeg1e3ROuW2aFgLa0EYoi6FRm6414WJWZCrqLyi3/nPV/8LL4kP3qKksySk
-         ADBOMX5PeJM9A==
-Received: by mail-wr1-f48.google.com with SMTP id r17so39344369wrc.3;
-        Tue, 28 Dec 2021 08:27:59 -0800 (PST)
-X-Gm-Message-State: AOAM532pD9xpvNzP91wcFc/DbN1r6hVA0JYs/lWCggqh+8fPdO+GvcwA
-        YxPEZbo6K+BxbN4H6pXzirhCn8dpJDO3RYLtDwQ=
-X-Google-Smtp-Source: ABdhPJw/MwBMEIAZN5SY17OLS8R0iHn7WE9gXetg1uCSD+W/kXmNtEYPh87zbAKHgQIF+cWKczr40Yb86kEVZukG3kw=
-X-Received: by 2002:a05:6000:154c:: with SMTP id 12mr17033550wry.447.1640708877257;
- Tue, 28 Dec 2021 08:27:57 -0800 (PST)
+        Tue, 28 Dec 2021 12:23:21 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E440FC06173E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Dec 2021 09:23:20 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id u13so42639944lff.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Dec 2021 09:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sad6wBaofbMcE43B0klX9Ezag5R7oGFQoIF5dWam0JE=;
+        b=i4tJzY4aPuIdxvL/auttUTRvWXvxVVPVmVwFeYprvob3BhEKAuO8e1muY/El/Z3me3
+         m96rbpEg83sfILha6UwhcrZd8kdHGlS/mVROcGJmiI3mJHdDNLbL5Qdja+wjKfl3V34V
+         EX9RyMU7cp3npSUIw2b2tuAeqh+Ms9zdbXXfS+cn7mT/bjzQjSwFXwZeeQKcrG7IkJhK
+         ZhYibQn6+07vs6JMwJkg2ZRCIG28dyt7HebBhObR62x7FhnPno20jTQiw1Q5FNxGBNez
+         0C9tp9epFIVWelAidbBubmylvsRifhO2WEdG2FT5XBpJiJpeSac4htwfJ+naTYNkK9CV
+         IH8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sad6wBaofbMcE43B0klX9Ezag5R7oGFQoIF5dWam0JE=;
+        b=rh29d4nFfxA41o62Uqbb7pvXcbVf/DIHXCbB0mqGDwGskNnW3qPOGBSzoVwdWSx5gK
+         zXWyHqXPdXE8DajnkNmS2Hd7OMU4qIEcdSr04K6TfsEs0h5oR5Pbr+YYdkUaswbFSPvm
+         ygIbe48AKCh39IflqqX2y+nMqTQEtJQObdUfzpTegVpmQAnaP/lZ1o0dWHzBe9GOaQLX
+         EZft9LLJhU00LXUBE+n+Nzj2wQPgDE1mOSYtJ30/eH0hOvmy/ekXMmpPWT4MDltXNJFu
+         MvRnkqWoLFm0j1WE5A2TuC08gyhLdIpcTH1VW341hPzU206lVc/QCjRTSlshVmLstav6
+         GnHw==
+X-Gm-Message-State: AOAM531sFjY4/gF2hjtbJZoZynIk33Y7+tPNDOVUzcMylh8ndn4aG2Ud
+        53Fz2lH769OilYYAbKIgoLWTXQ==
+X-Google-Smtp-Source: ABdhPJwckiG06DrdaWZfYMsN4S5wUdpz9C7x+xoKKRDTzw3nwbojzdr9eswasjIuPOpuyCOpcyhiQQ==
+X-Received: by 2002:a05:6512:33c9:: with SMTP id d9mr14426735lfg.516.1640712199072;
+        Tue, 28 Dec 2021 09:23:19 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id g11sm1976571lfr.249.2021.12.28.09.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Dec 2021 09:23:18 -0800 (PST)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH/RFC] drivers/irqchip: add irq-inverter
+Date:   Tue, 28 Dec 2021 19:56:43 +0300
+Message-Id: <20211228165642.2514766-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211122092816.2865873-1-ardb@kernel.org> <CGME20211221103854eucas1p2592e38fcc84c1c3506fce87f1dab6739@eucas1p2.samsung.com>
- <20211122092816.2865873-8-ardb@kernel.org> <0ffc858f-27e7-6789-4be1-c4c5ad61eb9d@samsung.com>
- <CAMj1kXG+P5AU-26t_16FL5xfQNd+ByQH_cfBLiwMSdoGPmvCuw@mail.gmail.com>
- <e07a229a-e565-0077-9f8a-a24ffa45f395@samsung.com> <CAMj1kXG3neg0riLAaU32KLvB2PLBNzwqgO0F21nbK1ivS=FwMg@mail.gmail.com>
- <b22077f6-0925-ee00-41ea-3e52241926e2@samsung.com> <CAMj1kXHQrqZSE1kHaQyQyK6R58EV3cUyvJFmM1JYifaMemyUhQ@mail.gmail.com>
- <f469726d-86fb-cf54-2775-d4658d2f3a5d@samsung.com> <CAMj1kXGyL7yTV4+pOs9iBWYuVvVmPTZrV5r=nzqttqpZ6-vYJA@mail.gmail.com>
- <CAMuHMdWNuCVeFiDrhnFmX0F1jxz8Fs4eFx55ojJF3d2ro-udrA@mail.gmail.com> <CAMuHMdWALEaQ6jXZjqOtsx8dZ+eoMPHa0SZ_onREq2STKz-CUw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWALEaQ6jXZjqOtsx8dZ+eoMPHa0SZ_onREq2STKz-CUw@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 28 Dec 2021 17:27:46 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHJTMpGZEWUUM7=hXyxxkBTsTH2YqrZLeECtKAAu2Vg=Q@mail.gmail.com>
-Message-ID: <CAMj1kXHJTMpGZEWUUM7=hXyxxkBTsTH2YqrZLeECtKAAu2Vg=Q@mail.gmail.com>
-Subject: Re: [PATCH v4 7/7] ARM: implement support for vmap'ed stacks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 28 Dec 2021 at 17:13, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Tue, Dec 28, 2021 at 3:39 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Dec 23, 2021 at 3:30 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > On Tue, 21 Dec 2021 at 22:56, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> > > > On 21.12.2021 17:20, Ard Biesheuvel wrote:
-> > > > > On Tue, 21 Dec 2021 at 14:51, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> > > > >> On 21.12.2021 14:34, Ard Biesheuvel wrote:
-> > > > >>> On Tue, 21 Dec 2021 at 12:15, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> > > > >>>> On 21.12.2021 11:44, Ard Biesheuvel wrote:
-> > > > >>>>> On Tue, 21 Dec 2021 at 11:39, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> > > > >>>>>> On 22.11.2021 10:28, Ard Biesheuvel wrote:
-> > > > >>>>>>> Wire up the generic support for managing task stack allocations via vmalloc,
-> > > > >>>>>>> and implement the entry code that detects whether we faulted because of a
-> > > > >>>>>>> stack overrun (or future stack overrun caused by pushing the pt_regs array)
-> > > > >>>>>>>
-> > > > >>>>>>> While this adds a fair amount of tricky entry asm code, it should be
-> > > > >>>>>>> noted that it only adds a TST + branch to the svc_entry path. The code
-> > > > >>>>>>> implementing the non-trivial handling of the overflow stack is emitted
-> > > > >>>>>>> out-of-line into the .text section.
-> > > > >>>>>>>
-> > > > >>>>>>> Since on ARM, we rely on do_translation_fault() to keep PMD level page
-> > > > >>>>>>> table entries that cover the vmalloc region up to date, we need to
-> > > > >>>>>>> ensure that we don't hit such a stale PMD entry when accessing the
-> > > > >>>>>>> stack. So we do a dummy read from the new stack while still running from
-> > > > >>>>>>> the old one on the context switch path, and bump the vmalloc_seq counter
-> > > > >>>>>>> when PMD level entries in the vmalloc range are modified, so that the MM
-> > > > >>>>>>> switch fetches the latest version of the entries.
-> > > > >>>>>>>
-> > > > >>>>>>> Note that we need to increase the per-mode stack by 1 word, to gain some
-> > > > >>>>>>> space to stash a GPR until we know it is safe to touch the stack.
-> > > > >>>>>>> However, due to the cacheline alignment of the struct, this does not
-> > > > >>>>>>> actually increase the memory footprint of the struct stack array at all.
-> > > > >>>>>>>
-> > > > >>>>>>> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > > > >>>>>>> Tested-by: Keith Packard <keithpac@amazon.com>
-> > > > >>>>>> This patch landed recently in linux-next 20211220 as commit a1c510d0adc6
-> > > > >>>>>> ("ARM: implement support for vmap'ed stacks"). Sadly it breaks
-> > > > >>>>>> suspend/resume operation on all ARM 32bit Exynos SoCs. Probably the
-> > > > >>>>>> suspend/resume related code must be updated somehow (it partially works
-> > > > >>>>>> on physical addresses and disabled MMU), but I didn't analyze it yet. If
-> > > > >>>>>> you have any hints, let me know.
-> > > > >>>>>>
-> > > > >>>>> Are there any such systems in KernelCI? We caught a suspend/resume
-> > > > >>>>> related issue in development, which is why the hunk below was added.
-> > > > >>>> I think that some Exynos-based Odroids (U3 and XU3) were some time ago
-> > > > >>>> available in KernelCI, but I don't know if they are still there.
-> > > > >>>>
-> > > > >>>>
-> > > > >>>>> In general, any virt-to-phys translation involving and address on the
-> > > > >>>>> stack will become problematic.
-> > > > >>>>>
-> > > > >>>>> Could you please confirm whether the issue persists with the patch
-> > > > >>>>> applied but with CONFIG_VMAP_STACK turned off? Just so we know we are
-> > > > >>>>> looking in the right place?
-> > > > >>>> I've just checked. After disabling CONFIG_VMAP_STACK suspend/resume
-> > > > >>>> works fine both on commit a1c510d0adc6 and linux-next 20211220.
-> > > > >>>>
-> > > > >>> Thanks. Any other context you can provide beyond 'does not work' ?
-> > > > >> Well, the board properly suspends, but it doesn't wake then (tested
-> > > > >> remotely with rtcwake command). So far I cannot provide anything more.
-> > > > >>
-> > > > > Thanks. Does the below help? Or otherwise, could you try doubling the
-> > > > > size of the overflow stack at arch/arm/include/asm/thread_info.h:34?
-> > > >
-> > > > I've tried both (but not at the same time) on the current linux-next and
-> > > > none helped. This must be something else... :/
-> > > >
-> > >
-> > > Thanks.
-> > >
-> > > As i don't have access to this hardware, I am going to have to rely on
-> > > someone who does to debug this further. The only alternative is
-> > > marking CONFIG_VMAP_STACK broken on MACH_EXYNOS but that would be
-> > > unfortunate.
-> >
-> > Wish I had seen this thread before...
-> >
-> > I've just bisected a resume after s2ram failure on R-Car Gen2 to the same
-> > commit a1c510d0adc604bb ("ARM: implement support for vmap'ed stacks")
-> > in arm/for-next.
-> >
-> > Expected output:
-> >
-> >     PM: suspend entry (deep)
-> >     Filesystems sync: 0.000 seconds
-> >     Freezing user space processes ... (elapsed 0.010 seconds) done.
-> >     OOM killer disabled.
-> >     Freezing remaining freezable tasks ... (elapsed 0.009 seconds) done.
-> >     Disabling non-boot CPUs ...
-> >
-> > [system suspended, this is also where it hangs on failure]
-> >
-> >     Enabling non-boot CPUs ...
-> >     CPU1 is up
-> >     sh-eth ee700000.ethernet eth0: Link is Down
-> >     Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
-> > driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=193)
-> >     OOM killer enabled.
-> >     Restarting tasks ... done.
-> >     PM: suspend exit
-> >
-> > Both wake-on-LAN and wake-up by gpio-keys fail.
-> > Nothing interesting in the kernel log, cfr. above.
-> >
-> > Disabling CONFIG_VMAP_STACK fixes the issue for me.
->
-> Enabling CONFIG_ARM_LPAE also fixes the issue, but is not an option
-> for shmobile_defconfig, as that would break systems with a Cortex-A9.
->
+Interrupt trigger type is typically used to configure interrupt
+controller to properly interpret interrupt signal sent from a device.
 
-Thanks Geert.
+However, some devices have configureable interrupt outputs, and drivers
+tend to use interrupt trigger type also to configure device interrupt
+output.
 
-As you have confirmed on #armlinux, the issue also goes away when
-booting with 'nosmp'. So this looks like an issue with the virtual
-mapping of the stack in the secondary boot path on !LPAE. That really
-narrows it down, so hopefully I will be able to fix this shortly.
+This works well when device interrupt output is connected directly to
+interrupt controller input. However, this is not always the case.
+Sometimes the interrupt signal gets inverted between the device
+producing it and the controller consuming it. Combined with both sides
+using the same interrupt trigger type to configure the signal, this
+results into non-working setup regardless of what interrupt trigger type
+is configured.
 
-Marek: could you please confirm whether or not enabling LPAE (on cores
-that support it, of course) and/or booting with 'nosmp' make the issue
-go away?
+Irq-inverer is a solution for this case. It is a virtual irqchip that
+provides additional virq number that behaves exactly as existing one,
+but with inverted trigger type reported via irq_get_trigger_type() API.
+
+Usage example, for Kingfisher extension board for Renesas Gen-3 Soc,
+that has WiFi interrupt delivered over inverting level-shifter:
+
+/ {
+	wlcore_interrupt: inverter {
+		compatible = "linux,irq-inverter";
+		interrupts-extended = <&gpio1 25 IRQ_TYPE_EDGE_RISING>;
+		interrupt-controller;
+		#interrupt-cells = <0>;
+	};
+};
+
+&wlcore {
+	interrupts-extended = <&wlcore_interrupt>;
+};
+
+Then, wl18xx driver gets IRQ_TYPE_EDGE_FALLING return from
+irq_get_trigger_type() call, and configures interrupt output for that.
+Then the signal is delivered inverted to the GPIO module, and handled
+correctly, because GPIO is configured for IRQ_TYPE_EDGE_RISING.
+
+Implementation notes:
+
+- why platform_driver and not IRQCHIP_DECLARE()?
+- because IRQCHIP_DECLARE() does not process EPROBE_DEFER properly
+
+- why not using hierarchial irq_domain?
+- because with hierarchial irq_domain, same interrupt gets the same virq
+  number at all levels, and trigger type is tied to virq number, so need
+  different virq numbers for reporting different trigger types
+
+- why using request_irq() for parent irq, instead of setting up chained
+  interrupt in irqchips?
+- because this way code is much simpler, and shall work for all cases
+  (such as normal/threaded parent irq, normal/threaded child irq,
+  different parent interrupt chips, etc)
+
+- why just not introducing separate API for consumer-side and
+  produced-side trigger type?
+- because with the chosen approach, no changes are needed to any cases
+  that don't suffer from inverted interrupt routing
+
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/irqchip/Kconfig        |  10 +++
+ drivers/irqchip/Makefile       |   1 +
+ drivers/irqchip/irq-inverter.c | 159 +++++++++++++++++++++++++++++++++
+ 3 files changed, 170 insertions(+)
+ create mode 100644 drivers/irqchip/irq-inverter.c
+
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index 7038957f4a77..02040024b4da 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -617,4 +617,14 @@ config MCHP_EIC
+ 	help
+ 	  Support for Microchip External Interrupt Controller.
+ 
++config IRQ_INVERTER
++	bool "IRQ inverter support"
++	select IRQ_DOMAIN
++	help
++	  Support for virtual interrupt line that represent inverted signal
++	  of other interrupt line.
++
++	  This is intended for cases when both interrupt source and interrupt
++	  consumer use interrupt's trigger type to configure interrupt signal
++	  polarity, but the interrupt signal is negated by hardware in between.
+ endmenu
+diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+index c1f611cbfbf8..8e7d27b0c13d 100644
+--- a/drivers/irqchip/Makefile
++++ b/drivers/irqchip/Makefile
+@@ -117,3 +117,4 @@ obj-$(CONFIG_WPCM450_AIC)		+= irq-wpcm450-aic.o
+ obj-$(CONFIG_IRQ_IDT3243X)		+= irq-idt3243x.o
+ obj-$(CONFIG_APPLE_AIC)			+= irq-apple-aic.o
+ obj-$(CONFIG_MCHP_EIC)			+= irq-mchp-eic.o
++obj-$(CONFIG_IRQ_INVERTER)		+= irq-inverter.o
+diff --git a/drivers/irqchip/irq-inverter.c b/drivers/irqchip/irq-inverter.c
+new file mode 100644
+index 000000000000..ef48a26aee96
+--- /dev/null
++++ b/drivers/irqchip/irq-inverter.c
+@@ -0,0 +1,159 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/interrupt.h>
++#include <linux/irqchip.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++
++struct irq_inverter {
++	int parent_irq;
++	int child_irq;
++	unsigned int inverted_type;
++};
++
++static irqreturn_t irq_inverter_parent_irq(int irq, void *data)
++{
++	struct irq_inverter *inv = data;
++	unsigned long flags;
++
++	raw_local_irq_save(flags);
++	generic_handle_irq(inv->child_irq);
++	raw_local_irq_restore(flags);
++
++	return IRQ_HANDLED;
++}
++
++static void irq_inverter_enable(struct irq_data *data)
++{
++	struct irq_inverter *inv = data->chip_data;
++
++	enable_irq(inv->parent_irq);
++}
++
++static void irq_inverter_disable(struct irq_data *data)
++{
++	struct irq_inverter *inv = data->chip_data;
++
++	disable_irq_nosync(inv->parent_irq);
++}
++
++static int irq_inverter_set_type(struct irq_data *data, unsigned int type)
++{
++	struct irq_inverter *inv = data->chip_data;
++
++	return type == inv->inverted_type ? 0 : -EINVAL;
++}
++
++static struct irq_chip irq_inverter_chip = {
++	.name = KBUILD_MODNAME,
++	.irq_enable = irq_inverter_enable,
++	.irq_disable = irq_inverter_disable,
++	.irq_set_type = irq_inverter_set_type,
++};
++
++static int irq_inverter_xlate(struct irq_domain *d, struct device_node *node,
++		const u32 *intspec, unsigned int intsize,
++		unsigned long *out_hwirq, unsigned int *out_type)
++{
++	struct irq_inverter *inv = d->host_data;
++
++	if (intsize != 0)
++		return -EINVAL;
++
++	*out_hwirq = 0;
++	*out_type = inv->inverted_type;
++	return 0;
++}
++
++static int irq_inverter_map(struct irq_domain *d, unsigned int virq,
++		irq_hw_number_t hw)
++{
++	struct irq_inverter *inv = d->host_data;
++
++	inv->child_irq = virq;
++	irq_set_chip_and_handler(virq, &irq_inverter_chip, handle_simple_irq);
++	irq_set_chip_data(virq, inv);
++	return 0;
++}
++
++static const struct irq_domain_ops irq_inverter_domain_ops = {
++	.xlate = irq_inverter_xlate,
++	.map = irq_inverter_map,
++};
++
++static int irq_inverter_probe(struct platform_device *pdev)
++{
++	struct device_node *node = pdev->dev.of_node;
++	struct irq_inverter *inv;
++	struct irq_domain *domain;
++	unsigned int parent_type;
++	int ret;
++
++	inv = kzalloc(sizeof(*inv), GFP_KERNEL);
++	if (!inv)
++		return -ENOMEM;
++
++	ret = of_irq_get(node, 0);
++	if (ret < 0) {
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "could not get parent irq\n");
++		goto err_free_inv;
++	}
++	inv->parent_irq = ret;
++
++	parent_type = irq_get_trigger_type(inv->parent_irq);
++	if (!parent_type) {
++		dev_err(&pdev->dev, "parent irq trigger type is not defined\n");
++		ret = -EINVAL;
++		goto err_free_inv;
++	}
++	if (parent_type & IRQ_TYPE_EDGE_RISING)
++		inv->inverted_type |= IRQ_TYPE_EDGE_FALLING;
++	if (parent_type & IRQ_TYPE_EDGE_FALLING)
++		inv->inverted_type |= IRQ_TYPE_EDGE_RISING;
++	if (parent_type & IRQ_TYPE_LEVEL_HIGH)
++		inv->inverted_type |= IRQ_TYPE_LEVEL_LOW;
++	if (parent_type & IRQ_TYPE_LEVEL_LOW)
++		inv->inverted_type |= IRQ_TYPE_LEVEL_HIGH;
++
++	ret = request_irq(inv->parent_irq, irq_inverter_parent_irq,
++			parent_type | IRQF_NO_AUTOEN, KBUILD_MODNAME, inv);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "could not request parent irq\n");
++		goto err_free_inv;
++	}
++
++	domain = irq_domain_add_linear(node, 1, &irq_inverter_domain_ops, inv);
++	if (!domain) {
++		ret = -ENOMEM;
++		goto err_free_irq;
++	}
++
++	return 0;
++
++err_free_irq:
++	free_irq(inv->parent_irq, inv);
++err_free_inv:
++	kfree(inv);
++	return ret;
++}
++
++static const struct of_device_id irq_inverter_match[] = {
++	{ .compatible = "linux,irq-inverter" },
++	{}
++};
++
++static struct platform_driver irq_inverter_driver = {
++	.driver = {
++		.name = KBUILD_MODNAME,
++		.of_match_table = irq_inverter_match,
++	},
++	.probe = irq_inverter_probe,
++};
++
++static int __init irq_inverter_init(void)
++{
++	return platform_driver_register(&irq_inverter_driver);
++}
++
++subsys_initcall(irq_inverter_init);
+-- 
+2.30.2
+
