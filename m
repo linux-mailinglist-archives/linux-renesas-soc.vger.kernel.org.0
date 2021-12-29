@@ -2,27 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2041B48155D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 17:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBE8D48157C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 17:57:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240895AbhL2QxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Dec 2021 11:53:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34804 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbhL2QxM (ORCPT
+        id S241012AbhL2Q5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Dec 2021 11:57:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39280 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234035AbhL2Q47 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Dec 2021 11:53:12 -0500
+        Wed, 29 Dec 2021 11:56:59 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54EE3C06173E;
+        Wed, 29 Dec 2021 08:56:59 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15485464;
-        Wed, 29 Dec 2021 17:53:11 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41E7BD6E;
+        Wed, 29 Dec 2021 17:56:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640796791;
-        bh=d4mUqBC++plc2D3Vh5L6ujyZUc9IN8xOvxhMd+u6XZs=;
+        s=mail; t=1640797017;
+        bh=0cKDi3yqPOPQJ8bH1cxfl9Zwoh+OJcJz2m4NHBivjnQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hCc3yy70iQyyy1vXz8/aLYXRTGapqmsPk/n/zN1AWZg15snGiY0clN8DSwxiq1KJs
-         uG4pxSgkkrAQlM2hRdmfEeMZDI00+XLJS/dDicpHVBr+NHIH/EvSo1d6buXtb+pr02
-         2UeCg3/pGPehayk2VUrzLmv9t2V/Twu7lB+7Ap5U=
-Date:   Wed, 29 Dec 2021 18:53:09 +0200
+        b=oS5+13qgjGIbviGwQuHxUVWhfuBqUQoJkmGAjjLBfYxi7nSb/N9Of8st6Vb0CNhIX
+         pPE4yiVd5B1aFhOJLiPahwN8IYSe4o+EFPHWFiavuxqxIWG9ngKyz14ohFNSlbFoSh
+         7Uq4KzeR7V5bs3byVrA9o1G0o+uSh9e77qPIuGiE=
+Date:   Wed, 29 Dec 2021 18:56:55 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -33,14 +36,14 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm: rcar-du: lvds: Add r8a77961 support
-Message-ID: <YcySdeYmUBCW/9r7@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+Message-ID: <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
 References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-2-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211224052309.1997096-2-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -49,30 +52,61 @@ Hi Nikita,
 
 Thank you for the patch.
 
-On Fri, Dec 24, 2021 at 08:23:07AM +0300, Nikita Yushchenko wrote:
-> The M3-W+ SoC has the same LVDS encoder as other R-Car Gen3 chips.
-> Add support for M3-W+ (R8A77961) SoC to the LVDS encoder driver.
+On Fri, Dec 24, 2021 at 08:23:08AM +0300, Nikita Yushchenko wrote:
+> Add the missing lvds0 node for the R-Car M3-W+ SoC.
 > 
 > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> index 86d59e7e1a87..a34d5b1d6431 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> @@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
+>  				port@2 {
+>  					reg = <2>;
+>  					du_out_lvds0: endpoint {
+> +						remote-endpoint = <&lvds0_in>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		lvds0: lvds@feb90000 {
+> +			compatible = "renesas,r8a77961-lvds";
+> +			reg = <0 0xfeb90000 0 0x14>;
+> +			clocks = <&cpg CPG_MOD 727>;
+> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+> +			resets = <&cpg 727>;
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					lvds0_in: endpoint {
+> +						remote-endpoint = <&du_out_lvds0>;
+> +					};
+> +				};
+> +				port@1 {
+> +					reg = <1>;
+> +					lvds0_out: endpoint {
+>  					};
+
+Endpoints must have a remote-endpoint property. Let's drop the endpoint
+here and keep the port only, the endpoint can be declared in board
+files.
+
+If you're fine with this change I can make it when applying the patch.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_lvds.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index 72a272cfc11e..8dbfbbd3cad1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -901,6 +901,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
->  	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
->  	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
->  	{ .compatible = "renesas,r8a7796-lvds", .data = &rcar_lvds_gen3_info },
-> +	{ .compatible = "renesas,r8a77961-lvds", .data = &rcar_lvds_gen3_info },
->  	{ .compatible = "renesas,r8a77965-lvds", .data = &rcar_lvds_gen3_info },
->  	{ .compatible = "renesas,r8a77970-lvds", .data = &rcar_lvds_r8a77970_info },
->  	{ .compatible = "renesas,r8a77980-lvds", .data = &rcar_lvds_gen3_info },
+>  				};
+>  			};
 
 -- 
 Regards,
