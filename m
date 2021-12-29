@@ -2,300 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 499CD481636
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 20:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8631348164E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 20:31:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbhL2TSr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Dec 2021 14:18:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41988 "EHLO
+        id S230408AbhL2Tbn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Dec 2021 14:31:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbhL2TSr (ORCPT
+        with ESMTP id S230402AbhL2Tbm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Dec 2021 14:18:47 -0500
+        Wed, 29 Dec 2021 14:31:42 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58392C061574;
-        Wed, 29 Dec 2021 11:18:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CBBAC061574;
+        Wed, 29 Dec 2021 11:31:42 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB544464;
-        Wed, 29 Dec 2021 20:18:44 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 574B433F;
+        Wed, 29 Dec 2021 20:31:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640805525;
-        bh=5jKC67USocktKcm+oEAgveAtQMO2eQbFvE67SN2xIu8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fjqqSbAuf76eJvDm39zrF2nGY1MKeeQM5+tvrnOufHAAVoaAXhTTZWWi981fd6L9Q
-         IEyI8SCxtZu02On2tYN8/PdP2vlPHcYrY040kya+4ogXdJI7QkvZ2MhbyVzjljKLek
-         ostOZXFMBFwzvfYbvBwl52CUobmMkhWHI4gSHjCk=
+        s=mail; t=1640806300;
+        bh=/FyjdaIi5p0Rztu840RJWF2hEju8ChtOWHc6QsTjTPs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QME1yS1BQBH2NiLxyDiLHGy+km7qGyq/7NU8jFe3UeEWoGUXYg3yTBmK6YdN2i9hI
+         tsJRen2c0cJP1fmW7liVsH0peCGPNdnCrShLfGKu5f+pLdMuSPQ58O0Kq03g+9HtB1
+         OzyOc+Tjm8zOEZiRH00zlk5K1b99/Aq/cOgd2wwg=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: Remove empty rgb output endpoints
-Date:   Wed, 29 Dec 2021 21:18:38 +0200
-Message-Id: <20211229191838.27922-2-laurent.pinchart+renesas@ideasonboard.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: [PATCH v2 0/3] arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay support
+Date:   Wed, 29 Dec 2021 21:31:32 +0200
+Message-Id: <20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211229191838.27922-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20211229191838.27922-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Endpoints node must have a remote-endpoint property, as endpoints only
-exist to model a link between ports. Drop the empty rgb output endpoints
-from SoC dtsi files, and declare them in the board dts instead.
+Hello,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../boot/dts/renesas/beacon-renesom-baseboard.dtsi     | 10 ++++++++--
- arch/arm64/boot/dts/renesas/draak.dtsi                 |  2 +-
- arch/arm64/boot/dts/renesas/ebisu.dtsi                 |  2 +-
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts        |  2 +-
- arch/arm64/boot/dts/renesas/r8a774c0.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77951.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77960.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77961.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77965.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77970.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77980.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77990.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/r8a77995.dtsi              |  2 --
- arch/arm64/boot/dts/renesas/salvator-common.dtsi       |  2 +-
- 17 files changed, 12 insertions(+), 30 deletions(-)
+This small patchs series adds two DT overlays that model a Mitsubishi
+AA1024XD12 panel connected to a Salvator-X(S) board or a Draak or Ebisu
+board.
 
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 2692cc64bff6..1465adc43580 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -272,8 +272,14 @@ &can1 {
- 	status = "okay";
- };
- 
--&du_out_rgb {
--	remote-endpoint = <&rgb_panel>;
-+&du {
-+	ports {
-+		port@0 {
-+			du_out_rgb: endpoint {
-+				remote-endpoint = <&rgb_panel>;
-+			};
-+		};
-+	};
- };
- 
- &ehci0 {
-diff --git a/arch/arm64/boot/dts/renesas/draak.dtsi b/arch/arm64/boot/dts/renesas/draak.dtsi
-index eb0327c0df48..b09f06086840 100644
---- a/arch/arm64/boot/dts/renesas/draak.dtsi
-+++ b/arch/arm64/boot/dts/renesas/draak.dtsi
-@@ -285,7 +285,7 @@ &du {
- 
- 	ports {
- 		port@0 {
--			endpoint {
-+			du_out_rgb: endpoint {
- 				remote-endpoint = <&adv7123_in>;
- 			};
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-index 67231c8576c5..9e6093524682 100644
---- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-@@ -356,7 +356,7 @@ &du {
- 
- 	ports {
- 		port@0 {
--			endpoint {
-+			du_out_rgb: endpoint {
- 				remote-endpoint = <&adv7123_in>;
- 			};
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index 9a8c1bd923af..6105316ccac2 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -2733,8 +2733,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-index 8912c1665ed9..7cdf009b1ee6 100644
---- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-@@ -2578,8 +2578,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-index 4e72e4f2bab0..5a6ea08ffd2b 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-@@ -172,7 +172,7 @@ &du {
- 
- 	ports {
- 		port@0 {
--			endpoint {
-+			du_out_rgb: endpoint {
- 				remote-endpoint = <&tda19988_in>;
- 			};
- 		};
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-index 263f39fb8ad9..8b875b212a48 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-@@ -1867,8 +1867,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 
- 				port@1 {
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index 02b35e68a3fa..b9ab5cb01419 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -2853,8 +2853,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-index 0919d8f540c4..b88af4c90f33 100644
---- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-@@ -3318,8 +3318,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index 221ee1ec415d..5e12e80d115e 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -2921,8 +2921,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index ba9358abebb2..4df8ffa84461 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2706,8 +2706,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index 5f3046eee365..454e95222acf 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -2733,8 +2733,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 				port@1 {
- 					reg = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-index ad021b2703ab..dc11845625c4 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-@@ -1156,8 +1156,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 
- 				port@1 {
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-index 29f1161da957..53d0e6b4b75e 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-@@ -1532,8 +1532,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 
- 				port@1 {
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-index 735c46217835..f49173045232 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-@@ -2016,8 +2016,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 
- 				port@1 {
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 759505bd1a44..3237ff4e5c77 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -1337,8 +1337,6 @@ ports {
- 
- 				port@0 {
- 					reg = <0>;
--					du_out_rgb: endpoint {
--					};
- 				};
- 
- 				port@1 {
-diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-index bf37777dca31..0b0b1fc3a270 100644
---- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-@@ -385,7 +385,7 @@ &du {
- 
- 	ports {
- 		port@0 {
--			endpoint {
-+			du_out_rgb: endpoint {
- 				remote-endpoint = <&adv7123_in>;
- 			};
- 		};
+The panel is external to the development board and is optional, so DT
+overlays seem to be the best option to me. They can easily be applied by
+U-Boot. For instance, when booting a FIT image, a list of configurations
+can be specified. Here's the boot script I'm using (with the U-Boot
+bootcmd simply set to "dhcp && source"):
+
+--------
+setenv bootargs "console=ttySC0,115200 rw root=/dev/nfs ip=dhcp"
+setenv bootfile gen3/kernel_fdt.itb
+setenv fdtfile r8a77965-salvator-xs.dtb
+setenv overlay_files "salvator-panel-aa104xd12.dtbo"
+
+for overlay in ${overlay_files}; do
+        setenv overlaystring "${overlaystring}\\#conf-${overlay}"
+done
+
+tftpboot ${bootfile}
+bootm ${fileaddr}#conf-${fdtfile}${overlaystring}
+--------
+
+This is much simpler than the hack branch I used to carry with per-board
+DT changes to enable panel support on a particular board (and last but
+not least, it hopefully can be merged in mainline !).
+
+The only difference between the two overlays is the LVDS output that the
+panel is connected to (LVDS0 on Salvator-X(S), and LVDS1 on Draak and
+Ebisu). On my xmas wish list is a mechanism to make this configurable at
+the time the overlay is applied, but I think I'll be a sad little boy on
+xmas day.
+
+As these are the first DT overlays for Renesas boards in the mainline
+kernel, comments are welcome. If the approach gets positive feedback, we
+could turn other external add-ons (panels, camera modules, ...) into
+overlays as well.
+
+Compared to v1, this version creates the endpoints for the lvds0 and
+lvds1 ports in the overlays, to take into account the changes from
+https://lore.kernel.org/all/20211229191838.27922-1-laurent.pinchart+renesas@ideasonboard.com/.
+
+Laurent Pinchart (3):
+  arm64: dts: renesas: Prepare AA1024XD12 panel .dtsi for overlay
+    support
+  arm64: dts: renesas: Add panel overlay for Salvator-X(S) boards
+  arm64: dts: renesas: Add panel overlay for Draak and Ebisu boards
+
+ .../arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi | 39 -------------------
+ arch/arm64/boot/dts/renesas/Makefile          |  3 ++
+ .../renesas/draak-ebisu-panel-aa104xd12.dts   | 36 +++++++++++++++++
+ .../boot/dts/renesas/panel-aa104xd12.dtsi     | 30 ++++++++++++++
+ .../dts/renesas/salvator-panel-aa104xd12.dts  | 36 +++++++++++++++++
+ 5 files changed, 105 insertions(+), 39 deletions(-)
+ delete mode 100644 arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-panel-aa104xd12.dts
+
+
+base-commit: 2b534e90a1e31c7fc9536b512b72274cc3575f4c
 -- 
 Regards,
 
