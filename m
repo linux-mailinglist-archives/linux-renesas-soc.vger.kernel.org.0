@@ -2,32 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBE8D48157C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 17:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B00BC481588
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Dec 2021 18:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241012AbhL2Q5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Dec 2021 11:57:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39280 "EHLO
+        id S237503AbhL2REW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Dec 2021 12:04:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234035AbhL2Q47 (ORCPT
+        with ESMTP id S236385AbhL2REW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Dec 2021 11:56:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54EE3C06173E;
-        Wed, 29 Dec 2021 08:56:59 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41E7BD6E;
-        Wed, 29 Dec 2021 17:56:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640797017;
-        bh=0cKDi3yqPOPQJ8bH1cxfl9Zwoh+OJcJz2m4NHBivjnQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oS5+13qgjGIbviGwQuHxUVWhfuBqUQoJkmGAjjLBfYxi7nSb/N9Of8st6Vb0CNhIX
-         pPE4yiVd5B1aFhOJLiPahwN8IYSe4o+EFPHWFiavuxqxIWG9ngKyz14ohFNSlbFoSh
-         7Uq4KzeR7V5bs3byVrA9o1G0o+uSh9e77qPIuGiE=
-Date:   Wed, 29 Dec 2021 18:56:55 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+        Wed, 29 Dec 2021 12:04:22 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10A75C06173E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Dec 2021 09:04:22 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id g13so24521041ljj.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Dec 2021 09:04:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fTrzUJWfhUIkdckLSHMnURIWay1hQkAnOl+6SgL3Qxw=;
+        b=iL/eGYu1HjMm8BVvLrWVPKGJwWFEI9BJY8jfbW9O4spm7Y+Rb/nqCE818TUR22pidR
+         BTR1QIRah9M8TayWD+Zza7+7pWMSikKh/UxZFvJ8uTqLYCLG7sG2obWMSjN4lzN4KSDq
+         JMj4yi+WDUakiXsQfNOA2tjQDQvFGwqUL5N+IvGS+FXtxvM061MQwqPDKLdLtE3mKIGq
+         rglor7Q/lh6D9GPYcYyaY6l0JUF869EmDEX4rtGmMbBhCCX/hgNFO/OnZV1Hf4QZeED1
+         VApBUUYZ0ZiMXzAGIn1cz8mIO29J6fEWmAGW9jkaRCaqdriZLZCdqt4mUvmLNwo6Zt1W
+         qd2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fTrzUJWfhUIkdckLSHMnURIWay1hQkAnOl+6SgL3Qxw=;
+        b=eiMSlA+BkB6xGzgXRN4Gf0Sb6TzTsPlDkOiB7JkqKBsO9KY8QVo1Z5ZLk/ScCXKMmo
+         6EVYShmJFtpL1iVQ8MYXakGvfAn4VCVVprzr4Qu9fZAC/9oDca16ojN3Fl8Wz/DqZE2H
+         L+/8D3UDlQflXxNHzoP9Y5UFQvtyBmSCJr99vALfCZm1WkgXEZDP3O1zWg8SHPheXkMT
+         gejUxYfJKLt5kP+lbwJK1cK4TVqy8cprIE1GrlJRUmjwOcE/w4oaLFGG1cF+FVvGhisT
+         TJdyrqQJJObHdziF9FSRv2CPh/6KBRy8QASeDDUB25qmVEZt806ZAaATycc05y0qj2hF
+         ARPQ==
+X-Gm-Message-State: AOAM533ImrDEILBeUbrMbfhGgL4TnY/05BUA/gxmisV9GXEIhXDpDyWz
+        3q1EVHWr4gOKDO1slRcEeU42sw==
+X-Google-Smtp-Source: ABdhPJy9XbWrnBPDstakJxVDB050NScEATy/Wshvr7LpHN1RnyZTAAmnTgZ+Ok5FsU0wgvur/5ydjw==
+X-Received: by 2002:a2e:9cc4:: with SMTP id g4mr20600989ljj.164.1640797459871;
+        Wed, 29 Dec 2021 09:04:19 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id b26sm2120463lfo.6.2021.12.29.09.04.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Dec 2021 09:04:19 -0800 (PST)
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -36,79 +59,44 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
-Message-ID: <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
 References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
  <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <87626d61-ada0-c220-bea5-5330f5256629@cogentembedded.com>
+Date:   Wed, 29 Dec 2021 20:04:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+In-Reply-To: <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+Hi.
 
-Thank you for the patch.
+Thank you for looking at this.
 
-On Fri, Dec 24, 2021 at 08:23:08AM +0300, Nikita Yushchenko wrote:
-> Add the missing lvds0 node for the R-Car M3-W+ SoC.
+>> +				port@1 {
+>> +					reg = <1>;
+>> +					lvds0_out: endpoint {
+>>   					};
 > 
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> ---
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+> Endpoints must have a remote-endpoint property. Let's drop the endpoint
+> here and keep the port only, the endpoint can be declared in board
+> files.
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> index 86d59e7e1a87..a34d5b1d6431 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
->  				port@2 {
->  					reg = <2>;
->  					du_out_lvds0: endpoint {
-> +						remote-endpoint = <&lvds0_in>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		lvds0: lvds@feb90000 {
-> +			compatible = "renesas,r8a77961-lvds";
-> +			reg = <0 0xfeb90000 0 0x14>;
-> +			clocks = <&cpg CPG_MOD 727>;
-> +			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> +			resets = <&cpg 727>;
-> +			status = "disabled";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +					lvds0_in: endpoint {
-> +						remote-endpoint = <&du_out_lvds0>;
-> +					};
-> +				};
-> +				port@1 {
-> +					reg = <1>;
-> +					lvds0_out: endpoint {
->  					};
+> If you're fine with this change I can make it when applying the patch.
 
-Endpoints must have a remote-endpoint property. Let's drop the endpoint
-here and keep the port only, the endpoint can be declared in board
-files.
+This empty endpoint is currently defined in dtsi files for other r-car gen3 SoCs.  Goal here is to 
+define lvds0_out label that is then used in extension board dtsi files to link to the port.
 
-If you're fine with this change I can make it when applying the patch.
+In this patch I just used the same approach as in files laying nearby.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+If this approach is not appropriate, then perhaps need to fix it in files for all SoCs, to make it 
+possible for extension board dtsi to be compatible with all of them.
 
->  				};
->  			};
-
--- 
-Regards,
-
-Laurent Pinchart
+Nikita
