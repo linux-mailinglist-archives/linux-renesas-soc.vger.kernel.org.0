@@ -2,206 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C9F481C1D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 13:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C880481E6F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 18:11:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239330AbhL3Meu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Dec 2021 07:34:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239323AbhL3Met (ORCPT
+        id S241408AbhL3RLO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Dec 2021 12:11:14 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52428 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240162AbhL3RLO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Dec 2021 07:34:49 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EED7C06173F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id l5so62915558edj.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
-        b=AkSItWLccvNn24tFuxlyVWyM4dznvns4GQO+o/s/573FIurTAJIjUpqAoe/dxcv+pC
-         JB1sfAf0H4gLInAhKMcaXJ9sH54hgVea/Hd9oJsQSd3GhodvQXJ+6IytFAtBQwArmj6F
-         suMg71uW2iGCmSHXYKZduEcQqfWHs53uDEgLFYNbCaDF5aUhDCImd+EiMGLgWpScDJLW
-         MA7k3jJQ80Gp4FaN37Gw9ENiJu4PpA4Xfg655MfO/51dBWysla/+csS1EXC9MOEujkzC
-         C3T9sVtwq4NhKWir7Abj0TEHYQYtNQNESy31c7q5a9SVzyHRolT1vYdth1RJ5NQR/n84
-         lGHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
-        b=4jL76Cc55dxF/68d6XjZbVRiHhmRDLrnBmlJiU3IXJo0agdLZ+qQZ3A2FyDAn9h49Z
-         cHQwpvWLickmkSD6fcQ1Z0MP+6Mdudw84N6qsHfFPR2wwhlnbfCFj6kKQx8KZMc+peGq
-         5hHGA+H4oMjzcqS9QVPIV5yntvIWZnGjguEqXjeDdvG/TCHG3nUp1sGr7ThJZTX7Qt09
-         03N68VmB9MgkBbO0mUghUQK4u+znRTexRoy3m+y8+SxFViQCNC2PThI9apGJhTDcwOy6
-         FjglP6gSPzjv7ECcm1fuo2kyXk+LTjjsRphaPibEFglyqV2TAh9FgMdA8aonQNKAmWnS
-         0+0w==
-X-Gm-Message-State: AOAM531sm8k+kJFLRHvijrx4AnfF3HJwTWH3oobCjLGCXOjyR54OJ7Ae
-        xDIW/bjQIcCarM+/V0sA0gxRIw==
-X-Google-Smtp-Source: ABdhPJzRFuexvkjov6vVpqH/XtDVbbJxBNRBucQxsWwpIGPZbl170Nm6YMPoQ0sTGu9dp+RMAd/wwQ==
-X-Received: by 2002:a05:6402:42d5:: with SMTP id i21mr30081570edc.27.1640867687683;
-        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
-Received: from localhost.localdomain ([185.224.57.161])
-        by smtp.googlemail.com with ESMTPSA id sb10sm7593634ejc.121.2021.12.30.04.34.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v3] dt-bindings: i2c: maxim,max96712: Add bindings for Maxim Integrated MAX96712
-Date:   Thu, 30 Dec 2021 13:33:54 +0100
-Message-Id: <20211230123354.623876-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.1
+        Thu, 30 Dec 2021 12:11:14 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24D212A5;
+        Thu, 30 Dec 2021 18:11:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1640884272;
+        bh=2i0Xf3+MqKuDzJ3qo4MKmI3c87rR/zqriiPRHez0XuM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aiVqldI2TWABX/6mPYzPYKzI1nF3DUmu6OnLSODulyBRABjHGL+RZI2ywnWal4Y+Q
+         pJnpuxSdGCefFpuWqOa1he6/StifB5lD0qONkkCYN36WDL0Abzl4QsrWtPNEm7HBtM
+         /+A2USHDKLGLBwt2lratcXZ2/fjlBbyuABHzfMQE=
+Date:   Thu, 30 Dec 2021 19:11:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+Message-ID: <Yc3oL5lrUTObye7A@pendragon.ideasonboard.com>
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
+ <87626d61-ada0-c220-bea5-5330f5256629@cogentembedded.com>
+ <YcyXQxW3kRqQ2Yv0@pendragon.ideasonboard.com>
+ <39f70781-831e-c86a-ec5f-68f2b4bd3d62@cogentembedded.com>
+ <Ycy4AMAT53Uzf+K7@pendragon.ideasonboard.com>
+ <bb6ef732-7cd2-5ba9-0eef-caf2fbfbf829@cogentembedded.com>
+ <Ycze8wzD3Qi8YVAa@pendragon.ideasonboard.com>
+ <123e3993-cb71-b6dc-e4f4-4cad1eb51b00@cogentembedded.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <123e3993-cb71-b6dc-e4f4-4cad1eb51b00@cogentembedded.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-or C-PHY formatted outputs.
+Hi Nikita,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-* Changes since v1
-- Fixed spelling in binding description.
-- Drop 'staging' per Rob's suggestion.
+On Thu, Dec 30, 2021 at 08:30:43AM +0300, Nikita Yushchenko wrote:
+> >> I'd prefer to make each DT fragment to use only either entities defined in that fragment itself, or
+> >> defined "interface entities" between this and "neighbor" DT fragment.
+> >>
+> >> Such as:
+> >> - SoC's DT fragment defines a named port/endpoint to export video stream at
+> >> - board's DT fragment defines a named panel node corresponding to panel plugged into board's physical
+> >> connector, and connects endpoints with SoC's video export,
+> >> - panel's DT fragment extends the panel node from board with video mode information for this particular
+> >> panel.
+> >> ...
+>  >
+> > I agree it's annoying, but we'll have a similar problem, just the other
+> > way around, with an endpoint defined in the SoC dtsi. Many R-Car SoCs
+> > have two LVDS encoders, and you can attach a panel to either of them.
+> > Some boards use LVDS0, some boards use LVDS1, and some boards could even
+> > use both.
+> 
+> The case of "some boards use LVDS0, some boards use LVDS1" is directly addressed by what I'm trying to 
+> suggest. The per-board DT fragment can completely hide board's connection details, without a need for 
+> any new concept.
 
-* Changes since v2
-- Fix the $id file path.
----
- .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+We could do this by adding a label to the port instead of the endpoint
+in the SoC .dtsi.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-new file mode 100644
-index 0000000000000000..444f24838d3d8992
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2021 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/maxim,max96712.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: |
-+  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
-+  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
-+  simultaneously transmit bidirectional control-channel data while forward
-+  video transmissions are in progress. The MAX96712 can accommodate as many as
-+  four remotely located sensors using industry-standard coax or STP
-+  interconnects.
-+
-+  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
-+  forward direction and 187.5Mbps in the reverse direction. In GMSL1 mode, the
-+  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
-+  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
-+
-+properties:
-+  compatible:
-+    const: maxim,max96712
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  enable-gpios: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 0
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 1
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 2
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 3
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 Output
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes: true
-+
-+            required:
-+              - data-lanes
-+
-+    required:
-+      - port@4
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c@e6508000 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            reg = <0 0xe6508000>;
-+
-+            gmsl0: gmsl-deserializer@49 {
-+                    compatible = "maxim,max96712";
-+                    reg = <0x49>;
-+                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
-+
-+                    ports {
-+                            #address-cells = <1>;
-+                            #size-cells = <0>;
-+
-+                            port@4 {
-+                                    reg = <4>;
-+                                    max96712_out0: endpoint {
-+                                            clock-lanes = <0>;
-+                                            data-lanes = <1 2 3 4>;
-+                                            remote-endpoint = <&csi40_in>;
-+                                    };
-+                            };
-+                    };
-+            };
-+    };
+lvds0: lvds@.... {
+	...
+
+	ports {
+		port@0 {
+			lvds0_in: endpoint {
+				remote-endpoint = <&du_out_lvds0>;
+			};
+		};
+
+		lvds_out_panel_port: port@1 {
+		};
+};
+
+It would however likely be better do add the label to port@1 in the
+board .dts though, as usage of a particular LVDS output is a board
+property, not an SoC property.
+
+Then, in the overlay,
+
+panel {
+	port {
+		panel_in: endpoint {
+			remote_endpoint <&lvds_out_panel>;
+		};
+	};
+};
+
+&lvds_out_panel_port {
+	lvds_out_panel: endpoint {
+		remote-endpoint = <&panel_in>;
+	};
+};
+
+There's one caveat though: The LVDS DT nodes are disabled in the SoC
+.dtsi, so the overlay would need to have
+
+&lvds0 {
+	status = "okay";
+};
+
+and that would need to reference the correct lvds node. Without
+parameterized overlays, I don't think we can solve this issue neatly
+(especially given that panels will often have control GPIOs, or
+GPIO-controlled regulators, that could be wired to different SoC GPIOs
+on different boards).
+
+> The case of "some boards could even use both" indeed needs a some way to parametrize panel's DT 
+> fragment, and perhaps load two instances of it with different parameters. To some extent this is doable 
+> via preprocessor magic and multiple includes, although this approach has obvious disadvantages.
+> 
+> > A real solution for this problem will require a new concept. The "DT
+> > connector" proposal is related to this problem space. There's also a
+> > proprietary implementation in the Rapsberry Pi boot loader of a
+> > mechanism to support parametrized overlays ([2] and [3], or [4] for an
+> > example of how a panel reset or backlight GPIO can be parametrized).
+> 
+> So the problem is already recognized for years...  what stops from
+> wider adoption of this or similar solutions?
+
+Someone to continue working on it I suppose :-)
+
+> And - if/while that is not being done - can't we at least try to
+> follow more portable DT coding pattern while staying within existing
+> concepts?
+
+We could use a label for the port node as shown above. It's not a
+complete solution, but it may help. I'm not sure how to solve the
+enabling of the lvds encoder DT node though.
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
