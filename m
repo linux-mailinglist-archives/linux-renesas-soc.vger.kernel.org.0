@@ -2,81 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9483481C10
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 13:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A0ED481C16
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 13:33:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239254AbhL3MaZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Dec 2021 07:30:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41302 "EHLO
+        id S235404AbhL3MdZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Dec 2021 07:33:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235404AbhL3MaY (ORCPT
+        with ESMTP id S233745AbhL3MdZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Dec 2021 07:30:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048E1C061574;
-        Thu, 30 Dec 2021 04:30:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFC2EB81C11;
-        Thu, 30 Dec 2021 12:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC8A5C36AE9;
-        Thu, 30 Dec 2021 12:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1640867421;
-        bh=Sy6pNp8QtUUsCDO29AwQGmgu/oNOOBEKULszRSt6f3w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TOocbAB89matda7HUvGOjltsNakNfM4t/g9sPfKPjrPtRc0L0SeNw3v6dSgFBVMHn
-         61y3Axcxjoymiceh27Vv/AGcONh5PIkpvr1mIC3AjZtApRcFyIffHvnQC+2zlsBdej
-         0KyT9QPv2QyQg1nNx4CM/9HkYNEgEgjR8pXxG+es=
-Date:   Thu, 30 Dec 2021 13:30:18 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Magnus Damm <damm@opensource.se>
-Cc:     linux-serial@vger.kernel.org, robh@kernel.org,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        wsa+renesas@sang-engineering.com, jirislaby@kernel.org
-Subject: Re: [PATCH] serdev: BREAK/FRAME/PARITY/OVERRUN notification
- prototype V2
-Message-ID: <Yc2mWlJPNzJodqWl@kroah.com>
-References: <163931528842.27756.3665040315954968747.sendpatchset@octo>
+        Thu, 30 Dec 2021 07:33:25 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0BAC061574;
+        Thu, 30 Dec 2021 04:33:24 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id e202so29070712ybf.4;
+        Thu, 30 Dec 2021 04:33:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vAnVuyhDyOqSDpVecpePDGpCLlrsb4u5oVIUyGQIigM=;
+        b=knbtVI06jsv3f7mpLlir2DoX+1gPdzxij/X8LvmrB46KFAEe8rX2cFKqghTrn2bv5R
+         0S/Wy8k62B4TwVwLkoYNks87y6ZorTAwTXJMbJhKFPrIj9/ubNgPCbQg/qZGWMyD/dD+
+         vpc2hKkJXaGCix3lpFMFqLSZ6Ll7nYI5v+X0GbFojHF97Eh5SOB6cmW64VAo5EixnRfg
+         +aQHwG9GhALUZJyGUYW+NFf2vMEQGARzgg/4fefGJJMxjhpOoHrpGHllbYTJIygoP/DZ
+         TUz7zTeE01LQuxQ6sueLmAzSiUdcpaswOmX1bLoEhaS+1YzTPNpN2txhwto106acNuQZ
+         0Ehw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vAnVuyhDyOqSDpVecpePDGpCLlrsb4u5oVIUyGQIigM=;
+        b=UhAeeAifo69ZZwwXBNKrhFc7H8UpanLkgaHUG1NhDZF8thWbVSfBgDiT4HxEIKhxjM
+         b6JDEgkzbCp0WEyspc29euQAO1Qasyd4hJPyqgqITyCxGeYezU6bai05rZc93pLrFAXy
+         RZ45kzEZ/gch61U/XsZR6+Ya8XgHBfneitgeqaER3bloNpMOv7DDZCe5s1fndVwObsW0
+         CkAYhW+ik2KrV+yiQtm3rPNpVjRjicbBJBuoXLyPP607g164+rOB/IG9bndhUlVSCeyL
+         WxdP1c467lOKRLzqd+lD65Pz6S2ZXfEwrUi+hLeHJff0BUGL7XC2+H6l4oUwADCD9est
+         EkFQ==
+X-Gm-Message-State: AOAM533xrrxxsfNWP38c32eida4dA2wLJjuQMGYhfWSa6degyHXVg0hR
+        mFs7pfUbPKiBrDIPsdfUwcRb3idAwxR8WY6mlceSM1KQWrpxhA==
+X-Google-Smtp-Source: ABdhPJztJjoCSt13eeXjnX/Dry1sgLWNmKKhFDSarqgwEZcaTtCTD+A7t7N4IP25u0VqHiGVCKCaecyMYicCG0uNLiM=
+X-Received: by 2002:a25:7509:: with SMTP id q9mr19566507ybc.315.1640867604209;
+ Thu, 30 Dec 2021 04:33:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163931528842.27756.3665040315954968747.sendpatchset@octo>
+References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211223173015.22251-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <Ycz4Ba5P1Srx3ALv@pendragon.ideasonboard.com>
+In-Reply-To: <Ycz4Ba5P1Srx3ALv@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 30 Dec 2021 12:32:58 +0000
+Message-ID: <CA+V-a8vQnHH1ZEFRMxRCpB7NziGXz90zULXDJWDZOtTZkA-pJA@mail.gmail.com>
+Subject: Re: [PATCH 01/13] media: vsp1: Use platform_get_irq() to get the interrupt
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Dec 12, 2021 at 10:21:28PM +0900, Magnus Damm wrote:
-> From: Magnus Damm <damm+renesas@opensource.se>
-> 
-> Allow serdev device drivers get notified by hardware errors such as BREAK,
-> FRAME, PARITY and OVERRUN.
-> 
-> With this patch, in the event of an error detected in the UART device driver
-> the serdev_device_driver will get the newly introduced ->error() callback
-> invoked if serdev_device_set_error_mask() has previously been used to enable
-> the type of error. The errors are taken straight from the TTY layer and fed
-> into the serdev_device_driver after filtering out only enabled errors.
-> 
-> Without this patch the hardware errors never reach the serdev_device_driver.
-> 
-> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
-> ---
-> 
->  Applies to linux-5.16-rc4
-> 
->  Change since V1:
->  - Use __set_bit() instead of set_bit() in ttyport_receive_buf()
->  - Switch to assign_bit() in ttyport_set_error_mask()
-> 
->  Thanks to Geert for feedback!
-> 
->  The following prototype patch is using serdev error notifications:
->  [PATCH] r8a77995 Draak SCIF0 LED and KEY Serdev prototype V2
+Hi Laurent,
 
-Looks good, now applied to my tty tree.
+Thank you for the review.
 
-thanks,
+On Thu, Dec 30, 2021 at 12:06 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Thu, Dec 23, 2021 at 05:30:02PM +0000, Lad Prabhakar wrote:
+> > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> > allocation of IRQ resources in DT core code, this causes an issue
+> > when using hierarchical interrupt domains using "interrupts" property
+> > in the node as this bypasses the hierarchical setup and messes up the
+> > irq chaining.
+> >
+> > In preparation for removal of static setup of IRQ resource from DT core
+> > code use platform_get_irq().
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Will you get this merged with the whole series, or should I take it in
+> my tree ?
+>
+I intend to get this merged with the whole series, just to make sure
+all of them are part of the same release. If there is an issue that's
+OK too.
 
-greg k-h
+> > ---
+> >  drivers/media/platform/vsp1/vsp1_drv.c | 13 +++++--------
+> >  1 file changed, 5 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> > index c9044785b903..bbba91a65a0f 100644
+> > --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> > @@ -794,7 +794,6 @@ static int vsp1_probe(struct platform_device *pdev)
+> >  {
+> >       struct vsp1_device *vsp1;
+> >       struct device_node *fcp_node;
+> > -     struct resource *irq;
+> >       unsigned int i;
+> >       int ret;
+> >
+> > @@ -813,14 +812,12 @@ static int vsp1_probe(struct platform_device *pdev)
+> >       if (IS_ERR(vsp1->mmio))
+> >               return PTR_ERR(vsp1->mmio);
+> >
+> > -     irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+> > -     if (!irq) {
+> > -             dev_err(&pdev->dev, "missing IRQ\n");
+> > -             return -EINVAL;
+> > -     }
+> > +     ret = platform_get_irq(pdev, 0);
+> > +     if (ret < 0)
+> > +             return ret;
+>
+> I'd use an int irq local variable, but it doesn't matter much. Up to
+> you.
+>
+Anyway I plan to post a v2 for this series fixing a couple of comments
+from Andy. Will use a local variable irq then and include your RB tag.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> >
+> > -     ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+> > -                           IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> > +     ret = devm_request_irq(&pdev->dev, ret, vsp1_irq_handler,
+> > +                            IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> >       if (ret < 0) {
+> >               dev_err(&pdev->dev, "failed to request IRQ\n");
+> >               return ret;
+>
+Cheers,
+Prabhakar
