@@ -2,150 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BC104817E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 01:20:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA2174819CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Dec 2021 06:30:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233568AbhL3AUp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Dec 2021 19:20:45 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39788 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbhL3AUp (ORCPT
+        id S236227AbhL3Far (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Dec 2021 00:30:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33770 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236217AbhL3Faq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Dec 2021 19:20:45 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09B362A5;
-        Thu, 30 Dec 2021 01:20:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640823644;
-        bh=q5s6E/gtrAqFQbIDoD3xJ9ymUSiVxNDGcBipvnbOIhI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HE8UvIShUz0xi4t9mmUm76CHVvkP4txakQaRRoShjPNWgCX/MzjURnfzALvy9nSpp
-         zd/FKFXIEAuyRohusuMKc4JSGls+GJBmfWvRhGMB1docFaQjU8E/QVVH63zIA2QNMY
-         2bC5JKutm76/Bu3UKlNs6XTDO6oE95+K5hOl6C9U=
-Date:   Thu, 30 Dec 2021 02:20:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Magnus Damm <damm@opensource.se>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: renesas: r8a7791: Remove INTC_IRQx_N
-Message-ID: <Ycz7WdLFJhZWbSV/@pendragon.ideasonboard.com>
-References: <932834b388887e1ae267e5a852c688c79091a5f9.1640269369.git.geert+renesas@glider.be>
+        Thu, 30 Dec 2021 00:30:46 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC1EC06173E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Dec 2021 21:30:46 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id x21so52264719lfa.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Dec 2021 21:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yC/MCLvkq0jgOYQF3ZLeqKHc/yJkw5VXAMTxeSh1jqE=;
+        b=ZoTqRmVBr0o49x1iDBiM8xs/ZclzbacaJHsNDbh1g9dUWgx8YAn+zZPTDk/HGEi5Oe
+         kilDaUYzUPEnwjr0a2zytYPHxzEO8SZRb9/HnO9ZCc71UICoWwS/WSmHamOmf795sOoe
+         sFNa0AYVx0INxfw+axXR8NpCb4gD6WWHjHvTsxDPUH/rNYO/vdygw1cKOnDnQ7XlEgto
+         3PU7l1PJZFF8m8TabMACd3LKd3s8D5CQ/TZrBXn1ER24FBzJSXcXE2OyYyPjV2mKSBML
+         YMtPmTaidqv/8UopDt4+HDiUIJHBc4Dbmk2+k6Tv6B8V2O6+OG3DgpSkq6hm9q7D1Zzh
+         enQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yC/MCLvkq0jgOYQF3ZLeqKHc/yJkw5VXAMTxeSh1jqE=;
+        b=idTpFS7TrjpZz+l7DzmEN0eXZkYcwAD9KNEjGgvUsLhKXobAkhXqxVJoiflnoELcXS
+         o1G04MUfWkypNvdoWilotZANKflTT3c6gx6AcK0JLd8mpn8uQFuv+J1f33BcdaDV1nLV
+         E277q8cShxpvoRbq/DwxePmAHekIoMYYtlDp0QJVs8S3mO+9Nj5/S7p4dKoqEH3I4QD4
+         pQJu+PYV0ie/Kp7TZn7wkrfU5DnmbzfS1Bzl0zaa2Z2zE83aSFOI9Tfa4udM1U4fG76r
+         AQTUaHf6+zw5w4nPZJCYXFKtq+sa5TiutI0lK0QAVPVL1S5RvBQe0/kX8K4e5i6VRoRu
+         YJXw==
+X-Gm-Message-State: AOAM530Q5MXrdxFRm6NxMwhWFnEeVWohRkwu1wlBdyY8SlNqgdi3jnTG
+        tQC5ZwDOg6nj3vla5YOkD/D+N3dYJR9A5DUB
+X-Google-Smtp-Source: ABdhPJwftSqfhSWtrRZJq1uTh5ApQT9aUecw59km9lfdL/IUeC2ineVEfRUPlcGDp30Eoz+kWiXerg==
+X-Received: by 2002:a19:f806:: with SMTP id a6mr25845836lff.642.1640842244234;
+        Wed, 29 Dec 2021 21:30:44 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id m2sm2380803lfu.254.2021.12.29.21.30.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Dec 2021 21:30:43 -0800 (PST)
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
+ <87626d61-ada0-c220-bea5-5330f5256629@cogentembedded.com>
+ <YcyXQxW3kRqQ2Yv0@pendragon.ideasonboard.com>
+ <39f70781-831e-c86a-ec5f-68f2b4bd3d62@cogentembedded.com>
+ <Ycy4AMAT53Uzf+K7@pendragon.ideasonboard.com>
+ <bb6ef732-7cd2-5ba9-0eef-caf2fbfbf829@cogentembedded.com>
+ <Ycze8wzD3Qi8YVAa@pendragon.ideasonboard.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <123e3993-cb71-b6dc-e4f4-4cad1eb51b00@cogentembedded.com>
+Date:   Thu, 30 Dec 2021 08:30:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <932834b388887e1ae267e5a852c688c79091a5f9.1640269369.git.geert+renesas@glider.be>
+In-Reply-To: <Ycze8wzD3Qi8YVAa@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+>> I'd prefer to make each DT fragment to use only either entities defined in that fragment itself, or
+>> defined "interface entities" between this and "neighbor" DT fragment.
+>>
+>> Such as:
+>> - SoC's DT fragment defines a named port/endpoint to export video stream at
+>> - board's DT fragment defines a named panel node corresponding to panel plugged into board's physical
+>> connector, and connects endpoints with SoC's video export,
+>> - panel's DT fragment extends the panel node from board with video mode information for this particular
+>> panel.
+>> ...
+ >
+> I agree it's annoying, but we'll have a similar problem, just the other
+> way around, with an endpoint defined in the SoC dtsi. Many R-Car SoCs
+> have two LVDS encoders, and you can attach a panel to either of them.
+> Some boards use LVDS0, some boards use LVDS1, and some boards could even
+> use both.
 
-Thank you for the patch.
+The case of "some boards use LVDS0, some boards use LVDS1" is directly addressed by what I'm trying to 
+suggest. The per-board DT fragment can completely hide board's connection details, without a need for 
+any new concept.
 
-On Thu, Dec 23, 2021 at 03:24:59PM +0100, Geert Uytterhoeven wrote:
-> The INTC_IRQx_N pin functions were only documented in preliminary
-> versions of the R-Car M2 Hardware User's Manual, and were never used.
-> 
-> This reduces kernel size by 40 bytes.
+The case of "some boards could even use both" indeed needs a some way to parametrize panel's DT 
+fragment, and perhaps load two instances of it with different parameters. To some extent this is doable 
+via preprocessor magic and multiple includes, although this approach has obvious disadvantages.
 
-An impressive improvement ;-)
+> A real solution for this problem will require a new concept. The "DT
+> connector" proposal is related to this problem space. There's also a
+> proprietary implementation in the Rapsberry Pi boot loader of a
+> mechanism to support parametrized overlays ([2] and [3], or [4] for an
+> example of how a panel reset or backlight GPIO can be parametrized).
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So the problem is already recognized for years...  what stops from wider adoption of this or similar 
+solutions?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+And - if/while that is not being done - can't we at least try to follow more portable DT coding pattern 
+while staying within existing concepts?
 
-> ---
-> To be queued in renesas-pinctrl for v5.18.
-> 
->  drivers/pinctrl/renesas/pfc-r8a7791.c | 35 ++++++++++++---------------
->  1 file changed, 15 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a7791.c b/drivers/pinctrl/renesas/pfc-r8a7791.c
-> index fe4ccab6b0b8ce02..e3b886b95545cab3 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a7791.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a7791.c
-> @@ -234,11 +234,11 @@ enum {
->  	FN_AUDIO_CLKC, FN_SCIFB0_SCK_C, FN_MSIOF1_SYNC_B, FN_RX2,
->  	FN_SCIFA2_RXD, FN_FMIN_E,
->  	FN_AUDIO_CLKOUT, FN_MSIOF1_SS1_B, FN_TX2, FN_SCIFA2_TXD,
-> -	FN_IRQ0, FN_SCIFB1_RXD_D, FN_INTC_IRQ0_N,
-> -	FN_IRQ1, FN_SCIFB1_SCK_C, FN_INTC_IRQ1_N,
-> -	FN_IRQ2, FN_SCIFB1_TXD_D, FN_INTC_IRQ2_N,
-> -	FN_IRQ3, FN_I2C4_SCL_C, FN_MSIOF2_TXD_E, FN_INTC_IRQ3_N,
-> -	FN_IRQ4, FN_HRX1_C, FN_I2C4_SDA_C, FN_MSIOF2_RXD_E, FN_INTC_IRQ4_N,
-> +	FN_IRQ0, FN_SCIFB1_RXD_D,
-> +	FN_IRQ1, FN_SCIFB1_SCK_C,
-> +	FN_IRQ2, FN_SCIFB1_TXD_D,
-> +	FN_IRQ3, FN_I2C4_SCL_C, FN_MSIOF2_TXD_E,
-> +	FN_IRQ4, FN_HRX1_C, FN_I2C4_SDA_C, FN_MSIOF2_RXD_E,
->  	FN_IRQ5, FN_HTX1_C, FN_I2C1_SCL_E, FN_MSIOF2_SCK_E,
->  	FN_IRQ6, FN_HSCK1_C, FN_MSIOF1_SS2_B, FN_I2C1_SDA_E, FN_MSIOF2_SYNC_E,
->  	FN_IRQ7, FN_HCTS1_N_C, FN_MSIOF1_TXD_B, FN_GPS_CLK_C, FN_GPS_CLK_D,
-> @@ -606,12 +606,12 @@ enum {
->  	AUDIO_CLKC_MARK, SCIFB0_SCK_C_MARK, MSIOF1_SYNC_B_MARK, RX2_MARK,
->  	SCIFA2_RXD_MARK, FMIN_E_MARK,
->  	AUDIO_CLKOUT_MARK, MSIOF1_SS1_B_MARK, TX2_MARK, SCIFA2_TXD_MARK,
-> -	IRQ0_MARK, SCIFB1_RXD_D_MARK, INTC_IRQ0_N_MARK,
-> -	IRQ1_MARK, SCIFB1_SCK_C_MARK, INTC_IRQ1_N_MARK,
-> -	IRQ2_MARK, SCIFB1_TXD_D_MARK, INTC_IRQ2_N_MARK,
-> -	IRQ3_MARK, I2C4_SCL_C_MARK, MSIOF2_TXD_E_MARK, INTC_IRQ3_N_MARK,
-> +	IRQ0_MARK, SCIFB1_RXD_D_MARK,
-> +	IRQ1_MARK, SCIFB1_SCK_C_MARK,
-> +	IRQ2_MARK, SCIFB1_TXD_D_MARK,
-> +	IRQ3_MARK, I2C4_SCL_C_MARK, MSIOF2_TXD_E_MARK,
->  	IRQ4_MARK, HRX1_C_MARK, I2C4_SDA_C_MARK,
-> -	MSIOF2_RXD_E_MARK, INTC_IRQ4_N_MARK,
-> +	MSIOF2_RXD_E_MARK,
->  	IRQ5_MARK, HTX1_C_MARK, I2C1_SCL_E_MARK, MSIOF2_SCK_E_MARK,
->  	IRQ6_MARK, HSCK1_C_MARK, MSIOF1_SS2_B_MARK,
->  	I2C1_SDA_E_MARK, MSIOF2_SYNC_E_MARK,
-> @@ -1140,22 +1140,17 @@ static const u16 pinmux_data[] = {
->  	PINMUX_IPSR_MSEL(IP6_7_6, SCIFA2_TXD, SEL_SCIFA2_0),
->  	PINMUX_IPSR_GPSR(IP6_9_8, IRQ0),
->  	PINMUX_IPSR_MSEL(IP6_9_8, SCIFB1_RXD_D, SEL_SCIFB1_3),
-> -	PINMUX_IPSR_GPSR(IP6_9_8, INTC_IRQ0_N),
->  	PINMUX_IPSR_GPSR(IP6_11_10, IRQ1),
->  	PINMUX_IPSR_MSEL(IP6_11_10, SCIFB1_SCK_C, SEL_SCIFB1_2),
-> -	PINMUX_IPSR_GPSR(IP6_11_10, INTC_IRQ1_N),
->  	PINMUX_IPSR_GPSR(IP6_13_12, IRQ2),
->  	PINMUX_IPSR_MSEL(IP6_13_12, SCIFB1_TXD_D, SEL_SCIFB1_3),
-> -	PINMUX_IPSR_GPSR(IP6_13_12, INTC_IRQ2_N),
->  	PINMUX_IPSR_GPSR(IP6_15_14, IRQ3),
->  	PINMUX_IPSR_MSEL(IP6_15_14, I2C4_SCL_C, SEL_I2C4_2),
->  	PINMUX_IPSR_MSEL(IP6_15_14, MSIOF2_TXD_E, SEL_SOF2_4),
-> -	PINMUX_IPSR_GPSR(IP6_15_14, INTC_IRQ4_N),
->  	PINMUX_IPSR_GPSR(IP6_18_16, IRQ4),
->  	PINMUX_IPSR_MSEL(IP6_18_16, HRX1_C, SEL_HSCIF1_2),
->  	PINMUX_IPSR_MSEL(IP6_18_16, I2C4_SDA_C, SEL_I2C4_2),
->  	PINMUX_IPSR_MSEL(IP6_18_16, MSIOF2_RXD_E, SEL_SOF2_4),
-> -	PINMUX_IPSR_GPSR(IP6_18_16, INTC_IRQ4_N),
->  	PINMUX_IPSR_GPSR(IP6_20_19, IRQ5),
->  	PINMUX_IPSR_MSEL(IP6_20_19, HTX1_C, SEL_HSCIF1_2),
->  	PINMUX_IPSR_MSEL(IP6_20_19, I2C1_SCL_E, SEL_I2C1_4),
-> @@ -6033,15 +6028,15 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
->  		FN_IRQ5, FN_HTX1_C, FN_I2C1_SCL_E, FN_MSIOF2_SCK_E,
->  		/* IP6_18_16 [3] */
->  		FN_IRQ4, FN_HRX1_C, FN_I2C4_SDA_C, FN_MSIOF2_RXD_E,
-> -		FN_INTC_IRQ4_N,	0, 0, 0,
-> +		0, 0, 0, 0,
->  		/* IP6_15_14 [2] */
-> -		FN_IRQ3, FN_I2C4_SCL_C, FN_MSIOF2_TXD_E, FN_INTC_IRQ3_N,
-> +		FN_IRQ3, FN_I2C4_SCL_C, FN_MSIOF2_TXD_E, 0,
->  		/* IP6_13_12 [2] */
-> -		FN_IRQ2, FN_SCIFB1_TXD_D, FN_INTC_IRQ2_N, 0,
-> +		FN_IRQ2, FN_SCIFB1_TXD_D, 0, 0,
->  		/* IP6_11_10 [2] */
-> -		FN_IRQ1, FN_SCIFB1_SCK_C, FN_INTC_IRQ1_N, 0,
-> +		FN_IRQ1, FN_SCIFB1_SCK_C, 0, 0,
->  		/* IP6_9_8 [2] */
-> -		FN_IRQ0, FN_SCIFB1_RXD_D, FN_INTC_IRQ0_N, 0,
-> +		FN_IRQ0, FN_SCIFB1_RXD_D, 0, 0,
->  		/* IP6_7_6 [2] */
->  		FN_AUDIO_CLKOUT, FN_MSIOF1_SS1_B, FN_TX2, FN_SCIFA2_TXD,
->  		/* IP6_5_3 [3] */
-
--- 
-Regards,
-
-Laurent Pinchart
+Nikita
