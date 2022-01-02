@@ -2,103 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 928F94828C0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Jan 2022 00:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0397482BA3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Jan 2022 16:05:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232769AbiAAX0q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 1 Jan 2022 18:26:46 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42772 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232731AbiAAX0p (ORCPT
+        id S232171AbiABPFl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 2 Jan 2022 10:05:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229647AbiABPFl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 1 Jan 2022 18:26:45 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6B4ECC;
-        Sun,  2 Jan 2022 00:26:43 +0100 (CET)
+        Sun, 2 Jan 2022 10:05:41 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B2AC061761;
+        Sun,  2 Jan 2022 07:05:41 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F34DFCC;
+        Sun,  2 Jan 2022 16:05:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641079604;
-        bh=JhDsZtKrxBpxD0eT0NwG04iESg/HP1kho30u6fGWlO4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RVoMZSafmdIpATu8VmLDzEWRkvly8/6Lrfnt0Sc1AI0rYgihypZ6EYa8jOJ8SZ9e+
-         KomMa43nIaqUwcOsRJCTYTTbOL4M6jAn0/Yvje/6NNouGUzRknXpMV4OJspE1ZtqhU
-         miTxLOPmaXOKepR2ckPX8/vUPynqJu12hpqgjokw=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: [PATCH v2 12/11] media: i2c: max9286: Print power-up GMSL link configuration
-Date:   Sun,  2 Jan 2022 01:26:37 +0200
-Message-Id: <20220101232637.32104-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+        s=mail; t=1641135939;
+        bh=fJUql0xL3bIUQQNjEt84f8/xY0BgrY2+ihdVlTf48hg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=gBAzRUx1AbIGePeXsOerPS2ljh6c/m5eJnz0EBj5K1PTeNKUraaeQo2n613jRZ9J9
+         H1UAOLRu1ar5KHELI7lgTYVa7iMg3WqphweR171BLBsXk+pxnORwLL3CsVdn8Tljqi
+         cl+2W2GfxJ7rt94qG5myZFKDaea9EQcJYT0GXj/k=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: i2c: rdacm20: Fix indentation in comment
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Date:   Sun, 02 Jan 2022 15:05:35 +0000
+Message-ID: <164113593594.2704318.17445520556422868596@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The power-up GMSL link configuration is controlled by the HIM and BWS
-pins, whose state is reflected in register 0x1c. Print the detected
-power-up config in a debug message to help debugging.
+Quoting Laurent Pinchart (2022-01-01 17:35:40)
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>=20
+> Fix a small indentation issue in a comment block.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 446fc238d642..f7cbfdde436e 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -1147,6 +1147,7 @@ static int max9286_setup(struct max9286_priv *priv)
- 		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
- 		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
- 	};
-+	int cfg;
- 
- 	/*
- 	 * Set the I2C bus speed.
-@@ -1168,21 +1169,23 @@ static int max9286_setup(struct max9286_priv *priv)
- 	max9286_set_video_format(priv, &max9286_default_format);
- 	max9286_set_fsync_period(priv);
- 
-+	cfg = max9286_read(priv, 0x1c);
-+	if (cfg < 0)
-+		return cfg;
-+
-+	dev_dbg(&priv->client->dev, "power-up config: %s immunity, %u-bit bus\n",
-+		cfg & MAX9286_HIGHIMM(0) ? "high" : "legacy",
-+		cfg & MAX9286_BWS ? 32 : cfg & MAX9286_HIBW ? 27 : 24);
-+
- 	if (priv->bus_width) {
--		int val;
--
--		val = max9286_read(priv, 0x1c);
--		if (val < 0)
--			return val;
--
--		val &= ~(MAX9286_HIBW | MAX9286_BWS);
-+		cfg &= ~(MAX9286_HIBW | MAX9286_BWS);
- 
- 		if (priv->bus_width == 27)
--			val |= MAX9286_HIBW;
-+			cfg |= MAX9286_HIBW;
- 		else if (priv->bus_width == 32)
--			val |= MAX9286_BWS;
-+			cfg |= MAX9286_BWS;
- 
--		max9286_write(priv, 0x1c, val);
-+		max9286_write(priv, 0x1c, cfg);
- 	}
- 
- 	/*
--- 
-Regards,
 
-Laurent Pinchart
-
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/rdacm20.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index 025a610de893..e1eff4678ab3 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -463,8 +463,8 @@ static int rdacm20_initialize(struct rdacm20_device *=
+dev)
+>                 return ret;
+> =20
+>         /*
+> -        *  Ensure that we have a good link configuration before attempti=
+ng to
+> -        *  identify the device.
+> +        * Ensure that we have a good link configuration before attemptin=
+g to
+> +        * identify the device.
+>          */
+>         ret =3D max9271_configure_i2c(&dev->serializer,
+>                                     MAX9271_I2CSLVSH_469NS_234NS |
+>=20
+> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
