@@ -2,55 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08D3B482F42
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jan 2022 10:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47083482F4A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jan 2022 10:19:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbiACJNR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jan 2022 04:13:17 -0500
-Received: from mail.tomediacase.pl ([151.236.18.187]:57310 "EHLO
-        mail.tomediacase.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231138AbiACJNQ (ORCPT
+        id S232324AbiACJTC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jan 2022 04:19:02 -0500
+Received: from www.zeus03.de ([194.117.254.33]:45324 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232315AbiACJTC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jan 2022 04:13:16 -0500
-Received: by mail.tomediacase.pl (Postfix, from userid 1001)
-        id 1A05A40D7B; Mon,  3 Jan 2022 10:05:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tomediacase.pl;
-        s=mail; t=1641200724;
-        bh=1KDTsB3nJcWAjbNGIw57IBVNLXBfvIhwZJ5safZoOHQ=;
-        h=Date:From:To:Subject:From;
-        b=K7RhhG50Xnu/KmvMkLE6hmwlUqYhPTp6RZHCB0kQi+dj3DLrOAyRM3zFm5OnN1GPw
-         zZo4KRFoEre22hphIYQXGlDrs2PcV2e/Y06AfMRzBWvCB3DXxzgO7LEhcyQqGyAc5T
-         p/qROG0HaHHYJnjyjI5cVdFTtLd4UDrosuvnLKvITjViioX1ZiRu5aD3SsMhj/Bsqk
-         YbUlkpWSQb8uifLs4c9lU+pRa2rRftsNkOsHhjuD6gBrb/sBFgpMjWlciqcOCyO+hB
-         l5KkwNpFccdEV1M7lMFrBCMfPMClEmBdRP3GYD8cc5EKaT+CcaWjjrUHHCHY3JI+4j
-         diL/e5amfxivw==
-Received: by mail.tomediacase.pl for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Jan 2022 09:05:08 GMT
-Message-ID: <20220103084500-0.1.z.2qaq.0.ix2ljvgc5d@tomediacase.pl>
-Date:   Mon,  3 Jan 2022 09:05:08 GMT
-From:   "Adam Charachuta" <adam.charachuta@tomediacase.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.tomediacase.pl
+        Mon, 3 Jan 2022 04:19:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=2LbxrZowuUBajoxRmq0gMOCsxxnt
+        NlQG3w0qK7TYl1s=; b=QAMXhZSe9eRpBDzwTXdtP6HWTtkJWjuYsJb3bbzJ/HS6
+        FMNnOBVbxFtX9RcenavL88BMsffenvAHXQlTWePx3ZefYq12PJjIZ7jmrS2sp8sr
+        7x5RX6qaJs57j1hKPx7f3icDbqndJQV6p8xexYmAfVs31efWQmCgeBydwgkWw9k=
+Received: (qmail 1589514 invoked from network); 3 Jan 2022 10:18:58 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2022 10:18:58 +0100
+X-UD-Smtp-Session: l3s3148p1@20iHAqrU8JogAQnoAFcDAH8Lqh5Pgme7
+Date:   Mon, 3 Jan 2022 10:18:55 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-i2c@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakarprabhakar.csengg@gmail.com
+Subject: Re: [PATCH v2 1/3] i2c: bcm2835: Use platform_get_irq() to get the
+ interrupt
+Message-ID: <YdK/fy7AXn2+rYnx@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakarprabhakar.csengg@gmail.com
+References: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211221175322.7096-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ueVpXJ6n+jT7/Fjd"
+Content-Disposition: inline
+In-Reply-To: <20211221175322.7096-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+--ueVpXJ6n+jT7/Fjd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+On Tue, Dec 21, 2021 at 05:53:20PM +0000, Lad Prabhakar wrote:
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
+>=20
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq().
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+Applied to for-next, thanks!
 
 
-Pozdrawiam,
-Adam Charachuta
+--ueVpXJ6n+jT7/Fjd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHSv3sACgkQFA3kzBSg
+KbYqrBAAidttPOxDWRv4/TxYiMTPM2wDuzJj+XR2LWV/SqL77GqZQ0BRU3Lt7cUx
+PpHo1tqmLKJsGwT6tGn1O2dGe927cIhY/7Q2u1ux6h0Uimqfn9aVpnwubaZzu7Wh
+ZXeYxiP5ca1+w7mnL39sYusM6cZFIxUARBgzaKGyD9vhR2cbJophuT9GmHb9dAzY
+8IMIOmwyFIQsB8kmJcpnIaEuX2a/T3VD/dVWveBBKBbrLSvxxsbJvA51C36QMzB8
+WJqB+f7mxngZ07ZS5bmllheZmpuCXBGzEZdtr6nQ3rrx5uCP37JRv/3x7VePJf9p
+W59SQaDzNHBtDpb1OtEdPwx11x62jasd1V1ah0xgwA8gOOTWGr64shRZGvzMSHUj
+g381En/y4NYZFAfosMkWkiW0PfOVk0EuchYhkaXo4ku0eYBFE0lzEFsmws3y825U
+RCg1usdIyTmkmV8fKGUixPS4QUul9x1C4tHO59a5uNLcxoprud8QXO+9tT2uwaBK
+LNbd0l4tuzNkjOBdydfy8ZgkZSmy2ZqDOdZtcPEZZfqOSdpX1wOvaw79aJmAG2gu
+zkQqj0r7pzqbZNAEaKywiubw0f3cRYsxhodlUa2YubhVTLzcwyOXXFb6q5qKBE1k
+tyN/Ri8sr/s8C4Ps+PCo/kzh/O8mYA3rfamSElrEYGn0brkhe8c=
+=UHcB
+-----END PGP SIGNATURE-----
+
+--ueVpXJ6n+jT7/Fjd--
