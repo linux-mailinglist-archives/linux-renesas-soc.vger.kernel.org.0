@@ -2,102 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62AFB482F50
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jan 2022 10:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB3748307B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jan 2022 12:28:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbiACJTM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jan 2022 04:19:12 -0500
-Received: from www.zeus03.de ([194.117.254.33]:45434 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232338AbiACJTL (ORCPT
+        id S232951AbiACL2j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jan 2022 06:28:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229805AbiACL2i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jan 2022 04:19:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Vn3aJxyDkPL71XRKDgCqDg71rfPI
-        Et7SATEKvTbySz4=; b=OjFanPf8tZJPOAqOtP8VEixy8l0ISOLwe2fVgS2MNIO3
-        yDkOL8m1T/AG6KUOVDTZR4QL00BrsRiLXozxPCrPa1hurvxiUz3WdOBAfncPhBuy
-        LcbMtuPeLh+wZUE+vV3sjJcDkRfL6vEQWtkSzTEPrry72jxFCQVkN3EY0EesTQU=
-Received: (qmail 1589744 invoked from network); 3 Jan 2022 10:19:09 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2022 10:19:09 +0100
-X-UD-Smtp-Session: l3s3148p1@rCFeA6rU9JogAQnoAFcDAH8Lqh5Pgme7
-Date:   Mon, 3 Jan 2022 10:19:09 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-i2c@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakarprabhakar.csengg@gmail.com
-Subject: Re: [PATCH v2 3/3] i2c: riic: Use platform_get_irq() to get the
- interrupt
-Message-ID: <YdK/jYJTaDQRfOzi@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>, linux-i2c@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakarprabhakar.csengg@gmail.com
-References: <20211221175322.7096-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211221175322.7096-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 3 Jan 2022 06:28:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4A1C061761;
+        Mon,  3 Jan 2022 03:28:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 16853B80E91;
+        Mon,  3 Jan 2022 11:28:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E14EC36AE9;
+        Mon,  3 Jan 2022 11:28:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641209315;
+        bh=1vzwpzgBnfmSqhJYCuM/9d3Tit9k5yEiADQ4z9iQ0FQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gp1/peMcaPgqQCv51/JFFxfUelTMC613VU38pylu2sC3O6x4+pesiKBYAYUR8dQ6c
+         pmHXPkfMmMENy7lWBFfeFtkoIzP0Qhf1YGluKV27Cfc70B0pWZ9a4OQYyLXOdO2K6E
+         LHbI7IzVdqVcPBV5oMvZ9LAq3E5GOyPnz1xUUxREfFnsIiBLb+5XhCNCfoc0tcyAse
+         VeM2uE3fy8xf2y4Eo3tEtxqNgXHroXry45VYeeSmfbCyHAE05vcMGpuweqiq3lUnYL
+         YG+OqMTIbHFFnt0+GZG76OH8S4YJbKrU9AbOq/PBSQRR79IZqgi/4hRFb8KUZQ+NMb
+         5qZoAdGw6458A==
+Date:   Mon, 3 Jan 2022 16:58:31 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     robh+dt@kernel.org, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] dmaengine: rcar-dmac: Add support for R-Car S4-8
+Message-ID: <YdLd30D+YOPMQD9z@matsya>
+References: <20211222114507.1252947-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LbZOgwvcfKOW/9BI"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211221175322.7096-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211222114507.1252947-1-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 22-12-21, 20:45, Yoshihiro Shimoda wrote:
+> This patch series adds support for rcar-dmac of R-Car S4-8.
+> To use the rcar-dmac, we also need to enable the module clocks
+> by the following patch:
+> https://lore.kernel.org/all/20211221052423.597283-1-yoshihiro.shimoda.uh@renesas.com/
 
---LbZOgwvcfKOW/9BI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks
 
-On Tue, Dec 21, 2021 at 05:53:22PM +0000, Lad Prabhakar wrote:
-> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> allocation of IRQ resources in DT core code, this causes an issue
-> when using hierarchical interrupt domains using "interrupts" property
-> in the node as this bypasses the hierarchical setup and messes up the
-> irq chaining.
->=20
-> In preparation for removal of static setup of IRQ resource from DT core
-> code use platform_get_irq().
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Applied to for-next, thanks!
-
-
---LbZOgwvcfKOW/9BI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHSv40ACgkQFA3kzBSg
-KbYujw/+KThxY3hK++tUtGTWh7XlVZponjPor++a2HB4FvXu98o9fOg2edVejNgg
-i4qD6PjSTlbc3axRU39RUxSootrs+IjNV9AxAr/tZvWUDYqGW4GGjtuS1NLcOet4
-EjapfWRN+0CGojyPyylIrld+GDzAXB/kgYaoavFekul8jss9YTfqrL1busKuAH1/
-LvPJEAEj367CJ+GsWTWeO1C9eBvYq566NEHwFx0jYLWLg9at8bSQgjZ6xvSBuiy3
-xtsCuQW4+2Qpb0jqvBJLYtt5SW/UzYT7MjoULLqphriSpui+MZ0BNY8e1dJy9snA
-GHZWAKmICM2sk1QyODulAx6Dyr8pQrk2C8l3lPSc8WJ+UGsrdQdmFRgy4WdHG7cV
-F5loEfmEoMWZiqGPGS+/NCajtb1xbHIZqrRVpSszhausu3FbuqVmMNmhDWQ2nc0i
-QdaF47cBovGd+AKvKfpj/4lro/4qQHRek2Dh3F3Pg7l5ZDABRkdLnN3LxcsT3PLG
-shxiNRkkppXS5NZStyjaas9CsPaj38g8H+XiQFAfPpZ9waw5t8JmJ5bQJ8GRM3WM
-ZS09g39sPv+qw6qkb69NxXRZ+Tj7u1E7wV8MqUD+GPkj6HWDUsGR8neNvKUfk4oN
-3UBcTrjslgdWeODgfFEeeaXQBKFisYZqve362HNu7L/tFtEOBQk=
-=huSE
------END PGP SIGNATURE-----
-
---LbZOgwvcfKOW/9BI--
+-- 
+~Vinod
