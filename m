@@ -2,109 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B1A4843D2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jan 2022 15:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA64F4844C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jan 2022 16:36:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234477AbiADOwe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Jan 2022 09:52:34 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:6078 "EHLO
+        id S234885AbiADPgh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Jan 2022 10:36:37 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:32370 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233208AbiADOwb (ORCPT
+        by vger.kernel.org with ESMTP id S234864AbiADPgh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Jan 2022 09:52:31 -0500
+        Tue, 4 Jan 2022 10:36:37 -0500
 X-IronPort-AV: E=Sophos;i="5.88,261,1635174000"; 
-   d="scan'208";a="105485577"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Jan 2022 23:52:29 +0900
+   d="scan'208";a="105487996"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Jan 2022 00:36:35 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 800AB4205AA3;
-        Tue,  4 Jan 2022 23:52:26 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 17E414009F7D;
+        Wed,  5 Jan 2022 00:36:33 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3] thermal: rcar_thermal: Use platform_get_irq_optional() to get the interrupt
-Date:   Tue,  4 Jan 2022 14:52:11 +0000
-Message-Id: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] gpio: rcar: Propagate errors from devm_request_irq()
+Date:   Tue,  4 Jan 2022 15:36:15 +0000
+Message-Id: <20220104153615.13393-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+The driver overrides the error code returned by devm_request_irq() to
+-ENOENT. Switch to propagating the error code upstream.
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq_optional().
-
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-v2-v3:
-* Fixed review comment pointed by Andy
+This patch depends on [1].
 
-v1->v2
-* Simplified checking error code
-* Break loop earlier if no interrupts are seen
-
-v1: https://lkml.org/lkml/2021/12/18/163
+[1] https://lkml.org/lkml/2021/12/22/633
 ---
- drivers/thermal/rcar_thermal.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpio/gpio-rcar.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index b49f04daaf47..e480f7290ccf 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 	struct rcar_thermal_common *common;
- 	struct rcar_thermal_priv *priv;
- 	struct device *dev = &pdev->dev;
--	struct resource *res, *irq;
-+	struct resource *res;
- 	const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
- 	int mres = 0;
- 	int i;
-@@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 	pm_runtime_get_sync(dev);
+diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
+index 437baecc434e..bd2e16d6e21c 100644
+--- a/drivers/gpio/gpio-rcar.c
++++ b/drivers/gpio/gpio-rcar.c
+@@ -552,10 +552,10 @@ static int gpio_rcar_probe(struct platform_device *pdev)
+ 		goto err0;
+ 	}
  
- 	for (i = 0; i < chip->nirqs; i++) {
--		irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
--		if (!irq)
--			continue;
-+		int irq;
-+
-+		irq = platform_get_irq_optional(pdev, i);
-+		if (irq < 0 && irq != -ENXIO) {
-+			ret = irq;
-+			goto error_unregister;
-+		}
-+		if (!irq || irq == -ENXIO)
-+			break;
-+
- 		if (!common->base) {
- 			/*
- 			 * platform has IRQ support.
-@@ -487,7 +494,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
- 			idle = 0; /* polling delay is not needed */
- 		}
+-	if (devm_request_irq(dev, p->irq_parent, gpio_rcar_irq_handler,
+-			     IRQF_SHARED, name, p)) {
++	ret = devm_request_irq(dev, p->irq_parent, gpio_rcar_irq_handler,
++			       IRQF_SHARED, name, p);
++	if (ret) {
+ 		dev_err(dev, "failed to request IRQ\n");
+-		ret = -ENOENT;
+ 		goto err1;
+ 	}
  
--		ret = devm_request_irq(dev, irq->start, rcar_thermal_irq,
-+		ret = devm_request_irq(dev, irq, rcar_thermal_irq,
- 				       IRQF_SHARED, dev_name(dev), common);
- 		if (ret) {
- 			dev_err(dev, "irq request failed\n ");
 -- 
 2.17.1
 
