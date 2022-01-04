@@ -2,110 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFCD9484557
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jan 2022 16:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9D204845A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jan 2022 16:56:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235066AbiADPy3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Jan 2022 10:54:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235059AbiADPy2 (ORCPT
+        id S235273AbiADP4Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Jan 2022 10:56:25 -0500
+Received: from mail-oi1-f177.google.com ([209.85.167.177]:37477 "EHLO
+        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235330AbiADP4V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Jan 2022 10:54:28 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF1EC061785;
-        Tue,  4 Jan 2022 07:54:27 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id b13so150170961edd.8;
-        Tue, 04 Jan 2022 07:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Q2x+wXijL40/dBn2IHb9PB1Y4Yb2SM7TSz7hC/CJR1c=;
-        b=G3VKiBMgnGBR5MDj5uF0N86Vzvo6T7dGXO6MIxWbOUPSPxMn/rHYHjuWxMDUzqSOeR
-         C+u8M/PIUo0K0qnulZTIxVVC5Atebd+hnO6UyHTBE812WcsVDk/wRNWumHeASNrAnRkn
-         qEEuwRfmqmSQjUB1Pxd56V9AdBkL05KncYj+XLFL1OrkGYzE6h2mEz9lqKEofX/4k1IB
-         puPDDjmiuhmqeZtnRGV2Xlr7+bQJYcBJxmcW2IIMMBtOsklyX+bb5YbCsNj55E8UFzfW
-         Crk+5AB7Y6HhQvoLNWkWtc/blONTUof0hf8SV3JdEnBAbDcUY7CWuRhwAn7mupJSrKmp
-         YnAg==
+        Tue, 4 Jan 2022 10:56:21 -0500
+Received: by mail-oi1-f177.google.com with SMTP id i9so51832629oih.4;
+        Tue, 04 Jan 2022 07:56:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Q2x+wXijL40/dBn2IHb9PB1Y4Yb2SM7TSz7hC/CJR1c=;
-        b=p3nqxKibuPmgznCm0v2/xSs27WEVgSSX15SqpQ8gXfgEm5uVwSwMXC/kuhCQBrsyg6
-         dIbkuYPlHYhuwvwWVnH01NiEXP/3Jj2ReeNE2UIjV+w94P5aX56yt0pPWv4mFA79+jGC
-         rJm1yBtw5VdtjMjjBCH6GFDumoUj3r/QSIop5F4/Jca7+xxvzG5OfsTnPgb8n4l7U2LD
-         peevwOZjhUmBTDObxiULoqSb5scyn8S8Jd12QuYsq4utRoCd6FBX0s8LQIH3GK90GUwB
-         j0UOx0uW7PmwpUlvm6GEB1hSSrFTZcrf7KrRnSo1+JjQIqPiU6Ju1K2N02dcuK427VmL
-         xx7g==
-X-Gm-Message-State: AOAM531oV/d8Q66rQVGLAShMfxNgWNFtzlEQT7q8sLexDWbXpNgTynpJ
-        x6rStabsjPcEW/JTZ26jWWIUYqyBnpM9OMoXY0Xx4XM3mde96A==
-X-Google-Smtp-Source: ABdhPJx0eixYSPcvoMtIwZgtLZN8h6wzaet0JBt24EZMmeBLSJCejoV82JSn1t4Q6m2jZeN6OEjYN32Zykghsbespc8=
-X-Received: by 2002:a17:906:c450:: with SMTP id ck16mr38479995ejb.579.1641311666123;
- Tue, 04 Jan 2022 07:54:26 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UDkI8c4C+W3C1L2xmnxS2iQML1CaWO7g4jG+vK+lDSI=;
+        b=WDoPrwLU/vU1GbwZJaX4UncrgmRQgvCPW8woQei7MVKt7He7yyx9ZZBILPROPkNig2
+         sMFz3gbQBkGfzMKvvF1LdYRPxg1WAhdSyqJCRJ8RBRsoFWWJkEYqQICYncD3+DaJkSo5
+         kfe8bx2sXEWIemkhcuPRRkkzvkrtij/3yttuuwjDlCrDWEkPBz6w8lzbw+pKuCBK55gh
+         JD3cWm+62ok2AD6ilvROaQjIiWRkUzjzuwplECv7drui9glXku/MpwHy0CcaWP/qQOab
+         iwuSgz8d80WUCOyjTvJN1C84QAq+1kLBYtmb97W6jB/zwMc9Y7iEsHDDn6GbeDqv70i3
+         C99g==
+X-Gm-Message-State: AOAM532twftKz/kz0eCYhPpakgZCjfUQKiE/A3Cb/1cEZUXaANZcUlVo
+        qxL3r9PL0QjE80Kbc90Xba9LGHfBOA==
+X-Google-Smtp-Source: ABdhPJzMUwln+0FhAWxpm99txJ5a4ASzL30GX9qoEHQOsvtBhmaj/cyoH/K2ZuGq8KgJoNmy89YqDA==
+X-Received: by 2002:aca:1818:: with SMTP id h24mr39881146oih.174.1641311780194;
+        Tue, 04 Jan 2022 07:56:20 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id k1sm8213397otj.61.2022.01.04.07.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jan 2022 07:56:19 -0800 (PST)
+Received: (nullmailer pid 915707 invoked by uid 1000);
+        Tue, 04 Jan 2022 15:56:18 -0000
+Date:   Tue, 4 Jan 2022 09:56:18 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Thomas Nizan <tnizan@witekio.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] dt-bindings: media: i2c: max9286: Add property
+ to select I2C speed
+Message-ID: <YdRuIgC5sHI6TSUg@robh.at.kernel.org>
+References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20220104153615.13393-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220104153615.13393-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 4 Jan 2022 17:52:35 +0200
-Message-ID: <CAHp75VcSQyPb8+5rGQ7=dZwTmstZy4JTJpxBJrjN35ghs2Ko4Q@mail.gmail.com>
-Subject: Re: [PATCH] gpio: rcar: Propagate errors from devm_request_irq()
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 4, 2022 at 5:36 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> The driver overrides the error code returned by devm_request_irq() to
-> -ENOENT. Switch to propagating the error code upstream.
-
-Thanks, FWIW,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Sat, Jan 01, 2022 at 08:27:57PM +0200, Laurent Pinchart wrote:
+> The I2C speed on the remote side (the I2C master bus of the connected
+> serializers) is configurable, and doesn't need to match the speed of the
+> local bus (the slave bus of the MAX9286). All remote buses must use the
+> same speed, and the MAX9286 needs to be programmed accordingly. Add a
+> new DT property to select the speed to make it configurable.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
-> This patch depends on [1].
->
-> [1] https://lkml.org/lkml/2021/12/22/633
-> ---
->  drivers/gpio/gpio-rcar.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
-> index 437baecc434e..bd2e16d6e21c 100644
-> --- a/drivers/gpio/gpio-rcar.c
-> +++ b/drivers/gpio/gpio-rcar.c
-> @@ -552,10 +552,10 @@ static int gpio_rcar_probe(struct platform_device *pdev)
->                 goto err0;
->         }
->
-> -       if (devm_request_irq(dev, p->irq_parent, gpio_rcar_irq_handler,
-> -                            IRQF_SHARED, name, p)) {
-> +       ret = devm_request_irq(dev, p->irq_parent, gpio_rcar_irq_handler,
-> +                              IRQF_SHARED, name, p);
-> +       if (ret) {
->                 dev_err(dev, "failed to request IRQ\n");
-> -               ret = -ENOENT;
->                 goto err1;
->         }
->
-> --
-> 2.17.1
->
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml       | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index c20557b52e45..5d3e99027a79 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -50,6 +50,13 @@ properties:
+>    '#gpio-cells':
+>      const: 2
+>  
+> +  maxim,i2c-clock-frequency:
 
+Use '-hz'. I don't see much reason to align with 'clock-frequency'.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Actually, I'd make this 'maxim,i2c-remote-bus-hz' or similar to be a bit 
+more self-describing.
+
+> +    enum: [ 8470, 28300, 84700, 105000, 173000, 339000, 533000, 837000 ]
+> +    default: 105000
+> +    description: |
+> +      The I2C clock frequency for the remote I2C buses. The value must match
+> +      the configuration of the remote serializers.
+> +
+>    maxim,reverse-channel-microvolt:
+>      minimum: 30000
+>      maximum: 200000
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> 
