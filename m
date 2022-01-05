@@ -2,159 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2455848591F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 20:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ABBA4859E2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 21:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243495AbiAETZx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jan 2022 14:25:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53788 "EHLO
+        id S243922AbiAEUQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jan 2022 15:16:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243475AbiAETZw (ORCPT
+        with ESMTP id S243935AbiAEUQL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jan 2022 14:25:52 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FFFC061245;
-        Wed,  5 Jan 2022 11:25:52 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id w184so836480ybg.5;
-        Wed, 05 Jan 2022 11:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ScRpF0L3adtid+3RTX6vgdBF1ypyGcU5Kx8L1Ltr5uA=;
-        b=Jdf35w27ET/Fc/B01HXTHowcQYrKvVz67xg60p2fo5c8ovGFyEz0HcTvw3cx0wvZ+C
-         oQmWnMZD/Tiwdes8o9OLPivHNBFixh5G5oTeDmjxWtHc4HS5s30zrN6lctFOZMvJjG6G
-         S7YO6BGCTcKJawUgjPjb0mIHkticyfitd1wDSA2ib07xcJVqbdfEBHzCvKYa0h1kCVmS
-         qdKt0mLIGg8+IoMU8MMYJORWX6EmBGZv8TyVoPWgJhJhsgoxlIZ935KeE6e19/IUeTLT
-         +AxMwstkkAOVvhP9IfDwtGe6PTaXZLF/VLY+CrHosX1pLo81m6xujvc3XJ3QFnMI6XUt
-         yFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ScRpF0L3adtid+3RTX6vgdBF1ypyGcU5Kx8L1Ltr5uA=;
-        b=fF2876ROBhW6KOz1iPXm4p8PU89VI3Qhol4kB5lyjBm8denMBOPwBpJuOvkRJ9pW1p
-         BmLveKmEIlFK4v036oUnsSyEqpQ2qUMk5uCmSk8DONS54D1C2eLzUD1Cl7kLh45/X+Bm
-         /GZOw56TqjBk1r31CK7l6SUmE8vITEONbJ/CQ8PECA+DQfC1vU2BlzytSaPosR80BsWZ
-         ww6z7z9dyBVvy1Ax/oUrmux8U0Fdo6t8yTkDYhz2ZpLkSMXRLSSuu0XqDag6aoSNn1tN
-         WF/1F5uasUm8qiFEvXaU1Thggjysh+N/MtPAlXrZXRis4qCoUBFFYqvBR+e9P44c/5GK
-         4Slw==
-X-Gm-Message-State: AOAM532O1ayZIyzVQWLisL54AnisEJPsMACdAsndogadMZ+qeC+oA/W+
-        sr9pPYaqjfe5pRbN8M9o+eufLsorknghmIVHFyc=
-X-Google-Smtp-Source: ABdhPJwnF6pYIFI0WAD7k8piW0tCxrml4cTJRyqBlXnFuWqIFryGX2Sl67k0oiTKAcy4sUK4n96sTq4JDEIC07sBE4E=
-X-Received: by 2002:a5b:281:: with SMTP id x1mr23440853ybl.41.1641410751548;
- Wed, 05 Jan 2022 11:25:51 -0800 (PST)
+        Wed, 5 Jan 2022 15:16:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234D1C061245;
+        Wed,  5 Jan 2022 12:16:11 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48D33993;
+        Wed,  5 Jan 2022 21:16:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641413768;
+        bh=k06EBbBMR/J10yw6ADKW711TKIQdKM2UMQmehk2/7ZM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sSDvfl8RwLmjMC+j4R+1rUZop9MPY+Zs0XlQsWa98JcHU0RejNBzg0mAjkOJO5Yqx
+         NBlWbdrjFu1SOgfdoW4MA4MaWDd+3GF85O7VnryaaOC/defLfiOuoctWDQUynxu1Tq
+         4l+JYoupgwgb2QtXZR0IqzL6eiJaw2ToPiuGfOro=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Mats Randgaard <matrandg@cisco.com>
+Subject: [PATCH v1.1 8/8] media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+Date:   Wed,  5 Jan 2022 22:15:58 +0200
+Message-Id: <20220105201558.31325-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
+References: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <YdXt2mDjZ0zikbt6@oden.dyn.berto.se>
-In-Reply-To: <YdXt2mDjZ0zikbt6@oden.dyn.berto.se>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 5 Jan 2022 19:25:25 +0000
-Message-ID: <CA+V-a8sGh0bCiDu_Eiz3EFgaDPmr-qyz95=dExwf+UvuyA21Cg@mail.gmail.com>
-Subject: Re: [PATCH v3] thermal: rcar_thermal: Use platform_get_irq_optional()
- to get the interrupt
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+MIPI CSI-2 continuous and non-continuous clock modes are mutually
+exclusive. Drop the V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag and use
+V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK only.
 
-Thank you for the review.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Changes since v1:
 
-On Wed, Jan 5, 2022 at 7:13 PM Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
->
-> Hi Lad,
->
-> Thanks for your work.
->
-> On 2022-01-04 14:52:11 +0000, Lad Prabhakar wrote:
-> > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> > allocation of IRQ resources in DT core code, this causes an issue
-> > when using hierarchical interrupt domains using "interrupts" property
-> > in the node as this bypasses the hierarchical setup and messes up the
-> > irq chaining.
-> >
-> > In preparation for removal of static setup of IRQ resource from DT core
-> > code use platform_get_irq_optional().
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2-v3:
-> > * Fixed review comment pointed by Andy
-> >
-> > v1->v2
-> > * Simplified checking error code
-> > * Break loop earlier if no interrupts are seen
-> >
-> > v1: https://lkml.org/lkml/2021/12/18/163
-> > ---
-> >  drivers/thermal/rcar_thermal.c | 17 ++++++++++++-----
-> >  1 file changed, 12 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_ther=
-mal.c
-> > index b49f04daaf47..e480f7290ccf 100644
-> > --- a/drivers/thermal/rcar_thermal.c
-> > +++ b/drivers/thermal/rcar_thermal.c
-> > @@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_devic=
-e *pdev)
-> >       struct rcar_thermal_common *common;
-> >       struct rcar_thermal_priv *priv;
-> >       struct device *dev =3D &pdev->dev;
-> > -     struct resource *res, *irq;
-> > +     struct resource *res;
-> >       const struct rcar_thermal_chip *chip =3D of_device_get_match_data=
-(dev);
-> >       int mres =3D 0;
-> >       int i;
-> > @@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_devi=
-ce *pdev)
-> >       pm_runtime_get_sync(dev);
-> >
-> >       for (i =3D 0; i < chip->nirqs; i++) {
-> > -             irq =3D platform_get_resource(pdev, IORESOURCE_IRQ, i);
-> > -             if (!irq)
-> > -                     continue;
-> > +             int irq;
-> > +
-> > +             irq =3D platform_get_irq_optional(pdev, i);
-> > +             if (irq < 0 && irq !=3D -ENXIO) {
-> > +                     ret =3D irq;
-> > +                     goto error_unregister;
-> > +             }
-> > +             if (!irq || irq =3D=3D -ENXIO)
-> > +                     break;
->
-> This do not look correct and differs form v1.
->
-> In the old code if we can't get an IRQ the loop is continued. This is
-> used to detect if interrupts are supported or not on the platform.  This
-> change will fail on all systems that don't describes interrupts in DT
-> while the driver can function without interrupts.
->
-There are no non-DT users for this driver. Do you see this driver
-being used in a non-DT environment in near future?
+- Check all CSI2 flags in v4l2_fwnode_endpoint_parse_csi2_bus()
+---
+ drivers/media/i2c/adv7180.c           | 3 +--
+ drivers/media/i2c/tc358743.c          | 6 +++---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 6 ++----
+ include/media/v4l2-mediabus.h         | 3 +--
+ 4 files changed, 7 insertions(+), 11 deletions(-)
 
-> Is there a reason you wish to do this change in addition to the switch
-> to platform_get_irq_optional()? If so I think that should be done in a
-> separate patch.
->
-No other reason, It was suggested by Gerrt too to use a break instead
-of continue in v1.
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 3ff37a550810..4f5db195e66d 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -785,8 +785,7 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+ 	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
+ 		cfg->type = V4L2_MBUS_CSI2_DPHY;
+ 		cfg->bus.mipi_csi2.num_data_lanes = 1;
+-		cfg->bus.mipi_csi2.flags =
+-				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
++		cfg->bus.mipi_csi2.flags = 0;
+ 	} else {
+ 		/*
+ 		 * The ADV7180 sensor supports BT.601/656 output modes.
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index dfbc42675143..e18b8947ad7e 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -717,7 +717,7 @@ static void tc358743_set_csi(struct v4l2_subdev *sd)
+ 			((lanes > 3) ? MASK_D3M_HSTXVREGEN : 0x0));
+ 
+ 	i2c_wr32(sd, TXOPTIONCNTRL, (state->bus.flags &
+-		 V4L2_MBUS_CSI2_CONTINUOUS_CLOCK) ? MASK_CONTCLKMODE : 0);
++		 V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK) ? 0 : MASK_CONTCLKMODE);
+ 	i2c_wr32(sd, STARTCNTRL, MASK_START);
+ 	i2c_wr32(sd, CSI_START, MASK_STRT);
+ 
+@@ -1613,7 +1613,7 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
+ 	cfg->type = V4L2_MBUS_CSI2_DPHY;
+ 
+ 	/* Support for non-continuous CSI-2 clock is missing in the driver */
+-	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
++	cfg->bus.mipi_csi2.flags = 0;
+ 	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
+ 
+ 	return 0;
+@@ -2039,7 +2039,7 @@ static int tc358743_probe(struct i2c_client *client)
+ 	/* platform data */
+ 	if (pdata) {
+ 		state->pdata = *pdata;
+-		state->bus.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
++		state->bus.flags = 0;
+ 	} else {
+ 		err = tc358743_probe_of(state);
+ 		if (err == -ENODEV)
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 9ff3ebb230e7..71dcc9a96535 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -207,13 +207,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+ 	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
+ 		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+ 		pr_debug("non-continuous clock\n");
+-	} else {
+-		flags |= V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+ 	}
+ 
+ 	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
+-	    bus_type == V4L2_MBUS_CSI2_CPHY || lanes_used ||
+-	    have_clk_lane || (flags & ~V4L2_MBUS_CSI2_CONTINUOUS_CLOCK)) {
++	    bus_type == V4L2_MBUS_CSI2_CPHY ||
++	    lanes_used || have_clk_lane || flags) {
+ 		/* Only D-PHY has a clock lane. */
+ 		unsigned int dfl_data_lane_index =
+ 			bus_type == V4L2_MBUS_CSI2_DPHY;
+diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+index c6626a22b394..e0db3bcff9ed 100644
+--- a/include/media/v4l2-mediabus.h
++++ b/include/media/v4l2-mediabus.h
+@@ -68,8 +68,7 @@
+ 
+ /* Serial flags */
+ /* Clock non-continuous mode support. */
+-#define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
+-#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
++#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
+ 
+ #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
+ 
 
-Cheers,
-Prabhakar
+base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+prerequisite-patch-id: cc085f7de462ead19772e3f64e1b1d13bb92d5b7
+prerequisite-patch-id: d6943d1780603964a753d571e26bad98b4954a8a
+prerequisite-patch-id: c63eaa2a61aeea6d4be238644f1324f0170d981c
+prerequisite-patch-id: 797385e385b3f71f0bafe7eb8e712d52628c23d7
+prerequisite-patch-id: 2f7fe0901f79ac1d445e443b5d3ee7ab9ae41525
+prerequisite-patch-id: 70ddd068308b5758872349ec6e0f03e8c9427dc0
+prerequisite-patch-id: 987cc8f39cb63badf2d6ceba946deffafba9a249
+-- 
+Regards,
+
+Laurent Pinchart
+
