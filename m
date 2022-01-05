@@ -2,189 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E12BC4858CE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 20:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 613DC4858F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 20:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243277AbiAETDE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jan 2022 14:03:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
+        id S243396AbiAETNe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jan 2022 14:13:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243289AbiAETDC (ORCPT
+        with ESMTP id S243347AbiAETNd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jan 2022 14:03:02 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961E1C061201;
-        Wed,  5 Jan 2022 11:03:01 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 7F04B1B0022A;
-        Wed,  5 Jan 2022 21:02:56 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1641409376;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0vzccKNKahp6NIlsGUb99SK9e2Mzf8IhCz8xEvjy7b8=;
-        b=vMcUFaIEtfLdO/MF9Buz4/saehC7kH3MlZ4dFkicDEYy2WhqsLh/kPsHYxUrQgyVpaqmTh
-        SPMTM+ZBSdpm2elhbN1EaQ/QyxP5R+U7KsYoUkdKv0uJOSaW6WxtV9ZnxLYwLYNaahNLxI
-        C5hFUuSjfzI7zoFKYOJPnULtR2KcdgEVnqoIRPg/nkny9Gr6fxNbav3OEpisB+l6FMXjDF
-        z1oRroWynC8wYJyPI4x3qYjBRD3i7773P8zNkKB4pYeiddinbKzz06TKgj1kKuu+2wJCKj
-        E+bzl4Ii3Pg9TZ8gJROr50GWjI3HCxoUiNMcQCW+GX4AkFWC1Ycvt97n4UvZHg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 17211634C90;
-        Wed,  5 Jan 2022 21:02:56 +0200 (EET)
-Date:   Wed, 5 Jan 2022 21:02:55 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mats Randgaard <matrandg@cisco.com>
-Subject: Re: [RFC PATCH 8/8] media: v4l2-mediabus: Drop
- V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-Message-ID: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220103162414.27723-9-laurent.pinchart+renesas@ideasonboard.com>
+        Wed, 5 Jan 2022 14:13:33 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717C1C061201
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  5 Jan 2022 11:13:33 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id r4so41300lfe.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jan 2022 11:13:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=2HdX9pP3Q9Z4uX3aqatRsjO5Pcb0UlsROg+qvzlzu6U=;
+        b=4Ia3W4Dly6LiEQ5rKk1rFgj2unuQVnuNkmEoWAgTiBmpoDUNo6KDtGSZKFElawIMBB
+         QwE/6lc0CZwbDgzPZ2bbDKdrYLRT11UUM+csHe46QZkEXwHi1FlJeynWBRWqqHoWgDAy
+         2q05fAIpz6T9XP0OK8KtjGn/ZvyU9+WG2OoxJkBJzVCoVzHEk0AYJcLkxZvxcaCxCGOf
+         cDaKc7AdX+oKzmjS4H6HlDoYv9flmnakaBP8MdY8BSaZ5mf941atiIRPyzOeycPGx8xX
+         sofNg01bLqJR6YyT0Khy0MLKTWHYGDlOWVZ31wCoA5FZtOIjmi87B+1tWPnopguQMhns
+         ayUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2HdX9pP3Q9Z4uX3aqatRsjO5Pcb0UlsROg+qvzlzu6U=;
+        b=Wmpy6q+HRAZrsW/Tc0gY8FCztaM2mnugYKt8GNNILqZ4poLK8PfkQhXjqOB49YqnQ8
+         B4udhHOzOS2+i72q/O6DbKz+JO+f9s/4SXL67rWwHO7n3G0GXUVyxsQILgpdUtFqtInq
+         L+9rfYMrUXrKrs8bkqQr9UjekNr2ngHINpozKhPs3bfx2I/mwLXQ4VxWPI2ti/bXY/o1
+         FsAUCnuvZZhmRRRInWTBIPknLdOYj/Cq6yEKRWNR/ZDjob56rckhZPm4mOqkc2uH9s9F
+         4QRVkoC+EFyfcO7dkzYGhiXqGnmmF29uuIrBuMc8fkz1SqrXJEAfCefHLdk8ugtsyE5B
+         sq7Q==
+X-Gm-Message-State: AOAM530K70Eou6WICN9q7AI6R4QG02o13jy0KO9Zt6TeqcbbhiEt5bnh
+        +EpQHAfNPRG6Q7hhZ9mpYGpXPQ==
+X-Google-Smtp-Source: ABdhPJxJkJV4hQT7Y2RsB1BpVxL1CZQl3s9UDmLuhqUBJOe3uL8T7JoZSHRH5w4BepZxn7XdgmSiNA==
+X-Received: by 2002:ac2:5b9a:: with SMTP id o26mr48055390lfn.479.1641410011203;
+        Wed, 05 Jan 2022 11:13:31 -0800 (PST)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id b18sm3226047ljq.62.2022.01.05.11.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 11:13:30 -0800 (PST)
+Date:   Wed, 5 Jan 2022 20:13:30 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] thermal: rcar_thermal: Use
+ platform_get_irq_optional() to get the interrupt
+Message-ID: <YdXt2mDjZ0zikbt6@oden.dyn.berto.se>
+References: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220103162414.27723-9-laurent.pinchart+renesas@ideasonboard.com>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1641409376; a=rsa-sha256;
-        cv=none;
-        b=jR+TIiFwSqozwtguptbm9VvQkzYD91UmCBCd/IzK1u7RAXlxnP4orkPbocA8FzX/OfYRQo
-        aPO8gLIKsltom6jDQ0Q59si/K1LpeK6Q9UCWG3Uwb/YL2nb+/FEH5NI79xsoY1tJPn/BzK
-        VvY3yQM0cxdr9kY+u1j9sc4OxEkzt/A9ej8bLC1SkIBd1HpWjASWmYzxq/480YvW3umegF
-        h/kCYuBKr9xSE1bAhXViqjOC9rdWqQVU2zXcCDoefraN1aDrIUT590Q7BdTafm6hCMY9rm
-        At5+va3Q2/aJD6qbKXmhHFYDd1XZwMjIexn2Kxsh5JNHWqn9F+F9jmwuGuoryg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1641409376;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0vzccKNKahp6NIlsGUb99SK9e2Mzf8IhCz8xEvjy7b8=;
-        b=LIo5BGhwWtZmVRjidjfXc+aBtNSBzZfw0Gg1q7RVSn5pX22OdQ2I8hipilY28kB8gNvcUb
-        /cn4jcA9QWbmWeStSUfAT++paZP5I8oqNH2hmdHz6DT6HH59zNJEVOcsU6yP0dhQeBlF6n
-        CZX13/5cEnlIxLyXyMic0R1fQcPxCH0NC3BnXmdnJwEvS0Cn0C3AfEEAftP15RrXeXB8oK
-        dxS7yY0GKkKWMhfeArZDND+GphcHCn+ETy4kpeb7b4r9kGpMploVrZO4r2WySU0mGS+lB8
-        8o6StC16eAiv6NIt/fSVbObmUGO2wuqsWAlpeO1z0k7db3iJ0UNQeYcA5w/wwA==
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Lad,
 
-On Mon, Jan 03, 2022 at 06:24:14PM +0200, Laurent Pinchart wrote:
-> MIPI CSI-2 continuous and non-continuous clock modes are mutually
-> exclusive. Drop the V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag and use
-> V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK only.
+Thanks for your work.
+
+On 2022-01-04 14:52:11 +0000, Lad Prabhakar wrote:
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq_optional().
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  drivers/media/i2c/adv7180.c           | 3 +--
->  drivers/media/i2c/tc358743.c          | 6 +++---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 4 +---
->  include/media/v4l2-mediabus.h         | 3 +--
->  4 files changed, 6 insertions(+), 10 deletions(-)
+> v2-v3:
+> * Fixed review comment pointed by Andy
 > 
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 3ff37a550810..4f5db195e66d 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -785,8 +785,7 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
->  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
->  		cfg->type = V4L2_MBUS_CSI2_DPHY;
->  		cfg->bus.mipi_csi2.num_data_lanes = 1;
-> -		cfg->bus.mipi_csi2.flags =
-> -				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +		cfg->bus.mipi_csi2.flags = 0;
->  	} else {
->  		/*
->  		 * The ADV7180 sensor supports BT.601/656 output modes.
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index dfbc42675143..e18b8947ad7e 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -717,7 +717,7 @@ static void tc358743_set_csi(struct v4l2_subdev *sd)
->  			((lanes > 3) ? MASK_D3M_HSTXVREGEN : 0x0));
+> v1->v2
+> * Simplified checking error code
+> * Break loop earlier if no interrupts are seen
+> 
+> v1: https://lkml.org/lkml/2021/12/18/163
+> ---
+>  drivers/thermal/rcar_thermal.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+> index b49f04daaf47..e480f7290ccf 100644
+> --- a/drivers/thermal/rcar_thermal.c
+> +++ b/drivers/thermal/rcar_thermal.c
+> @@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>  	struct rcar_thermal_common *common;
+>  	struct rcar_thermal_priv *priv;
+>  	struct device *dev = &pdev->dev;
+> -	struct resource *res, *irq;
+> +	struct resource *res;
+>  	const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
+>  	int mres = 0;
+>  	int i;
+> @@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>  	pm_runtime_get_sync(dev);
 >  
->  	i2c_wr32(sd, TXOPTIONCNTRL, (state->bus.flags &
-> -		 V4L2_MBUS_CSI2_CONTINUOUS_CLOCK) ? MASK_CONTCLKMODE : 0);
-> +		 V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK) ? 0 : MASK_CONTCLKMODE);
->  	i2c_wr32(sd, STARTCNTRL, MASK_START);
->  	i2c_wr32(sd, CSI_START, MASK_STRT);
->  
-> @@ -1613,7 +1613,7 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
->  	cfg->type = V4L2_MBUS_CSI2_DPHY;
->  
->  	/* Support for non-continuous CSI-2 clock is missing in the driver */
-> -	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +	cfg->bus.mipi_csi2.flags = 0;
->  	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
->  
->  	return 0;
-> @@ -2039,7 +2039,7 @@ static int tc358743_probe(struct i2c_client *client)
->  	/* platform data */
->  	if (pdata) {
->  		state->pdata = *pdata;
-> -		state->bus.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +		state->bus.flags = 0;
->  	} else {
->  		err = tc358743_probe_of(state);
->  		if (err == -ENODEV)
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 9ff3ebb230e7..9aad860cde6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -207,13 +207,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
->  		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
->  		pr_debug("non-continuous clock\n");
-> -	} else {
-> -		flags |= V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
->  	}
->  
->  	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
->  	    bus_type == V4L2_MBUS_CSI2_CPHY || lanes_used ||
-> -	    have_clk_lane || (flags & ~V4L2_MBUS_CSI2_CONTINUOUS_CLOCK)) {
-> +	    have_clk_lane || (flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)) {
+>  	for (i = 0; i < chip->nirqs; i++) {
+> -		irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+> -		if (!irq)
+> -			continue;
+> +		int irq;
+> +
+> +		irq = platform_get_irq_optional(pdev, i);
+> +		if (irq < 0 && irq != -ENXIO) {
+> +			ret = irq;
+> +			goto error_unregister;
+> +		}
+> +		if (!irq || irq == -ENXIO)
+> +			break;
 
-This should be just plains flags (i.e. without bitwise and) as we're just
-figuring out whether any properties related to CSI-2 were found.
+This do not look correct and differs form v1.
 
->  		/* Only D-PHY has a clock lane. */
->  		unsigned int dfl_data_lane_index =
->  			bus_type == V4L2_MBUS_CSI2_DPHY;
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index c6626a22b394..e0db3bcff9ed 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -68,8 +68,7 @@
+In the old code if we can't get an IRQ the loop is continued. This is 
+used to detect if interrupts are supported or not on the platform.  This 
+change will fail on all systems that don't describes interrupts in DT 
+while the driver can function without interrupts.
+
+Is there a reason you wish to do this change in addition to the switch 
+to platform_get_irq_optional()? If so I think that should be done in a 
+separate patch.
+
+> +
+>  		if (!common->base) {
+>  			/*
+>  			 * platform has IRQ support.
+> @@ -487,7 +494,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>  			idle = 0; /* polling delay is not needed */
+>  		}
 >  
->  /* Serial flags */
->  /* Clock non-continuous mode support. */
-> -#define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
-> -#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
-> +#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
->  
->  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
->  
+> -		ret = devm_request_irq(dev, irq->start, rcar_thermal_irq,
+> +		ret = devm_request_irq(dev, irq, rcar_thermal_irq,
+>  				       IRQF_SHARED, dev_name(dev), common);
+>  		if (ret) {
+>  			dev_err(dev, "irq request failed\n ");
+> -- 
+> 2.17.1
+> 
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Kind Regards,
+Niklas Söderlund
