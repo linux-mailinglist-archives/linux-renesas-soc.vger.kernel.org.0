@@ -2,143 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A03AF4851A8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 12:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE4B4851C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jan 2022 12:26:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239617AbiAELM4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jan 2022 06:12:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
+        id S239673AbiAEL0G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jan 2022 06:26:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231725AbiAELMz (ORCPT
+        with ESMTP id S239665AbiAEL0F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jan 2022 06:12:55 -0500
+        Wed, 5 Jan 2022 06:26:05 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912B3C061761;
-        Wed,  5 Jan 2022 03:12:54 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 019D2C061761;
+        Wed,  5 Jan 2022 03:26:05 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4A6A3B81A21;
-        Wed,  5 Jan 2022 11:12:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E578AC36AF3;
-        Wed,  5 Jan 2022 11:12:51 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A3DE5B81A5F;
+        Wed,  5 Jan 2022 11:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE60C36AEB;
+        Wed,  5 Jan 2022 11:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641381171;
-        bh=FP6go+G51SetXZwLjWew7bzAodSWP9fx1rJi4M88cQI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pOO5zaxkN7t+HEwnSCmMB28mx+9SIb9AyBmnYfHSZq5oXXM3G9JJ1i+Qh8M66tX6e
-         gL7Q77xRFHgL8o4s3HsUpp3oMM444sa7mYDyukJ7PVFtWsBTTjY80qhh5+HjtgoiSO
-         gh6juu7HxvuGTF0iHUEgTnJR957TOHZvbrhYcaHVFePkDDf8CPRlrguhQHGvT3s3Ih
-         OGcEz0z6X7qNRKjafoHWH9qsoTXtLH3DRXGUw2cfNNeR8znpgyE9csaNl2MzJp8RTM
-         7Z+ONMTFCjNqfJ1veT/72XjZq+MFTtxm/XA4VDZxTFOH0aOz8eaFlzqoFQGnNNRKT5
-         4XRq9hGkgfCjg==
-Received: by mail-wr1-f52.google.com with SMTP id j18so82208762wrd.2;
-        Wed, 05 Jan 2022 03:12:51 -0800 (PST)
-X-Gm-Message-State: AOAM530i+lZEK7XoOWV+cQmHS2TOGOIiBNL+B3d04SKDb2LG4OpYcDBE
-        8C1L8VIRLu67Pec5ImFWd8hI0BCaB/2iIUTrJ0o=
-X-Google-Smtp-Source: ABdhPJwgpT/JqnrJYh9N1qdWJipPK0T451NjGBj4d+vEH8cfsbu6zCBvRfCzFVUb2cJmkbuO61XENYMZKwW6so9Qg8s=
-X-Received: by 2002:adf:9bdb:: with SMTP id e27mr46471812wrc.417.1641381170183;
- Wed, 05 Jan 2022 03:12:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20211122092816.2865873-1-ardb@kernel.org> <CGME20211221103854eucas1p2592e38fcc84c1c3506fce87f1dab6739@eucas1p2.samsung.com>
- <20211122092816.2865873-8-ardb@kernel.org> <0ffc858f-27e7-6789-4be1-c4c5ad61eb9d@samsung.com>
- <CAMj1kXG+P5AU-26t_16FL5xfQNd+ByQH_cfBLiwMSdoGPmvCuw@mail.gmail.com>
- <e07a229a-e565-0077-9f8a-a24ffa45f395@samsung.com> <CAMj1kXG3neg0riLAaU32KLvB2PLBNzwqgO0F21nbK1ivS=FwMg@mail.gmail.com>
- <b22077f6-0925-ee00-41ea-3e52241926e2@samsung.com> <CAMj1kXHQrqZSE1kHaQyQyK6R58EV3cUyvJFmM1JYifaMemyUhQ@mail.gmail.com>
- <f469726d-86fb-cf54-2775-d4658d2f3a5d@samsung.com> <CAMj1kXGyL7yTV4+pOs9iBWYuVvVmPTZrV5r=nzqttqpZ6-vYJA@mail.gmail.com>
- <CAMuHMdWNuCVeFiDrhnFmX0F1jxz8Fs4eFx55ojJF3d2ro-udrA@mail.gmail.com> <bbb0c788-bd83-833c-9445-87cff525f728@nvidia.com>
-In-Reply-To: <bbb0c788-bd83-833c-9445-87cff525f728@nvidia.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 5 Jan 2022 12:12:38 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEYjUspxOnvK=3O4pkVtXT+iBPz6mkskn=K6TTUZc+W2g@mail.gmail.com>
-Message-ID: <CAMj1kXEYjUspxOnvK=3O4pkVtXT+iBPz6mkskn=K6TTUZc+W2g@mail.gmail.com>
-Subject: Re: [PATCH v4 7/7] ARM: implement support for vmap'ed stacks
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        s=k20201202; t=1641381962;
+        bh=p7ARozmpHvdBcT5Sr9I/4lpUUJk42PlcQIdWxwnken8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f085ntndt8wl1xZbURfzaE4LBumsXRrBAOzVzTWwKQUPQIzjxy1HKaK9h+S2ume8G
+         D7qitRy09jLdWFQ6oaz0VVniaWFsa3ynQ2176GyOoePj2cYVMoLGIm9JRka0bUgn5f
+         9wmuAr0/HkdiWrzcz03ztA02HKm1i42tNYb6qnJHUcIVJIMLE/y8KHgGrxUW248RTV
+         uPJUzeWm7ghp7fKTc7oPDnqBer3UVc5uDolxzyaOKEeDfpM/V1lAhOW3ZUdQ9L8btR
+         96Jcmc1htW1mypF5aS4jnDOfVfWE5v7bvtaLygOcX+xY963g+uxEneJbI/B+ZZsjfL
+         UOdhbMn+SSVzA==
+Date:   Wed, 5 Jan 2022 11:25:55 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-perf-users@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v13 3/5] arm64: perf: Add userspace counter access
+ disable switch
+Message-ID: <20220105112555.GA3113@willie-the-truck>
+References: <20211208201124.310740-1-robh@kernel.org>
+ <20211208201124.310740-4-robh@kernel.org>
+ <CAMuHMdVcDxR9sGzc5pcnORiotonERBgc6dsXZXMd6wTvLGA9iw@mail.gmail.com>
+ <20220104135658.GC1827@willie-the-truck>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220104135658.GC1827@willie-the-truck>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 5 Jan 2022 at 12:08, Jon Hunter <jonathanh@nvidia.com> wrote:
->
-> Hi Ard,
->
-> On 28/12/2021 14:39, Geert Uytterhoeven wrote:
->
-> ...
->
-> >> As i don't have access to this hardware, I am going to have to rely on
-> >> someone who does to debug this further. The only alternative is
-> >> marking CONFIG_VMAP_STACK broken on MACH_EXYNOS but that would be
-> >> unfortunate.
-> >
-> > Wish I had seen this thread before...
-> >
-> > I've just bisected a resume after s2ram failure on R-Car Gen2 to the same
-> > commit a1c510d0adc604bb ("ARM: implement support for vmap'ed stacks")
-> > in arm/for-next.
-> >
-> > Expected output:
-> >
-> >      PM: suspend entry (deep)
-> >      Filesystems sync: 0.000 seconds
-> >      Freezing user space processes ... (elapsed 0.010 seconds) done.
-> >      OOM killer disabled.
-> >      Freezing remaining freezable tasks ... (elapsed 0.009 seconds) done.
-> >      Disabling non-boot CPUs ...
-> >
-> > [system suspended, this is also where it hangs on failure]
-> >
-> >      Enabling non-boot CPUs ...
-> >      CPU1 is up
-> >      sh-eth ee700000.ethernet eth0: Link is Down
-> >      Micrel KSZ8041RNLI ee700000.ethernet-ffffffff:01: attached PHY
-> > driver (mii_bus:phy_addr=ee700000.ethernet-ffffffff:01, irq=193)
-> >      OOM killer enabled.
-> >      Restarting tasks ... done.
-> >      PM: suspend exit
-> >
-> > Both wake-on-LAN and wake-up by gpio-keys fail.
-> > Nothing interesting in the kernel log, cfr. above.
-> >
-> > Disabling CONFIG_VMAP_STACK fixes the issue for me.
-> >
-> > Just like arch/arm/mach-exynos/ (and others), arch/arm/mach-shmobile/
-> > has several *.S files related to secondary CPU bringup.
->
->
-> This is also breaking suspend on our 32-bit Tegra platforms. Reverting
-> this change on top of -next fixes the problem.
->
+On Tue, Jan 04, 2022 at 01:56:59PM +0000, Will Deacon wrote:
+> On Tue, Dec 28, 2021 at 12:07:02PM +0100, Geert Uytterhoeven wrote:
+> > On Wed, Dec 8, 2021 at 9:19 PM Rob Herring <robh@kernel.org> wrote:
+> > > Like x86, some users may want to disable userspace PMU counter
+> > > altogether. Add a sysctl 'perf_user_access' file to control userspace
+> > > counter access. The default is '0' which is disabled. Writing '1'
+> > > enables access.
+> > >
+> > > Note that x86 supports globally enabling user access by writing '2' to
+> > > /sys/bus/event_source/devices/cpu/rdpmc. As there's not existing
+> > > userspace support to worry about, this shouldn't be necessary for Arm.
+> > > It could be added later if the need arises.
+> > 
+> > Thanks for your patch, which is now commit e2012600810c9ded ("arm64:
+> > perf: Add userspace counter access disable switch") in arm64/for-next/core.
+> > 
+> > This is causing two issues on Renesas Salvator-XS with R-Car H3.
+> > One during kernel boot:
+> > 
+> >      hw perfevents: enabled with armv8_cortex_a53 PMU driver, 7
+> > counters available
+> >     +sysctl duplicate entry: /kernel//perf_user_access
+> >     +CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> > 5.16.0-rc3-arm64-renesas-00003-ge2012600810c #1420
+> >     +Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+> >     +Call trace:
+> >     + dump_backtrace+0x0/0x190
+> >     + show_stack+0x14/0x20
+> >     + dump_stack_lvl+0x88/0xb0
+> >     + dump_stack+0x14/0x2c
+> >     + __register_sysctl_table+0x384/0x818
+> >     + register_sysctl+0x20/0x28
+> >     + armv8_pmu_init.constprop.0+0x118/0x150
+> >     + armv8_a57_pmu_init+0x1c/0x28
+> >     + arm_pmu_device_probe+0x1b4/0x558
+> >     + armv8_pmu_device_probe+0x18/0x20
+> >     + platform_probe+0x64/0xd0
+> >     + really_probe+0xb4/0x2f8
+> >     + __driver_probe_device+0x74/0xd8
+> >     + driver_probe_device+0x3c/0xe0
+> >     + __driver_attach+0x80/0x110
+> >     + bus_for_each_dev+0x6c/0xc0
+> >     + driver_attach+0x20/0x28
+> >     + bus_add_driver+0x138/0x1e0
+> >     + driver_register+0x60/0x110
+> >     + __platform_driver_register+0x24/0x30
+> >     + armv8_pmu_driver_init+0x18/0x20
+> >     + do_one_initcall+0x15c/0x31c
+> >     + kernel_init_freeable+0x2f0/0x354
+> >     + kernel_init+0x20/0x120
+> >     + ret_from_fork+0x10/0x20
+> >      hw perfevents: enabled with armv8_cortex_a57 PMU driver, 7
+> > counters available
+> > 
+> > Presumably the same entry is added twice, once for the A53 PMU,
+> > and a second time for the A57 PMU?
+> 
+> Looks like it, and perhaps that's also what is confusing systemd?
+> Rob -- how come you didn't see this during your testing?
+> 
+> Anywho, please can you try the untested diff below?
 
-Thanks for the report.
+I just remembered I have a big/little SoC on my desk after borrowing a
+NanoPi (RK3399) from Marc Z, so I took this diff for a spin there and
+both the kernel and systemd seem happy.
 
-It would be helpful if you could provide some more context:
-- does it happen on a LPAE build too?
-- does it only happen on SMP capable systems?
-- does it reproduce on such systems when using only a single CPU?
-(i.e., pass 'nosmp' on the kernel command line)
-- when passing 'no_console_suspend' on the kernel command line, are
-any useful diagnostics produced?
-- is there any way you could tell whether the crash/hang (assuming
-that is what you are observing) occurs on the suspend path or on
-resume?
-- any other observations that could narrow this down?
-
-Thanks,
-Ard.
+Will
