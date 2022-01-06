@@ -2,150 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 017914865E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jan 2022 15:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E28B486607
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jan 2022 15:29:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240003AbiAFOPG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jan 2022 09:15:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
+        id S240096AbiAFO3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jan 2022 09:29:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239752AbiAFOPF (ORCPT
+        with ESMTP id S239914AbiAFO3H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jan 2022 09:15:05 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36058C061245;
-        Thu,  6 Jan 2022 06:15:05 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id u25so10035316edf.1;
-        Thu, 06 Jan 2022 06:15:05 -0800 (PST)
+        Thu, 6 Jan 2022 09:29:07 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E0EC061245;
+        Thu,  6 Jan 2022 06:29:06 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id f5so10115027edq.6;
+        Thu, 06 Jan 2022 06:29:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=eRNpUSohes/RpV+HDjlO4VmOx2XBuKQ2LnsUIc1/VB0=;
-        b=UzNBVQRqg8FyKbGQCFEfoWQDM5ez28PdSZKQwQSoWOttBWKgh0J5+8rje5+UIAWzR7
-         KByQafAUOUAbxKJQrulvqzn3FrNNmbqdJlLfZcHqjygUoFORKv//lmqPQJrDnPQ/FDxW
-         9Hh6IEaCSNQ5dzewokh17lpGTDf92hW+m6S4QUqYHSe4F0EYpQHgXnT7RSotj430lA6n
-         SapIMAZWJZTvahWi6cqoA0k0YQ6p4oIhQNDYOEcf+nrQ7LNCs1xN2t2IYPn5om3X31gN
-         xCfPAFsEUbFM7+Uww4Fhv17HL7dSCNRNK1NRCA+RuM0UzmrloNAO/uEDQSvj4LSAInMB
-         dXQw==
+        bh=MsehdqVjrVTecOsT2A3/jvDnhXUmIOCHfrOrdcU8UVM=;
+        b=UrJtsfQ7NJ+QtMGLOaDEgRRlGqO713SgVzZh/dng9yIPTN1hdHbMLUImcBriLV6oDH
+         yggHoRK2nle8vKwyy6OLnMIkgjDidnAWtQHSJPZydSgMf+af6cqzKbS/1y8FpbdfJOdj
+         dt8K4B1KLSIxP4l9Ml7KO3LxbYf0lq9E3hscz7rBrFYAEIJX4XhQvht1ZJ1ZdziDr6oq
+         5gTJhhRd3bxM/KAoVavmXLkFCABBQtmj8C1Oyg+EdW2ctGWUN2q3pCNbUoPdM3QuHYP5
+         l8GRrFVmadJIJXv4pyqbjX04VdlcCoaaD8jiUwqGAbPbZxDgEj5zy/kuyUwth9cxAMgy
+         gJsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eRNpUSohes/RpV+HDjlO4VmOx2XBuKQ2LnsUIc1/VB0=;
-        b=H5Hd8nz8oM4AYJ1H9BpcLOufJvJgae1/WbOd5Nmgs3muBmbCGtoPOk2NRzq/RBMSe9
-         QyVMB+O9+cP6QoEXnfIP8uerp2vkNTr4PyL43ljGc1bWy5/X02dqgbOcqqGrh3Yq+DMt
-         9PcWhd+dNL5pllPj3QrhmoHGVNdnIpoHcyOg8ziyJ8EWzRLtu/xaCHX5/HTv1Txr8ePT
-         vjdMLXiJshr4fMMh73+HbzxAtF7HU0RAC+H4d/qKpl6976B4FoH8OWv7YZvMG2di+oH2
-         xyD1nYDb9YLA/Bdb+Mp5+9dhwU4BolZIsLlMbCwd6TUGgLrG7QP66/wGEcg0rRrUZvVI
-         cMgg==
-X-Gm-Message-State: AOAM532J24/MNiIDR0STHdeaAZ5YUUGbBLiPTl5MVGpE5Zu+KDnej74P
-        3H/Ib/DvXsxKEfvgi9GxcGjrnnEgJdCj5fF4pXw=
-X-Google-Smtp-Source: ABdhPJwAmAJQkH3CvGj81GYaK3iCyNszZf9QJetpLcwDrNVCQR03yxYp5NwimRUNP5DcCpJ5prWAiyn7S4LgP+WH9/M=
-X-Received: by 2002:a17:907:6d8d:: with SMTP id sb13mr47283324ejc.132.1641478503757;
- Thu, 06 Jan 2022 06:15:03 -0800 (PST)
+        bh=MsehdqVjrVTecOsT2A3/jvDnhXUmIOCHfrOrdcU8UVM=;
+        b=bf6jPSNJdsqINAayFzICYgrSjBmE6nSREKpTB1KF2SOW3BaPJSfMzuB5X6J9gzSWzV
+         z6sLm7h08GOpoaWx0J80N3EYtWomJPk8q+yM+tOgkukXhN/rV32bZBovZz/hvZBEVkhi
+         N3nwkobrWcvNTb3eg0YNs+MfABFk5QZxjmNZ+P6YbZWQIY2EmCOVwTsz09PQGKs5xguM
+         UnVWAuzWCThKol1KNhB+1b7qX6uRDg/4/6Uq163nalCKLtH58BmhUEOcYn4NFsNA00xV
+         gdfx6D9iq9k3s5pq2OxmZHBXkTa6daMAMLPZUIzhnjoQX3wgfvmR7T3n0z7u/ZEP2pJV
+         UJ7g==
+X-Gm-Message-State: AOAM532e55/3yo8EVL8kd3wjNWjwKeNfeNpBrF3mcFXT8ph7ow4XFYcC
+        pkiVkAQRkUsjbXOKXbNEUtAyzli+G83AhrmcjrQ=
+X-Google-Smtp-Source: ABdhPJz7HioIYv4BqhhXBSq9nU4v4rvim8NcG3OrW68hvMH+696lsXKGzKQM6YfBxwSBhjs4RsYPnvhyvHqEDd0ULOs=
+X-Received: by 2002:a05:6402:2ce:: with SMTP id b14mr58724969edx.122.1641479345425;
+ Thu, 06 Jan 2022 06:29:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
- <CA+V-a8snJU6YYtfcN_mWCJGxYnbNGrLdU+Y5g06mjV4dhsABMw@mail.gmail.com>
- <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
- <CA+V-a8uRqfs2h82_y6yk7MZnt8K5iKii5DZZpFgDDy0Hw2ieXA@mail.gmail.com> <CAHp75VdiTw7R=MSM=4nzn8m863tomSza+yxx7pXLU-Xj8aouOg@mail.gmail.com>
-In-Reply-To: <CAHp75VdiTw7R=MSM=4nzn8m863tomSza+yxx7pXLU-Xj8aouOg@mail.gmail.com>
+References: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 6 Jan 2022 16:14:27 +0200
-Message-ID: <CAHp75VexoYCBBJ1BFgnsb38Q79jG6NB2xBBHmAafTK2FHkTsbQ@mail.gmail.com>
-Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
+Date:   Thu, 6 Jan 2022 16:28:29 +0200
+Message-ID: <CAHp75Ve4t8Pas5t+wdNWyN_Z9w_V4jcYbxjfgOmru_DimfGV=A@mail.gmail.com>
+Subject: Re: [PATCH v3] thermal: rcar_thermal: Use platform_get_irq_optional()
  to get the interrupt
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 6, 2022 at 3:43 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Jan 5, 2022 at 7:41 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Wed, Jan 5, 2022 at 9:43 AM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Tue, Jan 4, 2022 at 7:23 PM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > On Sat, Dec 25, 2021 at 5:32 PM Andy Shevchenko
-> > > > <andy.shevchenko@gmail.com> wrote:
-> > > > > On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
-> > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+On Tue, Jan 4, 2022 at 4:52 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
+>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq_optional().
 
 ...
 
-> > > > > > +       res_irq->flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
-> > > > > > +       res_irq->start = irq;
-> > > > > > +       res_irq->end = irq;
-> > > > > > +       res_irq->name = dev_of_node(&pdev->dev) ? of_node_full_name(pdev->dev.of_node) : NULL;
-> > > > >
-> > > > > If you convert DEFINE_RES_NAMED() to return a compound literal, then
-> > > > > you may use it here like
-> > > > >
-> > > > > res_irq = DEFINE_RES_NAMED(...);
-> > > > >
-> > > > > or even do like this
-> > > > >
-> > > > > if (dev_of_node(...))
-> > > > >   res_irq = DEFINE_RES_IRQ_NAMED(...)
-> > > > > else
-> > > > >   res_irq = DEFINE_RES_IRQ(...);
-> > > > > res_irq->flags |= irq_get_trigger_type(irq);
-> > > > >
-> > > > There are quite a few users of DEFINE_RES_IRQ_NAMED()/DEFINE_RES_IRQ()
-> > > > changing this macos just for this single user tree wide doesn't make
-> > > > sense. Let me know if you think otherwise.
-> > >
-> > > Converting them to produce compound literal is straightforward and
-> > > does not require changes in the users. But on the other hand it allows
-> > > you to use it and convert existing users to use that form directly.
-> > > You may conduct research on how macros in the property.h were morphing
-> > > towards that.
-> > >
-> > Thank you for the pointer. I did the below change for this.
-> >
-> > diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-> > index 8359c50f9988..da1208e8f164 100644
-> > --- a/include/linux/ioport.h
-> > +++ b/include/linux/ioport.h
-> > @@ -153,7 +153,7 @@ enum {
-> >
-> >  /* helpers to define resources */
-> >  #define DEFINE_RES_NAMED(_start, _size, _name, _flags)                 \
-> > -       {                                                               \
-> > +       (struct resource) {                                     \
->
-> Yep, that's it.
->
-> >                 .start = (_start),                                      \
-> >                 .end = (_start) + (_size) - 1,                          \
-> >                 .name = (_name),                                        \
-> >
-> > But there are some instances which need to be touched, for example
-> > vexpress-sysreg.c [1]. Are you OK with files to be changed?
->
-> Nice! That's exactly my point and you can sell it to the community
-> because there are already users of it like this.
->
-> Yes, I'm fine, but it seems it needs to be done treewide in one patch.
-> Btw, how many of those already in use?
+>         for (i = 0; i < chip->nirqs; i++) {
+> -               irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+> -               if (!irq)
+> -                       continue;
+> +               int irq;
 
-Actually you don't need to change that. It's an array of resources and
-everything should be kept as is there.
+> +               irq = platform_get_irq_optional(pdev, i);
+> +               if (irq < 0 && irq != -ENXIO) {
+> +                       ret = irq;
+> +                       goto error_unregister;
+> +               }
+> +               if (!irq || irq == -ENXIO)
+> +                       break;
 
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/mfd/vexpress-sysreg.c?h=v5.16-rc8#n65
+Wouldn't be better to assign to ret
 
+               ret = platform_get_irq_optional(pdev, i);
+               if (ret < 0 && ret != -ENXIO)
+                       goto error_unregister;
+               if (ret > 0)
+                       irq = ret;
+               else
+                       break;
+
+?
 
 -- 
 With Best Regards,
