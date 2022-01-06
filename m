@@ -2,200 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03D114866B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jan 2022 16:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 097B34866B8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jan 2022 16:29:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240454AbiAFP1z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jan 2022 10:27:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
+        id S240470AbiAFP3o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jan 2022 10:29:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239660AbiAFP1z (ORCPT
+        with ESMTP id S240449AbiAFP3o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jan 2022 10:27:55 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120AAC061245;
-        Thu,  6 Jan 2022 07:27:55 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id i3so8318050ybh.11;
-        Thu, 06 Jan 2022 07:27:55 -0800 (PST)
+        Thu, 6 Jan 2022 10:29:44 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0555C061245
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Jan 2022 07:29:43 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id g11so5757858lfu.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Jan 2022 07:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0Atdv5Ws0hf0cvrGfRFE8XTsbNqBCwuJnH7do3WyMdg=;
-        b=kAIEuG0uSS2/JtOAXQ0oXD3WgxM9/PC/dgnLd51I7Qd9Ex6sr3J3NF+7njvORFVIx9
-         RTU+UpZqehpuWZRcxTtmVXK5W9Nc0dkVFJyjeL4gRyhvSg0K21J7NX6UNp0AP9gFP+7A
-         E0DPYvLxSqE6CvsPWYGeCjDCuwlOa532iyyrrtKNoznRCbaigEYnOoVMN4XMSJS7MAgx
-         PaU887Qs4e2VHpB19jP5ILr79pmAsMT9einjFckLvJJy+9i6C69ZHXeSJmHPPiu5JwHU
-         warO5iy6iKoTuZr8hTxAET5rpFO+Qu0tgFpTaR0WDHyhOG3dsA6dR8lL9FXUSX2Aa18W
-         sHug==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xJ3PGeDOtwFyRNuc2YYiHuhFwO5TobupxcSgXPvySR4=;
+        b=FQpmBk3/Wjt178RTWa5MjGIgWKLDgQo0V+DEZfsG0IqHrt4f6xv3pZYAt1Fr0vCbfW
+         12r/0qmgz58W/sHhqL+RYLWZTfL//OcGPeBORdm/k8dlGMF+Gvc60OOvm0EisGI1AciA
+         xMz/mrS8qY/Rc1A8fR3JqR7BmxJH8r4qcxbWg456/7/oPrvTqx+5iG7cS//N/OQBrPy1
+         HymRyaNUghGwQHRVTuOlxftUvseBqg2KZNbkD4NjI/QgVPUCJr1xmmJLWq0Kb3W7YX66
+         V++BIm9WLZH6AtQOtiSaZ5Q2y4+ZBU3TPQZsIfDi/XDsrdBPquYA8kGtrQ9kNs+d0tKB
+         +hXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0Atdv5Ws0hf0cvrGfRFE8XTsbNqBCwuJnH7do3WyMdg=;
-        b=pFfEDtqfGMRi/qPjZLRMuwlz/6/Nn+vlwewrIkoZ5fbdgqi/4LWAycY7y6DtD/fQO7
-         ED2TrTqY9X0+GReSkukfHMExXv8VCWwNBXU2OCPfpv48+RnbJnFPNTlmgN8idA+AQSr/
-         1N9V2V0bNGedemY3vCzTiAqcsa4nj9AGiOHbm4dNdVK+5RErwTntYdc6ObfrdB0nxgw7
-         Kn2P2880BEEPdP3iUUK7qMtSBljEVGKrvcJUJm6PobZPQYJWsrwc2ha+u+NooGWwuuBf
-         5RlAm/OkMmS7f0HhOHyQp+sTTZnXyabxOG7os73es80zsfVFhWToYLdiT4YQdQ5IN1tf
-         XPSQ==
-X-Gm-Message-State: AOAM532YIMkO3mJ3uc8XhhLo4Lsr52oIC0yu9kO4ykj2F+1dkqlT7z/P
-        xHHTD12rfRAns7/ApkkNV8rTwbuapEsF6pvuecM=
-X-Google-Smtp-Source: ABdhPJyr1LihJmEUAtAFmZJ8Piuy05HkePDyLeLwur5ot1PH0Fi7yfPajKvpqSYxVLR49T7HEE9YfUrg/WKtVrAj1Xw=
-X-Received: by 2002:a5b:bc1:: with SMTP id c1mr52450660ybr.669.1641482874307;
- Thu, 06 Jan 2022 07:27:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
- <CA+V-a8snJU6YYtfcN_mWCJGxYnbNGrLdU+Y5g06mjV4dhsABMw@mail.gmail.com>
- <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
- <CA+V-a8uRqfs2h82_y6yk7MZnt8K5iKii5DZZpFgDDy0Hw2ieXA@mail.gmail.com>
- <CAHp75VdiTw7R=MSM=4nzn8m863tomSza+yxx7pXLU-Xj8aouOg@mail.gmail.com> <CAHp75VexoYCBBJ1BFgnsb38Q79jG6NB2xBBHmAafTK2FHkTsbQ@mail.gmail.com>
-In-Reply-To: <CAHp75VexoYCBBJ1BFgnsb38Q79jG6NB2xBBHmAafTK2FHkTsbQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 6 Jan 2022 15:27:28 +0000
-Message-ID: <CA+V-a8sbcebVnqGaLOxVhG_0wm3cM4bu0SebAa1Mkuv9GNBGnQ@mail.gmail.com>
-Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
- to get the interrupt
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xJ3PGeDOtwFyRNuc2YYiHuhFwO5TobupxcSgXPvySR4=;
+        b=bqE9aw7KUMtPFLO5+fQVSeihXVij1zfHyUPzY0UNZ52FoPtZT/sUOeqNl2ZQUyR/VA
+         zb9wdgLuQ53j7qjpCPsreHYGdCB+R3MDAlMqaAI/SnXsymUuXyVtwr60sL4fG5ZIxK/n
+         qHoVTKdAhK+dpwcmbEISXlmSpbCSbzoKoxfTZkqZ9UsBQXyAOhKsFwa2udO1dJUpR/PU
+         2V6NY2s94r+feKR5ESpkZ50ldwBrDsx7tCHjsaoKdEbnYFRMnyatOohdTiA/hiEkRLDO
+         nBKjCXyhzTaDUtWARfy9lVSk1D48LmKoVxVvDBUxSopVi3bsTpCuryW6WCjQKZ1VD9mz
+         GlLA==
+X-Gm-Message-State: AOAM533eQDXVQ0T0/UZuJGj2wxMJUHhZH5YByQsTcAOfjprqxp5iyqr+
+        I2vE8fAifPEIt8n++jiWqMX8JA==
+X-Google-Smtp-Source: ABdhPJxtF9WdGy7DlYSaV5Es8yw+TBdIOwAZoMFcrTbvlgCH8GoCsVYI3V85BEzchfIKyHoWGxpDuA==
+X-Received: by 2002:ac2:4189:: with SMTP id z9mr22974027lfh.639.1641482982111;
+        Thu, 06 Jan 2022 07:29:42 -0800 (PST)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id l5sm198676lfc.190.2022.01.06.07.29.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 07:29:41 -0800 (PST)
+Date:   Thu, 6 Jan 2022 16:29:41 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] thermal: rcar_thermal: Use
+ platform_get_irq_optional() to get the interrupt
+Message-ID: <YdcK5WWnEtEQk0Fp@oden.dyn.berto.se>
+References: <20220104145212.4608-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <YdXt2mDjZ0zikbt6@oden.dyn.berto.se>
+ <CA+V-a8sGh0bCiDu_Eiz3EFgaDPmr-qyz95=dExwf+UvuyA21Cg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+V-a8sGh0bCiDu_Eiz3EFgaDPmr-qyz95=dExwf+UvuyA21Cg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+Hi Lad,
 
-On Thu, Jan 6, 2022 at 2:15 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Thu, Jan 6, 2022 at 3:43 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Wed, Jan 5, 2022 at 7:41 PM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Wed, Jan 5, 2022 at 9:43 AM Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> wrote:
-> > > > On Tue, Jan 4, 2022 at 7:23 PM Lad, Prabhakar
-> > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > > On Sat, Dec 25, 2021 at 5:32 PM Andy Shevchenko
-> > > > > <andy.shevchenko@gmail.com> wrote:
-> > > > > > On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
-> > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> ...
->
-> > > > > > > +       res_irq->flags =3D IORESOURCE_IRQ | irq_get_trigger_t=
-ype(irq);
-> > > > > > > +       res_irq->start =3D irq;
-> > > > > > > +       res_irq->end =3D irq;
-> > > > > > > +       res_irq->name =3D dev_of_node(&pdev->dev) ? of_node_f=
-ull_name(pdev->dev.of_node) : NULL;
-> > > > > >
-> > > > > > If you convert DEFINE_RES_NAMED() to return a compound literal,=
- then
-> > > > > > you may use it here like
-> > > > > >
-> > > > > > res_irq =3D DEFINE_RES_NAMED(...);
-> > > > > >
-> > > > > > or even do like this
-> > > > > >
-> > > > > > if (dev_of_node(...))
-> > > > > >   res_irq =3D DEFINE_RES_IRQ_NAMED(...)
-> > > > > > else
-> > > > > >   res_irq =3D DEFINE_RES_IRQ(...);
-> > > > > > res_irq->flags |=3D irq_get_trigger_type(irq);
-> > > > > >
-> > > > > There are quite a few users of DEFINE_RES_IRQ_NAMED()/DEFINE_RES_=
-IRQ()
-> > > > > changing this macos just for this single user tree wide doesn't m=
-ake
-> > > > > sense. Let me know if you think otherwise.
-> > > >
-> > > > Converting them to produce compound literal is straightforward and
-> > > > does not require changes in the users. But on the other hand it all=
-ows
-> > > > you to use it and convert existing users to use that form directly.
-> > > > You may conduct research on how macros in the property.h were morph=
-ing
-> > > > towards that.
-> > > >
-> > > Thank you for the pointer. I did the below change for this.
+On 2022-01-05 19:25:25 +0000, Lad, Prabhakar wrote:
+> Hi Niklas,
+> 
+> Thank you for the review.
+> 
+> On Wed, Jan 5, 2022 at 7:13 PM Niklas Söderlund
+> <niklas.soderlund@ragnatech.se> wrote:
+> >
+> > Hi Lad,
+> >
+> > Thanks for your work.
+> >
+> > On 2022-01-04 14:52:11 +0000, Lad Prabhakar wrote:
+> > > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> > > allocation of IRQ resources in DT core code, this causes an issue
+> > > when using hierarchical interrupt domains using "interrupts" property
+> > > in the node as this bypasses the hierarchical setup and messes up the
+> > > irq chaining.
 > > >
-> > > diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-> > > index 8359c50f9988..da1208e8f164 100644
-> > > --- a/include/linux/ioport.h
-> > > +++ b/include/linux/ioport.h
-> > > @@ -153,7 +153,7 @@ enum {
+> > > In preparation for removal of static setup of IRQ resource from DT core
+> > > code use platform_get_irq_optional().
 > > >
-> > >  /* helpers to define resources */
-> > >  #define DEFINE_RES_NAMED(_start, _size, _name, _flags)              =
-   \
-> > > -       {                                                            =
-   \
-> > > +       (struct resource) {                                     \
-> >
-> > Yep, that's it.
-> >
-> > >                 .start =3D (_start),                                 =
-     \
-> > >                 .end =3D (_start) + (_size) - 1,                     =
-     \
-> > >                 .name =3D (_name),                                   =
-     \
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > v2-v3:
+> > > * Fixed review comment pointed by Andy
 > > >
-> > > But there are some instances which need to be touched, for example
-> > > vexpress-sysreg.c [1]. Are you OK with files to be changed?
+> > > v1->v2
+> > > * Simplified checking error code
+> > > * Break loop earlier if no interrupts are seen
+> > >
+> > > v1: https://lkml.org/lkml/2021/12/18/163
+> > > ---
+> > >  drivers/thermal/rcar_thermal.c | 17 ++++++++++++-----
+> > >  1 file changed, 12 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+> > > index b49f04daaf47..e480f7290ccf 100644
+> > > --- a/drivers/thermal/rcar_thermal.c
+> > > +++ b/drivers/thermal/rcar_thermal.c
+> > > @@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+> > >       struct rcar_thermal_common *common;
+> > >       struct rcar_thermal_priv *priv;
+> > >       struct device *dev = &pdev->dev;
+> > > -     struct resource *res, *irq;
+> > > +     struct resource *res;
+> > >       const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
+> > >       int mres = 0;
+> > >       int i;
+> > > @@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+> > >       pm_runtime_get_sync(dev);
+> > >
+> > >       for (i = 0; i < chip->nirqs; i++) {
+> > > -             irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+> > > -             if (!irq)
+> > > -                     continue;
+> > > +             int irq;
+> > > +
+> > > +             irq = platform_get_irq_optional(pdev, i);
+> > > +             if (irq < 0 && irq != -ENXIO) {
+> > > +                     ret = irq;
+> > > +                     goto error_unregister;
+> > > +             }
+> > > +             if (!irq || irq == -ENXIO)
+> > > +                     break;
 > >
-> > Nice! That's exactly my point and you can sell it to the community
-> > because there are already users of it like this.
+> > This do not look correct and differs form v1.
 > >
-> > Yes, I'm fine, but it seems it needs to be done treewide in one patch.
-> > Btw, how many of those already in use?
->
-> Actually you don't need to change that. It's an array of resources and
-> everything should be kept as is there.
->
-I do get below build failures, with the above literal change for
-vexpress-sysreg.c.
+> > In the old code if we can't get an IRQ the loop is continued. This is
+> > used to detect if interrupts are supported or not on the platform.  This
+> > change will fail on all systems that don't describes interrupts in DT
+> > while the driver can function without interrupts.
+> >
+> There are no non-DT users for this driver. Do you see this driver
+> being used in a non-DT environment in near future?
 
-drivers/mfd/vexpress-sysreg.c: At top level:
-drivers/mfd/vexpress-sysreg.c:64:37: error: initialiser element is not cons=
-tant
-   64 |   .resources =3D (struct resource []) {
-      |                                     ^
-drivers/mfd/vexpress-sysreg.c:64:37: note: (near initialisation for
-=E2=80=98vexpress_sysreg_cells[0]=E2=80=99)
-drivers/mfd/vexpress-sysreg.c:73:37: error: initialiser element is not cons=
-tant
-   73 |   .resources =3D (struct resource []) {
-      |                                     ^
-drivers/mfd/vexpress-sysreg.c:73:37: note: (near initialisation for
-=E2=80=98vexpress_sysreg_cells[1]=E2=80=99)
-drivers/mfd/vexpress-sysreg.c:82:37: error: initialiser element is not cons=
-tant
-   82 |   .resources =3D (struct resource []) {
-      |                                     ^
-drivers/mfd/vexpress-sysreg.c:82:37: note: (near initialisation for
-=E2=80=98vexpress_sysreg_cells[2]=E2=80=99)
-drivers/mfd/vexpress-sysreg.c:90:37: error: initialiser element is not cons=
-tant
-   90 |   .resources =3D (struct resource []) {
-      |                                     ^
-drivers/mfd/vexpress-sysreg.c:90:37: note: (near initialisation for
-=E2=80=98vexpress_sysreg_cells[3]=E2=80=99)
-drivers/mfd/vexpress-sysreg.c:93:2: warning: missing initialiser for
-field =E2=80=98ignore_resource_conflicts=E2=80=99 of =E2=80=98struct mfd_ce=
-ll=E2=80=99
-[-Wmissing-field-initializers]
-   93 |  }
+No, maybe I was unclear sorry about that. What I intended to say was 
+that this change will break platforms that that make use of this driver 
+but do not describe interrupts in its DT description. As with this 
+change not describing interrupts is consider an error.
 
-Cheers,
-Prabhakar
+For example checkout thermal@ffc48000 in arch/arm/boot/dts/r8a7779.dtsi.
+
+> 
+> > Is there a reason you wish to do this change in addition to the switch
+> > to platform_get_irq_optional()? If so I think that should be done in a
+> > separate patch.
+> >
+> No other reason, It was suggested by Gerrt too to use a break instead
+> of continue in v1.
+
+I think we need to keep the original behavior.
+
+> 
+> Cheers,
+> Prabhakar
+
+-- 
+Kind Regards,
+Niklas Söderlund
