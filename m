@@ -2,128 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E95C487523
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jan 2022 11:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4504487567
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jan 2022 11:23:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237074AbiAGKBO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jan 2022 05:01:14 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:42840 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236928AbiAGKBO (ORCPT
+        id S1346694AbiAGKXJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jan 2022 05:23:09 -0500
+Received: from mail-vk1-f180.google.com ([209.85.221.180]:46788 "EHLO
+        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346698AbiAGKXF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jan 2022 05:01:14 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id AE6BDCE29D5
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jan 2022 10:01:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE360C36AF5
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  7 Jan 2022 10:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641549670;
-        bh=Wa8+E1wbE9vYXue/0+MJo3OTe0bL3vxO5mUUVE4A2SI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=q0eX0n8zFoEiU+CAMOVB5TjeNicmY++Fu8DnEIC26BeBPfllLyZGT+U9fb21nTVBl
-         WQUkXJMwX365flpQOnGR3LbvQLNTEmAZukIsl22sm3WlWYwj9/Y5LGkv2w0BlPfSdd
-         OFzrtuXD6jmSnLDERCBVSwVBRcjE4oYwT8xbXmJqTPCTOvbR9b9rDJLxGT7KKJHNPN
-         ETMC3c8wk9bPXayFHe/olTXwBbxUT7GchZpRCeRgSec8+6q0bgUSWn1hhVbv6x//SV
-         7IeK/uPniSme3CXZEb3dygAtShaeHEm51U3lyTnPGuBKkrvup2lRDKxYxXEoebdu02
-         F+la/OypMTx3g==
-Received: by mail-wr1-f53.google.com with SMTP id a5so6089721wrh.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Jan 2022 02:01:10 -0800 (PST)
-X-Gm-Message-State: AOAM532kD1pfDXCHhQImeZUTLbd5apzCdYHMjXj1N6AnMmCmaTORRLvW
-        aVH/hDRZnHpS+BM29a66fl8Bq2PwQCsIdElVH9o=
-X-Google-Smtp-Source: ABdhPJwjm3aN3Pn1UExZLbs8F1/HqXnMNVf8AW3LGiZtogWMQICyOu6jF3eB+L21MM2Hk8CT+Wvco4pbc57Dub/gwC8=
-X-Received: by 2002:a5d:498b:: with SMTP id r11mr1966789wrq.189.1641549669089;
- Fri, 07 Jan 2022 02:01:09 -0800 (PST)
+        Fri, 7 Jan 2022 05:23:05 -0500
+Received: by mail-vk1-f180.google.com with SMTP id u198so3358685vkb.13;
+        Fri, 07 Jan 2022 02:23:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2loKrwHVliQMs6xQhMn/Ju+9qiYS7pDhv6uhEt7pMzI=;
+        b=UdUsDh83cEHx73kiTiDUzH6XwUtIV/SIDZPpmYlUv0mib9+6tCwPoJ0fnHyaF6kI7R
+         x0AGQ5cwgV7ndo2U1PDhH3F3MgW9TcIU/WJXOcGiqUjjjEY2dYSENXawCjKzQVh1VNyC
+         BG9X28WBHGPzh4FSwKyTIz7hGmDJC2jchZ4H7CcL0J9tAEwh6eKQOme2JEyf0u4Gc6dk
+         +p08U9qY8ZnphFUi5rHSPNVN3wxmcqEYZqvE4iG2xWU8m0GCQRkE7PgsSUarE9vuF/E8
+         I0Xit2o036MY4kzRjU1YYHrpRPhiROaugA6SscNrQ+CjhgdjMKIeJsD+MBRbZ0ABjWhU
+         5EVg==
+X-Gm-Message-State: AOAM533ixUZBp76c71FhQOHUqgIpYCDIFsj9aKY33xVNRBl7KPZadUjy
+        W7Qk2UnjQHSnQFicqZO7PKYfOEYzUhJSJQ==
+X-Google-Smtp-Source: ABdhPJzAdmvNgNF++G12pziwGz7t0YTRLIvFhr1DGoiLGurGa3osvRk+NwIAoPckZ1zkHm+ze67TVA==
+X-Received: by 2002:a1f:f8c4:: with SMTP id w187mr23117316vkh.41.1641550984204;
+        Fri, 07 Jan 2022 02:23:04 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id c14sm3194147vsl.22.2022.01.07.02.23.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jan 2022 02:23:02 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id v12so9304295uar.7;
+        Fri, 07 Jan 2022 02:23:02 -0800 (PST)
+X-Received: by 2002:a67:2e09:: with SMTP id u9mr19039539vsu.77.1641550981835;
+ Fri, 07 Jan 2022 02:23:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20220106192645.3913934-1-ardb@kernel.org> <CAMuHMdXLSFHiQPQeb5Z1yhi0L_2Pz7x4K_GtEVJTmLSkM8o4Vw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXLSFHiQPQeb5Z1yhi0L_2Pz7x4K_GtEVJTmLSkM8o4Vw@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 7 Jan 2022 11:00:57 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEO_4cXpvi6xa17d1qN8EBqg2MC5c7GwJetgWEjGxpx7Q@mail.gmail.com>
-Message-ID: <CAMj1kXEO_4cXpvi6xa17d1qN8EBqg2MC5c7GwJetgWEjGxpx7Q@mail.gmail.com>
-Subject: Re: [RFT PATCH] ARM: suspend: switch to swapper_pg_dir before using
- the vmap'ed stack
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Russell King <linux@armlinux.org.uk>,
+References: <20211208201124.310740-1-robh@kernel.org> <20211208201124.310740-4-robh@kernel.org>
+ <CAMuHMdVcDxR9sGzc5pcnORiotonERBgc6dsXZXMd6wTvLGA9iw@mail.gmail.com> <20220104135658.GC1827@willie-the-truck>
+In-Reply-To: <20220104135658.GC1827@willie-the-truck>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 7 Jan 2022 11:22:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUq9rAZT5B3xUGWAhHnyg2ta_Vx8KNDWms6vbqGmrarRg@mail.gmail.com>
+Message-ID: <CAMuHMdUq9rAZT5B3xUGWAhHnyg2ta_Vx8KNDWms6vbqGmrarRg@mail.gmail.com>
+Subject: Re: [PATCH v13 3/5] arm64: perf: Add userspace counter access disable switch
+To:     Will Deacon <will@kernel.org>
+Cc:     Rob Herring <robh@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
+        linux-perf-users@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 7 Jan 2022 at 10:15, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Ard,
->
-> On Thu, Jan 6, 2022 at 8:27 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > The resume from suspend code switches to the ID map so it can enable the
-> > MMU. On !LPAE configurations, the ID map carries its own copy of the
-> > kernel VA range, but this is not kept in sync with swapper_pg_dir, and
-> > so it may lack the mapping of the kernel mode stack if CONFIG_VMAP_STACK
-> > is enabled.
-> >
-> > So let's switch to swapper_pg_dir right after re-enabling the MMU on
-> > such configurations. This avoids a crash on resume observed on various
-> > platforms [0].
-> >
-> > [0] https://lore.kernel.org/linux-arm-kernel/20211122092816.2865873-8-ardb@kernel.org/
-> >
-> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Cc: Jon Hunter <jonathanh@nvidia.com>
-> > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
->
-> Thanks for your patch!
->
-> This fixes s2ram on r8a7791/koelsch (dual Cortex-A15) with
-> shmobile_defconfig.
-> S2ram on sh73a0/kzm9g (dual Cortex-A9) works as before.
->
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
+Hi Will,
 
-Thanks Geert.
+On Tue, Jan 4, 2022 at 2:57 PM Will Deacon <will@kernel.org> wrote:
+> On Tue, Dec 28, 2021 at 12:07:02PM +0100, Geert Uytterhoeven wrote:
+> > On Wed, Dec 8, 2021 at 9:19 PM Rob Herring <robh@kernel.org> wrote:
+> > > Like x86, some users may want to disable userspace PMU counter
+> > > altogether. Add a sysctl 'perf_user_access' file to control userspace
+> > > counter access. The default is '0' which is disabled. Writing '1'
+> > > enables access.
+> > >
+> > > Note that x86 supports globally enabling user access by writing '2' to
+> > > /sys/bus/event_source/devices/cpu/rdpmc. As there's not existing
+> > > userspace support to worry about, this shouldn't be necessary for Arm.
+> > > It could be added later if the need arises.
+> >
+> > Thanks for your patch, which is now commit e2012600810c9ded ("arm64:
+> > perf: Add userspace counter access disable switch") in arm64/for-next/core.
+> >
+> > This is causing two issues on Renesas Salvator-XS with R-Car H3.
+> > One during kernel boot:
+> >
+> >      hw perfevents: enabled with armv8_cortex_a53 PMU driver, 7
+> > counters available
+> >     +sysctl duplicate entry: /kernel//perf_user_access
+> >     +CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> > 5.16.0-rc3-arm64-renesas-00003-ge2012600810c #1420
+> >     +Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+> >     +Call trace:
+> >     + dump_backtrace+0x0/0x190
+> >     + show_stack+0x14/0x20
+> >     + dump_stack_lvl+0x88/0xb0
+> >     + dump_stack+0x14/0x2c
+> >     + __register_sysctl_table+0x384/0x818
+> >     + register_sysctl+0x20/0x28
+> >     + armv8_pmu_init.constprop.0+0x118/0x150
+> >     + armv8_a57_pmu_init+0x1c/0x28
+> >     + arm_pmu_device_probe+0x1b4/0x558
+> >     + armv8_pmu_device_probe+0x18/0x20
+> >     + platform_probe+0x64/0xd0
+> >     + really_probe+0xb4/0x2f8
+> >     + __driver_probe_device+0x74/0xd8
+> >     + driver_probe_device+0x3c/0xe0
+> >     + __driver_attach+0x80/0x110
+> >     + bus_for_each_dev+0x6c/0xc0
+> >     + driver_attach+0x20/0x28
+> >     + bus_add_driver+0x138/0x1e0
+> >     + driver_register+0x60/0x110
+> >     + __platform_driver_register+0x24/0x30
+> >     + armv8_pmu_driver_init+0x18/0x20
+> >     + do_one_initcall+0x15c/0x31c
+> >     + kernel_init_freeable+0x2f0/0x354
+> >     + kernel_init+0x20/0x120
+> >     + ret_from_fork+0x10/0x20
+> >      hw perfevents: enabled with armv8_cortex_a57 PMU driver, 7
+> > counters available
+> >
+> > Presumably the same entry is added twice, once for the A53 PMU,
+> > and a second time for the A57 PMU?
+>
+> Looks like it, and perhaps that's also what is confusing systemd?
+> Rob -- how come you didn't see this during your testing?
+>
+> Anywho, please can you try the untested diff below?
 
-> > ---
-> > Please test with the Kconfig patch [9177/1] reverted.
-> >
-> >  arch/arm/kernel/sleep.S | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/arch/arm/kernel/sleep.S b/arch/arm/kernel/sleep.S
-> > index b062b3738bc6..6217ef90feb0 100644
-> > --- a/arch/arm/kernel/sleep.S
-> > +++ b/arch/arm/kernel/sleep.S
-> > @@ -119,6 +119,13 @@ ENTRY(cpu_resume_mmu)
-> >  ENDPROC(cpu_resume_mmu)
-> >         .popsection
-> >  cpu_resume_after_mmu:
-> > +#if defined(CONFIG_VMAP_STACK) && !defined(CONFIG_ARM_LPAE)
-> > +       @ Before using the vmap'ed stack, we have to switch to swapper_pg_dir
-> > +       @ as the ID map does not cover the vmalloc region.
-> > +       mrc     p15, 0, ip, c2, c0, 1   @ read TTBR1
-> > +       mcr     p15, 0, ip, c2, c0, 0   @ set TTBR0
-> > +       isb
-> > +#endif
-> >         bl      cpu_init                @ restore the und/abt/irq banked regs
-> >         mov     r0, #0                  @ return zero on success
-> >         ldmfd   sp!, {r4 - r11, pc}
+Thank you, this fixes the issue.
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/arch/arm64/kernel/perf_event.c
+> +++ b/arch/arm64/kernel/perf_event.c
+> @@ -1214,6 +1214,14 @@ static struct ctl_table armv8_pmu_sysctl_table[] = {
+>         { }
+>  };
 >
-> Gr{oetje,eeting}s,
+> +static void armv8_pmu_register_sysctl_table(void)
+> +{
+> +       static u32 tbl_registered = 0;
+> +
+> +       if (!cmpxchg_relaxed(&tbl_registered, 0, 1))
+> +               register_sysctl("kernel", armv8_pmu_sysctl_table);
+> +}
+> +
+>  static int armv8_pmu_init(struct arm_pmu *cpu_pmu, char *name,
+>                           int (*map_event)(struct perf_event *event),
+>                           const struct attribute_group *events,
+> @@ -1248,8 +1256,7 @@ static int armv8_pmu_init(struct arm_pmu *cpu_pmu, char *name,
+>         cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_CAPS] = caps ?
+>                         caps : &armv8_pmuv3_caps_attr_group;
 >
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> -       register_sysctl("kernel", armv8_pmu_sysctl_table);
+> -
+> +       armv8_pmu_register_sysctl_table();
+>         return 0;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
