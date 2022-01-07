@@ -2,140 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B54BC48690C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jan 2022 18:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEA548748F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jan 2022 10:14:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242336AbiAFRrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jan 2022 12:47:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242286AbiAFRqw (ORCPT
+        id S1346406AbiAGJO6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jan 2022 04:14:58 -0500
+Received: from mail-ua1-f53.google.com ([209.85.222.53]:45649 "EHLO
+        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346393AbiAGJO6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jan 2022 12:46:52 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03788C061212;
-        Thu,  6 Jan 2022 09:46:52 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id e202so9627464ybf.4;
-        Thu, 06 Jan 2022 09:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hAigF3aNRm8SXiKNyYPtYfiDgs5b1MpEWjLvBm/tJa8=;
-        b=eGMAPYAgBGaE13rv4QGD/ffg6wh1fb87PE9zAplN+tPmwBmb04djs4hEn1GWPstWBI
-         l4+bewM6CablMRk/oXeBhZdv6rCn/HSPc3i6wRSvPaxkNPQg/dLVL1KFO2zhkVSsUyqD
-         wPI5xjfECRxyUwyOCPcUpDRQim95yRI51dxX90J7SkcXzh54blsKDLODCgos8o5G2Ya5
-         I6tWbcxdq8Te4quWpy/mjcntJPhkEwsDdNuD60OLdIwUCNV9/2KHJ0OecOuuPuuUjLjV
-         9hNbdiC4kZRUoQM12nqgyVGzYlK+4gw3Cb2K5MQVjIien5jHl4I2WBspZjXLc5IQz3VU
-         e6Rw==
+        Fri, 7 Jan 2022 04:14:58 -0500
+Received: by mail-ua1-f53.google.com with SMTP id x33so7709381uad.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Jan 2022 01:14:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hAigF3aNRm8SXiKNyYPtYfiDgs5b1MpEWjLvBm/tJa8=;
-        b=49YJtWyxLccqalEMKR7lrk6gHGDK4TphZHS3wN2Lls9IWFCpj4Rc8us4Z4rfFNT+wp
-         gATnfpqaycYQ1H+j1+OYaiKiiTIwIWiwbmFL+HTl10GgsxE26Knq/4tkLW12tWXyx/Bn
-         VDpFbSyJchU2K8RcSLaW+AAYa1aykRLDN3CT5zcww2h6fF/Q9MUDBUgG9EBWreaeL9go
-         Lb4i7XE6JH8HuXUXlTLfKb/ITGnqybcRLknrE3Y6CIsZZzh0qByW1xehkk7q92Cz1K6S
-         hrE8Av5o3tqgF+7zu2i+b5FKD/OGvXvnBbsZc1wX9JNL04dVDF5tOWw5g2sqFMx3YXhv
-         8IEA==
-X-Gm-Message-State: AOAM530DgAgb+vE6ZEw6KM9/mFYVSptVTStvRRuS4V3pEdCPt9ZApK6n
-        udKtSj92LkpG2oSe111IG3yyJaCqqOzaJHJyyR5kbvNE7JQ=
-X-Google-Smtp-Source: ABdhPJzPhHvgZ4sBE0eCVW7kQOFDDzs3uxp/E4oHS3gwHBnNDNg4m3c/bbkzxBlV5FM5QR2ZPANL7LaPDXw69W5N7WY=
-X-Received: by 2002:a25:98c4:: with SMTP id m4mr76336835ybo.613.1641491211217;
- Thu, 06 Jan 2022 09:46:51 -0800 (PST)
+        bh=kSn+BBnlgrMpWCQvSGGShvTSCaEQidQAfOfH7P7zYoE=;
+        b=rCDjfyonhIfZXwZrIgLkAIsKiJi1ojdZajNLa4A9l1zc9kWAt8nKYw17sLbLxSMETP
+         apiMVzM+E6P0utWodAVJ7HU/gDNGzwVThvyaEngWDjGPYonotVvCs7xXbS+cwHkTLJ5e
+         w8oeXQHk3TL58M7/EfIcM23p3sy+TXWqB32ndY9fh6K0h62322w4N2Ha8h9tjDrXaTsV
+         al4drgBUw+Ht0w2J3ZeJ1SaheVMJCBumPVwnb1WLakVbPgV+mLzYXCPmZ2Gigti7xwbP
+         tlMfgWVR1FfZ/jnIW+zW4u92NWCXaehq86hTI7fO9BfTF4YY+jmJuTqcqu6zYGZsVFGi
+         aBdA==
+X-Gm-Message-State: AOAM532VDPzugDuLslfC7HeSwAQvPFFL7CBDNldoDMV0ebKmo5liPhHT
+        K/XHn3VQCpi4TTfGeDhqNsj8HOgpvDiKrg==
+X-Google-Smtp-Source: ABdhPJygclujXUIafJKZ57P+t4bthhOwSPN7xf0Di0wgpzs8eWdU9LWsqatl4vIMQg5wnfCplvbJsg==
+X-Received: by 2002:a05:6130:312:: with SMTP id ay18mr19322346uab.5.1641546897826;
+        Fri, 07 Jan 2022 01:14:57 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id m8sm2787733uae.8.2022.01.07.01.14.57
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jan 2022 01:14:57 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id o1so9093390uap.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 07 Jan 2022 01:14:57 -0800 (PST)
+X-Received: by 2002:ab0:7450:: with SMTP id p16mr8594171uaq.14.1641546896918;
+ Fri, 07 Jan 2022 01:14:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20220106114801.20563-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <164148400405.10801.375398277921411297@Monstersaurus>
-In-Reply-To: <164148400405.10801.375398277921411297@Monstersaurus>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 6 Jan 2022 17:46:25 +0000
-Message-ID: <CA+V-a8saaXGBJweW9dE6+Vp8k2fpYob2tbVbhxCqK-PU_y1PWg@mail.gmail.com>
-Subject: Re: [PATCH] can: rcar_canfd: Make sure we free CAN network device
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Pavel Machek <pavel@denx.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <20220106192645.3913934-1-ardb@kernel.org>
+In-Reply-To: <20220106192645.3913934-1-ardb@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 7 Jan 2022 10:14:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXLSFHiQPQeb5Z1yhi0L_2Pz7x4K_GtEVJTmLSkM8o4Vw@mail.gmail.com>
+Message-ID: <CAMuHMdXLSFHiQPQeb5Z1yhi0L_2Pz7x4K_GtEVJTmLSkM8o4Vw@mail.gmail.com>
+Subject: Re: [RFT PATCH] ARM: suspend: switch to swapper_pg_dir before using
+ the vmap'ed stack
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Ard,
 
-Thank you for the  review.
+On Thu, Jan 6, 2022 at 8:27 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> The resume from suspend code switches to the ID map so it can enable the
+> MMU. On !LPAE configurations, the ID map carries its own copy of the
+> kernel VA range, but this is not kept in sync with swapper_pg_dir, and
+> so it may lack the mapping of the kernel mode stack if CONFIG_VMAP_STACK
+> is enabled.
+>
+> So let's switch to swapper_pg_dir right after re-enabling the MMU on
+> such configurations. This avoids a crash on resume observed on various
+> platforms [0].
+>
+> [0] https://lore.kernel.org/linux-arm-kernel/20211122092816.2865873-8-ardb@kernel.org/
+>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Jon Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 
-On Thu, Jan 6, 2022 at 3:46 PM Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
->
-> Quoting Lad Prabhakar (2022-01-06 11:48:00)
-> > Make sure we free CAN network device in the error path. There are several
-> > jumps to fail label after allocating the CAN network device successfully.
-> > This patch places the free_candev() under fail label so that in failure
-> > path a jump to fail label frees the CAN network device.
-> >
-> > Fixes: 76e9353a80e9 ("can: rcar_canfd: Add support for RZ/G2L family")
-> > Reported-by: Pavel Machek <pavel@denx.de>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/net/can/rcar/rcar_canfd.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> > index ff9d0f5ae0dd..388521e70837 100644
-> > --- a/drivers/net/can/rcar/rcar_canfd.c
-> > +++ b/drivers/net/can/rcar/rcar_canfd.c
-> > @@ -1640,8 +1640,7 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
-> >         ndev = alloc_candev(sizeof(*priv), RCANFD_FIFO_DEPTH);
-> >         if (!ndev) {
-> >                 dev_err(&pdev->dev, "alloc_candev() failed\n");
-> > -               err = -ENOMEM;
-> > -               goto fail;
-> > +               return -ENOMEM;
->
-> Aha good - so we don't try to call free_candev() on a null pointer.
-> (which doesn't look null-safe, in free_netdev).
->
-Yep.
+Thanks for your patch!
 
-> >         }
-> >         priv = netdev_priv(ndev);
-> >
-> > @@ -1735,8 +1734,8 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
-> >
-> >  fail_candev:
->
-> Is this label still appropriately named now that the free_candev is
-> moved out of it? I wonder if it should be fail_netif:
->
-I was tempted for this change, but wanted to keep the changes minimal.
-Maybe I'll do it anyway to improve the readability.
+This fixes s2ram on r8a7791/koelsch (dual Cortex-A15) with
+shmobile_defconfig.
+S2ram on sh73a0/kzm9g (dual Cortex-A9) works as before.
 
-> So aside from potential naming, the !ndev case is safely handled, so it
-> looks fine to me.
->
->
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->
-> >         netif_napi_del(&priv->napi);
-> > -       free_candev(ndev);
-> >  fail:
-> > +       free_candev(ndev);
->
->
->
-> >         return err;
-> >  }
-> >
-> > --
-> > 2.17.1
-> >
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+> ---
+> Please test with the Kconfig patch [9177/1] reverted.
+>
+>  arch/arm/kernel/sleep.S | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/arch/arm/kernel/sleep.S b/arch/arm/kernel/sleep.S
+> index b062b3738bc6..6217ef90feb0 100644
+> --- a/arch/arm/kernel/sleep.S
+> +++ b/arch/arm/kernel/sleep.S
+> @@ -119,6 +119,13 @@ ENTRY(cpu_resume_mmu)
+>  ENDPROC(cpu_resume_mmu)
+>         .popsection
+>  cpu_resume_after_mmu:
+> +#if defined(CONFIG_VMAP_STACK) && !defined(CONFIG_ARM_LPAE)
+> +       @ Before using the vmap'ed stack, we have to switch to swapper_pg_dir
+> +       @ as the ID map does not cover the vmalloc region.
+> +       mrc     p15, 0, ip, c2, c0, 1   @ read TTBR1
+> +       mcr     p15, 0, ip, c2, c0, 0   @ set TTBR0
+> +       isb
+> +#endif
+>         bl      cpu_init                @ restore the und/abt/irq banked regs
+>         mov     r0, #0                  @ return zero on success
+>         ldmfd   sp!, {r4 - r11, pc}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
