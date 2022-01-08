@@ -2,57 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E8A4881B6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jan 2022 06:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9670A4882EE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jan 2022 10:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbiAHFlO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 8 Jan 2022 00:41:14 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:39182 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229708AbiAHFlO (ORCPT
+        id S234077AbiAHJxK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 8 Jan 2022 04:53:10 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33528 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234076AbiAHJxJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 8 Jan 2022 00:41:14 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0V1E-kH9_1641620471;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V1E-kH9_1641620471)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sat, 08 Jan 2022 13:41:11 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     wsa+renesas@sang-engineering.com
-Cc:     linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] i2c: sh_mobile: remove unneeded semicolon
-Date:   Sat,  8 Jan 2022 13:41:09 +0800
-Message-Id: <20220108054109.119750-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Sat, 8 Jan 2022 04:53:09 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C0CC41C0B79; Sat,  8 Jan 2022 10:53:07 +0100 (CET)
+Date:   Sat, 8 Jan 2022 10:53:06 +0100
+From:   Pavel Machek <pavel@denx.de>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Pavel Machek <pavel@denx.de>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: Fix typo
+Message-ID: <20220108095306.GA32266@amd>
+References: <20220107172529.12361-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
+In-Reply-To: <20220107172529.12361-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Eliminate the following coccicheck warning:
-./drivers/i2c/busses/i2c-sh_mobile.c:849:3-4: Unneeded semicolon
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/i2c/busses/i2c-sh_mobile.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index 9754849dbb23..72f024a0c363 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -846,7 +846,7 @@ static int sh_mobile_i2c_hook_irqs(struct platform_device *dev, struct sh_mobile
- 				return ret;
- 			}
- 			k++;
--		};
-+		}
- 	} else {
- 		struct resource *res;
- 		resource_size_t n;
--- 
-2.20.1.7.g153144c
+On Fri 2022-01-07 17:25:29, Lad Prabhakar wrote:
+> Fix typo RZG2L_ADSMP_DEFUALT_SAMPLING -> RZG2L_ADSMP_DEFAULT_SAMPLING.
+>=20
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Reviewed-by: Pavel Machek <pavel@denx.de>
+
+Thank you.
+
+Best regards,
+								Pavel
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmHZXwIACgkQMOfwapXb+vJd/wCdG4P08xtXY5i02VJ9n+Jl5QGx
+nqUAn3eSndJgvb/zgv6ncU8HSAyDdPQH
+=G+qI
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
