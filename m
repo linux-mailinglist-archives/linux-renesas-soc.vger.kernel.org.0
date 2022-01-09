@@ -2,68 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CFCD488A1D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jan 2022 16:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D528A488A3E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jan 2022 16:34:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbiAIPMz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Jan 2022 10:12:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbiAIPMz (ORCPT
+        id S234813AbiAIPeJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Jan 2022 10:34:09 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:58253 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235853AbiAIPeI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Jan 2022 10:12:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FB6C06173F;
-        Sun,  9 Jan 2022 07:12:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ACDE960E71;
-        Sun,  9 Jan 2022 15:12:54 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp.kernel.org (Postfix) with ESMTPSA id 13E7EC36AEB;
-        Sun,  9 Jan 2022 15:12:50 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 15:18:46 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: adc: rzg2l_adc: Fix typo
-Message-ID: <20220109151821.09af394d@jic23-huawei>
-In-Reply-To: <20220108095306.GA32266@amd>
-References: <20220107172529.12361-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220108095306.GA32266@amd>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+        Sun, 9 Jan 2022 10:34:08 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A0280240007;
+        Sun,  9 Jan 2022 15:34:06 +0000 (UTC)
+Date:   Sun, 9 Jan 2022 16:35:06 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH] media: i2c: max9271: Add header include guards to
+ max9271.h
+Message-ID: <20220109153506.2o7ot34i4c5mlz3u@uno.localdomain>
+References: <20220102224803.27463-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220102224803.27463-1-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 8 Jan 2022 10:53:06 +0100
-Pavel Machek <pavel@denx.de> wrote:
+Hi Laurent,
 
-> On Fri 2022-01-07 17:25:29, Lad Prabhakar wrote:
-> > Fix typo RZG2L_ADSMP_DEFUALT_SAMPLING -> RZG2L_ADSMP_DEFAULT_SAMPLING.
-> > 
-> > Reported-by: Pavel Machek <pavel@denx.de>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>  
-> 
-> Reviewed-by: Pavel Machek <pavel@denx.de>
-Applied, thanks,
+On Mon, Jan 03, 2022 at 12:48:03AM +0200, Laurent Pinchart wrote:
+> Protect against multiple inclusions of the max9271.h header with include
+> guards.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Jonathan
+Indeed
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-> 
-> Thank you.
-> 
-> Best regards,
-> 								Pavel
+Thanks
+  j
 
+> ---
+>  drivers/media/i2c/max9271.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/media/i2c/max9271.h b/drivers/media/i2c/max9271.h
+> index dc5e4e70ba6f..0bf1d40811eb 100644
+> --- a/drivers/media/i2c/max9271.h
+> +++ b/drivers/media/i2c/max9271.h
+> @@ -8,6 +8,9 @@
+>   * Copyright (C) 2015 Cogent Embedded, Inc.
+>   */
+>
+> +#ifndef __MEDIA_I2C_MAX9271_H__
+> +#define __MEDIA_I2C_MAX9271_H__
+> +
+>  #include <linux/i2c.h>
+>
+>  #define MAX9271_DEFAULT_ADDR	0x40
+> @@ -231,3 +234,5 @@ int max9271_set_deserializer_address(struct max9271_device *dev, u8 addr);
+>   * Return 0 on success or a negative error code on failure
+>   */
+>  int max9271_set_translation(struct max9271_device *dev, u8 source, u8 dest);
+> +
+> +#endif /* __MEDIA_I2C_MAX9271_H__ */
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
