@@ -2,202 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F232E488BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jan 2022 20:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D36F8488CEB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jan 2022 23:56:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236632AbiAITUO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Jan 2022 14:20:14 -0500
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:58058 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236466AbiAITUO (ORCPT
+        id S235652AbiAIW4B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Jan 2022 17:56:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232267AbiAIW4A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Jan 2022 14:20:14 -0500
-IronPort-SDR: hDTJqrzfglK+zEAByceUvgDPK7IiswBEtRQk3V/AJf96BLVF7fvimGlpNji5tXxdR8hW5S57Mt
- xqSMK2K0KR96IxNIaVFFJRUrwtQvcXAwU6rophxqXzY6UZt3bjJsiIU29zKkM8hDetsuUnVYzG
- MSfgfkhAfs9sF9eGGNZ3cwyLnpc2+lOJA1owySO+0mpgkFPrK5guElg1jGTjDVV7iNRWdakTuN
- xchuoB0EQrko20ajR3qtcj1lhrF9xz3Gvy7PX22Q0CdBh9BHLdrQRj47elDrhAzpccc9LMBumA
- PSuWVWUCy4Phph30bU98j5Ki
-X-IronPort-AV: E=Sophos;i="5.88,274,1635235200"; 
-   d="scan'208";a="70542448"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 09 Jan 2022 11:20:13 -0800
-IronPort-SDR: HaHO8aJ1UHMYc39MNK4ycmWbuadsLMSCkyg/q04bL6ZQKChwz3qh6LyJCxM9/OL05iFBA0XlX2
- wUH+JyxNN+fzCBjG4uqXA1e8mK/B1ecKnUuJKE+iD+oGJ+VW3fu6TfOIQA8D2fvoft+Sax75Pq
- RYrxxtHuxIOePbU2YRaDhvNbXkKw8IJ35K5KnWhJoqXKTUcfD4wtlWv5Qyjprxtsx6QqkR0w5B
- JK7oZB8xhylYPpU1i5XOC/xTuuV7KGunVzlechvaYH1+AHBJ0pqDgZpeM0g6X2olSg9MQQAagv
- c+M=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Geert Uytterhoeven' <geert@linux-m68k.org>
-CC:     'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>,
-        'Linux I2C' <linux-i2c@vger.kernel.org>,
-        'Linux Kernel Mailing List' <linux-kernel@vger.kernel.org>,
-        'Wolfram Sang' <wsa+renesas@sang-engineering.com>,
-        "Surachari, Bhuvanesh" <Bhuvanesh_Surachari@mentor.com>
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com> <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>  
-In-Reply-To: 
-Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-Date:   Sun, 9 Jan 2022 22:20:01 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000001d8058d$eb130710$c1391530$@mentor.com>
+        Sun, 9 Jan 2022 17:56:00 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B46C06173F;
+        Sun,  9 Jan 2022 14:56:00 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09177E2C;
+        Sun,  9 Jan 2022 23:55:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641768957;
+        bh=Qula6demTXiGrFgnLVbrD5tnWwfL1wSdlO3lf9B2F3g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZHPRD4t4Iwb+78ZkYhRWrqYpem/TmBzj0/fLCoJmJfCpaz5D/b1gvu/LgjMcVPsxp
+         A5AwTblLdH9pSjrMjj+joHUv4LRWY7liIH5zdVDtvhku+uSPtu7dozByl/NLvhi9Db
+         qsDPyOu/40wl6tlxw0HKjGZd6L2RgYTDFui82z4M=
+Date:   Mon, 10 Jan 2022 00:55:48 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [RFC PATCH 0/8] media: Drop .set_mbus_config(), improve
+ .get_mbus_config()
+Message-ID: <Ydtn9JIAHMFuZSju@pendragon.ideasonboard.com>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220109143624.p25busbiwi2z4buk@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHXue1eCQdNXjaiK021FrevUeTu7qvGRbCQgEMVGxCAUkv+EA==
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-09.mgc.mentorg.com (139.181.222.9) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220109143624.p25busbiwi2z4buk@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Geert, Wolfram,
+Hi Jacopo,
 
-Could you please let me know your opinion on version 2 of this patch,
-that addressed your earlier review comments?
-
-https://lore.kernel.org/all/20211006182314.10585-1-andrew_gabbasov@mentor.com/
-
-Does it still need any further modifications or are you going to promote it further upstream?
-
-Thanks.
-
-Best regards,
-Andrew
-
-> -----Original Message-----
-> From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> Sent: Thursday, November 18, 2021 1:35 PM
-> To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> Cc: 'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>; 'Linux I2C' <linux-i2c@vger.kernel.org>; 'Linux Kernel
-> Mailing List' <linux-kernel@vger.kernel.org>; 'Wolfram Sang' <wsa+renesas@sang-engineering.com>; Surachari,
-> Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
+On Sun, Jan 09, 2022 at 03:36:24PM +0100, Jacopo Mondi wrote:
+> On Mon, Jan 03, 2022 at 06:24:06PM +0200, Laurent Pinchart wrote:
+> > Hello,
+> >
+> > This patch series reworks the V4L2 subdev .get_mbus_config() and
+> > .set_mbus_config() operations to improve the former and drop the latter.
+> >
+> > These subdev operations originate from soc-camera (for those who
+> > remember the framework), and were designed to let a transmitter and a
+> > receiver negotiate the physical configuration of the bus that connects
+> > them. The operations use bitflags to represent bus parameters, with
+> > supported options set by the caller of .set_mbus_config(), and selected
+> > options among those returned by the callee. This mechanism is
+> > deprecated, as selection of the bus configuration has long been moved to
+> > the firmware interface (DT or ACPI), and usage of bitflags prevents from
+> > adding more complex configuration parameters (timings in particular).
+> >
+> > As .set_mbus_config() is deprecated and used by one pair of drivers only
+> > (pxa_camera and ov6650), it wasn't difficult to drop usage of that
+> > operation in patches 1/8 and 2/8, and remove the operation itself in
+> > patch 3/8.
+> >
+> > With that operation gone, .get_mbus_config() can be moved from bitflags
+> > to structures. It turned out that the needed data structures were
+> > already present in v4l2_fwnode.h. Patch 4/8 moves them to
+> > v4l2_mediabus.h (and renames them to drop the fwnode mention, as they're
+> > not specific to the fwnode API), and patch 5/8 makes use of them.
 > 
-> Hello Geert, Wolfram,
-> 
-> Do you have any feedback on version 2 of this patch, that was submitted
-> after your review comments below?
-> 
-> https://lore.kernel.org/all/20211006182314.10585-1-andrew_gabbasov@mentor.com/
-> 
-> Thanks!
-> 
-> Best regards,
-> Andrew
-> 
-> > -----Original Message-----
-> > From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > Sent: Wednesday, October 06, 2021 9:12 PM
-> > To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> > Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>; Linux I2C <linux-i2c@vger.kernel.org>; Linux Kernel
-> > Mailing List <linux-kernel@vger.kernel.org>; Wolfram Sang <wsa+renesas@sang-engineering.com>; Surachari,
-> > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-> >
-> > Hi Geert,
-> >
-> > Thank you for your review!
-> >
-> > > -----Original Message-----
-> > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Sent: Tuesday, October 05, 2021 4:32 PM
-> > > To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>
-> > > Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>; Linux I2C <linux-i2c@vger.kernel.org>; Linux Kernel
-> > > Mailing List <linux-kernel@vger.kernel.org>; Wolfram Sang <wsa+renesas@sang-engineering.com>; Surachari,
-> > > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > > Subject: Re: [PATCH] i2c: rcar: add SMBus block read support
-> > >
-> > > Hi Andrew,
-> > >
-> > > On Wed, Sep 22, 2021 at 6:14 PM Andrew Gabbasov
-> > > <andrew_gabbasov@mentor.com> wrote:
-> > > > The smbus block read is not currently supported for rcar i2c devices.
-> > > > This patchset adds the support to rcar i2c bus so that blocks of data
-> > > > can be read using SMbus block reads.(using i2c_smbus_read_block_data()
-> > > > function from the i2c-core-smbus.c).
-> > > >
-> > > > Inspired by commit 8e8782c71595 ("i2c: imx: add SMBus block read support")
-> > > >
-> > > > This patch (adapted) was tested with v4.14, but due to lack of real
-> > > > hardware with SMBus block read operations support, using "simulation",
-> > > > that is manual analysis of data, read from plain I2C devices with
-> > > > SMBus block read request.
-> > > >
-> > > > Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
-> > > > Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > >
-> > > Thanks for your patch!
-> > >
-> > > > --- a/drivers/i2c/busses/i2c-rcar.c
-> > > > +++ b/drivers/i2c/busses/i2c-rcar.c
-> > > > @@ -429,9 +431,16 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
-> > > >                 /*
-> > > >                  * The last two bytes needs to be fetched using PIO in
-> > > >                  * order for the STOP phase to work.
-> > > > +                *
-> > > > +                * For SMBus block read the first byte was received using PIO.
-> > >
-> > > So it might be easier to read, and more maintainable, to keep the
-> > > old assignments:
-> > >
-> > >     buf = priv->msg->buf;
-> > >     len = priv->msg->len - 2;
-> > >
-> > > and adjust them for SMBus afterwards:
-> > >
-> > >     if (block_data) {
-> > >             /* For SMBus block read the first byte was received using PIO */
-> > >             buf++;
-> > >             len--;
-> > >     }
-> > >
-> > > ?
-> > >
-> > > >                  */
-> > > > -               buf = priv->msg->buf;
-> > > > -               len = priv->msg->len - 2;
-> > > > +               if (block_data) {
-> > > > +                       buf = priv->msg->buf + 1;
-> > > > +                       len = priv->msg->len - 3;
-> > > > +               } else {
-> > > > +                       buf = priv->msg->buf;
-> > > > +                       len = priv->msg->len - 2;
-> > > > +               }
-> > > >         } else {
-> > > >                 /*
-> > > >                  * First byte in message was sent using PIO.
-> > >
-> > > And below we have another case handling buf and len :-(
-> > >
-> > > So perhaps:
-> > >
-> > >     buf = priv->msg->buf;
-> > >     len = priv->msg->len;
-> > >
-> > >     if (read) {
-> > >             /*
-> > >              * The last two bytes needs to be fetched using PIO in
-> > >              * order for the STOP phase to work.
-> > >              */
-> > >             len -= 2;
-> > >     }
-> > >     if (!read || block_data) {
-> > >             /* First byte in message was sent using PIO *
-> > >             buf++;
-> > >             len--;
-> > >     }
-> >
-> > Probably I was trying to minimize the changes ;-)
-> >
-> > However, I agree with you that the whole code fragment can be simplified
-> > and your variant indeed looks more clean and understandable.
-> > Thank you for your suggestion, I'll submit version 2 of the patch
-> > with this fragment changed.
-> >
-> > Thanks!
-> >
-> > Best regards,
-> > Andrew
+> great, when the soc_camera version was dropped, the next thing to do
+> was to move away from bitflags and move to structure fields...
 
+There's an endless supply of cleanups to be done.
+
+> > Patches 6/8 to 8/8 then removes media bus configuration bitflags that
+> > are unneeded (and now unused).
+> 
+> Parallel might require a bit more of work, but csi2 already has a
+> single flag
+> 
+> /* Clock non-continuous mode support. */
+> #define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
+> 
+> so it should be trivial to replace 'flags' with a boolean
+> 'clock_noncontinuous' field.
+> 
+> One things leaves me a bit confused: we're now mixing run-time
+> configurable paramters (eg the number of data lanes in use in the
+> current streaming sessions) and paramters which come from DT and are
+> usually fixed by the HW design like lanes ordering.
+> 
+> Is this ok in your opinion ?
+
+The .get_mbus_config() operation is meant to report the runtime
+configuration, which is constrained by hardware limitations (for
+instance the number of data lanes routed on the board, as expressed in
+DT, or the ability to support non-continuous clock mode, which is an
+intrinsic property of the device, known by the driver). When multiple
+options are possible within the constraints of the platform, how to
+select between them is currently unspecified. If the need arises, we'll
+have to study the use cases and find a solution.
+
+> > The series is an RFC as not everything has been converted from bitflags
+> > to named fields in structures. In particular, the parallel bus flags
+> > haven't been touched at all. Patch 8/8 shows how mutually exclusive
+> > flags can be reworked to drop one of them. We then need to decide
+> > whether to keep expressing the flag as macros, or move to C bitfields
+> > with dedicated structure member names. I didn't want to include this
+> > change in the RFC before getting feedback on the general approach
+> > (feedback on those specific questions will also be appreciated).
+> 
+> There's also an opportunity to use v4l2_mbus_config as part of
+> v4l2_fwnode_endpoint instead of repeating the same fields ?
+> 
+> struct v4l2_fwnode_endpoint {
+> 	struct fwnode_endpoint base;
+> 	/*
+> 	 * Fields below this line will be zeroed by
+> 	 * v4l2_fwnode_endpoint_parse()
+> 	 */
+>         -------------------------------------------------------------
+> 	enum v4l2_mbus_type bus_type;
+> 	struct {
+> 		struct v4l2_mbus_config_parallel parallel;
+> 		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> 		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+> 	} bus;
+>         -------------------------------------------------------------
+> 	u64 *link_frequencies;
+> 	unsigned int nr_of_link_frequencies;
+> };
+> 
+> struct v4l2_mbus_config {
+> 	enum v4l2_mbus_type type;
+> 	union {
+> 		struct v4l2_mbus_config_parallel parallel;
+> 		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> 		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+> 	} bus;
+> };
+
+I've thought about it, but not that the former groups the bus-specific
+data in a struct, while the latter uses a union. Whether or not we could
+use the same in both cases is an issue I have decided not to think about
+at this stage :-)
+
+> > Laurent Pinchart (8):
+> >   media: pxa_camera: Drop usage of .set_mbus_config()
+> >   media: i2c: ov6650: Drop implementation of .set_mbus_config()
+> >   media: v4l2-subdev: Drop .set_mbus_config() operation
+> >   media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
+> >   media: v4l2-mediabus: Use structures to describe bus configuration
+> >   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+> >   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+> >   media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+> >
+> >  drivers/gpu/ipu-v3/ipu-csi.c                  |   6 +-
+> >  drivers/media/i2c/adv7180.c                   |  10 +-
+> >  drivers/media/i2c/adv748x/adv748x-csi2.c      |  18 +--
+> >  drivers/media/i2c/ml86v7667.c                 |   5 +-
+> >  drivers/media/i2c/mt9m001.c                   |   8 +-
+> >  drivers/media/i2c/mt9m111.c                   |  16 +--
+> >  drivers/media/i2c/ov5648.c                    |   4 +-
+> >  drivers/media/i2c/ov6650.c                    |  51 ++-------
+> >  drivers/media/i2c/ov8865.c                    |   4 +-
+> >  drivers/media/i2c/ov9640.c                    |   8 +-
+> >  drivers/media/i2c/tc358743.c                  |  26 +----
+> >  drivers/media/i2c/tvp5150.c                   |   6 +-
+> >  drivers/media/platform/pxa_camera.c           |  21 ++--
+> >  drivers/media/platform/qcom/camss/camss.c     |   2 +-
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c   |  16 +--
+> >  drivers/media/platform/rcar-vin/rcar-vin.h    |   2 +-
+> >  drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
+> >  .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   2 +-
+> >  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   2 +-
+> >  drivers/media/platform/ti-vpe/cal-camerarx.c  |   6 +-
+> >  drivers/media/v4l2-core/v4l2-fwnode.c         |  16 ++-
+> >  drivers/media/v4l2-core/v4l2-subdev.c         |   8 --
+> >  drivers/staging/media/imx/imx-media-csi.c     |   7 +-
+> >  drivers/staging/media/imx/imx6-mipi-csi2.c    |  25 +----
+> >  drivers/staging/media/imx/imx7-mipi-csis.c    |   2 +-
+> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |   2 +-
+> >  drivers/staging/media/max96712/max96712.c     |   2 +-
+> >  include/media/v4l2-fwnode.h                   |  61 +---------
+> >  include/media/v4l2-mediabus.h                 | 104 ++++++++++++------
+> >  include/media/v4l2-subdev.h                   |  13 ---
+> >  30 files changed, 168 insertions(+), 287 deletions(-)
+> >
+> >
+> > base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+
+-- 
+Regards,
+
+Laurent Pinchart
