@@ -2,188 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB4948A0C1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 21:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C30C248A0CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 21:16:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245718AbiAJUMG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 15:12:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S245757AbiAJUQf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 15:16:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343490AbiAJUMC (ORCPT
+        with ESMTP id S245729AbiAJUQf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 15:12:02 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0805C06175E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 12:11:55 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n70zq-0000Jr-8q; Mon, 10 Jan 2022 21:10:26 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n70zg-009aNt-0Y; Mon, 10 Jan 2022 21:10:15 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n70ze-0007V8-8f; Mon, 10 Jan 2022 21:10:14 +0100
-Date:   Mon, 10 Jan 2022 21:10:14 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, linux-iio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, alsa-devel@alsa-project.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        kvm@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
-        John Garry <john.garry@huawei.com>,
-        Robert Richter <rric@kernel.org>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Corey Minyard <minyard@acm.org>, linux-pm@vger.kernel.org,
-        Peter Korsgaard <peter@korsgaard.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        Tony Luck <tony.luck@intel.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Eric Auger <eric.auger@redhat.com>, netdev@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-mediatek@lists.infradead.org,
-        Brian Norris <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
-Message-ID: <20220110201014.mtajyrfcfznfhyqm@pengutronix.de>
-References: <20220110195449.12448-1-s.shtylyov@omp.ru>
- <20220110195449.12448-2-s.shtylyov@omp.ru>
+        Mon, 10 Jan 2022 15:16:35 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55216C06173F;
+        Mon, 10 Jan 2022 12:16:35 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id d7so8306971ybo.5;
+        Mon, 10 Jan 2022 12:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T0xQEeMfYAZWWLfQ25O7XnIoPfBpVaJVmwR4FfAbgLk=;
+        b=PTLk8Dmkr/y6prAl62pFcK4STJOH3jrgkxpECkEj2HXVob0FHdLQ5JOBkL12TSk1oM
+         tH2L5pIY+yhSGwwUg7WkgvlEgoTJkrs6ZFG+RVyeXoWNVPk1sufy+eMrhX/T3EPbBMqW
+         4VZ0xujB/NY+2glfLjzV7W7iigh3P62QaL0Zzll06XqCfMZYAp8Iq4xgHT8tg0SzbG69
+         MN4AIO5+tmaTqLz44tCrGYskywsLteutyI572lVGnPPZ+qZb5nzjmdBcLwAVj3w+P+GK
+         bs1hpoXXpR9vA+A5j9GEOYUM0P9+Mx/W3A+I8FpgAmx0ZEFeblf6jP0Y4nTDBRvXfQRD
+         EzxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T0xQEeMfYAZWWLfQ25O7XnIoPfBpVaJVmwR4FfAbgLk=;
+        b=sAiJ2SsqK+7Yx5boqjBRYKO0YGqfX0R/Wxf6qeQzIKhndo411oVxyULNkT6Zhf5Wxk
+         /IpaDdxFi96URvfk+uwEgqosIDWi+nZ9jCgxnNvWyKi7AfynwBhEKX9nuM1i6YPeDT64
+         UUBE76j2yJZFScIo0sbvlRWD2F+X7kyLHBs/Ly26hQiVVYXUb4C1DkobuXdUjDjpTX0H
+         7f6bf0uP4qYS8BryUU++9k0CkiekpYgBeghVo9cpjnkVMvAnIPN4SCj6GWMkVKuv3+gT
+         gPq9iJHYRFih2o92qHnDnUcNBvFKP5sAhbIrnkFpT4+Ju9PtZcs/+tBmOLXPIQnAr5N4
+         DL4A==
+X-Gm-Message-State: AOAM5301v91qD3fDIrImJv+zmC5p7fOTzHhlWPw7vuGUyjkMcP1OfFej
+        P4sE2ZCt6ls7Bnc2G3rVxttjTBuNCGZCsLNHo8NVm5rOatc=
+X-Google-Smtp-Source: ABdhPJy5SZlMpv1Hol2xQ3klc0XaWlDB9uAoLFo2kw5RT28K2/HIw3OnQtl5+wJXnX8uTL6DGxNY2Mlh7fJ+wMLnC1g=
+X-Received: by 2002:a05:6902:4e9:: with SMTP id w9mr784708ybs.186.1641845794594;
+ Mon, 10 Jan 2022 12:16:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="brvee3afuyivhyph"
-Content-Disposition: inline
-In-Reply-To: <20220110195449.12448-2-s.shtylyov@omp.ru>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220110094711.8574-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <2f338a37-f2ca-33e4-284e-5d263f7b93da@intel.com> <CA+V-a8vz25B=cw_C4YMBRdDxeq7mi8Zc+noqpdHqfMP8eNHYFg@mail.gmail.com>
+ <f69a0650-174f-1b0d-ba29-7fe04c7cf211@intel.com>
+In-Reply-To: <f69a0650-174f-1b0d-ba29-7fe04c7cf211@intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 10 Jan 2022 20:16:08 +0000
+Message-ID: <CA+V-a8vJzSPxpy0Te1XUiT_zkt4wd=NvFJGvwGkgwcNnibjbhQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv() recursively
+To:     Cezary Rojewski <cezary.rojewski@intel.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Pavel Machek <pavel@denx.de>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Jan 10, 2022 at 5:48 PM Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
+>
+> On 2022-01-10 5:03 PM, Lad, Prabhakar wrote:
+> > Hi Cezary,
+> >
+> > Thank you for the review.
+> >
+>
+> ...
+>
+> >> Recursion and loops are means for doing something repeatedly. Could you
+> >> specify _why_ such change was made i.e. the conversion from one method
+> >> into the other? I bet the code is not being changed for the sake of
+> >> changing it, the reason is simply missing in the commit message.
+> >>
+> > I had feedback from Pavel "recursion is unwelcome in kernel due to
+> > limited stack use." which I did agree with as a result I have come up
+> > with this patch. Also to add this driver will later be used on Renesas
+> > RZ/A2 SoC's which runs with limited memory.
+>
+> Adding that reasoning to the commits message will prevent questions
+> (such as mine) in the future. Thank you for a quick reply and a
+> transparent answer.
+>
+My bad! I'll update the commit message.
 
---brvee3afuyivhyph
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Mon, Jan 10, 2022 at 10:54:48PM +0300, Sergey Shtylyov wrote:
-> This patch is based on the former Andy Shevchenko's patch:
->=20
-> https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@lin=
-ux.intel.com/
->=20
-> Currently platform_get_irq_optional() returns an error code even if IRQ
-> resource simply has not been found. It prevents the callers from being
-> error code agnostic in their error handling:
->=20
-> 	ret =3D platform_get_irq_optional(...);
-> 	if (ret < 0 && ret !=3D -ENXIO)
-> 		return ret; // respect deferred probe
-> 	if (ret > 0)
-> 		...we get an IRQ...
->=20
-> All other *_optional() APIs seem to return 0 or NULL in case an optional
-> resource is not available. Let's follow this good example, so that the
-> callers would look like:
->=20
-> 	ret =3D platform_get_irq_optional(...);
-> 	if (ret < 0)
-> 		return ret;
-> 	if (ret > 0)
-> 		...we get an IRQ...
-
-The difference to gpiod_get_optional (and most other *_optional) is that
-you can use the NULL value as if it were a valid GPIO.
-
-As this isn't given with for irqs, I don't think changing the return
-value has much sense. In my eyes the problem with platform_get_irq() and
-platform_get_irq_optional() is that someone considered it was a good
-idea that a global function emits an error message. The problem is,
-that's only true most of the time. (Sometimes the caller can handle an
-error (here: the absence of an irq) just fine, sometimes the generic
-error message just isn't as good as a message by the caller could be.
-(here: The caller could emit "TX irq not found" which is a much nicer
-message than "IRQ index 5 not found".)
-
-My suggestion would be to keep the return value of
-platform_get_irq_optional() as is, but rename it to
-platform_get_irq_silent() to get rid of the expectation invoked by the
-naming similarity that motivated you to change
-platform_get_irq_optional().
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---brvee3afuyivhyph
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHckpoACgkQwfwUeK3K
-7AmPEAf/e1sLmVHBLqGY9M4YYn2aUPQflQncGGvDAcCOcOjWhjj61Z53oAw8B/Eb
-3J5RoNwe8DIoUyLHQa6DtxFAk+dFhxCCt/6oJngstFQmZYKw3pdpADTY7EDtYA8+
-mYdn6pcScMhpA6OBtI9ybuLy2WaUubn5rCr+NsldDY9GS9GaUvCNWcayugGDQSH1
-uHWNiupkgORajRdaD+ENzFqUohu0HSr6CPy0mid1+4h/9xcykRE38sjcmQ1n+7qs
-/Rpe0taiRj94Ut9mV/MW8nEARhxt+bRH/oI91P369tNKqaWP2IdMcyB04zJvNeLc
-YLmkZv+MpI9lIZU3TrRVSk9UVwA0BQ==
-=/ril
------END PGP SIGNATURE-----
-
---brvee3afuyivhyph--
+CHeers,
+Prabhakar
