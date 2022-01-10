@@ -2,188 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98705489EA3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 18:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B701489EDB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 19:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238585AbiAJRst (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 12:48:49 -0500
-Received: from mga01.intel.com ([192.55.52.88]:61705 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238581AbiAJRss (ORCPT
+        id S238813AbiAJSLu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 13:11:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238807AbiAJSLt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 12:48:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641836928; x=1673372928;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Tt1QAClbirIUj9p7eBiLHTFczsTau6XCUPD4TTZsw0U=;
-  b=T3alVI45rurzJ5xbFAJf6tLFvsVMpIz8Gt9A+CLdT1OPWnN2yNzACepi
-   f+Td8hq2YVZmI4saMUboP9bxgxwWq8dM5AQqTfdsaC9/I9HMcyBHitxYa
-   16XlxT/krbNpw3rbHcBDySu21skpwcNlIfSallWE3Do8rt+JgDFZUN4Xf
-   i0UBhE8Ey9OZvGLdSwviH/HmBuds/qslksr7iALoyafFoR7uAo/wXgjpY
-   BgGnXT33SZSUzsJfYYqZOJLnDCrJKvz0SNsPpjBtVA5gHPu7hIJ6+1v6Q
-   DTq7KaBS1/ZSYEfxbYyFlcpu0T/RbNcXlax3uK6HBlvX1Daxwm54cS762
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="267611643"
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; 
-   d="scan'208";a="267611643"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 09:48:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; 
-   d="scan'208";a="612924407"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Jan 2022 09:48:48 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 09:48:47 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Mon, 10 Jan 2022 09:48:47 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Mon, 10 Jan 2022 09:48:47 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VuH8t/Nr+1TvFddbN/AYvPz4M4LTySyKuM4PXqA3heKXKIfZDCjJ6uYEWhYJeZ2y4BLp7v3jYS2xCf+X1tQr8+fZEA8M0N/jNQhn+MhD2oxhATJWZJkqqbdGoYyWtsv174lC0HqVQa0Ca/1WL9MF77UQj/W7dY7Nf8mo/TCy6fb+Gy4mC7yFSRfMgpqLCTvF7YDkBZfWpYVAXggEQaktjtpSg5JLEbypHkjUS0jRoZbsfCwz1F68VRyfzE4g9DXW7fcgv6jM7iNAbhFJlN/7G3DRdMDRTjss8bNDjpKYGWwUMqGGkXA/DaLuibkGvV6P2lTevcDxLu71WQxRtF7Phg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3zujHk6T8wWL3fjk7ncY8BpRJVWLPWUaPCC3scYHKj8=;
- b=jCnEJZ/JEdQcK0QGgitMhK0vHWMYFCQRrNXGceDcHpqyRf1h5gbXpvP3V0PWbcJkUd9mvLTiJ3W7TDaKVpoqCb/GCa8S0y11nirnjiIvsoBbH51EyUiWh1nkLgZtcnnh4Sv0QhEGSxodt/kIUpCo6Y1M+uNgCij6Z6q8mfIdF4O3IjT5dKKZRZ3kPBwzw/PkWwHSFPxmcJT9zqTZBuoy/vU1JxdwKFsJlfoQiOvaIO/C5FDI6Ux7OSX954CrsOy11XbLthShF9PuCom3tcVNpz7TD4DM/d8uYIS8tuNmWq+QO+Z2uc4IlffQ9GnpoGt9Xr9oKqyfi5MIcW/IHxqa6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN6PR11MB4049.namprd11.prod.outlook.com (2603:10b6:405:7f::12)
- by BN7PR11MB2659.namprd11.prod.outlook.com (2603:10b6:406:ab::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.10; Mon, 10 Jan
- 2022 17:48:45 +0000
-Received: from BN6PR11MB4049.namprd11.prod.outlook.com
- ([fe80::cce3:53d5:6124:be26]) by BN6PR11MB4049.namprd11.prod.outlook.com
- ([fe80::cce3:53d5:6124:be26%4]) with mapi id 15.20.4867.012; Mon, 10 Jan 2022
- 17:48:45 +0000
-Message-ID: <f69a0650-174f-1b0d-ba29-7fe04c7cf211@intel.com>
-Date:   Mon, 10 Jan 2022 18:48:39 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.0
-Subject: Re: [PATCH 1/5] ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv()
- recursively
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220110094711.8574-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <2f338a37-f2ca-33e4-284e-5d263f7b93da@intel.com>
- <CA+V-a8vz25B=cw_C4YMBRdDxeq7mi8Zc+noqpdHqfMP8eNHYFg@mail.gmail.com>
-From:   Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <CA+V-a8vz25B=cw_C4YMBRdDxeq7mi8Zc+noqpdHqfMP8eNHYFg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0164.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18a::7) To BN6PR11MB4049.namprd11.prod.outlook.com
- (2603:10b6:405:7f::12)
+        Mon, 10 Jan 2022 13:11:49 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAC1C06173F;
+        Mon, 10 Jan 2022 10:11:48 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id br17so16197598lfb.6;
+        Mon, 10 Jan 2022 10:11:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TxcZWOqaSZZ9PyBej12PZTUOtsPwpsaX7uD28Kv4sDs=;
+        b=J/rUh/mbh3C8U5t+wGNSUxiciDgI1KqNL1OKkFgcc/NuQMpXQkr1fkNXy3OLwxkyzo
+         KH2lsq6CEBgq+VgWS4MdJp44MJe7wLyTf0JNA0gbvv7n4quamUOK9z873O+gWw6T725u
+         U+ousj8PGuuwQS1ZLnWQSGGpqkPVM7BAGSMH5T4RcB4nn1VBDakM4y85oUDD2cWvQ31p
+         DMmjt+pP5sxNCmqXJzdxZE1Iw1XOXDQeObd5TAlZVqoK2172UioVDIXNBPMn6AbBzSpm
+         vKNJGSOA4oSYkEErRl+OnNqExp2nD70yQAgtMuQEvAJXRH5EU9rM39ZCy+0FniGw5n1t
+         iUrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TxcZWOqaSZZ9PyBej12PZTUOtsPwpsaX7uD28Kv4sDs=;
+        b=ah4cu/a9WG4X1GvC9ocMWNdbNSR3JYfFjw6Uw+F6RdvNGKTgrOI8NU6yhIa6+ZgfHl
+         8nziP9zh3+2RwOIvpc5QBH8Id0QiDDfwzVFDQhNoYvywsxw7h6W+B7wSaIOY+61ehNpN
+         AxUSS3kh0Z7+vlWMFPDC7Z5E2biAKG2BeT9BjXVMoerTGX2rm+Zyd97/LVUSieBBautu
+         naz0p1RaVZ55JvYyxWe2KZfha8NmjJaJKN+T4qKXUqVJnWjdUmeEKHbqbV2oY+TdFjV4
+         UsvDpajOocB9eKLXCoNtAMg/uihaYJc9vOgM+BMhSrgQ+wUAaYntWROEQm2594DSFuLQ
+         HPWA==
+X-Gm-Message-State: AOAM531J8g/eYcW8LLwO8BOJBE2TF4HS4QJVNS4KiNnA7+r6QLoxFxhg
+        NMKioSCY0sHVUqMAAC3ltq0=
+X-Google-Smtp-Source: ABdhPJyRGaRPYh9YiaYd9HxEMgIbCX9gjnO6ex78tIjcJ6zB1KEx3JGVYlZSwXYAZO/nQq6CM0Hvqw==
+X-Received: by 2002:a05:6512:251f:: with SMTP id be31mr653510lfb.46.1641838307198;
+        Mon, 10 Jan 2022 10:11:47 -0800 (PST)
+Received: from dell.intranet (178235254230.gdansk.vectranet.pl. [178.235.254.230])
+        by smtp.gmail.com with ESMTPSA id n20sm738661lfu.306.2022.01.10.10.11.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 10:11:46 -0800 (PST)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of .set_mbus_config()
+Date:   Mon, 10 Jan 2022 19:11:45 +0100
+Message-ID: <1808044.CQOukoFCf9@dell>
+In-Reply-To: <YdhDH/HmJ44B3Rxa@valkosipuli.retiisi.eu>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com> <CAGfqbt5ZyVAjCggqmQxp+2028Yaz+e=O6RqkfWH6LpDBm_MsSA@mail.gmail.com> <YdhDH/HmJ44B3Rxa@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d3220ded-8731-4040-e36c-08d9d46172f0
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2659:EE_
-X-Microsoft-Antispam-PRVS: <BN7PR11MB265991EB517E1822A65A9E8FE3509@BN7PR11MB2659.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HFAteL1kyZrDXwjKvZ2TFIjshGOZUDUfqWESH0DzcGs50UFSXoJ2gYMZH85hJWrdTtMAT0GddTNfunGv3YTej7KspZmG5e8IZaEaqd/MIFomdo+WpNw3iSA3tsXnA9T/dU8h1GFsHLvCZGHTdHTPpGjJtr47sLwTyQU3QqANtLatgamWDyJ7EXG8hw3Jn08nPWrAYKTNW22jJujqWtkTBcqqS7tz+4G7wCbvfCYrSB/IR1TZWE+AHwGt9K6sFEMAzIPNWJvz5LmicMndYAC/8+bgI599uIHrqCDDQit25V/BuJmSi/DM9eQJHGjMoEmTCX4XBFXbI53xXN7Y+g8V2BrzIhGD8xDl9RP3ah/sIJgbLYfSyoDNFpQW6d+9C3ap3+K5jKTOaDMhNf+jrUX6zCXhlciHNs8qRGtYSErLg+Q910TloQga5Z8mfuVmbWkpZH/wvr4RFl0h1jbQWlcHgsLUN8Kp0Pdm0SqSA0Zhn+Y3VB7mHfksLcV3PIegewIcK932qBqlv1sLQndcuBB2ida+ou5F0btBNubd+HR9QhMaR/CPB8LGyTsy5SL71Z19ahCbKV4FqohIXHWinYwHJqRhi6aPNxjd8VvLxpE8LSgOuF5gfyZjd58Ib/aar1bWzgYlOwjKGePskNw9lxI2q5V7uWJ4hlK8+s6E43fCScVqZogno5nyyNk6f2Cd9uIYgwfudZoBISsWa1gfkb84niNLpLaoiXgOVRayLKKFUFw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB4049.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(508600001)(66556008)(54906003)(110136005)(316002)(7416002)(82960400001)(186003)(2616005)(2906002)(31696002)(6666004)(83380400001)(6512007)(8936002)(66946007)(44832011)(26005)(6486002)(66476007)(8676002)(31686004)(36756003)(53546011)(6506007)(38100700002)(4326008)(5660300002)(86362001)(4744005)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2dxNlNVcGxqcVp6dWVCUFpaaHAyYzN2VEcrS2FMUXZZSGVvVkJna3JIMVE1?=
- =?utf-8?B?TnpzNVBFQXRwMEJvaVFiWEhJZ3dPSHFudkxQdXB4RFRjQ1pHOUJFd245TkJU?=
- =?utf-8?B?RVF0WVl6N3BDODludTB4TkE3TVh3WE1wL0NoMCtFeis3WmcvVUVYOXFPV3Zl?=
- =?utf-8?B?OG82MzZ4RkV4VGpLR2V5dTlnU2N2R3YrK3c5eStUNXdVdk5hb3AvR2JYOWZV?=
- =?utf-8?B?UHBvcGRKVnFpWVFhYlhiNS85Qm5sWTZnZkg0bjkzM0l1endvazlQNGV5dERT?=
- =?utf-8?B?UmZ3RjNnNUNxdkRnNnRHb2FTT2VnaURmRUdsVEJHSm9yRmdlY1dwVEUrQm00?=
- =?utf-8?B?N2dlUGo4WUJ0MGZXV2pvZm5UNDJ1TEZ1MVJHQUtXK2czdktrbzZpV1NYK3Nm?=
- =?utf-8?B?OTNFeXl3Q0NnMzAvOGE0MVN0UWg4YlNkOTZKOUpFRHl2dDd2M3JmdkZMY2dI?=
- =?utf-8?B?WWFzNERycHhLcTBxa01kQzhoVU1nTGp0TXlBbU9UenRtQzFRUGp3c2pRdERj?=
- =?utf-8?B?Nk02b0w5dkFsOW85MEVCVnE3TGtnQ25QNFZNaUtEYmFKYzdYcFhiY252VG44?=
- =?utf-8?B?ODFxWTN5bW1UT2FIMW41aEMyM0ZVelI2QTVyRnRPTWJRR1Rha1pzZmtqWGlx?=
- =?utf-8?B?SUU4dGtWTFRVRThNYTNoV1lISWFCTzQ3Y2lRQUdPYndEM0dJUGZmUzM2MTV4?=
- =?utf-8?B?SVpRejBtKzFBT2Y0Lzd3L25ranRPeEwvbkVVMVNicHVwM1V0QUFTbFI1U2M4?=
- =?utf-8?B?YXhYTWllMjVId055TUhaN29jeFlya0tvU0pOTDhPYnNRc3JacHJNYjhKeFZn?=
- =?utf-8?B?K2wzcVRqdVBhOWNWZUpGUUJiTEZpRGxvTU05T1JOVENoZTJJN0RmUFdGZnNM?=
- =?utf-8?B?YWlhWmtESHFRUUgxQWo0WnBvVHhrQ0RpVEQvV3lkZFVVTWxSOEhHdURibzVy?=
- =?utf-8?B?bEVSSFFzUmxoSUVmOHp6d01GQjVpQVNJbVpJSlVrbkdxQzNxK1lkZFRUQ0Vz?=
- =?utf-8?B?YmxtZGpiY0wwamQyMlpoS3FFTk9ISTVGWVJEdWV2czllSHNwNjZIVkxpN21M?=
- =?utf-8?B?RVZFY0FaQ2lpN3NRT0g2bVZOQWhRd0dJRlB0NDdBNHZkQTltdG81RTVONUxt?=
- =?utf-8?B?cTFFR2FjU3h6dGcvNHRyTFN0RFczc2tIRXJOS1dSRFBuV0wvYUhOS1ZEMnlT?=
- =?utf-8?B?YlowZUdMK3ZxR2dxSEg0aHhUcjYwTm9OalMweFNQLys4OHEzL0VSZW8xdUFR?=
- =?utf-8?B?N3BjbXV1eHNDQ0Ywem56aTVsTHMyVUFlczFlbjJMQUQ0MU52VldZVU5oVnJG?=
- =?utf-8?B?YTlNVDFPRWV0cWNxVFdvVE4zSmhsbHJxY0FsdDQwdmI2VWE5aWpzUlhDRXFE?=
- =?utf-8?B?UXB0aS9TRjVLaG9WRFVvKzlIaGN0WnNySDJNQ05DVWdlcGdDb1VBdExjeHFE?=
- =?utf-8?B?Z3VFUUtYMTQ0Z0J1T25aZ2p0cS9OTnRpWEd4TUdYRzI5TXhqOTBwM1VTM3VL?=
- =?utf-8?B?M3k4WHZucGZUWkFiNzVSb3I0Wm91bGxBK3lMSXlKOXJkZTZvNFRXeVgvWG5u?=
- =?utf-8?B?S0NWdkxTQlQ5b044SFJGZ3djNk9YLzk3SjVHUHQ1L2Q1aXovek9YWmlGNWtO?=
- =?utf-8?B?NVVVWTZIK1lta2drVHVsdVNRRHhiVnZxdGY2SExtUkFhWXlHSWNKczlqSmZB?=
- =?utf-8?B?YlA3dUMwZU5vL0lRc1phbi9oWCtmVzRrUUY5UGtEZGJEb1lXbUVHUnZTY3gw?=
- =?utf-8?B?NjhISDBHVU0wcVdpeXpEQ0xIUG1JK2ZrUjRwZHVhTVpoVUhSTXJjNG5mUy94?=
- =?utf-8?B?TEJBenRnc3Z3TFAxaVhndlVycDZMaDVKeWUrWEVTZkdPZ3FRMVR5bkUwRkcv?=
- =?utf-8?B?R25DOEkvSGIvSWEvZGhFdm1NODhNSHkrTHc1Y0xLQW55ajkwcXNNSlZlbk12?=
- =?utf-8?B?blNlTllTY1llcE1SUmJZbXhSakhJbWR4aThNL3BDVXNNZm84LzJoZ3k3aGRN?=
- =?utf-8?B?WFFvQURWdnJNZ1A4NCtqOVQyVEovSzkvamYreEFraWdxdy8rbDVlRXc2bUJO?=
- =?utf-8?B?bGdkRFYwTmszTUM0cTN1YzE2azVNNFZxcDRLaDZSWmRDcmRwZ2xDamJja3RQ?=
- =?utf-8?B?bVhGcXFoS2ovMXE4VGYzV2l5WW54a2c3L1V2NVVzVnFrL3VkVXorL21SbE11?=
- =?utf-8?B?Q3RFbUQ3S1JKUEwxdStZaStLelJ3S0tZclhld0FpdlpHS2RTNllBYTRGMlB4?=
- =?utf-8?B?ZTl5cHM5clpYWDRvRncvTVlJcFNRPT0=?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3220ded-8731-4040-e36c-08d9d46172f0
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB4049.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2022 17:48:45.6530
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /XO90RsK8+IE6Rrfh+mZTYERGOZ1ZS2lqoQ2H9deJ9Xmf+rmE+hVqDInB/bSuC14zV9a7gFYPlk1OG+QYq7hvMZY1JOg8UDstLlBmOdSS/w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2659
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2022-01-10 5:03 PM, Lad, Prabhakar wrote:
-> Hi Cezary,
+Hi Sakari,
+
+On Friday, 7 January 2022 14:41:51 CET Sakari Ailus wrote:
+> Hi Janusz,
 > 
-> Thank you for the review.
+> On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
+> > Hi Laurent,
+> > 
+> > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
+> > > Hi Sakari,
+> > >
+> > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
+> > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
+> > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
+> > > > > kernel calls it, so drop its implementation from the ov6650 driver.
+> > > > >
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > ---
+> > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
+> > > > >  1 file changed, 37 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > > > > index f67412150b16..455a627e35a0 100644
+> > > > > --- a/drivers/media/i2c/ov6650.c
+> > > > > +++ b/drivers/media/i2c/ov6650.c
+> > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> > > > >   return 0;
+> > > > >  }
+> > > > >
+> > > > > -/* Alter bus settings on camera side */
+> > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> > > > > -                           unsigned int pad,
+> > > > > -                           struct v4l2_mbus_config *cfg)
+> > > > > -{
+> > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > > > > - int ret = 0;
+> > > > > -
+> > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+> > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+> > > >
+> > > > I think this configuration should come from the endpoint which the driver
+> > > > currently does not parse. In fact, there are no even DT bindings for the
+> > > > device.
+> > >
+> > > There's also no OF match table. While this isn't strictly required, it
+> > > may indicate that the sensor hasn't been tested much on DT-based
+> > > systems.
+> > >
+> > > I agree that the configuration should come from the device tree, but I
+> > > can't test that, so I'm tempted to let someone else implement it if the
+> > > driver is actually still in use (I can also write a patch if someone can
+> > > test it).
+> > 
+> > This driver was used with omap1_camera, removed from the tree a few years
+> > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
+> > updated but I gave up due to lack of response to my submissions.  That also
+> > blocked my attempts to rework and reintroduce omap1_camera.
 > 
+> My apologies for this --- I indeed to see a set of unreviewed ov6650 patches
+> from you. Please do ping me if you expect an answer but do not get one.
 
-...
+OK, thanks.
 
->> Recursion and loops are means for doing something repeatedly. Could you
->> specify _why_ such change was made i.e. the conversion from one method
->> into the other? I bet the code is not being changed for the sake of
->> changing it, the reason is simply missing in the commit message.
->>
-> I had feedback from Pavel "recursion is unwelcome in kernel due to
-> limited stack use." which I did agree with as a result I have come up
-> with this patch. Also to add this driver will later be used on Renesas
-> RZ/A2 SoC's which runs with limited memory.
+> > I think I'm still able to update my local (v4l2, non-mc) version of
+> > omap1_camera to the extent required to test any changes to ov6650.
+> > However, the OMAP1 platform does not support DT, and will probably never
+> > do.  Then,  I think that it makes sense to spend my time on that only if
+> > you (media maintainers) are not going to depreciate non-DT support any
+> > soon.  Are you?
+> 
+> Commenting just this and not the discussion later in this thread --- it is
+> possible to support such sensor drivers without DT or ACPI nowadays,
+> through software nodes. See e.g. drivers/media/pci/intel/ipu3/cio2-bridge.c
 
-Adding that reasoning to the commits message will prevent questions 
-(such as mine) in the future. Thank you for a quick reply and a 
-transparent answer.
+Thanks for bringing this possibility to my awareness, I didn't know it 
+existed.  AFAICS, I2C sensor drivers like ov6650 can now be provided by 
+board files with device properties via i2c_board_info.swnode.
+
+If I find a solution to implement a non-v4l2-clk clock device in 
+omap1_camera driver, I'll try to get back to updating ov6650 as time 
+permits.
+
+Thanks,
+Janusz
 
 
-Regards,
-Czarek
