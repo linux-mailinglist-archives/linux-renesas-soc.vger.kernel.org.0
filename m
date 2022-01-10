@@ -2,197 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 549A048959B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 10:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C95ED4895AE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 10:51:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243530AbiAJJss (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 04:48:48 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:44240 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S243306AbiAJJsE (ORCPT
+        id S243283AbiAJJvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 04:51:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243273AbiAJJvT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 04:48:04 -0500
-X-IronPort-AV: E=Sophos;i="5.88,276,1635174000"; 
-   d="scan'208";a="106545264"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jan 2022 18:48:03 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1D68C4238CA4;
-        Mon, 10 Jan 2022 18:48:00 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] ASoC: sh: rz-ssi: Add functions to get/set substream pointer
-Date:   Mon, 10 Jan 2022 09:47:11 +0000
-Message-Id: <20220110094711.8574-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 10 Jan 2022 04:51:19 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BE4C061748
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 01:51:18 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id s30so14436541lfo.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 01:51:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=y1r7qcOoxLZVNoNmodA97gVRJbmjeeiduf9oclYMPMY=;
+        b=GkNRzS9JnRVDO4SJtw3qITFR6O6XE/EmPXJo7mF4L6zmtmlGM7Kf5tG+e7zmxm5qjM
+         oJ6osP1n0iVoKWDDXGO6iKPJS6Md/eY3NT685gXL8tehou/HD2k5FMiM9IDVXFIveK4W
+         0UhKnKJCJVc6MgQoIWwORD+ovxepjTg4axf95PaziB6rU14UnhghLkpa2Fzfc7FoN/yV
+         pKe/aYi2XxwE/NJmVxh9BvmjLZ5uLPn+hdetoC6v2zj+qHiDx0ZN8VamWq+tx9ZPKNEC
+         R4zWSWLIDbCJVnTkKZtDVp+pttHIZd64NdLKcBL8eDIYYLRxKxjBoEDib76Zbdtt6SYX
+         gAWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=y1r7qcOoxLZVNoNmodA97gVRJbmjeeiduf9oclYMPMY=;
+        b=6wuaehSejKMUDQw8ixxxoWUuY7zyeIWCBit8QY9zjMs/CjJZwML1XFAKsEGNHOaoSt
+         H3IW1/xngjVzBN3sjjCGDk+5MMblFqp1vd15rFgT2wJz8UHdaMYAM04CBcKAL7qWCJ1u
+         pHciremF87DhOsobx4stJd+gP1WHXtMkytMQInajGtyf2IbihvkIBEAjq7lTr2r/yaez
+         xM9cHQG13dlU4yRjCRcKrwoCvizd7/DGPnFqVpMj4gamvViqfE175TUeP63zK9rlqCYh
+         +O3MlLTc+sg/a0s4FViddydSUiHAslmVpFSszM/PEICi87T3qO0NpaukOuXpPfFs6I2i
+         Dx8Q==
+X-Gm-Message-State: AOAM533B2WW0yG5mTmJMeoSncyUYmz2kuN6OW+9GGphBAoI3A/YdtTmT
+        IRAMS7wtDSA7OPp9Imc11xIYHQ==
+X-Google-Smtp-Source: ABdhPJx9+x3Kh4QAiAZKohB0Ymdo5sIsdfS73XLp2isfah2UyRZmm/Bmrm23jXAq5hL/eYGESPsaQw==
+X-Received: by 2002:a2e:2e18:: with SMTP id u24mr32442126lju.492.1641808277016;
+        Mon, 10 Jan 2022 01:51:17 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id z13sm871888lfu.255.2022.01.10.01.51.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jan 2022 01:51:16 -0800 (PST)
+Message-ID: <fbabf712-ea2a-5bd4-56d4-70cf4d7f72f6@cogentembedded.com>
+Date:   Mon, 10 Jan 2022 12:51:15 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-A copy of substream pointer is stored in priv structure during
-rz_ssi_dai_trigger() callback ie in SNDRV_PCM_TRIGGER_START case
-and the pointer is assigned to NULL in case of SNDRV_PCM_TRIGGER_STOP.
+Hi
 
-The driver used the locks only in rz_ssi_stream_is_valid() and assigned
-the local substream pointer to NULL in rz_ssi_dai_trigger() callback and
-in rest of the driver no locking was used while assigning substream
-pointer.
+> i.e. will queue in renesas-devel for v5.18.
 
-This patch adds functions to get/set substream pointer with locks acquired
-and replaces the instances of access to substream pointer with the
-get/set functions.
-
-Reported-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- sound/soc/sh/rz-ssi.c | 55 ++++++++++++++++++++++++++++++++-----------
- 1 file changed, 41 insertions(+), 14 deletions(-)
-
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index aabd15e9d515..057aedacedec 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -201,12 +201,36 @@ static bool rz_ssi_stream_is_valid(struct rz_ssi_priv *ssi,
- 	return ret;
- }
- 
-+static struct snd_pcm_substream *rz_ssi_get_substream(struct rz_ssi_stream *strm)
-+{
-+	struct rz_ssi_priv *ssi = strm->priv;
-+	struct snd_pcm_substream *substream;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ssi->lock, flags);
-+	substream = strm->substream;
-+	spin_unlock_irqrestore(&ssi->lock, flags);
-+
-+	return substream;
-+}
-+
-+static void rz_ssi_set_substream(struct rz_ssi_stream *strm,
-+				 struct snd_pcm_substream *substream)
-+{
-+	struct rz_ssi_priv *ssi = strm->priv;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ssi->lock, flags);
-+	strm->substream = substream;
-+	spin_unlock_irqrestore(&ssi->lock, flags);
-+}
-+
- static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- 			       struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 
--	strm->substream = substream;
-+	rz_ssi_set_substream(strm, substream);
- 	strm->sample_width = samples_to_bytes(runtime, 1);
- 	strm->dma_buffer_pos = 0;
- 	strm->period_counter = 0;
-@@ -223,12 +247,13 @@ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- static void rz_ssi_stream_quit(struct rz_ssi_priv *ssi,
- 			       struct rz_ssi_stream *strm)
- {
--	struct snd_soc_dai *dai = rz_ssi_get_dai(strm->substream);
--	unsigned long flags;
-+	struct snd_pcm_substream *substream;
-+	struct snd_soc_dai *dai;
- 
--	spin_lock_irqsave(&ssi->lock, flags);
--	strm->substream = NULL;
--	spin_unlock_irqrestore(&ssi->lock, flags);
-+	substream = rz_ssi_get_substream(strm);
-+	rz_ssi_set_substream(strm, NULL);
-+
-+	dai = rz_ssi_get_dai(substream);
- 
- 	if (strm->oerr_num > 0)
- 		dev_info(dai->dev, "overrun = %d\n", strm->oerr_num);
-@@ -301,7 +326,8 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 
- static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
--	bool is_play = rz_ssi_stream_is_play(ssi, strm->substream);
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
-+	bool is_play = rz_ssi_stream_is_play(ssi, substream);
- 	u32 ssicr, ssifcr;
- 
- 	ssicr = rz_ssi_reg_readl(ssi, SSICR);
-@@ -382,7 +408,7 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 
- static void rz_ssi_pointer_update(struct rz_ssi_stream *strm, int frames)
- {
--	struct snd_pcm_substream *substream = strm->substream;
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
- 	struct snd_pcm_runtime *runtime;
- 	int current_period;
- 
-@@ -399,14 +425,14 @@ static void rz_ssi_pointer_update(struct rz_ssi_stream *strm, int frames)
- 
- 	current_period = strm->buffer_pos / runtime->period_size;
- 	if (strm->period_counter != current_period) {
--		snd_pcm_period_elapsed(strm->substream);
-+		snd_pcm_period_elapsed(substream);
- 		strm->period_counter = current_period;
- 	}
- }
- 
- static int rz_ssi_pio_recv(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
--	struct snd_pcm_substream *substream = strm->substream;
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
- 	struct snd_pcm_runtime *runtime;
- 	bool done = false;
- 	u16 *buf;
-@@ -464,7 +490,7 @@ static int rz_ssi_pio_recv(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 
- static int rz_ssi_pio_send(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
--	struct snd_pcm_substream *substream = strm->substream;
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int sample_space;
- 	int samples = 0;
-@@ -588,7 +614,7 @@ static int rz_ssi_dma_slave_config(struct rz_ssi_priv *ssi,
- static int rz_ssi_dma_transfer(struct rz_ssi_priv *ssi,
- 			       struct rz_ssi_stream *strm)
- {
--	struct snd_pcm_substream *substream = strm->substream;
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
- 	struct dma_async_tx_descriptor *desc;
- 	struct snd_pcm_runtime *runtime;
- 	enum dma_transfer_direction dir;
-@@ -646,12 +672,13 @@ static int rz_ssi_dma_transfer(struct rz_ssi_priv *ssi,
- static void rz_ssi_dma_complete(void *data)
- {
- 	struct rz_ssi_stream *strm = (struct rz_ssi_stream *)data;
-+	struct snd_pcm_substream *substream = rz_ssi_get_substream(strm);
- 
--	if (!strm->running || !strm->substream || !strm->substream->runtime)
-+	if (!strm->running || !substream || !substream->runtime)
- 		return;
- 
- 	/* Note that next DMA transaction has probably already started */
--	rz_ssi_pointer_update(strm, strm->substream->runtime->period_size);
-+	rz_ssi_pointer_update(strm, substream->runtime->period_size);
- 
- 	/* Queue up another DMA transaction */
- 	rz_ssi_dma_transfer(strm->priv, strm);
--- 
-2.17.1
-
+that is, for current + 2 ?
