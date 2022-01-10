@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 013E1489B38
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 15:25:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8930489B54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 15:35:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235474AbiAJOZf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 09:25:35 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:43636 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234201AbiAJOZf (ORCPT
+        id S235570AbiAJOfp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 09:35:45 -0500
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:35696 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230078AbiAJOfp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 09:25:35 -0500
-Received: by mail-ua1-f48.google.com with SMTP id i5so23644489uaq.10;
-        Mon, 10 Jan 2022 06:25:34 -0800 (PST)
+        Mon, 10 Jan 2022 09:35:45 -0500
+Received: by mail-ua1-f41.google.com with SMTP id m90so8507255uam.2;
+        Mon, 10 Jan 2022 06:35:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hmz4tIdCkkzRQ/5Rh9uSga+UNIlxj9BUzl50+uAocmA=;
-        b=FMhUNkqqtLEHXy5Z7e8OFYzmN2N06Gk7ywp8gqyaD/bPfG112eGe4Br9yinWtQG504
-         66/xh0SCCbVZsPkDSvRSIaNiAPcAYBF01pvQjh4yYNqyBx2sry2I8ldeQb3ixw4d3p+f
-         cM6xM4VSbGt+wgi9se42Doowin76CHw05ptYb4O4Yx8JN48KR7BNHZd9JmDUcLpA2Pvk
-         aQOGCtExeKThMtLEK0jUPmPX/cjOHvusx2EOFlaWGW+jjQgLr1Gbj+FbTk3wZRUaCz0r
-         IjDMezPgv3rONuOk1ku94GWSjDoRcLjAQIkxylma3icJNAOTpML4e9kHgjYX7ytQafmT
-         v4gg==
-X-Gm-Message-State: AOAM530un9SBttZ3d+cPUXsy0OWjNZO4yPLFHgLQTk6X5iBNBvncYeze
-        UhNTPd82N4Q6qbVI5vVuov3pyunuUxefyg==
-X-Google-Smtp-Source: ABdhPJwYdFOvPH9cy96uo5dHx7Iv+iucM1SL0AMf1ct8E+hf7gZRkAjQ0SYa7bfLXJmiqiHudzMR7w==
-X-Received: by 2002:a05:6102:f09:: with SMTP id v9mr25134150vss.74.1641824734393;
-        Mon, 10 Jan 2022 06:25:34 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 188sm1008283vkb.24.2022.01.10.06.25.33
+        bh=ahnB6Wzu85wNpvymQJZcyH+DcWIx1h8cEvZZv2M2m28=;
+        b=bUFxry31pv1BrcIfGxiIdNmA3WGvgl+jyGOnoIRpob616sYWnwULJoBfG+AWZ0crKY
+         jeFGY5c3Xq8ohWhsm2FyqdVpEZdiuN4SHMtJQAlSspaJgGeRy3haHRJIQcDodXSDUFf9
+         9nra7BLps1DWJo8dLlM5K60dnidL2G0U4egUkbkGbC/GVepJ24qJv21Z97m6vbA4RAQJ
+         x4FP43ljI9SFmxaDCuBxgpRVCceTVNC6MUr9/NuWl4qKdknssAnJO9YhW6fqCGhkfnGl
+         ZleqxTa9f8xKiYIn2S1lhTCxAxuQvC6ShcepS0NiVWQSwlEKkBOSk4bfeUWejnM7CVJr
+         so8g==
+X-Gm-Message-State: AOAM5333nHuSe90VydaNreK6uJ4CZUdEX5X8NpGL1mdWjfBCL0sTzxRn
+        /tlSksGFrb1ODiQ04/3jnaqW/l4D5S17Ag==
+X-Google-Smtp-Source: ABdhPJyEpC2kz+l4OzKNhTN4K5o1rFbUBvvE9Upmsv4/m0LW10UQ17Is6S7ASpCTzmgjBYJhp8LX2Q==
+X-Received: by 2002:a05:6102:3f4f:: with SMTP id l15mr15185vsv.27.1641825344515;
+        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id t22sm4168394vsk.0.2022.01.10.06.35.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jan 2022 06:25:34 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id v12so23682780uar.7;
-        Mon, 10 Jan 2022 06:25:33 -0800 (PST)
-X-Received: by 2002:a05:6102:2329:: with SMTP id b9mr26286177vsa.5.1641824733806;
- Mon, 10 Jan 2022 06:25:33 -0800 (PST)
+        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id u6so23865394uaq.0;
+        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
+X-Received: by 2002:a67:e985:: with SMTP id b5mr5633vso.77.1641825343968; Mon,
+ 10 Jan 2022 06:35:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20211216114305.5842-1-biju.das.jz@bp.renesas.com> <20211216114305.5842-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211216114305.5842-2-biju.das.jz@bp.renesas.com>
+References: <20211216114305.5842-1-biju.das.jz@bp.renesas.com> <20211216114305.5842-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211216114305.5842-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Jan 2022 15:25:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUY=8F1HYpO54yg5jsC8DhvLbhBQbUvOFm3KEKht3XVYg@mail.gmail.com>
-Message-ID: <CAMuHMdUY=8F1HYpO54yg5jsC8DhvLbhBQbUvOFm3KEKht3XVYg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: rzg2l-smarc: Move pinctrl definitions
+Date:   Mon, 10 Jan 2022 15:35:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdViOUSRBde7orT+9tZBAZbt+O9EQOkutGu9sHw8SakGZQ@mail.gmail.com>
+Message-ID: <CAMuHMdViOUSRBde7orT+9tZBAZbt+O9EQOkutGu9sHw8SakGZQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: Add initial DTSI for RZ/G2LC SoC
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -61,13 +61,20 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Dec 16, 2021 at 12:43 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L and RZ/G2LC SMARC EVK use same carrier board, but the pin
-> mapping between RZ/G2L and RZ/G2LC SMARC SoM are different.
-> Therefore we need to update carrier board pin definitions based
-> on corresponding SoM pin mapping.
+> RZ/G2L and RZ/G2LC SoC's are similar and they share the same DEVID.
+> RZ/G2LC has fewer peripherals compared to RZ/G2L.
 >
-> Move pinctrl definitions out of RZ/G2L SMARC common file, so that
-> we can reuse the common file to support RZ/G2LC SMARC EVK.
+> SSI (3 channels vs 4 channels)
+> GbEthernet (1 channel vs 2 channels)
+> SCIFA (4 channels vs 5 channels)
+> ADC is only supported in RZ/G2L.
+>
+> Add initial DTSI for RZ/G2LC SoC by reusing the common r9a07g044.dtsi
+> file with unsupported device nodes deleted in the below SoC specific dtsi
+> files.
+>
+> r9a07g044c1.dtsi => RZ/G2LC R9A07G044C1 SoC specific parts
+> r9a07g044c2.dtsi => RZ/G2LC R9A07G044C2 SoC specific parts
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
