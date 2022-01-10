@@ -2,35 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F2A489453
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 09:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60B4C48945A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 09:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241929AbiAJIxW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 03:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242356AbiAJIvV (ORCPT
+        id S241519AbiAJIz1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 03:55:27 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:45663 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241114AbiAJIwp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 03:51:21 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F74C03327F;
-        Mon, 10 Jan 2022 00:51:15 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA002A50;
-        Mon, 10 Jan 2022 09:51:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641804673;
-        bh=rGzc5rUjmJsejms3ZrLe/Z/dM1/lyxsEdelYlzXgkHk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d5zgFufXtugVGnjHyea6+l4u5wlRlVRICIpz1U/q0qpcUQ9mOxbo68YrwxVvSh+Di
-         O37xM5XFMRE6m0/jx+a+ozPRN5N/enZqoI5kzgexkjgNchtFqy0n4adNMbtiqAGYYC
-         vcvW9xIptnNrLiNJ1+/IvP7DGb3ykzXl7dVZRgpY=
-Date:   Mon, 10 Jan 2022 10:51:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Mon, 10 Jan 2022 03:52:45 -0500
+Received: by mail-ua1-f49.google.com with SMTP id x33so20761198uad.12;
+        Mon, 10 Jan 2022 00:52:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PRrhnzxIx33BHyJCSHFJIK780dP5z6iPEtjsS253KxU=;
+        b=WcFO35xyCFYjjj7SnmiJKy6qnMPrM6yIffUXL+gQM2rwMxsBaFvI88G3o7b+LwihpE
+         kVLxBzRXDb4F/uOH0+YlAx8qBPq82/rn8VwmMmoXELWv24B+9w2rVUiG3Qr22thXsAu9
+         VuMWIiJzvL/WsMyfBq8wuMa46E/zt1irZTrxB7I7xFbR2eIsWeqOQqkPo/flNkvpHO+q
+         xvWao8lYG8o3TUILv/HMzI3kh2dSxjXKI5rj5M7+bEO65qhSdSBT+/oXYApf5u7lVOiN
+         04Wfj64VPySqXIXmtvQ7vm4LZChXbMb7qjrP/MwJwlBBP4xHg5szubtlIwJ6Fq5NtjMS
+         hStw==
+X-Gm-Message-State: AOAM530o48ZFNxEOhogqm2m8O5VBsP8E3ITOLTjaNiSKjrgUQNya+Leo
+        S0otgsTfTirtstfXiSD3CBtE1ReGlnNUbA==
+X-Google-Smtp-Source: ABdhPJyJcZU9vEOvXR4Nf/DfbUD/KFl20UQCrzlNG9QS2SvgeBlNvh7oNcvwqwnTEqD74gMBTGlQVQ==
+X-Received: by 2002:a67:6a42:: with SMTP id f63mr613188vsc.9.1641804764617;
+        Mon, 10 Jan 2022 00:52:44 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id q5sm3601985vsl.10.2022.01.10.00.52.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jan 2022 00:52:44 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id p1so22077830uap.9;
+        Mon, 10 Jan 2022 00:52:43 -0800 (PST)
+X-Received: by 2002:a67:e905:: with SMTP id c5mr191335vso.68.1641804763769;
+ Mon, 10 Jan 2022 00:52:43 -0800 (PST)
+MIME-Version: 1.0
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com> <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Jan 2022 09:52:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -40,82 +58,28 @@ Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
-Message-ID: <YdvzeJ09N6Zqa+EJ@pendragon.ideasonboard.com>
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
- <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
- <CAMuHMdVqUcjRQHD898Ja4R0X3QpXvTODE8=pG7UjJ-NtHTFSDA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVqUcjRQHD898Ja4R0X3QpXvTODE8=pG7UjJ-NtHTFSDA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Fri, Dec 24, 2021 at 6:23 AM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> Add the missing lvds0 node for the R-Car M3-W+ SoC.
+>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
-On Mon, Jan 10, 2022 at 09:43:58AM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 29, 2021 at 5:56 PM Laurent Pinchart wrote:
-> > On Fri, Dec 24, 2021 at 08:23:08AM +0300, Nikita Yushchenko wrote:
-> > > Add the missing lvds0 node for the R-Car M3-W+ SoC.
-> > >
-> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
-> > >  1 file changed, 27 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > index 86d59e7e1a87..a34d5b1d6431 100644
-> > > --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > @@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
-> > >                               port@2 {
-> > >                                       reg = <2>;
-> > >                                       du_out_lvds0: endpoint {
-> > > +                                             remote-endpoint = <&lvds0_in>;
-> > > +                                     };
-> > > +                             };
-> > > +                     };
-> > > +             };
-> > > +
-> > > +             lvds0: lvds@feb90000 {
-> > > +                     compatible = "renesas,r8a77961-lvds";
-> > > +                     reg = <0 0xfeb90000 0 0x14>;
-> > > +                     clocks = <&cpg CPG_MOD 727>;
-> > > +                     power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> > > +                     resets = <&cpg 727>;
-> > > +                     status = "disabled";
-> > > +
-> > > +                     ports {
-> > > +                             #address-cells = <1>;
-> > > +                             #size-cells = <0>;
-> > > +
-> > > +                             port@0 {
-> > > +                                     reg = <0>;
-> > > +                                     lvds0_in: endpoint {
-> > > +                                             remote-endpoint = <&du_out_lvds0>;
-> > > +                                     };
-> > > +                             };
-> > > +                             port@1 {
-> > > +                                     reg = <1>;
-> > > +                                     lvds0_out: endpoint {
-> > >                                       };
-> >
-> > Endpoints must have a remote-endpoint property. Let's drop the endpoint
-> > here and keep the port only, the endpoint can be declared in board
-> > files.
-> >
-> > If you're fine with this change I can make it when applying the patch.
-> 
-> Isn't this patch for me to apply to renesas-devel?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
-Even better indeed :-)
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Gr{oetje,eeting}s,
 
--- 
-Regards,
+                        Geert
 
-Laurent Pinchart
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
