@@ -2,100 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C30C248A0CA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 21:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA81248A0F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 21:32:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245757AbiAJUQf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 15:16:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245729AbiAJUQf (ORCPT
+        id S239990AbiAJUcS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 15:32:18 -0500
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:41976 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239773AbiAJUcR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 15:16:35 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55216C06173F;
-        Mon, 10 Jan 2022 12:16:35 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id d7so8306971ybo.5;
-        Mon, 10 Jan 2022 12:16:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T0xQEeMfYAZWWLfQ25O7XnIoPfBpVaJVmwR4FfAbgLk=;
-        b=PTLk8Dmkr/y6prAl62pFcK4STJOH3jrgkxpECkEj2HXVob0FHdLQ5JOBkL12TSk1oM
-         tH2L5pIY+yhSGwwUg7WkgvlEgoTJkrs6ZFG+RVyeXoWNVPk1sufy+eMrhX/T3EPbBMqW
-         4VZ0xujB/NY+2glfLjzV7W7iigh3P62QaL0Zzll06XqCfMZYAp8Iq4xgHT8tg0SzbG69
-         MN4AIO5+tmaTqLz44tCrGYskywsLteutyI572lVGnPPZ+qZb5nzjmdBcLwAVj3w+P+GK
-         bs1hpoXXpR9vA+A5j9GEOYUM0P9+Mx/W3A+I8FpgAmx0ZEFeblf6jP0Y4nTDBRvXfQRD
-         EzxQ==
+        Mon, 10 Jan 2022 15:32:17 -0500
+Received: by mail-oi1-f181.google.com with SMTP id q186so14823981oih.8;
+        Mon, 10 Jan 2022 12:32:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T0xQEeMfYAZWWLfQ25O7XnIoPfBpVaJVmwR4FfAbgLk=;
-        b=sAiJ2SsqK+7Yx5boqjBRYKO0YGqfX0R/Wxf6qeQzIKhndo411oVxyULNkT6Zhf5Wxk
-         /IpaDdxFi96URvfk+uwEgqosIDWi+nZ9jCgxnNvWyKi7AfynwBhEKX9nuM1i6YPeDT64
-         UUBE76j2yJZFScIo0sbvlRWD2F+X7kyLHBs/Ly26hQiVVYXUb4C1DkobuXdUjDjpTX0H
-         7f6bf0uP4qYS8BryUU++9k0CkiekpYgBeghVo9cpjnkVMvAnIPN4SCj6GWMkVKuv3+gT
-         gPq9iJHYRFih2o92qHnDnUcNBvFKP5sAhbIrnkFpT4+Ju9PtZcs/+tBmOLXPIQnAr5N4
-         DL4A==
-X-Gm-Message-State: AOAM5301v91qD3fDIrImJv+zmC5p7fOTzHhlWPw7vuGUyjkMcP1OfFej
-        P4sE2ZCt6ls7Bnc2G3rVxttjTBuNCGZCsLNHo8NVm5rOatc=
-X-Google-Smtp-Source: ABdhPJy5SZlMpv1Hol2xQ3klc0XaWlDB9uAoLFo2kw5RT28K2/HIw3OnQtl5+wJXnX8uTL6DGxNY2Mlh7fJ+wMLnC1g=
-X-Received: by 2002:a05:6902:4e9:: with SMTP id w9mr784708ybs.186.1641845794594;
- Mon, 10 Jan 2022 12:16:34 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Q570n7xyGy4uMHiyCWHW6RXMndNAR/UhkuBbCnqT2YY=;
+        b=ObIHOUrqllP+RuySn5SEJZ89x0txI0w46yP+50gsJgimqHtZT83VKoZjnVXYWddYhJ
+         ElovC9nIBq4tSumOn1AHiB9wnwnU75yjKhHVX/Qest8S7EVetXslnm1ntRE5Wvlekn99
+         Jp2UHqbJMoF8kfVbfZEQNddelkw0Jcggko9WuIkWzKra0d8msg4FSY3d95R5M6Cp+v2d
+         3SH2SvoMMu/OXeQ766x4K82zSe/z1nML5eAmFiRv9MP4k+HHr5i+3dpas59uqYpKwJ3D
+         WfL5hFjIJ0PPQhpSN5WQ92h2InDh7beP+EA8pnZfVs5OS4O8CC9GDbdjeHA0EH2Orkoj
+         +s6A==
+X-Gm-Message-State: AOAM532jVghYC3Pw6mv9nhD6zzhJR3i4LY1KLKIeUoac/7y3ZKMrEdOd
+        7PQRZmXgJMdUUzRazcs7OkhTveP/tg==
+X-Google-Smtp-Source: ABdhPJxWLeHJ7MJ7Q8WCxEm9qsuYu/OjdGMVktuzkoHYpjluTKqKmevHlXVH4pswLrBRtOjJSvbECA==
+X-Received: by 2002:a54:4110:: with SMTP id l16mr3820549oic.79.1641846737353;
+        Mon, 10 Jan 2022 12:32:17 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id d1sm1493184oop.35.2022.01.10.12.32.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 12:32:16 -0800 (PST)
+Received: (nullmailer pid 1454256 invoked by uid 1000);
+        Mon, 10 Jan 2022 20:32:15 -0000
+Date:   Mon, 10 Jan 2022 14:32:15 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] dt-bindings: i2c: maxim,max96712: Add bindings for
+ Maxim Integrated MAX96712
+Message-ID: <YdyXz9CQwAhzmi62@robh.at.kernel.org>
+References: <20211230123354.623876-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220110094711.8574-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <2f338a37-f2ca-33e4-284e-5d263f7b93da@intel.com> <CA+V-a8vz25B=cw_C4YMBRdDxeq7mi8Zc+noqpdHqfMP8eNHYFg@mail.gmail.com>
- <f69a0650-174f-1b0d-ba29-7fe04c7cf211@intel.com>
-In-Reply-To: <f69a0650-174f-1b0d-ba29-7fe04c7cf211@intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 10 Jan 2022 20:16:08 +0000
-Message-ID: <CA+V-a8vJzSPxpy0Te1XUiT_zkt4wd=NvFJGvwGkgwcNnibjbhQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv() recursively
-To:     Cezary Rojewski <cezary.rojewski@intel.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211230123354.623876-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 5:48 PM Cezary Rojewski
-<cezary.rojewski@intel.com> wrote:
->
-> On 2022-01-10 5:03 PM, Lad, Prabhakar wrote:
-> > Hi Cezary,
-> >
-> > Thank you for the review.
-> >
->
-> ...
->
-> >> Recursion and loops are means for doing something repeatedly. Could you
-> >> specify _why_ such change was made i.e. the conversion from one method
-> >> into the other? I bet the code is not being changed for the sake of
-> >> changing it, the reason is simply missing in the commit message.
-> >>
-> > I had feedback from Pavel "recursion is unwelcome in kernel due to
-> > limited stack use." which I did agree with as a result I have come up
-> > with this patch. Also to add this driver will later be used on Renesas
-> > RZ/A2 SoC's which runs with limited memory.
->
-> Adding that reasoning to the commits message will prevent questions
-> (such as mine) in the future. Thank you for a quick reply and a
-> transparent answer.
->
-My bad! I'll update the commit message.
+On Thu, 30 Dec 2021 13:33:54 +0100, Niklas Söderlund wrote:
+> Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
+> deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
+> or C-PHY formatted outputs.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> * Changes since v1
+> - Fixed spelling in binding description.
+> - Drop 'staging' per Rob's suggestion.
+> 
+> * Changes since v2
+> - Fix the $id file path.
+> ---
+>  .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
+>  1 file changed, 111 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> 
 
-CHeers,
-Prabhakar
+Applied, thanks!
