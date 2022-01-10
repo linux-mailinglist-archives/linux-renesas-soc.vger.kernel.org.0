@@ -2,208 +2,692 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E22C3489FB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 19:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3790B48A07F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 20:55:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241994AbiAJS6M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 13:58:12 -0500
-Received: from mga07.intel.com ([134.134.136.100]:19965 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240453AbiAJS6L (ORCPT
+        id S244925AbiAJTzD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 14:55:03 -0500
+Received: from mxout03.lancloud.ru ([45.84.86.113]:55894 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243703AbiAJTy7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 13:58:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641841091; x=1673377091;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=wq23F3jcXVbRrVTrgbIEhRuy1/ooKJ9LktE1hvRpHyQ=;
-  b=defIzemrI4iZd9bYHVouyjXGRn7573BSlbkgvJOEmGTL3WyhjveCc07y
-   FKKWLBOmhV6JnSarHkaCN2WhKdW6daPClaRr+yFhW932kGX6MiJZuNx3C
-   ZeorpPwaSu9BfqFyFWhjv/Sis+O5sVYK5WMV3oNJDzwIO+h/5NW46SFNf
-   phSGl81PMFV6e8H5L43yZQRtCXjuqIeCz6q2qtqRulUUtSEfE6kkhX631
-   BfruhOAGMcrkjgGZDXEhutgyOV0qr8hwz50IA2jkMo73gr+eNw2YWhFqP
-   4Py3S0bUd+211/NKAlqMzn1z/TVoutl6+BPY6uEKD2F8Od2kxjYFUEIaH
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="306653932"
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; 
-   d="scan'208";a="306653932"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 10:58:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; 
-   d="scan'208";a="528391363"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga008.jf.intel.com with ESMTP; 10 Jan 2022 10:58:11 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 10:58:10 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 10 Jan 2022 10:58:10 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Mon, 10 Jan 2022 10:58:10 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Mon, 10 Jan 2022 10:58:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LgsE47LTidmXHjAG2nX0tXRDRfcznQORFsQ4WsscNdeZVPjeEw0gVTp7cyuek2qfqpgJ1/cwuoDXHCtF0ouqhW4mwIhuKWEQZiQSsn9M5wWGSiBbilpbc/L+0NNeRTzC+gty4wqj1SHZTZ6ovKZJbFSUOQzjxyJxOo0YKlPwnQodmYs/n6t4wv2edIplJddZr4/uQXizyajx+DukEb1IjnyLgXXk1PDtHg7pTaDUYVGtN8kzGHBNpShXlb59WwpWOKbtAKtoUlJ/LmYR5AODIqqoznCZGsp9ReSBaVkixLU5WBxT0usg4NEUORbjxP7MzlR2Yn0w2VCAsYflk74OJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+YTVmCOkGoiy1lHoxyWYPhnrBqNjFfot7sxkR1CA0Ok=;
- b=V+MCt9WT8WT08YnV96YlTQrjZfPsUGtvvqL5numL4ReEH4paQJuCF1fAMap9I/Vlsb1vziZBJsAGjR/lmqnS8/wRAphrR8GiGaK16ZTAB/acMV/9TybHLDBK6yAvbb8KW9lK11DoWnqywlEXDlx4i09lqvz2rVjMqQyuLJELHcoCgk/VEm4MViFYjnMkd80sury8vrr6uXc2z6K/d8HVtQe+mscNlnRrI81UQz8xoWXB5rnc2PIxLNNAMddoG1Y+4otAF34u6QWnEs63IxAiz3/py2MBrHNs3wFC40du5RvVgC0roACT8Vf5VWxWhBz+9KbtDLsCOLgThWbyRz5r8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN6PR11MB4049.namprd11.prod.outlook.com (2603:10b6:405:7f::12)
- by BN7PR11MB2657.namprd11.prod.outlook.com (2603:10b6:406:b1::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.11; Mon, 10 Jan
- 2022 18:58:07 +0000
-Received: from BN6PR11MB4049.namprd11.prod.outlook.com
- ([fe80::cce3:53d5:6124:be26]) by BN6PR11MB4049.namprd11.prod.outlook.com
- ([fe80::cce3:53d5:6124:be26%4]) with mapi id 15.20.4867.012; Mon, 10 Jan 2022
- 18:58:07 +0000
-Message-ID: <ae765e9d-b3dc-0047-f080-e2d059b3821a@intel.com>
-Date:   Mon, 10 Jan 2022 19:58:01 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.0
-Subject: Re: [PATCH 1/5] ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv()
- recursively
-Content-Language: en-US
-To:     Pavel Machek <pavel@denx.de>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        Mon, 10 Jan 2022 14:54:59 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 4569F2060028
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Corey Minyard <minyard@acm.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "James Morse" <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "Lee Jones" <lee.jones@linaro.org>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        "Florian Fainelli" <f.fainelli@gmail.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        "Ulf Hansson" <ulf.hansson@linaro.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        "Guenter Roeck" <groeck@chromium.org>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Garry <john.garry@huawei.com>,
         Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Liam Girdwood" <lgirdwood@gmail.com>,
         Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220110094711.8574-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <2f338a37-f2ca-33e4-284e-5d263f7b93da@intel.com>
- <CA+V-a8vz25B=cw_C4YMBRdDxeq7mi8Zc+noqpdHqfMP8eNHYFg@mail.gmail.com>
- <20220110184418.GE3396@duo.ucw.cz>
-From:   Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20220110184418.GE3396@duo.ucw.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR06CA0041.eurprd06.prod.outlook.com
- (2603:10a6:20b:463::16) To BN6PR11MB4049.namprd11.prod.outlook.com
- (2603:10b6:405:7f::12)
+        "Takashi Iwai" <tiwai@suse.com>,
+        <openipmi-developer@lists.sourceforge.net>,
+        <linux-iio@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+Date:   Mon, 10 Jan 2022 22:54:48 +0300
+Message-ID: <20220110195449.12448-2-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20220110195449.12448-1-s.shtylyov@omp.ru>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7a5d3c97-8bb4-46ce-de31-08d9d46b2387
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2657:EE_
-X-Microsoft-Antispam-PRVS: <BN7PR11MB2657FC95D2498FB21ECB0E7CE3509@BN7PR11MB2657.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pqnBwBUWlODzw+sZjkq9BU90+s2T+AhUJK3SpOfmBH8jCrmfMtlkNATP4YVZjiJt14aLdkU2CgnMTn9UhQPsuAiwGJPfTSpRnCtr04KzkqIHUBp5ZJgDretDtwIayZUAMerUi+31MhqWTReypYsIQiyEOxodd3bCMJrG9wAcSRXQKgBRpHzduIEqx3QLlg10cMP9XHTxJyJZ1RqkSIVUIMoObTSJNEr8vpVHeNBzFob4/0As1G+U4uGK900MbJYSbJnxKfvsSlkGYX8iTORatPbpoHiaF9MK8oOJ2ENzb8nztpXFBj3aJiYwsNj+FrC/jmLX6sRrmoIl/aS74jEtcGuDopvyvO4PZEq7duFaXY/8fIcRENXz7DdjcFpNzzC1bdmwiQRxWgx3BWwef1OvmVHnBbD1EN06ygHvoA6MX9b43pRv5CBfL52ZHD8w1srYYQbXFLzi7PwS0UlFVPVNzGEkWlBSdn6TWxNTP3nLE/w9WsvoDTataTBZIPxzY+Y4JY9qH4jt0dqouyRHzDAMJke1Y4f690U1ueOQaxqy6kQs9C5HyWyWcrcExQv+5OiQ4FLU1IkXGLcadANJfkOOSI5DMvXukHNz7Dxg8C4T80oydsAGk2H5eJl7NV9QjSnsY1IbQer2ZyGAIMCRDH5jkREMYXuEuxx4v+6F07JgCvL5ZcPv5bTXZzhcyLGds1Shp162rDKK8Gv3GscHvPnPons9LRztLZp4c+C1efT0xFk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB4049.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(2616005)(31686004)(2906002)(8936002)(5660300002)(38100700002)(508600001)(54906003)(83380400001)(6666004)(82960400001)(4326008)(110136005)(31696002)(86362001)(36756003)(186003)(53546011)(26005)(6506007)(316002)(6486002)(66476007)(66946007)(7416002)(66556008)(6512007)(44832011)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0NLYWR5bjZUbHhNU3EyVTgyZ3V0YWdnTWU4Ui81a29jRW9RMkE1V0U5cVNE?=
- =?utf-8?B?SkJkL2RsVjk3OGJTYWRYY251Z3JiMFpRMGo5Mkp3U25yUHI2NS84ekc1TXhh?=
- =?utf-8?B?QWtRNGpxK0FsMDh2RndnUVV3alhITlg2K09UZU1lZWtTa1JQS2FFaEx0Y0dL?=
- =?utf-8?B?REpQYXIyTjNaOEhDT1RsTlM2NEh3V1Y0azRvUTNhWjdndThkOW5wODYwc0RM?=
- =?utf-8?B?b2xMcWpubDVhODR5dUV1M3Q0bWxzS2NtU0kwRE5PYkZmQmxmSkd2YmhoQnRy?=
- =?utf-8?B?QWo5WmVYRnVtdUQzNEFrOHFwZG51aHBpbmZWbFBqeUV3aHVpUFBIUlFYMVlJ?=
- =?utf-8?B?UVQ4WWdoc0FjY3JoaE9JY2F0MEpXQ0M3S2lTUk9Ia0pnMHliVnFhYnNwNUE0?=
- =?utf-8?B?eWtPViszdngvQ0YrZTRvb3lSOTNDNTd2N0cwYXlPSEk1cjZuVVFXRVFoRFk3?=
- =?utf-8?B?bXVmeDlJR3V4ZXNHd2c5Z3NDOWw5cUtrTXAyNEY3Mzg5Vnl1S0wrMFV3UG0x?=
- =?utf-8?B?bjVUc3NmUUwxWWQwekZmeVBSYmFUWHhPbHl1MmJna3hRQVVMWkhCQWp2cmJn?=
- =?utf-8?B?YnF2TkJ1ekhMU0JrRXZFNzMrNWZxVm90REx2OVFNWGEyUkh5VkxIdGpua3My?=
- =?utf-8?B?blRtZnZ1RU5FcFZzOXkrVjQ5MHB5MzVybUtVRjJBQXNKZzIvaE1mMVJoUW5Z?=
- =?utf-8?B?OUxnNFo2M3BDVzNUV0hhb0JNRjQ5SGhQeVlTZ2hTTzVGT01RdHlycnQyM296?=
- =?utf-8?B?Zm56Q21HYk1iZDZpQnQ2d2FKTWpEUXUxaWRNVnVvb1F4RUVXSVY2ZmNkM1V2?=
- =?utf-8?B?bEJveVBkUm5BUlM2MUR2bzhzQlJkYzU0MGoxY3BEOENOb0JLeElaQjIwbU5q?=
- =?utf-8?B?d2hXd3lTOENDNnJZdVl5dTZheEl0cjZDSUxHTE5DSWttcklXcGlXWnZUbU0y?=
- =?utf-8?B?VGVJNDhvOEFBd2VWNjlVSnVhYndIOEhSa051VlJBMFIxZGhsVThwbytlemVO?=
- =?utf-8?B?aWVYellPNzBlekxDR05aT2Z4MElEVjNEQnBxTTYwbjlGV25ZY1hyMVkrSklh?=
- =?utf-8?B?cmVoak52MjVoWlliZlRKaGZhYm9MclplYmdBbmtXQVRRTWMwRlRiTEpvVGlT?=
- =?utf-8?B?OGRrRzIxc0FscjdONnhBQkdqL0VUdDNoTFlGVklVTWQ3Y3BLdmVwTy9ZVW9l?=
- =?utf-8?B?ZmNDc1l2aVRodmU3ZFBWcFpuTEFZOXVGZ0ZsUnZRVXhNNXRlWlNBWDVkQXov?=
- =?utf-8?B?ZlFISHk2SzJVOTFEYm9JQmZ4NG1VQjNVRVVNMDVJTWkrRzVjODl6eW1PM2E1?=
- =?utf-8?B?UHlDZFZkOHlORk9DYmY3YUkvRVk1a3g2S2NYK0doZUN0TlJtUS9GMmh0Y09t?=
- =?utf-8?B?SXFoRjRqWUtvaEdocjVPUGdDUC82UXZrOVp2bXlURXdXVW44bjhPL21PUUJv?=
- =?utf-8?B?bTFyNUpScHRJdGQxdUNoeTJnRndZa1NjL1pGa3NLS2VNUFVFaGgyYmt6VjJH?=
- =?utf-8?B?bUVZSC8xY0l0Y3o4dWs4akcyR3dZd1dIcWhPZDgvS3h2d0Z6eEhad2FwbmlT?=
- =?utf-8?B?blVoYVlKcW9MenhHMkp4Z05hTEhhYUtXZEFpcTBHR0N2eVkva09DTlRPQ1M2?=
- =?utf-8?B?cFJid0NabE80NkUzWSsvdzV2NHgvcjViTVl2cklTb01IQXpKN0xBRmF5aGd2?=
- =?utf-8?B?cEUyNEpGT2ZwVCtvQ0JXWFRFYTkySWdMSHp5eGRUUUx3STZUZk1idndFbW4y?=
- =?utf-8?B?anFjbkd1MnliaXVINUF6ZlBucW10SlE4VndIQU5WTTVmNy83c3pjdHhLc01z?=
- =?utf-8?B?S2cvdkdSTXNhb25VTk5GL2U0Wk14KzlVN3V5ZDUxUUxyamNDVVhBRUNoWDVH?=
- =?utf-8?B?M3RqeDBoYUpRWi9GQkNNN2VrSStuN3hTWldteWx5OGNyUkJ2bm9valpmN3Uy?=
- =?utf-8?B?WGNIenJqUHc4RjVJOGFpOEVjRFVIWUM5MlA5WXFCNktoaTJVQWZUblR2S3ZI?=
- =?utf-8?B?NU1Ydk4vUUpyYkl2YzFFSTM3ZXA3OEZjZm1YbzhRMVVibS93ZVJJYks1U3Ez?=
- =?utf-8?B?RWNPNjZtSHl2YWlEN3hMUVJxd1hKSlFLQlFvMTNLMEFXbkVvbDB1SXJkcThD?=
- =?utf-8?B?VUtnSDdON1cxbFNzcnJqVm9IQnRXQy9qOGI3Z0J6SjNMWW1zbXpkVDNvZUMr?=
- =?utf-8?B?ZjlKS2E1V0xITFQrNTZvOVdpNkNpeVV0djFKbXRGbFUyeXRreVhwQTdLVEtw?=
- =?utf-8?B?RW1YUjg0NFUrNmJhOEUxSGw5OFh3PT0=?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a5d3c97-8bb4-46ce-de31-08d9d46b2387
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB4049.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2022 18:58:07.5430
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3uM5PiTMlyURWM5HcjTe3FgJqAub0q13AO/k03noaAOgj1QDI/K6Bqv6gtgvphiRvxx9BZpHEmOjKhA0BUhljq5xXjfPm0Q+JWDcjfqYiwA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2657
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2022-01-10 7:44 PM, Pavel Machek wrote:
-> Hi!
-> 
->>> On 2022-01-10 10:47 AM, Lad Prabhakar wrote:
->>>> Instead of recursively calling rz_ssi_pio_recv() use a while loop
->>>> to read the samples from RX fifo.
->>>
->>> Recursion and loops are means for doing something repeatedly. Could you
->>> specify _why_ such change was made i.e. the conversion from one method
->>> into the other? I bet the code is not being changed for the sake of
->>> changing it, the reason is simply missing in the commit message.
->>>
->> I had feedback from Pavel "recursion is unwelcome in kernel due to
->> limited stack use." which I did agree with as a result I have come up
->> with this patch. Also to add this driver will later be used on Renesas
->> RZ/A2 SoC's which runs with limited memory.
+This patch is based on the former Andy Shevchenko's patch:
 
-...
+https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@linux.intel.com/
 
-> 
-> Yes, loop is better.
-> 
-> I'd actually do while(true) and avoid using the done variable.
-> 
->      if (!(!frames_left && fifo_samples >= runtime->channels))
->                break;
-> 
-> will do the trick. Better yet, do
-> 
->      if (frames_left || fifo_samples < runtime->channels)
->                break;
-> 
-> because double negation is quite confusing and looks like typo.
+Currently platform_get_irq_optional() returns an error code even if IRQ
+resource simply has not been found. It prevents the callers from being
+error code agnostic in their error handling:
 
-You could achieve similar results by enlisting do-while loop. That's my 
-proposal.
+	ret = platform_get_irq_optional(...);
+	if (ret < 0 && ret != -ENXIO)
+		return ret; // respect deferred probe
+	if (ret > 0)
+		...we get an IRQ...
 
+All other *_optional() APIs seem to return 0 or NULL in case an optional
+resource is not available. Let's follow this good example, so that the
+callers would look like:
 
-Regards,
-Czarek
+	ret = platform_get_irq_optional(...);
+	if (ret < 0)
+		return ret;
+	if (ret > 0)
+		...we get an IRQ...
+
+Reported-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+---
+ drivers/base/platform.c                  | 56 +++++++++++++++---------
+ drivers/char/ipmi/bt-bmc.c               |  8 ++--
+ drivers/counter/interrupt-cnt.c          |  4 +-
+ drivers/edac/xgene_edac.c                |  2 +-
+ drivers/gpio/gpio-altera.c               |  3 +-
+ drivers/gpio/gpio-mvebu.c                |  2 +-
+ drivers/gpio/gpio-tqmx86.c               |  2 +-
+ drivers/i2c/busses/i2c-brcmstb.c         |  8 ++--
+ drivers/i2c/busses/i2c-ocores.c          |  4 +-
+ drivers/mmc/host/sh_mmcif.c              |  4 +-
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c |  4 +-
+ drivers/net/ethernet/davicom/dm9000.c    |  2 +-
+ drivers/net/ethernet/freescale/fec_ptp.c |  2 +-
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c |  4 +-
+ drivers/platform/chrome/cros_ec_lpc.c    |  2 +-
+ drivers/platform/x86/intel/punit_ipc.c   |  2 +-
+ drivers/power/supply/mp2629_charger.c    |  4 +-
+ drivers/spi/spi-hisi-sfc-v3xx.c          |  2 +-
+ drivers/spi/spi-mtk-nor.c                |  3 +-
+ drivers/thermal/rcar_gen3_thermal.c      |  2 +-
+ drivers/tty/serial/8250/8250_mtk.c       |  4 +-
+ drivers/tty/serial/sh-sci.c              |  6 +--
+ drivers/uio/uio_pdrv_genirq.c            |  2 +-
+ drivers/vfio/platform/vfio_platform.c    |  6 ++-
+ sound/soc/dwc/dwc-i2s.c                  |  4 +-
+ 25 files changed, 79 insertions(+), 63 deletions(-)
+
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index fc5a933f3698..7c7b3638f02d 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -148,25 +148,7 @@ devm_platform_ioremap_resource_byname(struct platform_device *pdev,
+ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource_byname);
+ #endif /* CONFIG_HAS_IOMEM */
+ 
+-/**
+- * platform_get_irq_optional - get an optional IRQ for a device
+- * @dev: platform device
+- * @num: IRQ number index
+- *
+- * Gets an IRQ for a platform device. Device drivers should check the return
+- * value for errors so as to not pass a negative integer value to the
+- * request_irq() APIs. This is the same as platform_get_irq(), except that it
+- * does not print an error message if an IRQ can not be obtained.
+- *
+- * For example::
+- *
+- *		int irq = platform_get_irq_optional(pdev, 0);
+- *		if (irq < 0)
+- *			return irq;
+- *
+- * Return: non-zero IRQ number on success, negative error number on failure.
+- */
+-int platform_get_irq_optional(struct platform_device *dev, unsigned int num)
++static int __platform_get_irq(struct platform_device *dev, unsigned int num)
+ {
+ 	int ret;
+ #ifdef CONFIG_SPARC
+@@ -235,6 +217,38 @@ int platform_get_irq_optional(struct platform_device *dev, unsigned int num)
+ 		return -EINVAL;
+ 	return ret;
+ }
++
++/**
++ * platform_get_irq_optional - get an optional IRQ for a device
++ * @dev: platform device
++ * @num: IRQ number index
++ *
++ * Gets an IRQ for a platform device. Device drivers should check the return
++ * value for errors so as to not pass a negative integer value to the
++ * request_irq() APIs. This is the same as platform_get_irq(), except that it
++ * does not print an error message if an IRQ can not be obtained and returns
++ * 0 when IRQ resource has not been found.
++ *
++ * For example::
++ *
++ *		int irq = platform_get_irq_optional(pdev, 0);
++ *		if (irq < 0)
++ *			return irq;
++ *		if (irq > 0)
++ *			...we have IRQ line defined...
++ *
++ * Return: non-zero IRQ number on success, 0 if IRQ wasn't found, negative error
++ * number on failure.
++ */
++int platform_get_irq_optional(struct platform_device *dev, unsigned int num)
++{
++	int ret;
++
++	ret = __platform_get_irq(dev, num);
++	if (ret == -ENXIO)
++		return 0;
++	return ret;
++}
+ EXPORT_SYMBOL_GPL(platform_get_irq_optional);
+ 
+ /**
+@@ -258,7 +272,7 @@ int platform_get_irq(struct platform_device *dev, unsigned int num)
+ {
+ 	int ret;
+ 
+-	ret = platform_get_irq_optional(dev, num);
++	ret = __platform_get_irq(dev, num);
+ 	if (ret < 0 && ret != -EPROBE_DEFER)
+ 		dev_err(&dev->dev, "IRQ index %u not found\n", num);
+ 
+@@ -276,7 +290,7 @@ int platform_irq_count(struct platform_device *dev)
+ {
+ 	int ret, nr = 0;
+ 
+-	while ((ret = platform_get_irq_optional(dev, nr)) >= 0)
++	while ((ret = __platform_get_irq(dev, nr)) >= 0)
+ 		nr++;
+ 
+ 	if (ret == -EPROBE_DEFER)
+diff --git a/drivers/char/ipmi/bt-bmc.c b/drivers/char/ipmi/bt-bmc.c
+index 7450904e330a..fdc63bfa5be4 100644
+--- a/drivers/char/ipmi/bt-bmc.c
++++ b/drivers/char/ipmi/bt-bmc.c
+@@ -382,12 +382,14 @@ static int bt_bmc_config_irq(struct bt_bmc *bt_bmc,
+ 	bt_bmc->irq = platform_get_irq_optional(pdev, 0);
+ 	if (bt_bmc->irq < 0)
+ 		return bt_bmc->irq;
++	if (!bt_bmc->irq)
++		return 0;
+ 
+ 	rc = devm_request_irq(dev, bt_bmc->irq, bt_bmc_irq, IRQF_SHARED,
+ 			      DEVICE_NAME, bt_bmc);
+ 	if (rc < 0) {
+ 		dev_warn(dev, "Unable to request IRQ %d\n", bt_bmc->irq);
+-		bt_bmc->irq = rc;
++		bt_bmc->irq = 0;
+ 		return rc;
+ 	}
+ 
+@@ -438,7 +440,7 @@ static int bt_bmc_probe(struct platform_device *pdev)
+ 
+ 	bt_bmc_config_irq(bt_bmc, pdev);
+ 
+-	if (bt_bmc->irq >= 0) {
++	if (bt_bmc->irq > 0) {
+ 		dev_info(dev, "Using IRQ %d\n", bt_bmc->irq);
+ 	} else {
+ 		dev_info(dev, "No IRQ; using timer\n");
+@@ -464,7 +466,7 @@ static int bt_bmc_remove(struct platform_device *pdev)
+ 	struct bt_bmc *bt_bmc = dev_get_drvdata(&pdev->dev);
+ 
+ 	misc_deregister(&bt_bmc->miscdev);
+-	if (bt_bmc->irq < 0)
++	if (bt_bmc->irq <= 0)
+ 		del_timer_sync(&bt_bmc->poll_timer);
+ 	return 0;
+ }
+diff --git a/drivers/counter/interrupt-cnt.c b/drivers/counter/interrupt-cnt.c
+index 8514a87fcbee..a0564c035961 100644
+--- a/drivers/counter/interrupt-cnt.c
++++ b/drivers/counter/interrupt-cnt.c
+@@ -156,9 +156,7 @@ static int interrupt_cnt_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	priv->irq = platform_get_irq_optional(pdev,  0);
+-	if (priv->irq == -ENXIO)
+-		priv->irq = 0;
+-	else if (priv->irq < 0)
++	if (priv->irq < 0)
+ 		return dev_err_probe(dev, priv->irq, "failed to get IRQ\n");
+ 
+ 	priv->gpio = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index 2ccd1db5e98f..0d1bdd27cd78 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -1917,7 +1917,7 @@ static int xgene_edac_probe(struct platform_device *pdev)
+ 
+ 		for (i = 0; i < 3; i++) {
+ 			irq = platform_get_irq_optional(pdev, i);
+-			if (irq < 0) {
++			if (irq <= 0) {
+ 				dev_err(&pdev->dev, "No IRQ resource\n");
+ 				rc = -EINVAL;
+ 				goto out_err;
+diff --git a/drivers/gpio/gpio-altera.c b/drivers/gpio/gpio-altera.c
+index b59fae993626..02a2995aa368 100644
+--- a/drivers/gpio/gpio-altera.c
++++ b/drivers/gpio/gpio-altera.c
+@@ -267,8 +267,7 @@ static int altera_gpio_probe(struct platform_device *pdev)
+ 	altera_gc->mmchip.gc.parent		= &pdev->dev;
+ 
+ 	altera_gc->mapped_irq = platform_get_irq_optional(pdev, 0);
+-
+-	if (altera_gc->mapped_irq < 0)
++	if (altera_gc->mapped_irq <= 0)
+ 		goto skip_irq;
+ 
+ 	if (of_property_read_u32(node, "altr,interrupt-type", &reg)) {
+diff --git a/drivers/gpio/gpio-mvebu.c b/drivers/gpio/gpio-mvebu.c
+index 8f429d9f3661..a72a7bfc5a92 100644
+--- a/drivers/gpio/gpio-mvebu.c
++++ b/drivers/gpio/gpio-mvebu.c
+@@ -1294,7 +1294,7 @@ static int mvebu_gpio_probe(struct platform_device *pdev)
+ 	for (i = 0; i < 4; i++) {
+ 		int irq = platform_get_irq_optional(pdev, i);
+ 
+-		if (irq < 0)
++		if (irq <= 0)
+ 			continue;
+ 		irq_set_chained_handler_and_data(irq, mvebu_gpio_irq_handler,
+ 						 mvchip);
+diff --git a/drivers/gpio/gpio-tqmx86.c b/drivers/gpio/gpio-tqmx86.c
+index 5b103221b58d..dc0f83236ce8 100644
+--- a/drivers/gpio/gpio-tqmx86.c
++++ b/drivers/gpio/gpio-tqmx86.c
+@@ -237,7 +237,7 @@ static int tqmx86_gpio_probe(struct platform_device *pdev)
+ 	int ret, irq;
+ 
+ 	irq = platform_get_irq_optional(pdev, 0);
+-	if (irq < 0 && irq != -ENXIO)
++	if (irq < 0)
+ 		return irq;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_IO, 0);
+diff --git a/drivers/i2c/busses/i2c-brcmstb.c b/drivers/i2c/busses/i2c-brcmstb.c
+index 490ee3962645..69395ae27a1a 100644
+--- a/drivers/i2c/busses/i2c-brcmstb.c
++++ b/drivers/i2c/busses/i2c-brcmstb.c
+@@ -250,7 +250,7 @@ static int brcmstb_i2c_wait_for_completion(struct brcmstb_i2c_dev *dev)
+ 	int ret = 0;
+ 	unsigned long timeout = msecs_to_jiffies(I2C_TIMEOUT);
+ 
+-	if (dev->irq >= 0) {
++	if (dev->irq > 0) {
+ 		if (!wait_for_completion_timeout(&dev->done, timeout))
+ 			ret = -ETIMEDOUT;
+ 	} else {
+@@ -297,7 +297,7 @@ static int brcmstb_send_i2c_cmd(struct brcmstb_i2c_dev *dev,
+ 		return rc;
+ 
+ 	/* only if we are in interrupt mode */
+-	if (dev->irq >= 0)
++	if (dev->irq > 0)
+ 		reinit_completion(&dev->done);
+ 
+ 	/* enable BSC CTL interrupt line */
+@@ -652,7 +652,7 @@ static int brcmstb_i2c_probe(struct platform_device *pdev)
+ 	brcmstb_i2c_enable_disable_irq(dev, INT_DISABLE);
+ 
+ 	/* register the ISR handler */
+-	if (dev->irq >= 0) {
++	if (dev->irq > 0) {
+ 		rc = devm_request_irq(&pdev->dev, dev->irq, brcmstb_i2c_isr,
+ 				      IRQF_SHARED,
+ 				      int_name ? int_name : pdev->name,
+@@ -696,7 +696,7 @@ static int brcmstb_i2c_probe(struct platform_device *pdev)
+ 
+ 	dev_info(dev->device, "%s@%dhz registered in %s mode\n",
+ 		 int_name ? int_name : " ", dev->clk_freq_hz,
+-		 (dev->irq >= 0) ? "interrupt" : "polling");
++		 (dev->irq > 0) ? "interrupt" : "polling");
+ 
+ 	return 0;
+ 
+diff --git a/drivers/i2c/busses/i2c-ocores.c b/drivers/i2c/busses/i2c-ocores.c
+index a0af027db04c..1f4d5e52ff42 100644
+--- a/drivers/i2c/busses/i2c-ocores.c
++++ b/drivers/i2c/busses/i2c-ocores.c
+@@ -691,10 +691,10 @@ static int ocores_i2c_probe(struct platform_device *pdev)
+ 	if (of_device_is_compatible(pdev->dev.of_node,
+ 				    "sifive,fu540-c000-i2c")) {
+ 		i2c->flags |= OCORES_FLAG_BROKEN_IRQ;
+-		irq = -ENXIO;
++		irq = 0;
+ 	}
+ 
+-	if (irq == -ENXIO) {
++	if (!irq) {
+ 		ocores_algorithm.master_xfer = ocores_xfer_polling;
+ 	} else {
+ 		if (irq < 0)
+diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
+index bcc595c70a9f..f558b9862032 100644
+--- a/drivers/mmc/host/sh_mmcif.c
++++ b/drivers/mmc/host/sh_mmcif.c
+@@ -1465,14 +1465,14 @@ static int sh_mmcif_probe(struct platform_device *pdev)
+ 	sh_mmcif_sync_reset(host);
+ 	sh_mmcif_writel(host->addr, MMCIF_CE_INT_MASK, MASK_ALL);
+ 
+-	name = irq[1] < 0 ? dev_name(dev) : "sh_mmc:error";
++	name = irq[1] <= 0 ? dev_name(dev) : "sh_mmc:error";
+ 	ret = devm_request_threaded_irq(dev, irq[0], sh_mmcif_intr,
+ 					sh_mmcif_irqt, 0, name, host);
+ 	if (ret) {
+ 		dev_err(dev, "request_irq error (%s)\n", name);
+ 		goto err_clk;
+ 	}
+-	if (irq[1] >= 0) {
++	if (irq[1] > 0) {
+ 		ret = devm_request_threaded_irq(dev, irq[1],
+ 						sh_mmcif_intr, sh_mmcif_irqt,
+ 						0, "sh_mmc:int", host);
+diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+index f75929783b94..ac222985efde 100644
+--- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
++++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+@@ -1521,7 +1521,7 @@ static irqreturn_t brcmnand_ctlrdy_irq(int irq, void *data)
+ 
+ 	/* check if you need to piggy back on the ctrlrdy irq */
+ 	if (ctrl->edu_pending) {
+-		if (irq == ctrl->irq && ((int)ctrl->edu_irq >= 0))
++		if (irq == ctrl->irq && ((int)ctrl->edu_irq > 0))
+ 	/* Discard interrupts while using dedicated edu irq */
+ 			return IRQ_HANDLED;
+ 
+@@ -2956,7 +2956,7 @@ static int brcmnand_edu_setup(struct platform_device *pdev)
+ 		brcmnand_edu_init(ctrl);
+ 
+ 		ctrl->edu_irq = platform_get_irq_optional(pdev, 1);
+-		if (ctrl->edu_irq < 0) {
++		if (ctrl->edu_irq <= 0) {
+ 			dev_warn(dev,
+ 				 "FLASH EDU enabled, using ctlrdy irq\n");
+ 		} else {
+diff --git a/drivers/net/ethernet/davicom/dm9000.c b/drivers/net/ethernet/davicom/dm9000.c
+index 0985ab216566..740c660a9411 100644
+--- a/drivers/net/ethernet/davicom/dm9000.c
++++ b/drivers/net/ethernet/davicom/dm9000.c
+@@ -1509,7 +1509,7 @@ dm9000_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	db->irq_wake = platform_get_irq_optional(pdev, 1);
+-	if (db->irq_wake >= 0) {
++	if (db->irq_wake > 0) {
+ 		dev_dbg(db->dev, "wakeup irq %d\n", db->irq_wake);
+ 
+ 		ret = request_irq(db->irq_wake, dm9000_wol_interrupt,
+diff --git a/drivers/net/ethernet/freescale/fec_ptp.c b/drivers/net/ethernet/freescale/fec_ptp.c
+index d71eac7e1924..158676eda48d 100644
+--- a/drivers/net/ethernet/freescale/fec_ptp.c
++++ b/drivers/net/ethernet/freescale/fec_ptp.c
+@@ -620,7 +620,7 @@ void fec_ptp_init(struct platform_device *pdev, int irq_idx)
+ 	/* Failure to get an irq is not fatal,
+ 	 * only the PTP_CLOCK_PPS clock events should stop
+ 	 */
+-	if (irq >= 0) {
++	if (irq > 0) {
+ 		ret = devm_request_irq(&pdev->dev, irq, fec_pps_interrupt,
+ 				       0, pdev->name, ndev);
+ 		if (ret < 0)
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 9de617ca9daa..4914d6aca208 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -439,7 +439,7 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 	u32 val;
+ 	int ret;
+ 
+-	if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq >= 0) {
++	if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq > 0) {
+ 		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
+ 		ret = request_irq(channel->irq, rcar_gen3_phy_usb2_irq,
+ 				  IRQF_SHARED, dev_name(channel->dev), channel);
+@@ -486,7 +486,7 @@ static int rcar_gen3_phy_usb2_exit(struct phy *p)
+ 		val &= ~USB2_INT_ENABLE_UCOM_INTEN;
+ 	writel(val, usb2_base + USB2_INT_ENABLE);
+ 
+-	if (channel->irq >= 0 && !rcar_gen3_is_any_rphy_initialized(channel))
++	if (channel->irq > 0 && !rcar_gen3_is_any_rphy_initialized(channel))
+ 		free_irq(channel->irq, channel);
+ 
+ 	return 0;
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index d6306d2a096f..91686d306534 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -400,7 +400,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	irq = platform_get_irq_optional(pdev, 0);
+ 	if (irq > 0)
+ 		ec_dev->irq = irq;
+-	else if (irq != -ENXIO) {
++	else if (irq < 0) {
+ 		dev_err(dev, "couldn't retrieve IRQ number (%d)\n", irq);
+ 		return irq;
+ 	}
+diff --git a/drivers/platform/x86/intel/punit_ipc.c b/drivers/platform/x86/intel/punit_ipc.c
+index 66bb39fd0ef9..f3cf5ee1466f 100644
+--- a/drivers/platform/x86/intel/punit_ipc.c
++++ b/drivers/platform/x86/intel/punit_ipc.c
+@@ -278,7 +278,7 @@ static int intel_punit_ipc_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, punit_ipcdev);
+ 
+ 	irq = platform_get_irq_optional(pdev, 0);
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		dev_warn(&pdev->dev, "Invalid IRQ, using polling mode\n");
+ 	} else {
+ 		ret = devm_request_irq(&pdev->dev, irq, intel_punit_ioc,
+diff --git a/drivers/power/supply/mp2629_charger.c b/drivers/power/supply/mp2629_charger.c
+index bdf924b73e47..51289700a7ac 100644
+--- a/drivers/power/supply/mp2629_charger.c
++++ b/drivers/power/supply/mp2629_charger.c
+@@ -581,9 +581,9 @@ static int mp2629_charger_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, charger);
+ 
+ 	irq = platform_get_irq_optional(to_platform_device(dev->parent), 0);
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		dev_err(dev, "get irq fail: %d\n", irq);
+-		return irq;
++		return irq < 0 ? irq : -ENXIO;
+ 	}
+ 
+ 	for (i = 0; i < MP2629_MAX_FIELD; i++) {
+diff --git a/drivers/spi/spi-hisi-sfc-v3xx.c b/drivers/spi/spi-hisi-sfc-v3xx.c
+index d3a23b1c2a4c..476ddc081c60 100644
+--- a/drivers/spi/spi-hisi-sfc-v3xx.c
++++ b/drivers/spi/spi-hisi-sfc-v3xx.c
+@@ -467,7 +467,7 @@ static int hisi_sfc_v3xx_probe(struct platform_device *pdev)
+ 			dev_err(dev, "failed to request irq%d, ret = %d\n", host->irq, ret);
+ 			host->irq = 0;
+ 		}
+-	} else {
++	} else if (host->irq < 0) {
+ 		host->irq = 0;
+ 	}
+ 
+diff --git a/drivers/spi/spi-mtk-nor.c b/drivers/spi/spi-mtk-nor.c
+index 5c93730615f8..2422b0545936 100644
+--- a/drivers/spi/spi-mtk-nor.c
++++ b/drivers/spi/spi-mtk-nor.c
+@@ -829,8 +829,7 @@ static int mtk_nor_probe(struct platform_device *pdev)
+ 	mtk_nor_init(sp);
+ 
+ 	irq = platform_get_irq_optional(pdev, 0);
+-
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		dev_warn(sp->dev, "IRQ not available.");
+ 	} else {
+ 		ret = devm_request_irq(sp->dev, irq, mtk_nor_irq_handler, 0,
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index 43eb25b167bc..776cfed4339c 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -430,7 +430,7 @@ static int rcar_gen3_thermal_request_irqs(struct rcar_gen3_thermal_priv *priv,
+ 
+ 	for (i = 0; i < 2; i++) {
+ 		irq = platform_get_irq_optional(pdev, i);
+-		if (irq < 0)
++		if (irq <= 0)
+ 			return irq;
+ 
+ 		irqname = devm_kasprintf(dev, GFP_KERNEL, "%s:ch%d",
+diff --git a/drivers/tty/serial/8250/8250_mtk.c b/drivers/tty/serial/8250/8250_mtk.c
+index fb65dc601b23..328ab074fd89 100644
+--- a/drivers/tty/serial/8250/8250_mtk.c
++++ b/drivers/tty/serial/8250/8250_mtk.c
+@@ -621,7 +621,7 @@ static int __maybe_unused mtk8250_suspend(struct device *dev)
+ 	serial8250_suspend_port(data->line);
+ 
+ 	pinctrl_pm_select_sleep_state(dev);
+-	if (irq >= 0) {
++	if (irq > 0) {
+ 		err = enable_irq_wake(irq);
+ 		if (err) {
+ 			dev_err(dev,
+@@ -641,7 +641,7 @@ static int __maybe_unused mtk8250_resume(struct device *dev)
+ 	struct mtk8250_data *data = dev_get_drvdata(dev);
+ 	int irq = data->rx_wakeup_irq;
+ 
+-	if (irq >= 0)
++	if (irq > 0)
+ 		disable_irq_wake(irq);
+ 	pinctrl_pm_select_default_state(dev);
+ 
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 89ee43061d3a..a67f8e532a73 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -1926,7 +1926,7 @@ static int sci_request_irq(struct sci_port *port)
+ 			 * Certain port types won't support all of the
+ 			 * available interrupt sources.
+ 			 */
+-			if (unlikely(irq < 0))
++			if (unlikely(irq <= 0))
+ 				continue;
+ 		}
+ 
+@@ -1974,7 +1974,7 @@ static void sci_free_irq(struct sci_port *port)
+ 		 * Certain port types won't support all of the available
+ 		 * interrupt sources.
+ 		 */
+-		if (unlikely(irq < 0))
++		if (unlikely(irq <= 0))
+ 			continue;
+ 
+ 		/* Check if already freed (irq was muxed) */
+@@ -2901,7 +2901,7 @@ static int sci_init_single(struct platform_device *dev,
+ 	if (sci_port->irqs[0] < 0)
+ 		return -ENXIO;
+ 
+-	if (sci_port->irqs[1] < 0)
++	if (sci_port->irqs[1] <= 0)
+ 		for (i = 1; i < ARRAY_SIZE(sci_port->irqs); i++)
+ 			sci_port->irqs[i] = sci_port->irqs[0];
+ 
+diff --git a/drivers/uio/uio_pdrv_genirq.c b/drivers/uio/uio_pdrv_genirq.c
+index 63258b6accc4..7fd275fc6ceb 100644
+--- a/drivers/uio/uio_pdrv_genirq.c
++++ b/drivers/uio/uio_pdrv_genirq.c
+@@ -162,7 +162,7 @@ static int uio_pdrv_genirq_probe(struct platform_device *pdev)
+ 	if (!uioinfo->irq) {
+ 		ret = platform_get_irq_optional(pdev, 0);
+ 		uioinfo->irq = ret;
+-		if (ret == -ENXIO)
++		if (!ret)
+ 			uioinfo->irq = UIO_IRQ_NONE;
+ 		else if (ret == -EPROBE_DEFER)
+ 			return ret;
+diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
+index 68a1c87066d7..cd7494933563 100644
+--- a/drivers/vfio/platform/vfio_platform.c
++++ b/drivers/vfio/platform/vfio_platform.c
+@@ -32,8 +32,12 @@ static struct resource *get_platform_resource(struct vfio_platform_device *vdev,
+ static int get_platform_irq(struct vfio_platform_device *vdev, int i)
+ {
+ 	struct platform_device *pdev = (struct platform_device *) vdev->opaque;
++	int ret;
+ 
+-	return platform_get_irq_optional(pdev, i);
++	ret = platform_get_irq_optional(pdev, i);
++	if (ret < 0)
++		return ret;
++	return ret > 0 ? ret : -ENXIO;
+ }
+ 
+ static int vfio_platform_probe(struct platform_device *pdev)
+diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+index 5cb58929090d..ff19c5130459 100644
+--- a/sound/soc/dwc/dwc-i2s.c
++++ b/sound/soc/dwc/dwc-i2s.c
+@@ -643,7 +643,7 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	dev->dev = &pdev->dev;
+ 
+ 	irq = platform_get_irq_optional(pdev, 0);
+-	if (irq >= 0) {
++	if (irq > 0) {
+ 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
+ 				pdev->name, dev);
+ 		if (ret < 0) {
+@@ -697,7 +697,7 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	if (!pdata) {
+-		if (irq >= 0) {
++		if (irq > 0) {
+ 			ret = dw_pcm_register(pdev);
+ 			dev->use_pio = true;
+ 		} else {
+-- 
+2.26.3
+
