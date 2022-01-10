@@ -2,140 +2,256 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18650489984
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 14:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA1D6489A75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 14:47:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbiAJNMC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 08:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231526AbiAJNLr (ORCPT
+        id S233509AbiAJNrL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 08:47:11 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:7529 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233443AbiAJNrK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 08:11:47 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4D6C061763
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id d3so17807285lfv.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
-        b=Bgie3w5lZXcUpEJsNUNnYT9D80sz6831OKMgWSWMpAMR4c04HQM1hwHkoZ1AqHgJ5M
-         pQJfhFBsNTGc+jfMsWTuSDXhNBe5XPwJ8/UQZKbYcWTDQ68Eu4MBBVsHf0V3Baa+27Pp
-         IUJW/950IUGNsTto2NnsTW49/Cy4Vf+KfgzDT0+KZ2gcb/QkEKg3LEIj8qPJpiII0Qbk
-         buE3CbPl0T8T6omQLXT3KYJBxN98pPIrfxDam1Qs0diPFN43pWVugWbd8LU8WaIGviK3
-         O/t/NLMKhR03EdE8rMi5c8T5epCw09Yzc4YmAU5QrO9ZaREbayNwAtpm1SWYSR1IiBuY
-         5w9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
-        b=WO2xaStVeYOZJTI3laZe368um/v+puJY+1oU8FYfYKSdz2EjR9y62HluK6T2aNLRt6
-         KibrN3TsjvNiOlJ1A94MWZ9EbmutDhUZCnUM8VrzL102LoVd+zSaW1UVTGw4m2m/grvg
-         S7+LGKwQz6pCGKyRwPIg/2y3YR1ZVQlgm524KtJ6qadHJXeEuh91BPn1hcNMSzOlmhmF
-         Cu/mOHEznlrZe0fSNcwJtwixQjVUPF2+Xrm5uJC3aE0Mj34tWMsPH47bGd1sbAccp8Xg
-         BKFdJmct6GbgztwbOeYB6XWV1dmgfUrj1f4k/DFpR9e7bxUAclWdg8maUJ006tJycSHa
-         h3eg==
-X-Gm-Message-State: AOAM532Ks6oZurPNKXwO3frIUDg1kewJb0MomD+45K3iHu1c1EB2DARx
-        PjGPXgdmesq+6aOIJdI8ANtKssLFsXqAcaeQJXZ7JrhbFkU=
-X-Google-Smtp-Source: ABdhPJyUuzfRq9+VAp3YIslVsNF7E8r6u+SDvjtiaFw6sfTA9uOxrmlrl9JDay/jDh10uqplhgk07a+YHTpM3Ge0znw=
-X-Received: by 2002:ac2:4c51:: with SMTP id o17mr60639917lfk.558.1641820293776;
- Mon, 10 Jan 2022 05:11:33 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6504:15d1:0:0:0:0 with HTTP; Mon, 10 Jan 2022 05:11:32
- -0800 (PST)
-Reply-To: gtbank107@yahoo.com
-From:   Barr Robert Richter <westernunion.benin982@gmail.com>
-Date:   Mon, 10 Jan 2022 14:11:32 +0100
-Message-ID: <CAP=nHBK9zHzp_=-EVswWQiLxEoc+HV4oqddgtnEqf-9qYab_4Q@mail.gmail.com>
-Subject: Contact GT Bank-Benin to receive your transfer amount of $18.5m US Dollars.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 10 Jan 2022 08:47:10 -0500
+X-IronPort-AV: E=Sophos;i="5.88,277,1635174000"; 
+   d="scan'208";a="106558122"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 10 Jan 2022 22:47:09 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D26DA42E3549;
+        Mon, 10 Jan 2022 22:47:07 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 00/12] Add new Renesas RZ/V2L SoC and Renesas RZ/V2L SMARC EVK support
+Date:   Mon, 10 Jan 2022 13:46:47 +0000
+Message-Id: <20220110134659.30424-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Attn,Dear
-I need you to know that the fear of the LORD is
-the beginning of wisdom, and knowledge of the Holy One is
-understanding. As power of God Most High. And This is the confidence
-we have in approaching God, that if we ask anything according to his
-will, he hears us. I will make you know that Slow and steady wins the race.
-It is your turn to receive your overdue compensation funds total
-amount $18.5Milion  USD.
-I actualized that you will receive your transfer today without any more delay
-No More fee OK, Believe me , I am your Attorney standing here on your favor.
-I just concluded conversation with the Gt Bank Director, Mrs Mary Gate
-And She told me that your transfer is ready today
+Hi All,
 
-So the Bank Asked you to contact them immediately by re-confirming
-your Bank details asap.
-Because this is the Only thing holding this transfer
-If you did not trust me and Mrs Mary Gate,Who Else will you Trust?
-For we are the ones trying to protect your funds here
-and make sure that your funds is secure.
-So Promisingly, I am here to assure you, that Grate Miracle is coming on
-your way, and this funds total amount of $18.500,000 is your
-compensation, entitlement inheritance overdue funds on your name.
-Which you cannot let anything delay you from receiving your funds now,
+RZ/V2L is equipped with a Cortex-A55 (1.2 GHz) CPU and built-in AI
+accelerator "DRP-AI" for vision, which is Renesas' original technology.
+It also has a 16-bit DDR3L/DDR4 interface and a built-in 3D graphics
+engine with Arm Mali-G31 and video codec (H.264).
 
-Finally i advised you to try your possible best and contact Gt Bank Benin
-once you get this message to receive your transfer $18.5 USD today.
-I know that a journey of thousand miles begins with a single step.
-Always put your best foot forward
-Try as hard as you can, God give you best.
-take my advice and follow the due process of your payment, the
-transfer will be released to
-you smoothly without any hitches or hindrance.
+The RZ/V2L is also package- and pin-compatible with the RZ/G2L. This
+allows RZ/G2L users to easily upgrade to the RZ/V2L for additional AI
+functions without needing to modify the system configuration, keeping
+migration costs low.
 
-Contact DR.MRS MARY GATE, Director Gt bank-Benin to receive your
-transfer amount of $18.5m US Dollars
-It was deposited and registered to your name this morning.
-Contact the Bank now to know when they will transfer to your
-country today
+Initial patches enables minimal peripherals on Renesas RZ/V2L SMARC EVK
+and booted via initramfs/nfs. Below blocks are enabled on Renesas RZ/V2L
+SMARC EVK:
+- memory
+- External input clock
+- CPG
+- Pin controller
+- SCIF
+- GbEthernet
+- Audio Clock
 
-Email id: gtbank107@yahoo.com
-Tel/mobile, +229 99069872
-Contact person, Mrs Mary Gate,Director Gt bank-Benin.
-Among the blind the one-eyed man is king
+Links for SoC and EVK:
+[*] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/
+rz-arm-based-high-end-32-64-bit-mpus/rzv2l-general-purpose-microprocessor-
+equipped-renesas-original-ai-dedicated-accelerator-drp-ai-12ghz-dual
+[*] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/
+rz-arm-based-high-end-32-64-bit-mpus/rtk9744l23s01000be-rzg2l-evaluation-board-kit
 
-As you sow, so you shall reap, i want you to receive your funds
-Best things in life are free
-Send to her your Bank Details as i listed here.
+This patch series is dependent on [0] & [1]
 
-Your account name-------------
-Your Bank Name----------------
-Account Number----------
-your Bank address----------
-Country-----------
-Your private phone number---------
-Routing Numbers-------------
-Swift Code-----------
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20211216114305.5842-1-biju.das.jz@bp.renesas.com/
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/
+patch/20211220170357.7899-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-Note, Your funds is %100 Percent ready for
-transfer.
-Everything you do remember that Good things come to those who wait.
-I have done this work for you with my personally effort, Honesty is
-the best policy.
-now your transfer is currently deposited with paying bank this morning.
-It is by the grace of God that I received Christ, having known the truth.
-I had no choice than to do what is lawful and justice in the
-sight of God for eternal life and in the sight of man for witness of
-God & His Mercies and glory upon my life.
+Sorry for cross posting the patches to multiple subsystems, as these are
+just the dt-binding patches included as part of initial bringup patches.
 
-send this needed bank details to the bank today, so that you receive
-your transfer today as
-it is available for your confirmation today.
-Please do your best as a serious person and send the fee urgent, Note
-that this transfer of $18.500.000 M USD is a Gift from God to Bless
-you.
+Changes for v2:
+* Included ACK from Rob
+* Fixed alignment issue
+* Added place holder for GPU node
+* Updated divider values for PLL2/3
 
-If you did not contact the bank urgent, finally the Bank will release
-your transfer of $18.500.000M USD to  Mr. David Bollen as your
-representative.
-So not allow another to claim your Money.
-Thanks For your Understanding.
+Test Logs on Renesas RZ/V2L SMARC EVK:
 
-Barr Robert Richter, UN Attorney At Law Court-Benin
+/ # cat /proc/cpuinfo
+processor       : 0
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 1
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+/ # cat /proc/meminfo
+MemTotal:        1897380 kB
+MemFree:         1811032 kB
+MemAvailable:    1788712 kB
+Buffers:               0 kB
+Cached:            38408 kB
+SwapCached:            0 kB
+Active:                4 kB
+Inactive:             32 kB
+Active(anon):          4 kB
+Inactive(anon):       32 kB
+Active(file):          0 kB
+Inactive(file):        0 kB
+Unevictable:       38404 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:            68 kB
+Mapped:             1356 kB
+Shmem:                 0 kB
+KReclaimable:      22940 kB
+Slab:              33192 kB
+SReclaimable:      22940 kB
+SUnreclaim:        10252 kB
+KernelStack:        1088 kB
+PageTables:           28 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      948688 kB
+Committed_AS:        664 kB
+VmallocTotal:   133143461888 kB
+VmallocUsed:        1396 kB
+VmallocChunk:          0 kB
+Percpu:              240 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:         131072 kB
+CmaFree:          130304 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+/ #
+/ #
+/ #
+/ # cat /proc/interrupts
+           CPU0       CPU1
+ 11:        814        896     GICv3  27 Level     arch_timer
+ 13:          0          0     GICv3 412 Level     1004b800.serial:rx err
+ 14:          6          0     GICv3 414 Level     1004b800.serial:rx full
+ 15:        368          0     GICv3 415 Level     1004b800.serial:tx empty
+ 16:          0          0     GICv3 413 Level     1004b800.serial:break
+ 17:         11          0     GICv3 416 Level     1004b800.serial:rx ready
+ 23:          0          0     GICv3 173 Edge      error
+ 24:          0          0     GICv3 157 Edge      11820000.dma-controller:0
+ 25:          0          0     GICv3 158 Edge      11820000.dma-controller:1
+ 26:          0          0     GICv3 159 Edge      11820000.dma-controller:2
+ 27:          0          0     GICv3 160 Edge      11820000.dma-controller:3
+ 28:          0          0     GICv3 161 Edge      11820000.dma-controller:4
+ 29:          0          0     GICv3 162 Edge      11820000.dma-controller:5
+ 30:          0          0     GICv3 163 Edge      11820000.dma-controller:6
+ 31:          0          0     GICv3 164 Edge      11820000.dma-controller:7
+ 32:          0          0     GICv3 165 Edge      11820000.dma-controller:8
+ 33:          0          0     GICv3 166 Edge      11820000.dma-controller:9
+ 34:          0          0     GICv3 167 Edge      11820000.dma-controller:10
+ 35:          0          0     GICv3 168 Edge      11820000.dma-controller:11
+ 36:          0          0     GICv3 169 Edge      11820000.dma-controller:12
+ 37:          0          0     GICv3 170 Edge      11820000.dma-controller:13
+ 38:          0          0     GICv3 171 Edge      11820000.dma-controller:14
+ 39:          0          0     GICv3 172 Edge      11820000.dma-controller:15
+IPI0:       251        253       Rescheduling interrupts
+IPI1:        36         33       Function call interrupts
+IPI2:         0          0       CPU stop interrupts
+IPI3:         0          0       CPU stop (for crash dump) interrupts
+IPI4:         0          0       Timer broadcast interrupts
+IPI5:         0          0       IRQ work interrupts
+IPI6:         0          0       CPU wake-up interrupts
+Err:          0
+/ #
+/ #
+/ #
+/ # for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/
+soc0/$i; done
+machine: Renesas SMARC EVK based on r9a07g054l2
+family: RZ/V2L
+soc_id: r9a07g054
+revision: Rev 0
+/ #
+/ #
+/ #
+
+Cheers,
+Prabhakar
+
+Biju Das (12):
+  dt-bindings: power: renesas,rzg2l-sysc: Document RZ/V2L SoC
+  soc: renesas: Identify RZ/V2L SoC
+  dt-bindings: clock: Add R9A07G054 CPG Clock and Reset Definitions
+  dt-bindings: clock: renesas: Document RZ/V2L SoC
+  clk: renesas: Add support for RZ/V2L SoC
+  dt-bindings: pinctrl: renesas: Document RZ/V2L pinctrl
+  pinctrl: renesas: Kconfig: Select PINCTRL_RZG2L if RZ/V2L SoC is
+    enabled
+  dt-bindings: dma: rz-dmac: Document RZ/V2L SoC
+  dt-bindings: net: renesas,etheravb: Document RZ/V2L SoC
+  arm64: dts: renesas: Add initial DTSI for RZ/V2L SoC
+  arm64: dts: renesas: Add initial device tree for RZ/V2L SMARC EVK
+  arm64: dts: renesas: Add support for r9a07g044c1/r9a07g054l1-smarc.dts
+
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  14 +-
+ .../bindings/dma/renesas,rz-dmac.yaml         |   3 +-
+ .../bindings/net/renesas,etheravb.yaml        |   3 +-
+ .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  15 +-
+ .../bindings/power/renesas,rzg2l-sysc.yaml    |   7 +-
+ arch/arm64/boot/dts/renesas/Makefile          |   3 +
+ .../boot/dts/renesas/r9a07g044c1-smarc.dts    |  99 ++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    | 491 ++++++++++++++++++
+ .../boot/dts/renesas/r9a07g054l1-smarc.dts    |  25 +
+ arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi  |  25 +
+ .../boot/dts/renesas/r9a07g054l2-smarc.dts    |  25 +
+ arch/arm64/boot/dts/renesas/r9a07g054l2.dtsi  |  13 +
+ .../dts/renesas/rzg2l-smarc-pinfunction.dtsi  |   2 +-
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     |   2 +-
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |   2 +-
+ drivers/clk/renesas/Kconfig                   |   7 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r9a07g054-cpg.c           | 184 +++++++
+ drivers/clk/renesas/rzg2l-cpg.c               |   6 +
+ drivers/clk/renesas/rzg2l-cpg.h               |   1 +
+ drivers/pinctrl/renesas/Kconfig               |   1 +
+ drivers/soc/renesas/Kconfig                   |   5 +
+ drivers/soc/renesas/renesas-soc.c             |  13 +
+ include/dt-bindings/clock/r9a07g054-cpg.h     | 226 ++++++++
+ 24 files changed, 1154 insertions(+), 19 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g044c1-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l1-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a07g054l2.dtsi
+ create mode 100644 drivers/clk/renesas/r9a07g054-cpg.c
+ create mode 100644 include/dt-bindings/clock/r9a07g054-cpg.h
+
+-- 
+2.17.1
+
