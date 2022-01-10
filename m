@@ -2,116 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B04E48975D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 12:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5EB1489784
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 12:32:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244676AbiAJLZu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 06:25:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47818 "EHLO
+        id S244829AbiAJLco (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 06:32:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244744AbiAJLYw (ORCPT
+        with ESMTP id S244775AbiAJLcX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 06:24:52 -0500
+        Mon, 10 Jan 2022 06:32:23 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF9AC061748;
-        Mon, 10 Jan 2022 03:24:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED904C061748;
+        Mon, 10 Jan 2022 03:32:22 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38F5FA50;
-        Mon, 10 Jan 2022 12:24:48 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ED32A50;
+        Mon, 10 Jan 2022 12:32:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641813888;
-        bh=pT4kpZtRjG/XYUDv0R6rkcHFJD85Vbhdj6E1bYBn0QQ=;
+        s=mail; t=1641814341;
+        bh=eX1/BiYxwQ831RKDWij1jdfm+j8FhRTuyLRMBWLOFbs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iJv3GtOIJzLQnGlmrJlUb4JaeqcWe23bhSeJBUkFwpTYdiay78V9m1UtRtJcbYW2C
-         HZzpG+67fQw1DGo8Zjfh8CvmqAzoaJzksKfo8W1KZsxDuo/rt60otwWU1IbkSH7qFr
-         0z0EmRl19G77ds5Yho/Asntw99Qg44bdYXjrgFaE=
-Date:   Mon, 10 Jan 2022 13:24:39 +0200
+        b=vyidJal6AHQtZvJVED6aOq3txhCXObIZfiokmM61zuo3EBWwesnpZUvSIkD7RGpNU
+         044bGVDvAjH4eaVuVRmyLgmqbemMD8O0quQAOzj74BP48W9iaoBjWNVSz3Ww9fGP0I
+         uUYXmNaupd3NLM6Yc7mKswGzHVCCadSiPtFifse4=
+Date:   Mon, 10 Jan 2022 13:32:12 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: Remove empty lvds endpoints
-Message-ID: <YdwXd85SyKJ9Bqt2@pendragon.ideasonboard.com>
-References: <20211229191838.27922-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdXjeEmXmv4LJ5eTCGM+2hLCX5-QvYfGaY0vaaOyGXEahg@mail.gmail.com>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH v2 08/11] media: i2c: max9286: Define macros for all bits
+ of register 0x15
+Message-ID: <YdwZPCCULRGg5w/E@pendragon.ideasonboard.com>
+References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-9-laurent.pinchart+renesas@ideasonboard.com>
+ <20220109103738.fqyehzvj4hgggu6w@uno.localdomain>
+ <Ydtt+TsZ56qv8G27@pendragon.ideasonboard.com>
+ <4ef0af5a-36cd-fd40-73f0-3e5c746e7882@omp.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXjeEmXmv4LJ5eTCGM+2hLCX5-QvYfGaY0vaaOyGXEahg@mail.gmail.com>
+In-Reply-To: <4ef0af5a-36cd-fd40-73f0-3e5c746e7882@omp.ru>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Sergey,
 
-On Mon, Jan 10, 2022 at 11:10:59AM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 29, 2021 at 8:18 PM Laurent Pinchart wrote:
-> > Endpoints node must have a remote-endpoint property, as endpoints only
-> > exist to model a link between ports. Drop the empty lvds endpoints from
-> > SoC dtsi files, then should be instead declared in the board dts or in
-> > overlays.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, Jan 10, 2022 at 01:37:51PM +0300, Sergey Shtylyov wrote:
+> Hello!
 > 
-> Thanks for your patch!
-> I'm interested in hearing Rob's opinion about the general idea...
-
-Me too :-)
-
-> > ---
-> >  arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 4 ----
-> >  arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77951.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77970.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77980.dtsi | 2 --
-> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 4 ----
-> >  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 4 ----
-> >  11 files changed, 28 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> > index 6f4fffacfca2..9a8c1bd923af 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> > @@ -2771,8 +2771,6 @@ lvds0_in: endpoint {
-> >                                 };
-> >                                 port@1 {
-> >                                         reg = <1>;
-> > -                                       lvds0_out: endpoint {
-> > -                                       };
+> On 1/10/22 2:21 AM, Laurent Pinchart wrote:
 > 
-> As there are several DTS files that refer to this label, this change
-> will break them?
-
-While files are you referring to ?
-
-> > base-commit: 2b534e90a1e31c7fc9536b512b72274cc3575f4c
+> >>> Macros are easier to read than numerical values.
+> >>>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >>> ---
+> >>>  drivers/media/i2c/max9286.c | 27 ++++++++++++++++++---------
+> >>>  1 file changed, 18 insertions(+), 9 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> >>> index 24c2bf4fda53..4b69bd036ca6 100644
+> >>> --- a/drivers/media/i2c/max9286.c
+> >>> +++ b/drivers/media/i2c/max9286.c
+> [...]
+> >>> @@ -810,13 +815,17 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> >>>  		}
+> >>>
+> >>>  		/*
+> >>> -		 * Enable CSI output, VC set according to link number.
+> >>> -		 * Bit 7 must be set (chip manual says it's 0 and reserved).
+> >>> +		 * Configure the CSI-2 output to line interleaved mode (W x (N
+> >>> +		 * x H), as opposed to the (N x W) x H mode that outputs the
+> >>> +		 * images stitched side-by-side) and enable it.
+> >>>  		 */
+> >>> -		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
+> >>> -			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
+> >>> +		max9286_write(priv, 0x15, MAX9286_CSI_IMAGE_TYP | MAX9286_VCTYPE |
+> >>> +			      MAX9286_CSIOUTEN | MAX9286_EN_CCBSYB_CLK_STR |
+> >>> +			      MAX9286_EN_GPI_CCBSYB);
+> >>>  	} else {
+> >>> -		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+> >>> +		max9286_write(priv, 0x15, MAX9286_VCTYPE |
+> >>> +			      MAX9286_EN_CCBSYB_CLK_STR |
+> >>> +			      MAX9286_EN_GPI_CCBSYB);
+> >>
+> >> Probably fits better on two lines only.
+> > 
+> > That would be over the 80 columns limit, which is a soft limit now, but
+> > still often requested by reviewers (including myself in quite a few
+> > cases :-)).
 > 
-> Why does this depend on a commit in drm-next?
-> DTS changes are supposed to go in through renesas-devel and soc.
+>     The new limit is 100 columns, not 80. :-)
 
-Because it happens to have been developed there, that's all. There's no
-specific reason.
+That's the new hard limit, yes :-) I do occasionally write lines wider
+than 80 columns and am often asked to change that. In this specific case
+it doesn't matter much to me, I'll happily pick whatever option
+reviewers will want to give me a Reviewed-by as both are equally
+readable for me.
 
-> > prerequisite-patch-id: 98434eb22c020924bc338316e54a7b42ea339e9f
-> > prerequisite-patch-id: ce261c9865255051f2c2107a930b0f15ce862703
-> > prerequisite-patch-id: 500ab746415c5421e41128c2b0db35987d8d7a49
-> > prerequisite-patch-id: ad2d5ad025f9cfa0dc453d7e0b2aa96b4514afd7
-> > prerequisite-patch-id: ac76bcc0f7b278863e362db083a7d64bbd0bd030
-> > prerequisite-patch-id: c7a7c3a6b9dbbae18a768160db70d7010ea71ca5
-> 
-> While Google does not index by commit ID or patch ID, at least the
-> base-commit can be found easily in linux-next. But even with some
-> scripting, the prerequisites cannot.  What are these prerequisites?
-> Do you have lore links?
-
-Probably something completely unrelated that I had in my tree when
-generating the series. You can likely ignore that, sorry for the noise.
+> [...]
 
 -- 
 Regards,
