@@ -2,97 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DD29489BDE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 16:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48966489C11
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 16:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiAJPK0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 10:10:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235938AbiAJPKQ (ORCPT
+        id S234930AbiAJPVI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 10:21:08 -0500
+Received: from mail-vk1-f178.google.com ([209.85.221.178]:46746 "EHLO
+        mail-vk1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232628AbiAJPVI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 10:10:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB25C061748;
-        Mon, 10 Jan 2022 07:10:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DAC88B8165F;
-        Mon, 10 Jan 2022 15:10:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44546C36AE5;
-        Mon, 10 Jan 2022 15:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641827413;
-        bh=MGzC556nKR0dVQ6gSVYjbaWQh+60dstnaOHoo1NOZjk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ARKO1tgoRALqL8E1t3ipqW7VNh5E4qbeBt2kv5w7xgrpce0bq5ZC81GitpTuxN8f0
-         qPKW03UQ6pRzvOiZ63FTqjtIaw8r3IVqBz+xS0HRxysB8iogY6mMIvN0W7AC6z7PtD
-         thQbcgtHf8ypL+N9nHHfo9RyHtH9onnw+c+xDlP+N0dxRA8YS3w2zt2ZIL5wNytCyo
-         gzLOkgPu1BGzQmgEm1ReBS+20es/e2Pi9a7aeI6Q9iRdsbgSfdB0MJ3smmvZroKtLX
-         yETANUY+ZcXNM8s6owxAxe5W4vw2lXQuzCp1SJVU2Izrd78FjxekwvMC54FJRZM11U
-         mWZa5SeMFhcpQ==
-Date:   Mon, 10 Jan 2022 15:10:07 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] ASoC: sh: rz-ssi: Add functions to get/set substream
- pointer
-Message-ID: <YdxMT02wvvWw85Bn@sirena.org.uk>
-References: <20220110094711.8574-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220110094711.8574-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 10 Jan 2022 10:21:08 -0500
+Received: by mail-vk1-f178.google.com with SMTP id bj47so3316372vkb.13;
+        Mon, 10 Jan 2022 07:21:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RHoZwCluZfMUknGNKqv0BYdg2CB9aEvZ6eS7Anw0XMY=;
+        b=I5lpoNo76BFzYQ/KtyHKg/FytyrIjassh27JP8G2romvBYudwMscSs3lhAzAEUT7sD
+         FrqcUj3G6dulJx2PlG6aTMqLOyU2kSbd16Lg3zPMxo0uiY4szrsRxjmTwF8hZyVJcOIa
+         vcjWYcT1zuP0W/FavaD2OoQVCWHrfzQVbzbljaU0cDkawzn07xjvINIxgPgbr9bAJVrT
+         tl1BiwTy7nBzcA+sjDV+rEGb2Winq7MzaDK08+acUdyRd2cxmByEvHf4HTnYCsMRSnE/
+         f5laiRr6o6hoK9olj/r5YENNHz4UP038LA5pl5ySa9zs/awarw0kW9GxjyY0V8te6eYw
+         Selg==
+X-Gm-Message-State: AOAM532Q7bKqaW8wpHCYJyaW1GhePIUQJ10G9oOnpP2icG2syGjPSCY3
+        88M71kLHicawpjGHSukoMPittQIu5V6xnQ==
+X-Google-Smtp-Source: ABdhPJw4g4HCOGD9jjqM/WaUwFB81rJx55FNrvih3n89zBDmbW4AnFGEn9plYWe/OcMnF4Zd3McCPg==
+X-Received: by 2002:a1f:2bc7:: with SMTP id r190mr163015vkr.0.1641828067093;
+        Mon, 10 Jan 2022 07:21:07 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id y8sm3156313vsj.12.2022.01.10.07.21.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jan 2022 07:21:06 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id m15so9664621uap.6;
+        Mon, 10 Jan 2022 07:21:06 -0800 (PST)
+X-Received: by 2002:ab0:1861:: with SMTP id j33mr102620uag.14.1641828066157;
+ Mon, 10 Jan 2022 07:21:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Y4b7ElNLAh3ZTjz4"
-Content-Disposition: inline
-In-Reply-To: <20220110094711.8574-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Cookie: Do you have lysdexia?
+References: <20211223093223.4725-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211223093223.4725-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Jan 2022 16:20:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXCcgG3ArRjiSAhKNdCbFV3ip7aAboWPKsZt2aeG6z7MA@mail.gmail.com>
+Message-ID: <CAMuHMdXCcgG3ArRjiSAhKNdCbFV3ip7aAboWPKsZt2aeG6z7MA@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r9a07g044: Update multiplier and divider
+ values for PLL2/3
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Dec 23, 2021 at 10:32 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> As per the HW manual (Rev.1.00 Sep, 2021) PLL2 and PLL3 should be 1600MHz,
+> but with current multiplier and divider values this resulted to 1596MHz.
+>
+> This patch updates the multiplier and divider values for PLL2 and PLL3
+> so that we get the exact (1600MHz) values.
+>
+> Fixes: 17f0ff3d49ff1 ("clk: renesas: Add support for R9A07G044 SoC")
+> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---Y4b7ElNLAh3ZTjz4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.18.
 
-On Mon, Jan 10, 2022 at 09:47:11AM +0000, Lad Prabhakar wrote:
+Gr{oetje,eeting}s,
 
-> +static struct snd_pcm_substream *rz_ssi_get_substream(struct rz_ssi_stream *strm)
-> +{
-> +	struct rz_ssi_priv *ssi = strm->priv;
-> +	struct snd_pcm_substream *substream;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&ssi->lock, flags);
-> +	substream = strm->substream;
-> +	spin_unlock_irqrestore(&ssi->lock, flags);
+                        Geert
 
-This locking doesn't seem useful, we just take a copy of the lock and
-then immediately return so the lock isn't protecting anything in
-particular - the caller can happily continue using the substream after
-the variable has been updated.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---Y4b7ElNLAh3ZTjz4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmHcTE4ACgkQJNaLcl1U
-h9DPAAf+IAkg3KteUe/ieJ1Mvb5V/kn7FqPeS1zDEmVPRr1WAZks5Nw5wudB7zLY
-3uXD6RwCJxdiQghBfPTxt8bRSFY2NYKa75uNjnSda+npj7R2lxFiztz9lnVuAV/+
-qFbrDSNncJViJiW4eKECDiqauxti2L4uh7BRpJQvoFqj3HZI7e8aBXlrq5NE7FWj
-dLCfj0j1LewVsyssuYTaUhon9Z6brx1ruUF1Ywm+WpAW452UO9YWEzmzew1x6CBF
-DTMjtJxRB+gL5NWTZwEUDL1j+g+IVdY8qF3u4NpMIhxAXru5QGqn8Rz0KnbmWv+x
-a/sWc17NS+a12yyyoTpR47X7pUPmPA==
-=HvrJ
------END PGP SIGNATURE-----
-
---Y4b7ElNLAh3ZTjz4--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
