@@ -2,93 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8930489B54
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 15:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 027F0489B75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 15:40:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbiAJOfp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 09:35:45 -0500
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:35696 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbiAJOfp (ORCPT
+        id S235671AbiAJOkt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 09:40:49 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:13349 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235678AbiAJOks (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 09:35:45 -0500
-Received: by mail-ua1-f41.google.com with SMTP id m90so8507255uam.2;
-        Mon, 10 Jan 2022 06:35:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ahnB6Wzu85wNpvymQJZcyH+DcWIx1h8cEvZZv2M2m28=;
-        b=bUFxry31pv1BrcIfGxiIdNmA3WGvgl+jyGOnoIRpob616sYWnwULJoBfG+AWZ0crKY
-         jeFGY5c3Xq8ohWhsm2FyqdVpEZdiuN4SHMtJQAlSspaJgGeRy3haHRJIQcDodXSDUFf9
-         9nra7BLps1DWJo8dLlM5K60dnidL2G0U4egUkbkGbC/GVepJ24qJv21Z97m6vbA4RAQJ
-         x4FP43ljI9SFmxaDCuBxgpRVCceTVNC6MUr9/NuWl4qKdknssAnJO9YhW6fqCGhkfnGl
-         ZleqxTa9f8xKiYIn2S1lhTCxAxuQvC6ShcepS0NiVWQSwlEKkBOSk4bfeUWejnM7CVJr
-         so8g==
-X-Gm-Message-State: AOAM5333nHuSe90VydaNreK6uJ4CZUdEX5X8NpGL1mdWjfBCL0sTzxRn
-        /tlSksGFrb1ODiQ04/3jnaqW/l4D5S17Ag==
-X-Google-Smtp-Source: ABdhPJyEpC2kz+l4OzKNhTN4K5o1rFbUBvvE9Upmsv4/m0LW10UQ17Is6S7ASpCTzmgjBYJhp8LX2Q==
-X-Received: by 2002:a05:6102:3f4f:: with SMTP id l15mr15185vsv.27.1641825344515;
-        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id t22sm4168394vsk.0.2022.01.10.06.35.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id u6so23865394uaq.0;
-        Mon, 10 Jan 2022 06:35:44 -0800 (PST)
-X-Received: by 2002:a67:e985:: with SMTP id b5mr5633vso.77.1641825343968; Mon,
- 10 Jan 2022 06:35:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20211216114305.5842-1-biju.das.jz@bp.renesas.com> <20211216114305.5842-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20211216114305.5842-3-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Jan 2022 15:35:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdViOUSRBde7orT+9tZBAZbt+O9EQOkutGu9sHw8SakGZQ@mail.gmail.com>
-Message-ID: <CAMuHMdViOUSRBde7orT+9tZBAZbt+O9EQOkutGu9sHw8SakGZQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: Add initial DTSI for RZ/G2LC SoC
-To:     Biju Das <biju.das.jz@bp.renesas.com>
+        Mon, 10 Jan 2022 09:40:48 -0500
+X-IronPort-AV: E=Sophos;i="5.88,277,1635174000"; 
+   d="scan'208";a="106017083"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 10 Jan 2022 23:40:47 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F3829400194A;
+        Mon, 10 Jan 2022 23:40:44 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4] thermal: rcar_thermal: Use platform_get_irq_optional() to get the interrupt
+Date:   Mon, 10 Jan 2022 14:40:39 +0000
+Message-Id: <20220110144039.5810-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 12:43 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RZ/G2L and RZ/G2LC SoC's are similar and they share the same DEVID.
-> RZ/G2LC has fewer peripherals compared to RZ/G2L.
->
-> SSI (3 channels vs 4 channels)
-> GbEthernet (1 channel vs 2 channels)
-> SCIFA (4 channels vs 5 channels)
-> ADC is only supported in RZ/G2L.
->
-> Add initial DTSI for RZ/G2LC SoC by reusing the common r9a07g044.dtsi
-> file with unsupported device nodes deleted in the below SoC specific dtsi
-> files.
->
-> r9a07g044c1.dtsi => RZ/G2LC R9A07G044C1 SoC specific parts
-> r9a07g044c2.dtsi => RZ/G2LC R9A07G044C2 SoC specific parts
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+allocation of IRQ resources in DT core code, this causes an issue
+when using hierarchical interrupt domains using "interrupts" property
+in the node as this bypasses the hierarchical setup and messes up the
+irq chaining.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.18.
+In preparation for removal of static setup of IRQ resource from DT core
+code use platform_get_irq_optional().
 
-Gr{oetje,eeting}s,
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+v3->v4:
+* Updated check as suggested by Andy
 
-                        Geert
+v2->v3:
+* Fixed review comment pointed by Andy
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+v1->v2
+* Simplified checking error code
+* Break loop earlier if no interrupts are seen
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+v1: https://lkml.org/lkml/2021/12/18/163
+---
+ drivers/thermal/rcar_thermal.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index b49f04daaf47..1d729ed4d685 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -445,7 +445,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 	struct rcar_thermal_common *common;
+ 	struct rcar_thermal_priv *priv;
+ 	struct device *dev = &pdev->dev;
+-	struct resource *res, *irq;
++	struct resource *res;
+ 	const struct rcar_thermal_chip *chip = of_device_get_match_data(dev);
+ 	int mres = 0;
+ 	int i;
+@@ -467,9 +467,16 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 	pm_runtime_get_sync(dev);
+ 
+ 	for (i = 0; i < chip->nirqs; i++) {
+-		irq = platform_get_resource(pdev, IORESOURCE_IRQ, i);
+-		if (!irq)
+-			continue;
++		int irq;
++
++		ret = platform_get_irq_optional(pdev, i);
++		if (ret < 0 && ret != -ENXIO)
++			goto error_unregister;
++		if (ret > 0)
++			irq = ret;
++		else
++			break;
++
+ 		if (!common->base) {
+ 			/*
+ 			 * platform has IRQ support.
+@@ -487,7 +494,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 			idle = 0; /* polling delay is not needed */
+ 		}
+ 
+-		ret = devm_request_irq(dev, irq->start, rcar_thermal_irq,
++		ret = devm_request_irq(dev, irq, rcar_thermal_irq,
+ 				       IRQF_SHARED, dev_name(dev), common);
+ 		if (ret) {
+ 			dev_err(dev, "irq request failed\n ");
+-- 
+2.17.1
+
