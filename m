@@ -2,146 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD04F489916
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 14:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18650489984
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jan 2022 14:12:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235189AbiAJNBg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 08:01:36 -0500
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:43662 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235159AbiAJNAT (ORCPT
+        id S231433AbiAJNMC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jan 2022 08:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231526AbiAJNLr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 08:00:19 -0500
-Received: by mail-ua1-f54.google.com with SMTP id i5so23160734uaq.10;
-        Mon, 10 Jan 2022 05:00:19 -0800 (PST)
+        Mon, 10 Jan 2022 08:11:47 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4D6C061763
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id d3so17807285lfv.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=Bgie3w5lZXcUpEJsNUNnYT9D80sz6831OKMgWSWMpAMR4c04HQM1hwHkoZ1AqHgJ5M
+         pQJfhFBsNTGc+jfMsWTuSDXhNBe5XPwJ8/UQZKbYcWTDQ68Eu4MBBVsHf0V3Baa+27Pp
+         IUJW/950IUGNsTto2NnsTW49/Cy4Vf+KfgzDT0+KZ2gcb/QkEKg3LEIj8qPJpiII0Qbk
+         buE3CbPl0T8T6omQLXT3KYJBxN98pPIrfxDam1Qs0diPFN43pWVugWbd8LU8WaIGviK3
+         O/t/NLMKhR03EdE8rMi5c8T5epCw09Yzc4YmAU5QrO9ZaREbayNwAtpm1SWYSR1IiBuY
+         5w9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c+WSoOZSLfe+3ubRX3qKEV+/g4DwW+r0hvnbkW/lOq4=;
-        b=MjbCcyXptLYiyK6nyGJwG/ojeCYIfTHGJbhIjQXnRPb4Q8AB7pylYPRTJzPoJKpPzH
-         LyD3+jB8b/QI3/iEXrsQ51aql9u9+8CrpYaLtVj6RlFVN+yapkxTfgdUHwXSr3aHHjBw
-         +i3ZyR8pj+rmzfPcDGIURTbz+KQ/ovY07uejgowN39ToXGc5OS333zeoKfnV9/AU/gMb
-         KdgXEt9+x4p/BUTp7ZeRUeeIq5OOv09gyd0tPiV9/TEx7cfQHDqiYo/ADluS/TnkJqmD
-         QTJYieiluyWSxw9lhjBuXDPO4EtIT+PTsLLvVw/VJqJt2I/kiyEWDlLu8jKF/kchtikZ
-         L+Gw==
-X-Gm-Message-State: AOAM532ng1oQKnlouW9N2flvbb7o/CJqvhQqpnGC2kM5clexIazBD5z1
-        8h8azc2UnxTxe2W4auT43W70GNiYPZU28w==
-X-Google-Smtp-Source: ABdhPJwMRpO4AvT3ss5Z7iKLN/I74/3T3Uh8TgebM7JiY5aWYJ+F7rp6ZgOcZKriZ/UQ47kUyrsgFQ==
-X-Received: by 2002:ab0:2a48:: with SMTP id p8mr25477573uar.125.1641819617729;
-        Mon, 10 Jan 2022 05:00:17 -0800 (PST)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id h26sm3928690vsl.21.2022.01.10.05.00.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jan 2022 05:00:17 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id p37so23196990uae.8;
-        Mon, 10 Jan 2022 05:00:17 -0800 (PST)
-X-Received: by 2002:a67:c81c:: with SMTP id u28mr24673977vsk.38.1641819616956;
- Mon, 10 Jan 2022 05:00:16 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=WO2xaStVeYOZJTI3laZe368um/v+puJY+1oU8FYfYKSdz2EjR9y62HluK6T2aNLRt6
+         KibrN3TsjvNiOlJ1A94MWZ9EbmutDhUZCnUM8VrzL102LoVd+zSaW1UVTGw4m2m/grvg
+         S7+LGKwQz6pCGKyRwPIg/2y3YR1ZVQlgm524KtJ6qadHJXeEuh91BPn1hcNMSzOlmhmF
+         Cu/mOHEznlrZe0fSNcwJtwixQjVUPF2+Xrm5uJC3aE0Mj34tWMsPH47bGd1sbAccp8Xg
+         BKFdJmct6GbgztwbOeYB6XWV1dmgfUrj1f4k/DFpR9e7bxUAclWdg8maUJ006tJycSHa
+         h3eg==
+X-Gm-Message-State: AOAM532Ks6oZurPNKXwO3frIUDg1kewJb0MomD+45K3iHu1c1EB2DARx
+        PjGPXgdmesq+6aOIJdI8ANtKssLFsXqAcaeQJXZ7JrhbFkU=
+X-Google-Smtp-Source: ABdhPJyUuzfRq9+VAp3YIslVsNF7E8r6u+SDvjtiaFw6sfTA9uOxrmlrl9JDay/jDh10uqplhgk07a+YHTpM3Ge0znw=
+X-Received: by 2002:ac2:4c51:: with SMTP id o17mr60639917lfk.558.1641820293776;
+ Mon, 10 Jan 2022 05:11:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20211115135032.129227-1-julien.massot@iot.bzh> <20211115135032.129227-3-julien.massot@iot.bzh>
-In-Reply-To: <20211115135032.129227-3-julien.massot@iot.bzh>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Jan 2022 14:00:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVR6EZa44GJCecWgN+6GNESCyNCsenaEPW7qa-W8-_evA@mail.gmail.com>
-Message-ID: <CAMuHMdVR6EZa44GJCecWgN+6GNESCyNCsenaEPW7qa-W8-_evA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] arm64: dts: renesas: r8a77951: Add CR7 realtime processor
-To:     Julien Massot <julien.massot@iot.bzh>
-Cc:     =?UTF-8?Q?Bj=C3=B6rn_Andersson?= <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+Received: by 2002:a05:6504:15d1:0:0:0:0 with HTTP; Mon, 10 Jan 2022 05:11:32
+ -0800 (PST)
+Reply-To: gtbank107@yahoo.com
+From:   Barr Robert Richter <westernunion.benin982@gmail.com>
+Date:   Mon, 10 Jan 2022 14:11:32 +0100
+Message-ID: <CAP=nHBK9zHzp_=-EVswWQiLxEoc+HV4oqddgtnEqf-9qYab_4Q@mail.gmail.com>
+Subject: Contact GT Bank-Benin to receive your transfer amount of $18.5m US Dollars.
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Julien,
+Attn,Dear
+I need you to know that the fear of the LORD is
+the beginning of wisdom, and knowledge of the Holy One is
+understanding. As power of God Most High. And This is the confidence
+we have in approaching God, that if we ask anything according to his
+will, he hears us. I will make you know that Slow and steady wins the race.
+It is your turn to receive your overdue compensation funds total
+amount $18.5Milion  USD.
+I actualized that you will receive your transfer today without any more delay
+No More fee OK, Believe me , I am your Attorney standing here on your favor.
+I just concluded conversation with the Gt Bank Director, Mrs Mary Gate
+And She told me that your transfer is ready today
 
-On Mon, Nov 15, 2021 at 2:50 PM Julien Massot <julien.massot@iot.bzh> wrote:
-> r8a77951 as some other members of rcar gen3 soc series
-> has a Cortex R7 processor.
-> This processor shares the same mapped devices and memory mapping.
->
-> Choose 0x40040000 area to store the Cortex-R7 firmware.
->
-> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+So the Bank Asked you to contact them immediately by re-confirming
+your Bank details asap.
+Because this is the Only thing holding this transfer
+If you did not trust me and Mrs Mary Gate,Who Else will you Trust?
+For we are the ones trying to protect your funds here
+and make sure that your funds is secure.
+So Promisingly, I am here to assure you, that Grate Miracle is coming on
+your way, and this funds total amount of $18.500,000 is your
+compensation, entitlement inheritance overdue funds on your name.
+Which you cannot let anything delay you from receiving your funds now,
 
-Thanks for your patch!
+Finally i advised you to try your possible best and contact Gt Bank Benin
+once you get this message to receive your transfer $18.5 USD today.
+I know that a journey of thousand miles begins with a single step.
+Always put your best foot forward
+Try as hard as you can, God give you best.
+take my advice and follow the due process of your payment, the
+transfer will be released to
+you smoothly without any hitches or hindrance.
 
-> No change since RFC, Geert most likely it sounds better
-> to drop this patch in v2 ?
+Contact DR.MRS MARY GATE, Director Gt bank-Benin to receive your
+transfer amount of $18.5m US Dollars
+It was deposited and registered to your name this morning.
+Contact the Bank now to know when they will transfer to your
+country today
 
-Indeed, cfr. my comments below.
+Email id: gtbank107@yahoo.com
+Tel/mobile, +229 99069872
+Contact person, Mrs Mary Gate,Director Gt bank-Benin.
+Among the blind the one-eyed man is king
 
-> --- a/arch/arm64/boot/dts/renesas/r8a77951-ulcb.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a77951-ulcb.dts
-> @@ -34,6 +34,16 @@ memory@700000000 {
->                 device_type = "memory";
->                 reg = <0x7 0x00000000 0x0 0x40000000>;
->         };
-> +
-> +       reserved-memory {
-> +               #address-cells = <2>;
-> +               #size-cells = <2>;
-> +
-> +               cr7_ram: cr7_ram@40040000 {
-> +                       no-map;
-> +                       reg = <0x0 0x40040000 0x0 0x1fc0000>;
-> +               };
-> +       };
+As you sow, so you shall reap, i want you to receive your funds
+Best things in life are free
+Send to her your Bank Details as i listed here.
 
-Tgis depends on a specific configuration, and is thus not suitable for
-upstream.
+Your account name-------------
+Your Bank Name----------------
+Account Number----------
+your Bank address----------
+Country-----------
+Your private phone number---------
+Routing Numbers-------------
+Swift Code-----------
 
+Note, Your funds is %100 Percent ready for
+transfer.
+Everything you do remember that Good things come to those who wait.
+I have done this work for you with my personally effort, Honesty is
+the best policy.
+now your transfer is currently deposited with paying bank this morning.
+It is by the grace of God that I received Christ, having known the truth.
+I had no choice than to do what is lawful and justice in the
+sight of God for eternal life and in the sight of man for witness of
+God & His Mercies and glory upon my life.
 
->  };
->
->  &du {
-> @@ -48,3 +58,8 @@ &du {
->         clock-names = "du.0", "du.1", "du.2", "du.3",
->                       "dclkin.0", "dclkin.1", "dclkin.2", "dclkin.3";
->  };
-> +
-> +&cr7_rproc {
-> +       memory-region = <&cr7_ram>;
-> +       status = "okay";
-> +};
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> index 1768a3e6bb8d..3ee247fc5aec 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> @@ -366,6 +366,13 @@ soc: soc {
->                 #size-cells = <2>;
->                 ranges;
->
-> +               cr7_rproc: cr7 {
-> +                       compatible = "renesas,rcar-cr7";
-> +                       power-domains = <&sysc R8A7795_PD_CR7>;
-> +                       resets = <&cpg 222>;
-> +                       status = "disabled";
-> +               };
-> +
+send this needed bank details to the bank today, so that you receive
+your transfer today as
+it is available for your confirmation today.
+Please do your best as a serious person and send the fee urgent, Note
+that this transfer of $18.500.000 M USD is a Gift from God to Bless
+you.
 
-This part is generic, but I think the cr7 node should be moved outside
-the soc node (like the PMUs and the ARMv8 timer), as it does not have
-a unit address.
+If you did not contact the bank urgent, finally the Bank will release
+your transfer of $18.500.000M USD to  Mr. David Bollen as your
+representative.
+So not allow another to claim your Money.
+Thanks For your Understanding.
 
->                 rwdt: watchdog@e6020000 {
->                         compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
->                         reg = <0 0xe6020000 0 0x0c>;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Barr Robert Richter, UN Attorney At Law Court-Benin
