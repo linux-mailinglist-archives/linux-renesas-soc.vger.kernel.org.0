@@ -2,201 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A27448B1A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 17:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1516E48B1B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 17:13:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349835AbiAKQJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jan 2022 11:09:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349820AbiAKQJb (ORCPT
+        id S240969AbiAKQN1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jan 2022 11:13:27 -0500
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:43553 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240877AbiAKQN1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jan 2022 11:09:31 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2AADC06173F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 08:09:31 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id r16-20020a17090a0ad000b001b276aa3aabso6184667pje.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 08:09:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=VSqPfOpseUJ5ExhyYmswu/5ztgs6zobYnp8iUOCh+Xk=;
-        b=vd816g2ra/qRz0YgkJEUgHyibwOWfji+8P7/XqmRIpmzxomLE1Gn49T1Q7m5WIyEIV
-         WzZhJ2biEsH3/M3r481doMLbkKTmLv8STSpgRBh1lPL9bzRpRRl5rO15WQnGk9TdDfoi
-         1oPyUx5aPJXN1tg598WN+UgO4Iz5IRNNmbV2TXd7RlmbgmojAgX6ZDXvQF7yICdmgP4i
-         qyCtlTcmKItFJE9Jk5tWuMnkCDZIIxgYheL4SLOfXpHucqnycWwJg4E9h2/Y4oA2dVTr
-         t4s2E0wIuzO04HwxzmmHjHaV2r1mo/YfBuI1cYMR/yuUpkNaTyr7kA5J571PS3mmSPuC
-         qRmw==
+        Tue, 11 Jan 2022 11:13:27 -0500
+Received: by mail-vk1-f175.google.com with SMTP id w206so9778560vkd.10;
+        Tue, 11 Jan 2022 08:13:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=VSqPfOpseUJ5ExhyYmswu/5ztgs6zobYnp8iUOCh+Xk=;
-        b=PApWtlTc70jOQ2Cyy+aqFymfNSDT7aqx/vy/UAXgnSkdAIWB5xXoDvAtZecPF6eGju
-         NYAHDlAsqFkLEfwkpMk4raWMW7JAPnzlG3UfihLq0wmuDH2XXklS0Pfld6X9jW6Is8Ae
-         Cgvd4ngnPpTKBy0UcmP8FMOAIrybT4mumhSGApBzlsF9B88wcTqJbRnVKJwlMpbcLGOv
-         wOsRk5LbKT/VlNKbYIRL5Rot1ojMjQhVIa2aYRf2YL/ZANwCFHs/ncd+G/GmZh0dMNgE
-         qeBrvPAnuxmUZ66rBsONGo9ySt2IpAgpvFSjrwBo7cJgMBH1uBojiba/ke93SXEs0Fgo
-         8lCg==
-X-Gm-Message-State: AOAM532HqfjPihbUn5PoUrL/m5Y+r9mj6893EPid61RnNYNm6y6I5HCc
-        WMt/nxA6gvTlUUmqo6p9uwbfI0jXEG7ZXhiX
-X-Google-Smtp-Source: ABdhPJyL5FGMBSgjqKMXqfnDVllg0aere9maXMehbn5xrVVKH7VXbk9kyJBSd6PjN0/wAoLKI0kmNg==
-X-Received: by 2002:a17:903:191:b0:14a:59cb:3199 with SMTP id z17-20020a170903019100b0014a59cb3199mr2314966plg.139.1641917371026;
-        Tue, 11 Jan 2022 08:09:31 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id f13sm11615726pfv.98.2022.01.11.08.09.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 08:09:30 -0800 (PST)
-Message-ID: <61ddabba.1c69fb81.db520.c9e1@mx.google.com>
-Date:   Tue, 11 Jan 2022 08:09:30 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2TMyac3teIzHsCPgKUQl60FrQqQoiQPUMwrCuorFe9U=;
+        b=25jYlq4Q1p+cECJbwwJ+3HSb6PSt0em9ukpaKwEPX2b90WYYC0ic0xDnYSCyyYR4Pd
+         Vgva/JD5RCFvuxLrAKocsdvE6jZA+ANALnXPfWCeJZBUzl6b3VKWUz/Csk1lc9UZ9JHT
+         0H1aNs1cv0LKLv4/DErWQ1xUyZAiyRvSDx9VZ8I2d9P2qkRgqG5JLmZ2yTlzwL1SkVFx
+         a06VQnWtA/sk3/zcoHGnGmpaYS1OXTs5mJw4smiLJ3w5GLAnyC3Qh7BykrV9hERbKfOe
+         Mq8YOlzSU6N3b0wEPJ2xHa8UVz7AmEyNAFOLg8VsXcabLgZuDAqOu/XIN0H9PFX8N4AH
+         4cJw==
+X-Gm-Message-State: AOAM5312wUSei9VztuLi/VZdCQhDHsOG0Pfh2vwJLPiL/b8RN4fKKAgp
+        ToAJq4a2GA/0f6RA7lou/+NsX/oxVDO3rw==
+X-Google-Smtp-Source: ABdhPJwerfLuNKAiAKWhR+wuYOaRMwfmMXdbLlHJpQR53vD3m3rX1hvcM7NSPkWgnwc1FatNIUMFJw==
+X-Received: by 2002:a05:6122:513:: with SMTP id x19mr2626828vko.19.1641917606259;
+        Tue, 11 Jan 2022 08:13:26 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id k6sm5776632uak.9.2022.01.11.08.13.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jan 2022 08:13:25 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id m15so16355201uap.6;
+        Tue, 11 Jan 2022 08:13:25 -0800 (PST)
+X-Received: by 2002:a05:6102:21dc:: with SMTP id r28mr2305199vsg.57.1641917605412;
+ Tue, 11 Jan 2022 08:13:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2022-01-11-v5.16
-X-Kernelci-Branch: master
-Subject: renesas/master baseline: 476 runs,
- 3 regressions (renesas-devel-2022-01-11-v5.16)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20211210113226.40111-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20211210113226.40111-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 11 Jan 2022 17:13:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWP4UVWoGB3N8mOhbvLMmSJWZYOPY6-aeS9zO9K0bQkpg@mail.gmail.com>
+Message-ID: <CAMuHMdWP4UVWoGB3N8mOhbvLMmSJWZYOPY6-aeS9zO9K0bQkpg@mail.gmail.com>
+Subject: Re: [RFC PATCH] pinctrl: renesas: rcar: don't enforce GPIO if already muxed
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linus Walleij <linusw@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 476 runs, 3 regressions (renesas-devel-2022-01-11-=
-v5.16)
+Hi Wolfram,
 
-Regressions Summary
--------------------
+On Fri, Dec 10, 2021 at 12:32 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> For Renesas PFCs not setting .strict, we can snoop GPIOs which are
+> already muxed to some other function. To actually make use of that, we
+> shouldn't mux them back to GPIO if they have been already muxed to
+> something.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-bcm2836-rpi-2-b     | arm   | lab-collabora | gcc-10   | multi_v7_defc...MB=
-2_KERNEL=3Dy | 1          =
+Thanks for your patch!
 
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...BI=
-G_ENDIAN=3Dy | 1          =
+> ---
+>
+> Not sure if this is a proper solution, but at least this is a
+> proof-of-concept. It makes the sloppy GPIO analyzer work by assigning it
+> GPIOs which are already muxed to, say, I2C or PWM. I didn't see any
+> side-effects, but there may be some I missed. Tested on a Salvator-XS
+> with R-Car M3-N where the only occasions of MUX+GPIO at the same time
+> were the logic analyzer. AFAIU if '.strict' is set, the request will be
+> rejected at higher levels, so on those systems should be no harm.
+>
+>  drivers/pinctrl/renesas/pinctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
+> index f3eecb20c086..8d4541ac43a9 100644
+> --- a/drivers/pinctrl/renesas/pinctrl.c
+> +++ b/drivers/pinctrl/renesas/pinctrl.c
+> @@ -397,7 +397,7 @@ static int sh_pfc_gpio_request_enable(struct pinctrl_dev *pctldev,
+>
+>         spin_lock_irqsave(&pfc->lock, flags);
+>
+> -       if (!pfc->gpio) {
+> +       if (!pfc->gpio && !cfg->mux_mark) {
+>                 /* If GPIOs are handled externally the pin mux type needs to be
+>                  * set to GPIO here.
+>                  */
 
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
+I can confirm this works fine to get the sloppy GPIO analyzer going.
+I tested it on koelsch (R-Car M2-W), with additional debug prints
+to see the full impact on PFC register configuration, and everything
+looked fine.  I also gave it a run on the variety of Renesas hardware
+I have access to, and there seem to be no ill effects.
 
+Hence I think it is safe to queue in renesas-pinctrl-for-v5.18.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-01-11-v5.16/plan/baseline/
+Gr{oetje,eeting}s,
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-01-11-v5.16
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      6db3d37d04fb23ae868d4ab8b0f4a869c32e0b4b =
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-bcm2836-rpi-2-b     | arm   | lab-collabora | gcc-10   | multi_v7_defc...MB=
-2_KERNEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61dd7bad93cf7ce1d8ef6741
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm/multi_v7_defconfig+config_thumb2_kernel=3Dy/gcc-10/lab-=
-collabora/baseline-bcm2836-rpi-2-b.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm/multi_v7_defconfig+config_thumb2_kernel=3Dy/gcc-10/lab-=
-collabora/baseline-bcm2836-rpi-2-b.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61dd7bad93cf7ce1d8ef6=
-742
-        failing since 56 days (last pass: renesas-devel-2021-11-02-v5.15, f=
-irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...BI=
-G_ENDIAN=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61dd79c11982db02fdef6751
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_CPU_BIG_ENDIAN=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm64/defconfig+config_cpu_big_endian=3Dy/gcc-10/lab-baylib=
-re/baseline-r8a77950-salvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm64/defconfig+config_cpu_big_endian=3Dy/gcc-10/lab-baylib=
-re/baseline-r8a77950-salvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/arm64be/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61dd79c11982db02fdef6=
-752
-        new failure (last pass: renesas-devel-2022-01-10-v5.16) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
-IZE_BASE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61dd7daa4333b29d5def6761
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm64/defconfig+config_randomize_base=3Dy/gcc-10/lab-baylib=
-re/baseline-r8a77950-salvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-01-11-v5.16/arm64/defconfig+config_randomize_base=3Dy/gcc-10/lab-baylib=
-re/baseline-r8a77950-salvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20211210.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61dd7daa4333b29d5def6=
-762
-        new failure (last pass: renesas-devel-2022-01-03-v5.16-rc8) =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
