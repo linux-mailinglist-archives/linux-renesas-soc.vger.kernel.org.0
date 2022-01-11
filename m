@@ -2,186 +2,258 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1070148B8B8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 21:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A703648BB31
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 00:03:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243626AbiAKUhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jan 2022 15:37:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233821AbiAKUhK (ORCPT
+        id S1346730AbiAKXDy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jan 2022 18:03:54 -0500
+Received: from mga02.intel.com ([134.134.136.20]:29791 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1346722AbiAKXDx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jan 2022 15:37:10 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583ECC06173F;
-        Tue, 11 Jan 2022 12:37:10 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id br17so820030lfb.6;
-        Tue, 11 Jan 2022 12:37:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IQDameqITU1NojR7HvknVY2IQ36ItvkGUfxcogAKzgo=;
-        b=HI/ZMy4fGfeiE8fpirPiZx960CweGnA2lPkrcWv+I061XY7LPXy4Z4u4TaXwJ8eGNM
-         juohAD87i6Z/4l8CzRu8LVUUXbP+udrLNeaANXETUuEc2tMhRDPEIh+woCcm7rOrp0Nb
-         qi0NEvxwA9b0MLpWkO5oAI5c87dVGoYAb3Oimp8RVKvKmz1jEHWmr9LjKS6IpzcLlgIh
-         kA6pyvlG+QzfPoENGKXq+LQaOS1Q0Rq7oKOIK/MXWFTbtsg9SCMGvnQUmF262Gh05yKC
-         EfH8yUf347r0xIlGR/yBJZWr5a3iGGov7Kwm6oatCd8gdXgGUnGY9yRN/0BqyjRS2cIN
-         ePiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IQDameqITU1NojR7HvknVY2IQ36ItvkGUfxcogAKzgo=;
-        b=zDnazc9gOZoIx2mGpGyVu6r5rqCEtcBaKfc8JnmKMrCwUyBgF6w4N3F/IZV49q2lEh
-         Q/eMlqmBkhcUCcgAGoCyB06vlsa0Ts9OmHaveEJcm5OgUYmY9u8v0o8uL/DlQYkg3WYN
-         58JEREVKzq7G20QBuJIi++xurNeakE8aN1m0U5wwkzHNLWDqswX/SjmVYg5lqetP203c
-         R4nUGd38MK4q/7bF3sQyo/kS7eKTCkLMbL1R3ArHB0vMCJp6r0Heob9s9wkXZ+Yj4S8P
-         aB5BwhKUCJnvIf27mmHXnTN33+PpJWXFDN6lyHFSZAHnkR2goMzXwN8s2RkWFBfEo9C7
-         WRSQ==
-X-Gm-Message-State: AOAM5333zz6jOON7rPkP909Nrx9exkbFlMH3tRtAaTAjkSf8hWXp+vjH
-        V1kTfeogRRsaKPAoOD8RGP4=
-X-Google-Smtp-Source: ABdhPJzcc5xBDRuDlV1jTOEXPFMYCtnn7xBlwNB/0/n8RaIUYL+VDFmfvWgaYbfXpSZmjttO0f1wzw==
-X-Received: by 2002:ac2:47f8:: with SMTP id b24mr4119768lfp.49.1641933428702;
-        Tue, 11 Jan 2022 12:37:08 -0800 (PST)
-Received: from dell.intranet (178235254230.gdansk.vectranet.pl. [178.235.254.230])
-        by smtp.gmail.com with ESMTPSA id b23sm1122987lfv.84.2022.01.11.12.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 12:37:08 -0800 (PST)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of .set_mbus_config()
-Date:   Tue, 11 Jan 2022 21:37:06 +0100
-Message-ID: <3111564.aV6nBDHxoP@dell>
-In-Reply-To: <Yd1vhs+3F2ISkW9S@valkosipuli.retiisi.eu>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com> <1808044.CQOukoFCf9@dell> <Yd1vhs+3F2ISkW9S@valkosipuli.retiisi.eu>
+        Tue, 11 Jan 2022 18:03:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641942233; x=1673478233;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PyvFF+3L0xSogiCi+lyf3LhzBpJcDq7NZBbZ7MBycvs=;
+  b=CYeG1wLsrzwE2QlujdvCqTqOpFC3ua2rB1IY1FJOjmGSmW3nI6ttb5hi
+   Jj7h6NhR0QogjNivypEi3mvE83RXKZ4J+eiJHxDNvy93ANnFwu3Rguuji
+   op5LciMNAPSyeN1KEVxaqk2d2U4YjsNCJHFkwo4TDURmFLT92iANBugh4
+   JiUWjCDSaKVC1YuPx66YYlkTflkmXwQ3nQfIpTMtEar7SfzkIGCnAjlYy
+   mn8WZGo3VmmIdGQQIEndDMTyIpybUaqjkNVOOJ/dYb1apeo4jUN6bRZHO
+   r2fHxjdfXAgfSNZokM1JjZaFKr/Ouur7eiIszgHfvKMogxQJVo/Kho9o0
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="230947303"
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; 
+   d="scan'208";a="230947303"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 15:03:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,281,1635231600"; 
+   d="scan'208";a="623232453"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 11 Jan 2022 15:03:51 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n7QBD-0005JL-2o; Tue, 11 Jan 2022 23:03:51 +0000
+Date:   Wed, 12 Jan 2022 07:03:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.18] BUILD SUCCESS
+ 83ef00d79ec75a353286c063c566b87c913e29fe
+Message-ID: <61de0cbd.Uws85fx0Hz2HhP3n%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.18
+branch HEAD: 83ef00d79ec75a353286c063c566b87c913e29fe  arm64: dts: renesas: r8a77961: Add lvds0 device node
 
-On Tuesday, 11 January 2022 12:52:38 CET Sakari Ailus wrote:
-> Hi Janusz,
-> 
-> On Mon, Jan 10, 2022 at 07:11:45PM +0100, Janusz Krzysztofik wrote:
-> > Hi Sakari,
-> > 
-> > On Friday, 7 January 2022 14:41:51 CET Sakari Ailus wrote:
-> > > Hi Janusz,
-> > > 
-> > > On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
-> > > > Hi Laurent,
-> > > > 
-> > > > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
-> > > > > Hi Sakari,
-> > > > >
-> > > > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
-> > > > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
-> > > > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
-> > > > > > > kernel calls it, so drop its implementation from the ov6650 driver.
-> > > > > > >
-> > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
-> > > > > > >  1 file changed, 37 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > > > > > > index f67412150b16..455a627e35a0 100644
-> > > > > > > --- a/drivers/media/i2c/ov6650.c
-> > > > > > > +++ b/drivers/media/i2c/ov6650.c
-> > > > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> > > > > > >   return 0;
-> > > > > > >  }
-> > > > > > >
-> > > > > > > -/* Alter bus settings on camera side */
-> > > > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
-> > > > > > > -                           unsigned int pad,
-> > > > > > > -                           struct v4l2_mbus_config *cfg)
-> > > > > > > -{
-> > > > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > > > > > > - int ret = 0;
-> > > > > > > -
-> > > > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> > > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
-> > > > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> > > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
-> > > > > >
-> > > > > > I think this configuration should come from the endpoint which the driver
-> > > > > > currently does not parse. In fact, there are no even DT bindings for the
-> > > > > > device.
-> > > > >
-> > > > > There's also no OF match table. While this isn't strictly required, it
-> > > > > may indicate that the sensor hasn't been tested much on DT-based
-> > > > > systems.
-> > > > >
-> > > > > I agree that the configuration should come from the device tree, but I
-> > > > > can't test that, so I'm tempted to let someone else implement it if the
-> > > > > driver is actually still in use (I can also write a patch if someone can
-> > > > > test it).
-> > > > 
-> > > > This driver was used with omap1_camera, removed from the tree a few years
-> > > > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
-> > > > updated but I gave up due to lack of response to my submissions.  That also
-> > > > blocked my attempts to rework and reintroduce omap1_camera.
-> > > 
-> > > My apologies for this --- I indeed to see a set of unreviewed ov6650 patches
-> > > from you. Please do ping me if you expect an answer but do not get one.
-> > 
-> > OK, thanks.
-> > 
-> > > > I think I'm still able to update my local (v4l2, non-mc) version of
-> > > > omap1_camera to the extent required to test any changes to ov6650.
-> > > > However, the OMAP1 platform does not support DT, and will probably never
-> > > > do.  Then,  I think that it makes sense to spend my time on that only if
-> > > > you (media maintainers) are not going to depreciate non-DT support any
-> > > > soon.  Are you?
-> > > 
-> > > Commenting just this and not the discussion later in this thread --- it is
-> > > possible to support such sensor drivers without DT or ACPI nowadays,
-> > > through software nodes. See e.g. drivers/media/pci/intel/ipu3/cio2-bridge.c
-> > 
-> > Thanks for bringing this possibility to my awareness, I didn't know it 
-> > existed.  AFAICS, I2C sensor drivers like ov6650 can now be provided by 
-> > board files with device properties via i2c_board_info.swnode.
-> 
-> Looking at i2c_new_client_device(), it only takes a single software node.
-> For an endpoint at least three are required, meaning you'll need to do that
-> separately. At least that seems to be the case at the moment.
+elapsed time: 729m
 
-Thanks, I'll take a closer look.
+configs tested: 178
+configs skipped: 3
 
-> > 
-> > If I find a solution to implement a non-v4l2-clk clock device in 
-> > omap1_camera driver, I'll try to get back to updating ov6650 as time 
-> > permits.
-> 
-> Looking forward to that. Btw. I've taken the four patches you posted
-> earlier, rebased them a little and pushed them here:
-> 
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
-> 
-> Let me know if they're (not) fine.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Should be fine, thank you.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                          randconfig-c001
+mips                 randconfig-c004-20220111
+sh                           se7750_defconfig
+arm                          badge4_defconfig
+m68k                           sun3_defconfig
+m68k                       m5475evb_defconfig
+sh                ecovec24-romimage_defconfig
+powerpc                     mpc83xx_defconfig
+mips                      maltasmvp_defconfig
+nios2                               defconfig
+sh                          sdk7780_defconfig
+m68k                        mvme16x_defconfig
+arm                        cerfcube_defconfig
+m68k                          hp300_defconfig
+arm                         axm55xx_defconfig
+um                             i386_defconfig
+sparc                            alldefconfig
+arm                           stm32_defconfig
+sh                                  defconfig
+powerpc                      ep88xc_defconfig
+arm                        mini2440_defconfig
+sh                            migor_defconfig
+m68k                                defconfig
+sh                        edosk7760_defconfig
+sparc64                             defconfig
+mips                          rb532_defconfig
+s390                          debug_defconfig
+arc                              allyesconfig
+arm                       multi_v4t_defconfig
+arm                           viper_defconfig
+sh                          rsk7269_defconfig
+arm                        realview_defconfig
+h8300                       h8s-sim_defconfig
+sh                           se7751_defconfig
+arm                         assabet_defconfig
+microblaze                          defconfig
+h8300                     edosk2674_defconfig
+arm                     eseries_pxa_defconfig
+nds32                             allnoconfig
+powerpc                    klondike_defconfig
+sh                        edosk7705_defconfig
+nds32                            alldefconfig
+mips                         db1xxx_defconfig
+arm                         vf610m4_defconfig
+sh                        dreamcast_defconfig
+arm                        multi_v7_defconfig
+arc                      axs103_smp_defconfig
+sh                          r7780mp_defconfig
+sh                             shx3_defconfig
+h8300                               defconfig
+s390                       zfcpdump_defconfig
+sh                          urquell_defconfig
+m68k                          amiga_defconfig
+sh                           se7722_defconfig
+sh                 kfr2r09-romimage_defconfig
+sh                          landisk_defconfig
+sh                           se7712_defconfig
+powerpc                     rainier_defconfig
+powerpc                  storcenter_defconfig
+powerpc                     pq2fads_defconfig
+parisc                              defconfig
+mips                           xway_defconfig
+m68k                         amcore_defconfig
+arm                            mps2_defconfig
+powerpc                      pcm030_defconfig
+xtensa                       common_defconfig
+m68k                            q40_defconfig
+mips                        jmr3927_defconfig
+xtensa                           alldefconfig
+s390                             allyesconfig
+arm                  randconfig-c002-20220111
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+riscv                randconfig-r042-20220111
+arc                  randconfig-r043-20220111
+s390                 randconfig-r044-20220111
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
 
-Janusz
+clang tested configs:
+arm                  randconfig-c002-20220111
+x86_64                        randconfig-c007
+riscv                randconfig-c006-20220111
+powerpc              randconfig-c003-20220111
+i386                          randconfig-c001
+mips                 randconfig-c004-20220111
+s390                 randconfig-c005-20220111
+arm                                 defconfig
+arm                          pxa168_defconfig
+powerpc                     ksi8560_defconfig
+arm                        spear3xx_defconfig
+arm                  colibri_pxa300_defconfig
+mips                          malta_defconfig
+arm                          ep93xx_defconfig
+powerpc                 mpc836x_mds_defconfig
+mips                        workpad_defconfig
+mips                          ath79_defconfig
+arm                    vt8500_v6_v7_defconfig
+mips                           ip27_defconfig
+powerpc                          allmodconfig
+powerpc                     kmeter1_defconfig
+arm                         bcm2835_defconfig
+mips                           mtx1_defconfig
+powerpc                    ge_imp3a_defconfig
+arm                            mmp2_defconfig
+arm                         hackkit_defconfig
+powerpc                   lite5200b_defconfig
+riscv                             allnoconfig
+arm                          ixp4xx_defconfig
+riscv                          rv32_defconfig
+mips                          rm200_defconfig
+powerpc                      acadia_defconfig
+hexagon                          alldefconfig
+powerpc                      pmac32_defconfig
+mips                           ip22_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                          allyesconfig
+powerpc                 mpc8313_rdb_defconfig
+arm                     davinci_all_defconfig
+arm                      pxa255-idp_defconfig
+powerpc                 mpc832x_mds_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
 
-> 
-> 
-
-
-
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
