@@ -2,86 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F351E48AB33
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 11:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E750448AB92
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 11:40:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237490AbiAKKOx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jan 2022 05:14:53 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:44813 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231667AbiAKKOw (ORCPT
+        id S1349309AbiAKKkP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jan 2022 05:40:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349206AbiAKKkN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:14:52 -0500
-Received: by mail-ua1-f49.google.com with SMTP id l15so17242873uai.11;
-        Tue, 11 Jan 2022 02:14:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WC7G6vkWzKe7686M1twI77VkZDIsn5dgTzG4HQCrkC8=;
-        b=apLqzgVN7TqCMGSnMT8TFDohQdEisJxTJA40CyofJ2db5RGaYCmk5F9sK54TAWBqCP
-         RnPrUUjMP2ZlFkt8rk4HcqQBgcCwsbLRBlU/4eXI+ZXDQz5wVyxY+hhv3QVHpsK2rZDx
-         rEgyJX54VN57DFM8U91lL3YY7SvWJ4wHGr2K9Q6StFXLTmT7z7frfnVtEmUdTBKq7oXS
-         epUYGp/zoExuz4apJ4EBKb965+vrV/YWlIUWu6F+bdZmFAJyAZrZzW8A6mM8ZQcr7agf
-         PTJSMi99Ld/t0u6NGoKWwmsYtX1+ic3jPN4bbXI15SfYze3qJ+IhgPuyX3Ht162f6xSa
-         77Ow==
-X-Gm-Message-State: AOAM5332nSQ+Ux5YSuf7XFbPBZsaORKlhPd7cxNV3V0j2vSSSe1vkE3m
-        ivO9t54HMw5iOJREWhZjQYMi6zTLV8aEdw==
-X-Google-Smtp-Source: ABdhPJxu2FBL+CNRIadogtn9xPTxK7mkYG/b3cbLWUoHdsdgGnnzKINDqbdphcoJSXFey3yTUWfbdA==
-X-Received: by 2002:ab0:59cf:: with SMTP id k15mr1560872uad.47.1641896091677;
-        Tue, 11 Jan 2022 02:14:51 -0800 (PST)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id m62sm5545204uam.0.2022.01.11.02.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 02:14:51 -0800 (PST)
-Received: by mail-vk1-f173.google.com with SMTP id 19so2254669vkl.2;
-        Tue, 11 Jan 2022 02:14:51 -0800 (PST)
-X-Received: by 2002:a05:6122:c89:: with SMTP id ba9mr290347vkb.39.1641896091170;
- Tue, 11 Jan 2022 02:14:51 -0800 (PST)
+        Tue, 11 Jan 2022 05:40:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32A9C06173F
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 02:40:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5D8EBB81A0C
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 10:40:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0A245C36AE9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 10:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641897610;
+        bh=lnC55zU98HeX+8g49EMb0+p6M/HrdGX4WGderQdoDUM=;
+        h=Subject:From:Date:To:From;
+        b=JKzCmOVlgiUo3DfiKcmbrvx/f2GYGZfJlu5IJs2demVb+28D3fWNd44c3CSw4Djkl
+         NrUk66f22pdemAKJXGMDv+tVJrjp7a+FCZFbIGHxBZlm51hobypJ+46Lv1SlXdgFgF
+         ZL5VKNa054DGMmcR4mucbogNeb7AEiO48QN89h1Sp0GAdkAh217/CvX6dmf9xzom5F
+         62+DC7/rXgZvg2OsWLp4UqqegujmZs41F8M7LPAr7cOLFMZjVllZPPmGVchILXFUkr
+         2qDka7gkWQ3X6SDNSKCxfuw4PvOITFTkK6guWtwvz63JXR4HmH6EnH+L5oqAPQxGfL
+         IGdLjdLLGAOaw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E4856F6078A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 10:40:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211222145901.23661-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdW6wZLYGttKaSiX_ZknfGrqo5Z6mFBA6ZhqxURtzbaHCw@mail.gmail.com>
-In-Reply-To: <CAMuHMdW6wZLYGttKaSiX_ZknfGrqo5Z6mFBA6ZhqxURtzbaHCw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 11 Jan 2022 11:14:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWcZr0mXQFL6Q3Cu6rpU4WaM2tBw+N06LtmaD_=D00tSg@mail.gmail.com>
-Message-ID: <CAMuHMdWcZr0mXQFL6Q3Cu6rpU4WaM2tBw+N06LtmaD_=D00tSg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add
- description for power-source property
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <164189760987.14245.14421054089773313872.git-patchwork-summary@kernel.org>
+Date:   Tue, 11 Jan 2022 10:40:09 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 4:30 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Dec 22, 2021 at 3:59 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add description for "power-source" property mentioning the values in enum
-> > are in millivolts.
-> >
-> > Suggested-by: Pavel Machek <pavel@denx.de>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-pinctrl-for-v5.18.
+Hello:
 
-... with s/millivolts/millivolt/.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Gr{oetje,eeting}s,
+Patch: arm64: dts: beacon-renesom-som: Remove the 'pm-ignore-notify' property
+  Submitter: Fabio Estevam <festevam@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=592557
+  Lore link: https://lore.kernel.org/r/20211208195624.1864654-1-festevam@gmail.com
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Total patches: 1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
