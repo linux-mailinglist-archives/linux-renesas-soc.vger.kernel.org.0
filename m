@@ -2,132 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBCAB48AD3F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 13:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF38948AE90
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 14:39:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239003AbiAKMDA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jan 2022 07:03:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51150 "EHLO
+        id S238999AbiAKNjf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jan 2022 08:39:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238920AbiAKMDA (ORCPT
+        with ESMTP id S240266AbiAKNja (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jan 2022 07:03:00 -0500
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [IPv6:2a01:5b40:0:3005::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EE6C06173F;
-        Tue, 11 Jan 2022 04:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-        ; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        Subject:References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jyL93/6BnSzZVNk0d+pZVStpOnNWGIWV0cp232YBOgI=; b=mT2tFt8Aj6L1bsweeK606aleQA
-        0q/CwoWO+evMQh6GF50pJ9PCCCJyuXmOhrRYLTjQTDKpOhN5D1TYzPaDFKoepp28vQrmdjWG6wUW8
-        LGlw4YnNeBeXX7pKtIYZ3/rLRKgUBssnd7als6RGu0CxyV46XVwUK4IDmmPFA3ITABbriBLqZUyX7
-        UWENmSQBWStSeVvtNjuAYCql48TE2QdR6owbFy1pu34zh7hD38mCeIMvQV128RgQ14GVHI+BlaVUf
-        s1SRoWZUU6eUnGUkYz/h6+kwWvf5T6XHSBuiDwqgK/Ebb/WdPwu+Hoa2GmokqiDnSf/G5RdV5o7Ly
-        1/sUx6RQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:50898 helo=[192.168.10.61])
-        by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <noralf@tronnes.org>)
-        id 1n7Frc-0003rr-1p; Tue, 11 Jan 2022 13:02:56 +0100
-Message-ID: <a9e2d66e-1a85-b61f-ee3b-ca7032e0516f@tronnes.org>
-Date:   Tue, 11 Jan 2022 13:02:50 +0100
+        Tue, 11 Jan 2022 08:39:30 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3103DC061756
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 05:39:30 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id lr15-20020a17090b4b8f00b001b19671cbebso5943245pjb.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 05:39:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=SMYOFYrxu+bHbWZs6wFmJeq3O5cOwYvpJoqkwctcyIk=;
+        b=RnZRV1tbQsgsVHuGfUWut3G4TvmIp+osDIqxJw0tc99P3X8/uBXLabK7u00X7LGQ7m
+         lZXzC/PrSygAC9CgJr+/Vimxbbaakwed4F0o4xgHL/Qh22C/8wWnWncDrc56ufvujyn4
+         iVsVmIK5c88TIO9aMqqDk+QPoM9jdcwh2jNzXM2O+yEkUyyRSkGYCP+i9qLcjApULXcK
+         XRQi4X2ehSiHucbaKQ4ornru9Qja27XMET/exsTITUk1SOVx6dGHRnFtqZAb7YKKq91+
+         Iwe/QzPIC9IEktZquvNtZOFyE0FzE6CM4Tg4eFD/TMgrCUYJNaMZGxQL1E8GOsJ5zxyq
+         Setg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=SMYOFYrxu+bHbWZs6wFmJeq3O5cOwYvpJoqkwctcyIk=;
+        b=b2oz94cKtqDU7ZYDD1XFpC7J5aSqSmTyqtXIyyjpwZnicnIoKhYp/Y0ZLY9z98MnY9
+         yXsafp4gmjOPQsge0zh2gwwOehzDfETJNpQGmn9nUPBI4ZOQnvvxH4cBrR0Py7fxPyPL
+         Oaib/yvAvjRaw0KWKEolzbeqhdbRXHcqGCgxDba/OCAKNuv8B7JbQ2DhGa342EAMJx5b
+         2PfpQzTd8A85FWN9+IYHbj9v0RsjJyELvRgWPwwiO6HJsLrnyp2BJ5FrG4qF0VA2ylk8
+         0KgqhnhgJhM2UM2WgguT75sepznwgTqUj+RxaS9+x6J/GI6suXXZODSSO+butNNNKks6
+         PMfg==
+X-Gm-Message-State: AOAM5317z0X/VThbNFiOmemuiQyMi7BodX01fUWqzBo+cwJEIxM5f4zD
+        5gKUmh6424HPoTSZAjm5a0sJwJU060NxwmTs
+X-Google-Smtp-Source: ABdhPJy8I4ZeblufJIlA8rmiWPPef2ii/5RTyTcpbz3pkse1q+OiuERIpTP+/VhYZ135kQZ5vlsu6Q==
+X-Received: by 2002:a17:90b:3b49:: with SMTP id ot9mr3227322pjb.110.1641908369480;
+        Tue, 11 Jan 2022 05:39:29 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y131sm8109905pfb.158.2022.01.11.05.39.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 05:39:29 -0800 (PST)
+Message-ID: <61dd8891.1c69fb81.8f3af.4cc5@mx.google.com>
+Date:   Tue, 11 Jan 2022 05:39:29 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-To:     tzimmermann@suse.de
-Cc:     airlied@linux.ie, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, maarten.lankhorst@linux.intel.com,
-        marcel@ziswiler.com, mripard@kernel.org, naresh.kamboju@linaro.org,
-        noralf@tronnes.org
-References: <20211106193509.17472-2-tzimmermann@suse.de>
-Subject: Re: [PATCH v2 1/2] drm/mipi-dbi: Remove dependency on GEM CMA helper
- library
-From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20211106193509.17472-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2022-01-11-v5.16
+X-Kernelci-Branch: master
+Subject: renesas/master sleep: 8 runs,
+ 1 regressions (renesas-devel-2022-01-11-v5.16)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> The MIPI DBI helpers access struct drm_gem_cma_object.vaddr in a
-> few places. Replace all instances with the correct generic GEM
-> functions. Use drm_gem_fb_vmap() for mapping a framebuffer's GEM
-> objects and drm_gem_fb_vunmap() for unmapping them. This removes
-> the dependency on CMA helpers within MIPI DBI.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 34 +++++++++++++++++++++++++---------
->  1 file changed, 25 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c
-b/drivers/gpu/drm/drm_mipi_dbi.c
-> index 71b646c4131f..f80fd6c0ccf8 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -15,9 +15,10 @@
->  #include <drm/drm_connector.h>
->  #include <drm/drm_damage_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_file.h>
->  #include <drm/drm_format_helper.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_mipi_dbi.h>
->  #include <drm/drm_modes.h>
-> @@ -200,13 +201,19 @@ int mipi_dbi_buf_copy(void *dst, struct
-drm_framebuffer *fb,
->  		      struct drm_rect *clip, bool swap)
->  {
->  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
-> -	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem);
-> -	void *src = cma_obj->vaddr;
-> +	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
-> +	struct dma_buf_map data[DRM_FORMAT_MAX_PLANES];
-> +	void *src;
->  	int ret;
->
->  	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->  	if (ret)
->  		return ret;
-> +	src = data[0].vaddr; /* TODO: Use mapping abstraction properly */
+renesas/master sleep: 8 runs, 1 regressions (renesas-devel-2022-01-11-v5.16)
 
-This assignment should be after the _vmap() call. The MIPI DBI drivers
-are currently broken because of this.
+Regressions Summary
+-------------------
 
-Noralf.
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
 
-> +
-> +	ret = drm_gem_fb_vmap(fb, map, data);
-> +	if (ret)
-> +		goto out_drm_gem_fb_end_cpu_access;
->
->  	switch (fb->format->format) {
->  	case DRM_FORMAT_RGB565:
-> @@ -221,9 +228,11 @@ int mipi_dbi_buf_copy(void *dst, struct
-drm_framebuffer *fb,
->  	default:
->  		drm_err_once(fb->dev, "Format is not supported: %p4cc\n",
->  			     &fb->format->format);
-> -		return -EINVAL;
-> +		ret = -EINVAL;
->  	}
->
-> +	drm_gem_fb_vunmap(fb, map);
-> +out_drm_gem_fb_end_cpu_access:
->  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->
->  	return ret;
->
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-01-11-v5.16/plan/sleep/
+
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-01-11-v5.16
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6db3d37d04fb23ae868d4ab8b0f4a869c32e0b4b =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61dd764cd37368ca14ef679d
+
+  Results:     22 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-11-v5.16/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
+/sleep-hp-11A-G6-EE-grunt.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-11-v5.16/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora=
+/sleep-hp-11A-G6-EE-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+211224.1/amd64/rootfs.cpio.gz =
+
+
+
+  * sleep.rtcwake-freeze-2: https://kernelci.org/test/case/id/61dd764cd3736=
+8ca14ef67a7
+        failing since 0 day (last pass: renesas-devel-2022-01-03-v5.16-rc8,=
+ first fail: renesas-devel-2022-01-10-v5.16)
+
+    2022-01-11T12:20:23.863696  rtcwake: assuming RTC uses UTC ...
+    2022-01-11T12:20:23.870054  rtcwake: wakeup from \"freeze\" using rtc0 =
+at Tue Jan 11 12:20:29 2022
+    2022-01-11T12:20:23.873775  <6>[   34.319920] PM: suspend entry (deep)
+    2022-01-11T12:20:23.880110  <6>[   34.332546] Filesystems sync: 0.000 s=
+econds
+    2022-01-11T12:20:23.883287  <6>[   34.337104] PM: suspend entry (s2idle)
+    2022-01-11T12:20:23.886603  <6>[   34.337376] Freezing user space proce=
+sses ... =
+
+    2022-01-11T12:20:23.889667  <6>[   34.341119] PM: suspend exit
+    2022-01-11T12:20:23.902464  <4>[   34.356101] (elapsed 0.014 seconds) d=
+one.
+    2022-01-11T12:20:23.905724  <6>[   34.360394] OOM killer disabled.
+    2022-01-11T12:20:24.928578  <6>[   34.363898] Freezing remaining freeza=
+ble tasks ... (elapsed 1.014 seconds) done. =
+
+    ... (1149 line(s) more)  =
+
+ =20
