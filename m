@@ -2,98 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24F2548A44A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 01:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E77048A8BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jan 2022 08:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242921AbiAKAX0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jan 2022 19:23:26 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:4418 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238204AbiAKAX0 (ORCPT
+        id S233169AbiAKHsZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jan 2022 02:48:25 -0500
+Received: from mail.BETTERBIZ.PL ([45.86.209.138]:41604 "EHLO
+        mail.betterbiz.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232589AbiAKHsZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jan 2022 19:23:26 -0500
-X-IronPort-AV: E=Sophos;i="5.88,278,1635174000"; 
-   d="scan'208";a="106595501"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Jan 2022 09:23:25 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 382904157D12;
-        Tue, 11 Jan 2022 09:23:23 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/13] media: vsp1: Use platform_get_irq() to get the interrupt
-Date:   Tue, 11 Jan 2022 00:23:02 +0000
-Message-Id: <20220111002314.15213-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 11 Jan 2022 02:48:25 -0500
+Received: by mail.betterbiz.pl (Postfix, from userid 1001)
+        id 27403826C8; Tue, 11 Jan 2022 02:45:56 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=betterbiz.pl; s=mail;
+        t=1641887305; bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
+        h=Date:From:To:Subject:From;
+        b=Jpk+mBOM9TtWxJkaizKuuwAbPzrJ8TorlFCkggBpwkEQw8qzb/XCmfEubxnNXPjGQ
+         UWPZEWje/UcIVKqFWYe7aYnhBinlTlC7+cliEEE42T/qtj8H6rjyKIlTmf95lbCuGM
+         5d8NqKOgWHD1Qd1yMwgdZ8tACzsZM7+pXq5rNshF7cEai9e3SYfRWidH8pMkVZWgPO
+         Q91yt0FpNR+UMHHUcJDWV9SsilDQDPS6Ec9mSL+YtHv32VQq9PVWhK+fG6WtOkpSlX
+         T1E30yGNP0D2SBgAI7xh0eP0nNOuCmv1kUhkhTCGrJLzBiz3PCxXuIJSGAyNjuGrbo
+         zZ4L19VI4BVcw==
+Received: by mail.betterbiz.pl for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jan 2022 07:45:52 GMT
+Message-ID: <20220111024500-0.1.o.zbo.0.6c5988ylqc@betterbiz.pl>
+Date:   Tue, 11 Jan 2022 07:45:52 GMT
+From:   "Jakub Daroch" <jakub.daroch@betterbiz.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.betterbiz.pl
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+Dzie=C5=84 dobry,
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq().
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-v1->v2
-* Used a local variable irq.
-* Included Ack from Laurent
----
- drivers/media/platform/vsp1/vsp1_drv.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index c9044785b903..e5b865dca111 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -794,9 +794,9 @@ static int vsp1_probe(struct platform_device *pdev)
- {
- 	struct vsp1_device *vsp1;
- 	struct device_node *fcp_node;
--	struct resource *irq;
- 	unsigned int i;
- 	int ret;
-+	int irq;
- 
- 	vsp1 = devm_kzalloc(&pdev->dev, sizeof(*vsp1), GFP_KERNEL);
- 	if (vsp1 == NULL)
-@@ -813,14 +813,12 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (IS_ERR(vsp1->mmio))
- 		return PTR_ERR(vsp1->mmio);
- 
--	irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!irq) {
--		dev_err(&pdev->dev, "missing IRQ\n");
--		return -EINVAL;
--	}
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
- 
--	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
--			      IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-+	ret = devm_request_irq(&pdev->dev, irq, vsp1_irq_handler,
-+			       IRQF_SHARED, dev_name(&pdev->dev), vsp1);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "failed to request IRQ\n");
- 		return ret;
--- 
-2.17.1
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
+
+Pozdrawiam,
+Jakub Daroch
