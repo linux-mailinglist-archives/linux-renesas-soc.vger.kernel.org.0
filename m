@@ -2,135 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C739D48CA53
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 18:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0DFF48CB2C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 19:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355706AbiALRrx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jan 2022 12:47:53 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:31062 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1355957AbiALRrd (ORCPT
+        id S1356384AbiALSn4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jan 2022 13:43:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356413AbiALSnx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jan 2022 12:47:33 -0500
-X-IronPort-AV: E=Sophos;i="5.88,282,1635174000"; 
-   d="scan'208";a="106824783"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Jan 2022 02:47:32 +0900
-Received: from localhost.localdomain (unknown [10.226.92.38])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 991984005E1F;
-        Thu, 13 Jan 2022 02:47:30 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC 28/28] arm64: dts: renesas: rzg2l-smarc: Enable Display on carrier board
-Date:   Wed, 12 Jan 2022 17:46:12 +0000
-Message-Id: <20220112174612.10773-29-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
+        Wed, 12 Jan 2022 13:43:53 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52F93C06173F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 10:43:52 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1n7iau-0002qg-OU; Wed, 12 Jan 2022 19:43:36 +0100
+Received: from pengutronix.de (unknown [195.138.59.174])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 3FC4116C67;
+        Wed, 12 Jan 2022 18:43:31 +0000 (UTC)
+Date:   Wed, 12 Jan 2022 19:43:27 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        davem@davemloft.net, linux-can@vger.kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, wsa@kernel.org,
+        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
+        kuba@kernel.org, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net, geert@linux-m68k.org,
+        kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 2/5] can: rcar_canfd: Add support for r8a779a0 SoC
+Message-ID: <20220112184327.f7fwzgqvle23gfzv@pengutronix.de>
+References: <20220111162231.10390-1-uli+renesas@fpond.eu>
+ <20220111162231.10390-3-uli+renesas@fpond.eu>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="245qoku3mnz6cen7"
+Content-Disposition: inline
+In-Reply-To: <20220111162231.10390-3-uli+renesas@fpond.eu>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable display interface on RZ/G2L SMARC EVK.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi | 61 ++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+--245qoku3mnz6cen7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-index 6f2a8bdfa225..3851f5b4c855 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
-@@ -37,6 +37,17 @@
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	hdmi-out {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		port {
-+			hdmi_con_out: endpoint {
-+				remote-endpoint = <&adv7535_out>;
-+			};
-+		};
-+	};
-+
- 	audio_mclock: audio_mclock {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
-@@ -107,6 +118,23 @@
- 	};
- };
- 
-+&dsi0 {
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi0_out: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&adv7535_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	dr_mode = "otg";
- 	status = "okay";
-@@ -133,6 +161,39 @@
- 	pinctrl-names = "default";
- 
- 	status = "okay";
-+
-+	adv7535: hdmi@3d {
-+		compatible = "adi,adv7535";
-+		reg = <0x3d>;
-+
-+		avdd-supply = <&reg_1p8v>;
-+		dvdd-supply = <&reg_1p8v>;
-+		pvdd-supply = <&reg_1p8v>;
-+		a2vdd-supply = <&reg_1p8v>;
-+		v3p3-supply = <&reg_3p3v>;
-+		v1p2-supply = <&reg_1p8v>;
-+
-+		adi,dsi-lanes = <4>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				adv7535_in: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				adv7535_out: endpoint {
-+					remote-endpoint = <&hdmi_con_out>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &i2c3 {
--- 
-2.17.1
+On 11.01.2022 17:22:28, Ulrich Hecht wrote:
+> Adds support for the CANFD IP variant in the V3U SoC.
+>=20
+> Differences to controllers in other SoCs are limited to an increase in
+> the number of channels from two to eight, an absence of dedicated
+> registers for "classic" CAN mode, and a number of differences in magic
+> numbers (register offsets and layouts).
+>=20
+> Inspired by BSP patch by Kazuya Mizuguchi.
+>=20
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 231 ++++++++++++++++++++----------
+>  1 file changed, 153 insertions(+), 78 deletions(-)
+>=20
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rca=
+r_canfd.c
+> index ff9d0f5ae0dd..b1c9870d2a82 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -44,10 +44,13 @@
+>  enum rcanfd_chip_id {
+>  	RENESAS_RCAR_GEN3 =3D 0,
+>  	RENESAS_RZG2L,
+> +	RENESAS_R8A779A0,
+>  };
+> =20
+>  /* Global register bits */
+> =20
+> +#define IS_V3U (gpriv->chip_id =3D=3D RENESAS_R8A779A0)
 
+I really don't like this macro, as it silently relies on gpriv....and
+I really don't like this use of this macro in the other macros that lead
+to 2 or even 3 ternary operators hiding inside them. Is there any chance
+to change this?
+
+Please add at least the gpriv argument to IS_V3U().....
+
+[...]
+
+> -	of_child =3D of_get_child_by_name(pdev->dev.of_node, "channel1");
+> -	if (of_child && of_device_is_available(of_child))
+> -		channels_mask |=3D BIT(1);	/* Channel 1 */
+> +	strcpy(name, "channelX");
+
+please use strlcpy()
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--245qoku3mnz6cen7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmHfIU0ACgkQqclaivrt
+76m+ZAgAhsdBWGeR/pk4xB23D97lrg6gBfBhg50YD0P6uiwmr5F6LZTA3MrfxXQ2
+yRXaZ7zh7Bb0FWHlqCCjFWF1QCchtlVXkP2S4+Y1UpRF4Ppo4VduiQtEx/NvFHKN
+/chjFzn6lgQjvEymMzypjDo1BcfpdZUI1buvxTcuxapLcx9wAr3ZgBLgY8DnPm5x
+FhCyHBGTvpBWI2fvRwy7twrALoUhwDES3zA7aAd330F2TCi+BJGIp1uZdvEDk28v
+KWlA3huprGCKCtSse2KWOMrTPp85KlDYOPiTBRZIDvM+i5wt4hQTAub8xYDP4Wjz
+vo7NvdH6879oVvyJ1JnR37ZClFSahA==
+=QkLU
+-----END PGP SIGNATURE-----
+
+--245qoku3mnz6cen7--
