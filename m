@@ -2,111 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1686448C212
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 11:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3E248C215
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 11:16:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352434AbiALKP3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jan 2022 05:15:29 -0500
-Received: from mail-vk1-f180.google.com ([209.85.221.180]:44639 "EHLO
-        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352424AbiALKP0 (ORCPT
+        id S1352431AbiALKQv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jan 2022 05:16:51 -0500
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:36590 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346644AbiALKQu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jan 2022 05:15:26 -0500
-Received: by mail-vk1-f180.google.com with SMTP id b77so1289544vka.11;
-        Wed, 12 Jan 2022 02:15:26 -0800 (PST)
+        Wed, 12 Jan 2022 05:16:50 -0500
+Received: by mail-ua1-f50.google.com with SMTP id r15so3815227uao.3;
+        Wed, 12 Jan 2022 02:16:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6wKmSWMHWAmRWv4Hqzo9xUOdqr9ud8CTsl9Le52Qq2A=;
-        b=UdJ+3JwWIGh8nEWkR/7xNhp5wmVjLb312NkEYecxcCxg9gYEyWnhyN0nECeoJbQ4fe
-         HvYmTn8j/Gfnh582frysA4LW+OiyMKO5DAtBo98+lN0Rwm9hU97vdXecgDWUq2lSrvMW
-         MXMNipSsLcxIDEi6FSP9+Zydr4fHX8K3o8Xy28G+5rv5Smv9O6853BdcIBWwAUNPoKn+
-         u9yxhPb6CRnUYEpnnklTkkxsj/nPN9zD3BcCzSWCUg5LwtT1JsJsizIGmODuv9c3DyyE
-         gt/lUHggPMTHGhWq+XHLdBovfOs+bE1WVLb8NL7iyN41O44Arz2fe0AVj0YGjFFJT/Nl
-         Fh1Q==
-X-Gm-Message-State: AOAM531ol+EeMlI524uZquTCmL0PZ+LJd12DJucRv8vGnm5ImWlYrBXM
-        iwkaLN/UGhpi2r1013pinJs8W7caHHcDcfRN
-X-Google-Smtp-Source: ABdhPJxGK1DQ3X9+n/nyYXTC44TPzwLt8ESYBketdmypv6EmtQY3GDXY5clHFTVIJzOZ6E6k1gRgGA==
-X-Received: by 2002:a1f:3213:: with SMTP id y19mr4091393vky.7.1641982525770;
-        Wed, 12 Jan 2022 02:15:25 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id k23sm8260478vsm.1.2022.01.12.02.15.24
+        bh=AaBS9lcIpGiYplkxy0SH9H40GoB4xDcu3Lw4CJ5mNt0=;
+        b=2nEbHJL9sx+xgYMcS09fY/YnmnVDsehlBC6WbvRY9oyBZ/BU84FV5Scm40SXiHtVhA
+         KVm5eLrktAxZveBdij+OCmmihbY9oo34dDvdrN2zpfiNQrLXBy/fTgxgjgk/V2YT+uFl
+         HQ3xg3iHS39EPJDJoCvLOlEcgZlFQzJQdDZ7S8OAGWz/d45padGCpO120QKrnW6iCyv6
+         19kq1fcwTTlSWkaXFZKLX9escCB28mu1lGkWDmtYqKjv2pj4QmbSUN6jGyYkV93j4iZh
+         DVKTaySX0FO8uDvCXz/FJTcP6+ebiYD6dZLMgpxx5m6xWLi6iMx4dHI+tPpW2S3Gtaps
+         BK9w==
+X-Gm-Message-State: AOAM530t5THOlWDshIQOMaslmLtABLZF9ctQNF4ahnIV4bxKWwcdoXzj
+        vn9i6OY3CgHZrTuRcSBVQ0SOQEM+tJp5BHUu
+X-Google-Smtp-Source: ABdhPJy+j2vW7lELJMM4EDnk50EdyRDggDR+FbGVROyzlSS088jjylDkMTAuYoYKNtrd5Nh+eP4gzw==
+X-Received: by 2002:a9f:354f:: with SMTP id o73mr3934081uao.115.1641982609105;
+        Wed, 12 Jan 2022 02:16:49 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id a190sm2431532vkb.15.2022.01.12.02.16.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jan 2022 02:15:25 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id l15so3710587uai.11;
-        Wed, 12 Jan 2022 02:15:24 -0800 (PST)
-X-Received: by 2002:a67:c81c:: with SMTP id u28mr3649287vsk.38.1641982524577;
- Wed, 12 Jan 2022 02:15:24 -0800 (PST)
+        Wed, 12 Jan 2022 02:16:48 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id m15so3773288uap.6;
+        Wed, 12 Jan 2022 02:16:47 -0800 (PST)
+X-Received: by 2002:a67:e905:: with SMTP id c5mr3674091vso.68.1641982607735;
+ Wed, 12 Jan 2022 02:16:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20211226082530.2245198-4-nikita.yoush@cogentembedded.com>
- <20211226153349.2296024-1-nikita.yoush@cogentembedded.com>
- <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com> <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
-In-Reply-To: <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
+References: <20220111162231.10390-1-uli+renesas@fpond.eu> <20220111162231.10390-2-uli+renesas@fpond.eu>
+ <CAMuHMdVs=NWR1bRuTku09nWT+PyyVCM6Fp1GVu5brCj=VjZZ-g@mail.gmail.com> <387311382.2900483.1641977755599@webmail.strato.com>
+In-Reply-To: <387311382.2900483.1641977755599@webmail.strato.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jan 2022 11:15:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWa+2q+Zx79YxRZECN-d52Zcs7rP-BNYBxWX5250aaxJw@mail.gmail.com>
-Message-ID: <CAMuHMdWa+2q+Zx79YxRZECN-d52Zcs7rP-BNYBxWX5250aaxJw@mail.gmail.com>
-Subject: Re: [PATCH 3/3 v2] arm64: dts: renesas: add MOST device
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christian Gromm <christian.gromm@microchip.com>,
+Date:   Wed, 12 Jan 2022 11:16:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUnQLKZhAvaOJKeoG7yF0kG14LX20KqehadH-gbW1B9_g@mail.gmail.com>
+Message-ID: <CAMuHMdUnQLKZhAvaOJKeoG7yF0kG14LX20KqehadH-gbW1B9_g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] clk: renesas: r8a779a0: add CANFD module clock
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        netdev <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+Hi Uli,
 
-On Wed, Jan 12, 2022 at 9:56 AM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> >> +                       reg = <0 0xec520000 0 0x800>;
-> >> +                       interrupts = <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
-> >> +                               <GIC_SPI 385 IRQ_TYPE_LEVEL_HIGH>,
-> >> +                               <GIC_SPI 386 IRQ_TYPE_LEVEL_HIGH>,
-> >> +                               <GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
-> >> +                               <GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>;
+On Wed, Jan 12, 2022 at 9:56 AM Ulrich Hecht <uli@fpond.eu> wrote:
+> > On 01/12/2022 9:44 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> > > +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> > > @@ -136,6 +136,7 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
+> > >         DEF_MOD("avb3",         214,    R8A779A0_CLK_S3D2),
+> > >         DEF_MOD("avb4",         215,    R8A779A0_CLK_S3D2),
+> > >         DEF_MOD("avb5",         216,    R8A779A0_CLK_S3D2),
+> > > +       DEF_MOD("canfd0",       328,    R8A779A0_CLK_CANFD),
 > >
-> > What is the purpose of the various interrupts?
-> > Perhaps you need interrupt-names?
-> > The driver seems to use only the first two, which is strange, as
-> > the second and third interrupt handle different channels.
+> > The datasheet calls this "canfd".
+> >
+> > >         DEF_MOD("csi40",        331,    R8A779A0_CLK_CSI0),
+> > >         DEF_MOD("csi41",        400,    R8A779A0_CLK_CSI0),
+> > >         DEF_MOD("csi42",        401,    R8A779A0_CLK_CSI0),
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > i.e. will queue in renesas-clk-for-v5.18 with the above fixed.
 >
-> Maybe Christian Gromm (the original driver author) can comment here?
->
-> As far as I understand:
-> - interrupts are: mlb, ahb0, ahb1, ch0rx, ch1rx
-> - of those, the first 3 are from dim2 itself, and the last two are from renesas-specific logic around dim2
-> - in the interrupt assignment tables for gen3 SoCs, renesas documents all 5 interrupts, however in the
-> mlb section, renesas mentions only mlb, ahb0 and ch0rx interrupts
-> - moreover, renesas explicitly denies access dim2 registers responsible for channels 32..63 - which
-> renders ahb1 interrupt useless; and renesas does not document any registers related to "async rx
-> response" on channels 32..63 - which renders chrx1 interrupt useless
-> - anyway, dim2 driver registers only 32 channels (for all use cases, not only for renesas), and thus
-> uses only ahb0 interrupt
-> - dim2 driver does not implement renesas-specific processing logic and thus does not use ch0rx interrupt
->
-> I'm not sure how to proceed here.
-> Is it better to define only two interrupts (mlb, ahb0) in device trees?
->
-> Regarding 'interrupt-names' - dim2 driver currently uses platform_get_irq() and thus depends on numeric
-> positions (mlb interrupt at index 0 and ahb0 interrupt at index 1). I'm not sure about current use cases
-> of the driver other than with rcar-gen3, and if it is ok to use of_get_irq_byname() instead. And without
-> using of_get_irq_byname(), interrupt-names looks somewhat useless.
+> Don't do that! There already is a DIV4 clock called "canfd", and using that name twice breaks stuff. The BSP calls this clock "can-fd" for that reason.
 
-As the driver is under staging, I think we can make any changes we want.
-
-> > But without any DT binding documentation
-> > for this hardware block, this is hard to validate, and not yet ready for
-> > upstream integration.
->
-> Christian, are you going to provide DT binding documentation for dim2?
+Thanks, I stand corrected.
 
 Gr{oetje,eeting}s,
 
