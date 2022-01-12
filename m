@@ -2,125 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0489E48CD4A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 21:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C3F848CD74
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 22:10:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357815AbiALUwe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jan 2022 15:52:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52258 "EHLO
+        id S232951AbiALVKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jan 2022 16:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357809AbiALUw0 (ORCPT
+        with ESMTP id S230204AbiALVKi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jan 2022 15:52:26 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65748C061751
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 12:52:25 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id g11so12493013lfu.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 12:52:25 -0800 (PST)
+        Wed, 12 Jan 2022 16:10:38 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20117C06173F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 13:10:38 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id x7so12548961lfu.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 13:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sP7Atry2N3guYLGotYX50XIh/vsdLbrGgoNtgVQKKzE=;
-        b=FV0ivb7w+5wU4Lc5BQTTDOSgTta37bALlNIrGC9qVLCJopdTXWny5fe49zBOdIx5PQ
-         p9jxL3STfUYwuVKvpcsHWOhQieO0N/eR7jpLcFRa+lY61feQkaTTeTSvXIkHUWI/lcIh
-         9rdPF5FfBR6jDJT89wyJU/JFd4uDa3KPEk+YBTWtmo+7R09OrcEgvOCBQfKMK6QsCiBc
-         zkWNcJbveBcOK2b4gwExy/2iQUQEkldF7njtitajQLoarRkPLfUruU0hxrWYvZ65d8nm
-         OzKTJOcvcNwXO+BwdRe6ore55L9VCe7I8wtnBvzxQ2lkELwBgU8dXEqUPZomInqEIE4s
-         jcpQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=KrbHF0DzPNfCOOgkFkmmAa72D7KbaWV3xb9yz2Rt3bM=;
+        b=XbEGC7g/EgPNokcJrlfE/n7WGNBoNGbLkn9yVUz8n49hP1iGzSzDburUVxqWzgYetL
+         COz/ZlUCJWiK5yJri/2IhCg1ndJTnFnyehv+Mprt6eL2Oeew+92qGEV/KveFfXjdnEw1
+         bcyL5Fm1AJCwwnMAAP5QWSjPCQpwIXptig3ePQNwTJMngcZRQHELYp3aSpr1/VYg6z4B
+         kUWObpwdXyOnu7sllSMysu6bUNXWAqVO2fvC6/tpCr6wfhxSqJeyy1MWLArmEfgQCDUI
+         rmEG9pP+T8rubzuOO2doVOrMDzWvh1XiwsS0dtiVYgSk6QImLd08N+3F1BnPP2PpGRr+
+         iczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=sP7Atry2N3guYLGotYX50XIh/vsdLbrGgoNtgVQKKzE=;
-        b=BcpR/rJWg0c9oWNB57KD+Rww5E7M2alb4DWMHK8VH4tDBeyEg0I+RPjlhuO5fVnptG
-         E5jqJXLT08aY5xsQYrUisR1LpgUsj1zP0OBuviAlXnPPivUChF84BNmZHovuYZmlF311
-         TveFUWULTvSMG0OP7uKXMd/lYTSOOjpREPzv2+a0O/fM4l2RfMshowK+87NeVcOUsEFo
-         k/wnpNYhjCqv3Vs9h8fF9k7VqosyYRSsbDVKWSqNYiWHNdW4qz2q1aJij4J0esaLvtjH
-         iBg0WI+K8I+kTxuRypZPFbl51pGg/K33KeUlwX9LvOZykL6dg8KVtNFxeacZwtNl7Ruj
-         1tpw==
-X-Gm-Message-State: AOAM531otDR266vOBbVgwFgwR3LU3UF459pq6EzKkRhISr73WQeCyPwD
-        aN1ZcToFxlcxTOCl3v7uQEDACQ==
-X-Google-Smtp-Source: ABdhPJwlFZVUZFUtJD8z1SzKaf4SvPDlqM8UKq1To33EQU6HEM5Fbg0Gyuh+wRBEKozxZY/cfzT/kg==
-X-Received: by 2002:ac2:58c2:: with SMTP id u2mr1127878lfo.66.1642020743802;
-        Wed, 12 Jan 2022 12:52:23 -0800 (PST)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id r11sm64195ljp.18.2022.01.12.12.52.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 12:52:23 -0800 (PST)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH] arm64: dts: renesas: ulcb-kf: add 9-asix sensor device
-Date:   Wed, 12 Jan 2022 23:52:05 +0300
-Message-Id: <20220112205205.4082026-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
+        bh=KrbHF0DzPNfCOOgkFkmmAa72D7KbaWV3xb9yz2Rt3bM=;
+        b=Ysz4dt8SfXyE8YfgS/JiZDp7I9fIXN7vT06lOrysA5NRBJ5PvyEJx+r2x7ZZt/QoGt
+         dSoH1hJdpIEu55iEfAmQ7zrmljcsY6lCBaKeM7qN0V8KVMzSWvlMV7+1YOReZdxlTaco
+         CtF86Ezlz5F2ERTR6UF4UA2s5utAK2s6kIQ1HOlPwpTDZR9hXTntEy60sYSBJJYppUwg
+         9V1NWowh1djKXJAkdWgI8YsRmjWyHOBiXSE6lntFg28DtkLjW7VG7wNkaBZlT2VIX7ji
+         lV8uEdSeoG0UQCQ7yKqbSokji40xt5cacP7L6tvRpbp0MfsYRU3uOZQOl575k17hYFup
+         Nnmg==
+X-Gm-Message-State: AOAM532kUHK1caQK12GumT1XWcZkmmRREifZT1fZliahRNVDp3erZMY7
+        okG5bh54xKY5G5tdTuXWDwTgkg==
+X-Google-Smtp-Source: ABdhPJw9RfokvC4wwM+qsCTx/+HZcVAAN/tnfXnOw39oZ0M2m9VGVeMk6Qq7nqQbK08fk1bliRmcUA==
+X-Received: by 2002:a05:6512:3a85:: with SMTP id q5mr1140468lfu.35.1642021836492;
+        Wed, 12 Jan 2022 13:10:36 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id q5sm91870lfb.135.2022.01.12.13.10.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jan 2022 13:10:36 -0800 (PST)
+Message-ID: <17b8de50-426a-2543-a79a-aab44c9d52cf@cogentembedded.com>
+Date:   Thu, 13 Jan 2022 00:10:35 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
+ <87626d61-ada0-c220-bea5-5330f5256629@cogentembedded.com>
+ <YcyXQxW3kRqQ2Yv0@pendragon.ideasonboard.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <YcyXQxW3kRqQ2Yv0@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This adds nodes for lsm9ds0 sensor installed on the KF board.
+>>>> +				port@1 {
+>>>> +					reg = <1>;
+>>>> +					lvds0_out: endpoint {
+>>>>    					};
+>>>
+>>> Endpoints must have a remote-endpoint property. Let's drop the endpoint
+>>> here and keep the port only, the endpoint can be declared in board
+>>> files.
+>>>
+>>> If you're fine with this change I can make it when applying the patch.
+>>
+>> This empty endpoint is currently defined in dtsi files for other r-car
+>> gen3 SoCs.
+>>
+>> Goal here is to define lvds0_out label that is then used in extension
+>> board dtsi files to link to the port.
+>>
+>> In this patch I just used the same approach as in files laying nearby.
+>>
+>> If this approach is not appropriate, then perhaps need to fix it in
+>> files for all SoCs, to make it possible for extension board dtsi to be
+>> compatible with all of them.
+> 
+> I'm writing a patch to drop those right now :-) I'll CC you.
 
-With this patch, the sensor data becomes available over iio sysfs
-interface.
+This is not the only place where rcag-gen3 dtsi files are using empty-endpoint pattern.
 
-Interrupt definition is not added yet, because the interrupt lines of
-lsm9ds0 are pulled to VCC on the board, which implies need for
-active-low configuration. But st_sensors drivers currently can't work
-with active-low interrupts on this chip.
+du rgb port is defined in the same way.
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+And, I've submitted a patch some weeks ago [1] that hooked into that.
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index a66301a4081d..d122e645a892 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -66,6 +66,13 @@ hdmi_3v3: regulator-hdmi-3v3 {
- 		regulator-max-microvolt = <3300000>;
- 	};
- 
-+	accel_3v3: regulator-acc-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "accel-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+
- 	hdmi1-out {
- 		compatible = "hdmi-connector";
- 		type = "a";
-@@ -208,6 +215,22 @@ pcm3168a_endpoint_c: endpoint {
- 					};
- 				};
- 			};
-+
-+			lsm9ds0_acc_mag@1d {
-+				compatible = "st,lsm9ds0-imu";
-+				reg = <0x1d>;
-+
-+				vdd-supply = <&accel_3v3>;
-+				vddio-supply = <&accel_3v3>;
-+			};
-+
-+			lsm9ds0_gyro@6b {
-+				compatible = "st,lsm9ds0-gyro";
-+				reg = <0x6b>;
-+
-+				vdd-supply = <&accel_3v3>;
-+				vddio-supply = <&accel_3v3>;
-+			};
- 		};
- 	};
- 
--- 
-2.30.2
+[1] https://lore.kernel.org/lkml/20211225115308.2152364-1-nikita.yoush@cogentembedded.com/
 
+Since there was no reply, I am about to resubmit it.
+But, perhaps need to do something with empty-endpoint pattern first?
+
+Nikita
