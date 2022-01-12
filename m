@@ -2,92 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A670D48C07C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 09:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75C5D48C082
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 09:57:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351844AbiALI4e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jan 2022 03:56:34 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.165]:45947 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351822AbiALI40 (ORCPT
+        id S1351854AbiALI5S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jan 2022 03:57:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351836AbiALI5F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jan 2022 03:56:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1641977755;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=vFQStnjqXTc4v05vj6jrD+RNO0hPv0lOMdS8K36i8Ok=;
-    b=ee/x4BbPz98tShI/uBLBe/W5FctSIDIYlmmeEMtEm6vhX2qM04Ub+mi4TZSnQ6yc/x
-    4h2mELN6hbTA8S0D5211vGAKony4zwrL74ngAGEPXvm/jFnTWGrSMr7p1bCF+lmdH2nF
-    7Koal5oHb/sm9Adh1WeYpBeaZIx5FJFqm2pT/HXtPwiIoObxk59J/gAxzp67pl9gDzz3
-    b05OInMkqhOtrRZo1VwhtynqSgLCH9Kv+NP6OBjh+Nhz0LLSK4O+29MvXu0aen0dAmQl
-    h2wXs2xJBk9IUlXmPRtDxNWk3rW6/bLitq8fpNKDGZISigPsiEqIIIqYHpybozNBg4YY
-    kl9g==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x28jVM="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp06-01.back.ox.d0m.de
-    by smtp.strato.de (RZmta 47.37.6 AUTH)
-    with ESMTPSA id a48ca5y0C8ttK4w
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Wed, 12 Jan 2022 09:55:55 +0100 (CET)
-Date:   Wed, 12 Jan 2022 09:55:55 +0100 (CET)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Jakub Kicinski <kuba@kernel.org>, mailhol.vincent@wanadoo.fr,
-        socketcan@hartkopp.net,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Message-ID: <387311382.2900483.1641977755599@webmail.strato.com>
-In-Reply-To: <CAMuHMdVs=NWR1bRuTku09nWT+PyyVCM6Fp1GVu5brCj=VjZZ-g@mail.gmail.com>
-References: <20220111162231.10390-1-uli+renesas@fpond.eu>
- <20220111162231.10390-2-uli+renesas@fpond.eu>
- <CAMuHMdVs=NWR1bRuTku09nWT+PyyVCM6Fp1GVu5brCj=VjZZ-g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] clk: renesas: r8a779a0: add CANFD module clock
+        Wed, 12 Jan 2022 03:57:05 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB66C061212
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 00:56:53 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id m1so5701098lfq.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jan 2022 00:56:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=IDxp9FEehAgEBeTvpHIK9wQEhQiO4fcWr7Sjuf0LJAY=;
+        b=vuGmTB2J1fH0iBujlaSOiI3IPsdBAdSsSCZzotNymWfhsBtnWHFw05PrQYfIZ/YqJT
+         gFQmQ7axOsaovrtuP7GT7uT2isBOQgR41KzhYHX3FfFyhRHZvxAAw0MTgoXMzfwZk60x
+         Jlchm2EEQtZusZFteVLmQGKhMxGX3F7BsdIP1r2w6qWCFPEGS4BOloPATcLTPMc5rQXj
+         gyEErB2ODq/pnrIUiOEsEoOlDRwuhVrZtRZp5CCMQZvrUt+D/RLZNFlGemI+yuYdl9I3
+         UFetZEoz8J7F4FATydKaD6A5q5nkM62cT+1nh5e4IRCbMSS/7tQ21CIZ5UmCI4hAMJLX
+         1Z3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=IDxp9FEehAgEBeTvpHIK9wQEhQiO4fcWr7Sjuf0LJAY=;
+        b=EdhJoD8uFmV+4RIMfN7HAPwVQz8/TxtqVwjowlOW48mNLF+5scOWr7Slqg5CVshyID
+         Y3V10fvGLsg8Cns9Ut9tB5pHp+Kl3tgncYx8pF3ZZT6SUledaCfha4cbSUTbwFBZVznh
+         SDO/2QAWnbbEzRnuklKXAgaWKNeE4PiLgZjJqr5AhI/DgfTN0gWYM0P/IBmi4gNkuKtx
+         Z/bUWTUSoaif5/Zy89KBFe2lkDWwAPrIHwo13VDkFlugR9GAv3H+g4zuoj8uuQectfLq
+         yH9rxxjrLzMoz9lZoGFKNYuFu3aZk7mzAyXaIy59aQ/+w+NUReETQ2A9sqpa1TSOxrMa
+         vC8Q==
+X-Gm-Message-State: AOAM533IHcl7/4ofj+Yypy7QxIUmcrcz/wlL4kFsz45vaJPtqcxPY5/q
+        d27pC90KW3CKY2lP1ySK3RF3Cg==
+X-Google-Smtp-Source: ABdhPJwlZ3tdMoNqbxzIWmOER1wBJcpslBtRJoH2RKcV8qK3clqLQmuNhQ9NYHuCOS4FCZRSiALWMA==
+X-Received: by 2002:a19:750b:: with SMTP id y11mr6135004lfe.265.1641977811417;
+        Wed, 12 Jan 2022 00:56:51 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id q14sm1581984lfu.74.2022.01.12.00.56.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jan 2022 00:56:51 -0800 (PST)
+Message-ID: <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
+Date:   Wed, 12 Jan 2022 11:56:50 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 3/3 v2] arm64: dts: renesas: add MOST device
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211226082530.2245198-4-nikita.yoush@cogentembedded.com>
+ <20211226153349.2296024-1-nikita.yoush@cogentembedded.com>
+ <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.5-Rev33
-X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+>> +                       reg = <0 0xec520000 0 0x800>;
+>> +                       interrupts = <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 385 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 386 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>;
+> 
+> What is the purpose of the various interrupts?
+> Perhaps you need interrupt-names?
+> The driver seems to use only the first two, which is strange, as
+> the second and third interrupt handle different channels.
 
-> On 01/12/2022 9:44 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Thanks for your patch!
-> 
-> > --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> > +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> > @@ -136,6 +136,7 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
-> >         DEF_MOD("avb3",         214,    R8A779A0_CLK_S3D2),
-> >         DEF_MOD("avb4",         215,    R8A779A0_CLK_S3D2),
-> >         DEF_MOD("avb5",         216,    R8A779A0_CLK_S3D2),
-> > +       DEF_MOD("canfd0",       328,    R8A779A0_CLK_CANFD),
-> 
-> The datasheet calls this "canfd".
-> 
-> >         DEF_MOD("csi40",        331,    R8A779A0_CLK_CSI0),
-> >         DEF_MOD("csi41",        400,    R8A779A0_CLK_CSI0),
-> >         DEF_MOD("csi42",        401,    R8A779A0_CLK_CSI0),
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-clk-for-v5.18 with the above fixed.
+Maybe Christian Gromm (the original driver author) can comment here?
 
-Don't do that! There already is a DIV4 clock called "canfd", and using that name twice breaks stuff. The BSP calls this clock "can-fd" for that reason.
+As far as I understand:
+- interrupts are: mlb, ahb0, ahb1, ch0rx, ch1rx
+- of those, the first 3 are from dim2 itself, and the last two are from renesas-specific logic around dim2
+- in the interrupt assignment tables for gen3 SoCs, renesas documents all 5 interrupts, however in the 
+mlb section, renesas mentions only mlb, ahb0 and ch0rx interrupts
+- moreover, renesas explicitly denies access dim2 registers responsible for channels 32..63 - which 
+renders ahb1 interrupt useless; and renesas does not document any registers related to "async rx 
+response" on channels 32..63 - which renders chrx1 interrupt useless
+- anyway, dim2 driver registers only 32 channels (for all use cases, not only for renesas), and thus 
+uses only ahb0 interrupt
+- dim2 driver does not implement renesas-specific processing logic and thus does not use ch0rx interrupt
 
-CU
-Uli
+I'm not sure how to proceed here.
+Is it better to define only two interrupts (mlb, ahb0) in device trees?
+
+Regarding 'interrupt-names' - dim2 driver currently uses platform_get_irq() and thus depends on numeric 
+positions (mlb interrupt at index 0 and ahb0 interrupt at index 1). I'm not sure about current use cases 
+of the driver other than with rcar-gen3, and if it is ok to use of_get_irq_byname() instead. And without 
+using of_get_irq_byname(), interrupt-names looks somewhat useless.
+
+> But without any DT binding documentation
+> for this hardware block, this is hard to validate, and not yet ready for
+> upstream integration.
+
+Christian, are you going to provide DT binding documentation for dim2?
+
+Nikita
