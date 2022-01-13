@@ -2,181 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32BB148CE20
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jan 2022 22:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BF3648D4AA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jan 2022 10:49:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233979AbiALV6V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jan 2022 16:58:21 -0500
-Received: from mga05.intel.com ([192.55.52.43]:55005 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233999AbiALV6U (ORCPT
+        id S229703AbiAMJBS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jan 2022 04:01:18 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:41685 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbiAMJBR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jan 2022 16:58:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642024700; x=1673560700;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mDQwoCsLolMInoRa8sGSts0sXlqvpXjDPUD7OAe2nlk=;
-  b=ERE1suR7Uczo9l1Kv1fiJ7T11F3OZyZOW463Ss8018NBKrxct1JoIK8L
-   S9RR/+QRJQ43qIaEjOzv3Xn+LELUKKFlM6RtWUy8RQanSKma1pi3aHNuz
-   a4bryhy5QAW3l1QPDKOowSQKT86VFcKxIx/s5ZPkDvi+3YJmSZ/r2foWf
-   PgWkrnM+O38oUMLWKJceCnWFUB4+Bg7eVX46DaVVLRHhDtJClKNqrq/p8
-   w3F3aRS2LEmkIKNsNtXnecQhakFlwMhFfnGSvNCnuxNMCJwXFPdbaRsIR
-   1CPboxqU0mW+NtVQVN2dpN7AIx7Q56sg1lssfOTm/uSqpewG28XWz/ZMj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="330210097"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="330210097"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 13:58:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="475072244"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 12 Jan 2022 13:58:18 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n7ldJ-0006Sc-Ml; Wed, 12 Jan 2022 21:58:17 +0000
-Date:   Thu, 13 Jan 2022 05:57:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 3fbefb9570325500dbf3faff80ded6d0d46f48b2
-Message-ID: <61df4ede.suKOx7elx/LdElRz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 13 Jan 2022 04:01:17 -0500
+Received: by mail-ua1-f51.google.com with SMTP id p37so9740965uae.8;
+        Thu, 13 Jan 2022 01:01:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MPUkI5LvvxCzghzBeHMxuJ5P/rCrBrsO0aS+FYZgtrE=;
+        b=2l55pHQPbbCrdl+JxOCbLeCyJBJjMfOi5ni3Iddf6CFswzXL2ZVrBLH+BiU20iVWV/
+         9YDovQfhIh8lA8bY/0CdZ+Nfs8rKWkV2uluXKlsWBZjtsns0oiMeaIVC/zXVLqYr0Sbm
+         aR5dCrpmUDSqHMEHp1NqRtYZMvw0kmVNDA7CdryhTWduBWfxSTljLykSgTEmQFGPlzt9
+         cz/JFeC9EVCjIdxNuQN+zjemkjkvr3+smyBIo8MfDIa6K8y/RnjFQjsHuuVjJ9r5qO/A
+         6Lst3jUhwav6prbo7hO6/pWxtIxqI8pqm303kCp7HrNbgI0w3b2sO/aD08xjCYaAaWga
+         J40Q==
+X-Gm-Message-State: AOAM532mEn+mVKC0sP6mzOub1vUv8iWnM4+IPQcKbEFVCbxzRj4F3hkq
+        uDIJqWDaA+mzRxmT8dX+tdu9Vi2SNJRr52jj
+X-Google-Smtp-Source: ABdhPJyz/SikRbdFufc5nbzL8LFgpjuKBxIpBrIVAeLzjWOKSkk/tzbxCrac9zAA2NIWmBMXdyHFow==
+X-Received: by 2002:a05:6102:354e:: with SMTP id e14mr817154vss.41.1642064476911;
+        Thu, 13 Jan 2022 01:01:16 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id k135sm1085656vke.53.2022.01.13.01.01.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jan 2022 01:01:16 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id h11so9776783uar.5;
+        Thu, 13 Jan 2022 01:01:16 -0800 (PST)
+X-Received: by 2002:a9f:3e01:: with SMTP id o1mr1810579uai.89.1642064476050;
+ Thu, 13 Jan 2022 01:01:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+ <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com> <87626d61-ada0-c220-bea5-5330f5256629@cogentembedded.com>
+ <YcyXQxW3kRqQ2Yv0@pendragon.ideasonboard.com> <17b8de50-426a-2543-a79a-aab44c9d52cf@cogentembedded.com>
+In-Reply-To: <17b8de50-426a-2543-a79a-aab44c9d52cf@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 13 Jan 2022 10:01:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVVj9k8W_FHtW5G+aYug-VvonMnyWyXteqhLONBBSKLZw@mail.gmail.com>
+Message-ID: <CAMuHMdVVj9k8W_FHtW5G+aYug-VvonMnyWyXteqhLONBBSKLZw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 3fbefb9570325500dbf3faff80ded6d0d46f48b2  [LOCAL] arm64: defconfig: Update renesas_defconfig
+Hi Nikita,
 
-elapsed time: 1716m
+On Wed, Jan 12, 2022 at 10:10 PM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> > I'm writing a patch to drop those right now :-) I'll CC you.
+>
+> This is not the only place where rcag-gen3 dtsi files are using empty-endpoint pattern.
+>
+> du rgb port is defined in the same way.
+>
+> And, I've submitted a patch some weeks ago [1] that hooked into that.
+>
+> [1] https://lore.kernel.org/lkml/20211225115308.2152364-1-nikita.yoush@cogentembedded.com/
+>
+> Since there was no reply, I am about to resubmit it.
+> But, perhaps need to do something with empty-endpoint pattern first?
 
-configs tested: 107
-configs skipped: 3
+No need to resend for now, it is still in my review backlog
+(Hi Xmas/NY ;-).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Gr{oetje,eeting}s,
 
-gcc tested configs:
-arm                                 defconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-i386                          randconfig-c001
-arc                                 defconfig
-s390                             allmodconfig
-alpha                            alldefconfig
-arm                          pxa910_defconfig
-mips                     loongson1b_defconfig
-riscv                    nommu_k210_defconfig
-mips                    maltaup_xpa_defconfig
-arm                            pleb_defconfig
-powerpc                     rainier_defconfig
-sh                            hp6xx_defconfig
-sh                            shmin_defconfig
-sh                   rts7751r2dplus_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                       ppc64_defconfig
-arm                  randconfig-c002-20220111
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-nds32                             allnoconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-alpha                               defconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                                defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                   debian-10.3-kselftests
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-mips                             allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-i386                          randconfig-a003
-i386                          randconfig-a001
-i386                          randconfig-a005
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-arc                  randconfig-r043-20220111
-riscv                randconfig-r042-20220111
-s390                 randconfig-r044-20220111
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+                        Geert
 
-clang tested configs:
-powerpc              randconfig-c003-20220111
-mips                 randconfig-c004-20220111
-arm                  randconfig-c002-20220111
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-riscv                randconfig-c006-20220111
-s390                 randconfig-c005-20220111
-arm                      tct_hammer_defconfig
-powerpc                       ebony_defconfig
-arm                       cns3420vb_defconfig
-arm                     davinci_all_defconfig
-powerpc                 mpc8272_ads_defconfig
-powerpc                 mpc836x_mds_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220111
-hexagon              randconfig-r041-20220111
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
