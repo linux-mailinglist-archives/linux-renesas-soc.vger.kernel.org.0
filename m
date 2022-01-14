@@ -2,379 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D11F148EBDA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jan 2022 15:40:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A874E48EF83
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jan 2022 18:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241671AbiANOky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jan 2022 09:40:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239084AbiANOky (ORCPT
+        id S244017AbiANRzX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jan 2022 12:55:23 -0500
+Received: from mxout02.lancloud.ru ([45.84.86.82]:37634 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244005AbiANRzR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jan 2022 09:40:54 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16EC1C06161C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jan 2022 06:40:54 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id t20so8511019wrb.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jan 2022 06:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZpQd5MgDxQh1cJDEk6y932cMOfAplIWP9ns8kVsGTvs=;
-        b=YsIluXYEpVcxQh6OaELyrcbxtZCROmSMFkzH/03hqq0b+mLWiNouFMiMH8ZmNu+bA0
-         IMTEZuxu28ot8m0NocPDWlvJ7VPTG5p2Y4yD2MDDQUWKxJZYb+O0AfmZedVdRfluXosU
-         GxucULMfeP8o1RnWf07vmYYXtwOYoa7YzOB4ZYg5tgaTJtP7vNn4zSo34brNxnvXdD8X
-         bNGErBH6bGrZgAg/wy5H0yEZQ3XmLJ2K8IOrdedgPsH6wmgi6gAXfr9QuPy1YtKpMKWl
-         8+loWj4uJSBc6Eshji3KuK9P6ILvzC756b/HbbxVflFO4KuUQqqOk6RItgGmsJxilnN0
-         ec3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ZpQd5MgDxQh1cJDEk6y932cMOfAplIWP9ns8kVsGTvs=;
-        b=DFnBaC8x5XfWHpAuCKoVmS+CSmYpo94Fy7l8xP2/KPE0E4TkdmfV/5iK12PLkzwpw0
-         53JGz7Y61w6s2LgouaedOZHc0M23bArr2jzp4aGwxvKGqeIo7Xr/z4Vmr/kaSQV5p6Zd
-         2qyKjajjbC5zg4g6Yd5nXopViCQxDET0InR0mZfU4aEgQ4eejZt9VG6/hMctJt3f3gxF
-         pRI+65rY70zIyqGnjxTz8g0h+Fl+rti17fStAvNXyNlwlb1YIJd5wXQMuF9ayvd6oa1A
-         jt9dAc5/j/KTNfeT1RweZKZrwfYt021Ipi9YJdUuEFgwAfJfUR6G51yQwpCreSUFRQ09
-         Reqw==
-X-Gm-Message-State: AOAM53006XK2ftn3UEPVSkE6pZrYkLeCzxyKSa9OZ1jWsx/5hu0L04N5
-        T89QJhrkUPfDmCw+e08ZUJAahfqDXnQ0aw==
-X-Google-Smtp-Source: ABdhPJwCbmzEUVXgyefpTYa4YZvvCy2ezHWIBO8RdMvytTJAmoVdM2Tu6kocdxqS7P11hUge+KYfVA==
-X-Received: by 2002:a05:6000:1543:: with SMTP id 3mr4515819wry.683.1642171252217;
-        Fri, 14 Jan 2022 06:40:52 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:a3fc:c40b:5afc:88ee? ([2001:861:44c0:66c0:a3fc:c40b:5afc:88ee])
-        by smtp.gmail.com with ESMTPSA id h10sm6784315wmh.0.2022.01.14.06.40.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jan 2022 06:40:51 -0800 (PST)
-Subject: Re: dw_hdmi is showing wrong colour after commit
- 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
- callbacks")
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "robert.foss@linaro.org" <robert.foss@linaro.org>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-        "martin.blumenstingl@googlemail.com" 
-        <martin.blumenstingl@googlemail.com>,
-        "linux-amlogic@lists.infradead.org" 
-        <linux-amlogic@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
- <502f3ec4-fea4-8e14-c7a9-39418fc05d6d@baylibre.com>
- <OS0PR01MB592224EC8F50F41B7FF1DEE286549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <19dd6013-8a31-b2ed-29d5-93fc44193ce4@baylibre.com>
- <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <538b8da4-1201-5f45-2abf-ecd22c867358@baylibre.com>
- <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <ebaff694-a2d7-7eb8-5850-980e9d4e1e68@baylibre.com>
-Date:   Fri, 14 Jan 2022 15:40:50 +0100
+        Fri, 14 Jan 2022 12:55:17 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 02F2120606E9
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH] driver core: platform: Rename platform_get_irq_optional()
+ to platform_get_irq_silent()
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>
+CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
+        <openipmi-developer@lists.sourceforge.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Tony Luck <tony.luck@intel.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        "Eric Auger" <eric.auger@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Linux MMC List" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        "Brian Norris" <computersforpeace@gmail.com>,
+        <netdev@vger.kernel.org>
+References: <20220110195449.12448-2-s.shtylyov@omp.ru>
+ <20220110201014.mtajyrfcfznfhyqm@pengutronix.de> <YdyilpjC6rtz6toJ@lunn.ch>
+ <CAMuHMdWK3RKVXRzMASN4HaYfLckdS7rBvSopafq+iPADtGEUzA@mail.gmail.com>
+ <20220112085009.dbasceh3obfok5dc@pengutronix.de>
+ <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
+ <YeA7CjOyJFkpuhz/@sirena.org.uk>
+ <20220113194358.xnnbhsoyetihterb@pengutronix.de>
+ <745c601f-c782-0904-f786-c9bfced8f11c@gmail.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <cae0b73e-46df-a491-4a8e-415205038c2c@omp.ru>
+Date:   Fri, 14 Jan 2022 20:55:07 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <745c601f-c782-0904-f786-c9bfced8f11c@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+On 1/14/22 12:42 AM, Florian Fainelli wrote:
 
-On 14/01/2022 15:23, Biju Das wrote:
-> 
-> 
->> -----Original Message-----
->> From: Neil Armstrong <narmstrong@baylibre.com>
->> Sent: 14 January 2022 13:56
->> To: Biju Das <biju.das.jz@bp.renesas.com>; Fabio Estevam
->> <festevam@gmail.com>
->> Cc: daniel@ffwll.ch; Laurent.pinchart@ideasonboard.com;
->> robert.foss@linaro.org; jonas@kwiboo.se; jernej.skrabec@gmail.com;
->> martin.blumenstingl@googlemail.com; linux-amlogic@lists.infradead.org;
->> linux-arm-kernel@lists.infradead.org; dri-devel@lists.freedesktop.org;
->> linux-kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org
->> Subject: Re: dw_hdmi is showing wrong colour after commit
->> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
->> callbacks")
+>> The subsystems regulator, clk and gpio have the concept of a dummy
+>> resource. For regulator, clk and gpio there is a semantic difference
+>> between the regular _get() function and the _get_optional() variant.
+>> (One might return the dummy resource, the other won't. Unfortunately
+>> which one implements which isn't the same for these three.) The
+>> difference between platform_get_irq() and platform_get_irq_optional() is
+>> only that the former might emit an error message and the later won't.
 >>
->> Hi,
+>> To prevent people's expectations that there is a semantic difference
+>> between these too, rename platform_get_irq_optional() to
+>> platform_get_irq_silent() to make the actual difference more obvious.
 >>
->> On 14/01/2022 12:08, Biju Das wrote:
->>> Hi Neil,
->>>
->>>> Subject: Re: dw_hdmi is showing wrong colour after commit
->>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
->>>> callbacks")
->>>>
->>>> On 14/01/2022 09:29, Biju Das wrote:
->>>>> Hi Neil,
->>>>>
->>>>> + renesas-soc
->>>>>
->>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
->>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
->>>>>> callbacks")
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> On 13/01/2022 21:01, Fabio Estevam wrote:
->>>>>>> Hi Biju,
->>>>>>>
->>>>>>> On Thu, Jan 13, 2022 at 2:45 PM Biju Das
->>>>>>> <biju.das.jz@bp.renesas.com>
->>>>>> wrote:
->>>>>>>>
->>>>>>>> Hi All,
->>>>>>>>
->>>>>>>> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour)
->>>>>>>> till the commit
->>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
->>>>>>>> fmts
->>>>>> callbacks").
->>>>>>>>
->>>>>>>> After this patch, the screen becomes greenish(may be it is
->>>>>>>> setting it
->>>>>> into YUV format??).
->>>>>>>>
->>>>>>>> By checking the code, previously it used to call get_input_fmt
->>>>>>>> callback
->>>>>> and set colour as RGB24.
->>>>>>>>
->>>>>>>> After this commit, it calls get_output_fmt_callbck and returns 3
->>>>>>>> outputformats(YUV16, YUV24 and RGB24) And get_input_fmt callback,
->>>>>>>> I see
->>>>>> the outputformat as YUV16 instead of RGB24.
->>>>>>>>
->>>>>>>> Not sure, I am the only one seeing this issue with dw_HDMI driver.
->>>>>>
->>>>>> This patch was introduced to maintain the bridge color format
->>>>>> negotiation after using DRM_BRIDGE_ATTACH_NO_CONNECTOR, but it
->>>>>> seems it behaves incorrectly if the first bridge doesn't implement
->>>>>> the negotiation callbacks.
->>>>>>
->>>>>> Let me check the code to see how to fix that.
->>>>>
->>>>> Thanks for the information, I am happy to test the patch/fix.
->>>>>
->>>>> Cheers,
->>>>> Biju
->>>>>
->>>>>>
->>>>>>>
->>>>>>> I have tested linux-next 20220112 on a imx6q-sabresd board, which
->>>> shows:
->>>>>>>
->>>>>>> dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with
->>>>>>> HDCP (DWC HDMI 3D TX PHY)
->>>>>>>
->>>>>>> The colors are shown correctly here.
->>>>>>>
->>>>>>
->>>>>> The imx doesn't use DRM_BRIDGE_ATTACH_NO_CONNECTOR so the
->>>>>> negotiation fails and use the RGB fallback input & output format.
->>>>>>
->>>>>> Anyway thanks for testing
->>>>>>
->>>>>> Neil
->>>>
->>>> Can you test :
->>>>
->>>> ==><===============================
->>>> diff --git a/drivers/gpu/drm/drm_bridge.c
->>>> b/drivers/gpu/drm/drm_bridge.c index c96847fc0ebc..7019acd37716
->>>> 100644
->>>> --- a/drivers/gpu/drm/drm_bridge.c
->>>> +++ b/drivers/gpu/drm/drm_bridge.c
->>>> @@ -955,7 +955,14 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
->>>> drm_bridge *bridge,
->>>>         last_bridge_state =
->>>> drm_atomic_get_new_bridge_state(crtc_state-
->>>>> state,
->>>>
->>>> last_bridge);
->>>>
->>>> -       if (last_bridge->funcs->atomic_get_output_bus_fmts) {
->>>> +       /*
->>>> +        * Only negociate with real values if both end of the bridge
->> chain
->>>> +        * support negociation callbacks, otherwise you can end in a
->>>> situation
->>>> +        * where the selected output format doesn't match with the
->>>> + first
->>>> bridge
->>>> +        * output format.
->>>> +        */
->>>> +       if (bridge->funcs->atomic_get_input_bus_fmts &&
->>>> +           last_bridge->funcs->atomic_get_output_bus_fmts) {
->>>>                 const struct drm_bridge_funcs *funcs =
->>>> last_bridge->funcs;
->>>>
->>>>                 /*
->>>> @@ -980,7 +987,12 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
->>>> drm_bridge *bridge,
->>>>                 if (!out_bus_fmts)
->>>>                         return -ENOMEM;
->>>>
->>>> -               if (conn->display_info.num_bus_formats &&
->>>> +               /*
->>>> +                * If first bridge doesn't support negociation, use
->>>> MEDIA_BUS_FMT_FIXED
->>>> +                * as a safe value for the whole bridge chain
->>>> +                */
->>>> +               if (bridge->funcs->atomic_get_input_bus_fmts &&
->>>> +                   conn->display_info.num_bus_formats &&
->>>>                     conn->display_info.bus_formats)
->>>>                         out_bus_fmts[0] = conn-
->>>>> display_info.bus_formats[0];
->>>>                 else
->>>> ==><===============================
->>>>
->>>> This should exclude your situation where the first bridge doesn't
->>>> support negociation.
->>>
->>> I have tested this fix with Linux next-20220114. Still I see colour
->> issue.
->>>
->>> It is still negotiating and it is calling get_output_fmt_callbck
->>>
->>> [    3.460155] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
->> MEDIA_BUS_FMT_UYVY8_1X16=0#########
->>> [    3.460180] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
->> MEDIA_BUS_FMT_YUV8_1X24=1#########
->>> [    3.460202] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
->> MEDIA_BUS_FMT_RGB888_1X24=2#########
->>>
->>> And In get_input_fmt callback, I See the outputformat as YUV16 instead
->> of RGB24.
->>>
->>> [    3.460319] ########dw_hdmi_bridge_atomic_get_input_bus_fmts
->> MEDIA_BUS_FMT_UYVY8_1X16#########
->>> [    3.473644] ########hdmi_video_sample
->> MEDIA_BUS_FMT_UYVY8_1X16#########
+>> The #define for the old name can and should be removed once all patches
+>> currently in flux still relying on platform_get_irq_optional() are
+>> fixed.
 >>
->> OK, looking at rcar-du, the dw-hdmi bridge is directly connected to the
->> encoder.
-> 
-> Yep.
-> 
+>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+[...]
+>>>> I think at least c) is easy to resolve because
+>>>> platform_get_irq_optional() isn't that old yet and mechanically
+>>>> replacing it by platform_get_irq_silent() should be easy and safe.
+>>>> And this is orthogonal to the discussion if -ENOXIO is a sensible return
+>>>> value and if it's as easy as it could be to work with errors on irq
+>>>> lookups.
+>>>
+>>> It'd certainly be good to name anything that doesn't correspond to one
+>>> of the existing semantics for the API (!) something different rather
+>>> than adding yet another potentially overloaded meaning.
 >>
->> Let me figure that out, no sure I can find a clean solution except putting
->> back RGB24 before YUV.
->>
->> Anyway please test that:
+>> It seems we're (at least) three who agree about this. Here is a patch
+>> fixing the name.
 > 
-> It works now after reordering.
-> 
-> [    3.493302] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_RGB888_1X24=0#########
-> [    3.493326] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_YUV8_1X24=1#########
-> [    3.493348] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_UYVY8_1X16=2#########
-> 
-> [    3.493463] ########dw_hdmi_bridge_atomic_get_input_bus_fmts MEDIA_BUS_FMT_RGB888_1X24#########
-> [    3.506797] ########hdmi_video_sample MEDIA_BUS_FMT_RGB888_1X24#########
-> 
-> Is it acceptable solution to the users of dw_hdmi driver? May be it is worth to post a patch.
-> at least it is fixing the colour issue??
+> From an API naming perspective this does not make much sense anymore with the name chosen,
+> it is understood that whent he function is called platform_get_irq_optional(), optional applies
+> to the IRQ. An optional IRQ is something people can reason about because it makes sense.
 
-Yes, it gets back to default behavior before negociation, nevertheless we need to think
-how to handle your use-case correctly at some point.
+   Right! :-)
 
-I'll post this as a patch ASAP so it gets applied before landing in linus master.
+> What is a a "silent" IRQ however? It does not apply to the object it is trying to fetch to
+> anymore, but to the message that may not be printed in case the resource failed to be obtained,
+> because said resource is optional. Woah, that's quite a stretch.
 
-Neil
+   Right again! :-)
 
-> 
-> Regards,
-> Biju
-> 
->>
->> ==><===============================
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index 54d8fdad395f..68f79094f648 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2589,45 +2589,44 @@ static u32
->> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->>  	}
->>
->>  	/*
->> -	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
->> +	 * Order bus formats from 16bit to 8bit and from RGB to YUV422
->>  	 * if supported. In any case the default RGB888 format is added
->>  	 */
->>
->>  	if (max_bpc >= 16 && info->bpc == 16) {
->> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
->> +
->>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
->>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
->> -
->> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
->>  	}
->>
->>  	if (max_bpc >= 12 && info->bpc >= 12) {
->> -		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> -			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
->> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
->>
->>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
->>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
->>
->> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
->> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
->>  	}
->>
->>  	if (max_bpc >= 10 && info->bpc >= 10) {
->> -		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> -			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
->> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
->>
->>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
->>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
->>
->> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
->> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
->>  	}
->>
->> -	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> -		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
->> +	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
->>
->>  	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
->>  		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
->>
->> -	/* Default 8bit RGB fallback */
->> -	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
->> +	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
->> +		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
->>
->>  	*num_output_fmts = i;
->>
->> ==><===============================
->>
->> Neil
->>
->>>
->>> Regards,
->>> Biju
->>>
-> 
+> Following the discussion and original 2 patches set from Sergey, it is not entirely clear to me
+> anymore what is it that we are trying to fix.
 
+   Andy and me tried to fix the platform_get_irq[_byname]_optional() value, corresponding to
+a missing (optional) IRQ resource from -ENXIO to 0, in order to keep the callers error code
+agnostic. This change completely aligns e.g. platform_get_irq_optional() with clk_get_optional()
+and gpiod_get_optional()...
+   Unforunately, we can't "fix" request_irq() and company to treat 0 as missing IRQ -- they have
+to keep the ability to get called from the arch/ code (that doesn't use platform_get_irq(), etc.
+
+> I nearly forgot, I would paint it blue, sky blue, not navy blue, not light blue ;)
+
+   :-)
+
+PS: Florian, something was wrong with your mail client -- I had to manually wrap your quotes,
+else there were super long unbroken paragraphs...
