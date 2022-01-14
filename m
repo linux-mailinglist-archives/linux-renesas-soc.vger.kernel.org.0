@@ -2,107 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C5C48E84B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jan 2022 11:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9417048E856
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jan 2022 11:29:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237618AbiANKYS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jan 2022 05:24:18 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:45691 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237477AbiANKYS (ORCPT
+        id S237318AbiANK2P convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jan 2022 05:28:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233947AbiANK2P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jan 2022 05:24:18 -0500
-Received: by mail-ua1-f49.google.com with SMTP id x33so16075596uad.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jan 2022 02:24:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=le2UM8B7mfKn0fZwAHCKL3DNfCbA6VK0XgDGxRejc0E=;
-        b=rA2vb05N1kYDA/ViLoJKwufbdcXh89hnN12kePGVE60ble5qY1GVHDSqiFwoaKYwKz
-         U+WxTCJ6pkmrAZjq5EzVDTUsTrpSWSCL9BO+PQlCBarv3cGRevQ4mDpCZZfEV+N+xlIS
-         jlJZsblMVpxexHIvWYSgA0765cAqjc4gLfCCbnlYhEUQUJcJDEc12Er9tF+RcwtPlA01
-         z/caVm/ltmTd6FWe1EAzdWrQReQQ1mP+1+NgqqYB+1aWaNfar7b4B3lSfdj8sBGCmhkC
-         QvoSWiHLKUl4uMRflcjD4Blcskg/4MJTBFmf9GhaXHsKvA4LfOrq5LuH9W7/e9N0xotN
-         fecg==
-X-Gm-Message-State: AOAM531f98BmTtR6E8JjQtBfTh/RJiM0nBlKJX8N0PTA7EmpImbDsNQ1
-        UugbjRW5FleLmeEqralfSrZFdEWaMNncPRIq
-X-Google-Smtp-Source: ABdhPJwy/K1nyOXYnecoONI/uFc2KVmdEz46t10n0Pcnt34Dc55uwEeILLFVZNFJ3TSUBkDK0nI+KQ==
-X-Received: by 2002:a67:fd64:: with SMTP id h4mr3848039vsa.8.1642155857461;
-        Fri, 14 Jan 2022 02:24:17 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id y26sm2234835vsk.31.2022.01.14.02.24.16
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jan 2022 02:24:17 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id x33so16075528uad.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jan 2022 02:24:16 -0800 (PST)
-X-Received: by 2002:a67:bc17:: with SMTP id t23mr258035vsn.57.1642155856532;
- Fri, 14 Jan 2022 02:24:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com> <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 14 Jan 2022 11:24:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUf7DDPemUjrWTuy7y4G-mJcHoje5EvNqEzZZTPYeUbuw@mail.gmail.com>
-Message-ID: <CAMuHMdUf7DDPemUjrWTuy7y4G-mJcHoje5EvNqEzZZTPYeUbuw@mail.gmail.com>
+        Fri, 14 Jan 2022 05:28:15 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4521AC061574
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Jan 2022 02:28:15 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1n8JoZ-0007TH-K0; Fri, 14 Jan 2022 11:28:11 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1n8JoX-0006cp-EB; Fri, 14 Jan 2022 11:28:09 +0100
+Message-ID: <936f9c0c1de0fcf485b8f5e7a9e1a07b04d0b040.camel@pengutronix.de>
 Subject: Re: [RFC 22/28] drm: rcar-du: Add RZ/G2L DSI driver
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Fri, 14 Jan 2022 11:28:09 +0100
+In-Reply-To: <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
+References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
+         <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Wed, Jan 12, 2022 at 6:47 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This driver supports the MIPI DSI encoder found in the RZ/G2L
-> SoC. It currently supports DSI mode only.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Wed, 2022-01-12 at 17:46 +0000, Biju Das wrote:
+[...]
+> +static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+> +{
+[...]
+> +	dsi->rstc = devm_reset_control_get(dsi->dev, "rst");
+[...]
+> +	dsi->arstc = devm_reset_control_get(dsi->dev, "arst");
+[...]
+> +	dsi->prstc = devm_reset_control_get(dsi->dev, "prst");
 
-Thanks for your patch!
+Please use devm_reset_control_get_exclusive() instead.
 
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -51,6 +51,13 @@ config DRM_RCAR_MIPI_DSI
->         help
->           Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
->
-> +config DRM_RZG2L_MIPI_DSI
-> +       tristate "RZ/G2L MIPI DSI Encoder Support"
-> +       depends on DRM && DRM_BRIDGE && OF
-
-I guess the dependency on DRM can be dropped, as it is implied by
-DRM_BRIDGE?
-
-Please add "depends on ARCH_RENESAS || COMPILE_TEST".
-
-> +       select DRM_MIPI_DSI
-> +       help
-> +         Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
-> +
->  config DRM_RCAR_VSP
->         bool "R-Car DU VSP Compositor Support" if ARM
->         default y if ARM64
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+regards
+Philipp
