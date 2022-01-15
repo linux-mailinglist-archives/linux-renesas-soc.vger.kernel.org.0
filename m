@@ -2,264 +2,353 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5E5448F926
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 21:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A377048F93C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 21:22:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbiAOUCf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Jan 2022 15:02:35 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43598 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbiAOUCf (ORCPT
+        id S233691AbiAOUWj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jan 2022 15:22:39 -0500
+Received: from mxout04.lancloud.ru ([45.84.86.114]:46542 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233654AbiAOUW2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Jan 2022 15:02:35 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BCBD101E;
-        Sat, 15 Jan 2022 21:02:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642276953;
-        bh=AoDSoawBBOscx5DcDi6GDKeQOADLuUyIF63RrKwxh+M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qQAzKHXYGgk77nLu29NUOzy1Z+xfM+0p+Hd18Xgw8D6aQuKiZNzb+Sm8VZr97W3kE
-         KIwjP/pWsw1dNL7fy5reR4q+RjlMbGgZH7t7trsj9sdTmtHFVHt3iLE9nGYvqcIQWY
-         r8K7uEpnxSVnthXybp847pt5j0B9RgbbZ2H2EQC0=
-Date:   Sat, 15 Jan 2022 22:02:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
-Message-ID: <YeMoTVuO8nbgw9Rr@pendragon.ideasonboard.com>
-References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
- <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+        Sat, 15 Jan 2022 15:22:28 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru B964D20ACF11
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
+        <openipmi-developer@lists.sourceforge.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Linux MMC List" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        "Brian Norris" <computersforpeace@gmail.com>,
+        <netdev@vger.kernel.org>
+References: <20220110201014.mtajyrfcfznfhyqm@pengutronix.de>
+ <YdyilpjC6rtz6toJ@lunn.ch>
+ <CAMuHMdWK3RKVXRzMASN4HaYfLckdS7rBvSopafq+iPADtGEUzA@mail.gmail.com>
+ <20220112085009.dbasceh3obfok5dc@pengutronix.de>
+ <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <29f0c65d-77f2-e5b2-f6cc-422add8a707d@omp.ru>
+ <20220114092557.jrkfx7ihg26ekzci@pengutronix.de>
+ <61b80939-357d-14f5-df99-b8d102a4e1a1@omp.ru>
+ <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <c9026f17-2b3f-ee94-0ea3-5630f981fbc1@omp.ru>
+Date:   Sat, 15 Jan 2022 23:22:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
-
-On Sat, Jan 15, 2022 at 07:39:33PM +0200, Sakari Ailus wrote:
-> Moi,
+On 1/14/22 11:22 PM, Uwe Kleine-König wrote:
+> On Fri, Jan 14, 2022 at 10:14:10PM +0300, Sergey Shtylyov wrote:
+>> On 1/14/22 12:25 PM, Uwe Kleine-König wrote:
+>>
+>>>>>>> To me it sounds much more logical for the driver to check if an
+>>>>>>> optional irq is non-zero (available) or zero (not available), than to
+>>>>>>> sprinkle around checks for -ENXIO. In addition, you have to remember
+>>>>>>> that this one returns -ENXIO, while other APIs use -ENOENT or -ENOSYS
+>>>>>>> (or some other error code) to indicate absence. I thought not having
+>>>>>>> to care about the actual error code was the main reason behind the
+>>>>>>> introduction of the *_optional() APIs.
+>>>>>
+>>>>>> No, the main benefit of gpiod_get_optional() (and clk_get_optional()) is
+>>>>>> that you can handle an absent GPIO (or clk) as if it were available.
+>>>>
+>>>>    Hm, I've just looked at these and must note that they match 1:1 with
+>>>> platform_get_irq_optional(). Unfortunately, we can't however behave the
+>>>> same way in request_irq() -- because it has to support IRQ0 for the sake
+>>>> of i8253 drivers in arch/...
+>>>
+>>> Let me reformulate your statement to the IMHO equivalent:
+>>>
+>>> 	If you set aside the differences between
+>>> 	platform_get_irq_optional() and gpiod_get_optional(),
+>>
+>>    Sorry, I should make it clear this is actually the diff between a would-be
+>> platform_get_irq_optional() after my patch, not the current code...
 > 
-> Thanks for the set.
-
-Ole hyvÃ¤.
-
-> On Thu, Jan 13, 2022 at 05:00:42PM +0200, Laurent Pinchart wrote:
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > The media_pipeline_start() function has two purposes: it constructs a
-> > pipeline by recording the entities that are part of it, gathered from a
-> > graph walk, and validate the media links. The pipeline pointer is stored
-> > in the media_entity structure as part of this process, and the entity's
-> > stream count is increased, to record that the entity is streaming.
-> > 
-> > When multiple video nodes are present in a pipeline,
-> > media_pipeline_start() is typically called on all of them, with the same
-> > pipeline pointer. This is taken into account in media_pipeline_start()
-> > by skipping validation for entities that are already part of the
-> > pipeline, while returning an error if an entity is part of a different
-> > pipeline.
-> > 
-> > It turns out that this process is overly complicated. When
-> > media_pipeline_start() is called for the first time, it constructs the
-> > full pipeline, adding all entities and validating all the links.
-> > Subsequent calls to media_pipeline_start() are then nearly no-ops, they
-> > only increase the stream count on the pipeline and on all entities.
-> > 
-> > The media_entity stream_count field is used for two purposes: checking
-> > if the entity is streaming, and detecting when a call to
-> > media_pipeline_stop() balances needs to reset the entity pipe pointer to
-> > NULL. The former can easily be replaced by a check of the pipe pointer.
-> > 
-> > Simplify media_pipeline_start() by avoiding the pipeline walk on all
-> > calls but the first one, and drop the media_entity stream_count field.
-> > media_pipeline_stop() is updated accordingly.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/mc/mc-entity.c | 52 +++++++++++++++---------------------
-> >  include/media/media-entity.h | 11 +++-----
-> >  2 files changed, 26 insertions(+), 37 deletions(-)
-> > 
-> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > index f83e043f0f3b..8ab0913d8d82 100644
-> > --- a/drivers/media/mc/mc-entity.c
-> > +++ b/drivers/media/mc/mc-entity.c
-> > @@ -396,20 +396,21 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  	struct media_link *link;
-> >  	int ret;
-> >  
-> > -	if (!pipe->streaming_count++) {
-> > -		ret = media_graph_walk_init(&pipe->graph, mdev);
-> > -		if (ret)
-> > -			goto error_graph_walk_start;
-> > +	if (pipe->streaming_count) {
-> > +		pipe->streaming_count++;
-> > +		return 0;
-> >  	}
-> >  
-> > +	ret = media_graph_walk_init(&pipe->graph, mdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	media_graph_walk_start(&pipe->graph, entity);
-> >  
-> >  	while ((entity = media_graph_walk_next(graph))) {
-> >  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
-> >  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
-> >  
-> > -		entity->stream_count++;
-> > -
-> >  		if (entity->pipe && entity->pipe != pipe) {
-> >  			pr_err("Pipe active for %s. Can't start for %s\n",
-> >  				entity->name,
-> > @@ -418,12 +419,12 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  			goto error;
-> >  		}
-> >  
-> > -		entity->pipe = pipe;
-> > -
-> >  		/* Already streaming --- no need to check. */
-> > -		if (entity->stream_count > 1)
-> > +		if (entity->pipe)
-> >  			continue;
-> >  
-> > +		entity->pipe = pipe;
-> > +
-> >  		if (!entity->ops || !entity->ops->link_validate)
-> >  			continue;
-> >  
-> > @@ -479,6 +480,8 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  		}
-> >  	}
-> >  
-> > +	pipe->streaming_count++;
-> > +
-> >  	return 0;
-> >  
-> >  error:
-> > @@ -489,24 +492,17 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  	media_graph_walk_start(graph, entity_err);
-> >  
-> >  	while ((entity_err = media_graph_walk_next(graph))) {
-> > -		/* Sanity check for negative stream_count */
-> > -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
-> > -			entity_err->stream_count--;
-> > -			if (entity_err->stream_count == 0)
-> > -				entity_err->pipe = NULL;
-> > -		}
-> > +		entity_err->pipe = NULL;
-> >  
-> >  		/*
-> > -		 * We haven't increased stream_count further than this
-> > -		 * so we quit here.
-> > +		 * We haven't started entities further than this so we quit
-> > +		 * here.
-> >  		 */
-> >  		if (entity_err == entity)
-> >  			break;
-> >  	}
-> >  
-> > -error_graph_walk_start:
-> > -	if (!--pipe->streaming_count)
-> > -		media_graph_walk_cleanup(graph);
-> > +	media_graph_walk_cleanup(graph);
-> >  
-> >  	return ret;
-> >  }
-> > @@ -537,19 +533,15 @@ void __media_pipeline_stop(struct media_entity *entity)
-> >  	if (WARN_ON(!pipe))
-> >  		return;
-> >  
-> > +	if (--pipe->streaming_count)
-> > +		return;
-> > +
-> >  	media_graph_walk_start(graph, entity);
-> >  
-> > -	while ((entity = media_graph_walk_next(graph))) {
-> > -		/* Sanity check for negative stream_count */
-> > -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
-> > -			entity->stream_count--;
-> > -			if (entity->stream_count == 0)
-> > -				entity->pipe = NULL;
-> > -		}
-> > -	}
-> > +	while ((entity = media_graph_walk_next(graph)))
-> > +		entity->pipe = NULL;
-> >  
-> > -	if (!--pipe->streaming_count)
-> > -		media_graph_walk_cleanup(graph);
-> > +	media_graph_walk_cleanup(graph);
-> >  
-> >  }
-> >  EXPORT_SYMBOL_GPL(__media_pipeline_stop);
-> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> > index 8546f13c42a9..e3c4fd1e3623 100644
-> > --- a/include/media/media-entity.h
-> > +++ b/include/media/media-entity.h
-> > @@ -268,7 +268,6 @@ enum media_entity_type {
-> >   * @pads:	Pads array with the size defined by @num_pads.
-> >   * @links:	List of data links.
-> >   * @ops:	Entity operations.
-> > - * @stream_count: Stream count for the entity.
-> >   * @use_count:	Use count for the entity.
-> >   * @pipe:	Pipeline this entity belongs to.
-> >   * @info:	Union with devnode information.  Kept just for backward
-> > @@ -283,10 +282,9 @@ enum media_entity_type {
-> >   *
-> >   * .. note::
-> >   *
-> > - *    @stream_count and @use_count reference counts must never be
-> > - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
-> > - *    check can be used to detect reference count bugs that would make them
-> > - *    negative.
-> > + *    The @use_count reference count must never be negative, but is a signed
-> > + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to detect
-> > + *    reference count bugs that would make it negative.
-> >   */
-> >  struct media_entity {
-> >  	struct media_gobj graph_obj;	/* must be first field in struct */
-> > @@ -305,7 +303,6 @@ struct media_entity {
-> >  
-> >  	const struct media_entity_operations *ops;
-> >  
-> > -	int stream_count;
-> >  	int use_count;
-> >  
-> >  	struct media_pipeline *pipe;
-> > @@ -867,7 +864,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
-> >   */
-> >  static inline bool media_entity_is_streaming(const struct media_entity *entity)
-> >  {
-> > -	return entity->stream_count > 0;
-> > +	return entity->pipe != NULL;
+> The similarity is that with your patch both gpiod_get_optional() and
+> platform_get_irq_optional() return NULL and 0 on not-found. The relevant
+> difference however is that for a gpiod NULL is a dummy value, while for
+> irqs it's not. So the similarity is only syntactically, but not
+> semantically.
 > 
-> I'd drop "!= NULL" part; it's redundant.
+>>> 	platform_get_irq_optional() is like gpiod_get_optional().
+>>>
+>>> The introduction of gpiod_get_optional() made it possible to simplify
+>>> the following code:
+>>>
+>>> 	reset_gpio = gpiod_get(...)
+>>> 	if IS_ERR(reset_gpio):
+>>> 		error = PTR_ERR(reset_gpio)
+>>> 		if error != -ENDEV:
+>>
+>>    ENODEV?
+> 
+> Yes, typo.
+> 
+>>> 			return error
+>>> 	else:
+>>> 		gpiod_set_direction(reset_gpiod, INACTIVE)
+>>>
+>>> to
+>>>
+>>> 	reset_gpio = gpiod_get_optional(....)
+>>> 	if IS_ERR(reset_gpio):
+>>> 		return reset_gpio
+>>> 	gpiod_set_direction(reset_gpiod, INACTIVE)
+>>>
+>>> and I never need to actually know if the reset_gpio actually exists.
+>>> Either the line is put into its inactive state, or it doesn't exist and
+>>> then gpiod_set_direction is a noop. For a regulator or a clk this works
+>>> in a similar way.
+>>>
+>>> However for an interupt this cannot work. You will always have to check
+>>> if the irq is actually there or not because if it's not you cannot just
+>>> ignore that. So there is no benefit of an optional irq.
+>>>
+>>> Leaving error message reporting aside, the introduction of
+>>> platform_get_irq_optional() allows to change
+>>>
+>>> 	irq = platform_get_irq(...);
+>>> 	if (irq < 0 && irq != -ENXIO) {
+>>> 		return irq;
+>>> 	} else if (irq >= 0) {
+>>
+>>    Rather (irq > 0) actually, IRQ0 is considered invalid (but still returned).
+> 
+> This is a topic I don't feel strong for, so I'm sloppy here. If changing
+> this is all that is needed to convince you of my point ...
 
-I usually use "if (pointer)" or "if (!pointer)" without comparing to
-NULL, but for some reason, when returning a bool, it feels more explicit
-to me to use a comparison. I'm not sure why, maybe because, unlike with
-if (), the implicit cast is only apparent when you read the signature of
-the function ? Not that it's far away in this case, it's only two lines
-up.
+   See below. :-)
 
-> I'll do that when applying if that's fine.
+>>> 		... setup irq operation ...
+>>> 	} else { /* irq == -ENXIO */
+>>> 		... setup polling ...
+>>> 	}
+>>>
+>>> to
+>>> 	
+>>> 	irq = platform_get_irq_optional(...);
+>>> 	if (irq < 0 && irq != -ENXIO) {
+>>> 		return irq;
+>>> 	} else if (irq >= 0) {
+>>> 		... setup irq operation ...
+>>> 	} else { /* irq == -ENXIO */
+>>> 		... setup polling ...
+>>> 	}
+>>>
+>>> which isn't a win. When changing the return value as you suggest, it can
+>>> be changed instead to:
+>>>
+>>> 	irq = platform_get_irq_optional(...);
+>>> 	if (irq < 0) {
+>>> 		return irq;
+>>> 	} else if (irq > 0) {
+>>> 		... setup irq operation ...
+>>> 	} else { /* irq == 0 */
+>>> 		... setup polling ...
+>>> 	}
+>>>
+>>> which is a tad nicer. If that is your goal however I ask you to also
+>>> change the semantic of platform_get_irq() to return 0 on "not found".
+>>
+>>     Well, I'm not totally opposed to that... but would there be a considerable win?
 
-Fine with me, I don't mind either way. Thanks.
+> Well, compared to your suggestion of making platform_get_irq_optional()
+> return 0 on "not-found" the considerable win would be that
+> platform_get_irq_optional() and platform_get_irq() are not different
 
-> >  }
-> >  
-> >  /**
+   They would really be the same function if we do that. But...
 
--- 
-Regards,
+> just because platform_get_irq() is to hard to change.
 
-Laurent Pinchart
+   It's not just that, of course. If you make platform_get_irq() return 0
+ISO -ENXIO, you'd have to add the handling of that 0 to all the callers,
+and that won't be as simple as:
+
+	if (irq < 0)
+		return irq;
+
+since we can't just propagate 0 upstream, we'd have to return something like
+-ENXIO (or whatever error we see fit). Does that really scale well?
+
+>> Anyway, we should 1st stop returning 0 for "valid" IRQs -- this is done by my patch
+>> the discussed patch series are atop of.
+>>
+>>> Note the win is considerably less compared to gpiod_get_optional vs
+>>
+>>    If there's any at all... We'd basically have to touch /all/ platform_get_irq()
+>> calls (and get an even larger CC list ;-)).
+> 
+> You got me wrong here. I meant that even if you change both
+> platform_get_irq() and platform_get_irq_optional() to return 0 on
+> "not-found", the win is small compared to the benefit of having both
+
+   There's no win at all, it seems.
+
+> clk_get() and clk_get_optional().
+> 
+>>> gpiod_get however. And then it still lacks the semantic of a dummy irq
+>>> which IMHO forfeits the right to call it ..._optional().
+>>
+>>    Not quite grasping it... Why e.g. clk_get() doesn't return 0 for a not found clock?
+> 
+> Because NULL is not an error value for clk and when calling clk_get()
+> you want a failure when the clk you asked for isn't available.
+> 
+> Sure you could do the following in a case where you want to insist the
+> clk to be actually available:
+> 
+> 	clk = clk_get_optional(...)
+> 	if (IS_ERR_OR_NULL(clk)) {
+> 		err = PTR_ERR(clk) || -ENODEV;
+> 		return dev_err_probe(dev, err, ....);
+> 	}
+> 
+> but this is more ugly than
+> 
+> 	clk = clk_get(...)
+> 	if (IS_ERR(clk)) {
+> 		err = PTR_ERR(clk);
+> 		return dev_err_probe(dev, err, ....);
+> 	}
+> 
+> Additionally the first usage would hard-code in the drivers that NULL is
+> the dummy value which you might want to consider a layer violation.
+
+   Unfortunately, we don't have a single layer in case of IRQs... There's
+no platform_request_irq() (yet? :-)).
+
+> You have to understand that for clk (and regulator and gpiod) NULL is a
+> valid descriptor that can actually be used, it just has no effect. So
+> this is a convenience value for the case "If the clk/regulator/gpiod in
+> question isn't available, there is nothing to do". This is what makes
+> clk_get_optional() and the others really useful and justifies their
+> existence. This doesn't apply to platform_get_irq_optional().
+
+   I do understand that. However, IRQs are a different beast with their
+own justifications...
+
+> So clk_get() is sane and sensible for cases where you need the clk to be
+> there. It doesn't emit an error message, because the caller knows better
+> if it's worth an error message and in some cases the caller can also
+> emit a better error message than clk_get() itself.
+
+   I haven't been thinking about the IRQ error messages at all (yet?)...
+And when I start thinking about it, it doesn't seem that bad, perhaps
+even saves a lot of the .rodata section... :-)
+
+> clk_get_optional() is sane and sensible for cases where the clk might be
+> absent and it helps you because you don't have to differentiate between
+> "not found" and "there is an actual resource".
+> 
+> The reason for platform_get_irq_optional()'s existence is just that
+> platform_get_irq() emits an error message which is wrong or suboptimal
+
+   I think you are very wrong here. The real reason is to simplify the
+callers.
+
+> in some cases (and IMHO is platform_get_irq() root fault). It doesn't
+> simplify handling the "not found" case.
+
+   Oh, it does... you don't have to special-case 0 when handling its result.
+In my book, it's a major simplification.
+
+> So let's not pretend by the
+> choice of function names that there is a similarity between clk_get() +
+> clk_get_optional() and platform_get_irq() + platform_get_irq_optional().
+
+   OK, no similarity. But that's well justified.
+
+> And as you cannot change platform_get_irq_optional() to return a working
+> dummy value, IMHO the only sane way out is renaming it.
+
+   Your rename really focused on the wrong aspect of the function, I think...
+
+> Best regards
+> Uwe
+
+MBR, Sergey
