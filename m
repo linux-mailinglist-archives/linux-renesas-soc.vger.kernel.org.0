@@ -2,114 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB7148F418
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 02:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFD3848F43B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 02:46:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231990AbiAOBXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jan 2022 20:23:32 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:25388 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231989AbiAOBXb (ORCPT
+        id S232075AbiAOBqs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jan 2022 20:46:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231781AbiAOBqr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jan 2022 20:23:31 -0500
-X-IronPort-AV: E=Sophos;i="5.88,290,1635174000"; 
-   d="scan'208";a="107116855"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Jan 2022 10:23:30 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6473D417EAC4;
-        Sat, 15 Jan 2022 10:23:28 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] ASoC: sh: rz-ssi: Add rz_ssi_set_substream() helper function
-Date:   Sat, 15 Jan 2022 01:23:03 +0000
-Message-Id: <20220115012303.29651-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220115012303.29651-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220115012303.29651-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 14 Jan 2022 20:46:47 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84F54C061574;
+        Fri, 14 Jan 2022 17:46:47 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id v186so28686783ybg.1;
+        Fri, 14 Jan 2022 17:46:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tWKYqjMToQiYNKjbuCtLFgDL3xooRgPiVQeOXmHwMgs=;
+        b=nwt9fdkM8Jjyr8Qk9lQ3nikJt45z3ZIWItehvNMCq582HhZP8/Oh6b6RjDfJmYArPe
+         ieCs/E6lFaO4d6AriWHvI+bzTth+kfSwjf1RnbHxYyyUKCIpNxKoe/QHJ9Q5jzcdFpfd
+         FbGlZuzaiA44s0JyKbeHGe8aFfrl4DydWRmdRXsCOFni4zYlF/L493G0jeeKCEW+f/o2
+         shvM/YO1PgtuMiXhu5GPDb4eobmjPwBx/YQMSvNEwy99/99y3mPq1RpE+EI9V9Zyoqe+
+         I5XffLZuCwrZ2TllmVItNccGKkOw8Ve/hLX7dU2qKMm6ar7xWxxke9c9amp96VLpnUB5
+         u7ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tWKYqjMToQiYNKjbuCtLFgDL3xooRgPiVQeOXmHwMgs=;
+        b=JzZDj96o6lX7kNjMFDSNhC0z3/j9GYl/544DuqZ5NEisNAU9C5ZTcnOTudbYWOjOkw
+         dbjRaYeRAI0d2BfC4LaZAJQjWM+tazgs3JhRpvKSZyE/TEY+6dhMA8+2EwEc06pg1O5Q
+         qdnke2dQg4dmyJdUWAjjrU7nPsjN1FO6Z8l+Lw7XdVRfbYQfi481AbhgOUCfXQ2d+w5N
+         DEOiPIC+FyuKNNL1MNkIOjzNn/1PIYhSPI3wVif17g/5cOsHi/6aTOaHmi2mtn88+wot
+         Vlw+Gik8QAmR6RE5tb4QFRPIwa4M9Dv88mPacmIRrx2OV4leY8nrurIKEJ6S3yCfGHRC
+         OKoA==
+X-Gm-Message-State: AOAM531/z/2M8M8qurQz34LOI9os+2GDjkx4N0xBpOrywUlAVYgtxdMA
+        mQD2xoAPBjrQFpu6VbStbJvjAIGI9DPcUKyafaU=
+X-Google-Smtp-Source: ABdhPJwgzZLZHSnjfCYS1rIjQLZjd5tRg1w+jXNopdsIY1kj6ZrznRiU7nGR8CaxCU3f3tXLpA+HKePIHs69ZRR2jjU=
+X-Received: by 2002:a25:874a:: with SMTP id e10mr16006654ybn.422.1642211206642;
+ Fri, 14 Jan 2022 17:46:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211221094717.16187-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211221094717.16187-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUB-wK_0Vqn4fmqQ0jaHWmo9OTRPT1bwWsZh76U1J729A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUB-wK_0Vqn4fmqQ0jaHWmo9OTRPT1bwWsZh76U1J729A@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 15 Jan 2022 01:46:20 +0000
+Message-ID: <CA+V-a8sMfAT8DAxQJeAM6BvGOvrBE5sqVfm6ErS4y3wqT-UwVQ@mail.gmail.com>
+Subject: Re: [PATCH 06/16] dt-bindings: serial: renesas,scif: Document RZ/V2L SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-A copy of substream pointer is stored in priv structure during
-rz_ssi_dai_trigger() callback ie in SNDRV_PCM_TRIGGER_START case
-and the pointer is assigned to NULL in case of SNDRV_PCM_TRIGGER_STOP.
+Hi Geert,
 
-The driver used the locks only in rz_ssi_stream_is_valid() and assigned
-the local substream pointer to NULL in rz_ssi_dai_trigger() callback but
-never locked it while making a local copy.
+Thank you for the review.
 
-This patch adds the rz_ssi_set_substream() helper function to set the
-substream pointer with locks acquired and replaces the instances of
-setting the local substream pointer with the rz_ssi_set_substream()
-function.
+On Tue, Jan 11, 2022 at 4:23 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, Dec 21, 2021 at 10:48 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > Add SCIF binding documentation for Renesas RZ/V2L SoC. SCIF block on RZ/V2L
+> > is identical to one found on the RZ/G2L SoC. No driver changes are required
+> > as RZ/G2L compatible string "renesas,scif-r9a07g044" will be used as a
+> > fallback.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > @@ -67,6 +67,12 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - renesas,scif-r9a07g044      # RZ/G2{L,LC}
+> > +              - renesas,scif-r9a07g054      # RZ/V2L
+>
+> As the idea is to rely on the RZ/G2L fallback for matching, cfr. below,
+> the above addition is not needed or wanted.
+>
+Agreed I will drop that.
 
-Reported-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2
-* Dropped rz_ssi_get_substream() helper.
----
- sound/soc/sh/rz-ssi.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+> > +
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,scif-r9a07g054      # RZ/V2L
+> > +          - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback for RZ/V2L
+> >
+> >    reg:
+> >      maxItems: 1
+> > @@ -154,6 +160,7 @@ if:
+> >            - renesas,rcar-gen2-scif
+> >            - renesas,rcar-gen3-scif
+> >            - renesas,scif-r9a07g044
+> > +          - renesas,scif-r9a07g054
+>
+> This addition is not needed if the fallback is always present.
+>
+Ditto.
+> >  then:
+> >    required:
+> >      - resets
+>
+> Given Greg already applied your patch, I think you have to send a
+> follow-up patch.
+Will do.
 
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index 2da43eecfb3e..07fdbcfa5b63 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -188,6 +188,17 @@ static inline bool rz_ssi_is_dma_enabled(struct rz_ssi_priv *ssi)
- 	return (ssi->playback.dma_ch && (ssi->dma_rt || ssi->capture.dma_ch));
- }
- 
-+static void rz_ssi_set_substream(struct rz_ssi_stream *strm,
-+				 struct snd_pcm_substream *substream)
-+{
-+	struct rz_ssi_priv *ssi = strm->priv;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ssi->lock, flags);
-+	strm->substream = substream;
-+	spin_unlock_irqrestore(&ssi->lock, flags);
-+}
-+
- static bool rz_ssi_stream_is_valid(struct rz_ssi_priv *ssi,
- 				   struct rz_ssi_stream *strm)
- {
-@@ -206,7 +217,7 @@ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 
--	strm->substream = substream;
-+	rz_ssi_set_substream(strm, substream);
- 	strm->sample_width = samples_to_bytes(runtime, 1);
- 	strm->dma_buffer_pos = 0;
- 	strm->period_counter = 0;
-@@ -224,11 +235,8 @@ static void rz_ssi_stream_quit(struct rz_ssi_priv *ssi,
- 			       struct rz_ssi_stream *strm)
- {
- 	struct snd_soc_dai *dai = rz_ssi_get_dai(strm->substream);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&ssi->lock, flags);
--	strm->substream = NULL;
--	spin_unlock_irqrestore(&ssi->lock, flags);
-+	rz_ssi_set_substream(strm, NULL);
- 
- 	if (strm->oerr_num > 0)
- 		dev_info(dai->dev, "overrun = %d\n", strm->oerr_num);
--- 
-2.17.1
-
+Cheers,
+Prabhakar
