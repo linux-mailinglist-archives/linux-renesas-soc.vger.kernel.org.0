@@ -2,141 +2,226 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD3848F43B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 02:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9E5648F703
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Jan 2022 14:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232075AbiAOBqs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jan 2022 20:46:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231781AbiAOBqr (ORCPT
+        id S231854AbiAONJK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Jan 2022 08:09:10 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:33656 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231700AbiAONJB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jan 2022 20:46:47 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84F54C061574;
-        Fri, 14 Jan 2022 17:46:47 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id v186so28686783ybg.1;
-        Fri, 14 Jan 2022 17:46:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tWKYqjMToQiYNKjbuCtLFgDL3xooRgPiVQeOXmHwMgs=;
-        b=nwt9fdkM8Jjyr8Qk9lQ3nikJt45z3ZIWItehvNMCq582HhZP8/Oh6b6RjDfJmYArPe
-         ieCs/E6lFaO4d6AriWHvI+bzTth+kfSwjf1RnbHxYyyUKCIpNxKoe/QHJ9Q5jzcdFpfd
-         FbGlZuzaiA44s0JyKbeHGe8aFfrl4DydWRmdRXsCOFni4zYlF/L493G0jeeKCEW+f/o2
-         shvM/YO1PgtuMiXhu5GPDb4eobmjPwBx/YQMSvNEwy99/99y3mPq1RpE+EI9V9Zyoqe+
-         I5XffLZuCwrZ2TllmVItNccGKkOw8Ve/hLX7dU2qKMm6ar7xWxxke9c9amp96VLpnUB5
-         u7ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tWKYqjMToQiYNKjbuCtLFgDL3xooRgPiVQeOXmHwMgs=;
-        b=JzZDj96o6lX7kNjMFDSNhC0z3/j9GYl/544DuqZ5NEisNAU9C5ZTcnOTudbYWOjOkw
-         dbjRaYeRAI0d2BfC4LaZAJQjWM+tazgs3JhRpvKSZyE/TEY+6dhMA8+2EwEc06pg1O5Q
-         qdnke2dQg4dmyJdUWAjjrU7nPsjN1FO6Z8l+Lw7XdVRfbYQfi481AbhgOUCfXQ2d+w5N
-         DEOiPIC+FyuKNNL1MNkIOjzNn/1PIYhSPI3wVif17g/5cOsHi/6aTOaHmi2mtn88+wot
-         Vlw+Gik8QAmR6RE5tb4QFRPIwa4M9Dv88mPacmIRrx2OV4leY8nrurIKEJ6S3yCfGHRC
-         OKoA==
-X-Gm-Message-State: AOAM531/z/2M8M8qurQz34LOI9os+2GDjkx4N0xBpOrywUlAVYgtxdMA
-        mQD2xoAPBjrQFpu6VbStbJvjAIGI9DPcUKyafaU=
-X-Google-Smtp-Source: ABdhPJwgzZLZHSnjfCYS1rIjQLZjd5tRg1w+jXNopdsIY1kj6ZrznRiU7nGR8CaxCU3f3tXLpA+HKePIHs69ZRR2jjU=
-X-Received: by 2002:a25:874a:: with SMTP id e10mr16006654ybn.422.1642211206642;
- Fri, 14 Jan 2022 17:46:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20211221094717.16187-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211221094717.16187-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUB-wK_0Vqn4fmqQ0jaHWmo9OTRPT1bwWsZh76U1J729A@mail.gmail.com>
-In-Reply-To: <CAMuHMdUB-wK_0Vqn4fmqQ0jaHWmo9OTRPT1bwWsZh76U1J729A@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 15 Jan 2022 01:46:20 +0000
-Message-ID: <CA+V-a8sMfAT8DAxQJeAM6BvGOvrBE5sqVfm6ErS4y3wqT-UwVQ@mail.gmail.com>
-Subject: Re: [PATCH 06/16] dt-bindings: serial: renesas,scif: Document RZ/V2L SoC
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        Sat, 15 Jan 2022 08:09:01 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru C5E4720E291F
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH] driver core: platform: Rename platform_get_irq_optional()
+ to platform_get_irq_silent()
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+CC:     Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
+        "Amit Kucheria" <amitk@kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        "Guenter Roeck" <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "MTD Maling List" <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>, <netdev@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "Kishon Vijay Abraham I" <kishon@ti.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        "Saravanan Sekar" <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <openipmi-developer@lists.sourceforge.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benson Leung <bleung@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>, "Tony Luck" <tony.luck@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Linux MMC List" <linux-mmc@vger.kernel.org>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        "James Morse" <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        "Brian Norris" <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+References: <YdyilpjC6rtz6toJ@lunn.ch>
+ <CAMuHMdWK3RKVXRzMASN4HaYfLckdS7rBvSopafq+iPADtGEUzA@mail.gmail.com>
+ <20220112085009.dbasceh3obfok5dc@pengutronix.de>
+ <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
+ <YeA7CjOyJFkpuhz/@sirena.org.uk>
+ <20220113194358.xnnbhsoyetihterb@pengutronix.de>
+ <386a7f56-38c8-229c-4fec-4b38a77c4121@omp.ru>
+ <20220114202939.5kq5ud5opfosjlyc@pengutronix.de>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <cd89d952-b7a6-cd37-9df3-f3565cb2f802@omp.ru>
+Date:   Sat, 15 Jan 2022 16:08:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220114202939.5kq5ud5opfosjlyc@pengutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 1/14/22 11:29 PM, Uwe Kleine-König wrote:
 
-Thank you for the review.
+>>> The subsystems regulator, clk and gpio have the concept of a dummy
+>>> resource. For regulator, clk and gpio there is a semantic difference
+>>> between the regular _get() function and the _get_optional() variant.
+>>> (One might return the dummy resource, the other won't. Unfortunately
+>>> which one implements which isn't the same for these three.) The
+>>> difference between platform_get_irq() and platform_get_irq_optional() is
+>>> only that the former might emit an error message and the later won't.
+>>>
+>>> To prevent people's expectations that there is a semantic difference
+>>> between these too, rename platform_get_irq_optional() to
+>>> platform_get_irq_silent() to make the actual difference more obvious.
+>>>
+>>> The #define for the old name can and should be removed once all patches
+>>> currently in flux still relying on platform_get_irq_optional() are
+>>> fixed.
+>>
+>>    Hm... I'm afraid that with this #define they would never get fixed... :-)
+> 
+> I will care for it.
 
-On Tue, Jan 11, 2022 at 4:23 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Dec 21, 2021 at 10:48 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Add SCIF binding documentation for Renesas RZ/V2L SoC. SCIF block on RZ/V2L
-> > is identical to one found on the RZ/G2L SoC. No driver changes are required
-> > as RZ/G2L compatible string "renesas,scif-r9a07g044" will be used as a
-> > fallback.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > @@ -67,6 +67,12 @@ properties:
-> >        - items:
-> >            - enum:
-> >                - renesas,scif-r9a07g044      # RZ/G2{L,LC}
-> > +              - renesas,scif-r9a07g054      # RZ/V2L
->
-> As the idea is to rely on the RZ/G2L fallback for matching, cfr. below,
-> the above addition is not needed or wanted.
->
-Agreed I will drop that.
+  Ah! OK then. :-)
 
-> > +
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,scif-r9a07g054      # RZ/V2L
-> > +          - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback for RZ/V2L
-> >
-> >    reg:
-> >      maxItems: 1
-> > @@ -154,6 +160,7 @@ if:
-> >            - renesas,rcar-gen2-scif
-> >            - renesas,rcar-gen3-scif
-> >            - renesas,scif-r9a07g044
-> > +          - renesas,scif-r9a07g054
->
-> This addition is not needed if the fallback is always present.
->
-Ditto.
-> >  then:
-> >    required:
-> >      - resets
->
-> Given Greg already applied your patch, I think you have to send a
-> follow-up patch.
-Will do.
+>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>>> ---
+>>> Hello,
+>>>
+>>> On Thu, Jan 13, 2022 at 02:45:30PM +0000, Mark Brown wrote:
+>>>> On Thu, Jan 13, 2022 at 12:08:31PM +0100, Uwe Kleine-König wrote:
+>>>>
+>>>>> This is all very unfortunate. In my eyes b) is the most sensible
+>>>>> sense, but the past showed that we don't agree here. (The most annoying
+>>>>> part of regulator_get is the warning that is emitted that regularily
+>>>>> makes customers ask what happens here and if this is fixable.)
+>>>>
+>>>> Fortunately it can be fixed, and it's safer to clearly specify things.
+>>>> The prints are there because when the description is wrong enough to
+>>>> cause things to blow up we can fail to boot or run messily and
+>>>> forgetting to describe some supplies (or typoing so they haven't done
+>>>> that) and people were having a hard time figuring out what might've
+>>>> happened.
+>>>
+>>> Yes, that's right. I sent a patch for such a warning in 2019 and pinged
+>>> occationally. Still waiting for it to be merged :-\
+>>> (https://lore.kernel.org/r/20190625100412.11815-1-u.kleine-koenig@pengutronix.de)
+>>>
+>>>>> I think at least c) is easy to resolve because
+>>>>> platform_get_irq_optional() isn't that old yet and mechanically
+>>>>> replacing it by platform_get_irq_silent() should be easy and safe.
+>>>>> And this is orthogonal to the discussion if -ENOXIO is a sensible return
+>>>>> value and if it's as easy as it could be to work with errors on irq
+>>>>> lookups.
+>>>>
+>>>> It'd certainly be good to name anything that doesn't correspond to one
+>>>> of the existing semantics for the API (!) something different rather
+>>>> than adding yet another potentially overloaded meaning.
+>>>
+>>> It seems we're (at least) three who agree about this. Here is a patch
+>>> fixing the name.
+>>
+>>    I can't say I genrally agree with this patch...
+> 
+> Yes, I didn't count you to the three people signaling agreement.
 
-Cheers,
-Prabhakar
+   :-D
+
+>> [...]
+>>> diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+>>> index 7c96f169d274..6d495f15f717 100644
+>>> --- a/include/linux/platform_device.h
+>>> +++ b/include/linux/platform_device.h
+>>> @@ -69,7 +69,14 @@ extern void __iomem *
+>>>  devm_platform_ioremap_resource_byname(struct platform_device *pdev,
+>>>  				      const char *name);
+>>>  extern int platform_get_irq(struct platform_device *, unsigned int);
+>>> -extern int platform_get_irq_optional(struct platform_device *, unsigned int);
+>>> +extern int platform_get_irq_silent(struct platform_device *, unsigned int);
+>>> +
+>>> +/*
+>>> + * platform_get_irq_optional was recently renamed to platform_get_irq_silent.
+>>> + * Fixup users to not break patches that were created before the rename.
+>>> + */
+>>> +#define platform_get_irq_optional(pdev, index) platform_get_irq_silent(pdev, index)
+>>> +
+>>
+>>    Yeah, why bother fixing if it compiles anyway?
+> 
+> The plan is to remove the define in one or two kernel releases. The idea
+> is only to not break patches that are currently in next.
+> 
+>>    I think an inline wrapper with an indication to gcc that the function is deprecated
+>> (I just forgot how it should look) would be better instead...
+> 
+> The deprecated function annotation is generally frowned upon. See
+> 771c035372a0.
+
+   Not sure I share the sentiment but good to know about that.
+
+> Best regards
+> Uwe
+
+MBR, Sergey
