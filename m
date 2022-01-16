@@ -2,188 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D74ED48FE65
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jan 2022 19:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74EE648FE73
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jan 2022 19:31:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236002AbiAPSPj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 Jan 2022 13:15:39 -0500
-Received: from mxout03.lancloud.ru ([45.84.86.113]:59572 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235965AbiAPSPd (ORCPT
+        id S235808AbiAPSbR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 Jan 2022 13:31:17 -0500
+Received: from mga04.intel.com ([192.55.52.120]:32402 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232456AbiAPSbR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 Jan 2022 13:15:33 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 2173F206F618
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        KVM list <kvm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        <linux-iio@vger.kernel.org>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Guenter Roeck <groeck@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
-        <openipmi-developer@lists.sourceforge.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Sun, 16 Jan 2022 13:31:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642357877; x=1673893877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=968lJqmkHHdFBTKOb0QPzI++Lw7yAUqpVeAEs8YENdc=;
+  b=j42kr0JfbuOs/HU53uuf6eqADSGyttXMRto1Paz6PUv2y2qwjre8Sjav
+   tdhnDAIfuIeoP3ewEzUZMqEtu7vQVV0lk6zNKimkRZxNtOF1E89l98Bjb
+   2Vi5q6p5vFJVqKt/VZXaU0HsxtHkauvBoTCxlFgyeNr9fbJ8wqdN4Gyyj
+   QtQrsnI7QMJ9xin2krKHXjidztr8xinoBn8SnptlWl3oaLq14MsgTppRY
+   +bJF0H9Z1gd3xj7b7QmsldC04SopaYUlIP8X0bFcSrfU/pGYMYD7S5z6V
+   IGlUR594/UcNLB24bSh4H5RwToSO88H7WOWPjcoJ0NSI4fJlE+2ANEKJl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10228"; a="243331088"
+X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
+   d="scan'208";a="243331088"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2022 10:31:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
+   d="scan'208";a="624965093"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2022 10:31:13 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n9AJ6-000AuJ-Dx; Sun, 16 Jan 2022 18:31:12 +0000
+Date:   Mon, 17 Jan 2022 02:30:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     marek.vasut@gmail.com, linux-pci@vger.kernel.org
+Cc:     kbuild-all@lists.01.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa-dev@sang-engineering.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Corey Minyard <minyard@acm.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        "Borislav Petkov" <bp@alien8.de>,
-        Sebastian Reichel <sre@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Linux MMC List" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        <linux-mediatek@lists.infradead.org>,
-        "Brian Norris" <computersforpeace@gmail.com>,
-        <netdev@vger.kernel.org>
-References: <20220110201014.mtajyrfcfznfhyqm@pengutronix.de>
- <YdyilpjC6rtz6toJ@lunn.ch>
- <CAMuHMdWK3RKVXRzMASN4HaYfLckdS7rBvSopafq+iPADtGEUzA@mail.gmail.com>
- <20220112085009.dbasceh3obfok5dc@pengutronix.de>
- <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
- <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
- <Yd9L9SZ+g13iyKab@sirena.org.uk>
- <29f0c65d-77f2-e5b2-f6cc-422add8a707d@omp.ru>
- <20220114092557.jrkfx7ihg26ekzci@pengutronix.de>
- <61b80939-357d-14f5-df99-b8d102a4e1a1@omp.ru>
- <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <57af1851-9341-985e-7b28-d2ba86770ecb@omp.ru>
-Date:   Sun, 16 Jan 2022 21:15:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] PCI: rcar: Return all Fs from read which triggered
+ an exception
+Message-ID: <202201170248.g8zqyL3O-lkp@intel.com>
+References: <20220116022549.456486-2-marek.vasut@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220116022549.456486-2-marek.vasut@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi,
 
-On 1/14/22 11:22 PM, Uwe Kleine-König wrote:
+I love your patch! Perhaps something to improve:
 
->>>>>>> To me it sounds much more logical for the driver to check if an
->>>>>>> optional irq is non-zero (available) or zero (not available), than to
->>>>>>> sprinkle around checks for -ENXIO. In addition, you have to remember
->>>>>>> that this one returns -ENXIO, while other APIs use -ENOENT or -ENOSYS
->>>>>>> (or some other error code) to indicate absence. I thought not having
->>>>>>> to care about the actual error code was the main reason behind the
->>>>>>> introduction of the *_optional() APIs.
->>>>>
->>>>>> No, the main benefit of gpiod_get_optional() (and clk_get_optional()) is
->>>>>> that you can handle an absent GPIO (or clk) as if it were available.
->>>>
->>>>    Hm, I've just looked at these and must note that they match 1:1 with
->>>> platform_get_irq_optional(). Unfortunately, we can't however behave the
->>>> same way in request_irq() -- because it has to support IRQ0 for the sake
->>>> of i8253 drivers in arch/...
->>>
->>> Let me reformulate your statement to the IMHO equivalent:
->>>
->>> 	If you set aside the differences between
->>> 	platform_get_irq_optional() and gpiod_get_optional(),
->>
->>    Sorry, I should make it clear this is actually the diff between a would-be
->> platform_get_irq_optional() after my patch, not the current code...
-> 
-> The similarity is that with your patch both gpiod_get_optional() and
-> platform_get_irq_optional() return NULL and 0 on not-found. The relevant
-> difference however is that for a gpiod NULL is a dummy value, while for
-> irqs it's not. So the similarity is only syntactically, but not
-> semantically.
+[auto build test WARNING on helgaas-pci/next]
+[also build test WARNING on next-20220116]
+[cannot apply to v5.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-   I have noting to say here, rather than optional IRQ could well have a different
-meaning than for clk/gpio/etc.
+url:    https://github.com/0day-ci/linux/commits/marek-vasut-gmail-com/PCI-rcar-Finish-transition-to-L1-state-in-rcar_pcie_config_access/20220116-102631
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+config: arm-randconfig-c002-20220116 (https://download.01.org/0day-ci/archive/20220117/202201170248.g8zqyL3O-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/f784bebf4a058d633fc77579892309b12dd33edb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review marek-vasut-gmail-com/PCI-rcar-Finish-transition-to-L1-state-in-rcar_pcie_config_access/20220116-102631
+        git checkout f784bebf4a058d633fc77579892309b12dd33edb
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/pci/controller/
 
-[...]
->>> However for an interupt this cannot work. You will always have to check
->>> if the irq is actually there or not because if it's not you cannot just
->>> ignore that. So there is no benefit of an optional irq.
->>>
->>> Leaving error message reporting aside, the introduction of
->>> platform_get_irq_optional() allows to change
->>>
->>> 	irq = platform_get_irq(...);
->>> 	if (irq < 0 && irq != -ENXIO) {
->>> 		return irq;
->>> 	} else if (irq >= 0) {
->>
->>    Rather (irq > 0) actually, IRQ0 is considered invalid (but still returned).
-> 
-> This is a topic I don't feel strong for, so I'm sloppy here. If changing
-> this is all that is needed to convince you of my point ...
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-   Note that we should absolutely (and first of all) stop returning 0 from platform_get_irq()
-on a "real" IRQ0. Handling that "still good" zero absolutely doesn't scale e.g. for the subsystems
-(like libata) which take 0 as an indication that the polling mode should be used... We can't afford
-to be sloppy here. ;-)
+All warnings (new ones prefixed by >>):
 
-[...]
+>> drivers/pci/controller/pcie-rcar-host.c:109:6: warning: no previous prototype for 'rcar_pci_write_reg_workaround' [-Wmissing-prototypes]
+     109 | void rcar_pci_write_reg_workaround(struct rcar_pcie *pcie, u32 val, unsigned int reg)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/pcie-rcar-host.c:121:5: warning: no previous prototype for 'rcar_pci_read_reg_workaround' [-Wmissing-prototypes]
+     121 | u32 rcar_pci_read_reg_workaround(struct rcar_pcie *pcie, unsigned int reg)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   /tmp/cc0JJaba.s: Assembler messages:
+   /tmp/cc0JJaba.s:1425: Error: selected processor does not support `isb' in ARM mode
+   /tmp/cc0JJaba.s:1486: Error: selected processor does not support `isb' in ARM mode
+   /tmp/cc0JJaba.s:2594: Error: selected processor does not support `isb' in ARM mode
+   /tmp/cc0JJaba.s:2622: Error: symbol `rcar_pci_read_reg_workaround_start' is already defined
+   /tmp/cc0JJaba.s:2624: Error: selected processor does not support `isb' in ARM mode
 
-> Best regards
-> Uwe
 
-MBR, Sergey
+vim +/rcar_pci_write_reg_workaround +109 drivers/pci/controller/pcie-rcar-host.c
+
+   108	
+ > 109	void rcar_pci_write_reg_workaround(struct rcar_pcie *pcie, u32 val, unsigned int reg)
+   110	{
+   111	#ifdef CONFIG_ARM
+   112		asm volatile(
+   113			"	str %0, [%1]\n"
+   114			"	isb\n"
+   115		::"r"(val), "r"(pcie->base + reg):"memory");
+   116	#else
+   117		rcar_pci_write_reg(pcie, val, reg);
+   118	#endif
+   119	}
+   120	
+ > 121	u32 rcar_pci_read_reg_workaround(struct rcar_pcie *pcie, unsigned int reg)
+   122	{
+   123	#ifdef CONFIG_ARM
+   124		u32 val;
+   125	
+   126		asm volatile(
+   127			"rcar_pci_read_reg_workaround_start:\n"
+   128			"1:	ldr %0, [%1]\n"
+   129			"	isb\n"
+   130		: "=r"(val):"r"(pcie->base + reg):"memory");
+   131	
+   132		return val;
+   133	#else
+   134		return rcar_pci_read_reg(pcie, reg);
+   135	#endif
+   136	}
+   137	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
