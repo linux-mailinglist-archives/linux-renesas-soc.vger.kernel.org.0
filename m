@@ -2,201 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D58248FC2C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jan 2022 11:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE70048FD61
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Jan 2022 15:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232435AbiAPKja (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 Jan 2022 05:39:30 -0500
-Received: from mail-vk1-f169.google.com ([209.85.221.169]:34783 "EHLO
-        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbiAPKja (ORCPT
+        id S235428AbiAPOTO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 Jan 2022 09:19:14 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:50044 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229785AbiAPOTM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 Jan 2022 05:39:30 -0500
-Received: by mail-vk1-f169.google.com with SMTP id 191so8605738vkc.1;
-        Sun, 16 Jan 2022 02:39:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L7KZoixn/d1IeGe4aQVxYWMngxYypeC0ApJyZMZEG2E=;
-        b=r+1Xl5Yrb59Ce+tcAtATDpsj245oj3L9XG+HodcOK4kGqVjMsIHSogBtSkJacO7oQD
-         RNYEpbdXoLW3Vs9JI2JDJJmtSRzUIqrehRKO/GHcKqbiFNbzBUlsH0cVia3pbrpTMfnX
-         dXO7PX8RclLgOwMCt3eopRCKRXMTQosqye9IBp4kXtvMVWeGbcXmkiHk64QcoIu3sSEu
-         TN7a8EOu5xwWo34FNcneegRit0RMf65ZgznFNhv3RvfSBVcb3x/ST1WoR2YGFlrfHXZf
-         bWJrHP3e4Z5rOdRvcY8iLnNL47Zkkim91+9PjTpiZvxt9JM1NsJpvy4X7s0EobGZa5ow
-         sIDQ==
-X-Gm-Message-State: AOAM531ohGD34hs6wchuQFoN86d1Pl9AxPUC/7l7bduJmm1rGAsOaJGD
-        hesxJjJCIhMUW0QlUbWiqjR4uUi9dSXeRg==
-X-Google-Smtp-Source: ABdhPJxzpslPHuDe7fSO3yMENtzpEJXtWhqeHft+d4D3sLR5j7upUCimeBC5jkTQHnbb0LQ9PvMsyQ==
-X-Received: by 2002:ac5:cda4:: with SMTP id l4mr6610630vka.10.1642329569154;
-        Sun, 16 Jan 2022 02:39:29 -0800 (PST)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id q28sm3264973vsl.2.2022.01.16.02.39.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jan 2022 02:39:28 -0800 (PST)
-Received: by mail-vk1-f177.google.com with SMTP id d189so8598137vkg.3;
-        Sun, 16 Jan 2022 02:39:28 -0800 (PST)
-X-Received: by 2002:ac5:c967:: with SMTP id t7mr6747505vkm.20.1642329568063;
- Sun, 16 Jan 2022 02:39:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20220116022549.456486-1-marek.vasut@gmail.com>
-In-Reply-To: <20220116022549.456486-1-marek.vasut@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 16 Jan 2022 11:39:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXUteqOinkCNH8L-dC=W82DChQSupAXv_Uhjq5M=T5uxQ@mail.gmail.com>
-Message-ID: <CAMuHMdXUteqOinkCNH8L-dC=W82DChQSupAXv_Uhjq5M=T5uxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
+        Sun, 16 Jan 2022 09:19:12 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 31DF260F2E;
+        Sun, 16 Jan 2022 14:19:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D360C36AE7;
+        Sun, 16 Jan 2022 14:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1642342750;
+        bh=KujYZ44NbqHewC3hStYnBx16eqgxm1SsBiD7vgCzy1A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sKsNPdg/t/aehm0kbBx0+iaMt7Vs15thP7mY+lgsvv2wpHp7hhFp/CL3s/+VFunx8
+         VMGsJpG9T+206AG5qxqWiAVL+YwMP+lMdgO6G29sYG5yQOnXi5Wp9YcaTPGre6QZaH
+         1Q5W85dO5PtMcGij5VwJ57avVdKo6t7UZumaWiEk=
+Date:   Sun, 16 Jan 2022 15:19:06 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, linux-iio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>, alsa-devel@alsa-project.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        kvm@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
+        John Garry <john.garry@huawei.com>,
+        Robert Richter <rric@kernel.org>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Corey Minyard <minyard@acm.org>, linux-pm@vger.kernel.org,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Eric Auger <eric.auger@redhat.com>, netdev@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        linux-mediatek@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+ (summary)
+Message-ID: <YeQpWu2sUVOSaT9I@kroah.com>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
+ <20220110195449.12448-2-s.shtylyov@omp.ru>
+ <20220115183643.6zxalxqxrhkfgdfq@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220115183643.6zxalxqxrhkfgdfq@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+On Sat, Jan 15, 2022 at 07:36:43PM +0100, Uwe Kleine-König wrote:
+> A possible compromise: We can have both. We rename
+> platform_get_irq_optional() to platform_get_irq_silent() (or
+> platform_get_irq_silently() if this is preferred) and once all users are
+> are changed (which can be done mechanically), we reintroduce a
+> platform_get_irq_optional() with Sergey's suggested semantic (i.e.
+> return 0 on not-found, no error message printking).
 
-On Sun, Jan 16, 2022 at 3:26 AM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->
-> In case the controller is transitioning to L1 in rcar_pcie_config_access(),
-> any read/write access to PCIECDR triggers asynchronous external abort. This
-> is because the transition to L1 link state must be manually finished by the
-> driver. The PCIe IP can transition back from L1 state to L0 on its own.
->
-> Avoid triggering the abort in rcar_pcie_config_access() by checking whether
-> the controller is in the transition state, and if so, finish the transition
-> right away. This prevents a lot of unnecessary exceptions, although not all
-> of them.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Please do not do that as anyone trying to forward-port an old driver
+will miss the abi change of functionality and get confused.  Make
+build-breaking changes, if the way a function currently works is
+changed in order to give people a chance.
 
-Thanks for your patch!
+thanks,
 
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -54,6 +54,34 @@ static void __iomem *pcie_base;
->   * device is runtime suspended or not.
->   */
->  static struct device *pcie_dev;
-> +
-> +static DEFINE_SPINLOCK(pmsr_lock);
-> +static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
-> +{
-> +       u32 pmsr, val;
-> +       int ret = 0;
-> +
-> +       if (!pcie_base || pm_runtime_suspended(pcie_dev))
-> +               return 1;
-
-This is not a suitable return code to be propagated in
-rcar_pcie_config_access(). But probably this cannot happen anyway
-when called from rcar_pcie_config_access()?
-
-> +
-> +       pmsr = readl(pcie_base + PMSR);
-> +
-> +       /*
-> +        * Test if the PCIe controller received PM_ENTER_L1 DLLP and
-> +        * the PCIe controller is not in L1 link state. If true, apply
-> +        * fix, which will put the controller into L1 link state, from
-> +        * which it can return to L0s/L0 on its own.
-> +        */
-> +       if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
-> +               writel(L1IATN, pcie_base + PMCTLR);
-> +               ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
-> +                                               val & L1FAEG, 10, 1000);
-> +               WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
-> +               writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
-> +       }
-> +
-> +       return ret;
-> +}
->  #endif
->
->  /* Structure representing the PCIe interface */
-> @@ -85,6 +113,15 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
->  {
->         struct rcar_pcie *pcie = &host->pcie;
->         unsigned int dev, func, reg, index;
-> +       unsigned long flags;
-> +       int ret;
-> +
-> +       /* Wake the bus up in case it is in L1 state. */
-> +       spin_lock_irqsave(&pmsr_lock, flags);
-> +       ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
-> +       spin_unlock_irqrestore(&pmsr_lock, flags);
-
-Move the spinlock handling in the caller?
-
-> +       if (ret)
-> +               return ret;
->
->         dev = PCI_SLOT(devfn);
->         func = PCI_FUNC(devfn);
-> @@ -1050,36 +1087,18 @@ static struct platform_driver rcar_pcie_driver = {
->  };
->
->  #ifdef CONFIG_ARM
-> -static DEFINE_SPINLOCK(pmsr_lock);
->  static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
->                 unsigned int fsr, struct pt_regs *regs)
->  {
->         unsigned long flags;
-> -       u32 pmsr, val;
->         int ret = 0;
->
->         spin_lock_irqsave(&pmsr_lock, flags);
->
-> -       if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
-> -               ret = 1;
-> +       ret = rcar_pcie_wakeup(pcie_dev, pcie_base);
-> +       spin_unlock_irqrestore(&pmsr_lock, flags);
-
-Move the spinlock handling in the caller?
-
-> +       if (ret)
->                 goto unlock_exit;
-> -       }
-> -
-> -       pmsr = readl(pcie_base + PMSR);
-> -
-> -       /*
-> -        * Test if the PCIe controller received PM_ENTER_L1 DLLP and
-> -        * the PCIe controller is not in L1 link state. If true, apply
-> -        * fix, which will put the controller into L1 link state, from
-> -        * which it can return to L0s/L0 on its own.
-> -        */
-> -       if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
-> -               writel(L1IATN, pcie_base + PMCTLR);
-> -               ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
-> -                                               val & L1FAEG, 10, 1000);
-> -               WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
-> -               writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
-> -       }
->
->  unlock_exit:
->         spin_unlock_irqrestore(&pmsr_lock, flags);
-
-Whoops, double unlock.
-
-As there's nothing to be done below, the goto and label can be removed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+greg k-h
