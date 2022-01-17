@@ -2,259 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABB34907FF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 12:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAC0949080F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 13:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236730AbiAQL5o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 06:57:44 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:47210 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231510AbiAQL5l (ORCPT
+        id S239303AbiAQMAR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 07:00:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60546 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236929AbiAQMAP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 06:57:41 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2ADB220E0F3B
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corey Minyard <minyard@acm.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "James Morse" <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "Peter Korsgaard" <peter@korsgaard.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        "Miquel Raynal" <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        "Guenter Roeck" <groeck@chromium.org>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Liam Girdwood" <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        "Takashi Iwai" <tiwai@suse.com>,
-        <openipmi-developer@lists.sourceforge.net>,
-        <linux-iio@vger.kernel.org>, <linux-edac@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-serial@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-References: <20220110195449.12448-1-s.shtylyov@omp.ru>
- <20220110195449.12448-2-s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <770fb569-03c8-78f9-c174-94b31e866017@omp.ru>
-Date:   Mon, 17 Jan 2022 14:57:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20220110195449.12448-2-s.shtylyov@omp.ru>
+        Mon, 17 Jan 2022 07:00:15 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EE0C061574;
+        Mon, 17 Jan 2022 04:00:15 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04862A24;
+        Mon, 17 Jan 2022 13:00:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1642420813;
+        bh=qRTlWv2Ub7xpP+bGntqMfYYYr0MJd+k4Q04yGENOdKQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=DQN1t3YpEkLT8F2BoS0kVpbtN3Rv+tar40R1Z7HVxYg3GW1i/hkLDZ5pqUd/2XagY
+         eyUCU5P9uqWv3+l9xndNk6/dcKRY5Q6v3pkjZMk+TYTe3jTzjfF93rFj1Gq8b5MSnm
+         UeeY0fddmG6ZYgQOkQesKyE40knvMlE+dsfqwVTg=
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211216163439.139579-6-jacopo+renesas@jmondi.org>
+References: <20211216163439.139579-1-jacopo+renesas@jmondi.org> <20211216163439.139579-6-jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v8 5/7] arm64: dts: renesas: eagle: Enable MAX9286
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Date:   Mon, 17 Jan 2022 12:00:10 +0000
+Message-ID: <164242081073.10801.9311496848945450615@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/10/22 10:54 PM, Sergey Shtylyov wrote:
+Quoting Jacopo Mondi (2021-12-16 16:34:37)
+> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>=20
+> Enable the MAX9286 GMSL deserializer on the Eagle-V3M board.
+>=20
+> Connected cameras should be defined in a device-tree overlay or included
+> after these definitions.
+>=20
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-> This patch is based on the former Andy Shevchenko's patch:
-> 
-> https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@linux.intel.com/
-> 
-> Currently platform_get_irq_optional() returns an error code even if IRQ
-> resource simply has not been found. It prevents the callers from being
-> error code agnostic in their error handling:
-> 
-> 	ret = platform_get_irq_optional(...);
-> 	if (ret < 0 && ret != -ENXIO)
-> 		return ret; // respect deferred probe
-> 	if (ret > 0)
-> 		...we get an IRQ...
-> 
-> All other *_optional() APIs seem to return 0 or NULL in case an optional
-> resource is not available. Let's follow this good example, so that the
-> callers would look like:
-> 
-> 	ret = platform_get_irq_optional(...);
-> 	if (ret < 0)
-> 		return ret;
-> 	if (ret > 0)
-> 		...we get an IRQ...
-> 
-> Reported-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-[...]
+Aha, this looks like it has changed a little from what I would have
+originally created, but I think it's good this way.
 
-   Please don't merge this as yet, I'm going thru this patch once again
-and have already found some sloppy code. :-/
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> diff --git a/drivers/char/ipmi/bt-bmc.c b/drivers/char/ipmi/bt-bmc.c
-> index 7450904e330a..fdc63bfa5be4 100644
-> --- a/drivers/char/ipmi/bt-bmc.c
-> +++ b/drivers/char/ipmi/bt-bmc.c
-> @@ -382,12 +382,14 @@ static int bt_bmc_config_irq(struct bt_bmc *bt_bmc,
->  	bt_bmc->irq = platform_get_irq_optional(pdev, 0);
->  	if (bt_bmc->irq < 0)
->  		return bt_bmc->irq;
-> +	if (!bt_bmc->irq)
-> +		return 0;
-
-   Hm, this is sloppy. Will recast and rebase to the -next branch.
-
->  
->  	rc = devm_request_irq(dev, bt_bmc->irq, bt_bmc_irq, IRQF_SHARED,
->  			      DEVICE_NAME, bt_bmc);
->  	if (rc < 0) {
->  		dev_warn(dev, "Unable to request IRQ %d\n", bt_bmc->irq);
-> -		bt_bmc->irq = rc;
-> +		bt_bmc->irq = 0;
-
-   This change isn't needed...
-
->  		return rc;
->  	}
->  
-[...]
-> diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
-> index 2ccd1db5e98f..0d1bdd27cd78 100644
-> --- a/drivers/edac/xgene_edac.c
-> +++ b/drivers/edac/xgene_edac.c
-> @@ -1917,7 +1917,7 @@ static int xgene_edac_probe(struct platform_device *pdev)
->  
->  		for (i = 0; i < 3; i++) {
->  			irq = platform_get_irq_optional(pdev, i);
-
-   Is *_optinal() even correct here?
-
-> -			if (irq < 0) {
-> +			if (irq <= 0) {
->  				dev_err(&pdev->dev, "No IRQ resource\n");
->  				rc = -EINVAL;
->  				goto out_err;
-[...]
-> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> index f75929783b94..ac222985efde 100644
-> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> @@ -1521,7 +1521,7 @@ static irqreturn_t brcmnand_ctlrdy_irq(int irq, void *data)
->  
->  	/* check if you need to piggy back on the ctrlrdy irq */
->  	if (ctrl->edu_pending) {
-> -		if (irq == ctrl->irq && ((int)ctrl->edu_irq >= 0))
-> +		if (irq == ctrl->irq && ((int)ctrl->edu_irq > 0))
-
-   Note to self: the cast to *int* isn't needed, the edu_irq field is *int* already...
-
-[...]
-> diff --git a/drivers/power/supply/mp2629_charger.c b/drivers/power/supply/mp2629_charger.c
-> index bdf924b73e47..51289700a7ac 100644
-> --- a/drivers/power/supply/mp2629_charger.c
-> +++ b/drivers/power/supply/mp2629_charger.c
-> @@ -581,9 +581,9 @@ static int mp2629_charger_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, charger);
->  
->  	irq = platform_get_irq_optional(to_platform_device(dev->parent), 0);
-
-   Again, is *_optional() even correct here?
-
-> -	if (irq < 0) {
-> +	if (irq <= 0) {
->  		dev_err(dev, "get irq fail: %d\n", irq);
-> -		return irq;
-> +		return irq < 0 ? irq : -ENXIO;
->  	}
->  
->  	for (i = 0; i < MP2629_MAX_FIELD; i++) {
-[...]
-> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-> index 43eb25b167bc..776cfed4339c 100644
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -430,7 +430,7 @@ static int rcar_gen3_thermal_request_irqs(struct rcar_gen3_thermal_priv *priv,
->  
->  	for (i = 0; i < 2; i++) {
->  		irq = platform_get_irq_optional(pdev, i);
-> -		if (irq < 0)
-> +		if (irq <= 0)
->  			return irq;
-
-   Sloppy code again? We shouldn't return 0...
-
-[...]
-> diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
-> index 68a1c87066d7..cd7494933563 100644
-> --- a/drivers/vfio/platform/vfio_platform.c
-> +++ b/drivers/vfio/platform/vfio_platform.c
-> @@ -32,8 +32,12 @@ static struct resource *get_platform_resource(struct vfio_platform_device *vdev,
->  static int get_platform_irq(struct vfio_platform_device *vdev, int i)
->  {
->  	struct platform_device *pdev = (struct platform_device *) vdev->opaque;
-> +	int ret;
->  
-> -	return platform_get_irq_optional(pdev, i);
-> +	ret = platform_get_irq_optional(pdev, i);
-> +	if (ret < 0)
-> +		return ret;
-> +	return ret > 0 ? ret : -ENXIO;
-
-   Could be expressed more concisely:
-
-	return ret ? : -ENXIO;
-
-just like vfio_amba.c does it...
-
-[...]
-
-MBR, Sergey
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../arm64/boot/dts/renesas/r8a77970-eagle.dts | 104 ++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/=
+boot/dts/renesas/r8a77970-eagle.dts
+> index b579d3189a93..91b9fab6afbc 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> @@ -6,6 +6,8 @@
+>   * Copyright (C) 2017 Cogent Embedded, Inc.
+>   */
+> =20
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+>  /dts-v1/;
+>  #include "r8a77970.dtsi"
+>  #include <dt-bindings/gpio/gpio.h>
+> @@ -200,6 +202,11 @@ i2c0_pins: i2c0 {
+>                 function =3D "i2c0";
+>         };
+> =20
+> +       i2c3_pins: i2c3 {
+> +               groups =3D "i2c3_a";
+> +               function =3D "i2c3";
+> +       };
+> +
+>         qspi0_pins: qspi0 {
+>                 groups =3D "qspi0_ctrl", "qspi0_data4";
+>                 function =3D "qspi0";
+> @@ -278,6 +285,103 @@ &rwdt {
+>         status =3D "okay";
+>  };
+> =20
+> +&csi40 {
+> +       status =3D "okay";
+> +
+> +       ports {
+> +               port@0 {
+> +                       csi40_in: endpoint {
+> +                               clock-lanes =3D <0>;
+> +                               data-lanes =3D <1 2 3 4>;
+> +                               remote-endpoint =3D <&max9286_out0>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&i2c3 {
+> +       pinctrl-0 =3D <&i2c3_pins>;
+> +       pinctrl-names =3D "default";
+> +
+> +       status =3D "okay";
+> +       clock-frequency =3D <400000>;
+> +
+> +       gmsl0: gmsl-deserializer@48 {
+> +               compatible =3D "maxim,max9286";
+> +               reg =3D <0x48>;
+> +
+> +               maxim,gpio-poc =3D <0 GPIO_ACTIVE_LOW>;
+> +               enable-gpios =3D <&io_expander 0 GPIO_ACTIVE_HIGH>;
+> +
+> +               ports {
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +
+> +                       port@0 {
+> +                               reg =3D <0>;
+> +                       };
+> +
+> +                       port@1 {
+> +                               reg =3D <1>;
+> +                       };
+> +
+> +                       port@2 {
+> +                               reg =3D <2>;
+> +                       };
+> +
+> +                       port@3 {
+> +                               reg =3D <3>;
+> +                       };
+> +
+> +                       port@4 {
+> +                               reg =3D <4>;
+> +                               max9286_out0: endpoint {
+> +                                       clock-lanes =3D <0>;
+> +                                       data-lanes =3D <1 2 3 4>;
+> +                                       remote-endpoint =3D <&csi40_in>;
+> +                               };
+> +                       };
+> +               };
+> +
+> +               i2c-mux {
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +
+> +                       i2c@0 {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +                               reg =3D <0>;
+> +
+> +                               status =3D "disabled";
+> +                       };
+> +
+> +                       i2c@1 {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +                               reg =3D <1>;
+> +
+> +                               status =3D "disabled";
+> +                       };
+> +
+> +                       i2c@2 {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +                               reg =3D <2>;
+> +
+> +                               status =3D "disabled";
+> +                       };
+> +
+> +                       i2c@3 {
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +                               reg =3D <3>;
+> +
+> +                               status =3D "disabled";
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+>  &scif0 {
+>         pinctrl-0 =3D <&scif0_pins>;
+>         pinctrl-names =3D "default";
+> --=20
+> 2.33.1
+>
