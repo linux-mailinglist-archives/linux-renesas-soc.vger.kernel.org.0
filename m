@@ -2,121 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 888B049032D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 08:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21809490379
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 09:11:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237718AbiAQHvi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 02:51:38 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:42933 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S235240AbiAQHvi (ORCPT
+        id S237918AbiAQILV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 03:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230177AbiAQILU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 02:51:38 -0500
-X-IronPort-AV: E=Sophos;i="5.88,295,1635174000"; 
-   d="scan'208";a="107295307"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Jan 2022 16:51:37 +0900
-Received: from localhost.localdomain (unknown [10.226.92.30])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DD6194006DEA;
-        Mon, 17 Jan 2022 16:51:35 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mon, 17 Jan 2022 03:11:20 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F1AC061574;
+        Mon, 17 Jan 2022 00:11:19 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id E8675240033;
+        Mon, 17 Jan 2022 08:10:08 +0000 (UTC)
+Date:   Mon, 17 Jan 2022 09:11:10 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: rzg2lc-smarc: Enable microSD on SMARC platform
-Date:   Mon, 17 Jan 2022 07:51:30 +0000
-Message-Id: <20220117075130.6198-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220117075130.6198-1-biju.das.jz@bp.renesas.com>
-References: <20220117075130.6198-1-biju.das.jz@bp.renesas.com>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Update
+ data-lanes property
+Message-ID: <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
+References: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch enables microSD card slot connected to SDHI1 on RZ/G2LC SMARC
-platform by removing the sdhi1 overlay which disabled it and adding the
-necessary pinmux required for SDHI1.
+Hello Prabhakar,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../boot/dts/renesas/r9a07g044c2-smarc.dts    |  7 ----
- .../dts/renesas/rzg2lc-smarc-pinfunction.dtsi | 39 +++++++++++++++++++
- 2 files changed, 39 insertions(+), 7 deletions(-)
+On Thu, Jan 13, 2022 at 10:32:14AM +0000, Lad Prabhakar wrote:
+> CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
+> handled by rcar-csi2.c driver. This patch updates the data-lanes property
+> to describe the same.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/media/renesas,csi2.yaml          | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> index e6a036721082..064a0a4c5737 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> @@ -67,7 +67,14 @@ properties:
+>                  maxItems: 1
+>
+>                data-lanes:
+> -                maxItems: 1
+> +                items:
+> +                  minItems: 1
+> +                  maxItems: 4
+> +                  items:
+> +                    - const: 1
+> +                    - const: 2
+> +                    - const: 3
+> +                    - const: 4
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-index 53845823d0dc..bfeeb6c86854 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -71,13 +71,6 @@
- 	status = "disabled";
- };
- 
--&sdhi1 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-1;
--	/delete-property/ vmmc-supply;
--	status = "disabled";
--};
--
- &spi1 {
- 	/delete-property/ pinctrl-0;
- 	status = "disabled";
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-index 5333a1f9a0e7..1032f6563515 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-@@ -17,6 +17,45 @@
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
- 	};
- 
-+	sd1-pwr-en-hog {
-+		gpio-hog;
-+		gpios = <RZG2L_GPIO(39, 2) GPIO_ACTIVE_HIGH>;
-+		output-high;
-+		line-name = "sd1_pwr_en";
-+	};
-+
-+	sdhi1_pins: sd1 {
-+		sd1_data {
-+			pins = "SD1_DATA0", "SD1_DATA1", "SD1_DATA2", "SD1_DATA3";
-+			power-source = <3300>;
-+		};
-+
-+		sd1_ctrl {
-+			pins = "SD1_CLK", "SD1_CMD";
-+			power-source = <3300>;
-+		};
-+
-+		sd1_mux {
-+			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
-+		};
-+	};
-+
-+	sdhi1_pins_uhs: sd1_uhs {
-+		sd1_data_uhs {
-+			pins = "SD1_DATA0", "SD1_DATA1", "SD1_DATA2", "SD1_DATA3";
-+			power-source = <1800>;
-+		};
-+
-+		sd1_ctrl_uhs {
-+			pins = "SD1_CLK", "SD1_CMD";
-+			power-source = <1800>;
-+		};
-+
-+		sd1_mux_uhs {
-+			pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>; /* SD1_CD */
-+		};
-+	};
-+
- 	sound_clk_pins: sound_clk {
- 		pins = "AUDIO_CLK1", "AUDIO_CLK2";
- 		input-enable;
--- 
-2.17.1
+Seeing "maxItems: 1" there confuses me too, as the property is an
+array of data-lanes, but I'm afraid your change does not what you
+intend as it would allow you to specify the number of data lanes as an
+integer rather than as an array.
 
+I think it would probably be correct to set
+
+                data-lanes: true
+
+(maybe maxItems: 1 is correct already)
+
+And restrict the number of valid combinations in the board DTS file
+with a construct like:
+
+    data-lanes:
+      oneOf:
+        - items:
+            - const: 1
+            - const: 2
+            - const: 3
+            - const: 4
+        - items:
+            - const: 1
+            - const: 2
+
+Thanks
+   j
+
+>
+>              required:
+>                - clock-lanes
+> --
+> 2.17.1
+>
