@@ -2,119 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B1F149076C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 12:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C49A4907F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 12:57:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236684AbiAQLwO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 06:52:14 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34336 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236652AbiAQLwO (ORCPT
+        id S234056AbiAQL50 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 06:57:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233880AbiAQL5V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 06:52:14 -0500
+        Mon, 17 Jan 2022 06:57:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77ABC061574;
+        Mon, 17 Jan 2022 03:57:20 -0800 (PST)
 Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97D38596;
-        Mon, 17 Jan 2022 12:52:12 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B4C7596;
+        Mon, 17 Jan 2022 12:57:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642420332;
-        bh=GVS5+f2v3T0zet8zWyWo3bIWN0lpqBKcuoZ8hZJqnQQ=;
+        s=mail; t=1642420639;
+        bh=qLxZv4/iN1vLf/Bl6rgeZJek4+Y+dQD95HWELwIHI8s=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=ioBUcB726hXjYmJMshy2xHrciRxDIb1lwmGuhUKtUb5YhFPZS5v0X8PzraYSEL1RH
-         gESvibBXMQJOsRMccFmkqNtWfkIPl4R1uwQET6745ptfFEQJTqpqx6hy8mBobudOT9
-         QdK9W84uD5eSvASrGkuKGCPtDGUfcm8HJIuHwISs=
+        b=t3X3MTI98MeASySsGJQdNvC13yDji2u4t5KIPxHrh+iyGJNlculzYygazXibuvUvx
+         5bhRywtgMat25M2hMp54lblSg3w8ETJ+3FammpiUaMGn4YoreZuYjKEpxq8W29Nr2g
+         EQPP72y3wpW9k4E0IDwrJEccTkTtqc5fDWLNGMy4=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211212013351.595-4-laurent.pinchart+renesas@ideasonboard.com>
-References: <20211212013351.595-1-laurent.pinchart+renesas@ideasonboard.com> <20211212013351.595-4-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: Add panel overlay for Draak and Ebisu boards
+In-Reply-To: <20211216163439.139579-3-jacopo+renesas@jmondi.org>
+References: <20211216163439.139579-1-jacopo+renesas@jmondi.org> <20211216163439.139579-3-jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v8 2/7] dt-bindings: media: max9286: Define 'maxim,gpio-poc'
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Mon, 17 Jan 2022 11:52:10 +0000
-Message-ID: <164242033029.10801.10154701138409780021@Monstersaurus>
+        Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Date:   Mon, 17 Jan 2022 11:57:16 +0000
+Message-ID: <164242063681.10801.10113230520314086360@Monstersaurus>
 User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2021-12-12 01:33:51)
-> The Draak and Ebisu boards support an optional LVDS panel. One
-> compatible panel is the Mitsubishi AA104XD12. Add a corresponding DT
-> overlay.
+Hi Jacopo,
+
+Quoting Jacopo Mondi (2021-12-16 16:34:34)
+> Define a new vendor property in the maxim,max9286 binding schema.
 >=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+> The new property allows to declare that the remote camera
+> power-over-coax is controlled by one of the MAX9286 gpio lines.
+>=20
+> As it is currently not possible to establish a regulator as consumer
+> of the MAX9286 gpio controller for this purpose, the property allows to
+> declare that the camera power is controlled by the MAX9286 directly.
+>=20
+> The property accepts a gpio-index (0 or 1) and one line polarity
+> flag as defined by dt-bindings/gpio/gpio.h.
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  arch/arm64/boot/dts/renesas/Makefile          |  1 +
->  .../renesas/draak-ebisu-panel-aa104xd12.dts   | 32 +++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd=
-12.dts
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 67 ++++++++++++++++++-
+>  1 file changed, 66 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/r=
-enesas/Makefile
-> index 982ca3e0e86f..5e831bd33828 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -76,3 +76,4 @@ dtb-$(CONFIG_ARCH_R8A77965) +=3D r8a779m5-salvator-xs.d=
-tb
->  dtb-$(CONFIG_ARCH_R9A07G044) +=3D r9a07g044l2-smarc.dtb
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.ya=
+ml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index ab4e7a620362..90315e217003 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -70,6 +70,28 @@ properties:
+>        a remote serializer whose high-threshold noise immunity is not ena=
+bled
+>        is 100000 micro volts
 > =20
->  dtb-$(CONFIG_ARCH_RCAR_GEN3) +=3D salvator-panel-aa104xd12.dtbo
-> +dtb-$(CONFIG_ARCH_RCAR_GEN3) +=3D draak-ebisu-panel-aa104xd12.dtbo
-> diff --git a/arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dts =
-b/arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dts
-> new file mode 100644
-> index 000000000000..0c5dc3df5247
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/draak-ebisu-panel-aa104xd12.dts
-> @@ -0,0 +1,32 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Device Tree overlay for the AA104XD12 panel connected to LVDS1 on a D=
-raak or
-> + * Ebisu board
-> + *
-> + * Copyright 2021 Ideas on Board Oy
-> + */
+> +  maxim,gpio-poc:
+> +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
+> +    minItems: 2
+> +    maxItems: 2
+> +    description: |
+> +      Index of the MAX9286 gpio output line (0 or 1) that controls Power=
+ over
+> +      Coax to the cameras and its associated polarity flag.
 > +
-> +/dts-v1/;
-> +/plugin/;
+> +      The property accepts an array of two unsigned integers, the first =
+being
+> +      the gpio line index (0 or 1) and the second being the gpio line po=
+larity
+> +      flag (GPIO_ACTIVE_HIGH or GPIO_ACTIVE_LOW) as defined in
+> +      <include/dt-bindings/gpio/gpio.h>.
 > +
-> +&{/} {
-> +#include "panel-aa104xd12.dtsi"
-> +};
+> +      When the remote cameras power is controlled by one of the MAX9286 =
+gpio
+> +      lines, this property has to be used to specify which line among th=
+e two
+> +      available ones controls the remote camera power enablement.
 > +
-> +&{/panel} {
-> +       backlight =3D <&backlight>;
+> +      When this property is used it is not possible to register a gpio
+> +      controller as the gpio lines are controlled directly by the MAX928=
+6 and
+> +      not available for consumers, nor the 'poc-supply' property should =
+be
+> +      specified.
 > +
-> +       port {
-> +               panel_in: endpoint {
-> +                       remote-endpoint =3D <&lvds1_out>;
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> =20
+> @@ -165,7 +187,16 @@ required:
+>    - reg
+>    - ports
+>    - i2c-mux
+> -  - gpio-controller
+> +
+> +# If 'maxim,gpio-poc' is present, then 'poc-supply' and 'gpio-controller'
+> +# are not allowed.
+> +if:
+> +  required:
+> +    - maxim,gpio-poc
+> +then:
+> +  properties:
+> +    poc-supply: false
+> +    gpio-controller: false
+> =20
+>  additionalProperties: false
+> =20
+> @@ -310,4 +341,38 @@ examples:
+>                  };
+>              };
+>          };
+> +
+> +        /*
+> +        * Example of a deserializer that controls the camera Power over =
+Coax
 
-I guess we can't use parameters in overlays yet? The LVDS reference
-seems to be the only difference between the two. But I guess even that
-might be hard to pass in as a parameter at boot, or run time...
+Indentation seems broken...
 
+> +        * through one of its gpio lines.
+> +        */
+> +        gmsl-deserializer@6c {
+> +            compatible =3D "maxim,max9286";
+> +            reg =3D <0x6c>;
+> +            enable-gpios =3D <&gpio 14 GPIO_ACTIVE_HIGH>;
+> +
+> +            /*
+> +            * The remote camera power is controlled by MAX9286 GPIO line=
+ #0.
+> +            * No 'poc-supply' nor 'gpio-controller' are specified.
+> +            */
+> +            maxim,gpio-poc =3D <0 GPIO_ACTIVE_LOW>;
+> +
+> +            /*
+> +            * Do not describe connections as they're the same as in the =
+previous
 
-> +               };
-> +       };
-> +};
+Here too,
+
+This seems like a simple way to describe this without hitting the
+circular dependency loops I was facing when I looked at this. I'm sorry
+it took me until v8 to find this out ;-)
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> +            * example.
+> +            */
+> +            ports {
+> +                #address-cells =3D <1>;
+> +                #size-cells =3D <0>;
 > +
-> +&lvds1 {
-> +       status =3D "okay";
-> +};
+> +                port@4 {
+> +                    reg =3D <4>;
+> +                };
+> +            };
 > +
-> +&lvds1_out {
-> +       remote-endpoint =3D <&panel_in>;
-> +};
+> +            i2c-mux {
+> +                #address-cells =3D <1>;
+> +                #size-cells =3D <0>;
+> +            };
+> +        };
+>      };
 > --=20
-> Regards,
->=20
-> Laurent Pinchart
+> 2.33.1
 >
