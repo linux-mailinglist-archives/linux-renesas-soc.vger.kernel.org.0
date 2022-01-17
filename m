@@ -2,196 +2,196 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBAAD49114D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 22:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F745491190
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jan 2022 23:04:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232852AbiAQVTC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 16:19:02 -0500
-Received: from mxout03.lancloud.ru ([45.84.86.113]:55042 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiAQVTB (ORCPT
+        id S238000AbiAQWES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 17:04:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233580AbiAQWES (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 16:19:01 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 5A35F20A4D72
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-To:     <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
-        "Jakub Kicinski" <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>
-CC:     <linux-renesas-soc@vger.kernel.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH RFC] phy: make phy_set_max_speed() *void*
-Organization: Open Mobile Platform
-Message-ID: <a2296c4e-884b-334a-570f-901831bfea3c@omp.ru>
-Date:   Tue, 18 Jan 2022 00:18:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 17 Jan 2022 17:04:18 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5C9C061574;
+        Mon, 17 Jan 2022 14:04:17 -0800 (PST)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 4982D830C0;
+        Mon, 17 Jan 2022 23:04:14 +0100 (CET)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date:   Mon, 17 Jan 2022 23:03:54 +0100
+Message-Id: <20220117220355.92575-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After following the call tree of phy_set_max_speed(), it became clear
-that this function never returns anything but 0, so we can change its
-result type to *void* and drop the result checks from the three drivers
-that actually bothered to do it...
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Found by Linux Verification Center (linuxtesting.org) with the SVACE static
-analysis tool.
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
 
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
-This patch is against the DaveM's 'net-next.git' repo.
+V2: Pull DEFINE_SPINLOCK(pmsr_lock) and rcar_pcie_wakeup() out of ifdef(CONFIG_ARM),
+    since this change is applicable even on arm64
+---
+ drivers/pci/controller/pcie-rcar-host.c | 78 ++++++++++++++++---------
+ 1 file changed, 49 insertions(+), 29 deletions(-)
 
- drivers/net/ethernet/renesas/ravb_main.c |    8 +-------
- drivers/net/ethernet/renesas/sh_eth.c    |   10 ++--------
- drivers/net/phy/aquantia_main.c          |    4 +---
- drivers/net/phy/phy-core.c               |   22 ++++++++--------------
- include/linux/phy.h                      |    2 +-
- 5 files changed, 13 insertions(+), 33 deletions(-)
-
-Index: net-next/drivers/net/ethernet/renesas/ravb_main.c
-===================================================================
---- net-next.orig/drivers/net/ethernet/renesas/ravb_main.c
-+++ net-next/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1432,11 +1432,7 @@ static int ravb_phy_init(struct net_devi
- 	 * at this time.
- 	 */
- 	if (soc_device_match(r8a7795es10)) {
--		err = phy_set_max_speed(phydev, SPEED_100);
--		if (err) {
--			netdev_err(ndev, "failed to limit PHY to 100Mbit/s\n");
--			goto err_phy_disconnect;
--		}
-+		phy_set_max_speed(phydev, SPEED_100);
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 38b6e02edfa9..f0a0d560fefc 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -41,6 +41,15 @@ struct rcar_msi {
+ 	int irq2;
+ };
  
- 		netdev_info(ndev, "limited PHY to 100Mbit/s\n");
- 	}
-@@ -1457,8 +1453,6 @@ static int ravb_phy_init(struct net_devi
- 
- 	return 0;
- 
--err_phy_disconnect:
--	phy_disconnect(phydev);
- err_deregister_fixed_link:
- 	if (of_phy_is_fixed_link(np))
- 		of_phy_deregister_fixed_link(np);
-Index: net-next/drivers/net/ethernet/renesas/sh_eth.c
-===================================================================
---- net-next.orig/drivers/net/ethernet/renesas/sh_eth.c
-+++ net-next/drivers/net/ethernet/renesas/sh_eth.c
-@@ -2026,14 +2026,8 @@ static int sh_eth_phy_init(struct net_de
- 	}
- 
- 	/* mask with MAC supported features */
--	if (mdp->cd->register_type != SH_ETH_REG_GIGABIT) {
--		int err = phy_set_max_speed(phydev, SPEED_100);
--		if (err) {
--			netdev_err(ndev, "failed to limit PHY to 100 Mbit/s\n");
--			phy_disconnect(phydev);
--			return err;
--		}
--	}
-+	if (mdp->cd->register_type != SH_ETH_REG_GIGABIT)
-+		phy_set_max_speed(phydev, SPEED_100);
- 
- 	phy_attached_info(phydev);
- 
-Index: net-next/drivers/net/phy/aquantia_main.c
-===================================================================
---- net-next.orig/drivers/net/phy/aquantia_main.c
-+++ net-next/drivers/net/phy/aquantia_main.c
-@@ -533,9 +533,7 @@ static int aqcs109_config_init(struct ph
- 	 * PMA speed ability bits are the same for all members of the family,
- 	 * AQCS109 however supports speeds up to 2.5G only.
- 	 */
--	ret = phy_set_max_speed(phydev, SPEED_2500);
--	if (ret)
--		return ret;
-+	phy_set_max_speed(phydev, SPEED_2500);
- 
- 	return aqr107_set_downshift(phydev, MDIO_AN_VEND_PROV_DOWNSHIFT_DFLT);
- }
-Index: net-next/drivers/net/phy/phy-core.c
-===================================================================
---- net-next.orig/drivers/net/phy/phy-core.c
-+++ net-next/drivers/net/phy/phy-core.c
-@@ -243,7 +243,7 @@ size_t phy_speeds(unsigned int *speeds,
- 	return count;
- }
- 
--static int __set_linkmode_max_speed(u32 max_speed, unsigned long *addr)
-+static void __set_linkmode_max_speed(u32 max_speed, unsigned long *addr)
- {
- 	const struct phy_setting *p;
- 	int i;
-@@ -254,13 +254,11 @@ static int __set_linkmode_max_speed(u32
- 		else
- 			break;
- 	}
--
--	return 0;
- }
- 
--static int __set_phy_supported(struct phy_device *phydev, u32 max_speed)
-+static void __set_phy_supported(struct phy_device *phydev, u32 max_speed)
- {
--	return __set_linkmode_max_speed(max_speed, phydev->supported);
-+	__set_linkmode_max_speed(max_speed, phydev->supported);
- }
- 
- /**
-@@ -273,17 +271,11 @@ static int __set_phy_supported(struct ph
-  * is connected to a 1G PHY. This function allows the MAC to indicate its
-  * maximum speed, and so limit what the PHY will advertise.
-  */
--int phy_set_max_speed(struct phy_device *phydev, u32 max_speed)
-+void phy_set_max_speed(struct phy_device *phydev, u32 max_speed)
- {
--	int err;
--
--	err = __set_phy_supported(phydev, max_speed);
--	if (err)
--		return err;
-+	__set_phy_supported(phydev, max_speed);
- 
- 	phy_advertise_supported(phydev);
--
--	return 0;
- }
- EXPORT_SYMBOL(phy_set_max_speed);
- 
-@@ -440,7 +432,9 @@ int phy_speed_down_core(struct phy_devic
- 	if (min_common_speed == SPEED_UNKNOWN)
- 		return -EINVAL;
- 
--	return __set_linkmode_max_speed(min_common_speed, phydev->advertising);
-+	__set_linkmode_max_speed(min_common_speed, phydev->advertising);
++/* Structure representing the PCIe interface */
++struct rcar_pcie_host {
++	struct rcar_pcie	pcie;
++	struct phy		*phy;
++	struct clk		*bus_clk;
++	struct			rcar_msi msi;
++	int			(*phy_init_fn)(struct rcar_pcie_host *host);
++};
 +
-+	return 0;
- }
+ #ifdef CONFIG_ARM
+ /*
+  * Here we keep a static copy of the remapped PCIe controller address.
+@@ -56,14 +65,34 @@ static void __iomem *pcie_base;
+ static struct device *pcie_dev;
+ #endif
  
- static void mmd_phy_indirect(struct mii_bus *bus, int phy_addr, int devad,
-Index: net-next/include/linux/phy.h
-===================================================================
---- net-next.orig/include/linux/phy.h
-+++ net-next/include/linux/phy.h
-@@ -1661,7 +1661,7 @@ int phy_disable_interrupts(struct phy_de
- void phy_request_interrupt(struct phy_device *phydev);
- void phy_free_interrupt(struct phy_device *phydev);
- void phy_print_status(struct phy_device *phydev);
--int phy_set_max_speed(struct phy_device *phydev, u32 max_speed);
-+void phy_set_max_speed(struct phy_device *phydev, u32 max_speed);
- void phy_remove_link_mode(struct phy_device *phydev, u32 link_mode);
- void phy_advertise_supported(struct phy_device *phydev);
- void phy_support_sym_pause(struct phy_device *phydev);
+-/* Structure representing the PCIe interface */
+-struct rcar_pcie_host {
+-	struct rcar_pcie	pcie;
+-	struct phy		*phy;
+-	struct clk		*bus_clk;
+-	struct			rcar_msi msi;
+-	int			(*phy_init_fn)(struct rcar_pcie_host *host);
+-};
++static DEFINE_SPINLOCK(pmsr_lock);
++
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
++{
++	u32 pmsr, val;
++	int ret = 0;
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev))
++		return 1;
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++	return ret;
++}
+ 
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
+ {
+@@ -85,6 +114,15 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	unsigned long flags;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	spin_lock_irqsave(&pmsr_lock, flags);
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	if (ret)
++		return ret;
+ 
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1050,36 +1088,18 @@ static struct platform_driver rcar_pcie_driver = {
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+ 	unsigned long flags;
+-	u32 pmsr, val;
+ 	int ret = 0;
+ 
+ 	spin_lock_irqsave(&pmsr_lock, flags);
+ 
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
++	ret = rcar_pcie_wakeup(pcie_dev, pcie_base);
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	if (ret)
+ 		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+ 
+ unlock_exit:
+ 	spin_unlock_irqrestore(&pmsr_lock, flags);
+-- 
+2.34.1
+
