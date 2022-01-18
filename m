@@ -2,48 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D4B149187E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE2749172E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:38:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344843AbiARCqx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 21:46:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344644AbiARCjI (ORCPT
+        id S1345053AbiARCiQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 21:38:16 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:46150 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240700AbiARCgO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:39:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB25C0613F0;
-        Mon, 17 Jan 2022 18:35:57 -0800 (PST)
+        Mon, 17 Jan 2022 21:36:14 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C464061295;
-        Tue, 18 Jan 2022 02:35:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291C1C341C7;
-        Tue, 18 Jan 2022 02:35:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5AA31B81250;
+        Tue, 18 Jan 2022 02:36:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02ACAC36AEB;
+        Tue, 18 Jan 2022 02:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473356;
-        bh=mVwKOa9TdbM1aRje2DNNGkcxM/BY7WVf6u62VGJnVNo=;
+        s=k20201202; t=1642473370;
+        bh=WPGA4wX77LsCu5PS/VvihOLuWHh9TstN6MR8pI3A1io=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BVcmmh4BdGaoJ4VGWbaLtdJ4CgrCoIOLFfUTqEFbMiMLKpT9Y7RZxupADuySAGCTz
-         QlWNb+uOmJi8zNANED3mxtTqdV2o2iBnDsyzyDS7HFkWOYa+EZ3IY5UPbpMCSaoewm
-         7/PSK/7zOeggs/vgT/F2KXremKlXM2DnXPunTWuHkg4+6OwUG6x3vmRQdYE6xZibnu
-         tau9g/S2Ic5wcZebQE4l31uDQS54czG4m3kiIYlDjJcALlKwHxPd8/9lVyFtV/6SCa
-         /yUCrh09cz8aC7aiRCtZy3EJvb/7O1Y30j5nzXgFOgMp7RUubPH2rEU+8a8+T8X8wn
-         ffWTf6uQzFKaw==
+        b=AnctaMn5WEVjyKreiB0Kao3DCy9qEn9o7N07HX0IvClH3VP6WggGXC3P+8dgdmFYx
+         1TlQsocXWMHe5GRmMdQRd9lQqzgbDubAZR2RRFS+PT6BwCWwTDrEnXbuM7Ehf5tAwr
+         BHs2bNWAHuZ6Q3RMI8+f0SGmhHL7OlAgC1qwhbv4ru3nG3OYx9hKKYWrCw1+GaZd3v
+         c/nh++ATTRnGXd+Gkje0hWL952iS+aODkR2PEiKLD+M5NRLWwHIBogCV3/ZkaA5N5P
+         Hmw62WXko32eZC4rLqWPxwH5YOCvyyWagzqA8UFLTCSumWxkQpDMtfpyv9gCGXBhyH
+         0VkMWQ9yZwinQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 084/188] media: rcar-vin: Update format alignment constraints
-Date:   Mon, 17 Jan 2022 21:30:08 -0500
-Message-Id: <20220118023152.1948105-84-sashal@kernel.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
+        robh+dt@kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 089/188] arm64: dts: renesas: Fix thermal bindings
+Date:   Mon, 17 Jan 2022 21:30:13 -0500
+Message-Id: <20220118023152.1948105-89-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -56,64 +53,322 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-[ Upstream commit da6911f330d40cfe115a37249e47643eff555e82 ]
+[ Upstream commit 82ce79391d0ec25ec8aaae3c0617b71048ff0836 ]
 
-This change fixes two issues with the size constraints for buffers.
+The binding node names for the thermal zones are not successfully
+validated by the dt-schemas.
 
-- There is no width alignment constraint for RGB formats. Prior to this
-  change they were treated as YUV and as a result were more restricted
-  than needed. Add a new check to differentiate between the two.
+Fix the validation by changing from sensor-thermalN or thermal-sensor-N
+to sensorN-thermal.  Provide node labels of the form sensorN_thermal to
+ensure consistency with the other platform implementations.
 
-- The minimum width and height supported is 5x2, not 2x4, this is an
-  artifact from the driver's soc-camera days. Fix this incorrect
-  assumption.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Link: https://lore.kernel.org/r/20211104224033.3997504-1-kieran.bingham+renesas@ideasonboard.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi |  6 +++---
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi |  4 ++--
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 10 +++++-----
+ 9 files changed, 28 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 0d141155f0e3e..eb8c79bac540f 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -175,20 +175,27 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 		break;
- 	}
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+index 6f4fffacfca21..e70aa5a087402 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+@@ -2784,7 +2784,7 @@ prr: chipid@fff00044 {
+ 	};
  
--	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
-+	/* Hardware limits width alignment based on format. */
- 	switch (pix->pixelformat) {
-+	/* Multiple of 32 (2^5) for NV12/16. */
- 	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV16:
- 		walign = 5;
- 		break;
--	default:
-+	/* Multiple of 2 (2^1) for YUV. */
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_UYVY:
- 		walign = 1;
- 		break;
-+	/* No multiple for RGB. */
-+	default:
-+		walign = 0;
-+		break;
- 	}
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2799,7 +2799,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
  
- 	/* Limit to VIN capabilities */
--	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
--			      &pix->height, 4, vin->info->max_height, 2, 0);
-+	v4l_bound_align_image(&pix->width, 5, vin->info->max_width, walign,
-+			      &pix->height, 2, vin->info->max_height, 0, 0);
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -2814,7 +2814,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
  
- 	pix->bytesperline = rvin_format_bytesperline(vin, pix);
- 	pix->sizeimage = rvin_format_sizeimage(pix);
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+index 0f7bdfc90a0dc..6c5694fa66900 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+@@ -2629,7 +2629,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2644,7 +2644,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -2659,7 +2659,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+index 379a1300272ba..62209ab6deb9a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+@@ -2904,7 +2904,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2919,7 +2919,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -2934,7 +2934,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index 1768a3e6bb8da..193d81be40fc4 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -3375,7 +3375,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -3390,7 +3390,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -3405,7 +3405,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 2bd8169735d35..b526e4f0ee6a8 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -2972,7 +2972,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2987,7 +2987,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -3002,7 +3002,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 041473aa5cd09..21fc95397c3c2 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2719,7 +2719,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2734,7 +2734,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -2749,7 +2749,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 08df75606430b..f9679a4dd85fa 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -2784,7 +2784,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -2799,7 +2799,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -2814,7 +2814,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+index 6347d15e66b64..21fe602bd25af 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+@@ -1580,7 +1580,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		thermal-sensor-1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -1599,7 +1599,7 @@ sensor1-critical {
+ 			};
+ 		};
+ 
+-		thermal-sensor-2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 631d520cebee5..26899fb768a73 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -1149,7 +1149,7 @@ prr: chipid@fff00044 {
+ 	};
+ 
+ 	thermal-zones {
+-		sensor_thermal1: sensor-thermal1 {
++		sensor1_thermal: sensor1-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
+@@ -1163,7 +1163,7 @@ sensor1_crit: sensor1-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal2: sensor-thermal2 {
++		sensor2_thermal: sensor2-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
+@@ -1177,7 +1177,7 @@ sensor2_crit: sensor2-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal3: sensor-thermal3 {
++		sensor3_thermal: sensor3-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 2>;
+@@ -1191,7 +1191,7 @@ sensor3_crit: sensor3-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal4: sensor-thermal4 {
++		sensor4_thermal: sensor4-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 3>;
+@@ -1205,7 +1205,7 @@ sensor4_crit: sensor4-crit {
+ 			};
+ 		};
+ 
+-		sensor_thermal5: sensor-thermal5 {
++		sensor5_thermal: sensor5-thermal {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 4>;
 -- 
 2.34.1
 
