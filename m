@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A81D4491888
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:47:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB81F491E23
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 04:47:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344936AbiARCq6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 21:46:58 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:37126 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348066AbiARCos (ORCPT
+        id S1351948AbiARDrG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 22:47:06 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:50064 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347181AbiARCkz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:44:48 -0500
+        Mon, 17 Jan 2022 21:40:55 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DC2C861294;
-        Tue, 18 Jan 2022 02:44:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F2FC36AE3;
-        Tue, 18 Jan 2022 02:44:45 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B8D13B811D6;
+        Tue, 18 Jan 2022 02:40:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 841E4C36AEF;
+        Tue, 18 Jan 2022 02:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473886;
+        s=k20201202; t=1642473652;
         bh=k/Lz/Zo8RSedFrd/Cb57u0V3RMctMpavMVRb8b8/edc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rWEGfDr0D4+2UtZDRsgzalhs4bdpf394gsdRTO+tM1cFebDVWeSDgObBpLen4HYg3
-         7qQCe2nquykWQ27TLzFIGOev1wc7dgXarwUnSkGrc6vk/3iXRSYJZLV27XBProQ4CX
-         ae4oIgIm7gtXJkxKU6613XgKbdeUmc9kK2INp6n52HaZEDUVG/MnVDOlL2bsJObtzG
-         NGaMLYKHSx/D3GXRIiaUwN+afdWHbA+aUdhNeGu4TF8KJAacXRztJyTwJ1lFZ02Q68
-         Kc0cND2imCjD0IeA3F8xped4yJ+vN/gEugEkddTs0TmU9IrhQUL2gPafo19hAy1EH4
-         ddFPu3e4ROVXg==
+        b=ezn2DdYM0M9srU2XJ8dHOC5UAZ1VipoXDgDOc+Wi6uNDHIRnQGga4PEtR7Ea1zwFh
+         O9aCOCLEo+EX21eCQR6z/T9zuE3T9Zx7Hs42ddrvcTxyZYInatFtK04OugKbDnWir4
+         gsbtMtIoEpwHaed6KNg8QLlqTU0TA+ufi7RqX2EZZMUh/y0pfMidVPc782cuD7H0Re
+         VBDagUW3+etNBTpgKq9OWtjr03KhZYY64ySn3pzXJseqYM5QFyCI1t6BVFkK9pLS0d
+         XHUBVVrLGGmoWWrvzVFgD0iCGX7l28pZpuXBY4lImceaovSElD27oFPF8jUl+qGVAV
+         5hpnfGjjfPh5A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wan Jiabing <wanjiabing@vivo.com>,
@@ -36,12 +36,12 @@ Cc:     Wan Jiabing <wanjiabing@vivo.com>,
         Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
         linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/73] ARM: shmobile: rcar-gen2: Add missing of_node_put()
-Date:   Mon, 17 Jan 2022 21:43:26 -0500
-Message-Id: <20220118024432.1952028-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 012/116] ARM: shmobile: rcar-gen2: Add missing of_node_put()
+Date:   Mon, 17 Jan 2022 21:38:23 -0500
+Message-Id: <20220118024007.1950576-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
-References: <20220118024432.1952028-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
