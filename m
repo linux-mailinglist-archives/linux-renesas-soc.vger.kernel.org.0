@@ -2,51 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D02D49156D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07D9B491576
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:28:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245443AbiARC2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 21:28:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57328 "EHLO
+        id S245033AbiARC2T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 21:28:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244942AbiARC0G (ORCPT
+        with ESMTP id S244989AbiARC0O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:26:06 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41F0C061362;
-        Mon, 17 Jan 2022 18:24:43 -0800 (PST)
+        Mon, 17 Jan 2022 21:26:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1F9C061368;
+        Mon, 17 Jan 2022 18:24:45 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 69C83B81239;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A508E60C96;
+        Tue, 18 Jan 2022 02:24:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05531C36AE3;
         Tue, 18 Jan 2022 02:24:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BDCC36AF5;
-        Tue, 18 Jan 2022 02:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642472681;
-        bh=DTFUkXLNCr018LWSCZK9D1Uv6h36WaZyXht8Fz71pEg=;
+        s=k20201202; t=1642472684;
+        bh=BybjXRdFrnNgucLm1SBhLKOfxFS0NwCWkQYWRha5CHs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t4PT4Qh4Rzi8YZ0acPnELUtbebwcAstkGdUXRLo6zXRkPkdxsJnJ4Y+VoyJiEc5e3
-         Tvtawf7pEvf5uL1CTmMgsVNLdUsm6gI4s2dznJ7N/v82WW73BnVmh5kYFSO2K+T3+p
-         iBcPD8zN/xkSouZVj81txyFyA7DVXOZbF+DE2cOCkERYTWJByzuPW9szSr+VtSAH4d
-         Y6U456Y9GLsuPOnBZQEUxHwuOG5U5j3ZNhWaAkMzb1wvWqYiMwiBvjP5iOUaR5eoDX
-         6P5SjOqOvY5ix/6av+hfcXe9kK5TDxqhdKcGi1QZ2z45VhixCGL2F818zjCwsabi9a
-         5ZonDmYUAZVTw==
+        b=F8OonCXj85jnBxsFzLLvn/sN5DKMK2MAnX6xLbgS2JhlBV63B/ghzcm7mndvzAtRN
+         lulCyZFSV5UK+dM5Pmfv/uXb3DDWQWk7fGc5v+8DYQSbzsvqz+OML6BEnIbbQL7dZF
+         fsjbycBlcenQoht5Fi5wzTB2JllxMH+AWXNh4AGL7yrV4tBqqPtwV8a2dxVrPpby3W
+         P3iH7UawmwWb46guOLNoUzZb+xoMVZCJTyR9ts7qJOrtdIzqm3Xll65z+S4rKfghyC
+         R43UYBvv9sZXBJKAEc+SGGIncyOdYUCyvxowSAn4ZXpJ0C4rJqwqWUhiGEF3h0h6ST
+         ZlQl4rHN0axuQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 096/217] drm: rcar-du: Fix CRTC timings when CMM is used
-Date:   Mon, 17 Jan 2022 21:17:39 -0500
-Message-Id: <20220118021940.1942199-96-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 098/217] media: rcar-vin: Update format alignment constraints
+Date:   Mon, 17 Jan 2022 21:17:41 -0500
+Message-Id: <20220118021940.1942199-98-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -54,80 +56,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit f0ce591dc9a97067c6e783a2eaccd22c5476144d ]
+[ Upstream commit da6911f330d40cfe115a37249e47643eff555e82 ]
 
-When the CMM is enabled, an offset of 25 pixels must be subtracted from
-the HDS (horizontal display start) and HDE (horizontal display end)
-registers. Fix the timings calculation, and take this into account in
-the mode validation.
+This change fixes two issues with the size constraints for buffers.
 
-This fixes a visible horizontal offset in the image with VGA monitors.
-HDMI monitors seem to be generally more tolerant to incorrect timings,
-but may be affected too.
+- There is no width alignment constraint for RGB formats. Prior to this
+  change they were treated as YUV and as a result were more restricted
+  than needed. Add a new check to differentiate between the two.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+- The minimum width and height supported is 5x2, not 2x4, this is an
+  artifact from the driver's soc-camera days. Fix this incorrect
+  assumption.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 5672830ca184d..ee6ba74627a21 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -215,6 +215,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	unsigned long mode_clock = mode->clock * 1000;
-+	unsigned int hdse_offset;
- 	u32 dsmr;
- 	u32 escr;
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index a5bfa76fdac6e..2e60b9fce03b0 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -179,20 +179,27 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+ 		break;
+ 	}
  
-@@ -298,10 +299,15 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	     | DSMR_DIPM_DISP | DSMR_CSPM;
- 	rcar_du_crtc_write(rcrtc, DSMR, dsmr);
+-	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
++	/* Hardware limits width alignment based on format. */
+ 	switch (pix->pixelformat) {
++	/* Multiple of 32 (2^5) for NV12/16. */
+ 	case V4L2_PIX_FMT_NV12:
+ 	case V4L2_PIX_FMT_NV16:
+ 		walign = 5;
+ 		break;
+-	default:
++	/* Multiple of 2 (2^1) for YUV. */
++	case V4L2_PIX_FMT_YUYV:
++	case V4L2_PIX_FMT_UYVY:
+ 		walign = 1;
+ 		break;
++	/* No multiple for RGB. */
++	default:
++		walign = 0;
++		break;
+ 	}
  
-+	hdse_offset = 19;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		hdse_offset += 25;
-+
- 	/* Display timings */
--	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start - 19);
-+	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start -
-+					hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HDER, mode->htotal - mode->hsync_start +
--					mode->hdisplay - 19);
-+					mode->hdisplay - hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HSWR, mode->hsync_end -
- 					mode->hsync_start - 1);
- 	rcar_du_crtc_write(rcrtc, HCR,  mode->htotal - 1);
-@@ -836,6 +842,7 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+	unsigned int min_sync_porch;
- 	unsigned int vbp;
+ 	/* Limit to VIN capabilities */
+-	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
+-			      &pix->height, 4, vin->info->max_height, 2, 0);
++	v4l_bound_align_image(&pix->width, 5, vin->info->max_width, walign,
++			      &pix->height, 2, vin->info->max_height, 0, 0);
  
- 	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-@@ -843,9 +850,14 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
- 
- 	/*
- 	 * The hardware requires a minimum combined horizontal sync and back
--	 * porch of 20 pixels and a minimum vertical back porch of 3 lines.
-+	 * porch of 20 pixels (when CMM isn't used) or 45 pixels (when CMM is
-+	 * used), and a minimum vertical back porch of 3 lines.
- 	 */
--	if (mode->htotal - mode->hsync_start < 20)
-+	min_sync_porch = 20;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		min_sync_porch += 25;
-+
-+	if (mode->htotal - mode->hsync_start < min_sync_porch)
- 		return MODE_HBLANK_NARROW;
- 
- 	vbp = (mode->vtotal - mode->vsync_end) / (interlaced ? 2 : 1);
+ 	pix->bytesperline = rvin_format_bytesperline(vin, pix);
+ 	pix->sizeimage = rvin_format_sizeimage(pix);
 -- 
 2.34.1
 
