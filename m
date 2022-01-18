@@ -2,146 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B75D449224E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 10:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C439E49227F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 10:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345360AbiARJMK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jan 2022 04:12:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39810 "EHLO
+        id S1345560AbiARJTJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jan 2022 04:19:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344572AbiARJMK (ORCPT
+        with ESMTP id S1345585AbiARJTH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jan 2022 04:12:10 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B71C061574;
-        Tue, 18 Jan 2022 01:12:09 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id g12so1544979ybh.4;
-        Tue, 18 Jan 2022 01:12:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ne2yS3M6r+X3snlxSY21OHEr1SOR5XEoclAR5B98t44=;
-        b=XKYVXtPB83h4wOT2O5dygkvDVmV8dJaEsMcKYzTQ29uh3bADqqZF7Eis/F0N34yRLM
-         a/yNvxpmnycfUhHpHvfyzfq+5s4YZ2hbhdZF2XvOW+BxGEjdlki8I7y9RcsQoc4ncNnG
-         7FOZhyF3P5gXPrS+U2lOlw/KKsb8tvc0wGHGkD4qyXRNWuhmibEtVtc8MUOcz9ZMiD11
-         Id/DCCXq1b7FS/DMPytRoEXzUbHaTPclBh4r9B9kRLH4ld6TJ9HobyurFDzfsI7yZjCl
-         eqwz5BswP44VObImqv1w9oQjCrfY2EHhYN28oDQqoJzoxNn/2OQcFPjmoWa8P7exRhoS
-         qFkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ne2yS3M6r+X3snlxSY21OHEr1SOR5XEoclAR5B98t44=;
-        b=SnbsO86tPvbpKbXzaKJhIEhQy1oXELiQSxyHTb03VYpuqIJ9jrGfCGZtoJJ8h7+bCt
-         I0dWB9Vg7nG3V80GwJg8ll9QmzDFodypI6Tt1nIM2EWaYbPfsbs+NeckijmbvBKZvOkF
-         NPdgFCzsQ3nJ++JskdpeyoP0gXY1FaTSzKv6Ovp6NAVNLWPm9NsQ5C3Ve6b7N8VSTo/N
-         BdeacCO6gBSlU7VSi7ULT725OkKcapswlZFW80sMZnpBuWVpKqfT+SVwljiYQY9Jiy2a
-         syNH/5KhVrk8oeg+tssjELclp7lCn/Pam2Owt8xH5tWRMZQb7fZkTt9WBSEhpcKJNN9d
-         JjFQ==
-X-Gm-Message-State: AOAM533nuCign0DtEgtmgCDz+/97BNm1hB6elgDwnZxinOLDD5ssC5tv
-        R4DHrlBu6tCTwxUtahgHLuOSgJzzE6GwyvIAAyo=
-X-Google-Smtp-Source: ABdhPJzU7hmei1k2Gqn7quas4QTgjv6Ss3bfBcfmvRzWY0rNXnrFlsMgoUHxsuO8Erv4yRotJW3XoHCeyxdZhdleQvk=
-X-Received: by 2002:a25:98c4:: with SMTP id m4mr31514243ybo.613.1642497128873;
- Tue, 18 Jan 2022 01:12:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
-In-Reply-To: <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 18 Jan 2022 09:11:42 +0000
-Message-ID: <CA+V-a8t=f14QH=M8p8mufeJsqddwOn6XPqFma5TEbfQ7XdLBZA@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Update
- data-lanes property
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tue, 18 Jan 2022 04:19:07 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65B8FC061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jan 2022 01:19:07 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n9kdD-0006Nd-T3; Tue, 18 Jan 2022 10:18:23 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n9kdA-00Ayd5-Tc; Tue, 18 Jan 2022 10:18:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n9kd9-0003a7-SE; Tue, 18 Jan 2022 10:18:19 +0100
+Date:   Tue, 18 Jan 2022 10:18:19 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>, kvm@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>, alsa-devel@alsa-project.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-phy@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>, linux-pm@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>, linux-gpio@vger.kernel.org,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Eric Auger <eric.auger@redhat.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        openipmi-developer@lists.sourceforge.net,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benson Leung <bleung@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Richard Weinberger <richard@nod.at>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>, netdev@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-mediatek@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+ (summary)
+Message-ID: <20220118091819.zzxpffrxbckoxiys@pengutronix.de>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
+ <20220110195449.12448-2-s.shtylyov@omp.ru>
+ <20220115183643.6zxalxqxrhkfgdfq@pengutronix.de>
+ <YeQpWu2sUVOSaT9I@kroah.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4nmi7jsy4ulpuolr"
+Content-Disposition: inline
+In-Reply-To: <YeQpWu2sUVOSaT9I@kroah.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
 
-Thank you for the review.
+--4nmi7jsy4ulpuolr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 17, 2022 at 8:11 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Hello Prabhakar,
->
-> On Thu, Jan 13, 2022 at 10:32:14AM +0000, Lad Prabhakar wrote:
-> > CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
-> > handled by rcar-csi2.c driver. This patch updates the data-lanes property
-> > to describe the same.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/media/renesas,csi2.yaml          | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > index e6a036721082..064a0a4c5737 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > @@ -67,7 +67,14 @@ properties:
-> >                  maxItems: 1
-> >
-> >                data-lanes:
-> > -                maxItems: 1
-> > +                items:
-> > +                  minItems: 1
-> > +                  maxItems: 4
-> > +                  items:
-> > +                    - const: 1
-> > +                    - const: 2
-> > +                    - const: 3
-> > +                    - const: 4
->
-> Seeing "maxItems: 1" there confuses me too, as the property is an
-> array of data-lanes, but I'm afraid your change does not what you
-> intend as it would allow you to specify the number of data lanes as an
-> integer rather than as an array.
->
-Agreed, what do you think of the below instead?
+On Sun, Jan 16, 2022 at 03:19:06PM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Jan 15, 2022 at 07:36:43PM +0100, Uwe Kleine-K=F6nig wrote:
+> > A possible compromise: We can have both. We rename
+> > platform_get_irq_optional() to platform_get_irq_silent() (or
+> > platform_get_irq_silently() if this is preferred) and once all users are
+> > are changed (which can be done mechanically), we reintroduce a
+> > platform_get_irq_optional() with Sergey's suggested semantic (i.e.
+> > return 0 on not-found, no error message printking).
+>=20
+> Please do not do that as anyone trying to forward-port an old driver
+> will miss the abi change of functionality and get confused.  Make
+> build-breaking changes, if the way a function currently works is
+> changed in order to give people a chance.
 
-            properties:
-              data-lanes:
-                minItems: 1
-                maxItems: 4
-                items:
-                  maximum: 4
+Fine for me. I assume this is a Nack for Sergey's patch?
 
-The above should handle all the possible mix and match of the lanes.
+Best regards
+Uwe
 
-> I think it would probably be correct to set
->
->                 data-lanes: true
->
-> (maybe maxItems: 1 is correct already)
->
-> And restrict the number of valid combinations in the board DTS file
-> with a construct like:
->
->     data-lanes:
->       oneOf:
->         - items:
->             - const: 1
->             - const: 2
->             - const: 3
->             - const: 4
->         - items:
->             - const: 1
->             - const: 2
->
-I haven't come across dts files having such constraints is it allowed,
-could you point me to a example.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Cheers,
-Prabhakar
+--4nmi7jsy4ulpuolr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHmhdgACgkQwfwUeK3K
+7AlOfwf/RajwcOGZOaXu4/Hu0uIDDH01Izth3e7+cbt0DvzofBxZhrwLi6+7R8Ii
+FDvio63jvvz41IZoKpB3Sp3cJe6N5nHxfoeVbVFx1oDC5ZSb3xpzIKBpz6usYWSK
+mpEzG1FLl/zHhNcFBvzOrkoJNhHOKKqTkCMQ9+SMFB2QpzY2GlhGyeloYsR5wRlS
+36dfdheA3MnzMe+YgqcykvdU78oW4Ajcnq+31xfkY4u4FtLXz44Pz4j32buAaqtw
+/Ryrr0NnSSAdwMkNMebBf3XX8emOhXd3w/ActLJA50YN3K1ePF1ViBaNwB6wIGGA
+DmnwP6lCav2JoRm3yOWVlcLDeltVJA==
+=IrhS
+-----END PGP SIGNATURE-----
+
+--4nmi7jsy4ulpuolr--
