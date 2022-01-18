@@ -2,116 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FAA0491265
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 00:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5B50491454
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:22:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243805AbiAQXiZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 18:38:25 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:32971 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235399AbiAQXiY (ORCPT
+        id S244703AbiARCVv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 21:21:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244697AbiARCVL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 18:38:24 -0500
-Received: from mail-oi1-f182.google.com ([209.85.167.182]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MHXSD-1n4sTm14k5-00DWsB; Tue, 18 Jan 2022 00:38:23 +0100
-Received: by mail-oi1-f182.google.com with SMTP id bx18so7486623oib.7;
-        Mon, 17 Jan 2022 15:38:22 -0800 (PST)
-X-Gm-Message-State: AOAM531R/t0O6IZblCK86zf88yPCzEqZj5AEsMh32XCLJXhJa8VmyXGT
-        zDmHAoxMOGb/04gfR6ZI6//0X9udBMkHiCNnBxk=
-X-Google-Smtp-Source: ABdhPJy8xBuir7Y3TP7f897USxYmGz/RhF8Id1TC/8pZe6yR6GMlKE+Wl2YJMCge4jshYVhmgaMJvT0S9YFfvjIRSx4=
-X-Received: by 2002:a05:6808:2206:: with SMTP id bd6mr14673246oib.11.1642462701926;
- Mon, 17 Jan 2022 15:38:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20220117220355.92575-1-marek.vasut@gmail.com> <20220117220355.92575-2-marek.vasut@gmail.com>
-In-Reply-To: <20220117220355.92575-2-marek.vasut@gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 18 Jan 2022 00:38:05 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1vknLE-vfKZbvZDCLZMZk4ezirPeyHGnpkEW2RW1jvbg@mail.gmail.com>
-Message-ID: <CAK8P3a1vknLE-vfKZbvZDCLZMZk4ezirPeyHGnpkEW2RW1jvbg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] PCI: rcar: Return all Fs from read which triggered
- an exception
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Mon, 17 Jan 2022 21:21:11 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2B3C061771;
+        Mon, 17 Jan 2022 18:21:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5EE0B81232;
+        Tue, 18 Jan 2022 02:21:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62DBC36AEF;
+        Tue, 18 Jan 2022 02:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642472467;
+        bh=k/Lz/Zo8RSedFrd/Cb57u0V3RMctMpavMVRb8b8/edc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ugDW+h0m0Lec8Amh9nn6MTrmpF0p8BrDsvHsEmI2kZUCllS1UFyOxfcVeE29peAia
+         EQETf6VnKqI0kLj36d09RQ7VYcIInUstKJoBb7SV6I8XUJCezHqoYOafI5saRepHxX
+         Ti6kaxnBk3vD3Z6E1JnIyEKOjSilgWI5058T5reqOiGC4GeASfWip5ZlVhkElQW+Jy
+         V3MYrup3G3satFQmqH58ElHA8qu751oCLgzvTYcyYQINAFzClEeGz1GHQHYYulmWt0
+         6KfWMzBvkLsvx7LmlRL/xvvdNFGOx8uZKeiN+eB9EAxbCQkJXc+0fhrXmo8FRcJkqE
+         FnQUrmCPknW4w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Wan Jiabing <wanjiabing@vivo.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:9DLUmXjttuHAIXkJxm/MC7xl9CXZzZluVHHTAGj+X+flfLdiiSc
- bjSKFDc6WWZIhUDZa0KlvqmVqwy5bT7cKr5INmUHd6TCBEpx9rmmaiZ0AALs3k2uROzyQa3
- aNEDEdmwZs1RWNbSjHazAuei+/yLkfrmL1KI43pRepTffsAbnK2fXplL0U/5Lh0uLtcqn4J
- 5aHG5zEkhfcW9zI8YFJAA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fWLE8/5HP6s=:7URBqeR9410uRkqfDMxx2T
- QQD5n145lO/0lZLAhwYIenNmveBpyR8WtI/OfxYkPr7jaAQzlyMh/cDcoAMekzlM+BfWpLWyf
- quqO++hqLwyYJgsKuhNUKA+D72VRrvgo5Tbg6tZ626VTr5P8Hyz6o5SF8SiUovOtzHhl+RBq5
- 8j4ZfY66QCs2RKcz+oygIjKXEd3JbHJ1EJFL2Ae4mpz1kBFDROqczLCh9mrEbq1sves2z96o0
- vXpUIDsAx29GQFWlgbcOYbUMCiDgrGDkyUtcg018MqhT/pgsbjmicEBYwlPpRpfP+NiNM1r1e
- lB9x8GGFVSqsd1+I9cHjY82hTaEkLQpTlp1IzDtGZSWCKdZ9wo3pk/MP2w1gMQP0yXbwkUju2
- VGBzzTWDiYTdWhD9QU+1sstRBDU+fwVPCQTw5bc+GGArs1kyhgH9LCi2qkQx50umevgD1cZPL
- S4eZ3fTves+G+iVA23pnuz/4O7e47uJAxclwv1LXJZyA+LygW7iMB45COUCAodQ358uQXHL9W
- 4TA79KAJzmC+QuSvCpBc1Qn7PTwvcZcQZ6dBFVOkqlyVecgW8PwMC4dfHCMw/W6HvHo0Rp5Zz
- 5jRb9YRnsSfWtKH7TPAL1hKZonXjV4jtbcPuIQGWZE+mgxrEFuyuDHFC4TIJ2lOq3TxGb6laN
- hYrthk6HcHnLnWTyepsWOODJKUsXQrygAlH/SAkoY2srSjrKSxx0bGOJ9Q5MtPfHeVi8=
+        Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
+        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 023/217] ARM: shmobile: rcar-gen2: Add missing of_node_put()
+Date:   Mon, 17 Jan 2022 21:16:26 -0500
+Message-Id: <20220118021940.1942199-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 11:03 PM <marek.vasut@gmail.com> wrote:
-> It is possible to enforce the fault using 'isb' instruction placed
-> right after the read/write instruction which started the faulting
-> access. Add custom register accessors which perform the read/write
-> followed immediately by 'isb'.
->
-> This way, the fault always happens on the 'isb' and in case of read,
-> which is located one instruction before the 'isb', it is now possible
-> to fix up the return value of the read in the asynchronous external
-> abort hook and make that read return all Fs.
+From: Wan Jiabing <wanjiabing@vivo.com>
 
-Hi Marek,
+[ Upstream commit 85744f2d938c5f3cfc44cb6533c157469634da93 ]
 
-As mentioned on IRC, I think this can be done a lot simpler, using a .text.fixup
-section hack:
-> +void rcar_pci_write_reg_workaround(struct rcar_pcie *pcie, u32 val, unsigned int reg)
-> +{
-> +#ifdef CONFIG_ARM
-> +       asm volatile(
-> +               "       str %0, [%1]\n"
-> +               "       isb\n"
-> +       ::"r"(val), "r"(pcie->base + reg):"memory");
+Fix following coccicheck warning:
+./arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c:156:1-33: Function
+for_each_matching_node_and_match should have of_node_put() before break
+and goto.
 
+Early exits from for_each_matching_node_and_match() should decrement the
+node reference counter.
 
-I think this would looks something like
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+Link: https://lore.kernel.org/r/20211018014503.7598-1-wanjiabing@vivo.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-   int error = 0;
-   asm volatile(
-        "       str %1, [%2]\n"
-        "1:       isb\n"
-        "2:\n"
-        "         pushsection .text.fixup,\"ax\"\n"
-        "       .align  2\n"                                    \
-        "3:     mov     %0, %3\n"                               \
-        "       b       2b\n"                                   \
-        "       .popsection\n"                                  \
-        "       .pushsection __ex_table,\"a\"\n"                \
-        "       .align  3\n"                                    \
-        "       .long   1b, 3b\n"                               \
-        "       .popsection"                                    \
-       : "+r" (error) :"r"(val), "r"(pcie->base + reg), "i" (-ENXIO):"memory");
+diff --git a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+index ee949255ced3f..09ef73b99dd86 100644
+--- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
++++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+@@ -154,8 +154,10 @@ static int __init rcar_gen2_regulator_quirk(void)
+ 		return -ENODEV;
+ 
+ 	for_each_matching_node_and_match(np, rcar_gen2_quirk_match, &id) {
+-		if (!of_device_is_available(np))
++		if (!of_device_is_available(np)) {
++			of_node_put(np);
+ 			break;
++		}
+ 
+ 		ret = of_property_read_u32(np, "reg", &addr);
+ 		if (ret)	/* Skip invalid entry and continue */
+@@ -164,6 +166,7 @@ static int __init rcar_gen2_regulator_quirk(void)
+ 		quirk = kzalloc(sizeof(*quirk), GFP_KERNEL);
+ 		if (!quirk) {
+ 			ret = -ENOMEM;
++			of_node_put(np);
+ 			goto err_mem;
+ 		}
+ 
+-- 
+2.34.1
 
-This saves you from hand-parsing the instruction sequence, which tends
-to be even more fragile. After this, you just need to check the
-'error' variable,
-which remains at 0 normally but contains -ENXIO if an exception hits.
-
-I'm not entirely sure this works for the particular exception you are getting,
-and it probably requires not registering the rcar_pcie_aarch32_abort_handler
-function, but it seems likely to work.
-
-        Arnd
