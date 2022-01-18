@@ -2,50 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50638491882
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:47:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A81D4491888
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 03:47:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345567AbiARCqz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jan 2022 21:46:55 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:48976 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343926AbiARCmR (ORCPT
+        id S1344936AbiARCq6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jan 2022 21:46:58 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:37126 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348066AbiARCos (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:42:17 -0500
+        Mon, 17 Jan 2022 21:44:48 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 08370B8128F;
-        Tue, 18 Jan 2022 02:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB90FC36AE3;
-        Tue, 18 Jan 2022 02:42:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DC2C861294;
+        Tue, 18 Jan 2022 02:44:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F2FC36AE3;
+        Tue, 18 Jan 2022 02:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473734;
-        bh=qDhR74ah9joXahceyFh9WO/6szkMtojGpRt+7xDLEdM=;
+        s=k20201202; t=1642473886;
+        bh=k/Lz/Zo8RSedFrd/Cb57u0V3RMctMpavMVRb8b8/edc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nmMrI7OBuA/1CJOkMwbbHDggBRXK/G+Z1i6TBtgeHxS6ccGxhtYMdZCEv1horgT3P
-         JPVyR43Vx7AAdjj61TxiPWnvu9A4iJJGU1IXpRqah8v4bTkZB1jf+ne33P/eQCyMuT
-         SYzuRBUmi5TEHmQY99d05D4GtMvpy5dBw0w49pyZ9iF+bpXdvRJMx5Jkqv8pb/MKRp
-         WpFrFOcCH4td2C1QpbJyJOcQo2xxUubo4RT4xvEciJFVjMa8E/u+0U86nEenSPbwTZ
-         JJAeJOFLWMTZLZGpuOVB7zU8tZIe29WRn86djjo7EOmjb+DGG6qZOnA4PQ+LqwIYKu
-         tAsWjRKfgjoiw==
+        b=rWEGfDr0D4+2UtZDRsgzalhs4bdpf394gsdRTO+tM1cFebDVWeSDgObBpLen4HYg3
+         7qQCe2nquykWQ27TLzFIGOev1wc7dgXarwUnSkGrc6vk/3iXRSYJZLV27XBProQ4CX
+         ae4oIgIm7gtXJkxKU6613XgKbdeUmc9kK2INp6n52HaZEDUVG/MnVDOlL2bsJObtzG
+         NGaMLYKHSx/D3GXRIiaUwN+afdWHbA+aUdhNeGu4TF8KJAacXRztJyTwJ1lFZ02Q68
+         Kc0cND2imCjD0IeA3F8xped4yJ+vN/gEugEkddTs0TmU9IrhQUL2gPafo19hAy1EH4
+         ddFPu3e4ROVXg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
+Cc:     Wan Jiabing <wanjiabing@vivo.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
+        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 046/116] media: rcar-vin: Update format alignment constraints
-Date:   Mon, 17 Jan 2022 21:38:57 -0500
-Message-Id: <20220118024007.1950576-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 07/73] ARM: shmobile: rcar-gen2: Add missing of_node_put()
+Date:   Mon, 17 Jan 2022 21:43:26 -0500
+Message-Id: <20220118024432.1952028-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
-References: <20220118024007.1950576-1-sashal@kernel.org>
+In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
+References: <20220118024432.1952028-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -53,64 +50,50 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+From: Wan Jiabing <wanjiabing@vivo.com>
 
-[ Upstream commit da6911f330d40cfe115a37249e47643eff555e82 ]
+[ Upstream commit 85744f2d938c5f3cfc44cb6533c157469634da93 ]
 
-This change fixes two issues with the size constraints for buffers.
+Fix following coccicheck warning:
+./arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c:156:1-33: Function
+for_each_matching_node_and_match should have of_node_put() before break
+and goto.
 
-- There is no width alignment constraint for RGB formats. Prior to this
-  change they were treated as YUV and as a result were more restricted
-  than needed. Add a new check to differentiate between the two.
+Early exits from for_each_matching_node_and_match() should decrement the
+node reference counter.
 
-- The minimum width and height supported is 5x2, not 2x4, this is an
-  artifact from the driver's soc-camera days. Fix this incorrect
-  assumption.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+Link: https://lore.kernel.org/r/20211018014503.7598-1-wanjiabing@vivo.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 3e7a3ae2a6b97..0bbe6f9f92062 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -175,20 +175,27 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 		break;
- 	}
+diff --git a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+index ee949255ced3f..09ef73b99dd86 100644
+--- a/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
++++ b/arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c
+@@ -154,8 +154,10 @@ static int __init rcar_gen2_regulator_quirk(void)
+ 		return -ENODEV;
  
--	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
-+	/* Hardware limits width alignment based on format. */
- 	switch (pix->pixelformat) {
-+	/* Multiple of 32 (2^5) for NV12/16. */
- 	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV16:
- 		walign = 5;
- 		break;
--	default:
-+	/* Multiple of 2 (2^1) for YUV. */
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_UYVY:
- 		walign = 1;
- 		break;
-+	/* No multiple for RGB. */
-+	default:
-+		walign = 0;
-+		break;
- 	}
+ 	for_each_matching_node_and_match(np, rcar_gen2_quirk_match, &id) {
+-		if (!of_device_is_available(np))
++		if (!of_device_is_available(np)) {
++			of_node_put(np);
+ 			break;
++		}
  
- 	/* Limit to VIN capabilities */
--	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
--			      &pix->height, 4, vin->info->max_height, 2, 0);
-+	v4l_bound_align_image(&pix->width, 5, vin->info->max_width, walign,
-+			      &pix->height, 2, vin->info->max_height, 0, 0);
+ 		ret = of_property_read_u32(np, "reg", &addr);
+ 		if (ret)	/* Skip invalid entry and continue */
+@@ -164,6 +166,7 @@ static int __init rcar_gen2_regulator_quirk(void)
+ 		quirk = kzalloc(sizeof(*quirk), GFP_KERNEL);
+ 		if (!quirk) {
+ 			ret = -ENOMEM;
++			of_node_put(np);
+ 			goto err_mem;
+ 		}
  
- 	pix->bytesperline = rvin_format_bytesperline(vin, pix);
- 	pix->sizeimage = rvin_format_sizeimage(pix);
 -- 
 2.34.1
 
