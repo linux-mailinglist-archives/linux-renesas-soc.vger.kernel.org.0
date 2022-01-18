@@ -2,88 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A9ED492BED
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 18:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C0F492C2B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 18:20:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347049AbiARRJR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jan 2022 12:09:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
+        id S243781AbiARRTp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jan 2022 12:19:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234402AbiARRJQ (ORCPT
+        with ESMTP id S1347149AbiARRTp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jan 2022 12:09:16 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533A6C06173F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jan 2022 09:09:15 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:76d0:2bff:fec8:549])
-        by laurent.telenet-ops.be with bizsmtp
-        id kH992600T0kcUhD01H99pP; Tue, 18 Jan 2022 18:09:13 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1n9ryn-00AH3E-35; Tue, 18 Jan 2022 18:09:09 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1n9rym-001Blq-GS; Tue, 18 Jan 2022 18:09:08 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 5/5] arm64: dts: renesas: spider-cpu: Enable watchdog timer
-Date:   Tue, 18 Jan 2022 18:09:05 +0100
-Message-Id: <b36b2bb5770e10d906571721a3d73ca205b6f56e.1642525158.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1642525158.git.geert+renesas@glider.be>
-References: <cover.1642525158.git.geert+renesas@glider.be>
+        Tue, 18 Jan 2022 12:19:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124DEC061574;
+        Tue, 18 Jan 2022 09:19:44 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FED014C3;
+        Tue, 18 Jan 2022 18:19:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1642526382;
+        bh=DzBjQOlNtw5qOzuh4tnHr/oiWRI6Z3LjQkD8BsAOp2M=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=ro5AdUSDAv1TkcyNN5g08ZLNBInKed2d/haAFF8OBgaNAW327yFJISeY5I5kmBZlg
+         Ybk/UBTpJt0Fwgc061dSwC2K5UivNTUinl54NSJnWhgCk2xb35YZZbLVw3C85bXw2S
+         9ximCBLb53ESqz8x95ZyQeKYqpsjg0q7CANKqVyE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4880e4cbc112ee26569bf29a21c070125461e58d.1642524603.git.geert+renesas@glider.be>
+References: <4880e4cbc112ee26569bf29a21c070125461e58d.1642524603.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] pinctrl: renesas: r8a779a0: Rename MOD_SEL2_* definitions
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 18 Jan 2022 17:19:39 +0000
+Message-ID: <164252637980.10801.8177844941829819862@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable the watchdog timer on the Spider board.
+Hi Geert,
 
-Extracted from a larger patch in the BSP by LUU HOAI.
+Quoting Geert Uytterhoeven (2022-01-18 16:52:08)
+> Rename the MOD_SEL2_* definitions, to match the bitfield order in
+> IPxSRy_* definitions and in MOD_SEL* definitions in other drivers.
+>=20
+> No changes in generated code.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-For the watchdog to be able to actually reboot the system, this depends
-on proper configuration of the Watchdog Timer Reset Control Register
-(WDTRSTCR) in the Reset (RST) module, either by Linux[1], or by the
-firmware.
+I've looked through and the changes seem consistent as far as I can see.
 
-[1] "[PATCH LOCAL v2] soc: renesas: rcar-rst: Allow WDT reset on R-Car
-     Gen4"
-    https://lore.kernel.org/r/39005cf749a99afc6d3ba96ff155fd2a231418a8.1642524743.git.geert+renesas@glider.be
----
- arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 156586532c844c41..3a90932fe85c8243 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -31,6 +31,11 @@ &extalr_clk {
- 	clock-frequency = <32768>;
- };
- 
-+&rwdt {
-+	timeout-sec = <60>;
-+	status = "okay";
-+};
-+
- &scif3 {
- 	status = "okay";
- };
--- 
-2.25.1
-
+> ---
+> To be queued in renesas-pinctrl for v5.18.
+>=20
+>  drivers/pinctrl/renesas/pfc-r8a779a0.c | 42 +++++++++++++-------------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/drivers/pinctrl/renesas/pfc-r8a779a0.c b/drivers/pinctrl/ren=
+esas/pfc-r8a779a0.c
+> index 155294d0dd5abfb4..4a668a04b7ca6820 100644
+> --- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
+> +++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
+> @@ -576,23 +576,23 @@ FM(IP0SR5_27_24)  IP0SR5_27_24    FM(IP1SR5_27_24) =
+       IP1SR5_27_24    FM(IP2SR5_27_24)        IP2
+>  FM(IP0SR5_31_28)       IP0SR5_31_28    FM(IP1SR5_31_28)        IP1SR5_31=
+_28    FM(IP2SR5_31_28)        IP2SR5_31_28
+> =20
+>  /* MOD_SEL2 */                 /* 0 */         /* 1 */         /* 2 */  =
+       /* 3 */
+> -#define MOD_SEL2_14_15         FM(SEL_I2C6_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C6_3)
+> -#define MOD_SEL2_12_13         FM(SEL_I2C5_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C5_3)
+> -#define MOD_SEL2_10_11         FM(SEL_I2C4_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C4_3)
+> -#define MOD_SEL2_8_9           FM(SEL_I2C3_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C3_3)
+> -#define MOD_SEL2_6_7           FM(SEL_I2C2_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C2_3)
+> -#define MOD_SEL2_4_5           FM(SEL_I2C1_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C1_3)
+> -#define MOD_SEL2_2_3           FM(SEL_I2C0_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C0_3)
+> +#define MOD_SEL2_15_14         FM(SEL_I2C6_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C6_3)
+> +#define MOD_SEL2_13_12         FM(SEL_I2C5_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C5_3)
+> +#define MOD_SEL2_11_10         FM(SEL_I2C4_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C4_3)
+> +#define MOD_SEL2_9_8           FM(SEL_I2C3_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C3_3)
+> +#define MOD_SEL2_7_6           FM(SEL_I2C2_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C2_3)
+> +#define MOD_SEL2_5_4           FM(SEL_I2C1_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C1_3)
+> +#define MOD_SEL2_3_2           FM(SEL_I2C0_0)  F_(0, 0)        F_(0, 0) =
+       FM(SEL_I2C0_3)
+> =20
+>  #define PINMUX_MOD_SELS \
+>  \
+> -MOD_SEL2_14_15 \
+> -MOD_SEL2_12_13 \
+> -MOD_SEL2_10_11 \
+> -MOD_SEL2_8_9 \
+> -MOD_SEL2_6_7 \
+> -MOD_SEL2_4_5 \
+> -MOD_SEL2_2_3
+> +MOD_SEL2_15_14 \
+> +MOD_SEL2_13_12 \
+> +MOD_SEL2_11_10 \
+> +MOD_SEL2_9_8 \
+> +MOD_SEL2_7_6 \
+> +MOD_SEL2_5_4 \
+> +MOD_SEL2_3_2
+> =20
+>  #define PINMUX_PHYS \
+>         FM(SCL0) FM(SDA0) FM(SCL1) FM(SDA1) FM(SCL2) FM(SDA2) FM(SCL3) FM=
+(SDA3) \
+> @@ -3666,13 +3666,13 @@ static const struct pinmux_cfg_reg pinmux_config_=
+regs[] =3D {
+>                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+>                 /* RESERVED 19, 18, 17, 16 */
+>                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+> -               MOD_SEL2_14_15
+> -               MOD_SEL2_12_13
+> -               MOD_SEL2_10_11
+> -               MOD_SEL2_8_9
+> -               MOD_SEL2_6_7
+> -               MOD_SEL2_4_5
+> -               MOD_SEL2_2_3
+> +               MOD_SEL2_15_14
+> +               MOD_SEL2_13_12
+> +               MOD_SEL2_11_10
+> +               MOD_SEL2_9_8
+> +               MOD_SEL2_7_6
+> +               MOD_SEL2_5_4
+> +               MOD_SEL2_3_2
+>                 0, 0,
+>                 0, 0, ))
+>         },
+> --=20
+> 2.25.1
+>
