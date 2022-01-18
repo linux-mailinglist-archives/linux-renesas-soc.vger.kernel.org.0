@@ -2,206 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A875D492AE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 17:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C586E492B14
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 17:21:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238735AbiARQPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jan 2022 11:15:45 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:43902 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244129AbiARQNR (ORCPT
+        id S235604AbiARQV0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jan 2022 11:21:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235038AbiARQVZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jan 2022 11:13:17 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE45D612B5;
-        Tue, 18 Jan 2022 16:13:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B809C340E0;
-        Tue, 18 Jan 2022 16:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642522396;
-        bh=jh8J4bdUgvQxCRwye873ExFL2Bf/MJfjTabI1oZoIxg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=l2OCucNeGvoeKJoDD88LNdndQ1/xPaTFrq9gChPtKMuBU6DH2pmkn9Zq6jsKEIrZB
-         AceU2oMwrnYR5XivN+NAHrAy4rJIHKN6h3mmzSa/fB7z7fTSoRMzoGWoV5aTiRqCxL
-         73g6XNX2IBQEkoZxFAaJjDu3bNy3yZmo+/649qZrnsFsPyQg9jBYJu6gX3i7xEnfg5
-         P1SlRm6TYrEgG6jVUcMg0SKkRsODK1EORAQjFxzmAoCol+ov1eH75RpEOmfz3v8fua
-         re5zRxdcnseZShAsEt9mDZaqBqh7TIWHkhY+9yUPAhj4wqcxL3v7H3ENUv3tOMxbaS
-         n7v7MkGcqESWA==
-Date:   Tue, 18 Jan 2022 10:13:14 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Tue, 18 Jan 2022 11:21:25 -0500
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64179C061574;
+        Tue, 18 Jan 2022 08:21:24 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8D7021BF206;
+        Tue, 18 Jan 2022 16:21:19 +0000 (UTC)
+Date:   Tue, 18 Jan 2022 17:22:21 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] PCI: rcar: Return all Fs from read which
- triggered an exception
-Message-ID: <20220118161314.GA871416@bhelgaas>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Update
+ data-lanes property
+Message-ID: <20220118162221.yfwen6ppx7gcjzvw@uno.localdomain>
+References: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
+ <YeU1kDee7L26QJ86@oden.dyn.berto.se>
+ <20220117100040.wa3ple6meahebtni@uno.localdomain>
+ <YeaXZO+3C/fUM7ex@oden.dyn.berto.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220117220355.92575-2-marek.vasut@gmail.com>
+In-Reply-To: <YeaXZO+3C/fUM7ex@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 11:03:55PM +0100, marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> In case the controller is transitioning to L1 in rcar_pcie_config_access(),
-> any read/write access to PCIECDR triggers asynchronous external abort. This
-> is because the transition to L1 link state must be manually finished by the
-> driver. The PCIe IP can transition back from L1 state to L0 on its own.
-> 
-> The current asynchronous external abort hook implementation restarts
-> the instruction which finally triggered the fault, which can be a
-> different instruction than the read/write instruction which started
-> the faulting access. Usually the instruction which finally triggers
-> the fault is one which has some data dependency on the result of the
-> read/write. In case of read, the read value after fixup is undefined,
-> while a read value of faulting read should be all Fs.
-> 
-> It is possible to enforce the fault using 'isb' instruction placed
-> right after the read/write instruction which started the faulting
-> access. Add custom register accessors which perform the read/write
-> followed immediately by 'isb'.
-> 
-> This way, the fault always happens on the 'isb' and in case of read,
-> which is located one instruction before the 'isb', it is now possible
-> to fix up the return value of the read in the asynchronous external
-> abort hook and make that read return all Fs.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Wilczyński <kw@linux.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Rebase on 1/2
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 67 ++++++++++++++++++++++++-
->  1 file changed, 65 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index f0a0d560fefc..875dd5d417ee 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -107,6 +107,35 @@ static u32 rcar_read_conf(struct rcar_pcie *pcie, int where)
->  	return val >> shift;
->  }
->  
-> +void rcar_pci_write_reg_workaround(struct rcar_pcie *pcie, u32 val, unsigned int reg)
-> +{
-> +#ifdef CONFIG_ARM
-> +	asm volatile(
-> +		"	str %0, [%1]\n"
-> +		"	isb\n"
-> +	::"r"(val), "r"(pcie->base + reg):"memory");
-> +#else
-> +	rcar_pci_write_reg(pcie, val, reg);
-> +#endif
-> +}
-> +
-> +u32 rcar_pci_read_reg_workaround(struct rcar_pcie *pcie, unsigned int reg)
-> +{
-> +#ifdef CONFIG_ARM
-> +	u32 val;
-> +
-> +	asm volatile(
-> +		"rcar_pci_read_reg_workaround_start:\n"
-> +		"1:	ldr %0, [%1]\n"
-> +		"	isb\n"
-> +	: "=r"(val):"r"(pcie->base + reg):"memory");
-> +
-> +	return val;
-> +#else
-> +	return rcar_pci_read_reg(pcie, reg);
-> +#endif
-> +}
-> +
->  /* Serialization is provided by 'pci_lock' in drivers/pci/access.c */
->  static int rcar_pcie_config_access(struct rcar_pcie_host *host,
->  		unsigned char access_type, struct pci_bus *bus,
-> @@ -179,9 +208,9 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
->  		return PCIBIOS_DEVICE_NOT_FOUND;
->  
->  	if (access_type == RCAR_PCI_ACCESS_READ)
-> -		*data = rcar_pci_read_reg(pcie, PCIECDR);
-> +		*data = rcar_pci_read_reg_workaround(pcie, PCIECDR);
->  	else
-> -		rcar_pci_write_reg(pcie, *data, PCIECDR);
-> +		rcar_pci_write_reg_workaround(pcie, *data, PCIECDR);
->  
->  	/* Disable the configuration access */
->  	rcar_pci_write_reg(pcie, 0, PCIECCTLR);
-> @@ -1091,7 +1120,11 @@ static struct platform_driver rcar_pcie_driver = {
->  static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
->  		unsigned int fsr, struct pt_regs *regs)
->  {
-> +	extern u32 *rcar_pci_read_reg_workaround_start;
-> +	unsigned long pc = instruction_pointer(regs);
-> +	unsigned long instr = *(unsigned long *)pc;
->  	unsigned long flags;
-> +	u32 reg, val;
->  	int ret = 0;
->  
->  	spin_lock_irqsave(&pmsr_lock, flags);
-> @@ -1101,6 +1134,36 @@ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
->  	if (ret)
->  		goto unlock_exit;
->  
-> +	/*
-> +	 * Test whether the faulting instruction is 'isb' and if
-> +	 * so, test whether it is the 'isb' instruction within
-> +	 * rcar_pci_read_reg_workaround() asm volatile()
-> +	 * implementation of read access. If it is, fix it up.
-> +	 */
-> +	instr &= ~0xf;
-> +	if ((instr == 0xf57ff060 || instr == 0xf3bf8f60) &&
-> +	    (pc == (u32)&rcar_pci_read_reg_workaround_start + 4)) {
-> +		/*
-> +		 * If the instruction being executed was a read,
-> +		 * make it look like it read all-ones.
-> +		 */
-> +		instr = *(unsigned long *)(pc - 4);
-> +		reg = (instr >> 12) & 15;
-> +
-> +		if ((instr & 0x0c100000) == 0x04100000) {
-> +			if (instr & 0x00400000)
-> +				val = 255;
-> +			else
-> +				val = -1;
+Hi Niklas,
 
-Can you please use PCI_SET_ERROR_RESPONSE() or something similar here
-to make this greppable?
+On Tue, Jan 18, 2022 at 11:33:08AM +0100, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> Thanks for your feedback.
+>
+> On 2022-01-17 11:00:40 +0100, Jacopo Mondi wrote:
+> > Hi Niklas,
+> >
+> > On Mon, Jan 17, 2022 at 10:23:28AM +0100, Niklas Söderlund wrote:
+> > > Hello Jacopo,
+> > >
+> > > On 2022-01-17 09:11:10 +0100, Jacopo Mondi wrote:
+> > > > Hello Prabhakar,
+> > > >
+> > > > On Thu, Jan 13, 2022 at 10:32:14AM +0000, Lad Prabhakar wrote:
+> > > > > CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
+> > > > > handled by rcar-csi2.c driver. This patch updates the data-lanes property
+> > > > > to describe the same.
+> > > > >
+> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > ---
+> > > > >  .../devicetree/bindings/media/renesas,csi2.yaml          | 9 ++++++++-
+> > > > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > > index e6a036721082..064a0a4c5737 100644
+> > > > > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > > > @@ -67,7 +67,14 @@ properties:
+> > > > >                  maxItems: 1
+> > > > >
+> > > > >                data-lanes:
+> > > > > -                maxItems: 1
+> > > > > +                items:
+> > > > > +                  minItems: 1
+> > > > > +                  maxItems: 4
+> > > > > +                  items:
+> > > > > +                    - const: 1
+> > > > > +                    - const: 2
+> > > > > +                    - const: 3
+> > > > > +                    - const: 4
+> > > >
+> > > > Seeing "maxItems: 1" there confuses me too, as the property is an
+> > > > array of data-lanes, but I'm afraid your change does not what you
+> > > > intend as it would allow you to specify the number of data lanes as an
+> > > > integer rather than as an array.
+> > > >
+> > > > I think it would probably be correct to set
+> > > >
+> > > >                 data-lanes: true
+> > > >
+> > > > (maybe maxItems: 1 is correct already)
+> > > >
+> > > > And restrict the number of valid combinations in the board DTS file
+> > > > with a construct like:
+> > > >
+> > > >     data-lanes:
+> > > >       oneOf:
+> > > >         - items:
+> > > >             - const: 1
+> > > >             - const: 2
+> > > >             - const: 3
+> > > >             - const: 4
+> > > >         - items:
+> > > >             - const: 1
+> > > >             - const: 2
+> > >
+> > > I don't think this is correct, what if data lanes 2 and 3 are used?
+> > >
+> >
+> > These were examples that allow you to accept <1 2> and <1 2 3 4> as
+> > valid properties. If other combinations are accepted they can be
+> > specified there, in your example, <2 3> with
+> >
+> >              - items:
+> >                - const: 2
+> >                - const: 3
+> >
+> > As lane re-reordering is quite unusual as a feature (afaik) there are
+> > usually just an handful of supported combinations for 1, 2 and 4 data
+> > lanes setups.
+>
+> R-Car CSI-2 hardware and driver supports full lane swapping, see the
+> LSWAP register and usage of struct rcar_csi2.lane_swap.
 
-> +			regs->uregs[reg] = val;
-> +			regs->ARM_pc += 4;
-> +		} else if ((instr & 0x0e100090) == 0x00100090) {
-> +			regs->uregs[reg] = -1;
+Uh, I missed that. So indeed restricting the possible combinations in
+the .dts file is a no-go :0
 
-Also here, I guess?
+>
+> I think it's a good idea to extend the binding description to limit the
+> data-lanes property to an array of max 4 items where each value use is
+> ether a 1, 2, 3 or 4. But it must allow for any combination of the
+> values.
+>
 
-> +			regs->ARM_pc += 4;
-> +		}
-> +	}
-> +
->  unlock_exit:
->  	spin_unlock_irqrestore(&pmsr_lock, flags);
->  	return ret;
-> -- 
-> 2.34.1
-> 
+Agreed then.
+
+Looking at the definition in video-interfaces.txt
+  data-lanes:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    minItems: 1
+    maxItems: 8
+    items:
+      # Assume up to 9 physical lane indices
+      maximum: 8
+
+Should the R-Car CSI-2 bindings report (validated with
+dt_binding_check)
+
+      data-lanes:
+        maxItems: 4
+        items:
+          maximum: 4
+
+Thanks
+   j
+
+> >
+> > If full lane re-ordering is supported then it's enough to set
+> > data-lanes: true and accepts all combinations.
+> >
+> > Also, the reason why imho the property should go in the board DTS and
+> > not in the SoC .dtsi is that not all the available data lanes of the
+> > IP-core might be routed out on a specific board.
+> >
+> > That's at least my understanding which I would be glad to be disproved
+> > as specifying the valid combinations in each board dts is rather
+> > un-convenient.
+> >
+> > Thanks
+> >    j
+> >
+> > > >
+> > > > Thanks
+> > > >    j
+> > > >
+> > > > >
+> > > > >              required:
+> > > > >                - clock-lanes
+> > > > > --
+> > > > > 2.17.1
+> > > > >
+> > >
+> > > --
+> > > Kind Regards,
+> > > Niklas Söderlund
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
