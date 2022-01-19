@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E32F493BA5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 15:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74690493B9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 15:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355037AbiASODA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jan 2022 09:03:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
+        id S1354988AbiASOCz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 09:02:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354995AbiASOCr (ORCPT
+        with ESMTP id S1354991AbiASOCq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jan 2022 09:02:47 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BEAC061759
+        Wed, 19 Jan 2022 09:02:46 -0500
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB20C061751
         for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 06:02:43 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a44d:f245:bac9:611c])
-        by andre.telenet-ops.be with bizsmtp
-        id ke2h2600E2FKFx601e2h0G; Wed, 19 Jan 2022 15:02:41 +0100
+        by baptiste.telenet-ops.be with bizsmtp
+        id ke2h2600l2FKFx601e2hWf; Wed, 19 Jan 2022 15:02:41 +0100
 Received: from rox.of.borg ([192.168.97.57] helo=rox)
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nABXs-00AS18-VF; Wed, 19 Jan 2022 15:02:40 +0100
+        id 1nABXt-00AS1B-9E; Wed, 19 Jan 2022 15:02:41 +0100
 Received: from geert by rox with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nABXs-009iII-BB; Wed, 19 Jan 2022 15:02:40 +0100
+        id 1nABXs-009iIS-CD; Wed, 19 Jan 2022 15:02:40 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     LUU HOAI <hoai.luu.ub@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 13/15] pinctrl: renesas: r8a779f0: Add Ethernet pins, groups, and functions
-Date:   Wed, 19 Jan 2022 15:02:30 +0100
-Message-Id: <b45e41ba0317a3aca762ef68cf84a006976bb3f6.1642599415.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 14/15] arm64: dts: renesas: r8a779f0: Add pinctrl device node
+Date:   Wed, 19 Jan 2022 15:02:31 +0100
+Message-Id: <1e39ba5a563862965409ed87f9fa5dc06a67f717.1642599415.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1642599415.git.geert+renesas@glider.be>
 References: <cover.1642599415.git.geert+renesas@glider.be>
@@ -42,340 +42,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add pins, groups, and functions for the Ethernet Time-Sensitive
-Networking (TSN) interfaces on the Renesas R-Car S4-8 (R8A779F0) SoC.
+Add a device node for the Pin Function Controller on the Renesas R-Car
+S4-8 (R8A779F0) SoC.
 
-Based on a larger patch in the BSP by LUU HOAI.
+Note that register banks 4-7 do not seem to be accessible as-is using
+either the Control Domain (0xffd9....) or Application Domain
+(0xdfd9....) addresses, so currently you cannot configure pins
+controlled by these banks.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Changes compared to the BSP:
-  - Add B-suffixes to groups that can appear on multiple sets of pins,
-  - Add missing A groups.
+How to make the Control Domain release the bus guard, so the registers
+become accessible?
 ---
- drivers/pinctrl/renesas/pfc-r8a779f0.c | 288 +++++++++++++++++++++++++
- 1 file changed, 288 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a779f0.c b/drivers/pinctrl/renesas/pfc-r8a779f0.c
-index 0ecb7ce7565e712c..3357f60b3074ee4e 100644
---- a/drivers/pinctrl/renesas/pfc-r8a779f0.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a779f0.c
-@@ -1808,6 +1808,222 @@ static const unsigned int scif_clk_mux[] = {
- 	SCIF_CLK_MARK,
- };
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+index 0ac8c345558efc17..ada6ff380b203625 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+@@ -69,6 +69,14 @@ rwdt: watchdog@e6020000 {
+ 			status = "disabled";
+ 		};
  
-+/* - TSN0 ------------------------------------------------ */
-+static const unsigned int tsn0_link_a_pins[] = {
-+	/* TSN0_LINK_A */
-+	RCAR_GP_PIN(0, 11),
-+};
-+static const unsigned int tsn0_link_a_mux[] = {
-+	TSN0_LINK_A_MARK,
-+};
-+static const unsigned int tsn0_magic_a_pins[] = {
-+	/* TSN0_MAGIC_A */
-+	RCAR_GP_PIN(0, 17),
-+};
-+static const unsigned int tsn0_magic_a_mux[] = {
-+	TSN0_MAGIC_A_MARK,
-+};
-+static const unsigned int tsn0_phy_int_a_pins[] = {
-+	/* TSN0_PHY_INT_A */
-+	RCAR_GP_PIN(0, 18),
-+};
-+static const unsigned int tsn0_phy_int_a_mux[] = {
-+	TSN0_PHY_INT_A_MARK,
-+};
-+static const unsigned int tsn0_mdio_a_pins[] = {
-+	/* TSN0_MDC_A, TSN0_MDIO_A */
-+	RCAR_GP_PIN(0, 4), RCAR_GP_PIN(0, 5),
-+};
-+static const unsigned int tsn0_mdio_a_mux[] = {
-+	TSN0_MDC_A_MARK, TSN0_MDIO_A_MARK,
-+};
-+static const unsigned int tsn0_link_b_pins[] = {
-+	/* TSN0_LINK_B */
-+	RCAR_GP_PIN(3, 8),
-+};
-+static const unsigned int tsn0_link_b_mux[] = {
-+	TSN0_LINK_B_MARK,
-+};
-+static const unsigned int tsn0_magic_b_pins[] = {
-+	/* TSN0_MAGIC_B */
-+	RCAR_GP_PIN(3, 12),
-+};
-+static const unsigned int tsn0_magic_b_mux[] = {
-+	TSN0_MAGIC_B_MARK,
-+};
-+static const unsigned int tsn0_phy_int_b_pins[] = {
-+	/* TSN0_PHY_INT_B */
-+	RCAR_GP_PIN(3, 10),
-+};
-+static const unsigned int tsn0_phy_int_b_mux[] = {
-+	TSN0_PHY_INT_B_MARK,
-+};
-+static const unsigned int tsn0_mdio_b_pins[] = {
-+	/* TSN0_MDC_B, TSN0_MDIO_B */
-+	RCAR_GP_PIN(3, 4), RCAR_GP_PIN(3, 2),
-+};
-+static const unsigned int tsn0_mdio_b_mux[] = {
-+	TSN0_MDC_B_MARK, TSN0_MDIO_B_MARK,
-+};
-+static const unsigned int tsn0_avtp_pps_pins[] = {
-+	/* TSN0_AVTP_PPS */
-+	RCAR_GP_PIN(3, 16),
-+};
-+static const unsigned int tsn0_avtp_pps_mux[] = {
-+	TSN0_AVTP_PPS_MARK,
-+};
-+static const unsigned int tsn0_avtp_capture_a_pins[] = {
-+	/* TSN0_AVTP_CAPTURE_A */
-+	RCAR_GP_PIN(0, 1),
-+};
-+static const unsigned int tsn0_avtp_capture_a_mux[] = {
-+	TSN0_AVTP_CAPTURE_A_MARK,
-+};
-+static const unsigned int tsn0_avtp_match_a_pins[] = {
-+	/* TSN0_AVTP_MATCH_A */
-+	RCAR_GP_PIN(0, 2),
-+};
-+static const unsigned int tsn0_avtp_match_a_mux[] = {
-+	TSN0_AVTP_MATCH_A_MARK,
-+};
-+static const unsigned int tsn0_avtp_capture_b_pins[] = {
-+	/* TSN0_AVTP_CAPTURE_B */
-+	RCAR_GP_PIN(3, 18),
-+};
-+static const unsigned int tsn0_avtp_capture_b_mux[] = {
-+	TSN0_AVTP_CAPTURE_B_MARK,
-+};
-+static const unsigned int tsn0_avtp_match_b_pins[] = {
-+	/* TSN0_AVTP_MATCH_B */
-+	RCAR_GP_PIN(3, 17),
-+};
-+static const unsigned int tsn0_avtp_match_b_mux[] = {
-+	TSN0_AVTP_MATCH_B_MARK,
-+};
++		pfc: pinctrl@e6050000 {
++			compatible = "renesas,pfc-r8a779f0";
++			reg = <0 0xe6050000 0 0x16c>, <0 0xe6050800 0 0x16c>,
++			      <0 0xe6051000 0 0x16c>, <0 0xe6051800 0 0x16c>,
++			      <0 0xffd90000 0 0x16c>, <0 0xffd90800 0 0x16c>,
++			      <0 0xffd91000 0 0x16c>, <0 0xffd91800 0 0x16c>;
++		};
 +
-+/* - TSN1 ------------------------------------------------ */
-+static const unsigned int tsn1_link_a_pins[] = {
-+	/* TSN1_LINK_A */
-+	RCAR_GP_PIN(0, 15),
-+};
-+static const unsigned int tsn1_link_a_mux[] = {
-+	TSN1_LINK_A_MARK,
-+};
-+static const unsigned int tsn1_phy_int_a_pins[] = {
-+	/* TSN1_PHY_INT_A */
-+	RCAR_GP_PIN(0, 19),
-+};
-+static const unsigned int tsn1_phy_int_a_mux[] = {
-+	TSN1_PHY_INT_A_MARK,
-+};
-+static const unsigned int tsn1_mdio_a_pins[] = {
-+	/* TSN1_MDC_A, TSN1_MDIO_A */
-+	RCAR_GP_PIN(0, 10), RCAR_GP_PIN(0, 9),
-+};
-+static const unsigned int tsn1_mdio_a_mux[] = {
-+	TSN1_MDC_A_MARK, TSN1_MDIO_A_MARK,
-+};
-+static const unsigned int tsn1_link_b_pins[] = {
-+	/* TSN1_LINK_B */
-+	RCAR_GP_PIN(3, 6),
-+};
-+static const unsigned int tsn1_link_b_mux[] = {
-+	TSN1_LINK_B_MARK,
-+};
-+static const unsigned int tsn1_phy_int_b_pins[] = {
-+	/* TSN1_PHY_INT_B */
-+	RCAR_GP_PIN(3, 11),
-+};
-+static const unsigned int tsn1_phy_int_b_mux[] = {
-+	TSN1_PHY_INT_B_MARK,
-+};
-+static const unsigned int tsn1_mdio_b_pins[] = {
-+	/* TSN1_MDC_B, TSN1_MDIO_B */
-+	RCAR_GP_PIN(3, 5), RCAR_GP_PIN(3, 0),
-+};
-+static const unsigned int tsn1_mdio_b_mux[] = {
-+	TSN1_MDC_B_MARK, TSN1_MDIO_B_MARK,
-+};
-+static const unsigned int tsn1_avtp_pps_pins[] = {
-+	/* TSN1_AVTP_PPS */
-+	RCAR_GP_PIN(3, 13),
-+};
-+static const unsigned int tsn1_avtp_pps_mux[] = {
-+	TSN0_AVTP_PPS_MARK,
-+};
-+static const unsigned int tsn1_avtp_capture_a_pins[] = {
-+	/* TSN1_AVTP_CAPTURE_A */
-+	RCAR_GP_PIN(0, 7),
-+};
-+static const unsigned int tsn1_avtp_capture_a_mux[] = {
-+	TSN1_AVTP_CAPTURE_A_MARK,
-+};
-+static const unsigned int tsn1_avtp_match_a_pins[] = {
-+	/* TSN1_AVTP_MATCH_A */
-+	RCAR_GP_PIN(0, 6),
-+};
-+static const unsigned int tsn1_avtp_match_a_mux[] = {
-+	TSN1_AVTP_MATCH_A_MARK,
-+};
-+static const unsigned int tsn1_avtp_capture_b_pins[] = {
-+	/* TSN1_AVTP_CAPTURE_B */
-+	RCAR_GP_PIN(3, 15),
-+};
-+static const unsigned int tsn1_avtp_capture_b_mux[] = {
-+	TSN1_AVTP_CAPTURE_B_MARK,
-+};
-+static const unsigned int tsn1_avtp_match_b_pins[] = {
-+	/* TSN1_AVTP_MATCH_B */
-+	RCAR_GP_PIN(3, 14),
-+};
-+static const unsigned int tsn1_avtp_match_b_mux[] = {
-+	TSN1_AVTP_MATCH_B_MARK,
-+};
-+
-+/* - TSN2 ------------------------------------------------ */
-+static const unsigned int tsn2_link_a_pins[] = {
-+	/* TSN2_LINK_A */
-+	RCAR_GP_PIN(0, 16),
-+};
-+static const unsigned int tsn2_link_a_mux[] = {
-+	TSN2_LINK_A_MARK,
-+};
-+static const unsigned int tsn2_phy_int_a_pins[] = {
-+	/* TSN2_PHY_INT_A */
-+	RCAR_GP_PIN(0, 20),
-+};
-+static const unsigned int tsn2_phy_int_a_mux[] = {
-+	TSN2_PHY_INT_A_MARK,
-+};
-+static const unsigned int tsn2_mdio_a_pins[] = {
-+	/* TSN2_MDC_A, TSN2_MDIO_A */
-+	RCAR_GP_PIN(1, 2), RCAR_GP_PIN(1, 3),
-+};
-+static const unsigned int tsn2_mdio_a_mux[] = {
-+	TSN2_MDC_A_MARK, TSN2_MDIO_A_MARK,
-+};
-+static const unsigned int tsn2_link_b_pins[] = {
-+	/* TSN2_LINK_B */
-+	RCAR_GP_PIN(3, 7),
-+};
-+static const unsigned int tsn2_link_b_mux[] = {
-+	TSN2_LINK_B_MARK,
-+};
-+static const unsigned int tsn2_phy_int_b_pins[] = {
-+	/* TSN2_PHY_INT_B */
-+	RCAR_GP_PIN(3, 9),
-+};
-+static const unsigned int tsn2_phy_int_b_mux[] = {
-+	TSN2_PHY_INT_B_MARK,
-+};
-+static const unsigned int tsn2_mdio_b_pins[] = {
-+	/* TSN2_MDC_B, TSN2_MDIO_B */
-+	RCAR_GP_PIN(3, 3), RCAR_GP_PIN(3, 1),
-+};
-+static const unsigned int tsn2_mdio_b_mux[] = {
-+	TSN2_MDC_B_MARK, TSN2_MDIO_B_MARK,
-+};
-+
- static const struct sh_pfc_pin_group pinmux_groups[] = {
- 	SH_PFC_PIN_GROUP(hscif0_data),
- 	SH_PFC_PIN_GROUP(hscif0_clk),
-@@ -1885,6 +2101,36 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
- 	SH_PFC_PIN_GROUP(scif4_clk),
- 	SH_PFC_PIN_GROUP(scif4_ctrl),
- 	SH_PFC_PIN_GROUP(scif_clk),
-+	SH_PFC_PIN_GROUP(tsn0_link_a),
-+	SH_PFC_PIN_GROUP(tsn0_magic_a),
-+	SH_PFC_PIN_GROUP(tsn0_phy_int_a),
-+	SH_PFC_PIN_GROUP(tsn0_mdio_a),
-+	SH_PFC_PIN_GROUP(tsn0_link_b),
-+	SH_PFC_PIN_GROUP(tsn0_magic_b),
-+	SH_PFC_PIN_GROUP(tsn0_phy_int_b),
-+	SH_PFC_PIN_GROUP(tsn0_mdio_b),
-+	SH_PFC_PIN_GROUP(tsn0_avtp_pps),
-+	SH_PFC_PIN_GROUP(tsn0_avtp_capture_a),
-+	SH_PFC_PIN_GROUP(tsn0_avtp_match_a),
-+	SH_PFC_PIN_GROUP(tsn0_avtp_capture_b),
-+	SH_PFC_PIN_GROUP(tsn0_avtp_match_b),
-+	SH_PFC_PIN_GROUP(tsn1_link_a),
-+	SH_PFC_PIN_GROUP(tsn1_phy_int_a),
-+	SH_PFC_PIN_GROUP(tsn1_mdio_a),
-+	SH_PFC_PIN_GROUP(tsn1_link_b),
-+	SH_PFC_PIN_GROUP(tsn1_phy_int_b),
-+	SH_PFC_PIN_GROUP(tsn1_mdio_b),
-+	SH_PFC_PIN_GROUP(tsn1_avtp_pps),
-+	SH_PFC_PIN_GROUP(tsn1_avtp_capture_a),
-+	SH_PFC_PIN_GROUP(tsn1_avtp_match_a),
-+	SH_PFC_PIN_GROUP(tsn1_avtp_capture_b),
-+	SH_PFC_PIN_GROUP(tsn1_avtp_match_b),
-+	SH_PFC_PIN_GROUP(tsn2_link_a),
-+	SH_PFC_PIN_GROUP(tsn2_phy_int_a),
-+	SH_PFC_PIN_GROUP(tsn2_mdio_a),
-+	SH_PFC_PIN_GROUP(tsn2_link_b),
-+	SH_PFC_PIN_GROUP(tsn2_phy_int_b),
-+	SH_PFC_PIN_GROUP(tsn2_mdio_b),
- };
- 
- static const char * const hscif0_groups[] = {
-@@ -2035,6 +2281,45 @@ static const char * const scif_clk_groups[] = {
- 	"scif_clk",
- };
- 
-+static const char * const tsn0_groups[] = {
-+	"tsn0_link_a",
-+	"tsn0_magic_a",
-+	"tsn0_phy_int_a",
-+	"tsn0_mdio_a",
-+	"tsn0_link_b",
-+	"tsn0_magic_b",
-+	"tsn0_phy_int_b",
-+	"tsn0_mdio_b",
-+	"tsn0_avtp_pps",
-+	"tsn0_avtp_capture_a",
-+	"tsn0_avtp_match_a",
-+	"tsn0_avtp_capture_b",
-+	"tsn0_avtp_match_b",
-+};
-+
-+static const char * const tsn1_groups[] = {
-+	"tsn1_link_a",
-+	"tsn1_phy_int_a",
-+	"tsn1_mdio_a",
-+	"tsn1_link_b",
-+	"tsn1_phy_int_b",
-+	"tsn1_mdio_b",
-+	"tsn1_avtp_pps",
-+	"tsn1_avtp_capture_a",
-+	"tsn1_avtp_match_a",
-+	"tsn1_avtp_capture_b",
-+	"tsn1_avtp_match_b",
-+};
-+
-+static const char * const tsn2_groups[] = {
-+	"tsn2_link_a",
-+	"tsn2_phy_int_a",
-+	"tsn2_mdio_a",
-+	"tsn2_link_b",
-+	"tsn2_phy_int_b",
-+	"tsn2_mdio_b",
-+};
-+
- static const struct sh_pfc_function pinmux_functions[] = {
- 	SH_PFC_FUNCTION(hscif0),
- 	SH_PFC_FUNCTION(hscif1),
-@@ -2060,6 +2345,9 @@ static const struct sh_pfc_function pinmux_functions[] = {
- 	SH_PFC_FUNCTION(scif3),
- 	SH_PFC_FUNCTION(scif4),
- 	SH_PFC_FUNCTION(scif_clk),
-+	SH_PFC_FUNCTION(tsn0),
-+	SH_PFC_FUNCTION(tsn1),
-+	SH_PFC_FUNCTION(tsn2),
- };
- 
- static const struct pinmux_cfg_reg pinmux_config_regs[] = {
+ 		cpg: clock-controller@e6150000 {
+ 			compatible = "renesas,r8a779f0-cpg-mssr";
+ 			reg = <0 0xe6150000 0 0x4000>;
 -- 
 2.25.1
 
