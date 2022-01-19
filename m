@@ -2,102 +2,352 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0910493C93
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 16:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2095B493D49
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 16:35:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242058AbiASPF6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jan 2022 10:05:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344861AbiASPF6 (ORCPT
+        id S1355786AbiASPfF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 10:35:05 -0500
+Received: from mxout03.lancloud.ru ([45.84.86.113]:36576 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238476AbiASPfC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jan 2022 10:05:58 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D60C061574
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 07:05:57 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id h14so8201501ybe.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 07:05:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cl+ba2diZH9Um9oyjcI0fXoiDNjlLLDjYLyby45qgT4=;
-        b=oB9YXj8LKr0x818ikZ1awuUMpXyvLoNVmb/qB2wVWWtV7CKv4a1D3mbwhxn1j4/C7Z
-         Epsmacfdl+MVXfkLnfo15YD8X6iDftYPo7J3smFZ3mpK8M8zS3FvO+mQPMbl0Fl+pkB9
-         MN3kjTerdntxJTgLzaR7slhGhlLqslztHavnGWoYROCTlK1DOMLNgfDIxnBZDRIotUG2
-         MdW4uyfZHC2c1VB9BM3xYi0lphg/AdRHQkiDfChBM42i8EsleDpHjtbTxEXB31RQH2IR
-         Vh5hSuKu9vc2ta00y1AyNcVlkzMmj2g0SyTpWMvIhgH55P69Elov34WE5bZF7yT1hKuw
-         oIbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cl+ba2diZH9Um9oyjcI0fXoiDNjlLLDjYLyby45qgT4=;
-        b=VSCb7QWwQbX79o56EYkFok0AcxFNKC4HxaNbkcpgxfqO2FUy9llQzAcZJOAH11yV+o
-         A7eaIecIi1RqzFJL8t+rs0AV9CN58cm56hDVx/F/qKtRzZNX//badZy6Blcz812dc0ck
-         WfY3j+Vmlo4+vyjUUSr23p7ueuFxLkXaKB5JUQPnycwu0/rY9avdaScNyMzVZnUNaVKH
-         bvFBQ87EWDtl6OrFgfxmyvdj1IGmsn3hXaKQCAVhZH8nd2CKF3wpQ0kUbEw8WE+k/mBW
-         bO0TmqRgzOwP6flQKmTObO3l3NTp21inbz4fEQjUvQ/qbPsh+O050bPr81Pr1bLAJQi+
-         imWw==
-X-Gm-Message-State: AOAM5312LfQXyDuXPRNwBdrhwh/PWSeIuPDY8Dzk6KLMFQ35SkR+PbAS
-        HrJ9c5ZBa9h5HxSMmLjeTUzDe10CrL0tdF0GeEAIkXU9hYA=
-X-Google-Smtp-Source: ABdhPJz6jl+BDDjc3KpRdPZEp9N2m1nUnXU+IS8LCxHi/ibhH2MALAHUcoEOGuXiDETEfHKjeu3TdjEHgKzp6QZtjVc=
-X-Received: by 2002:a25:d40c:: with SMTP id m12mr10412441ybf.669.1642604756961;
- Wed, 19 Jan 2022 07:05:56 -0800 (PST)
+        Wed, 19 Jan 2022 10:35:02 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 761F020F6A92
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
+        <openipmi-developer@lists.sourceforge.net>,
+        "Khuong Dinh" <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        <netdev@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Linux MMC List" <linux-mmc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        "James Morse" <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <29f0c65d-77f2-e5b2-f6cc-422add8a707d@omp.ru>
+ <20220114092557.jrkfx7ihg26ekzci@pengutronix.de>
+ <61b80939-357d-14f5-df99-b8d102a4e1a1@omp.ru>
+ <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
+ <57af1851-9341-985e-7b28-d2ba86770ecb@omp.ru>
+ <20220117084732.cdy2sash5hxp4lwo@pengutronix.de>
+ <68d3bb7a-7572-7495-d295-e1d512ef509e@omp.ru>
+ <20220118222606.3iwuzbenl7g6oeiq@pengutronix.de>
+Organization: Open Mobile Platform
+Message-ID: <b6b059bd-1491-26e2-9ba4-d34705a7106d@omp.ru>
+Date:   Wed, 19 Jan 2022 18:34:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220115012303.29651-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <c085fb37-23b6-ceb8-422e-7143209ede6d@intel.com>
-In-Reply-To: <c085fb37-23b6-ceb8-422e-7143209ede6d@intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 19 Jan 2022 15:05:31 +0000
-Message-ID: <CA+V-a8u6HFb26Z5ettHKcFC+76ALuLtkd+M=1mAB-6LHCmBtjA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] ASoC: sh: rz-ssi: Code cleanup and fixes
-To:     Cezary Rojewski <cezary.rojewski@intel.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Pavel Machek <pavel@denx.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220118222606.3iwuzbenl7g6oeiq@pengutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Cezary,
+Hello!
 
-On Wed, Jan 19, 2022 at 2:12 PM Cezary Rojewski
-<cezary.rojewski@intel.com> wrote:
->
-> On 2022-01-15 2:22 AM, Lad Prabhakar wrote:
-> > Hi All,
-> >
-> > This patch series does code cleanup and fixes to the rz-ssi driver.
->
-> Hello,
->
-> Suggestion for the future contributions below. My input is *not* to be
-> treated as a blocker for the series and is not a reason for re-sending it.
->
->
-> Cover letter should provide a high-level view of the series. That
-> includes but is not limited to the overall layout of the series. Here,
-> it would be good to state why the fixes are made. Also, it is preferred
-> to have the fixes leading the series, _before_ any cleanups.
->
-> This summary suggests that cleanups are leading the series instead.
-> Think of cover-letter as of news-paper. Subsystem maintainers such as
-> Mark and Takashi start here (read the first page first) to get the
-> general idea of what the contributor is sending them. Being transparent
-> only helps. Good descriptions also helps reviewers to know which patches
-> to look at first. Fixes are obviously of more importance as they usually
-> address issues troubling users of the release-builds. Such patches are
-> also often backported down the stream, increasing the importance for
-> their review.
->
-> There's more to it, but for the scope of this cover letter, this should
-> suffice. It's just a suggestion but I hope you find it useful.
->
->
-Thank you for the valuable input. I'll make a note of it and make sure
-to add more information in cover letters too.
+On 1/19/22 1:26 AM, Uwe Kleine-König wrote:
 
-Cheers,
-Prabhakar
+[...]
+>>>>>>> However for an interupt this cannot work. You will always have to check
+>>>>>>> if the irq is actually there or not because if it's not you cannot just
+>>>>>>> ignore that. So there is no benefit of an optional irq.
+>>>>>>>
+>>>>>>> Leaving error message reporting aside, the introduction of
+>>>>>>> platform_get_irq_optional() allows to change
+>>>>>>>
+>>>>>>> 	irq = platform_get_irq(...);
+>>>>>>> 	if (irq < 0 && irq != -ENXIO) {
+>>>>>>> 		return irq;
+>>>>>>> 	} else if (irq >= 0) {
+>>>>>>
+>>>>>>    Rather (irq > 0) actually, IRQ0 is considered invalid (but still returned).
+>>>>>
+>>>>> This is a topic I don't feel strong for, so I'm sloppy here. If changing
+>>>>> this is all that is needed to convince you of my point ...
+>>>>
+>>>>    Note that we should absolutely (and first of all) stop returning 0 from platform_get_irq()
+>>>> on a "real" IRQ0. Handling that "still good" zero absolutely doesn't scale e.g. for the subsystems
+>>>> (like libata) which take 0 as an indication that the polling mode should be used... We can't afford
+>>>> to be sloppy here. ;-)
+>>>
+>>> Then maybe do that really first?
+>>
+>>    I'm doing it first already:
+>>
+>> https://lore.kernel.org/all/5e001ec1-d3f1-bcb8-7f30-a6301fd9930c@omp.ru/
+>>
+>>    This series is atop of the above patch...
+> 
+> Ah, I missed that (probably because I didn't get the cover letter).
+> 
+>>> I didn't recheck, but is this what the
+>>> driver changes in your patch is about?
+>>
+>>    Partly, yes. We can afford to play with the meaning of 0 after the above patch.
+> 
+> But the changes that are in patch 1 are all needed?
+
+   Yes, they follow from the platform_get_irq_optional() changing the sense of its result...
+ 
+[...]
+>>> For my part I'd say this doesn't justify the change, but at least I
+>>> could better life with the reasoning. If you start at:
+>>>
+>>> 	irq = platform_get_irq_optional(...)
+>>> 	if (irq < 0 && irq != -ENXIO)
+>>> 		return irq
+>>> 	else if (irq > 0)
+>>> 		setup_irq(irq);
+>>> 	else
+>>> 		setup_polling()
+>>>
+>>> I'd change that to
+>>>
+>>> 	irq = platform_get_irq_optional(...)
+>>> 	if (irq > 0) /* or >= 0 ? */
+>>
+>>    Not >= 0, no...
+>>
+>>> 		setup_irq(irq)
+>>> 	else if (irq == -ENXIO)
+>>> 		setup_polling()
+>>> 	else
+>>> 		return irq
+>>>
+>>> This still has to mention -ENXIO, but this is ok and checking for 0 just
+>>> hardcodes a different return value.
+>>
+>>    I think comparing with 0 is simpler (and shorter) than with -ENXIO, if you
+>> consider the RISC CPUs, like e.g. MIPS...
+> 
+> Hmm, I don't know MIPS good enough to judge. So I created a small C
+
+   MIPS has read-only register 0 (containing 0 :-)) which should simplify things. But
+I'd have to check the actual object code... yeah, MIPS has a branching instruction that
+compares 2 registers and branches on the result'; with -ENXIO you'd have to load an
+immediate value into a register first... 
+
+> file:
+> 
+> 	$ cat test.c
+> 	#include <errno.h>
+> 
+> 	int platform_get_irq_optional(void);
+> 	void a(void);
+> 
+> 	int func_0()
+> 	{
+> 		int irq = platform_get_irq_optional();
+> 
+> 		if (irq == 0)
+> 			a();
+> 	}
+> 
+> 	int func_enxio()
+> 	{
+> 		int irq = platform_get_irq_optional();
+> 
+> 		if (irq == -ENXIO)
+> 			a();
+> 	}
+> 
+> With some cross compilers as provided by Debian doing
+> 
+> 	$CC -c -O3 test.c
+
+   Mhm, do we really use -O3 to build the kernel?
+
+> 	nm --size-sort test.o
+> 
+> I get:
+> 
+>   compiler			|  size of func_0  | size of func_enxio
+> ================================+==================|====================
+> aarch64-linux-gnu-gcc		| 0000000000000024 | 0000000000000028
+> arm-linux-gnueabi-gcc		|         00000018 |         00000018
+> arm-linux-gnueabihf-gcc		|         00000010 |         00000012
+
+   Hm, 2 bytes only -- perhaps Thumb mode?
+
+> i686-linux-gnu-gcc		|         0000002a |         0000002a
+
+   Expected.
+
+> mips64el-linux-gnuabi64-gcc	| 0000000000000054 | 000000000000005c
+
+   That's even more than expected -- 64-bit mode used?
+
+> powerpc-linux-gnu-gcc		|         00000058 |         00000058
+
+   Well, they say
+
+> s390x-linux-gnu-gcc		| 000000000000002e | 0000000000000030
+> x86_64-linux-gnu-gcc		| 0000000000000022 | 0000000000000022
+
+   Again, as expected...
+
+> So you save some bytes indeed.
+
+   I see you have a lot of spare time (unlike me!). :-)
+
+>>> Anyhow, I think if you still want to change platform_get_irq_optional
+>>> you should add a few patches converting some drivers which demonstrates
+>>> the improvement for the callers.
+>>
+>>    Mhm, I did include all the drivers where the IRQ checks have to be modified,
+>> not sure what else you want me to touch...
+> 
+> I somehow expected that the changes that are now necessary (or possible)
+> to callers makes them prettier somehow. Looking at your patch again:
+
+   I think they do...
+
+> 
+>  - drivers/counter/interrupt-cnt.c
+>    This one is strange in my eyes because it tests the return value of
+>    gpiod_get_optional against NULL :-(
+
+   Mhm, how is this connected with my patch? :-/
+
+>  - drivers/edac/xgene_edac.c
+>    This one just wants a silent irq lookup and then throws away the
+>    error code returned by platform_get_irq_optional() to return -EINVAL.
+>    Not so nice, is it?
+
+   I have dropped this file from my (to be posted yet) v2... sorry that it
+took so long...
+
+>  - drivers/gpio/gpio-altera.c
+>    This one just wants a silent irq lookup. And maybe it should only
+>    goto skip_irq if the irq was not found, but on an other error code
+>    abort the probe?!
+
+  That's debatable... but anyway it's a matter of a separate (follow up)
+patch...
+
+> 
+>  - drivers/gpio/gpio-mvebu.c
+>    Similar to gpio-altera.c: Wants a silent irq and improved error
+>    handling.
+
+   Same as above...
+
+>  - drivers/i2c/busses/i2c-brcmstb.c
+>    A bit ugly that we now have dev->irq == 0 if the irq isn't available,
+>    but if requesting the irq failed irq = -1 is used?
+
+   This doesn't matter much really but can change to 0, if you want... :-)
+
+> 
+>  - drivers/mmc/host/sh_mmcif.c
+>    Broken error handling. This one wants to abort on irq[1] < 0 (with
+>    your changed semantic).
+
+   Again, matter of a separate patch (I don't have the guily hardware anymore
+but I guess Geert could help with that).
+
+> I stopped here.
+
+   Note that most of your complaints are about the existing driver logic --
+which my patch just couldn't deal with... I currently don't have the bandwidth
+for addressing all your complaints; some (more obvious) I'm goiing to address
+as the time permits, the draft patches have been done already...
+
+> It seems quite common that drivers assume a value < 0 returned by
+> platform_get_irq means not-found
+
+   Of course, before this patch -ENXIO meant IRQ-not-found, many drivers
+don't bother to filter it out separately (for simplicity?).
+
+> and don't care for -EPROBE_DEFER (what else can happen?).
+
+   Hm, I haven't really seen a lot the probe dererral mishandling in the code
+touched by at least my patch #1...
+
+> Changing a relevant function in that mess seems unfortunate here :-\
+
+   You seem to have some spare time and I'm getting distracted contrariwise...
+want to help? :-)
+
+> Best regards
+> Uwe
+
+MBR, Sergey
