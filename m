@@ -2,92 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2AD493E71
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 17:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A6C493FEA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 19:30:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356177AbiASQjX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jan 2022 11:39:23 -0500
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:41587 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344617AbiASQjF (ORCPT
+        id S1356764AbiASS3n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 13:29:43 -0500
+Received: from mxout02.lancloud.ru ([45.84.86.82]:60414 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356737AbiASS3l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jan 2022 11:39:05 -0500
-Received: by mail-ua1-f52.google.com with SMTP id l1so3695933uap.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 08:39:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=NGEJXJkbgkvVlVv6fOgKTSybwOxGDrAAlMuKicegYfE=;
-        b=GpScAxRecN84pEK0aUlaxsQp5NtfPCqRiacLkfELDvwHtd0EfQSSk2fc2U/jUX4vJ5
-         oc5qUdWGfgvwxWIP1Xxh1lHtJl3tt6bVCLRxB1UUsJZYdgHy8HkpdcH86KZlERvfNe8o
-         aTI01XyWCQ4o3m0QDQZbXJ9Xxqk+9Y8QXGObir+7QxGwJJcbnai0GJSVOVT3dWZJ3/Rp
-         MQRrxM4P7kPWlt3FZThc6SnLb1qvITOarAiXwM5j4snyDYXFrxVEGyKC/HU406Lj/XIy
-         /mDBxfbxnnU8Z0cDq/OPhtK+qOE/w5NYtwyrfr6eUUDRPsrVZ1YkXBjZj+NU2PyYwLWS
-         1twA==
-X-Gm-Message-State: AOAM530Y8B9s7uAJZ95v2K4TYlgiK+1uiGoOOF8C5+h+X/xGnLtOoWkG
-        QTTrkRVSkpBML82MasS3+Q6VoVswhpPUkA==
-X-Google-Smtp-Source: ABdhPJzPBSaTP9UJdicZ9SjObztd/GneQcZSb9I3zrW2Gvi6nqHlZLe7abhBTEaLvxjcjaZn4D8d5w==
-X-Received: by 2002:a67:df84:: with SMTP id x4mr11939823vsk.84.1642610344348;
-        Wed, 19 Jan 2022 08:39:04 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id a191sm56501vke.7.2022.01.19.08.39.04
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jan 2022 08:39:04 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id n15so4060809uaq.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 08:39:04 -0800 (PST)
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr12553687uai.89.1642610343777;
- Wed, 19 Jan 2022 08:39:03 -0800 (PST)
+        Wed, 19 Jan 2022 13:29:41 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru EFD8920BF006
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>
+CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        "Saravanan Sekar" <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        "Mark Brown" <broonie@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Takashi Iwai <tiwai@suse.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <openipmi-developer@lists.sourceforge.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benson Leung <bleung@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>, "Tony Luck" <tony.luck@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "Linux MMC List" <linux-mmc@vger.kernel.org>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        "James Morse" <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        "Brian Norris" <computersforpeace@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20220117092444.opoedfcf5k5u6otq@pengutronix.de>
+ <CAMuHMdUgZUeraHadRAi2Z=DV+NuNBrKPkmAKsvFvir2MuquVoA@mail.gmail.com>
+ <20220117114923.d5vajgitxneec7j7@pengutronix.de>
+ <CAMuHMdWCKERO20R2iVHq8P=BaoauoBAtiampWzfMRYihi3Sb0g@mail.gmail.com>
+ <20220117170609.yxaamvqdkivs56ju@pengutronix.de>
+ <CAMuHMdXbuZqEpYivyS6hkaRN+CwTOGaHq_OROwVAWvDD6OXODQ@mail.gmail.com>
+ <20220118090913.pjumkq4zf4iqtlha@pengutronix.de>
+ <CAMuHMdUW8+Y_=uszD+JOZO3Lpa9oDayk+GO+cg276i2f2T285w@mail.gmail.com>
+ <20220118120806.pbjsat4ulg3vnhsh@pengutronix.de>
+ <CAMuHMdWkwV9XE_R5FZ=jPtDwLpDbEngG6+X2JmiDJCZJZvUjYA@mail.gmail.com>
+ <20220118142945.6y3rmvzt44pjpr4z@pengutronix.de>
+ <6370798a-7a7e-243d-99f9-09bf772ddbac@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <96ff907a-4ad2-5b2e-9bcc-09592d65a6df@omp.ru>
+Date:   Wed, 19 Jan 2022 21:29:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <cover.1642599415.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1642599415.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 19 Jan 2022 17:38:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWJd1SJ35Z6RgdDmtjO96OGrscqPXPRURkdrY7Ai49wZg@mail.gmail.com>
-Message-ID: <CAMuHMdWJd1SJ35Z6RgdDmtjO96OGrscqPXPRURkdrY7Ai49wZg@mail.gmail.com>
-Subject: Re: [PATCH/RFC 00/15] arm64: renesas: Add-R-Car S4-8 Pin control support
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <6370798a-7a7e-243d-99f9-09bf772ddbac@omp.ru>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 3:02 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> This patch series adds pin control support for the Renesas R-Car S4-8
-> Soc on the Spider board, and enables pin control for the serial console.
-> It is based on patches in the BSP by LUU HOAI, with many changes on top
-> (see the individual patches).
->
-> This series is marked as an RFC because of 2 reasons:
->   1. PFC register banks 4-7 do not seem to be accessible as-is using
->      either the Control Domain (0xffd9....) or Application Domain
->      (0xdfd9....) addresses, so currently you cannot configure pins
->      controlled by these banks.
->      How to make the Control Domain release the bus guard, so the
->      registers become accessible?
->   2. It this has been tested only lightly with remote access.
->
-> For testing, this series and its dependencies can be found at[1].
->
-> Thanks for your comments!
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/r8a779f0-pfc-v1
+On 1/19/22 7:12 PM, Sergey Shtylyov wrote:
 
->   pinctrl: renesas: Initial R8A779F0 PFC support
+[...]
+>>> So there's still a need for two functions.
+>>
+>> Or a single function not emitting an error message together with the
+>> callers being responsible for calling dev_err().
+>>
+>> So the options in my preference order (first is best) are:
+>>
+>>  - Remove the printk from platform_get_irq() and remove
+>>    platform_get_irq_optional();
+> 
+>    Strong NAK here:
+> - dev_err() in our function saves a lot of (repeatable!) comments;
 
-Unfortunately 04/15 didn't make it to the list or lore (too large?),
-so you have to grab it from git, or ask me for a copy in your personal
-mailbox.
+   s/comments/code/.
+   Actually, I think I can accept the removal of dev_err_probe() in platform_get_irq()
+as this is not a common practice anyway (yet? :-))...
 
-Gr{oetje,eeting}s,
+> - we've already discussed that it's more optimal to check againt 0 than
 
-                        Geert
+   Against. :-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>   against -ENXIO in the callers.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+   And we also aim to be the error code agnostic in the callers...
+
+>>  - Rename platform_get_irq_optional() to platform_get_irq_silently()
+> 
+>    NAK as well. We'd better off complaining about irq < 0 in this function.
+
+>>  - Keep platform_get_irq_optional() as is
+> 
+>    NAK, it's suboptimal in the call sites.
+
+   s/in/on/.
+
+[...]
+
+>> Best regards
+>> Uwe
+
+MBR, Sergey
