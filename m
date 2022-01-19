@@ -2,136 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A444937C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 10:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02644493901
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 11:56:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353082AbiASJw6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jan 2022 04:52:58 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:12917 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1353108AbiASJw6 (ORCPT
+        id S1353494AbiASK4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 05:56:24 -0500
+Received: from mxout04.lancloud.ru ([45.84.86.114]:57474 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240254AbiASK4V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jan 2022 04:52:58 -0500
-X-IronPort-AV: E=Sophos;i="5.88,299,1635174000"; 
-   d="scan'208";a="106965467"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Jan 2022 18:52:57 +0900
-Received: from localhost.localdomain (unknown [10.226.92.24])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6947F410DE64;
-        Wed, 19 Jan 2022 18:52:55 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] arm64: dts: renesas: rzg2lc-smarc: Enable CANFD channel 1
-Date:   Wed, 19 Jan 2022 09:52:45 +0000
-Message-Id: <20220119095245.5611-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220119095245.5611-1-biju.das.jz@bp.renesas.com>
-References: <20220119095245.5611-1-biju.das.jz@bp.renesas.com>
+        Wed, 19 Jan 2022 05:56:21 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru A771820D27E6
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
+ (summary)
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>, <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        "Guenter Roeck" <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <linux-mtd@lists.infradead.org>, <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        <linux-phy@lists.infradead.org>, Lee Jones <lee.jones@linaro.org>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        "Florian Fainelli" <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "Tony Luck" <tony.luck@intel.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        <linux-serial@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        <platform-driver-x86@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        "Saravanan Sekar" <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>, <linux-pm@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "John Garry" <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        <linux-gpio@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Eric Auger <eric.auger@redhat.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        <openipmi-developer@lists.sourceforge.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benson Leung <bleung@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-edac@vger.kernel.org>,
+        "Richard Weinberger" <richard@nod.at>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        "Hans de Goede" <hdegoede@redhat.com>, <netdev@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>, <linux-mmc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        <linux-mediatek@lists.infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
+ <20220110195449.12448-2-s.shtylyov@omp.ru>
+ <20220115183643.6zxalxqxrhkfgdfq@pengutronix.de> <YeQpWu2sUVOSaT9I@kroah.com>
+ <20220118091819.zzxpffrxbckoxiys@pengutronix.de>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <b6038ec2-da4a-de92-b845-cac2be0efcd1@omp.ru>
+Date:   Wed, 19 Jan 2022 13:56:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220118091819.zzxpffrxbckoxiys@pengutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On RZ/G2LC SMARC EVK, CAN0 is not populated.
+On 1/18/22 12:18 PM, Uwe Kleine-König wrote:
+> On Sun, Jan 16, 2022 at 03:19:06PM +0100, Greg Kroah-Hartman wrote:
+>> On Sat, Jan 15, 2022 at 07:36:43PM +0100, Uwe Kleine-König wrote:
+>>> A possible compromise: We can have both. We rename
+>>> platform_get_irq_optional() to platform_get_irq_silent() (or
+>>> platform_get_irq_silently() if this is preferred) and once all users are
+>>> are changed (which can be done mechanically), we reintroduce a
+>>> platform_get_irq_optional() with Sergey's suggested semantic (i.e.
+>>> return 0 on not-found, no error message printking).
+>>
+>> Please do not do that as anyone trying to forward-port an old driver
+>> will miss the abi change of functionality and get confused.  Make
+>> build-breaking changes, if the way a function currently works is
+>> changed in order to give people a chance.
+> 
+> Fine for me. I assume this is a Nack for Sergey's patch?
 
-CAN1 is multiplexed with SCIF1 using SW1[3] or RSPI using SW1[4].
+   Which patch do you mean? I'm starting to get really muddled... :-(
 
-This patch adds support for the CAN1 interface on RZ/G2LC SMARC EVK.
+> Best regards
+> Uwe
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../boot/dts/renesas/r9a07g044c2-smarc.dts    |  5 ----
- .../dts/renesas/rzg2lc-smarc-pinfunction.dtsi | 23 +++++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 13 +++++++++++
- 3 files changed, 36 insertions(+), 5 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-index f68491c56fff..0c83f4b6e497 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -14,11 +14,6 @@
- 	compatible = "renesas,smarc-evk", "renesas,r9a07g044c2", "renesas,r9a07g044";
- };
- 
--&canfd {
--	/delete-property/ pinctrl-0;
--	status = "disabled";
--};
--
- &ehci0 {
- 	/delete-property/ pinctrl-0;
- 	status = "disabled";
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-index ec9e08ec0822..4580e71b0aad 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-@@ -17,12 +17,35 @@
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
- 	};
- 
-+#if SW_SCIF_CAN
-+	/* SW8 should be at position 2->1 */
-+	can1_pins: can1 {
-+		pinmux = <RZG2L_PORT_PINMUX(40, 0, 3)>, /* TxD */
-+			 <RZG2L_PORT_PINMUX(40, 1, 3)>; /* RxD */
-+	};
-+#else
- 	scif1_pins: scif1 {
- 		pinmux = <RZG2L_PORT_PINMUX(40, 0, 1)>, /* TxD */
- 			 <RZG2L_PORT_PINMUX(40, 1, 1)>, /* RxD */
- 			 <RZG2L_PORT_PINMUX(41, 0, 1)>, /* CTS# */
- 			 <RZG2L_PORT_PINMUX(41, 1, 1)>; /* RTS# */
- 	};
-+#endif
-+
-+#if SW_RSPI_CAN
-+	/* SW8 should be at position 2->3 so that GPIO9_CAN1_STB line is activated */
-+	can1-stb {
-+		gpio-hog;
-+		gpios = <RZG2L_GPIO(44, 3) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "can1_stb";
-+	};
-+
-+	can1_pins: can1 {
-+		pinmux = <RZG2L_PORT_PINMUX(44, 0, 3)>, /* TxD */
-+			 <RZG2L_PORT_PINMUX(44, 1, 3)>; /* RxD */
-+	};
-+#endif
- 
- 	sd1-pwr-en-hog {
- 		gpio-hog;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index 9add19eb5511..af0e014f95dc 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -44,6 +44,19 @@
- 	};
- };
- 
-+#if (SW_SCIF_CAN || SW_RSPI_CAN)
-+&canfd {
-+	pinctrl-0 = <&can1_pins>;
-+
-+	/delete-node/ channel@0;
-+};
-+#else
-+&canfd {
-+	/delete-property/ pinctrl-0;
-+	status = "disabled";
-+};
-+#endif
-+
- /*
-  * To enable SCIF1 (SER0) on PMOD1 (CN7), On connector board
-  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
--- 
-2.17.1
-
+MBR, Sergey
