@@ -2,277 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 423E3493C88
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 16:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0910493C93
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 16:06:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355487AbiASPEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jan 2022 10:04:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53028 "EHLO
+        id S242058AbiASPF6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 10:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355498AbiASPEG (ORCPT
+        with ESMTP id S1344861AbiASPF6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jan 2022 10:04:06 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0B3C06161C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 07:04:05 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nACU6-0000Mu-Qo; Wed, 19 Jan 2022 16:02:50 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nACTw-00BCee-8V; Wed, 19 Jan 2022 16:02:39 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nACTv-0005e5-0v; Wed, 19 Jan 2022 16:02:39 +0100
-Date:   Wed, 19 Jan 2022 16:02:38 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, linux-iio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, alsa-devel@alsa-project.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        kvm@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
-        John Garry <john.garry@huawei.com>,
-        Robert Richter <rric@kernel.org>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Corey Minyard <minyard@acm.org>, linux-pm@vger.kernel.org,
-        Peter Korsgaard <peter@korsgaard.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        Tony Luck <tony.luck@intel.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Eric Auger <eric.auger@redhat.com>, netdev@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-mediatek@lists.infradead.org,
-        Brian Norris <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
-Message-ID: <20220119150238.5sru3vtuwsswdnkx@pengutronix.de>
-References: <20220110195449.12448-1-s.shtylyov@omp.ru>
- <20220110195449.12448-2-s.shtylyov@omp.ru>
- <770fb569-03c8-78f9-c174-94b31e866017@omp.ru>
+        Wed, 19 Jan 2022 10:05:58 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D60C061574
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 07:05:57 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id h14so8201501ybe.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 07:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cl+ba2diZH9Um9oyjcI0fXoiDNjlLLDjYLyby45qgT4=;
+        b=oB9YXj8LKr0x818ikZ1awuUMpXyvLoNVmb/qB2wVWWtV7CKv4a1D3mbwhxn1j4/C7Z
+         Epsmacfdl+MVXfkLnfo15YD8X6iDftYPo7J3smFZ3mpK8M8zS3FvO+mQPMbl0Fl+pkB9
+         MN3kjTerdntxJTgLzaR7slhGhlLqslztHavnGWoYROCTlK1DOMLNgfDIxnBZDRIotUG2
+         MdW4uyfZHC2c1VB9BM3xYi0lphg/AdRHQkiDfChBM42i8EsleDpHjtbTxEXB31RQH2IR
+         Vh5hSuKu9vc2ta00y1AyNcVlkzMmj2g0SyTpWMvIhgH55P69Elov34WE5bZF7yT1hKuw
+         oIbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cl+ba2diZH9Um9oyjcI0fXoiDNjlLLDjYLyby45qgT4=;
+        b=VSCb7QWwQbX79o56EYkFok0AcxFNKC4HxaNbkcpgxfqO2FUy9llQzAcZJOAH11yV+o
+         A7eaIecIi1RqzFJL8t+rs0AV9CN58cm56hDVx/F/qKtRzZNX//badZy6Blcz812dc0ck
+         WfY3j+Vmlo4+vyjUUSr23p7ueuFxLkXaKB5JUQPnycwu0/rY9avdaScNyMzVZnUNaVKH
+         bvFBQ87EWDtl6OrFgfxmyvdj1IGmsn3hXaKQCAVhZH8nd2CKF3wpQ0kUbEw8WE+k/mBW
+         bO0TmqRgzOwP6flQKmTObO3l3NTp21inbz4fEQjUvQ/qbPsh+O050bPr81Pr1bLAJQi+
+         imWw==
+X-Gm-Message-State: AOAM5312LfQXyDuXPRNwBdrhwh/PWSeIuPDY8Dzk6KLMFQ35SkR+PbAS
+        HrJ9c5ZBa9h5HxSMmLjeTUzDe10CrL0tdF0GeEAIkXU9hYA=
+X-Google-Smtp-Source: ABdhPJz6jl+BDDjc3KpRdPZEp9N2m1nUnXU+IS8LCxHi/ibhH2MALAHUcoEOGuXiDETEfHKjeu3TdjEHgKzp6QZtjVc=
+X-Received: by 2002:a25:d40c:: with SMTP id m12mr10412441ybf.669.1642604756961;
+ Wed, 19 Jan 2022 07:05:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="axfsyc4ql4z6wxfj"
-Content-Disposition: inline
-In-Reply-To: <770fb569-03c8-78f9-c174-94b31e866017@omp.ru>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+References: <20220115012303.29651-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <c085fb37-23b6-ceb8-422e-7143209ede6d@intel.com>
+In-Reply-To: <c085fb37-23b6-ceb8-422e-7143209ede6d@intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 19 Jan 2022 15:05:31 +0000
+Message-ID: <CA+V-a8u6HFb26Z5ettHKcFC+76ALuLtkd+M=1mAB-6LHCmBtjA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ASoC: sh: rz-ssi: Code cleanup and fixes
+To:     Cezary Rojewski <cezary.rojewski@intel.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Pavel Machek <pavel@denx.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Cezary,
 
---axfsyc4ql4z6wxfj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jan 19, 2022 at 2:12 PM Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
+>
+> On 2022-01-15 2:22 AM, Lad Prabhakar wrote:
+> > Hi All,
+> >
+> > This patch series does code cleanup and fixes to the rz-ssi driver.
+>
+> Hello,
+>
+> Suggestion for the future contributions below. My input is *not* to be
+> treated as a blocker for the series and is not a reason for re-sending it.
+>
+>
+> Cover letter should provide a high-level view of the series. That
+> includes but is not limited to the overall layout of the series. Here,
+> it would be good to state why the fixes are made. Also, it is preferred
+> to have the fixes leading the series, _before_ any cleanups.
+>
+> This summary suggests that cleanups are leading the series instead.
+> Think of cover-letter as of news-paper. Subsystem maintainers such as
+> Mark and Takashi start here (read the first page first) to get the
+> general idea of what the contributor is sending them. Being transparent
+> only helps. Good descriptions also helps reviewers to know which patches
+> to look at first. Fixes are obviously of more importance as they usually
+> address issues troubling users of the release-builds. Such patches are
+> also often backported down the stream, increasing the importance for
+> their review.
+>
+> There's more to it, but for the scope of this cover letter, this should
+> suffice. It's just a suggestion but I hope you find it useful.
+>
+>
+Thank you for the valuable input. I'll make a note of it and make sure
+to add more information in cover letters too.
 
-On Mon, Jan 17, 2022 at 02:57:32PM +0300, Sergey Shtylyov wrote:
-> On 1/10/22 10:54 PM, Sergey Shtylyov wrote:
->=20
-> > This patch is based on the former Andy Shevchenko's patch:
-> >=20
-> > https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@l=
-inux.intel.com/
-> >=20
-> > Currently platform_get_irq_optional() returns an error code even if IRQ
-> > resource simply has not been found. It prevents the callers from being
-> > error code agnostic in their error handling:
-> >=20
-> > 	ret =3D platform_get_irq_optional(...);
-> > 	if (ret < 0 && ret !=3D -ENXIO)
-> > 		return ret; // respect deferred probe
-> > 	if (ret > 0)
-> > 		...we get an IRQ...
-> >=20
-> > All other *_optional() APIs seem to return 0 or NULL in case an optional
-> > resource is not available. Let's follow this good example, so that the
-> > callers would look like:
-> >=20
-> > 	ret =3D platform_get_irq_optional(...);
-> > 	if (ret < 0)
-> > 		return ret;
-> > 	if (ret > 0)
-> > 		...we get an IRQ...
-> >=20
-> > Reported-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> [...]
->=20
->    Please don't merge this as yet, I'm going thru this patch once again
-> and have already found some sloppy code. :-/
-
-Who would you expect to merge this? I would have expected Greg, but he
-seems to have given up this thread.
-
-> > diff --git a/drivers/char/ipmi/bt-bmc.c b/drivers/char/ipmi/bt-bmc.c
-> > index 7450904e330a..fdc63bfa5be4 100644
-> > --- a/drivers/char/ipmi/bt-bmc.c
-> > +++ b/drivers/char/ipmi/bt-bmc.c
-> > @@ -382,12 +382,14 @@ static int bt_bmc_config_irq(struct bt_bmc *bt_bm=
-c,
-> >  	bt_bmc->irq =3D platform_get_irq_optional(pdev, 0);
-> >  	if (bt_bmc->irq < 0)
-> >  		return bt_bmc->irq;
-> > +	if (!bt_bmc->irq)
-> > +		return 0;
->=20
->    Hm, this is sloppy. Will recast and rebase to the -next branch.
-
-I didn't think about what you mean with sloppy, but the code is
-equivalent to
-
-	if (bt_bmc->irq <=3D 0)
-		return bt_bmc->irq;=20
-
-> > =20
-> >  	rc =3D devm_request_irq(dev, bt_bmc->irq, bt_bmc_irq, IRQF_SHARED,
-> >  			      DEVICE_NAME, bt_bmc);
-> >  	if (rc < 0) {
-> >  		dev_warn(dev, "Unable to request IRQ %d\n", bt_bmc->irq);
-> > -		bt_bmc->irq =3D rc;
-> > +		bt_bmc->irq =3D 0;
->=20
->    This change isn't needed...
->=20
-> >  		return rc;
-> >  	}
-> > =20
-> [...]
-> > diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
-> > index 2ccd1db5e98f..0d1bdd27cd78 100644
-> > --- a/drivers/edac/xgene_edac.c
-> > +++ b/drivers/edac/xgene_edac.c
-> > @@ -1917,7 +1917,7 @@ static int xgene_edac_probe(struct platform_devic=
-e *pdev)
-> > =20
-> >  		for (i =3D 0; i < 3; i++) {
-> >  			irq =3D platform_get_irq_optional(pdev, i);
->=20
->    Is *_optinal() even correct here?
-
-_optinal isn't correct, _optional maybe is. :-)
-Anyhow, look at e26124cd5f7099949109608845bba9e9bf96599c, the driver was
-fixed not to print two error messages and the wrong option was picked.
-
-> > -			if (irq < 0) {
-> > +			if (irq <=3D 0) {
-> >  				dev_err(&pdev->dev, "No IRQ resource\n");
-> >  				rc =3D -EINVAL;
-> >  				goto out_err;
-
-What's wrong here is that the return code is hardcoded ...
-
-> [...]
-> > diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nan=
-d/raw/brcmnand/brcmnand.c
-> > index f75929783b94..ac222985efde 100644
-> > --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> > +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> > @@ -1521,7 +1521,7 @@ static irqreturn_t brcmnand_ctlrdy_irq(int irq, v=
-oid *data)
-> > =20
-> >  	/* check if you need to piggy back on the ctrlrdy irq */
-> >  	if (ctrl->edu_pending) {
-> > -		if (irq =3D=3D ctrl->irq && ((int)ctrl->edu_irq >=3D 0))
-> > +		if (irq =3D=3D ctrl->irq && ((int)ctrl->edu_irq > 0))
->=20
->    Note to self: the cast to *int* isn't needed, the edu_irq field is *in=
-t* already...
->=20
-> [...]
-> > diff --git a/drivers/power/supply/mp2629_charger.c b/drivers/power/supp=
-ly/mp2629_charger.c
-> > index bdf924b73e47..51289700a7ac 100644
-> > --- a/drivers/power/supply/mp2629_charger.c
-> > +++ b/drivers/power/supply/mp2629_charger.c
-> > @@ -581,9 +581,9 @@ static int mp2629_charger_probe(struct platform_dev=
-ice *pdev)
-> >  	platform_set_drvdata(pdev, charger);
-> > =20
-> >  	irq =3D platform_get_irq_optional(to_platform_device(dev->parent), 0);
->=20
->    Again, is *_optional() even correct here?
->=20
-> > -	if (irq < 0) {
-> > +	if (irq <=3D 0) {
-> >  		dev_err(dev, "get irq fail: %d\n", irq);
-> > -		return irq;
-> > +		return irq < 0 ? irq : -ENXIO;
-
-Ack, could be simplified by switching to platform_get_irq().
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---axfsyc4ql4z6wxfj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHoKAsACgkQwfwUeK3K
-7AnJ3wf8Cq4VBWsvtLpuPywS2t8zcX9OLW+0bsxWsDjOHqeg0f9tl0AUgxmt8S9X
-SWtqXkvnd0fKD/AWHIowmqZNGujzE45BD9vwkw+ukhavxyl0lKuWHitl19jLf2tF
-LaBokU8H4RFjBZg81G2SeyXBeDWI+toak3seZ4mnpeDIrSgl7RrEyyKdZRVyeCvS
-PVAC4TvXo94UopGC0KiLom/BRpY9pB6M4M2J/vZRYI2+Eb2tjizO6vc77DQlqTEs
-SVeOuA4nagghgp5Ej7LJ1RpUqI/Ud34jbrXinsPr+F53/9ObxRRRShqRTqmRTQwj
-91WhtqHtqhEzcn1OajDmLZZRPbVc3A==
-=bHLP
------END PGP SIGNATURE-----
-
---axfsyc4ql4z6wxfj--
+Cheers,
+Prabhakar
