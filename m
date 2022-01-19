@@ -2,391 +2,541 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A19164930B8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jan 2022 23:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D55F4937BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jan 2022 10:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349960AbiARW11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jan 2022 17:27:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349978AbiARW1X (ORCPT
+        id S1353058AbiASJww (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jan 2022 04:52:52 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:9079 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234337AbiASJww (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jan 2022 17:27:23 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F323C061757
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jan 2022 14:27:16 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n9wvk-0000Vm-NM; Tue, 18 Jan 2022 23:26:20 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n9wvY-00B4m8-19; Tue, 18 Jan 2022 23:26:07 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n9wvX-0003U8-0E; Tue, 18 Jan 2022 23:26:07 +0100
-Date:   Tue, 18 Jan 2022 23:26:06 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        KVM list <kvm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Guenter Roeck <groeck@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-phy@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Corey Minyard <minyard@acm.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Sebastian Reichel <sre@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        platform-driver-x86@vger.kernel.org,
-        Benson Leung <bleung@chromium.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>, netdev@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-mediatek@lists.infradead.org,
-        Brian Norris <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 1/2] platform: make platform_get_irq_optional() optional
-Message-ID: <20220118222606.3iwuzbenl7g6oeiq@pengutronix.de>
-References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
- <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
- <Yd9L9SZ+g13iyKab@sirena.org.uk>
- <29f0c65d-77f2-e5b2-f6cc-422add8a707d@omp.ru>
- <20220114092557.jrkfx7ihg26ekzci@pengutronix.de>
- <61b80939-357d-14f5-df99-b8d102a4e1a1@omp.ru>
- <20220114202226.ugzklxv4wzr6egwj@pengutronix.de>
- <57af1851-9341-985e-7b28-d2ba86770ecb@omp.ru>
- <20220117084732.cdy2sash5hxp4lwo@pengutronix.de>
- <68d3bb7a-7572-7495-d295-e1d512ef509e@omp.ru>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="a7pus3gvz76yet7d"
-Content-Disposition: inline
-In-Reply-To: <68d3bb7a-7572-7495-d295-e1d512ef509e@omp.ru>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        Wed, 19 Jan 2022 04:52:52 -0500
+X-IronPort-AV: E=Sophos;i="5.88,299,1635174000"; 
+   d="scan'208";a="107565455"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Jan 2022 18:52:50 +0900
+Received: from localhost.localdomain (unknown [10.226.92.24])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 33A3D410DB9C;
+        Wed, 19 Jan 2022 18:52:48 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 1/4] arm64: dts: renesas: rzg2l-smarc: Add common dtsi file
+Date:   Wed, 19 Jan 2022 09:52:42 +0000
+Message-Id: <20220119095245.5611-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+RZ/G2L and RZ/G2LC SoC use the same carrier board, but the SoM is
+different.
 
---a7pus3gvz76yet7d
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Different pin mapping is possible on SoM. For eg:- RZ/G2L SMARC EVK
+uses SCIF2, whereas RZ/G2LC uses SCIF1 for the serial interface available
+on PMOD1.
 
-On Tue, Jan 18, 2022 at 11:21:45PM +0300, Sergey Shtylyov wrote:
-> Hello!
->=20
-> On 1/17/22 11:47 AM, Uwe Kleine-K=F6nig wrote:
->=20
-> [...]
-> >>>>>>>>> To me it sounds much more logical for the driver to check if an
-> >>>>>>>>> optional irq is non-zero (available) or zero (not available), t=
-han to
-> >>>>>>>>> sprinkle around checks for -ENXIO. In addition, you have to rem=
-ember
-> >>>>>>>>> that this one returns -ENXIO, while other APIs use -ENOENT or -=
-ENOSYS
-> >>>>>>>>> (or some other error code) to indicate absence. I thought not h=
-aving
-> >>>>>>>>> to care about the actual error code was the main reason behind =
-the
-> >>>>>>>>> introduction of the *_optional() APIs.
-> >>>>>>>
-> >>>>>>>> No, the main benefit of gpiod_get_optional() (and clk_get_option=
-al()) is
-> >>>>>>>> that you can handle an absent GPIO (or clk) as if it were availa=
-ble.
-> >>>>>>
-> >>>>>>    Hm, I've just looked at these and must note that they match 1:1=
- with
-> >>>>>> platform_get_irq_optional(). Unfortunately, we can't however behav=
-e the
-> >>>>>> same way in request_irq() -- because it has to support IRQ0 for th=
-e sake
-> >>>>>> of i8253 drivers in arch/...
-> >>>>>
-> >>>>> Let me reformulate your statement to the IMHO equivalent:
-> >>>>>
-> >>>>> 	If you set aside the differences between
-> >>>>> 	platform_get_irq_optional() and gpiod_get_optional(),
-> >>>>
-> >>>>    Sorry, I should make it clear this is actually the diff between a=
- would-be
-> >>>> platform_get_irq_optional() after my patch, not the current code...
-> >>>
-> >>> The similarity is that with your patch both gpiod_get_optional() and
-> >>> platform_get_irq_optional() return NULL and 0 on not-found. The relev=
-ant
-> >>> difference however is that for a gpiod NULL is a dummy value, while f=
-or
-> >>> irqs it's not. So the similarity is only syntactically, but not
-> >>> semantically.
-> >>
-> >>    I have noting to say here, rather than optional IRQ could well have=
- a different
-> >> meaning than for clk/gpio/etc.
-> >>
-> >> [...]
-> >>>>> However for an interupt this cannot work. You will always have to c=
-heck
-> >>>>> if the irq is actually there or not because if it's not you cannot =
-just
-> >>>>> ignore that. So there is no benefit of an optional irq.
-> >>>>>
-> >>>>> Leaving error message reporting aside, the introduction of
-> >>>>> platform_get_irq_optional() allows to change
-> >>>>>
-> >>>>> 	irq =3D platform_get_irq(...);
-> >>>>> 	if (irq < 0 && irq !=3D -ENXIO) {
-> >>>>> 		return irq;
-> >>>>> 	} else if (irq >=3D 0) {
-> >>>>
-> >>>>    Rather (irq > 0) actually, IRQ0 is considered invalid (but still =
-returned).
-> >>>
-> >>> This is a topic I don't feel strong for, so I'm sloppy here. If chang=
-ing
-> >>> this is all that is needed to convince you of my point ...
-> >>
-> >>    Note that we should absolutely (and first of all) stop returning 0 =
-=66rom platform_get_irq()
-> >> on a "real" IRQ0. Handling that "still good" zero absolutely doesn't s=
-cale e.g. for the subsystems
-> >> (like libata) which take 0 as an indication that the polling mode shou=
-ld be used... We can't afford
-> >> to be sloppy here. ;-)
-> >=20
-> > Then maybe do that really first?
->=20
->    I'm doing it first already:
->=20
-> https://lore.kernel.org/all/5e001ec1-d3f1-bcb8-7f30-a6301fd9930c@omp.ru/
->=20
->    This series is atop of the above patch...
+This patch adds support for handling the pin mapping differences by moving
+definitions common to RZ/G2L and RZ/G2LC to a common dtsi file.
 
-Ah, I missed that (probably because I didn't get the cover letter).
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+This patch series has dependency on [1]
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=605897
+---
+ .../boot/dts/renesas/r9a07g044c2-smarc.dts    |   8 +-
+ .../boot/dts/renesas/r9a07g044l2-smarc.dts    |   1 +
+ .../boot/dts/renesas/rz-smarc-common.dtsi     | 207 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  | 195 +----------------
+ 4 files changed, 210 insertions(+), 201 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
 
-> > I didn't recheck, but is this what the
-> > driver changes in your patch is about?
->=20
->    Partly, yes. We can afford to play with the meaning of 0 after the abo=
-ve patch.
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+index bfeeb6c86854..18818536a54f 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+@@ -9,12 +9,11 @@
+ #include "r9a07g044c2.dtsi"
+ #include "rzg2lc-smarc-som.dtsi"
+ #include "rzg2lc-smarc-pinfunction.dtsi"
+-#include "rzg2l-smarc.dtsi"
++#include "rz-smarc-common.dtsi"
+ 
+ / {
+ 	model = "Renesas SMARC EVK based on r9a07g044c2";
+ 	compatible = "renesas,smarc-evk", "renesas,r9a07g044c2", "renesas,r9a07g044";
+-
+ };
+ 
+ &canfd {
+@@ -66,11 +65,6 @@
+ 	status = "disabled";
+ };
+ 
+-&scif2 {
+-	/delete-property/ pinctrl-0;
+-	status = "disabled";
+-};
+-
+ &spi1 {
+ 	/delete-property/ pinctrl-0;
+ 	status = "disabled";
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+index 886d38886d05..bc2af6c92ccd 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dts
+@@ -9,6 +9,7 @@
+ #include "r9a07g044l2.dtsi"
+ #include "rzg2l-smarc-som.dtsi"
+ #include "rzg2l-smarc-pinfunction.dtsi"
++#include "rz-smarc-common.dtsi"
+ #include "rzg2l-smarc.dtsi"
+ 
+ / {
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+new file mode 100644
+index 000000000000..b74fa6117207
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+@@ -0,0 +1,207 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/{G2L, G2LC} SMARC EVK common parts
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
++
++/*
++ * SSI-WM8978
++ *
++ * This command is required when Playback/Capture
++ *
++ *	amixer cset name='Left Input Mixer L2 Switch' on
++ *	amixer cset name='Right Input Mixer R2 Switch' on
++ *	amixer cset name='Headphone Playback Volume' 100
++ *	amixer cset name='PCM Volume' 100%
++ *	amixer cset name='Input PGA Volume' 25
++ *
++ */
++
++/ {
++	aliases {
++		serial0 = &scif0;
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c3 = &i2c3;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	audio_mclock: audio_mclock {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <11289600>;
++	};
++
++	snd_rzg2l: sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,format = "i2s";
++		simple-audio-card,bitclock-master = <&cpu_dai>;
++		simple-audio-card,frame-master = <&cpu_dai>;
++		simple-audio-card,mclk-fs = <256>;
++
++		simple-audio-card,widgets = "Microphone", "Microphone Jack";
++		simple-audio-card,routing =
++			    "L2", "Mic Bias",
++			    "R2", "Mic Bias",
++			    "Mic Bias", "Microphone Jack";
++
++		cpu_dai: simple-audio-card,cpu {
++			sound-dai = <&ssi0>;
++		};
++
++		codec_dai: simple-audio-card,codec {
++			clocks = <&audio_mclock>;
++			sound-dai = <&wm8978>;
++		};
++	};
++
++	usb0_vbus_otg: regulator-usb0-vbus-otg {
++		compatible = "regulator-fixed";
++
++		regulator-name = "USB0_VBUS_OTG";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++	};
++
++	vccq_sdhi1: regulator-vccq-sdhi1 {
++		compatible = "regulator-gpio";
++		regulator-name = "SDHI1 VccQ";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <3300000>;
++		gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
++		gpios-states = <1>;
++		states = <3300000 1>, <1800000 0>;
++	};
++};
++
++&audio_clk1{
++	clock-frequency = <11289600>;
++};
++
++&audio_clk2{
++	clock-frequency = <12288000>;
++};
++
++&canfd {
++	pinctrl-0 = <&can0_pins &can1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	channel0 {
++		status = "okay";
++	};
++
++	channel1 {
++		status = "okay";
++	};
++};
++
++&ehci0 {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&hsusb {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&i2c0 {
++	pinctrl-0 = <&i2c0_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
++
++&i2c1 {
++	pinctrl-0 = <&i2c1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
++
++&i2c3 {
++	pinctrl-0 = <&i2c3_pins>;
++	pinctrl-names = "default";
++	clock-frequency = <400000>;
++
++	status = "okay";
++
++	wm8978: codec@1a {
++		compatible = "wlf,wm8978";
++		#sound-dai-cells = <0>;
++		reg = <0x1a>;
++	};
++};
++
++&ohci0 {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&phyrst {
++	status = "okay";
++};
++
++&scif0 {
++	pinctrl-0 = <&scif0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&sdhi1 {
++	pinctrl-0 = <&sdhi1_pins>;
++	pinctrl-1 = <&sdhi1_pins_uhs>;
++	pinctrl-names = "default", "state_uhs";
++
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&vccq_sdhi1>;
++	bus-width = <4>;
++	sd-uhs-sdr50;
++	sd-uhs-sdr104;
++	status = "okay";
++};
++
++&spi1 {
++	pinctrl-0 = <&spi1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
++
++&ssi0 {
++	pinctrl-0 = <&ssi0_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
++
++&usb2_phy0 {
++	pinctrl-0 = <&usb0_pins>;
++	pinctrl-names = "default";
++
++	vbus-supply = <&usb0_vbus_otg>;
++	status = "okay";
++};
++
++&usb2_phy1 {
++	pinctrl-0 = <&usb1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+index 46abb29718cc..4b044b86b1fc 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /*
+- * Device Tree Source for the RZ/G2L SMARC EVK common parts
++ * Device Tree Source for the RZ/G2L SMARC EVK parts
+  *
+  * Copyright (C) 2021 Renesas Electronics Corp.
+  */
+@@ -8,164 +8,13 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+ 
+-/*
+- * SSI-WM8978
+- *
+- * This command is required when Playback/Capture
+- *
+- *	amixer cset name='Left Input Mixer L2 Switch' on
+- *	amixer cset name='Right Input Mixer R2 Switch' on
+- *	amixer cset name='Headphone Playback Volume' 100
+- *	amixer cset name='PCM Volume' 100%
+- *	amixer cset name='Input PGA Volume' 25
+- *
+- */
+-
+ /* comment the #define statement to disable SCIF2 (SER0) on PMOD1 (CN7) */
+ #define PMOD1_SER0	1
+ 
+ / {
+ 	aliases {
+-		serial0 = &scif0;
+ 		serial1 = &scif2;
+-		i2c0 = &i2c0;
+-		i2c1 = &i2c1;
+-		i2c3 = &i2c3;
+-	};
+-
+-	chosen {
+-		stdout-path = "serial0:115200n8";
+-	};
+-
+-	audio_mclock: audio_mclock {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <11289600>;
+-	};
+-
+-	snd_rzg2l: sound {
+-		compatible = "simple-audio-card";
+-		simple-audio-card,format = "i2s";
+-		simple-audio-card,bitclock-master = <&cpu_dai>;
+-		simple-audio-card,frame-master = <&cpu_dai>;
+-		simple-audio-card,mclk-fs = <256>;
+-
+-		simple-audio-card,widgets = "Microphone", "Microphone Jack";
+-		simple-audio-card,routing =
+-			    "L2", "Mic Bias",
+-			    "R2", "Mic Bias",
+-			    "Mic Bias", "Microphone Jack";
+-
+-		cpu_dai: simple-audio-card,cpu {
+-			sound-dai = <&ssi0>;
+-		};
+-
+-		codec_dai: simple-audio-card,codec {
+-			clocks = <&audio_mclock>;
+-			sound-dai = <&wm8978>;
+-		};
+-	};
+-
+-	usb0_vbus_otg: regulator-usb0-vbus-otg {
+-		compatible = "regulator-fixed";
+-
+-		regulator-name = "USB0_VBUS_OTG";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-	};
+-
+-	vccq_sdhi1: regulator-vccq-sdhi1 {
+-		compatible = "regulator-gpio";
+-		regulator-name = "SDHI1 VccQ";
+-		regulator-min-microvolt = <1800000>;
+-		regulator-max-microvolt = <3300000>;
+-		gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
+-		gpios-states = <1>;
+-		states = <3300000 1>, <1800000 0>;
+-	};
+-};
+-
+-&audio_clk1{
+-	clock-frequency = <11289600>;
+-};
+-
+-&audio_clk2{
+-	clock-frequency = <12288000>;
+-};
+-
+-&canfd {
+-	pinctrl-0 = <&can0_pins &can1_pins>;
+-	pinctrl-names = "default";
+-	status = "okay";
+-
+-	channel0 {
+-		status = "okay";
+ 	};
+-
+-	channel1 {
+-		status = "okay";
+-	};
+-};
+-
+-&ehci0 {
+-	dr_mode = "otg";
+-	status = "okay";
+-};
+-
+-&ehci1 {
+-	status = "okay";
+-};
+-
+-&hsusb {
+-	dr_mode = "otg";
+-	status = "okay";
+-};
+-
+-&i2c0 {
+-	pinctrl-0 = <&i2c0_pins>;
+-	pinctrl-names = "default";
+-
+-	status = "okay";
+-};
+-
+-&i2c1 {
+-	pinctrl-0 = <&i2c1_pins>;
+-	pinctrl-names = "default";
+-
+-	status = "okay";
+-};
+-
+-&i2c3 {
+-	pinctrl-0 = <&i2c3_pins>;
+-	pinctrl-names = "default";
+-	clock-frequency = <400000>;
+-
+-	status = "okay";
+-
+-	wm8978: codec@1a {
+-		compatible = "wlf,wm8978";
+-		#sound-dai-cells = <0>;
+-		reg = <0x1a>;
+-	};
+-};
+-
+-&ohci0 {
+-	dr_mode = "otg";
+-	status = "okay";
+-};
+-
+-&ohci1 {
+-	status = "okay";
+-};
+-
+-&phyrst {
+-	status = "okay";
+-};
+-
+-&scif0 {
+-	pinctrl-0 = <&scif0_pins>;
+-	pinctrl-names = "default";
+-	status = "okay";
+ };
+ 
+ /*
+@@ -184,45 +33,3 @@
+ 	status = "okay";
+ };
+ #endif
+-
+-&sdhi1 {
+-	pinctrl-0 = <&sdhi1_pins>;
+-	pinctrl-1 = <&sdhi1_pins_uhs>;
+-	pinctrl-names = "default", "state_uhs";
+-
+-	vmmc-supply = <&reg_3p3v>;
+-	vqmmc-supply = <&vccq_sdhi1>;
+-	bus-width = <4>;
+-	sd-uhs-sdr50;
+-	sd-uhs-sdr104;
+-	status = "okay";
+-};
+-
+-&spi1 {
+-	pinctrl-0 = <&spi1_pins>;
+-	pinctrl-names = "default";
+-
+-	status = "okay";
+-};
+-
+-&ssi0 {
+-	pinctrl-0 = <&ssi0_pins>;
+-	pinctrl-names = "default";
+-
+-	status = "okay";
+-};
+-
+-&usb2_phy0 {
+-	pinctrl-0 = <&usb0_pins>;
+-	pinctrl-names = "default";
+-
+-	vbus-supply = <&usb0_vbus_otg>;
+-	status = "okay";
+-};
+-
+-&usb2_phy1 {
+-	pinctrl-0 = <&usb1_pins>;
+-	pinctrl-names = "default";
+-
+-	status = "okay";
+-};
+-- 
+2.17.1
 
-But the changes that are in patch 1 are all needed?
-=20
-> > After some more thoughts I wonder if your focus isn't to align
-> > platform_get_irq_optional to (clk|gpiod|regulator)_get_optional, but to
-> > simplify return code checking. Because with your change we have:
-> >=20
-> >  - < 0 -> error
-> >  - =3D=3D 0 -> no irq
-> >  - > 0 -> irq
->=20
->    Mainly, yes. That's why the code examples were given in the descriptio=
-n.
->=20
-> > For my part I'd say this doesn't justify the change, but at least I
-> > could better life with the reasoning. If you start at:
-> >=20
-> > 	irq =3D platform_get_irq_optional(...)
-> > 	if (irq < 0 && irq !=3D -ENXIO)
-> > 		return irq
-> > 	else if (irq > 0)
-> > 		setup_irq(irq);
-> > 	else
-> > 		setup_polling()
-> >=20
-> > I'd change that to
-> >=20
-> > 	irq =3D platform_get_irq_optional(...)
-> > 	if (irq > 0) /* or >=3D 0 ? */
->=20
->    Not >=3D 0, no...
->=20
-> > 		setup_irq(irq)
-> > 	else if (irq =3D=3D -ENXIO)
-> > 		setup_polling()
-> > 	else
-> > 		return irq
-> >=20
-> > This still has to mention -ENXIO, but this is ok and checking for 0 just
-> > hardcodes a different return value.
->=20
->    I think comparing with 0 is simpler (and shorter) than with -ENXIO, if=
- you
-> consider the RISC CPUs, like e.g. MIPS...
-
-Hmm, I don't know MIPS good enough to judge. So I created a small C
-file:
-
-	$ cat test.c
-	#include <errno.h>
-
-	int platform_get_irq_optional(void);
-	void a(void);
-
-	int func_0()
-	{
-		int irq =3D platform_get_irq_optional();
-
-		if (irq =3D=3D 0)
-			a();
-	}
-
-	int func_enxio()
-	{
-		int irq =3D platform_get_irq_optional();
-
-		if (irq =3D=3D -ENXIO)
-			a();
-	}
-
-With some cross compilers as provided by Debian doing
-
-	$CC -c -O3 test.c
-	nm --size-sort test.o
-
-I get:
-
-  compiler			|  size of func_0  | size of func_enxio
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D|=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-aarch64-linux-gnu-gcc		| 0000000000000024 | 0000000000000028
-arm-linux-gnueabi-gcc		|         00000018 |         00000018
-arm-linux-gnueabihf-gcc		|         00000010 |         00000012
-i686-linux-gnu-gcc		|         0000002a |         0000002a
-mips64el-linux-gnuabi64-gcc	| 0000000000000054 | 000000000000005c
-powerpc-linux-gnu-gcc		|         00000058 |         00000058
-s390x-linux-gnu-gcc		| 000000000000002e | 0000000000000030
-x86_64-linux-gnu-gcc		| 0000000000000022 | 0000000000000022
-
-So you save some bytes indeed.
-
-> > Anyhow, I think if you still want to change platform_get_irq_optional
-> > you should add a few patches converting some drivers which demonstrates
-> > the improvement for the callers.
->=20
->    Mhm, I did include all the drivers where the IRQ checks have to be mod=
-ified,
-> not sure what else you want me to touch...
-
-I somehow expected that the changes that are now necessary (or possible)
-to callers makes them prettier somehow. Looking at your patch again:
-
- - drivers/counter/interrupt-cnt.c
-   This one is strange in my eyes because it tests the return value of
-   gpiod_get_optional against NULL :-(
-
- - drivers/edac/xgene_edac.c
-   This one just wants a silent irq lookup and then throws away the
-   error code returned by platform_get_irq_optional() to return -EINVAL.
-   Not so nice, is it?
-
- - drivers/gpio/gpio-altera.c
-   This one just wants a silent irq lookup. And maybe it should only
-   goto skip_irq if the irq was not found, but on an other error code
-   abort the probe?!
-
- - drivers/gpio/gpio-mvebu.c
-   Similar to gpio-altera.c: Wants a silent irq and improved error
-   handling.
-
- - drivers/i2c/busses/i2c-brcmstb.c
-   A bit ugly that we now have dev->irq =3D=3D 0 if the irq isn't available,
-   but if requesting the irq failed irq =3D -1 is used?
-
- - drivers/mmc/host/sh_mmcif.c
-   Broken error handling. This one wants to abort on irq[1] < 0 (with
-   your changed semantic).
-
-I stopped here.
-
-It seems quite common that drivers assume a value < 0 returned by
-platform_get_irq means not-found and don't care for -EPROBE_DEFER (what
-else can happen?) Changing a relevant function in that mess seems
-unfortunate here :-\
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---a7pus3gvz76yet7d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHnPnoACgkQwfwUeK3K
-7Akqngf/deJcg5Z6920bXlYUCFdp2KylFxWHucfT0qIrwGnPq8zaZFS9gHqJ0sdG
-7jQQJZSuB0RvjbvoR65zpQdPHzf+L5Mt7RcHB97mz9RBI0icUJxXPyCM5R+JJztU
-FwvRMasJJTaWprdySpKQ2NBP//sovxwwmoujXrWnzumTfyLR1rw66bTkDxHqwQO0
-aWnbojhdu/efNMVD8vDGDRvmyeWv2jVpsINrc/BxPET+KGaMZQUKGtk2vnJSgprv
-w/qDSARMcG/2W0EAD65b/kO9COe957sWbn7Pj9ylMp1Eb4kziV8OLLT8WYWtLiHw
-zStNC4/q9uZn5kXN2bo45YckhIG/gg==
-=ZjV7
------END PGP SIGNATURE-----
-
---a7pus3gvz76yet7d--
