@@ -2,119 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F61494B91
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 11:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21C12494BDE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 11:39:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359823AbiATKYN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jan 2022 05:24:13 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:54815 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232937AbiATKYJ (ORCPT
+        id S1376337AbiATKjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jan 2022 05:39:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1376340AbiATKje (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jan 2022 05:24:09 -0500
+        Thu, 20 Jan 2022 05:39:34 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27088C061574;
+        Thu, 20 Jan 2022 02:39:32 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id BA5FFC0008;
-        Thu, 20 Jan 2022 10:24:05 +0000 (UTC)
-Date:   Thu, 20 Jan 2022 11:25:09 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id 5A982E0014;
+        Thu, 20 Jan 2022 10:39:26 +0000 (UTC)
+Date:   Thu, 20 Jan 2022 11:40:29 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v8 4/7] arm64: dts: renesas: condor: Enable MAX9286
-Message-ID: <20220120102509.csdcauug6sipnk3m@uno.localdomain>
-References: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
- <20211216163439.139579-5-jacopo+renesas@jmondi.org>
- <CAMuHMdXyXwDiTpLACKdyoimtia3KS8A94qD-Ryi=r=6pj79D1A@mail.gmail.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] media: dt-bindings: media: renesas,csi2: Update
+ data-lanes property
+Message-ID: <20220120104029.wenol7qdfjl2f53n@uno.localdomain>
+References: <20220120012553.23295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXyXwDiTpLACKdyoimtia3KS8A94qD-Ryi=r=6pj79D1A@mail.gmail.com>
+In-Reply-To: <20220120012553.23295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert, Kieran,
+Hello Prabhakar
 
-On Thu, Jan 20, 2022 at 10:14:34AM +0100, Geert Uytterhoeven wrote:
-> Hi Jacopo,
+On Thu, Jan 20, 2022 at 01:25:53AM +0000, Lad Prabhakar wrote:
+> CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
+> handled by rcar-csi2.c driver. This patch updates the data-lanes property
+> to describe the same.
 >
-> On Thu, Dec 16, 2021 at 5:34 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> > Enable the MAX9286 GMSL deserializers on Condor-V3H board.
-> >
-> > Connected cameras should be defined in a device-tree overlay or included
-> > after these definitions.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Hi All,
 >
-> Thanks for your patch!
+> Instead of adding uniqueItems:true into SoC binding doc's I think we could
+> add this in video-interfaces.yaml for data-lanes property. Any thoughts on this?
 >
-> > --- a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-> > @@ -6,6 +6,8 @@
-> >   * Copyright (C) 2018 Cogent Embedded, Inc.
-> >   */
-> >
-> > +#include <dt-bindings/gpio/gpio.h>
->
-> Already included below.
->
-> > +
-> >  /dts-v1/;
-> >  #include "r8a77980.dtsi"
-> >  #include <dt-bindings/gpio/gpio.h>
->
-> I can fix that while applying, but I'm interested in hearing the answer
-> to Kieran's question first.
 
-I can confirm that without including "gmsl-cameras.dtsi" no media
-graph is registered. This is expected as the VINs and GSML device
-nodes are enabled in the .dtsi only
+As repeating items are not allowed I think it's a good idea.
+In the meantime this patch looks good to me
 
-        #ifdef GMSL_0
-        &vin0 {
-                status = "okay";
-        };
-
-        &vin1 {
-                status = "okay";
-        };
-
-        &vin2 {
-                status = "okay";
-        };
-
-        &vin3 {
-                status = "okay";
-        };
-
-        &gmsl0 {
-                status = "okay";
-               ...
-
-I think that's the expected behavior, isn't it ?
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Thanks
-   j
+  j
 
-
-
-
+> Cheers,
+> Prabhakar
 >
-> Gr{oetje,eeting}s,
+> v1->v2
+> * Dropped const items
+> * Added uniqueItems
 >
->                         Geert
+> v1:
+> https://lore.kernel.org/lkml/20220118163413.ge2b4g75yhfqvq3x@uno.localdomain/T/
+> ---
+>  Documentation/devicetree/bindings/media/renesas,csi2.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
+> diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> index e6a036721082..a5a1b570025a 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> @@ -67,7 +67,11 @@ properties:
+>                  maxItems: 1
+>
+>                data-lanes:
+> -                maxItems: 1
+> +                minItems: 1
+> +                maxItems: 4
+> +                uniqueItems: true
+> +                items:
+> +                  maximum: 4
+>
+>              required:
+>                - clock-lanes
 > --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 2.17.1
 >
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
