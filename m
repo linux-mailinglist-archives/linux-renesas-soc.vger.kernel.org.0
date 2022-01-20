@@ -2,209 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53272494930
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 09:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7D74949C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 09:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359075AbiATIPm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jan 2022 03:15:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358401AbiATIPm (ORCPT
+        id S240831AbiATIpQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jan 2022 03:45:16 -0500
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:33384 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240038AbiATIpQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jan 2022 03:15:42 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387E0C06173F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jan 2022 00:15:41 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id bu18so18608091lfb.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jan 2022 00:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sib8izoQ9eM4SRQulajhHuimJ4bCOoY1cAsE3mXLijw=;
-        b=cVi5tRo5LKxaE/draeqa23ThRc1zLD/EOl6OpV9w8ozAxf67/DF0nGKqjFnZsnDexb
-         1LKikEEweQcsCflg0Grc8QWMmuvvVaoGQr02rFJu5XMWTHoYHxs3Xe2PNUHAHfth+B/r
-         H+wgpoa9pNEgY6H2mMx9hXCPsoKRM/2yeHkr/uytMw7X9E4uYF+frspvRvyqLw4eI1fa
-         RZq5iXy4MoXo4qPBtZBFcH59C1Cjzt8rKWUcFY5Y/VtKOwagmuF64s5I/2hRP9adRcvs
-         qdMLTme3U1xpZoc2HYF1xwb5enuPGO8wVFoVvR+d9JDDya6spVTVKDQO3dj+BV/5To6P
-         Zt0w==
+        Thu, 20 Jan 2022 03:45:16 -0500
+Received: by mail-ua1-f46.google.com with SMTP id u6so9600000uaq.0;
+        Thu, 20 Jan 2022 00:45:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sib8izoQ9eM4SRQulajhHuimJ4bCOoY1cAsE3mXLijw=;
-        b=ivQoyHJe+new4jxXsQHlaR9jQ7KvCJu34x7FDPyH4TelVrVyOD+U2n5i1o2cRjlm+H
-         K2e7Ug8ogVrRD72X3LSSuPLkyvhdSHCiMbzrR9fNYdJ611VWy445vCRRye/lOe50rWwa
-         +rRG0MmaXRqIng0MqS2/zVC8d7xlOIyB6bBMaIJPxVH+E8gqAVbFuYgoVIcqVqIxG3JC
-         WIMYgAXPiEWvailHklCgHYLwYNIn7i6AE/gSMmbKn42P88WveRb76QZ97sIAtnYOFgH7
-         5lRVaVUiT5DK0PTMFwcxThV6csalHwXxredv8baz90u3TTFLsGZegt2b2NM8e9sr7GY+
-         n0rw==
-X-Gm-Message-State: AOAM530blAephlLO7p/w3bLZqItX80k9/b+d4weST8r9Xmnn/ZuBz0Nt
-        MsSnRu5IdDs01c+ERSvC9JNAIw==
-X-Google-Smtp-Source: ABdhPJz8BthKaQA4pVNnRkvyJXRmB13KbgzAbkPDhbFQYvav/zKSvQu+oPPe37XrqBuQIIp2d8N8oQ==
-X-Received: by 2002:a2e:a7ca:: with SMTP id x10mr13034714ljp.259.1642666539292;
-        Thu, 20 Jan 2022 00:15:39 -0800 (PST)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id k3sm208951lji.96.2022.01.20.00.15.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jan 2022 00:15:38 -0800 (PST)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH v2] media: vsp1: mask interrupts before enabling
-Date:   Thu, 20 Jan 2022 11:15:30 +0300
-Message-Id: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lv2jFAKWB+Jny0Y4PrrNR/cuL3vXxueExme2w68uWOY=;
+        b=Rd/w1+QwYzUk6KBg33XOJuaMGdP1XDaX9HHCMSE7Fqe6KyU4Rji9sURgITFujinIoq
+         L3u0n12FQk6pbN6heI3byCw/0rTpNDbRTC/oF5ZuVI2CkKQi2tZ8kxRmSf0iqH/mGPal
+         GuYSM+lWc3oV7KVFASOt7fiMmo7duOkq24VSftR2b91eOurLiNc4F26NJKdeVwpG8uQ7
+         kmR66WEA3bICvua+l73JJXpzAnDOkVXAhl+2afWHs44+1jRfgi/s7w7UNglHsxCxUPHV
+         M6W3G0fhdchxSS6A1SIVHYH34/Im8+mK4q7NZkHDpClyPjFxZqKeWpIQKkKuVqsLYX0r
+         CMVg==
+X-Gm-Message-State: AOAM530Ay7QkjzR7gOwhUPIM+BhHN4McusS0Z62T09DAllAVihQ/EKNm
+        2li+zEAFBHfaWJ+LFbVPzTrAC3aVVfktlQ==
+X-Google-Smtp-Source: ABdhPJzhNnVO3mlOOi3f8HurwC42j6bDnk0FoGBdk7q3F8EjkMl1/o/BnERdtMehICC+2xbNVXVPFA==
+X-Received: by 2002:a05:6102:b0a:: with SMTP id b10mr8264747vst.39.1642668315540;
+        Thu, 20 Jan 2022 00:45:15 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id b26sm494028uam.6.2022.01.20.00.45.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jan 2022 00:45:15 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 19so3155951vkl.2;
+        Thu, 20 Jan 2022 00:45:15 -0800 (PST)
+X-Received: by 2002:a05:6122:c89:: with SMTP id ba9mr14222109vkb.39.1642668314846;
+ Thu, 20 Jan 2022 00:45:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211220170357.7899-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211220170357.7899-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Jan 2022 09:45:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXKRNDAGqwz0oqJyCWq6LyTdJ7BEe2uCmek60x3Ec2-GA@mail.gmail.com>
+Message-ID: <CAMuHMdXKRNDAGqwz0oqJyCWq6LyTdJ7BEe2uCmek60x3Ec2-GA@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: Add support for reading product revision
+ for RZ/G2L family
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-VSP hardware could be used (e.g. by the bootloader) before driver load,
-and some interrupts could be left in enabled and pending state. In this
-case, setting up VSP interrupt handler without masking interrupts before
-causes interrupt handler to be immediately called (and crash due to null
-vsp->info dereference).
+Hi Prabhakar,
 
-Fix that by explicitly masking all interrupts before setting the interrupt
-handler. To do so, have to set the interrupt handler later, after hw
-revision is already detected and number of interrupts to mask gets
-known.
+On Mon, Dec 20, 2021 at 6:04 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> As per RZ/G2L HW manual (Rev.1.00 Sep, 2021) DEV_ID [31:28] indicates
+> product revision. Use this information to populate the revision info
+> for RZ/G2L family.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Based on patch by Koji Matsuoka <koji.matsuoka.xm@renesas.com> included
-in the Renesas BSP kernel.
+Thanks for your patch!
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
-v1: https://lore.kernel.org/all/20210926155356.23861-1-nikita.yoush@cogentembedded.com/
-Changes since v1:
-- move interrupt masking to a dedicated routine
-- update comments and patch description
+> Below is the log from Renesas RZ/G2L SMARC EVK:
+>
+> root@smarc-rzg2l:~#
+> at /sys/devices/soc0/$i; donemachine family soc_id revision; do echo -n "$i: ";ca
 
-> I think I would rather see the code to reset them done in
-> vsp1_reset_wpf(), rather than in probe directly as that is what we are
-> doing, and is I believe already in the call path.
+This looks a bit mangled ;-)
 
-First, vsp1_reset_wpf() does not get called on driver early init.
+> machine: Renesas SMARC EVK based on r9a07g044l2
+> family: RZ/G2L
+> soc_id: r9a07g044
+> revision: Rev 1
+> root@smarc-rzg2l:~#
+>
+> Cheers,
+> Prabhakar
+> ---
+>  drivers/soc/renesas/renesas-soc.c | 31 +++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+> index 8f82749f182f..6ecd2763d100 100644
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -416,6 +416,17 @@ static int __init renesas_soc_init(void)
+>                 chipid = ioremap(family->reg, 4);
+>         }
+>
+> +       soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
 
-It is normally called from within vsp1_device_get() when device is powered
-on, but vsp1_probe() calls vsp1_device_get() when vsp1->info is not yet set,
-and in this case call from vsp1_pm_runtime_resume() to vsp1_device_init() 
-is skipped.
+This is not freed in case of SoC mismatch error below.
 
-I've tried to add extra vsp1_device_put() / vsp1_device_get() calls to the
-probe path, and dumped related registers in vsp1_pm_runtime_resume() after
-return from vsp1_device_init(), and got
+> +       if (!soc_dev_attr)
+> +               return -ENOMEM;
+> +
+> +       np = of_find_node_by_path("/");
+> +       of_property_read_string(np, "model", &soc_dev_attr->machine);
+> +       of_node_put(np);
+> +
+> +       soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
+> +       soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
+> +
+>         if (chipid) {
+>                 product = readl(chipid + id->offset);
+>                 iounmap(chipid);
+> @@ -430,6 +441,12 @@ static int __init renesas_soc_init(void)
+>
+>                         eshi = ((product >> 4) & 0x0f) + 1;
+>                         eslo = product & 0xf;
+> +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u",
+> +                                                          eshi, eslo);
+> +               }  else if (id == &id_rzg2l) {
+> +                       eshi =  ((product >> 28) & 0x0f);
+> +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "Rev %u",
+> +                                                          eshi);
 
-[    2.477315][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_ENB(0) = 0x00000100
-[    2.483933][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_STA(0) = 0x00000121
-[    2.490556][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(0) = 0x00010002
-[    2.497088][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(0) = 0x00010003
-[    2.503618][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(1) = 0x00000000
-[    2.510148][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(1) = 0x00000000
+These are not freed in case of SoC mismatch error below.
 
-which shows that
-(1) WPF interrupt is not cleared by WPF reset,
-(2) also DISP interrupt is enabled and pending, and driver does not seem
-to control it at all.
+>                 }
+>
+>                 if (soc->id &&
+> @@ -439,20 +456,6 @@ static int __init renesas_soc_init(void)
+>                 }
+>         }
+>
+> -       soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+> -       if (!soc_dev_attr)
+> -               return -ENOMEM;
+> -
+> -       np = of_find_node_by_path("/");
+> -       of_property_read_string(np, "model", &soc_dev_attr->machine);
+> -       of_node_put(np);
+> -
+> -       soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
+> -       soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
+> -       if (eshi)
+> -               soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u", eshi,
+> -                                                  eslo);
+> -
+>         pr_info("Detected Renesas %s %s %s\n", soc_dev_attr->family,
+>                 soc_dev_attr->soc_id, soc_dev_attr->revision ?: "");
 
-Given that, I think it is safer to explicitly mask all interrupts before
-setting the handler. I've moved interrupt masking to a separate routine.
+Gr{oetje,eeting}s,
 
-> (But I'm reallly ... reallly concerned that the hardware is not really
-> getting reset when it should, and that might merit some further
-> investigation).
+                        Geert
 
-The documentation for WFP reset bit has notes that under some situations,
-reset is postponed for a long time, and reported via interrupt. I'm not
-sure what exactly goes on there, but I'd assume that such logic implies
-that interrupt subsystem is not reset.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I agree that not having exact understand of hardware state is not good.
-But, given that no signs of misfunction have been detected for a long time
-(the patch was in vendor BSP for years), I think we can assume it is
-"safe enough".
-
- drivers/media/platform/vsp1/vsp1_drv.c | 34 ++++++++++++++++++++------
- 1 file changed, 26 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index c9044785b903..92a95e2c21c7 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -550,6 +550,16 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
- 	return 0;
- }
- 
-+static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
-+{
-+	int i;
-+
-+	for (i = 0; i < vsp1->info->lif_count; ++i)
-+		vsp1_write(vsp1, VI6_DISP_IRQ_ENB(i), 0);
-+	for (i = 0; i < vsp1->info->wpf_count; ++i)
-+		vsp1_write(vsp1, VI6_WPF_IRQ_ENB(i), 0);
-+}
-+
- /*
-  * vsp1_device_get - Acquire the VSP1 device
-  *
-@@ -819,13 +829,6 @@ static int vsp1_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
--	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
--			      IRQF_SHARED, dev_name(&pdev->dev), vsp1);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "failed to request IRQ\n");
--		return ret;
--	}
--
- 	/* FCP (optional). */
- 	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
- 	if (fcp_node) {
-@@ -855,7 +858,6 @@ static int vsp1_probe(struct platform_device *pdev)
- 		goto done;
- 
- 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
--	vsp1_device_put(vsp1);
- 
- 	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
- 		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
-@@ -868,12 +870,28 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (!vsp1->info) {
- 		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
- 			vsp1->version);
-+		vsp1_device_put(vsp1);
- 		ret = -ENXIO;
- 		goto done;
- 	}
- 
- 	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
- 
-+	/*
-+	 * Previous use of the hardware (e.g. by the bootloader) could leave
-+	 * some interrupts enabled and pending.
-+	 */
-+	vsp1_mask_all_interrupts(vsp1);
-+
-+	vsp1_device_put(vsp1);
-+
-+	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
-+			       IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "failed to request IRQ\n");
-+		goto done;
-+	}
-+
- 	/* Instantiate entities. */
- 	ret = vsp1_create_entities(vsp1);
- 	if (ret < 0) {
--- 
-2.30.2
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
