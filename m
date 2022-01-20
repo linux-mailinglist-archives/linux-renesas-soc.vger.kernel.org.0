@@ -2,248 +2,249 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C52DF494707
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 06:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FB944948FD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jan 2022 08:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbiATFsx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jan 2022 00:48:53 -0500
-Received: from mga01.intel.com ([192.55.52.88]:25688 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231271AbiATFsx (ORCPT
+        id S1358026AbiATH6o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jan 2022 02:58:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1357901AbiATH6n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jan 2022 00:48:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642657733; x=1674193733;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Tm0FO3YahQ7qd/zACHpaReL977YaX/jjJVbk6q+CNAM=;
-  b=JR2bm0gk3EaJhv5aAyMMxUTVAegzDixVYE/CHxUFWD7HvpXtjmA9zKik
-   oYQVibzjBnhkxRNV8YFBzfvfzaNzC0zJ8DnUhMxQnrbnF77DZb9cYIXvH
-   qzZd8AHlCjxVyjHa/UzbLzbcyyhehUIwiA1YjmFMTfdEFWF0aG659nwku
-   qN3+Bf5hLoNb69CMRDjMMNaBsopYIrcMsqdeCr7Q5uJGm1VJebxa8uz6l
-   r09bm5tUNPIRKskSfOOtxXwGas2ezeWqxqPveUVdTe50Q46wumKHTtAxM
-   vCKZCnzUSNMWGwODE+hqAyejnJcKR9BqYrVL5WNrDFtly62PjOtzXOqdY
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="269674550"
-X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; 
-   d="scan'208";a="269674550"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2022 21:48:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; 
-   d="scan'208";a="477669195"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2022 21:48:51 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nAQJW-000E2s-Sb; Thu, 20 Jan 2022 05:48:50 +0000
-Date:   Thu, 20 Jan 2022 13:48:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/r8a779f0-pfc-v1] BUILD SUCCESS
- 544ff9e801e1775cf21b4c768652aa401e59ca3c
-Message-ID: <61e8f7ba.9nRAbVV0oZUIkAhd%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 20 Jan 2022 02:58:43 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74E9C06173F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jan 2022 23:58:42 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nASK7-0002RI-3O; Thu, 20 Jan 2022 08:57:35 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nASJu-00BJom-IA; Thu, 20 Jan 2022 08:57:21 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nASJt-000Bvo-3V; Thu, 20 Jan 2022 08:57:21 +0100
+Date:   Thu, 20 Jan 2022 08:57:18 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-phy@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        platform-driver-x86@vger.kernel.org,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>, netdev@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-mediatek@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH] driver core: platform: Rename
+ platform_get_irq_optional() to platform_get_irq_silent()
+Message-ID: <20220120075718.5qtrpc543kkykaow@pengutronix.de>
+References: <20220112085009.dbasceh3obfok5dc@pengutronix.de>
+ <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
+ <YeA7CjOyJFkpuhz/@sirena.org.uk>
+ <20220113194358.xnnbhsoyetihterb@pengutronix.de>
+ <YeF05vBOzkN+xYCq@smile.fi.intel.com>
+ <20220115154539.j3tsz5ioqexq2yuu@pengutronix.de>
+ <YehdsUPiOTwgZywq@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vtmtr3soi3npiqhl"
+Content-Disposition: inline
+In-Reply-To: <YehdsUPiOTwgZywq@smile.fi.intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/r8a779f0-pfc-v1
-branch HEAD: 544ff9e801e1775cf21b4c768652aa401e59ca3c  arm64: dts: renesas: spider: Complete SCIF3 description
 
-elapsed time: 720m
+--vtmtr3soi3npiqhl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 176
-configs skipped: 3
+On Wed, Jan 19, 2022 at 08:51:29PM +0200, Andy Shevchenko wrote:
+> On Sat, Jan 15, 2022 at 04:45:39PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Fri, Jan 14, 2022 at 03:04:38PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Jan 13, 2022 at 08:43:58PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > > It'd certainly be good to name anything that doesn't correspond t=
+o one
+> > > > > of the existing semantics for the API (!) something different rat=
+her
+> > > > > than adding yet another potentially overloaded meaning.
+> > > >=20
+> > > > It seems we're (at least) three who agree about this. Here is a pat=
+ch
+> > > > fixing the name.
+> > >=20
+> > > And similar number of people are on the other side.
+> >=20
+> > If someone already opposed to the renaming (and not only the name) I
+> > must have missed that.
+> >=20
+> > So you think it's a good idea to keep the name
+> > platform_get_irq_optional() despite the "not found" value returned by it
+> > isn't usable as if it were a normal irq number?
+>=20
+> I meant that on the other side people who are in favour of Sergey's patch.
+> Since that I commented already that I opposed the renaming being a standa=
+lone
+> change.
+>=20
+> Do you agree that we have several issues with platform_get_irq*() APIs?
+>=20
+> 1. The unfortunate naming
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+unfortunate naming for the currently implemented semantic, yes.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                          randconfig-c001
-arc                        vdk_hs38_defconfig
-m68k                            q40_defconfig
-sh                ecovec24-romimage_defconfig
-mips                             allmodconfig
-nios2                            alldefconfig
-sh                          urquell_defconfig
-arc                           tb10x_defconfig
-mips                         mpc30x_defconfig
-sh                         ecovec24_defconfig
-sh                         ap325rxa_defconfig
-arm                          pxa3xx_defconfig
-sh                                  defconfig
-arm                           h3600_defconfig
-sh                   secureedge5410_defconfig
-arm                         cm_x300_defconfig
-arm                         lpc18xx_defconfig
-arc                      axs103_smp_defconfig
-powerpc                     asp8347_defconfig
-xtensa                       common_defconfig
-nds32                            alldefconfig
-arm                           stm32_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                        multi_v7_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                   currituck_defconfig
-riscv                            allmodconfig
-sh                          rsk7201_defconfig
-sh                          sdk7780_defconfig
-powerpc                     sequoia_defconfig
-xtensa                  nommu_kc705_defconfig
-sh                           se7750_defconfig
-sh                          r7785rp_defconfig
-powerpc                      bamboo_defconfig
-sh                           se7619_defconfig
-xtensa                    smp_lx200_defconfig
-csky                             alldefconfig
-powerpc                    adder875_defconfig
-ia64                            zx1_defconfig
-sh                 kfr2r09-romimage_defconfig
-sh                          r7780mp_defconfig
-xtensa                           allyesconfig
-mips                           ip32_defconfig
-arm                      integrator_defconfig
-openrisc                 simple_smp_defconfig
-sh                             sh03_defconfig
-sh                             espt_defconfig
-arc                         haps_hs_defconfig
-x86_64                           alldefconfig
-xtensa                generic_kc705_defconfig
-mips                  maltasmvp_eva_defconfig
-arm                        keystone_defconfig
-sh                        sh7785lcr_defconfig
-parisc                           alldefconfig
-m68k                        mvme16x_defconfig
-sparc                       sparc32_defconfig
-arm                  randconfig-c002-20220116
-arm                  randconfig-c002-20220117
-arm                  randconfig-c002-20220118
-arm                  randconfig-c002-20220119
-arm                  randconfig-c002-20220120
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64               randconfig-a016-20220117
-x86_64               randconfig-a012-20220117
-x86_64               randconfig-a013-20220117
-x86_64               randconfig-a011-20220117
-x86_64               randconfig-a014-20220117
-x86_64               randconfig-a015-20220117
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                 randconfig-a012-20220117
-i386                 randconfig-a016-20220117
-i386                 randconfig-a014-20220117
-i386                 randconfig-a015-20220117
-i386                 randconfig-a011-20220117
-i386                 randconfig-a013-20220117
-riscv                randconfig-r042-20220119
-riscv                randconfig-r042-20220117
-arc                  randconfig-r043-20220116
-arc                  randconfig-r043-20220117
-s390                 randconfig-r044-20220119
-s390                 randconfig-r044-20220117
-arc                  randconfig-r043-20220118
-arc                  randconfig-r043-20220119
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                    rhel-8.3-kselftests
+> 2. The vIRQ0 handling: a) WARN() followed by b) returned value 0
 
-clang tested configs:
-mips                          rm200_defconfig
-powerpc                      walnut_defconfig
-powerpc                 mpc8313_rdb_defconfig
-powerpc                   bluestone_defconfig
-arm                        spear3xx_defconfig
-x86_64               randconfig-a005-20220117
-x86_64               randconfig-a004-20220117
-x86_64               randconfig-a001-20220117
-x86_64               randconfig-a006-20220117
-x86_64               randconfig-a002-20220117
-x86_64               randconfig-a003-20220117
-i386                 randconfig-a005-20220117
-i386                 randconfig-a001-20220117
-i386                 randconfig-a006-20220117
-i386                 randconfig-a004-20220117
-i386                 randconfig-a002-20220117
-i386                 randconfig-a003-20220117
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-riscv                randconfig-r042-20220120
-hexagon              randconfig-r045-20220120
-hexagon              randconfig-r041-20220120
-riscv                randconfig-r042-20220118
-hexagon              randconfig-r045-20220116
-hexagon              randconfig-r045-20220117
-hexagon              randconfig-r045-20220118
-hexagon              randconfig-r045-20220119
-riscv                randconfig-r042-20220116
-hexagon              randconfig-r041-20220118
-hexagon              randconfig-r041-20220119
-s390                 randconfig-r044-20220118
-s390                 randconfig-r044-20220116
-hexagon              randconfig-r041-20220116
-hexagon              randconfig-r041-20220117
+I'm happy with the vIRQ0 handling. Today platform_get_irq() and it's
+silent variant returns either a valid and usuable irq number or a
+negative error value. That's totally fine.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> 3. The specific cookie for "IRQ not found, while no error happened" case
+
+Not sure what you mean here. I have no problem that a situation I can
+cope with is called an error for the query function. I just do error
+handling and continue happily. So the part "while no error happened" is
+irrelevant to me.
+
+Additionally I see the problems:
+
+4. The semantic as implemented in Sergey's patch isn't better than the
+current one. platform_get_irq*() is still considerably different from
+(clk|gpiod)_get* because the not-found value for the _optional variant
+isn't usuable for the irq case. For clk and gpio I get rid of a whole if
+branch, for irq I only change the if-condition. (And if that change is
+considered good or bad seems to be subjective.)
+
+For the idea to add a warning to platform_get_irq_optional for all but
+-ENXIO (and -EPROBE_DEFER), I see the problem:
+
+5. platform_get_irq*() issuing an error message is only correct most of
+the time and given proper error handling in the caller (which might be
+able to handle not only -ENXIO but maybe also -EINVAL[1]) the error message
+is irritating. Today platform_get_irq() emits an error message for all
+but -EPROBE_DEFER. As soon as we find a driver that handles -EINVAL we
+need a function platform_get_irq_variant1 to be silent for -EINVAL,
+-EPROBE_DEFER and -ENXIO (or platform_get_irq_variant2 that is only
+silent for -EINVAL and -EPROBE_DEFER?)
+
+IMHO a query function should always be silent and let the caller do the
+error handling. And if it's only because
+
+	mydev: IRQ index 0 not found
+
+is worse than
+
+	mydev: neither TX irq not a muxed RX/TX irq found
+
+=2E Also "index 0" is irritating for devices that are expected to have
+only a single irq (i.e. the majority of all devices).
+
+Yes, I admit, we can safe some code by pushing the error message in a
+query function. But that doesn't only have advantages.
+
+Best regards
+Uwe
+
+[1] Looking through the source I wonder: What are the errors that can happen
+    in platform_get_irq*()? (calling everything but a valid irq number
+    an error) Looking at many callers, they only seem to expect "not
+    found" and some "probe defer" (even platform_get_irq() interprets
+    everything but -EPROBE_DEFER as "IRQ index %u not found\n".)
+    IMHO before we should consider to introduce a platform_get_irq*()
+    variant with improved semantics, some cleanup in the internals of
+    the irq lookup are necessary.
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--vtmtr3soi3npiqhl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHpFdoACgkQwfwUeK3K
+7AlpCwf8CIVWD1ztALs4saPfU+hCAXGdHPMYsVb4ZTfj+uT0g5uOPF3Vn08Dfosw
+tyqmKEnwGKIMZpavCJ+pScDwmT2FfANDq+R3xZzWj1hEcEvhjMFWB/IDU+s33/IB
+9pbnCAE8Oa/2PGjM3+FGf5OA6q8vCcuO8XHluolGQqPqvajsCulKZytLIFnnTc9t
+UXm+5HxATeIlvcxF5NHMcNFRt2ADkTGVGj0zrEOxinsiT3edhaWLDR5/vSnbXySV
+NKWnnkWO/T3Huohcr85IS2dVfqbqxuMmfU6RyQKdMat7ZUzOqtffi2I6KdXRRjog
+OHR+PLT7KSOdf6ODGMs+9P8AMEotwg==
+=El6G
+-----END PGP SIGNATURE-----
+
+--vtmtr3soi3npiqhl--
