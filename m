@@ -2,98 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1FAA495CC9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 10:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AABF7495D42
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 11:07:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235185AbiAUJ0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 04:26:24 -0500
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:45997 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234189AbiAUJ0Y (ORCPT
+        id S1343663AbiAUKHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 05:07:47 -0500
+Received: from mail-ua1-f53.google.com ([209.85.222.53]:44803 "EHLO
+        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240580AbiAUKHr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 04:26:24 -0500
-Received: by mail-ua1-f52.google.com with SMTP id x33so15712061uad.12;
-        Fri, 21 Jan 2022 01:26:24 -0800 (PST)
+        Fri, 21 Jan 2022 05:07:47 -0500
+Received: by mail-ua1-f53.google.com with SMTP id f24so15879993uab.11;
+        Fri, 21 Jan 2022 02:07:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dxWUZ1zOh1TgIoszOygQndMzhe9CFNfqsa3cRHmvDUo=;
-        b=2Zok6ND92v61+3Jc1g9wQuK4ALXKG/4O++QdkVyjfhRcTE3BBhj0JQK6MwpOEXp5Yx
-         37HAeTpRrsqUX16n/SOa/5ZmtR7SRzAq6Y+585QViCgnAVXo4UXihYBlPS6TOR4o0M/C
-         pfVsWY9TCyzATMPWekQ5F8rjLXhovCda+3rJ1FbXdjg2oKzNWdmhzjAkl56GCwrOE3qq
-         oZy0kHsIHvdNCFX1X3VDuVqdSPfpTZhVevYvhSy7p3J1TqqzLuhHV29cAxQQPUKC+Q+k
-         A7oDoe9ECFm2Qaemzag7uX75BPiMU7xNTKeOZ7uZvc3IZqzyNZaFbkQ9WP7hLzqaWGeM
-         o4JQ==
-X-Gm-Message-State: AOAM532ad7Fi79W7eO613rLSwC7J2N5T+9o54Ibzi9VUWFAkia9FgJLP
-        Mm66QwmZ8XQ+b9PLpb5PW4OKqCwvMX9aGw==
-X-Google-Smtp-Source: ABdhPJw220PTMBlkHz4lHuOyrFwr6K97cp9J7q3VwamxCfJBaOgiWb06r3XrY/Smiz4r6qddN4L1PA==
-X-Received: by 2002:a05:6102:3f56:: with SMTP id l22mr1322186vsv.20.1642757183131;
-        Fri, 21 Jan 2022 01:26:23 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id cd17sm1057376vsb.21.2022.01.21.01.26.22
+        bh=/iX8pvu80FcPsA2BeiEF3hrIHf0rQSHLabn6lNyXbVY=;
+        b=gX+ndLbWf+7Hgn2gQkqFx/0WF0A2iRnHBGB712+2BAqwy9garLuo5YGS186ifilEMD
+         mwq0feeVsYod1n9hicxFXWsAQCC7Zv5Tguqifp+tScykxkDwhXRjUHNYbRDS5SCHn3hH
+         592wvnDsYMo2Zpkiqa1sXyNr5qOD0pTXPOpgNCpAWTOGV4wYA/UPyaiHVTKFOwfBHmR2
+         EcE+R+BNeQM2isZO8IYIYB0pbHI9m4AlaVee384zLXMgiKk4NLl3tU+OjX7m+4uN906f
+         uYtVoNpXoV7BLWCmoX4XcspCPUFg1+bpPoMzHSkjoP+CnOkG2cMe2Da2vNnAueOK5/A4
+         ktwg==
+X-Gm-Message-State: AOAM533L6MtGhrTqxTqf1dqeapFw2i/yR811qsUR755dULNM2tWgAe4f
+        a/3qiiUkXW0HSqtWBzYQ5QkcUJQeggnVFg==
+X-Google-Smtp-Source: ABdhPJzGkAKku6BmywZhnKmw6+aI2ztqsRsw1NFpk1sNzmn/jCe9N2+K2r/vaoI3lkrpRlLnfwl1qw==
+X-Received: by 2002:a67:d794:: with SMTP id q20mr1451884vsj.82.1642759666490;
+        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id r14sm1227357vke.26.2022.01.21.02.07.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 01:26:22 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id u6so15884472uaq.0;
-        Fri, 21 Jan 2022 01:26:22 -0800 (PST)
-X-Received: by 2002:a9f:3e09:: with SMTP id o9mr1425247uai.114.1642757182256;
- Fri, 21 Jan 2022 01:26:22 -0800 (PST)
+        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id p7so8768874uao.6;
+        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
+X-Received: by 2002:a67:e985:: with SMTP id b5mr1116672vso.77.1642759665918;
+ Fri, 21 Jan 2022 02:07:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 10:26:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
-Message-ID: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
- CSI-2 block
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+Date:   Fri, 21 Jan 2022 11:07:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
+Message-ID: <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: add KF HDMI output
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Nikita,
 
-On Fri, Jan 21, 2022 at 2:06 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document the CSI-2 block which is part of CRU found in Renesas
-> RZ/G2L SoC.
+On Sat, Dec 25, 2021 at 12:54 PM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> This patch adds nodes needed to enable DRM video output over HDMI
+> connector located on KF board.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
 Thanks for your patch!
 
-> ---
-> Hi Geert/All,
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> @@ -51,6 +51,31 @@ wlan_en: regulator-wlan_en {
+>                 startup-delay-us = <70000>;
+>                 enable-active-high;
+>         };
+> +
+> +       hdmi_1v8: regulator-hdmi-1v8 {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "hdmi-1v8";
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <1800000>;
+> +       };
+> +
+> +       hdmi_3v3: regulator-hdmi-3v3 {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "hdmi-3v3";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +       };
+> +
+> +       hdmi1-out {
+
+Sort order.
+
+> +               compatible = "hdmi-connector";
+> +               type = "a";
+> +
+> +               port {
+> +                       hdmi1_con: endpoint {
+> +                               remote-endpoint = <&adv7513_out>;
+> +                       };
+> +               };
+> +       };
+>  };
 >
-> vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
-> pm_runtime. pclk clock is necessary for register access where as vclk clock
-> is only used for calculations. So would you suggest passing vclk as part of
+>  &can0 {
 
-What do you mean by "calculations"?
-The bindings say this is the main clock?
+> @@ -236,6 +313,10 @@ gpio_exp_77: gpio@77 {
+>         };
+>  };
+>
+> +&du_out_rgb {
 
-> clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+Sort order.
 
-Please do not specify clock rates in DT, but always pass clock
-specifiers instead.
-The clock subsystem handles sharing of clocks just fine.
+> +       remote-endpoint = <&adv7513_in>;
+> +};
+> +
+>  &ohci0 {
+>         dr_mode = "otg";
+>         status = "okay";
+> @@ -289,6 +370,18 @@ usb0_pins: usb0 {
+>                 groups = "usb0";
+>                 function = "usb0";
+>         };
+> +
+> +       hdmi1_pins: hdmi1 {
+> +               du {
+
+More sort order.
+
+> +                       groups = "du_rgb888", "du_sync", "du_clk_out_0", "du_disp";
+> +                       function = "du";
+> +               };
+> +
+> +               adv7513-interrupt {
+> +                       pins = "GP_2_14";
+> +                       bias-pull-up;
+> +               };
+> +       };
+>  };
+
+The rest looks good to me.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18 with the sort order fixed.
 
 Gr{oetje,eeting}s,
 
