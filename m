@@ -2,86 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D45E495EE0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 13:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45DEB496149
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 15:43:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350403AbiAUMH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 07:07:29 -0500
-Received: from mail-ua1-f50.google.com ([209.85.222.50]:45590 "EHLO
-        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350391AbiAUMH2 (ORCPT
+        id S1381140AbiAUOnh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 09:43:37 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:46911 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231265AbiAUOnf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 07:07:28 -0500
-Received: by mail-ua1-f50.google.com with SMTP id x33so16400889uad.12;
-        Fri, 21 Jan 2022 04:07:28 -0800 (PST)
+        Fri, 21 Jan 2022 09:43:35 -0500
+Received: by mail-ua1-f49.google.com with SMTP id c36so17213213uae.13;
+        Fri, 21 Jan 2022 06:43:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RoDen8PtW8byWyF8mhXAdlajtdUoL42XdSGYBm/7DR8=;
-        b=HSPnkDxne/jviXJ4owJs1Up8aaaTScl5CwdeKL/11zvvT52R4rXB6AoifEAZHc/lyh
-         cF0qa6WY0dR78BaHnmTJpPxmRt1EjUY7ZkoD1ZyB98XIk00Shjw+WRDkDt+t35sv2tzq
-         RMBu5vpl1LrXF4ikOsH+qEPrVyvE4OvdzhKB49A80IdHaEKYvtzh0zliDOQVQoSPqPcv
-         V15aS/la2DQRU24zkLWwjijKedWLtPtCtK3DHMpplTsEZKuG1jUAQhqa7dzMhyJpZkIt
-         5aVKGdQpGP2SeEHgmx+jo2jJ9+CxnNuW+uiU0gVCKLsrVf2TWySR3JQxczHe4ceWdZCO
-         JsgQ==
-X-Gm-Message-State: AOAM533FeEIQdwlUPs7Kik4L2b/qqzCCQRIyT7K3o/H5ql95YKMG3WDT
-        DcBmAsJNLA6yXFz7Lu8jushmsy5uO2E8qg==
-X-Google-Smtp-Source: ABdhPJxA6ts74iGWB8W82UyCajy28harvc4I2/MTnlkltKn0HEfVCOA8P9kvAp/V9Bn2VYXh45vmkA==
-X-Received: by 2002:a05:6102:3a08:: with SMTP id b8mr1701713vsu.53.1642766848044;
-        Fri, 21 Jan 2022 04:07:28 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id o131sm1299739vkc.42.2022.01.21.04.07.27
+        bh=55AwSfSypaE2CtoXb7L0xkm1j87MyCbe6QHjOqmiD28=;
+        b=gljX+jPPXhkLWlxSZemNrIcCZUdyfQJnPoLZnlWjply+68akM3t6P5Fw33+Gfq/ICx
+         qWx3UXC0AaUHvd0gQUU0ttVhL4PXduQdy2UelqY7VVdr4sXS9ImXL3tLAjpmDl40Jkp2
+         rmOxeva+t3pfWMcRO/BALWCXi0pNooJU/CKCdwIRDh8IBPR6SvjAo/bCnDFMKnttYBFa
+         VJ3Q3+UtN01kmmmluqTXkZWlBWHTdd9oBIJqri1JGhxoGEaD3UlEWUs2qbdx+MHYtoVO
+         ExvMPn1yRIfLMQqNnTC63yhyVrcPHeP145sxa8AWDA8uKqLZ4YqAKU+tsVNx8KrHW8GU
+         U+iQ==
+X-Gm-Message-State: AOAM533a8Ur6ofnEhBXM82msE/RuX/zMyemxx+uWeBB5ZsDuwX8/+MwC
+        9oLpwDUBIPKD/51hTeP4ktPTlF+GyhrqJQ==
+X-Google-Smtp-Source: ABdhPJyXohDcYDK1tlK/7Rd9GTJ72zhebbYr5kZ9KuQM+iBFzNnXsKyV2PkSOIYpMf36LrNO31n3AA==
+X-Received: by 2002:ab0:3b0c:: with SMTP id n12mr1876164uaw.26.1642776214158;
+        Fri, 21 Jan 2022 06:43:34 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id g13sm1392793vkp.15.2022.01.21.06.43.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 04:07:27 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id m90so16536220uam.2;
-        Fri, 21 Jan 2022 04:07:27 -0800 (PST)
-X-Received: by 2002:a67:e055:: with SMTP id n21mr1535004vsl.57.1642766847462;
- Fri, 21 Jan 2022 04:07:27 -0800 (PST)
+        Fri, 21 Jan 2022 06:43:33 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id y4so17302888uad.1;
+        Fri, 21 Jan 2022 06:43:33 -0800 (PST)
+X-Received: by 2002:a67:e95a:: with SMTP id p26mr1708645vso.38.1642776213391;
+ Fri, 21 Jan 2022 06:43:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
- <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com> <f49794a0-096a-1f27-a250-5a74a9ed6ba6@cogentembedded.com>
-In-Reply-To: <f49794a0-096a-1f27-a250-5a74a9ed6ba6@cogentembedded.com>
+References: <20211221094717.16187-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211221094717.16187-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211221094717.16187-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 13:07:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVyRpEE2i4ak3Gg7EOW8LHPk8jZe+ZeVZTW0TWaXJ5k_Q@mail.gmail.com>
-Message-ID: <CAMuHMdVyRpEE2i4ak3Gg7EOW8LHPk8jZe+ZeVZTW0TWaXJ5k_Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: add KF HDMI output
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Date:   Fri, 21 Jan 2022 15:43:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUZWwKLQAaqOsASUhrVmQ89sLL4K9O7x-crWHzFYqUCTQ@mail.gmail.com>
+Message-ID: <CAMuHMdUZWwKLQAaqOsASUhrVmQ89sLL4K9O7x-crWHzFYqUCTQ@mail.gmail.com>
+Subject: Re: [PATCH 01/16] dt-bindings: arm: renesas: Document Renesas RZ/V2L SoC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
+        linux-clk <linux-clk@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+On Tue, Dec 21, 2021 at 10:47 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Document Renesas RZ/V2L SoC.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-CC Mark.
-
-On Fri, Jan 21, 2022 at 11:18 AM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v5.18 with the sort order fixed.
->
-> Thank you.
->
-> I have a question regarding defining regulators.
->
-> In case when drivers expect regulators to be define, but physically chips are just wired to VCC (or to
-> some non-programmable power logic), what is the policy regarding regulator-fixed objects?
->
-> Shall we define per-consumer regulator-fixed objects?
-> Or have a single regulator-fixed for each voltage?
-> Or not define regulators at all and let the code to create dummy regulators?
-> Or something else?
-
-That's a good question.  I don't know if there is a policy. Mark?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
 Gr{oetje,eeting}s,
 
