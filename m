@@ -2,157 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AABF7495D42
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 11:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 582A6495D9B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 11:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343663AbiAUKHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 05:07:47 -0500
-Received: from mail-ua1-f53.google.com ([209.85.222.53]:44803 "EHLO
-        mail-ua1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240580AbiAUKHr (ORCPT
+        id S1349909AbiAUKS2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 05:18:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237625AbiAUKS2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 05:07:47 -0500
-Received: by mail-ua1-f53.google.com with SMTP id f24so15879993uab.11;
-        Fri, 21 Jan 2022 02:07:47 -0800 (PST)
+        Fri, 21 Jan 2022 05:18:28 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8251C06173F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jan 2022 02:18:27 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id bu18so32319447lfb.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jan 2022 02:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ehNPhGfxaSOPMo23fW4dscWuBSl7xXLWdoAmXodSWxs=;
+        b=tIPXAizFDXNmK9BLfbRNxtc78Z0opifETvNRyGi5duEZkcRdIqdDMpkmGqVfixsyuK
+         vSdLkvhD5fbIRr7DRikEsUcmfX8av0qsfghO3JCebwT22TDLiI99toXREsDInSb5E4uM
+         2FwQKJrWrs5jJWxXig9J84Br2Q5njTfa59wtsW7Y2NLyNNNzcJWYtSiGMC14AaBSf2Mh
+         YXVI0jv+4NejycBSghvmO/2SDyybD0rJ/TRk6gqgW8GBLLA2j/ktKtdCxSQMkgSqkCrU
+         +zCqyikEpo3BYcccFCQZGemJjjGeR7O98s+slduzEIm3lxWlrrmk25YD9lUwc9bOGVjW
+         rFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/iX8pvu80FcPsA2BeiEF3hrIHf0rQSHLabn6lNyXbVY=;
-        b=gX+ndLbWf+7Hgn2gQkqFx/0WF0A2iRnHBGB712+2BAqwy9garLuo5YGS186ifilEMD
-         mwq0feeVsYod1n9hicxFXWsAQCC7Zv5Tguqifp+tScykxkDwhXRjUHNYbRDS5SCHn3hH
-         592wvnDsYMo2Zpkiqa1sXyNr5qOD0pTXPOpgNCpAWTOGV4wYA/UPyaiHVTKFOwfBHmR2
-         EcE+R+BNeQM2isZO8IYIYB0pbHI9m4AlaVee384zLXMgiKk4NLl3tU+OjX7m+4uN906f
-         uYtVoNpXoV7BLWCmoX4XcspCPUFg1+bpPoMzHSkjoP+CnOkG2cMe2Da2vNnAueOK5/A4
-         ktwg==
-X-Gm-Message-State: AOAM533L6MtGhrTqxTqf1dqeapFw2i/yR811qsUR755dULNM2tWgAe4f
-        a/3qiiUkXW0HSqtWBzYQ5QkcUJQeggnVFg==
-X-Google-Smtp-Source: ABdhPJzGkAKku6BmywZhnKmw6+aI2ztqsRsw1NFpk1sNzmn/jCe9N2+K2r/vaoI3lkrpRlLnfwl1qw==
-X-Received: by 2002:a67:d794:: with SMTP id q20mr1451884vsj.82.1642759666490;
-        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id r14sm1227357vke.26.2022.01.21.02.07.46
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ehNPhGfxaSOPMo23fW4dscWuBSl7xXLWdoAmXodSWxs=;
+        b=y/cPCXFPoe3xZ7s9tr5sCMmzpD1IJ4psxliDY6CyZ68O2eFp8KFFctSI11+Z4V6dkk
+         W7wvevfojsxwEotmelWpzgL9znXHDle/FHSz0CseccyyFKbX2W/jLZ4osyoLWOCRd9P6
+         893Q8/BgVq8pC72tNyD054dZ0/gtmOCkOiqfViivW6TeyeDe6KxX4M0U1LoBkJ+G3kuW
+         NogSlENguWKwuCVNa1n5HViY2HynjaH2L/wzPhwQi+ndkKAzT8K35tIIef2l06UBsilF
+         b9PZ4OWsSkXGa5BLThCV8bEPNrIW5N/UB0no8/4b+TjsJNk0eDVlbvZBOwkjtYFnGaI1
+         3AVw==
+X-Gm-Message-State: AOAM533Lt9xRW4kxM9LH4qKH/q8Q/An1tRLc3cGan5olneOzjcYsQlG+
+        GiJzKsZnumIFnwMapwApqmtutw==
+X-Google-Smtp-Source: ABdhPJy9qoOUlo95bA/WzBYphVdUngC14f5OAGV/yBfMvg1a0u/KUdUyL8IoUK6phvu8xwxNqIT44w==
+X-Received: by 2002:a05:6512:3186:: with SMTP id i6mr3077649lfe.557.1642760305961;
+        Fri, 21 Jan 2022 02:18:25 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id f24sm204962lfk.297.2022.01.21.02.18.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id p7so8768874uao.6;
-        Fri, 21 Jan 2022 02:07:46 -0800 (PST)
-X-Received: by 2002:a67:e985:: with SMTP id b5mr1116672vso.77.1642759665918;
- Fri, 21 Jan 2022 02:07:45 -0800 (PST)
+        Fri, 21 Jan 2022 02:18:25 -0800 (PST)
+Message-ID: <f49794a0-096a-1f27-a250-5a74a9ed6ba6@cogentembedded.com>
+Date:   Fri, 21 Jan 2022 13:18:24 +0300
 MIME-Version: 1.0
-References: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 11:07:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
-Message-ID: <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: add KF HDMI output
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211225115308.2152364-1-nikita.yoush@cogentembedded.com>
+ <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <CAMuHMdXdW=bCxBeEu81bRBwAs5=x_KZmPcXoMe=CmFdWz=rdfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.18 with the sort order fixed.
 
-On Sat, Dec 25, 2021 at 12:54 PM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> This patch adds nodes needed to enable DRM video output over HDMI
-> connector located on KF board.
->
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Thank you.
 
-Thanks for your patch!
+I have a question regarding defining regulators.
 
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -51,6 +51,31 @@ wlan_en: regulator-wlan_en {
->                 startup-delay-us = <70000>;
->                 enable-active-high;
->         };
-> +
-> +       hdmi_1v8: regulator-hdmi-1v8 {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "hdmi-1v8";
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +       };
-> +
-> +       hdmi_3v3: regulator-hdmi-3v3 {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "hdmi-3v3";
-> +               regulator-min-microvolt = <3300000>;
-> +               regulator-max-microvolt = <3300000>;
-> +       };
-> +
-> +       hdmi1-out {
+In case when drivers expect regulators to be define, but physically chips are just wired to VCC (or to 
+some non-programmable power logic), what is the policy regarding regulator-fixed objects?
 
-Sort order.
+Shall we define per-consumer regulator-fixed objects?
+Or have a single regulator-fixed for each voltage?
+Or not define regulators at all and let the code to create dummy regulators?
+Or something else?
 
-> +               compatible = "hdmi-connector";
-> +               type = "a";
-> +
-> +               port {
-> +                       hdmi1_con: endpoint {
-> +                               remote-endpoint = <&adv7513_out>;
-> +                       };
-> +               };
-> +       };
->  };
->
->  &can0 {
-
-> @@ -236,6 +313,10 @@ gpio_exp_77: gpio@77 {
->         };
->  };
->
-> +&du_out_rgb {
-
-Sort order.
-
-> +       remote-endpoint = <&adv7513_in>;
-> +};
-> +
->  &ohci0 {
->         dr_mode = "otg";
->         status = "okay";
-> @@ -289,6 +370,18 @@ usb0_pins: usb0 {
->                 groups = "usb0";
->                 function = "usb0";
->         };
-> +
-> +       hdmi1_pins: hdmi1 {
-> +               du {
-
-More sort order.
-
-> +                       groups = "du_rgb888", "du_sync", "du_clk_out_0", "du_disp";
-> +                       function = "du";
-> +               };
-> +
-> +               adv7513-interrupt {
-> +                       pins = "GP_2_14";
-> +                       bias-pull-up;
-> +               };
-> +       };
->  };
-
-The rest looks good to me.
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.18 with the sort order fixed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Nikita
