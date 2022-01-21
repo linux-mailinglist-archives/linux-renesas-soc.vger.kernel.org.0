@@ -2,152 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF30D4957D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 02:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1FAA495CC9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 10:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348282AbiAUBl0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jan 2022 20:41:26 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:44805 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233355AbiAUBl0 (ORCPT
+        id S235185AbiAUJ0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 04:26:24 -0500
+Received: from mail-ua1-f52.google.com ([209.85.222.52]:45997 "EHLO
+        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234189AbiAUJ0Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jan 2022 20:41:26 -0500
-X-IronPort-AV: E=Sophos;i="5.88,303,1635174000"; 
-   d="scan'208";a="107148210"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 21 Jan 2022 10:41:25 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DE52440134FE;
-        Fri, 21 Jan 2022 10:41:23 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        Fri, 21 Jan 2022 04:26:24 -0500
+Received: by mail-ua1-f52.google.com with SMTP id x33so15712061uad.12;
+        Fri, 21 Jan 2022 01:26:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dxWUZ1zOh1TgIoszOygQndMzhe9CFNfqsa3cRHmvDUo=;
+        b=2Zok6ND92v61+3Jc1g9wQuK4ALXKG/4O++QdkVyjfhRcTE3BBhj0JQK6MwpOEXp5Yx
+         37HAeTpRrsqUX16n/SOa/5ZmtR7SRzAq6Y+585QViCgnAVXo4UXihYBlPS6TOR4o0M/C
+         pfVsWY9TCyzATMPWekQ5F8rjLXhovCda+3rJ1FbXdjg2oKzNWdmhzjAkl56GCwrOE3qq
+         oZy0kHsIHvdNCFX1X3VDuVqdSPfpTZhVevYvhSy7p3J1TqqzLuhHV29cAxQQPUKC+Q+k
+         A7oDoe9ECFm2Qaemzag7uX75BPiMU7xNTKeOZ7uZvc3IZqzyNZaFbkQ9WP7hLzqaWGeM
+         o4JQ==
+X-Gm-Message-State: AOAM532ad7Fi79W7eO613rLSwC7J2N5T+9o54Ibzi9VUWFAkia9FgJLP
+        Mm66QwmZ8XQ+b9PLpb5PW4OKqCwvMX9aGw==
+X-Google-Smtp-Source: ABdhPJw220PTMBlkHz4lHuOyrFwr6K97cp9J7q3VwamxCfJBaOgiWb06r3XrY/Smiz4r6qddN4L1PA==
+X-Received: by 2002:a05:6102:3f56:: with SMTP id l22mr1322186vsv.20.1642757183131;
+        Fri, 21 Jan 2022 01:26:23 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id cd17sm1057376vsb.21.2022.01.21.01.26.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jan 2022 01:26:22 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id u6so15884472uaq.0;
+        Fri, 21 Jan 2022 01:26:22 -0800 (PST)
+X-Received: by 2002:a9f:3e09:: with SMTP id o9mr1425247uai.114.1642757182256;
+ Fri, 21 Jan 2022 01:26:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 21 Jan 2022 10:26:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
+Message-ID: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
+ CSI-2 block
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] soc: renesas: Add support for reading product revision for RZ/G2L family
-Date:   Fri, 21 Jan 2022 01:41:17 +0000
-Message-Id: <20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Hi Prabhakar,
 
-As per RZ/G2L HW manual (Rev.1.00 Sep, 2021) DEV_ID [31:28] indicates
-product revision. Use this information to populate the revision info
-for RZ/G2L family.
+On Fri, Jan 21, 2022 at 2:06 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Fixed freeing up soc_dev_attr in error path.
+Thanks for your patch!
 
-Output from SMARC RZ/G2L:
-root@smarc-rzg2l:~# for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/soc0/$i; done
-machine: Renesas SMARC EVK based on r9a07g044l2
-family: RZ/G2L
-soc_id: r9a07g044
-revision: Rev 1
-root@smarc-rzg2l:~#
-root@smarc-rzg2l:~#
----
- drivers/soc/renesas/renesas-soc.c | 49 ++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+> ---
+> Hi Geert/All,
+>
+> vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
+> pm_runtime. pclk clock is necessary for register access where as vclk clock
+> is only used for calculations. So would you suggest passing vclk as part of
 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 7da0ea3587c4..44e365b36b26 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -371,6 +371,7 @@ static int __init renesas_soc_init(void)
- 	struct soc_device *soc_dev;
- 	struct device_node *np;
- 	const char *soc_id;
-+	int ret;
- 
- 	match = of_match_node(renesas_socs, of_root);
- 	if (!match)
-@@ -391,6 +392,17 @@ static int __init renesas_soc_init(void)
- 		chipid = ioremap(family->reg, 4);
- 	}
- 
-+	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
-+	if (!soc_dev_attr)
-+		return -ENOMEM;
-+
-+	np = of_find_node_by_path("/");
-+	of_property_read_string(np, "model", &soc_dev_attr->machine);
-+	of_node_put(np);
-+
-+	soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
-+	soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
-+
- 	if (chipid) {
- 		product = readl(chipid + id->offset);
- 		iounmap(chipid);
-@@ -405,41 +417,38 @@ static int __init renesas_soc_init(void)
- 
- 			eshi = ((product >> 4) & 0x0f) + 1;
- 			eslo = product & 0xf;
-+			soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u",
-+							   eshi, eslo);
-+		}  else if (id == &id_rzg2l) {
-+			eshi =  ((product >> 28) & 0x0f);
-+			soc_dev_attr->revision = kasprintf(GFP_KERNEL, "Rev %u",
-+							   eshi);
- 		}
- 
- 		if (soc->id &&
- 		    ((product & id->mask) >> __ffs(id->mask)) != soc->id) {
- 			pr_warn("SoC mismatch (product = 0x%x)\n", product);
--			return -ENODEV;
-+			ret = -ENODEV;
-+			goto free_soc_dev_attr;
- 		}
- 	}
- 
--	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
--	if (!soc_dev_attr)
--		return -ENOMEM;
--
--	np = of_find_node_by_path("/");
--	of_property_read_string(np, "model", &soc_dev_attr->machine);
--	of_node_put(np);
--
--	soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
--	soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
--	if (eshi)
--		soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u", eshi,
--						   eslo);
--
- 	pr_info("Detected Renesas %s %s %s\n", soc_dev_attr->family,
- 		soc_dev_attr->soc_id, soc_dev_attr->revision ?: "");
- 
- 	soc_dev = soc_device_register(soc_dev_attr);
- 	if (IS_ERR(soc_dev)) {
--		kfree(soc_dev_attr->revision);
--		kfree_const(soc_dev_attr->soc_id);
--		kfree_const(soc_dev_attr->family);
--		kfree(soc_dev_attr);
--		return PTR_ERR(soc_dev);
-+		ret = PTR_ERR(soc_dev);
-+		goto free_soc_dev_attr;
- 	}
- 
- 	return 0;
-+
-+free_soc_dev_attr:
-+	kfree(soc_dev_attr->revision);
-+	kfree_const(soc_dev_attr->soc_id);
-+	kfree_const(soc_dev_attr->family);
-+	kfree(soc_dev_attr);
-+	return ret;
- }
- early_initcall(renesas_soc_init);
--- 
-2.17.1
+What do you mean by "calculations"?
+The bindings say this is the main clock?
 
+> clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+
+Please do not specify clock rates in DT, but always pass clock
+specifiers instead.
+The clock subsystem handles sharing of clocks just fine.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
