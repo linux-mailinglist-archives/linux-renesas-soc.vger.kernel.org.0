@@ -2,106 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25342495E0C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 11:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69010495EA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 12:53:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345494AbiAUK6z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 05:58:55 -0500
-Received: from mail-ua1-f45.google.com ([209.85.222.45]:41826 "EHLO
-        mail-ua1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380062AbiAUK6j (ORCPT
+        id S240420AbiAULxG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 06:53:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350282AbiAULwl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 05:58:39 -0500
-Received: by mail-ua1-f45.google.com with SMTP id l1so14297448uap.8;
-        Fri, 21 Jan 2022 02:58:39 -0800 (PST)
+        Fri, 21 Jan 2022 06:52:41 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB4AC061748;
+        Fri, 21 Jan 2022 03:52:41 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id c6so26885765ybk.3;
+        Fri, 21 Jan 2022 03:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LrBn+sU3xPZoZbTSmClVWFWVTh+PkU+kyY1fOibG0gY=;
+        b=iuUsnLya38oBI1uiUxjA+G4adtFWjuN4RaUaz12XN4S4gO7rOFWYTcC0xu2ekXcaQB
+         2z4/iCBIbHCI1uUx9KsY5PK35P9mQVt/inLseRUMEU3M1q2QRIKWh97hLTXNzBpgV2ma
+         9GCWiy1eLXB9hmWk2sCg8oVxJ3Nk/E/MsormuboHFSiha1U/oiuWAIgSfosvnffVVIMC
+         0+DBqqUcqirKwNX0/CsQkFTx8DReumsp3+BpThGtsjdQMSjRj2gX2t7Bg5Zxq1Adk97s
+         pGphh9R51SdvkatJSH4eJxAJpZutGTQAd5obfe/R/H1KUxwXMrLoJKgHpC3orQaf6uHt
+         I+NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bSK9AkQMt2uMFcP1Sp7pz89lE9zDge2o6SCEybiJdFc=;
-        b=0tiuMF7hbFyHSSgs5K3oelqxIqYAId01e5LD5NW1rLPZwRMM/wv2DFOHOI9L5lpQax
-         Pp/IVtkKiJ+70pz0nPa7Z6OEPcfKHwBDjzu2BoHBHR8l0zckN1qDyNf18gV20DDvhdlD
-         abLkFXNAex1sn4GPOA0AoVH4t+IC+gxpCLaOG1qLBKf586s4dumE95uCpeIIg0i/4bMb
-         iIahkZtrAP+yV2Hn7nAO9RqZh0b3SV/SiDVTdnU0AhDWp4EQSjM0Me4cYqA5ZyfMGdXT
-         10BhxItAXp4dxoIFAQ1M/L3b7gqdgp+akZXx20TsS1n9QyB5Lzutr9BswLZLaexC71qz
-         UiVg==
-X-Gm-Message-State: AOAM531Q7G+EZ8RHH+TBLNG0Jst3twK+xsJ3FjHljpO49GXINQLn2qhA
-        Vo6AM446SJ7gk+XX12kCKZfXO+rQMVPjBg==
-X-Google-Smtp-Source: ABdhPJwE4Qht1Z5rYCMx+6d885FZkyq/xehWiNDfgygvVtG6dqVZz6Fc0LIkbqfOWUN+a4M2vGtZrw==
-X-Received: by 2002:a67:c198:: with SMTP id h24mr1562455vsj.40.1642762718869;
-        Fri, 21 Jan 2022 02:58:38 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id m7sm1426200uam.0.2022.01.21.02.58.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 02:58:38 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id u6so16259576uaq.0;
-        Fri, 21 Jan 2022 02:58:38 -0800 (PST)
-X-Received: by 2002:a9f:3d89:: with SMTP id c9mr1506700uai.78.1642762718240;
- Fri, 21 Jan 2022 02:58:38 -0800 (PST)
+        bh=LrBn+sU3xPZoZbTSmClVWFWVTh+PkU+kyY1fOibG0gY=;
+        b=5FP735qyV1q4Fajh8SsaKlu/Yx8dpF3C9S9VVNkkTKtt3bEFES6KblEQ3Yt4EmBwXx
+         Ujc/IHeWbfg8s1hgHXckENfwSXClJt4E9BQA6yKfG7EQC+B+8Hh4k1KlNz9rf9bw5N/P
+         llC/HaR4sRE8lpb0P2rWdyg/+x4w1IRMcjqALDDCnE4bYlaUFwEpM3Z8fKw9BRISHIOk
+         fZKS2geOVfuVgmEA0l948Nm5hJc2Q38tqptFTex0X7KUJDXlfebSADLrGkJ4KWPqBPLR
+         zbG0PNH80v7+6WDiOJlfvxuB+wblvOGiIq2y/ynTouDTLx4u14B3ENwJkklq0OF+v8i9
+         qemg==
+X-Gm-Message-State: AOAM531eNwRezzWqOzE9fwR4Ja/3pUE8EO4bTa5w/ly4CF/3fIEhNBud
+        C/7W2F50spdoNdiiNzBRX+nYkrdR5VHAujmlHXY=
+X-Google-Smtp-Source: ABdhPJwaVi6bL3tdEnFpuAYqAHdaIPzzSS54Nqi7mflfgR2h5hylh5RUqvkMoYxLnrhDs1qG+tnh28EFGBw0nfV/hDs=
+X-Received: by 2002:a25:3716:: with SMTP id e22mr5445974yba.690.1642765960295;
+ Fri, 21 Jan 2022 03:52:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20211225191713.2187975-1-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20211225191713.2187975-1-nikita.yoush@cogentembedded.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 11:58:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXNTukh69MR7cz9kcqMeTrPoeumRknrO3eEuTteJvY-gg@mail.gmail.com>
-Message-ID: <CAMuHMdXNTukh69MR7cz9kcqMeTrPoeumRknrO3eEuTteJvY-gg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: r8a7799[05]: Add MediaLB pins
-To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 21 Jan 2022 11:52:14 +0000
+Message-ID: <CA+V-a8v1to4w0yw17DgbQic2nkX4s+W3ZxPEdp89=9SLxwvBMg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
+ CSI-2 block
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+Hi Geert,
 
-On Sat, Dec 25, 2021 at 8:17 PM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> This adds pins, groups, and functions for MediaLB devices on Renesas
-> R-Car E3 and D3 SoCs.
+On Fri, Jan 21, 2022 at 9:26 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-
-Thanks for your patch!
-
-> --- a/drivers/pinctrl/renesas/pfc-r8a77995.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a77995.c
-> @@ -1295,6 +1295,14 @@ static const unsigned int mmc_ctrl_mux[] = {
->         MMC_CLK_MARK, MMC_CMD_MARK,
->  };
+> Hi Prabhakar,
 >
-> +/* - MLB+ ------------------------------------------------------------------- */
-> +static const unsigned int mlb_3pin_pins[] = {
+> On Fri, Jan 21, 2022 at 2:06 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document the CSI-2 block which is part of CRU found in Renesas
+> > RZ/G2L SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > ---
+> > Hi Geert/All,
+> >
+> > vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
+> > pm_runtime. pclk clock is necessary for register access where as vclk clock
+> > is only used for calculations. So would you suggest passing vclk as part of
+>
+> What do you mean by "calculations"?
+To set the CSI2nMCT2 register bits (FRRSKW/FRRCLK), vclk clock rate is used.
 
-Sort order.
+> The bindings say this is the main clock?
+>
+That is because the RZG2L_clock_list_r02_02.xlsx mentions it as the main clock.
 
-> +       RCAR_GP_PIN(0, 6), RCAR_GP_PIN(0, 7), RCAR_GP_PIN(0, 8),
+> > clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+>
+> Please do not specify clock rates in DT, but always pass clock
+> specifiers instead.
+> The clock subsystem handles sharing of clocks just fine.
+>
+Agreed.
 
-According to Rev 0.7 of the R-Car D3 pin function sheet, you
-mixed up MLB_SIG and MLB_DAT.  Doesn't matter much, though.
-
-> +};
-> +static const unsigned int mlb_3pin_mux[] = {
-> +       MLB_CLK_MARK, MLB_SIG_MARK, MLB_DAT_MARK,
-> +};
-> +
->  /* - MSIOF0 ----------------------------------------------------------------- */
->  static const unsigned int msiof0_clk_pins[] = {
->         /* SCK */
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.18 with the above fixed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
