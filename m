@@ -2,134 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DFC0496183
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 15:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A6949623E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 16:42:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351267AbiAUOrI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 09:47:08 -0500
-Received: from mail-vk1-f174.google.com ([209.85.221.174]:44660 "EHLO
-        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345996AbiAUOrH (ORCPT
+        id S1351415AbiAUPmX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 10:42:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240481AbiAUPmW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 09:47:07 -0500
-Received: by mail-vk1-f174.google.com with SMTP id b77so5677009vka.11;
-        Fri, 21 Jan 2022 06:47:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rz63SkibEn38erp8p/aTMOlV26SxK/MGIxWsaVpLBaY=;
-        b=Z6sYz5PdBt9ssWHFpd2z5wLl0c02NwUQeXq72s7k/BHo+ePzQ0j5X78XANx3ccRou8
-         717tx9mpSMOvuyUth5mQThzQwv1L/zgg2MdWP586A11p1bEFkwMlDlI8H5xWDdqywQF1
-         Pkov0dczEfDPE81CgrUh6uuawarkFVXdlmryR7B7aL/mSBmVgxxvsqmXjGAze03Ins1j
-         4SZKqxrbfjz7ERshs/8o3+XYDISH04lS7Rjh9xrJId9APdXE56VB1mr2G0l+3yik4mn/
-         o+YtybHFrB0O69dNrjlxyi8l1L+jFZluOEh3RMIB3qzPhqXNb+mtVNbgHTDAxGrtZZtG
-         Ja3A==
-X-Gm-Message-State: AOAM530DHUhHFrHZ5VYhkTE5aI08X66Qcur/u791EWxFTq3kxSgEL09f
-        5RVvcwHB96YpTTJ2qickFNvQn0Lr424LxA==
-X-Google-Smtp-Source: ABdhPJwuffPAmuK2E7gxqRwS7KEBFGThTCssHxkPOWP0iBG6ogey51PsZhOhbotgf8uuuP8wKhidBQ==
-X-Received: by 2002:a1f:aed3:: with SMTP id x202mr1882982vke.40.1642776426270;
-        Fri, 21 Jan 2022 06:47:06 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id o131sm1401684vkc.42.2022.01.21.06.47.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 06:47:06 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id c36so17231803uae.13;
-        Fri, 21 Jan 2022 06:47:05 -0800 (PST)
-X-Received: by 2002:a67:e985:: with SMTP id b5mr1507440vso.77.1642776425511;
- Fri, 21 Jan 2022 06:47:05 -0800 (PST)
+        Fri, 21 Jan 2022 10:42:22 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED53C06173B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Jan 2022 07:42:22 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8c86:990b:e157:4a14])
+        by albert.telenet-ops.be with bizsmtp
+        id lTiJ2600Z3SWdao06TiJ3M; Fri, 21 Jan 2022 16:42:19 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nAw3O-00Arqs-DN; Fri, 21 Jan 2022 16:42:18 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nAw3N-00BEEL-Vf; Fri, 21 Jan 2022 16:42:18 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r9a07g044c2-smarc: Drop unneeded pinctrl-names, too
+Date:   Fri, 21 Jan 2022 16:42:17 +0100
+Message-Id: <ada490aeee8f1bfdae4a878dd1fadbb34dbc3fb7.1642779366.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220110134659.30424-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220110134659.30424-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220110134659.30424-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 15:46:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUopcuP6XAd_Fw___04=-CyqJPEfNcwkrYgtdQz11yYvg@mail.gmail.com>
-Message-ID: <CAMuHMdUopcuP6XAd_Fw___04=-CyqJPEfNcwkrYgtdQz11yYvg@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] arm64: dts: renesas: Add support for r9a07g044c1/r9a07g054l1-smarc.dts
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar, Biju,
+"make dtbs" complains when "pinctrl-names" is present without "pinctrl-0".
 
-On Mon, Jan 10, 2022 at 2:47 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Fixes: 5c0d1874072bef54 ("arm64: dts: renesas: Add initial device tree for RZ/G2LC SMARC EVK")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be folded into the original in renesas-arm-dt-for-v5.18.
 
-Thanks for your patch!
+ arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -77,4 +77,6 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a779m5-salvator-xs.dtb
->
->  dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
->  dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc.dtb
-> +dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c1-smarc.dtb
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+index 53845823d0dce9cc..728a2275ea8d21ac 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+@@ -19,46 +19,55 @@ / {
+ 
+ &canfd {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &ehci0 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &ehci1 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &hsusb {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &i2c0 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &i2c1 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &i2c3 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &ohci0 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &ohci1 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+@@ -68,32 +77,38 @@ &phyrst {
+ 
+ &scif2 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &sdhi1 {
+ 	/delete-property/ pinctrl-0;
+ 	/delete-property/ pinctrl-1;
++	/delete-property/ pinctrl-names;
+ 	/delete-property/ vmmc-supply;
+ 	status = "disabled";
+ };
+ 
+ &spi1 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &ssi0 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &usb2_phy0 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+ 
+ &usb2_phy1 {
+ 	/delete-property/ pinctrl-0;
++	/delete-property/ pinctrl-names;
+ 	status = "disabled";
+ };
+-- 
+2.25.1
 
-Please preserve sort order, and add a blank line to separate
-different SoCs.
-
->  dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
-> +dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l1-smarc.dtb
-
-Sort order.
-
-Given this patch adds boards with two different SoCs, and the two
-DTS files are quite dissimilar, I think this patch should be split in
-two parts.
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g044c1-smarc.dts
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the RZ/G2LC SMARC EVK board
-> + *
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +#include "r9a07g044c1.dtsi"
-> +#include "rzg2lc-smarc-som.dtsi"
-> +#include "rzg2lc-smarc-pinfunction.dtsi"
-> +#include "rzg2l-smarc.dtsi"
-> +
-> +/ {
-> +       model = "Renesas SMARC EVK based on r9a07g044c2";
-> +       compatible = "renesas,smarc-evk", "renesas,r9a07g044c2", "renesas,r9a07g044";
-
-"renesas,r9a07g044c1"
-
-> +
-> +};
-> +
-> +&canfd {
-> +       /delete-property/ pinctrl-0;
-> +       status = "disabled";
-> +};
-
-Looks like the corresponding pinctrl-names properties should be
-removed, too.  Else "make dtbs_check" complains.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
