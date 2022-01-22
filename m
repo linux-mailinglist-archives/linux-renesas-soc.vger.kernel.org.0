@@ -2,177 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68468496C07
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jan 2022 12:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B30496E28
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jan 2022 23:16:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233833AbiAVLXe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jan 2022 06:23:34 -0500
-Received: from mail-os0jpn01on2122.outbound.protection.outlook.com ([40.107.113.122]:10400
-        "EHLO JPN01-OS0-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229847AbiAVLXe (ORCPT
+        id S233206AbiAVWQV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jan 2022 17:16:21 -0500
+Received: from phobos.denx.de ([85.214.62.61]:51580 "EHLO phobos.denx.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231135AbiAVWQU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jan 2022 06:23:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FVkedRZ3N2N4Uj7Se3abNTsjMQjUmj+iHNVQRXrFDwk/dQZsaEdFXad+3M2f4lXVLIw4VJb2QMn4xzzH0X9f1DvGpbMIhA+qS4uG638V+coDOK+QVdM/B1zd+Cv4uBEGz+/T1Ls8qc9I3YAoxMFP/DhrnH0fMN7lsCFSXix7FlwSUuYiFscu2HvhzGF4+zPUbhQ0b/SLl7bp/h3AOkhxBqn5uJFmoxUEAe5x/32+MHn1saNkYyNXpTP47CacisRzlRVrN9yutPQNppNfDDkWxcUPVzni+m/3Bpm8aP9dBibOgPtixVUFms/j8i5KC3Rzfdca8FYkRm+tY3B1hs7iCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1B6WWHYqE20L3fq4Pn3zmZK1u/yy+3L3kGKrjHP7eQ8=;
- b=Ri8P77F5sXWxdmPuXVj+WOLlT5kOsRNXTkAAsJ5UuAvVuwDXemVTASDThVZb/UTexTL8CzVU6HVdOxkjpWohPXXN4pO52gnoI7Glo9LLeCrDSk31GUlkHilNmjs0I2VW/4hJ23OMiRcPt/v+onhHr7SO1DAspOiehh+ZPHEfLkeFHbgY1ig3zS005696nPUtgw8CdDh/v10TtLYVRyzkdjpV1W/x6E9ayNVOElyS1ytDYK56hPjRMQ94sb/I6dG8HyaESLwGX48kajWFRkQfKYzNb7soSaj47hwY2jNAv5w8yqggy3cLpPfzdCqVuK5g8BTsfF72kVXwy1OH0PRLEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1B6WWHYqE20L3fq4Pn3zmZK1u/yy+3L3kGKrjHP7eQ8=;
- b=TkRNd4mk2vH9nNsCGBVfGoUappEkdGkLydsZyuTbU42x+J5bMj6Zhlp40WrWvIR9KSpioZagbYGnUYsPTI3qq26TKslmL3vzicJ7+Tnq9U526Q2+fTIWAwJ62jRLjdUayCPdbZs1hJM7yT9zKh/An9mcFkTQjIyi9+U3rfM7ncg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSAPR01MB2881.jpnprd01.prod.outlook.com (2603:1096:603:3d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.13; Sat, 22 Jan
- 2022 11:23:32 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3847:4115:3fbe:619]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3847:4115:3fbe:619%7]) with mapi id 15.20.4909.014; Sat, 22 Jan 2022
- 11:23:32 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Sat, 22 Jan 2022 17:16:20 -0500
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 69C7880FB8;
+        Sat, 22 Jan 2022 23:16:18 +0100 (CET)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [RFC 19/28] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings
-Thread-Topic: [RFC 19/28] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings
-Thread-Index: AQHYB9xts4jxdkHKi0iBE9shTZbblKxuR7AAgACswuA=
-Date:   Sat, 22 Jan 2022 11:23:32 +0000
-Message-ID: <OS0PR01MB5922E4E0E015D3EE42A97F36865C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-20-biju.das.jz@bp.renesas.com>
- <YetXnJf85MMlJjAW@robh.at.kernel.org>
-In-Reply-To: <YetXnJf85MMlJjAW@robh.at.kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 38434eaf-a4d4-4a46-412b-08d9dd999f50
-x-ms-traffictypediagnostic: OSAPR01MB2881:EE_
-x-microsoft-antispam-prvs: <OSAPR01MB288108614478CB8207B80AD8865C9@OSAPR01MB2881.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2449;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Z1qvVm+utZYSzbgR5QtvGM07u2vBc0hVRFV6KSg8MQLbt/NCvCXjC3YKY3g6OqGhYtKdK83HqP47ICZ0+gZkVzk3GKHSK7mD2SLXaxr3m5V8LRKCXMFQMmeQFs9ZJlsbclPqzxZiIVD0NwT4Jqi4z3J3E3iC/s28xV3BQEKQIcvRB9Ap0WX9gK+QCSU6rpM3IA+aqZCkmthbWLVXayo+QbpZ8B7LUojuZLm9c5ct/7nbpnndrjo/DqGYYe4duBkRZ6dGvRNPBMdVExz0QAJ8Ir6sGKWVzDmbg8puAuvN5LX2SlMVyQy+lR3PA0ewO7DbQevPm7HvlU53ZF6wRVoPXQacRvpZHyMbL2gp+cGJdz9Ogil1c6FRfDBle0HFZqfEc8D9Ns9CD8q72rmC6MSFNICpcVG4gwuYOC1oAdDxvD1JJ60XXzo4/Autn7ZVS/aNSgRqe+HMpocBcMV1cN66l9HoDtPQkPUtSkyKSAGydYrzYfZGE2IBawounwxPjil0qeV1rNVQRPDccI6mhiV4CNLZU21y1ubM4Zq8INmpCwa2YVdqm8RT05dyP315iz6PN5+aNN4X6j1ldHjiOV2HMngLxRn69W62RC5PTCQNXakUyeg9Q2ZduXugkxI5zBsGNBarsh8wSCaXU1lQbvqcUCjJarAZlNVyboFwkk3tb8X1b6AZ6n4QDrEDPxAc3WgLdeD2o8AAYk8C9dvKILMQsw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38070700005)(8676002)(54906003)(6916009)(66476007)(66446008)(66556008)(66946007)(64756008)(8936002)(76116006)(2906002)(122000001)(71200400001)(316002)(38100700002)(55016003)(107886003)(6506007)(4326008)(52536014)(83380400001)(86362001)(33656002)(186003)(26005)(7696005)(508600001)(5660300002)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qxvxV+4AgrVEX+fhf2k3OOdk/eJHG6tjfZENjpRV6Db7M3miZrv7zq4y/UGS?=
- =?us-ascii?Q?gdtogdBy2KRchFBIa6b2VfqxQZ6uC7wSkGvRL7rwpxDoLgmgN1fkosCqIfSj?=
- =?us-ascii?Q?4kOCvTbBXCpsr0ASNOLg1wWGCPLURDR0U/pyTzQp7RxrktNDjNk0rsMf9xqx?=
- =?us-ascii?Q?VCUYEOTXL06d8HZfjpcGtx8MTmibfmbwXG+l3IzcSCTvF+HQj9G1y9jL67ET?=
- =?us-ascii?Q?rTS/5b2ywbupjMdPjzex8yhiEksGqXCYmD69uyK1Eb54m62Ex2AVcAgT5VKG?=
- =?us-ascii?Q?wgvC39da8kpilwyzONPIOZ4849UlkxBKVj8/e7VcAyg1moyGTUSsQLthK7Ij?=
- =?us-ascii?Q?Q4gp/HlldGtxIZtNnOVZu3+AYyW+DO8vbebXghviJaD/g7pcCOAHetaVUfk/?=
- =?us-ascii?Q?lJ+AXc8xW/Ad/QwzIMXIHCTHW/JKpmr2EZ6YoNsu/INHv1awrOqPq0aERymX?=
- =?us-ascii?Q?YWwJNuQhyMjC5+zUcmLVMqBMRWsyeFvdJ3T0NtHFrTudDRrykBvYvAokyEHA?=
- =?us-ascii?Q?WNrCVcECo/uyc7/JTS2L14LPoFMUG5fVfkZ4K9fLo4Nv8F4s9S6owjg2Tacz?=
- =?us-ascii?Q?Q1d7t2L/FWi+ur/ybq+pA1NhynlYJ9UEHLmArORkdJloDVkRER2Avc8GaSBE?=
- =?us-ascii?Q?ptIPCfL1E5w2RvN8AYDJmpvqbHBtW+PK+KaxCs/uH+FsUqeP2HukDjVWAzIh?=
- =?us-ascii?Q?B/+px8Asodl41WFFRQ80DRtsdAOfZJI6EeSH+7RrsIm5/8QQjA8aKSSy62cb?=
- =?us-ascii?Q?Leb9kYN07gfty2d9WXgVEL3cWFsA6QCtSLHDmc6B1XrtvPRPJ3e0WTfe8V4N?=
- =?us-ascii?Q?DpID2MqRfP/V1FLF6wWPqWrBdiu3UQN5bZxzD0SINFnPYOn8U1Y0OUR9swlU?=
- =?us-ascii?Q?dgR+OOrcgf9OCGzzaxXUIB7IA+Pzr1kiyxLnpWs3aLxVIup6nwXyymRFw8ys?=
- =?us-ascii?Q?UwGweOAHn+C1PmbTtkxhjhUAmlGfc3brod3hgwVHsoyGRa+4El4wgKkwzhAK?=
- =?us-ascii?Q?60yPwXCXEZ/FVP9Y94LRf88cHI1GkRXsf7w7CIUcib9Ew+zXaNIh3maewF13?=
- =?us-ascii?Q?w/Bw1ILd9M3cdXWYXVePNDXFrVsUvTBJcNwz/aF5YKiSErFza0ujuQGUWgPB?=
- =?us-ascii?Q?oVrcwt+ZfuxHROcC7MQJ40j+BidWpEQNbQNhM431O5SBxVWBRksHl25C17+g?=
- =?us-ascii?Q?qSVsbBtrueA3klbldahHSdDeqS85RUBLz2jKH9ZKFQrQ+eJY5YXbBKnjVApa?=
- =?us-ascii?Q?8w/Kq59b8DrH9JWZl/wDeHRXLYspI489DfnwNRFmKVX+FzIA+aTC87Xv/pkW?=
- =?us-ascii?Q?TLFpu51mC+XsP/tbRlN5/I+T3OyTz5pXRf8u4/Fh+58TI3PU2eKubMnlGesF?=
- =?us-ascii?Q?VdGSUGMCoLl5zCx8+f530zMcmxCggjbo7GmPu5AmTDzxFlgzXdHY81iwqazr?=
- =?us-ascii?Q?u0+ktqO1zOCy/jEg8W0Cd9TiaaGmp3BekbnPSlXBGI7JTp+Xa7ZQ/ySAEK7Z?=
- =?us-ascii?Q?DQkbHyo+9lc+cC3PDMnhyWTO/w3YmYY7Ukp3j2aeQNKNDImz5Qt+YZ9RMnBF?=
- =?us-ascii?Q?VrSQg1L0sK7GT6qQZLl5OJDSKj3JbVh7QEOoE2LGJwbSLroU5myu/ee3vSpr?=
- =?us-ascii?Q?zZdcQbErOdCxOR/urfo1kX7bafVWh9kPxDfgKbaERBMZiu0xRMbG2F+hCKqB?=
- =?us-ascii?Q?ulY3Cw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date:   Sat, 22 Jan 2022 23:15:53 +0100
+Message-Id: <20220122221554.196311-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38434eaf-a4d4-4a46-412b-08d9dd999f50
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2022 11:23:32.1426
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gtV2HakVbA54uhqjxfnv1e9zVJeR6W6WOTQQXzpiJILOIwIjboQeXnbW6KPT+S9zIR3/bNwdyB6jlhNGGzNJkDK4r1d5lvOUEXRVrd/BZTM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2881
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Thanks for the review.
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
 
-> Subject: Re: [RFC 19/28] media: dt-bindings: media: renesas,vsp1: Documen=
-t
-> RZ/{G2L,V2L} VSPD bindings
->=20
-> On Wed, Jan 12, 2022 at 05:46:03PM +0000, Biju Das wrote:
-> > Document VSPD found in RZ/G2L and RZ/V2L family SoC's.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,vsp1.yaml | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > index 990e9c1dbc43..b27ee23d2b29 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > @@ -19,6 +19,7 @@ properties:
-> >      enum:
-> >        - renesas,vsp1 # R-Car Gen2 and RZ/G1
-> >        - renesas,vsp2 # R-Car Gen3 and RZ/G2
-> > +      - renesas,vsp2-r9a07g044 # RZ/G2L and RZ/V2L
-> >
-> >    reg:
-> >      maxItems: 1
-> > @@ -27,7 +28,8 @@ properties:
-> >      maxItems: 1
-> >
-> >    clocks:
-> > -    maxItems: 1
-> > +    minItems: 1
-> > +    maxItems: 3
->=20
-> You have to define what each one is once you have more than 1.
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
 
-Agreed, Will define each clocks.
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Pull DEFINE_SPINLOCK(pmsr_lock) and rcar_pcie_wakeup() out of ifdef(CONFIG_ARM),
+    since this change is applicable even on arm64
+V3: - Convert non-zero return value from rcar_pcie_wakeup() in either
+      PCIBIOS_SET_FAILED in rcar_pcie_config_access(), or, 1 in
+      rcar_pcie_aarch32_abort_handler().
+    - Set error response using PCI_SET_ERROR_RESPONSE() in
+      rcar_pcie_config_access()
+    - Fix double spinlock unlock in rcar_pcie_aarch32_abort_handler().
+---
+ drivers/pci/controller/pcie-rcar-host.c | 76 +++++++++++++++----------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
 
-Regards,
-Biju
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 38b6e02edfa9..7d38a9c50093 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -65,6 +65,42 @@ struct rcar_pcie_host {
+ 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
+ };
+ 
++static DEFINE_SPINLOCK(pmsr_lock);
++
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
++{
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
++
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
++		ret = -EINVAL;
++		goto unlock_exit;
++	}
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
++}
++
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
+ {
+ 	return container_of(msi, struct rcar_pcie_host, msi);
+@@ -85,6 +121,14 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	if (ret) {
++		PCI_SET_ERROR_RESPONSE(data);
++		return PCIBIOS_SET_FAILED;
++	}
+ 
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1050,40 +1094,10 @@ static struct platform_driver rcar_pcie_driver = {
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+-	unsigned long flags;
+-	u32 pmsr, val;
+-	int ret = 0;
+-
+-	spin_lock_irqsave(&pmsr_lock, flags);
+-
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
+-		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+-
+-unlock_exit:
+-	spin_unlock_irqrestore(&pmsr_lock, flags);
+-	return ret;
++	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
+ }
+ 
+ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+-- 
+2.34.1
 
->=20
-> >
-> >    power-domains:
-> >      maxItems: 1
-> > --
-> > 2.17.1
-> >
-> >
