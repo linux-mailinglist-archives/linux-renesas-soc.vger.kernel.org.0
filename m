@@ -2,152 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CBC4496303
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jan 2022 17:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBB94968B6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Jan 2022 01:28:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351463AbiAUQjz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jan 2022 11:39:55 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:36856 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbiAUQjz (ORCPT
+        id S230307AbiAVA20 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jan 2022 19:28:26 -0500
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:35570 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230010AbiAVA20 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jan 2022 11:39:55 -0500
-Received: by mail-ua1-f42.google.com with SMTP id r15so17920116uao.3;
-        Fri, 21 Jan 2022 08:39:54 -0800 (PST)
+        Fri, 21 Jan 2022 19:28:26 -0500
+Received: by mail-oi1-f181.google.com with SMTP id s127so15951210oig.2;
+        Fri, 21 Jan 2022 16:28:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=08CzZT3mvD81ccDG4Ahw8PON0/dRtPJlIrRMOEcIQq0=;
-        b=VIABAAJDHwzrGevUBUGMyFyUvaC57Ebu+5Brbt8ayORxrLEVHjGmvMCsB6DtwRZ4Ti
-         XSrcEJE7IkiutsWg7oLxK5J8Wg5bsGZujUsobnYEWMJM3bemXsilmtBeJHT9AHRmR6Q5
-         nZdurbTgmShFcZSxPK7BE9M6S6AQsnHxigjJvXYho9PQr3YthIM/qLsuCJ/9U0a9zuQL
-         DLqxyUfyuleGKLqfeQIKWoj3bI7nL6NKZ9QAT8j4oH8oUWK1aqdOzd1qxoA4mTt84i4t
-         6fqfuLHOssDD1SQtmyLG3jbCqgh3OKBZUmm5kqYsn5X3VTk/8FtOEXHuVDGZTa5/q3pU
-         yCFg==
-X-Gm-Message-State: AOAM532REYvzhdbkliAyeo4OvkmSKlXOSOu1hjc+Sp/MTFdqKgOzU7/e
-        xDU86tZ5/Kh5RVwdonSCs94s98q0skccfA==
-X-Google-Smtp-Source: ABdhPJxTIMpmYIk7YKy8RIe8g7s9OJw3hM2A8o9UZYd0sRl4Lz0psgrXlIC2JKCKJn9rTLVnl+kG2w==
-X-Received: by 2002:a05:6102:3ec4:: with SMTP id n4mr2025644vsv.41.1642783194198;
-        Fri, 21 Jan 2022 08:39:54 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id y4sm1329355vsi.14.2022.01.21.08.39.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 08:39:54 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id y4so17926134uad.1;
-        Fri, 21 Jan 2022 08:39:53 -0800 (PST)
-X-Received: by 2002:a67:e95a:: with SMTP id p26mr1990858vso.38.1642783193716;
- Fri, 21 Jan 2022 08:39:53 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Zv+cPZmVfKYvmqTOobK2PM2qsjcr1/IJJymKDRipxEY=;
+        b=N49OmB5InG2QXuGLpE3Px9sJnBBnheUcklHaUINJR31a0bk5PWIPMm/9OrFKBzrxEd
+         ZKcuzI8MeupUm1JXkTJIEBh3wz6YYzMte0JLFdrv3NrPYPaSjx+donSwQaVS9uFa5OPj
+         zYvzrd5iuqePpoBmHyGLvo7AiTBLA5ABHM9o6nJ0ucubbphzXagebFqjQGXjJFk+RReg
+         2YblP2zWtMK7ZtG4tqJjrCoEY6Dsi19KgeAf+NcCioMKWCe3rEcq7DkMWThIYJbMQwjk
+         Xa2jRwywTBR36srBnOcrzG94FR6BBixegyA9fd4L+14OqiY65nX8ov3nXFhs9b4+bbd+
+         h50Q==
+X-Gm-Message-State: AOAM533Gs4OAaOMovcKzd5M4ykSukhZSzpxLcG5dv35iy7UhbWWEUNQ1
+        UPncGCzLK3PJDirBJdsmRw==
+X-Google-Smtp-Source: ABdhPJyd4e3WuvjJTk2qsrWsqqHp+CUSfLtpioZPWr9DhG0gyd12nSa3XSArG4CxPkQt+YZm7c2IWQ==
+X-Received: by 2002:a54:460a:: with SMTP id p10mr2550707oip.163.1642811305309;
+        Fri, 21 Jan 2022 16:28:25 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id z1sm1699914oti.29.2022.01.21.16.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jan 2022 16:28:24 -0800 (PST)
+Received: (nullmailer pid 1908803 invoked by uid 1000);
+        Sat, 22 Jan 2022 00:28:23 -0000
+Date:   Fri, 21 Jan 2022 18:28:23 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Thomas Nizan <tnizan@witekio.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2.1 03/11] dt-bindings: media: i2c: max9286: Add
+ property to select bus width
+Message-ID: <YetPp4Vy3gtv0eaM@robh.at.kernel.org>
+References: <20220101182806.19311-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20220110212446.3021-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20220110134659.30424-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220110134659.30424-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVo4NuhSA6qarTROUJaQbdT85Fj8uO4ASiQVe2uxph+yg@mail.gmail.com> <CA+V-a8uD_EhOFBvKxMsaXcGV2PU1SSgKEis5MmO68xUM2702ww@mail.gmail.com>
-In-Reply-To: <CA+V-a8uD_EhOFBvKxMsaXcGV2PU1SSgKEis5MmO68xUM2702ww@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Jan 2022 17:39:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVUE68XECyowVASyHsEN4jufJ7gdRUkqDD_qG-PUz2B7A@mail.gmail.com>
-Message-ID: <CAMuHMdVUE68XECyowVASyHsEN4jufJ7gdRUkqDD_qG-PUz2B7A@mail.gmail.com>
-Subject: Re: [PATCH v2 05/12] clk: renesas: Add support for RZ/V2L SoC
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110212446.3021-1-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Mon, 10 Jan 2022 23:24:46 +0200, Laurent Pinchart wrote:
+> The GMSL serial data bus width is normally selected by the BWS pin, but
+> it can also be configured by software. Add a DT property that allows
+> overriding the value of the BWS-selected bus width to support systems
+> whose BWS pin doesn't result in the correct value.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+> Changes since v2:
+> 
+> - Specify the property type
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-On Fri, Jan 21, 2022 at 5:32 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Fri, Jan 21, 2022 at 2:45 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Jan 10, 2022 at 2:47 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > >
-> > > The clock structure for RZ/V2L is almost identical to RZ/G2L SoC. The only
-> > > difference being RZ/V2L has an additional registers to control clock and
-> > > reset for the DRP-AI block.
-> > >
-> > > This patch adds minimal clock and reset entries required to boot the
-> > > system on Renesas RZ/V2L SMARC EVK and binds it with the RZ/G2L CPG core
-> > > driver.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- /dev/null
-> > > +++ b/drivers/clk/renesas/r9a07g054-cpg.c
-> >
-> > > +const struct rzg2l_cpg_info r9a07g054_cpg_info = {
-> > > +       /* Core Clocks */
-> > > +       .core_clks = r9a07g054_core_clks,
-> > > +       .num_core_clks = ARRAY_SIZE(r9a07g054_core_clks),
-> > > +       .last_dt_core_clk = LAST_DT_CORE_CLK,
-> > > +       .num_total_core_clks = MOD_CLK_BASE,
-> > > +
-> > > +       /* Critical Module Clocks */
-> > > +       .crit_mod_clks = r9a07g054_crit_mod_clks,
-> > > +       .num_crit_mod_clks = ARRAY_SIZE(r9a07g054_crit_mod_clks),
-> > > +
-> > > +       /* Module Clocks */
-> > > +       .mod_clks = r9a07g054_mod_clks,
-> > > +       .num_mod_clks = ARRAY_SIZE(r9a07g054_mod_clks),
-> > > +       .num_hw_mod_clks = R9A07G054_TSU_PCLK + 1,
-> >
-> > R9A07G054_STPAI_ACLK_DRP
-> >
-> Agreed.
->
-> > > +
-> > > +       /* Resets */
-> > > +       .resets = r9a07g054_resets,
-> > > +       .num_resets = ARRAY_SIZE(r9a07g054_resets),
-> > > +};
-> >
-> > Given RZ/V2L is RZ/G2L + DRP-AI, and the common clock IDs are the
-> > same, what about reusing r9a07g044-cpg.c, and just adding a separate
-> > r9a07g054_cpg_info?
-> >
-> Agreed. To clarify for clock and reset entries for common we use the
-> macros defined for RZ/G2L and for DRP entries we use the RZ/V2L macros
-> (which will be an additional member) ?
-
-You can have a struct with two arrays:
-
-    static const struct {
-            static struct rzg2l_mod_clk common[...];
-    #ifdef CONFIG_CLK_R9A07G054
-            static struct rzg2l_mod_clk drp[...];
-    #endif
-    } r9a07g054_mod_clks[] = ...
-
-See drivers/pinctrl/renesas/pfc-r8a77951.c.
-
-> > When you add DRP-AI clocks and resets later, you just have to make
-> > sure .num_{core_clks,mod_clks,resets} are correct, similar to how
-> > drivers/pinctrl/renesas/pfc-r8a77951.c handles common and automotive
-> > pin groups and functions.
-> >
-> Agreed.
-
-E.g. ARRAY_SIZE(r9a07g054_mod_clks.common) vs.
-ARRAY_SIZE(r9a07g054_mod_clks.common) + ARRAY_SIZE(r9a07g054_mod_clks.drp).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: Rob Herring <robh@kernel.org>
