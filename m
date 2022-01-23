@@ -2,132 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F136F497333
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 17:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E04024975C7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 22:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238924AbiAWQtn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Jan 2022 11:49:43 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:53928 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238923AbiAWQtl (ORCPT
+        id S240245AbiAWVpy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Jan 2022 16:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240234AbiAWVpy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Jan 2022 11:49:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B43BF60F9D;
-        Sun, 23 Jan 2022 16:49:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4962C340E5;
-        Sun, 23 Jan 2022 16:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642956580;
-        bh=YVXpwoinBAgFzYgroJ4edcwA9fi1zpD4CNhaWjyAp5s=;
+        Sun, 23 Jan 2022 16:45:54 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188C9C06173B;
+        Sun, 23 Jan 2022 13:45:53 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64061D41;
+        Sun, 23 Jan 2022 22:45:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1642974351;
+        bh=SUGQ4I/NfdTXsFSCHUc16iN2+6Zmi855cTdPMbrW0xk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T+LSJ8piSnq+1s4W/LpG2yc9gLwkPGLXLtyXY9KRk3BHoo5cMHHeuEPl1w0Ggg1nV
-         H8iVOY43S/1TC3Bd0FJ93h2TFSdMn4gl1DBLIIWFlj6LKCbJlhPVH2zXRD3ME1UCZG
-         sSeFq1S37T/itj6gibFqUuGV/AwhmXaQZRb+28CaK/kEY+XsLJPa6WJgbYKCHZaItK
-         VeI35mNIlFb21Fap2haw8tMjY4H/nl+KHUIL+3I/6tYdyPcNfS22nrwhdIyIE0dKvZ
-         EBDnx37tfXge9Ks3FH/ncEAV9eZH2HWKe4NpPgI7kmfErhQpzforkcL3et/u6yrcZ4
-         8JU4sTb0QUcHg==
-Received: by pali.im (Postfix)
-        id 28AAA777; Sun, 23 Jan 2022 17:49:37 +0100 (CET)
-Date:   Sun, 23 Jan 2022 17:49:37 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] PCI: rcar: Return all Fs from read which
- triggered an exception
-Message-ID: <20220123164936.cmzvkkkuw5chz3ek@pali>
-References: <20220122221554.196311-1-marek.vasut@gmail.com>
- <20220122221554.196311-2-marek.vasut@gmail.com>
- <20220123153147.sv6eoayxqvqbaa66@pali>
- <7ced7370-1853-b52d-7e04-062d1bf3334c@gmail.com>
+        b=lemnulwLjp4/JNUpfjeKFYDBS+1W2dBX6VSsIU6t6TLuOxLLf8I20kgVO5+BKNGPm
+         WBUnOrUKT0HfLUgxCMd34crq2Zm8GagdJEjaktk4mOlaYrWoyn6C/ZEt1oOsS3R4i1
+         edcu4cfpyewLZtZypNuVS/b2Hvhi4LoQT6qo4OhA=
+Date:   Sun, 23 Jan 2022 23:45:34 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: vsp1: mask interrupts before enabling
+Message-ID: <Ye3MfnICIv0PeqT9@pendragon.ideasonboard.com>
+References: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ced7370-1853-b52d-7e04-062d1bf3334c@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sunday 23 January 2022 17:31:28 Marek Vasut wrote:
-> On 1/23/22 16:31, Pali Rohár wrote:
-> > On Saturday 22 January 2022 23:15:54 marek.vasut@gmail.com wrote:
-> > > From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > > 
-> > > In case the controller is transitioning to L1 in rcar_pcie_config_access(),
-> > > any read/write access to PCIECDR triggers asynchronous external abort. This
-> > > is because the transition to L1 link state must be manually finished by the
-> > > driver. The PCIe IP can transition back from L1 state to L0 on its own.
-> > 
-> > Hello!
-> > 
-> > I must admit that this patch from its initial version evolved into giant hack...
-> > https://lore.kernel.org/linux-pci/20210514200549.431275-1-marek.vasut@gmail.com/
-> > 
-> > During review of the previous patch I have asked some important
-> > questions but I have not got any answer to them. So I'm reminding it:
-> > https://lore.kernel.org/linux-pci/20210805183024.ftdwknkttfwwogks@pali/
-> > 
-> > So could please answer what happens when PCIe controller is in some
-> > non-L* state and either MMIO happen or config read happens or config
-> > write happens?
+Hi Nikita,
+
+Thank you for the patch.
+
+On Thu, Jan 20, 2022 at 11:15:30AM +0300, Nikita Yushchenko wrote:
+> VSP hardware could be used (e.g. by the bootloader) before driver load,
+> and some interrupts could be left in enabled and pending state. In this
+> case, setting up VSP interrupt handler without masking interrupts before
+> causes interrupt handler to be immediately called (and crash due to null
+> vsp->info dereference).
 > 
-> What kind of non-L state ?
-
-E.g. Hot Reset, Detect, Polling, Configuration or Recovery.
-
-> Do you have some specific test which fails ?
-
-Yes, by putting PCIe controller into one of those states. I have already
-wrote you in some previous email to trigger hot reset as this is the
-easiest test and can be done also by userspace (setpci).
-
-Link goes to Recovery state automatically when doing link retraining
-(e.g. by setting RT bit in PCIe Root Port config space) and from
-Recovery to Configuration or directly back to L0. So testing this path
-needs precise timing and repeating it more times to trigger.
-
-So the easiest test is really via PCIe Hot Reset by setting Secondary
-Bus Reset bit in Bridge Control register of PCIe Root Port. After this
-is link in Hot Reset and does not go back to L0 until you clear that
-bit. So in this state you can do all these operations which cause
-aborts, like calling that kernel function which is reading from config
-space which belongs to device on the other end of the PCIe link or doing
-MMIO read / write operation of mapped memory which again belongs to
-other end of PCIe link.
-
-Or instead of Hot Reset, you can set link disable bit in config space of
-PCIe Root Port. Then link also would not be in L0 state (until you clear
-that bit), so again you have lot of time to do same tests.
-
-> This patch addresses the case where the link transition to L1 state has to
-> be completed manually. If the CPU accesses the config space before that
-> happened, you get an imprecise data abort.
-
-Yes, I see. But it does not have to complete and the question how is
-handled this case... And that is why is needed to know what happens in
-such cases.
-
-And IIRC you cannot go from L1 state directly to L0, but only via
-Recovery state. And from Recovery you may end up in Detect state.
-(e.g. after hot unplug or if some buggy card with kernel quirk is used)
-
-> > It is really important to know this fact.
-> > 
-> > I'm in impression that this patch still is not enough as similar issues
-> > are also in other PCIe controllers which I know...
+> Fix that by explicitly masking all interrupts before setting the interrupt
+> handler. To do so, have to set the interrupt handler later, after hw
+> revision is already detected and number of interrupts to mask gets
+> known.
 > 
-> Do you have a suggestion for a patch which would be enough on this hardware
-> ?
+> Based on patch by Koji Matsuoka <koji.matsuoka.xm@renesas.com> included
+> in the Renesas BSP kernel.
+> 
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> ---
+> v1: https://lore.kernel.org/all/20210926155356.23861-1-nikita.yoush@cogentembedded.com/
+> Changes since v1:
+> - move interrupt masking to a dedicated routine
+> - update comments and patch description
+> 
+> > I think I would rather see the code to reset them done in
+> > vsp1_reset_wpf(), rather than in probe directly as that is what we are
+> > doing, and is I believe already in the call path.
+> 
+> First, vsp1_reset_wpf() does not get called on driver early init.
+> 
+> It is normally called from within vsp1_device_get() when device is powered
+> on, but vsp1_probe() calls vsp1_device_get() when vsp1->info is not yet set,
+> and in this case call from vsp1_pm_runtime_resume() to vsp1_device_init() 
+> is skipped.
+> 
+> I've tried to add extra vsp1_device_put() / vsp1_device_get() calls to the
+> probe path, and dumped related registers in vsp1_pm_runtime_resume() after
+> return from vsp1_device_init(), and got
+> 
+> [    2.477315][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_ENB(0) = 0x00000100
+> [    2.483933][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_STA(0) = 0x00000121
+> [    2.490556][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(0) = 0x00010002
+> [    2.497088][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(0) = 0x00010003
+> [    2.503618][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(1) = 0x00000000
+> [    2.510148][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(1) = 0x00000000
+> 
+> which shows that
+> (1) WPF interrupt is not cleared by WPF reset,
+> (2) also DISP interrupt is enabled and pending, and driver does not seem
+> to control it at all.
+> 
+> Given that, I think it is safer to explicitly mask all interrupts before
+> setting the handler. I've moved interrupt masking to a separate routine.
+> 
+> > (But I'm reallly ... reallly concerned that the hardware is not really
+> > getting reset when it should, and that might merit some further
+> > investigation).
+> 
+> The documentation for WFP reset bit has notes that under some situations,
+> reset is postponed for a long time, and reported via interrupt. I'm not
+> sure what exactly goes on there, but I'd assume that such logic implies
+> that interrupt subsystem is not reset.
+> 
+> I agree that not having exact understand of hardware state is not good.
+> But, given that no signs of misfunction have been detected for a long time
+> (the patch was in vendor BSP for years), I think we can assume it is
+> "safe enough".
 
-I do not have enough information.
+We could also use the reset provided by the SRCR registers in the CPG.
+In the meantime, this patch seems to go in the right direction, it fixes
+the problem without being too intrusive.
+
+>  drivers/media/platform/vsp1/vsp1_drv.c | 34 ++++++++++++++++++++------
+>  1 file changed, 26 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> index c9044785b903..92a95e2c21c7 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -550,6 +550,16 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
+>  	return 0;
+>  }
+>  
+> +static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
+> +{
+> +	int i;
+
+This should be unsigned int as it never takes negative values.
+
+> +
+> +	for (i = 0; i < vsp1->info->lif_count; ++i)
+> +		vsp1_write(vsp1, VI6_DISP_IRQ_ENB(i), 0);
+> +	for (i = 0; i < vsp1->info->wpf_count; ++i)
+> +		vsp1_write(vsp1, VI6_WPF_IRQ_ENB(i), 0);
+> +}
+> +
+>  /*
+>   * vsp1_device_get - Acquire the VSP1 device
+>   *
+> @@ -819,13 +829,6 @@ static int vsp1_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+> -			      IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> -	if (ret < 0) {
+> -		dev_err(&pdev->dev, "failed to request IRQ\n");
+> -		return ret;
+> -	}
+> -
+>  	/* FCP (optional). */
+>  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
+>  	if (fcp_node) {
+> @@ -855,7 +858,6 @@ static int vsp1_probe(struct platform_device *pdev)
+>  		goto done;
+>  
+>  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> -	vsp1_device_put(vsp1);
+>  
+>  	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+>  		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> @@ -868,12 +870,28 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	if (!vsp1->info) {
+>  		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+>  			vsp1->version);
+> +		vsp1_device_put(vsp1);
+>  		ret = -ENXIO;
+>  		goto done;
+>  	}
+>  
+>  	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
+>  
+> +	/*
+> +	 * Previous use of the hardware (e.g. by the bootloader) could leave
+> +	 * some interrupts enabled and pending.
+
+I would add
+
+	 * TODO: Investigate if this shouldn't be better handled by using the
+	 * device reset provided by the CPG.
+
+to avoid forgetting about it.
+
+If you're fine with those two changes, there's no need for a v3, I can
+handle this when applying the patch.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	 */
+> +	vsp1_mask_all_interrupts(vsp1);
+> +
+> +	vsp1_device_put(vsp1);
+> +
+> +	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+> +			       IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "failed to request IRQ\n");
+> +		goto done;
+> +	}
+> +
+>  	/* Instantiate entities. */
+>  	ret = vsp1_create_entities(vsp1);
+>  	if (ret < 0) {
+
+-- 
+Regards,
+
+Laurent Pinchart
