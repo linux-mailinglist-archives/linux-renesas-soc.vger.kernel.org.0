@@ -2,251 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D454971CF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 14:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE9B4971E4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 15:12:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233149AbiAWN6E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Jan 2022 08:58:04 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41268 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233067AbiAWN6E (ORCPT
+        id S236688AbiAWOMP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Jan 2022 09:12:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236678AbiAWOMP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Jan 2022 08:58:04 -0500
+        Sun, 23 Jan 2022 09:12:15 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1878C06173B;
+        Sun, 23 Jan 2022 06:12:14 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85F3425E;
-        Sun, 23 Jan 2022 14:58:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD50825E;
+        Sun, 23 Jan 2022 15:12:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642946282;
-        bh=l1W0ih8vy2A3BJZDjLlI6Alm+OjJPPVfqBE4cWfm+oI=;
+        s=mail; t=1642947133;
+        bh=3E28DxXQd2YpY+sZM2BLQPQxG28x6f1iBlrrj7SfgFo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X62yv31Zn6/OGTre5jpGI1xSAzy6nKHDEr8HNYzAsM0zuGGuT6XQA1+vkLr0MkI5/
-         4jJRhtQ1lGCRBAFuIS1zGFH0OGoPV2EwdvZcV6TM05Wobl1s6O/DtUR5xxtcp/GhD0
-         4/cKwgKD8yGRN2MPGedU5TjEysAr+GEzZpXHk4Vk=
-Date:   Sun, 23 Jan 2022 15:57:46 +0200
+        b=pN7eKy9knRx4cTdht1WKWjFbjysweZuidzyM8gZgZnhibPlg8Su8WgA06FKS4Dy1l
+         +j8/EEwHFtn5Y4jP04PUUIXHmZefJdzUL3cg7dTsekJ69OAnN/iznTRbPZSmwtHhnc
+         Cc/QaBTmgTBoq2ZH6ATvz/3Udekp2+gRirFfVDlY=
+Date:   Sun, 23 Jan 2022 16:11:56 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC 16/28] drm: rcar-du: Allow DU group feature based on
- feature bit
-Message-ID: <Ye1e2vxr3ORxIAco@pendragon.ideasonboard.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-17-biju.das.jz@bp.renesas.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 08/13] media: rcar-csi2: Add support for
+ v4l2_subdev_state
+Message-ID: <Ye1iLKDWseZInfnR@pendragon.ideasonboard.com>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-9-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220112174612.10773-17-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20211017182449.64192-9-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, Jan 12, 2022 at 05:46:00PM +0000, Biju Das wrote:
-> RZ/G2L LCDC does not have DU group registers. This patch allows
-> accessing DU group registers for SoC's with group feature bit is
-> set.
+On Sun, Oct 17, 2021 at 08:24:44PM +0200, Jacopo Mondi wrote:
+> Create and initialize the v4l2_subdev_state for the R-Car CSI-2 receiver
+> rder to prepare to support routing operations and multiplexed streams.
+
+s/rder/in order/ ?
+
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Create the subdevice state with v4l2_subdev_init_finalize() and
+> implement the init_cfg() operation to guarantee the state is initialized
+> correctly with a set of default routes.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 34 ++++++++++++-------------
->  drivers/gpu/drm/rcar-du/rcar_du_group.c | 10 +++++++-
->  2 files changed, 26 insertions(+), 18 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 68 ++++++++++++++++++++-
+>  1 file changed, 66 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 314e865ae67e..f92636001f10 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -41,7 +41,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -69,7 +69,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -96,7 +96,7 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -129,7 +129,7 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -164,7 +164,7 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -197,7 +197,7 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -231,7 +231,7 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -288,7 +288,7 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.quirks = RCAR_DU_QUIRK_ALIGN_128B,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
-> @@ -324,7 +324,7 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -353,7 +353,7 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -378,7 +378,7 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -407,7 +407,7 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -446,7 +446,7 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -481,7 +481,7 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -516,7 +516,7 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(0),
->  	.routes = {
-> @@ -544,7 +544,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -576,7 +576,7 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
->  	.gen = 3,
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index 8665a1dd2186..3612bc9eab1b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -32,12 +32,20 @@
->  
->  u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg)
->  {
-> +	struct rcar_du_device *rcdu = rgrp->dev;
-> +
-> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_GROUP))
-> +		return 0;
-
-That's too much of a hack, sorry. Let's write a separate driver for the
-RZ/G2L DU.
-
-> +
->  	return rcar_du_read(rgrp->dev, rgrp->mmio_offset + reg);
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index e28eff039688..a74087b49e71 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -752,11 +752,65 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+>  	return 0;
 >  }
 >  
->  void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data)
->  {
-> -	rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
-> +	struct rcar_du_device *rcdu = rgrp->dev;
+> +static int rcsi2_init_cfg(struct v4l2_subdev *sd,
+> +			  struct v4l2_subdev_state *state)
+
+This could be moved before rcsi2_set_pad_format() to match the order in
+rcar_csi2_pad_ops. Up to you.
+
+> +{
+> +	/* Initialize 4 routes from each source pad to the single sink pad. */
+> +	struct v4l2_subdev_route routes[] = {
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 0,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC0,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 1,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC1,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 2,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC2,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 3,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC3,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +	};
 > +
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_GROUP))
-> +		rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
->  }
+> +	struct v4l2_subdev_krouting routing = {
+> +		.num_routes = ARRAY_SIZE(routes),
+> +		.routes = routes,
+> +	};
+> +
+> +	int ret = v4l2_routing_simple_verify(&routing);
+> +	if (ret)
+> +		return ret;
+> +
+> +	state = v4l2_subdev_validate_and_lock_state(sd, state);
+> +
+> +	ret = v4l2_subdev_set_routing(sd, state, &routing);
+> +
+> +	v4l2_subdev_unlock_state(state);
+
+I would squash this with 09/13 to avoid this intermediate state of
+dealing with routes manually in the .init_cfg() operation. The patch
+otherwise looks good to me.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +	return ret;
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
+>  	.s_stream = rcsi2_s_stream,
+>  };
 >  
->  static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
+>  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+> +	.init_cfg = rcsi2_init_cfg,
+>  	.set_fmt = rcsi2_set_pad_format,
+>  	.get_fmt = rcsi2_get_pad_format,
+>  };
+> @@ -1260,7 +1314,8 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
+>  	snprintf(priv->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
+>  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> -	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			     V4L2_SUBDEV_FL_MULTIPLEXED;
+>  
+>  	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+>  	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+> @@ -1276,14 +1331,22 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	ret = v4l2_subdev_init_finalize(&priv->subdev);
+> +	if (ret)
+> +		goto error_pm;
+> +
+>  	ret = v4l2_async_register_subdev(&priv->subdev);
+>  	if (ret < 0)
+> -		goto error;
+> +		goto error_subdev;
+>  
+>  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+>  
+>  	return 0;
+>  
+> +error_subdev:
+> +	v4l2_subdev_cleanup(&priv->subdev);
+> +error_pm:
+> +	pm_runtime_disable(&pdev->dev);
+>  error:
+>  	v4l2_async_notifier_unregister(&priv->notifier);
+>  	v4l2_async_notifier_cleanup(&priv->notifier);
+> @@ -1298,6 +1361,7 @@ static int rcsi2_remove(struct platform_device *pdev)
+>  	v4l2_async_notifier_unregister(&priv->notifier);
+>  	v4l2_async_notifier_cleanup(&priv->notifier);
+>  	v4l2_async_unregister_subdev(&priv->subdev);
+> +	v4l2_subdev_cleanup(&priv->subdev);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
 
 -- 
 Regards,
