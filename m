@@ -2,48 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9925F496F62
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 02:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AC00496F8A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 02:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235178AbiAWB0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jan 2022 20:26:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53016 "EHLO
+        id S231733AbiAWBfm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Jan 2022 20:35:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235171AbiAWB0W (ORCPT
+        with ESMTP id S229507AbiAWBf0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jan 2022 20:26:22 -0500
+        Sat, 22 Jan 2022 20:35:26 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B018C06173B;
-        Sat, 22 Jan 2022 17:26:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A4C9C06173B
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Jan 2022 17:35:26 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF77825E;
-        Sun, 23 Jan 2022 02:26:18 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6A7C25E;
+        Sun, 23 Jan 2022 02:35:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642901179;
-        bh=QTTTVMXy88p6+ruvZJNMd8ekhYuSzmYmFD7bUoZmjYY=;
+        s=mail; t=1642901724;
+        bh=r8g/Gh+j+Nlygh2SfBUSpBcexB0gX3ONi+Onz04g8Ew=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=odC8wHCL7nK3x09pUslGVQqzQaaesHz2DS2ZA3mdSJOgLEhABDDd9iMIWBiwDinR3
-         eJ/q7+XhRdo2wd5NQhumc18h5VX1HGSzSDFCUhbKaP1fwygUCqypm5gMSnqsH/0T16
-         zUgidgGsiu5RukjLCEth8xP2K7Z/yhfhFiDXhB+4=
-Date:   Sun, 23 Jan 2022 03:26:01 +0200
+        b=HKFIFjnYmyQ3+sJnUrD9cKctIMYecvaN+6yeVrTlzPMT1ocmlDc8J8x+3ryk7fA1f
+         Hw0As6DN8wX6yVXzZh03N0kFeLIVnzKdpZA9GpLShLUB6Hl8l+Iyh1A1ZgwPeQjS1q
+         6LwK4dTtFbuephoIRgSyhYuptcVYbXFZr1zD91G4=
+Date:   Sun, 23 Jan 2022 03:35:07 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC 20/28] media: vsp1: Add support for the RZ/G2L VSPD
-Message-ID: <YeyuqbNfETGOxzfZ@pendragon.ideasonboard.com>
+Subject: Re: [RFC 18/28] drm: rcar-du: Add RZ/G2L LCDC Support
+Message-ID: <Yeywy4diORlceSNF@pendragon.ideasonboard.com>
 References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-21-biju.das.jz@bp.renesas.com>
+ <20220112174612.10773-19-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220112174612.10773-21-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220112174612.10773-19-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -52,181 +52,411 @@ Hi Biju,
 
 Thank you for the patch.
 
-On Wed, Jan 12, 2022 at 05:46:04PM +0000, Biju Das wrote:
-> The RZ/G2L VSPD provides a single VSPD instance. it has the following
-> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On Wed, Jan 12, 2022 at 05:46:02PM +0000, Biju Das wrote:
+> The LCD controller is composed of Frame Compression Processor (FCPVD),
+> Video Signal Processor (VSPD), and Display Unit (DU).
 > 
-> It does not have version register, so added a new compatible string to
-> match to get the version value. Also the reset is shared with DU
-> module.
+> It has DPI/DSI interfaces and supports a maximum resolution of 1080p
+> along with 2 rpf's to support blending of two picture layers and
+> raster operations (ROPs).
+> 
+> A feature bit for RZ/G2L SoC is introduced to support RZ/G2L with
+> the rest of the SoC supported by this driver.
 
-Does it really lack the version register, or is it just not documented ?
-It hasn't been documented on all R-Car variants, but has consistently
-been present.
+The RZ/G2L DU seems to be a completely different IP core than the DU in
+R-Car and other RZ SoCs. I think it should be supported by a separate
+driver, or at least with a different (and modularized) CRTC
+implementation. This patch has too many RCAR_DU_FEATURE_RZG2L checks.
 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/media/platform/vsp1/vsp1.h      |  1 +
->  drivers/media/platform/vsp1/vsp1_drv.c  | 31 ++++++++++++++++++++++++-
->  drivers/media/platform/vsp1/vsp1_lif.c  |  7 ++++--
->  drivers/media/platform/vsp1/vsp1_regs.h |  1 +
->  4 files changed, 37 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 148 ++++++++++++++++++------
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   2 +
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c   |  23 ++++
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c |   5 +
+>  drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  52 +++++++++
+>  6 files changed, 195 insertions(+), 36 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/vsp1/vsp1.h
-> index 37cf33c7e6ca..b137c0233db5 100644
-> --- a/drivers/media/platform/vsp1/vsp1.h
-> +++ b/drivers/media/platform/vsp1/vsp1.h
-> @@ -103,6 +103,7 @@ struct vsp1_device {
->  	struct media_entity_operations media_ops;
->  
->  	struct vsp1_drm *drm;
-> +	struct reset_control *rstc;
-
-Could you move this with the toher resources, just after the bus_master
-field ?
-
->  };
->  
->  int vsp1_device_get(struct vsp1_device *vsp1);
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index c9044785b903..c00ba65030fd 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/of_device.h>
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 521446890d3d..aea9178f3e7d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/mutex.h>
 >  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
 > +#include <linux/reset.h>
->  #include <linux/videodev2.h>
+>  #include <linux/sys_soc.h>
 >  
->  #include <media/rcar-fcp.h>
-> @@ -559,6 +560,15 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
->   */
->  int vsp1_device_get(struct vsp1_device *vsp1)
->  {
-> +	int ret;
+>  #include <drm/drm_atomic.h>
+> @@ -219,6 +220,42 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>  	u32 dsmr;
+>  	u32 escr;
+>  
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		u32 ditr0, ditr1, ditr2, ditr3, ditr4, ditr5, pbcr0;
 > +
-> +	if (vsp1->rstc) {
-> +		ret = reset_control_deassert(vsp1->rstc);
-
-Adding reset support could be split to a separate patch.
-
-> +		if (ret < 0) {
-> +			reset_control_assert(vsp1->rstc);
-
-Is asserting reset needed here ?
-
-> +			return ret;
+> +		clk_set_rate(rcrtc->extclock, mode_clock);
+> +
+> +		ditr0 = (DU_DITR0_DEMD_HIGH
+> +		| ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DU_DITR0_VSPOL : 0)
+> +		| ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? DU_DITR0_HSPOL : 0));
+> +
+> +		ditr1 = DU_DITR1_VSA(mode->vsync_end - mode->vsync_start)
+> +		      | DU_DITR1_VACTIVE(mode->vdisplay);
+> +
+> +		ditr2 = DU_DITR2_VBP(mode->vtotal - mode->vsync_end)
+> +		      | DU_DITR2_VFP(mode->vsync_start - mode->vdisplay);
+> +
+> +		ditr3 = DU_DITR3_HSA(mode->hsync_end - mode->hsync_start)
+> +		      | DU_DITR3_HACTIVE(mode->hdisplay);
+> +
+> +		ditr4 = DU_DITR4_HBP(mode->htotal - mode->hsync_end)
+> +		      | DU_DITR4_HFP(mode->hsync_start - mode->hdisplay);
+> +
+> +		ditr5 = DU_DITR5_VSFT(0) | DU_DITR5_HSFT(0);
+> +
+> +		pbcr0 = DU_PBCR0_PB_DEP(0x1F);
+> +
+> +		rcar_du_write(rcdu, DU_DITR0, ditr0);
+> +		rcar_du_write(rcdu, DU_DITR1, ditr1);
+> +		rcar_du_write(rcdu, DU_DITR2, ditr2);
+> +		rcar_du_write(rcdu, DU_DITR3, ditr3);
+> +		rcar_du_write(rcdu, DU_DITR4, ditr4);
+> +		rcar_du_write(rcdu, DU_DITR5, ditr5);
+> +		rcar_du_write(rcdu, DU_PBCR0, pbcr0);
+> +
+> +		return;
+> +	}
+> +
+>  	if (rcdu->info->dpll_mask & (1 << rcrtc->index)) {
+>  		unsigned long target = mode_clock;
+>  		struct dpll_info dpll = { 0 };
+> @@ -531,16 +568,23 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
+>  
+>  static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+>  {
+> -	/* Set display off and background to black */
+> -	rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
+> -	rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
+> +	struct rcar_du_device *rcdu = rcrtc->dev;
+>  
+> -	/* Configure display timings and output routing */
+> -	rcar_du_crtc_set_display_timing(rcrtc);
+> -	rcar_du_group_set_routing(rcrtc->group);
+> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		/* Set display off and background to black */
+> +		rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
+> +		rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
+>  
+> -	/* Start with all planes disabled. */
+> -	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
+> +		/* Configure display timings and output routing */
+> +		rcar_du_crtc_set_display_timing(rcrtc);
+> +		rcar_du_group_set_routing(rcrtc->group);
+> +
+> +		/* Start with all planes disabled. */
+> +		rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
+> +	} else {
+> +		/* Configure display timings and output routing */
+> +		rcar_du_crtc_set_display_timing(rcrtc);
+> +	}
+>  
+>  	/* Enable the VSP compositor. */
+>  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> @@ -561,6 +605,12 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+>  	if (rcrtc->initialized)
+>  		return 0;
+>  
+> +	if (rcrtc->rstc) {
+> +		ret = reset_control_deassert(rcrtc->rstc);
+> +		if (ret < 0)
+> +			goto error_reset;
+> +	}
+> +
+>  	ret = clk_prepare_enable(rcrtc->clock);
+>  	if (ret < 0)
+>  		return ret;
+> @@ -582,6 +632,9 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+>  	clk_disable_unprepare(rcrtc->extclock);
+>  error_clock:
+>  	clk_disable_unprepare(rcrtc->clock);
+> +error_reset:
+> +	if (rcrtc->rstc)
+> +		reset_control_assert(rcrtc->rstc);
+>  	return ret;
+>  }
+>  
+> @@ -591,23 +644,28 @@ static void rcar_du_crtc_put(struct rcar_du_crtc *rcrtc)
+>  
+>  	clk_disable_unprepare(rcrtc->extclock);
+>  	clk_disable_unprepare(rcrtc->clock);
+> +	if (rcrtc->rstc)
+> +		reset_control_assert(rcrtc->rstc);
+>  
+>  	rcrtc->initialized = false;
+>  }
+>  
+>  static void rcar_du_crtc_start(struct rcar_du_crtc *rcrtc)
+>  {
+> +	struct rcar_du_device *rcdu = rcrtc->dev;
+>  	bool interlaced;
+>  
+> -	/*
+> -	 * Select master sync mode. This enables display operation in master
+> -	 * sync mode (with the HSYNC and VSYNC signals configured as outputs and
+> -	 * actively driven).
+> -	 */
+> -	interlaced = rcrtc->crtc.mode.flags & DRM_MODE_FLAG_INTERLACE;
+> -	rcar_du_crtc_dsysr_clr_set(rcrtc, DSYSR_TVM_MASK | DSYSR_SCM_MASK,
+> -				   (interlaced ? DSYSR_SCM_INT_VIDEO : 0) |
+> -				   DSYSR_TVM_MASTER);
+> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		/*
+> +		 * Select master sync mode. This enables display operation in master
+> +		 * sync mode (with the HSYNC and VSYNC signals configured as outputs and
+> +		 * actively driven).
+> +		 */
+> +		interlaced = rcrtc->crtc.mode.flags & DRM_MODE_FLAG_INTERLACE;
+> +		rcar_du_crtc_dsysr_clr_set(rcrtc, DSYSR_TVM_MASK | DSYSR_SCM_MASK,
+> +					   (interlaced ? DSYSR_SCM_INT_VIDEO : 0) |
+> +					   DSYSR_TVM_MASTER);
+> +	}
+>  
+>  	rcar_du_group_start_stop(rcrtc->group, true);
+>  }
+> @@ -1229,6 +1287,14 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  		name = NULL;
+>  	}
+>  
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
+> +		if (IS_ERR(rcrtc->rstc)) {
+> +			dev_err(rcdu->dev, "can't get cpg reset\n");
+> +			return PTR_ERR(rcrtc->rstc);
 > +		}
 > +	}
->  	return pm_runtime_resume_and_get(vsp1->dev);
->  }
->  
-> @@ -571,6 +581,8 @@ int vsp1_device_get(struct vsp1_device *vsp1)
->  void vsp1_device_put(struct vsp1_device *vsp1)
->  {
->  	pm_runtime_put_sync(vsp1->dev);
-> +	if (vsp1->rstc)
-> +		reset_control_assert(vsp1->rstc);
->  }
->  
->  /* -----------------------------------------------------------------------------
-> @@ -787,6 +799,14 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->  		.uif_count = 2,
->  		.wpf_count = 1,
->  		.num_bru_inputs = 5,
-> +	}, {
-> +		.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-> +		.model = "VSP2-D",
-> +		.gen = 3,
-> +		.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
-> +		.lif_count = 1,
-> +		.rpf_count = 2,
-> +		.wpf_count = 1,
->  	},
->  };
->  
-> @@ -826,6 +846,13 @@ static int vsp1_probe(struct platform_device *pdev)
+> +
+>  	rcrtc->clock = devm_clk_get(rcdu->dev, name);
+>  	if (IS_ERR(rcrtc->clock)) {
+>  		dev_err(rcdu->dev, "no clock for DU channel %u\n", hwindex);
+> @@ -1251,6 +1317,14 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
 >  		return ret;
 >  	}
 >  
-> +	vsp1->version = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> +	if (vsp1->version == VI6_IP_VERSION_MODEL_VSPD_RZG2L) {
-> +		vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-> +		if (IS_ERR(vsp1->rstc))
-> +			return PTR_ERR(vsp1->rstc);
-
-As the resets DT property is mandatory, and is present in all .dtsi in
-mainline, should the devm_reset_control_get_shared() call be made for
-all VSPs ?
-
+> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		clk = devm_clk_get(rcdu->dev, "vclk");
+> +		if (!IS_ERR(clk))
+> +			rcrtc->extclock = clk;
+> +		else if (PTR_ERR(clk) == -EPROBE_DEFER)
+> +			return -EPROBE_DEFER;
 > +	}
 > +
->  	/* FCP (optional). */
->  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
->  	if (fcp_node) {
-> @@ -854,7 +881,8 @@ static int vsp1_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		goto done;
+>  	init_waitqueue_head(&rcrtc->flip_wait);
+>  	init_waitqueue_head(&rcrtc->vblank_wait);
+>  	spin_lock_init(&rcrtc->vblank_lock);
+> @@ -1287,27 +1361,29 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
 >  
-> -	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-> +	if (vsp1->version != VI6_IP_VERSION_MODEL_VSPD_RZG2L)
-> +		vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
->  	vsp1_device_put(vsp1);
-
-You could condition the whole block of vsp1_device_get(), vsp1_read()
-and vsp1_device_put() on the version not being set.
-
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
 >  
->  	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> @@ -905,6 +933,7 @@ static int vsp1_remove(struct platform_device *pdev)
->  static const struct of_device_id vsp1_of_match[] = {
->  	{ .compatible = "renesas,vsp1" },
->  	{ .compatible = "renesas,vsp2" },
-> +	{ .compatible = "renesas,vsp2-r9a07g044", .data = (void *)VI6_IP_VERSION_MODEL_VSPD_RZG2L },
-
-Let's point to the vsp1_device_infos entry instead.
-
->  	{ },
+> -	/* Register the interrupt handler. */
+> -	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ)) {
+> -		/* The IRQ's are associated with the CRTC (sw)index. */
+> -		irq = platform_get_irq(pdev, swindex);
+> -		irqflags = 0;
+> -	} else {
+> -		irq = platform_get_irq(pdev, 0);
+> -		irqflags = IRQF_SHARED;
+> -	}
+> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
+> +		/* Register the interrupt handler. */
+> +		if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ)) {
+> +			/* The IRQ's are associated with the CRTC (sw)index. */
+> +			irq = platform_get_irq(pdev, swindex);
+> +			irqflags = 0;
+> +		} else {
+> +			irq = platform_get_irq(pdev, 0);
+> +			irqflags = IRQF_SHARED;
+> +		}
+>  
+> -	if (irq < 0) {
+> -		dev_err(rcdu->dev, "no IRQ for CRTC %u\n", swindex);
+> -		return irq;
+> -	}
+> +		if (irq < 0) {
+> +			dev_err(rcdu->dev, "no IRQ for CRTC %u\n", swindex);
+> +			return irq;
+> +		}
+>  
+> -	ret = devm_request_irq(rcdu->dev, irq, rcar_du_crtc_irq, irqflags,
+> -			       dev_name(rcdu->dev), rcrtc);
+> -	if (ret < 0) {
+> -		dev_err(rcdu->dev,
+> -			"failed to register IRQ for CRTC %u\n", swindex);
+> -		return ret;
+> +		ret = devm_request_irq(rcdu->dev, irq, rcar_du_crtc_irq, irqflags,
+> +				       dev_name(rcdu->dev), rcrtc);
+> +		if (ret < 0) {
+> +			dev_err(rcdu->dev,
+> +				"failed to register IRQ for CRTC %u\n", swindex);
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	rcar_du_crtc_crc_init(rcrtc);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> index 66e8839db708..4ec2db46b131 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> @@ -28,6 +28,7 @@ struct rcar_du_vsp;
+>   * @dev: the DU device
+>   * @clock: the CRTC functional clock
+>   * @extclock: external pixel dot clock (optional)
+> + * @rstc: reset controller (optional)
+>   * @mmio_offset: offset of the CRTC registers in the DU MMIO block
+>   * @index: CRTC hardware index
+>   * @initialized: whether the CRTC has been initialized and clocks enabled
+> @@ -50,6 +51,7 @@ struct rcar_du_crtc {
+>  	struct rcar_du_device *dev;
+>  	struct clk *clock;
+>  	struct clk *extclock;
+> +	struct reset_control *rstc;
+>  	unsigned int mmio_offset;
+>  	unsigned int index;
+>  	bool initialized;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index f92636001f10..57edc3b3154f 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -596,6 +596,28 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+>  	.dsi_clk_mask =  BIT(1) | BIT(0),
 >  };
->  MODULE_DEVICE_TABLE(of, vsp1_of_match);
-> diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/vsp1/vsp1_lif.c
-> index 6a6857ac9327..6e997653cfac 100644
-> --- a/drivers/media/platform/vsp1/vsp1_lif.c
-> +++ b/drivers/media/platform/vsp1/vsp1_lif.c
-> @@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
 >  
->  	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
->  	case VI6_IP_VERSION_MODEL_VSPD_V3:
-> +	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
->  		hbth = 0;
->  		obth = 1500;
->  		lbth = 0;
-> @@ -135,8 +136,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
->  	 * may appear on the output). The value required by the manual is not
->  	 * explained but is likely a buffer size or threshold.
->  	 */
-> -	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> -	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
-> +	if (((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> +	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M)) ||
-> +	    ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> +	     VI6_IP_VERSION_MODEL_VSPD_RZG2L))
->  		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
->  			       VI6_LIF_LBA_LBA0 |
->  			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
-> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> index fae7286eb01e..12c5b09885dc 100644
-> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> @@ -766,6 +766,7 @@
->  #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-> +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x1b << 8)
->  #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
+> +static const struct rcar_du_device_info rcar_du_r9a07g044l_info = {
+> +	.gen = 3,
+> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
+> +		  | RCAR_DU_FEATURE_RZG2L
+> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
+> +	.channels_mask = BIT(0),
+> +	.routes = {
+> +		[RCAR_DU_OUTPUT_DPAD0] = {
+> +			.possible_crtcs = BIT(0),
+> +			.port = 0,
+> +		},
+> +		[RCAR_DU_OUTPUT_DSI0] = {
+> +			.possible_crtcs = BIT(0),
+> +			.port = 1,
+> +		},
+> +	},
+> +	.num_rpf = 2,
+> +	.max_width = 1920,
+> +	.max_height = 1080,
+> +};
+> +
+>  static const struct of_device_id rcar_du_of_table[] = {
+>  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+> @@ -621,6 +643,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
+>  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+>  	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+> +	{ .compatible = "renesas,du-r9a07g044l", .data = &rcar_du_r9a07g044l_info },
+>  	{ }
+>  };
 >  
->  #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index e28c2df66f8e..47da9da71bca 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -33,6 +33,7 @@ struct rcar_du_device;
+>  #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
+>  #define RCAR_DU_FEATURE_PLANE		BIT(5)	/* HW supports DU planes */
+>  #define RCAR_DU_FEATURE_GROUP		BIT(6)	/* HW supports DU groups */
+> +#define RCAR_DU_FEATURE_RZG2L		BIT(7)	/* Use RZ/G2L registers */
+>  
+>  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> index 3612bc9eab1b..632271c2881d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> @@ -224,6 +224,11 @@ static void __rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start)
+>  {
+>  	struct rcar_du_device *rcdu = rgrp->dev;
+>  
+> +	if (!rcar_du_has(rgrp->dev, RCAR_DU_FEATURE_GROUP)) {
+> +		rcar_du_write(rgrp->dev, DU_MCR0, start ? DU_MCR0_DI_EN : 0);
+> +		return;
+> +	}
+> +
+>  	/*
+>  	 * Group start/stop is controlled by the DRES and DEN bits of DSYSR0
+>  	 * for the first group and DSYSR2 for the second group. On most DU
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> index 1cdaa51eb9ac..9e5c8d286bfc 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> @@ -15,6 +15,58 @@
+>  #define DU2_REG_OFFSET		0x40000
+>  #define DU3_REG_OFFSET		0x70000
+>  
+> +/* -----------------------------------------------------------------------------
+> + * RZ/G2L Display Registers
+> + */
+> +
+> +#define DU_MCR0			0x00
+> +#define DU_MCR0_DPI_OE		BIT(0)
+> +#define DU_MCR0_DI_EN		BIT(8)
+> +#define DU_MCR0_PB_CLR		BIT(16)
+> +
+> +#define DU_MSR0			0x04
+> +#define DU_MSR0_ST_DI_BSY	BIT(8)
+> +#define DU_MSR0_ST_PB_WFULL	BIT(16)
+> +#define DU_MSR0_ST_PB_WINIT	BIT(18)
+> +#define DU_MSR0_ST_PB_REMPTY	BIT(20)
+> +#define DU_MSR0_ST_PB_RUF	BIT(21)
+> +#define DU_MSR0_ST_PB_RINIT	BIT(22)
+> +
+> +#define DU_MSR1			0x08
+> +
+> +#define DU_IMR0			0x0C
+> +#define DU_MSR0_IM_PB_RUF	BIT(0)
+> +
+> +#define DU_DITR0		0x10
+> +#define DU_DITR0_DPI_CLKMD	BIT(0)
+> +#define DU_DITR0_DEMD_LOW	0x0
+> +#define DU_DITR0_DEMD_HIGH	(BIT(8) | BIT(9))
+> +#define DU_DITR0_VSPOL		BIT(16)
+> +#define DU_DITR0_HSPOL		BIT(17)
+> +
+> +#define DU_DITR1		0x14
+> +#define DU_DITR1_VSA(x)		((x) << 0)
+> +#define DU_DITR1_VACTIVE(x)	((x) << 16)
+> +
+> +#define DU_DITR2		0x18
+> +#define DU_DITR2_VBP(x)		((x) << 0)
+> +#define DU_DITR2_VFP(x)		((x) << 16)
+> +
+> +#define DU_DITR3		0x1C
+> +#define DU_DITR3_HSA(x)		((x) << 0)
+> +#define DU_DITR3_HACTIVE(x)	((x) << 16)
+> +
+> +#define DU_DITR4		0x20
+> +#define DU_DITR4_HBP(x)		((x) << 0)
+> +#define DU_DITR4_HFP(x)		((x) << 16)
+> +
+> +#define DU_DITR5		0x24
+> +#define DU_DITR5_VSFT(x)	((x) << 0)
+> +#define DU_DITR5_HSFT(x)	((x) << 16)
+> +
+> +#define DU_PBCR0		0x4C
+> +#define DU_PBCR0_PB_DEP(x)	((x) << 0)
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Display Control Registers
+>   */
 
 -- 
 Regards,
