@@ -2,30 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AC00496F8A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 02:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDCDB4971BD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Jan 2022 14:51:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231733AbiAWBfm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Jan 2022 20:35:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiAWBf0 (ORCPT
+        id S236504AbiAWNvU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Jan 2022 08:51:20 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41134 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236490AbiAWNvS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Jan 2022 20:35:26 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A4C9C06173B
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Jan 2022 17:35:26 -0800 (PST)
+        Sun, 23 Jan 2022 08:51:18 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6A7C25E;
-        Sun, 23 Jan 2022 02:35:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68C2B25E;
+        Sun, 23 Jan 2022 14:51:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642901724;
-        bh=r8g/Gh+j+Nlygh2SfBUSpBcexB0gX3ONi+Onz04g8Ew=;
+        s=mail; t=1642945876;
+        bh=5lfHhCQ+wjD+Iyi/P4z/wzosFLF0AvOm/qV05/MPMrc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HKFIFjnYmyQ3+sJnUrD9cKctIMYecvaN+6yeVrTlzPMT1ocmlDc8J8x+3ryk7fA1f
-         Hw0As6DN8wX6yVXzZh03N0kFeLIVnzKdpZA9GpLShLUB6Hl8l+Iyh1A1ZgwPeQjS1q
-         6LwK4dTtFbuephoIRgSyhYuptcVYbXFZr1zD91G4=
-Date:   Sun, 23 Jan 2022 03:35:07 +0200
+        b=UTYAmFsPbN1cAA9+gXLmOe0LCFSw+Cn5zZN0S5yMs6DFpgS8Ru8hMH9b2a0MSugTA
+         8Bd+nOaRTTF8tm6G4UuGSapR6Hd0vB7FqRSacvgxCcpbCulJGd4UXzQ+U5VIU1N+Jc
+         AONsTWXCy8iCu0ijXSvLqXbyjeqPWlKz4TjzaYqc=
+Date:   Sun, 23 Jan 2022 15:51:00 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -36,14 +33,14 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [RFC 18/28] drm: rcar-du: Add RZ/G2L LCDC Support
-Message-ID: <Yeywy4diORlceSNF@pendragon.ideasonboard.com>
+Subject: Re: [RFC 22/28] drm: rcar-du: Add RZ/G2L DSI driver
+Message-ID: <Ye1dRA0s2qKfOwMt@pendragon.ideasonboard.com>
 References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-19-biju.das.jz@bp.renesas.com>
+ <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220112174612.10773-19-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -52,411 +49,942 @@ Hi Biju,
 
 Thank you for the patch.
 
-On Wed, Jan 12, 2022 at 05:46:02PM +0000, Biju Das wrote:
-> The LCD controller is composed of Frame Compression Processor (FCPVD),
-> Video Signal Processor (VSPD), and Display Unit (DU).
+On Wed, Jan 12, 2022 at 05:46:06PM +0000, Biju Das wrote:
+> This driver supports the MIPI DSI encoder found in the RZ/G2L
+> SoC. It currently supports DSI mode only.
 > 
-> It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-> along with 2 rpf's to support blending of two picture layers and
-> raster operations (ROPs).
-> 
-> A feature bit for RZ/G2L SoC is introduced to support RZ/G2L with
-> the rest of the SoC supported by this driver.
-
-The RZ/G2L DU seems to be a completely different IP core than the DU in
-R-Car and other RZ SoCs. I think it should be supported by a separate
-driver, or at least with a different (and modularized) CRTC
-implementation. This patch has too many RCAR_DU_FEATURE_RZG2L checks.
-
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 148 ++++++++++++++++++------
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   2 +
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c   |  23 ++++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   1 +
->  drivers/gpu/drm/rcar-du/rcar_du_group.c |   5 +
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  52 +++++++++
->  6 files changed, 195 insertions(+), 36 deletions(-)
+>  drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+>  drivers/gpu/drm/rcar-du/Makefile              |   1 +
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 676 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+>  4 files changed, 835 insertions(+)
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 521446890d3d..aea9178f3e7d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -10,6 +10,7 @@
->  #include <linux/clk.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_device.h>
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index f6e6a6d5d987..ca87fb186f02 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -51,6 +51,13 @@ config DRM_RCAR_MIPI_DSI
+>  	help
+>  	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
+>  
+> +config DRM_RZG2L_MIPI_DSI
+> +	tristate "RZ/G2L MIPI DSI Encoder Support"
+> +	depends on DRM && DRM_BRIDGE && OF
+> +	select DRM_MIPI_DSI
+> +	help
+> +	  Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
+> +
+>  config DRM_RCAR_VSP
+>  	bool "R-Car DU VSP Compositor Support" if ARM
+>  	default y if ARM64
+> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+> index 286bc81b3e7c..3b5fd7610282 100644
+> --- a/drivers/gpu/drm/rcar-du/Makefile
+> +++ b/drivers/gpu/drm/rcar-du/Makefile
+> @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+>  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+>  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+>  obj-$(CONFIG_DRM_RCAR_MIPI_DSI)		+= rcar_mipi_dsi.o
+> +obj-$(CONFIG_DRM_RZG2L_MIPI_DSI)	+= rzg2l_mipi_dsi.o
+>  
+>  # 'remote-endpoint' is fixed up at run-time
+>  DTC_FLAGS_rcar_du_of_lvds_r8a7790 += -Wno-graph_endpoint
+> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+> new file mode 100644
+> index 000000000000..8a11fedd7cd7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+> @@ -0,0 +1,676 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * RZ/G2L MIPI DSI Encoder Driver
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corporation
+> + */
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
 > +#include <linux/reset.h>
->  #include <linux/sys_soc.h>
->  
->  #include <drm/drm_atomic.h>
-> @@ -219,6 +220,42 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->  	u32 dsmr;
->  	u32 escr;
->  
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		u32 ditr0, ditr1, ditr2, ditr3, ditr4, ditr5, pbcr0;
+> +#include <linux/slab.h>
 > +
-> +		clk_set_rate(rcrtc->extclock, mode_clock);
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_probe_helper.h>
 > +
-> +		ditr0 = (DU_DITR0_DEMD_HIGH
-> +		| ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DU_DITR0_VSPOL : 0)
-> +		| ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? DU_DITR0_HSPOL : 0));
+> +#include "rzg2l_mipi_dsi_regs.h"
 > +
-> +		ditr1 = DU_DITR1_VSA(mode->vsync_end - mode->vsync_start)
-> +		      | DU_DITR1_VACTIVE(mode->vdisplay);
+> +struct rzg2l_mipi_dsi {
+> +	struct device *dev;
+> +	void __iomem *link_mmio;
+> +	void __iomem *phy_mmio;
 > +
-> +		ditr2 = DU_DITR2_VBP(mode->vtotal - mode->vsync_end)
-> +		      | DU_DITR2_VFP(mode->vsync_start - mode->vdisplay);
-> +
-> +		ditr3 = DU_DITR3_HSA(mode->hsync_end - mode->hsync_start)
-> +		      | DU_DITR3_HACTIVE(mode->hdisplay);
-> +
-> +		ditr4 = DU_DITR4_HBP(mode->htotal - mode->hsync_end)
-> +		      | DU_DITR4_HFP(mode->hsync_start - mode->hdisplay);
-> +
-> +		ditr5 = DU_DITR5_VSFT(0) | DU_DITR5_HSFT(0);
-> +
-> +		pbcr0 = DU_PBCR0_PB_DEP(0x1F);
-> +
-> +		rcar_du_write(rcdu, DU_DITR0, ditr0);
-> +		rcar_du_write(rcdu, DU_DITR1, ditr1);
-> +		rcar_du_write(rcdu, DU_DITR2, ditr2);
-> +		rcar_du_write(rcdu, DU_DITR3, ditr3);
-> +		rcar_du_write(rcdu, DU_DITR4, ditr4);
-> +		rcar_du_write(rcdu, DU_DITR5, ditr5);
-> +		rcar_du_write(rcdu, DU_PBCR0, pbcr0);
-> +
-> +		return;
-> +	}
-> +
->  	if (rcdu->info->dpll_mask & (1 << rcrtc->index)) {
->  		unsigned long target = mode_clock;
->  		struct dpll_info dpll = { 0 };
-> @@ -531,16 +568,23 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
->  
->  static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
->  {
-> -	/* Set display off and background to black */
-> -	rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
-> -	rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
-> +	struct rcar_du_device *rcdu = rcrtc->dev;
->  
-> -	/* Configure display timings and output routing */
-> -	rcar_du_crtc_set_display_timing(rcrtc);
-> -	rcar_du_group_set_routing(rcrtc->group);
-> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		/* Set display off and background to black */
-> +		rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
-> +		rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
->  
-> -	/* Start with all planes disabled. */
-> -	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
-> +		/* Configure display timings and output routing */
-> +		rcar_du_crtc_set_display_timing(rcrtc);
-> +		rcar_du_group_set_routing(rcrtc->group);
-> +
-> +		/* Start with all planes disabled. */
-> +		rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
-> +	} else {
-> +		/* Configure display timings and output routing */
-> +		rcar_du_crtc_set_display_timing(rcrtc);
-> +	}
->  
->  	/* Enable the VSP compositor. */
->  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-> @@ -561,6 +605,12 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
->  	if (rcrtc->initialized)
->  		return 0;
->  
-> +	if (rcrtc->rstc) {
-> +		ret = reset_control_deassert(rcrtc->rstc);
-> +		if (ret < 0)
-> +			goto error_reset;
-> +	}
-> +
->  	ret = clk_prepare_enable(rcrtc->clock);
->  	if (ret < 0)
->  		return ret;
-> @@ -582,6 +632,9 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
->  	clk_disable_unprepare(rcrtc->extclock);
->  error_clock:
->  	clk_disable_unprepare(rcrtc->clock);
-> +error_reset:
-> +	if (rcrtc->rstc)
-> +		reset_control_assert(rcrtc->rstc);
->  	return ret;
->  }
->  
-> @@ -591,23 +644,28 @@ static void rcar_du_crtc_put(struct rcar_du_crtc *rcrtc)
->  
->  	clk_disable_unprepare(rcrtc->extclock);
->  	clk_disable_unprepare(rcrtc->clock);
-> +	if (rcrtc->rstc)
-> +		reset_control_assert(rcrtc->rstc);
->  
->  	rcrtc->initialized = false;
->  }
->  
->  static void rcar_du_crtc_start(struct rcar_du_crtc *rcrtc)
->  {
-> +	struct rcar_du_device *rcdu = rcrtc->dev;
->  	bool interlaced;
->  
-> -	/*
-> -	 * Select master sync mode. This enables display operation in master
-> -	 * sync mode (with the HSYNC and VSYNC signals configured as outputs and
-> -	 * actively driven).
-> -	 */
-> -	interlaced = rcrtc->crtc.mode.flags & DRM_MODE_FLAG_INTERLACE;
-> -	rcar_du_crtc_dsysr_clr_set(rcrtc, DSYSR_TVM_MASK | DSYSR_SCM_MASK,
-> -				   (interlaced ? DSYSR_SCM_INT_VIDEO : 0) |
-> -				   DSYSR_TVM_MASTER);
-> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		/*
-> +		 * Select master sync mode. This enables display operation in master
-> +		 * sync mode (with the HSYNC and VSYNC signals configured as outputs and
-> +		 * actively driven).
-> +		 */
-> +		interlaced = rcrtc->crtc.mode.flags & DRM_MODE_FLAG_INTERLACE;
-> +		rcar_du_crtc_dsysr_clr_set(rcrtc, DSYSR_TVM_MASK | DSYSR_SCM_MASK,
-> +					   (interlaced ? DSYSR_SCM_INT_VIDEO : 0) |
-> +					   DSYSR_TVM_MASTER);
-> +	}
->  
->  	rcar_du_group_start_stop(rcrtc->group, true);
->  }
-> @@ -1229,6 +1287,14 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
->  		name = NULL;
->  	}
->  
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
-> +		if (IS_ERR(rcrtc->rstc)) {
-> +			dev_err(rcdu->dev, "can't get cpg reset\n");
-> +			return PTR_ERR(rcrtc->rstc);
-> +		}
-> +	}
-> +
->  	rcrtc->clock = devm_clk_get(rcdu->dev, name);
->  	if (IS_ERR(rcrtc->clock)) {
->  		dev_err(rcdu->dev, "no clock for DU channel %u\n", hwindex);
-> @@ -1251,6 +1317,14 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
->  		return ret;
->  	}
->  
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		clk = devm_clk_get(rcdu->dev, "vclk");
-> +		if (!IS_ERR(clk))
-> +			rcrtc->extclock = clk;
-> +		else if (PTR_ERR(clk) == -EPROBE_DEFER)
-> +			return -EPROBE_DEFER;
-> +	}
-> +
->  	init_waitqueue_head(&rcrtc->flip_wait);
->  	init_waitqueue_head(&rcrtc->vblank_wait);
->  	spin_lock_init(&rcrtc->vblank_lock);
-> @@ -1287,27 +1361,29 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
->  
->  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
->  
-> -	/* Register the interrupt handler. */
-> -	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ)) {
-> -		/* The IRQ's are associated with the CRTC (sw)index. */
-> -		irq = platform_get_irq(pdev, swindex);
-> -		irqflags = 0;
-> -	} else {
-> -		irq = platform_get_irq(pdev, 0);
-> -		irqflags = IRQF_SHARED;
-> -	}
-> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_RZG2L)) {
-> +		/* Register the interrupt handler. */
-> +		if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ)) {
-> +			/* The IRQ's are associated with the CRTC (sw)index. */
-> +			irq = platform_get_irq(pdev, swindex);
-> +			irqflags = 0;
-> +		} else {
-> +			irq = platform_get_irq(pdev, 0);
-> +			irqflags = IRQF_SHARED;
-> +		}
->  
-> -	if (irq < 0) {
-> -		dev_err(rcdu->dev, "no IRQ for CRTC %u\n", swindex);
-> -		return irq;
-> -	}
-> +		if (irq < 0) {
-> +			dev_err(rcdu->dev, "no IRQ for CRTC %u\n", swindex);
-> +			return irq;
-> +		}
->  
-> -	ret = devm_request_irq(rcdu->dev, irq, rcar_du_crtc_irq, irqflags,
-> -			       dev_name(rcdu->dev), rcrtc);
-> -	if (ret < 0) {
-> -		dev_err(rcdu->dev,
-> -			"failed to register IRQ for CRTC %u\n", swindex);
-> -		return ret;
-> +		ret = devm_request_irq(rcdu->dev, irq, rcar_du_crtc_irq, irqflags,
-> +				       dev_name(rcdu->dev), rcrtc);
-> +		if (ret < 0) {
-> +			dev_err(rcdu->dev,
-> +				"failed to register IRQ for CRTC %u\n", swindex);
-> +			return ret;
-> +		}
->  	}
->  
->  	rcar_du_crtc_crc_init(rcrtc);
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 66e8839db708..4ec2db46b131 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -28,6 +28,7 @@ struct rcar_du_vsp;
->   * @dev: the DU device
->   * @clock: the CRTC functional clock
->   * @extclock: external pixel dot clock (optional)
-> + * @rstc: reset controller (optional)
->   * @mmio_offset: offset of the CRTC registers in the DU MMIO block
->   * @index: CRTC hardware index
->   * @initialized: whether the CRTC has been initialized and clocks enabled
-> @@ -50,6 +51,7 @@ struct rcar_du_crtc {
->  	struct rcar_du_device *dev;
->  	struct clk *clock;
->  	struct clk *extclock;
 > +	struct reset_control *rstc;
->  	unsigned int mmio_offset;
->  	unsigned int index;
->  	bool initialized;
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index f92636001f10..57edc3b3154f 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -596,6 +596,28 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
->  	.dsi_clk_mask =  BIT(1) | BIT(0),
->  };
->  
-> +static const struct rcar_du_device_info rcar_du_r9a07g044l_info = {
-> +	.gen = 3,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
-> +		  | RCAR_DU_FEATURE_RZG2L
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-> +	.channels_mask = BIT(0),
-> +	.routes = {
-> +		[RCAR_DU_OUTPUT_DPAD0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 0,
-> +		},
-> +		[RCAR_DU_OUTPUT_DSI0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 1,
-> +		},
-> +	},
-> +	.num_rpf = 2,
-> +	.max_width = 1920,
-> +	.max_height = 1080,
+> +	struct reset_control *arstc;
+> +	struct reset_control *prstc;
+> +
+> +	struct mipi_dsi_host host;
+> +	struct drm_bridge bridge;
+> +	struct drm_bridge *next_bridge;
+> +
+> +	struct clk *vclk;
+> +
+> +	enum mipi_dsi_pixel_format format;
+> +	unsigned int num_data_lanes;
+> +	unsigned int lanes;
+> +	unsigned long mode_flags;
+> +
+> +	bool hsclkmode;	/* 0 for non-continuous and 1 for continuous clock mode */
+
+Booleans should be true or false, not 0 or 1. A bool value named
+hsclkmode isn't very readable, without this comment, it's not easy to
+tell which value corresponds to which mode. I would drop this field, and
+replace its usage with mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS.
+
 > +};
 > +
->  static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> @@ -621,6 +643,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
-> +	{ .compatible = "renesas,du-r9a07g044l", .data = &rcar_du_r9a07g044l_info },
->  	{ }
->  };
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> index e28c2df66f8e..47da9da71bca 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -33,6 +33,7 @@ struct rcar_du_device;
->  #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
->  #define RCAR_DU_FEATURE_PLANE		BIT(5)	/* HW supports DU planes */
->  #define RCAR_DU_FEATURE_GROUP		BIT(6)	/* HW supports DU groups */
-> +#define RCAR_DU_FEATURE_RZG2L		BIT(7)	/* Use RZ/G2L registers */
->  
->  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index 3612bc9eab1b..632271c2881d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -224,6 +224,11 @@ static void __rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start)
->  {
->  	struct rcar_du_device *rcdu = rgrp->dev;
->  
-> +	if (!rcar_du_has(rgrp->dev, RCAR_DU_FEATURE_GROUP)) {
-> +		rcar_du_write(rgrp->dev, DU_MCR0, start ? DU_MCR0_DI_EN : 0);
-> +		return;
-> +	}
+> +static inline struct rzg2l_mipi_dsi *
+> +bridge_to_rzg2l_mipi_dsi(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct rzg2l_mipi_dsi, bridge);
+> +}
 > +
->  	/*
->  	 * Group start/stop is controlled by the DRES and DEN bits of DSYSR0
->  	 * for the first group and DSYSR2 for the second group. On most DU
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> index 1cdaa51eb9ac..9e5c8d286bfc 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> @@ -15,6 +15,58 @@
->  #define DU2_REG_OFFSET		0x40000
->  #define DU3_REG_OFFSET		0x70000
->  
+> +static inline struct rzg2l_mipi_dsi *
+> +host_to_rzg2l_mipi_dsi(struct mipi_dsi_host *host)
+> +{
+> +	return container_of(host, struct rzg2l_mipi_dsi, host);
+> +}
+> +
+> +static void rzg2l_mipi_dsi_write(void __iomem *mem, u32 reg, u32 data)
+> +{
+> +	iowrite32(data, mem + reg);
+> +}
+> +
+> +static u32 rzg2l_mipi_dsi_read(void __iomem *mem, u32 reg)
+> +{
+> +	return ioread32(mem + reg);
+> +}
+> +
+> +static void rzg2l_mipi_dsi_clr(void __iomem *mem, u32 reg, u32 clr)
+> +{
+> +	rzg2l_mipi_dsi_write(mem, reg, rzg2l_mipi_dsi_read(mem, reg) & ~clr);
+> +}
+> +
 > +/* -----------------------------------------------------------------------------
-> + * RZ/G2L Display Registers
+> + * Hardware Setup
 > + */
 > +
-> +#define DU_MCR0			0x00
-> +#define DU_MCR0_DPI_OE		BIT(0)
-> +#define DU_MCR0_DI_EN		BIT(8)
-> +#define DU_MCR0_PB_CLR		BIT(16)
+> +static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_dsi *dsi,
+> +				  const struct drm_display_mode *mode)
+> +{
+> +	unsigned long hsfreq;
+> +	u32 txsetr;
+> +	u32 clstptsetr;
+> +	u32 lptrnstsetr;
+> +	u8 max_num_lanes;
+> +	u32 clkkpt;
+> +	u32 clkbfht;
+> +	u32 clkstpt;
+> +	u32 golpbkt;
+> +	unsigned int bpp;
+> +	struct {
+> +		u32 tclk_miss;
+> +		u32 t_init;
+> +		u32 tclk_prepare;
+> +		u32 tclk_settle;
+> +		u32 tclk_trail;
+> +		u32 tclk_post;
+> +		u32 tclk_pre;
+> +		u32 tclk_zero;
+> +		u32 tlpx;
+> +		u32 ths_prepare;
+> +		u32 ths_settle;
+> +		u32 ths_exit;
+> +		u32 ths_trail;
+> +		u32 ths_zero;
+> +	} timings;
+> +	u32 dphyctrl0;
+> +	u32 dphytim0;
+> +	u32 dphytim1;
+> +	u32 dphytim2;
+> +	u32 dphytim3;
 > +
-> +#define DU_MSR0			0x04
-> +#define DU_MSR0_ST_DI_BSY	BIT(8)
-> +#define DU_MSR0_ST_PB_WFULL	BIT(16)
-> +#define DU_MSR0_ST_PB_WINIT	BIT(18)
-> +#define DU_MSR0_ST_PB_REMPTY	BIT(20)
-> +#define DU_MSR0_ST_PB_RUF	BIT(21)
-> +#define DU_MSR0_ST_PB_RINIT	BIT(22)
+> +	/* Relationship between hsclk and vclk must follow
+> +	 * vclk * bpp = hsclk * 8 * lanes
+> +	 * where vclk: video clock (Hz)
+> +	 *       bpp: video pixel bit depth
+> +	 *       hsclk: DSI HS Byte clock frequency (Hz)
+> +	 *       lanes: number of data lanes
+> +	 *
+> +	 * hsclk(bit) = hsclk(byte) * 8
+> +	 */
 > +
-> +#define DU_MSR1			0x08
+> +	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +	hsfreq = (mode->clock * bpp * 8) / (8 * dsi->lanes);
 > +
-> +#define DU_IMR0			0x0C
-> +#define DU_MSR0_IM_PB_RUF	BIT(0)
+> +	/* Initializing DPHY before accessing LINK */
 > +
-> +#define DU_DITR0		0x10
-> +#define DU_DITR0_DPI_CLKMD	BIT(0)
-> +#define DU_DITR0_DEMD_LOW	0x0
-> +#define DU_DITR0_DEMD_HIGH	(BIT(8) | BIT(9))
-> +#define DU_DITR0_VSPOL		BIT(16)
-> +#define DU_DITR0_HSPOL		BIT(17)
+> +	/* All DSI global operation timings are set with recommended setting */
+> +	if (hsfreq > 250000) {
+> +		timings.tclk_miss = 1;
+> +		timings.t_init = 79801;
+> +		timings.tclk_prepare = 8;
+> +		timings.tclk_settle = 9;
+> +		timings.tclk_trail = 7;
+> +		timings.tclk_post = 35;
+> +		timings.tclk_pre = 4;
+> +		timings.tclk_zero = 33;
+> +		timings.tlpx = 6;
+> +		timings.ths_prepare = 9;
+> +		timings.ths_settle = 9;
+> +		timings.ths_exit = 13;
+> +		timings.ths_trail = 9;
+> +		timings.ths_zero = 16;
+> +	} else {
+> +		timings.tclk_miss = 1;
+> +		timings.t_init = 79801;
+> +		timings.tclk_prepare = 8;
+> +		timings.tclk_settle = 9;
+> +		timings.tclk_trail = 10;
+> +		timings.tclk_post = 94;
+> +		timings.tclk_pre = 13;
+> +		timings.tclk_zero = 33;
+> +		timings.tlpx = 6;
+> +		timings.ths_prepare = 12;
+> +		timings.ths_settle = 9;
+> +		timings.ths_exit = 13;
+> +		timings.ths_trail = 17;
+> +		timings.ths_zero = 23;
+> +	}
 > +
-> +#define DU_DITR1		0x14
-> +#define DU_DITR1_VSA(x)		((x) << 0)
-> +#define DU_DITR1_VACTIVE(x)	((x) << 16)
+> +	reset_control_deassert(dsi->arstc);
+> +	reset_control_deassert(dsi->prstc);
 > +
-> +#define DU_DITR2		0x18
-> +#define DU_DITR2_VBP(x)		((x) << 0)
-> +#define DU_DITR2_VFP(x)		((x) << 16)
+> +	pm_runtime_get_sync(dsi->dev);
+
+Error check, and use pm_runtime_resume_and_get() instead.
+pm_runtime_get_sync() requires a call to pm_runtime_put_noidle() even on
+failure, which makes error handling more complex.
+
 > +
-> +#define DU_DITR3		0x1C
-> +#define DU_DITR3_HSA(x)		((x) << 0)
-> +#define DU_DITR3_HACTIVE(x)	((x) << 16)
+> +	clk_set_rate(dsi->vclk, mode->clock * 1000);
 > +
-> +#define DU_DITR4		0x20
-> +#define DU_DITR4_HBP(x)		((x) << 0)
-> +#define DU_DITR4_HFP(x)		((x) << 16)
+> +	dphyctrl0 = DSIDPHYCTRL0_CAL_EN_HSRX_OFS | DSIDPHYCTRL0_CMN_MASTER_EN |
+> +		    DSIDPHYCTRL0_RE_VDD_DETVCCQLV18 | DSIDPHYCTRL0_EN_BGR;
 > +
-> +#define DU_DITR5		0x24
-> +#define DU_DITR5_VSFT(x)	((x) << 0)
-> +#define DU_DITR5_HSFT(x)	((x) << 16)
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYCTRL0, dphyctrl0);
+> +	usleep_range(20, 30);
 > +
-> +#define DU_PBCR0		0x4C
-> +#define DU_PBCR0_PB_DEP(x)	((x) << 0)
+> +	dphyctrl0 |= DSIDPHYCTRL0_EN_LDO1200;
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYCTRL0, dphyctrl0);
+> +	usleep_range(10, 20);
 > +
->  /* -----------------------------------------------------------------------------
->   * Display Control Registers
->   */
+> +	dphytim0 = DSIDPHYTIM0_TCLK_MISS(timings.tclk_miss) |
+> +		   DSIDPHYTIM0_T_INIT(timings.t_init);
+> +	dphytim1 = DSIDPHYTIM1_THS_PREPARE(timings.ths_prepare) |
+> +		   DSIDPHYTIM1_TCLK_PREPARE(timings.tclk_prepare) |
+> +		   DSIDPHYTIM1_THS_SETTLE(timings.ths_settle) |
+> +		   DSIDPHYTIM1_TCLK_SETTLE(timings.tclk_settle);
+> +	dphytim2 = DSIDPHYTIM2_TCLK_TRAIL(timings.tclk_trail) |
+> +		   DSIDPHYTIM2_TCLK_POST(timings.tclk_post) |
+> +		   DSIDPHYTIM2_TCLK_PRE(timings.tclk_pre) |
+> +		   DSIDPHYTIM2_TCLK_ZERO(timings.tclk_zero);
+> +	dphytim3 = DSIDPHYTIM3_TLPX(timings.tlpx) |
+> +		   DSIDPHYTIM3_THS_EXIT(timings.ths_exit) |
+> +		   DSIDPHYTIM3_THS_TRAIL(timings.ths_trail) |
+> +		   DSIDPHYTIM3_THS_ZERO(timings.ths_zero);
+> +
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYTIM0, dphytim0);
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYTIM1, dphytim1);
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYTIM2, dphytim2);
+> +	rzg2l_mipi_dsi_write(dsi->phy_mmio, DSIDPHYTIM3, dphytim3);
+> +
+> +	reset_control_deassert(dsi->rstc);
+> +	udelay(1);
+> +
+> +	/* Check number of lanes capability */
+> +	max_num_lanes = rzg2l_mipi_dsi_read(dsi->link_mmio, TXSETR) >> 16;
+> +	max_num_lanes = (max_num_lanes & 0x3) + 1;
+> +	if (max_num_lanes < dsi->lanes) {
+> +		dev_err(dsi->dev, "DPHY can not support %d lanes", dsi->lanes);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Enable Data lanes and Clock lanes */
+> +	txsetr = TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLEN;
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, TXSETR, txsetr);
+> +
+> +	/*
+> +	 * Global timings characteristic depends on high speed Clock Frequency
+> +	 * Currently MIPI DSI-IF just supports maximum FHD@60 with:
+> +	 * - videoclock = 148.5 (MHz)
+> +	 * - bpp: maximum 24bpp
+> +	 * - data lanes: maximum 4 lanes
+> +	 * Therefore maximum hsclk will be 891 Mbps.
+> +	 */
+> +
+> +	if (hsfreq > 445500) {
+> +		clkkpt = 12;
+> +		clkbfht = 15;
+> +		clkstpt = 48;
+> +		golpbkt = 75;
+> +	} else if (hsfreq > 250000) {
+> +		clkkpt = 7;
+> +		clkbfht = 8;
+> +		clkstpt = 27;
+> +		golpbkt = 40;
+> +	} else {
+> +		clkkpt = 8;
+> +		clkbfht = 6;
+> +		clkstpt = 24;
+> +		golpbkt = 29;
+> +	}
+> +
+> +	clstptsetr = CLSTPTSETR_CLKKPT(clkkpt) | CLSTPTSETR_CLKBFHT(clkbfht) |
+> +		     CLSTPTSETR_CLKSTPT(clkstpt);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, CLSTPTSETR, clstptsetr);
+> +
+> +	lptrnstsetr = LPTRNSTSETR_GOLPBKT(golpbkt);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, LPTRNSTSETR, lptrnstsetr);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzg2l_mipi_dsi_set_display_timing(struct rzg2l_mipi_dsi *dsi,
+> +					      const struct drm_display_mode *mode)
+> +{
+> +	u32 vich1ppsetr;
+> +	u32 vich1vssetr;
+> +	u32 vich1vpsetr;
+> +	u32 vich1hssetr;
+> +	u32 vich1hpsetr;
+> +	int dsi_format;
+> +	u32 delay[2];
+> +
+> +	/* Configuration for Pixel Packet */
+> +	dsi_format = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> +	switch (dsi_format) {
+> +	case 24:
+> +		vich1ppsetr = VICH1PPSETR_DT_RGB24;
+> +		break;
+> +	case 18:
+> +		vich1ppsetr = VICH1PPSETR_DT_RGB18;
+> +		break;
+> +	case 16:
+> +		vich1ppsetr = VICH1PPSETR_DT_RGB16;
+> +		break;
+> +	default:
+> +		dev_warn(dsi->dev, "unsupported format");
+> +		return;
+
+Could you check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+instead, so that the error can be propagated ?
+
+> +	}
+> +
+> +	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+> +		vich1ppsetr |= VICH1PPSETR_TXESYNC_PULSE;
+> +
+> +	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
+> +		vich1ppsetr &= ~VICH1PPSETR_TXESYNC_PULSE;
+> +
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1PPSETR, vich1ppsetr);
+> +
+> +	/* Configuration for Video Parameters */
+> +	vich1vssetr = VICH1VSSETR_VACTIVE(mode->vdisplay) |
+> +		      VICH1VSSETR_VSA(mode->vsync_end - mode->vsync_start);
+> +	vich1vssetr |= (mode->flags & DRM_MODE_FLAG_PVSYNC) ?
+> +			VICH1VSSETR_VSPOL_HIGH : VICH1VSSETR_VSPOL_LOW;
+> +
+> +	vich1vpsetr = VICH1VPSETR_VFP(mode->vsync_start - mode->vdisplay) |
+> +		      VICH1VPSETR_VBP(mode->vtotal - mode->vsync_end);
+> +
+> +	vich1hssetr = VICH1HSSETR_HACTIVE(mode->hdisplay) |
+> +		      VICH1HSSETR_HSA(mode->hsync_end - mode->hsync_start);
+> +	vich1hssetr |= (mode->flags & DRM_MODE_FLAG_PHSYNC) ?
+> +			VICH1HSSETR_HSPOL_HIGH : VICH1HSSETR_HSPOL_LOW;
+> +
+> +	vich1hpsetr = VICH1HPSETR_HFP(mode->hsync_start - mode->hdisplay) |
+> +		      VICH1HPSETR_HBP(mode->htotal - mode->hsync_end);
+> +
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1VSSETR, vich1vssetr);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1VPSETR, vich1vpsetr);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1HSSETR, vich1hssetr);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1HPSETR, vich1hpsetr);
+> +
+> +	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+> +		dsi->hsclkmode = 0;
+> +	else
+> +		dsi->hsclkmode = 1;
+> +
+> +	/*
+> +	 * Configuration for Delay Value
+> +	 * Delay value based on 2 ranges of video clock.
+> +	 * 74.25MHz is videoclock of HD@60p or FHD@30p
+> +	 */
+> +
+> +	if (mode->clock > 74250) {
+> +		delay[0] = 231;
+> +		delay[1] = 216;
+> +	} else {
+> +		delay[0] = 220;
+> +		delay[1] = 212;
+> +	}
+> +
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1SET1R,
+> +			     VICH1SET1R_DLY(delay[dsi->hsclkmode]));
+> +}
+> +
+> +static int rzg2l_mipi_dsi_start_hs_clock(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	u32 hsclksetr;
+> +	u32 status;
+> +	int ret;
+> +
+> +	/* Start HS clock */
+> +	hsclksetr = HSCLKSETR_HSCLKRUN_HS |
+> +		 (dsi->hsclkmode ? HSCLKSETR_HSCLKMODE_CONT :
+> +					HSCLKSETR_HSCLKMODE_NON_CONT);
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, HSCLKSETR, hsclksetr);
+> +
+> +	if (dsi->hsclkmode) {
+> +		ret = read_poll_timeout(rzg2l_mipi_dsi_read, status,
+> +					status & PLSR_CLLP2HS,
+> +					2000, 20000, false, dsi->link_mmio, PLSR);
+> +		if (ret < 0) {
+> +			dev_err(dsi->dev, "failed to start HS clock\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	dev_dbg(dsi->dev, "Start High Speed Clock with %s clock mode",
+> +		dsi->hsclkmode ? "continuous" : "non-continuous");
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_stop_hs_clock(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	u32 status;
+> +	int ret;
+> +
+> +	/* Stop HS clock */
+> +	rzg2l_mipi_dsi_clr(dsi->link_mmio, HSCLKSETR, HSCLKSETR_HSCLKRUN_HS);
+
+As HSCLKSETR has been written in rzg2l_mipi_dsi_start_hs_clock(), I
+think you can write the register directly here too, without a
+read-modify-write sequence:
+
+	rzg2l_mipi_dsi_write(dsi->link_mmio, HSCLKSETR,
+			     dsi->hsclkmode ? HSCLKSETR_HSCLKMODE_CONT :
+			     HSCLKSETR_HSCLKMODE_NON_CONT);
+
+(you can store the result of dsi->hsclkmode ? HSCLKSETR_HSCLKMODE_CONT
+in a local variable, as it's used on the next line too, or just copy the
+check, up to you).
+
+> +
+> +	if (dsi->hsclkmode) {
+> +		ret = read_poll_timeout(rzg2l_mipi_dsi_read, status,
+> +					status & PLSR_CLHS2LP,
+> +					2000, 20000, false, dsi->link_mmio, PLSR);
+> +		if (ret < 0) {
+> +			dev_err(dsi->dev, "failed to stop HS clock\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_start_video(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	u32 vich1set0r;
+> +	u32 status;
+> +	int ret;
+> +
+> +	/* Configuration for Blanking sequence and start video input*/
+> +	vich1set0r = VICH1SET0R_HFPNOLP | VICH1SET0R_HBPNOLP |
+> +		     VICH1SET0R_HSANOLP | VICH1SET0R_VSTART;
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1SET0R, vich1set0r);
+> +
+> +	ret = read_poll_timeout(rzg2l_mipi_dsi_read, status,
+> +				status & VICH1SR_VIRDY,
+> +				2000, 20000, false, dsi->link_mmio, VICH1SR);
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "Failed to start video signal input\n");
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(dsi->dev, "Start video transferring");
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_stop_video(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	u32 status;
+> +	int ret;
+> +
+> +	rzg2l_mipi_dsi_write(dsi->link_mmio, VICH1SET0R, VICH1SET0R_VSTPAFT);
+> +	ret = read_poll_timeout(rzg2l_mipi_dsi_read, status,
+> +				(status & VICH1SR_STOP) && (!(status & VICH1SR_RUNNING)),
+> +				2000, 20000, false, dsi->link_mmio, VICH1SR);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret = read_poll_timeout(rzg2l_mipi_dsi_read, status,
+> +				!(status & LINKSR_HSBUSY),
+> +				2000, 20000, false, dsi->link_mmio, LINKSR);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	return 0;
+> +err:
+> +	dev_err(dsi->dev, "Failed to stop video signal input\n");
+> +	return ret;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Bridge
+> + */
+> +
+> +static int rzg2l_mipi_dsi_attach(struct drm_bridge *bridge,
+> +				 enum drm_bridge_attach_flags flags)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +
+> +	return drm_bridge_attach(bridge->encoder, dsi->next_bridge, bridge,
+> +				 flags);
+> +}
+> +
+> +static void rzg2l_mipi_dsi_atomic_enable(struct drm_bridge *bridge,
+> +					 struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct drm_atomic_state *state = old_bridge_state->base.state;
+> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +	const struct drm_display_mode *mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +	mode = &drm_atomic_get_new_crtc_state(state, crtc)->adjusted_mode;
+> +
+> +	ret = rzg2l_mipi_dsi_startup(dsi, mode);
+> +	if (ret < 0)
+> +		return;
+> +
+> +	rzg2l_mipi_dsi_set_display_timing(dsi, mode);
+> +
+> +	ret = rzg2l_mipi_dsi_start_hs_clock(dsi);
+> +	if (ret < 0)
+> +		return;
+> +
+> +	ret = rzg2l_mipi_dsi_start_video(dsi);
+> +	if (ret < 0)
+> +		return;
+> +}
+> +
+> +static void rzg2l_mipi_dsi_atomic_disable(struct drm_bridge *bridge,
+> +					  struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = bridge_to_rzg2l_mipi_dsi(bridge);
+> +
+> +	rzg2l_mipi_dsi_stop_video(dsi);
+> +	rzg2l_mipi_dsi_stop_hs_clock(dsi);
+> +	pm_runtime_put(dsi->dev);
+> +	reset_control_assert(dsi->rstc);
+> +	reset_control_assert(dsi->arstc);
+> +	reset_control_assert(dsi->prstc);
+> +}
+> +
+> +static enum drm_mode_status
+> +rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+> +				 const struct drm_display_info *info,
+> +				 const struct drm_display_mode *mode)
+> +{
+> +	if (mode->clock > 148500)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static const struct drm_bridge_funcs rzg2l_mipi_dsi_bridge_ops = {
+> +	.attach = rzg2l_mipi_dsi_attach,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_enable = rzg2l_mipi_dsi_atomic_enable,
+> +	.atomic_disable = rzg2l_mipi_dsi_atomic_disable,
+> +	.mode_valid = rzg2l_mipi_dsi_bridge_mode_valid,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Host setting
+> + */
+> +
+> +static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+> +				      struct mipi_dsi_device *device)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+> +	int ret;
+> +
+> +	if (device->lanes > dsi->num_data_lanes)
+> +		return -EINVAL;
+> +
+> +	dsi->lanes = device->lanes;
+> +	dsi->format = device->format;
+> +	dsi->mode_flags = device->mode_flags;
+> +
+> +	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+> +						  1, 0);
+> +	if (IS_ERR(dsi->next_bridge)) {
+> +		ret = PTR_ERR(dsi->next_bridge);
+> +		dev_err(dsi->dev, "failed to get next bridge: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Initialize the DRM bridge. */
+> +	dsi->bridge.funcs = &rzg2l_mipi_dsi_bridge_ops;
+> +	dsi->bridge.of_node = dsi->dev->of_node;
+> +	drm_bridge_add(&dsi->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_host_detach(struct mipi_dsi_host *host,
+> +				      struct mipi_dsi_device *device)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+> +
+> +	drm_bridge_remove(&dsi->bridge);
+> +	return 0;
+> +}
+> +
+> +static const struct mipi_dsi_host_ops rzg2l_mipi_dsi_host_ops = {
+> +	.attach = rzg2l_mipi_dsi_host_attach,
+> +	.detach = rzg2l_mipi_dsi_host_detach,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Probe & Remove
+> + */
+> +
+> +static int rzg2l_mipi_dsi_parse_dt(struct rzg2l_mipi_dsi *dsi)
+> +{
+> +	struct device_node *ep;
+> +	u32 data_lanes[4];
+> +	int ret;
+> +
+> +	ep = of_graph_get_endpoint_by_regs(dsi->dev->of_node, 1, 0);
+> +	if (!ep) {
+> +		dev_dbg(dsi->dev, "unconnected port@1\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = of_property_read_variable_u32_array(ep, "data-lanes", data_lanes,
+> +						  1, 4);
+> +	of_node_put(ep);
+> +
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "missing or invalid data-lanes property\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	dsi->num_data_lanes = ret;
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi;
+> +	struct resource *mem;
+> +	int ret;
+> +
+> +	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+> +	if (!dsi)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, dsi);
+> +	dsi->dev = &pdev->dev;
+> +
+> +	ret = rzg2l_mipi_dsi_parse_dt(dsi);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	dsi->link_mmio = devm_ioremap_resource(dsi->dev, mem);
+
+You can use devm_platform_ioremap_resource(), here and below.
+
+> +	if (IS_ERR(dsi->link_mmio))
+> +		return PTR_ERR(dsi->link_mmio);
+> +
+> +	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	dsi->phy_mmio = devm_ioremap_resource(dsi->dev, mem);
+> +	if (IS_ERR(dsi->phy_mmio))
+> +		return PTR_ERR(dsi->phy_mmio);
+> +
+> +	dsi->vclk = devm_clk_get(dsi->dev, "vclk");
+> +	if (IS_ERR(dsi->vclk))
+> +		return PTR_ERR(dsi->vclk);
+> +
+> +	dsi->rstc = devm_reset_control_get(dsi->dev, "rst");
+> +	if (IS_ERR(dsi->rstc))
+> +		return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc), "failed to get cpg reset\n");
+
+I'd wrap the line after the PTR_ERR().
+
+> +
+> +	dsi->arstc = devm_reset_control_get(dsi->dev, "arst");
+> +	if (IS_ERR(dsi->arstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(dsi->arstc), "failed to get cpg reset\n");
+
+Should the error message be different than the previous one ? Otherwise
+it's hard to tell which reset can't be acquired.
+
+> +
+> +	dsi->prstc = devm_reset_control_get(dsi->dev, "prst");
+> +	if (IS_ERR(dsi->arstc))
+
+s/arstc/prstc/
+
+> +		return dev_err_probe(dsi->dev, PTR_ERR(dsi->prstc), "failed to get cpg reset\n");
+> +
+> +	pm_runtime_enable(dsi->dev);
+> +
+> +	/* Init host device */
+> +	dsi->host.dev = dsi->dev;
+> +	dsi->host.ops = &rzg2l_mipi_dsi_host_ops;
+> +	ret = mipi_dsi_host_register(&dsi->host);
+> +	if (ret < 0)
+> +		goto out_pm_get;
+> +
+> +	return 0;
+> +out_pm_get:
+> +	pm_runtime_disable(dsi->dev);
+> +	reset_control_assert(dsi->rstc);
+> +	reset_control_assert(dsi->arstc);
+> +	reset_control_assert(dsi->prstc);
+
+The reset line hasn't been deasserted in probe(), does it need to be
+asserted in the error path here ?
+
+> +	return ret;
+> +}
+> +
+> +static int rzg2l_mipi_dsi_remove(struct platform_device *pdev)
+> +{
+> +	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
+> +
+> +	mipi_dsi_host_unregister(&dsi->host);
+> +	pm_runtime_disable(&pdev->dev);
+> +	reset_control_assert(dsi->rstc);
+> +	reset_control_assert(dsi->arstc);
+> +	reset_control_assert(dsi->prstc);
+
+Same here, I don't think this is needed.
+
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rzg2l_mipi_dsi_of_table[] = {
+> +	{ .compatible = "renesas,r9a07g044-mipi-dsi" },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +static struct platform_driver rzg2l_mipi_dsi_platform_driver = {
+> +	.driver	= {
+> +		.name = "rzg2l-mipi-dsi",
+> +		.of_match_table = rzg2l_mipi_dsi_of_table,
+> +	},
+> +	.probe	= rzg2l_mipi_dsi_probe,
+> +	.remove	= rzg2l_mipi_dsi_remove,
+> +};
+> +
+> +module_platform_driver(rzg2l_mipi_dsi_platform_driver);
+> +
+> +MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com");
+> +MODULE_DESCRIPTION("Renesas RZ/G2L MIPI DSI Encoder Driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+> new file mode 100644
+> index 000000000000..bf81187388bd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+> @@ -0,0 +1,151 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * RZ/G2L MIPI DSI Interface Registers Definitions
+> + *
+> + * Copyright (C) 2021 Renesas Electronics Corporation
+> + */
+> +
+> +#ifndef __RZG2L_MIPI_DSI_REGS_H__
+> +#define __RZG2L_MIPI_DSI_REGS_H__
+> +
+> +/* DPHY Registers */
+> +#define DSIDPHYCTRL0			0x00
+> +#define DSIDPHYCTRL0_CAL_EN_HSRX_OFS	BIT(16)
+> +#define DSIDPHYCTRL0_CMN_MASTER_EN	BIT(8)
+> +#define DSIDPHYCTRL0_RE_VDD_DETVCCQLV18	BIT(2)
+> +#define DSIDPHYCTRL0_EN_LDO1200		BIT(1)
+> +#define DSIDPHYCTRL0_EN_BGR		BIT(0)
+> +
+> +#define DSIDPHYTIM0			0x04
+> +#define DSIDPHYTIM0_TCLK_MISS(x)	((x) << 24)
+> +#define DSIDPHYTIM0_T_INIT(x)		((x) << 0)
+> +
+> +#define DSIDPHYTIM1			0x08
+> +#define DSIDPHYTIM1_THS_PREPARE(x)	((x) << 24)
+> +#define DSIDPHYTIM1_TCLK_PREPARE(x)	((x) << 16)
+> +#define DSIDPHYTIM1_THS_SETTLE(x)	((x) << 8)
+> +#define DSIDPHYTIM1_TCLK_SETTLE(x)	((x) << 0)
+> +
+> +#define DSIDPHYTIM2			0x0C
+
+Some hex constants are upper case, some are lower case. Could you make
+that consistent ? I personally prefer lower case, and that matches the
+style of drivers in this directory.
+
+> +#define DSIDPHYTIM2_TCLK_TRAIL(x)	((x) << 24)
+> +#define DSIDPHYTIM2_TCLK_POST(x)	((x) << 16)
+> +#define DSIDPHYTIM2_TCLK_PRE(x)		((x) << 8)
+> +#define DSIDPHYTIM2_TCLK_ZERO(x)	((x) << 0)
+> +
+> +#define DSIDPHYTIM3			0x10
+> +#define DSIDPHYTIM3_TLPX(x)		((x) << 24)
+> +#define DSIDPHYTIM3_THS_EXIT(x)		((x) << 16)
+> +#define DSIDPHYTIM3_THS_TRAIL(x)	((x) << 8)
+> +#define DSIDPHYTIM3_THS_ZERO(x)		((x) << 0)
+> +
+> +/* --------------------------------------------------------*/
+> +/* Link Registers */
+> +/* Link Status Register */
+> +#define LINKSR				0x10
+> +#define LINKSR_LPBUSY			BIT(13)
+> +#define LINKSR_HSBUSY			BIT(12)
+> +#define LINKSR_VICHRUN1			BIT(8)
+> +#define LINKSR_SQCHRUN1			BIT(4)
+> +#define LINKSR_SQCHRUN0			BIT(0)
+> +
+> +/* Tx Set Register */
+> +#define TXSETR				0x100
+> +#define TXSETR_NUMLANECAP		(0x3 << 16)
+> +#define TXSETR_DLEN			BIT(9)
+> +#define TXSETR_CLEN			BIT(8)
+> +#define TXSETR_NUMLANEUSE(x)		(((x) & 0x3) << 0)
+> +
+> +/* HS Clock Set Register */
+> +#define HSCLKSETR			0x104
+> +#define HSCLKSETR_HSCLKMODE_CONT	BIT(1)
+> +#define HSCLKSETR_HSCLKMODE_NON_CONT	(0 << 1)
+> +#define HSCLKSETR_HSCLKRUN_HS		BIT(0)
+> +#define HSCLKSETR_HSCLKRUN_LP		(0 << 0)
+> +
+> +/* Reset Control Register */
+> +#define RSTCR				0x110
+> +#define RSTCR_SWRST			BIT(0)
+> +#define RSTCR_FCETXSTP			BIT(16)
+> +
+> +/* Reset Status Register */
+> +#define RSTSR				0x114
+> +#define RSTSR_DL0DIR			BIT(15)
+> +#define RSTSR_DLSTPST			(0xf << 8)
+> +#define RSTSR_SWRSTV1			BIT(4)
+> +#define RSTSR_SWRSTIB			BIT(3)
+> +#define RSTSR_SWRSTAPB			BIT(2)
+> +#define RSTSR_SWRSTLP			BIT(1)
+> +#define RSTSR_SWRSTHS			BIT(0)
+> +
+> +/* Clock Lane Stop Time Set Register */
+> +#define CLSTPTSETR			0x314
+> +#define CLSTPTSETR_CLKKPT(x)		((x) << 24)
+> +#define CLSTPTSETR_CLKBFHT(x)		((x) << 16)
+> +#define CLSTPTSETR_CLKSTPT(x)		((x) << 2)
+> +
+> +/* LP Transition Time Set Register */
+> +#define LPTRNSTSETR			0x318
+> +#define LPTRNSTSETR_GOLPBKT(x)		((x) << 0)
+> +
+> +/* Physical Lane Status Register */
+> +#define PLSR				0x320
+> +#define PLSR_CLHS2LP			BIT(27)
+> +#define PLSR_CLLP2HS			BIT(26)
+> +
+> +/* Video-Input Channel 1 Set 0 Register */
+> +#define VICH1SET0R			0x400
+> +#define VICH1SET0R_VSEN			BIT(12)
+> +#define VICH1SET0R_HFPNOLP		BIT(10)
+> +#define VICH1SET0R_HBPNOLP		BIT(9)
+> +#define VICH1SET0R_HSANOLP		BIT(8)
+> +#define VICH1SET0R_VSTPAFT		BIT(1)
+> +#define VICH1SET0R_VSTART		BIT(0)
+> +
+> +/* Video-Input Channel 1 Set 1 Register */
+> +#define VICH1SET1R			0x404
+> +#define VICH1SET1R_DLY(x)		(((x) & 0xfff) << 2)
+> +
+> +/* Video-Input Channel 1 Status Register */
+> +#define VICH1SR				0x410
+> +#define VICH1SR_VIRDY			BIT(3)
+> +#define VICH1SR_RUNNING			BIT(2)
+> +#define VICH1SR_STOP			BIT(1)
+> +#define VICH1SR_START			BIT(0)
+> +
+> +/* Video-Input Channel 1 Pixel Packet Set Register */
+> +#define VICH1PPSETR			0x420
+> +#define VICH1PPSETR_DT_RGB16		(0x0E << 16)
+> +#define VICH1PPSETR_DT_RGB18		(0x1E << 16)
+> +#define VICH1PPSETR_DT_RGB18_LS		(0x2E << 16)
+> +#define VICH1PPSETR_DT_RGB24		(0x3E << 16)
+> +#define VICH1PPSETR_DT_YCbCr16		(0x2C << 16)
+> +#define VICH1PPSETR_DT_YCbCr20_LS	(0x0C << 16)
+> +#define VICH1PPSETR_DT_YCbCr24		(0x1C << 16)
+> +#define VICH1PPSETR_TXESYNC_PULSE	BIT(15)
+> +#define VICH1PPSETR_VC(x)		((x) << 22)
+> +
+> +/* Video-Input Channel 1 Vertical Size Set Register */
+> +#define VICH1VSSETR			0x428
+> +#define VICH1VSSETR_VACTIVE(x)		(((x) & 0x7fff) << 16)
+> +#define VICH1VSSETR_VSPOL_LOW		BIT(15)
+> +#define VICH1VSSETR_VSPOL_HIGH		(0 << 15)
+> +#define VICH1VSSETR_VSA(x)		(((x) & 0xfff) << 0)
+> +
+> +/* Video-Input Channel 1 Vertical Porch Set Register */
+> +#define VICH1VPSETR			0x42C
+> +#define VICH1VPSETR_VFP(x)		(((x) & 0x1fff) << 16)
+> +#define VICH1VPSETR_VBP(x)		(((x) & 0x1fff) << 0)
+> +
+> +/* Video-Input Channel 1 Horizontal Size Set Register */
+> +#define VICH1HSSETR			0x430
+> +#define VICH1HSSETR_HACTIVE(x)		(((x) & 0x7fff) << 16)
+> +#define VICH1HSSETR_HSPOL_LOW		BIT(15)
+> +#define VICH1HSSETR_HSPOL_HIGH		(0 << 15)
+> +#define VICH1HSSETR_HSA(x)		(((x) & 0xfff) << 0)
+> +
+> +/* Video-Input Channel 1 Horizontal Porch Set Register */
+> +#define VICH1HPSETR			0x434
+> +#define VICH1HPSETR_HFP(x)		(((x) & 0x1fff) << 16)
+> +#define VICH1HPSETR_HBP(x)		(((x) & 0x1fff) << 0)
+> +
+> +#endif /* __RZG2L_MIPI_DSI_REGS_H__ */
 
 -- 
 Regards,
