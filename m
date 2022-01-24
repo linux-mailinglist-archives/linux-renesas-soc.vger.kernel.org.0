@@ -2,191 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BCF4997DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 22:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8208649A5E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 03:17:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352287AbiAXVRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 16:17:02 -0500
-Received: from mxout02.lancloud.ru ([45.84.86.82]:57190 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1445138AbiAXVCV (ORCPT
+        id S1356789AbiAYCMF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 21:12:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1457499AbiAXX2Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 16:02:21 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 817A9209B103
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] driver core: platform: Rename platform_get_irq_optional()
- to platform_get_irq_silent()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        KVM list <kvm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        <linux-iio@vger.kernel.org>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Guenter Roeck <groeck@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
-        <openipmi-developer@lists.sourceforge.net>,
-        "Khuong Dinh" <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Corey Minyard <minyard@acm.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "Sebastian Reichel" <sre@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        <netdev@vger.kernel.org>,
+        Mon, 24 Jan 2022 18:28:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF52C01D7FB;
+        Mon, 24 Jan 2022 13:32:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8ACCEB8105C;
+        Mon, 24 Jan 2022 21:32:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BCD4C340E4;
+        Mon, 24 Jan 2022 21:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643059935;
+        bh=kYzQ6x4/8WDwUsKjGgcujq30v/9ofPlAvon/fiopj00=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oJrWUXi2vxbgCPV2sF5oWKv2H1PXleQVcB/lmwkr36GM0ZWY+on95eCMTO6IopfwV
+         LlB9xqXfQHFmeArSRoYPph8oK2J7qDPdUUEHIjBC7+9+BmKV9A5eGS1r5kgf/8ygnf
+         e3EqN0xw/HgOrCQ4r8yCTWBtiKxn36SQiW3/I+Hs=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Linux MMC List" <linux-mmc@vger.kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        "James Morse" <james.morse@arm.com>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        <linux-mediatek@lists.infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
- <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
- <Yd9L9SZ+g13iyKab@sirena.org.uk>
- <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
- <YeA7CjOyJFkpuhz/@sirena.org.uk>
- <20220113194358.xnnbhsoyetihterb@pengutronix.de>
- <YeF05vBOzkN+xYCq@smile.fi.intel.com>
- <20220115154539.j3tsz5ioqexq2yuu@pengutronix.de>
- <YehdsUPiOTwgZywq@smile.fi.intel.com>
- <20220120075718.5qtrpc543kkykaow@pengutronix.de>
- <Ye6/NgfxsZnpXE09@smile.fi.intel.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <15796e57-f7d4-9c66-3b53-0b026eaf31d8@omp.ru>
-Date:   Tue, 25 Jan 2022 00:02:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        linux-renesas-soc@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.16 0784/1039] PCI: rcar: Check if device is runtime suspended instead of __clk_is_enabled()
+Date:   Mon, 24 Jan 2022 19:42:53 +0100
+Message-Id: <20220124184151.639481546@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220124184125.121143506@linuxfoundation.org>
+References: <20220124184125.121143506@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <Ye6/NgfxsZnpXE09@smile.fi.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-On 1/24/22 6:01 PM, Andy Shevchenko wrote:
+[ Upstream commit d2a14b54989e9ccea8401895fdfbc213bd1f56af ]
 
->>>>>>> It'd certainly be good to name anything that doesn't correspond to one
->>>>>>> of the existing semantics for the API (!) something different rather
->>>>>>> than adding yet another potentially overloaded meaning.
->>>>>>
->>>>>> It seems we're (at least) three who agree about this. Here is a patch
->>>>>> fixing the name.
->>>>>
->>>>> And similar number of people are on the other side.
->>>>
->>>> If someone already opposed to the renaming (and not only the name) I
->>>> must have missed that.
->>>>
->>>> So you think it's a good idea to keep the name
->>>> platform_get_irq_optional() despite the "not found" value returned by it
->>>> isn't usable as if it were a normal irq number?
->>>
->>> I meant that on the other side people who are in favour of Sergey's patch.
->>> Since that I commented already that I opposed the renaming being a standalone
->>> change.
->>>
->>> Do you agree that we have several issues with platform_get_irq*() APIs?
-[...]
->>> 2. The vIRQ0 handling: a) WARN() followed by b) returned value 0
->>
->> I'm happy with the vIRQ0 handling. Today platform_get_irq() and it's
->> silent variant returns either a valid and usuable irq number or a
->> negative error value. That's totally fine.
-> 
-> It might return 0.
-> Actually it seems that the WARN() can only be issued in two cases:
-> - SPARC with vIRQ0 in one of the array member
-> - fallback to ACPI for GPIO IRQ resource with index 0
+Replace __clk_is_enabled() with pm_runtime_suspended(),
+as __clk_is_enabled() was checking the wrong bus clock
+and caused the following build error too:
+  arm-linux-gnueabi-ld: drivers/pci/controller/pcie-rcar-host.o: in function `rcar_pcie_aarch32_abort_handler':
+  pcie-rcar-host.c:(.text+0xdd0): undefined reference to `__clk_is_enabled'
 
-   You have probably missed the recent discovery that arch/sh/boards/board-aps4*.c
-causes IRQ0 to be passed as a direct IRQ resource?
+Link: https://lore.kernel.org/r/20211115204641.12941-1-marek.vasut@gmail.com
+Fixes: a115b1bd3af0 ("PCI: rcar: Add L1 link state fix into data abort hook")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Stephen Boyd <sboyd@kernel.org>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pci/controller/pcie-rcar-host.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> But the latter is bogus, because it would mean a bug in the ACPI code.
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index e12c2d8be05a3..780e60159993c 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -50,10 +50,10 @@ struct rcar_msi {
+  */
+ static void __iomem *pcie_base;
+ /*
+- * Static copy of bus clock pointer, so we can check whether the clock
+- * is enabled or not.
++ * Static copy of PCIe device pointer, so we can check whether the
++ * device is runtime suspended or not.
+  */
+-static struct clk *pcie_bus_clk;
++static struct device *pcie_dev;
+ #endif
+ 
+ /* Structure representing the PCIe interface */
+@@ -792,7 +792,7 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+ #ifdef CONFIG_ARM
+ 	/* Cache static copy for L1 link state fixup hook on aarch32 */
+ 	pcie_base = pcie->base;
+-	pcie_bus_clk = host->bus_clk;
++	pcie_dev = pcie->dev;
+ #endif
+ 
+ 	return 0;
+@@ -1062,7 +1062,7 @@ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 
+ 	spin_lock_irqsave(&pmsr_lock, flags);
+ 
+-	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk)) {
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+ 		ret = 1;
+ 		goto unlock_exit;
+ 	}
+-- 
+2.34.1
 
-   Worth changing >= 0 to > 0 there, maybe?
 
-> The bottom line here is the SPARC case. Anybody familiar with the platform
-> can shed a light on this. If there is no such case, we may remove warning
-> along with ret = 0 case from platfrom_get_irq().
 
-   I'm afraid you're too fast here... :-)
-   We'll have a really hard time if we continue to allow IRQ0 to be returned by
-platform_get_irq() -- we'll have oto fileter it out in the callers then...
-
->>> 3. The specific cookie for "IRQ not found, while no error happened" case
->>
->> Not sure what you mean here. I have no problem that a situation I can
->> cope with is called an error for the query function. I just do error
->> handling and continue happily. So the part "while no error happened" is
->> irrelevant to me.
-> 
-> I meant that instead of using special error code, 0 is very much good for
-> the cases when IRQ is not found. It allows to distinguish -ENXIO from the
-> low layer from -ENXIO with this magic meaning.
-
-   I don't see how -ENXIO can trickle from the lower layers, frankly...
-
-[...]
-
-MBR, Sergey
