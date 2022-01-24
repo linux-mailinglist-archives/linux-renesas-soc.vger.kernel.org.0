@@ -2,728 +2,264 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C2E8497FEC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 13:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F0D84982E8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 16:03:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242495AbiAXMt0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 07:49:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41354 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242542AbiAXMtU (ORCPT
+        id S243311AbiAXPC7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 10:02:59 -0500
+Received: from mga01.intel.com ([192.55.52.88]:64673 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240371AbiAXPCi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 07:49:20 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CB3C06173B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 04:49:19 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id u15so13372819wrt.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 04:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VEzmrBelBRYdmjlrwCmQOuGOgoXseNQtFzIrGgQLQ7A=;
-        b=bvRgcEdUUXO+DsP1545DedciGrp21k6f1YamR9+XlpBgcDcD49lEoYxn1cRn4dPslS
-         KQdcx1t/CKn8rtYmFDn0YddY8qlVuSzoh3+9F/nXjy32kg/fYLMlPRwCBz2htni6b11e
-         3kimAM5iW0gb/RPtSOGdTQTWOk+4OsATQRGoQsTTW82d3T70qgP3ctSM8n1gmxwv+Vfh
-         y+7GM4pC90/6vFvvcPr2+graXpabWJk2Dot9uW/8aPqwIxI17P8b2tkpIHqDiENOarSp
-         PPxHpkO5QPu3jlbKXKZ9jc4e97XczExDLbI+aTXOht+bJaH8nuvE1OWA7S2H7SUQCvbR
-         iIPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VEzmrBelBRYdmjlrwCmQOuGOgoXseNQtFzIrGgQLQ7A=;
-        b=gO6eHDAuosqmGP5D+BlXhlr7IfJYoRIZHGQLJbL/ZdUscZyrnBH4JkrsRykn+ZG7k9
-         ICkVbZChX24pV/8UxlazWRRTLJf/niwNDM36n/CYcnP0uI1STeLSYVIurjLIzKIGk8vt
-         S+xojSejscNQOEC1FtRlxVf7ajEx/jviWyhVOay9kcg92PzXXqOfwvMIvbDtqzdi1AE7
-         MYlUSljfC3uN8+4oB8qgki1Jesa/m+iREurUOY/l2793c0LXsWyUBTTYSXUCs78q9qV4
-         iIPIdW656P/bxhnNr2qM6y46Q67VVXU5uPc+EEJOJoMAjapqREnM4Uva346oQDVdoqEP
-         8N3Q==
-X-Gm-Message-State: AOAM530ThG3yGJiO5aRLH50EIRfdmzprMe74S2UG/Phfj+RZseAJ0D2z
-        Jy70LRptP8JbuZaKikjcowVh5w==
-X-Google-Smtp-Source: ABdhPJziIg3l4hnwpF+4hrZGgVjvRHp5A+lbRyZTCtgcpHqGtwNv4jCZQmxMzujakIcVny4Auf8fng==
-X-Received: by 2002:a05:6000:184c:: with SMTP id c12mr4023371wri.382.1643028557424;
-        Mon, 24 Jan 2022 04:49:17 -0800 (PST)
-Received: from bismarck.berto.se (p54ac53e2.dip0.t-ipconnect.de. [84.172.83.226])
-        by smtp.googlemail.com with ESMTPSA id f14sm3040604wmq.36.2022.01.24.04.49.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 04:49:17 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 3/3] media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP
-Date:   Mon, 24 Jan 2022 13:48:58 +0100
-Message-Id: <20220124124858.571363-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220124124858.571363-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20220124124858.571363-1-niklas.soderlund+renesas@ragnatech.se>
+        Mon, 24 Jan 2022 10:02:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643036558; x=1674572558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=12MT7URXnDq/Fp4XFhkmyf3ldBVGzHv0vwmewAlkDXU=;
+  b=IPKhfZGutDbLgX1Gl6K7AHXxdRZiKGKCxsWmlR6uG19CVC2Rc1IH575a
+   vGgBmd51mXvuucgLWSIdKv/b4sl33QhDMrkKFoPwXS12mhqddAWNlTewi
+   Zh/8LvTCsa6YCkYAwxvD6UbMqmcMKribfOEa8VHdAGjChbc12ryon87Qq
+   zVHWingleh5M3cZtBvEZe0EXO7v0di4TZzLFIKoH8xVX6c9RdgkB3m0zk
+   aTXjMdyh1jOvWPWlU2oc8EZ8r1tNBvLJrZMH96B34Qkddo+64/GWFNjR/
+   /kQJvraHQWWAqedUQXBrWWYXL0QE+atahSbs4aLe2D5aFmbUgY4s5TBi8
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="270498703"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
+   d="scan'208";a="270498703"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:02:37 -0800
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
+   d="scan'208";a="519972062"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:02:20 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nC0qE-00Dvkq-Jt;
+        Mon, 24 Jan 2022 17:01:10 +0200
+Date:   Mon, 24 Jan 2022 17:01:10 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-phy@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        platform-driver-x86@vger.kernel.org,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>, netdev@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        linux-mediatek@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH] driver core: platform: Rename
+ platform_get_irq_optional() to platform_get_irq_silent()
+Message-ID: <Ye6/NgfxsZnpXE09@smile.fi.intel.com>
+References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
+ <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
+ <YeA7CjOyJFkpuhz/@sirena.org.uk>
+ <20220113194358.xnnbhsoyetihterb@pengutronix.de>
+ <YeF05vBOzkN+xYCq@smile.fi.intel.com>
+ <20220115154539.j3tsz5ioqexq2yuu@pengutronix.de>
+ <YehdsUPiOTwgZywq@smile.fi.intel.com>
+ <20220120075718.5qtrpc543kkykaow@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220120075718.5qtrpc543kkykaow@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
-routing was centred around the CHSEL register which multiplexes the
-different parallel buses that sit between the CSI-2 receivers source
-side and the VIN dma engines. This was a bad design as the multiplexing
-do allow for only a few combinations and do not play nice with many
-video streams in the system.
+On Thu, Jan 20, 2022 at 08:57:18AM +0100, Uwe Kleine-König wrote:
+> On Wed, Jan 19, 2022 at 08:51:29PM +0200, Andy Shevchenko wrote:
+> > On Sat, Jan 15, 2022 at 04:45:39PM +0100, Uwe Kleine-König wrote:
+> > > On Fri, Jan 14, 2022 at 03:04:38PM +0200, Andy Shevchenko wrote:
+> > > > On Thu, Jan 13, 2022 at 08:43:58PM +0100, Uwe Kleine-König wrote:
+> > > > > > It'd certainly be good to name anything that doesn't correspond to one
+> > > > > > of the existing semantics for the API (!) something different rather
+> > > > > > than adding yet another potentially overloaded meaning.
+> > > > > 
+> > > > > It seems we're (at least) three who agree about this. Here is a patch
+> > > > > fixing the name.
+> > > > 
+> > > > And similar number of people are on the other side.
+> > > 
+> > > If someone already opposed to the renaming (and not only the name) I
+> > > must have missed that.
+> > > 
+> > > So you think it's a good idea to keep the name
+> > > platform_get_irq_optional() despite the "not found" value returned by it
+> > > isn't usable as if it were a normal irq number?
+> > 
+> > I meant that on the other side people who are in favour of Sergey's patch.
+> > Since that I commented already that I opposed the renaming being a standalone
+> > change.
+> > 
+> > Do you agree that we have several issues with platform_get_irq*() APIs?
+> > 
+> > 1. The unfortunate naming
+> 
+> unfortunate naming for the currently implemented semantic, yes.
 
-For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
-given CSI-2 receiver to be used together with the scaler.
+Yes.
 
-Later datasheets have expanded the documentation and it is now possible
-to improve on this design by allowing any Virtual Channel to be routed
-to any R-Car VIN instance, provided that there exists a parallel bus
-between them. This increases the flexibility as all Virtual Channels can
-now be used together with the scaler for example.
+> > 2. The vIRQ0 handling: a) WARN() followed by b) returned value 0
+> 
+> I'm happy with the vIRQ0 handling. Today platform_get_irq() and it's
+> silent variant returns either a valid and usuable irq number or a
+> negative error value. That's totally fine.
 
-The redesign is not however perfect. While the new design allows for
-many more routes, two constrains limit a small portion of routes that
-was possible in the old design but are no more.
+It might return 0.
+Actually it seems that the WARN() can only be issued in two cases:
+- SPARC with vIRQ0 in one of the array member
+- fallback to ACPI for GPIO IRQ resource with index 0
 
-- It is no longer possible to route the same CSI-2 and VC to more then
-  one VIN at a time. This was theoretically possible before if the
-  specific SoC allowed for the same CSI-2 and VC to be routed to two
-  different VIN capture groups.
+But the latter is bogus, because it would mean a bug in the ACPI code.
 
-- It is no longer possible to simultaneously mix links from two CSI-2 IP
-  blocks to the same VIN capture group.
+The bottom line here is the SPARC case. Anybody familiar with the platform
+can shed a light on this. If there is no such case, we may remove warning
+along with ret = 0 case from platfrom_get_irq().
 
-  For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
-  capture from CSI40. While VIN{4,5,6,7} is still free to capture from
-  any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
-  are disabled that VIN capture group is free again to capture from any
-  other CSI-2 IP it is connected to.
+> > 3. The specific cookie for "IRQ not found, while no error happened" case
+> 
+> Not sure what you mean here. I have no problem that a situation I can
+> cope with is called an error for the query function. I just do error
+> handling and continue happily. So the part "while no error happened" is
+> irrelevant to me.
 
-At the core of the redesign is greater cooperator of the R-Car VIN and
-CSI-2 drivers in configuring the routing. The VIN driver is after this
-change only responsible to configure the full VIN capture groups
-parallel buses to be to a particular CSI-2 IP. While the configuration
-of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
-IP output ports is handled by the CSI-2 driver.
+I meant that instead of using special error code, 0 is very much good for
+the cases when IRQ is not found. It allows to distinguish -ENXIO from the
+low layer from -ENXIO with this magic meaning.
 
-Before this change the CSI-2 Virtual Channel to output port was static
-in the CSI-2 driver and the different links only manipulated the VIN
-capture groups CHSEL register. With this change both the CHSEl register
-and the CSI-2 routing VCDT registers are modified for greater
-flexibility.
+> Additionally I see the problems:
+> 
+> 4. The semantic as implemented in Sergey's patch isn't better than the
+> current one.
 
-This change touches both the R-Car VIN and R-Car CSI-2 drivers in the
-same commit as both drivers cooperate closely and one change without the
-other would more or less break video capture.
+I disagree on this. See above on why.
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
-* Changers since v1
-- Fix spelling in commit message.
-- Fix incorrect routing table for r8a7795es1.
-- Remove usage of BUG_ON() and recover instead.
----
- drivers/media/platform/rcar-vin/rcar-core.c | 320 +++++---------------
- drivers/media/platform/rcar-vin/rcar-csi2.c |  58 +++-
- drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
- drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
- 4 files changed, 139 insertions(+), 259 deletions(-)
+> platform_get_irq*() is still considerably different from
+> (clk|gpiod)_get* because the not-found value for the _optional variant
+> isn't usuable for the irq case. For clk and gpio I get rid of a whole if
+> branch, for irq I only change the if-condition. (And if that change is
+> considered good or bad seems to be subjective.)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 0fa330e02bd8437a..ef8a12bd63cb80d8 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -743,27 +743,6 @@ static int rvin_parallel_init(struct rvin_dev *vin)
-  * CSI-2
-  */
- 
--static unsigned int rvin_csi2_get_mask(struct rvin_dev *vin,
--				       enum rvin_csi_id csi_id,
--				       unsigned char channel)
--{
--	const struct rvin_group_route *route;
--	unsigned int mask = 0;
--
--	for (route = vin->info->routes; route->mask; route++) {
--		if (route->vin == vin->id &&
--		    route->csi == csi_id &&
--		    route->channel == channel) {
--			vin_dbg(vin,
--				"Adding route: vin: %d csi: %d channel: %d\n",
--				route->vin, route->csi, route->channel);
--			mask |= route->mask;
--		}
--	}
--
--	return mask;
--}
--
- /*
-  * Link setup for the links between a VIN and a CSI-2 receiver is a bit
-  * complex. The reason for this is that the register controlling routing
-@@ -849,9 +828,9 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 			link->source->entity->name);
- 		ret = -ENODEV;
- 	} else {
--		unsigned int master_id, channel, mask_new;
--		unsigned int mask = ~0;
--		struct media_pad *csi_pad;
-+		const struct rvin_group_route *route;
-+		unsigned int chsel = UINT_MAX;
-+		unsigned int master_id;
- 
- 		master_id = rvin_group_id_to_master(vin->id);
- 
-@@ -860,8 +839,10 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 			goto out;
- 		}
- 
--		/* Build a mask for already enabled links. */
-+		/* Make sure group is connected to same CSI-2 */
- 		for (i = master_id; i < master_id + 4; i++) {
-+			struct media_pad *csi_pad;
-+
- 			if (!group->vin[i])
- 				continue;
- 
-@@ -871,26 +852,28 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 			if (!csi_pad)
- 				continue;
- 
--			csi_id = rvin_group_entity_to_remote_id(group,
--								csi_pad->entity);
--			channel = rvin_group_csi_pad_to_channel(csi_pad->index);
--
--			mask &= rvin_csi2_get_mask(group->vin[i], csi_id, channel);
-+			if (csi_pad->entity != link->source->entity) {
-+				vin_dbg(vin, "Already attached to %s\n",
-+					csi_pad->entity->name);
-+				ret = -EBUSY;
-+				goto out;
-+			}
- 		}
- 
--		channel = rvin_group_csi_pad_to_channel(link->source->index);
--		mask_new = mask & rvin_csi2_get_mask(vin, csi_id, channel);
--		vin_dbg(vin, "Try link change mask: 0x%x new: 0x%x\n", mask,
--			mask_new);
-+		for (route = vin->info->routes; route->chsel; route++) {
-+			if (route->master == master_id && route->csi == csi_id) {
-+				chsel = route->chsel;
-+				break;
-+			}
-+		}
- 
--		if (!mask_new) {
--			ret = -EMLINK;
-+		if (chsel == UINT_MAX) {
-+			vin_err(vin, "No CHSEL value found\n");
-+			ret = -EINVAL;
- 			goto out;
- 		}
- 
--		/* New valid CHSEL found, set the new value. */
--		ret = rvin_set_channel_routing(group->vin[master_id],
--					       __ffs(mask_new));
-+		ret = rvin_set_channel_routing(group->vin[master_id], chsel);
- 		if (ret)
- 			goto out;
- 
-@@ -906,47 +889,60 @@ static const struct media_device_ops rvin_csi2_media_ops = {
- 	.link_notify = rvin_csi2_link_notify,
- };
- 
--static int rvin_csi2_create_link(struct rvin_group *group,
--				 const struct rvin_group_route *route)
-+static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
-+				const struct rvin_group_route *route)
- 
- {
- 	struct media_entity *source = &group->remotes[route->csi].subdev->entity;
--	unsigned int source_idx = rvin_group_csi_channel_to_pad(route->channel);
--	struct media_entity *sink = &group->vin[route->vin]->vdev.entity;
--	struct media_pad *source_pad = &source->pads[source_idx];
-+	struct media_entity *sink = &group->vin[id]->vdev.entity;
- 	struct media_pad *sink_pad = &sink->pads[0];
-+	unsigned int channel;
-+	int ret;
- 
--	/* Skip if link already exists. */
--	if (media_entity_find_link(source_pad, sink_pad))
--		return 0;
-+	for (channel = 0; channel < 4; channel++) {
-+		unsigned int source_idx = rvin_group_csi_channel_to_pad(channel);
-+		struct media_pad *source_pad = &source->pads[source_idx];
- 
--	return media_create_pad_link(source, source_idx, sink, 0, 0);
-+		/* Skip if link already exists. */
-+		if (media_entity_find_link(source_pad, sink_pad))
-+			continue;
-+
-+		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int rvin_csi2_setup_links(struct rvin_dev *vin)
- {
- 	const struct rvin_group_route *route;
-+	unsigned int id;
- 	int ret = -EINVAL;
- 
- 	/* Create all media device links between VINs and CSI-2's. */
- 	mutex_lock(&vin->group->lock);
--	for (route = vin->info->routes; route->mask; route++) {
--		/* Check that VIN is part of the group. */
--		if (!vin->group->vin[route->vin])
--			continue;
--
-+	for (route = vin->info->routes; route->chsel; route++) {
- 		/* Check that VIN' master is part of the group. */
--		if (!vin->group->vin[rvin_group_id_to_master(route->vin)])
-+		if (!vin->group->vin[route->master])
- 			continue;
- 
- 		/* Check that CSI-2 is part of the group. */
- 		if (!vin->group->remotes[route->csi].subdev)
- 			continue;
- 
--		ret = rvin_csi2_create_link(vin->group, route);
--		if (ret)
--			break;
-+		for (id = route->master; id < route->master + 4; id++) {
-+			/* Check that VIN is part of the group. */
-+			if (!vin->group->vin[id])
-+				continue;
-+
-+			ret = rvin_csi2_create_link(vin->group, id, route);
-+			if (ret)
-+				goto out;
-+		}
- 	}
-+out:
- 	mutex_unlock(&vin->group->lock);
- 
- 	return ret;
-@@ -1156,30 +1152,9 @@ static const struct rvin_info rcar_info_gen2 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
-+	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1192,38 +1167,10 @@ static const struct rvin_info rcar_info_r8a774e1 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a7795_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 4, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
-+	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1237,48 +1184,12 @@ static const struct rvin_info rcar_info_r8a7795 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a7795es1_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 0, .mask = BIT(2) | BIT(5) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 1, .mask = BIT(1) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 1, .vin = 1, .mask = BIT(5) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 2, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 2, .vin = 2, .mask = BIT(5) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) },
--	{ .csi = RVIN_CSI21, .channel = 1, .vin = 3, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 3, .vin = 3, .mask = BIT(5) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 4, .mask = BIT(2) | BIT(5) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 5, .mask = BIT(1) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 1, .vin = 5, .mask = BIT(5) },
--	{ .csi = RVIN_CSI21, .channel = 0, .vin = 6, .mask = BIT(0) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 2, .vin = 6, .mask = BIT(5) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) },
--	{ .csi = RVIN_CSI21, .channel = 1, .vin = 7, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
--	{ .csi = RVIN_CSI21, .channel = 3, .vin = 7, .mask = BIT(5) },
-+	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 0, .csi = RVIN_CSI21, .chsel = 0x05 },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 4, .csi = RVIN_CSI21, .chsel = 0x05 },
-+	{ .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1291,34 +1202,10 @@ static const struct rvin_info rcar_info_r8a7795es1 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a7796_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 6, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 6, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 7, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 7, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
-+	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1332,38 +1219,10 @@ static const struct rvin_info rcar_info_r8a7796 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a77965_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 4, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 6, .mask = BIT(1) },
--	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 6, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 7, .mask = BIT(0) },
--	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 7, .mask = BIT(3) },
--	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
-+	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
-+	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1377,13 +1236,7 @@ static const struct rvin_info rcar_info_r8a77965 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a77970_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1396,22 +1249,8 @@ static const struct rvin_info rcar_info_r8a77970 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a77980_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
--	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
--	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 4, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
--	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
--	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
--	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
--	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-@@ -1425,10 +1264,7 @@ static const struct rvin_info rcar_info_r8a77980 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a77990_routes[] = {
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
--	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 4, .mask = BIT(2) },
--	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
-+	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 8c939cb3073d79ec..909419963188afc5 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -468,6 +468,8 @@ struct rcar_csi2 {
- 	struct v4l2_subdev *remote;
- 	unsigned int remote_pad;
- 
-+	int channel_vc[4];
-+
- 	struct mutex lock; /* Protects mf and stream_count. */
- 	struct v4l2_mbus_framefmt mf;
- 	int stream_count;
-@@ -675,8 +677,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	for (i = 0; i < priv->info->num_channels; i++) {
- 		u32 vcdt_part;
- 
--		vcdt_part = VCDT_SEL_VC(i) | VCDT_VCDTN_EN | VCDT_SEL_DTN_ON |
--			VCDT_SEL_DT(format->datatype);
-+		if (priv->channel_vc[i] < 0)
-+			continue;
-+
-+		vcdt_part = VCDT_SEL_VC(priv->channel_vc[i]) | VCDT_VCDTN_EN |
-+			VCDT_SEL_DTN_ON | VCDT_SEL_DT(format->datatype);
- 
- 		/* Store in correct reg and offset. */
- 		if (i < 2)
-@@ -1258,7 +1263,53 @@ static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
-  * Platform Device Driver.
-  */
- 
-+static int rcsi2_link_setup(struct media_entity *entity,
-+			    const struct media_pad *local,
-+			    const struct media_pad *remote, u32 flags)
-+{
-+	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-+	struct rcar_csi2 *priv = sd_to_csi2(sd);
-+	struct video_device *vdev;
-+	int channel, vc;
-+	u32 id;
-+
-+	if (!is_media_entity_v4l2_video_device(remote->entity)) {
-+		dev_err(priv->dev, "Remote is not a video device\n");
-+		return -EINVAL;
-+	}
-+
-+	vdev = media_entity_to_video_device(remote->entity);
-+
-+	if (of_property_read_u32(vdev->dev_parent->of_node, "renesas,id", &id)) {
-+		dev_err(priv->dev, "No renesas,id, can't configure routing\n");
-+		return -EINVAL;
-+	}
-+
-+	channel = id % 4;
-+
-+	if (flags & MEDIA_LNK_FL_ENABLED) {
-+		if (media_entity_remote_pad(local)) {
-+			dev_dbg(priv->dev,
-+				"Each VC can only be routed to one output channel\n");
-+			return -EINVAL;
-+		}
-+
-+		vc = local->index - 1;
-+
-+		dev_dbg(priv->dev, "Route VC%d to VIN%u on output channel %d\n",
-+			vc, id, channel);
-+	} else {
-+		vc = -1;
-+	}
-+
-+	priv->channel_vc[channel] = vc;
-+
-+	return 0;
-+}
-+
-+
- static const struct media_entity_operations rcar_csi2_entity_ops = {
-+	.link_setup = rcsi2_link_setup,
- 	.link_validate = v4l2_subdev_link_validate,
- };
- 
-@@ -1477,6 +1528,9 @@ static int rcsi2_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto error_async;
- 
-+	for (i = 0; i < ARRAY_SIZE(priv->channel_vc); i++)
-+		priv->channel_vc[i] = -1;
-+
- 	pm_runtime_enable(&pdev->dev);
- 
- 	ret = v4l2_async_register_subdev(&priv->subdev);
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 8136bc75e7c47cdd..2272f1c96aafd72a 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1507,7 +1507,7 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
- 	 * IFMD_DES0 controls data expansion mode for CSI40/41.
- 	 */
--	for (route = vin->info->routes; route->mask; route++) {
-+	for (route = vin->info->routes; route->chsel; route++) {
- 		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
- 			ifmd |= VNCSI_IFMD_DES1;
- 		else
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 6c06320174a2ed96..ddc1830be9a5d6c3 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -128,11 +128,9 @@ struct rvin_parallel_entity {
-  * struct rvin_group_route - describes a route from a channel of a
-  *	CSI-2 receiver to a VIN
-  *
-+ * @master:	VIN group master ID.
-  * @csi:	CSI-2 receiver ID.
-- * @channel:	Output channel of the CSI-2 receiver.
-- * @vin:	VIN ID.
-- * @mask:	Bitmask of the different CHSEL register values that
-- *		allow for a route from @csi + @chan to @vin.
-+ * @chsel:	CHSEL register values that connects VIN group to CSI-2.
-  *
-  * .. note::
-  *	Each R-Car CSI-2 receiver has four output channels facing the VIN
-@@ -140,19 +138,11 @@ struct rvin_parallel_entity {
-  *	There is no correlation between channel number and CSI-2 VC. It's
-  *	up to the CSI-2 receiver driver to configure which VC is output
-  *	on which channel, the VIN devices only care about output channels.
-- *
-- *	There are in some cases multiple CHSEL register settings which would
-- *	allow for the same route from @csi + @channel to @vin. For example
-- *	on R-Car H3 both the CHSEL values 0 and 3 allow for a route from
-- *	CSI40/VC0 to VIN0. All possible CHSEL values for a route need to be
-- *	recorded as a bitmask in @mask, in this example bit 0 and 3 should
-- *	be set.
-  */
- struct rvin_group_route {
-+	unsigned int master;
- 	enum rvin_csi_id csi;
--	unsigned int channel;
--	unsigned int vin;
--	unsigned int mask;
-+	unsigned int chsel;
- };
- 
- /**
+You are mixing up two things:
+ - semantics of the pointer
+ - semantics of the cookie
+
+Like I said previously the mistake is in putting an equal sign between apples
+and oranges (or in terms of Python, which is a good example here, None and
+False objects, where in both case 0 is magic and Python `if X`, `while `X` will
+work in the same way, the `typeof(X)` is different semantically).
+
+> For the idea to add a warning to platform_get_irq_optional for all but
+> -ENXIO (and -EPROBE_DEFER), I see the problem:
+> 
+> 5. platform_get_irq*() issuing an error message is only correct most of
+> the time and given proper error handling in the caller (which might be
+> able to handle not only -ENXIO but maybe also -EINVAL[1]) the error message
+> is irritating. Today platform_get_irq() emits an error message for all
+> but -EPROBE_DEFER. As soon as we find a driver that handles -EINVAL we
+> need a function platform_get_irq_variant1 to be silent for -EINVAL,
+> -EPROBE_DEFER and -ENXIO (or platform_get_irq_variant2 that is only
+> silent for -EINVAL and -EPROBE_DEFER?)
+> 
+> IMHO a query function should always be silent and let the caller do the
+> error handling. And if it's only because
+> 
+> 	mydev: IRQ index 0 not found
+> 
+> is worse than
+> 
+> 	mydev: neither TX irq not a muxed RX/TX irq found
+> 
+> . Also "index 0" is irritating for devices that are expected to have
+> only a single irq (i.e. the majority of all devices).
+
+Yeah, ack the #5.
+
+> Yes, I admit, we can safe some code by pushing the error message in a
+> query function. But that doesn't only have advantages.
+
+> [1] Looking through the source I wonder: What are the errors that can happen
+>     in platform_get_irq*()? (calling everything but a valid irq number
+>     an error) Looking at many callers, they only seem to expect "not
+>     found" and some "probe defer" (even platform_get_irq() interprets
+>     everything but -EPROBE_DEFER as "IRQ index %u not found\n".)
+>     IMHO before we should consider to introduce a platform_get_irq*()
+>     variant with improved semantics, some cleanup in the internals of
+>     the irq lookup are necessary.
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
