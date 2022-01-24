@@ -2,151 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC5A4978AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 06:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 320454979F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 09:06:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241248AbiAXFqv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 00:46:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241243AbiAXFqu (ORCPT
+        id S241993AbiAXIGT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 03:06:19 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:45047 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233770AbiAXIGS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 00:46:50 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70342C06173B;
-        Sun, 23 Jan 2022 21:46:50 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id ka4so18239290ejc.11;
-        Sun, 23 Jan 2022 21:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HkSnuS44LOPC+JgKYRieiRulO3DJyDOtuSthHUwp9II=;
-        b=P48wyIytu8V6vbAkSzwSLeJ3w66HMxF8/+xyLajrMsMelRRkt7dIEoFrgEbWOraeGd
-         izlZi5qtNvpmouGKA0cRUllGSZ7XN+Wgmdhe/xxSAe5l9rYuIGqstkKVoXmF8myv1sQX
-         yrWyCkU1j3AbnrndpJfD/al37mm9KOtmy/NesFjc0KkCTn8CZygoeM0frNROb0i+YtoW
-         aU4D/8TIZW7MVBsiSYo0qo2ASrb5q9Y0y2S0h8kASO9Z4DdjFVX7zWbCYqrd1+gdWHGA
-         CznYfdMMkIQZvlqol3YCgHlWXlvl0TwD6r3K6SMlB40aLz2xtMfB+QL2gowjnqpqbNYV
-         6SaQ==
+        Mon, 24 Jan 2022 03:06:18 -0500
+Received: by mail-ua1-f49.google.com with SMTP id f24so29265117uab.11;
+        Mon, 24 Jan 2022 00:06:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HkSnuS44LOPC+JgKYRieiRulO3DJyDOtuSthHUwp9II=;
-        b=eX4TLN5D+/4m7KdMrkff+yQR7GzqxM6sllgE2znMDr67tOVdmJ4AX1wMuC7Dlz/IRG
-         uA3htxFlQfV95PN9ugHJhfgR/gIngcqWQSj3ROHu7DvLmqYB4bhZB+2QlMjIJJH9r64Y
-         PhFmBqKQ3ZoF7TfG6mmpX9kpaSPvXOBqwezD784etDqd5eHGLO8HXmFRUh35cPvVaX86
-         hda15rObf/8JptMlZPDmRalMoFzRO/LzEmH3qkxnIb8HJVu5KqrJ8WVxKagJIeuVP10B
-         3b37vYIp+6Dk2iBuPpAI+qrJFw5sC2765K8eUqNxtd+jZQEaogNSYf0ewiKwt0QJBsMc
-         Adlw==
-X-Gm-Message-State: AOAM5321bU7iKoyyV8y1VgpZWlAKD2uVZiBmBECxrdEkjN9km02RD+O3
-        ZOrxJKQcMFYn23lqb8p7xts=
-X-Google-Smtp-Source: ABdhPJzauLFpRG9IXo056rR3+62+2H10wFaDgOVv2qwDodGm311TrIRCS4ymtpMibZzgw54YpkRpiA==
-X-Received: by 2002:a17:906:1e01:: with SMTP id g1mr11894889ejj.298.1643003208934;
-        Sun, 23 Jan 2022 21:46:48 -0800 (PST)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id u6sm4446233ejn.181.2022.01.23.21.46.47
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f2tIXgru6KSjoHEY08c/9t4jD7pdITrEPHWFSQkXS0Y=;
+        b=DTI/Yjds3ScGk3jA9/9Srj1zXWSb0csmQFPNnoC1m6nOCtDSAJg1dMjtiBnOxpyC1g
+         IrWFedE2cveeqJi4Pqd3X6uBQqPHI40jIgrryIca3RIHT9+Lp7NbyRMllmGg1FKdZLEX
+         MD7Su8AwOInwoX6Ia4mjdoW3ApNVmaqNEuFig9KNh70JFm/HKh1OVojkAMcjgTDz8zKC
+         xCNBikcbNdDAXs2BmCte9jyMt7G/+j+p4aMffAIQo7J1lHOS1/zL3jVHkqVxt7udHpJ/
+         yf9UijkK7/SSuaTGbo1mi3jesY8hpkuZm3d94R70UrjsXtWa5vcU85kL0gq5FDLXEdU+
+         8SRw==
+X-Gm-Message-State: AOAM5316kwbmIPDgbTjFJJ0ZAsuU2zAj8SpwMeY9ae/ew+QwGyYeqZMH
+        bsXsVH5paOzmTvXsewhVSbCuRYeNWWUpcg==
+X-Google-Smtp-Source: ABdhPJyL8SI4kAAwpJEm0n1bgdFMdSPN4sEGWxh9ZZE5dBD0EDoTBOtUR43do6zhYVRzMhYeJ6/vIQ==
+X-Received: by 2002:a67:f8cc:: with SMTP id c12mr1069128vsp.63.1643011577441;
+        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id f68sm2820415vke.55.2022.01.24.00.06.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jan 2022 21:46:48 -0800 (PST)
-Message-ID: <9d89314c-8757-8965-0f5d-14fd95669320@gmail.com>
-Date:   Mon, 24 Jan 2022 06:46:47 +0100
+        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id 2so29376975uax.10;
+        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
+X-Received: by 2002:a9f:3d89:: with SMTP id c9mr5323806uai.78.1643011576863;
+ Mon, 24 Jan 2022 00:06:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 2/2] PCI: rcar: Return all Fs from read which triggered
- an exception
-Content-Language: en-US
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
-Cc:     linux-pci@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
+ <20220112174612.10773-21-biju.das.jz@bp.renesas.com> <YeyuqbNfETGOxzfZ@pendragon.ideasonboard.com>
+ <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 24 Jan 2022 09:06:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
+Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
+Subject: Re: [RFC 20/28] media: vsp1: Add support for the RZ/G2L VSPD
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20220122221554.196311-1-marek.vasut@gmail.com>
- <20220122221554.196311-2-marek.vasut@gmail.com>
- <20220123153147.sv6eoayxqvqbaa66@pali>
- <7ced7370-1853-b52d-7e04-062d1bf3334c@gmail.com>
- <20220123164936.cmzvkkkuw5chz3ek@pali>
-From:   Marek Vasut <marek.vasut@gmail.com>
-In-Reply-To: <20220123164936.cmzvkkkuw5chz3ek@pali>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/23/22 17:49, Pali Rohár wrote:
+Hi Biju,
 
-Hi,
+On Sun, Jan 23, 2022 at 4:20 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > On Wed, Jan 12, 2022 at 05:46:04PM +0000, Biju Das wrote:
+> > > The RZ/G2L VSPD provides a single VSPD instance. it has the following
+> > > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+> > >
+> > > It does not have version register, so added a new compatible string to
+> > > match to get the version value. Also the reset is shared with DU
+> > > module.
+> >
+> > Does it really lack the version register, or is it just not documented ?
+> > It hasn't been documented on all R-Car variants, but has consistently been
+> > present.
+>
+> No, it is not present on RZ/G2L. the read value of this register is 0x0.
 
-[...]
+Just to be sure: you did check that while the module clock is enabled and
+the module reset is deasserted?
 
->>> I must admit that this patch from its initial version evolved into giant hack...
->>> https://lore.kernel.org/linux-pci/20210514200549.431275-1-marek.vasut@gmail.com/
->>>
->>> During review of the previous patch I have asked some important
->>> questions but I have not got any answer to them. So I'm reminding it:
->>> https://lore.kernel.org/linux-pci/20210805183024.ftdwknkttfwwogks@pali/
->>>
->>> So could please answer what happens when PCIe controller is in some
->>> non-L* state and either MMIO happen or config read happens or config
->>> write happens?
->>
->> What kind of non-L state ?
-> 
-> E.g. Hot Reset, Detect, Polling, Configuration or Recovery.
-> 
->> Do you have some specific test which fails ?
-> 
-> Yes, by putting PCIe controller into one of those states. I have already
-> wrote you in some previous email to trigger hot reset as this is the
-> easiest test and can be done also by userspace (setpci).
-> 
-> Link goes to Recovery state automatically when doing link retraining
-> (e.g. by setting RT bit in PCIe Root Port config space) and from
-> Recovery to Configuration or directly back to L0. So testing this path
-> needs precise timing and repeating it more times to trigger.
-> 
-> So the easiest test is really via PCIe Hot Reset by setting Secondary
-> Bus Reset bit in Bridge Control register of PCIe Root Port. After this
-> is link in Hot Reset and does not go back to L0 until you clear that
-> bit. So in this state you can do all these operations which cause
-> aborts, like calling that kernel function which is reading from config
-> space which belongs to device on the other end of the PCIe link or doing
-> MMIO read / write operation of mapped memory which again belongs to
-> other end of PCIe link.
-> 
-> Or instead of Hot Reset, you can set link disable bit in config space of
-> PCIe Root Port. Then link also would not be in L0 state (until you clear
-> that bit), so again you have lot of time to do same tests.
+Gr{oetje,eeting}s,
 
-Can you give me the exact setpci invocation ? If so, then I can test 
-this for you on the hardware.
+                        Geert
 
->> This patch addresses the case where the link transition to L1 state has to
->> be completed manually. If the CPU accesses the config space before that
->> happened, you get an imprecise data abort.
-> 
-> Yes, I see. But it does not have to complete and the question how is
-> handled this case... And that is why is needed to know what happens in
-> such cases.
-> 
-> And IIRC you cannot go from L1 state directly to L0, but only via
-> Recovery state. And from Recovery you may end up in Detect state.
-> (e.g. after hot unplug or if some buggy card with kernel quirk is used)
-> 
->>> It is really important to know this fact.
->>>
->>> I'm in impression that this patch still is not enough as similar issues
->>> are also in other PCIe controllers which I know...
->>
->> Do you have a suggestion for a patch which would be enough on this hardware
->> ?
-> 
-> I do not have enough information.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I see
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
