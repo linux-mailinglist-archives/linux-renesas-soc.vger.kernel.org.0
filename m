@@ -2,222 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10462497C8A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 10:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4632497CBB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 11:06:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236905AbiAXJ7w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 04:59:52 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51508 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236758AbiAXJ7v (ORCPT
+        id S236991AbiAXKGj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 05:06:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235185AbiAXKGi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 04:59:51 -0500
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E80718E7;
-        Mon, 24 Jan 2022 10:59:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643018390;
-        bh=zikyjJ6eavrl7X8+8F5Jt2Gv2ZdrXPqzPkYSSY0eaaM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=C1rIlJzCSLnS5M5A30ZSdfU1RPxjQHqc6t/s0i6doKpmJw2aPJHM+3qHalmUZyW7+
-         f1o/4+GoTVP0m+sFp2zPCpc8EdXDzEu1dqVzfM6LX8E3q19qSHE1GByycJsa67dTfj
-         rcTQBXV5nXB9sUv6iBrFOF56riHPYFEIJVkVv9GY=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 24 Jan 2022 05:06:38 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C41C06173D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 02:06:38 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id x11so48134296lfa.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 02:06:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=L0c3QQ5qJI2SMvUoT8kig85qoS741nGRm4z2UySCMZk=;
+        b=Mid0z5Z4LO6Is50P3PPV0ERc4qaHrhWZmVeN9oQNJ/zwJyZa++e2tIud7h6eYuS5Tc
+         gC719XIZ6m5Vpfx8x0rOwzxG61fpkz+v4sa3qXLWnQ7zAmATjfKnf1eDg0eiGZL7Sbcf
+         SfWfjajgUwMZ3k5NQ8pwX+ZMObsOIF+YPkbZz5YbgWuG/CqhPiXNQfvVLbsUDZb0D+Ca
+         abFYQ3nPKvPdXce78NhJY5JSylUdN8uP0OgTlHUqf+Cx6Df/2Bc2Z+Ca7maH7JELmIIS
+         L/MqncS2N8o3tSCHdZUJbtVTm2WeY4sHMz3cPLrG6yMFa4auk4kPKmy46wtGJgFPrzxq
+         Z3Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=L0c3QQ5qJI2SMvUoT8kig85qoS741nGRm4z2UySCMZk=;
+        b=RuJ2Ut8+o7xDTK90pUi47uoqpO61Gf3dTV32QI+kSUg0ICsUKK1R9sVJ//GY2iKxZ7
+         sfAnnF+uBsDk6UwaVzo+1WyK0uvevx3QDETMi3+h13uQPu0joegz6U0KCnsuAqdetFSI
+         +xHK1Kv9m4UNKX8qJf6EpegxWilyRWbUDwzvwztJk9LccctVlYnuOfIqQep8ijbnRkcl
+         29DCJhhoR3gb9SVq0ivvjo3DXPD4DkBnkXkD4PVDIB+5XpVJ8NgpUDJYv+qp8+p3Tn7N
+         MOvYFip1Od6K3vHBHjvw3bDnD+peir6DzbtiJ7DXarmOkM+tbnR5RQVB2vQulmvlvy+3
+         CLkw==
+X-Gm-Message-State: AOAM5336OLjP3dZLBpzDqrw6H0/nGX8SnypEVdAQZJKyCWGRacmBsmkS
+        LZa1z7ZAAu1osCGrQDNBa8fI4tFEL8D37wul
+X-Google-Smtp-Source: ABdhPJwLtW6iejFQku3Pb9lUiqFwyMhUCShrESawWlGXwp1nZdHOJmePw0gdUfzej7aw/7CpRuisPw==
+X-Received: by 2002:ac2:548d:: with SMTP id t13mr8622231lfk.560.1643018796395;
+        Mon, 24 Jan 2022 02:06:36 -0800 (PST)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id i31sm1119293lfv.199.2022.01.24.02.06.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 02:06:36 -0800 (PST)
+Date:   Mon, 24 Jan 2022 11:06:35 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g044c2-smarc: Drop unneeded
+ pinctrl-names, too
+Message-ID: <Ye56K7S2z84opKP4@oden.dyn.berto.se>
+References: <ada490aeee8f1bfdae4a878dd1fadbb34dbc3fb7.1642779366.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
-References: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
-Subject: Re: [PATCH v2] media: vsp1: mask interrupts before enabling
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Date:   Mon, 24 Jan 2022 09:59:47 +0000
-Message-ID: <164301838774.10801.3973367832884627893@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ada490aeee8f1bfdae4a878dd1fadbb34dbc3fb7.1642779366.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Nikita,
+Hi Geert,
 
-Thank you for the v2,
+Thanks for your work.
 
-Quoting Nikita Yushchenko (2022-01-20 08:15:30)
-> VSP hardware could be used (e.g. by the bootloader) before driver load,
-> and some interrupts could be left in enabled and pending state. In this
-> case, setting up VSP interrupt handler without masking interrupts before
-> causes interrupt handler to be immediately called (and crash due to null
-> vsp->info dereference).
->=20
-> Fix that by explicitly masking all interrupts before setting the interrupt
-> handler. To do so, have to set the interrupt handler later, after hw
-> revision is already detected and number of interrupts to mask gets
-> known.
->=20
-> Based on patch by Koji Matsuoka <koji.matsuoka.xm@renesas.com> included
-> in the Renesas BSP kernel.
->=20
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+On 2022-01-21 16:42:17 +0100, Geert Uytterhoeven wrote:
+> "make dtbs" complains when "pinctrl-names" is present without "pinctrl-0".
+> 
+> Fixes: 5c0d1874072bef54 ("arm64: dts: renesas: Add initial device tree for RZ/G2LC SMARC EVK")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
-> v1: https://lore.kernel.org/all/20210926155356.23861-1-nikita.yoush@cogen=
-tembedded.com/
-> Changes since v1:
-> - move interrupt masking to a dedicated routine
-> - update comments and patch description
->=20
-> > I think I would rather see the code to reset them done in
-> > vsp1_reset_wpf(), rather than in probe directly as that is what we are
-> > doing, and is I believe already in the call path.
->=20
-> First, vsp1_reset_wpf() does not get called on driver early init.
->=20
-> It is normally called from within vsp1_device_get() when device is powered
-> on, but vsp1_probe() calls vsp1_device_get() when vsp1->info is not yet s=
-et,
-> and in this case call from vsp1_pm_runtime_resume() to vsp1_device_init()=
-=20
-> is skipped.
+> To be folded into the original in renesas-arm-dt-for-v5.18.
+> 
+>  arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+> index 53845823d0dce9cc..728a2275ea8d21ac 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
+> @@ -19,46 +19,55 @@ / {
+>  
+>  &canfd {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &ehci0 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &ehci1 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &hsusb {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &i2c0 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &i2c1 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &i2c3 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &ohci0 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &ohci1 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+> @@ -68,32 +77,38 @@ &phyrst {
+>  
+>  &scif2 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &sdhi1 {
+>  	/delete-property/ pinctrl-0;
+>  	/delete-property/ pinctrl-1;
+> +	/delete-property/ pinctrl-names;
+>  	/delete-property/ vmmc-supply;
+>  	status = "disabled";
+>  };
+>  
+>  &spi1 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &ssi0 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &usb2_phy0 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+>  
+>  &usb2_phy1 {
+>  	/delete-property/ pinctrl-0;
+> +	/delete-property/ pinctrl-names;
+>  	status = "disabled";
+>  };
+> -- 
+> 2.25.1
+> 
 
-aha, I seem to have a long mail to you stuck in my drafts that didn't
-make it out to reply to your last mail. I'm sorry about that, but it
-looks like we're progressing anyway.
-
-But in that draft, I agreed that yes, we have catch 22 around setting
-that ->info, as we need to power up to determine the specific model.
-
-> I've tried to add extra vsp1_device_put() / vsp1_device_get() calls to the
-> probe path, and dumped related registers in vsp1_pm_runtime_resume() after
-> return from vsp1_device_init(), and got
->=20
-> [    2.477315][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_ENB(0) =3D 0x00000=
-100
-> [    2.483933][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_STA(0) =3D 0x00000=
-121
-> [    2.490556][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(0) =3D 0x000100=
-02
-> [    2.497088][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(0) =3D 0x000100=
-03
-> [    2.503618][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(1) =3D 0x000000=
-00
-> [    2.510148][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(1) =3D 0x000000=
-00
->=20
-> which shows that
-> (1) WPF interrupt is not cleared by WPF reset,
-> (2) also DISP interrupt is enabled and pending, and driver does not seem
-> to control it at all.
->=20
-> Given that, I think it is safer to explicitly mask all interrupts before
-> setting the handler. I've moved interrupt masking to a separate routine.
-
-Thankyou, at least being a separate function makes it a bit cleaner and
-clear that it's not specifically a part of probe() but something we act
-upon to clean up.
-
-
-> > (But I'm reallly ... reallly concerned that the hardware is not really
-> > getting reset when it should, and that might merit some further
-> > investigation).
->=20
-> The documentation for WFP reset bit has notes that under some situations,
-> reset is postponed for a long time, and reported via interrupt. I'm not
-> sure what exactly goes on there, but I'd assume that such logic implies
-> that interrupt subsystem is not reset.
->=20
-> I agree that not having exact understand of hardware state is not good.
-> But, given that no signs of misfunction have been detected for a long time
-> (the patch was in vendor BSP for years), I think we can assume it is
-> "safe enough".
-
-Yes, well I think this is adding the safety by re-asserting our
-assumptions on probe time. Which sounds like a good thing given the
-circumstances.
-
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
->  drivers/media/platform/vsp1/vsp1_drv.c | 34 ++++++++++++++++++++------
->  1 file changed, 26 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platf=
-orm/vsp1/vsp1_drv.c
-> index c9044785b903..92a95e2c21c7 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -550,6 +550,16 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
->         return 0;
->  }
-> =20
-> +static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
-> +{
-> +       int i;
-> +
-> +       for (i =3D 0; i < vsp1->info->lif_count; ++i)
-> +               vsp1_write(vsp1, VI6_DISP_IRQ_ENB(i), 0);
-> +       for (i =3D 0; i < vsp1->info->wpf_count; ++i)
-> +               vsp1_write(vsp1, VI6_WPF_IRQ_ENB(i), 0);
-> +}
-> +
->  /*
->   * vsp1_device_get - Acquire the VSP1 device
->   *
-> @@ -819,13 +829,6 @@ static int vsp1_probe(struct platform_device *pdev)
->                 return -EINVAL;
->         }
-> =20
-> -       ret =3D devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
-> -                             IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-> -       if (ret < 0) {
-> -               dev_err(&pdev->dev, "failed to request IRQ\n");
-> -               return ret;
-> -       }
-> -
->         /* FCP (optional). */
->         fcp_node =3D of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0=
-);
->         if (fcp_node) {
-> @@ -855,7 +858,6 @@ static int vsp1_probe(struct platform_device *pdev)
->                 goto done;
-> =20
->         vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> -       vsp1_device_put(vsp1);
-> =20
->         for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
->                 if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
-> @@ -868,12 +870,28 @@ static int vsp1_probe(struct platform_device *pdev)
->         if (!vsp1->info) {
->                 dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
->                         vsp1->version);
-> +               vsp1_device_put(vsp1);
->                 ret =3D -ENXIO;
->                 goto done;
->         }
-> =20
->         dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
-> =20
-> +       /*
-> +        * Previous use of the hardware (e.g. by the bootloader) could le=
-ave
-> +        * some interrupts enabled and pending.
-> +        */
-> +       vsp1_mask_all_interrupts(vsp1);
-> +
-> +       vsp1_device_put(vsp1);
-> +
-> +       ret =3D devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
-> +                              IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-> +       if (ret < 0) {
-> +               dev_err(&pdev->dev, "failed to request IRQ\n");
-> +               goto done;
-> +       }
-> +
->         /* Instantiate entities. */
->         ret =3D vsp1_create_entities(vsp1);
->         if (ret < 0) {
-> --=20
-> 2.30.2
->
+-- 
+Kind Regards,
+Niklas Söderlund
