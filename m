@@ -2,60 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 320454979F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 09:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A276C497A1A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Jan 2022 09:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241993AbiAXIGT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 03:06:19 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:45047 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233770AbiAXIGS (ORCPT
+        id S232758AbiAXITF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 03:19:05 -0500
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:44756 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232476AbiAXITF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 03:06:18 -0500
-Received: by mail-ua1-f49.google.com with SMTP id f24so29265117uab.11;
-        Mon, 24 Jan 2022 00:06:18 -0800 (PST)
+        Mon, 24 Jan 2022 03:19:05 -0500
+Received: by mail-ua1-f50.google.com with SMTP id f24so29319425uab.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 00:19:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=f2tIXgru6KSjoHEY08c/9t4jD7pdITrEPHWFSQkXS0Y=;
-        b=DTI/Yjds3ScGk3jA9/9Srj1zXWSb0csmQFPNnoC1m6nOCtDSAJg1dMjtiBnOxpyC1g
-         IrWFedE2cveeqJi4Pqd3X6uBQqPHI40jIgrryIca3RIHT9+Lp7NbyRMllmGg1FKdZLEX
-         MD7Su8AwOInwoX6Ia4mjdoW3ApNVmaqNEuFig9KNh70JFm/HKh1OVojkAMcjgTDz8zKC
-         xCNBikcbNdDAXs2BmCte9jyMt7G/+j+p4aMffAIQo7J1lHOS1/zL3jVHkqVxt7udHpJ/
-         yf9UijkK7/SSuaTGbo1mi3jesY8hpkuZm3d94R70UrjsXtWa5vcU85kL0gq5FDLXEdU+
-         8SRw==
-X-Gm-Message-State: AOAM5316kwbmIPDgbTjFJJ0ZAsuU2zAj8SpwMeY9ae/ew+QwGyYeqZMH
-        bsXsVH5paOzmTvXsewhVSbCuRYeNWWUpcg==
-X-Google-Smtp-Source: ABdhPJyL8SI4kAAwpJEm0n1bgdFMdSPN4sEGWxh9ZZE5dBD0EDoTBOtUR43do6zhYVRzMhYeJ6/vIQ==
-X-Received: by 2002:a67:f8cc:: with SMTP id c12mr1069128vsp.63.1643011577441;
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id f68sm2820415vke.55.2022.01.24.00.06.17
+        bh=b/c+3F2pmQ34Zp5zM0VZln6fe/9uq04UqlvKTdCwGTM=;
+        b=fK92bjuWgOr+TnuCQj2kCGuXNSkezhrT76CpD2unY0KrvvqQ+DvDafJGYH5UAszWbf
+         JzfygdlSSqbiCizdh3MnThVMm0v23fU3S285YPK5LmPsNedjWZY7NSlyTqRhOAezC/mY
+         VBnNv4XWjyms0yaR9ZchvCoQ3euC1215ptCBk2OYD5a0d5iWSQrnvaQ3fE3krY6oMkg8
+         IV3zYi8Ra6GV4o0UxRYN5NdNVyJbF6SFgZHml4Xv00HrHbGzAnU6dgqQksvkBZKgk83J
+         jRcVFmDhm6UczpgBTDC1RrNaEZa/kN0b4IsW8ipOHBr8GkoTa0xQTq3gQ6xmP97fTJtj
+         zMZQ==
+X-Gm-Message-State: AOAM530vYS/jVDqLC4tSWgh5LpwFtdYfv2qRCVzzg36ZvqFTib9BQT4R
+        Ghr7yYu1qcnP4bMIrUq4y6Nk7xUAg5OhMA==
+X-Google-Smtp-Source: ABdhPJwsbeASC/9TitGssBy1258CIs5t7bDcC/KkDa/c5SibSHk1xIJIHHM+iWPtsC/84eMgYUEdHA==
+X-Received: by 2002:a67:a409:: with SMTP id n9mr4879196vse.74.1643012344721;
+        Mon, 24 Jan 2022 00:19:04 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id u12sm3144846vku.9.2022.01.24.00.19.03
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id 2so29376975uax.10;
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-X-Received: by 2002:a9f:3d89:: with SMTP id c9mr5323806uai.78.1643011576863;
- Mon, 24 Jan 2022 00:06:16 -0800 (PST)
+        Mon, 24 Jan 2022 00:19:04 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id l1so27546987uap.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 00:19:03 -0800 (PST)
+X-Received: by 2002:a05:6102:a04:: with SMTP id t4mr143613vsa.77.1643012343460;
+ Mon, 24 Jan 2022 00:19:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-21-biju.das.jz@bp.renesas.com> <YeyuqbNfETGOxzfZ@pendragon.ideasonboard.com>
- <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220112174612.10773-11-biju.das.jz@bp.renesas.com> <CAMuHMdUyPbykGc+OPPmxd63qsSRjG1h_xm3GXHsdbcwfZ+48ew@mail.gmail.com>
+ <Ye1dhPKT2FGgXKLO@pendragon.ideasonboard.com>
+In-Reply-To: <Ye1dhPKT2FGgXKLO@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Jan 2022 09:06:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
-Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
-Subject: Re: [RFC 20/28] media: vsp1: Add support for the RZ/G2L VSPD
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+Date:   Mon, 24 Jan 2022 09:18:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWWQeumgcHMNnG7Zntxnc0y=B6C_V_cYVYk2L45vujywg@mail.gmail.com>
+Message-ID: <CAMuHMdWWQeumgcHMNnG7Zntxnc0y=B6C_V_cYVYk2L45vujywg@mail.gmail.com>
+Subject: Re: [RFC 10/28] drm: rcar-du: of: Increase buff size for compatible variable
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
@@ -65,25 +65,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Laurent,
 
-On Sun, Jan 23, 2022 at 4:20 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > On Wed, Jan 12, 2022 at 05:46:04PM +0000, Biju Das wrote:
-> > > The RZ/G2L VSPD provides a single VSPD instance. it has the following
-> > > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On Sun, Jan 23, 2022 at 2:52 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Jan 14, 2022 at 11:17:19AM +0100, Geert Uytterhoeven wrote:
+> > On Wed, Jan 12, 2022 at 6:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > Increase buff size for compatible variable to avoid stack corruption
+> > > with RZ/G2L SoC's(renesas,du-r9a07g044l) which requires a buff size
+> > > more than the current allocated size.
 > > >
-> > > It does not have version register, so added a new compatible string to
-> > > match to get the version value. Also the reset is shared with DU
-> > > module.
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > >
-> > Does it really lack the version register, or is it just not documented ?
-> > It hasn't been documented on all R-Car variants, but has consistently been
-> > present.
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_of.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_of.c
+> > > @@ -200,7 +200,7 @@ static void __init rcar_du_of_lvds_patch(const struct of_device_id *of_ids)
+> > >         struct device_node *lvds_node;
+> > >         struct device_node *soc_node;
+> > >         struct device_node *du_node;
+> > > -       char compatible[22];
+> > > +       char compatible[24];
+> > >         const char *soc_name;
+> > >         unsigned int i;
+> > >         int ret;
+> >
+> > What about changing the code to use kasprintf() instead, to prevent
+> > this from ever happening again?
 >
-> No, it is not present on RZ/G2L. the read value of this register is 0x0.
+> Or maybe it's time to drop this backward compatibility code altogether ?
 
-Just to be sure: you did check that while the module clock is enabled and
-the module reset is deasserted?
+The last R-Car Gen2 DTS was converted in commit edb0c3affe5214a2
+("ARM: dts: r8a7793: Convert to new LVDS DT bindings") in v4.17.
+The last RZ/G1 DTS was converted in commit 6a6a797625b5fe85 ("ARM:
+dts: r8a7743: Convert to new LVDS DT bindings") in v5.0.
+
+Both are older than commit 58256143cff7c2e0 ("clk: renesas: Remove
+R-Car Gen2 legacy DT clock support") in v5.5, so I'd say let's get
+rid of it.
 
 Gr{oetje,eeting}s,
 
