@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7253D49A5EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 03:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6CBE49A5F2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 03:17:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S3418112AbiAYCMy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 21:12:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
+        id S3418222AbiAYCNO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 21:13:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S3414881AbiAYAwv (ORCPT
+        with ESMTP id S3414885AbiAYAwx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 19:52:51 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C651C0E5311
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 14:34:22 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id z10-20020a17090acb0a00b001b520826011so385055pjt.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 14:34:22 -0800 (PST)
+        Mon, 24 Jan 2022 19:52:53 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B649C0E5313
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 14:34:23 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id u130so13199477pfc.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Jan 2022 14:34:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kernelci-org.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:content-transfer-encoding:subject:to
          :from;
-        bh=GPn/s0dF7Wk19RrQHNAKm+aLva0tklRfaT/Qdvqqe4w=;
-        b=v5RpraN+qvtFbfndGoTSnpXFjDWEE0pSEjPIQJZoOozzl40rmDhs09NNXKYtE6M8ee
-         iowtioMCqBXS06uJ6snKdh6hTVpxlSqZhN7x989gN550lUirBP9UH6Zs85zNMbdcOeps
-         cQPvuyLZQvfe9kLjYaclnez4T4becejmbIKYCSkUd3REJIcy6VFMmy4qMUHgeSejFgk4
-         +YZM/C1tMA82ZkvepDnXCbm/qkBP/IA146YDgeZehiIj6hDkU8rm/kvDwwiC7Xx8UZWV
-         sXcEBsjOS3dKxd+Y+5idZ3hIjuiPaGh5VCOtAlG6/fKeCjAeXXxOoMiOxmWwP9uL4sdj
-         jaMw==
+        bh=aEbuGg3RfUOIJ+7yeIsn57BsaXLAd9EQUcv/YuCgp38=;
+        b=RFuVEvx50uXVY+bdt7KJQFczVjxLU50pvztFktwT4FS4cM7YC4d/b7EiDM4h/6LEdZ
+         rUk2TsLuIojw5+s8MPoayzivBhznZAcVaK1ZGOVSN60o+gv8QUK7wnzoQ8KN0UhAkIxb
+         fSlxhWu3PykILAXsw2xR5VFbKpRiECBKZ0enUEYS2ZrSostjpmuPuJK60j3xPOylIDOe
+         zsUOabTyrmLXODYMSr5IeYVOmdPpjLwaQb/RA3UdziGQeVf7tGQ5sdhf26YA/GGcPyp0
+         +xrwOBZoCkQ1B2jGcJr2mkYmlLPJdJ6Q5M5BQCp1S6Qf0/u3jiHTX9NhCzFBkDNUzSJG
+         aLIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version
          :content-transfer-encoding:subject:to:from;
-        bh=GPn/s0dF7Wk19RrQHNAKm+aLva0tklRfaT/Qdvqqe4w=;
-        b=4ybXcGi3gdKS7Fp1VHXOe+XgWT8M1LH4vw/v1d8olWSGbO7p7mJ0fO8A40EVRzIWQB
-         EkqX4OAErZ26g+ZoLRVhTtaIRy6yUKQ0LD5YMOZXktfhyWaMG+jfqXVHzz9IU3sECwKU
-         QbIoeAOTrUyxZ4oT1pnhOWmM6yYtlzlyIH40L8sir2wr1c1Zm2aWgc0Ipgj2J8ybEpvL
-         jh2lc1MBCJMW6CG99GfHYqhUmaNIXam8fP995+Ok027d1vZMogMGoq2rOqJK7uUlMNch
-         YigdLRESLj/I50S14XRYCMHXiBmiMtcY0tMj5RmeP7npbkJClyddFJ0JEqxOlpWdZzE9
-         4fKA==
-X-Gm-Message-State: AOAM533O3NAO6/vJEN1ynjUF3+XO2qBh2EEkuNla76/nrkVx6AhE/ZcI
-        donSk1VkrVgE6LI4mWwYa9tqlRYNqKTi27aK
-X-Google-Smtp-Source: ABdhPJy7bKkGjL8UbmAHNNFfPlLMjZMPwUxeU8+MXeRnyHPaTgwU6eg09caoG3wipA7Sf9Uwn5+78A==
-X-Received: by 2002:a17:90b:68c:: with SMTP id m12mr380591pjz.137.1643063661574;
-        Mon, 24 Jan 2022 14:34:21 -0800 (PST)
+        bh=aEbuGg3RfUOIJ+7yeIsn57BsaXLAd9EQUcv/YuCgp38=;
+        b=WPnoRuhtuy8Wi4D5gVSRYu7TSsnuhpC3edIDCRn3lhfCtwVBZ6x9mAXnAJSV1qeF2K
+         IT5Bmk6rbdlxk/4+6M1wtLINyn58oNHW8GgdLQreTuHv7BbjUd1mH6rM2GCb9Y0oUnee
+         BjbIrgqxtebT5OjGqFDfeMU9ZBnhFo6FyE7uMVGEPmLELkLlo7y2cbP+JG9kpvd/AH0/
+         ts04iOUJX6gC4ObOBfKAIYEIzC0ZE1LxD0bl1uzjyDstG7Z52FS/Nyd5y8dV9OTMSJCT
+         GlqzA33MjbTM+9a8Oa7JLmURmHpIffkIgU8tmHqRl8p5E1+QD5EMMh0aC2507h3GedLw
+         utzQ==
+X-Gm-Message-State: AOAM531kPHjLHSph2IvjBqUglZ6RsG/0IGYHIl4ebCzBNirkKBbGZu8J
+        dzS4NxiQgH8EKxjWv8bL33O2MFvGuky414KQ
+X-Google-Smtp-Source: ABdhPJw0VIkfWxoixOJbdyGvJa4oRnksjs/ouQeZadpLW2wv4VUkCiGlPkQ8fmw8jOvqOJxlTTKrHA==
+X-Received: by 2002:a63:7210:: with SMTP id n16mr13309536pgc.527.1643063662332;
+        Mon, 24 Jan 2022 14:34:22 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id y128sm17992371pfb.75.2022.01.24.14.34.21
+        by smtp.gmail.com with ESMTPSA id ml14sm323092pjb.10.2022.01.24.14.34.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 14:34:21 -0800 (PST)
-Message-ID: <61ef296d.1c69fb81.26395.0d9a@mx.google.com>
-Date:   Mon, 24 Jan 2022 14:34:21 -0800 (PST)
+        Mon, 24 Jan 2022 14:34:22 -0800 (PST)
+Message-ID: <61ef296e.1c69fb81.16bcd.16b8@mx.google.com>
+Date:   Mon, 24 Jan 2022 14:34:22 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -57,7 +57,7 @@ X-Kernelci-Report-Type: test
 X-Kernelci-Kernel: v5.17-rc1-611-g4ccda2778be0
 X-Kernelci-Tree: renesas
 X-Kernelci-Branch: master
-Subject: renesas/master igt-gpu-panfrost: 2 runs,
+Subject: renesas/master igt-kms-rockchip: 2 runs,
  1 regressions (v5.17-rc1-611-g4ccda2778be0)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
@@ -65,24 +65,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master igt-gpu-panfrost: 2 runs, 1 regressions (v5.17-rc1-611-g4ccd=
+renesas/master igt-kms-rockchip: 2 runs, 1 regressions (v5.17-rc1-611-g4ccd=
 a2778be0)
 
 Regressions Summary
 -------------------
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/v5.1=
-7-rc1-611-g4ccda2778be0/plan/igt-gpu-panfrost/
+7-rc1-611-g4ccda2778be0/plan/igt-kms-rockchip/
 
-  Test:     igt-gpu-panfrost
+  Test:     igt-kms-rockchip
   Tree:     renesas
   Branch:   master
   Describe: v5.17-rc1-611-g4ccda2778be0
@@ -105,56 +105,53 @@ Test Regressions
 
 
 
-platform          | arch | lab           | compiler | defconfig          | =
-regressions
-------------------+------+---------------+----------+--------------------+-=
------------
-rk3288-veyron-jaq | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
-1          =
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/61ef22db46384a55c2abbd12
+  Details:     https://kernelci.org/test/plan/id/61ef19b0aa52fe494aabbd26
 
-  Results:     15 PASS, 2 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
+  Results:     79 PASS, 15 FAIL, 142 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
   Plain log:   https://storage.kernelci.org//renesas/master/v5.17-rc1-611-g=
-4ccda2778be0/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-panfrost-r=
-k3288-veyron-jaq.txt
+4ccda2778be0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-kms-=
+rockchip-rk3399-gru-kevin.txt
   HTML log:    https://storage.kernelci.org//renesas/master/v5.17-rc1-611-g=
-4ccda2778be0/arm/multi_v7_defconfig/gcc-10/lab-collabora/igt-gpu-panfrost-r=
-k3288-veyron-jaq.html
+4ccda2778be0/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-kms-=
+rockchip-rk3399-gru-kevin.html
   Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
-t/20220121.0/armhf/rootfs.cpio.gz =
+t/20220121.0/arm64/rootfs.cpio.gz =
 
 
 
-  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
-lci.org/test/case/id/61ef22db46384a55c2abbd15
+  * igt-kms-rockchip.kms_setmode.basic: https://kernelci.org/test/case/id/6=
+1ef19b0aa52fe494aabbdcc
         new failure (last pass: renesas-devel-2022-01-11-v5.16)
 
-    2022-01-24T22:05:57.577013  <6>[   15.367095] Console: switching to col=
-our dummy device 80x30
-    2022-01-24T22:05:57.577512  <14>[   15.373919] [IGT] panfrost_submit: e=
-xecuting
-    2022-01-24T22:05:57.582754  IGT-Version: 1.26-gf73008b (arm) (Linux: 5.=
-17.0-rc1 armv7l)
-    2022-01-24T22:05:57.605040  <14>[   15.394652] [IGT] panfrost_submit: s=
-tarting subtest pan-unhandled-pagefault
-    2022-01-24T22:05:57.605539  Starting subtest: pan-unhandled-pagefault
-    2022-01-24T22:05:57.731596  (panfrost_submit:283) CRITICAL: Test assert=
-ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
-bmit.c:178:
-    2022-01-24T22:05:57.745132  (panfrost_submit:283) CRITICAL: Failed asse=
-rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
-NSEC), 0, NULL)
-    2022-01-24T22:05:57.745626  Stack trace:
-    2022-01-24T22:05:57.746085    #0 ../lib/igt_core.c:1752 __igt_fail_asse=
-rt()
-    2022-01-24T22:05:57.758315  <14>[   15.541701] [IGT] panfrost_submit: e=
-xiting, ret=3D98 =
+    2022-01-24T21:24:24.891134  <8>[   44.334025] <LAVA_SIGNAL_TESTSET STOP>
+    2022-01-24T21:24:24.929206  <8>[   44.370819] <LAVA_SIGNAL_TESTSET STAR=
+T kms_setmode>
+    2022-01-24T21:24:24.961836  <6>[   44.403456] Console: switching to col=
+our dummy device 80x25
+    2022-01-24T21:24:24.966935  <14>[   44.410121] [IGT] kms_setmode: execu=
+ting
+    2022-01-24T21:24:24.979262  IGT-Version: 1.26-gf73008b (aarch64) (Linux=
+: 5.17.0-rc1 aarch64)<14>[   44.415798] [IGT] kms_setmode: starting subtest=
+ basic
+    2022-01-24T21:24:24.980043  =
 
-    ... (12 line(s) more)  =
+    2022-01-24T21:24:24.981909  Starting subtest: basic
+    2022-01-24T21:24:24.985833  Testing: basic 1 connector combinations
+    2022-01-24T21:24:25.086424    Test id#1 CRTC count 1
+    2022-01-24T21:24:25.093774      CRTC[37] [Pipe A] Mode: 2400x1600@60Hz =
+Connectors: eDP-1[49] =
+
+    ... (67 line(s) more)  =
 
  =20
