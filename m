@@ -2,95 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6331A49B697
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 15:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CFB949B6E3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 15:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1452451AbiAYOju (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jan 2022 09:39:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39058 "EHLO
+        id S1580345AbiAYOvI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jan 2022 09:51:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389409AbiAYOfQ (ORCPT
+        with ESMTP id S1580313AbiAYOrz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jan 2022 09:35:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD79C06177B;
-        Tue, 25 Jan 2022 06:35:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B1C73B81810;
-        Tue, 25 Jan 2022 14:35:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65418C340E0;
-        Tue, 25 Jan 2022 14:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643121300;
-        bh=Z0/BxPj1f0zGFFhou0DpMjIeUZvUYaF7CHh5vwihvLo=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=rrrYkTHg+aQl2BGBDEQeU60APeqwLT9THsb7j3lv0VgcGhYpN2yYRUEmI48RNhSrE
-         XBHm6apMgn46VFHbiUfv9NA0582AvvsmTQrxTEbbELdHThgsR1bQ/bQWX5j0WNbitK
-         i2WulknE9grM1dJfSwT+ia5VeLZ0OmHOR2STNP37cm8FCLLuVug7tsyc6RgmWdccgQ
-         R2mzUX0HNlUHvVUX4KHvqlO+Cb3M6xVpL2SBjLz+nU2Iy2DUk8tQZtR8zaDlzUyOPs
-         uGsRzINx5Qn75Gm6wmxjFOZ4Wt/NjJvO6BYbTWNgvwadIWKx+ZMtTjRyz6MrTKo1P/
-         vrs/V2U5zAYYg==
-From:   Mark Brown <broonie@kernel.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-        Pavel Machek <pavel@denx.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20220125132457.14984-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220125132457.14984-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 0/3] ASoC: sh: rz-ssi: Trivial changes
-Message-Id: <164312129811.3598034.12132731428429313313.b4-ty@kernel.org>
-Date:   Tue, 25 Jan 2022 14:34:58 +0000
+        Tue, 25 Jan 2022 09:47:55 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69206C06175A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jan 2022 06:47:50 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d953:5e77:5e91:58b7])
+        by albert.telenet-ops.be with bizsmtp
+        id n2nm2600d4uHK7N062nmjs; Tue, 25 Jan 2022 15:47:47 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nCN6o-00BNQs-I8
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 Jan 2022 15:47:46 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nCN6n-00GPoH-Se
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 Jan 2022 15:47:45 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2022-01-25-v5.17-rc1
+Date:   Tue, 25 Jan 2022 15:47:45 +0100
+Message-Id: <20220125144745.3912418-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 25 Jan 2022 13:24:54 +0000, Lad Prabhakar wrote:
-> This patch series has trivial changes for rz-ssi driver. Patches 1
-> (partial) & 2 are from series [3].
-> 
-> patch 1/3 is just a cosmetic change which was part of patch [0] where it
-> uses a do-while instead of while-do. Patch 2/3 is from series [1] where a
-> helper function is added and patch 3/3 is a new patch which removes
-> duplicate macros.
-> 
-> [...]
+I have pushed renesas-drivers-2022-01-25-v5.17-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Applied to
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Today's version is based on renesas-devel-2022-01-25-v5.17-rc1.
 
-Thanks!
+Included branches with driver code:
+  - renesas-clk-for-v5.18
+  - renesas-pinctrl-for-v5.18
+  - topic/pinctrl-sharing-and-checker-improvements-v1
+  - topic/r8a779f0-pfc-v1
+  - topic/r8a779f0-gpio-v1
 
-[1/3] ASoC: sh: rz-ssi: Use a do-while loop in rz_ssi_pio_recv()
-      commit: 7276d3f329c633340f3c539ce35ed254d2fe467b
-[2/3] ASoC: sh: rz-ssi: Add rz_ssi_set_substream() helper function
-      commit: 962ff7ecb60b684fe15b135ccbe07628b8bb522a
-[3/3] ASoC: sh: rz-ssi: Remove duplicate macros
-      commit: acfa1e2c2ff5cd7fb7948b0c5c2057acd9dceb14
+Included fixes:
+  - gpio: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+  - eeprom: at25: Restore missing allocation
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Gr{oetje,eeting}s,
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+						Geert
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Thanks,
-Mark
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
