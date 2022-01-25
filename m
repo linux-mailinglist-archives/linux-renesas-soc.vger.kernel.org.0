@@ -2,48 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA2E49AB0F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 05:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADBC649AB0C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 05:44:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S248616AbiAYEL1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Jan 2022 23:11:27 -0500
-Received: from mga12.intel.com ([192.55.52.136]:22031 "EHLO mga12.intel.com"
+        id S235513AbiAYELN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Jan 2022 23:11:13 -0500
+Received: from mga05.intel.com ([192.55.52.43]:15022 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S3420573AbiAYCYt (ORCPT
+        id S3420109AbiAYCWr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Jan 2022 21:24:49 -0500
+        Mon, 24 Jan 2022 21:22:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643077489; x=1674613489;
+  t=1643077367; x=1674613367;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=eRKXHV53JaEjQh7nq3So9VmzACCSqij1wuwS/vcAqMI=;
-  b=jCEHWsL/EwwO/boIdq4MRHw10SnnWqElCsqGocP6iRrGnjtme/ttJOKe
-   Y5O2GYjZ3LG0UTNCTAJl1HAIAn+JXLVQzw6J+GPcdpCzpm+URr4yx7mrh
-   wP8v1kBOTWFVZgW1Lc5FG8vjrAqY3QGTo2QjtQK3JU5ihwOo9lj6lZVIu
-   cNTaz7QdWy8ZWxfBUgt1PcPwbK3AKfLyiPBo1rnNr6te8WSHMSOj+Nj3u
-   eFKzE5clbRfYhkOfwPAP1saenp13If4ru7Nm0kLACuxj8ls6f2LCOmf6i
-   kxWy8Oq3xsRQKvFtIb2+8uCG6tu0AYjOjjPh1+jtcrLN6ZUWEO4OaBXPj
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="226170078"
+  bh=ZDp1wWCINl2ttduLoRnyEWjUDIAPNqYWjviHrlnRhj8=;
+  b=fCFtapD/lpk8/IF8StAaH/jL0Z0KdRZfzcyqX0ZKn1as6Bk2VFgsyIRM
+   KZQs0gCtFUgwVqpbEtRlazzpzdRyo33pN75dgp/Q47UZj/lB3awCE0fgZ
+   UT61LK1QTHagYE7v4aszJYX0XY47ctIeRRSk92bF5bg9J84CONx6XhBo/
+   6xidzAxMgSZh/0T/j5PrDP95Min/0aFX8ddOjKb2nik1ygIsSIikPOy48
+   uOjLgADAvjM2YnggrldAgSau7TIFW8SuyYe2366lfUiqKZVcLnju/2usx
+   shUHoii6eQMfCosaBE4NvQ4Mw7Yd851SegQiJ/YC8nZjXv8EYWSuMulry
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="332546150"
 X-IronPort-AV: E=Sophos;i="5.88,313,1635231600"; 
-   d="scan'208";a="226170078"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 17:29:19 -0800
+   d="scan'208";a="332546150"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 17:29:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,313,1635231600"; 
-   d="scan'208";a="476926085"
+   d="scan'208";a="580588295"
 Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2022 17:29:18 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2022 17:29:18 -0800
 Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1nCAe5-000JBC-Ic; Tue, 25 Jan 2022 01:29:17 +0000
-Date:   Tue, 25 Jan 2022 09:28:47 +0800
+        id 1nCAe5-000JAp-Cd; Tue, 25 Jan 2022 01:29:17 +0000
+Date:   Tue, 25 Jan 2022 09:28:54 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dt-bindings-for-v5.18] BUILD SUCCESS 4b4a0fd666303a06bbe159552bc055b490b77cdc
-Message-ID: <61ef524f.Q2uLiABxACdesFrQ%lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-drivers-for-v5.18] BUILD SUCCESS
+ 860122d80251c64484883324128ca82fa35423ef
+Message-ID: <61ef5256.mv7KIMIczZENgNMw%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -52,12 +53,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v5.18
-branch HEAD: 4b4a0fd666303a06bbe159552bc055b490b77cdc  dt-bindings: power: renesas,rzg2l-sysc: Document RZ/V2L SoC
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.18
+branch HEAD: 860122d80251c64484883324128ca82fa35423ef  soc: renesas: Identify RZ/V2L SoC
 
-elapsed time: 733m
+elapsed time: 734m
 
-configs tested: 142
+configs tested: 144
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -109,8 +110,8 @@ mips                  maltasmvp_eva_defconfig
 mips                            ar7_defconfig
 arm                       aspeed_g5_defconfig
 arm                  randconfig-c002-20220124
-ia64                             allmodconfig
 ia64                                defconfig
+ia64                             allmodconfig
 ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
@@ -127,10 +128,10 @@ xtensa                           allyesconfig
 arc                                 defconfig
 sh                               allmodconfig
 parisc                              defconfig
-s390                             allyesconfig
 s390                             allmodconfig
 parisc                           allyesconfig
 s390                                defconfig
+s390                             allyesconfig
 i386                             allyesconfig
 sparc                            allyesconfig
 sparc                               defconfig
@@ -139,9 +140,9 @@ i386                   debian-10.3-kselftests
 i386                              debian-10.3
 mips                             allyesconfig
 mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
 powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
 x86_64               randconfig-a002-20220124
 x86_64               randconfig-a003-20220124
 x86_64               randconfig-a001-20220124
@@ -154,6 +155,7 @@ i386                 randconfig-a003-20220124
 i386                 randconfig-a004-20220124
 i386                 randconfig-a001-20220124
 i386                 randconfig-a006-20220124
+arc                  randconfig-r043-20220124
 riscv                    nommu_k210_defconfig
 riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
@@ -212,6 +214,7 @@ i386                 randconfig-a012-20220124
 riscv                randconfig-r042-20220124
 hexagon              randconfig-r045-20220124
 hexagon              randconfig-r041-20220124
+s390                 randconfig-r044-20220124
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
