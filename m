@@ -2,143 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51FDB49B28D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 12:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A822E49B402
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jan 2022 13:30:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbiAYLGJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jan 2022 06:06:09 -0500
-Received: from mail-vk1-f182.google.com ([209.85.221.182]:42686 "EHLO
-        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379725AbiAYLEM (ORCPT
+        id S1383402AbiAYM2k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jan 2022 07:28:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354976AbiAYM0A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jan 2022 06:04:12 -0500
-Received: by mail-vk1-f182.google.com with SMTP id w17so8005504vko.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jan 2022 03:04:11 -0800 (PST)
+        Tue, 25 Jan 2022 07:26:00 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421FBC06173E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jan 2022 04:25:59 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id g14so61055190ybs.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jan 2022 04:25:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VQHOyEJr/7l5t2krSD3OjkLLcoyZLB9f+DUN1/If5zY=;
+        b=D9SJuTsLx2nifX3INRuNdnov3BYPIV88Mymma8zpXVMmxe8y9MHfLkObjRHgkaRf0A
+         zC1G4WCzMQTN9MmW6Zyt6ME9QLGIpKAVOv+nOiC9K/9hJ0vxp+WSZOQLhxQ31li/cVId
+         GfTlTjUcPdRBLmdpymFns5TzhfRdUT0XLHKGJ/yqQuWg3jrpuUNKxp0r9lXbdAtNSKRj
+         kI+Di0hHlKGG9o3vhm5kTGhL+6rMoEWV61iFaOsY+mmkMLHcIw/K5l3JYatkJG0bWwSo
+         SpOJhccmdPpGwqS1XM7Q1JG/tKdwGqhLdau96ZbBoTBhPYg5GruwQJx26xQucyKeKD//
+         drQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Tap8uKm8Mgi/5dQ3zaQ8k2fweiRJtSp20OGPCmqaEiM=;
-        b=6qNXzCIW/nzZ3fAZK2M8g0DsbWx+Nuhpu/cbFVEF9qtQHYl1jIw/aX+oX6Ush9nU9Q
-         bYMOxfg1SKNjm0NFUiNRz+dJelIx5DY7fxuT+k6Ro5wkXRO3Yf0ZFBy8C8dAtIxnRTTF
-         tHCkfxUoDjdAXmecsPbpjDDGbm1LH8LC8ZhfYj7lEzGAY1on5e3ShhBxcOm4CFB50CLl
-         U6G7yDjApfY6WmST80u0PuocEe+JaTDzCagxdcSEW6Z2Bbrz8Vl3fWM0NtJ2O012uzXE
-         8ou0pEU2i+N1e5cVyu8yGRtHpgbqBwbBW1a/r9FXdUeXAQ+IuZj4jd7n5WkmuXMPG4mH
-         wQoQ==
-X-Gm-Message-State: AOAM530qcgEhHqeq1B6akFcplfrVEGd+Dzenxbf5a67Ds+vJUIYQ14db
-        bVK7ded+by7Hj6McbGK5PJ1RhVqT//HciUfJ
-X-Google-Smtp-Source: ABdhPJweaF8FNnTMAbQuqBEudIw+UEEL6gNoopwepaXYsDSa8Bwm7+zqJTxyNtHVNFC8S3FcrWOhrw==
-X-Received: by 2002:a1f:5c4d:: with SMTP id q74mr7308031vkb.9.1643108650680;
-        Tue, 25 Jan 2022 03:04:10 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id s134sm3307246vkb.16.2022.01.25.03.04.10
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jan 2022 03:04:10 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id c36so36611976uae.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jan 2022 03:04:10 -0800 (PST)
-X-Received: by 2002:a05:6102:a04:: with SMTP id t4mr2006797vsa.77.1643108650121;
- Tue, 25 Jan 2022 03:04:10 -0800 (PST)
+        bh=VQHOyEJr/7l5t2krSD3OjkLLcoyZLB9f+DUN1/If5zY=;
+        b=Yem4vlNkVfJYDz6pwzQWSmILZ530XhDki2AYurbCePUFxl8b3JzrcNISDsbcrI3yGn
+         6CwKz5vSnvgHu94usNgB3n3bzjZYBM61LLVb522bmUBtXDIsjUQzWr/qGJKrE6LwmSrW
+         h1f2It6ON0rlo+THhuIFI2HBH7ay+ppcj9i6zm4dkBj1Lyny2aHr0uj8PIJfZV6fD1BI
+         Lhd9NbbWJQE3BgCncI9ocuAK4Vz4ucpGWBlgiXtFbdlgv2UIBCB5jmY4urIB7pI+m/5S
+         MFvj2bhdE2Zs2DymBEr5ReA6YqB4m92151QzoVQhO3puHK5skiSnf7SVfKduGG+nIXUP
+         gtQw==
+X-Gm-Message-State: AOAM531+5y6m8QWUaQH2JLY0sTTWO/4sXmmV241JM8tOBHszEnSH7WnT
+        +mdb0W7M8zeYiEtA5ljCj/UqoiQqIKqZbwz24A8=
+X-Google-Smtp-Source: ABdhPJzkmPki5/kBAwp/O0+kC6L8SCISqPPFoN/7WGkcj22cOxcDwH2RkBK6r2D7A1ZxzRnYCJ19tCL5/V+nHDdYGXo=
+X-Received: by 2002:a25:2cc7:: with SMTP id s190mr28562712ybs.186.1643113558460;
+ Tue, 25 Jan 2022 04:25:58 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1642599415.git.geert+renesas@glider.be> <a692f62b349ee6ae67510aaf5c9242cc1ae7cc64.1642599415.git.geert+renesas@glider.be>
-In-Reply-To: <a692f62b349ee6ae67510aaf5c9242cc1ae7cc64.1642599415.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Jan 2022 12:03:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW1yMCTUAudgcbQ8ApVkJrM6apzL9vP=+xOUra25PLJwQ@mail.gmail.com>
-Message-ID: <CAMuHMdW1yMCTUAudgcbQ8ApVkJrM6apzL9vP=+xOUra25PLJwQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC 04/15] pinctrl: renesas: Initial R8A779F0 PFC support
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Cc:     LUU HOAI <hoai.luu.ub@renesas.com>
+References: <20220115012303.29651-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <164310602822.74844.12177586903406990983.b4-ty@kernel.org>
+In-Reply-To: <164310602822.74844.12177586903406990983.b4-ty@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 25 Jan 2022 12:25:32 +0000
+Message-ID: <CA+V-a8vooHnZqTvuq+qq5u+JLrSirj0vOYnfWXVFB19UhhRdAw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ASoC: sh: rz-ssi: Code cleanup and fixes
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Pavel Machek <pavel@denx.de>,
+        Cezary Rojewski <cezary.rojewski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 3:02 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Add initial Pin Function Controller (PFC) support for the Renesas R-Car
-> S4-8 (R8A779F0) SoC.
+Hi Mark,
+
+On Tue, Jan 25, 2022 at 10:20 AM Mark Brown <broonie@kernel.org> wrote:
 >
-> Based on a larger patch in the BSP by LUU HOAI.
+> On Sat, 15 Jan 2022 01:22:58 +0000, Lad Prabhakar wrote:
+> > This patch series does code cleanup and fixes to the rz-ssi driver.
+> >
+> > Cheers,
+> > Prabhakar
+> >
+> > Lad Prabhakar (5):
+> >   ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv() recursively
+> >   ASoC: sh: rz-ssi: Make the data structures available before
+> >     registering the handlers
+> >   ASoC: sh: rz-ssi: Drop ssi parameter from rz_ssi_stream_init()
+> >   ASoC: sh: rz-ssi: Change return type of rz_ssi_stream_is_valid() to
+> >     bool
+> >   ASoC: sh: rz-ssi: Add rz_ssi_set_substream() helper function
+> >
+> > [...]
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-I accidentally sent out an old version, lacking changes to I2C[45]:
-
-  - Replace "PINMUX_IPSR_PHYS_NOFN(y, z)" by "PINMUX_IPSR_NOFN(GP1_x, y,
-    z)", as I2C requires GPSR1[x] to be configured for peripheral mode,
-
-> --- /dev/null
-> +++ b/drivers/pinctrl/renesas/pfc-r8a779f0.c
-
-> +       /* GP1_08 = SCL4 */
-> +       PINMUX_IPSR_NOGM(0, GP1_08,     SEL_I2C4_0),
-> +       PINMUX_IPSR_PHYS_NOFN(SCL4,     SEL_I2C4_3),
-
-      PINMUX_IPSR_NOGM(0,             GP1_08,         SEL_I2C4_0),
-      PINMUX_IPSR_NOFN(GP1_08,        SCL4,           SEL_I2C4_3),
-
-> +
-> +       /* GP1_09 = SDA4 */
-> +       PINMUX_IPSR_NOGM(0, GP1_09,     SEL_I2C4_0),
-> +       PINMUX_IPSR_PHYS_NOFN(SDA4,     SEL_I2C4_3),
-
-      PINMUX_IPSR_NOGM(0,             GP1_09,         SEL_I2C4_0),
-      PINMUX_IPSR_NOFN(GP1_09,        SDA4,           SEL_I2C4_3),
-
-> +
-> +       /* GP1_10 = SCL5 */
-> +       PINMUX_IPSR_NOGM(0, GP1_10,     SEL_I2C5_0),
-> +       PINMUX_IPSR_PHYS_NOFN(SCL5,     SEL_I2C5_3),
-
-      PINMUX_IPSR_NOGM(0,             GP1_10,         SEL_I2C5_0),
-      PINMUX_IPSR_NOFN(GP1_10,        SCL5,           SEL_I2C5_3),
-
-> +
-> +       /* GP1_11 = SDA5 */
-> +       PINMUX_IPSR_NOGM(0, GP1_11,     SEL_I2C5_0),
-> +       PINMUX_IPSR_PHYS_NOFN(SDA5,     SEL_I2C5_3),
-
-      PINMUX_IPSR_NOGM(0,             GP1_11,         SEL_I2C5_0),
-      PINMUX_IPSR_NOFN(GP1_11,        SDA5,           SEL_I2C5_3),
-
-> --- a/drivers/pinctrl/renesas/sh_pfc.h
-> +++ b/drivers/pinctrl/renesas/sh_pfc.h
-
-> @@ -436,6 +437,16 @@ extern const struct sh_pfc_soc_info shx3_pinmux_info;
->  #define PINMUX_IPSR_PHYS(ipsr, fn, psel) \
->         PINMUX_DATA(fn##_MARK, FN_##psel, FN_##ipsr)
+> Applied to
 >
-> +/*
-> + * Describe a pinmux configuration in which a pin is physically multiplexed
-> + * with other pins and has no representation in a Peripheral Function Select
-> + * Register (IPSR)
-> + *   - fn: Function name
-> + *   - psel: Physical multiplexing selector
-> + */
-> +#define PINMUX_IPSR_PHYS_NOFN(fn, psel) \
-> +       PINMUX_DATA(fn##_MARK, FN_##psel)
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+>
+> Thanks!
+>
+> [1/5] ASoC: sh: rz-ssi: Drop calling rz_ssi_pio_recv() recursively
+>       commit: 6570f991582e32b7992601d0497c61962a2c5dcc
+> [2/5] ASoC: sh: rz-ssi: Make the data structures available before registering the handlers
+>       commit: 0788785c78342d422f93b1c9831c2b2b7f137937
+> [3/5] ASoC: sh: rz-ssi: Drop ssi parameter from rz_ssi_stream_init()
+>       commit: 4f78f3c970f131a179fd135806a9b693fa606beb
+> [4/5] ASoC: sh: rz-ssi: Change return type of rz_ssi_stream_is_valid() to bool
+>       (no commit info)
+> [5/5] ASoC: sh: rz-ssi: Add rz_ssi_set_substream() helper function
+>       (no commit info)
+>
+It looks like you have applied v1 series instead of v2 to your next
+[0] (v2 series [1]). And your comment on your patch 1/5 of not being
+applying isn't true as you have already applied it ;).
+You haven't applied patch 5/5 (this applies cleanly to your -next)
 
-This should be dropped.
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/log/
+[1] https://patchwork.kernel.org/project/alsa-devel/list/?series=605672
 
-> +
->  /*
->   * Describe a pinmux configuration for a single-function pin with GPIO
->   * capability.
-
-I will update my topic/r8a779f0-pfc-v1 branch accordingly, and make
-sure the correct version will be included in today's renesas-drivers
-release.
-
-My apologies for the trouble.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
