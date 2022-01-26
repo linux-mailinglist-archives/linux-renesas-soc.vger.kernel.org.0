@@ -2,181 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E1B349C412
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 08:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71AA449C5C4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 10:05:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237637AbiAZHLo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 02:11:44 -0500
-Received: from mga01.intel.com ([192.55.52.88]:4881 "EHLO mga01.intel.com"
+        id S231424AbiAZJFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 04:05:19 -0500
+Received: from mga03.intel.com ([134.134.136.65]:50009 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229474AbiAZHLn (ORCPT
+        id S231404AbiAZJFS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 02:11:43 -0500
+        Wed, 26 Jan 2022 04:05:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643181103; x=1674717103;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0T98iZozHXG1wN0AZ/qhP73zktezoYpCmb8Pp6xWJ/4=;
-  b=ZeqkBtFyCYCZSs6GcPj5WCr2TkwfjvWhsoqWFN9NoMqh2dHsND52PjJo
-   3tmQWjfJdRV0ZGfyIMilTCVwZ2kueKZ/enTCCGNotr+2QrDLT5MxsAXgP
-   fDisUY/PQcN8RhAgLzuvm8NDCXozzhgzm1rGsBy4lRVyiF7uFMpRhF5x9
-   GCy3yPR+RFcLLlEraej98W0DwDJOAf3VfJBEpqZGhbfl7W7lA/LmNNSng
-   I/4/gzVUmTNSHSDUqwUCFcWrrqiTH6wqITu4Usen+J3fwFrKDJgSTD0EY
-   RtBmWY4WxYw5OLxXOfR/bc8THHIRDb2uzIfY4mvP76IDtJvmJCqYr+77r
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="270945976"
+  t=1643187918; x=1674723918;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=6xFOt90IFugbUSpPBYPJ51z+ZHhtyvlH4wnsORv2oKk=;
+  b=h1mCJEXQ15oRsQS5d904ajH8b+w/yY6R+Ev7/ZGQcL5aWry/1iJwkfqn
+   GDhAA/55C/Zej/pbjpo/QMFPfvP30u4GW24h+BA6ijt35xwPJYY2w4fYx
+   UO8JnWLiFQt4O2qstC48G23fSk4ICBul2G2zWPaUOZpfRoyadWuEFS/M1
+   EZ7uOjAik5NJWZtRVMDX3mBwFedJR11LNO8HclAblmkkZhimuel1LmjGS
+   IRLjcL6GQjZeYd6IKc3FU0+DMQG9+G3ctXxgrbTyVghkBMMH2mJwpVd35
+   SDftsg0c7FwTHJ62oyZHuEaskeDUqiWNW5tzep1NRl88U14IwdC7i3OK6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246455126"
 X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; 
-   d="scan'208";a="270945976"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 23:11:41 -0800
-X-ExtLoop1: 1
+   d="scan'208";a="246455126"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 01:05:17 -0800
 X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; 
-   d="scan'208";a="520698831"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Jan 2022 23:11:37 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nCcSu-000Kun-Gi; Wed, 26 Jan 2022 07:11:36 +0000
-Date:   Wed, 26 Jan 2022 15:11:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 5a18605deb7f02e3fc94aad4c2f028b49797e4d3
-Message-ID: <61f0f415.DO0D2srGUgNIIfI7%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+   d="scan'208";a="696155832"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.249.171.24]) ([10.249.171.24])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 01:05:14 -0800
+Subject: Re: [geert-renesas-devel:master] BUILD SUCCESS
+ 4ccda2778be03d61d70b8c8da55ef54d69a7f3cd
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        kernel test robot <lkp@intel.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <61ef5253.dX1h+KToNxbVl4p8%lkp@intel.com>
+ <CAMuHMdX5cyS-q7ayp-5cXySdO1yREBUMc8MT9bJJHuXZ_rGqxQ@mail.gmail.com>
+ <CAMuHMdVJ0+Gn0Ute5m=R67R7ogkOiub+eMXDcFjzO=4QddV3jg@mail.gmail.com>
+From:   "Chen, Rong A" <rong.a.chen@intel.com>
+Message-ID: <ed0e1353-1212-b8f9-a4a4-9e9eea583970@intel.com>
+Date:   Wed, 26 Jan 2022 17:05:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <CAMuHMdVJ0+Gn0Ute5m=R67R7ogkOiub+eMXDcFjzO=4QddV3jg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 5a18605deb7f02e3fc94aad4c2f028b49797e4d3  eeprom: at25: Restore missing allocation
 
-elapsed time: 958m
 
-configs tested: 107
-configs skipped: 3
+On 1/25/2022 5:44 PM, Geert Uytterhoeven wrote:
+> On Tue, Jan 25, 2022 at 10:44 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+>> On Tue, Jan 25, 2022 at 2:29 AM kernel test robot <lkp@intel.com> wrote:
+>>> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+>>> branch HEAD: 4ccda2778be03d61d70b8c8da55ef54d69a7f3cd  Merge branch 'renesas-next' into renesas-devel
+>>>
+>>> elapsed time: 736m
+>>>
+>>> configs tested: 133
+>>> configs skipped: 3
+>>>
+>>> The following configs have been built successfully.
+>>> More configs may be tested in the coming days.
+>>>
+>>> gcc tested configs:
+>>> arm                                 defconfig
+>>> arm64                            allyesconfig
+>>> arm64                               defconfig
+>>
+>> How come arm64/defconfig built successfully?
+> 
+> Sorry, allyesconfig.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Hi Geert,
 
-gcc tested configs:
-arm                                 defconfig
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm64                               defconfig
-i386                          randconfig-c001
-mips                 randconfig-c004-20220125
-h8300                       h8s-sim_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                  storcenter_defconfig
-sh                            shmin_defconfig
-openrisc                  or1klitex_defconfig
-arc                         haps_hs_defconfig
-sh                        apsh4ad0a_defconfig
-arm                        trizeps4_defconfig
-sh                           se7780_defconfig
-arm                            zeus_defconfig
-sh                         ap325rxa_defconfig
-nios2                         10m50_defconfig
-powerpc                 mpc834x_mds_defconfig
-s390                             allyesconfig
-arm                  randconfig-c002-20220124
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nds32                             allnoconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-s390                                defconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-sparc                            allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a002-20220124
-x86_64               randconfig-a003-20220124
-x86_64               randconfig-a001-20220124
-x86_64               randconfig-a004-20220124
-x86_64               randconfig-a005-20220124
-x86_64               randconfig-a006-20220124
-i386                 randconfig-a003-20220124
-i386                 randconfig-a001-20220124
-i386                 randconfig-a002-20220124
-i386                 randconfig-a005-20220124
-i386                 randconfig-a004-20220124
-i386                 randconfig-a006-20220124
-arc                  randconfig-r043-20220124
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
+Thanks for the warning, we did notice the below error, but the bot
+failed to bisect out the first bad commit, so the report didn't list
+the error.
 
-clang tested configs:
-arm                  randconfig-c002-20220124
-i386                 randconfig-c001-20220124
-powerpc              randconfig-c003-20220124
-mips                 randconfig-c004-20220124
-s390                 randconfig-c005-20220124
-x86_64               randconfig-c007-20220124
-riscv                randconfig-c006-20220124
-arm                                 defconfig
-powerpc                    socrates_defconfig
-arm                         orion5x_defconfig
-x86_64               randconfig-a011-20220124
-x86_64               randconfig-a013-20220124
-x86_64               randconfig-a014-20220124
-x86_64               randconfig-a012-20220124
-x86_64               randconfig-a015-20220124
-x86_64               randconfig-a016-20220124
-i386                 randconfig-a011-20220124
-i386                 randconfig-a013-20220124
-i386                 randconfig-a012-20220124
-i386                 randconfig-a016-20220124
-i386                 randconfig-a014-20220124
-i386                 randconfig-a015-20220124
-hexagon              randconfig-r045-20220124
-hexagon              randconfig-r041-20220124
-riscv                randconfig-r042-20220124
-s390                 randconfig-r044-20220124
+We'll fix the bisection asap.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Best Regards,
+Rong Chen
+
+> 
+>> It is supposed to fail due to a missing file:
+>>
+>>      In file included from arch/arm64/boot/dts/renesas/r9a07g054l2.dtsi:9,
+>>                       from arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts:9:
+>>      arch/arm64/boot/dts/renesas/r9a07g054.dtsi:9:10: fatal error:
+>> dt-bindings/clock/r9a07g054-cpg.h: No such file or directory
+>>          9 | #include <dt-bindings/clock/r9a07g054-cpg.h>
+>>            |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>
+>> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
+> 
