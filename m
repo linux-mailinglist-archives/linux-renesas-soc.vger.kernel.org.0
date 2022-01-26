@@ -2,117 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71AA449C5C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 10:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B7949C6C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 10:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231424AbiAZJFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 04:05:19 -0500
-Received: from mga03.intel.com ([134.134.136.65]:50009 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231404AbiAZJFS (ORCPT
+        id S232181AbiAZJrS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 04:47:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232049AbiAZJrR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 04:05:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643187918; x=1674723918;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=6xFOt90IFugbUSpPBYPJ51z+ZHhtyvlH4wnsORv2oKk=;
-  b=h1mCJEXQ15oRsQS5d904ajH8b+w/yY6R+Ev7/ZGQcL5aWry/1iJwkfqn
-   GDhAA/55C/Zej/pbjpo/QMFPfvP30u4GW24h+BA6ijt35xwPJYY2w4fYx
-   UO8JnWLiFQt4O2qstC48G23fSk4ICBul2G2zWPaUOZpfRoyadWuEFS/M1
-   EZ7uOjAik5NJWZtRVMDX3mBwFedJR11LNO8HclAblmkkZhimuel1LmjGS
-   IRLjcL6GQjZeYd6IKc3FU0+DMQG9+G3ctXxgrbTyVghkBMMH2mJwpVd35
-   SDftsg0c7FwTHJ62oyZHuEaskeDUqiWNW5tzep1NRl88U14IwdC7i3OK6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246455126"
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; 
-   d="scan'208";a="246455126"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 01:05:17 -0800
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; 
-   d="scan'208";a="696155832"
-Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.249.171.24]) ([10.249.171.24])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 01:05:14 -0800
-Subject: Re: [geert-renesas-devel:master] BUILD SUCCESS
- 4ccda2778be03d61d70b8c8da55ef54d69a7f3cd
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        kernel test robot <lkp@intel.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <61ef5253.dX1h+KToNxbVl4p8%lkp@intel.com>
- <CAMuHMdX5cyS-q7ayp-5cXySdO1yREBUMc8MT9bJJHuXZ_rGqxQ@mail.gmail.com>
- <CAMuHMdVJ0+Gn0Ute5m=R67R7ogkOiub+eMXDcFjzO=4QddV3jg@mail.gmail.com>
-From:   "Chen, Rong A" <rong.a.chen@intel.com>
-Message-ID: <ed0e1353-1212-b8f9-a4a4-9e9eea583970@intel.com>
-Date:   Wed, 26 Jan 2022 17:05:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+        Wed, 26 Jan 2022 04:47:17 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C17DC06161C;
+        Wed, 26 Jan 2022 01:47:17 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07F52478;
+        Wed, 26 Jan 2022 10:47:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643190435;
+        bh=2WiLyVTUBql9jQVHlWK4OlGsUtAPEUzER6s1TGfqyFA=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=tqBU+M/Nd+vwCmriWIsMMIxc25UhD2vnwfKcZ9JBzDOJhn3xxCFiMaen48j3ftJjN
+         AtrNAJigUiPq9PpF23ZSxjvCiMoHMlFXHz/sD99CoHZLrwD0eA8X3M9snqmBz5dH1/
+         zHZtTRR/sJtHfypjn56hQihcjnu/hXaGNPWmyDvk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVJ0+Gn0Ute5m=R67R7ogkOiub+eMXDcFjzO=4QddV3jg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com> <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/6] media: Define MIPI CSI-2 data types in a shared header file
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Pratyush Yadav <p.yadav@ti.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Date:   Wed, 26 Jan 2022 09:47:12 +0000
+Message-ID: <164319043247.533872.16458073657870076497@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent
+
+Quoting Laurent Pinchart (2022-01-23 16:08:52)
+> There are many CSI-2-related drivers in the media subsystem that come
+> with their own macros to handle the CSI-2 data types (or just hardcode
+> the numerical values). Provide a shared header with definitions for
+> those data types that driver can use.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  include/media/mipi-csi2.h | 45 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>  create mode 100644 include/media/mipi-csi2.h
+>=20
+> diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
+> new file mode 100644
+> index 000000000000..392794e5badd
+> --- /dev/null
+> +++ b/include/media/mipi-csi2.h
+> @@ -0,0 +1,45 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * MIPI CSI-2 Data Types
+> + *
+> + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.co=
+m>
+> + */
+> +
+> +#ifndef _MEDIA_MIPI_CSI2_H
+> +#define _MEDIA_MIPI_CSI2_H
+> +
+> +/* Short packet data types */
+> +#define MIPI_CSI2_DT_FS                        0x00
+> +#define MIPI_CSI2_DT_FE                        0x01
+> +#define MIPI_CSI2_DT_LS                        0x02
+> +#define MIPI_CSI2_DT_LE                        0x03
+> +#define MIPI_CSI2_DT_GENERIC_SHORT(n)  (0x08 + (n))    /* 0..7 */
+> +
+> +/* Long packet data types */
+> +#define MIPI_CSI2_DT_NULL              0x10
+> +#define MIPI_CSI2_DT_BLANKING          0x11
+> +#define MIPI_CSI2_DT_EMBEDDED_8B       0x12
+> +#define MIPI_CSI2_DT_YUV420_8B         0x18
+> +#define MIPI_CSI2_DT_YUV420_10B                0x19
+> +#define MIPI_CSI2_DT_YUV420_8B_LEGACY  0x1a
+> +#define MIPI_CSI2_DT_YUV420_8B_CS      0x1c
+> +#define MIPI_CSI2_DT_YUV420_10B_CS     0x1d
+> +#define MIPI_CSI2_DT_YUV422_8B         0x1e
+> +#define MIPI_CSI2_DT_YUV422_10B                0x1f
+> +#define MIPI_CSI2_DT_RGB444            0x20
+> +#define MIPI_CSI2_DT_RGB555            0x21
+> +#define MIPI_CSI2_DT_RGB565            0x22
+> +#define MIPI_CSI2_DT_RGB666            0x23
+> +#define MIPI_CSI2_DT_RGB888            0x24
+> +#define MIPI_CSI2_DT_RAW24             0x27
+> +#define MIPI_CSI2_DT_RAW6              0x28
+> +#define MIPI_CSI2_DT_RAW7              0x29
+> +#define MIPI_CSI2_DT_RAW8              0x2a
+> +#define MIPI_CSI2_DT_RAW10             0x2b
+> +#define MIPI_CSI2_DT_RAW12             0x2c
+> +#define MIPI_CSI2_DT_RAW14             0x2d
+> +#define MIPI_CSI2_DT_RAW16             0x2e
+> +#define MIPI_CSI2_DT_RAW20             0x2f
+> +#define MIPI_CSI2_DT_USER_DEFINED(n)   (0x30 + (n))    /* 0..7 */
+
+I don't have an easy way to validate those values right now so as with
+Niklas I'll leave those to your judgement, and Pratyush's review.
+
+Also along side Pratyush's comment, I concur that the mapping tables too
+could be common, but I suspect that's an even bigger topic as maybe that
+falls into the trap of also being common to DRM formats...
+
+And finally, are these defines in a location that can be accessible from
+device tree? Or would it have to be further duplicated there still?
+
+For instance, the bindings for the Xilinx CSI2 RX explicitly list DT
+values to specify as the xlnx,csi-pxl-format which I think should also
+come from this common header definition.
+
+For the patches here so far, I can't see anything stark that is wrong
+so for the series:
 
 
-On 1/25/2022 5:44 PM, Geert Uytterhoeven wrote:
-> On Tue, Jan 25, 2022 at 10:44 AM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
->> On Tue, Jan 25, 2022 at 2:29 AM kernel test robot <lkp@intel.com> wrote:
->>> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
->>> branch HEAD: 4ccda2778be03d61d70b8c8da55ef54d69a7f3cd  Merge branch 'renesas-next' into renesas-devel
->>>
->>> elapsed time: 736m
->>>
->>> configs tested: 133
->>> configs skipped: 3
->>>
->>> The following configs have been built successfully.
->>> More configs may be tested in the coming days.
->>>
->>> gcc tested configs:
->>> arm                                 defconfig
->>> arm64                            allyesconfig
->>> arm64                               defconfig
->>
->> How come arm64/defconfig built successfully?
-> 
-> Sorry, allyesconfig.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Hi Geert,
+as further extending this to the device tree bindings can be done on
+top.
 
-Thanks for the warning, we did notice the below error, but the bot
-failed to bisect out the first bad commit, so the report didn't list
-the error.
 
-We'll fix the bisection asap.
-
-Best Regards,
-Rong Chen
-
-> 
->> It is supposed to fail due to a missing file:
->>
->>      In file included from arch/arm64/boot/dts/renesas/r9a07g054l2.dtsi:9,
->>                       from arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts:9:
->>      arch/arm64/boot/dts/renesas/r9a07g054.dtsi:9:10: fatal error:
->> dt-bindings/clock/r9a07g054-cpg.h: No such file or directory
->>          9 | #include <dt-bindings/clock/r9a07g054-cpg.h>
->>            |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>
->> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
-> 
+> +
+> +#endif /* _MEDIA_MIPI_CSI2_H */
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
