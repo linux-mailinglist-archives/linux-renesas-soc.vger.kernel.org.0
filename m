@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F6D149CCDD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 15:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ADED49CD48
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 16:05:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242420AbiAZOzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 09:55:35 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:43826 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242390AbiAZOze (ORCPT
+        id S242549AbiAZPFI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 10:05:08 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:35398 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235639AbiAZPFH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 09:55:34 -0500
-Received: by mail-ua1-f49.google.com with SMTP id 2so43372840uax.10;
-        Wed, 26 Jan 2022 06:55:34 -0800 (PST)
+        Wed, 26 Jan 2022 10:05:07 -0500
+Received: by mail-ua1-f54.google.com with SMTP id m90so43478024uam.2;
+        Wed, 26 Jan 2022 07:05:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TH0bFfUTxCFwO035EK2v1qt5dAANLfsGM9lhFwB4w6Y=;
-        b=1eTYo29rO1Wd5aSjB5nHbAMI10HNnuUMtGIhME+IKqJ/IJ2Aa/+jadgjS8kcXG38TX
-         4JeEMN3XpQiU6tOHPO5SuXDobdlnf5Q2SQ+V9S60L37xgf7/8D92ST3pq7aS/QMcKNNQ
-         8wn/dD1P4T7NqhQfNPf3e4v7ZPgz0yPmXKJZMSovjd6NsHTT7NA9mglF+tOyEJRjNDZF
-         zHrpoEpMU939axmxZhcvY8i2vYTnYUiNeR+UuNGEoVeBj92ZsBeTJE8ByGEfNIHWCMuv
-         NlQxOQQOmUWqBJoqyggohUaQ4RZYL12+6V1bsZQZZwjZuzFEQTi6O548GQ0OsN3fKrC2
-         pd0A==
-X-Gm-Message-State: AOAM532bIgmm/PMhXa9/ZEuX93kpbDkKN91Ar97o/YugnOqzeJ1YRIv9
-        K0SxCyxbfw2Cd7zP5vcWLgkXXh20UUOKdbnS
-X-Google-Smtp-Source: ABdhPJzDucwm/Y9p5URnV3rkG3ftCUPu/eOEEfv9niRN8IE1EttuM99A+wViW2hrK9cwXt+hg8jHDQ==
-X-Received: by 2002:a9f:2a8b:: with SMTP id z11mr9411221uai.47.1643208933475;
-        Wed, 26 Jan 2022 06:55:33 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id e1sm983356vsh.19.2022.01.26.06.55.33
+        bh=3mDTecA4t0paCjRyo/FBzGJVQh+lQjw7qkADmkkdfcA=;
+        b=MgVlOXZEWwRZ8Z10NAnONx+zWwfe82Ird75iIAFYnrmV2wvegK0tAOHu6zm/aBeSrr
+         CiAM/OBqKdtXKgfXqMFWSlisnB+WtnlQyPGphPrgqSWXkXcTyttWymLItekZOjyH/ACH
+         JNCDtOphIjXjsIHLgcugmImIMo2QkeW2a/8r7kQ5Do/ApJL31BXETgptl6BrFPsssOkr
+         gvRYDpyRTHZKRsxtjWoe9Z609wvB6+gwGJMAtyzzak+vZRN3KJRbDJIVzqH7MVd4HmOx
+         83Sjy0u3pqoJofMxOHDC0Gny01ZijEG4odzi0hE4ZnhIQal5xzKFIQZ+YDe/vn+7u632
+         U/RQ==
+X-Gm-Message-State: AOAM531jCVkJyIhWvoUd/KXylRkpxtxxv7lFKQQfUQXAosVuYCE1W4v6
+        FmU+yO5lYAh0pHTy2v7SM3Ww0veE9rmZHX7e
+X-Google-Smtp-Source: ABdhPJwK5fuFPCVtlVLyqTLjpMzkku4JKTn+9/3jNmNNtmIhLl0sgYRPUoVC9r6ol8JQfGnhOKyTrA==
+X-Received: by 2002:a67:d590:: with SMTP id m16mr5884132vsj.5.1643209506590;
+        Wed, 26 Jan 2022 07:05:06 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id r11sm542949uaw.7.2022.01.26.07.05.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 06:55:33 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id w21so43280313uan.7;
-        Wed, 26 Jan 2022 06:55:33 -0800 (PST)
-X-Received: by 2002:a67:b009:: with SMTP id z9mr6352633vse.57.1643208932830;
- Wed, 26 Jan 2022 06:55:32 -0800 (PST)
+        Wed, 26 Jan 2022 07:05:05 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id u6so43473745uaq.0;
+        Wed, 26 Jan 2022 07:05:05 -0800 (PST)
+X-Received: by 2002:a05:6102:34e:: with SMTP id e14mr2690352vsa.68.1643209505159;
+ Wed, 26 Jan 2022 07:05:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20220112205205.4082026-1-nikita.yoush@cogentembedded.com>
 In-Reply-To: <20220112205205.4082026-1-nikita.yoush@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Jan 2022 15:55:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU0h+VaAbwOqJE5YRK2f69H8JrVgtXsoYNwvNgGJKH7mQ@mail.gmail.com>
-Message-ID: <CAMuHMdU0h+VaAbwOqJE5YRK2f69H8JrVgtXsoYNwvNgGJKH7mQ@mail.gmail.com>
+Date:   Wed, 26 Jan 2022 16:04:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVidg7fQkq2gFE+cvxkvBOXYRRvj-yCGmsJfjANBny=4w@mail.gmail.com>
+Message-ID: <CAMuHMdVidg7fQkq2gFE+cvxkvBOXYRRvj-yCGmsJfjANBny=4w@mail.gmail.com>
 Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: add 9-asix sensor device
 To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
@@ -60,8 +60,6 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Nikita,
 
-Thanks for your patch!
-
 On Wed, Jan 12, 2022 at 9:52 PM Nikita Yushchenko
 <nikita.yoush@cogentembedded.com> wrote:
 > This adds nodes for lsm9ds0 sensor installed on the KF board.
@@ -73,11 +71,10 @@ On Wed, Jan 12, 2022 at 9:52 PM Nikita Yushchenko
 > lsm9ds0 are pulled to VCC on the board, which implies need for
 > active-low configuration. But st_sensors drivers currently can't work
 > with active-low interrupts on this chip.
-
-That's unfortunate, as DT describes hardware, not limitations of the
-software stack.
-
+>
 > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+
+Forgot something...
 
 > --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
 > +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
@@ -86,6 +83,9 @@ software stack.
 >         };
 >
 > +       accel_3v3: regulator-acc-3v3 {
+
+Please move up, to preserve sort order.
+
 > +               compatible = "regulator-fixed";
 > +               regulator-name = "accel-3v3";
 > +               regulator-min-microvolt = <3300000>;
@@ -102,33 +102,14 @@ software stack.
 > +
 > +                       lsm9ds0_acc_mag@1d {
 
-Please use standard node names: accelerometer@1d?
+Please move up, to preserve sort order.
 
 > +                               compatible = "st,lsm9ds0-imu";
 > +                               reg = <0x1d>;
 > +
 > +                               vdd-supply = <&accel_3v3>;
 > +                               vddio-supply = <&accel_3v3>;
-
-According to the bindings, the supplies are not required, so you can
-leave them out? Or are the bindings wrong?
-(The bindings also say "interrupts: maxItems 2", while the "interrupts:
- description" says up to three interrupts, doh...)
-
 > +                       };
-> +
-> +                       lsm9ds0_gyro@6b {
-
-gyroscope@6b?
-
-> +                               compatible = "st,lsm9ds0-gyro";
-> +                               reg = <0x6b>;
-> +
-> +                               vdd-supply = <&accel_3v3>;
-> +                               vddio-supply = <&accel_3v3>;
-> +                       };
->                 };
->         };
 
 Gr{oetje,eeting}s,
 
