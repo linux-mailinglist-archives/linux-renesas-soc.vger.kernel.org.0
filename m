@@ -2,163 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF4B49C934
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 12:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94A8E49C976
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 13:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241021AbiAZL7v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 06:59:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50682 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241020AbiAZL7v (ORCPT
+        id S241174AbiAZMTK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 07:19:10 -0500
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:38608 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232021AbiAZMTJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 06:59:51 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D7A478;
-        Wed, 26 Jan 2022 12:59:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643198389;
-        bh=TO0FVhpUW0h+fe2AQn3u9bRgCqshN6cd/ZVa1OnEU/o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t2mUCw01AtCZGF3qYlgCC/PRa+zPG+CVfJ3A9JoSSLTFDLJ609dLn+9/Evy6EDBZY
-         P3OCKB01d6+zWuS9REBzN0apsQ6foBiy6W3afH2kaNLJyII51XbZTyLloSP34BqUM3
-         JbVvOQHwedsULl4cJPYt/lV7MzKCOMxiJISUeLwM=
-Date:   Wed, 26 Jan 2022 13:59:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: Re: [PATCH 1/6] media: Define MIPI CSI-2 data types in a shared
- header file
-Message-ID: <YfE3oqVXCIhMZf+D@pendragon.ideasonboard.com>
-References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
- <20220124152224.o46gxdxp3polw2eu@ti.com>
- <CAPY8ntBFfpdp4f3oqxV0-d=EiB=xgz4WxMpR6ZQAa1SHwSUFsQ@mail.gmail.com>
+        Wed, 26 Jan 2022 07:19:09 -0500
+Received: by mail-vk1-f175.google.com with SMTP id l196so11323118vki.5;
+        Wed, 26 Jan 2022 04:19:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6vKpNvDlon/l4pHsf9dVUBAkYplk9e3cJv6MxL4gM+I=;
+        b=lJfi2j/RG5Nr+LIiQzo7U/1fDIC7pkaPXA+DboWV8n+mwT3DxUIysCP8yy3MG78c0H
+         LlgDY5+R0UnVM0PpvIOYIyY96pZYC5zIFIn5q+FnDBtGVSboiyjpDC9rMqk+oj59rJkM
+         IVfAtJGlkdtq4LtZSAbJPaUv1ZQWwbdxKHTS+ehhBSNWmGdk4ihQ9i5WauLeSA5fR7kc
+         XQHLzrqGG2E3EtTULdHDYthDf8KbWig2/CidhcuEk8c23sH0vNlMnz7Z7ztMMZfnelau
+         h2BOgvc7memWNW+GpBcuViGl3sIaayOCMhvrIEzJq2+WzE8rZT8IOKJlgsiT/kxlMunn
+         Rd+w==
+X-Gm-Message-State: AOAM5308xzerdH4paBIpRL4jj49jD42DmCAPYkbWHfxvViuB+txo60uv
+        Co8Ii2qiV5aYrdEiJGNcbh/ZIX/Xk+6Uyh+2
+X-Google-Smtp-Source: ABdhPJycaCYSN0DLq3ojf5hjc3yAWLgt6A/0yb/5Y4lNoTm+esZyGDmLZ9g+7vwcQ+Z/gKG330tKYg==
+X-Received: by 2002:a1f:7f0b:: with SMTP id o11mr9150327vki.25.1643199548770;
+        Wed, 26 Jan 2022 04:19:08 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id w188sm3674802vsb.32.2022.01.26.04.19.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jan 2022 04:19:08 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id y4so43032091uad.1;
+        Wed, 26 Jan 2022 04:19:07 -0800 (PST)
+X-Received: by 2002:ab0:2991:: with SMTP id u17mr4965487uap.89.1643199547584;
+ Wed, 26 Jan 2022 04:19:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBFfpdp4f3oqxV0-d=EiB=xgz4WxMpR6ZQAa1SHwSUFsQ@mail.gmail.com>
+References: <20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com> <20211229193135.28767-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20211229193135.28767-2-laurent.pinchart+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 26 Jan 2022 13:18:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWWRLdm+dAmso0dgf5QPqqV=txH-4Tryfm0USp7jZdbkw@mail.gmail.com>
+Message-ID: <CAMuHMdWWRLdm+dAmso0dgf5QPqqV=txH-4Tryfm0USp7jZdbkw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] arm64: dts: renesas: Prepare AA1024XD12 panel
+ .dtsi for overlay support
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Hi Laurent,
 
-On Wed, Jan 26, 2022 at 11:50:21AM +0000, Dave Stevenson wrote:
-> On Mon, 24 Jan 2022 at 15:22, Pratyush Yadav <p.yadav@ti.com> wrote:
-> > On 23/01/22 06:08PM, Laurent Pinchart wrote:
-> > > There are many CSI-2-related drivers in the media subsystem that come
-> > > with their own macros to handle the CSI-2 data types (or just hardcode
-> > > the numerical values). Provide a shared header with definitions for
-> > > those data types that driver can use.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  include/media/mipi-csi2.h | 45 +++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 45 insertions(+)
-> > >  create mode 100644 include/media/mipi-csi2.h
-> > >
-> > > diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
-> > > new file mode 100644
-> > > index 000000000000..392794e5badd
-> > > --- /dev/null
-> > > +++ b/include/media/mipi-csi2.h
-> > > @@ -0,0 +1,45 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > +/*
-> > > + * MIPI CSI-2 Data Types
-> > > + *
-> > > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > + */
-> > > +
-> > > +#ifndef _MEDIA_MIPI_CSI2_H
-> > > +#define _MEDIA_MIPI_CSI2_H
-> > > +
-> > > +/* Short packet data types */
-> > > +#define MIPI_CSI2_DT_FS                      0x00
-> > > +#define MIPI_CSI2_DT_FE                      0x01
-> > > +#define MIPI_CSI2_DT_LS                      0x02
-> > > +#define MIPI_CSI2_DT_LE                      0x03
-> > > +#define MIPI_CSI2_DT_GENERIC_SHORT(n)        (0x08 + (n))    /* 0..7 */
-> >
-> > IIUC there is currently no way to actually capture packets with these
-> > data types, and these are added here for completeness's sake, right?
-> 
-> They aren't generally captured, but are of use.
-> For Unicam we have a packet compare & capture trigger generally used
-> for debug. However it can also be used for capturing the 16bit frame
-> number attached to FS and FE events.
-> It's been of use for devices such as Analog Devices ADV728[0|2]M which
-> use the frame number to identify the field when sending interlaced
-> content.
-> 
-> > > +
-> > > +/* Long packet data types */
-> > > +#define MIPI_CSI2_DT_NULL            0x10
-> > > +#define MIPI_CSI2_DT_BLANKING                0x11
-> > > +#define MIPI_CSI2_DT_EMBEDDED_8B     0x12
-> > > +#define MIPI_CSI2_DT_YUV420_8B               0x18
-> > > +#define MIPI_CSI2_DT_YUV420_10B              0x19
-> > > +#define MIPI_CSI2_DT_YUV420_8B_LEGACY        0x1a
-> > > +#define MIPI_CSI2_DT_YUV420_8B_CS    0x1c
-> > > +#define MIPI_CSI2_DT_YUV420_10B_CS   0x1d
-> > > +#define MIPI_CSI2_DT_YUV422_8B               0x1e
-> > > +#define MIPI_CSI2_DT_YUV422_10B              0x1f
-> > > +#define MIPI_CSI2_DT_RGB444          0x20
-> > > +#define MIPI_CSI2_DT_RGB555          0x21
-> > > +#define MIPI_CSI2_DT_RGB565          0x22
-> > > +#define MIPI_CSI2_DT_RGB666          0x23
-> > > +#define MIPI_CSI2_DT_RGB888          0x24
-> > > +#define MIPI_CSI2_DT_RAW24           0x27
-> >
-> > I have the CSI-2 spec v1.3, and it lists 0x27 as reserved under RGB
-> > Image data, and I don't see a data type value for RAW24. Where did you
-> > get this value from?
-> >
-> > > +#define MIPI_CSI2_DT_RAW6            0x28
-> > > +#define MIPI_CSI2_DT_RAW7            0x29
-> > > +#define MIPI_CSI2_DT_RAW8            0x2a
-> > > +#define MIPI_CSI2_DT_RAW10           0x2b
-> > > +#define MIPI_CSI2_DT_RAW12           0x2c
-> > > +#define MIPI_CSI2_DT_RAW14           0x2d
-> > > +#define MIPI_CSI2_DT_RAW16           0x2e
-> > > +#define MIPI_CSI2_DT_RAW20           0x2f
-> >
-> > These two are also listed as reserved in the spec I have. Rest of the
-> > values look good to me.
-> 
-> I'm also only on v1.3, but otherwise agree that all the other values match.
-> I see that MIPI are now up to v4.0, and their performance
-> highlights[1] include RAW16 and RAW24 support, so I assume they have
-> been added in a later revision.
+On Wed, Dec 29, 2021 at 8:31 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> The Mitsubishi AA1024XD12 panel can be used for R-Car Gen2 and Gen3
+> boards as an optional external panel. It is described in the
+> arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi file as a direct child of the
+> DT root node. This allows including r8a77xx-aa104xd12-panel.dtsi in
+> board device trees, with other minor modifications, to enable the panel.
+>
+> This is however not how external components should be modelled. Instead
+> of modifying the board device tree to enable the panel, it should be
+> compiled as a DT overlay, to be loaded by the boot loader.
+>
+> Prepare the r8a77xx-aa104xd12-panel.dtsi file for this usage by
+> declaring a panel node only, without hardcoding its path. Overlay
+> sources can then include r8a77xx-aa104xd12-panel.dtsi where appropriate.
+>
+> This change doesn't cause any regression as r8a77xx-aa104xd12-panel.dtsi
+> is currently unused. As overlay support for this panel has only been
+> tested with Gen3 hardware, and Gen2 support will require more
+> development, move the file to arch/arm64/boot/dts/renesas/.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I don't have access to more a more recent version of the CSI-2
-specification, but I've gathered RAW16, RAW20 and RAW24 from out-of-tree
-code. Sakari, could you confirm those values ?
+Thanks for your patch!
 
-> [1] https://www.mipi.org/specifications/csi-2
-> 
-> > > +#define MIPI_CSI2_DT_USER_DEFINED(n) (0x30 + (n))    /* 0..7 */
-> > > +
-> > > +#endif /* _MEDIA_MIPI_CSI2_H */
-> >
-> > I think this patch is a good idea in general, and it should remove a lot
-> > of repetition in the drivers.
-> >
-> > BTW, I also see lots of drivers adding tables having mapping between
-> > MBUS formats, FOURCC formats, bpp, data type, etc. It would be useful to
-> > have those in a central place IMO.
+> --- a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
 
-I agree. Patches are welcome :-)
+> - * Copyright (C) 2014 Renesas Electronics Corp.
 
--- 
-Regards,
+> +++ b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
 
-Laurent Pinchart
+> + * Copyright (C) 2021 Renesas Electronics Corp.
+
+Shouldn't you keep the year? Not much has changed.
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
