@@ -2,85 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6537849C855
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 12:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7894649C90F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 12:50:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240514AbiAZLK1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 06:10:27 -0500
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:46014 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240505AbiAZLKZ (ORCPT
+        id S234312AbiAZLuj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 06:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232111AbiAZLui (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 06:10:25 -0500
-Received: by mail-ua1-f41.google.com with SMTP id b37so25014637uad.12;
-        Wed, 26 Jan 2022 03:10:25 -0800 (PST)
+        Wed, 26 Jan 2022 06:50:38 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8DACC061744
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jan 2022 03:50:37 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id me13so38573625ejb.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jan 2022 03:50:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TJlhrhkGqwkkidE/As086gXr9ITfDhPf/Brw28sTUDw=;
+        b=KToZxq8ZqAwzfacefIuyrozSjjHade4ooPQsIaWFbmfY4pdNKzB6LqVXNO02WAP9Qm
+         xMGbmAn0PHQKuma03kXD0RQGj16BAWsFWJ+sxmIQd+wFbj9a6FHb/pqdmz7YJgxfkARs
+         UcPE1p6Rh9dkKWxKdLOfG599gukOCg0hGEfdXD0jBFeYOolDGpjGxFRoCY+ilp5B6kB5
+         BMJd3A8ylviiisjhftIVX9nbeNJRezrPH8lqDJfaV8tkYsSh/EHtWbbRp7RRdp916aOG
+         qsQcVCXZRopq6eDy6BtwaajLO9++QtTd5zusDCO+SBLGH16J5ndTX9MB6Hjqybbzvynr
+         HQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fXCOLn6fZgrPz+IJqOHn8kGX68nACf9fD3RgASQNb6s=;
-        b=hti05bp3rwdq+bqvClHs34zbpolgQ2GAEhUDfZO+HhtGx9/D2gKsgA6TGaQ0ck8eS1
-         GtbP64UqZB48wy5Pm2ZdB2F42mKB5Vf7ZvFWrjz6gjaJI8QML3wxUkoy76bdV84YoO9N
-         JqJYKtMmhVtxxr3NGfB06/XR45FaZXNcvkq2YlN42NHa+Xh195Wqm9xOhM7pwRgD5D82
-         CXbFfX2C4pcAebqP98itPVkJ6k5EBJOkWynmoz5oTsBMjZayeKbHfTiFshPPfVLCbbPP
-         6CXu5Stq6ClAqOkrPMoBUy+xCZltCtGH5a9IuQOEJJJhtS7PF9oPlYNV0gYWgYWI9if8
-         9wmw==
-X-Gm-Message-State: AOAM532NUuGn8iWcNia5p7NvUUG8T3f3cvmY0pWnWpQKNb1BxOmruFux
-        1+I++AgpuTDF3ky0W/H+2AuVYTYlSwwnW6/EKO8=
-X-Google-Smtp-Source: ABdhPJzruX6zf2IXlt2dLQ3U9+IQl4Y0GLdF0IP0BQzIUK8d0dMM07YTxmuvFSLdivjWxcQg0BWENA==
-X-Received: by 2002:a67:c290:: with SMTP id k16mr7500883vsj.72.1643195424510;
-        Wed, 26 Jan 2022 03:10:24 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id o1sm2040816vsa.15.2022.01.26.03.10.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 03:10:24 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id p7so35471099uao.6;
-        Wed, 26 Jan 2022 03:10:24 -0800 (PST)
-X-Received: by 2002:a67:c18e:: with SMTP id h14mr5624524vsj.5.1643195423972;
- Wed, 26 Jan 2022 03:10:23 -0800 (PST)
+        bh=TJlhrhkGqwkkidE/As086gXr9ITfDhPf/Brw28sTUDw=;
+        b=d/3bWP7iRfT/+z/vUmByibAKMjF3wrtpc1XocKUsZL5N3MNgnIkKqEn1Ub0FGMXTFB
+         NcAbpSX6RKgq4SL0WAlIm9wauWKhtpj8EcWKjxBVgB/G02OiToAQp47alL57uwWI3QNp
+         ejjPInVP/hQ3y43sWwN3jekW3qFHPOa1PvY36oZtU/wbTUtAdpSpk8a9m7g41kxf/wxk
+         B+ziwoSeus+SiCbONXCk5hoTl0vU72++BPEDHtG/hvtmf71piiXDN8DDkEY1sBdU6ObU
+         9DBzmhyKem7OzS0dk/tvobFUJhTHM5G81ZBGE9NCAlpoVCTTdOcnzSr7Yx8f/vYUYGoo
+         1Jjg==
+X-Gm-Message-State: AOAM53007iwKPKN7TKnyRM5Xyi+N+j3TI5rGpQ2E0Ry19pTxIGznBEUo
+        71KE5IM5mcUIlsflfau+3jNuPIUjD9uxKXhu9dctGg==
+X-Google-Smtp-Source: ABdhPJwStWcUjJXv86f/vzjgLVXlB3DG2qOYSUzrw+H6N/BtdX0ZcIEbpJ7vqMXJlo8X4lIq2qcn+ctIXleR/G5bPL8=
+X-Received: by 2002:a17:907:7faa:: with SMTP id qk42mr19543833ejc.742.1643197836366;
+ Wed, 26 Jan 2022 03:50:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20211229191838.27922-1-laurent.pinchart+renesas@ideasonboard.com> <20211229191838.27922-2-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20211229191838.27922-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Jan 2022 12:10:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXzrmRNQdgm+67Y+hRxHxBvSMejF-69xon2QJG2fuD-Ug@mail.gmail.com>
-Message-ID: <CAMuHMdXzrmRNQdgm+67Y+hRxHxBvSMejF-69xon2QJG2fuD-Ug@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: Remove empty rgb output endpoints
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
+References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com> <20220124152224.o46gxdxp3polw2eu@ti.com>
+In-Reply-To: <20220124152224.o46gxdxp3polw2eu@ti.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 26 Jan 2022 11:50:21 +0000
+Message-ID: <CAPY8ntBFfpdp4f3oqxV0-d=EiB=xgz4WxMpR6ZQAa1SHwSUFsQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] media: Define MIPI CSI-2 data types in a shared
+ header file
+To:     Pratyush Yadav <p.yadav@ti.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Laurent and Pratyush
 
-On Wed, Dec 29, 2021 at 8:18 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> Endpoints node must have a remote-endpoint property, as endpoints only
-> exist to model a link between ports. Drop the empty rgb output endpoints
-> from SoC dtsi files, and declare them in the board dts instead.
+On Mon, 24 Jan 2022 at 15:22, Pratyush Yadav <p.yadav@ti.com> wrote:
 >
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Hi Laurent,
+>
+> Thanks for the patch.
+>
+> On 23/01/22 06:08PM, Laurent Pinchart wrote:
+> > There are many CSI-2-related drivers in the media subsystem that come
+> > with their own macros to handle the CSI-2 data types (or just hardcode
+> > the numerical values). Provide a shared header with definitions for
+> > those data types that driver can use.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  include/media/mipi-csi2.h | 45 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> >  create mode 100644 include/media/mipi-csi2.h
+> >
+> > diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
+> > new file mode 100644
+> > index 000000000000..392794e5badd
+> > --- /dev/null
+> > +++ b/include/media/mipi-csi2.h
+> > @@ -0,0 +1,45 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * MIPI CSI-2 Data Types
+> > + *
+> > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > + */
+> > +
+> > +#ifndef _MEDIA_MIPI_CSI2_H
+> > +#define _MEDIA_MIPI_CSI2_H
+> > +
+> > +/* Short packet data types */
+> > +#define MIPI_CSI2_DT_FS                      0x00
+> > +#define MIPI_CSI2_DT_FE                      0x01
+> > +#define MIPI_CSI2_DT_LS                      0x02
+> > +#define MIPI_CSI2_DT_LE                      0x03
+> > +#define MIPI_CSI2_DT_GENERIC_SHORT(n)        (0x08 + (n))    /* 0..7 */
+>
+> IIUC there is currently no way to actually capture packets with these
+> data types, and these are added here for completeness's sake, right?
 
-Thanks for your patch!
+They aren't generally captured, but are of use.
+For Unicam we have a packet compare & capture trigger generally used
+for debug. However it can also be used for capturing the 16bit frame
+number attached to FS and FE events.
+It's been of use for devices such as Analog Devices ADV728[0|2]M which
+use the frame number to identify the field when sending interlaced
+content.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > +
+> > +/* Long packet data types */
+> > +#define MIPI_CSI2_DT_NULL            0x10
+> > +#define MIPI_CSI2_DT_BLANKING                0x11
+> > +#define MIPI_CSI2_DT_EMBEDDED_8B     0x12
+> > +#define MIPI_CSI2_DT_YUV420_8B               0x18
+> > +#define MIPI_CSI2_DT_YUV420_10B              0x19
+> > +#define MIPI_CSI2_DT_YUV420_8B_LEGACY        0x1a
+> > +#define MIPI_CSI2_DT_YUV420_8B_CS    0x1c
+> > +#define MIPI_CSI2_DT_YUV420_10B_CS   0x1d
+> > +#define MIPI_CSI2_DT_YUV422_8B               0x1e
+> > +#define MIPI_CSI2_DT_YUV422_10B              0x1f
+> > +#define MIPI_CSI2_DT_RGB444          0x20
+> > +#define MIPI_CSI2_DT_RGB555          0x21
+> > +#define MIPI_CSI2_DT_RGB565          0x22
+> > +#define MIPI_CSI2_DT_RGB666          0x23
+> > +#define MIPI_CSI2_DT_RGB888          0x24
+> > +#define MIPI_CSI2_DT_RAW24           0x27
+>
+> I have the CSI-2 spec v1.3, and it lists 0x27 as reserved under RGB
+> Image data, and I don't see a data type value for RAW24. Where did you
+> get this value from?
+>
+> > +#define MIPI_CSI2_DT_RAW6            0x28
+> > +#define MIPI_CSI2_DT_RAW7            0x29
+> > +#define MIPI_CSI2_DT_RAW8            0x2a
+> > +#define MIPI_CSI2_DT_RAW10           0x2b
+> > +#define MIPI_CSI2_DT_RAW12           0x2c
+> > +#define MIPI_CSI2_DT_RAW14           0x2d
+> > +#define MIPI_CSI2_DT_RAW16           0x2e
+> > +#define MIPI_CSI2_DT_RAW20           0x2f
+>
+> These two are also listed as reserved in the spec I have. Rest of the
+> values look good to me.
 
-If we go this route, ulcb-kf.dtsi needs a similar change as
-beacon-renesom-baseboard.dtsi.
+I'm also only on v1.3, but otherwise agree that all the other values match.
+I see that MIPI are now up to v4.0, and their performance
+highlights[1] include RAW16 and RAW24 support, so I assume they have
+been added in a later revision.
 
-Gr{oetje,eeting}s,
+  Dave
 
-                        Geert
+[1] https://www.mipi.org/specifications/csi-2
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > +#define MIPI_CSI2_DT_USER_DEFINED(n) (0x30 + (n))    /* 0..7 */
+> > +
+> > +#endif /* _MEDIA_MIPI_CSI2_H */
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+> >
+>
+> I think this patch is a good idea in general, and it should remove a lot
+> of repetition in the drivers.
+>
+> BTW, I also see lots of drivers adding tables having mapping between
+> MBUS formats, FOURCC formats, bpp, data type, etc. It would be useful to
+> have those in a central place IMO.
+>
+> --
+> Regards,
+> Pratyush Yadav
+> Texas Instruments Inc.
