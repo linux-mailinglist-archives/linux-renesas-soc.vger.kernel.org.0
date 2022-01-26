@@ -2,57 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94A8E49C976
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 13:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7F4549C977
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 13:19:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241174AbiAZMTK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 07:19:10 -0500
-Received: from mail-vk1-f175.google.com ([209.85.221.175]:38608 "EHLO
-        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232021AbiAZMTJ (ORCPT
+        id S241179AbiAZMTw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 07:19:52 -0500
+Received: from mail-vk1-f173.google.com ([209.85.221.173]:44674 "EHLO
+        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241178AbiAZMTv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 07:19:09 -0500
-Received: by mail-vk1-f175.google.com with SMTP id l196so11323118vki.5;
-        Wed, 26 Jan 2022 04:19:09 -0800 (PST)
+        Wed, 26 Jan 2022 07:19:51 -0500
+Received: by mail-vk1-f173.google.com with SMTP id b77so14210708vka.11;
+        Wed, 26 Jan 2022 04:19:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6vKpNvDlon/l4pHsf9dVUBAkYplk9e3cJv6MxL4gM+I=;
-        b=lJfi2j/RG5Nr+LIiQzo7U/1fDIC7pkaPXA+DboWV8n+mwT3DxUIysCP8yy3MG78c0H
-         LlgDY5+R0UnVM0PpvIOYIyY96pZYC5zIFIn5q+FnDBtGVSboiyjpDC9rMqk+oj59rJkM
-         IVfAtJGlkdtq4LtZSAbJPaUv1ZQWwbdxKHTS+ehhBSNWmGdk4ihQ9i5WauLeSA5fR7kc
-         XQHLzrqGG2E3EtTULdHDYthDf8KbWig2/CidhcuEk8c23sH0vNlMnz7Z7ztMMZfnelau
-         h2BOgvc7memWNW+GpBcuViGl3sIaayOCMhvrIEzJq2+WzE8rZT8IOKJlgsiT/kxlMunn
-         Rd+w==
-X-Gm-Message-State: AOAM5308xzerdH4paBIpRL4jj49jD42DmCAPYkbWHfxvViuB+txo60uv
-        Co8Ii2qiV5aYrdEiJGNcbh/ZIX/Xk+6Uyh+2
-X-Google-Smtp-Source: ABdhPJycaCYSN0DLq3ojf5hjc3yAWLgt6A/0yb/5Y4lNoTm+esZyGDmLZ9g+7vwcQ+Z/gKG330tKYg==
-X-Received: by 2002:a1f:7f0b:: with SMTP id o11mr9150327vki.25.1643199548770;
-        Wed, 26 Jan 2022 04:19:08 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id w188sm3674802vsb.32.2022.01.26.04.19.07
+        bh=YkYaHw8KMQ/aJl7rjcIwU+8RnG6ZAK/ZJXJMbriBYp0=;
+        b=S21L4y8gSi1nZs+4xlzlCFy9mufTMSdZ7bMZKbbwy5utFrZRBNj2ipOFm6HObpojpC
+         lMBXFkmUJ76suGFNlvq/c4n8Z+NNEyffUlQu+lcakY2cr45ssLnVCJdu1pvjRlWcYAbX
+         frOSWJtAVy0a09TBivogk8Tr1Z2cjDA4cjDB5fWnJIznW2CItbLCNbvcc4byVy4ApvrT
+         to8MVXjVrLC+xb+5qXakfSOK8fgBV1+coHjswAVPIYrP1rhqkY81iuZyxkpOyoDgXkKo
+         cZGsCbYOmYfDBQ9ri29Wh/3T/aqg3YDczFmBLCO6aoGSkKhFT3nmugdsYpPhO4TxM923
+         RUuA==
+X-Gm-Message-State: AOAM5314JrOQhODfN7t8bGl2O0ix9bxACJkV5dhIddGwx1wIDBXeCG1d
+        VYAMWVEksljQ5mGjEOL1/FcYFdfmcbckr3yA
+X-Google-Smtp-Source: ABdhPJzgMmgHOkZZq7DtuKOuQcRrMNFShw9a4+feFpo4GaKIiWuB6dhFspLkHwRVX1lCxccsWW1UQQ==
+X-Received: by 2002:a05:6122:1313:: with SMTP id e19mr852105vkp.28.1643199590957;
+        Wed, 26 Jan 2022 04:19:50 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id e13sm382832ual.17.2022.01.26.04.19.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 04:19:08 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id y4so43032091uad.1;
-        Wed, 26 Jan 2022 04:19:07 -0800 (PST)
-X-Received: by 2002:ab0:2991:: with SMTP id u17mr4965487uap.89.1643199547584;
- Wed, 26 Jan 2022 04:19:07 -0800 (PST)
+        Wed, 26 Jan 2022 04:19:50 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id e17so4166897uad.9;
+        Wed, 26 Jan 2022 04:19:50 -0800 (PST)
+X-Received: by 2002:a05:6102:a04:: with SMTP id t4mr3996014vsa.77.1643199589945;
+ Wed, 26 Jan 2022 04:19:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com> <20211229193135.28767-2-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20211229193135.28767-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com> <20211229193135.28767-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20211229193135.28767-3-laurent.pinchart+renesas@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 Jan 2022 13:18:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWWRLdm+dAmso0dgf5QPqqV=txH-4Tryfm0USp7jZdbkw@mail.gmail.com>
-Message-ID: <CAMuHMdWWRLdm+dAmso0dgf5QPqqV=txH-4Tryfm0USp7jZdbkw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] arm64: dts: renesas: Prepare AA1024XD12 panel
- .dtsi for overlay support
+Date:   Wed, 26 Jan 2022 13:19:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXcQUwW86mEq4gg0eUBS2H03SeUHCVF1hn1ekWjt0OE_A@mail.gmail.com>
+Message-ID: <CAMuHMdXcQUwW86mEq4gg0eUBS2H03SeUHCVF1hn1ekWjt0OE_A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: Add panel overlay for
+ Salvator-X(S) boards
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -60,42 +59,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
 On Wed, Dec 29, 2021 at 8:31 PM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The Mitsubishi AA1024XD12 panel can be used for R-Car Gen2 and Gen3
-> boards as an optional external panel. It is described in the
-> arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi file as a direct child of the
-> DT root node. This allows including r8a77xx-aa104xd12-panel.dtsi in
-> board device trees, with other minor modifications, to enable the panel.
->
-> This is however not how external components should be modelled. Instead
-> of modifying the board device tree to enable the panel, it should be
-> compiled as a DT overlay, to be loaded by the boot loader.
->
-> Prepare the r8a77xx-aa104xd12-panel.dtsi file for this usage by
-> declaring a panel node only, without hardcoding its path. Overlay
-> sources can then include r8a77xx-aa104xd12-panel.dtsi where appropriate.
->
-> This change doesn't cause any regression as r8a77xx-aa104xd12-panel.dtsi
-> is currently unused. As overlay support for this panel has only been
-> tested with Gen3 hardware, and Gen2 support will require more
-> development, move the file to arch/arm64/boot/dts/renesas/.
+> The Salvator-X and Salvator-XS boards support an optional LVDS panel.
+> One compatible panel is the Mitsubishi AA104XD12. Add a corresponding DT
+> overlay.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-
-> - * Copyright (C) 2014 Renesas Electronics Corp.
-
-> +++ b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
-
-> + * Copyright (C) 2021 Renesas Electronics Corp.
-
-Shouldn't you keep the year? Not much has changed.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
