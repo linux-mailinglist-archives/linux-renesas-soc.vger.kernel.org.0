@@ -2,390 +2,756 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 067E249D2C7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 20:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFA749D36C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jan 2022 21:30:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244568AbiAZTvv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jan 2022 14:51:51 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:62469 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S244559AbiAZTvO (ORCPT
+        id S230334AbiAZUaX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jan 2022 15:30:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229907AbiAZUaX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jan 2022 14:51:14 -0500
-X-IronPort-AV: E=Sophos;i="5.88,319,1635174000"; 
-   d="scan'208";a="108403312"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Jan 2022 04:51:13 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 06C9E400C441;
-        Thu, 27 Jan 2022 04:51:10 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 5/5] PCI: rcar-ep: Add support for DMAC
-Date:   Wed, 26 Jan 2022 19:50:43 +0000
-Message-Id: <20220126195043.28376-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 26 Jan 2022 15:30:23 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7EABC06161C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Jan 2022 12:30:22 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 933DC478;
+        Wed, 26 Jan 2022 21:30:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643229020;
+        bh=b36Pp3CJ3LiikQL9sSIMRnFStlUSX78k+9BJrmxN79Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UxVgVoMa5V3+UM0Tn+hXqkx+mfWajKDj9nK/JPp2jA4sIRwHI/NKfNzKXDC9wA1lu
+         SxAVEvBXxMw5ADKPzZ3xx06rFos0ESJx68JrhNWkEbwczbDJLIWXAtM5rJBFPyv2S9
+         FFdUZphDBw1c09j4Ij9byirnL8jY8M+XXmRXIsgk=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH] drm: rcar-du: Drop LVDS device tree backward compatibility
+Date:   Wed, 26 Jan 2022 22:29:56 +0200
+Message-Id: <20220126202956.18364-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car PCIe controller has an internal DMAC to support data transfer
-between Internal Bus -> PCI Express and vice versa.
+The rcar-du driver goes to great lengths to preserve device tree
+backward compatibility for the LVDS encoders by patching old device
+trees at runtime.
 
-This patch fills in the required flags and ops for the PCIe EP to
-support DMAC transfer.
+The last R-Car Gen2 platform was converted to the new bindings commit
+edb0c3affe5214a2 ("ARM: dts: r8a7793: Convert to new LVDS DT bindings"),
+in v4.17, and the last RZ/G1 platform converted in commit
+6a6a797625b5fe85 ("ARM: dts: r8a7743: Convert to new LVDS DT bindings"),
+in v5.0. Both are older than commit 58256143cff7c2e0 ("clk: renesas:
+Remove R-Car Gen2 legacy DT clock support"), in v5.5, which removes
+support for legacy bindings for clocks. The LBDS compatibility code is
+thus not needed anymore. Drop it.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/pci/controller/pcie-rcar-ep.c | 227 ++++++++++++++++++++++++++
- drivers/pci/controller/pcie-rcar.h    |  23 +++
- 2 files changed, 250 insertions(+)
+ drivers/gpu/drm/rcar-du/Makefile              |   6 -
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  15 +-
+ drivers/gpu/drm/rcar-du/rcar_du_of.c          | 323 ------------------
+ drivers/gpu/drm/rcar-du/rcar_du_of.h          |  20 --
+ .../drm/rcar-du/rcar_du_of_lvds_r8a7790.dts   |  69 ----
+ .../drm/rcar-du/rcar_du_of_lvds_r8a7791.dts   |  43 ---
+ .../drm/rcar-du/rcar_du_of_lvds_r8a7793.dts   |  43 ---
+ .../drm/rcar-du/rcar_du_of_lvds_r8a7795.dts   |  43 ---
+ .../drm/rcar-du/rcar_du_of_lvds_r8a7796.dts   |  43 ---
+ 9 files changed, 1 insertion(+), 604 deletions(-)
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of.c
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of.h
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7790.dts
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7791.dts
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7793.dts
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7795.dts
+ delete mode 100644 drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7796.dts
 
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index f9682df1da61..c49b25069328 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -18,6 +18,21 @@
+diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+index 286bc81b3e7c..e7275b5e7ec8 100644
+--- a/drivers/gpu/drm/rcar-du/Makefile
++++ b/drivers/gpu/drm/rcar-du/Makefile
+@@ -6,12 +6,6 @@ rcar-du-drm-y := rcar_du_crtc.o \
+ 		 rcar_du_kms.o \
+ 		 rcar_du_plane.o \
  
- #define RCAR_EPC_MAX_FUNCTIONS		1
+-rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+-					   rcar_du_of_lvds_r8a7790.dtb.o \
+-					   rcar_du_of_lvds_r8a7791.dtb.o \
+-					   rcar_du_of_lvds_r8a7793.dtb.o \
+-					   rcar_du_of_lvds_r8a7795.dtb.o \
+-					   rcar_du_of_lvds_r8a7796.dtb.o
+ rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+ rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
  
-+#define RCAR_PCIE_MAX_DMAC_BYTE_COUNT		0x7FFFFFFU
-+#define RCAR_PCIE_DMAC_BYTE_COUNT_MULTIPLE	8
-+#define RCAR_PCIE_DMAC_TIMEOUT			(msecs_to_jiffies(3 * 1000))
-+#define RCAR_PCIE_DMAC_DEFAULT_CHANNEL		0
-+
-+enum rcar_pcie_ep_dmac_xfr_status {
-+	RCAR_PCIE_DMA_XFR_SUCCESS,
-+	RCAR_PCIE_DMA_XFR_ERROR,
-+};
-+
-+struct rcar_pcie_ep_dmac_info {
-+	enum rcar_pcie_ep_dmac_xfr_status status;
-+	size_t bytes;
-+};
-+
- /* Structure representing the PCIe interface */
- struct rcar_pcie_endpoint {
- 	struct rcar_pcie	pcie;
-@@ -28,8 +43,114 @@ struct rcar_pcie_endpoint {
- 	unsigned long		*ib_window_map;
- 	u32			num_ib_windows;
- 	u32			num_ob_windows;
-+	struct completion	irq_raised;
-+	struct mutex		dma_operation;
-+	spinlock_t		lock;
-+	struct rcar_pcie_ep_dmac_info xfr;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 5a8131ef81d5..71a9df5a4834 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -28,7 +28,6 @@
+ 
+ #include "rcar_du_drv.h"
+ #include "rcar_du_kms.h"
+-#include "rcar_du_of.h"
+ #include "rcar_du_regs.h"
+ 
+ /* -----------------------------------------------------------------------------
+@@ -699,19 +698,7 @@ static struct platform_driver rcar_du_platform_driver = {
+ 	},
  };
  
-+static inline bool rcar_pcie_ep_is_dmac_active(struct rcar_pcie_endpoint *ep)
-+{
-+	if (rcar_pci_read_reg(&ep->pcie, PCIEDMAOR) & PCIEDMAOR_DMAACT)
-+		return true;
-+
-+	return false;
-+}
-+
-+static void
-+rcar_pcie_ep_setup_dmac_request(struct rcar_pcie_endpoint *ep,
-+				dma_addr_t dma_dst, dma_addr_t dma_src,
-+				size_t len, enum pci_epf_xfr_direction dir, u8 ch)
-+{
-+	struct rcar_pcie *pcie = &ep->pcie;
-+	u32 val;
-+
-+	ep->xfr.status = RCAR_PCIE_DMA_XFR_ERROR;
-+	ep->xfr.bytes = RCAR_PCIE_MAX_DMAC_BYTE_COUNT;
-+
-+	/* swap values if xfr is from pcie to internal */
-+	if (dir == PCIE_TO_INTERNAL)
-+		swap(dma_dst, dma_src);
-+
-+	/* Configure the PCI Express lower */
-+	rcar_pci_write_reg(pcie, lower_32_bits(dma_dst), PCIEDMPALR(ch));
-+
-+	/* Configure the PCI Express upper */
-+	rcar_pci_write_reg(pcie, upper_32_bits(dma_dst), PCIEDMPAUR(ch));
-+
-+	/* Configure the internal bus address */
-+	rcar_pci_write_reg(pcie, lower_32_bits(dma_src), PCIEDMIAR(ch));
-+
-+	/* Configure the byte count values */
-+	rcar_pci_write_reg(pcie, len, PCIEDMBCNTR(ch));
-+
-+	/* Enable interrupts */
-+	val = rcar_pci_read_reg(pcie, PCIEDMCHSR(ch));
-+
-+	/* set enable flags */
-+	val |= PCIEDMCHSR_IE;
-+	val |= PCIEDMCHSR_IBEE;
-+	val |= PCIEDMCHSR_PEEE;
-+	val |= PCIEDMCHSR_CHTCE;
-+
-+	/* Clear error flags */
-+	val &= ~PCIEDMCHSR_TE;
-+	val &= ~PCIEDMCHSR_PEE;
-+	val &= ~PCIEDMCHSR_IBE;
-+	val &= ~PCIEDMCHSR_CHTC;
-+
-+	rcar_pci_write_reg(pcie, val, PCIEDMCHSR(ch));
-+
-+	wmb(); /* flush the settings */
-+}
-+
-+static void rcar_pcie_ep_execute_dmac_request(struct rcar_pcie_endpoint *ep,
-+					      enum pci_epf_xfr_direction dir, u8 ch)
-+{
-+	struct rcar_pcie *pcie = &ep->pcie;
-+	u32 val;
-+
-+	/* Enable DMA */
-+	val = rcar_pci_read_reg(pcie, PCIEDMAOR);
-+	val |= PCIEDMAOR_DMAE;
-+	rcar_pci_write_reg(pcie, val, PCIEDMAOR);
-+
-+	/* Configure the DMA direction */
-+	val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
-+	if (dir == INTERNAL_TO_PCIE)
-+		val |= PCIEDMCHCR_DIR;
-+	else
-+		val &= ~PCIEDMCHCR_DIR;
-+
-+	val |= PCIEDMCHCR_CHE;
-+	rcar_pci_write_reg(pcie, val, PCIEDMCHCR(ch));
-+
-+	wmb(); /* flush the settings */
-+}
-+
-+static enum rcar_pcie_ep_dmac_xfr_status
-+rcar_pcie_ep_get_dmac_status(struct rcar_pcie_endpoint *ep,
-+			     size_t *count, u8 ch)
-+{
-+	*count = ep->xfr.bytes;
-+	return ep->xfr.status;
-+}
-+
-+static void rcar_pcie_ep_stop_dmac_request(struct rcar_pcie_endpoint *ep, u8 ch)
-+{
-+	struct rcar_pcie *pcie = &ep->pcie;
-+	u32 val;
-+
-+	val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
-+	val &= ~PCIEDMCHCR_CHE;
-+	rcar_pci_write_reg(pcie, val, PCIEDMCHCR(ch));
-+
-+	/* Disable interrupt */
-+	val = rcar_pci_read_reg(pcie, PCIEDMAOR);
-+	val &= ~PCIEDMAOR_DMAE;
-+	rcar_pci_write_reg(pcie, val, PCIEDMAOR);
-+}
-+
- static void rcar_pcie_ep_hw_init(struct rcar_pcie *pcie)
- {
- 	u32 val;
-@@ -419,6 +540,44 @@ static int rcar_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn, u8 vfn,
- 	}
- }
+-static int __init rcar_du_init(void)
+-{
+-	rcar_du_of_init(rcar_du_of_table);
+-
+-	return platform_driver_register(&rcar_du_platform_driver);
+-}
+-module_init(rcar_du_init);
+-
+-static void __exit rcar_du_exit(void)
+-{
+-	platform_driver_unregister(&rcar_du_platform_driver);
+-}
+-module_exit(rcar_du_exit);
++module_platform_driver(rcar_du_platform_driver);
  
-+static int rcar_pcie_ep_data_transfer(struct pci_epc *epc, struct pci_epf *epf,
-+				      dma_addr_t dma_dst, dma_addr_t dma_src,
-+				      size_t len, enum pci_epf_xfr_direction dir)
-+{
-+	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
-+	u8 ch = RCAR_PCIE_DMAC_DEFAULT_CHANNEL;
-+	enum rcar_pcie_ep_dmac_xfr_status stat;
-+	int ret = -EINVAL;
-+	long wait_status;
-+	size_t count;
-+
-+	if (len > RCAR_PCIE_MAX_DMAC_BYTE_COUNT ||
-+	    (len % RCAR_PCIE_DMAC_BYTE_COUNT_MULTIPLE) != 0)
-+		return -EINVAL;
-+
-+	if (mutex_is_locked(&ep->dma_operation) || rcar_pcie_ep_is_dmac_active(ep))
-+		return -EBUSY;
-+
-+	mutex_lock(&ep->dma_operation);
-+
-+	rcar_pcie_ep_setup_dmac_request(ep, dma_dst, dma_src, len, dir, ch);
-+
-+	rcar_pcie_ep_execute_dmac_request(ep, dir, ch);
-+
-+	wait_status = wait_for_completion_interruptible_timeout(&ep->irq_raised,
-+								RCAR_PCIE_DMAC_TIMEOUT);
-+	if (wait_status <= 0) {
-+		rcar_pcie_ep_stop_dmac_request(ep, ch);
-+	} else {
-+		stat = rcar_pcie_ep_get_dmac_status(ep, &count, ch);
-+		if (stat == RCAR_PCIE_DMA_XFR_SUCCESS && !count)
-+			ret = 0;
-+	}
-+
-+	mutex_unlock(&ep->dma_operation);
-+	return ret;
-+}
-+
- static int rcar_pcie_ep_start(struct pci_epc *epc)
- {
- 	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
-@@ -429,6 +588,55 @@ static int rcar_pcie_ep_start(struct pci_epc *epc)
- 	return 0;
- }
- 
-+static irqreturn_t rcar_pcie_ep_dmac_irq_handler(int irq, void *arg)
-+{
-+	u8 ch = RCAR_PCIE_DMAC_DEFAULT_CHANNEL;
-+	struct rcar_pcie_endpoint *ep = arg;
-+	struct rcar_pcie *pcie = &ep->pcie;
-+	unsigned long flags;
-+	u32 chsr_val;
-+	u32 chcr_val;
-+	u32 bytes;
-+
-+	spin_lock_irqsave(&ep->lock, flags);
-+
-+	chsr_val = rcar_pci_read_reg(pcie, PCIEDMCHSR(ch));
-+
-+	chcr_val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
-+
-+	if (mutex_is_locked(&ep->dma_operation)) {
-+		if ((chsr_val &  PCIEDMCHSR_PEE) ||
-+		    (chsr_val & PCIEDMCHSR_IBE) ||
-+		    (chsr_val & PCIEDMCHSR_CHTC))
-+			ep->xfr.status = RCAR_PCIE_DMA_XFR_ERROR;
-+		else if (chsr_val & PCIEDMCHSR_TE)
-+			ep->xfr.status = RCAR_PCIE_DMA_XFR_SUCCESS;
-+
-+		/* get byte count */
-+		bytes = rcar_pci_read_reg(pcie, PCIEDMBCNTR(ch));
-+		ep->xfr.bytes = bytes;
-+
-+		if ((chsr_val & PCIEDMCHSR_PEE) || (chsr_val & PCIEDMCHSR_IBE) ||
-+		    (chsr_val & PCIEDMCHSR_TE) || (chsr_val & PCIEDMCHSR_CHTC)) {
-+			complete(&ep->irq_raised);
-+		}
-+	} else {
-+		spin_unlock_irqrestore(&ep->lock, flags);
-+		return IRQ_NONE;
-+	}
-+
-+	if (chcr_val & PCIEDMCHCR_CHE)
-+		chcr_val &= ~PCIEDMCHCR_CHE;
-+	rcar_pci_write_reg(pcie, chcr_val, PCIEDMCHCR(ch));
-+
-+	/* Clear DMA interrupt source */
-+	rcar_pci_write_reg(pcie, chsr_val, PCIEDMCHSR(ch));
-+
-+	spin_unlock_irqrestore(&ep->lock, flags);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static void rcar_pcie_ep_stop(struct pci_epc *epc)
- {
- 	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
-@@ -446,6 +654,8 @@ static const struct pci_epc_features rcar_pcie_epc_features = {
- 	.bar_fixed_size[0] = 128,
- 	.bar_fixed_size[2] = 256,
- 	.bar_fixed_size[4] = 256,
-+	.internal_dmac = true,
-+	.internal_dmac_mask = DMA_BIT_MASK(32),
- };
- 
- static const struct pci_epc_features*
-@@ -466,6 +676,7 @@ static const struct pci_epc_ops rcar_pcie_epc_ops = {
- 	.start		= rcar_pcie_ep_start,
- 	.stop		= rcar_pcie_ep_stop,
- 	.get_features	= rcar_pcie_ep_get_features,
-+	.dmac_transfer	= rcar_pcie_ep_data_transfer,
- };
- 
- static const struct of_device_id rcar_pcie_ep_of_match[] = {
-@@ -480,6 +691,7 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
- 	struct rcar_pcie_endpoint *ep;
- 	struct rcar_pcie *pcie;
- 	struct pci_epc *epc;
-+	int dmac_irq;
- 	int err;
- 
- 	ep = devm_kzalloc(dev, sizeof(*ep), GFP_KERNEL);
-@@ -502,6 +714,14 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
- 		goto err_pm_put;
- 	}
- 
-+	dmac_irq = platform_get_irq(pdev, 1);
-+	if (dmac_irq < 0)
-+		goto err_pm_put;
-+
-+	init_completion(&ep->irq_raised);
-+	mutex_init(&ep->dma_operation);
-+	spin_lock_init(&ep->lock);
-+
- 	ep->num_ib_windows = MAX_NR_INBOUND_MAPS;
- 	ep->ib_window_map =
- 			devm_kcalloc(dev, BITS_TO_LONGS(ep->num_ib_windows),
-@@ -533,6 +753,13 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
- 
- 	rcar_pcie_ep_hw_init(pcie);
- 
-+	err = devm_request_irq(dev, dmac_irq, rcar_pcie_ep_dmac_irq_handler,
-+			       0, "pcie-rcar-ep-dmac", pcie);
-+	if (err) {
-+		dev_err(dev, "failed to request dmac irq\n");
-+		goto err_pm_put;
-+	}
-+
- 	err = pci_epc_multi_mem_init(epc, ep->ob_window, ep->num_ob_windows);
- 	if (err < 0) {
- 		dev_err(dev, "failed to initialize the epc memory space\n");
-diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
-index 9bb125db85c6..874f8a384e6d 100644
---- a/drivers/pci/controller/pcie-rcar.h
-+++ b/drivers/pci/controller/pcie-rcar.h
-@@ -54,6 +54,29 @@
- #define  PAR_ENABLE		BIT(31)
- #define  IO_SPACE		BIT(8)
- 
-+/* PCIe DMAC control reg & mask */
-+#define PCIEDMAOR		0x04000
-+#define  PCIEDMAOR_DMAE		BIT(31)
-+#define  PCIEDMAOR_DMAACT	BIT(16)
-+#define PCIEDMPALR(x)		(0x04100 + ((x) * 0x40))
-+#define PCIEDMPAUR(x)		(0x04104 + ((x) * 0x40))
-+#define PCIEDMIAR(x)		(0x04108 + ((x) * 0x40))
-+#define PCIEDMBCNTR(x)		(0x04110 + ((x) * 0x40))
-+#define PCIEDMCCAR(x)		(0x04120 + ((x) * 0x40))
-+#define PCIEDMCHCR(x)		(0x04128 + ((x) * 0x40))
-+#define  PCIEDMCHCR_CHE		BIT(31)
-+#define  PCIEDMCHCR_DIR		BIT(30)
-+#define PCIEDMCHSR(x)		(0x0412c + ((x) * 0x40))
-+#define  PCIEDMCHSR_CHTCE	BIT(28)
-+#define  PCIEDMCHSR_PEEE	BIT(27)
-+#define  PCIEDMCHSR_IBEE	BIT(25)
-+#define  PCIEDMCHSR_CHTC	BIT(12)
-+#define  PCIEDMCHSR_PEE		BIT(11)
-+#define  PCIEDMCHSR_IBE		BIT(9)
-+#define  PCIEDMCHSR_IE		BIT(3)
-+#define  PCIEDMCHSR_TE		BIT(0)
-+#define PCIEDMCHC2R(x)		(0x04130 + ((x) * 0x40))
-+
- /* Configuration */
- #define PCICONF(x)		(0x010000 + ((x) * 0x4))
- #define  INTDIS			BIT(10)
+ MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+ MODULE_DESCRIPTION("Renesas R-Car Display Unit DRM Driver");
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of.c b/drivers/gpu/drm/rcar-du/rcar_du_of.c
+deleted file mode 100644
+index afef69669bb4..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of.c
++++ /dev/null
+@@ -1,323 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of.c - Legacy DT bindings compatibility
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- *
+- * Based on work from Jyri Sarha <jsarha@ti.com>
+- * Copyright (C) 2015 Texas Instruments
+- */
+-
+-#include <linux/init.h>
+-#include <linux/kernel.h>
+-#include <linux/of.h>
+-#include <linux/of_address.h>
+-#include <linux/of_fdt.h>
+-#include <linux/of_graph.h>
+-#include <linux/slab.h>
+-
+-#include "rcar_du_crtc.h"
+-#include "rcar_du_drv.h"
+-#include "rcar_du_of.h"
+-
+-/* -----------------------------------------------------------------------------
+- * Generic Overlay Handling
+- */
+-
+-struct rcar_du_of_overlay {
+-	const char *compatible;
+-	void *begin;
+-	void *end;
+-};
+-
+-#define RCAR_DU_OF_DTB(type, soc)					\
+-	extern char __dtb_rcar_du_of_##type##_##soc##_begin[];		\
+-	extern char __dtb_rcar_du_of_##type##_##soc##_end[]
+-
+-#define RCAR_DU_OF_OVERLAY(type, soc)					\
+-	{								\
+-		.compatible = "renesas,du-" #soc,			\
+-		.begin = __dtb_rcar_du_of_##type##_##soc##_begin,	\
+-		.end = __dtb_rcar_du_of_##type##_##soc##_end,		\
+-	}
+-
+-static int __init rcar_du_of_apply_overlay(const struct rcar_du_of_overlay *dtbs,
+-					   const char *compatible)
+-{
+-	const struct rcar_du_of_overlay *dtb = NULL;
+-	unsigned int i;
+-	int ovcs_id;
+-
+-	for (i = 0; dtbs[i].compatible; ++i) {
+-		if (!strcmp(dtbs[i].compatible, compatible)) {
+-			dtb = &dtbs[i];
+-			break;
+-		}
+-	}
+-
+-	if (!dtb)
+-		return -ENODEV;
+-
+-	ovcs_id = 0;
+-	return of_overlay_fdt_apply(dtb->begin, dtb->end - dtb->begin,
+-				    &ovcs_id);
+-}
+-
+-static int __init rcar_du_of_add_property(struct of_changeset *ocs,
+-					  struct device_node *np,
+-					  const char *name, const void *value,
+-					  int length)
+-{
+-	struct property *prop;
+-	int ret = -ENOMEM;
+-
+-	prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+-	if (!prop)
+-		return -ENOMEM;
+-
+-	prop->name = kstrdup(name, GFP_KERNEL);
+-	if (!prop->name)
+-		goto out_err;
+-
+-	prop->value = kmemdup(value, length, GFP_KERNEL);
+-	if (!prop->value)
+-		goto out_err;
+-
+-	of_property_set_flag(prop, OF_DYNAMIC);
+-
+-	prop->length = length;
+-
+-	ret = of_changeset_add_property(ocs, np, prop);
+-	if (!ret)
+-		return 0;
+-
+-out_err:
+-	kfree(prop->value);
+-	kfree(prop->name);
+-	kfree(prop);
+-	return ret;
+-}
+-
+-/* -----------------------------------------------------------------------------
+- * LVDS Overlays
+- */
+-
+-RCAR_DU_OF_DTB(lvds, r8a7790);
+-RCAR_DU_OF_DTB(lvds, r8a7791);
+-RCAR_DU_OF_DTB(lvds, r8a7793);
+-RCAR_DU_OF_DTB(lvds, r8a7795);
+-RCAR_DU_OF_DTB(lvds, r8a7796);
+-
+-static const struct rcar_du_of_overlay rcar_du_lvds_overlays[] __initconst = {
+-	RCAR_DU_OF_OVERLAY(lvds, r8a7790),
+-	RCAR_DU_OF_OVERLAY(lvds, r8a7791),
+-	RCAR_DU_OF_OVERLAY(lvds, r8a7793),
+-	RCAR_DU_OF_OVERLAY(lvds, r8a7795),
+-	RCAR_DU_OF_OVERLAY(lvds, r8a7796),
+-	{ /* Sentinel */ },
+-};
+-
+-static struct of_changeset rcar_du_lvds_changeset;
+-
+-static void __init rcar_du_of_lvds_patch_one(struct device_node *lvds,
+-					     const struct of_phandle_args *clk,
+-					     struct device_node *local,
+-					     struct device_node *remote)
+-{
+-	unsigned int psize;
+-	unsigned int i;
+-	__be32 value[4];
+-	int ret;
+-
+-	/*
+-	 * Set the LVDS clocks property. This can't be performed by the overlay
+-	 * as the structure of the clock specifier has changed over time, and we
+-	 * don't know at compile time which binding version the system we will
+-	 * run on uses.
+-	 */
+-	if (clk->args_count >= ARRAY_SIZE(value) - 1)
+-		return;
+-
+-	of_changeset_init(&rcar_du_lvds_changeset);
+-
+-	value[0] = cpu_to_be32(clk->np->phandle);
+-	for (i = 0; i < clk->args_count; ++i)
+-		value[i + 1] = cpu_to_be32(clk->args[i]);
+-
+-	psize = (clk->args_count + 1) * 4;
+-	ret = rcar_du_of_add_property(&rcar_du_lvds_changeset, lvds,
+-				      "clocks", value, psize);
+-	if (ret < 0)
+-		goto done;
+-
+-	/*
+-	 * Insert the node in the OF graph: patch the LVDS ports remote-endpoint
+-	 * properties to point to the endpoints of the sibling nodes in the
+-	 * graph. This can't be performed by the overlay: on the input side the
+-	 * overlay would contain a phandle for the DU LVDS output port that
+-	 * would clash with the system DT, and on the output side the connection
+-	 * is board-specific.
+-	 */
+-	value[0] = cpu_to_be32(local->phandle);
+-	value[1] = cpu_to_be32(remote->phandle);
+-
+-	for (i = 0; i < 2; ++i) {
+-		struct device_node *endpoint;
+-
+-		endpoint = of_graph_get_endpoint_by_regs(lvds, i, 0);
+-		if (!endpoint) {
+-			ret = -EINVAL;
+-			goto done;
+-		}
+-
+-		ret = rcar_du_of_add_property(&rcar_du_lvds_changeset,
+-					      endpoint, "remote-endpoint",
+-					      &value[i], sizeof(value[i]));
+-		of_node_put(endpoint);
+-		if (ret < 0)
+-			goto done;
+-	}
+-
+-	ret = of_changeset_apply(&rcar_du_lvds_changeset);
+-
+-done:
+-	if (ret < 0)
+-		of_changeset_destroy(&rcar_du_lvds_changeset);
+-}
+-
+-struct lvds_of_data {
+-	struct resource res;
+-	struct of_phandle_args clkspec;
+-	struct device_node *local;
+-	struct device_node *remote;
+-};
+-
+-static void __init rcar_du_of_lvds_patch(const struct of_device_id *of_ids)
+-{
+-	const struct rcar_du_device_info *info;
+-	const struct of_device_id *match;
+-	struct lvds_of_data lvds_data[2] = { };
+-	struct device_node *lvds_node;
+-	struct device_node *soc_node;
+-	struct device_node *du_node;
+-	char compatible[22];
+-	const char *soc_name;
+-	unsigned int i;
+-	int ret;
+-
+-	/* Get the DU node and exit if not present or disabled. */
+-	du_node = of_find_matching_node_and_match(NULL, of_ids, &match);
+-	if (!du_node || !of_device_is_available(du_node)) {
+-		of_node_put(du_node);
+-		return;
+-	}
+-
+-	info = match->data;
+-	soc_node = of_get_parent(du_node);
+-
+-	if (WARN_ON(info->num_lvds > ARRAY_SIZE(lvds_data)))
+-		goto done;
+-
+-	/*
+-	 * Skip if the LVDS nodes already exists.
+-	 *
+-	 * The nodes are searched based on the compatible string, which we
+-	 * construct from the SoC name found in the DU compatible string. As a
+-	 * match has been found we know the compatible string matches the
+-	 * expected format and can thus skip some of the string manipulation
+-	 * normal safety checks.
+-	 */
+-	soc_name = strchr(match->compatible, '-') + 1;
+-	sprintf(compatible, "renesas,%s-lvds", soc_name);
+-	lvds_node = of_find_compatible_node(NULL, NULL, compatible);
+-	if (lvds_node) {
+-		of_node_put(lvds_node);
+-		return;
+-	}
+-
+-	/*
+-	 * Parse the DU node and store the register specifier, the clock
+-	 * specifier and the local and remote endpoint of the LVDS link for
+-	 * later use.
+-	 */
+-	for (i = 0; i < info->num_lvds; ++i) {
+-		struct lvds_of_data *lvds = &lvds_data[i];
+-		unsigned int port;
+-		char name[7];
+-		int index;
+-
+-		sprintf(name, "lvds.%u", i);
+-		index = of_property_match_string(du_node, "clock-names", name);
+-		if (index < 0)
+-			continue;
+-
+-		ret = of_parse_phandle_with_args(du_node, "clocks",
+-						 "#clock-cells", index,
+-						 &lvds->clkspec);
+-		if (ret < 0)
+-			continue;
+-
+-		port = info->routes[RCAR_DU_OUTPUT_LVDS0 + i].port;
+-
+-		lvds->local = of_graph_get_endpoint_by_regs(du_node, port, 0);
+-		if (!lvds->local)
+-			continue;
+-
+-		lvds->remote = of_graph_get_remote_endpoint(lvds->local);
+-		if (!lvds->remote)
+-			continue;
+-
+-		index = of_property_match_string(du_node, "reg-names", name);
+-		if (index < 0)
+-			continue;
+-
+-		of_address_to_resource(du_node, index, &lvds->res);
+-	}
+-
+-	/* Parse and apply the overlay. This will resolve phandles. */
+-	ret = rcar_du_of_apply_overlay(rcar_du_lvds_overlays,
+-				       match->compatible);
+-	if (ret < 0)
+-		goto done;
+-
+-	/* Patch the newly created LVDS encoder nodes. */
+-	for_each_child_of_node(soc_node, lvds_node) {
+-		struct resource res;
+-
+-		if (!of_device_is_compatible(lvds_node, compatible))
+-			continue;
+-
+-		/* Locate the lvds_data entry based on the resource start. */
+-		ret = of_address_to_resource(lvds_node, 0, &res);
+-		if (ret < 0)
+-			continue;
+-
+-		for (i = 0; i < ARRAY_SIZE(lvds_data); ++i) {
+-			if (lvds_data[i].res.start == res.start)
+-				break;
+-		}
+-
+-		if (i == ARRAY_SIZE(lvds_data))
+-			continue;
+-
+-		/* Patch the LVDS encoder. */
+-		rcar_du_of_lvds_patch_one(lvds_node, &lvds_data[i].clkspec,
+-					  lvds_data[i].local,
+-					  lvds_data[i].remote);
+-	}
+-
+-done:
+-	for (i = 0; i < info->num_lvds; ++i) {
+-		of_node_put(lvds_data[i].clkspec.np);
+-		of_node_put(lvds_data[i].local);
+-		of_node_put(lvds_data[i].remote);
+-	}
+-
+-	of_node_put(soc_node);
+-	of_node_put(du_node);
+-}
+-
+-void __init rcar_du_of_init(const struct of_device_id *of_ids)
+-{
+-	rcar_du_of_lvds_patch(of_ids);
+-}
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of.h b/drivers/gpu/drm/rcar-du/rcar_du_of.h
+deleted file mode 100644
+index 8dd3fbe96650..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of.h
++++ /dev/null
+@@ -1,20 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * rcar_du_of.h - Legacy DT bindings compatibility
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-#ifndef __RCAR_DU_OF_H__
+-#define __RCAR_DU_OF_H__
+-
+-#include <linux/init.h>
+-
+-struct of_device_id;
+-
+-#if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
+-void __init rcar_du_of_init(const struct of_device_id *of_ids);
+-#else
+-static inline void rcar_du_of_init(const struct of_device_id *of_ids) { }
+-#endif /* CONFIG_DRM_RCAR_LVDS */
+-
+-#endif /* __RCAR_DU_OF_H__ */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7790.dts b/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7790.dts
+deleted file mode 100644
+index 8bee4e787a0a..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7790.dts
++++ /dev/null
+@@ -1,69 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of_lvds_r8a7790.dts - Legacy LVDS DT bindings conversion for R8A7790
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-
+-/dts-v1/;
+-/plugin/;
+-
+-&{/} {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	lvds@feb90000 {
+-		compatible = "renesas,r8a7790-lvds";
+-		reg = <0 0xfeb90000 0 0x1c>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds0_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds0_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-
+-	lvds@feb94000 {
+-		compatible = "renesas,r8a7790-lvds";
+-		reg = <0 0xfeb94000 0 0x1c>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds1_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds1_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&{/display@feb00000/ports} {
+-	port@1 {
+-		endpoint {
+-			remote-endpoint = <&lvds0_input>;
+-		};
+-	};
+-	port@2 {
+-		endpoint {
+-			remote-endpoint = <&lvds1_input>;
+-		};
+-	};
+-};
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7791.dts b/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7791.dts
+deleted file mode 100644
+index 92c0509971ec..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7791.dts
++++ /dev/null
+@@ -1,43 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of_lvds_r8a7791.dts - Legacy LVDS DT bindings conversion for R8A7791
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-
+-/dts-v1/;
+-/plugin/;
+-
+-&{/} {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	lvds@feb90000 {
+-		compatible = "renesas,r8a7791-lvds";
+-		reg = <0 0xfeb90000 0 0x1c>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds0_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds0_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&{/display@feb00000/ports} {
+-	port@1 {
+-		endpoint {
+-			remote-endpoint = <&lvds0_input>;
+-		};
+-	};
+-};
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7793.dts b/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7793.dts
+deleted file mode 100644
+index c8b93f21de0f..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7793.dts
++++ /dev/null
+@@ -1,43 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of_lvds_r8a7793.dts - Legacy LVDS DT bindings conversion for R8A7793
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-
+-/dts-v1/;
+-/plugin/;
+-
+-&{/} {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	lvds@feb90000 {
+-		compatible = "renesas,r8a7793-lvds";
+-		reg = <0 0xfeb90000 0 0x1c>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds0_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds0_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&{/display@feb00000/ports} {
+-	port@1 {
+-		endpoint {
+-			remote-endpoint = <&lvds0_input>;
+-		};
+-	};
+-};
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7795.dts b/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7795.dts
+deleted file mode 100644
+index 16c2d03cb016..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7795.dts
++++ /dev/null
+@@ -1,43 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of_lvds_r8a7795.dts - Legacy LVDS DT bindings conversion for R8A7795
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-
+-/dts-v1/;
+-/plugin/;
+-
+-&{/soc} {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	lvds@feb90000 {
+-		compatible = "renesas,r8a7795-lvds";
+-		reg = <0 0xfeb90000 0 0x14>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds0_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds0_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&{/soc/display@feb00000/ports} {
+-	port@3 {
+-		endpoint {
+-			remote-endpoint = <&lvds0_input>;
+-		};
+-	};
+-};
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7796.dts b/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7796.dts
+deleted file mode 100644
+index 680e923ac036..000000000000
+--- a/drivers/gpu/drm/rcar-du/rcar_du_of_lvds_r8a7796.dts
++++ /dev/null
+@@ -1,43 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * rcar_du_of_lvds_r8a7796.dts - Legacy LVDS DT bindings conversion for R8A7796
+- *
+- * Copyright (C) 2018 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- */
+-
+-/dts-v1/;
+-/plugin/;
+-
+-&{/soc} {
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	lvds@feb90000 {
+-		compatible = "renesas,r8a7796-lvds";
+-		reg = <0 0xfeb90000 0 0x14>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				lvds0_input: endpoint {
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				lvds0_out: endpoint {
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&{/soc/display@feb00000/ports} {
+-	port@3 {
+-		endpoint {
+-			remote-endpoint = <&lvds0_input>;
+-		};
+-	};
+-};
 -- 
-2.25.1
+Regards,
+
+Laurent Pinchart
 
