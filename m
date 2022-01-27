@@ -2,97 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C687349DEED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 11:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 024AD49DF9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 11:43:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229918AbiA0KMq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jan 2022 05:12:46 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:36775 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiA0KMp (ORCPT
+        id S235350AbiA0Knb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jan 2022 05:43:31 -0500
+Received: from mail-ua1-f47.google.com ([209.85.222.47]:33707 "EHLO
+        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235285AbiA0Kna (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jan 2022 05:12:45 -0500
-Received: by mail-ua1-f49.google.com with SMTP id u76so3808915uau.3;
-        Thu, 27 Jan 2022 02:12:45 -0800 (PST)
+        Thu, 27 Jan 2022 05:43:30 -0500
+Received: by mail-ua1-f47.google.com with SMTP id u6so4029461uaq.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:43:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=y8tFLfG3AkbX5FC2LkFwx+nrAMcVQcoVBJvwDmbMZbE=;
-        b=ghD6eUP5+9xYrVMzM4SXkCmEgS8ZwIVwvqpd0PwSB9TGpw4BHRw/Jve3AYZi02vDXP
-         1jVif9W4JdGBcJrQ/TaIpQcuyx4zFPFiJEEL8dgPxSpu/fMR/KL6EdOBuNgO5iDN0cir
-         zkXbfjsgAnTFBqHMo3hB2T5Hem76Mm8/nxSlknwtOVDcncYH6iQ0F3zbZ6BbK2RjLHhq
-         Zdw/PHSFNC9uJj+2y765ba13C/CDKgBLOqyNPTXyb6zelrNczKUCGbbF04QMoZPyuwz9
-         syNs97JXqd00tKqWp5RTice7AimkGSyimiOlRJ5stECQorkpatm+ps3puic0/LWRFC8G
-         WXIw==
-X-Gm-Message-State: AOAM530hPE4PpTYhPUTZQPC864PFvtuGxg4HhdXOLT/e5gaSCjWLYoKG
-        F7nIMyJUPbF58rUI+dfoIrDZhMqLA74Jkw==
-X-Google-Smtp-Source: ABdhPJygabxpKaOvJSjf6MZ745UE5jG/K/hV4OcXsIIiAXNGIOa32UslKNPUjZ6tGIn6tA+/4m7u+w==
-X-Received: by 2002:a67:b003:: with SMTP id z3mr1292949vse.64.1643278365124;
-        Thu, 27 Jan 2022 02:12:45 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id z27sm489554vsf.24.2022.01.27.02.12.44
+        bh=faaNlfXvBYFgxluEI8eSkiLNHC8pxNWGbLvY8pP4fD4=;
+        b=283EKZQ6fCZbSYMgiIwlke7/zOpMxLMnJJpFKjlDA6FQDJEdWuOEK0y7MIl4rphzay
+         fLp6nEy5tVABdf6XsWIWIBSdn/UE90ZHwz+yRPkkcu4o94oB8N//GE4nTUKbaxPDlb8e
+         4TIN08VmjE2EcppKFN8vqJuMvOsr4TioayN9GgLs2iMor2hdccjfaMPez5Mo0zuRRI5o
+         Jvsd9Tf7iaQ2AkomwMYN1c6A8Ev2GB9FfS8ErrBCydlQmLv8qK+xzzuXEQOK9q/+e7tV
+         AHZlwlsAQQYLr2qNV2z+8IEGM5Yw8RVTgh9XLegABo4lSXVhGxFfx383IrbiuK4T7Zj5
+         NhIg==
+X-Gm-Message-State: AOAM531Wrz/ALrzu7tH2AOfE4oWZGFuQlKPuoSi+fReblwAIrz252vsN
+        kplrGAEIzx3HwxcfKFAYcil4MvsLGFuhCA==
+X-Google-Smtp-Source: ABdhPJxyd55rc84GN6Q1ILq8w/zcl73OQY3LG9aZrAJEqC+8ql+ZWjuJPG1wJWFAyz29aIKeMPcj2g==
+X-Received: by 2002:a9f:3b19:: with SMTP id i25mr1463003uah.14.1643280209828;
+        Thu, 27 Jan 2022 02:43:29 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id w124sm494288vke.20.2022.01.27.02.43.29
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jan 2022 02:12:44 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id y4so3825165uad.1;
-        Thu, 27 Jan 2022 02:12:44 -0800 (PST)
-X-Received: by 2002:ab0:6cf9:: with SMTP id l25mr1377097uai.122.1643278364573;
- Thu, 27 Jan 2022 02:12:44 -0800 (PST)
+        Thu, 27 Jan 2022 02:43:29 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id f24so3861879uab.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:43:29 -0800 (PST)
+X-Received: by 2002:a67:c198:: with SMTP id h24mr1345082vsj.5.1643280209093;
+ Thu, 27 Jan 2022 02:43:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220124021142.224592-1-kuninori.morimoto.gx@renesas.com> <20220124021142.224592-2-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20220124021142.224592-2-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 Jan 2022 11:12:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUW+7mCLHnWbPQ4oxNO9Awri9TNN8bTDq7uGSYncAdWKw@mail.gmail.com>
-Message-ID: <CAMuHMdUW+7mCLHnWbPQ4oxNO9Awri9TNN8bTDq7uGSYncAdWKw@mail.gmail.com>
-Subject: Re: [PATCH v2] soc: renesas: Add support for reading product revision
- for RZ/G2L family
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Date:   Thu, 27 Jan 2022 11:43:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV1hJUNC_NBvJjg-2A23AY4qPwYdYc5416_AdG-OsMg8g@mail.gmail.com>
+Message-ID: <CAMuHMdV1hJUNC_NBvJjg-2A23AY4qPwYdYc5416_AdG-OsMg8g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use
+ audio-graph-card2 for sound
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Fri, Jan 21, 2022 at 2:41 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+On Mon, Jan 24, 2022 at 3:12 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> As per RZ/G2L HW manual (Rev.1.00 Sep, 2021) DEV_ID [31:28] indicates
-> product revision. Use this information to populate the revision info
-> for RZ/G2L family.
+> Current ULCB{-KF} are using audio-graph-card.
+> Now ALSA is supporting new audio-graph-card2 which can easily handle
+> more advanced feature. Let's switch to use it.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * Fixed freeing up soc_dev_attr in error path.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks for the update!
-
+LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.18.
-
-> --- a/drivers/soc/renesas/renesas-soc.c
-> +++ b/drivers/soc/renesas/renesas-soc.c
-> @@ -405,41 +417,38 @@ static int __init renesas_soc_init(void)
->
->                         eshi = ((product >> 4) & 0x0f) + 1;
->                         eslo = product & 0xf;
-> +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u",
-> +                                                          eshi, eslo);
-> +               }  else if (id == &id_rzg2l) {
-> +                       eshi =  ((product >> 28) & 0x0f);
-> +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "Rev %u",
-> +                                                          eshi);
-
-Would you mind if I would drop the "Rev " while applying?
 
 Gr{oetje,eeting}s,
 
