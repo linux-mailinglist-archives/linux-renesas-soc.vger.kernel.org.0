@@ -2,94 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3936F49DD1B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 09:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE7549DE9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 11:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231523AbiA0I6I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jan 2022 03:58:08 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:43558 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231479AbiA0I6H (ORCPT
+        id S238717AbiA0KAm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jan 2022 05:00:42 -0500
+Received: from mail-ua1-f52.google.com ([209.85.222.52]:40654 "EHLO
+        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229956AbiA0KAm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jan 2022 03:58:07 -0500
-Received: by mail-ua1-f51.google.com with SMTP id 2so3432038uax.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 00:58:07 -0800 (PST)
+        Thu, 27 Jan 2022 05:00:42 -0500
+Received: by mail-ua1-f52.google.com with SMTP id w21so3702558uan.7;
+        Thu, 27 Jan 2022 02:00:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=m0Oa/punTZo54neBO2R7a2vYQkIoxYN32vSsBfoG+aw=;
-        b=Avfu0Id8CAUiSTpIfrhbbUSpC7nh+xXRpH/oUM9HdeQlD0Qc8fh8IyovZzT9Ek9ckW
-         etGkVijppE6dRRnypzmQRj+apCFIH1eolY5mUvseNnFB35AxUYN76yLGPjdhF/ypI9d/
-         E7o9Mcoph7RmWNKhxg1rK7uD9dfhaPfx6BLP7x5O9rFSp+YkytE9ZR6c6MuWP953QzxH
-         l//IP9DEbOUHGZ3z4cX50ylTJxEzVRtHuRN4xlxsSL/IwEgZlDSWmKWJl3hoc6Z6sjG4
-         Gfm2giOuYNQwokdbzz/0GPxZSZnj+172jgq03Hq8Z0JMIoha0pywmFMq8Iv+WRpDcReR
-         LX+A==
-X-Gm-Message-State: AOAM530GuGMN1jzEFOAonwZRezTX9YLmOEmavqGQZr3NF4VJAu/Qb9Sv
-        CNlnNGIUnWcRCxDntggOUTdbmW0x6Of+nO0T
-X-Google-Smtp-Source: ABdhPJyVdRtJ8mMqfoyMLgiMcysvYklVWtd/Vc25wcBc+EmSGSpj2kk9uTXapWnxRTOF1VADy2GDmw==
-X-Received: by 2002:a67:b807:: with SMTP id i7mr1128492vsf.44.1643273886788;
-        Thu, 27 Jan 2022 00:58:06 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id z27sm460111vsf.24.2022.01.27.00.58.06
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=MYcVuPoB0oi6VcbUyfjJ45yJ95BHctSH0SlEgz3cJO4=;
+        b=C9XHE7eeOBn/5NoRyJirxxDrbXGHUjKJ8M5Y0faTL81ZgRa79rvpYSmFDnmUIsQWaP
+         2W7Tu6VqmkCmut7o9IG5pCsnCzrgYAsV7LxyNaF5D6yiQPXB7ZisFSqblEL3xknubtKt
+         5NYyLSOWA0BRu0o5oJOrqRPAgwKn0XxKBTRZN7dVJzaJEj7ijwx0UKOUoUDxSiQe/oRg
+         6bbOHFRfmMmSikeHeffNBLmMjUHxOW7yAJvOm7NiRbcnbx+C3jGIPOHvlueOkChuYNfX
+         X9dLQ0ETQGrowmBirBTVQYC/GGOdKW1pGnFeYg7pGxgSTY6/mBmheJ6UYhGLK1rdRu8Y
+         wcUA==
+X-Gm-Message-State: AOAM531/oupUw5+aoqEN9RN9Xofkh948cWBOls84B6/g27Zwnk3LWzMg
+        X4eAKManaFS/mXTvZDtE09/bF7QvXAOHrl8O
+X-Google-Smtp-Source: ABdhPJxH9P+HIWa+EYqILXxpgvpbzz1WMdaTvMY9lWm+30IGfvdbSfTl0pXByDYtL32By7zHuAwiFA==
+X-Received: by 2002:a67:fd63:: with SMTP id h3mr1109545vsa.77.1643277641523;
+        Thu, 27 Jan 2022 02:00:41 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id w124sm474100vke.20.2022.01.27.02.00.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jan 2022 00:58:06 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id z15so1380384vkp.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 00:58:06 -0800 (PST)
-X-Received: by 2002:a1f:2555:: with SMTP id l82mr1183080vkl.7.1643273886146;
- Thu, 27 Jan 2022 00:58:06 -0800 (PST)
+        Thu, 27 Jan 2022 02:00:41 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id l1so3699240uap.8;
+        Thu, 27 Jan 2022 02:00:41 -0800 (PST)
+X-Received: by 2002:a67:5f83:: with SMTP id t125mr1106654vsb.68.1643277640872;
+ Thu, 27 Jan 2022 02:00:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20220126202956.18364-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20220126202956.18364-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220120051559.746322-1-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20220120051559.746322-1-nikita.yoush@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 Jan 2022 09:57:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWLvpvdfGASq_QbYVBurF=44PLiTQy666HMAYn2RwbfvA@mail.gmail.com>
-Message-ID: <CAMuHMdWLvpvdfGASq_QbYVBurF=44PLiTQy666HMAYn2RwbfvA@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Drop LVDS device tree backward compatibility
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+Date:   Thu, 27 Jan 2022 11:00:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVw5BZUys-yOotRApgpXjGviWoBFtFrbQost2TcX4j8YQ@mail.gmail.com>
+Message-ID: <CAMuHMdVw5BZUys-yOotRApgpXjGviWoBFtFrbQost2TcX4j8YQ@mail.gmail.com>
+Subject: Re: [PATCH v3] arm64: dts: renesas: add MOST device
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-Thanks for your patch!
-
-On Wed, Jan 26, 2022 at 9:30 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The rcar-du driver goes to great lengths to preserve device tree
-> backward compatibility for the LVDS encoders by patching old device
-> trees at runtime.
+On Thu, Jan 20, 2022 at 6:16 AM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> This patch adds mlp device to dtsi files for R-Car Gen3 SoCs that have
+> it.
 >
-> The last R-Car Gen2 platform was converted to the new bindings commit
-> edb0c3affe5214a2 ("ARM: dts: r8a7793: Convert to new LVDS DT bindings"),
-> in v4.17, and the last RZ/G1 platform converted in commit
-> 6a6a797625b5fe85 ("ARM: dts: r8a7743: Convert to new LVDS DT bindings"),
-> in v5.0. Both are older than commit 58256143cff7c2e0 ("clk: renesas:
-> Remove R-Car Gen2 legacy DT clock support"), in v5.5, which removes
-> support for legacy bindings for clocks. The LBDS compatibility code is
-
-LVDS
-
-> thus not needed anymore. Drop it.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  .../drm/rcar-du/rcar_du_of_lvds_r8a7795.dts   |  43 ---
->  .../drm/rcar-du/rcar_du_of_lvds_r8a7796.dts   |  43 ---
-
-I had completely forgotten this was used on R-Car Gen3, too, until
-commit 58e8ed2ee9abe718 ("arm64: dts: renesas: Convert to new LVDS
-DT bindings") in v4.20.  I guess that's old enough?
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
+
+Note that as this device has no DT binding documentation, and the driver
+is under staging, this can not be considered stable.
 
 Gr{oetje,eeting}s,
 
