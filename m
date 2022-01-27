@@ -2,52 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 024AD49DF9F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 11:43:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE76349DFA0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 11:44:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235350AbiA0Knb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jan 2022 05:43:31 -0500
-Received: from mail-ua1-f47.google.com ([209.85.222.47]:33707 "EHLO
-        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235285AbiA0Kna (ORCPT
+        id S229625AbiA0Ko1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jan 2022 05:44:27 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:33387 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229490AbiA0Ko1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jan 2022 05:43:30 -0500
-Received: by mail-ua1-f47.google.com with SMTP id u6so4029461uaq.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:43:30 -0800 (PST)
+        Thu, 27 Jan 2022 05:44:27 -0500
+Received: by mail-ua1-f49.google.com with SMTP id u6so4033763uaq.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:44:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=faaNlfXvBYFgxluEI8eSkiLNHC8pxNWGbLvY8pP4fD4=;
-        b=283EKZQ6fCZbSYMgiIwlke7/zOpMxLMnJJpFKjlDA6FQDJEdWuOEK0y7MIl4rphzay
-         fLp6nEy5tVABdf6XsWIWIBSdn/UE90ZHwz+yRPkkcu4o94oB8N//GE4nTUKbaxPDlb8e
-         4TIN08VmjE2EcppKFN8vqJuMvOsr4TioayN9GgLs2iMor2hdccjfaMPez5Mo0zuRRI5o
-         Jvsd9Tf7iaQ2AkomwMYN1c6A8Ev2GB9FfS8ErrBCydlQmLv8qK+xzzuXEQOK9q/+e7tV
-         AHZlwlsAQQYLr2qNV2z+8IEGM5Yw8RVTgh9XLegABo4lSXVhGxFfx383IrbiuK4T7Zj5
-         NhIg==
-X-Gm-Message-State: AOAM531Wrz/ALrzu7tH2AOfE4oWZGFuQlKPuoSi+fReblwAIrz252vsN
-        kplrGAEIzx3HwxcfKFAYcil4MvsLGFuhCA==
-X-Google-Smtp-Source: ABdhPJxyd55rc84GN6Q1ILq8w/zcl73OQY3LG9aZrAJEqC+8ql+ZWjuJPG1wJWFAyz29aIKeMPcj2g==
-X-Received: by 2002:a9f:3b19:: with SMTP id i25mr1463003uah.14.1643280209828;
-        Thu, 27 Jan 2022 02:43:29 -0800 (PST)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id w124sm494288vke.20.2022.01.27.02.43.29
+        bh=M8qmKWptj0oaA+RqnZOXkmpNx+ctYpSGf4ZuXN7Ttm8=;
+        b=CiMpc3UHYeXZPCHL4nfmL0r/yZ2vLpvmUr3oWK9sLgCjcWTINlLrvGAiHyDKuALhjB
+         LBb4rz/cjp5WbVo4WSF+Fcr2MPDUTcszHhlJYjXZkPOmzVmDdQlJ7BJ7FCZ99tDS0GSM
+         SbP4qj0yqVMndVLv86FIYwau0xwUYBsK3DOULGDbbw8UMd3C7i363GpZQMMz8u+8aSzo
+         Y6Yfsm0Ao2pujW5uKvdK0EHiCMa+ViwuFzs9tFZt8vxJUoDWxYO85++xd2MpbbpMEE0v
+         GTikq1WdKQZKsbomL13K1iI63PKS1v7FuYmJILT/KGd19W9S80SnvPROJ+O+wNbSuC1i
+         kFuw==
+X-Gm-Message-State: AOAM531yQJDVOTV4tkbjeNsA1HXqeWjPWdUaeLIBRqLQ1GiuC9HJzuO5
+        EHT3bi7iExeAYGLl62KkG8zK2aN6dUQMSQ==
+X-Google-Smtp-Source: ABdhPJwRe7RODhOXbviNqd37xYSdaHhmrI2ZrI0iDQFbCLea+kVMKUj0UaAsygrQMKBdQ6mWKWVndQ==
+X-Received: by 2002:a67:bd13:: with SMTP id y19mr1295528vsq.85.1643280266337;
+        Thu, 27 Jan 2022 02:44:26 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id w188sm502320vsb.32.2022.01.27.02.44.25
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jan 2022 02:43:29 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id f24so3861879uab.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:43:29 -0800 (PST)
-X-Received: by 2002:a67:c198:: with SMTP id h24mr1345082vsj.5.1643280209093;
- Thu, 27 Jan 2022 02:43:29 -0800 (PST)
+        Thu, 27 Jan 2022 02:44:26 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id y4so3966749uad.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Jan 2022 02:44:25 -0800 (PST)
+X-Received: by 2002:a67:a401:: with SMTP id n1mr1251125vse.38.1643280265742;
+ Thu, 27 Jan 2022 02:44:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20220124021142.224592-1-kuninori.morimoto.gx@renesas.com> <20220124021142.224592-2-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <20220124021142.224592-2-kuninori.morimoto.gx@renesas.com>
+References: <20220124021142.224592-1-kuninori.morimoto.gx@renesas.com> <20220124021142.224592-3-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20220124021142.224592-3-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 27 Jan 2022 11:43:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV1hJUNC_NBvJjg-2A23AY4qPwYdYc5416_AdG-OsMg8g@mail.gmail.com>
-Message-ID: <CAMuHMdV1hJUNC_NBvJjg-2A23AY4qPwYdYc5416_AdG-OsMg8g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use
- audio-graph-card2 for sound
+Date:   Thu, 27 Jan 2022 11:44:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWm-7V1Ae+=zxkPkrrEefBeaQptSidXvvaKM45cU0ayHA@mail.gmail.com>
+Message-ID: <CAMuHMdWm-7V1Ae+=zxkPkrrEefBeaQptSidXvvaKM45cU0ayHA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: defconfig: Enable Audio Graph Card2 driver
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -59,13 +58,13 @@ On Mon, Jan 24, 2022 at 3:12 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> Current ULCB{-KF} are using audio-graph-card.
-> Now ALSA is supporting new audio-graph-card2 which can easily handle
-> more advanced feature. Let's switch to use it.
+> commit 6e5f68fe3f2d35 ("ASoC: add Audio Graph Card2 driver")
+> added new Audio Graph Card2 driver which can handle
+> sound card more flexibly.
+> This patch enables it on defconfig.
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.18.
 
