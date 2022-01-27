@@ -2,112 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA7F449E0C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 12:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4585649E3C8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Jan 2022 14:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240257AbiA0L0t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Jan 2022 06:26:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
+        id S235740AbiA0NoA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Jan 2022 08:44:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240251AbiA0L0t (ORCPT
+        with ESMTP id S229602AbiA0Nn6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Jan 2022 06:26:49 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C33C061714;
-        Thu, 27 Jan 2022 03:26:49 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id p5so7537979ybd.13;
-        Thu, 27 Jan 2022 03:26:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A2GVMk6IOKv22ShqPZfwAwtXjwYzTjmd6+fAMnupJNE=;
-        b=f+DDiLwJrZU1tIqQqYN00OmZD7EmoQbiazgdQbkLp4kYDZ3U13I4sDAp2MZTzLRb/F
-         FNrvHiubhLI1CVfNbvaA//A31kDjl0/es/K3AukdkWLDGPvhboMCnVHAYlW6goIGhl1n
-         QJLzV3+noEyIuQnGAgbRsJkYYeOmA8tIQfRTGVpQ0VubMONEIgkj7GVbSJYRS2M+FNAV
-         gKlRxxRMo2hkqz89TjmbTOGEMQuBXEcRcz/rNNTac2Qe4Ya8qojH9a+Q2TnJxhed/0ke
-         ZtcxptpoBLVJqEENTNvFt5dURkRlIc0lkwwNhwdxJVLHZOIXWEIszVmoyJCuJxqOrnt7
-         R2rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A2GVMk6IOKv22ShqPZfwAwtXjwYzTjmd6+fAMnupJNE=;
-        b=xYgkE5Y8UAA/HOIcaBVo4KBp5xhuushI7cnOJJzIsMm2UQa1cVgqSBYKCqMB7bZslf
-         7L7Rk7D2F377pcAK4sUvQL6jh6CY+pdgI+hTStjMUQ8+hC9QH4VUlQeEgxgefcH8o4vI
-         qTP4EOhkYaqqSRLn26dHoz3u0IM2ejioC53PfJ0rv2GStHxYfE8B2AUDjy/eLr3OGEE9
-         vjugGpoCA9whgM8CTxAhqfw2nyXmZ9TDfQFm8ooxEgIi1t5+r/8bsfKRj/hvEexeJeL6
-         3OHew4AQmeTULkzuSDLKYzucj/87jYEyeZiCCnfMpwGW6U4+PLfmX7iKNXeQTxayWCt9
-         MxRQ==
-X-Gm-Message-State: AOAM532YqHvgjJTuXQ5S6Jzal7R3glUx645SuEksGA/u14CgEUo61M2w
-        ywUD/xGelp0FSNUC0/s+TZnG0P4qKJiamsr2OI4=
-X-Google-Smtp-Source: ABdhPJx89JjUyb3UHLn76jltVuXNVFY0TrXmUQAotbZK1T/DmDPLwj8vdBFfHTyof8dfAMMVfD3Y9X+6S8bnhizV/H0=
-X-Received: by 2002:a25:6d08:: with SMTP id i8mr4987330ybc.422.1643282808477;
- Thu, 27 Jan 2022 03:26:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUW+7mCLHnWbPQ4oxNO9Awri9TNN8bTDq7uGSYncAdWKw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUW+7mCLHnWbPQ4oxNO9Awri9TNN8bTDq7uGSYncAdWKw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 27 Jan 2022 11:26:22 +0000
-Message-ID: <CA+V-a8sczQHn7jR3TQ0qLeq3TsOBSaJg3M-0QNrcibg-cM8dqw@mail.gmail.com>
-Subject: Re: [PATCH v2] soc: renesas: Add support for reading product revision
- for RZ/G2L family
+        Thu, 27 Jan 2022 08:43:58 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A455AC061714;
+        Thu, 27 Jan 2022 05:43:58 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC91949C;
+        Thu, 27 Jan 2022 14:43:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643291036;
+        bh=LNTPgJr89tkA0iGFDgELfs9wQTVYZHc1hJjqa5lPsD0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Dv2jddbgboBqlIOfP5gnMCQSYBEG7/FPgNk4F3gnzusaItfMnu7XgW4jB2dDWqroA
+         8UPvUK1ea8XCFTZqfjxienzgQUdOmxPUm57NQW2LoWCE0p4xJorzMtdaVvJyBmoV4I
+         cllPiUrNNxOnHw/hMVEVPXttUZaPsLPafbnOJCG0=
+Date:   Thu, 27 Jan 2022 15:43:35 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a779f0
+ support
+Message-ID: <YfKhh8FQdfY7eTiT@pendragon.ideasonboard.com>
+References: <20220125125602.4144793-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220125125602.4144793-2-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdXgg8XApJETkN1oDDSy=N01kJaTz4DADyD9ZOM0ZXXttA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXgg8XApJETkN1oDDSy=N01kJaTz4DADyD9ZOM0ZXXttA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-Thank you for the review.
+On Thu, Jan 27, 2022 at 12:05:31PM +0100, Geert Uytterhoeven wrote:
+> On Tue, Jan 25, 2022 at 6:33 PM Yoshihiro Shimoda wrote:
+> > Document the compatible values for the IPMMU-VMSA blocks in
+> > the Renesas R-Car S4-8 (R8A779F0) SoC and R-Car Gen4.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+> > +++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+> > @@ -44,6 +44,10 @@ properties:
+> >                - renesas,ipmmu-r8a77990 # R-Car E3
+> >                - renesas,ipmmu-r8a77995 # R-Car D3
+> >                - renesas,ipmmu-r8a779a0 # R-Car V3U
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,ipmmu-r8a779f0 # R-Car S4-8
+> > +          - const: renesas,rcar-gen4-ipmmu-vmsa  # R-Car Gen4
+> 
+> I'm wondering if we need the family-specific fallback.
+> For R-Car Gen3, we don't have it, and match on (all) the SoC-specific
+> compatible values instead.
+> Do you remember why we decided to do it that way?
 
-On Thu, Jan 27, 2022 at 10:12 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jan 21, 2022 at 2:41 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > As per RZ/G2L HW manual (Rev.1.00 Sep, 2021) DEV_ID [31:28] indicates
-> > product revision. Use this information to populate the revision info
-> > for RZ/G2L family.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * Fixed freeing up soc_dev_attr in error path.
->
-> Thanks for the update!
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.18.
->
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
-> > @@ -405,41 +417,38 @@ static int __init renesas_soc_init(void)
-> >
-> >                         eshi = ((product >> 4) & 0x0f) + 1;
-> >                         eslo = product & 0xf;
-> > +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "ES%u.%u",
-> > +                                                          eshi, eslo);
-> > +               }  else if (id == &id_rzg2l) {
-> > +                       eshi =  ((product >> 28) & 0x0f);
-> > +                       soc_dev_attr->revision = kasprintf(GFP_KERNEL, "Rev %u",
-> > +                                                          eshi);
->
-> Would you mind if I would drop the "Rev " while applying?
->
-Fine by me as it's already assigned to revision so there isn't any
-point having "Rev" prepended to it.
+I'm afraid I don't. You know my usual opinion of SoC-specific compatible
+strings :-)
 
-Cheers,
-Prabhakar
+> At least R-Car V3M/V3H/D3 have slight differences in the register bits,
+> but I don't think that was the reason.
+
+-- 
+Regards,
+
+Laurent Pinchart
