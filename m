@@ -2,115 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C30A49F97B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 13:35:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20CFA49FBEE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 15:44:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348497AbiA1MfC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jan 2022 07:35:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44052 "EHLO
+        id S244984AbiA1OoX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jan 2022 09:44:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236511AbiA1MfA (ORCPT
+        with ESMTP id S1349106AbiA1OoV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jan 2022 07:35:00 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43BCBC061714
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 04:34:59 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:3999:e79d:cb59:f2ec])
-        by baptiste.telenet-ops.be with bizsmtp
-        id oCax2600A04fKGS01Cax7e; Fri, 28 Jan 2022 13:34:57 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nDQSv-00BlR0-8G; Fri, 28 Jan 2022 13:34:57 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nDQSu-006Y5M-JD; Fri, 28 Jan 2022 13:34:56 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: defconfig: Enable additional support for Renesas platforms
-Date:   Fri, 28 Jan 2022 13:34:55 +0100
-Message-Id: <c9800d67f91a90d418a3ce44c59109ae0a87b2d8.1643373223.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 28 Jan 2022 09:44:21 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE4BC06173B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 06:44:21 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id 192so6322480pfz.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 06:44:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=anjVdlq4wBrEF3AnbLQM8c45SWV+13J5Z0T9y6Fartw=;
+        b=6bQFtrctG36FGxOhWu2Mc28noVDR3HEIfaR1f4l+5bZcdQWwnOX/SB6m5GQ+qgTTcf
+         T3BFCTiDSMmD/ef0gtcMlP76ztu8S3u5bLnLySVCwESEOigN//WG1AbhvbB+1hY+875r
+         pN5CwKvKxFcaZV0S87Ov/np/LmDrvvTte5xKN3D/I3dhgfo/1wDWARoR3vmQIHiv3C6Z
+         PriORHYod1w8gFMnwLqZy/DkUJ92LQa1BoNDHaM9MUqqcDzgpfhSWtdrMd5NG8s0lte+
+         DvXKFlTVxy6CCovHaxhExxS/etl4sHe3mQ6iM9xc2pe4paI4lyNvkx4r81IZyPSCcjL6
+         PsOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=anjVdlq4wBrEF3AnbLQM8c45SWV+13J5Z0T9y6Fartw=;
+        b=pH8JBb76L+TQFmnFNlwbp+JXnJ4xDPMZ4p0aGtTkOlHdECoygbpjVgjsI8g2FjIQiY
+         +CSk2Z8aMRuSEoSdF+8a80RTIkN8aWac+8jcYQO7552CrTAf9dFgNWGj4AukiyjgusF/
+         G5avutE+y61VIv4uHn3vlGt7WI65W8LOFmzdmIMsJrmKRUC/c50UWcLn7L4oZFLtKE0c
+         uCx9Gt9xzz/93Z21EOTMCqUGjxEV/WxCyD/d3yh5gYNEFFnFzhpE2tNMnteV7xh4MYu3
+         whMldeWd6bxQwMs5flvWtf3jAEXSTcfefNrPxaddJl+qV3RfRvFmr1m9HAYpB0RecS8B
+         33lQ==
+X-Gm-Message-State: AOAM5317a4gbGK/ckhkTdd8vGg/zKwVoG8EjT8JCccO6gv5xqX1m8L/z
+        mSXoefL733Spp6lKGmSYuWg6EqFLFaBKIWpj
+X-Google-Smtp-Source: ABdhPJyvjFOyiMVzwKkWzagiAXIjqf1auLdMD90M7xEiVMoaqL2OBZDT33RgAYB5Iy5QJyDatcdeZQ==
+X-Received: by 2002:a63:112:: with SMTP id 18mr6669739pgb.482.1643381060519;
+        Fri, 28 Jan 2022 06:44:20 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id j18sm10163732pfj.13.2022.01.28.06.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 06:44:20 -0800 (PST)
+Message-ID: <61f40144.1c69fb81.c2369.b547@mx.google.com>
+Date:   Fri, 28 Jan 2022 06:44:20 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-01-25-v5.17-rc1-11-gba94d205dc711
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master usb: 4 runs,
+ 1 regressions (renesas-devel-2022-01-25-v5.17-rc1-11-gba94d205dc711)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Increase build and test coverage by enabling support for more hardware
-present on Renesas SoCs and boards:
-  - Renesas RSPI, RZ/G2L thermal, RZ/G2L WDT watchdog, and OSTM timer,
-    as used on the RZ/G2L SMARC EVK board,
-  - R-Car Image Signal Processor (ISP) and Display Unit embedded MIPI
-    DSI encoder on R-Car V3U, as used on the Falcon board.
+renesas/master usb: 4 runs, 1 regressions (renesas-devel-2022-01-25-v5.17-r=
+c1-11-gba94d205dc711)
 
-All of the above are modular, except for thermal, watchdog, and timer.
+Regressions Summary
+-------------------
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v5.18.
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
 
- arch/arm64/configs/defconfig | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 92635ca9f635bb60..46ccecad89c52e4b 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -487,6 +487,7 @@ CONFIG_SPI_ORION=y
- CONFIG_SPI_PL022=y
- CONFIG_SPI_ROCKCHIP=y
- CONFIG_SPI_RPCIF=m
-+CONFIG_SPI_RSPI=m
- CONFIG_SPI_QCOM_QSPI=m
- CONFIG_SPI_QUP=y
- CONFIG_SPI_QCOM_GENI=m
-@@ -576,6 +577,7 @@ CONFIG_IMX8MM_THERMAL=m
- CONFIG_ROCKCHIP_THERMAL=m
- CONFIG_RCAR_THERMAL=y
- CONFIG_RCAR_GEN3_THERMAL=y
-+CONFIG_RZG2L_THERMAL=y
- CONFIG_ARMADA_THERMAL=y
- CONFIG_BCM2711_THERMAL=m
- CONFIG_BCM2835_THERMAL=m
-@@ -601,6 +603,7 @@ CONFIG_QCOM_WDT=m
- CONFIG_MESON_GXBB_WATCHDOG=m
- CONFIG_MESON_WATCHDOG=m
- CONFIG_RENESAS_WDT=y
-+CONFIG_RENESAS_RZG2LWDT=y
- CONFIG_UNIPHIER_WATCHDOG=y
- CONFIG_BCM2835_WDT=y
- CONFIG_MFD_ALTERA_SYSMGR=y
-@@ -662,6 +665,7 @@ CONFIG_V4L_PLATFORM_DRIVERS=y
- CONFIG_VIDEO_RCAR_CSI2=m
- CONFIG_VIDEO_RCAR_VIN=m
- CONFIG_VIDEO_SUN6I_CSI=m
-+CONFIG_VIDEO_RCAR_ISP=m
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
- CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
-@@ -696,6 +700,7 @@ CONFIG_ROCKCHIP_INNO_HDMI=y
- CONFIG_ROCKCHIP_LVDS=y
- CONFIG_DRM_RCAR_DU=m
- CONFIG_DRM_RCAR_DW_HDMI=m
-+CONFIG_DRM_RCAR_MIPI_DSI=m
- CONFIG_DRM_SUN4I=m
- CONFIG_DRM_SUN6I_DSI=m
- CONFIG_DRM_SUN8I_DW_HDMI=m
-@@ -1022,6 +1027,7 @@ CONFIG_CLK_GFM_LPASS_SM8250=m
- CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
- CONFIG_HWSPINLOCK=y
- CONFIG_HWSPINLOCK_QCOM=y
-+CONFIG_RENESAS_OSTM=y
- CONFIG_ARM_MHU=y
- CONFIG_IMX_MBOX=y
- CONFIG_PLATFORM_MHU=y
--- 
-2.25.1
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-01-25-v5.17-rc1-11-gba94d205dc711/plan/usb/
 
+  Test:     usb
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-01-25-v5.17-rc1-11-gba94d205dc711
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      ba94d205dc71120401744a925da52c4098644e40 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform          | arch | lab           | compiler | defconfig          | =
+regressions
+------------------+------+---------------+----------+--------------------+-=
+-----------
+tegra124-nyan-big | arm  | lab-collabora | gcc-10   | multi_v7_defconfig | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61f3ffd58c222d6f7aabbd61
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-25-v5.17-rc1-11-gba94d205dc711/arm/multi_v7_defconfig/gcc-10/lab-col=
+labora/usb-tegra124-nyan-big.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-25-v5.17-rc1-11-gba94d205dc711/arm/multi_v7_defconfig/gcc-10/lab-col=
+labora/usb-tegra124-nyan-big.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220121.0/armhf/rootfs.cpio.gz =
+
+
+
+  * usb.login: https://kernelci.org/test/case/id/61f3ffd58c222d6f7aabbd62
+        failing since 3 days (last pass: renesas-devel-2022-01-11-v5.16, fi=
+rst fail: v5.17-rc1-611-g4ccda2778be0) =
+
+ =20
