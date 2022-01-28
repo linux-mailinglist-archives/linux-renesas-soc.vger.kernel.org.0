@@ -2,85 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28ADA4A0336
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 22:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 009784A03CC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 23:36:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351665AbiA1Vvn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jan 2022 16:51:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
+        id S1351739AbiA1Wg0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jan 2022 17:36:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235428AbiA1Vvm (ORCPT
+        with ESMTP id S234804AbiA1WgZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jan 2022 16:51:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93472C061714;
-        Fri, 28 Jan 2022 13:51:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5F8E1B82702;
-        Fri, 28 Jan 2022 21:51:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0622C340E7;
-        Fri, 28 Jan 2022 21:51:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643406700;
-        bh=BhjBnaefvrqQGjN3w8CLYiLwh+6lqBXAa40bwRHOO5g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=h0BL30ZjjTUe25ztKCsmfY1HlIYr2jyKtxlw4WVVcgf3F8oVZxGDNcLfRaYIP+Pj1
-         UEbKbnKw7JfWcUWy9OrP1DJRep7Zdbe1yKzPwhr+YtVPUv9skGRrWsEzwzItQ6UGBD
-         3mcFLP0ffABSom88dhwz7teMWecMmliCxyWofKaHNCTQ0SsiPareBheTunZkHqFBtR
-         LjDPAQoW6tSnznZRb36poVAkeJ6jKFtCSnn2C87J8cUbwRHnl5rz9PlVK4XmF2pb1l
-         tLIKoLUszQYAltnSIt4Hhd6sapg+TG6cGTBW+Z1Xv8xudr8no0gJpEkTJWOZyU/KN4
-         31xpR4us4YAVQ==
-Date:   Fri, 28 Jan 2022 13:51:39 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     "David S. Miller" <davem@davemloft.net>, <netdev@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] ravb: ravb_close() always returns 0
-Message-ID: <20220128135139.292aab45@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20220128203838.17423-2-s.shtylyov@omp.ru>
-References: <20220128203838.17423-1-s.shtylyov@omp.ru>
-        <20220128203838.17423-2-s.shtylyov@omp.ru>
+        Fri, 28 Jan 2022 17:36:25 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71567C061714;
+        Fri, 28 Jan 2022 14:36:25 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id u5so6657924ilq.9;
+        Fri, 28 Jan 2022 14:36:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r4sEL0jJEyg0DdGFHEn4Yo4advc5Ek9TkjI/milGbFk=;
+        b=ZfZh/Fbxka+oD5Y7z4hM0n8uwV769AuRlb/pwrg4Vc3n0fUCY8khJcMwI6OLD7sKyU
+         iPrbsf8eufrL1ukNaXMokPXTenncYKcfEp7SZDPWcyW2GBB0L6YUGMGJuK7fR/k9Dlqo
+         WVXmTXXGs9iVTGhxSfSeayq4R73JYobAFvC/bj84lI+I0H2wPnSkc8NUuwW6hnhGSDRF
+         YkjFNbIxCigg3nz79Uqhbc7aDj+VMfc2KIDz5aXLjt5+yqOFJl7OS4CGuXoZBlyydwEL
+         JQ3HigoWIRaCmdBCpMmnXIlgth0YjbXFSeDdl05FNHAOO3CLTF+Ah9LcaBxX2gIi3sfC
+         6pdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r4sEL0jJEyg0DdGFHEn4Yo4advc5Ek9TkjI/milGbFk=;
+        b=v1ICPPvsuz67dD8zLi4cpc+1JVWdrJBTFOtlSW0wU/WWKdNUmud6LqlJMm1wrLjRSA
+         49gwttTUkdnFHLk8K3F4tnoKdoKEIa6ibLH9fhJQzrBK8MOFUmbBh6YzogdiMygKA7W7
+         imKA9faKMSLynwWuoAmTTpfh/4DTIz2EzZG78ndv1RcEwiufbA5Wr/x45Rm+CqGKslcK
+         6JAjI7oCyAc5E6hvF4MnIxCrlavMIKJze7wnhsZTNcx4GIZ0+g0Z31cLq2ouLUPRcR+I
+         +4T3n/HMff8ppCk6/4mdpxjscYbUSklCXXAlU74ZLiwfBqhp3eyUuFqrIONQAwSBRJZZ
+         KP8g==
+X-Gm-Message-State: AOAM533EwWrDzdOnT3cRObhkAqXPgaboEoTfpl95fKSGy9eoGNWoRGux
+        XZ6nx/koDdau9TN3qKHgj9Rpgfe0Y4I=
+X-Google-Smtp-Source: ABdhPJx1q7QjjHiONoxOWo5MOlj5onSKXY6TIr9QHLCEoj5/FCzs2+mynU0CvFugdtknqzew6jAODg==
+X-Received: by 2002:a05:6e02:80d:: with SMTP id u13mr7306491ilm.151.1643409384372;
+        Fri, 28 Jan 2022 14:36:24 -0800 (PST)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:9c52:a4df:7929:dcbf])
+        by smtp.gmail.com with ESMTPSA id g5sm15803162ila.59.2022.01.28.14.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 14:36:23 -0800 (PST)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, cstevens@beaconembedded.com,
+        aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: udc: renesas_usb3: Fix host to USB_ROLE_NONE transition
+Date:   Fri, 28 Jan 2022 16:36:03 -0600
+Message-Id: <20220128223603.2362621-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 28 Jan 2022 23:38:37 +0300 Sergey Shtylyov wrote:
-> ravb_close() always returns 0, hence the check in ravb_wol_restore() is
-> pointless (however, we cannot change the prototype of ravb_close() as it
-> implements the driver's ndo_stop() method).
->=20
-> Found by Linux Verification Center (linuxtesting.org) with the SVACE stat=
-ic
-> analysis tool.
->=20
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ether=
-net/renesas/ravb_main.c
-> index b215cde68e10..02fa8cfc2b7b 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2863,9 +2863,7 @@ static int ravb_wol_restore(struct net_device *ndev)
->  	/* Disable MagicPacket */
->  	ravb_modify(ndev, ECMR, ECMR_MPDE, 0);
-> =20
-> -	ret =3D ravb_close(ndev);
-> -	if (ret < 0)
-> -		return ret;
-> +	ravb_close(ndev);
-> =20
->  	return disable_irq_wake(priv->emac_irq);
->  }
+The support the external role switch a variety of situations were
+addressed, but the transition from USB_ROLE_HOST to USB_ROLE_NONE
+leaves the host up which can cause some error messages when
+switching from host to none, to gadget, to none, and then back
+to host again.
 
-drivers/net/ethernet/renesas/ravb_main.c:2857:13: warning: unused variable =
-=E2=80=98ret=E2=80=99 [-Wunused-variable]
- 2857 |         int ret;
-      |             ^~~
+ xhci-hcd ee000000.usb: Abort failed to stop command ring: -110
+ xhci-hcd ee000000.usb: xHCI host controller not responding, assume dead
+ xhci-hcd ee000000.usb: HC died; cleaning up
+ usb 4-1: device not accepting address 6, error -108
+ usb usb4-port1: couldn't allocate usb_device
+
+After this happens it will not act as a host again.
+Fix this by releasing the host mode when transitioning to USB_ROLE_NONE.
+
+Fixes: 0604160d8c0b ("usb: gadget: udc: renesas_usb3: Enhance role switch support")
+Signed-off-by: Adam Ford <aford173@gmail.com>
+
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index 57d417a7c3e0..601829a6b4ba 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -2378,6 +2378,8 @@ static void handle_ext_role_switch_states(struct device *dev,
+ 	switch (role) {
+ 	case USB_ROLE_NONE:
+ 		usb3->connection_state = USB_ROLE_NONE;
++		if (cur_role == USB_ROLE_HOST)
++			device_release_driver(host);
+ 		if (usb3->driver)
+ 			usb3_disconnect(usb3);
+ 		usb3_vbus_out(usb3, false);
+-- 
+2.32.0
+
