@@ -2,100 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED3A049F734
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 11:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B9649F8F6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jan 2022 13:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347818AbiA1KUS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jan 2022 05:20:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41052 "EHLO
+        id S1348341AbiA1MKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jan 2022 07:10:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234423AbiA1KUQ (ORCPT
+        with ESMTP id S234483AbiA1MKt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jan 2022 05:20:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D516C061714
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 02:20:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0DEC2B82515
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 10:20:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D6AABC340EB
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 10:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643365213;
-        bh=+BPd5xFPelXN41HXhQDRJJ3eWf3m2F2/Iuh22oK7SYU=;
-        h=Subject:From:Date:To:From;
-        b=acWkcCXYD6B1nfpqIEH5+fJzb66WGQg6lWskWBDnDICwQH5r8fnA+LoOy4QZRqQn+
-         QE2lV30+T+1f98glw+ybAVuUfw6EwxXHzGqtCUosOVY2qDkwgHEssitchNbFkwtOvg
-         ZVUnopb38jQpql8dBdyTSOJONs13vA2+jxMi+QpeLbaS1HvYEf3+60GtAI2FCd/njA
-         /7Pxcr5VFAVVxofA+AhhuWimE1tAXA9vmiAQBsXknubN66a7xuaZh2k/d7Qab+S19U
-         l7d11yf9NUFQAd3rfOsljdXuRTI98oH4zrTKrw6BjaYGzNQRznj8OZUEa2mCfFIQdn
-         zfQv7KqvyAQEg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BAFDBF6079F
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 10:20:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 28 Jan 2022 07:10:49 -0500
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CFFC061714
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Jan 2022 04:10:48 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:3999:e79d:cb59:f2ec])
+        by baptiste.telenet-ops.be with bizsmtp
+        id oCAm2600804fKGS01CAmGl; Fri, 28 Jan 2022 13:10:46 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nDQ5V-00Bkwt-V8; Fri, 28 Jan 2022 13:10:45 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nDQ5V-006Wng-By; Fri, 28 Jan 2022 13:10:45 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Disable unneeded 8250 serial options
+Date:   Fri, 28 Jan 2022 13:10:44 +0100
+Message-Id: <caefa806d66b83085c4ceab09819b469088664a1.1643371790.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <164336521369.10984.5590607437079709446.git-patchwork-summary@kernel.org>
-Date:   Fri, 28 Jan 2022 10:20:13 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+The only Renesas platform with 16550 serial ports is Emma Mobile EV2,
+which does not need any of the following options:
+  - CONFIG_SERIAL_8250_DEPRECATED_OPTIONS,
+  - CONFIG_SERIAL_8250_16550A_VARIANTS,
+  - CONFIG_SERIAL_8250_PCI,
+  - CONFIG_SERIAL_8250_PERICOM (new in v5.17-rc1).
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.18.
 
-Patch: arm64: dts: renesas: ulcb-kf: add 9-asix sensor device
-  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=604982
-  Lore link: https://lore.kernel.org/r/20220112205205.4082026-1-nikita.yoush@cogentembedded.com
+ arch/arm/configs/shmobile_defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Patch: [v2] soc: renesas: Add support for reading product revision for RZ/G2L family
-  Submitter: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=607120
-  Lore link: https://lore.kernel.org/r/20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-Series: arm64: use Audio Graph Card2 on ULCB
-  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=607681
-  Lore link: https://lore.kernel.org/r/20220124021142.224592-1-kuninori.morimoto.gx@renesas.com
-    Patches: [v2,1/3] arm64: dts: renesas: ulcb/ulcb-kf: switch to use audio-graph-card2 for sound
-             [v2,2/3] arm64: defconfig: Enable Audio Graph Card2 driver
-             [v2,3/3] arm64: renesas: defconfig: Enable Audio Graph Card2 driver
-
-Patch: [v2] arm64: dts: renesas: falcon-csi-dsi: Add and connect MAX96712
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=605266
-  Lore link: https://lore.kernel.org/r/20220113163239.3035073-1-niklas.soderlund+renesas@ragnatech.se
-
-Patch: arm64: dts: renesas: Miscellaneous whitespace fixes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=606320
-  Lore link: https://lore.kernel.org/r/3f2bcae1253c7a31d3eb6755185092a1f2b99b09.1642524439.git.geert+renesas@glider.be
-
-Patch: [v3] arm64: dts: renesas: add MOST device
-  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=606800
-  Lore link: https://lore.kernel.org/r/20220120051559.746322-1-nikita.yoush@cogentembedded.com
-
-
-Total patches: 8
-
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index 2c2702ec6d025a22..db8df8a3a7b12d13 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -69,9 +69,13 @@ CONFIG_INPUT_DA9063_ONKEY=y
+ CONFIG_INPUT_ADXL34X=y
+ # CONFIG_LEGACY_PTYS is not set
+ CONFIG_SERIAL_8250=y
++# CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
++# CONFIG_SERIAL_8250_16550A_VARIANTS is not set
+ CONFIG_SERIAL_8250_CONSOLE=y
++# CONFIG_SERIAL_8250_PCI is not set
+ CONFIG_SERIAL_8250_DW=y
+ CONFIG_SERIAL_8250_EM=y
++# CONFIG_SERIAL_8250_PERICOM is not set
+ CONFIG_SERIAL_SH_SCI=y
+ CONFIG_I2C_CHARDEV=y
+ CONFIG_I2C_DEMUX_PINCTRL=y
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
