@@ -2,34 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A744A2E70
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jan 2022 12:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC824A316B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jan 2022 19:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240720AbiA2Lzg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 29 Jan 2022 06:55:36 -0500
-Received: from mxout02.lancloud.ru ([45.84.86.82]:39872 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240740AbiA2LzY (ORCPT
+        id S235590AbiA2Spw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 29 Jan 2022 13:45:52 -0500
+Received: from mxout04.lancloud.ru ([45.84.86.114]:55492 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346259AbiA2Spt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 29 Jan 2022 06:55:24 -0500
+        Sat, 29 Jan 2022 13:45:49 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 8DD4922FB520
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru F3E81209A0E8
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, <netdev@vger.kernel.org>
 CC:     <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH v2 2/2] sh_eth: sh_eth_close() always returns 0
-Date:   Sat, 29 Jan 2022 14:55:17 +0300
-Message-ID: <20220129115517.11891-3-s.shtylyov@omp.ru>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20220129115517.11891-1-s.shtylyov@omp.ru>
-References: <20220129115517.11891-1-s.shtylyov@omp.ru>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH net-next] sh_eth: kill useless initializers in
+ sh_eth_{suspend|resume}()
+Organization: Open Mobile Platform
+Message-ID: <f09d7c64-4a2b-6973-09a4-10d759ed0df4@omp.ru>
+Date:   Sat, 29 Jan 2022 21:45:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.11.198]
 X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
  LFEX1907.lancloud.ru (fd00:f066::207)
@@ -37,33 +39,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-sh_eth_close() always returns 0, hence the check in sh_eth_wol_restore()
-is pointless (however we cannot change the prototype of sh_eth_close() as
-it implements the driver's ndo_stop() method).
-
-Found by Linux Verification Center (linuxtesting.org) with the SVACE static
-analysis tool.
+sh_eth_{suspend|resume}() initialize their local variable 'ret' to 0 but
+this value is never really used, thus we can kill those intializers...
 
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
 ---
- drivers/net/ethernet/renesas/sh_eth.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This patch is against DaveM's 'net-next.git' repo.
 
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index d947a628e166..b21e101b4484 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -3450,9 +3450,7 @@ static int sh_eth_wol_restore(struct net_device *ndev)
- 	 * both be reset and all registers restored. This is what
- 	 * happens during suspend and resume without WoL enabled.
- 	 */
--	ret = sh_eth_close(ndev);
--	if (ret < 0)
--		return ret;
-+	sh_eth_close(ndev);
- 	ret = sh_eth_open(ndev);
- 	if (ret < 0)
- 		return ret;
--- 
-2.26.3
+ drivers/net/ethernet/renesas/sh_eth.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+Index: net-next/drivers/net/ethernet/renesas/sh_eth.c
+===================================================================
+--- net-next.orig/drivers/net/ethernet/renesas/sh_eth.c
++++ net-next/drivers/net/ethernet/renesas/sh_eth.c
+@@ -3464,7 +3464,7 @@ static int sh_eth_suspend(struct device
+ {
+ 	struct net_device *ndev = dev_get_drvdata(dev);
+ 	struct sh_eth_private *mdp = netdev_priv(ndev);
+-	int ret = 0;
++	int ret;
+ 
+ 	if (!netif_running(ndev))
+ 		return 0;
+@@ -3483,7 +3483,7 @@ static int sh_eth_resume(struct device *
+ {
+ 	struct net_device *ndev = dev_get_drvdata(dev);
+ 	struct sh_eth_private *mdp = netdev_priv(ndev);
+-	int ret = 0;
++	int ret;
+ 
+ 	if (!netif_running(ndev))
+ 		return 0;
