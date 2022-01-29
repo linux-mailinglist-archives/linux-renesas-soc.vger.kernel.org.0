@@ -2,234 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B5B44A2A83
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jan 2022 01:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6171E4A2BA4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jan 2022 05:39:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241141AbiA2ASL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jan 2022 19:18:11 -0500
-Received: from mga14.intel.com ([192.55.52.115]:6459 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348189AbiA2ASL (ORCPT
+        id S1352377AbiA2EjE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jan 2022 23:39:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352374AbiA2EjB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jan 2022 19:18:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643415491; x=1674951491;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=188cjJsFWwnRXd4fQORZVGbRnAWu3fPrEOgLIaQglSo=;
-  b=Qke5fFgvf6QvrmLnLGB1blhe2oIxmo6njuo1mpf3iNaolcMdk3IGXQaz
-   UwyGS1EOE1aWxYH5urKC19GnbaNjrxwSSSlt+dL/RAC7Judkqs8ySSdvQ
-   BIpvKJ2hnMQAS3c0/BpEdeFu1n9d8n+azulUH6mTNJTxFJD3kV02LJqRk
-   Z2AaXf3BE4DB+J3c2Fga5atw+VeHbmGbUvsfcXAQYDE/58FsktBJQ5YKP
-   eI2PFoAiMN/sQ+fWCiLqqMcbuL6yWcrIkmbkRiMjp/7NC3XIn0qJ48Qkd
-   +JrdOJObB6bthSdToV4+gu2VbICfHqJK1M/Scbxm/85+7Q2DRm8B6cpg8
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="247443186"
-X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; 
-   d="scan'208";a="247443186"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 16:18:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; 
-   d="scan'208";a="582010698"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2022 16:18:09 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nDbRR-000OW5-3K; Sat, 29 Jan 2022 00:18:09 +0000
-Date:   Sat, 29 Jan 2022 08:17:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-drivers-for-v5.18] BUILD SUCCESS
- 92dfff382af0ce65216e05f056e7cb7f18ef6f78
-Message-ID: <61f48792.Rko31IEFX9beBvb5%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 28 Jan 2022 23:39:01 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006FEC061714;
+        Fri, 28 Jan 2022 20:39:00 -0800 (PST)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 16916820AE;
+        Sat, 29 Jan 2022 05:38:56 +0100 (CET)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date:   Sat, 29 Jan 2022 05:38:36 +0100
+Message-Id: <20220129043837.172126-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.18
-branch HEAD: 92dfff382af0ce65216e05f056e7cb7f18ef6f78  soc: renesas: Add support for reading product revision for RZ/G2L family
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-elapsed time: 728m
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
 
-configs tested: 161
-configs skipped: 3
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220124
-nios2                         10m50_defconfig
-xtensa                  audio_kc705_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm64                            alldefconfig
-mips                        jmr3927_defconfig
-sh                           se7780_defconfig
-sh                        edosk7760_defconfig
-sh                             espt_defconfig
-um                                  defconfig
-parisc                generic-64bit_defconfig
-sparc                       sparc64_defconfig
-mips                        bcm47xx_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                     ep8248e_defconfig
-m68k                        stmark2_defconfig
-nios2                            allyesconfig
-arm                            xcep_defconfig
-sh                            shmin_defconfig
-ia64                      gensparse_defconfig
-openrisc                         alldefconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                     sequoia_defconfig
-m68k                           sun3_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                     tqm8541_defconfig
-mips                           xway_defconfig
-sh                           se7705_defconfig
-xtensa                    smp_lx200_defconfig
-arm                        mini2440_defconfig
-sh                           se7343_defconfig
-powerpc                      ppc6xx_defconfig
-arc                              alldefconfig
-arc                        nsimosci_defconfig
-sh                   secureedge5410_defconfig
-arm                          lpd270_defconfig
-m68k                          hp300_defconfig
-h8300                     edosk2674_defconfig
-nios2                         3c120_defconfig
-sh                         apsh4a3a_defconfig
-mips                           ci20_defconfig
-xtensa                    xip_kc705_defconfig
-powerpc                    adder875_defconfig
-powerpc                 linkstation_defconfig
-powerpc                        cell_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                  randconfig-c002-20220127
-arm                  randconfig-c002-20220124
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20220124
-x86_64               randconfig-a003-20220124
-x86_64               randconfig-a001-20220124
-x86_64               randconfig-a004-20220124
-x86_64               randconfig-a005-20220124
-x86_64               randconfig-a006-20220124
-i386                 randconfig-a002-20220124
-i386                 randconfig-a005-20220124
-i386                 randconfig-a003-20220124
-i386                 randconfig-a004-20220124
-i386                 randconfig-a001-20220124
-i386                 randconfig-a006-20220124
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-
-clang tested configs:
-arm                     davinci_all_defconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                          allmodconfig
-arm                    vt8500_v6_v7_defconfig
-powerpc                          g5_defconfig
-powerpc                      acadia_defconfig
-arm                        magician_defconfig
-powerpc                     kilauea_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                 mpc832x_mds_defconfig
-powerpc                      katmai_defconfig
-mips                        bcm63xx_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64               randconfig-a011-20220124
-x86_64               randconfig-a013-20220124
-x86_64               randconfig-a015-20220124
-x86_64               randconfig-a016-20220124
-x86_64               randconfig-a014-20220124
-x86_64               randconfig-a012-20220124
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-x86_64                        randconfig-a005
-i386                 randconfig-a011-20220124
-i386                 randconfig-a016-20220124
-i386                 randconfig-a013-20220124
-i386                 randconfig-a014-20220124
-i386                 randconfig-a015-20220124
-i386                 randconfig-a012-20220124
-riscv                randconfig-r042-20220124
-hexagon              randconfig-r045-20220125
-hexagon              randconfig-r045-20220124
-hexagon              randconfig-r045-20220127
-hexagon              randconfig-r041-20220125
-hexagon              randconfig-r041-20220124
-hexagon              randconfig-r041-20220127
-
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+V2: Pull DEFINE_SPINLOCK(pmsr_lock) and rcar_pcie_wakeup() out of ifdef(CONFIG_ARM),
+    since this change is applicable even on arm64
+V3: - Convert non-zero return value from rcar_pcie_wakeup() in either
+      PCIBIOS_SET_FAILED in rcar_pcie_config_access(), or, 1 in
+      rcar_pcie_aarch32_abort_handler().
+    - Set error response using PCI_SET_ERROR_RESPONSE() in
+      rcar_pcie_config_access()
+    - Fix double spinlock unlock in rcar_pcie_aarch32_abort_handler().
+V4: No change
+---
+ drivers/pci/controller/pcie-rcar-host.c | 76 +++++++++++++++----------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 38b6e02edfa9..7d38a9c50093 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -65,6 +65,42 @@ struct rcar_pcie_host {
+ 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
+ };
+ 
++static DEFINE_SPINLOCK(pmsr_lock);
++
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
++{
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
++
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
++		ret = -EINVAL;
++		goto unlock_exit;
++	}
++
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
++}
++
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
+ {
+ 	return container_of(msi, struct rcar_pcie_host, msi);
+@@ -85,6 +121,14 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	if (ret) {
++		PCI_SET_ERROR_RESPONSE(data);
++		return PCIBIOS_SET_FAILED;
++	}
+ 
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1050,40 +1094,10 @@ static struct platform_driver rcar_pcie_driver = {
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+-	unsigned long flags;
+-	u32 pmsr, val;
+-	int ret = 0;
+-
+-	spin_lock_irqsave(&pmsr_lock, flags);
+-
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
+-		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+-
+-unlock_exit:
+-	spin_unlock_irqrestore(&pmsr_lock, flags);
+-	return ret;
++	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
+ }
+ 
+ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+-- 
+2.34.1
+
