@@ -2,14 +2,14 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5362E4A2A7F
+	by mail.lfdr.de (Postfix) with ESMTP id 093114A2A7E
 	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Jan 2022 01:17:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243073AbiA2ARM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S235979AbiA2ARM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 28 Jan 2022 19:17:12 -0500
-Received: from mga03.intel.com ([134.134.136.65]:12791 "EHLO mga03.intel.com"
+Received: from mga12.intel.com ([192.55.52.136]:59522 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348189AbiA2ARL (ORCPT
+        id S243073AbiA2ARL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 28 Jan 2022 19:17:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -17,34 +17,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1643415431; x=1674951431;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=5oM1hAEYSbjfrVRbasbqRMdtA1eABwsGTuWYSunU1hY=;
-  b=Cs2HaMEBKTUJPo1DqPKfletS5ckAPppCFgxkEJH1fC+Yl2+ffz10iwUy
-   n4hmWevpPYar+ZrmF+hpZbhbixKlraGbuNTb9gDTOzx6bdjz8ytN9ya8S
-   OBHsSl1j0Ovsr0ZeceqkE98EJaXjF1QUZCnyAtH2aEyPRIQ9S2RYHGyoN
-   4dXkCvIwjsaRgiPPjiiBA4LkVWnKJ5XuUJAarvNRTKxs9eKx8vVzQs8QC
-   6G+G8Gr++dhUiY89ueuYxNh8EtR3GOVLPuRYWDQrd9MxjFoiPZWiVjrZP
-   /KS7y9ckOXa6ZubN1T0lLxq0H42fsYfKSOAqrhcYrGPyOvOdVwTJb/5Sp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="247170694"
+  bh=N91/n6AgJhd0lDjKbAcVtpV8DxELn16cdcXuxPhB8NY=;
+  b=MLYwqCy9nA0Smdl7SAURMyTF7+9vbv16vmpNWVi0w+MEW3nSA6o6nbls
+   9UucWnZpmc1PMCfONSyaPmwuYT+vfsIGba3TXHNQNUc/b2NSCMGXV+kft
+   pdY/YWbouAGsA2pqi7hN1EvZYXPI5yFCHah0GMnqpljiv6UYUIS0g1rn0
+   iVMU46rThQ+OQ2nvqZ9Vds1+my/z1v2AvHb5UjhLioAbAqt9nfN/c0Sea
+   kSD23piDJwR+7NwHnh9M2Kn6JPMPQQznmlld3IFbnt0wO6G/x+UeOe1S/
+   HyLbjfagfQVhE3NFQV2AaUuDj5/FXiMV4Gvz2nA8cn1tgaV+JvTcVwsbt
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="227198808"
 X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; 
-   d="scan'208";a="247170694"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 16:17:11 -0800
+   d="scan'208";a="227198808"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 16:17:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; 
-   d="scan'208";a="598353475"
+   d="scan'208";a="625789755"
 Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2022 16:17:09 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2022 16:17:09 -0800
 Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1nDbQS-000OVN-TI; Sat, 29 Jan 2022 00:17:08 +0000
-Date:   Sat, 29 Jan 2022 08:16:29 +0800
+        id 1nDbQS-000OVF-PT; Sat, 29 Jan 2022 00:17:08 +0000
+Date:   Sat, 29 Jan 2022 08:17:02 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.18] BUILD SUCCESS
- 0e684f6e935317b26dfe9b9f3197d2cecbb7d429
-Message-ID: <61f4875d.ShKBpiBKYxg0HdZO%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ 742dd872d37f93841fbf9319ced6e99f8c32e01e
+Message-ID: <61f4877e.6ae8WK7+fINx+5Os%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -53,13 +53,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.18
-branch HEAD: 0e684f6e935317b26dfe9b9f3197d2cecbb7d429  arm64: dts: renesas: ulcb/ulcb-kf: switch to use audio-graph-card2 for sound
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: 742dd872d37f93841fbf9319ced6e99f8c32e01e  pinctrl: renesas: r8a77995: Restore pin group sort order
 
-elapsed time: 727m
+elapsed time: 724m
 
-configs tested: 160
-configs skipped: 89
+configs tested: 171
+configs skipped: 3
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -113,6 +113,12 @@ arc                        nsimosci_defconfig
 sh                          polaris_defconfig
 sh                           se7712_defconfig
 mips                        vocore2_defconfig
+sh                             espt_defconfig
+powerpc                 mpc837x_rdb_defconfig
+h8300                     edosk2674_defconfig
+nios2                         3c120_defconfig
+sh                         apsh4a3a_defconfig
+mips                           ci20_defconfig
 powerpc                     asp8347_defconfig
 mips                           ip32_defconfig
 powerpc                    adder875_defconfig
@@ -158,6 +164,9 @@ i386                 randconfig-a003-20220124
 i386                 randconfig-a004-20220124
 i386                 randconfig-a001-20220124
 i386                 randconfig-a006-20220124
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
 i386                          randconfig-a012
 i386                          randconfig-a014
 i386                          randconfig-a016
@@ -194,6 +203,8 @@ i386                 randconfig-c001-20220124
 powerpc              randconfig-c003-20220124
 mips                 randconfig-c004-20220124
 x86_64               randconfig-c007-20220124
+riscv                             allnoconfig
+arm                         s3c2410_defconfig
 arm                     davinci_all_defconfig
 arm                   milbeaut_m10v_defconfig
 powerpc                          allmodconfig
@@ -203,6 +214,7 @@ powerpc                      acadia_defconfig
 arm                        magician_defconfig
 arm                        mvebu_v5_defconfig
 powerpc                     kilauea_defconfig
+arm                      tct_hammer_defconfig
 powerpc                      katmai_defconfig
 mips                        bcm63xx_defconfig
 i386                          randconfig-a002
