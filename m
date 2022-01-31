@@ -2,46 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 909154A406D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jan 2022 11:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC154A41BE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jan 2022 12:05:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239230AbiAaKrL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jan 2022 05:47:11 -0500
-Received: from mail-yb1-f177.google.com ([209.85.219.177]:46687 "EHLO
-        mail-yb1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbiAaKrL (ORCPT
+        id S1359526AbiAaLFr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Jan 2022 06:05:47 -0500
+Received: from mail-yb1-f178.google.com ([209.85.219.178]:38507 "EHLO
+        mail-yb1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359071AbiAaLES (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jan 2022 05:47:11 -0500
-Received: by mail-yb1-f177.google.com with SMTP id p5so38917459ybd.13;
-        Mon, 31 Jan 2022 02:47:11 -0800 (PST)
+        Mon, 31 Jan 2022 06:04:18 -0500
+Received: by mail-yb1-f178.google.com with SMTP id i62so39136141ybg.5;
+        Mon, 31 Jan 2022 03:04:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=i9+eEHQW1ORSwlp0bAOJ+94PJqUvgHl4YYHHLLuPPBk=;
-        b=UX0faKmEdn0qGkNR+7/BvyyfllQuG/vIrforcxrIbrTV0TvSb2XYpx+QRfIzt3XPpt
-         Mfejf+zG5p7P73qpiLxQZJPuZyytxVsDjH+aSjdwuNN7UWCkbO01Zv9eWwY5ho/VCRBx
-         VpP9gXulufDWa8J0W3u7XToSxwgcIDwqxsjjinyyQcGzqTlyliwg1uvysD3tQ2s7QbJn
-         MgKZUKa3LUC120f7ELWMIIaESwmyxdYXOEHCrlYsJixrf3gVQtpOuFGwmzHJ98J8Fhr6
-         8a3RCowoF+lY3u4dBXVwEg9P2jREAyfTKMsYa3ZOVrPuLq/PqrbswBhAqZEO4sjilVG/
-         juNg==
-X-Gm-Message-State: AOAM530TEMO+GYg6CevJjEm2swvK57rjhz3tFZ/X5d+0MgpuVWDmzeMr
-        AmZEWhVwd4e8g8UvJ7XyNm5lX+c77aNHdW6Vhto=
-X-Google-Smtp-Source: ABdhPJwr3q76P8Wfti+PcbPWAxAOzgkvpi6L/rCvvb7BxyRD3pdJEaRJvG3yzRBfCMsIBvgSMozjzNimjBYs+FPr9nc=
-X-Received: by 2002:a05:6902:1503:: with SMTP id q3mr29062325ybu.305.1643626030600;
- Mon, 31 Jan 2022 02:47:10 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=53rlh+7XFoapmofgJ2m8CThJPRXRbfFhRqyaBk2y+/g=;
+        b=VAYDJkguc9e3DZ6aGxEk+NuUp5xGgQ9ShP3X1+B3UPauiOq1lk/NeEdTwBkYi+TJYZ
+         pXkEMdE66Cte+ZGIFVKd25WYasy3Qvo+lJ4m9/VO1wTnx29lowBJsec+oLLDPqiXpDQT
+         uKdWeWs8RrQZqtTnpAIbVYFhULSGlD+7ewhd5ftMW9HBZ8oXmsx+Zlrbiasg/9sH1UpX
+         PmpnO+p1XQ1UorqwCs+jwSngsQs07J/WAmtzAB0yLS3GgzIDKhe26wBTb8aQ/zGXGxVn
+         Gx33XMPUK9EbWkXiiGlFrfMcDEajpN5fOQ3+Z4pOi0v/RRe9vwIJ0mjNaJw37Bbmq8T7
+         Qcug==
+X-Gm-Message-State: AOAM533r0d8YJmqHsIU/i0aZG2Sx0M1+ziCRwv0rTwCYsX6gMvJAb2YM
+        mawjd9MZ1u45Rj+5KGCXJBnHGT4lXIJt84iaX/0=
+X-Google-Smtp-Source: ABdhPJyiHUKvUmZG+u0eCM0vjpo1ftDYzQS7yLTfUWnkKtL4TBWnAWvJScPQrzEn9tyqpLhFOh3OE7FMM7c8sUh5mlI=
+X-Received: by 2002:a5b:3cc:: with SMTP id t12mr7194072ybp.397.1643627057630;
+ Mon, 31 Jan 2022 03:04:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20220111162231.10390-1-uli+renesas@fpond.eu> <20220111162231.10390-3-uli+renesas@fpond.eu>
- <CAMZ6RqKr06KSMrKaB2h7iSDzOtgVKS+grPtf+bVrfpFaBai74w@mail.gmail.com> <1747432551.1166887.1643621068539@webmail.strato.com>
-In-Reply-To: <1747432551.1166887.1643621068539@webmail.strato.com>
+In-Reply-To: <20220111162231.10390-3-uli+renesas@fpond.eu>
 From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date:   Mon, 31 Jan 2022 19:46:59 +0900
-Message-ID: <CAMZ6RqLEO8JQV8f=xW1n9+UAgNMPp0z6W9vv6Kajh9Tvyu5vrA@mail.gmail.com>
+Date:   Mon, 31 Jan 2022 20:04:06 +0900
+Message-ID: <CAMZ6Rq+o6Di8wAQeAB4_yq+jNBoWvGTZ297+5jCc1=KSC9f0EA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/5] can: rcar_canfd: Add support for r8a779a0 SoC
-To:     Ulrich Hecht <uli@fpond.eu>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
         davem@davemloft.net, linux-can@vger.kernel.org,
         prabhakar.mahadev-lad.rj@bp.renesas.com,
         biju.das.jz@bp.renesas.com, wsa@kernel.org,
@@ -49,66 +46,107 @@ Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         mkl@pengutronix.de, kuba@kernel.org, socketcan@hartkopp.net,
         geert@linux-m68k.org, kieran.bingham@ideasonboard.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon. 31 Jan 2022 at 18:24, Ulrich Hecht <uli@fpond.eu> wrote:
->
-> Thanks for your review.
->
-> > On 01/31/2022 3:08 AM Vincent MAILHOL <mailhol.vincent@wanadoo.fr> wrote:
-> > > @@ -1435,13 +1488,15 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
-> > >
-> > >         dlc = RCANFD_CFPTR_CFDLC(can_fd_len2dlc(cf->len));
-> > >
-> > > -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
-> > > +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
-> > > +           gpriv->chip_id == RENESAS_R8A779A0) {
-> > >                 rcar_canfd_write(priv->base,
-> > >                                  RCANFD_F_CFID(ch, RCANFD_CFFIFO_IDX), id);
-> > >                 rcar_canfd_write(priv->base,
-> > >                                  RCANFD_F_CFPTR(ch, RCANFD_CFFIFO_IDX), dlc);
-> > >
-> > > -               if (can_is_canfd_skb(skb)) {
-> > > +               if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) &&
-> > > +                   can_is_canfd_skb(skb)) {
-> >
-> > Could you explain why this additional check is needed?
-> > My understanding is that can_is_canfd_skb(skb) being true implies
-> > that the CAN_CTRLMODE_FD flag is set.
->
-> That might indeed be redundant.
->
-> >
-> > >                         /* CAN FD frame format */
-> > >                         sts |= RCANFD_CFFDCSTS_CFFDF;
-> > >                         if (cf->flags & CANFD_BRS)
-> > > @@ -1488,22 +1543,29 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
-> > >  static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
-> > >  {
-> > >         struct net_device_stats *stats = &priv->ndev->stats;
-> > > +       struct rcar_canfd_global *gpriv = priv->gpriv;
-> > >         struct canfd_frame *cf;
-> > >         struct sk_buff *skb;
-> > >         u32 sts = 0, id, dlc;
-> > >         u32 ch = priv->channel;
-> > >         u32 ridx = ch + RCANFD_RFFIFO_IDX;
-> > >
-> > > -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
-> > > +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
-> > > +           gpriv->chip_id == RENESAS_R8A779A0) {
-> >
-> > I guess that this is linked to the above comment. Does the
-> > R8A779A0 chip support CAN-FD? If yes, why not simply use the
-> > CAN_CTRLMODE_FD instead of adding this additional check?
->
-> The non-V3U Gen3 CAN controllers have two different ways to be driven, depending on whether they are in classic or CAN-FD mode. The V3U controller is driven the CAN-FD way in both modes and thus needs to have this branch taken no matter what mode it is in.
+ Two more comments!
 
-Ack.
-Makes sense. So actually, this isn’t related to the previous comments :)
+On Mon. 12 Jan 2022 at 01:22, Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> Adds support for the CANFD IP variant in the V3U SoC.
+>
+> Differences to controllers in other SoCs are limited to an increase in
+> the number of channels from two to eight, an absence of dedicated
+> registers for "classic" CAN mode, and a number of differences in magic
+> numbers (register offsets and layouts).
+>
+> Inspired by BSP patch by Kazuya Mizuguchi.
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 231 ++++++++++++++++++++----------
+>  1 file changed, 153 insertions(+), 78 deletions(-)
+>
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index ff9d0f5ae0dd..b1c9870d2a82 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
 
-In my previous message, I added two comments toward the macro. I
-just want to double check that you have seen these because they
-are missing from your reply.
+...
+
+> @@ -1488,22 +1543,29 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
+>  static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
+>  {
+>         struct net_device_stats *stats = &priv->ndev->stats;
+> +       struct rcar_canfd_global *gpriv = priv->gpriv;
+>         struct canfd_frame *cf;
+>         struct sk_buff *skb;
+>         u32 sts = 0, id, dlc;
+>         u32 ch = priv->channel;
+>         u32 ridx = ch + RCANFD_RFFIFO_IDX;
+>
+> -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
+> +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
+> +           gpriv->chip_id == RENESAS_R8A779A0) {
+>                 id = rcar_canfd_read(priv->base, RCANFD_F_RFID(ridx));
+>                 dlc = rcar_canfd_read(priv->base, RCANFD_F_RFPTR(ridx));
+>
+>                 sts = rcar_canfd_read(priv->base, RCANFD_F_RFFDSTS(ridx));
+> -               if (sts & RCANFD_RFFDSTS_RFFDF)
+> -                       skb = alloc_canfd_skb(priv->ndev, &cf);
+> -               else
+> +               if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
+> +                       if (sts & RCANFD_RFFDSTS_RFFDF)
+> +                               skb = alloc_canfd_skb(priv->ndev, &cf);
+> +                       else
+> +                               skb = alloc_can_skb(priv->ndev,
+> +                                                   (struct can_frame **)&cf);
+> +               } else {
+>                         skb = alloc_can_skb(priv->ndev,
+>                                             (struct can_frame **)&cf);
+
+It seems to me that we can factorize the two alloc_can_skb() calls:
+
++               if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) &&
++                   sts & RCANFD_RFFDSTS_RFFDF)
++                       skb = alloc_canfd_skb(priv->ndev, &cf);
++               else
++                       skb = alloc_can_skb(priv->ndev, (struct
+can_frame **)&cf);
+
+> +               }
+>         } else {
+>                 id = rcar_canfd_read(priv->base, RCANFD_C_RFID(ridx));
+>                 dlc = rcar_canfd_read(priv->base, RCANFD_C_RFPTR(ridx));
+> @@ -1541,10 +1603,16 @@ static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
+>                 }
+>         } else {
+>                 cf->len = can_cc_dlc2len(RCANFD_RFPTR_RFDLC(dlc));
+> -               if (id & RCANFD_RFID_RFRTR)
+> +               if (id & RCANFD_RFID_RFRTR) {
+>                         cf->can_id |= CAN_RTR_FLAG;
+> -               else
+> -                       rcar_canfd_get_data(priv, cf, RCANFD_C_RFDF(ridx, 0));
+> +               } else {
+> +                       if (gpriv->chip_id == RENESAS_R8A779A0)
+> +                               rcar_canfd_get_data(priv, cf,
+> +                                                   RCANFD_F_RFDF(ridx, 0));
+> +                       else
+> +                               rcar_canfd_get_data(priv, cf,
+> +                                                   RCANFD_C_RFDF(ridx, 0));
+> +               }
+
+Put the else if on a single line and remove one level of indentation:
+
++               else if (gpriv->chip_id == RENESAS_R8A779A0)
++                       rcar_canfd_get_data(priv, cf, RCANFD_F_RFDF(ridx, 0));
++               else
++                       rcar_canfd_get_data(priv, cf, RCANFD_C_RFDF(ridx, 0));
+
+Also, a global comment, once you turn IS_V3U to an inline
+function, you can use it in place of the many
+"gpriv->chip_id == RENESAS_R8A779A0" checks.
+
+
+Yours sincerely,
+Vincent Mailhol
