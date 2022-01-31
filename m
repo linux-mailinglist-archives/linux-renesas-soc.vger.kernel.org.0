@@ -2,710 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD7D64A3C85
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jan 2022 03:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 377E34A3C8D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Jan 2022 03:17:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357339AbiAaCI1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 30 Jan 2022 21:08:27 -0500
-Received: from mail-yb1-f171.google.com ([209.85.219.171]:42516 "EHLO
-        mail-yb1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357336AbiAaCI1 (ORCPT
+        id S1357345AbiAaCRK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Jan 2022 21:17:10 -0500
+Received: from mail-tycjpn01on2122.outbound.protection.outlook.com ([40.107.114.122]:53121
+        "EHLO JPN01-TYC-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233994AbiAaCRJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 30 Jan 2022 21:08:27 -0500
-Received: by mail-yb1-f171.google.com with SMTP id m6so36013148ybc.9;
-        Sun, 30 Jan 2022 18:08:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=33bP2s/jJ4ZB1dP838Vc4hDzG23sjpY4lXxWwA+ENBo=;
-        b=jR+6Qw6lFqACOhi0trUEUKzYRjQbLY1WhUPggUdFFGRqYxeM2OIGmouoDhzLU9siZL
-         wr8tpN9FaMGMKpKvVOJg0F/Y7L4LNLwsVAQef5LjaMm7xj4bRGBmUxb+EoZEREbvg3p7
-         NxqwKM4g8u4qchp1BoUJS+AfVfoQ1WPryluntbV5TPsrrqPhvd15c/uhSilDwcQxN2S+
-         FDAwcCXO9iuuA5p9Ej+KcPbsjziFrW51GssojEvz5CZT3Sp134N5C8hosQFM4+QRAi6h
-         FkN01KQ8Mjtv/DimPwm6IRvIVD+w0po46MFIvz9LymRtwFHejEWQBuxBrSQIiBwELa3M
-         ZCOA==
-X-Gm-Message-State: AOAM533WhhdTS6us5NqEbusWfKPyV/CX9dJova5/9jE5HkqC2gj/0L56
-        oSU9jtxDdARqGWqolhSMkyTKMyVofY3ZnY60hp0=
-X-Google-Smtp-Source: ABdhPJwoVkDwA8Rex8p6HiU2hJv9JmlC9gmOlyeOBTcjjXQSXBmifMD08+orj9uNtmEULsCD1LQXg0lNPf1tZdp2Ceo=
-X-Received: by 2002:a25:9f83:: with SMTP id u3mr27352175ybq.474.1643594904069;
- Sun, 30 Jan 2022 18:08:24 -0800 (PST)
+        Sun, 30 Jan 2022 21:17:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SFiGu0RO9sIhf1ep/n+PZHpuU1inP4P5mslTSh5/9+GxjkA0toXFs+931WVVK8Iec6u/gTHrw5/Llop2Ii6tPTTLxOEyxWzTHLJy5qjjJSGinU6241qdk3GOQ+mT8G7+d8EylY+aURTzQYbnlFyQ5cag3u4+g5GE/wNNFocaAuyFFp3J19vEpdcPfE4W4XZsiDMNg8rhdEK4nm0dLId/gqs835Qy5oF+MQUKdcejGDMFlJyxb0gekyidwZUmm8lc8PMD1lhbkgjw3LkobMEwgXaoUl/bk6JNm/uVY4w6X6asq7BDD2u6bsjGh5uak4jGSH9CttcM4sVBMGqgPtCJpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VY+/N7A9F5g601ZtbmGxHCWsEnXHgECjZ9cgJQlDfso=;
+ b=H0JK0DRWE4bQWVYnSmtceXFKhltdbZzTuNdwKF6eCgiwkpC/qwYgsyTwC7c+qfJZjMSMpXf+vZTrfeIKfVwMb/jtRxv4FJwm6OfLIxhPpuwKRsFtuovL6PMOmlOyReDMdab73glvwo+5ecd+FrywnoEB8+VO1CO+8TmMk7RDt3gYhkww+U9Y/ch726jvcS9zvWQtvmC3EaD/D9OIn5AtIYz1WfQYqONa0jIE4t7+EiouRzBvnIRG6oABbI1brvqlVaX9oiItENty1KbX3B8dkK9ibPtyQ6IWJBxRp3M2QWA+OY3o/I7Ck9QBVuxUlgNtBJz9K6E9p45it5Pt56+ULA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VY+/N7A9F5g601ZtbmGxHCWsEnXHgECjZ9cgJQlDfso=;
+ b=NuZE3p4hcnko+IrfgtVgWOp8Pz3XQJ/01qss/gDkkjxZEIhSBbVvSVVsVjR9Kpj1pzeIUeGHR2CLUj4dmiwMDorywDx36/K/SMQrPZbngiakfunR4VC00ZECZMfn7850777QG/gEWMVryyOOKYviCtICNY7T3lBXL72luKyeZQM=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by TY2PR01MB3450.jpnprd01.prod.outlook.com
+ (2603:1096:404:d7::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.18; Mon, 31 Jan
+ 2022 02:17:06 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::b8a7:7600:2af0:eea7]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::b8a7:7600:2af0:eea7%4]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
+ 02:17:06 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Adam Ford <aford173@gmail.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "cstevens@beaconembedded.com" <cstevens@beaconembedded.com>,
+        "aford@beaconembedded.com" <aford@beaconembedded.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] usb: gadget: udc: renesas_usb3: Fix host to USB_ROLE_NONE
+ transition
+Thread-Topic: [PATCH] usb: gadget: udc: renesas_usb3: Fix host to
+ USB_ROLE_NONE transition
+Thread-Index: AQHYFJd9+7LdO0NmmU+VXClGrRksuqx8RUaQgAANowCAABQ/kA==
+Date:   Mon, 31 Jan 2022 02:17:06 +0000
+Message-ID: <TYBPR01MB534137D6807C750DEDCEE867D8259@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20220128223603.2362621-1-aford173@gmail.com>
+ <TYBPR01MB53418BE9FC9E11B901DF561DD8259@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <CAHCN7xJ491qfvkZCY6iSSXFNXbFdKnN6RUhb5df2x3P8oeQ0qQ@mail.gmail.com>
+In-Reply-To: <CAHCN7xJ491qfvkZCY6iSSXFNXbFdKnN6RUhb5df2x3P8oeQ0qQ@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 132b116f-c59b-4904-b184-08d9e45fc728
+x-ms-traffictypediagnostic: TY2PR01MB3450:EE_
+x-microsoft-antispam-prvs: <TY2PR01MB3450C774F045B1479B912606D8259@TY2PR01MB3450.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4gMVISFagyBKhdDHhfhoD29pc/vXKTJcWBRnImiJfTbKGG1YbOOycb0rR1BHmWqjKXsZKw2+KrtKHfbosKHNtTTeawzZvTddetenHYw/WFIOuHiSewekjrgh9oBhXZLdpNLD+pUw9c7H6OeuFPg3O4QMslWjtKEIvuZB/5yG8Lg1qEhr/ae3XQ5qvZiAi+MhaZuzgx0YwByxFP8gEkKr6xwG9GrMc7zs1enjMgpyMVzKzeQLIXEVeqV8+5hLYI+MmicHhxUJaZplvQn/7EQcqM5xoFNPnwNOs896F5hEbklPX0WZwesQwXgepbxXco6juTNhFDz4G6IC/4ylwydmMDO6S2TIUaANyvVuqt6KzbN7cUXvwy8FA8Ur1jJbVE5FeA/YNP2HQ6UqR+Nv0o+FdggTUVALXXoc4yzP21JMrNiyeRrelBvC0MhZdYR72TeqIHBepT5i+J2T9r3duHWWJ6/6L2/KaBckOg5xeYzN9ZBjxLpu5sxBY8+qHO3lWrckgM4JWLZOC9g47pVkSE9awXI9KmOoHQAMCxo9hTVeI8qE5Q4wGj/Uw5sZMdZG2bkhcUUUCLif3RGOLRnlgeFbgxetDKzKoealqVXLlDzdzbVOyMRj8dM0ZnvV/DPt+rIBB2SguvUobnMZiMVJSuqAUVNTYguflYn0YlfikJcFOs6resm+DDm+nfkg9M0AKmgZ7GzQguO5BIeX2Dy6TYxHRQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4326008)(66946007)(66556008)(66476007)(66446008)(71200400001)(64756008)(76116006)(5660300002)(8936002)(8676002)(54906003)(2906002)(122000001)(316002)(6916009)(38100700002)(52536014)(38070700005)(186003)(9686003)(55016003)(33656002)(508600001)(6506007)(7696005)(53546011)(86362001)(20210929001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eXIwUk4rOXoxb2llTlB0dzkxQXprQ2VVTld1K0pjM0ZQc1Q0RGpaVm5tY1VX?=
+ =?utf-8?B?eVBZL3Y5eEJ4aDRrbUpjOXNRaGFVUG9OY1lVWS9CSk9lSGNEaHFOeHgwTXV4?=
+ =?utf-8?B?R00yeWVKUERkdkprUGgyLzZsZGprWW9kSHhtdlZFOURCcXpuMTRIUHhPQXVq?=
+ =?utf-8?B?SXVhOFhLWjVBVUVCbkJiSE9Ya2JPdmY4Wk9ZeURwV2pQY1pGSmtyWHl5a0dX?=
+ =?utf-8?B?MkZYaWtCU3M0SzEwbTJScEhNTUozaU9QU1JMMUx1R2pLL2VvNklQZnpCbitk?=
+ =?utf-8?B?WVgrdzh1SDZsK2w3SjlmTGgzaDZYOTIvZWd0aGNhR0RvRjBGSFRTdnc4Tm5u?=
+ =?utf-8?B?cFRSdCtWVWFVd3dTY1NBenBiL3hTVUpxUkt4aFpNVDk5MWF6RiszTWFKa3ht?=
+ =?utf-8?B?alBXU212UlFVa1JHbkN0ODQ3NkhkcUJIM1dSVWllbFZXeHJMZGg1Tjl4OU5E?=
+ =?utf-8?B?REozOVBjQlJ5M1lnaklJdnJLSi9MNVNhKytRMU9ZME40WW9lcjVDYVZ3cUZq?=
+ =?utf-8?B?UzNxcHB0TU9WOXlkZWQ5R2dNK0taaWhINytSQjk1bmhRR291Q3BueGlSdEpO?=
+ =?utf-8?B?WUMxWEtzNU1HVGs3amROaEZuMkZkM0ZUUWw5WXUxN00xbnBrLzQzL2dUNTg4?=
+ =?utf-8?B?RTdzVnp3NDNISUR1RDVvd2NlZ1hsYzB4cUc3WEFwQldjVGlNNDBWL081UVZL?=
+ =?utf-8?B?QmZmTzM2U25TZnJiNjByMkkrVDZlWVBxRVJJTktkbFFkVHpuQzhFNVkxN2dV?=
+ =?utf-8?B?ZG1WYjhxczVNeXRaYWh0UmRUWGZ4c2d2c2JiMU9ETFRtQzMrMThmelNGMG5a?=
+ =?utf-8?B?SEtHM0RTd05aeGtITlNCV2pOQ2FlZ2RoTy96V0Jhb0lmZVZteWg1NEFRUmUx?=
+ =?utf-8?B?MjI0OG54VmFUYXZJNHh6RjZic3Q4eGQ1cHVtRDFpckpuWEhNNW5nd1BJekhO?=
+ =?utf-8?B?NEZaOE5FUmpBb2VmM3BoUmxGUG5rUkVoYVZ3Z0FwSDBITXY4R0Y1d0NueTY3?=
+ =?utf-8?B?TlBxK2xzY09LSlAvMHdWNk5XTGtkYTUxNVljVllvOHFsK0pxMzg3OGxvQlVl?=
+ =?utf-8?B?cWJYMzNjMVB0azdrTnZkSGphZEtQQlNjUGYzQkU3aDM2amN6NElyUS9pNVZI?=
+ =?utf-8?B?VUt1eThJTVc1SzNUQVovVnNnZVJBSmNqcjdEOUJsY3NwZy9jcmg0R3p3c2Fk?=
+ =?utf-8?B?Q0t6Qk5rMFJsL201STVBKzR2YXpIZVMyYVF2bkt6QUJWYTJrclJpWElkSXlY?=
+ =?utf-8?B?T1R2eENZNCtDa3ByZWRGOUVURTJaeFFTNHl0ZU15MjFjU0VOZzR0aDBpc29z?=
+ =?utf-8?B?c283K2ZVekw5UGlMTThWSHY5SDZsaC92eGhxNUlUZzF0R1NNMFNXazdDbVF4?=
+ =?utf-8?B?S3h6M0RHWXNIa3VJNU5aTFNORE84S09RQ1pVUGRzNzBvV1pkN2pCS0FjME1z?=
+ =?utf-8?B?MmpkRDlIWUN0bGtrRk5oUUtuTmZCNWRxdXVxQ1psb2luTDBDeUhuMFRheHRL?=
+ =?utf-8?B?TlFhYlg4U0RXRzhkMnJZY3A2Q0dQUlpPeDl4anFmQVI2TVRUejkrSzQrdWVp?=
+ =?utf-8?B?eFd1SWJlQnBUeUZUMWQwS2FaTmMrZ2lEUzN3c25mL0VsMzhndy96Zk1oaE82?=
+ =?utf-8?B?Ym9DVW1ETFcvcitzWVVNb0ZqRFFuQlpGc1RzSVZSRG5yR0JKR1B3VVZoaDF3?=
+ =?utf-8?B?S2p4TXVqK0Fac2pQcGVNQnBoODZHY0xRUENoNU9tWHlyeWJiTWpwNjFad09v?=
+ =?utf-8?B?S2hKZTQwUWZtQi9RRDZsd3FmWmxTbGVVNzgyR2p3WTIxZWIwVmlHVjVyMWl0?=
+ =?utf-8?B?dzd0cWR2cFVRMFUzUHMyMTFZc1F0OEVSVFpNMWNhcVJvRlp4czh1ZHVWdlgw?=
+ =?utf-8?B?TlVJQzNKR1NVZjF6VU9sR2cvL0VRZ1lqSUc0SmpYWFdXNVRKNGZscjFlczFj?=
+ =?utf-8?B?bjZHV1dSSlhqejlVQ00vTGpIcXdlYS9yMWhrcURIdS9mTDlPaFlGdmd0S0xz?=
+ =?utf-8?B?ZkUzSDBIejFWUWZjbUZoYldpcUMwQ1VqVjcvV3EvbW9LaFY5dGhoWnFGNXA0?=
+ =?utf-8?B?Y3c3NzhjQm9jWFYwV01WRnZDd1pTcnJRNmRXdXNLcFVJUHM3YnREUHUwMlln?=
+ =?utf-8?B?dDZ6cDJFRmQ1SmlXWS9GWXY5alZJS2MxeUl5TktiRHp4Y29NeTBaUktkeXBE?=
+ =?utf-8?B?ZjFEajZpNG1QNlNqOVk1ZmNLZnUwcVVwemdkYkhqM253ZU9qUklBUkNWeGRB?=
+ =?utf-8?B?dkRHZllXZlJXMnlWMGxYeU5QRjJnN0VvMHFhNi9UWTdhRVo5bU5mYlVXSGNM?=
+ =?utf-8?B?L09pcXdJZHhwR1ROeStiSlZEZW4ybjdHcDZPQVBqOWVvVWJoVUdYbnVPZWw3?=
+ =?utf-8?Q?MRozF88ZkMYoZzjoZAzf8QaLK5oBBwEnapW4q?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220111162231.10390-1-uli+renesas@fpond.eu> <20220111162231.10390-3-uli+renesas@fpond.eu>
-In-Reply-To: <20220111162231.10390-3-uli+renesas@fpond.eu>
-From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date:   Mon, 31 Jan 2022 11:08:12 +0900
-Message-ID: <CAMZ6RqKr06KSMrKaB2h7iSDzOtgVKS+grPtf+bVrfpFaBai74w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] can: rcar_canfd: Add support for r8a779a0 SoC
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, linux-can@vger.kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, wsa@kernel.org,
-        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
-        mkl@pengutronix.de, kuba@kernel.org, socketcan@hartkopp.net,
-        geert@linux-m68k.org, kieran.bingham@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 132b116f-c59b-4904-b184-08d9e45fc728
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2022 02:17:06.3213
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xZYjD9TZ5Jz0bQxazNASsbEQS8GoUBGqtTANFucAUaEgrmzqrK2D0A1jSioWNCPe7yo4XA361brKQSsvNVzY1jPQDhCuHKffk6S0pQcPDJoptkKJFKLqmfCb9vdKPyi7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3450
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  Hi Ulrich,
-
-On Wed. 12 Jan 2022 at 01:22, Ulrich Hecht <uli+renesas@fpond.eu> a wrote:
->
-> Adds support for the CANFD IP variant in the V3U SoC.
->
-> Differences to controllers in other SoCs are limited to an increase in
-> the number of channels from two to eight, an absence of dedicated
-> registers for "classic" CAN mode, and a number of differences in magic
-> numbers (register offsets and layouts).
->
-> Inspired by BSP patch by Kazuya Mizuguchi.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> ---
->  drivers/net/can/rcar/rcar_canfd.c | 231 ++++++++++++++++++++----------
->  1 file changed, 153 insertions(+), 78 deletions(-)
->
-> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-> index ff9d0f5ae0dd..b1c9870d2a82 100644
-> --- a/drivers/net/can/rcar/rcar_canfd.c
-> +++ b/drivers/net/can/rcar/rcar_canfd.c
-> @@ -44,10 +44,13 @@
->  enum rcanfd_chip_id {
->         RENESAS_RCAR_GEN3 = 0,
->         RENESAS_RZG2L,
-> +       RENESAS_R8A779A0,
->  };
->
->  /* Global register bits */
->
-> +#define IS_V3U (gpriv->chip_id == RENESAS_R8A779A0)
-> +
->  /* RSCFDnCFDGRMCFG */
->  #define RCANFD_GRMCFG_RCMC             BIT(0)
->
-> @@ -79,6 +82,7 @@ enum rcanfd_chip_id {
->  #define RCANFD_GSTS_GNOPM              (BIT(0) | BIT(1) | BIT(2) | BIT(3))
->
->  /* RSCFDnCFDGERFL / RSCFDnGERFL */
-> +#define RCANFD_GERFL_EEF0_7            GENMASK(23, 16)
->  #define RCANFD_GERFL_EEF1              BIT(17)
->  #define RCANFD_GERFL_EEF0              BIT(16)
->  #define RCANFD_GERFL_CMPOF             BIT(3)  /* CAN FD only */
-> @@ -86,20 +90,24 @@ enum rcanfd_chip_id {
->  #define RCANFD_GERFL_MES               BIT(1)
->  #define RCANFD_GERFL_DEF               BIT(0)
->
-
-I have a couple of comments *in addition* to Mark’s one on the IS_V3U.
-
->
-> -#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & (RCANFD_GERFL_EEF1 |\
-> -                                       RCANFD_GERFL_EEF0 | RCANFD_GERFL_MES |\
-> -                                       (gpriv->fdmode ?\
-> -                                        RCANFD_GERFL_CMPOF : 0)))
-> +#define RCANFD_GERFL_ERR(gpriv, x)     ((x) & ((IS_V3U ? RCANFD_GERFL_EEF0_7 : \
-> +                                       (RCANFD_GERFL_EEF0 | RCANFD_GERFL_EEF1)) | \
-> +                                       RCANFD_GERFL_MES | ((gpriv)->fdmode ? \
-> +                                       RCANFD_GERFL_CMPOF : 0)))
-
-The indentation is hard to read. Here you follow the 80
-characters per line, but the indentation does not highlight
-the logic of the different branches of the ternary operator.
-
-Does something in this fashion make more sense?
-
-+#define RCANFD_GERFL_ERR(gpriv, x)                                     \
-+(                                                                      \
-+        (x) & ((IS_V3U ? RCANFD_GERFL_EEF0_7 :                          \
-+                         RCANFD_GERFL_EEF0 | RCANFD_GERFL_EEF1) |       \
-+               RCANFD_GERFL_MES |                                       \
-+               ((gpriv)->fdmode ? RCANFD_GERFL_CMPOF : 0))              \
-+)
-
-(I guess that my mailer will break all the tabulations, sorry for that).
-
->  /* AFL Rx rules registers */
->
->  /* RSCFDnCFDGAFLCFG0 / RSCFDnGAFLCFG0 */
-> -#define RCANFD_GAFLCFG_SETRNC(n, x)    (((x) & 0xff) << (24 - n * 8))
-> -#define RCANFD_GAFLCFG_GETRNC(n, x)    (((x) >> (24 - n * 8)) & 0xff)
-> +#define RCANFD_GAFLCFG_SETRNC(n, x)    (((x) & (IS_V3U ? 0x1ff : 0xff)) << \
-> +                                        ((IS_V3U ? 16 : 24) - (n) * (IS_V3U ? \
-> +                                        16 : 8)))
-> +#define RCANFD_GAFLCFG_GETRNC(n, x)    (((x) >> ((IS_V3U ? 16 : 24) - (n) * \
-> +                                        (IS_V3U ? 16 : 8))) & \
-> +                                        (IS_V3U ? 0x1ff : 0xff))
-
-Similarly, here, you try to factorize all the code, but this is not
-helping readability.
-
-What do you think of doing this instead:
-
-+/* RSCFDnCFDGAFLCFG0 / RSCFDnGAFLCFG0 */
-+#define RCANFD_GAFLCFG_SETRNC(n, x)                                    \
-+        (IS_V3U ?                                                       \
-+                ((x) & 0x1ff) << (16 - n * 16) :                        \
-+                ((x) & 0xff) << (24 - n * 8))
-
-Same comments apply to other macros as well.
-
->  /* RSCFDnCFDGAFLECTR / RSCFDnGAFLECTR */
->  #define RCANFD_GAFLECTR_AFLDAE         BIT(8)
-> -#define RCANFD_GAFLECTR_AFLPN(x)       ((x) & 0x1f)
-> +#define RCANFD_GAFLECTR_AFLPN(x)       ((x) & (IS_V3U ? 0x7f : 0x1f))
->
->  /* RSCFDnCFDGAFLIDj / RSCFDnGAFLIDj */
->  #define RCANFD_GAFLID_GAFLLB           BIT(29)
-> @@ -116,9 +124,12 @@ enum rcanfd_chip_id {
->  #define RCANFD_CFG_BRP(x)              (((x) & 0x3ff) << 0)
->
->  /* RSCFDnCFDCmNCFG - CAN FD only */
-> -#define RCANFD_NCFG_NTSEG2(x)          (((x) & 0x1f) << 24)
-> -#define RCANFD_NCFG_NTSEG1(x)          (((x) & 0x7f) << 16)
-> -#define RCANFD_NCFG_NSJW(x)            (((x) & 0x1f) << 11)
-> +#define RCANFD_NCFG_NTSEG2(x)          (((x) & (IS_V3U ? 0x7f : 0x1f)) << \
-> +                                        (IS_V3U ? 25 : 24))
-> +#define RCANFD_NCFG_NTSEG1(x)          (((x) & (IS_V3U ? 0xff : 0x7f)) << \
-> +                                        (IS_V3U ? 17 : 16))
-> +#define RCANFD_NCFG_NSJW(x)            (((x) & (IS_V3U ? 0x7f : 0x1f)) << \
-> +                                        (IS_V3U ? 10 : 11))
->  #define RCANFD_NCFG_NBRP(x)            (((x) & 0x3ff) << 0)
->
->  /* RSCFDnCFDCmCTR / RSCFDnCmCTR */
-> @@ -180,11 +191,15 @@ enum rcanfd_chip_id {
->
->  /* RSCFDnCFDCmDCFG */
->  #define RCANFD_DCFG_DSJW(x)            (((x) & 0x7) << 24)
-> -#define RCANFD_DCFG_DTSEG2(x)          (((x) & 0x7) << 20)
-> -#define RCANFD_DCFG_DTSEG1(x)          (((x) & 0xf) << 16)
-> +#define RCANFD_DCFG_DTSEG2(x)          (((x) & (IS_V3U ? 0x0f : 0x7)) << \
-> +                                        (IS_V3U ? 16 : 20))
-> +#define RCANFD_DCFG_DTSEG1(x)          (((x) & (IS_V3U ? 0x1f : 0xf)) << \
-> +                                        (IS_V3U ? 8 : 16))
->  #define RCANFD_DCFG_DBRP(x)            (((x) & 0xff) << 0)
->
->  /* RSCFDnCFDCmFDCFG */
-> +#define RCANFD_FDCFG_CLOE              BIT(30)
-> +#define RCANFD_FDCFG_FDOE              BIT(28)
->  #define RCANFD_FDCFG_TDCE              BIT(9)
->  #define RCANFD_FDCFG_TDCOC             BIT(8)
->  #define RCANFD_FDCFG_TDCO(x)           (((x) & 0x7f) >> 16)
-> @@ -219,10 +234,10 @@ enum rcanfd_chip_id {
->  /* Common FIFO bits */
->
->  /* RSCFDnCFDCFCCk */
-> -#define RCANFD_CFCC_CFTML(x)           (((x) & 0xf) << 20)
-> -#define RCANFD_CFCC_CFM(x)             (((x) & 0x3) << 16)
-> +#define RCANFD_CFCC_CFTML(x)           (((x) & 0xf) << (IS_V3U ? 16 : 20))
-> +#define RCANFD_CFCC_CFM(x)             (((x) & 0x3) << (IS_V3U ? 8 : 16))
->  #define RCANFD_CFCC_CFIM               BIT(12)
-> -#define RCANFD_CFCC_CFDC(x)            (((x) & 0x7) << 8)
-> +#define RCANFD_CFCC_CFDC(x)            (((x) & 0x7) << (IS_V3U ? 21 : 8))
->  #define RCANFD_CFCC_CFPLS(x)           (((x) & 0x7) << 4)
->  #define RCANFD_CFCC_CFTXIE             BIT(2)
->  #define RCANFD_CFCC_CFE                        BIT(0)
-> @@ -282,33 +297,32 @@ enum rcanfd_chip_id {
->  #define RCANFD_GTSC                    (0x0094)
->  /* RSCFDnCFDGAFLECTR / RSCFDnGAFLECTR */
->  #define RCANFD_GAFLECTR                        (0x0098)
-> -/* RSCFDnCFDGAFLCFG0 / RSCFDnGAFLCFG0 */
-> -#define RCANFD_GAFLCFG0                        (0x009c)
-> -/* RSCFDnCFDGAFLCFG1 / RSCFDnGAFLCFG1 */
-> -#define RCANFD_GAFLCFG1                        (0x00a0)
-> +/* RSCFDnCFDGAFLCFG / RSCFDnGAFLCFG */
-> +#define RCANFD_GAFLCFG(ch)             (0x009c + (0x04 * ((ch) / 2)))
->  /* RSCFDnCFDRMNB / RSCFDnRMNB */
->  #define RCANFD_RMNB                    (0x00a4)
->  /* RSCFDnCFDRMND / RSCFDnRMND */
->  #define RCANFD_RMND(y)                 (0x00a8 + (0x04 * (y)))
->
->  /* RSCFDnCFDRFCCx / RSCFDnRFCCx */
-> -#define RCANFD_RFCC(x)                 (0x00b8 + (0x04 * (x)))
-> +#define RCANFD_RFCC(x)                 ((IS_V3U ? 0x00c0 : 0x00b8) + \
-> +                                        (0x04 * (x)))
->  /* RSCFDnCFDRFSTSx / RSCFDnRFSTSx */
-> -#define RCANFD_RFSTS(x)                        (0x00d8 + (0x04 * (x)))
-> +#define RCANFD_RFSTS(x)                        (RCANFD_RFCC(x) + 0x20)
->  /* RSCFDnCFDRFPCTRx / RSCFDnRFPCTRx */
-> -#define RCANFD_RFPCTR(x)               (0x00f8 + (0x04 * (x)))
-> +#define RCANFD_RFPCTR(x)               (RCANFD_RFCC(x) + 0x40)
->
->  /* Common FIFO Control registers */
->
->  /* RSCFDnCFDCFCCx / RSCFDnCFCCx */
-> -#define RCANFD_CFCC(ch, idx)           (0x0118 + (0x0c * (ch)) + \
-> -                                        (0x04 * (idx)))
-> +#define RCANFD_CFCC(ch, idx)           ((IS_V3U ? 0x0120 : 0x0118) + \
-> +                                        (0x0c * (ch)) + (0x04 * (idx)))
->  /* RSCFDnCFDCFSTSx / RSCFDnCFSTSx */
-> -#define RCANFD_CFSTS(ch, idx)          (0x0178 + (0x0c * (ch)) + \
-> -                                        (0x04 * (idx)))
-> +#define RCANFD_CFSTS(ch, idx)          ((IS_V3U ? 0x01e0 : 0x0178) + \
-> +                                        (0x0c * (ch)) + (0x04 * (idx)))
->  /* RSCFDnCFDCFPCTRx / RSCFDnCFPCTRx */
-> -#define RCANFD_CFPCTR(ch, idx)         (0x01d8 + (0x0c * (ch)) + \
-> -                                        (0x04 * (idx)))
-> +#define RCANFD_CFPCTR(ch, idx)         ((IS_V3U ? 0x0240 : 0x01d8) + \
-> +                                        (0x0c * (ch)) + (0x04 * (idx)))
->
->  /* RSCFDnCFDFESTS / RSCFDnFESTS */
->  #define RCANFD_FESTS                   (0x0238)
-> @@ -415,6 +429,12 @@ enum rcanfd_chip_id {
->  /* RSCFDnRPGACCr */
->  #define RCANFD_C_RPGACC(r)             (0x1900 + (0x04 * (r)))
->
-> +/* R-Car V3U Classical and CAN FD mode specific register map */
-> +#define RCANFD_V3U_CFDCFG              (0x1314)
-> +#define RCANFD_V3U_DCFG(m)             (0x1400 + (0x20 * (m)))
-> +
-> +#define RCANFD_V3U_GAFL_OFFSET         (0x1800)
-> +
->  /* CAN FD mode specific register map */
->
->  /* RSCFDnCFDCmXXX -> RCANFD_F_XXX(m) */
-> @@ -434,7 +454,7 @@ enum rcanfd_chip_id {
->  #define RCANFD_F_RMDF(q, b)            (0x200c + (0x04 * (b)) + (0x20 * (q)))
->
->  /* RSCFDnCFDRFXXx -> RCANFD_F_RFXX(x) */
-> -#define RCANFD_F_RFOFFSET              (0x3000)
-> +#define RCANFD_F_RFOFFSET              (IS_V3U ? 0x6000 : 0x3000)
->  #define RCANFD_F_RFID(x)               (RCANFD_F_RFOFFSET + (0x80 * (x)))
->  #define RCANFD_F_RFPTR(x)              (RCANFD_F_RFOFFSET + 0x04 + \
->                                          (0x80 * (x)))
-> @@ -444,7 +464,7 @@ enum rcanfd_chip_id {
->                                          (0x80 * (x)) + (0x04 * (df)))
->
->  /* RSCFDnCFDCFXXk -> RCANFD_F_CFXX(ch, k) */
-> -#define RCANFD_F_CFOFFSET              (0x3400)
-> +#define RCANFD_F_CFOFFSET              (IS_V3U ? 0x6400 : 0x3400)
->  #define RCANFD_F_CFID(ch, idx)         (RCANFD_F_CFOFFSET + (0x180 * (ch)) + \
->                                          (0x80 * (idx)))
->  #define RCANFD_F_CFPTR(ch, idx)                (RCANFD_F_CFOFFSET + 0x04 + \
-> @@ -470,7 +490,7 @@ enum rcanfd_chip_id {
->  #define RCANFD_FIFO_DEPTH              8       /* Tx FIFO depth */
->  #define RCANFD_NAPI_WEIGHT             8       /* Rx poll quota */
->
-> -#define RCANFD_NUM_CHANNELS            2       /* Two channels max */
-> +#define RCANFD_NUM_CHANNELS            8       /* Eight channels max */
->  #define RCANFD_CHANNELS_MASK           BIT((RCANFD_NUM_CHANNELS) - 1)
->
->  #define RCANFD_GAFL_PAGENUM(entry)     ((entry) / 16)
-> @@ -522,6 +542,7 @@ struct rcar_canfd_global {
->         struct reset_control *rstc1;
->         struct reset_control *rstc2;
->         enum rcanfd_chip_id chip_id;
-> +       u32 max_channels;
->  };
->
->  /* CAN FD mode nominal rate constants */
-> @@ -629,6 +650,25 @@ static void rcar_canfd_tx_failure_cleanup(struct net_device *ndev)
->                 can_free_echo_skb(ndev, i, NULL);
->  }
->
-> +static void rcar_canfd_set_mode(struct rcar_canfd_global *gpriv)
-> +{
-> +       if (gpriv->chip_id == RENESAS_R8A779A0) {
-> +               if (gpriv->fdmode)
-> +                       rcar_canfd_set_bit(gpriv->base, RCANFD_V3U_CFDCFG,
-> +                                          RCANFD_FDCFG_FDOE);
-> +               else
-> +                       rcar_canfd_set_bit(gpriv->base, RCANFD_V3U_CFDCFG,
-> +                                          RCANFD_FDCFG_CLOE);
-> +       } else {
-> +               if (gpriv->fdmode)
-> +                       rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
-> +                                          RCANFD_GRMCFG_RCMC);
-> +               else
-> +                       rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
-> +                                            RCANFD_GRMCFG_RCMC);
-> +       }
-> +}
-> +
->  static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
->  {
->         u32 sts, ch;
-> @@ -661,15 +701,10 @@ static int rcar_canfd_reset_controller(struct rcar_canfd_global *gpriv)
->         rcar_canfd_write(gpriv->base, RCANFD_GERFL, 0x0);
->
->         /* Set the controller into appropriate mode */
-> -       if (gpriv->fdmode)
-> -               rcar_canfd_set_bit(gpriv->base, RCANFD_GRMCFG,
-> -                                  RCANFD_GRMCFG_RCMC);
-> -       else
-> -               rcar_canfd_clear_bit(gpriv->base, RCANFD_GRMCFG,
-> -                                    RCANFD_GRMCFG_RCMC);
-> +       rcar_canfd_set_mode(gpriv);
->
->         /* Transition all Channels to reset mode */
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels) {
->                 rcar_canfd_clear_bit(gpriv->base,
->                                      RCANFD_CCTR(ch), RCANFD_CCTR_CSLPR);
->
-> @@ -710,7 +745,7 @@ static void rcar_canfd_configure_controller(struct rcar_canfd_global *gpriv)
->         rcar_canfd_set_bit(gpriv->base, RCANFD_GCFG, cfg);
->
->         /* Channel configuration settings */
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels) {
->                 rcar_canfd_set_bit(gpriv->base, RCANFD_CCTR(ch),
->                                    RCANFD_CCTR_ERRD);
->                 rcar_canfd_update_bit(gpriv->base, RCANFD_CCTR(ch),
-> @@ -730,7 +765,7 @@ static void rcar_canfd_configure_afl_rules(struct rcar_canfd_global *gpriv,
->                 start = 0; /* Channel 0 always starts from 0th rule */
->         } else {
->                 /* Get number of Channel 0 rules and adjust */
-> -               cfg = rcar_canfd_read(gpriv->base, RCANFD_GAFLCFG0);
-> +               cfg = rcar_canfd_read(gpriv->base, RCANFD_GAFLCFG(ch));
->                 start = RCANFD_GAFLCFG_GETRNC(0, cfg);
->         }
->
-> @@ -741,12 +776,16 @@ static void rcar_canfd_configure_afl_rules(struct rcar_canfd_global *gpriv,
->                             RCANFD_GAFLECTR_AFLDAE));
->
->         /* Write number of rules for channel */
-> -       rcar_canfd_set_bit(gpriv->base, RCANFD_GAFLCFG0,
-> +       rcar_canfd_set_bit(gpriv->base, RCANFD_GAFLCFG(ch),
->                            RCANFD_GAFLCFG_SETRNC(ch, num_rules));
-> -       if (gpriv->fdmode)
-> -               offset = RCANFD_F_GAFL_OFFSET;
-> -       else
-> -               offset = RCANFD_C_GAFL_OFFSET;
-> +       if (gpriv->chip_id == RENESAS_R8A779A0) {
-> +               offset = RCANFD_V3U_GAFL_OFFSET;
-> +       } else {
-> +               if (gpriv->fdmode)
-> +                       offset = RCANFD_F_GAFL_OFFSET;
-> +               else
-> +                       offset = RCANFD_C_GAFL_OFFSET;
-> +       }
->
->         /* Accept all IDs */
->         rcar_canfd_write(gpriv->base, RCANFD_GAFLID(offset, start), 0);
-> @@ -755,8 +794,8 @@ static void rcar_canfd_configure_afl_rules(struct rcar_canfd_global *gpriv,
->         /* Any data length accepted */
->         rcar_canfd_write(gpriv->base, RCANFD_GAFLP0(offset, start), 0);
->         /* Place the msg in corresponding Rx FIFO entry */
-> -       rcar_canfd_write(gpriv->base, RCANFD_GAFLP1(offset, start),
-> -                        RCANFD_GAFLP1_GAFLFDP(ridx));
-> +       rcar_canfd_set_bit(gpriv->base, RCANFD_GAFLP1(offset, start),
-> +                          RCANFD_GAFLP1_GAFLFDP(ridx));
->
->         /* Disable write access to page */
->         rcar_canfd_clear_bit(gpriv->base,
-> @@ -1041,6 +1080,7 @@ static void rcar_canfd_error(struct net_device *ndev, u32 cerfl,
->  static void rcar_canfd_tx_done(struct net_device *ndev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(ndev);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         struct net_device_stats *stats = &ndev->stats;
->         u32 sts;
->         unsigned long flags;
-> @@ -1096,7 +1136,7 @@ static irqreturn_t rcar_canfd_global_err_interrupt(int irq, void *dev_id)
->         struct rcar_canfd_global *gpriv = dev_id;
->         u32 ch;
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS)
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels)
->                 rcar_canfd_handle_global_err(gpriv, ch);
->
->         return IRQ_HANDLED;
-> @@ -1126,7 +1166,7 @@ static irqreturn_t rcar_canfd_global_receive_fifo_interrupt(int irq, void *dev_i
->         struct rcar_canfd_global *gpriv = dev_id;
->         u32 ch;
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS)
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels)
->                 rcar_canfd_handle_global_receive(gpriv, ch);
->
->         return IRQ_HANDLED;
-> @@ -1140,7 +1180,7 @@ static irqreturn_t rcar_canfd_global_interrupt(int irq, void *dev_id)
->         /* Global error interrupts still indicate a condition specific
->          * to a channel. RxFIFO interrupt is a global interrupt.
->          */
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels) {
->                 rcar_canfd_handle_global_err(gpriv, ch);
->                 rcar_canfd_handle_global_receive(gpriv, ch);
->         }
-> @@ -1198,7 +1238,7 @@ static irqreturn_t rcar_canfd_channel_tx_interrupt(int irq, void *dev_id)
->         struct rcar_canfd_global *gpriv = dev_id;
->         u32 ch;
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS)
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels)
->                 rcar_canfd_handle_channel_tx(gpriv, ch);
->
->         return IRQ_HANDLED;
-> @@ -1230,7 +1270,7 @@ static irqreturn_t rcar_canfd_channel_err_interrupt(int irq, void *dev_id)
->         struct rcar_canfd_global *gpriv = dev_id;
->         u32 ch;
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS)
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels)
->                 rcar_canfd_handle_channel_err(gpriv, ch);
->
->         return IRQ_HANDLED;
-> @@ -1242,7 +1282,7 @@ static irqreturn_t rcar_canfd_channel_interrupt(int irq, void *dev_id)
->         u32 ch;
->
->         /* Common FIFO is a per channel resource */
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels) {
->                 rcar_canfd_handle_channel_err(gpriv, ch);
->                 rcar_canfd_handle_channel_tx(gpriv, ch);
->         }
-> @@ -1253,6 +1293,7 @@ static irqreturn_t rcar_canfd_channel_interrupt(int irq, void *dev_id)
->  static void rcar_canfd_set_bittiming(struct net_device *dev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(dev);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         const struct can_bittiming *bt = &priv->can.bittiming;
->         const struct can_bittiming *dbt = &priv->can.data_bittiming;
->         u16 brp, sjw, tseg1, tseg2;
-> @@ -1288,8 +1329,17 @@ static void rcar_canfd_set_bittiming(struct net_device *dev)
->                            brp, sjw, tseg1, tseg2);
->         } else {
->                 /* Classical CAN only mode */
-> -               cfg = (RCANFD_CFG_TSEG1(tseg1) | RCANFD_CFG_BRP(brp) |
-> -                       RCANFD_CFG_SJW(sjw) | RCANFD_CFG_TSEG2(tseg2));
-> +               if (gpriv->chip_id == RENESAS_R8A779A0) {
-> +                       cfg = (RCANFD_NCFG_NTSEG1(tseg1) |
-> +                              RCANFD_NCFG_NBRP(brp) |
-> +                              RCANFD_NCFG_NSJW(sjw) |
-> +                              RCANFD_NCFG_NTSEG2(tseg2));
-> +               } else {
-> +                       cfg = (RCANFD_CFG_TSEG1(tseg1) |
-> +                              RCANFD_CFG_BRP(brp) |
-> +                              RCANFD_CFG_SJW(sjw) |
-> +                              RCANFD_CFG_TSEG2(tseg2));
-> +               }
->
->                 rcar_canfd_write(priv->base, RCANFD_CCFG(ch), cfg);
->                 netdev_dbg(priv->ndev,
-> @@ -1301,6 +1351,7 @@ static void rcar_canfd_set_bittiming(struct net_device *dev)
->  static int rcar_canfd_start(struct net_device *ndev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(ndev);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         int err = -EOPNOTSUPP;
->         u32 sts, ch = priv->channel;
->         u32 ridx = ch + RCANFD_RFFIFO_IDX;
-> @@ -1372,6 +1423,7 @@ static int rcar_canfd_open(struct net_device *ndev)
->  static void rcar_canfd_stop(struct net_device *ndev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(ndev);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         int err;
->         u32 sts, ch = priv->channel;
->         u32 ridx = ch + RCANFD_RFFIFO_IDX;
-> @@ -1415,6 +1467,7 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
->                                          struct net_device *ndev)
->  {
->         struct rcar_canfd_channel *priv = netdev_priv(ndev);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         struct canfd_frame *cf = (struct canfd_frame *)skb->data;
->         u32 sts = 0, id, dlc;
->         unsigned long flags;
-> @@ -1435,13 +1488,15 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
->
->         dlc = RCANFD_CFPTR_CFDLC(can_fd_len2dlc(cf->len));
->
-> -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
-> +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
-> +           gpriv->chip_id == RENESAS_R8A779A0) {
->                 rcar_canfd_write(priv->base,
->                                  RCANFD_F_CFID(ch, RCANFD_CFFIFO_IDX), id);
->                 rcar_canfd_write(priv->base,
->                                  RCANFD_F_CFPTR(ch, RCANFD_CFFIFO_IDX), dlc);
->
-> -               if (can_is_canfd_skb(skb)) {
-> +               if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) &&
-> +                   can_is_canfd_skb(skb)) {
-
-Could you explain why this additional check is needed?
-My understanding is that can_is_canfd_skb(skb) being true implies
-that the CAN_CTRLMODE_FD flag is set.
-
->                         /* CAN FD frame format */
->                         sts |= RCANFD_CFFDCSTS_CFFDF;
->                         if (cf->flags & CANFD_BRS)
-> @@ -1488,22 +1543,29 @@ static netdev_tx_t rcar_canfd_start_xmit(struct sk_buff *skb,
->  static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
->  {
->         struct net_device_stats *stats = &priv->ndev->stats;
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         struct canfd_frame *cf;
->         struct sk_buff *skb;
->         u32 sts = 0, id, dlc;
->         u32 ch = priv->channel;
->         u32 ridx = ch + RCANFD_RFFIFO_IDX;
->
-> -       if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
-> +       if ((priv->can.ctrlmode & CAN_CTRLMODE_FD) ||
-> +           gpriv->chip_id == RENESAS_R8A779A0) {
-
-I guess that this is linked to the above comment. Does the
-R8A779A0 chip support CAN-FD? If yes, why not simply use the
-CAN_CTRLMODE_FD instead of adding this additional check?
-
->                 id = rcar_canfd_read(priv->base, RCANFD_F_RFID(ridx));
->                 dlc = rcar_canfd_read(priv->base, RCANFD_F_RFPTR(ridx));
->
->                 sts = rcar_canfd_read(priv->base, RCANFD_F_RFFDSTS(ridx));
-> -               if (sts & RCANFD_RFFDSTS_RFFDF)
-> -                       skb = alloc_canfd_skb(priv->ndev, &cf);
-> -               else
-> +               if (priv->can.ctrlmode & CAN_CTRLMODE_FD) {
-> +                       if (sts & RCANFD_RFFDSTS_RFFDF)
-> +                               skb = alloc_canfd_skb(priv->ndev, &cf);
-> +                       else
-> +                               skb = alloc_can_skb(priv->ndev,
-> +                                                   (struct can_frame **)&cf);
-> +               } else {
->                         skb = alloc_can_skb(priv->ndev,
->                                             (struct can_frame **)&cf);
-> +               }
->         } else {
->                 id = rcar_canfd_read(priv->base, RCANFD_C_RFID(ridx));
->                 dlc = rcar_canfd_read(priv->base, RCANFD_C_RFPTR(ridx));
-> @@ -1541,10 +1603,16 @@ static void rcar_canfd_rx_pkt(struct rcar_canfd_channel *priv)
->                 }
->         } else {
->                 cf->len = can_cc_dlc2len(RCANFD_RFPTR_RFDLC(dlc));
-> -               if (id & RCANFD_RFID_RFRTR)
-> +               if (id & RCANFD_RFID_RFRTR) {
->                         cf->can_id |= CAN_RTR_FLAG;
-> -               else
-> -                       rcar_canfd_get_data(priv, cf, RCANFD_C_RFDF(ridx, 0));
-> +               } else {
-> +                       if (gpriv->chip_id == RENESAS_R8A779A0)
-> +                               rcar_canfd_get_data(priv, cf,
-> +                                                   RCANFD_F_RFDF(ridx, 0));
-> +                       else
-> +                               rcar_canfd_get_data(priv, cf,
-> +                                                   RCANFD_C_RFDF(ridx, 0));
-> +               }
->         }
->
->         /* Write 0xff to RFPC to increment the CPU-side
-> @@ -1563,6 +1631,7 @@ static int rcar_canfd_rx_poll(struct napi_struct *napi, int quota)
->  {
->         struct rcar_canfd_channel *priv =
->                 container_of(napi, struct rcar_canfd_channel, napi);
-> +       struct rcar_canfd_global *gpriv = priv->gpriv;
->         int num_pkts;
->         u32 sts;
->         u32 ch = priv->channel;
-> @@ -1762,21 +1831,25 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         int g_err_irq, g_recc_irq;
->         bool fdmode = true;                     /* CAN FD only mode - default */
->         enum rcanfd_chip_id chip_id;
-> +       int max_channels;
-> +       char name[9];
-> +       int i;
->
->         chip_id = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> +       max_channels = chip_id == RENESAS_R8A779A0 ? 8 : 2;
->
->         if (of_property_read_bool(pdev->dev.of_node, "renesas,no-can-fd"))
->                 fdmode = false;                 /* Classical CAN only mode */
->
-> -       of_child = of_get_child_by_name(pdev->dev.of_node, "channel0");
-> -       if (of_child && of_device_is_available(of_child))
-> -               channels_mask |= BIT(0);        /* Channel 0 */
-> -
-> -       of_child = of_get_child_by_name(pdev->dev.of_node, "channel1");
-> -       if (of_child && of_device_is_available(of_child))
-> -               channels_mask |= BIT(1);        /* Channel 1 */
-> +       strcpy(name, "channelX");
-> +       for (i = 0; i < max_channels; ++i) {
-> +               name[7] = '0' + i;
-> +               of_child = of_get_child_by_name(pdev->dev.of_node, name);
-> +               if (of_child && of_device_is_available(of_child))
-> +                       channels_mask |= BIT(i);
-> +       }
->
-> -       if (chip_id == RENESAS_RCAR_GEN3) {
-> +       if (chip_id != RENESAS_RZG2L) {
->                 ch_irq = platform_get_irq_byname_optional(pdev, "ch_int");
->                 if (ch_irq < 0) {
->                         /* For backward compatibility get irq by index */
-> @@ -1812,6 +1885,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         gpriv->channels_mask = channels_mask;
->         gpriv->fdmode = fdmode;
->         gpriv->chip_id = chip_id;
-> +       gpriv->max_channels = max_channels;
->
->         if (gpriv->chip_id == RENESAS_RZG2L) {
->                 gpriv->rstc1 = devm_reset_control_get_exclusive(&pdev->dev, "rstp_n");
-> @@ -1853,7 +1927,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         }
->         fcan_freq = clk_get_rate(gpriv->can_clk);
->
-> -       if (gpriv->fcan == RCANFD_CANFDCLK && gpriv->chip_id == RENESAS_RCAR_GEN3)
-> +       if (gpriv->fcan == RCANFD_CANFDCLK && gpriv->chip_id != RENESAS_RZG2L)
->                 /* CANFD clock is further divided by (1/2) within the IP */
->                 fcan_freq /= 2;
->
-> @@ -1865,7 +1939,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         gpriv->base = addr;
->
->         /* Request IRQ that's common for both channels */
-> -       if (gpriv->chip_id == RENESAS_RCAR_GEN3) {
-> +       if (gpriv->chip_id != RENESAS_RZG2L) {
->                 err = devm_request_irq(&pdev->dev, ch_irq,
->                                        rcar_canfd_channel_interrupt, 0,
->                                        "canfd.ch_int", gpriv);
-> @@ -1931,7 +2005,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         rcar_canfd_configure_controller(gpriv);
->
->         /* Configure per channel attributes */
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, max_channels) {
->                 /* Configure Channel's Rx fifo */
->                 rcar_canfd_configure_rx(gpriv, ch);
->
-> @@ -1957,7 +2031,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->                 goto fail_mode;
->         }
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, max_channels) {
->                 err = rcar_canfd_channel_probe(gpriv, ch, fcan_freq);
->                 if (err)
->                         goto fail_channel;
-> @@ -1969,7 +2043,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
->         return 0;
->
->  fail_channel:
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS)
-> +       for_each_set_bit(ch, &gpriv->channels_mask, max_channels)
->                 rcar_canfd_channel_remove(gpriv, ch);
->  fail_mode:
->         rcar_canfd_disable_global_interrupts(gpriv);
-> @@ -1990,7 +2064,7 @@ static int rcar_canfd_remove(struct platform_device *pdev)
->         rcar_canfd_reset_controller(gpriv);
->         rcar_canfd_disable_global_interrupts(gpriv);
->
-> -       for_each_set_bit(ch, &gpriv->channels_mask, RCANFD_NUM_CHANNELS) {
-> +       for_each_set_bit(ch, &gpriv->channels_mask, gpriv->max_channels) {
->                 rcar_canfd_disable_channel_interrupts(gpriv->ch[ch]);
->                 rcar_canfd_channel_remove(gpriv, ch);
->         }
-> @@ -2020,6 +2094,7 @@ static SIMPLE_DEV_PM_OPS(rcar_canfd_pm_ops, rcar_canfd_suspend,
->  static const __maybe_unused struct of_device_id rcar_canfd_of_table[] = {
->         { .compatible = "renesas,rcar-gen3-canfd", .data = (void *)RENESAS_RCAR_GEN3 },
->         { .compatible = "renesas,rzg2l-canfd", .data = (void *)RENESAS_RZG2L },
-> +       { .compatible = "renesas,r8a779a0-canfd", .data = (void *)RENESAS_R8A779A0 },
->         { }
->  };
-
-
-Yours sincerely,
-Vincent Mailhol
+SGkgQWRhbS1zYW4sDQoNCj4gRnJvbTogQWRhbSBGb3JkLCBTZW50OiBNb25kYXksIEphbnVhcnkg
+MzEsIDIwMjIgMTA6MDEgQU0NCj4gDQo+IE9uIFN1biwgSmFuIDMwLCAyMDIyIGF0IDY6MjMgUE0g
+WW9zaGloaXJvIFNoaW1vZGENCj4gPHlvc2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPiB3
+cm90ZToNCjxzbmlwPg0KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMv
+cmVuZXNhc191c2IzLmMgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNiMy5jDQo+
+ID4gPiBpbmRleCA1N2Q0MTdhN2MzZTAuLjYwMTgyOWE2YjRiYSAxMDA2NDQNCj4gPiA+IC0tLSBh
+L2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMNCj4gPiA+ICsrKyBiL2RyaXZl
+cnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMNCj4gPiA+IEBAIC0yMzc4LDYgKzIzNzgs
+OCBAQCBzdGF0aWMgdm9pZCBoYW5kbGVfZXh0X3JvbGVfc3dpdGNoX3N0YXRlcyhzdHJ1Y3QgZGV2
+aWNlICpkZXYsDQo+ID4gPiAgICAgICBzd2l0Y2ggKHJvbGUpIHsNCj4gPiA+ICAgICAgIGNhc2Ug
+VVNCX1JPTEVfTk9ORToNCj4gPiA+ICAgICAgICAgICAgICAgdXNiMy0+Y29ubmVjdGlvbl9zdGF0
+ZSA9IFVTQl9ST0xFX05PTkU7DQo+ID4gPiArICAgICAgICAgICAgIGlmIChjdXJfcm9sZSA9PSBV
+U0JfUk9MRV9IT1NUKQ0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRldmljZV9yZWxlYXNl
+X2RyaXZlcihob3N0KTsNCj4gPg0KPiA+IFRoZSBoYW5kbGVfZXh0X3JvbGVfc3dpdGNoX3N0YXRl
+cygpIHdpdGggcm9sZSA9IFVTQl9ST0xFX05PTkUgc2VlbXMNCj4gPiB0byBiZSBjYWxsZWQgbXVs
+dGlwbGUgdGltZXMuIFNvLCB3ZSBoYXZlIHRvIGF2b2lkIG11bHRpcGxlIGNhbGxpbmcgb2YNCj4g
+PiBkZXZpY2VfcmVsZWFzZV9kcml2ZXIoKSBzb21laG93Lg0KPiANCj4gRnJvbSB3aGF0IEkgY2Fu
+IHRlbGwsIGl0IGFwcGVhcnMgdGhhdCBkZXZpY2VfcmVsZWFzZV9kcml2ZXIgdWx0aW1hdGVseQ0K
+PiBjYWxscyBfX2RldmljZV9yZWxlYXNlX2RyaXZlciB3aGljaCBjaGVja3MgZm9yIGEgTlVMTCwg
+YW5kIGR1cmluZyB0aGUNCj4gcmVsZWFzZSBzZXRzIGl0IHRvIE5VTEwsIHNvIHN1YnNlcXVlbnQg
+cmVsZWFzZXMgc2hvdWxkIGp1c3QgZ2V0DQo+IGlnbm9yZWQuICBNYXliZSBJIGFtIG1pc3Npbmcg
+c29tZXRoaW5nLg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgY29tbWVudC4gWW91J3JlIGNvcnJlY3Qu
+IEknbSBzb3JyeSwgSSBkaWRuJ3QgY2hlY2sNCnRoZSBfX2RldmljZV9yZWxlYXNlX2RyaXZlcigp
+IGJlaGF2aW9yLiBUaGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWUuIFNvLA0KDQpSZXZpZXdlZC1i
+eTogWW9zaGloaXJvIFNoaW1vZGEgPHlvc2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPg0K
+DQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0KDQo=
