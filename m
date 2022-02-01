@@ -2,55 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C2734A558B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 04:18:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B23C4A56F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 06:30:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232960AbiBADSi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jan 2022 22:18:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43938 "EHLO
+        id S231676AbiBAFat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Feb 2022 00:30:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbiBADSg (ORCPT
+        with ESMTP id S231152AbiBAFaq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jan 2022 22:18:36 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE263C061714
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 19:18:36 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id i30so14621264pfk.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 19:18:36 -0800 (PST)
+        Tue, 1 Feb 2022 00:30:46 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86406C06173D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:30:46 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id r65so47375299ybc.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=7ym4guToR5s6XJh+Gyaw0SuEv+LKx7FC/++SseskIfM=;
-        b=E++ef+Q5iBCT3v/I5Xsw8Z42hgWOa0/CD59TDIXkDMY0W82NoIdVaA2wlQHAOqNgPW
-         HVlfHK7n3vd7hCpdQvMsLK+QRFDHf+nMqZyVlPoR39FJ9/sq7mok7WbE7LsSq4UA96gB
-         y4d/Dw5IEj6UGsD60pfH56R5yEmEtlkHe/oa+JG1q70MRkM214E+Q2ZVc2fM23xLE0Rt
-         nhKk1G3dW79j8cHJpcnHjsPzWteJo7l2qH3qiSzZnoOBl9BjPaFQed0VBv+B3JHC4XOO
-         dXEN0f2BkRCdaUQwNKxUlXgbqy2rWF2PXQUOdD42KKaisUfUC2EeMsCfLbv2tZHgtZuT
-         824A==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5kydovGavYpv7Z8Qzla4H6f1AHt/32IxvvPG5ynaWbE=;
+        b=U77UZ+D4xbTT9TJN9/zszI5V0tEXwMdM+BFvx6Nb9KJU883KTTg8RWJqW4u+rENsbc
+         mTJr60YFHw5Cyrrca0pMlnzqqtKSvEDubI0G2fZza/uyEvwpK6LDHKbyuL1pAKlu+isx
+         5Rnhlftwp2yqp8HSPx5SIs3NWouiN3k6iuUSYGxj7wdtzs4LuWuXt7HF6nYvE8dm6UJf
+         J1nVZTCZUchtA+Hnhbrnp4yi2zYEiIcOXsDJBByWDsZQcVGxuYwU+aPi9Twkd3NAAQyx
+         7zDPjux6Iu/hWafBsPTXIjefy75b3o6mwNorP1BcbZabndECDeiebZm9E9u4xH8uPY2J
+         Pp4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=7ym4guToR5s6XJh+Gyaw0SuEv+LKx7FC/++SseskIfM=;
-        b=xg2XHD+FX+8Whij7o+u9x1HOBzv/vWyLrwI7B5l7hWb0jvm6zNgmpnbsCA0n2f02A3
-         v69oNYCKIpcgly3SGK7oehfOfo+1GXIayeIb6AB0xCzteuXiiS4/q5Iz6aXDAAb9+/Ds
-         SMrKykPX121y4gg90ann4tha3prc20BQeNwODp5vWvuKYJHh1F8hdP2K77s7PvLQglbD
-         u2z5voJ+imgfcEDJLx2S5lBer6CYN9H6U75cZyba6RBnVcYXltg3ROsJ1c1uXPSqgd5i
-         8PEKkGZsUQRkFBzAJNSMKYrnYhJtF/j8sqsWrUMblzbnHeLcsA3tD7ZYXrtq3Sd3ywsR
-         d+HQ==
-X-Gm-Message-State: AOAM533aJE+8/6k5WVhjUtnsKbYBWu688Q+9tJ+IMARnEE0mXJiHZm9h
-        0LCuwpzqBf5mbrQ0TppwOEJ+hg==
-X-Google-Smtp-Source: ABdhPJz49oSgsvYX6rVkuwCkpBFyCD/1vuYWgent4FpvFLEF81sRjkDpqWZmQXP+xsW7pCXULByM5A==
-X-Received: by 2002:a63:2c83:: with SMTP id s125mr15529210pgs.265.1643685516138;
-        Mon, 31 Jan 2022 19:18:36 -0800 (PST)
-Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
-        by smtp.gmail.com with ESMTPSA id c8sm13261985pfv.57.2022.01.31.19.18.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 19:18:35 -0800 (PST)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     Saravana Kannan <saravanak@google.com>,
-        Russell King <linux@armlinux.org.uk>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5kydovGavYpv7Z8Qzla4H6f1AHt/32IxvvPG5ynaWbE=;
+        b=6DoV27HOwMYs1HqC4CROoVs7FTfa980izIKhaA6fGAq6d5z6rSXarcmHuNUFFSCybb
+         t2Mo0ttOPLMGG4NcP3zkMXForYFL6EKaydX2MxDvMj6H8BA5P6v/ZEMRVxrUrhETd6e/
+         h6byGMt0hd35oydjQEtUEfEHnYAnUM44A+QjHM4qbU0KmSU2DiUJ3LMxyxEOHAwNhvE5
+         4iE7QIJ/PjlZhBi/LTQ8IbaQXM6PupgDO0VgNZVNekDMludgYWz8t4CCzGr1MFrDP8fF
+         78lGmbJjns7+fiRseIhmE7n9mDBfhUXgARykJPBEAEqev8oQMzLK3CH0wSyTTgH9yG0L
+         L3XQ==
+X-Gm-Message-State: AOAM532rgS+1knSg2KhWstFZZm/STWJggo18dZaB3U+5IjC6xJLYfYIR
+        9Q10FiJZ/drxUomTZ3XSUcVNO3HzoYtQBmLWU4YbXQ==
+X-Google-Smtp-Source: ABdhPJynKbsLj1UEZZnKfLzmdFbVdxNi6pGBmrFfyYXto1lhLijfs+2rVmbRV30Q7qVZQAskM2peIoEkaBltQtJKHlQ=
+X-Received: by 2002:a25:50c7:: with SMTP id e190mr33046695ybb.324.1643693445559;
+ Mon, 31 Jan 2022 21:30:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-2-saravanak@google.com>
+ <7hk0efmfzo.fsf@baylibre.com>
+In-Reply-To: <7hk0efmfzo.fsf@baylibre.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 31 Jan 2022 21:30:09 -0800
+Message-ID: <CAGETcx_YEUxEBSBnzFaBxW=9=jO6BO0GuThaMGF+JPkDeC-ivw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+To:     Kevin Hilman <khilman@baylibre.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -59,70 +63,77 @@ To:     Saravana Kannan <saravanak@google.com>,
         Will Deacon <will@kernel.org>,
         Damien Le Moal <damien.lemoal@wdc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Saravana Kannan <saravanak@google.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
         linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
- probing simple bus only devices
-In-Reply-To: <20210929000735.585237-2-saravanak@google.com>
-References: <20210929000735.585237-1-saravanak@google.com>
- <20210929000735.585237-2-saravanak@google.com>
-Date:   Mon, 31 Jan 2022 19:18:35 -0800
-Message-ID: <7hk0efmfzo.fsf@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Saravana,
-
-Saravana Kannan <saravanak@google.com> writes:
-
-> fw_devlink could end up creating device links for bus only devices.
-> However, bus only devices don't get probed and can block probe() or
-> sync_state() [1] call backs of other devices. To avoid this, probe these
-> devices using the simple-pm-bus driver.
+On Mon, Jan 31, 2022 at 7:18 PM Kevin Hilman <khilman@baylibre.com> wrote:
 >
-> However, there are instances of devices that are not simple buses (they get
-> probed by their specific drivers) that also list the "simple-bus" (or other
-> bus only compatible strings) in their compatible property to automatically
-> populate their child devices. We still want these devices to get probed by
-> their specific drivers. So, we make sure this driver only probes devices
-> that are only buses.
+> Hi Saravana,
 >
-> [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
-> Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Tested-by: Saravana Kannan <saravanak@google.com>
-> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Saravana Kannan <saravanak@google.com> writes:
+>
+> > fw_devlink could end up creating device links for bus only devices.
+> > However, bus only devices don't get probed and can block probe() or
+> > sync_state() [1] call backs of other devices. To avoid this, probe these
+> > devices using the simple-pm-bus driver.
+> >
+> > However, there are instances of devices that are not simple buses (they get
+> > probed by their specific drivers) that also list the "simple-bus" (or other
+> > bus only compatible strings) in their compatible property to automatically
+> > populate their child devices. We still want these devices to get probed by
+> > their specific drivers. So, we make sure this driver only probes devices
+> > that are only buses.
+> >
+> > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> > Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > Tested-by: Saravana Kannan <saravanak@google.com>
+> > Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+>
+> This patch landed in stable/linux-5.10.y as commit d5f13bbb5104 and it
+> broke suspend/resume on at least one TI AM335x board I'm testing on:
+> upstream dts: arch/arm/boot/dts/am335x-icev2.dts, upstream defconfig:
+> arch/arm/configs/omap2plus_defconfig.
+>
+> Bisecting between vanilla v5.10 (good) and stable/linux-5.10.y (bad)
+> pointed me to this patch, and I confirmed that reverting just this patch
+> on top of stable/linux-5.10.y makes it work again.
+>
+> Also interesting, this same platform works fine on vanilla v5.15, which
+> also includes this patch.  That suggests that either 1) this patch
+> should not have been backported to v5.10 stable or 2) there are some
+> other dependencies that are missing in v5.10.
+>
+> Since vanilla v5.10 works fine, I'm leaning towards (1), but if you have
+> any ideas for deps that need backporting, I'm happy to try.
 
-This patch landed in stable/linux-5.10.y as commit d5f13bbb5104 and it
-broke suspend/resume on at least one TI AM335x board I'm testing on:
-upstream dts: arch/arm/boot/dts/am335x-icev2.dts, upstream defconfig:
-arch/arm/configs/omap2plus_defconfig.
+Oh wow! I didn't realize I made so many changes AFTER 5.10! Unless I'm
+doing something wrong with my git commands.
+$ git log v5.10..v5.15 --oneline -- drivers/of/property.c
+$ git log v5.10..v5.15 --oneline --author=saravanak -- drivers/base/
 
-Bisecting between vanilla v5.10 (good) and stable/linux-5.10.y (bad)
-pointed me to this patch, and I confirmed that reverting just this patch
-on top of stable/linux-5.10.y makes it work again.
+If you don't think I got my git command completely wrong, yeah, way
+too many patches are missing on 5.10. I'd go with the option of
+dropping this patch on 5.10.
 
-Also interesting, this same platform works fine on vanilla v5.15, which
-also includes this patch.  That suggests that either 1) this patch
-should not have been backported to v5.10 stable or 2) there are some
-other dependencies that are missing in v5.10.
+> I haven't debugged exactly where it's hanging yet, but, enabling
+> CONFIG_DEBUG_DRIVER=y, and suspending with "no_console_suspend" on the
+> command line, the last line before it hangs is:
+>
+>    [   28.129966] simple-pm-bus ocp: noirq power domain suspend
+>
+> Any ideas?
 
-Since vanilla v5.10 works fine, I'm leaning towards (1), but if you have
-any ideas for deps that need backporting, I'm happy to try.
+I'd guess it's either a sync_state() happening too soon since some of
+the dependencies aren't tracked. Or some dependency cycle that'd be
+handled correctly if the rest of the patches were picked up. Yeah, a
+pretty broad/vague answer.
 
-I haven't debugged exactly where it's hanging yet, but, enabling
-CONFIG_DEBUG_DRIVER=y, and suspending with "no_console_suspend" on the
-command line, the last line before it hangs is:
-
-   [   28.129966] simple-pm-bus ocp: noirq power domain suspend
-
-Any ideas?
-
-Kevin
+-Saravana
