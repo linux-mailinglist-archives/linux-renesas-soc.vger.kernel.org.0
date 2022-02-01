@@ -2,180 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFE34A5315
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 00:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79FE4A554A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 03:39:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238052AbiAaXUG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jan 2022 18:20:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237951AbiAaXUF (ORCPT
+        id S232519AbiBACji (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Jan 2022 21:39:38 -0500
+Received: from mga05.intel.com ([192.55.52.43]:33597 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232321AbiBACjh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jan 2022 18:20:05 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D339C061714;
-        Mon, 31 Jan 2022 15:20:05 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id p125so13670736pga.2;
-        Mon, 31 Jan 2022 15:20:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hnC6Z6Q65VdAgTCIurldNfb7wdu2fNyh9pkO9iIDICk=;
-        b=Z5MZq2xNg6nMK1mXw+qO2hcJb3Tz4m7kBDjuxolAyGm+4ubLMy6tQDcyBNzElWZSOd
-         G5ecbnM5ar7DLV4W+1emFpS7l5EuuqTtBOj5Naxzs89K8S1+lBafQ7jVn+SL5sIl+Suk
-         GA8R1h/dXiKQ7aMypq+MkTbEaabr4UHQwGq/UcyD6M4vfwOyC1nGKKaNC4v1imW8fOUv
-         TldBMFlAZ9/MQsgrPJoHDkxlJpN+iBcUTAYzc4Hi6K0YGjkiVwICUx2igdu6DV8OLYD5
-         FpnItpUdFsMgTGoqi2w89mGkRM+mIinMfgGeMKeePKlNdT6+SLsReDrcqTEfHkU3QuaA
-         UJtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hnC6Z6Q65VdAgTCIurldNfb7wdu2fNyh9pkO9iIDICk=;
-        b=2wZ4v0rydo7OYjtiVICEpaDgOuOkkldLOAS8f1BYF2PoKss61FPcp7t1pdwgdHPglz
-         ItQ0DkGxzmii0OCrPY4AvXAIAWpfSRw+8n20WRDDQI3wYdyl33np1jLMYKJSBQBDkduU
-         zfWhwNTN4WN0TV0BkyMsKJxBIUxlmYEGKOLLNOpvdiG7X1cGaDo3ypaf30X/brnwwqCo
-         yNEDqHmXii+SsoZjP7NpJX6VYqte55sgpvnbV+GFAIvPCTXSrmfLJUeR0cDOPx43Oel2
-         Sypuus6ZP+ZNq+mF7SUE1lfD+QZRx6sozH9cOsWW6YfvUWCSTHa13xWZA4+K1Usl59cB
-         njTg==
-X-Gm-Message-State: AOAM533ztbtejuyGrXvJQqa1qMpwv3gkfu8maQnWBcaTM61U717UpfTk
-        M+cUKNqr3ut9ilAn0u9SviY=
-X-Google-Smtp-Source: ABdhPJycbTtXw2lmt7UbWvdEsej8/fkc3gFa/rosbqIgkbMppZhW1w32qbf2yIx+skbzfEUc4SpUew==
-X-Received: by 2002:a63:c156:: with SMTP id p22mr18269679pgi.215.1643671204652;
-        Mon, 31 Jan 2022 15:20:04 -0800 (PST)
-Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id u19sm19919367pfi.150.2022.01.31.15.19.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 15:20:04 -0800 (PST)
-Message-ID: <dd1497ca-b1da-311a-e5fc-7c7265eb3ddf@gmail.com>
-Date:   Mon, 31 Jan 2022 15:19:58 -0800
+        Mon, 31 Jan 2022 21:39:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643683177; x=1675219177;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YI+yKHKE9Bov3irIAMUlfWx7VkLY51k0+JSbUGDW+jU=;
+  b=I7wkem1KQjrIf81BLJwHoxfQ0ascE+ulcnJm/+VzjNjP1vN5iFkCHj0E
+   2pqcg5OddgakrsaNTNZ/cLAkca1E8oni5ChuuRBqSB8GKy/FTu1lGIjYG
+   sZdoocoyNtQ+gXRRG7RvExppY0ICYboxayyvzxqSvuh12Y/eA/OjKBJmO
+   kvuUGLSg6JBRkUufgT7klUw4mtOlSigII8AcY8c4MDSvgdii842u+yP7E
+   yZC7UdO8KJiO6NVorlbGOuBaqYtNPGLxfx0QXQwe++R9L11834EH7Y+/+
+   AlWK9Pzdz1hTo7Gj62kRHx1l21IKSOlFMd/IYZ7YnTjUjeWDCeTgQjMia
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="333965034"
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
+   d="scan'208";a="333965034"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 18:39:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
+   d="scan'208";a="582885630"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 31 Jan 2022 18:39:07 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nEj4V-000Sdh-31; Tue, 01 Feb 2022 02:39:07 +0000
+Date:   Tue, 01 Feb 2022 10:38:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 3aa8ba88974022cbe2386cf2cd1b93d7244301b5
+Message-ID: <61f89d25.4t/tNaw4thg9ZGPn%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH net-next] net: kbuild: Don't default net vendor configs to
- y
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Saeed Mahameed <saeedm@nvidia.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Saeed Mahameed <saeed@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Mark Einon <mark.einon@gmail.com>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Catherine Sullivan <csully@google.com>,
-        David Awogbemila <awogbemila@google.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Jon Mason <jdmason@kudzu.us>,
-        Simon Horman <simon.horman@corigine.com>,
-        Rain River <rain.1986.08.12@gmail.com>,
-        Zhu Yanjun <zyjzyj2000@gmail.com>,
-        Shannon Nelson <snelson@pensando.io>, drivers@pensando.io,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Rob Herring <robh@kernel.org>, l.stelmach@samsung.com,
-        rafal@milecki.pl, Edwin Peer <edwin.peer@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Gerhard Engleder <gerhard@engleder-embedded.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Gabriel Somlo <gsomlo@gmail.com>,
-        Joel Stanley <joel@jms.id.au>, Slark Xiao <slark_xiao@163.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Liming Sun <limings@nvidia.com>,
-        David Thompson <davthompson@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Steen Hegelund <steen.hegelund@microchip.com>,
-        Prabhakar Kushwaha <pkushwaha@marvell.com>,
-        Omkar Kulkarni <okulkarni@marvell.com>,
-        Shai Malin <smalin@marvell.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Gary Guo <gary@garyguo.net>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
-        linux-hyperv@vger.kernel.org, oss-drivers@corigine.com,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <20220131172450.4905-1-saeed@kernel.org>
- <20220131095905.08722670@hermes.local>
- <CAMuHMdU17cBzivFm9q-VwF9EG5MX75Qct=is=F2h+Kc+VddZ4g@mail.gmail.com>
- <20220131183540.6ekn3z7tudy5ocdl@sx1>
- <30ed8220-e24d-4b40-c7a6-4b09c84f9a1f@gmail.com>
- <20220131121027.4fe3e8dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <7dc930c6-4ffc-0dd0-8385-d7956e7d16ff@gmail.com>
- <20220131151315.4ec5f2d3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20220131151315.4ec5f2d3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 3aa8ba88974022cbe2386cf2cd1b93d7244301b5  Merge tag 'v5.17-rc2' into renesas-devel
 
+elapsed time: 727m
 
-On 1/31/2022 3:13 PM, Jakub Kicinski wrote:
-> On Mon, 31 Jan 2022 15:06:01 -0800 Florian Fainelli wrote:
->>>> Right, but once you start hiding NET_VENDOR_DRIVER_XYZ under a
->>>> NET_VENDOR_XYZ Kconfig symbol dependency, if NET_VENDOR_XYZ is not set
->>>> to Y, then you have no way to select NET_VENDOR_DRIVER_XYZ and so your
->>>> old defconfig breaks.
->>>
->>> To be clear do we actually care about *old* configs or *def* configs?
->>
->> I think we care about oldconfig but maybe less so about defconfigs which
->> are in tree and can be updated.
-> 
-> The oldconfigs would have to not be updated on any intervening kernel
-> in the last 10+ years to break, right? Or is there another way that an
-> oldconfig would not have the vendor config set to y at this point?
+configs tested: 131
+configs skipped: 3
 
-That sounds very unrealistic, so yes, I don't think at this point that 
-would happen. Even if you had your 15 year old .config file and ran make 
-oldconfig today, you would have some work to do to make sure it still 
-runs on your hardware.
--- 
-Florian
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20220131
+xtensa                       common_defconfig
+sh                        dreamcast_defconfig
+sh                          rsk7203_defconfig
+m68k                       m5475evb_defconfig
+powerpc                mpc7448_hpc2_defconfig
+sh                        sh7763rdp_defconfig
+mips                         mpc30x_defconfig
+sh                 kfr2r09-romimage_defconfig
+sh                               alldefconfig
+arm                          pxa910_defconfig
+arm                          lpd270_defconfig
+m68k                       m5208evb_defconfig
+mips                 decstation_r4k_defconfig
+powerpc                        warp_defconfig
+arm                        oxnas_v6_defconfig
+sh                          rsk7269_defconfig
+powerpc                    klondike_defconfig
+powerpc                      ppc40x_defconfig
+powerpc                 mpc837x_rdb_defconfig
+xtensa                           allyesconfig
+arc                    vdk_hs38_smp_defconfig
+powerpc                 mpc837x_mds_defconfig
+h8300                     edosk2674_defconfig
+powerpc                      pasemi_defconfig
+powerpc                  storcenter_defconfig
+sh                           se7206_defconfig
+arm                           stm32_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                     asp8347_defconfig
+arm                      footbridge_defconfig
+mips                        vocore2_defconfig
+powerpc                     redwood_defconfig
+sh                            hp6xx_defconfig
+arc                                 defconfig
+m68k                          sun3x_defconfig
+mips                      maltasmvp_defconfig
+arm                       omap2plus_defconfig
+mips                       capcella_defconfig
+sh                        apsh4ad0a_defconfig
+arm                            mps2_defconfig
+arm                  randconfig-c002-20220131
+arm                  randconfig-c002-20220130
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20220131
+x86_64               randconfig-a003-20220131
+x86_64               randconfig-a001-20220131
+x86_64               randconfig-a006-20220131
+x86_64               randconfig-a005-20220131
+x86_64               randconfig-a002-20220131
+i386                 randconfig-a006-20220131
+i386                 randconfig-a005-20220131
+i386                 randconfig-a003-20220131
+i386                 randconfig-a002-20220131
+i386                 randconfig-a001-20220131
+i386                 randconfig-a004-20220131
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+powerpc                          allyesconfig
+arm                        spear3xx_defconfig
+arm                             mxs_defconfig
+arm                       versatile_defconfig
+powerpc                      pmac32_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a013-20220131
+x86_64               randconfig-a015-20220131
+x86_64               randconfig-a014-20220131
+x86_64               randconfig-a016-20220131
+x86_64               randconfig-a011-20220131
+x86_64               randconfig-a012-20220131
+i386                 randconfig-a011-20220131
+i386                 randconfig-a013-20220131
+i386                 randconfig-a014-20220131
+i386                 randconfig-a012-20220131
+i386                 randconfig-a015-20220131
+i386                 randconfig-a016-20220131
+riscv                randconfig-r042-20220131
+hexagon              randconfig-r045-20220131
+hexagon              randconfig-r041-20220131
+hexagon              randconfig-r045-20220130
+hexagon              randconfig-r041-20220130
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
