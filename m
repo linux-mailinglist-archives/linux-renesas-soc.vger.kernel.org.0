@@ -2,204 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C79FE4A554A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 03:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C2734A558B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 04:18:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbiBACji (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Jan 2022 21:39:38 -0500
-Received: from mga05.intel.com ([192.55.52.43]:33597 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232321AbiBACjh (ORCPT
+        id S232960AbiBADSi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Jan 2022 22:18:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229666AbiBADSg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Jan 2022 21:39:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643683177; x=1675219177;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YI+yKHKE9Bov3irIAMUlfWx7VkLY51k0+JSbUGDW+jU=;
-  b=I7wkem1KQjrIf81BLJwHoxfQ0ascE+ulcnJm/+VzjNjP1vN5iFkCHj0E
-   2pqcg5OddgakrsaNTNZ/cLAkca1E8oni5ChuuRBqSB8GKy/FTu1lGIjYG
-   sZdoocoyNtQ+gXRRG7RvExppY0ICYboxayyvzxqSvuh12Y/eA/OjKBJmO
-   kvuUGLSg6JBRkUufgT7klUw4mtOlSigII8AcY8c4MDSvgdii842u+yP7E
-   yZC7UdO8KJiO6NVorlbGOuBaqYtNPGLxfx0QXQwe++R9L11834EH7Y+/+
-   AlWK9Pzdz1hTo7Gj62kRHx1l21IKSOlFMd/IYZ7YnTjUjeWDCeTgQjMia
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="333965034"
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
-   d="scan'208";a="333965034"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 18:39:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
-   d="scan'208";a="582885630"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 31 Jan 2022 18:39:07 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nEj4V-000Sdh-31; Tue, 01 Feb 2022 02:39:07 +0000
-Date:   Tue, 01 Feb 2022 10:38:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 3aa8ba88974022cbe2386cf2cd1b93d7244301b5
-Message-ID: <61f89d25.4t/tNaw4thg9ZGPn%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 31 Jan 2022 22:18:36 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE263C061714
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 19:18:36 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id i30so14621264pfk.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 19:18:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=7ym4guToR5s6XJh+Gyaw0SuEv+LKx7FC/++SseskIfM=;
+        b=E++ef+Q5iBCT3v/I5Xsw8Z42hgWOa0/CD59TDIXkDMY0W82NoIdVaA2wlQHAOqNgPW
+         HVlfHK7n3vd7hCpdQvMsLK+QRFDHf+nMqZyVlPoR39FJ9/sq7mok7WbE7LsSq4UA96gB
+         y4d/Dw5IEj6UGsD60pfH56R5yEmEtlkHe/oa+JG1q70MRkM214E+Q2ZVc2fM23xLE0Rt
+         nhKk1G3dW79j8cHJpcnHjsPzWteJo7l2qH3qiSzZnoOBl9BjPaFQed0VBv+B3JHC4XOO
+         dXEN0f2BkRCdaUQwNKxUlXgbqy2rWF2PXQUOdD42KKaisUfUC2EeMsCfLbv2tZHgtZuT
+         824A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=7ym4guToR5s6XJh+Gyaw0SuEv+LKx7FC/++SseskIfM=;
+        b=xg2XHD+FX+8Whij7o+u9x1HOBzv/vWyLrwI7B5l7hWb0jvm6zNgmpnbsCA0n2f02A3
+         v69oNYCKIpcgly3SGK7oehfOfo+1GXIayeIb6AB0xCzteuXiiS4/q5Iz6aXDAAb9+/Ds
+         SMrKykPX121y4gg90ann4tha3prc20BQeNwODp5vWvuKYJHh1F8hdP2K77s7PvLQglbD
+         u2z5voJ+imgfcEDJLx2S5lBer6CYN9H6U75cZyba6RBnVcYXltg3ROsJ1c1uXPSqgd5i
+         8PEKkGZsUQRkFBzAJNSMKYrnYhJtF/j8sqsWrUMblzbnHeLcsA3tD7ZYXrtq3Sd3ywsR
+         d+HQ==
+X-Gm-Message-State: AOAM533aJE+8/6k5WVhjUtnsKbYBWu688Q+9tJ+IMARnEE0mXJiHZm9h
+        0LCuwpzqBf5mbrQ0TppwOEJ+hg==
+X-Google-Smtp-Source: ABdhPJz49oSgsvYX6rVkuwCkpBFyCD/1vuYWgent4FpvFLEF81sRjkDpqWZmQXP+xsW7pCXULByM5A==
+X-Received: by 2002:a63:2c83:: with SMTP id s125mr15529210pgs.265.1643685516138;
+        Mon, 31 Jan 2022 19:18:36 -0800 (PST)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id c8sm13261985pfv.57.2022.01.31.19.18.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jan 2022 19:18:35 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Saravana Kannan <saravanak@google.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Saravana Kannan <saravanak@google.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+In-Reply-To: <20210929000735.585237-2-saravanak@google.com>
+References: <20210929000735.585237-1-saravanak@google.com>
+ <20210929000735.585237-2-saravanak@google.com>
+Date:   Mon, 31 Jan 2022 19:18:35 -0800
+Message-ID: <7hk0efmfzo.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 3aa8ba88974022cbe2386cf2cd1b93d7244301b5  Merge tag 'v5.17-rc2' into renesas-devel
+Hi Saravana,
 
-elapsed time: 727m
+Saravana Kannan <saravanak@google.com> writes:
 
-configs tested: 131
-configs skipped: 3
+> fw_devlink could end up creating device links for bus only devices.
+> However, bus only devices don't get probed and can block probe() or
+> sync_state() [1] call backs of other devices. To avoid this, probe these
+> devices using the simple-pm-bus driver.
+>
+> However, there are instances of devices that are not simple buses (they get
+> probed by their specific drivers) that also list the "simple-bus" (or other
+> bus only compatible strings) in their compatible property to automatically
+> populate their child devices. We still want these devices to get probed by
+> their specific drivers. So, we make sure this driver only probes devices
+> that are only buses.
+>
+> [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+> Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Saravana Kannan <saravanak@google.com>
+> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This patch landed in stable/linux-5.10.y as commit d5f13bbb5104 and it
+broke suspend/resume on at least one TI AM335x board I'm testing on:
+upstream dts: arch/arm/boot/dts/am335x-icev2.dts, upstream defconfig:
+arch/arm/configs/omap2plus_defconfig.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220131
-xtensa                       common_defconfig
-sh                        dreamcast_defconfig
-sh                          rsk7203_defconfig
-m68k                       m5475evb_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                        sh7763rdp_defconfig
-mips                         mpc30x_defconfig
-sh                 kfr2r09-romimage_defconfig
-sh                               alldefconfig
-arm                          pxa910_defconfig
-arm                          lpd270_defconfig
-m68k                       m5208evb_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                        warp_defconfig
-arm                        oxnas_v6_defconfig
-sh                          rsk7269_defconfig
-powerpc                    klondike_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                 mpc837x_rdb_defconfig
-xtensa                           allyesconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                 mpc837x_mds_defconfig
-h8300                     edosk2674_defconfig
-powerpc                      pasemi_defconfig
-powerpc                  storcenter_defconfig
-sh                           se7206_defconfig
-arm                           stm32_defconfig
-sh                  sh7785lcr_32bit_defconfig
-powerpc                     asp8347_defconfig
-arm                      footbridge_defconfig
-mips                        vocore2_defconfig
-powerpc                     redwood_defconfig
-sh                            hp6xx_defconfig
-arc                                 defconfig
-m68k                          sun3x_defconfig
-mips                      maltasmvp_defconfig
-arm                       omap2plus_defconfig
-mips                       capcella_defconfig
-sh                        apsh4ad0a_defconfig
-arm                            mps2_defconfig
-arm                  randconfig-c002-20220131
-arm                  randconfig-c002-20220130
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20220131
-x86_64               randconfig-a003-20220131
-x86_64               randconfig-a001-20220131
-x86_64               randconfig-a006-20220131
-x86_64               randconfig-a005-20220131
-x86_64               randconfig-a002-20220131
-i386                 randconfig-a006-20220131
-i386                 randconfig-a005-20220131
-i386                 randconfig-a003-20220131
-i386                 randconfig-a002-20220131
-i386                 randconfig-a001-20220131
-i386                 randconfig-a004-20220131
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                    rhel-8.3-kselftests
+Bisecting between vanilla v5.10 (good) and stable/linux-5.10.y (bad)
+pointed me to this patch, and I confirmed that reverting just this patch
+on top of stable/linux-5.10.y makes it work again.
 
-clang tested configs:
-powerpc                          allyesconfig
-arm                        spear3xx_defconfig
-arm                             mxs_defconfig
-arm                       versatile_defconfig
-powerpc                      pmac32_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64               randconfig-a013-20220131
-x86_64               randconfig-a015-20220131
-x86_64               randconfig-a014-20220131
-x86_64               randconfig-a016-20220131
-x86_64               randconfig-a011-20220131
-x86_64               randconfig-a012-20220131
-i386                 randconfig-a011-20220131
-i386                 randconfig-a013-20220131
-i386                 randconfig-a014-20220131
-i386                 randconfig-a012-20220131
-i386                 randconfig-a015-20220131
-i386                 randconfig-a016-20220131
-riscv                randconfig-r042-20220131
-hexagon              randconfig-r045-20220131
-hexagon              randconfig-r041-20220131
-hexagon              randconfig-r045-20220130
-hexagon              randconfig-r041-20220130
+Also interesting, this same platform works fine on vanilla v5.15, which
+also includes this patch.  That suggests that either 1) this patch
+should not have been backported to v5.10 stable or 2) there are some
+other dependencies that are missing in v5.10.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Since vanilla v5.10 works fine, I'm leaning towards (1), but if you have
+any ideas for deps that need backporting, I'm happy to try.
+
+I haven't debugged exactly where it's hanging yet, but, enabling
+CONFIG_DEBUG_DRIVER=y, and suspending with "no_console_suspend" on the
+command line, the last line before it hangs is:
+
+   [   28.129966] simple-pm-bus ocp: noirq power domain suspend
+
+Any ideas?
+
+Kevin
