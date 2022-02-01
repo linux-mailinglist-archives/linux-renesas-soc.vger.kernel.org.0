@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF34C4A58C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 09:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1AC54A58D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 09:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235595AbiBAIvK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Feb 2022 03:51:10 -0500
-Received: from mail-ua1-f48.google.com ([209.85.222.48]:43557 "EHLO
-        mail-ua1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233828AbiBAIvJ (ORCPT
+        id S233498AbiBAIzf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Feb 2022 03:55:35 -0500
+Received: from mail-vk1-f176.google.com ([209.85.221.176]:46948 "EHLO
+        mail-vk1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231912AbiBAIzf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Feb 2022 03:51:09 -0500
-Received: by mail-ua1-f48.google.com with SMTP id r2so4567140uae.10;
-        Tue, 01 Feb 2022 00:51:09 -0800 (PST)
+        Tue, 1 Feb 2022 03:55:35 -0500
+Received: by mail-vk1-f176.google.com with SMTP id z15so9947969vkp.13;
+        Tue, 01 Feb 2022 00:55:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kQaxXxX2TEhzmOUyxZ8RJ1jCaru/41Ti8LVSzxlH72g=;
-        b=uXHD3EsFN89G9uXUgSAzOoSjCX/9LOLwyIww+vyajjPeKKTMMEVyqJQFgJQnnMmzrL
-         GBJ09x4BfG5Zt3qbOkMATQ6QHoZATANinqccWoSyM/FZ+ukvUAbjtqxrgDe0pD8s2MZ2
-         rN4kuvYBKSNrysreatL5VCsRGD5QcKWiw/so5YPH1qZ4WndJqK4gpQzkAbm3DwZAATsY
-         3BgcFasmeXko917mW0iKA3g6qCdI/Syj9f6E7oFT8/qWiFh0dcDw8KO6WNzjPrEl68gK
-         1fFx4CAd6ndarcVKYTAt4LmRDPjduAJpOkU3y+uYI64H2apI00u9wssfmnqy75Tl+hbf
-         wD9A==
-X-Gm-Message-State: AOAM53203uMgBqic/Qbipu37I8jSmR5mrVKG+1d1Uhj4FFSeUwEeJkbM
-        wc+5pE42vOTVCbGNwbasf+ZR0+Pbuk4mdQ==
-X-Google-Smtp-Source: ABdhPJzCuUf5alGU7I/vcI1g44zVfVIGbphZenden1NCI+S7NNVuxmUKQHm8yW81Vk2kuhLpHbZnPw==
-X-Received: by 2002:ab0:184a:: with SMTP id j10mr9440265uag.124.1643705469093;
-        Tue, 01 Feb 2022 00:51:09 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id v129sm1959184vsb.15.2022.02.01.00.51.08
+        bh=2RuOMLMz4bnyUYfxcxLnbEyL44qsRLFQ8j/HdFTX00k=;
+        b=yhi+8Fq42rcsY9O4l/VYgaP6N9KiIkHQjvkpy31kKNEh/rkA5r+GVIdr7tI9OQTtiM
+         beqsQQtKJec+q3a8mDriQwy6G3+OOlxX+Unqxcbxatl3K84tO4AT3/AZFCrVfWVp1tc5
+         sd3ByeNnplfEk/9CthyRJxl2Fta0hLGyaGOhbWSRWsS948CKYL4uqyDdw5XnlRsdEh3V
+         Iovr+9Z59b38r+MQbnkniMeNqGHqCudPHB8QVlM8QeUkBVifGl0ZspQmWapNRMm71v1e
+         gl5Vv/gD6w7idgItJztsnQKWGOAnMfQY0CXJyW1IgUb5YgpFo5kN6ltsDpGwZ5E+4Ulx
+         o5Jw==
+X-Gm-Message-State: AOAM533EY0Dd0koG4cGjhjsi3F8xQAq0yErUV9CBPD6r0eHV5MLbZnUe
+        AbW3kvnGZzT+7QJxDjOtr/itE5E9RuO66g==
+X-Google-Smtp-Source: ABdhPJzYVjNJ4MsTE7ES+lFfzk1fLUD4hjg5f/4A6SYOdCiqthKWu5peXHX/a5g6JFrxMzvCF5HLpg==
+X-Received: by 2002:a05:6122:792:: with SMTP id k18mr9587633vkr.15.1643705734263;
+        Tue, 01 Feb 2022 00:55:34 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id w6sm3858481uap.12.2022.02.01.00.55.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Feb 2022 00:51:08 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id n15so13438012uaq.5;
-        Tue, 01 Feb 2022 00:51:08 -0800 (PST)
-X-Received: by 2002:a9f:2c0a:: with SMTP id r10mr9851777uaj.89.1643705467496;
- Tue, 01 Feb 2022 00:51:07 -0800 (PST)
+        Tue, 01 Feb 2022 00:55:33 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id w21so13418015uan.7;
+        Tue, 01 Feb 2022 00:55:33 -0800 (PST)
+X-Received: by 2002:ab0:44c:: with SMTP id 70mr10103974uav.78.1643705733378;
+ Tue, 01 Feb 2022 00:55:33 -0800 (PST)
 MIME-Version: 1.0
-References: <f09d7c64-4a2b-6973-09a4-10d759ed0df4@omp.ru>
-In-Reply-To: <f09d7c64-4a2b-6973-09a4-10d759ed0df4@omp.ru>
+References: <20220129115517.11891-1-s.shtylyov@omp.ru> <20220129115517.11891-2-s.shtylyov@omp.ru>
+In-Reply-To: <20220129115517.11891-2-s.shtylyov@omp.ru>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Feb 2022 09:50:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUyeiHyPcHNFMGWOTtVWUwN8cv8r7anmX-bwEpy9DLSYA@mail.gmail.com>
-Message-ID: <CAMuHMdUyeiHyPcHNFMGWOTtVWUwN8cv8r7anmX-bwEpy9DLSYA@mail.gmail.com>
-Subject: Re: [PATCH net-next] sh_eth: kill useless initializers in sh_eth_{suspend|resume}()
+Date:   Tue, 1 Feb 2022 09:55:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWfCjb+ZzTFLw1a8g2o5oGfLG_qTr702eq7z0bE0f3Yjw@mail.gmail.com>
+Message-ID: <CAMuHMdWfCjb+ZzTFLw1a8g2o5oGfLG_qTr702eq7z0bE0f3Yjw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] ravb: ravb_close() always returns 0
 To:     Sergey Shtylyov <s.shtylyov@omp.ru>
 Cc:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -56,9 +56,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 1, 2022 at 9:24 AM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
-> sh_eth_{suspend|resume}() initialize their local variable 'ret' to 0 but
-> this value is never really used, thus we can kill those intializers...
+On Tue, Feb 1, 2022 at 3:00 AM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
+> ravb_close() always returns 0, hence the check in ravb_wol_restore() is
+> pointless (however, we cannot change the prototype of ravb_close() as it
+> implements the driver's ndo_stop() method).
+>
+> Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+> analysis tool.
 >
 > Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
