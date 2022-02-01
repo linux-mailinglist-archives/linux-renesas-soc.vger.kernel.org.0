@@ -2,96 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0084A5E67
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 15:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F204A5EC7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 16:01:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239391AbiBAOgo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Feb 2022 09:36:44 -0500
-Received: from mail-vk1-f174.google.com ([209.85.221.174]:34698 "EHLO
-        mail-vk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239387AbiBAOgn (ORCPT
+        id S239619AbiBAPBp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Feb 2022 10:01:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235655AbiBAPBo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Feb 2022 09:36:43 -0500
-Received: by mail-vk1-f174.google.com with SMTP id j185so10641428vkc.1;
-        Tue, 01 Feb 2022 06:36:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Al7yQnSF9IlD1H2DFNIlSXlCMrqCG66VikNtkW+kQig=;
-        b=Rc5lvoDr7kT959usMpEexxl5MC4ibbCl94QeZ6JdaYaeBxk6PKszHFHBwvRTGUjsYt
-         dgnqi6BuDOB0QhwXu6ongR/KXLbpJzgbL4PeZ102MGLDWG9ciN/I99JHqONbJYNDnkIF
-         xu9Ev80QEBnUlFZfkwrtOJ7uHCM7mh7j6W/jEq+PB02jiNjjuNbUHKZgeMuuxY58yQZi
-         Bj+p1D5ZoOv8L4qwl8nYfb1fugcFCRWhtxCfIR/Y1Ynh7xBtqv/i/Rjc5jKkB68OA3/4
-         k9MZqLenL1IAydbyizHcqrFpT1eNESrlbbWWOkruvqf/w+GV/TII2icZlkTtb4xZtXzl
-         j8HQ==
-X-Gm-Message-State: AOAM533bSMw/sO5+2gbpVKE8pcWlJ4+BtagsdX4CahyWbTFfwmb39cQH
-        lqiEw1x3CTPVvMFr1kJWflCjuBLhLVESkA==
-X-Google-Smtp-Source: ABdhPJxyTqp7PKos/oa9FV9/xF/SNi96EKvfarSqp5zeAFZ770xotO5KzuVYSUPj/z1iHi8D9gAFTA==
-X-Received: by 2002:a1f:170c:: with SMTP id 12mr10232221vkx.0.1643726202988;
-        Tue, 01 Feb 2022 06:36:42 -0800 (PST)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id t22sm746601uaj.8.2022.02.01.06.36.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Feb 2022 06:36:42 -0800 (PST)
-Received: by mail-vs1-f44.google.com with SMTP id g23so16325665vsf.7;
-        Tue, 01 Feb 2022 06:36:42 -0800 (PST)
-X-Received: by 2002:a67:c198:: with SMTP id h24mr10322399vsj.5.1643726202094;
- Tue, 01 Feb 2022 06:36:42 -0800 (PST)
+        Tue, 1 Feb 2022 10:01:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7DFC061714;
+        Tue,  1 Feb 2022 07:01:44 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A009261639;
+        Tue,  1 Feb 2022 15:01:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE575C340EB;
+        Tue,  1 Feb 2022 15:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643727703;
+        bh=1lsscK2CvDTuGlMIjQLdrV/h85gyYq2WsV5RiWocm3A=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=DE/PwBR+nmYdXGRwtS5Dn94pMjb86NHd/0AGava6LNh1WUp/z+jof6jz8BhjiSQ+L
+         200TmAjfeS+0a4lmRdxOLpLj8uurqKq2l5/PW2CN3FuaN0TXg0Ed2kyU40nTQLwGI5
+         L9YY/OCpUeZPNCrCIE6URh9y8MC1X0dtJc0Fg+Vp4QcO65+prPr2KLkRI1J4XTXqrM
+         VnaPj0u8TzwRrLg21gYCWGSuH80PBZ41S4ICyQXNK7MV3fVrGpoaw9g3hliI2OYfFj
+         ybURLIJlNPH8qS+xdG2/bgMA4b8+cldDiEMy9nL0VUYpbHg3VCKPWUYNAYc/R3XPVw
+         oZILFTrgpS03A==
+Date:   Tue, 1 Feb 2022 09:01:41 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] PCI: rcar: Use PCI_SET_ERROR_RESPONSE after read
+ which triggered an exception
+Message-ID: <20220201150141.GA565205@bhelgaas>
 MIME-Version: 1.0
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com> <20220112174612.10773-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220112174612.10773-5-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Feb 2022 15:36:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXJz8BHXw=NdV0c9P3JZ0QH655njmA4cNx1j1mGJhDsHQ@mail.gmail.com>
-Message-ID: <CAMuHMdXJz8BHXw=NdV0c9P3JZ0QH655njmA4cNx1j1mGJhDsHQ@mail.gmail.com>
-Subject: Re: [RFC 04/28] clk: renesas: r9a07g044: Add M1 clock support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220129043837.172126-2-marek.vasut@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Sat, Jan 29, 2022 at 05:38:37AM +0100, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+> 
+> In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+> any read/write access to PCIECDR triggers asynchronous external abort. This
+> is because the transition to L1 link state must be manually finished by the
+> driver. The PCIe IP can transition back from L1 state to L0 on its own.
+> 
+> The current asynchronous external abort hook implementation restarts
+> the instruction which finally triggered the fault, which can be a
+> different instruction than the read/write instruction which started
+> the faulting access. Usually the instruction which finally triggers
+> the fault is one which has some data dependency on the result of the
+> read/write. In case of read, the read value after fixup is undefined,
+> while a read value of faulting read should be all Fs.
 
-On Wed, Jan 12, 2022 at 6:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add support for M1 clock which is sourced from FOUTPOSTDIV.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Since the kernel test robot found something to fix, maybe you could
+replace "all Fs" with PCI_ERROR_RESPONSE at the same time.
 
-Thanks for your patch!
+> It is possible to enforce the fault using 'isb' instruction placed
+> right after the read/write instruction which started the faulting
+> access. Add custom register accessors which perform the read/write
+> followed immediately by 'isb'.
+> 
+> This way, the fault always happens on the 'isb' and in case of read,
+> which is located one instruction before the 'isb', it is now possible
+> to fix up the return value of the read in the asynchronous external
+> abort hook and make that read return all Fs.
 
-> --- a/drivers/clk/renesas/r9a07g044-cpg.c
-> +++ b/drivers/clk/renesas/r9a07g044-cpg.c
+And here.
 
-The above looks correct to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> @@ -353,4 +362,7 @@ const struct rzg2l_cpg_info r9a07g044_cpg_info = {
->         /* Resets */
->         .resets = r9a07g044_resets,
->         .num_resets = ARRAY_SIZE(r9a07g044_resets),
-> +
-> +       /* lcdc mode for PLL5 settings*/
-> +       .pll5_lcdc_dsi_mode = true,
->  };
-
-This is the part I don't like, but I guess you could imagine ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Bjorn
