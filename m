@@ -2,138 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B23C4A56F5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 06:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D4CD4A56FA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Feb 2022 06:36:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbiBAFat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Feb 2022 00:30:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
+        id S230287AbiBAFgc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Feb 2022 00:36:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbiBAFaq (ORCPT
+        with ESMTP id S229612AbiBAFgb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Feb 2022 00:30:46 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86406C06173D
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:30:46 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id r65so47375299ybc.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:30:46 -0800 (PST)
+        Tue, 1 Feb 2022 00:36:31 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4C6C061714
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:36:31 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id s16so14243520pgs.13
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Jan 2022 21:36:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5kydovGavYpv7Z8Qzla4H6f1AHt/32IxvvPG5ynaWbE=;
-        b=U77UZ+D4xbTT9TJN9/zszI5V0tEXwMdM+BFvx6Nb9KJU883KTTg8RWJqW4u+rENsbc
-         mTJr60YFHw5Cyrrca0pMlnzqqtKSvEDubI0G2fZza/uyEvwpK6LDHKbyuL1pAKlu+isx
-         5Rnhlftwp2yqp8HSPx5SIs3NWouiN3k6iuUSYGxj7wdtzs4LuWuXt7HF6nYvE8dm6UJf
-         J1nVZTCZUchtA+Hnhbrnp4yi2zYEiIcOXsDJBByWDsZQcVGxuYwU+aPi9Twkd3NAAQyx
-         7zDPjux6Iu/hWafBsPTXIjefy75b3o6mwNorP1BcbZabndECDeiebZm9E9u4xH8uPY2J
-         Pp4A==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Z+nJkO/mWs+7GxSI7pyzBKojFK5bvGszWyeGS7KHm/s=;
+        b=xU3DIG2/PvXUIix8Y8rsFcijz5atc5tt7ByQXS+9WOjCXd737JquSAOSP2zC4vkOiS
+         04R0VyrTocBUG/wmLB8PrwY4zRZnTJU/cYinBkFMnU8uIzi/2ttqj1s+3ZzSJxw5baDx
+         W5ZKxWWWngBmtQq9LvFtP0J/EWW9PiHNMcRS1m1wcbgvwqlRcfacXvITD3nIcNRtj5RI
+         j/18ufqilSKfRxgiMlswjyBnvGR6Gs9vg6uM5oydkYP+xNYKJR/3Zv+v9yWra3VtkkYA
+         ak9wG34bgiJzjs8uAeL72F+NWpIpTgiB1tYyCesvtOxtqkqeZMykKYnI5uyDy54+EDxT
+         E9+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5kydovGavYpv7Z8Qzla4H6f1AHt/32IxvvPG5ynaWbE=;
-        b=6DoV27HOwMYs1HqC4CROoVs7FTfa980izIKhaA6fGAq6d5z6rSXarcmHuNUFFSCybb
-         t2Mo0ttOPLMGG4NcP3zkMXForYFL6EKaydX2MxDvMj6H8BA5P6v/ZEMRVxrUrhETd6e/
-         h6byGMt0hd35oydjQEtUEfEHnYAnUM44A+QjHM4qbU0KmSU2DiUJ3LMxyxEOHAwNhvE5
-         4iE7QIJ/PjlZhBi/LTQ8IbaQXM6PupgDO0VgNZVNekDMludgYWz8t4CCzGr1MFrDP8fF
-         78lGmbJjns7+fiRseIhmE7n9mDBfhUXgARykJPBEAEqev8oQMzLK3CH0wSyTTgH9yG0L
-         L3XQ==
-X-Gm-Message-State: AOAM532rgS+1knSg2KhWstFZZm/STWJggo18dZaB3U+5IjC6xJLYfYIR
-        9Q10FiJZ/drxUomTZ3XSUcVNO3HzoYtQBmLWU4YbXQ==
-X-Google-Smtp-Source: ABdhPJynKbsLj1UEZZnKfLzmdFbVdxNi6pGBmrFfyYXto1lhLijfs+2rVmbRV30Q7qVZQAskM2peIoEkaBltQtJKHlQ=
-X-Received: by 2002:a25:50c7:: with SMTP id e190mr33046695ybb.324.1643693445559;
- Mon, 31 Jan 2022 21:30:45 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Z+nJkO/mWs+7GxSI7pyzBKojFK5bvGszWyeGS7KHm/s=;
+        b=FKBl/MuGvNOpOSg3q+pd4wviNrn2gFFyJD9gkv5Yy5Xi3e5wLs5mlmomaDOL8gRob/
+         G4iUw34HVrNc7GG599EPnN9Tm2LlXKGRN1oRc0ohKDJ5XpNg8DmV1TLNIKkZLuq4Yyi3
+         XQD26ZxBO1XT+nLpZxoIIvGvjm5BOhFcz8ugjk4y6ugVum5wkdzLQwd97OHCygBOe9Iu
+         Eld/TAlqiU58CIFdVfAlTjePNVShpxWPdIODOXaIHsTXqo3LEuzR9gZR5oLB2qiLSN9E
+         thJSLILWLLWAeJqE53JcFx9imAi8wnScJtnJ4sJtvvOPEWUb9WbZxjlDi6h26dLF4Z1B
+         VJ7g==
+X-Gm-Message-State: AOAM531kMVyoO1Uu5F0Ed9I6ExhjP2ruSXvYbIjcXyythI5CWtquOErf
+        h88MdFtEPslrA9ZpewF8R13TyOHAicjNLep+
+X-Google-Smtp-Source: ABdhPJzU2ZLWP0VFcYC2e5ZuNXUqtqQJ9dmsPDEeePvzb7AsqA660rylBJCy/vHWqEv1bGM9iUmQsw==
+X-Received: by 2002:a05:6a00:1682:: with SMTP id k2mr23070312pfc.11.1643693791051;
+        Mon, 31 Jan 2022 21:36:31 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id k16sm21788544pgh.45.2022.01.31.21.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jan 2022 21:36:30 -0800 (PST)
+Message-ID: <61f8c6de.1c69fb81.2d85e.9f75@mx.google.com>
+Date:   Mon, 31 Jan 2022 21:36:30 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210929000735.585237-1-saravanak@google.com> <20210929000735.585237-2-saravanak@google.com>
- <7hk0efmfzo.fsf@baylibre.com>
-In-Reply-To: <7hk0efmfzo.fsf@baylibre.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Mon, 31 Jan 2022 21:30:09 -0800
-Message-ID: <CAGETcx_YEUxEBSBnzFaBxW=9=jO6BO0GuThaMGF+JPkDeC-ivw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
- probing simple bus only devices
-To:     Kevin Hilman <khilman@baylibre.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-01-31-v5.17-rc2
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+Subject: renesas/master sleep: 5 runs,
+ 1 regressions (renesas-devel-2022-01-31-v5.17-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 7:18 PM Kevin Hilman <khilman@baylibre.com> wrote:
->
-> Hi Saravana,
->
-> Saravana Kannan <saravanak@google.com> writes:
->
-> > fw_devlink could end up creating device links for bus only devices.
-> > However, bus only devices don't get probed and can block probe() or
-> > sync_state() [1] call backs of other devices. To avoid this, probe these
-> > devices using the simple-pm-bus driver.
-> >
-> > However, there are instances of devices that are not simple buses (they get
-> > probed by their specific drivers) that also list the "simple-bus" (or other
-> > bus only compatible strings) in their compatible property to automatically
-> > populate their child devices. We still want these devices to get probed by
-> > their specific drivers. So, we make sure this driver only probes devices
-> > that are only buses.
-> >
-> > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
-> > Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > Tested-by: Saravana Kannan <saravanak@google.com>
-> > Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
->
-> This patch landed in stable/linux-5.10.y as commit d5f13bbb5104 and it
-> broke suspend/resume on at least one TI AM335x board I'm testing on:
-> upstream dts: arch/arm/boot/dts/am335x-icev2.dts, upstream defconfig:
-> arch/arm/configs/omap2plus_defconfig.
->
-> Bisecting between vanilla v5.10 (good) and stable/linux-5.10.y (bad)
-> pointed me to this patch, and I confirmed that reverting just this patch
-> on top of stable/linux-5.10.y makes it work again.
->
-> Also interesting, this same platform works fine on vanilla v5.15, which
-> also includes this patch.  That suggests that either 1) this patch
-> should not have been backported to v5.10 stable or 2) there are some
-> other dependencies that are missing in v5.10.
->
-> Since vanilla v5.10 works fine, I'm leaning towards (1), but if you have
-> any ideas for deps that need backporting, I'm happy to try.
+renesas/master sleep: 5 runs, 1 regressions (renesas-devel-2022-01-31-v5.17=
+-rc2)
 
-Oh wow! I didn't realize I made so many changes AFTER 5.10! Unless I'm
-doing something wrong with my git commands.
-$ git log v5.10..v5.15 --oneline -- drivers/of/property.c
-$ git log v5.10..v5.15 --oneline --author=saravanak -- drivers/base/
+Regressions Summary
+-------------------
 
-If you don't think I got my git command completely wrong, yeah, way
-too many patches are missing on 5.10. I'd go with the option of
-dropping this patch on 5.10.
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
 
-> I haven't debugged exactly where it's hanging yet, but, enabling
-> CONFIG_DEBUG_DRIVER=y, and suspending with "no_console_suspend" on the
-> command line, the last line before it hangs is:
->
->    [   28.129966] simple-pm-bus ocp: noirq power domain suspend
->
-> Any ideas?
 
-I'd guess it's either a sync_state() happening too soon since some of
-the dependencies aren't tracked. Or some dependency cycle that'd be
-handled correctly if the rest of the patches were picked up. Yeah, a
-pretty broad/vague answer.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-01-31-v5.17-rc2/plan/sleep/
 
--Saravana
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-01-31-v5.17-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      3aa8ba88974022cbe2386cf2cd1b93d7244301b5 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch   | lab           | compiler | defconfig         =
+           | regressions
+-------------------+--------+---------------+----------+-------------------=
+-----------+------------
+hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
+chromebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/61f8af17e52304b3f25d6f03
+
+  Results:     22 PASS, 1 FAIL, 0 SKIP
+  Full config: x86_64_defconfig+x86-chromebook
+  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-31-v5.17-rc2/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
+bora/sleep-hp-11A-G6-EE-grunt.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-01-31-v5.17-rc2/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
+bora/sleep-hp-11A-G6-EE-grunt.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220128.0/amd64/rootfs.cpio.gz =
+
+
+
+  * sleep.rtcwake-freeze-2: https://kernelci.org/test/case/id/61f8af17e5230=
+4b3f25d6f0d
+        new failure (last pass: renesas-devel-2022-01-25-v5.17-rc1-11-gba94=
+d205dc711)
+
+    2022-02-01T03:53:56.741198  <6>[   34.804903] PM: suspend entry (deep)
+    2022-02-01T03:53:56.744214  rtcwake: assuming RTC uses UTC ...
+    2022-02-01T03:53:56.750557  rtcwake: wakeup from \"freeze\" using rtc0 =
+at Tue Feb  1 03:54:02 2022
+    2022-02-01T03:53:56.756672  <6>[   34.809039] Filesystems sync: 0.000 s=
+econds
+    2022-02-01T03:53:56.760399  <6>[   34.822876] PM: suspend entry (s2idle)
+    2022-02-01T03:53:56.763571  <6>[   34.823010] Freezing user space proce=
+sses ... =
+
+    2022-02-01T03:53:56.766440  <6>[   34.826898] PM: suspend exit
+    2022-02-01T03:53:56.773951  <6>[   34.835918] r8152 2-4:1.0 eth0: carri=
+er on
+    2022-02-01T03:53:56.777500  <4>[   34.841334] (elapsed 0.014 seconds) d=
+one.
+    2022-02-01T03:53:56.783835  <6>[   34.845626] OOM killer disabled. =
+
+    ... (1151 line(s) more)  =
+
+ =20
