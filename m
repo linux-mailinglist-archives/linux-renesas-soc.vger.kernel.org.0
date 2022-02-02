@@ -2,96 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C8D4A6DBC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 10:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E74D4A6DFE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 10:42:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234114AbiBBJXu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 04:23:50 -0500
-Received: from mail-vk1-f173.google.com ([209.85.221.173]:36708 "EHLO
-        mail-vk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234059AbiBBJXu (ORCPT
+        id S245483AbiBBJm0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 04:42:26 -0500
+Received: from mail.trueanalyze24.com ([149.154.157.156]:41158 "EHLO
+        mail.trueanalyze24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233922AbiBBJmZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 04:23:50 -0500
-Received: by mail-vk1-f173.google.com with SMTP id u25so8842304vkk.3;
-        Wed, 02 Feb 2022 01:23:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hCUm6YJgeaBSW2LffvWnBA0o47V64tlsOuuAWMjoV6M=;
-        b=HUGQGUQIvvd8cF4Gt5lrI/cx0Dq8oFrAfjgU0FiSenwWE6raJL6ZJpW3rckJGaYukh
-         ocCkdewXwJf5x5NxFkNbh3mxw6lBvSg0O8tYCBQFbrRqcuS5RCc36lXWKyUntiHomGlk
-         gjSWMZAZsnZAYYsE1240r5vEv623QcKs6b/xRHIE6gsNpSZc6AvVF3Hfuci5Fjt5+Xz8
-         BhSTszRV/mEycUH2tcWF2PPLY+ykCqcwMPZrkSNbPKWL91xHPJFYfGi2ZDxKt/01so+K
-         aZP9eGnDNQrI5fSTZLM7QmB2iO1Gm9EkldycowXUBUMxyLQqbQqqFyrau79darGVjSXx
-         F+MA==
-X-Gm-Message-State: AOAM531LxJL8/D0c1Jy9Gq6Y/fSrEuCCnr0c4fKVZmdtNkdcXsxWZ+pd
-        LHs6e1Vu01dDrQn3AulenM9VNEYKhwJD0g==
-X-Google-Smtp-Source: ABdhPJyusAZaeIpQR2yczMEy4TTTrc3XGnOmJElFX6KGORzcMsZODr3iTKoj3jpjLVt2IqnNPHIFvA==
-X-Received: by 2002:a05:6122:d07:: with SMTP id az7mr12150708vkb.35.1643793829441;
-        Wed, 02 Feb 2022 01:23:49 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id r4sm4718925vsk.2.2022.02.02.01.23.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Feb 2022 01:23:49 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id r8so4923266uaj.0;
-        Wed, 02 Feb 2022 01:23:49 -0800 (PST)
-X-Received: by 2002:a67:5f83:: with SMTP id t125mr10939867vsb.68.1643793828948;
- Wed, 02 Feb 2022 01:23:48 -0800 (PST)
+        Wed, 2 Feb 2022 04:42:25 -0500
+Received: by mail.trueanalyze24.com (Postfix, from userid 1001)
+        id 638AA434CB; Wed,  2 Feb 2022 10:31:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trueanalyze24.com;
+        s=mail; t=1643794944;
+        bh=EGenFkmmv/iHCwB4AbTzX8IXCMu1xRW+9eep7HJGZMM=;
+        h=Date:From:To:Subject:From;
+        b=yc8b7a4ixSASYPSOEYLLkbeABaxU8pVGSX7uaUMgdmeax4Fpjj/7zVEYVZ0cQil9u
+         +hoyE6vjcotYe0ISH7PtIfzKemOeFtBc7Ojf7ZMHntbtrvJQ8BcxxDwMDgZhASwa8O
+         3MJDVT+zPxxR/3d265XPDuQft+x2X8lMW03+9KkYgstwKXLU2puDijEncJXpgojxui
+         Ayd4sPd4mY6ig0vT93zUluXSjtDtn30Y+FQA4fJ5h8Ik0SjiYiYfSTjMb95V6OB8T0
+         7vPrSGgNgkUU1OmGFjsDcz20+D3WXyEG0sHcnM3dFQKRO8HS6p0EI1GrjTh8r2IAfy
+         jqql8a5a8hrJw==
+Received: by mail.trueanalyze24.com for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 09:28:42 GMT
+Message-ID: <20220202084511-0.1.1h.h5c2.0.d4jbg727bn@trueanalyze24.com>
+Date:   Wed,  2 Feb 2022 09:28:42 GMT
+From:   "Mateusz Talaga" <mateusz.talaga@trueanalyze24.com>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: Prezentacja
+X-Mailer: mail.trueanalyze24.com
 MIME-Version: 1.0
-References: <20220125125602.4144793-1-yoshihiro.shimoda.uh@renesas.com> <20220125125602.4144793-3-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220125125602.4144793-3-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 2 Feb 2022 10:23:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXmievc1U0PXfv01wsibUs+B+5U6kPbcE8=v2GKTvFbTA@mail.gmail.com>
-Message-ID: <CAMuHMdXmievc1U0PXfv01wsibUs+B+5U6kPbcE8=v2GKTvFbTA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] iommu/ipmmu-vmsa: Add support for R-Car Gen4
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Dzie=C5=84 dobry!
 
-On Tue, Jan 25, 2022 at 6:36 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for R-Car Gen4 like r8a779f0 (R-Car S4-8). The IPMMU
-> hardware design of r8a779f0 is the same as r8a779a0. So, rename
-> "r8a779a0" to "rcar_gen4".
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
+=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
+zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
 
-Thanks for your patch!
+Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
+=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
+dostaw.
 
-> --- a/drivers/iommu/ipmmu-vmsa.c
-> +++ b/drivers/iommu/ipmmu-vmsa.c
+Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
+nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
+ co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
 
-> @@ -743,7 +744,7 @@ static bool ipmmu_device_is_allowed(struct device *dev)
->         unsigned int i;
->
->         /*
-> -        * R-Car Gen3 and RZ/G2 use the allow list to opt-in devices.
-> +        * R-Car Gen3, Gen4 and RZ/G2 use the allow list to opt-in devices.
->          * For Other SoCs, this returns true anyway.
->          */
->         if (!soc_device_match(soc_needs_opt_in))
+Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
+=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
+zania w Pa=C5=84stwa firmie.
 
-There are a few more references to "Gen3" that can be extended.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Z powa=C5=BCaniem,
+Mateusz Talaga
