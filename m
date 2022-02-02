@@ -2,173 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E284A761B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 17:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D69034A7708
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 18:44:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345969AbiBBQlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 11:41:49 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:48325 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233527AbiBBQls (ORCPT
+        id S235630AbiBBRnI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 12:43:08 -0500
+Received: from mail-os0jpn01on2098.outbound.protection.outlook.com ([40.107.113.98]:24084
+        "EHLO JPN01-OS0-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231680AbiBBRnI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 11:41:48 -0500
-Received: from mail-yb1-f181.google.com ([209.85.219.181]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M7sQ8-1nAKtM24nq-0054CK; Wed, 02 Feb 2022 17:41:46 +0100
-Received: by mail-yb1-f181.google.com with SMTP id w81so230109ybg.12;
-        Wed, 02 Feb 2022 08:41:46 -0800 (PST)
-X-Gm-Message-State: AOAM531DRrf08nEE9DAXs9TXwDwxD5R9zuOtmpMARhK34ngl7PXfVPbl
-        JZjOCRPPUhhApICfv70yDr/1QlhRQ2GrsdMyAWA=
-X-Google-Smtp-Source: ABdhPJz2O/9Dqb43FQaFEs2fgdQ11r4WChyB6XAjTgMFNwZoBX1IgqEBVLSxxOha4gVbBN3Qpzy/vvWlFqfDO4Fo+i8=
-X-Received: by 2002:a05:6830:33c2:: with SMTP id q2mr16651474ott.368.1643815893880;
- Wed, 02 Feb 2022 07:31:33 -0800 (PST)
+        Wed, 2 Feb 2022 12:43:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ni4aHCrC4pESv6gVoBQyFwTC9DhNnbTnyWZRvMXL2tLLc8+WR+4hcqFWVi8OqtvPlBHIAauUnHZg729u680Ph0YtQvWz6CprzyUKVyoRmhCm57we/tsfD7wpLlKIcHERSIRlFnK5b2k/YVpULVGLHC9WwAR6YkL+XlOg3F35shFqgII2GHMCFMBypvM9TuT0S+PU/3cLVjW0L96I9MghdOuHAhaonRLhXOzdXV8jmsiadZeDzmmJi6jfdgl4xi1nhJqOYps1xIxWLYbps6Cji9Fb1dwBAOSbwBC0qSN+gBa7VpN5oPnZkoPuTmVXjs/8OZNJMYc34kecyz9jMVZEsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tAuhYLEl34eyOa19NRrUpLWSv/Z2jzpBoqaAvKIurgw=;
+ b=lh6+W1eTIQgGc9R34S7vLDru9v2LE1l04/LgQ0i+zCBHZjx/ur9tqCtWhFVHRVR72xF/5FGpPz9eu4kFahw5i+vraoUIUvSWKvOdEDcljse+4tdZOZinsUIjYvpFk/GeCiQHCF7iq41HKhwVO2084q2qV2FEtys/tZEURycRKhY5Iqwvqg4IB9jj51efU1SInue6VIcU62SJ6ty5ohdSKog6iOzyEHHS3rD0y/3b7WiINVx9wOSrlxQq7rmzUYkr793ra4Cqt/juQGLOMEvx8CXEPv/C+IH7qa3kVCg43LdX/5o2aCfhiWn6+4i1lWXKvXtTO7Cc+3QoUjBh9uJmiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAuhYLEl34eyOa19NRrUpLWSv/Z2jzpBoqaAvKIurgw=;
+ b=JkGT7sLiieCNnNeaQfPAzF3PRw25sqzjOkWU3pBg+YA5a3WvMuujsbIWbNiDHAwrW+wYdLJEURAaQDrLlaBQfyz/p1edCUQfu0nXztI+0C0aEg05+gDhlx5sahIEtLaoc+lB9m80Hu3hsq6XyVBt5mzCWzGpx5CpUSKODsuJ3AU=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB9599.jpnprd01.prod.outlook.com (2603:1096:604:1d5::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 2 Feb
+ 2022 17:43:06 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3847:4115:3fbe:619]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3847:4115:3fbe:619%8]) with mapi id 15.20.4951.012; Wed, 2 Feb 2022
+ 17:43:06 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] soc: renesas: Insert "Rev" before printed revision on
+ RZ/G2L
+Thread-Topic: [PATCH] soc: renesas: Insert "Rev" before printed revision on
+ RZ/G2L
+Thread-Index: AQHYGEA+ma8L8L5a3k+A4HSz3WIUBqyAh2rw
+Date:   Wed, 2 Feb 2022 17:43:06 +0000
+Message-ID: <OS0PR01MB592271F7B7E1481703F4616D86279@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <e61a88ca90ffd513c7aa680bdffefeee444edd8f.1643811627.git.geert+renesas@glider.be>
+In-Reply-To: <e61a88ca90ffd513c7aa680bdffefeee444edd8f.1643811627.git.geert+renesas@glider.be>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7c41b850-1699-420d-eab9-08d9e673787a
+x-ms-traffictypediagnostic: OSZPR01MB9599:EE_
+x-microsoft-antispam-prvs: <OSZPR01MB9599D833520A0FC8C9FB6BDD86279@OSZPR01MB9599.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:110;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SoIZcRDTylHiCK9zbGDtfIqBe+NLI9HYrTC82sL+KtDuT1MLQrN1voZxz0JZ7Omjo28KjmBZRAF4y6T5jOGxsmlj/r3IShLdsioviU70aBWCcQ5MsRDu1MFzpw92TvUH5UvZNu48YGfWiY2dGQXJ66oLzvlgymJ7xnzBa+aZA4hMPMUE91kzFGdUw7v1RR5q5mn+BkrZwzi0DHydaDKojxedAjaUkPItqnwvS+qn2cYTIsoGa+rY1U6RQrQfFcYV2INcnVnulIOB/v1IwaS3Ow+AZ4nNXY1cGsdUpxq+m/KPebo8zCEZAK10qzmd58bAHA/6CRhplNYuIs1ruuxYsdZzgxGgqhazm1xNowXT5ZxfeAvxWoh2KgPHYWrrxhVg4uulAWBtod8qcgpwveS0HaSrC/2DxRcodxgtc0sVxRu3DMvF7Zx74+7NnoXasCtSayn1gwgKZn/npeKozc6Wr+auXxkvGoB7co4S+VDENKutOOUa95UdoEcifSQ6LOdlzHAl+oOumY9GLra0TiJ5hJoY6r8Q2j+7a/90iUr9mzNAHq+kOXNcf+GvebV9bi6yLzNqR0gmRv+LawFaTML03ZIrXflUHj9qtBMDhaqjLnHh87B2EI0Cl5BF+0n/85fQ6CUDfFkMtvwBgrdWI4yqw7RFNWhKFIKt5ZcNLp6TRDeuFvcuCzqitDhdRFQzEcJLOSvq0gCTuGTSKBJwOGCrAA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4326008)(6636002)(8936002)(8676002)(316002)(110136005)(186003)(2906002)(66446008)(71200400001)(66476007)(508600001)(33656002)(76116006)(26005)(66946007)(55016003)(9686003)(52536014)(5660300002)(7696005)(66556008)(64756008)(6506007)(83380400001)(86362001)(38070700005)(38100700002)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HsKvLYRi7EC7NrtvPFCqlCdsz83kGk2slVw7wvwGww/ygkaelY5/WGcQ/8sB?=
+ =?us-ascii?Q?z5hnB9ftdj4dLEijhhaDhA4uqZ1TpdGhfmQe9xt7imoRF94MpQHCAAwwbuMn?=
+ =?us-ascii?Q?4pOWvJuRzIj0QySYzaq+hfXlDDPtDJgvKD9EZbxZnkI+ctMHm1oNjsFVufo1?=
+ =?us-ascii?Q?3f12q4AqSJGP8Drxg82Tx5vD4eofaMwJnM6Tehn4Q6tg9aqDH4deCIRX4NeS?=
+ =?us-ascii?Q?f0kLddTgEpEhgusd68bDrzVcPBdhRrMmZMU/Abglu6Z99XyhPtCUzKgJ5XFW?=
+ =?us-ascii?Q?hiVz721VqrmQ1sJtwru5NSzVkkTxKfIewfPKTH/WR+Plxd/9PZdNKCmFN/yh?=
+ =?us-ascii?Q?JGB9H+n3mfO1WAMRr639nvQmlQhCJrMol9qiKlPtw/tFJbuOXynOqReMc86Z?=
+ =?us-ascii?Q?arlc8H5YNBffOtjta26zNKwtrcV+ySc4l8twp9rHos3QGuMdSF6csVU9lijT?=
+ =?us-ascii?Q?XItZ6k3tFMX3chn5L/p28snr56p9mzmDKFE6KdswQLm95Q1zTbrmjIlZa5ZD?=
+ =?us-ascii?Q?aJq9lNB8r/XueicyYowdMzwLryLwgcskOOG8hpBD7UrotuVsau+ECt9kWUoK?=
+ =?us-ascii?Q?b8QBL+q/IR8L/+Pe3bT3PagUeH7Bf8xLoKWAZH4vOlYv/eqrtKfTTiiSKmNz?=
+ =?us-ascii?Q?0IAoMM5g7FrmNVpI8w04J07/mjCNpuo3JaTECdFwgF+8bPyU3TGZSXgdIyqf?=
+ =?us-ascii?Q?UsMOpvmoIsJ5FjRJNSj81kGNdI83neJ4K0fA3fDNnURC4GQm4PiNhwHGkNXK?=
+ =?us-ascii?Q?vO5JhSosZduI2lmI8VG2NY2NreczDiS2JF3ZbSrWm1qDtn2jPkXDi4Y5zskx?=
+ =?us-ascii?Q?3l056WFZs7BMIWYjHGR3NM7S3P2Yc0sfZvLiI2GSTuZDcABIZEmpBb5zq0lF?=
+ =?us-ascii?Q?F9oyAf0+DSkRtoGpKRec1XPJz3kd3+gFl7OtP2XCjW7ziHJbnEpqUCMaliSR?=
+ =?us-ascii?Q?1SBZnnxIdL7ON8TFbv51hSVktYWvKKj0/kJeXR3VZ29S22w03eaMmkDcU6rd?=
+ =?us-ascii?Q?NWbpNv8Nh4C4a8dZJDbqWMWCjomrXp1c4LS6ZxcNXyTt/OM3iBaYZVlTLutp?=
+ =?us-ascii?Q?K7Ua4WKoksyVCer3SSfm2i4v20iNNovPtO2Gl5Uk1dV1jgUtFkEqkTEqjV/6?=
+ =?us-ascii?Q?W1PiDoyKFYLRgDpsx4A4B/5vt5kJDHUklvCOoE8i4BkoLKBgAb/wMqxFFSs6?=
+ =?us-ascii?Q?4JBKX/asHwVsNEC4gss7rM5DFNkhEPn56HiazCaEF6ogX937IgztpOX4063h?=
+ =?us-ascii?Q?0qTcESEJxJHHPrM0JQ6i412vkIXrv1S4cTC7WOdJE7ZKDQfWx5hkQAcHcg7J?=
+ =?us-ascii?Q?W+qxa0/Z/vN/vZxsZVzVuaLqjqXvQXM2dMHpyd0tolX/sA4e6cZ7q8yvcN0s?=
+ =?us-ascii?Q?ELm0LzKz9at/0OIJXZaHw84421zvYBWdqBOyEI/1B7Y8shIy5I7ppsumKbZr?=
+ =?us-ascii?Q?HlEmF9xVqdKk8Sk1DQXcTwbPH3bmbyeCor/n8NCvjzLw/Y4sw7FFskBfjg0Z?=
+ =?us-ascii?Q?d9y8CSFcOSTpDnI14vqaviKztCbPg3DKR7zFknTfq7+xrlQ1UPoWoalmXRg0?=
+ =?us-ascii?Q?sr5YXdpl8rhpzMRHIrBdGhfjhoDAJpTGdc9I10u2ByKOV0ApfKGd06HVC5Hg?=
+ =?us-ascii?Q?JaDIWh2JY+HYfq/T9YzJvE1JJUEATgAd9Qvjf2cH3MFZpCPKw95+qvZHWAQJ?=
+ =?us-ascii?Q?cpHJQA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <30ed8220-e24d-4b40-c7a6-4b09c84f9a1f@gmail.com>
- <20220131121027.4fe3e8dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <7dc930c6-4ffc-0dd0-8385-d7956e7d16ff@gmail.com> <20220131151315.4ec5f2d3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <dd1497ca-b1da-311a-e5fc-7c7265eb3ddf@gmail.com> <20220202044603.tuchbk72iujdyxi4@sx1>
- <20220201205818.2f28cfe5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20220202051609.h55eto4rdbfhw5t7@sx1> <8566b1e3-2c99-1e63-5606-aad8525a5378@csgroup.eu>
- <20220202064950.qyomo7ns27mbedds@sx1> <20220202151707.GA2365@hoboy.vegasvil.org>
-In-Reply-To: <20220202151707.GA2365@hoboy.vegasvil.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 2 Feb 2022 16:31:17 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3ZGFBmxUWm5-DT_QfvU0k8HViEbV4zhwwC8FJLMKZTYg@mail.gmail.com>
-Message-ID: <CAK8P3a3ZGFBmxUWm5-DT_QfvU0k8HViEbV4zhwwC8FJLMKZTYg@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: kbuild: Don't default net vendor configs to y
-To:     Richard Cochran <richardcochran@gmail.com>
-Cc:     Saeed Mahameed <saeedm@nvidia.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Saeed Mahameed <saeed@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Mark Einon <mark.einon@gmail.com>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Catherine Sullivan <csully@google.com>,
-        David Awogbemila <awogbemila@google.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
-        Jon Mason <jdmason@kudzu.us>,
-        Simon Horman <simon.horman@corigine.com>,
-        Rain River <rain.1986.08.12@gmail.com>,
-        Zhu Yanjun <zyjzyj2000@gmail.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        "drivers@pensando.io" <drivers@pensando.io>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Rob Herring <robh@kernel.org>,
-        "l.stelmach@samsung.com" <l.stelmach@samsung.com>,
-        "rafal@milecki.pl" <rafal@milecki.pl>,
-        Edwin Peer <edwin.peer@broadcom.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Gerhard Engleder <gerhard@engleder-embedded.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Gabriel Somlo <gsomlo@gmail.com>,
-        Joel Stanley <joel@jms.id.au>, Slark Xiao <slark_xiao@163.com>,
-        Liming Sun <limings@nvidia.com>,
-        David Thompson <davthompson@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>,
-        Lars Povlsen <lars.povlsen@microchip.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Steen Hegelund <steen.hegelund@microchip.com>,
-        Prabhakar Kushwaha <pkushwaha@marvell.com>,
-        Omkar Kulkarni <okulkarni@marvell.com>,
-        Shai Malin <smalin@marvell.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Gary Guo <gary@garyguo.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "oss-drivers@corigine.com" <oss-drivers@corigine.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:ZQ7YVbNOA3ijeCFuYuwaryPOvD4+23Ued8C+mXh3hFmrSPPkufX
- BafSlefdo6abOSK03UqoZpBA9TGMQcbsiULKoTP7xGwBtiO9YS4R4dgVUtLLbE6P2wJH1FD
- mtvYJIiyZkSwkbR06T1tODhOBZNAdRn4RUH4FYhKniYMYOK5/FtFn3EoE7nWgUbSnxaWJtL
- pshO0/rC/WN/zkL9XXpBw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KNkpdbsaUjI=:Zq58Dacjs4Y2sUUz9C6CEU
- COPlIZtGJJUULjqIqK1UEoPTJLYcqo1OWLJGj6Kfq/k23bHwVtzB0Y0GEboC2wBifwQiK2VEv
- whrZvQPorXJeachAuH6iTb2+CVm8823GJl9OYpKQD8vwFbl0V6+gagQte73thTBBTi42KNSLU
- VOjMZXAW6ZsMMMsAoga3Nhrv+Z2lkKkreQF4fVIPP1v2xm00k/X3JCmaPE8ksC62bcRvPUHfL
- ImBL3Q2cVg4E1cxCeUZfGvX7S3bB8S6ue2NTIC0iXgUyqLitX3swU30lFR5wpI6tPZTQHiZ//
- 2Cfj0Na0AjX8PH/l3QlzaibRfo2/KzLXVootC/1DLl2pwF47wJRu88ScsvsHsvfBix3ZGBTXE
- txllgCbFgf83LqxI0g+hkBmLSRGDCxq+DQGRweHRsbbAJzcamZAL3JocWWe1NZmcyL8q9UbSi
- 7Ie3nGz11RRw0W/vxxVwqXsXsBLz3mTQ9J0EZou0/6z/HA37RWDJgYrOi1kenYbt9v18BNZpO
- 13hIjOn9EngAcGzL/ZmLJNAGVUP+yjJbkcRFv9rzSDnOl8I+b1refkvrE7udTCnkfAUqQTJAL
- 2h/9Z6QUlUZxoq2lqyUezta/1sbWlUif5q+JfkOfp3IorCDWiuij7jcpNh0VtTdAy42FQKFHX
- ZSrpNG0ev+0pGMm2u/0iyt1NHT8P6Y8hDXndYhqQfgAOGcrIYAxg/2n9BVAEtlkNzjqW7Kx/j
- xxCFag3Wr3LnkvK0J7JckFX2JEfgJQslPz8uIolAnXt8aryH+PILM+ZMN6QSUBbE6bl0vIxda
- SY8MmZ787IbSxMdwOJZZDVlmOd84wt70pxbWoimNvqcNbuajyYINa8mxRYMJP5CLCCFzmc0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c41b850-1699-420d-eab9-08d9e673787a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2022 17:43:06.5803
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: h+K5K7QQ2VbegF1/1OehwG9II6PXq2e/Shg7va1JgetfARNtvZ4iCkfIBEO5DgBWpRWHAPIiAznywvDGt4Ndbb8EpZIN5CJoGT9oyZekG2M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9599
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 2, 2022 at 4:17 PM Richard Cochran <richardcochran@gmail.com> wrote:
->
-> On Tue, Feb 01, 2022 at 10:49:50PM -0800, Saeed Mahameed wrote:
-> > I can't think of a clever easily verifiable way to map boards to their VENDORS.
-> > Add to that dispersing the VENDORS configs accurately.
->
-> Just an idea...
->
-> 1. make foo_defconfig
-> 2. for each vendor, do scripts/config --disable vendor
-> 3. make savedefconfig
-> 4. compare defconfig with foo_defconfig
->    difference means some MAC was removed
+Hi Geert,
 
-This needs an extra 'savedefconfig' step in the beginning, as a lot of
-the defconfig
-files are already different from what you get after savedefconfig, both in the
-order of options, and in options that got renamed or removed over time.
+Thanks for the patch.
 
-         Arnd
+> Subject: [PATCH] soc: renesas: Insert "Rev" before printed revision on
+> RZ/G2L
+>=20
+> While just storing the RZ/G2L revision number into the
+> soc_device_attribute.revision field is fine, printing only the number
+> during boot-up looks a bit silly.
+>=20
+> Make the output more visually-pleasing by re-inserting "Rev" on RZ/G2L.
+>=20
+> Impact:
+>=20
+>     -Detected Renesas RZ/G2L r9a07g044 1
+>     +Detected Renesas RZ/G2L r9a07g044 Rev 1
+>=20
+> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Fixes: 92dfff382af0ce65 ("soc: renesas: Add support for reading product
+> revision for RZ/G2L family")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> ---
+> To be folded into the original commit.
+>=20
+> Compared to my earlier proposal, this does not impact the output on non-
+> RZ/G2L SoCs.
+> ---
+>  drivers/soc/renesas/renesas-soc.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/soc/renesas/renesas-soc.c
+> b/drivers/soc/renesas/renesas-soc.c
+> index 1ca83c4c0fd8c9e5..a5377d9c299f6c48 100644
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -408,6 +408,7 @@ static int __init renesas_soc_init(void)
+>  	const struct renesas_soc *soc;
+>  	const struct renesas_id *id;
+>  	void __iomem *chipid =3D NULL;
+> +	const char *rev_prefix =3D "";
+>  	struct soc_device *soc_dev;
+>  	struct device_node *np;
+>  	const char *soc_id;
+> @@ -463,6 +464,7 @@ static int __init renesas_soc_init(void)
+>  			eshi =3D  ((product >> 28) & 0x0f);
+>  			soc_dev_attr->revision =3D kasprintf(GFP_KERNEL, "%u",
+>  							   eshi);
+> +			rev_prefix =3D "Rev ";
+>  		}
+>=20
+>  		if (soc->id &&
+> @@ -472,8 +474,8 @@ static int __init renesas_soc_init(void)
+>  		}
+>  	}
+>=20
+> -	pr_info("Detected Renesas %s %s %s\n", soc_dev_attr->family,
+> -		soc_dev_attr->soc_id, soc_dev_attr->revision ?: "");
+> +	pr_info("Detected Renesas %s %s %s%s\n", soc_dev_attr->family,
+> +		soc_dev_attr->soc_id, rev_prefix, soc_dev_attr->revision ?:
+> "");
+>=20
+>  	soc_dev =3D soc_device_register(soc_dev_attr);
+>  	if (IS_ERR(soc_dev)) {
+> --
+> 2.25.1
+
