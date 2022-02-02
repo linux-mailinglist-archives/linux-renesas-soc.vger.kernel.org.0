@@ -2,146 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C42CC4A707A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 13:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4768F4A71AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 14:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344062AbiBBMJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 07:09:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbiBBMJs (ORCPT
+        id S237370AbiBBNhB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 08:37:01 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:37462 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230331AbiBBNhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 07:09:48 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D14C061714
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 04:09:48 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id h12so20044880pjq.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Feb 2022 04:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=auNdbmxw9evuxD1ptaSZtWOcJJe5VtabXSWTQEdqz14=;
-        b=UKvufdAtYAQBiKzgcnjh9vee02oQHXeEDz5f23UaurdKmgRIw+MS847YlFjDartPhB
-         xkmGZkxvudxODA83dLC+Pw4kf5vTN22bdzv6cxHLhFLxds62H9kthBJbLtkDcxVYcsGw
-         yVIAuj37RIq2L9Fzc7avv9h0PCSE1C5uHwg+q+INuldkGGl9NNueN7FHTGI/oT+PkGnY
-         oQ3uQ54IImlL4L1WRS/iGS4OwbKT0HXOIALjylnOGpVf1nWXUmPXC/PYgPkrdnviQWGj
-         IZFqyFK7199TTpJzoT/3c1GxfBQxn4oEJ4rXQtGYVnA56fzTyZfKvnHhkldWOs9ViqeU
-         eHpA==
+        Wed, 2 Feb 2022 08:37:00 -0500
+Received: by mail-ua1-f51.google.com with SMTP id b16so19158373uaq.4;
+        Wed, 02 Feb 2022 05:37:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=auNdbmxw9evuxD1ptaSZtWOcJJe5VtabXSWTQEdqz14=;
-        b=Qm9f6Af0JuqgZWPmI7vxkY6hGG2eqJ8oQiaFYEtDC48tZfcBYDlMxRLcOb/0ETpyBe
-         HdqqX8PvF34pIcfh7a1E0/hnmKUuvVirnse/WwkcwHbdhsHpvMRNqN6DwfRZ44QP/W6p
-         wXDjDU+mTzWSOS/S1GAo4qosxJLOy3hZbHg+retXq/YJ40U30zPyERJOiRmHkJQIB2Vi
-         0Ginst+yPGrX30IWrXFaZD2m3zrTgJirkPBDlw5tL4V5v+DZabVVn3/keNF1De7YLcPS
-         OTbM57+I+JAI3qE0KO6LDFBEDiqf4Ohf7MZPHAz3fxLgY4SY45gVV36XR5+M4iAIqOgh
-         ZOmA==
-X-Gm-Message-State: AOAM531g849W0S2Ug1ev2x3GLTcm3mGQQ8fTdg//L/MEgqU3T7rEb5TV
-        E3sKPPoctSIUXpDgfvU+lJ8hFu5jq+654mIC
-X-Google-Smtp-Source: ABdhPJyDXhRr8e8wDwmRpX2D7H99u5eoO0U8+1vpANshJXpfCfqvaYUkkYn8oCfMdidY68tzCaj2Qg==
-X-Received: by 2002:a17:90a:5982:: with SMTP id l2mr7745181pji.100.1643803787436;
-        Wed, 02 Feb 2022 04:09:47 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id e12sm21758432pfl.8.2022.02.02.04.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 04:09:47 -0800 (PST)
-Message-ID: <61fa748b.1c69fb81.a9b01.7ced@mx.google.com>
-Date:   Wed, 02 Feb 2022 04:09:47 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f9WjsEImzs4/wXQs95rQ2PrMPR+hf7i8K5ER1ZQOizI=;
+        b=5JF/44PmBRRVGECNoyo3gAP4oPUftTmVi6CvKXWIM7P65Tjg9vaYprtzsec5wxpJxK
+         79fnqShxglsZ8/l0Z2vAeSP3YchoR4WXWhS4bLsSx97o6QaBIqg8/nE+0DEYaDuz6ruS
+         nhARhqYaqBY402eOu2kEKmQEvWGG3D5Dcw2RxbW1ZqUaB7/jJp0ToCY7XZEUmHbFuErq
+         huj7z5UJgryw+RFIsSLIAYIToXT7tF/uPiEIJDk3I+aJ9WMuUbuyGYvJGBO9CEW+Y2vG
+         5HugZhqMCwxDeT9asExCahxVXLO0EVVyvqsg81DICpqGinZgBbbtTn2KkzNIYD1lCBYu
+         2cFw==
+X-Gm-Message-State: AOAM532BjvVa+WqB85nFSq0zNbxFtZRqw66siGxM9J2G8cBiDaJCmSOc
+        hL1Us+VMqx79G48j4TYFqzP+vU9qz+6zew==
+X-Google-Smtp-Source: ABdhPJy+27R3g0HGsRqkDejKj6dzZDtCPVHyuqZI/3KSTDnfSC4My6B6jmS8V3Nx+Hts24aMkryCPQ==
+X-Received: by 2002:a9f:2c0a:: with SMTP id r10mr12215040uaj.89.1643809019411;
+        Wed, 02 Feb 2022 05:36:59 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id l67sm2276645vkh.9.2022.02.02.05.36.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Feb 2022 05:36:59 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id c36so19068316uae.13;
+        Wed, 02 Feb 2022 05:36:58 -0800 (PST)
+X-Received: by 2002:a67:c198:: with SMTP id h24mr12215393vsj.5.1643809018705;
+ Wed, 02 Feb 2022 05:36:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2022-02-02-v5.17-rc2
-X-Kernelci-Tree: renesas
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-Subject: renesas/master sleep: 5 runs,
- 1 regressions (renesas-devel-2022-02-02-v5.17-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+References: <20220121014117.21248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUW+7mCLHnWbPQ4oxNO9Awri9TNN8bTDq7uGSYncAdWKw@mail.gmail.com>
+ <OS0PR01MB5922ECB3E4DEDB2595D0101786279@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdXw3Uy=jOivke6exPrUXg4a-yyg_Sg3ote48tqwTCwDzQ@mail.gmail.com> <OS0PR01MB59226A1FEA2A836D885C93A086279@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59226A1FEA2A836D885C93A086279@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 2 Feb 2022 14:36:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVOWrc5i508wedtVndTTndZ_sW8=CDUWX1qg=Tmpie-fA@mail.gmail.com>
+Message-ID: <CAMuHMdVOWrc5i508wedtVndTTndZ_sW8=CDUWX1qg=Tmpie-fA@mail.gmail.com>
+Subject: Re: [PATCH v2] soc: renesas: Add support for reading product revision
+ for RZ/G2L family
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master sleep: 5 runs, 1 regressions (renesas-devel-2022-02-02-v5.17=
--rc2)
+Hi Biju,
 
-Regressions Summary
--------------------
+On Wed, Feb 2, 2022 at 12:20 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v2] soc: renesas: Add support for reading product
+> > revision for RZ/G2L family
+> > On Wed, Feb 2, 2022 at 10:51 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [PATCH v2] soc: renesas: Add support for reading
+> > > > product revision for RZ/G2L family On Fri, Jan 21, 2022 at 2:41 AM
+> > > > Lad Prabhakar <prabhakar.mahadev- lad.rj@bp.renesas.com> wrote:
+> > > > > From: Biju Das <biju.das.jz@bp.renesas.com> As per RZ/G2L HW
+> > > > > manual (Rev.1.00 Sep, 2021) DEV_ID [31:28] indicates product
+> > > > > revision. Use this information to populate the revision info for
+> > > > > RZ/G2L family.
+> > > > >
+> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > Signed-off-by: Lad Prabhakar
+> > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > > > > --- a/drivers/soc/renesas/renesas-soc.c
+> > > > > +++ b/drivers/soc/renesas/renesas-soc.c
+> > > > > @@ -405,41 +417,38 @@ static int __init renesas_soc_init(void)
+> > > > >
+> > > > >                         eshi = ((product >> 4) & 0x0f) + 1;
+> > > > >                         eslo = product & 0xf;
+> > > > > +                       soc_dev_attr->revision =
+> > > > > + kasprintf(GFP_KERNEL,
+> > > > "ES%u.%u",
+> > > > > +                                                          eshi,
+> > eslo);
+> > > > > +               }  else if (id == &id_rzg2l) {
+> > > > > +                       eshi =  ((product >> 28) & 0x0f);
+> > > > > +                       soc_dev_attr->revision =
+> > > > > + kasprintf(GFP_KERNEL,
+> > > > "Rev %u",
+> > > > > +                                                          eshi);
+> > > >
+> > > > Would you mind if I would drop the "Rev " while applying?
+> > >
+> > > Kernel reports the below message after dropping Rev. Is it OK?
+> > >
+> > > [    0.018297] Detected Renesas RZ/G2L r9a07g044 1
+> >
+> > That's indeed not so nice...
+> >
+> > Either we have to add it back, or do something like:
+>
+> This is much better.
+>
+> [    0.003427] Detected Renesas RZ/G2L r9a07g044 Rev 1
+> root@smarc-rzg2l:~# for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/soc0/$i; done
+> machine: Renesas SMARC EVK based on r9a07g044l2
+> family: RZ/G2L
+> soc_id: r9a07g044
+> revision: 1
+> root@smarc-rzg2l:~#
+>
+> >
+> > -       pr_info("Detected Renesas %s %s %s\n", soc_dev_attr->family,
+> > -               soc_dev_attr->soc_id, soc_dev_attr->revision ?: "");
+> > +       pr_info("Detected Renesas %s %s%s%s\n", soc_dev_attr->family,
+> > +               soc_dev_attr->soc_id, soc_dev_attr->revision ? " Rev " :
+> > "",
+> > +               soc_dev_attr->revision ?: "");
+> >
+>
+> Will you post this change or Do you want me to send the patch?
+>
+> Please let me know.
 
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
-chromebook | 1          =
+I'll send a patch, to be folded in to the original.
 
+Gr{oetje,eeting}s,
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-02-02-v5.17-rc2/plan/sleep/
+                        Geert
 
-  Test:     sleep
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-02-02-v5.17-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      3e49e95eb7db25785124b3ea8ed31fecee9381fc =
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-Test Regressions
----------------- =
-
-
-
-platform           | arch   | lab           | compiler | defconfig         =
-           | regressions
--------------------+--------+---------------+----------+-------------------=
------------+------------
-hp-11A-G6-EE-grunt | x86_64 | lab-collabora | gcc-10   | x86_64_defcon...6-=
-chromebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61fa5dcf061ca42e725d6f03
-
-  Results:     22 PASS, 1 FAIL, 0 SKIP
-  Full config: x86_64_defconfig+x86-chromebook
-  Compiler:    gcc-10 (gcc (Debian 10.2.1-6) 10.2.1 20210110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-02-v5.17-rc2/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
-bora/sleep-hp-11A-G6-EE-grunt.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-02-v5.17-rc2/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-colla=
-bora/sleep-hp-11A-G6-EE-grunt.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220128.0/amd64/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-mem-10: https://kernelci.org/test/case/id/61fa5dcf061ca42=
-e725d6f0f
-        new failure (last pass: renesas-devel-2022-01-31-v5.17-rc2)
-
-    2022-02-02T10:31:10.431691  rtcwake: assuming RTC uses UTC ...
-    2022-02-02T10:31:10.435232  rtcwake: wakeup from \"mem\" using rtc0 at =
-Wed Feb  2 10:31:15 2022
-    2022-02-02T10:31:10.445765  <6>[   29.109737] PM: suspend entry (deep)
-    2022-02-02T10:31:10.450540  <6>[   29.113612] Filesystems sync: 0.000 s=
-econds
-    2022-02-02T10:31:10.459696  <6>[   29.118197] Freezing user space proce=
-sses ... (elapsed 0.001 seconds) done.
-    2022-02-02T10:31:10.462876  <6>[   29.126819] OOM killer disabled.
-    2022-02-02T10:31:11.940385  <6>[   29.130305] Freezing remaining freeza=
-ble tasks ... (elapsed 1.469 seconds) done.
-    2022-02-02T10:31:11.947566  <6>[   30.607989] printk: Suspending consol=
-e(s) (use no_console_suspend to debug)
-    2022-02-02T10:31:12.048946  =
-
-    2022-02-02T10:31:12.049510   =
-
-    ... (1146 line(s) more)  =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
