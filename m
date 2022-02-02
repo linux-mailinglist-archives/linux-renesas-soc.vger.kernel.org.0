@@ -2,140 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24E714A78C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 20:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DE74A7919
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 20:59:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbiBBTdy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 14:33:54 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:39684 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1346913AbiBBTdy (ORCPT
+        id S240688AbiBBT7A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 14:59:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229481AbiBBT67 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 14:33:54 -0500
-X-IronPort-AV: E=Sophos;i="5.88,337,1635174000"; 
-   d="scan'208";a="109157436"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Feb 2022 04:33:53 +0900
-Received: from localhost.localdomain (unknown [10.226.92.2])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B11F740F8ACC;
-        Thu,  3 Feb 2022 04:33:51 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wed, 2 Feb 2022 14:58:59 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D964BC061714
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 11:58:59 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id s16so371147pgs.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Feb 2022 11:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=f3tBDDMz1Cl7wSR0qYXsf1pk6gj1XoAYJtYA02SWsWc=;
+        b=ERt7l2GrHpmbR9DfZcfO/4G0u2ftbECA90n/T2MYtJcF7KHFBaulB2Y3elqwXaErj1
+         SgvMX6enKgKi6ipwi3GMJOLq7A0vUuj+OsY4FTRYGfXeeKMbMo5SyR8KcChUElrIWjP9
+         IpVaglb+4cq+qD6XUS4B5zEK/B8IayPMTqhDakgUHyry0Qxa2ItcvneZnv5x2qc46k/8
+         A4UpBr5ygkm0tyA0ul4/XSajfr/oc0EOYQuT0FLTZsqNS6z0Bm7NgJmChV/kC881wVL1
+         R62PgB5ZIfasDbZ0uRPC0crSVv72woWDxTwCwfMvG3Yi3hUIqeHQq7rAUtZ0br6HfozV
+         89eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=f3tBDDMz1Cl7wSR0qYXsf1pk6gj1XoAYJtYA02SWsWc=;
+        b=JWafQtuqM9lfcmGj2SdyeZtV2l3Dhsjwq9ZnB42lT182V2XGnXf9qCn0xAaf+DtQq0
+         +pUU2dyVttL9vlVoC+T9Ry/D/pLhr6ckYUcfQ/OypIZQlevKYSxhJVvRF9yD5T8fZG8v
+         5TkmNx4jHWfKmEw8egpCFqOveDmU8IpBk0v833nUHntTR39KRWag9QSIBB/tszslDCh+
+         SZdaWmfqf6zbwmhoAVntDjXelXgyhBXYspxUqY61D8UdlvGBIAA3nS5c3bd1rViv6KWW
+         Kj7lOiCATag5s1GPjR9w67NqbUXZUB78mv8RCluRP6O/TLCsS4EIoi3ucs1btDvPn7QU
+         FofA==
+X-Gm-Message-State: AOAM531aebQP4nSrse28Sr8PGlPlpJrGbMJPIvDUl1x4aKUcVndXKE8v
+        rWPg2nYaQwNl9P3FxERLecM9dA==
+X-Google-Smtp-Source: ABdhPJz4O1XMyNrRMSsccUAwZX/YKxQmjX8hl66qxIZUzVjXNWSKEFQOBJlAS5f+CRg6eHpU2klvjw==
+X-Received: by 2002:a63:6586:: with SMTP id z128mr26035966pgb.103.1643831939129;
+        Wed, 02 Feb 2022 11:58:59 -0800 (PST)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id nu15sm8160658pjb.5.2022.02.02.11.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Feb 2022 11:58:58 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <narmstrong@baylibre.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/4] arm64: dts: renesas: rzg2lc-smarc: Enable CANFD channel 1
-Date:   Wed,  2 Feb 2022 19:33:39 +0000
-Message-Id: <20220202193339.22441-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220202193339.22441-1-biju.das.jz@bp.renesas.com>
-References: <20220202193339.22441-1-biju.das.jz@bp.renesas.com>
+        Tony Lindgren <tony@atomide.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, kernel-team@android.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] drivers: bus: simple-pm-bus: Add support for
+ probing simple bus only devices
+In-Reply-To: <7hee4mmo2s.fsf@baylibre.com>
+References: <20210929000735.585237-1-saravanak@google.com>
+ <20210929000735.585237-2-saravanak@google.com>
+ <7hk0efmfzo.fsf@baylibre.com>
+ <CAGETcx_YEUxEBSBnzFaBxW=9=jO6BO0GuThaMGF+JPkDeC-ivw@mail.gmail.com>
+ <7hee4mmo2s.fsf@baylibre.com>
+Date:   Wed, 02 Feb 2022 11:58:58 -0800
+Message-ID: <7hpmo5kpkt.fsf@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On RZ/G2LC SMARC EVK, CAN0 is not populated.
+Kevin Hilman <khilman@baylibre.com> writes:
 
-CAN1 is multiplexed with SCIF1 using SW1[3] or RSPI using SW1[4].
+> Saravana Kannan <saravanak@google.com> writes:
+>
+>> On Mon, Jan 31, 2022 at 7:18 PM Kevin Hilman <khilman@baylibre.com> wrote:
+>>>
+>>> Hi Saravana,
+>>>
+>>> Saravana Kannan <saravanak@google.com> writes:
+>>>
+>>> > fw_devlink could end up creating device links for bus only devices.
+>>> > However, bus only devices don't get probed and can block probe() or
+>>> > sync_state() [1] call backs of other devices. To avoid this, probe these
+>>> > devices using the simple-pm-bus driver.
+>>> >
+>>> > However, there are instances of devices that are not simple buses (they get
+>>> > probed by their specific drivers) that also list the "simple-bus" (or other
+>>> > bus only compatible strings) in their compatible property to automatically
+>>> > populate their child devices. We still want these devices to get probed by
+>>> > their specific drivers. So, we make sure this driver only probes devices
+>>> > that are only buses.
+>>> >
+>>> > [1] - https://lore.kernel.org/lkml/CAPDyKFo9Bxremkb1dDrr4OcXSpE0keVze94Cm=zrkOVxHHxBmQ@mail.gmail.com/
+>>> > Fixes: c442a0d18744 ("driver core: Set fw_devlink to "permissive" behavior by default")
+>>> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+>>> > Tested-by: Saravana Kannan <saravanak@google.com>
+>>> > Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+>>>
+>>> This patch landed in stable/linux-5.10.y as commit d5f13bbb5104 and it
+>>> broke suspend/resume on at least one TI AM335x board I'm testing on:
+>>> upstream dts: arch/arm/boot/dts/am335x-icev2.dts, upstream defconfig:
+>>> arch/arm/configs/omap2plus_defconfig.
+>>>
+>>> Bisecting between vanilla v5.10 (good) and stable/linux-5.10.y (bad)
+>>> pointed me to this patch, and I confirmed that reverting just this patch
+>>> on top of stable/linux-5.10.y makes it work again.
+>>>
+>>> Also interesting, this same platform works fine on vanilla v5.15, which
+>>> also includes this patch.  That suggests that either 1) this patch
+>>> should not have been backported to v5.10 stable or 2) there are some
+>>> other dependencies that are missing in v5.10.
+>>>
+>>> Since vanilla v5.10 works fine, I'm leaning towards (1), but if you have
+>>> any ideas for deps that need backporting, I'm happy to try.
+>>
+>> Oh wow! I didn't realize I made so many changes AFTER 5.10! Unless I'm
+>> doing something wrong with my git commands.
+>> $ git log v5.10..v5.15 --oneline -- drivers/of/property.c
+>> $ git log v5.10..v5.15 --oneline --author=saravanak -- drivers/base/
+>>
+>> If you don't think I got my git command completely wrong, yeah, way
+>> too many patches are missing on 5.10. I'd go with the option of
+>> dropping this patch on 5.10.
+>
+> I agree.  Could you submit a revert for v5.10 stable?  As the patch
+> author, it's probably better if it comes from you.
 
-This patch adds support for the CAN1 interface on RZ/G2LC SMARC EVK.
+Nevermind, I'm impatient and submitted a revert to stable[1] :)
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2: No change
----
- .../boot/dts/renesas/r9a07g044c2-smarc.dts    |  6 -----
- .../dts/renesas/rzg2lc-smarc-pinfunction.dtsi | 23 +++++++++++++++++++
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 13 +++++++++++
- 3 files changed, 36 insertions(+), 6 deletions(-)
+Kevin
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-index 50abdabc374a..5a5cea82a5d9 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dts
-@@ -14,12 +14,6 @@
- 	compatible = "renesas,smarc-evk", "renesas,r9a07g044c2", "renesas,r9a07g044";
- };
- 
--&canfd {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
- &ehci0 {
- 	/delete-property/ pinctrl-0;
- 	/delete-property/ pinctrl-names;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-index ec9e08ec0822..bff56d696936 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
-@@ -17,6 +17,14 @@
- 			 <RZG2L_PORT_PINMUX(38, 1, 1)>;	/* RxD */
- 	};
- 
-+#if SW_SCIF_CAN
-+	/* SW8 should be at position 2->1 */
-+	can1_pins: can1 {
-+		pinmux = <RZG2L_PORT_PINMUX(40, 0, 3)>, /* TxD */
-+			 <RZG2L_PORT_PINMUX(40, 1, 3)>; /* RxD */
-+	};
-+#endif
-+
- 	scif1_pins: scif1 {
- 		pinmux = <RZG2L_PORT_PINMUX(40, 0, 1)>, /* TxD */
- 			 <RZG2L_PORT_PINMUX(40, 1, 1)>, /* RxD */
-@@ -24,6 +32,21 @@
- 			 <RZG2L_PORT_PINMUX(41, 1, 1)>; /* RTS# */
- 	};
- 
-+#if SW_RSPI_CAN
-+	/* SW8 should be at position 2->3 so that GPIO9_CAN1_STB line is activated */
-+	can1-stb {
-+		gpio-hog;
-+		gpios = <RZG2L_GPIO(44, 3) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "can1_stb";
-+	};
-+
-+	can1_pins: can1 {
-+		pinmux = <RZG2L_PORT_PINMUX(44, 0, 3)>, /* TxD */
-+			 <RZG2L_PORT_PINMUX(44, 1, 3)>; /* RxD */
-+	};
-+#endif
-+
- 	sd1-pwr-en-hog {
- 		gpio-hog;
- 		gpios = <RZG2L_GPIO(39, 2) GPIO_ACTIVE_HIGH>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index 1b59ef376296..28f21c287ba3 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -44,6 +44,19 @@
- 	};
- };
- 
-+#if (SW_SCIF_CAN || SW_RSPI_CAN)
-+&canfd {
-+	pinctrl-0 = <&can1_pins>;
-+	/delete-node/ channel@0;
-+};
-+#else
-+&canfd {
-+	/delete-property/ pinctrl-0;
-+	/delete-property/ pinctrl-names;
-+	status = "disabled";
-+};
-+#endif
-+
- /*
-  * To enable SCIF1 (SER0) on PMOD1 (CN7), On connector board
-  * SW1 should be at position 2->3 so that SER0_CTS# line is activated
--- 
-2.17.1
-
+[1] https://lore.kernel.org/stable/20220202195705.3598798-1-khilman@baylibre.com/
