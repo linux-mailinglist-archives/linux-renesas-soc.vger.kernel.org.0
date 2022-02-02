@@ -2,100 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3297A4A72E6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 15:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAAAB4A735A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 15:39:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344862AbiBBOWA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 09:22:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40020 "EHLO
+        id S231749AbiBBOjq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 09:39:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233716AbiBBOWA (ORCPT
+        with ESMTP id S229610AbiBBOjp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 09:22:00 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5EDC061714
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 06:22:00 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d15:63c8:19b3:7e76])
-        by xavier.telenet-ops.be with bizsmtp
-        id qEMw2600S3fpYBQ01EMxke; Wed, 02 Feb 2022 15:21:57 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nFGWC-00Cufs-M1; Wed, 02 Feb 2022 15:21:56 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nFGWC-001wpJ-4X; Wed, 02 Feb 2022 15:21:56 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: Insert "Rev" before printed revision on RZ/G2L
-Date:   Wed,  2 Feb 2022 15:21:55 +0100
-Message-Id: <e61a88ca90ffd513c7aa680bdffefeee444edd8f.1643811627.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 2 Feb 2022 09:39:45 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD5CC061714
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 06:39:45 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id o16-20020a17090aac1000b001b62f629953so7022329pjq.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Feb 2022 06:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Yp7Y5F/7BDpoC6/FVWTQjjsX7yZ1wqvNzLr/tJPassA=;
+        b=5bSthY4SauVCA/ltBnJYgSPWO9XunCbExFkvboy+3iJx9kraFOwG3jc/rg85bMaL9p
+         6udG1VTXtkNRWlbEiAFreMsMy1UtBdkJsbREqpTrFKmU/QyyZT6DC5dg4myy72xL5job
+         +boWynZJxmiX4J1qT48HQcQ5Gq3I5kD512CYMzBslATGm8Ry6ZnU1rPnE33OLzrjX6+N
+         6ndOcw0RooGKOgx3ODsiE15DjTkXpCnKw/DT1gNCEfgWcpqw1WAom+cJcEZeLaZ5OwYP
+         sToLBwnoTiRDyzMQu9rYddHq9/MjjFounfO8c/ysqDu79eHR4vDzXnNvC+W+JumGZQIF
+         k/2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Yp7Y5F/7BDpoC6/FVWTQjjsX7yZ1wqvNzLr/tJPassA=;
+        b=UIu2W3b1QErn9D/iX4GUvcCcEoGc4zIpJ+MmdoEiBRO82mKBV+C/O3jywkaiCj5SEZ
+         aRkQ/dnzeN2H8wtRGUAjVuYbSQEMLCBoWGTO9cD3Y3PCeHhEfJSWBXnwLc2dX88EP0Ja
+         vQWRaAUYlIzc62fFn44DzAtGNDHZw0eF91w7yiDzOWF//GsTuio/Kt0Z1kCCIEgUMg8h
+         hmp5yqxON53jFWSUM03/uZWOP4b8yxdeo6qvVWknd7YvHbNkCSM5F5dxsZaYH/NTKkXy
+         5VsMwrNwpcRsBh1Ftir2ISQOXtHHMpgIVAFa7G6yareWcDHUYv2EkFNhP2lvvQHgJ1X5
+         NHjg==
+X-Gm-Message-State: AOAM531770JyJDxhWSlqUjSeOHfJTcOAmsSevl6VVR3qVBE5xeM+fhgf
+        9oaGglbm1f3xl6c4Tfk93g9xVckd2X4j+wLF
+X-Google-Smtp-Source: ABdhPJyhCNJcz0bgPZp/7pcBZxhKA2xNICUS/MwFn37C/5MUjWLb5UYqV05xBxDNqsUtzD7n6Cmr4w==
+X-Received: by 2002:a17:902:d904:: with SMTP id c4mr30522659plz.67.1643812785097;
+        Wed, 02 Feb 2022 06:39:45 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id pc4sm7860712pjb.3.2022.02.02.06.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Feb 2022 06:39:44 -0800 (PST)
+Message-ID: <61fa97b0.1c69fb81.3746.2d7a@mx.google.com>
+Date:   Wed, 02 Feb 2022 06:39:44 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-02-02-v5.17-rc2
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+Subject: renesas/master baseline-nfs: 47 runs,
+ 1 regressions (renesas-devel-2022-02-02-v5.17-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-While just storing the RZ/G2L revision number into the
-soc_device_attribute.revision field is fine, printing only the number
-during boot-up looks a bit silly.
+renesas/master baseline-nfs: 47 runs, 1 regressions (renesas-devel-2022-02-=
+02-v5.17-rc2)
 
-Make the output more visually-pleasing by re-inserting "Rev" on RZ/G2L.
+Regressions Summary
+-------------------
 
-Impact:
+platform            | arch  | lab          | compiler | defconfig     | reg=
+ressions
+--------------------+-------+--------------+----------+---------------+----=
+--------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+ima | 1  =
+        =
 
-    -Detected Renesas RZ/G2L r9a07g044 1
-    +Detected Renesas RZ/G2L r9a07g044 Rev 1
 
-Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-Fixes: 92dfff382af0ce65 ("soc: renesas: Add support for reading product revision for RZ/G2L family")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be folded into the original commit.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-02-02-v5.17-rc2/plan/baseline-nfs/
 
-Compared to my earlier proposal, this does not impact the output on
-non-RZ/G2L SoCs.
----
- drivers/soc/renesas/renesas-soc.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-02-02-v5.17-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      3e49e95eb7db25785124b3ea8ed31fecee9381fc =
 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 1ca83c4c0fd8c9e5..a5377d9c299f6c48 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -408,6 +408,7 @@ static int __init renesas_soc_init(void)
- 	const struct renesas_soc *soc;
- 	const struct renesas_id *id;
- 	void __iomem *chipid = NULL;
-+	const char *rev_prefix = "";
- 	struct soc_device *soc_dev;
- 	struct device_node *np;
- 	const char *soc_id;
-@@ -463,6 +464,7 @@ static int __init renesas_soc_init(void)
- 			eshi =  ((product >> 28) & 0x0f);
- 			soc_dev_attr->revision = kasprintf(GFP_KERNEL, "%u",
- 							   eshi);
-+			rev_prefix = "Rev ";
- 		}
- 
- 		if (soc->id &&
-@@ -472,8 +474,8 @@ static int __init renesas_soc_init(void)
- 		}
- 	}
- 
--	pr_info("Detected Renesas %s %s %s\n", soc_dev_attr->family,
--		soc_dev_attr->soc_id, soc_dev_attr->revision ?: "");
-+	pr_info("Detected Renesas %s %s %s%s\n", soc_dev_attr->family,
-+		soc_dev_attr->soc_id, rev_prefix, soc_dev_attr->revision ?: "");
- 
- 	soc_dev = soc_device_register(soc_dev_attr);
- 	if (IS_ERR(soc_dev)) {
--- 
-2.25.1
 
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch  | lab          | compiler | defconfig     | reg=
+ressions
+--------------------+-------+--------------+----------+---------------+----=
+--------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+ima | 1  =
+        =
+
+
+  Details:     https://kernelci.org/test/plan/id/61fa67840e91d5aab15d6ef6
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-02-v5.17-rc2/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-02-v5.17-rc2/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220128.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/61fa67840e91d5aab=
+15d6ef7
+        new failure (last pass: renesas-devel-2022-01-31-v5.17-rc2) =
+
+ =20
