@@ -2,129 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA854A735B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 15:39:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C97154A7402
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Feb 2022 15:57:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236060AbiBBOjs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Feb 2022 09:39:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
+        id S230302AbiBBO5N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Feb 2022 09:57:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiBBOjr (ORCPT
+        with ESMTP id S230057AbiBBO5M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Feb 2022 09:39:47 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC97C061714
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Feb 2022 06:39:47 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id s2-20020a17090ad48200b001b501977b23so7044208pju.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Feb 2022 06:39:47 -0800 (PST)
+        Wed, 2 Feb 2022 09:57:12 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D413C061714;
+        Wed,  2 Feb 2022 06:57:12 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id t14so29235298ljh.8;
+        Wed, 02 Feb 2022 06:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=GQyk9CMcFfduaDxJyXr4VWcS50jGSfuiSCXRn1W62zk=;
-        b=WUcouh/BcG9mv7+d5nsC4SNgpMpMtTNwCRgPPbYNqJU4g61cniF1LrPWJw2V/7o3n6
-         vIe8e7vHRk1QQvTc426a/JfUdcDj6X5rbjUJbLUYIwVSclyeDh/qfYzA5ih32JA9Co5S
-         8YBGgsm3IEfDFu2cm7IhCZn57YH91qBPdDgD7abpGw5E55AzAq3NAg5OAfGvXnRqo+j/
-         op3Fw6MTuZdLFI4tX2dI+kCyXiw3vH4AbYqCLhSpaGBUvYF8BTtsaQiCSMFKIMdFlI0A
-         ING10Pt2WuvwCfrCtMiNmUEIUkNp+kWIXpD1xdx11yPiDMoOjeGuwTSdRwcFx5gZpl55
-         JUaw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=NvfG6Y/jICS8Pegg+REphis2Q7FSVxtaJ8A4UTNrUos=;
+        b=Cujd3jPZsXBnRcJcAY2Xgb3hYhCJcxi/3HHGHeA3iYpwGiACRnorVkWHbh+nOVZv47
+         29V2JR3G2CfYW2bfc+0Uz6CyM2l0yWz9gzflB1dOfm4VR7eNn4VxzMxyPlBncFtXRI0/
+         GleWaHSbtnauiuy6DFISUyr98fq1hprKa7bUrF8VgE0e4hI5DtYd8VT3ysrlkR3P3XUn
+         JK9gOWZtYAREwiw7dR8CY6bWLHiKQu/eacjiivInV58tVHKqES3x1kkmfmqfRlBuLa/I
+         VKW2Hkas++m7xekdpszWRJp9hc7Y9FoR8gIIDLIGOaOpiZwFs1PCUXSbtVOu1OlBxQpe
+         GAUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=GQyk9CMcFfduaDxJyXr4VWcS50jGSfuiSCXRn1W62zk=;
-        b=QqkWv3Fhj2C7fk8BeJjmZZ5qsXk2DjCL7B+4itfZlbKa86ovY6T20A465kbh1HjytD
-         INjIZSPVLbBzaComtpQVjGBgphWIabkWuRVQK/PcT3ijFOjeMEmwsNp6dFtdPU51a1bN
-         uxIfVm1N6sMuxqUNiumJ6+IbxTgUXAUTWPolLtxWjDk7aSmHRQFTMNQFKERVAvuWc1sT
-         aimYWx860fSfiAByIwExS0rcJTIa59nhtS8DW6XmkHeeWkyjV+keOnF32IZD5+NmYOaZ
-         09BYKbZ0S37r4Favs07Dx3c5kXFQq5leCItLApkd0aVAbbVGBWa4w5srEhry+/JkPyxA
-         O8Ng==
-X-Gm-Message-State: AOAM532c6j0fMt1v1SXjztqq+fLwdy8iFs8SeKzkp8LBlbZrbjUX75qb
-        cI4VulKkya1NI1xyUmTtFUjRfbyoKhKI5Tcg
-X-Google-Smtp-Source: ABdhPJxQLZHdNpMZeyQdNciArNeoZgcxAOl5XKtRDNqB/hxBKzG3zn9Npb4qVmUmfqIfE6sGPcEoew==
-X-Received: by 2002:a17:903:124f:: with SMTP id u15mr30996042plh.15.1643812787233;
-        Wed, 02 Feb 2022 06:39:47 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id d16sm25505904pfu.9.2022.02.02.06.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 06:39:46 -0800 (PST)
-Message-ID: <61fa97b2.1c69fb81.8a58e.1cdf@mx.google.com>
-Date:   Wed, 02 Feb 2022 06:39:46 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=NvfG6Y/jICS8Pegg+REphis2Q7FSVxtaJ8A4UTNrUos=;
+        b=BTpORF1ST0RZrdOAIqAvrzlQWi99l32HbqYzyHacSGViBv/rlauK8QtNZksJ341lRa
+         vzGMxkxbxRqBQdwZjeqvei+GXBsD3Yn4Tv6AAG9uxVmxm7UF2GYHisOVZhkzTAGK111T
+         RrYi1IE5kep0jUmFHaOpofvoU6I3kKpYxOsCSFjf5iqrtw6Wn7CphyOc6jvQ0RSkpNz0
+         ga0M6oFhxzXw6CaB893fjOTdGQ2/lTmaX0ENCgwoi0yejFM3h8lIDkxq5kdzg73jrPNN
+         gPA9KiGtruQoPD9J0ah5LCu3z9NvbCT1j7DnWF2GN9LcX47PSZNXgAQvmigJtIaOVyfI
+         1cvg==
+X-Gm-Message-State: AOAM5301nE6leqEGXUQbMzokC4Z6iZK8TML+DJwFIvJa5JSIaKqDUTyT
+        slnqgE7qPx7fDNQ/GCgIVZ4=
+X-Google-Smtp-Source: ABdhPJyZ9Dms/nf+tW92PuEul4f7lASvedP7sEPgrvpSiSDMSwZeZ3Y/gUkkZ0OgjUTnRY5qN8pBTQ==
+X-Received: by 2002:a2e:91d9:: with SMTP id u25mr19571057ljg.41.1643813830435;
+        Wed, 02 Feb 2022 06:57:10 -0800 (PST)
+Received: from [192.168.1.100] ([178.176.72.241])
+        by smtp.gmail.com with ESMTPSA id w11sm2973642lfr.201.2022.02.02.06.57.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Feb 2022 06:57:10 -0800 (PST)
+Message-ID: <2de76f03-aea3-cfe4-72b3-a8b93c8b6dd1@gmail.com>
+Date:   Wed, 2 Feb 2022 17:57:05 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2022-02-02-v5.17-rc2
-X-Kernelci-Tree: renesas
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-Subject: renesas/master baseline: 377 runs,
- 1 regressions (renesas-devel-2022-02-02-v5.17-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/2] sh_eth: sh_eth_close() always returns 0
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20220129115517.11891-1-s.shtylyov@omp.ru>
+ <20220129115517.11891-3-s.shtylyov@omp.ru>
+ <CAMuHMdW_AufMOLJjtcO3hp-GwD0Q6iDL1=SD6Fq+Xe5wL46Yow@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+In-Reply-To: <CAMuHMdW_AufMOLJjtcO3hp-GwD0Q6iDL1=SD6Fq+Xe5wL46Yow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 377 runs, 1 regressions (renesas-devel-2022-02-02-=
-v5.17-rc2)
+On 01.02.2022 11:58, Geert Uytterhoeven wrote:
 
-Regressions Summary
--------------------
+[...]
+>> sh_eth_close() always returns 0, hence the check in sh_eth_wol_restore()
+>> is pointless (however we cannot change the prototype of sh_eth_close() as
+>> it implements the driver's ndo_stop() method).
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+>> analysis tool.
+>>
+>> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> 
+> Thanks for your patch!
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Note that there's a second call in sh_eth_suspend().
 
-platform        | arch | lab           | compiler | defconfig              =
-      | regressions
-----------------+------+---------------+----------+------------------------=
-------+------------
-bcm2836-rpi-2-b | arm  | lab-collabora | gcc-10   | multi_v7_defc...MB2_KER=
-NEL=3Dy | 1          =
+   Made no sense to change it. :-)
 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-02-02-v5.17-rc2/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-02-02-v5.17-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      3e49e95eb7db25785124b3ea8ed31fecee9381fc =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform        | arch | lab           | compiler | defconfig              =
-      | regressions
-----------------+------+---------------+----------+------------------------=
-------+------------
-bcm2836-rpi-2-b | arm  | lab-collabora | gcc-10   | multi_v7_defc...MB2_KER=
-NEL=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/61fa62741cc00c02725d6ef0
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-02-v5.17-rc2/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-02-v5.17-rc2/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
-lab-collabora/baseline-bcm2836-rpi-2-b.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220121.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/61fa62741cc00c02725d6=
-ef1
-        failing since 78 days (last pass: renesas-devel-2021-11-02-v5.15, f=
-irst fail: renesas-devel-2021-11-15-v5.16-rc1) =
-
- =20
+MBR, Sergey
