@@ -2,96 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F32314A980C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 11:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D85454A9816
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 11:59:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244627AbiBDKxx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Feb 2022 05:53:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbiBDKxu (ORCPT
+        id S1345534AbiBDK7t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Feb 2022 05:59:49 -0500
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:36595 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346009AbiBDK7t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Feb 2022 05:53:50 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBE0C061714;
-        Fri,  4 Feb 2022 02:53:49 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id a25so7896570lji.9;
-        Fri, 04 Feb 2022 02:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MCd5FvTHoJXq79AcAX0dk9oGdW9cYwxE282nBZk47JA=;
-        b=m3enqia+QjfqXIdfC9C0O99EZV+yUD5ggbnRGgMmoBEpJsEBXfFmwjCINqtSbW9kyk
-         1FoMHA2fW9LyYoQPlCPh1weQzaEG+saZ7g0xbKjf7XjqcHNaYGjr27124Tvv6Cvzg9rJ
-         RsVhRv8P61aK17kb6IJv/lu/oTw2iXEvjDj3vAbJUr1k3Q5TFO0VFnAwJWeHCsiC69lh
-         OQpLHm0/c8iw2A5Wb/SHyq3ROPFEKRs3ztdEkAcKynLInJD0FCr4+ixcp6PwnrjJC7uu
-         hPp4P4mySZBINfVms4gxyakPfT0f4OIBIfbxgYK0aIpkdlnQ32DLxnZBn0YR9/feu6MQ
-         eXtw==
+        Fri, 4 Feb 2022 05:59:49 -0500
+Received: by mail-ua1-f50.google.com with SMTP id 35so1308758uau.3;
+        Fri, 04 Feb 2022 02:59:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MCd5FvTHoJXq79AcAX0dk9oGdW9cYwxE282nBZk47JA=;
-        b=eNAYuEXbq2suogFl7W5+OvkuwMJUVOna+OCamSlZCmGiDA2zv9cNgcwRj9MqXnysxN
-         2YoTd+NTSzK/ivfme3mjIL/uSuiU/1bZb+tMPQUrcCiWNCsVbbqgoWp+u/MJJnzClF7/
-         FoVGQBScI0sLrbvFCsd8rw2V1n/itvaiDstY/URW31mBkU8YLXzZ9YSnpeVGcvRLuhiL
-         a4CKWNoGInIVdOtQyo3JKHjZYbcdkpiN8Bpc2GzsAr3wkT6QGg9pmJc+tWZicNpqSLJO
-         j7ZF9r6TnarYwFv6UUmO0cnk9be2s9W1Av8fYxteus8BtUqcnmbZAk4EuBagO4jEI8G9
-         xCUQ==
-X-Gm-Message-State: AOAM5328IoW9/LecLmpjVY4/V/q1o+Ouk7Gn1QVFYQMjFDGqRVmIFtTO
-        BpUJ9SWGox65GTRaY/dbE5k4WvSKrPk=
-X-Google-Smtp-Source: ABdhPJwNPZVbMWpgWXGqKc9QooQhS/Rp+GFP+v/cpmkXs+b2z6hM/2I3YfyLji+7lqc15elscD3MMg==
-X-Received: by 2002:a05:651c:50f:: with SMTP id o15mr1393279ljp.119.1643972027273;
-        Fri, 04 Feb 2022 02:53:47 -0800 (PST)
-Received: from [192.168.1.103] ([31.173.86.75])
-        by smtp.gmail.com with ESMTPSA id j16sm257976lfp.306.2022.02.04.02.53.46
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WceRl2o8PtMwWvfIKtRE+jHAJt8L4PqeW5zWHmyyUts=;
+        b=fxp8BFMF6PT8l3QHH5sGJ/oAHd/S2BnWFTmgR+juwoXq8IUKp2DXdgQ6vl765rN1nW
+         Wup+KLbgAfshrjFgLeKdzFJflUGBuxkFG+c3hq6We/2n/aY7HjAa8y5ru02kETZbv4uU
+         SNZ42oVnAcrAAVREcUqDHd4azUOfooUaNvbuwn4hKa+3yNrvNHfK2eYf395fVlm7l3j/
+         1wQlojn1hwim7XwNWF52J9wz1XywnaCUOH8tb40WgJZbnlCnY/ecMmcpIadNCdLH50eI
+         mpFAmPSYzegM2IC1WM1athTX+MlzgE4ke1oHei3NqDEoG2HcSM1SrTucoXUsRuspUUHw
+         Vmeg==
+X-Gm-Message-State: AOAM532RpmMM4JzXDjPsUsp6+atOCyZlaqo62kqnLlyNDOU//XyRPHYm
+        Q9vOS4Pi1F5T3BnlQTqSVKQvFF2RmQxADw==
+X-Google-Smtp-Source: ABdhPJy6ssYP10Ldz9ixK0FZxbJ75UNcUR5kLBTmqlBsZQRSwMdszf+FfDfLPQoDZPpI7thZbax9KA==
+X-Received: by 2002:ab0:3011:: with SMTP id f17mr699629ual.94.1643972388722;
+        Fri, 04 Feb 2022 02:59:48 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id n67sm384500vkf.41.2022.02.04.02.59.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Feb 2022 02:53:46 -0800 (PST)
-Subject: Re: [PATCH resend] dt-bindings: ata: renesas,rcar-sata: Add r8a774e1
- support
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-ide@vger.kernel.org,
+        Fri, 04 Feb 2022 02:59:48 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id p7so10142788uao.6;
+        Fri, 04 Feb 2022 02:59:48 -0800 (PST)
+X-Received: by 2002:a67:fd63:: with SMTP id h3mr652597vsa.77.1643972388054;
+ Fri, 04 Feb 2022 02:59:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20220203170636.7747-1-biju.das.jz@bp.renesas.com> <20220203170636.7747-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220203170636.7747-3-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 4 Feb 2022 11:59:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWV0dwgRoq=X7bKy230AU1O7QuuaHkv82+eeJQf38154w@mail.gmail.com>
+Message-ID: <CAMuHMdWV0dwgRoq=X7bKy230AU1O7QuuaHkv82+eeJQf38154w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] arm64: dts: renesas: rzg2lc-smarc: Add macros for
+ DIP-Switch settings
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <507cc45f44603afa6a70c05a3956fb7b13b49ed9.1643896347.git.geert+renesas@glider.be>
- <99ac1fc9-fa12-325c-3b54-eb3cb996a5df@gmail.com>
- <CAMuHMdXvsUevw8dHTracUHn5Uu4XsbtBssOKss_txH87rtUV7w@mail.gmail.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <1cec2ed2-23cb-c838-f25c-f86d7b74d380@gmail.com>
-Date:   Fri, 4 Feb 2022 13:53:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXvsUevw8dHTracUHn5Uu4XsbtBssOKss_txH87rtUV7w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/4/22 10:32 AM, Geert Uytterhoeven wrote:
+Hi Biju,
 
-[...]
->>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> Document SATA support for the RZ/G2H SoC, no driver change required.
->>
->>    I don't have the RZ/G2H manual, is it available online somewhere?
-> 
-> https://www.renesas.com/eu/en/products/microcontrollers-microprocessors/rz-cortex-a-mpus/rzg-linux-platform/rzg-marketplace/document
-> You do have to register at the website before you can download it.
+On Thu, Feb 3, 2022 at 6:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G2LC SoM uses DIP-SWitch SW1 for various pin multiplexing functions.
+>
+> This patch describes DIP-SWitch SW1 settings on SoM and adds the
+> corresponding macros for enabling pinmux functionality on RZ/G2LC
+> SMARC EVK.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-   Yeah, was able to download, thank you! Looking at the manuals...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -0,0 +1,36 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/G2LC SMARC EVK parts
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corp.
+> + */
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> +
+> +/*
+> + * DIP-Switch SW1 setting on SoM
+> + * 1 : High; 0: Low
+> + * SW1-2 : SW_SD0_DEV_SEL      (1: eMMC; 0: uSD)
+> + * SW1-3 : SW_SCIF_CAN         (1: CAN1; 0: SCIF1)
+> + * SW1-4 : SW_RSPI_CAN         (1: CAN1; 0: RSPI1)
+> + * SW1-5 : SW_I2S0_I2S1                (1: I2S2 (HDMI audio); 0: I2S0)
+> + * Please change below macros according to SW1 setting
+> + */
+> +
+> +#define SW_SCIF_CAN    0
+> +#if (SW_SCIF_CAN)
+> +/* Due to HW routing, SW_RSPI_CAN is always 0 when SW_SCIF_CAN is set to 1 */
+> +#define SW_RSPI_CAN    0
+> +#else
+> +/* Please set SW_RSPI_CAN. Default value is 1 */
+> +#define SW_RSPI_CAN    1
+> +#endif
+> +
+> +#if (SW_SCIF_CAN & SW_RSPI_CAN)
+> +#error "Can not set 1 to both SW_SCIF_CAN and SW_RSPI_CAN due to HW routing"
+> +#endif
 
-MBR, Sergey
+Would it make sense to have a macro for SW_SD0_DEV_SEL, too, or is
+there a special reason to keep the separate EMMC and SDHI macros?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
