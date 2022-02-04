@@ -2,104 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08D674A957F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 09:49:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14CA24A96ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 10:36:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357181AbiBDItp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Feb 2022 03:49:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346314AbiBDIto (ORCPT
+        id S243191AbiBDJgO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Feb 2022 04:36:14 -0500
+Received: from mail-dm3nam07on2087.outbound.protection.outlook.com ([40.107.95.87]:51937
+        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236491AbiBDJgN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Feb 2022 03:49:44 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 517E3C06173D
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Feb 2022 00:49:44 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id q63so4893102pja.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Feb 2022 00:49:44 -0800 (PST)
+        Fri, 4 Feb 2022 04:36:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KpVxtqcf+3m8J9mvEDRwDjSSAGF6Oa+N+DmDoaddYtqgQf0RyAuRuJrT5DikowmeTNIqvO4rJgpbQG+4IsoVyPwRCcwXf9nP0Ji/aVZAWY1uvpBjk99HmSCNuHFEUb8bN3ldwtd7oj8PqjT79ZGfPTWVq2qu/dYpZWxBFfQqXG3S55I8VyW1wn6Y8St7VjwXqzHs3dL4vQTnTiwnL8YXwJMkfmdTfmMuIBZdS4wrOTpL1/mEjXtNbu9BOZJ6cGZxe0GnG2EsBL2GFui1+09Tr0MddMvf/UtviYOy4v/9TXW0qexbHIyKLIgXlEzLWgQGh1SVgKOseKcCcTKe8U4/eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+5/v13e0zbCTdbiIruov6vmZwxrPr+vhv/OVjEsv4SY=;
+ b=HXj2TD3GlymycRKSBYy+3tJtNpIdYsRbpK3bIkPte2QTn5KShqHUwV8oTh32mXlaEbAgorZ7biQcJ68E4wVFKYwFKKgbfI9vBINCu+KuPwyF4hf90ixptEw4VLnjcx+/Pl9qK5ChOFqrtw3LTG3WwsyOLNa0J88I/HUvPTynjeo48O0XUwcXS0+4jWZlG791TajABj5Nxn4+RlqGUjd+Y5aFD3mermYB09IL8WRGSxPOMhreUazbkwMkistAQvX9FtYtyPhrDzPkPa0t+UbUEcbE2H0SqJYkpCXAGA8JOmKw3QOPW54+a3Ca/Z89YS3n5cAxKH5K10S7BhVBMU5qgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=renesas.com smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=c5+oKL89+Al8opwNLgJ+ACvlbdVu/5l2SU8tvvvRvuM=;
-        b=CDFSOFN0ES/B21wE3c/wSpquNkr793M5PFrOQdCJsxTevf9i4PDztomaGoFpyfgVno
-         bWMxeKABDqYZHlD1Rb2n/ylkqnXcckhO0jMWmg+nR8AEMovcxRNNZMK/E36Qm213NNhW
-         AzcrLxoc2uFKz4xLEd7UlwJNet939wgy0A8noSqeMah08kcZIViRrwE7OWm9OliMPH+1
-         cHLqFBGCgkfT6tBx4ZtIw30xfapxf++bMutcYO6jZ8GvdXuYdu+tTVlsGw+yiut20gu3
-         6s3l3XxmAORLWaKSTmlxPsCdYrxDWH0jCnbJz7wvXMtMuo4bGmmobtvUnCXmRHy++MJK
-         zaOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=c5+oKL89+Al8opwNLgJ+ACvlbdVu/5l2SU8tvvvRvuM=;
-        b=RJAHW5RsGUX1TZ3RfifMbtTMKlL419wFdCXPR/zYUpqqibkxC3mXDM8EQO5SgvfcDa
-         6ZaHBP63cHiSCkLytT1U7qyK61I4oFLkIK/DgiwC0zyP2SovZk1Mq63e3jGdY/C71vNj
-         ZAYnQBfDsqCWCepBt5FXrynRa4Hexn6KsLbYuZVBS+9hGfzbz/27LY84HiEw9s9wLoKZ
-         xaFOwa9rCVL6SJSe7Vv8TcxNTxSqLKeJd/Yr/GKV30rMeG1FWdogKhdBRrNdsHJMaqIr
-         zZ/YanmX/ooBXsi46p4nXehl4TCP1Xn5td52/obBVbJbFGD8bbCyXbCIcaQzM7YVka5o
-         WSrg==
-X-Gm-Message-State: AOAM532a2klki2+rP1vtAdy57PYJ3whrtNT0fVJYibtbeNytyB7BdUNj
-        SEXVSfTfaBg/vgfHi2cx7UzTdROabm14PEaQh23OJh4iXm8=
-X-Google-Smtp-Source: ABdhPJzBgJIWkxUgthIez0XVIVkawXypuSIwGbHqkMZJABOuvTAWPPs+EiyrqGbcJvlvGhCi4Co1YsBkhVs8U601hYQ=
-X-Received: by 2002:a17:902:c206:: with SMTP id 6mr1947976pll.153.1643964573397;
- Fri, 04 Feb 2022 00:49:33 -0800 (PST)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+5/v13e0zbCTdbiIruov6vmZwxrPr+vhv/OVjEsv4SY=;
+ b=I93QrtbXVOzoin/eLPQ1r4h1Pn1QUl5dc2PoCbRRDH7i0xAua5kASMtGRul2SbeMkbP42/0EUCNRQ/rkZQFQOHS2RAyhhW4S/i5Y7aOrsTDR7Rudg2ygzh8Rjyks5mIhGZKIPNR3j1CUhR0/AROmBGqGifi4XszhvQ49kzhhf00=
+Received: from BN9PR03CA0844.namprd03.prod.outlook.com (2603:10b6:408:13d::9)
+ by SN6PR02MB5293.namprd02.prod.outlook.com (2603:10b6:805:6a::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.20; Fri, 4 Feb
+ 2022 09:36:10 +0000
+Received: from BN1NAM02FT045.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:408:13d:cafe::9a) by BN9PR03CA0844.outlook.office365.com
+ (2603:10b6:408:13d::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
+ Transport; Fri, 4 Feb 2022 09:36:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT045.mail.protection.outlook.com (10.13.2.156) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4951.12 via Frontend Transport; Fri, 4 Feb 2022 09:36:09 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 4 Feb 2022 01:36:09 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Fri, 4 Feb 2022 01:36:09 -0800
+Envelope-to: alexander.helms.jy@renesas.com,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ arnd@arndb.de,
+ robh+dt@kernel.org,
+ sboyd@kernel.org,
+ mturquette@baylibre.com,
+ geert+renesas@glider.be,
+ david.cater.jc@renesas.com
+Received: from [10.254.241.49] (port=46380)
+        by smtp.xilinx.com with esmtp (Exim 4.90)
+        (envelope-from <michal.simek@xilinx.com>)
+        id 1nFv0j-0009NC-6l; Fri, 04 Feb 2022 01:36:09 -0800
+Message-ID: <008026a5-a9a5-0d13-867d-fc99e95af09b@xilinx.com>
+Date:   Fri, 4 Feb 2022 10:36:05 +0100
 MIME-Version: 1.0
-Sender: bankcoris7@gmail.com
-Received: by 2002:a05:6a10:8ecc:0:0:0:0 with HTTP; Fri, 4 Feb 2022 00:49:32
- -0800 (PST)
-From:   komi zongo <komizongo2020@gmail.com>
-Date:   Fri, 4 Feb 2022 08:49:32 +0000
-X-Google-Sender-Auth: DJ4IyUdVph8-23fUkF90YeQoGWo
-Message-ID: <CAF8uSvrUQL-7NJvmhBd5s-_YOWh6oBUNPdfHFBiSEKCB_vZFyw@mail.gmail.com>
-Subject: Very Very Urgent.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v8 0/2] Renesas 8T49N241 device driver
+Content-Language: en-US
+To:     Alex Helms <alexander.helms.jy@renesas.com>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+CC:     <robh+dt@kernel.org>, <sboyd@kernel.org>,
+        <mturquette@baylibre.com>, <geert+renesas@glider.be>,
+        <david.cater.jc@renesas.com>, <michal.simek@xilinx.com>
+References: <20211021213106.315-1-alexander.helms.jy@renesas.com>
+From:   Michal Simek <michal.simek@xilinx.com>
+In-Reply-To: <20211021213106.315-1-alexander.helms.jy@renesas.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b32a7805-088c-40fc-fecc-08d9e7c1c6c2
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5293:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR02MB52933FACCCE9E29B77AF4D7DC6299@SN6PR02MB5293.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JGVl8o3TkdLRwKc7GTZgn8qbiWa+90BWcA1+ITuTyJnJPmJ++z1AbzxAvgyuoXFFS2cehCUqaedeSZE2/SADzDqslQnzJoBJGscCJXdB0bGkaJ3W/7a8k4TsYD62CmnJI89eJqSgihE3eDpBuMWC5ngA9j3N863mGpYdciqCi9s5MR61lJgo2Cdf29Ymarzjeex6AECgcLUHgYG0asW8ILGCIynlcQxQuOHZbJg9cW0kO1UofMCrXB3aGptpKTpKR6bnlx4106EQgDmiNlM3ps+uzv9vnZUElde95UMLWkFPuOvchVp6Obk4PZDDMsRqiNRRi8hZ55MgJm3bvB7fitz0TCn7a04Ezw+KPed4JMKno9p8ei/hxz+F2yRkWIJ/Czw8aVxpqmWc7fA09GASoHv3CudXwBYP2rW80+W4lhHn7WaFbGl3W9PwuyH96sar82uRTbVnZqozpJEEosr8YK/CoJVjnTX+BFFltwWV2r0y90i+WAROkFS83bcd41rTuo6JLiSsprPmQZEA2/rbMiyEZm6kvIxBXpK4jCZMyU7hslwBwREUFYaPhedTD6l59Nk7Sg5XHwDIkYfTcigfTZJmXe4/AHzCvdCQCDubCug5vRjEGSi4IpzCkB9nbkL+iwIR6tbJucPiGdhbkIqUyT3Y44mzEQOyhNEr7Wy+Ge2KRK45LGSZYJ4RDzUXxS5dUkhh89wBnqI4tsXNmFKmYA==
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(2616005)(26005)(426003)(336012)(31686004)(83380400001)(107886003)(316002)(9786002)(110136005)(54906003)(36860700001)(6666004)(31696002)(8676002)(4326008)(2906002)(186003)(7416002)(5660300002)(8936002)(508600001)(47076005)(53546011)(70586007)(70206006)(36756003)(82310400004)(44832011)(7636003)(356005)(50156003)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 09:36:09.7601
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b32a7805-088c-40fc-fecc-08d9e7c1c6c2
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT045.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5293
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I NEED TRUST.
+Hi,
 
-Hope you are in good health with your family.
 
-I am Mr.Komi Zongo.  I work as the Foreign Operations Manager with
-one of the international banks here in Burkina Faso. Although the
-world is a very small place and hard place to meet people because you
-don't know who to trust or believe, as I have developed trust in you
-after my fasting and praying,  I made up my mind to confide this
-confidential business suggestion to you.
+On 10/21/21 23:31, Alex Helms wrote:
+> Changes in v8:
+>   * Use __ffs instead of ffs
+>   * Change from 64 bit to 32 bit division
+>   * Minor math changes to avoid possible overflow
+> Changes in v7:
+>   * Rebase on v5.15-rc6
+>   * Rename renesas24x_* functions to r8t49n24x_*
+>   * Implement determine_rate instead of round_rate
+>   * Implement prepare/unprepare
+>   * Use devm_clk_get_optional and ensure clk0, clk1, and xtal are attempted before dev_err_probe
+>   * Use ffs() in __renesas_bits_to_shift
+>   * Remove regmap read/write retry
+>   * More consistent debug logging
+>   * Resolved many C related naming and initialization issues
+> Changes in v6:
+>   * Rebase on v5.15-rc1
+>   * Ensure Rob's Reviewed-by tag is included
+> Changes in v5:
+>   * Rebase on v5.14-rc2
+>   * Move driver files from clk/renesas to clk
+> Changes in v4:
+>   * Add vendor prefix to dt binding compatible property
+>   * Remove clock-names description in dt binding
+>   * Remove redundant 'input-' prefix on clock names
+>   * Clarify the settings property in dt binding, add data type
+>   * Fix define spacing
+> Changes in v3:
+>   * Clarify settings property in device tree bindings schema is optional
+> Changes in v2:
+>   * Correct missing semicolon in 8t49n24x-core.c
+> 
+> Alex Helms (2):
+>    dt-bindings: Add binding for Renesas 8T49N241
+>    clk: Add ccf driver for Renesas 8T49N241
+> 
+>   .../bindings/clock/renesas,8t49n241.yaml      | 190 +++++
+>   MAINTAINERS                                   |   7 +
+>   drivers/clk/8t49n24x-core.c                   | 752 ++++++++++++++++++
+>   drivers/clk/8t49n24x-core.h                   | 242 ++++++
+>   drivers/clk/8t49n24x.c                        | 565 +++++++++++++
+>   drivers/clk/Kconfig                           |  21 +
+>   drivers/clk/Makefile                          |   2 +
+>   7 files changed, 1779 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/clock/renesas,8t49n241.yaml
+>   create mode 100644 drivers/clk/8t49n24x-core.c
+>   create mode 100644 drivers/clk/8t49n24x-core.h
+>   create mode 100644 drivers/clk/8t49n24x.c
+> 
+> 
+> base-commit: 519d81956ee277b4419c723adfb154603c2565ba
 
-There is an overdue unclaimed sum of Ten Million Five Hundred Thousand
-United States Dollars ($10,500,000.00) in my bank, belonging to one of
-our dead foreign customers. There were no beneficiaries stated
-concerning these funds. Therefore, your request as a foreigner is
-necessary to apply for the claim and release of the fund smoothly into
-your reliable bank account  as the Foreign Business Partner to the
-deceased.
+DT binding has been already reviewed and driver itself was sent long time ago.
+What's the problem now?
 
-On the transfer of this fund in your account, you will take 40% as
-your share from the total fund, 5% will be shared to Charitable
-Organizations while Motherless Babies homes, disabled helpless as the
-balance of 55% will be for me. If you are really sure of your
-integrity, trustworthy, and confidentiality, reply urgently and to
-prove that, include your particulars as follows.
+sboyd: Can you please review or pick it up?
 
-Please get back to me through this Email Address komizongo2020@gmail.com
+Arnd: IIRC someone told me that if there is no activity it could go via your 
+tree too.
 
-please fill in your personal information as indicated below and as
-soon as i receive this information below i will forward you a text of an
-application which you will fill and send to the bank for the claim of the
-fund as i will direct you on what to do.
+Thanks,
+Michal
 
-Your name in full.......................... ........
-Your country....................... ..................
-Your age........................... ....................
-Your cell phone......................... ...........
-Your occupation.................... ...............
-Your sex........................... ....................
-Your marital status........................ .......
-Your id card or passport...........................
 
-Best Regards,
 
-Mr.Komi Zongo.
