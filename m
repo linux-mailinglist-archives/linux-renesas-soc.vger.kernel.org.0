@@ -2,101 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0A7D4A9B01
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 15:31:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB854A9CBF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 17:18:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359325AbiBDObi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Feb 2022 09:31:38 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:41630 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1359321AbiBDObh (ORCPT
+        id S1376421AbiBDQST (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Feb 2022 11:18:19 -0500
+Received: from smtpout1.mo3004.mail-out.ovh.net ([79.137.123.219]:48897 "EHLO
+        smtpout1.mo3004.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234695AbiBDQST (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Feb 2022 09:31:37 -0500
-X-IronPort-AV: E=Sophos;i="5.88,342,1635174000"; 
-   d="scan'208";a="108810657"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Feb 2022 23:31:36 +0900
-Received: from localhost.localdomain (unknown [10.226.92.77])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8E54B400C75E;
-        Fri,  4 Feb 2022 23:31:34 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fri, 4 Feb 2022 11:18:19 -0500
+Received: from pro2.mail.ovh.net (unknown [10.109.143.120])
+        by mo3004.mail-out.ovh.net (Postfix) with ESMTPS id D1098241C84;
+        Fri,  4 Feb 2022 16:18:14 +0000 (UTC)
+Received: from localhost.localdomain (88.125.132.78) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 4 Feb
+ 2022 17:18:13 +0100
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <geert+renesas@glider.be>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Use SW_SD0_DEV_SEL macro for eMMC/SDHI device selection
-Date:   Fri,  4 Feb 2022 14:31:32 +0000
-Message-Id: <20220204143132.3608-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+        <linux-watchdog@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>
+Subject: [PATCH 0/6] ARM: r9a06g032: add support for the watchdogs
+Date:   Fri, 4 Feb 2022 17:17:58 +0100
+Message-ID: <20220204161806.3126321-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.125.132.78]
+X-ClientProxiedBy: DAG2EX1.emp2.local (172.16.2.11) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 5892678638484994517
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgeelgdekjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjedugfffleelheehveevuedtjeffgfejkedukeekudfguedtfeefuefhueevheeinecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdejkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqtghlkhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch replaces EMMC/SDHI macros with SW_SD0_DEV_SEL DIP-Switch
-macro for eMMC/SDHI device selection.
+Hi all,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi | 14 ++------------
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi     |  2 ++
- 2 files changed, 4 insertions(+), 12 deletions(-)
+This series adds support for the watchdog timers of the RZ/N1.
+The watchdog driver (rzn1-wdt.c) is derived from the driver available at
+https://github.com/renesas-rz/rzn1_linux.git with a few modifications
+(devm watchdog API usage and WDIOF_MAGICCLOSE option)
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-index 6ebda3724f2c..90cb7ec45751 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-@@ -8,16 +8,6 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
--/* SW1[2] should be at OFF position to enable 64 GB eMMC */
--#define EMMC	1
--
--/*
-- * To enable uSD card on CN3,
-- * SW1[2] should be at ON position.
-- * Disable eMMC by setting "#define EMMC	0" above.
-- */
--#define SDHI	(!EMMC)
--
- / {
- 	aliases {
- 		ethernet0 = &eth0;
-@@ -185,7 +175,7 @@
- 	};
- };
- 
--#if SDHI
-+#if (!SW_SD0_DEV_SEL)
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_pins>;
- 	pinctrl-1 = <&sdhi0_pins_uhs>;
-@@ -200,7 +190,7 @@
- };
- #endif
- 
--#if EMMC
-+#if SW_SD0_DEV_SEL
- &sdhi0 {
- 	pinctrl-0 = <&sdhi0_emmc_pins>;
- 	pinctrl-1 = <&sdhi0_emmc_pins>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index 28f21c287ba3..df7631fe5fac 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -18,6 +18,8 @@
-  * Please change below macros according to SW1 setting
-  */
- 
-+#define SW_SD0_DEV_SEL	1
-+
- #define SW_SCIF_CAN	0
- #if (SW_SCIF_CAN)
- /* Due to HW routing, SW_RSPI_CAN is always 0 when SW_SCIF_CAN is set to 1 */
+In order to be able to reset the board when a watchdog timer expires,
+the RSTEN register must be configured. This is done in the clock
+driver of the r9a06g032. The rationnal is that this driver is the only one
+that handles the sysctrl for this platform and there are a couple of other
+clock drivers that also handle resets/reboot. I intend to later post
+another patch to add software-triggered reboot capability that will
+leverage this change.
+
+
+Jean-Jacques Hiblot (5):
+  clk: renesas: r9a06g032: Enable the watchdog reset sources
+  dt-bindings: clock: r9a06g032: Add the definition of the watchdog
+    clock
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/N1
+  ARM: dts: r9a06g032: Add the watchdog nodes
+  ARM: dts: r9a06g032-rzn1d400-db: Enable watchdog0 with a 10s timeout
+
+Phil Edworthy (1):
+  watchdog: Add Renesas RZ/N1 Watchdog driver
+
+ .../bindings/watchdog/renesas,wdt.yaml        |   4 +
+ arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts   |   5 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  16 ++
+ drivers/clk/renesas/r9a06g032-clocks.c        |  33 +++
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzn1_wdt.c                   | 197 ++++++++++++++++++
+ include/dt-bindings/clock/r9a06g032-sysctrl.h |   1 +
+ 8 files changed, 265 insertions(+)
+ create mode 100644 drivers/watchdog/rzn1_wdt.c
+
 -- 
-2.17.1
+2.25.1
 
