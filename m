@@ -2,61 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E66B74A9986
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 13:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD8E34A9989
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Feb 2022 13:57:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243067AbiBDM5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Feb 2022 07:57:03 -0500
+        id S243113AbiBDM5E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Feb 2022 07:57:04 -0500
 Received: from relmlor2.renesas.com ([210.160.252.172]:19119 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236192AbiBDM5D (ORCPT
+        by vger.kernel.org with ESMTP id S242875AbiBDM5E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Feb 2022 07:57:03 -0500
+        Fri, 4 Feb 2022 07:57:04 -0500
 X-IronPort-AV: E=Sophos;i="5.88,342,1635174000"; 
-   d="scan'208";a="109494520"
+   d="scan'208";a="109494523"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
   by relmlie6.idc.renesas.com with ESMTP; 04 Feb 2022 21:57:02 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F21784005E01;
-        Fri,  4 Feb 2022 21:57:01 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1AB0040062B6;
+        Fri,  4 Feb 2022 21:57:02 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     joro@8bytes.org, will@kernel.org, robh+dt@kernel.org
 Cc:     iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 0/2] iommu/ipmmu-vmsa: Add support for R-Car Gen4
-Date:   Fri,  4 Feb 2022 21:56:51 +0900
-Message-Id: <20220204125653.1194249-1-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2 1/2] dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a779f0 support
+Date:   Fri,  4 Feb 2022 21:56:52 +0900
+Message-Id: <20220204125653.1194249-2-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220204125653.1194249-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20220204125653.1194249-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series is based on renesas-drivers-2022-01-11-v5.16 [1].
-Note that we have to prepare the following registers' setting
-in a bootloader (U-Boot) because the registers are protected.
-Otherwise, data mismatch happened if dmatest with the ipmmu is running.
+Document the compatible values for the IPMMU-VMSA blocks in
+the Renesas R-Car S4-8 (R8A779F0) SoC and R-Car Gen4.
 
- => mw eed01500 0xc0000000; mw eed41500 0xc0000000
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+3fbefb9570325500dbf3faff80ded6d0d46f48b2
+---
+ .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml         | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/tag/?h=renesas-drivers-2022-01-11-v5.16
-
-Changes from v1:
- - Add Reviewed-by tag in patch 1. (Geert-san, thanks!)
- - Revise a comment in patch 2.
- https://lore.kernel.org/all/20220125125602.4144793-1-yoshihiro.shimoda.uh@renesas.com/
-
-Yoshihiro Shimoda (2):
-  dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a779f0 support
-  iommu/ipmmu-vmsa: Add support for R-Car Gen4
-
- .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml  |  4 ++++
- drivers/iommu/ipmmu-vmsa.c                             | 10 +++++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+index ce0c715205c6..5159a87f3fa7 100644
+--- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
++++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+@@ -44,6 +44,10 @@ properties:
+               - renesas,ipmmu-r8a77990 # R-Car E3
+               - renesas,ipmmu-r8a77995 # R-Car D3
+               - renesas,ipmmu-r8a779a0 # R-Car V3U
++      - items:
++          - enum:
++              - renesas,ipmmu-r8a779f0 # R-Car S4-8
++          - const: renesas,rcar-gen4-ipmmu-vmsa  # R-Car Gen4
+ 
+   reg:
+     maxItems: 1
 -- 
 2.25.1
 
