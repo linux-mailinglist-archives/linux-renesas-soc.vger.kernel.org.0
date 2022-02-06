@@ -2,79 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 242554AB1C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Feb 2022 20:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C644AB1E2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Feb 2022 21:03:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbiBFTqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 6 Feb 2022 14:46:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
+        id S234118AbiBFUDP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 6 Feb 2022 15:03:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240053AbiBFTqW (ORCPT
+        with ESMTP id S231982AbiBFUDP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 6 Feb 2022 14:46:22 -0500
+        Sun, 6 Feb 2022 15:03:15 -0500
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7E0E8C06173B
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  6 Feb 2022 11:46:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 01400C06173B;
+        Sun,  6 Feb 2022 12:03:13 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.88,348,1635174000"; 
-   d="scan'208";a="110327371"
+   d="scan'208";a="110330710"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Feb 2022 04:46:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 07 Feb 2022 05:03:13 +0900
 Received: from localhost.localdomain (unknown [10.226.92.17])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2D35B40E9806;
-        Mon,  7 Feb 2022 04:46:18 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3382740F07D4;
+        Mon,  7 Feb 2022 05:03:11 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register()
-Date:   Sun,  6 Feb 2022 19:46:14 +0000
-Message-Id: <20220206194614.13209-2-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dt-bindings: dma: rz-dmac: Document RZ/G2UL SoC
+Date:   Sun,  6 Feb 2022 20:03:08 +0000
+Message-Id: <20220206200308.14315-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220206194614.13209-1-biju.das.jz@bp.renesas.com>
-References: <20220206194614.13209-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Update rzg2l_gpio_register() to use driver data for chip->names
-and check for gpio-range. This allows reusing the driver for
-SoC's with different port pin definitions(eg:- RZ/G2UL SoC has
-fewer ports compared to RZ/G2L and port pin definitions are
-different).
+Document RZ/G2UL DMAC bindings. RZ/G2UL DMAC is identical to one found
+on the RZ/G2L SoC. No driver changes are required as generic compatible
+string "renesas,rz-dmac" will be used as a fallback.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch depend upon [1]
+[1] https://patchwork.kernel.org/project/linux-dmaengine/patch/20220110134659.30424-9-prabhakar.mahadev-lad.rj@bp.renesas.com/
+---
+ Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index ccee9c9e2e22..cb805502fb0f 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -1090,12 +1090,12 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
- 	}
+diff --git a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+index e353377084aa..1e25c5b0fb4d 100644
+--- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
++++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+@@ -4,7 +4,7 @@
+ $id: http://devicetree.org/schemas/dma/renesas,rz-dmac.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 	if (of_args.args[0] != 0 || of_args.args[1] != 0 ||
--	    of_args.args[2] != ARRAY_SIZE(rzg2l_gpio_names)) {
-+	    of_args.args[2] != pctrl->data->n_port_pins) {
- 		dev_err(pctrl->dev, "gpio-ranges does not match selected SOC\n");
- 		return -EINVAL;
- 	}
+-title: Renesas RZ/{G2L,V2L} DMA Controller
++title: Renesas RZ/{G2L,G2UL,V2L} DMA Controller
  
--	chip->names = rzg2l_gpio_names;
-+	chip->names = pctrl->data->port_pins;
- 	chip->request = rzg2l_gpio_request;
- 	chip->free = rzg2l_gpio_free;
- 	chip->get_direction = rzg2l_gpio_get_direction;
+ maintainers:
+   - Biju Das <biju.das.jz@bp.renesas.com>
+@@ -16,6 +16,7 @@ properties:
+   compatible:
+     items:
+       - enum:
++          - renesas,r9a07g043-dmac # RZ/G2UL
+           - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+           - renesas,r9a07g054-dmac # RZ/V2L
+       - const: renesas,rz-dmac
 -- 
 2.17.1
 
