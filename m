@@ -2,80 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2E344AB208
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Feb 2022 21:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EABF4AC013
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Feb 2022 14:52:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235958AbiBFUYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 6 Feb 2022 15:24:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
+        id S233274AbiBGNwA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Feb 2022 08:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbiBFUYg (ORCPT
+        with ESMTP id S1386897AbiBGNQn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 6 Feb 2022 15:24:36 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 13331C06173B;
-        Sun,  6 Feb 2022 12:24:34 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.88,348,1635174000"; 
-   d="scan'208";a="110336622"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Feb 2022 05:24:34 +0900
-Received: from localhost.localdomain (unknown [10.226.92.17])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8F02B40078DA;
-        Mon,  7 Feb 2022 05:24:31 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 7 Feb 2022 08:16:43 -0500
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B2FC0401E6;
+        Mon,  7 Feb 2022 05:16:34 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id g15so8414459uap.11;
+        Mon, 07 Feb 2022 05:16:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DNVoXvat1/oQDV0gxOtXkAL2AeofRM0ulhZnPcz1YuM=;
+        b=oYIMguteDC/GuVDgXs5djH/X5kDFF7ejg95w1kUId+BEH7hJMsJ/pagjGfyskPMPbF
+         /4A4ZUZfTTiVwOuMWOgN543rvoUE+D6s6nAZ++S20HMUVfpyZ7wp66FPbBYi5klUS7ZE
+         itm8GmXWIOP2je8j1BLVSGqCzrhWrA5Q4xU/w0bOE3Ca7a41T+AZKs1AGRaszN3GY3ZI
+         xRCJUPGw03REuaFcgpj6jiMMNJh14A85l5+fe3V81GCg8sRaTpTnDg7AvGtgkhfGL56/
+         xTldOAaw+lZq5mZS/xa10fxJv/4IElBhjA+M6IC1a1/tJVkBXhiT7x2PhEGzLs5odH7W
+         F/tQ==
+X-Gm-Message-State: AOAM530IpawBibYlRWCS/lzeMiTbzCNZYrpXH4NnoCQi1228WxvxaZ5j
+        kxeEgO0E9/OL/e+pxYsc91A3EoIQCV0HGA==
+X-Google-Smtp-Source: ABdhPJw99oZ8ccbCYtQGJAY7JlaQcRlq7jxLnz+tULBHViQAYcR7Zb1v0n1uWQYgGviCf32MqMNZvg==
+X-Received: by 2002:a05:6102:34cd:: with SMTP id a13mr4770358vst.64.1644239793469;
+        Mon, 07 Feb 2022 05:16:33 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id h30sm2228612vsq.7.2022.02.07.05.16.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Feb 2022 05:16:33 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id 103so9105494uag.4;
+        Mon, 07 Feb 2022 05:16:32 -0800 (PST)
+X-Received: by 2002:a67:5f83:: with SMTP id t125mr4218270vsb.68.1644239792795;
+ Mon, 07 Feb 2022 05:16:32 -0800 (PST)
+MIME-Version: 1.0
+References: <20220206184749.11532-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220206184749.11532-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Feb 2022 14:16:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVHF+Cv7=YqwP8riNGQA8ZDm9-RVgS8fH0cMRUBf9=eWQ@mail.gmail.com>
+Message-ID: <CAMuHMdVHF+Cv7=YqwP8riNGQA8ZDm9-RVgS8fH0cMRUBf9=eWQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: serial: renesas,scif: Remove redundant renesas,scif-r9a07g054
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH net-next 2/2] dt-bindings: net: renesas,etheravb: Document RZ/G2UL SoC
-Date:   Sun,  6 Feb 2022 20:24:25 +0000
-Message-Id: <20220206202425.15829-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
-References: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document Gigabit Ethernet IP found on RZ/G2UL SoC. Gigabit Ethernet
-Interface is identical to one found on the RZ/G2L SoC. No driver changes
-are required as generic compatible string "renesas,rzg2l-gbeth" will be
-used as a fallback.
+On Sun, Feb 6, 2022 at 7:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> This patch removes redundant "renesas,scif-r9a07g054" from binding
+> documentation as it uses renesas,scif-r9a07g044 fallback.
+>
+> Whilst remove the additional renesas,scif-r9a07g054 from Items.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-index db0ad6fbad89..ee2ccacc39ff 100644
---- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-@@ -45,9 +45,10 @@ properties:
- 
-       - items:
-           - enum:
-+              - renesas,r9a07g043-gbeth # RZ/G2UL
-               - renesas,r9a07g044-gbeth # RZ/G2{L,LC}
-               - renesas,r9a07g054-gbeth # RZ/V2L
--          - const: renesas,rzg2l-gbeth  # RZ/{G2L,V2L} family
-+          - const: renesas,rzg2l-gbeth  # RZ/{G2L,G2UL,V2L} family
- 
-   reg: true
- 
--- 
-2.17.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
