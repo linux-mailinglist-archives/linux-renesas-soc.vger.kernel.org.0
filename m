@@ -2,54 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 964DE4AC1D2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Feb 2022 15:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04CE94AC1D9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Feb 2022 15:49:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378996AbiBGOqQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Feb 2022 09:46:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42456 "EHLO
+        id S1441910AbiBGOq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Feb 2022 09:46:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241651AbiBGO0o (ORCPT
+        with ESMTP id S1392302AbiBGO1R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Feb 2022 09:26:44 -0500
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA425C0401C1;
-        Mon,  7 Feb 2022 06:26:41 -0800 (PST)
-Received: by mail-ua1-f51.google.com with SMTP id w18so19756437uar.8;
-        Mon, 07 Feb 2022 06:26:41 -0800 (PST)
+        Mon, 7 Feb 2022 09:27:17 -0500
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5188C0401C2;
+        Mon,  7 Feb 2022 06:27:16 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id v192so7914484vkv.4;
+        Mon, 07 Feb 2022 06:27:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qJ6gtmWsE0qbWiYsJQ66pdtMsX/wOuo4autMcLLjsHk=;
-        b=yLfC5NMkkPnrn3ke6WnCheLPiGtqEgDey5acbXD/5UeLT4r3RNfKSyBGetR9525ymJ
-         bySJullSgquaDjjIbcQoN81RAoZZq1IbxzttjU4wzlQ9+mcXXZWbtzOoSTXoEAJcTb19
-         uGB79oZi9cBnVU53IQL5VCiWDLiirY7xyaQojjMxdkVhhTM5mh4z8HCsHmYyY6dXTM29
-         oj3WGG47xwN9OueUhqFGna7YiyC8hhDNrFXyQP7nQg5oHboMXdQkAz+xCvmZbKDfPRbh
-         /axmiYOXhTlTajR2Kil+QQcdVDQckiKjGllLxfidt5yrzLrbGdFVyfp9gELpmhKuBERL
-         aPhQ==
-X-Gm-Message-State: AOAM530DNhMsKq8APxGPrKYbz0Z0fZ0Os7nltMYaLo6y8CArQ46U4jSD
-        HDEpdk6KNUGaDam6AHyeWTNLGFjwSS2PEw==
-X-Google-Smtp-Source: ABdhPJwx2uSYqpA1T+lFsVoZefQiRIY0h3cX4jsDIjidhJcyB/GDZsgfWGPWf9KxAMV0oXfw+YG3Og==
-X-Received: by 2002:ab0:1d03:: with SMTP id j3mr2219952uak.100.1644244000925;
-        Mon, 07 Feb 2022 06:26:40 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id d19sm2163794vsh.18.2022.02.07.06.26.40
+        bh=cjodH+zCyALNPMiBPcK9ULdaejBlXthJyh10D4W5H+s=;
+        b=EbUwSmYFvCtuMoAYBKb2JmNIAewpH6wpfwLzCk0WtvhgjZSLU98Dej1DqbKDauI0OL
+         F09j6drPMHHOXh9bmRjrmDNpxoZAMchEZ4p81UdlMVhh4QIqdlIyPiuziNi9w55HwUTQ
+         +WT1g68kYn3n2xpKw/UOQBxy8BfINJypVEVY4bhLIsQNaZ0m5JZYUt7SmJw2gahSV87L
+         KInJq8RvpW2sybfVl3ex8hXqaNO5lh/rLGhSfqsPmJCXJZJ2h48DDdmzSKykTCwlTwPG
+         XhZhpiDHPh63dpshPgCKONGW1jVOd+S98HOnNREOJH4ioSBgOvsvWrmpEAdcgfB/khQm
+         qABQ==
+X-Gm-Message-State: AOAM532x2pLqdeb3Ct8PGGV8VYUGihOHxPLVRkPJ2Phfbgs6p1gHprG3
+        ziK2IkRCbf9hUvJ52WEn7XCdTS4HAouWbg==
+X-Google-Smtp-Source: ABdhPJxjzlMFKp+AB697Yl9V7tjMIKQZFdvARTj3tr+Gyp0C7v/ezPCntVf43izyDpJC7NBDSUvWGQ==
+X-Received: by 2002:a05:6122:d0b:: with SMTP id az11mr4987562vkb.41.1644244035885;
+        Mon, 07 Feb 2022 06:27:15 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id 143sm4737vkw.11.2022.02.07.06.27.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Feb 2022 06:26:40 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id c36so23009964uae.13;
-        Mon, 07 Feb 2022 06:26:40 -0800 (PST)
-X-Received: by 2002:a67:fd63:: with SMTP id h3mr4173263vsa.77.1644244000192;
- Mon, 07 Feb 2022 06:26:40 -0800 (PST)
+        Mon, 07 Feb 2022 06:27:15 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id w18so19759509uar.8;
+        Mon, 07 Feb 2022 06:27:15 -0800 (PST)
+X-Received: by 2002:a67:c198:: with SMTP id h24mr4669413vsj.5.1644244035167;
+ Mon, 07 Feb 2022 06:27:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20220204125653.1194249-1-yoshihiro.shimoda.uh@renesas.com> <20220204125653.1194249-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220204125653.1194249-2-yoshihiro.shimoda.uh@renesas.com>
+References: <20220204125653.1194249-1-yoshihiro.shimoda.uh@renesas.com> <20220204125653.1194249-3-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220204125653.1194249-3-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Feb 2022 15:26:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUc_VmwR43CgYhwKZ+t_GCXzj9+9vaEBZR-2-ui1PC-1Q@mail.gmail.com>
-Message-ID: <CAMuHMdUc_VmwR43CgYhwKZ+t_GCXzj9+9vaEBZR-2-ui1PC-1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: iommu: renesas,ipmmu-vmsa: add
- r8a779f0 support
+Date:   Mon, 7 Feb 2022 15:27:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXmcbv2Foo8njcCv2hrbG=09uff=WduVa3VDRn331LQSw@mail.gmail.com>
+Message-ID: <CAMuHMdXmcbv2Foo8njcCv2hrbG=09uff=WduVa3VDRn331LQSw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] iommu/ipmmu-vmsa: Add support for R-Car Gen4
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -68,13 +67,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 4, 2022 at 2:54 PM Yoshihiro Shimoda
+On Fri, Feb 4, 2022 at 4:49 PM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Document the compatible values for the IPMMU-VMSA blocks in
-> the Renesas R-Car S4-8 (R8A779F0) SoC and R-Car Gen4.
+> Add support for R-Car Gen4 like r8a779f0 (R-Car S4-8). The IPMMU
+> hardware design of r8a779f0 is the same as r8a779a0. So, rename
+> "r8a779a0" to "rcar_gen4".
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> 3fbefb9570325500dbf3faff80ded6d0d46f48b2
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
