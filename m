@@ -2,59 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC4044AD2CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 09:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FC124AD3A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 09:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348889AbiBHIIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 03:08:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48194 "EHLO
+        id S1347664AbiBHIj4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 03:39:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347933AbiBHIIk (ORCPT
+        with ESMTP id S1350480AbiBHIjz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 03:08:40 -0500
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9041AC0401EF;
-        Tue,  8 Feb 2022 00:08:39 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id x13so2494123vsl.10;
-        Tue, 08 Feb 2022 00:08:39 -0800 (PST)
+        Tue, 8 Feb 2022 03:39:55 -0500
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE08EC03FEC5;
+        Tue,  8 Feb 2022 00:39:54 -0800 (PST)
+Received: by mail-vs1-f48.google.com with SMTP id t184so2556384vst.13;
+        Tue, 08 Feb 2022 00:39:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=w2gt74e2o6IF0CBqyJuBpslLP8hBo9R3/CaxMnl2yLA=;
-        b=1/766XWycRAQJISsY1afYXjJkGR+4sQhOe1PjyvTfi4c92fy6aYsesa8LD1KFkF6HO
-         wH0PpdizMSDHh6/AKfqLcm1zwIl8UPZ7+yDAZSjKD34eqj6ctx/c3rJUPFd6MDmLuCwB
-         jtSaxPYYXrmwMPtTVIAes+afrZb9qiJKrJC6ByjKsmhgAIn8Oi2CDtgdlzi/9NW5xzsT
-         tnW8UWWAi/nKij/f1yaT1lkiy1r0PTwsX+r+0yktdN7dU+2oNMiBYYIUgDdGb+RmdW22
-         7PmKxX+pFAoYDCHyraHwVAgtjNFCFi+k8krsgmOQL1LqfIXRpXSVTpatA193aa9K6AaV
-         hj5g==
-X-Gm-Message-State: AOAM533I1j2ULKGml5mu9g2cqywX/sia8IJT3Yx133yGq+KMnGZ/Zq7c
-        F4ioixDsAWmkEJLIdbXqlqZ2v7LJfrqkaw==
-X-Google-Smtp-Source: ABdhPJy4tumz3aJxxeVcOb9n7A8Sfaj/lUArjC+5rkJTiyE7AgqkqMb/blaYvjvfbvIaoZX9tGkpmw==
-X-Received: by 2002:a67:f8c4:: with SMTP id c4mr1156606vsp.79.1644307718523;
-        Tue, 08 Feb 2022 00:08:38 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id u9sm85819vsn.1.2022.02.08.00.08.38
+        bh=fpa19FtuwnVf1SWr864SURHuQnplJ9T8Hzs+HMq2I9o=;
+        b=iKXwp+B97cHBTs9DKGS3m/HJswR2nxkUOZgnJ6FGekSym0pVSAIwAoSjP2PlAmGytY
+         cOZdoahX7SkvtE4ns9Hf16f81g8Rpu6/sNHAjLe/szTp9kz1F2NiwETa+WNUJVgVhMWT
+         d0D9OQz3WCTYvUBekwjTYWrAPoOjybhF9rX2ux3ZC0bE1GLY3P8XU0M9T6y9KhDNx3NU
+         pm1BkuV+qo/W3Jf3vlWub7A0QHjA8oThBmAo07AhpwP6CGxzeyMjaMV17MCcr3xktj7T
+         iAjS/or27t/v/MfDMZRzH6t90GvNLuWfhgTG1CT/qzJfJSvBYXd3iAqdKTSncSKBVxWN
+         xYkQ==
+X-Gm-Message-State: AOAM531RpuL9rXCp8Tx8KI3BAUo0r14jzqHKEzmW5qj75l0D+BacyWx7
+        umhXRAeG4cG77L5ATQ57ul3j/ygHHOb7QQ==
+X-Google-Smtp-Source: ABdhPJxBn9sKN9FFxJUgrHtDmpFFmtIL4gfyPF+SJUQpCZtk5y6FgtkV9ghYJUxEvtLN7jPSXtN90A==
+X-Received: by 2002:a05:6102:d86:: with SMTP id d6mr360860vst.81.1644309593474;
+        Tue, 08 Feb 2022 00:39:53 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id d202sm2726777vkd.38.2022.02.08.00.39.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Feb 2022 00:08:38 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id g15so10332578uap.11;
-        Tue, 08 Feb 2022 00:08:38 -0800 (PST)
-X-Received: by 2002:ab0:6f0d:: with SMTP id r13mr1447040uah.114.1644307717921;
- Tue, 08 Feb 2022 00:08:37 -0800 (PST)
+        Tue, 08 Feb 2022 00:39:53 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id x13so2562100vsl.10;
+        Tue, 08 Feb 2022 00:39:53 -0800 (PST)
+X-Received: by 2002:a67:a401:: with SMTP id n1mr1036622vse.38.1644309592863;
+ Tue, 08 Feb 2022 00:39:52 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1643898531.git.geert+renesas@glider.be> <127a63594229deca2f63c7393b9bdf17b572163a.1643898531.git.geert+renesas@glider.be>
-In-Reply-To: <127a63594229deca2f63c7393b9bdf17b572163a.1643898531.git.geert+renesas@glider.be>
+References: <20220204143132.3608-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220204143132.3608-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Feb 2022 09:08:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVVN2Jc0sYpsc=V6gfQRGXk44Uh4r=2JWhM28gF4ePASg@mail.gmail.com>
-Message-ID: <CAMuHMdVVN2Jc0sYpsc=V6gfQRGXk44Uh4r=2JWhM28gF4ePASg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] i2c: rcar: Add R-Car Gen4 support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date:   Tue, 8 Feb 2022 09:39:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUsZKbYGrESDE4F-LYGeNmseSBjKhNdKZdQCu0n8oZJxQ@mail.gmail.com>
+Message-ID: <CAMuHMdUsZKbYGrESDE4F-LYGeNmseSBjKhNdKZdQCu0n8oZJxQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc: Use SW_SD0_DEV_SEL
+ macro for eMMC/SDHI device selection
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -66,20 +70,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 3, 2022 at 3:33 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Add support for the I2C Bus Interface on R-Car Gen4 SoCs (e.g. R-Car
-> S4-8) by matching on a family-specific compatible value.
+On Fri, Feb 4, 2022 at 3:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> This patch replaces EMMC/SDHI macros with SW_SD0_DEV_SEL DIP-Switch
+> macro for eMMC/SDHI device selection.
 >
-> While I2C on R-Car Gen4 does support some extra features (Slave Clock
-> Stretch Select, Fast-mode Plus), for now it is treated the same as I2C
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Correction: R-Car S4 does not support Fast-mode Plus, so there will be
-a v2 of this patch, eventually.
-
-> on R-Car Gen3.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
 Gr{oetje,eeting}s,
 
