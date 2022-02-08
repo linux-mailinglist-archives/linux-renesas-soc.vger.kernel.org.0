@@ -2,105 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BC9F4AD8A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 14:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A014ADAC1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 15:05:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238565AbiBHNPd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 08:15:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59666 "EHLO
+        id S1350961AbiBHOFX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 09:05:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359419AbiBHMnB (ORCPT
+        with ESMTP id S1376422AbiBHOFX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 07:43:01 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401FBC03FECE
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 04:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Ck6cwa59nGXo7jfN2dFLRXv6E+Un
-        dI4SghImRsPxVzo=; b=BUUhG/j9ushdI2B3Dkou/u0zBKlUf9gw7KY6hR/Krsm6
-        30QmXmnQV6dUtck3k/6NhvzQ2kXPzGerWsOQcc1obZnBMQiU57R5/BZI8JZwkCDX
-        yhwU1XZ5dj3eE4p3zQM+Bp4P5EYqA/Ry/nWPrQhLX4UXca4ezPKOqNNBAdRQ3p8=
-Received: (qmail 253997 invoked from network); 8 Feb 2022 13:42:57 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Feb 2022 13:42:57 +0100
-X-UD-Smtp-Session: l3s3148p1@1xN8DoHXaMkgAQnoAF1FAEKPHF9sYOFO
-Date:   Tue, 8 Feb 2022 13:42:57 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 5/5] arm64: dts: renesas: spider-cpu: Enable watchdog
- timer
-Message-ID: <YgJlUaFqtbxvrfhJ@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <cover.1642525158.git.geert+renesas@glider.be>
- <b36b2bb5770e10d906571721a3d73ca205b6f56e.1642525158.git.geert+renesas@glider.be>
+        Tue, 8 Feb 2022 09:05:23 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2A7C03FED0
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 06:05:22 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id qe15so6862755pjb.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Feb 2022 06:05:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=gPXlcFCisFk98FdLqfVED5m11NOVaHNEOY+g/ePR+r8=;
+        b=OhnBr6eqfcjUsGnsXZG+0oPXiPmMdhCh8inoSFiprVY+RMsooKXZVrxBzi+5duiJsV
+         60ejnCu3/xsMnXJnJk68QqxYmh6N6jsn9Q+6tFrcSOInkgmby/pvEQeWltc3sWtVydTy
+         56TRJmgl0C25OlBpZANk/hpgDtV3GbfC63L9Gi3e4i9Ap+NMipYo1UbGKT4qiBHF1RW7
+         pXtZEhkLcHI9UAJCwO/FV58XEYB1gdqAjaBeYNDu6PgIf6lVO+L9UkdUziMZTN5n8l8N
+         8whzz1LmFiKy6DOpirw8/G9BOxg6/oDbPX2Znn4tQ9ficysy3iNKJSNUf5wLC9r8wDbV
+         92KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=gPXlcFCisFk98FdLqfVED5m11NOVaHNEOY+g/ePR+r8=;
+        b=INvJuNTs3OBB4LalM+245gpMPAHcu8biOEkMKYMdF5Jsvo3kmGAR+499AUblfcwaFw
+         cEdCnQTz5dJm1Ynlm0vIvZY1tYnTjS1vMlznqK64oaSK6O7yp9h9JwgZKjrojLooQIgZ
+         JH/+DOKdntwQxxoIzr7A0B/NTqsnc4ckrn61DGeGAW1Im+EjZtYoC/I32+Eb+Lv0bOWj
+         4Vm4J+pp9LXTOM1hrcCBWv6tW5ajkMiAIb2lxjGbuW7LrLeZfJnzHVoWCQ4sClvIAXDa
+         c0K1+MYcpApg8MDgVZIlmqnc5t5ITEoBpIuyIk0q1o9FD2CjNzQ0uzDClt/1eS+bYPyx
+         wEKw==
+X-Gm-Message-State: AOAM530DeKrjamutrTD/CBOa8sZvarPaOGRoYxy0OkOWJLk+A8d7eUDt
+        Yv7RtpmiuuQ/I6332SdbeOaWkLNpz4dAvWpR
+X-Google-Smtp-Source: ABdhPJwDPeV9WjCCTD0jUzsSV8AgJtTWIKuTZoMhIYnaNuux2F7A4GqqFgUOELVUQJGuUsYKjVgHKQ==
+X-Received: by 2002:a17:902:f651:: with SMTP id m17mr4583252plg.106.1644329121341;
+        Tue, 08 Feb 2022 06:05:21 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id s11sm17351056pfu.58.2022.02.08.06.05.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 06:05:21 -0800 (PST)
+Message-ID: <620278a1.1c69fb81.c7c93.a4b1@mx.google.com>
+Date:   Tue, 08 Feb 2022 06:05:21 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rr1ahe+uiqjQiwRT"
-Content-Disposition: inline
-In-Reply-To: <b36b2bb5770e10d906571721a3d73ca205b6f56e.1642525158.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2022-02-08-v5.17-rc3
+Subject: renesas/master baseline-nfs: 39 runs,
+ 1 regressions (renesas-devel-2022-02-08-v5.17-rc3)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+renesas/master baseline-nfs: 39 runs, 1 regressions (renesas-devel-2022-02-=
+08-v5.17-rc3)
 
---rr1ahe+uiqjQiwRT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Regressions Summary
+-------------------
 
-On Tue, Jan 18, 2022 at 06:09:05PM +0100, Geert Uytterhoeven wrote:
-> Enable the watchdog timer on the Spider board.
->=20
-> Extracted from a larger patch in the BSP by LUU HOAI.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+platform            | arch  | lab          | compiler | defconfig        | =
+regressions
+--------------------+-------+--------------+----------+------------------+-=
+-----------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+crypto | =
+1          =
 
 
---rr1ahe+uiqjQiwRT
-Content-Type: application/pgp-signature; name="signature.asc"
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-02-08-v5.17-rc3/plan/baseline-nfs/
 
------BEGIN PGP SIGNATURE-----
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-02-08-v5.17-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      429683cd533e19e9d252957b958c071b011dd88e =
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmICZVEACgkQFA3kzBSg
-KbZBXRAAqPdtAEeUfW4tit/TvXovUIbZDY1Cp/Wc0wDPVd91on/KRfH4Z4u1nsT1
-BY7XHHEkDkfH6nsUX1Gfv/V+k33xihe14k/nfdBTx+ewp/WkQBkvrajPmgXvUAh1
-8b67apEDWaJo0LTSd1+YyoXlyk6K/1RZ9enVj9ehOnl/T1J9w8B0pI8kyg70hLcK
-Kg39Xqj/22kEbAIW/NglT/JTib60yfSLJLZaUU+rzsC2QU31SE1ZY7gMyhkbPKtv
-fxJraHAYTNc/DgmpeG7RYSfghKqSPi4T4CB+FRDypKuV6T5W3R9ZsUqqf3d0ZcC9
-aaLjNDEEj7YVCuuB3TFQ4ESWFTOB31sqgI2XsVowaE2q50ZNVTAYaPo9lUSasRMr
-fTabzGBFok6uuJ7tqP7B263+8oLG2SNIiFhOtMT17Yf8f+9IfCp26xXdq/r/AhCP
-dm6ks1UVFvvb2rsPKFhEQ6L8oAQhJ6L/7KXrKNyi9CgFVJsjF405SYUZ6o+uj6kg
-ogs7/TOeIMlyQKQRek/cxC8pzo7Twcz63h5bur//kHy/g/z3sO3/NOiacTWhp5DT
-bMzE2XaQksjGjjvWLbHvSuRoeu7/yBgQuUXWemOzMoIez68Mos7LCqHcBSXK0PZI
-Lw2RXAUcfJMUrEIQIvG3rIQtbFJMNBFm96RGwbxUqP7mlifaXoc=
-=2Hxu
------END PGP SIGNATURE-----
 
---rr1ahe+uiqjQiwRT--
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch  | lab          | compiler | defconfig        | =
+regressions
+--------------------+-------+--------------+----------+------------------+-=
+-----------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+crypto | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62023bf553bc8d3a105d6ee8
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-08-v5.17-rc3/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-08-v5.17-rc3/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220128.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62023bf553bc8d3a1=
+05d6ee9
+        new failure (last pass: renesas-devel-2022-02-07-v5.17-rc3) =
+
+ =20
