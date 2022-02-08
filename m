@@ -2,67 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3448C4AD7CC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 12:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D7A4AD7DA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 12:51:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356416AbiBHLrq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 06:47:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
+        id S1357322AbiBHLuU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 06:50:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345834AbiBHLrg (ORCPT
+        with ESMTP id S1357141AbiBHLuP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 06:47:36 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634F9C03E65C
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 03:35:24 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id p22-20020a17090adf9600b001b8783b2647so1795384pjv.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Feb 2022 03:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=unsPwH3aklCU1M7cRIZUqLNhuRWR8h8u7+I2kjwE4DM=;
-        b=JP5ovrf9DN/o8bC8gjbTrsQyTqh9s+k9M25datr+Fpd4Y/niG2XAB3j+ZkSzQ40sg+
-         gVsy0hn9dxnSI7qBRIJ9npEVTqEwiBhqaOm6tzfSwtu120tyK0tiWmNvlMICF0RskD2d
-         EaE4+v0In68uNS9QoDN5nLt8pFMtxFqse140kek4boTLuMJZLcZ7Xp+khl1fvwXsZZxm
-         R5Ut5YhSAl9OMj6tj0W715yIv88e/uZ8mDLk/r8Xy4luQk6HNEHVJun/wSNYemv4uqQN
-         DtghY+kbvZuYInGBHfEGiWDYYEbRbegP61vLtiQDgVrYmmciURXZ2HlorEXqObwANDnZ
-         Dm8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=unsPwH3aklCU1M7cRIZUqLNhuRWR8h8u7+I2kjwE4DM=;
-        b=0Xus7MU3pkflY6RlDvxCnsvBpN247GnBzgHh0qN4cakK2Y3BKdT6AVyuSyGuCzLKSo
-         vIs4ldwAyPctj+5wjNtiL/+IMd9nz3eJfySTs65sR09mChXP4LqoqzjsG80NOFUO2bw+
-         eusjLUbDpouka+hXRzv3rxQ6mqXuj9jevkZODEw7xmsmi/TmF+lTMuZHiwkYV4YoWblZ
-         NmrzRJPwsddHXI/HcyfXWtikyMRKStMtwnNdFH3ZgPPTAPxBMDSfGuc9rtHT5rLzkzKr
-         cXlcRTKDqWYkQy/gsdwH4xerzoNcN9UTVQinF2TsfuMA5Zppznnmnh5mhXxEBbRAVFi9
-         Rs5g==
-X-Gm-Message-State: AOAM530p6aHqraHXrDLWA9DwmREfkfC3H4rRRpYumJlAcu+3KY8qdjyV
-        hZzal9bVvgqLyD0vnCqCkDaiuFOtoOvMve1I
-X-Google-Smtp-Source: ABdhPJxJBbC0kFBa+fkedi+3fjGwjuVUd1ofhuvxiBHqAdcvmU3rwUFUZLP25Ax367JxNdPMVo0+gA==
-X-Received: by 2002:a17:902:8d8c:: with SMTP id v12mr3982379plo.0.1644320123487;
-        Tue, 08 Feb 2022 03:35:23 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 17sm16154056pfl.175.2022.02.08.03.35.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 03:35:23 -0800 (PST)
-Message-ID: <6202557b.1c69fb81.c4a72.8d71@mx.google.com>
-Date:   Tue, 08 Feb 2022 03:35:23 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 8 Feb 2022 06:50:15 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F7FC02B5F4
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 03:41:35 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:54c7:c522:3859:290])
+        by albert.telenet-ops.be with bizsmtp
+        id sbhY2600P4VQqf506bhYVm; Tue, 08 Feb 2022 12:41:32 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nHOsG-0009Vx-H3
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Feb 2022 12:41:32 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nHOsF-00D2yN-Pt
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Feb 2022 12:41:31 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2022-02-08-v5.17-rc3
+Date:   Tue,  8 Feb 2022 12:41:31 +0100
+Message-Id: <20220208114131.3109648-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2022-02-08-v5.17-rc3
-X-Kernelci-Tree: renesas
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-Subject: renesas/master sleep: 2 runs,
- 2 regressions (renesas-devel-2022-02-08-v5.17-rc3)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,116 +45,83 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master sleep: 2 runs, 2 regressions (renesas-devel-2022-02-08-v5.17=
--rc3)
+I have pushed renesas-drivers-2022-02-08-v5.17-rc3 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Regressions Summary
--------------------
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 2          =
+Today's version is based on renesas-devel-2022-02-08-v5.17-rc3.
 
+Included branches with driver code:
+  - renesas-clk-for-v5.18
+  - renesas-pinctrl-for-v5.18
+  - topic/pinctrl-sharing-and-checker-improvements-v1
+  - topic/r8a779f0-pfc-v1
+  - topic/r8a779f0-gpio-v1
+  - topic/r8a779f0-i2c-v1
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-02-08-v5.17-rc3/plan/sleep/
+Included fixes:
+  - drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
+  - gpio: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-  Test:     sleep
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-02-08-v5.17-rc3
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      429683cd533e19e9d252957b958c071b011dd88e =
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
 
+Gr{oetje,eeting}s,
 
+						Geert
 
-Test Regressions
----------------- =
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-platform            | arch | lab           | compiler | defconfig          =
-| regressions
---------------------+------+---------------+----------+--------------------=
-+------------
-rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
-| 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6202434e3603b946755d6ef8
-
-  Results:     3 PASS, 9 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-08-v5.17-rc3/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
-8-rock2-square.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-02-08-v5.17-rc3/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
-8-rock2-square.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220128.0/armhf/rootfs.cpio.gz =
-
-
-
-  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/6202434e3603b946=
-755d6f01
-        failing since 0 day (last pass: renesas-devel-2022-01-31-v5.17-rc2,=
- first fail: renesas-devel-2022-02-07-v5.17-rc3)
-
-    2022-02-08T10:12:53.528743  rtcwake: assuming RTC uses UTC ...
-    2022-02-08T10:12:53.528827  rtcwake: wakeup from \"mem\" using rtc0 at =
-Tue Feb  8 10:13:00 2022
-    2022-02-08T10:12:53.550572  <6>[   36.453000] PM: suspend entry (deep)
-    2022-02-08T10:12:53.550730  <6>[   36.457506] Filesystems sync: 0.000 s=
-econds
-    2022-02-08T10:13:13.593842  <6>[   36.463412] Freezing user space proce=
-sses ... =
-
-    2022-02-08T10:13:13.594105  <3>[   56.469775] Freezing of tasks failed =
-after 20.001 seconds (1 tasks refusing to freeze, wq_busy=3D0):
-    2022-02-08T10:13:13.594224  <6>[   56.480257] task:systemd-udevd   stat=
-e:D stack:    0 pid:  123 ppid:   120 flags:0x00000081
-    2022-02-08T10:13:13.594331  <6>[   56.489990]  __schedule from schedule=
-+0x48/0xd0
-    2022-02-08T10:13:13.594432  <6>[   56.495463]  schedule from io_schedul=
-e+0x34/0x44
-    2022-02-08T10:13:13.594529  <6>[   56.500981]  io_schedule from folio_w=
-ait_bit_common+0x1b4/0x30c =
-
-    ... (15 line(s) more)  =
-
-
-  * sleep.rtcwake-mem-1: https://kernelci.org/test/case/id/6202434e3603b946=
-755d6f02
-        failing since 0 day (last pass: renesas-devel-2022-01-31-v5.17-rc2,=
- first fail: renesas-devel-2022-02-07-v5.17-rc3)
-
-    2022-02-08T10:12:33.353487  rtcwake: assuming RTC uses UTC ...
-    2022-02-08T10:12:33.353876  rtcwake: wakeup from \"mem\" using rtc0 at =
-Tue Feb  8 10:12:39 2022
-    2022-02-08T10:12:33.354297  <6>[   16.260902] PM: suspend entry (deep)
-    2022-02-08T10:12:33.359898  <6>[   16.265708] Filesystems sync: 0.000 s=
-econds
-    2022-02-08T10:12:53.410910  <6>[   16.274648] Freezing user space proce=
-sses ... =
-
-    2022-02-08T10:12:53.411167  <3>[   36.291375] Freezing of tasks failed =
-after 20.011 seconds (1 tasks refusing to freeze, wq_busy=3D0):
-    2022-02-08T10:12:53.411287  <6>[   36.301851] task:systemd-udevd   stat=
-e:D stack:    0 pid:  123 ppid:   120 flags:0x00000081
-    2022-02-08T10:12:53.411394  <6>[   36.311596]  __schedule from schedule=
-+0x48/0xd0
-    2022-02-08T10:12:53.411503  <6>[   36.317069]  schedule from io_schedul=
-e+0x34/0x44
-    2022-02-08T10:12:53.411617  <6>[   36.322578]  io_schedule from folio_w=
-ait_bit_common+0x1b4/0x30c =
-
-    ... (15 line(s) more)  =
-
- =20
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
