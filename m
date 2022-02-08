@@ -2,139 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F300C4AE12E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 19:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9824AE523
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 00:01:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385450AbiBHSnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 13:43:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
+        id S231519AbiBHXBL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 18:01:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385363AbiBHSnj (ORCPT
+        with ESMTP id S233343AbiBHWzV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 13:43:39 -0500
-X-Greylist: delayed 463 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 10:43:12 PST
-Received: from smtpout1.mo3004.mail-out.ovh.net (smtpout1.mo3004.mail-out.ovh.net [79.137.123.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA74C03FEFB;
-        Tue,  8 Feb 2022 10:43:12 -0800 (PST)
-Received: from pro2.mail.ovh.net (unknown [10.109.138.36])
-        by mo3004.mail-out.ovh.net (Postfix) with ESMTPS id 002FD2473F2;
-        Tue,  8 Feb 2022 18:35:33 +0000 (UTC)
-Received: from localhost.localdomain (88.125.132.78) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Feb
- 2022 19:35:33 +0100
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-To:     <linux-renesas-soc@vger.kernel.org>, <geert+renesas@glider.be>
-CC:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 6/6] clk: renesas: r9a06g032: Disable the watchdog reset sources when halting
-Date:   Tue, 8 Feb 2022 19:35:10 +0100
-Message-ID: <20220208183511.2925304-7-jjhiblot@traphandler.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220208183511.2925304-1-jjhiblot@traphandler.com>
-References: <20220208183511.2925304-1-jjhiblot@traphandler.com>
+        Tue, 8 Feb 2022 17:55:21 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CCBC0612B9
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 14:55:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644360915; x=1675896915;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/CJMBwSlhoOL7/46ivt6OnwEH5ECGMYjLiOJHHi4BeU=;
+  b=FsREVXi1zj4SMsPBOM4SlAa+oGCUewplPAEpJqJkZnyNnVnhsVYxwDvC
+   W6YjYaVR0NHSYb1ROzn6MIuqWuob7UbD32QqCx3PBlyN0fsSL8vHE6bQk
+   QUuTwClxty2/JY06J79kR+TwZA+L4AuvYQMTMfZyXnbD68OcUHtVavYbA
+   e3UMkjIlyjcNspeacCEn6uPoLZsfBFN68fCGpBSzjteOf1n0qexBeRuVE
+   cuQjBiIzhjyYfz7SZjr4iCfv80G//QS9PWEEfdogw6C3Xcbz6h3fcltBe
+   SBGUL/8eATePFD2nqalpCWRR7CokR7JDuCmXaPLjgCQtWEQ81Jjfm9HEt
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="335472348"
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; 
+   d="scan'208";a="335472348"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 14:55:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; 
+   d="scan'208";a="701019908"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 08 Feb 2022 14:55:13 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nHZOC-0000rs-VR; Tue, 08 Feb 2022 22:55:12 +0000
+Date:   Wed, 09 Feb 2022 06:54:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.18] BUILD SUCCESS
+ 5c65ad12785205d5c57bd92e19d0296f93c19e33
+Message-ID: <6202f4ad.+44T8rjD4dsv4ByC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [88.125.132.78]
-X-ClientProxiedBy: DAG1EX1.emp2.local (172.16.2.1) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 13255782555140831707
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheejgdduudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeefueeggfeiuedthfdvgeevtedvueevgfevgeelieelveevheefjeejfffguddukeenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdejkeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The watchdog reset sources must be disabled when the system is halted.
-Otherwise the watchdogs will trigger a reset if they have been armed.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.18
+branch HEAD: 5c65ad12785205d5c57bd92e19d0296f93c19e33  arm64: dts: renesas: rzg2lc-smarc: Use SW_SD0_DEV_SEL macro for eMMC/SDHI device selection
 
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+elapsed time: 726m
+
+configs tested: 92
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm64                               defconfig
+powerpc                    sam440ep_defconfig
+arm                         cm_x300_defconfig
+h8300                            alldefconfig
+sh                          rsk7264_defconfig
+mips                  decstation_64_defconfig
+powerpc                        warp_defconfig
+alpha                               defconfig
+mips                         cobalt_defconfig
+mips                      fuloong2e_defconfig
+mips                        bcm47xx_defconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                     tqm8541_defconfig
+parisc                           alldefconfig
+m68k                        m5407c3_defconfig
+powerpc                     tqm8548_defconfig
+sh                           se7780_defconfig
+arm                         axm55xx_defconfig
+powerpc                  storcenter_defconfig
+arm                         assabet_defconfig
+sh                           se7343_defconfig
+mips                 decstation_r4k_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a002
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                              defconfig
+
+clang tested configs:
+mips                        qi_lb60_defconfig
+arm                          ixp4xx_defconfig
+powerpc                   bluestone_defconfig
+powerpc                          allyesconfig
+arm                          ep93xx_defconfig
+mips                  cavium_octeon_defconfig
+powerpc                     kmeter1_defconfig
+arm                         orion5x_defconfig
+arm                         s5pv210_defconfig
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220208
+hexagon              randconfig-r041-20220208
+riscv                randconfig-r042-20220208
+
 ---
- drivers/clk/renesas/r9a06g032-clocks.c | 30 ++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index c99942f0e4d4..d96211927a1d 100644
---- a/drivers/clk/renesas/r9a06g032-clocks.c
-+++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -129,6 +129,11 @@ enum { K_GATE = 0, K_FFC, K_DIV, K_BITSEL, K_DUALGATE };
- 
- #define R9A06G032_CLOCK_COUNT		(R9A06G032_UART_GROUP_34567 + 1)
- 
-+#define R9A06G032_SYSCTRL_REG_RSTEN		0x120
-+#define WDA7RST1	BIT(2)
-+#define WDA7RST0	BIT(1)
-+#define MRESET		BIT(0)
-+
- static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
- 	D_ROOT(CLKOUT, "clkout", 25, 1),
- 	D_ROOT(CLK_PLL_USB, "clk_pll_usb", 12, 10),
-@@ -893,6 +898,19 @@ static void r9a06g032_clocks_del_clk_provider(void *data)
- 	of_clk_del_provider(data);
- }
- 
-+static void r9a06g032_reset_sources(struct r9a06g032_priv *clocks,
-+			uint32_t mask, uint32_t value)
-+{
-+	uint32_t rsten;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&clocks->lock, flags);
-+	rsten = readl(clocks->reg);
-+	rsten = (rsten & ~mask) | (value & mask);
-+	writel(rsten, clocks->reg + R9A06G032_SYSCTRL_REG_RSTEN);
-+	spin_unlock_irqrestore(&clocks->lock, flags);
-+}
-+
- static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -910,6 +928,8 @@ static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
- 	if (!clocks || !clks)
- 		return -ENOMEM;
- 
-+	platform_set_drvdata(pdev, clocks);
-+
- 	spin_lock_init(&clocks->lock);
- 
- 	clocks->data.clks = clks;
-@@ -963,9 +983,18 @@ static int __init r9a06g032_clocks_probe(struct platform_device *pdev)
- 	if (error)
- 		return error;
- 
-+
- 	return r9a06g032_add_clk_domain(dev);
- }
- 
-+static void r9a06g032_clocks_shutdown(struct platform_device *pdev)
-+{
-+	struct r9a06g032_priv *clocks = platform_get_drvdata(pdev);
-+
-+	/* Disable the watchdog reset sources */
-+	r9a06g032_reset_sources(clocks, WDA7RST0 | WDA7RST1, 0);
-+}
-+
- static const struct of_device_id r9a06g032_match[] = {
- 	{ .compatible = "renesas,r9a06g032-sysctrl" },
- 	{ }
-@@ -976,6 +1005,7 @@ static struct platform_driver r9a06g032_clock_driver = {
- 		.name	= "renesas,r9a06g032-sysctrl",
- 		.of_match_table = r9a06g032_match,
- 	},
-+	.shutdown = r9a06g032_clocks_shutdown,
- };
- 
- static int __init r9a06g032_clocks_init(void)
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
