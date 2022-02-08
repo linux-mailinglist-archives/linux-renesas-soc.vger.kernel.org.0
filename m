@@ -2,114 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8954AD714
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 12:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3448C4AD7CC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 12:49:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359611AbiBHLbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 06:31:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57408 "EHLO
+        id S1356416AbiBHLrq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 06:47:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243943AbiBHKfr (ORCPT
+        with ESMTP id S1345834AbiBHLrg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 05:35:47 -0500
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C86DC03FEC0;
-        Tue,  8 Feb 2022 02:35:46 -0800 (PST)
-Received: by mail-vk1-f175.google.com with SMTP id l14so9464848vko.12;
-        Tue, 08 Feb 2022 02:35:46 -0800 (PST)
+        Tue, 8 Feb 2022 06:47:36 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634F9C03E65C
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 03:35:24 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id p22-20020a17090adf9600b001b8783b2647so1795384pjv.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Feb 2022 03:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=unsPwH3aklCU1M7cRIZUqLNhuRWR8h8u7+I2kjwE4DM=;
+        b=JP5ovrf9DN/o8bC8gjbTrsQyTqh9s+k9M25datr+Fpd4Y/niG2XAB3j+ZkSzQ40sg+
+         gVsy0hn9dxnSI7qBRIJ9npEVTqEwiBhqaOm6tzfSwtu120tyK0tiWmNvlMICF0RskD2d
+         EaE4+v0In68uNS9QoDN5nLt8pFMtxFqse140kek4boTLuMJZLcZ7Xp+khl1fvwXsZZxm
+         R5Ut5YhSAl9OMj6tj0W715yIv88e/uZ8mDLk/r8Xy4luQk6HNEHVJun/wSNYemv4uqQN
+         DtghY+kbvZuYInGBHfEGiWDYYEbRbegP61vLtiQDgVrYmmciURXZ2HlorEXqObwANDnZ
+         Dm8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mQCnieYTAMPEclL2frn3xkAlJaOGccBzHxec4vAosRY=;
-        b=A+5F1kJtFxegZxyohp6kSvs3FBQZM17ZNZXUH9/cYOxfN2OxcgNLeAzb2EHodp7r8h
-         GK9IA1v75pW0OPXksB21vxXcU84PmnRqnyEsa/winrFyMXOvae9u8L7CSeVRgxybBbqi
-         gb3MIpEeThTSg9e3U72QfhUaZ9+vGrm2rjSrubli5nb+dzTl+htrCA6khYGTubH7Vosn
-         Xv4+TfwxO+Lccb0fXYWJEfvQ300PDEQSlb3Ylu0mwtqEDJV+jRtFHw4a7SJGitweLuJb
-         8PeJYFpuJ7AvUYk5upGoBt6bSe7xWlify73Nm1XEvPd8GrEI4lJIGc1ChdPl1rAYNyk3
-         KRwA==
-X-Gm-Message-State: AOAM531iDYlIPtMIHN0LI9QW6UiOskhduRCc4isQK/gDrEvvqBJ13pv5
-        +C32lHszJ/iOdPv2ExCdMa6LoFJG0KT7bg==
-X-Google-Smtp-Source: ABdhPJzM1P4dsJuDJGkXrZGp+EirQ4+TATuxUtO0HtCjV6AlDqM2LBEIKoC7N3DAXTdx8g036BUkRA==
-X-Received: by 2002:a05:6122:50d:: with SMTP id x13mr1494642vko.40.1644316545569;
-        Tue, 08 Feb 2022 02:35:45 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id j8sm2762854vki.48.2022.02.08.02.35.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Feb 2022 02:35:45 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id m24so2830682vsp.7;
-        Tue, 08 Feb 2022 02:35:45 -0800 (PST)
-X-Received: by 2002:a67:c198:: with SMTP id h24mr1221464vsj.5.1644316545025;
- Tue, 08 Feb 2022 02:35:45 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=unsPwH3aklCU1M7cRIZUqLNhuRWR8h8u7+I2kjwE4DM=;
+        b=0Xus7MU3pkflY6RlDvxCnsvBpN247GnBzgHh0qN4cakK2Y3BKdT6AVyuSyGuCzLKSo
+         vIs4ldwAyPctj+5wjNtiL/+IMd9nz3eJfySTs65sR09mChXP4LqoqzjsG80NOFUO2bw+
+         eusjLUbDpouka+hXRzv3rxQ6mqXuj9jevkZODEw7xmsmi/TmF+lTMuZHiwkYV4YoWblZ
+         NmrzRJPwsddHXI/HcyfXWtikyMRKStMtwnNdFH3ZgPPTAPxBMDSfGuc9rtHT5rLzkzKr
+         cXlcRTKDqWYkQy/gsdwH4xerzoNcN9UTVQinF2TsfuMA5Zppznnmnh5mhXxEBbRAVFi9
+         Rs5g==
+X-Gm-Message-State: AOAM530p6aHqraHXrDLWA9DwmREfkfC3H4rRRpYumJlAcu+3KY8qdjyV
+        hZzal9bVvgqLyD0vnCqCkDaiuFOtoOvMve1I
+X-Google-Smtp-Source: ABdhPJxJBbC0kFBa+fkedi+3fjGwjuVUd1ofhuvxiBHqAdcvmU3rwUFUZLP25Ax367JxNdPMVo0+gA==
+X-Received: by 2002:a17:902:8d8c:: with SMTP id v12mr3982379plo.0.1644320123487;
+        Tue, 08 Feb 2022 03:35:23 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id 17sm16154056pfl.175.2022.02.08.03.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 03:35:23 -0800 (PST)
+Message-ID: <6202557b.1c69fb81.c4a72.8d71@mx.google.com>
+Date:   Tue, 08 Feb 2022 03:35:23 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220204161806.3126321-1-jjhiblot@traphandler.com>
- <20220204161806.3126321-2-jjhiblot@traphandler.com> <CAMuHMdUsWSXqQ6oOP8c0XBJpAoMUg74kTJN1rU8uiq7UXRiKkw@mail.gmail.com>
- <89c0a032-3124-fc56-607c-5aeaac73fdc4@traphandler.com>
-In-Reply-To: <89c0a032-3124-fc56-607c-5aeaac73fdc4@traphandler.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Feb 2022 11:35:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVvrs-p4Tz2m7R8g7gXJRetTGKJNaQPEO_DYKDzu5u64A@mail.gmail.com>
-Message-ID: <CAMuHMdVvrs-p4Tz2m7R8g7gXJRetTGKJNaQPEO_DYKDzu5u64A@mail.gmail.com>
-Subject: Re: [PATCH 1/6] clk: renesas: r9a06g032: Enable the watchdog reset sources
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-02-08-v5.17-rc3
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+Subject: renesas/master sleep: 2 runs,
+ 2 regressions (renesas-devel-2022-02-08-v5.17-rc3)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jean-Jacques,
+renesas/master sleep: 2 runs, 2 regressions (renesas-devel-2022-02-08-v5.17=
+-rc3)
 
-On Tue, Feb 8, 2022 at 11:25 AM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
-> On 07/02/2022 16:34, Geert Uytterhoeven wrote:
-> > On Fri, Feb 4, 2022 at 5:18 PM Jean-Jacques Hiblot
-> > <jjhiblot@traphandler.com> wrote:
-> >> The watchdog reset sources are not enabled by default.
-> >> Enabling them here to make sure that the system resets when the watchdog
-> >> timers expire.
-> >>
-> >> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> > Thanks for your patch!
-> >
-> > R-Car Gen3 and RZ/G2 SoCs have a similar mechanism.
-> > On these SoCs, the boot loader takes care of the configuration, as this
-> > is a system policy that goes beyond the Linux realm.
-> > Perhaps the RZ/N1 boot loader can do the same?
-> >
-> > Gr{oetje,eeting}s,
->
-> Thanks for you reviews and comments.
->
-> I'm not conformable with the idea that the safety induced by the
-> watchdog is removed because the bootloader didn't set the register.
+Regressions Summary
+-------------------
 
-What if the CM33 is the master, and the CM33 just wants to receive an
-interrupt when one of the CA7 watchdog timers times out?
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 2          =
 
-> I'd rather that the kernel is able to enable the watchdog reset source.
-> If it is acceptable, we could use a new DTS entry to force the policy.
 
-DT describes hardware. not software policy.
-Although I agree e.g. the watchdog timeout value is software policy.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-02-08-v5.17-rc3/plan/sleep/
 
-Gr{oetje,eeting}s,
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-02-08-v5.17-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      429683cd533e19e9d252957b958c071b011dd88e =
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Test Regressions
+---------------- =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6202434e3603b946755d6ef8
+
+  Results:     3 PASS, 9 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-08-v5.17-rc3/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
+8-rock2-square.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-08-v5.17-rc3/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
+8-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220128.0/armhf/rootfs.cpio.gz =
+
+
+
+  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/6202434e3603b946=
+755d6f01
+        failing since 0 day (last pass: renesas-devel-2022-01-31-v5.17-rc2,=
+ first fail: renesas-devel-2022-02-07-v5.17-rc3)
+
+    2022-02-08T10:12:53.528743  rtcwake: assuming RTC uses UTC ...
+    2022-02-08T10:12:53.528827  rtcwake: wakeup from \"mem\" using rtc0 at =
+Tue Feb  8 10:13:00 2022
+    2022-02-08T10:12:53.550572  <6>[   36.453000] PM: suspend entry (deep)
+    2022-02-08T10:12:53.550730  <6>[   36.457506] Filesystems sync: 0.000 s=
+econds
+    2022-02-08T10:13:13.593842  <6>[   36.463412] Freezing user space proce=
+sses ... =
+
+    2022-02-08T10:13:13.594105  <3>[   56.469775] Freezing of tasks failed =
+after 20.001 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-08T10:13:13.594224  <6>[   56.480257] task:systemd-udevd   stat=
+e:D stack:    0 pid:  123 ppid:   120 flags:0x00000081
+    2022-02-08T10:13:13.594331  <6>[   56.489990]  __schedule from schedule=
++0x48/0xd0
+    2022-02-08T10:13:13.594432  <6>[   56.495463]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-08T10:13:13.594529  <6>[   56.500981]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-1: https://kernelci.org/test/case/id/6202434e3603b946=
+755d6f02
+        failing since 0 day (last pass: renesas-devel-2022-01-31-v5.17-rc2,=
+ first fail: renesas-devel-2022-02-07-v5.17-rc3)
+
+    2022-02-08T10:12:33.353487  rtcwake: assuming RTC uses UTC ...
+    2022-02-08T10:12:33.353876  rtcwake: wakeup from \"mem\" using rtc0 at =
+Tue Feb  8 10:12:39 2022
+    2022-02-08T10:12:33.354297  <6>[   16.260902] PM: suspend entry (deep)
+    2022-02-08T10:12:33.359898  <6>[   16.265708] Filesystems sync: 0.000 s=
+econds
+    2022-02-08T10:12:53.410910  <6>[   16.274648] Freezing user space proce=
+sses ... =
+
+    2022-02-08T10:12:53.411167  <3>[   36.291375] Freezing of tasks failed =
+after 20.011 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-08T10:12:53.411287  <6>[   36.301851] task:systemd-udevd   stat=
+e:D stack:    0 pid:  123 ppid:   120 flags:0x00000081
+    2022-02-08T10:12:53.411394  <6>[   36.311596]  __schedule from schedule=
++0x48/0xd0
+    2022-02-08T10:12:53.411503  <6>[   36.317069]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-08T10:12:53.411617  <6>[   36.322578]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+ =20
