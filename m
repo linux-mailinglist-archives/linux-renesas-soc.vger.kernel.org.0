@@ -2,52 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB5684AD963
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 14:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB1A4AD95E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 14:17:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235485AbiBHNP3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 08:15:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59440 "EHLO
+        id S241111AbiBHNPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 08:15:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359192AbiBHMmN (ORCPT
+        with ESMTP id S1357873AbiBHMiX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 07:42:13 -0500
+        Tue, 8 Feb 2022 07:38:23 -0500
+X-Greylist: delayed 168 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 04:38:20 PST
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8753C03FEC0
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 04:42:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46904C03FECA
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 04:38:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=vvNfBi9E3b3v3d/OUVzRUnSe+Z48
-        koHP8XeagZ/M7po=; b=aI9gD9NnPN5Dcq6KdDESP5KICDFbD7W4qTzNqvT3AUab
-        r6x8lzlfbNnTRi0lBF5j8oOFyeLhc4+9dh6+R0X/wShbq9l3BFURBExmgu1ktq59
-        GpW1uxUDQV7etbEFaeO7kJxBHwSXMMcZrq128+qTNR+dVHccJrmqGUgaRDWV0zc=
-Received: (qmail 249715 invoked from network); 8 Feb 2022 13:35:28 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Feb 2022 13:35:28 +0100
-X-UD-Smtp-Session: l3s3148p1@yUK+84DXXskgAQnoAF1FAEKPHF9sYOFO
-Date:   Tue, 8 Feb 2022 13:35:28 +0100
+        :content-type:in-reply-to; s=k1; bh=mblPKvsTR+I38VBuTL3AMx3pOcg6
+        Ef8IgRkhKBFuNgU=; b=qMBmciIXgm9mIqfnNnuy1GxVTBCm9tAO5J0INHCm1qRK
+        ai5Am6gaNi2jpsyZoL7/l+u3C4p6vXaC1/hcsqzv2J7ywpwfbbKw5JPbPP8rA8VO
+        2YUUZZ0kPN8raQwnbfrRuB3Rq5dlXQPBcS289NUEHWeL7p/+i9yzEIHoOeEAqCA=
+Received: (qmail 251182 invoked from network); 8 Feb 2022 13:38:17 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Feb 2022 13:38:17 +0100
+X-UD-Smtp-Session: l3s3148p1@0J7M/YDXYMkgAQnoAF1FAEKPHF9sYOFO
+Date:   Tue, 8 Feb 2022 13:38:17 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 2/2] i2c: rcar: Add R-Car Gen4 support
-Message-ID: <YgJjkOqg6YL7499D@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-References: <cover.1643898531.git.geert+renesas@glider.be>
- <127a63594229deca2f63c7393b9bdf17b572163a.1643898531.git.geert+renesas@glider.be>
- <CAMuHMdVVN2Jc0sYpsc=V6gfQRGXk44Uh4r=2JWhM28gF4ePASg@mail.gmail.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/5] clk: renesas: r8a779f0: Add WDT clock
+Message-ID: <YgJkOVpdZdMWj0m6@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1642525158.git.geert+renesas@glider.be>
+ <8d9b280065a663f2cf31db7b21a010aa781a0af1.1642525158.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dV2F7HwC6DjyoOlT"
+        protocol="application/pgp-signature"; boundary="CuXxExDNR0gwWf+V"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVVN2Jc0sYpsc=V6gfQRGXk44Uh4r=2JWhM28gF4ePASg@mail.gmail.com>
+In-Reply-To: <8d9b280065a663f2cf31db7b21a010aa781a0af1.1642525158.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -59,40 +68,39 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---dV2F7HwC6DjyoOlT
+--CuXxExDNR0gwWf+V
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-> > While I2C on R-Car Gen4 does support some extra features (Slave Clock
-> > Stretch Select, Fast-mode Plus), for now it is treated the same as I2C
+On Tue, Jan 18, 2022 at 06:09:01PM +0100, Geert Uytterhoeven wrote:
+> Add the module clock used by the RCLK Watchdog Timer (RWDT) on the
+> Renesas R-Car S4-8 (r8a779f0) SoC.  Mark it as a critical clock, to
+> ensure uninterrupted watchdog operation.
 >=20
-> Correction: R-Car S4 does not support Fast-mode Plus, so there will be
-> a v2 of this patch, eventually.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-But why? Unless we implement slave clock stretching, we can still keep
-it at Gen3 level. Which does also not have FM+.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---dV2F7HwC6DjyoOlT
+--CuXxExDNR0gwWf+V
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmICY5AACgkQFA3kzBSg
-KbZ2qRAAn7qOZRcamtx8zAvBqb6eWJQcFTvRKlafW2bUoTqJGpZwymZLhHeJn/OF
-9XqCIFoLiglRHGYFhg/yExcIBaUzfjWePnmmPxwAPCZjEY/PdIM3r78i4DSbRa9b
-19B6ckobqUekKZjQjf7GyzxxD1n4f7kdHuMzBaQNwcM7eOFyzCvOFTrcxL+OHEoW
-yrE510hBOAcyv7EmL/YBSx/oWnnGFQKxTkGyryYWxAJQZmv0ntru+YzbSu4sDgRN
-ASNy5LIFhqcOmZ0/hhBL9Vs56tsa747Ym0YS0SDjUp2x4zQu+FSZhFptC9ve7/AD
-dNlvHnfF9mXGQ32WCBmUtGNSSb52CSaZPvF44ThoQhZJqZSzSUViRavFEJzbvg+S
-QEtgALwvW4MRMBnZBw5WSjdegLb4c9cNUfLJ7esRTLMHXLVgFAx3qYr0Bbb/9nBa
-u+W3QgjoxK/1Isajf3dnud8t2umFNAEpn+HHx7QjMH9EKcJEfGlJ73tA/zKIX0Xh
-bbSZJyHIgq7aqz7cmH6WZmEH8Fnf8bT8WD2pVr/s9o18F7vUSZ8wLio/ECwMfAtG
-0t3gGxM4OAmtiFexGs8Ne3WcEapHxIYbm4fZLAmK2s04YjrTJJrrsZ/egildX4ja
-3pdw5tHPCzTz4OHzAh8LRCzcIvUd/vluMDSCN1uUnWtEXfiI4OM=
-=D76J
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmICZDkACgkQFA3kzBSg
+KbYRxQ//UzcAb6CurhSVTJgjpRYr3RCkJdwUUJ5icYWg8tinwKd2litbjZFFJgp4
++VCbypK2gK3a2hfdZZpelee9hCFGpd95sfFQUm12HPJ2wIsj+pBW0Feuem0lCQbT
+JqYTt259nxMudemRt1JZz3oYKC4NUdYXuzIPF8Bm50p8AL+ANNJThbc4tEXjQbUc
+txaP3dbbv4nNDlf2NCYPQQne+k6zyYnMqoi1a8UMD8wxZARnsnH/HwsyjF5Yg/a7
+YhynhkpeaLDIo7VsFYZbEQCjGLY560lwVzzUo8a+suzKCqFGarb70z4vCIs589Bb
+qHdRhCCTf3qWNRt2ziO1lxVWrRRpXA9MstfL+CP36WZqVSwqfFWn0tOwHaITweKD
+wqN9Zcygz4kZDQzaSpoZTLnfcfYNjr/leXrgn+oX5pVM8J7axQDBe74uA9myPylE
+IoUbtc+qRrRQ4FATKWVGW9tQFh9aBquawg0Sf75/P01f4us2RdnxXZhkHJQNs35P
+QQhxjzkH5WU+S3vfecU/hyM6m4HL74xakN+un6vghWHAy514hd+f+9SQEKlBvGGc
+rNHRNACIQdZUvxcBtPtJyqfYL/1GOjVSNlYl4/KhFM0TgsOwGZZSD9KrtsxyXTX7
+9yZImUJf0r+7vEkwQQYiN3t22C4gk93u9AHhiZ8nSWftK/fIkwk=
+=akA/
 -----END PGP SIGNATURE-----
 
---dV2F7HwC6DjyoOlT--
+--CuXxExDNR0gwWf+V--
