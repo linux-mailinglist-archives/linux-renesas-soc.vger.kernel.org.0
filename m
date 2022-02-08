@@ -2,90 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1334AD4A8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 10:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 931694AD722
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Feb 2022 12:32:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354044AbiBHJVz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Feb 2022 04:21:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
+        id S242523AbiBHLbu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Feb 2022 06:31:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349319AbiBHJVz (ORCPT
+        with ESMTP id S1356344AbiBHKdl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Feb 2022 04:21:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D00DC0401F0
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 01:21:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6463DB818E7
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 09:21:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28524C340ED
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 09:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644312112;
-        bh=heb/31pNfHx8RxNlQitQFZU/jjVj/rB4Go6iqSEfC8I=;
-        h=Subject:From:Date:To:From;
-        b=sKBzXJhYCVntLd0HL8I9EwfaVigksyWOr41GCaCstXZwhG7zd+CyG7IfjWXwoM6rz
-         0T3AKwCu/p+ZqP4rX5wIXRXJkutwVIBV+w3HZ3akVgVrWkLnn4xNxzw+lYTsOSaQGM
-         h9HlSOTUsVnupVMhT8PRhuATL31vHiLxgsVG8a03CdDLc/bn7MQZtsYk5MziPRTAp7
-         e1ciHonqNoY/Ew+27xJ8a2ddMpOkgnDEHg7NFtfcGWDtLwm5w8sFngEdGpmEwCsATc
-         IPmwp0Ap9zcuK8DQ7Mh7KZz5orZonJmvLXJOfK/CKmhxzO1hc4lviyRlNmRKxlu9RR
-         s70Ik6etrxsQA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 18BA3E5D084
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Feb 2022 09:21:52 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 8 Feb 2022 05:33:41 -0500
+X-Greylist: delayed 499 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 02:33:39 PST
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2400C03FEC0;
+        Tue,  8 Feb 2022 02:33:39 -0800 (PST)
+Received: from pro2.mail.ovh.net (unknown [10.109.156.180])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 7359BE32ED97;
+        Tue,  8 Feb 2022 11:25:18 +0100 (CET)
+Received: from [192.168.1.103] (88.125.132.78) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Feb
+ 2022 11:25:17 +0100
+Message-ID: <89c0a032-3124-fc56-607c-5aeaac73fdc4@traphandler.com>
+Date:   Tue, 8 Feb 2022 11:25:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <164431211209.18327.3940667551792086640.git-patchwork-summary@kernel.org>
-Date:   Tue, 08 Feb 2022 09:21:52 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] clk: renesas: r9a06g032: Enable the watchdog reset
+ sources
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220204161806.3126321-1-jjhiblot@traphandler.com>
+ <20220204161806.3126321-2-jjhiblot@traphandler.com>
+ <CAMuHMdUsWSXqQ6oOP8c0XBJpAoMUg74kTJN1rU8uiq7UXRiKkw@mail.gmail.com>
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+In-Reply-To: <CAMuHMdUsWSXqQ6oOP8c0XBJpAoMUg74kTJN1rU8uiq7UXRiKkw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [88.125.132.78]
+X-ClientProxiedBy: CAS3.emp2.local (172.16.1.3) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 4975914640143366619
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheejgdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhephfeitdehtddtgeeugefgtdejgedtieelfedtgeehuedtteejueeihedtvedvfeeinecukfhppedtrddtrddtrddtpdekkedruddvhedrudefvddrjeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehprhhovddrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+On 07/02/2022 16:34, Geert Uytterhoeven wrote:
+> Hi Jean-Jacques,
+>
+> On Fri, Feb 4, 2022 at 5:18 PM Jean-Jacques Hiblot
+> <jjhiblot@traphandler.com> wrote:
+>> The watchdog reset sources are not enabled by default.
+>> Enabling them here to make sure that the system resets when the watchdog
+>> timers expire.
+>>
+>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> Thanks for your patch!
+>
+> R-Car Gen3 and RZ/G2 SoCs have a similar mechanism.
+> On these SoCs, the boot loader takes care of the configuration, as this
+> is a system policy that goes beyond the Linux realm.
+> Perhaps the RZ/N1 boot loader can do the same?
+>
+> Gr{oetje,eeting}s,
 
-Patch: arm64: dts: renesas: rzg2lc-smarc: Use SW_SD0_DEV_SEL macro for eMMC/SDHI device selection
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=611305
-  Lore link: https://lore.kernel.org/r/20220204143132.3608-1-biju.das.jz@bp.renesas.com
+Thanks for you reviews and comments.
 
-Series: Add SCIF1/CANFD support
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=611073
-  Lore link: https://lore.kernel.org/r/20220203170636.7747-1-biju.das.jz@bp.renesas.com
-    Patches: [v3,1/4] arm64: dts: renesas: rzg2l-smarc: Add common dtsi file
-             [v3,2/4] arm64: dts: renesas: rzg2lc-smarc: Add macros for DIP-Switch settings
-             [v3,3/4] arm64: dts: renesas: rzg2lc-smarc: Enable SCIF1 on carrier board
-             [v3,4/4] arm64: dts: renesas: rzg2lc-smarc: Enable CANFD channel 1
+I'm not conformable with the idea that the safety induced by the
 
-Series: [1/4] arm64: dts: renesas: rzg2l-smarc: Add common dtsi file
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=606552
-  Lore link: https://lore.kernel.org/r/20220119095245.5611-1-biju.das.jz@bp.renesas.com
-    Patches: [1/4] arm64: dts: renesas: rzg2l-smarc: Add common dtsi file
-             [3/4] arm64: dts: renesas: rzg2lc-smarc: Enable SCIF1 on carrier board
+watchdog is removed because the bootloader didn't set the register.
 
+I'd rather that the kernel is able to enable the watchdog reset source.
 
-Total patches: 7
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+If it is acceptable, we could use a new DTS entry to force the policy.
+>                          Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
