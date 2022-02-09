@@ -2,114 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4092F4AED43
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 09:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 588EC4AF119
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 13:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241715AbiBIIxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Feb 2022 03:53:13 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:44320 "EHLO
+        id S232192AbiBIMLq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Feb 2022 07:11:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240205AbiBIIxI (ORCPT
+        with ESMTP id S233066AbiBIMLK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Feb 2022 03:53:08 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637D6C001F74;
-        Wed,  9 Feb 2022 00:53:04 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id v186so4015881ybg.1;
-        Wed, 09 Feb 2022 00:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MDqRZpl2ZNEFfuQ7yfffHKzYxQqjEhCxkRDN1Sj78Ps=;
-        b=cbvyMiumfUXld/I/wxT1ueBd+qe8ToUeMv+ZNjiz7lR7v45FcEsPwEffVyuIq0tT82
-         PO6gTRk+UUrwcDPOCiOQhELlf1CnTZCFML/ogntfu//Gj1rn1Hw8xbZBBZhawqz4lRe0
-         fPEysu5H9/OMFsXJKwv532eD3Uorplm+HlN6ZkMInTqFv4N/oWjXR00xkrQlz755VqnQ
-         +9RwPvWz/ZE4p6iRjyGaHBGHNrvOHPePG4LjAMBboBIkdfYOujRcAJJvZzAwZCPQQk8h
-         sOCD0qAzLgG9OL4GxQFtmEsV0D53zPkAt9zuig+6maCHTtG1S5YcQDydcvzuigrdT8A4
-         uI5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MDqRZpl2ZNEFfuQ7yfffHKzYxQqjEhCxkRDN1Sj78Ps=;
-        b=762+I3SVgnRA1ziX0Qehppenf6aypn6bAuM+b2ivqHrsW/b1tX9yQ3jhsYk8HuIxQ0
-         iIwtyCruJ5yM0kavIPqUxW4J8zqEfc43ZpkCLFh+JAWcVg3Endidy030Qb4m17cUiUze
-         5MlmUdnf3+v9mh8n9tsQnDB5P3nZXNNLy0Tb0wdVbYeRz9hekzMS1KZ6Sa0O/GUf1xeJ
-         X4pd2v4YbF/qC7kYxW6JPxvBFK36knfUqf3FCajXJYNDKRUovuOSe5NG4rdulm94dTKZ
-         vyUT1XvY/U0Oi94ehMszEmiHgqZLg+uC/0omtihR7u07uNO+dWbOWNi0Ime9q9be+vHI
-         SFgQ==
-X-Gm-Message-State: AOAM533A5ACSn616GZtEDHSGmP3OtFV3tpRNEhChXsD6asyT6NSh3rzC
-        eaEdTNhnvBxe8XjjbsneiQgDo2FOIMXsAKTd1G0=
-X-Google-Smtp-Source: ABdhPJwTGByfa1hFDqkwYNeN4BOxA4JwlpvSmwyJQEuJ0ZwibgZOGsyGmRE+oHqgcMNxRgJbh40DHCBik+tp6+3Rk9s=
-X-Received: by 2002:a81:fd3:: with SMTP id 202mr1099770ywp.78.1644396779698;
- Wed, 09 Feb 2022 00:52:59 -0800 (PST)
+        Wed, 9 Feb 2022 07:11:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D0AE02462D;
+        Wed,  9 Feb 2022 04:00:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 61D69616DD;
+        Wed,  9 Feb 2022 12:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C03BEC36AE5;
+        Wed,  9 Feb 2022 12:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644408012;
+        bh=ORcoVBsU9fItvTpvJVOP71pHbFHSfc6H7u7f3hTy4/E=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=JJYpIK1jWh1+AHsEdfNDs/eTgnKo5HZA9YVcKXmeE4MOYpOdJvXo8Rk7gWj6lGr7k
+         6ILifmEgDRkS7n47o+ZihhvUTwQKr4diDVxcKsrNXl/Pm0VebJmzH79LWv7ZhQ7ome
+         nfhDyQKo1yKKzrGkmcGWQE4TlNQOMN0rmg6IZxmBPvp/njyfgOpi6Qtv/5I3jP1WAE
+         XFo0drYj2c39cBq/xp8ZagC/yeJupMomMYircAuktw1KsNOXYt7JXTUioJN4CzPH2s
+         Aglb2yJ7oeNS2MVRjG9xEnowueHxivNc0S/vqMtQy64/fJiJmHX9gFpoCSrWTjpqmt
+         xmPePrkraH6fA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AC13FE6D4A2;
+        Wed,  9 Feb 2022 12:00:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <PH7PR19MB5562AC3C5E7BBB7730086CC1A02E9@PH7PR19MB5562.namprd19.prod.outlook.com>
-In-Reply-To: <PH7PR19MB5562AC3C5E7BBB7730086CC1A02E9@PH7PR19MB5562.namprd19.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 9 Feb 2022 08:52:33 +0000
-Message-ID: <CA+V-a8tEwOR-r=+KDe2DhpTMwhXPTgbZYgOWepST3mnhBL_Hag@mail.gmail.com>
-Subject: Re: [EXT] [RFC PATCH 0/5] PCIe EPF support for internal DMAC handling
- and driver update for R-Car PCIe EP to support DMAC
-To:     Li Chen <lchen@ambarella.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH RESEND net-next 1/2] dt-bindings: net: renesas,etheravb:
+ Document RZ/V2L SoC
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164440801270.11178.8562719751986010323.git-patchwork-notify@kernel.org>
+Date:   Wed, 09 Feb 2022 12:00:12 +0000
+References: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
+        s.shtylyov@omp.ru, sergei.shtylyov@gmail.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, geert+renesas@glider.be,
+        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chen-san,
+Hello:
 
-On Wed, Feb 9, 2022 at 4:48 AM Li Chen <lchen@ambarella.com> wrote:
->
-> Hi Prabhakar,
->
-> > [0] https://urldefense.com/v3/__https://www.spinics.net/lists/linux-
-> > pci/msg92385.html__;!!PeEy7nZLVv0!yP0WqYs165riCjWRhZprjgMVVLfQLtkkPfv_
-> > R7XCoqkqgMsOyor90EZp0YAdxu0$
->
-> Can your streaming DMA test case(-d) pass if you use EP's internal DMAC i=
-nstead of external DMAC?
->
-Sorry I don't quite get you here.
+This series was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-This patch series adds support for EP to transfer using internal DMAC
-as no external DMAC is supported, so when "-d" option is passed and if
-EP has registered it has internal dmac it will use the same and run
-the pcitest.
+On Sun,  6 Feb 2022 20:24:24 +0000 you wrote:
+> Document Gigabit Ethernet IP found on RZ/V2L SoC. Gigabit Ethernet
+> Interface is identical to one found on the RZ/G2L SoC. No driver changes
+> are required as generic compatible string "renesas,rzg2l-gbeth" will be
+> used as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> [...]
 
-Cheers,
-Prabhakar
+Here is the summary with links:
+  - [RESEND,net-next,1/2] dt-bindings: net: renesas,etheravb: Document RZ/V2L SoC
+    https://git.kernel.org/netdev/net-next/c/654f89f9496d
+  - [net-next,2/2] dt-bindings: net: renesas,etheravb: Document RZ/G2UL SoC
+    https://git.kernel.org/netdev/net-next/c/5e2e8cc9dd33
 
-> Regards,
-> Li
->
-> **********************************************************************
-> This email and attachments contain Ambarella Proprietary and/or Confident=
-ial Information and is intended solely for the use of the individual(s) to =
-whom it is addressed. Any unauthorized review, use, disclosure, distribute,=
- copy, or print is prohibited. If you are not an intended recipient, please=
- contact the sender by reply email and destroy all copies of the original m=
-essage. Thank you.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
