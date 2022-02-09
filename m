@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 250B84AEC81
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 09:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B4964AEC92
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 09:36:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239606AbiBIIdi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Feb 2022 03:33:38 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:47048 "EHLO
+        id S241622AbiBIIeP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Feb 2022 03:34:15 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:49616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiBIIdh (ORCPT
+        with ESMTP id S241529AbiBIIeM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Feb 2022 03:33:37 -0500
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC9FC05CBAE;
-        Wed,  9 Feb 2022 00:33:39 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id e17so906695uad.9;
-        Wed, 09 Feb 2022 00:33:39 -0800 (PST)
+        Wed, 9 Feb 2022 03:34:12 -0500
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB7EC03C1A3;
+        Wed,  9 Feb 2022 00:34:05 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id r20so1810724vsn.0;
+        Wed, 09 Feb 2022 00:34:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1cmJ9+iftbcItsda29+GYKCYqcATXXpvITWHsOZgkB8=;
-        b=Ce4XWaRZ/lMYTGvOvSI/kF0nIc+Y+kLYTGO8Fd6w6AY3MOw9K0nzB4zJp5vuOpzIOO
-         frzdvwB4B3cQcF6KhUJK3eelYtVmcHDkVQ0zQWMDlqlQ4qgHb5zZLhuEjaA/z70nVNG6
-         raqLsXJrQMCQ60OETi9saccQ6uGl/6Pn2yBD1eCCt3Gf3Glt9Zu16yPdnw97qwyCxX7w
-         i1AC6B3ciIFboe1TmJTnjioicDWeyzDTU9lqtW2WA0jaGZSe+hjzaDqc9d0ip20FUkGs
-         fAijxwAmBWWfeDCUyQGZIut6Nb/vF5RRWQL8xuarjjUyKQO6PBydMhJr1Zg32BXik1Yx
-         ayWg==
-X-Gm-Message-State: AOAM532m64GLNlFrj2za6ji/tGfscKzOz1IoiQ35U9Ecd1mEeKj8L7/l
-        L2wlxpWiJaX4NO2H3VE/S3ikDlhOWD72dw==
-X-Google-Smtp-Source: ABdhPJyZOaxLIm9pmbmei5G1yb27rRKfLnYUyzMfxFUxpI3+ZHZBhPRP9+nh70DAxiscIuE5iD17SQ==
-X-Received: by 2002:ab0:3053:: with SMTP id x19mr373850ual.5.1644395596589;
-        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id q6sm3221437vkd.50.2022.02.09.00.33.16
+        bh=E8GmvvUEovjq8L63GgeisXiih83gj7UpFOrlWJvTagg=;
+        b=8QXO2GdQY+5+8sABduiRr8lSZIWXpC4yi2IQmWML6cwHzcGyAgcSc37yCd0vGJymfi
+         2h3dpSpxkqiXfpMzVailLyMzYGjmdWuiqWs1BljcftkgYe8Ud7ms/u4aNL3rdfazce2K
+         R3hT5neHVjXJXNgMaY5L9uImZTN3KCbB8ivNsIM1gWEU4ETsEoIkq0SSftuHvlRc3Wzo
+         dE5R1eGS/G0pr5Xwh3Kl5gZf6M0kbJSbkLiR38RGBHvU0bAiYakbWGJvgYeT5aGgLQrB
+         cJ0gQQAhpNc052g0wWzE+4p5sW1yFWm71HVLUmltiUt+H6lGfkutUpfGVCni7jSx1RHl
+         cibg==
+X-Gm-Message-State: AOAM530xYWVT36AQ7Zcw2ER+8x5N75xAL0jUcm6VJH7H4FdlRYLFcf+x
+        7WBE8To3mbwT6q7scBgK5iLRKRnKz7vSaA==
+X-Google-Smtp-Source: ABdhPJxhDvEtzlzpKOrwHaZqylqIzxdgvsguoeb8soB1a5GSy/wwKO3ijT+hW4TjHRZgfkEg4s6nlA==
+X-Received: by 2002:a67:d811:: with SMTP id e17mr353325vsj.7.1644395640415;
+        Wed, 09 Feb 2022 00:34:00 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id d5sm643227vsd.19.2022.02.09.00.33.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id 48so772358vki.0;
-        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
-X-Received: by 2002:a1f:294c:: with SMTP id p73mr429038vkp.0.1644395595913;
- Wed, 09 Feb 2022 00:33:15 -0800 (PST)
+        Wed, 09 Feb 2022 00:34:00 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id f6so1744080vsa.5;
+        Wed, 09 Feb 2022 00:33:59 -0800 (PST)
+X-Received: by 2002:a67:a401:: with SMTP id n1mr327572vse.38.1644395639705;
+ Wed, 09 Feb 2022 00:33:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208183511.2925304-1-jjhiblot@traphandler.com> <20220208183511.2925304-4-jjhiblot@traphandler.com>
-In-Reply-To: <20220208183511.2925304-4-jjhiblot@traphandler.com>
+References: <20220208183511.2925304-1-jjhiblot@traphandler.com> <20220208183511.2925304-5-jjhiblot@traphandler.com>
+In-Reply-To: <20220208183511.2925304-5-jjhiblot@traphandler.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Feb 2022 09:33:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWPA+8CS371Ekx_d3Muze4CzgxwdrHO_jRg7+Vc+B+U_A@mail.gmail.com>
-Message-ID: <CAMuHMdWPA+8CS371Ekx_d3Muze4CzgxwdrHO_jRg7+Vc+B+U_A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] ARM: dts: r9a06g032: Add the watchdog nodes
+Date:   Wed, 9 Feb 2022 09:33:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXye8+z9rm25R96nHJz_BSNRHHjizXRTey9OYstdqYBuw@mail.gmail.com>
+Message-ID: <CAMuHMdXye8+z9rm25R96nHJz_BSNRHHjizXRTey9OYstdqYBuw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] ARM: dts: r9a06g032-rzn1d400-db: Enable watchdog0
+ with a 60s timeout
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -68,53 +68,14 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jean-Jacques,
-
 On Tue, Feb 8, 2022 at 7:35 PM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
-> This SOC includes 2 watchdog controllers (one per A7 core).
+> 60s is a sensible default value.
 >
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 
-Thanks for your patch!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -66,6 +66,22 @@ soc {
->                 interrupt-parent = <&gic>;
->                 ranges;
->
-> +               wdt0: watchdog@40008000 {
-> +                       compatible = "renesas,r9a06g032-wdt";
-
-compatible = "renesas,r9a06g032-wdt", "renesas,rzn1-wdt";
-
-> +                       reg = <0x40008000 0x1000>;
-> +                       interrupts = <GIC_SPI 73 IRQ_TYPE_EDGE_RISING>;
-> +                       clocks = <&sysctrl R9A06G032_CLK_WATCHDOG>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               wdt1: watchdog@40009000 {
-> +                       compatible = "renesas,r9a06g032-wdt";
-
-compatible = "renesas,r9a06g032-wdt", "renesas,rzn1-wdt";
-
-> +                       reg = <0x40009000 0x1000>;
-> +                       interrupts = <GIC_SPI 74 IRQ_TYPE_EDGE_RISING>;
-> +                       clocks = <&sysctrl R9A06G032_CLK_WATCHDOG>;
-> +                       status = "disabled";
-> +               };
-> +
->                 sysctrl: system-controller@4000c000 {
->                         compatible = "renesas,r9a06g032-sysctrl";
->                         reg = <0x4000c000 0x1000>;
-> --
-> 2.25.1
->
-
-
--- 
 Gr{oetje,eeting}s,
 
                         Geert
