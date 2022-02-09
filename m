@@ -2,93 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 588EC4AF119
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 13:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB5F34AF4D2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 16:11:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbiBIMLq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Feb 2022 07:11:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        id S235565AbiBIPLh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Feb 2022 10:11:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233066AbiBIMLK (ORCPT
+        with ESMTP id S229820AbiBIPLg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Feb 2022 07:11:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D0AE02462D;
-        Wed,  9 Feb 2022 04:00:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 61D69616DD;
-        Wed,  9 Feb 2022 12:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C03BEC36AE5;
-        Wed,  9 Feb 2022 12:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644408012;
-        bh=ORcoVBsU9fItvTpvJVOP71pHbFHSfc6H7u7f3hTy4/E=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=JJYpIK1jWh1+AHsEdfNDs/eTgnKo5HZA9YVcKXmeE4MOYpOdJvXo8Rk7gWj6lGr7k
-         6ILifmEgDRkS7n47o+ZihhvUTwQKr4diDVxcKsrNXl/Pm0VebJmzH79LWv7ZhQ7ome
-         nfhDyQKo1yKKzrGkmcGWQE4TlNQOMN0rmg6IZxmBPvp/njyfgOpi6Qtv/5I3jP1WAE
-         XFo0drYj2c39cBq/xp8ZagC/yeJupMomMYircAuktw1KsNOXYt7JXTUioJN4CzPH2s
-         Aglb2yJ7oeNS2MVRjG9xEnowueHxivNc0S/vqMtQy64/fJiJmHX9gFpoCSrWTjpqmt
-         xmPePrkraH6fA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AC13FE6D4A2;
-        Wed,  9 Feb 2022 12:00:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 9 Feb 2022 10:11:36 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8879C061355;
+        Wed,  9 Feb 2022 07:11:39 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id q22so3840024ljh.7;
+        Wed, 09 Feb 2022 07:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=L/a44QIFu4GEqu3h1MLP6vM8XWtuYMRwBshrx27WyAY=;
+        b=I/c+R0NmgLwawUGu//RsV9iBqj4yNQZ0BJ8ZI+PigPc7n+2It+pspwCEYoovxBqD/r
+         UpQfnuqyu6mgVHsA3tp6NIFlFDtqAuMt8LR3RB3T58qriHjgJ2E2S6fVv+Ig7UcDuh2u
+         rFY7m+uxoyEhlYcHYzVd+qNAxGNb9R+8c1BHk/niRFdonEBFFT45t4gNqdqJGXSZHcRy
+         si1GUeVcayD6MLfDR9bfcJGTeHS78OILzQRakHdPflgWM7i7Q2T/VRB/fl2MQX/N6mp6
+         RlrdZ7qdLl/xsH29abHkIgkmsqkiAFuG1vuYJWbVR2nC7QwCSMeE5Mcx85HZPF+8Z+jC
+         ASjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=L/a44QIFu4GEqu3h1MLP6vM8XWtuYMRwBshrx27WyAY=;
+        b=LNs1DxorgF1ZbKcSS5+4fZwzsXRgIASOuAgkdOPdrCX6ZYAboSKQMjz/DJVYb578pP
+         TfQ9SjcoZXl7STLzLUipGTQgR+92hTllOKo1mIP5I51kKl4xPyIBOf2s/dI1jfbnjbGE
+         8/KlVFtLjqz5iDZ7GhaTCBNlhSje3UG6YHSzJvxOuvLPnQACTqPgwvZIwUN73H8VzkoE
+         EXLC/j1rAtyU9JNXd0JHaYsybilQTcwqT/ysEn80JYMrPSuM/muW1K/iAV3uw+A9CSon
+         NRMOxTFKCqXcc/WfRP7UHgEIDp3SI7n58TZBYCXOG2urG2Eb+GrYBtKNYuT5Gs/IngOr
+         RVIA==
+X-Gm-Message-State: AOAM5326MYW93Wmh6oe8Qef6cSo8XCLj/smJ41FjOB/J+Onfh7uajds6
+        ZgOalwb+HKSuq4Ihz7xrAOqUlQXM5+g=
+X-Google-Smtp-Source: ABdhPJymRUs4E0EHRsGlJwzixf2d554R5n77Y2e17iIb6xpGil6l9mbKxSnYfkGCeXjTlAkBsRDhuQ==
+X-Received: by 2002:a05:651c:1542:: with SMTP id y2mr1850490ljp.279.1644419497692;
+        Wed, 09 Feb 2022 07:11:37 -0800 (PST)
+Received: from [192.168.1.103] ([178.176.73.27])
+        by smtp.gmail.com with ESMTPSA id g26sm2409550lfj.176.2022.02.09.07.11.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 07:11:37 -0800 (PST)
+Subject: Re: [PATCH 2/3] i2c: sh_mobile: Use platform_get_irq_optional() to
+ get the interrupt
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+References: <20211218165258.16716-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211218165258.16716-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUg3=q7gyaVHP0XcYUOo3PQUUv8Hc8wp5faVQ+bTBpg4A@mail.gmail.com>
+ <042a2183-3f04-088c-1861-656de870337d@gmail.com>
+ <CAK8P3a3owi7YWmq-tckD-C7NK5HaX+swGNW-QBkWQuQgVsVWrA@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <d74ab454-9337-d168-9b21-842569431b4a@gmail.com>
+Date:   Wed, 9 Feb 2022 18:11:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH RESEND net-next 1/2] dt-bindings: net: renesas,etheravb:
- Document RZ/V2L SoC
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164440801270.11178.8562719751986010323.git-patchwork-notify@kernel.org>
-Date:   Wed, 09 Feb 2022 12:00:12 +0000
-References: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220206202425.15829-1-biju.das.jz@bp.renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, robh+dt@kernel.org,
-        s.shtylyov@omp.ru, sergei.shtylyov@gmail.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, geert+renesas@glider.be,
-        Chris.Paterson2@renesas.com, biju.das@bp.renesas.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAK8P3a3owi7YWmq-tckD-C7NK5HaX+swGNW-QBkWQuQgVsVWrA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On 2/8/22 3:31 PM, Arnd Bergmann wrote:
 
-This series was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Sun,  6 Feb 2022 20:24:24 +0000 you wrote:
-> Document Gigabit Ethernet IP found on RZ/V2L SoC. Gigabit Ethernet
-> Interface is identical to one found on the RZ/G2L SoC. No driver changes
-> are required as generic compatible string "renesas,rzg2l-gbeth" will be
-> used as a fallback.
+[...]
+>>> I might have missed something, but it seems the only user of IRQ 0 on
+>>> SuperH is smsc911x Ethernet in arch/sh/boards/board-apsh4a3a.c and
+>>> arch/sh/boards/board-apsh4ad0a.c, which use evt2irq(0x200).
+>>> These should have been seeing the "0 is an invalid IRQ number"
+>>> warning splat since it was introduced in commit a85a6c86c25be2d2
+>>> ("driver core: platform: Clarify that IRQ 0 is invalid"). Or not:
+>>
+>>     Warning or no warning, 0 is still returned. :-/
+>>     My attempt to put an end to this has stuck waiting a review from the IRQ
+>> people...
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> I had another look at this after you asked about it on IRC. I don't
+> know much SH assembly, but I suspect IRQ 0 has not been delivered
+> since 2009 after 1e1030dccb10 ("sh: nmi_debug support."). On a
+
+   Mhm... this commit changes the SH3 code while SH778x are SH4A, no?
+
+[...]
+
 > 
-> [...]
+>         Arnd
 
-Here is the summary with links:
-  - [RESEND,net-next,1/2] dt-bindings: net: renesas,etheravb: Document RZ/V2L SoC
-    https://git.kernel.org/netdev/net-next/c/654f89f9496d
-  - [net-next,2/2] dt-bindings: net: renesas,etheravb: Document RZ/G2UL SoC
-    https://git.kernel.org/netdev/net-next/c/5e2e8cc9dd33
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+MBR, Sergey
