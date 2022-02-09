@@ -2,61 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F1E4AEC71
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 09:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 250B84AEC81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Feb 2022 09:33:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241677AbiBIIcd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Feb 2022 03:32:33 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:41974 "EHLO
+        id S239606AbiBIIdi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Feb 2022 03:33:38 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:47048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241563AbiBIIc3 (ORCPT
+        with ESMTP id S230293AbiBIIdh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Feb 2022 03:32:29 -0500
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66833C050CF0;
-        Wed,  9 Feb 2022 00:32:24 -0800 (PST)
-Received: by mail-vk1-f181.google.com with SMTP id m131so729900vkm.7;
-        Wed, 09 Feb 2022 00:32:24 -0800 (PST)
+        Wed, 9 Feb 2022 03:33:37 -0500
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC9FC05CBAE;
+        Wed,  9 Feb 2022 00:33:39 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id e17so906695uad.9;
+        Wed, 09 Feb 2022 00:33:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+oWGIhr7j5T0wmli3m35is4QqbH67LJ+yM8vH/Tq854=;
-        b=jLMKhf4nqdRGLisWIQaJHX9LnNkfluKHor9kp8/y5O+WT2xV/6XsPbOwNi0W+MCC4A
-         bp0TRegbynItzyTqj+OqUHHAUslQtGmeWCFL97bsaZRarM3blTN2HtWay3JuxpJ3r6WU
-         q7rSWLtGxHxExhvNRKk18+D61UQFl6Y+HwBY6MvyZnKvjRCmrFok373DBKbgE1iJDgj6
-         JsIC5v7a5kykIWQdLcHNeSxAzQM4hwzYBhORS16rFIF0C0p1QJ8+oqXrzUN+DAF1nMmH
-         ESL1PX4b8+EQNv0S3hUwxveT0cLFyuAb1nF/UsRBvHubmso+Dxjh5H+jopwU2P2LcvSh
-         tVbg==
-X-Gm-Message-State: AOAM5330yd7hRx95t3scXXump5VkRt2J4kCp3KdIW51MH1EjEyp2vdLE
-        tBicM2905S+Tzrtwm9L3542dugYC4kFZ+Q==
-X-Google-Smtp-Source: ABdhPJxI6ztoHaKCr6at9s7gMeLfVX7pVAf7ed0ssxLruqp7IAJauLk/Rflssgd3TsR5PQHaErKqIA==
-X-Received: by 2002:a05:6122:20a0:: with SMTP id i32mr397487vkd.36.1644395537029;
-        Wed, 09 Feb 2022 00:32:17 -0800 (PST)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id q22sm3048215vsj.23.2022.02.09.00.32.16
+        bh=1cmJ9+iftbcItsda29+GYKCYqcATXXpvITWHsOZgkB8=;
+        b=Ce4XWaRZ/lMYTGvOvSI/kF0nIc+Y+kLYTGO8Fd6w6AY3MOw9K0nzB4zJp5vuOpzIOO
+         frzdvwB4B3cQcF6KhUJK3eelYtVmcHDkVQ0zQWMDlqlQ4qgHb5zZLhuEjaA/z70nVNG6
+         raqLsXJrQMCQ60OETi9saccQ6uGl/6Pn2yBD1eCCt3Gf3Glt9Zu16yPdnw97qwyCxX7w
+         i1AC6B3ciIFboe1TmJTnjioicDWeyzDTU9lqtW2WA0jaGZSe+hjzaDqc9d0ip20FUkGs
+         fAijxwAmBWWfeDCUyQGZIut6Nb/vF5RRWQL8xuarjjUyKQO6PBydMhJr1Zg32BXik1Yx
+         ayWg==
+X-Gm-Message-State: AOAM532m64GLNlFrj2za6ji/tGfscKzOz1IoiQ35U9Ecd1mEeKj8L7/l
+        L2wlxpWiJaX4NO2H3VE/S3ikDlhOWD72dw==
+X-Google-Smtp-Source: ABdhPJyZOaxLIm9pmbmei5G1yb27rRKfLnYUyzMfxFUxpI3+ZHZBhPRP9+nh70DAxiscIuE5iD17SQ==
+X-Received: by 2002:ab0:3053:: with SMTP id x19mr373850ual.5.1644395596589;
+        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id q6sm3221437vkd.50.2022.02.09.00.33.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Feb 2022 00:32:16 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id r20so1806643vsn.0;
-        Wed, 09 Feb 2022 00:32:16 -0800 (PST)
-X-Received: by 2002:a67:ec0c:: with SMTP id d12mr296321vso.77.1644395536427;
- Wed, 09 Feb 2022 00:32:16 -0800 (PST)
+        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
+Received: by mail-vk1-f170.google.com with SMTP id 48so772358vki.0;
+        Wed, 09 Feb 2022 00:33:16 -0800 (PST)
+X-Received: by 2002:a1f:294c:: with SMTP id p73mr429038vkp.0.1644395595913;
+ Wed, 09 Feb 2022 00:33:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208183511.2925304-1-jjhiblot@traphandler.com> <20220208183511.2925304-3-jjhiblot@traphandler.com>
-In-Reply-To: <20220208183511.2925304-3-jjhiblot@traphandler.com>
+References: <20220208183511.2925304-1-jjhiblot@traphandler.com> <20220208183511.2925304-4-jjhiblot@traphandler.com>
+In-Reply-To: <20220208183511.2925304-4-jjhiblot@traphandler.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Feb 2022 09:32:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU80BbODE9CV2r2TuDTbpT9FGNg_ZXENoFsAHQDJ1OozQ@mail.gmail.com>
-Message-ID: <CAMuHMdU80BbODE9CV2r2TuDTbpT9FGNg_ZXENoFsAHQDJ1OozQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] dt-bindings: watchdog: renesas,wdt: Add support
- for RZ/N1
+Date:   Wed, 9 Feb 2022 09:33:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWPA+8CS371Ekx_d3Muze4CzgxwdrHO_jRg7+Vc+B+U_A@mail.gmail.com>
+Message-ID: <CAMuHMdWPA+8CS371Ekx_d3Muze4CzgxwdrHO_jRg7+Vc+B+U_A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] ARM: dts: r9a06g032: Add the watchdog nodes
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
@@ -71,14 +68,53 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jean-Jacques,
+
 On Tue, Feb 8, 2022 at 7:35 PM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
-> Describe the WDT hardware in the RZ/N1 series.
+> This SOC includes 2 watchdog controllers (one per A7 core).
 >
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
 
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -66,6 +66,22 @@ soc {
+>                 interrupt-parent = <&gic>;
+>                 ranges;
+>
+> +               wdt0: watchdog@40008000 {
+> +                       compatible = "renesas,r9a06g032-wdt";
+
+compatible = "renesas,r9a06g032-wdt", "renesas,rzn1-wdt";
+
+> +                       reg = <0x40008000 0x1000>;
+> +                       interrupts = <GIC_SPI 73 IRQ_TYPE_EDGE_RISING>;
+> +                       clocks = <&sysctrl R9A06G032_CLK_WATCHDOG>;
+> +                       status = "disabled";
+> +               };
+> +
+> +               wdt1: watchdog@40009000 {
+> +                       compatible = "renesas,r9a06g032-wdt";
+
+compatible = "renesas,r9a06g032-wdt", "renesas,rzn1-wdt";
+
+> +                       reg = <0x40009000 0x1000>;
+> +                       interrupts = <GIC_SPI 74 IRQ_TYPE_EDGE_RISING>;
+> +                       clocks = <&sysctrl R9A06G032_CLK_WATCHDOG>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 sysctrl: system-controller@4000c000 {
+>                         compatible = "renesas,r9a06g032-sysctrl";
+>                         reg = <0x4000c000 0x1000>;
+> --
+> 2.25.1
+>
+
+
+-- 
 Gr{oetje,eeting}s,
 
                         Geert
