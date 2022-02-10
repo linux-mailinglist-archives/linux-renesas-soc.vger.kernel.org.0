@@ -2,119 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 438C34B09D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 10:48:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58F0E4B0B64
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 11:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238969AbiBJJqs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Feb 2022 04:46:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35356 "EHLO
+        id S240226AbiBJKua (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Feb 2022 05:50:30 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238777AbiBJJqs (ORCPT
+        with ESMTP id S240220AbiBJKua (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Feb 2022 04:46:48 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C191B9;
-        Thu, 10 Feb 2022 01:46:44 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id a25so7114240lji.9;
-        Thu, 10 Feb 2022 01:46:44 -0800 (PST)
+        Thu, 10 Feb 2022 05:50:30 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572F11008
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Feb 2022 02:50:31 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id i21so8022300pfd.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Feb 2022 02:50:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bzXIWUuEbkmSgm24Zd3fx9RlrQU/IKnMPvoFEkNX03M=;
-        b=OxYqw+gZKLJQeJz3jFBGsCM1bhqj9nnq4eWKG2MhTkrs849X2MlNousMPwkTVvS398
-         12kY9Z2eAnQ4DT7b6poT0X+Y7N1MMYFdCOQ5PlnZXA4xWBIhOUMw3I+iOol58CoDIIP3
-         j+Q33e1tx8AbnCQYOtVOHWU8W5kpmUHSJTamY1sLO30dmL4hBaA9fw045CH6OgJMcPoE
-         icUYJe2sr+0CR3sqC7WIRn7L3mtMIK14JlAvvI5tNWFDSMGZZZgpyxr75YCSFGX6Hru0
-         Q3c5mqT2Vg0Rbf9OtyF+UGq6TDhxBX+YUWDBTzS7OqUDGwUuqxV8rwwRRuslNEYw4uPf
-         LcuQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pfPmHTNS3kNf2REIYVPxP0rI8dFehD3FUEuoa/nfhmQ=;
+        b=LV+Wgp8y3d5XDi3wv3BsyrxVE/eJEg914rTG32ssP43QX2iCrRuh4WUb+6RwJP8n9A
+         XKmpvwvmhZnw8XJ21kf3VZH2jlpzWbQqfvtmkYF/0MR3b+qZZv+o6iF3q6JAoarRHqGZ
+         o9azkiYLnrXoaq1SASw1qMZ5pFQRTKiWtXzvUBbZBy31W8MslfIfFpoM9K+y9eSGBw+X
+         0R4NYYYnq/OSOh15JpFvO9i4lnYSx3CpHXeZgdERKYb2eprNuqRDbD4TYmvvFNbDRDDu
+         8gTdmCz3Tg9ewAdRsYcolPHOYiS2PvpRu3SooESMNWcbJGvogpPyZoSZV4/hKLei8tn1
+         N3oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bzXIWUuEbkmSgm24Zd3fx9RlrQU/IKnMPvoFEkNX03M=;
-        b=03p8x4AgOP/1ptWP1ro1xzBKwYMZZoqMWywRAe8ATP05xM+rJkdO51mIxA8tBl77iT
-         aAx2uiJuzrIzzqQvMXSbeXty9pWy7ulBO8zmCnVTCm3CPghuFMO1B7mqVBYgQ/b4cIo9
-         E8Ho4ceSRlPf7XZWcw6goh6SZYcP6pejhXt+w0tcXwuRemnlkCNKzN6tag34lUx6JCkn
-         9jxaHfn0O2ub95HQ9gE+/ml5p3srwEZz764MQfiLHq24q6y58IrqUKOmHbmRaXFw7NKd
-         PtE5E/pucp5taylZPTLqkdwLC/3uxvtLsvXYLsYGRHc4UyTQH0/cSOLIlaZ4KkApOtTY
-         TY/w==
-X-Gm-Message-State: AOAM533qVyHdO3KzZOPNWKipGAghgZG/ef7t1qAdvmbTS+74Fr39XpXg
-        LytjMQ4sRZVZSJRM0oG1oNBAS8cGxKMzqw==
-X-Google-Smtp-Source: ABdhPJxMqskafQcsNnZ1THj9gslNIOUlvh9+XXDJ4CYcBrRSTLRMZIxqhHO+SAv1yJ3S0bFfEK4QcQ==
-X-Received: by 2002:a2e:8756:: with SMTP id q22mr4236837ljj.93.1644486402772;
-        Thu, 10 Feb 2022 01:46:42 -0800 (PST)
-Received: from [192.168.1.103] ([31.173.82.75])
-        by smtp.gmail.com with ESMTPSA id i8sm2744520lfj.226.2022.02.10.01.46.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Feb 2022 01:46:42 -0800 (PST)
-Subject: Re: [PATCH 2/3] i2c: sh_mobile: Use platform_get_irq_optional() to
- get the interrupt
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pfPmHTNS3kNf2REIYVPxP0rI8dFehD3FUEuoa/nfhmQ=;
+        b=Vb+KddBnL1rl0+SL8wl/T6VfrutgHjgAhTSIkYpVoDbEbWrL68LjUyuDd0IdM+BZBN
+         kG3NPH6WyRnOVi6JM5+VVCkSsG7iKKrW8eXGE9iUTZkHm14F5hPsJ01I5WBjEE6JaWcl
+         intr7tGkyqshoIdbGOJA61epXkaL9ldW0ZvWNA3zsL9LZmguGRpyNF1HfycZ0bIgk1wm
+         RsLSlU2c5MzHymnwMSkttfC6cMQtq9jPAeY419rub9kgaeJMk0yM0YL/uAE3FYv3duva
+         7YmNXfkRKTkQ+P/g85IFw+akQOwxPFf6mX8hMQxwbvSi8tkj7Zyk09q5gM0Il/1uevTk
+         tEqg==
+X-Gm-Message-State: AOAM530ytHQPcX/YVEmbgs/o9HAAlWQqCKgaV+x/7NC8fnBLKnzuLghF
+        jv5/j2kT9J0hpR+Qi72jMcoY
+X-Google-Smtp-Source: ABdhPJwX5eFiJ34Kps0Uoal21jJAK99NMgslIAbYgaiigOPC9RkZIznR1OV86VyQA1xPKb9GDAqA6w==
+X-Received: by 2002:a63:dd0f:: with SMTP id t15mr5652799pgg.12.1644490230574;
+        Thu, 10 Feb 2022 02:50:30 -0800 (PST)
+Received: from thinkpad ([27.111.75.88])
+        by smtp.gmail.com with ESMTPSA id t9sm1794782pjg.44.2022.02.10.02.50.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Feb 2022 02:50:30 -0800 (PST)
+Date:   Thu, 10 Feb 2022 16:20:23 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux-sh list <linux-sh@vger.kernel.org>
-References: <20211218165258.16716-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211218165258.16716-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUg3=q7gyaVHP0XcYUOo3PQUUv8Hc8wp5faVQ+bTBpg4A@mail.gmail.com>
- <042a2183-3f04-088c-1861-656de870337d@gmail.com>
- <CAK8P3a3owi7YWmq-tckD-C7NK5HaX+swGNW-QBkWQuQgVsVWrA@mail.gmail.com>
- <d74ab454-9337-d168-9b21-842569431b4a@gmail.com>
- <CAK8P3a20mwJXN4Mb063zQG+HAevj_Odpj58EzPHkX-p6pbtnGA@mail.gmail.com>
- <7c47ce67-88ee-9cba-3356-a530b0d3e657@gmail.com>
- <CAMuHMdXEXjsea1DmebALTNwAQnJeJt4qV_0xkQ-5_OWx7ziF1g@mail.gmail.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <aae11858-9a63-c5ad-21c2-910a7f87160f@gmail.com>
-Date:   Thu, 10 Feb 2022 12:46:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 0/5] PCIe EPF support for internal DMAC handling and
+ driver update for R-Car PCIe EP to support DMAC
+Message-ID: <20220210105023.GB69529@thinkpad>
+References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220210084052.GA69529@thinkpad>
+ <CA+V-a8tivrjPoae69pqH1D+B=_Bd7ZzKjCA0PcfBz7Rpf022mA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXEXjsea1DmebALTNwAQnJeJt4qV_0xkQ-5_OWx7ziF1g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8tivrjPoae69pqH1D+B=_Bd7ZzKjCA0PcfBz7Rpf022mA@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/10/22 12:32 PM, Geert Uytterhoeven wrote:
-
-[...]
-
->>>>> I had another look at this after you asked about it on IRC. I don't
->>>>> know much SH assembly, but I suspect IRQ 0 has not been delivered
->>
->>    Neither do I, sigh...
->>    I do know the instuctions are 16-bit and so there are no immediate
->> opperands... :-)
+On Thu, Feb 10, 2022 at 09:24:19AM +0000, Lad, Prabhakar wrote:
+> Hi,
 > 
-> There is byte immediate data (TIL).
-
-    Yeah, I figured. :-)
-
-> Gr{oetje,eeting}s,
+> On Thu, Feb 10, 2022 at 8:40 AM Manivannan Sadhasivam
+> <manivannan.sadhasivam@linaro.org> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Jan 26, 2022 at 07:50:38PM +0000, Lad Prabhakar wrote:
+> > > Hi All,
+> > >
+> > > The current PCIe EPF framework supports DMA data transfers using external
+> > > DMA only, this patch series aims to add support for platforms supporting
+> > > internal DMAC on PCIe for data transfers.
+> > >
+> > > R-Car PCIe supports internal DMAC to transfer data between Internal Bus to
+> > > PCI Express and vice versa. Last patch fills up the required flags and ops
+> > > to support internal DMAC.
+> > >
+> > > Patches 1-3 are for PCIe EPF core to support internal DMAC handling, patch
+> > > 4/5 is to fix test cases based on the conversation [1].
+> > >
+> >
+> > This looks similar to the Synopsys eDMA IP [1] that goes with the Synopsys PCIe
+> > endpoint IP. Why can't you represent it as a dmaengine driver and use the
+> > existing DMA support?
+> >
+> Let me have a look. Could you please share a link to the Synopsys PCIe
+> endpoint HW manual (the driver doesn't have a binding doc).
 > 
->                         Geert
 
-MBR, Sergey
+I don't think the PCIe reference manual is available publicly. And you are right
+that the driver is not tied to devicetree. The reason is, it gets probed using
+the PCI ID of the EP and all the resources are defined statically in the driver
+itself.
+
+Thanks,
+Mani
+
+> Cheers,
+> Prabhakar
+> 
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/dma/dw-edma
+> >
+> > > Patches are based on top of [1] next branch.
+> > >
+> > > [0] https://www.spinics.net/lists/linux-pci/msg92385.html
+> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git
+> > >
+> > > Cheers,
+> > > Prabhakar
+> > >
+> > > Lad Prabhakar (5):
+> > >   PCI: endpoint: Add ops and flag to support internal DMAC
+> > >   PCI: endpoint: Add support to data transfer using internal dmac
+> > >   misc: pci_endpoint_test: Add driver data for Renesas RZ/G2{EHMN}
+> > >   misc: pci_endpoint_test: Add support to pass flags for buffer
+> > >     allocation
+> > >   PCI: rcar-ep: Add support for DMAC
+> > >
+> > >  drivers/misc/pci_endpoint_test.c              |  56 ++++-
+> > >  drivers/pci/controller/pcie-rcar-ep.c         | 227 ++++++++++++++++++
+> > >  drivers/pci/controller/pcie-rcar.h            |  23 ++
+> > >  drivers/pci/endpoint/functions/pci-epf-test.c | 184 ++++++++++----
+> > >  drivers/pci/endpoint/pci-epf-core.c           |  32 +++
+> > >  include/linux/pci-epc.h                       |   8 +
+> > >  include/linux/pci-epf.h                       |   7 +
+> > >  7 files changed, 483 insertions(+), 54 deletions(-)
+> > >
+> > > --
+> > > 2.25.1
+> > >
