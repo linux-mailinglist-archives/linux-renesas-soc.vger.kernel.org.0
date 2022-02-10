@@ -2,32 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A1D94B14F4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 19:09:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89AB54B14CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 19:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245524AbiBJSID (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Feb 2022 13:08:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35522 "EHLO
+        id S245439AbiBJSAD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Feb 2022 13:00:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245540AbiBJSID (ORCPT
+        with ESMTP id S243410AbiBJSAB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Feb 2022 13:08:03 -0500
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0E7B08;
-        Thu, 10 Feb 2022 10:08:02 -0800 (PST)
+        Thu, 10 Feb 2022 13:00:01 -0500
+X-Greylist: delayed 102 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Feb 2022 09:59:59 PST
+Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E158DF2D;
+        Thu, 10 Feb 2022 09:59:59 -0800 (PST)
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru AC9A02091EE6
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 00C3F20491FF
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] MAINTAINERS: specify IRC channel for Renesas ARM64 port
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 CC:     Magnus Damm <magnus.damm@gmail.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH] MAINTAINERS: specify IRC channel for Renesas ARM32 port
 Organization: Open Mobile Platform
-Message-ID: <2f108f63-0cf7-cc4c-462e-ec63736234cf@omp.ru>
-Date:   Thu, 10 Feb 2022 20:58:12 +0300
+Message-ID: <6c08e98f-c7bb-9d95-5032-69022e43e39b@omp.ru>
+Date:   Thu, 10 Feb 2022 20:59:57 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
@@ -63,7 +64,7 @@ Index: renesas-devel/MAINTAINERS
 ===================================================================
 --- renesas-devel.orig/MAINTAINERS
 +++ renesas-devel/MAINTAINERS
-@@ -2638,6 +2638,7 @@ ARM/SHMOBILE ARM ARCHITECTURE
+@@ -2525,6 +2525,7 @@ ARM/RENESAS ARM64 ARCHITECTURE
  M:	Geert Uytterhoeven <geert+renesas@glider.be>
  M:	Magnus Damm <magnus.damm@gmail.com>
  L:	linux-renesas-soc@vger.kernel.org
