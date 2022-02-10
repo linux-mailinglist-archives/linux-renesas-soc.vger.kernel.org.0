@@ -2,73 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89AB54B14CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 19:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B724B179A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 22:34:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245439AbiBJSAD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Feb 2022 13:00:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59038 "EHLO
+        id S1344634AbiBJVdz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Feb 2022 16:33:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243410AbiBJSAB (ORCPT
+        with ESMTP id S1344630AbiBJVdy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Feb 2022 13:00:01 -0500
-X-Greylist: delayed 102 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Feb 2022 09:59:59 PST
-Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E158DF2D;
-        Thu, 10 Feb 2022 09:59:59 -0800 (PST)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 00C3F20491FF
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH] MAINTAINERS: specify IRC channel for Renesas ARM64 port
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Magnus Damm <magnus.damm@gmail.com>
-Organization: Open Mobile Platform
-Message-ID: <6c08e98f-c7bb-9d95-5032-69022e43e39b@omp.ru>
-Date:   Thu, 10 Feb 2022 20:59:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 10 Feb 2022 16:33:54 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BE210D0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Feb 2022 13:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=Mq0irdrOjND9n3l1a2mLIWHhae2
+        c5djqRC0G5mdS+1w=; b=CyZR5CZEgnMkcXCOl+MVra7KYUkGLeIBaLv5cheAakt
+        6LU7ZIFGJTDdUOJb4q2TLfylIgGUoq9uS9cvn04vr4ijtJcrRVusCCb2omsiGGrV
+        czSTXSmcxPg7W6ZJOCwKSTt8eesMxZAsB3Fr2U8ee2nCRMPjLG9/9dO20+x9gZOU
+        =
+Received: (qmail 1348453 invoked from network); 10 Feb 2022 22:33:50 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Feb 2022 22:33:50 +0100
+X-UD-Smtp-Session: l3s3148p1@OYKQtLDXjrogAQnoAGmtADvKpjkX1tF1
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2] i2c: don't expose function which is only used internally
+Date:   Thu, 10 Feb 2022 22:33:41 +0100
+Message-Id: <20220210213341.2121-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Renesas ARM ports do have their own IRC channel #renesas-soc (initially
-created on Freenode, then moved to Liberta.Chat).  Hopefully, adding it to
-this file will attract more people... :-)
+i2c_setup_smbus_alert() is only needed within the I2C core, so no need
+to expose it to other modules.
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-This patch is against the 'next' branch of Geert Uytterhoeven's
-'renesas-devel.git' repo.
 
- MAINTAINERS |    1 +
- 1 file changed, 1 insertion(+)
+Based on i2c/for-mergewindow. Build bots are happy.
 
-Index: renesas-devel/MAINTAINERS
-===================================================================
---- renesas-devel.orig/MAINTAINERS
-+++ renesas-devel/MAINTAINERS
-@@ -2525,6 +2525,7 @@ ARM/RENESAS ARM64 ARCHITECTURE
- M:	Geert Uytterhoeven <geert+renesas@glider.be>
- M:	Magnus Damm <magnus.damm@gmail.com>
- L:	linux-renesas-soc@vger.kernel.org
-+C:	irc://irc.libera.chat/renesas-soc
- S:	Supported
- Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+Change since v1:
+
+not only remove the symbol, also move the declaration from a public
+header to the private one.
+
+ drivers/i2c/i2c-core-smbus.c | 1 -
+ drivers/i2c/i2c-core.h       | 9 +++++++++
+ include/linux/i2c-smbus.h    | 8 --------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
+index 304c2c8fee68..053b215308c4 100644
+--- a/drivers/i2c/i2c-core-smbus.c
++++ b/drivers/i2c/i2c-core-smbus.c
+@@ -716,5 +716,4 @@ int i2c_setup_smbus_alert(struct i2c_adapter *adapter)
+ 
+ 	return PTR_ERR_OR_ZERO(i2c_new_smbus_alert_device(adapter, NULL));
+ }
+-EXPORT_SYMBOL_GPL(i2c_setup_smbus_alert);
+ #endif
+diff --git a/drivers/i2c/i2c-core.h b/drivers/i2c/i2c-core.h
+index 8ce261167a2d..87e2c914f1c5 100644
+--- a/drivers/i2c/i2c-core.h
++++ b/drivers/i2c/i2c-core.h
+@@ -86,3 +86,12 @@ void of_i2c_register_devices(struct i2c_adapter *adap);
+ static inline void of_i2c_register_devices(struct i2c_adapter *adap) { }
+ #endif
+ extern struct notifier_block i2c_of_notifier;
++
++#if IS_ENABLED(CONFIG_I2C_SMBUS)
++int i2c_setup_smbus_alert(struct i2c_adapter *adap);
++#else
++static inline int i2c_setup_smbus_alert(struct i2c_adapter *adap)
++{
++	return 0;
++}
++#endif
+diff --git a/include/linux/i2c-smbus.h b/include/linux/i2c-smbus.h
+index 95cf902e0bda..ced1c6ead52a 100644
+--- a/include/linux/i2c-smbus.h
++++ b/include/linux/i2c-smbus.h
+@@ -30,14 +30,6 @@ struct i2c_client *i2c_new_smbus_alert_device(struct i2c_adapter *adapter,
+ 					      struct i2c_smbus_alert_setup *setup);
+ int i2c_handle_smbus_alert(struct i2c_client *ara);
+ 
+-#if IS_ENABLED(CONFIG_I2C_SMBUS)
+-int i2c_setup_smbus_alert(struct i2c_adapter *adap);
+-#else
+-static inline int i2c_setup_smbus_alert(struct i2c_adapter *adap)
+-{
+-	return 0;
+-}
+-#endif
+ #if IS_ENABLED(CONFIG_I2C_SMBUS) && IS_ENABLED(CONFIG_I2C_SLAVE)
+ struct i2c_client *i2c_new_slave_host_notify_device(struct i2c_adapter *adapter);
+ void i2c_free_slave_host_notify_device(struct i2c_client *client);
+-- 
+2.30.2
+
