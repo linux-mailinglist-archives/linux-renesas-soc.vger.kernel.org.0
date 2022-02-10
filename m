@@ -2,64 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A3324B0778
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 08:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FF814B0898
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Feb 2022 09:41:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236515AbiBJHrw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Feb 2022 02:47:52 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57590 "EHLO
+        id S237646AbiBJIk5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Feb 2022 03:40:57 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234424AbiBJHrt (ORCPT
+        with ESMTP id S233214AbiBJIk5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Feb 2022 02:47:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B7AEDAE;
-        Wed,  9 Feb 2022 23:47:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E7B5A60B49;
-        Thu, 10 Feb 2022 07:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CEB7C004E1;
-        Thu, 10 Feb 2022 07:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644479268;
-        bh=OTUS2plVg6f1zIM/zoZB86CKP0+qe6czXlSwH93Fi9U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hnnZiYjd5dlayL7uCJ5LZU6bn4SM6kxeDIGbWdXeudngmjIz48v0lrJS3EDAM7Mz4
-         R7ORO5FHVrwa1TvKN40Hz4hHE7ilbjfC1vU3I+1PGAU/foJT7rJ11dPReByKLEF0n1
-         sVFnDFbQH612vFADpUX82VMtLz+GzZuMpNKWHbW8=
-Date:   Thu, 10 Feb 2022 08:47:45 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Li Chen <lchen@ambarella.com>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
+        Thu, 10 Feb 2022 03:40:57 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C5AEB4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Feb 2022 00:40:58 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id p6so1046944plf.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Feb 2022 00:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Lml04aTETNhbjz5UfbB0wHhW/pmKPxDeqou6P6IhLSE=;
+        b=A0FvrNCNOsvejy3SYS0u8eTopBroPKxiAKRLzWoR7Q28Ksz40kCXZnhMIqVG4C5dGJ
+         N2AxqvQeANh116uG9ACcxpLt/MXpHKU0OmzQdg6W65n6IdsOkd3jMXCzsg3gIrQu6UfD
+         X3oLAT9dzrC/JeXXMrtmLWLbGG3zrTwgcsJ3jqcjQ41tcp0UrrPgQThop5UWGa6JntT8
+         h9f/0qA+jQISoCNbLl8tXPHH5i9e8yWCJNBZPfEQ7Ry2aHzoSrrIhGsq/hVg21fxwef8
+         yAblay5XgINV6fM14fUOB7l9o109bvPVVxcNF69S5vXpMh6oDZi8CEYL5LcQt4mWeQAi
+         CNgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Lml04aTETNhbjz5UfbB0wHhW/pmKPxDeqou6P6IhLSE=;
+        b=TfDi+o5AoBwCJI52n0r+nePEGXzImBYKuAa2PMAVw341g1OeFDRi4TvMKL0B7+JoEH
+         nMqUCRsXQaA0JeeBDDVt+qrjwDfWz/laxZ+zo4tfJwh9LlWSBhza4PWVmCA6pMCIzm55
+         bDdQ2j8vPJTE/pxtityweXqcbD0W1Pcu7rW/VdTdKxUA7VidZEi8fmmW+hyNUBcMCDKK
+         L6ZdWqwx4efLj8SdeJ6q/5EIxoIbfdy9b62rVH3qcm57KMWCkY7PueJvYWYciCsHix8o
+         OVij4lFe9Hi6p+nsz4JZvOndyUz5YAQyuOMAFLWCRx/FHlvtbgz2J72Qx6w0NNi/nEge
+         sBZQ==
+X-Gm-Message-State: AOAM533BaWW2iPjrvK8B8mlO4xn6MwDU+SCWfYQ9IJtqenOUDLpccTgC
+        CMtxBaWl0g3V6Q+BV6cGqNlB
+X-Google-Smtp-Source: ABdhPJwibVMEUZ+/333sxrkxtimACpqZewTBHxq3BPbN16sBUMSks3w0bmHm0yE956PYHRJJ1/EUGQ==
+X-Received: by 2002:a17:902:a9c2:: with SMTP id b2mr6411138plr.135.1644482458228;
+        Thu, 10 Feb 2022 00:40:58 -0800 (PST)
+Received: from thinkpad ([27.111.75.88])
+        by smtp.gmail.com with ESMTPSA id rj1sm1590621pjb.49.2022.02.10.00.40.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Feb 2022 00:40:57 -0800 (PST)
+Date:   Thu, 10 Feb 2022 14:10:52 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
         Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [EXT] [RFC PATCH 0/5] PCIe EPF support for internal DMAC
- handling and driver update for R-Car PCIe EP to support DMAC
-Message-ID: <YgTDIVCQZ3hT9ofX@kroah.com>
+Subject: Re: [RFC PATCH 0/5] PCIe EPF support for internal DMAC handling and
+ driver update for R-Car PCIe EP to support DMAC
+Message-ID: <20220210084052.GA69529@thinkpad>
 References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <PH7PR19MB5562AC3C5E7BBB7730086CC1A02E9@PH7PR19MB5562.namprd19.prod.outlook.com>
- <CA+V-a8tEwOR-r=+KDe2DhpTMwhXPTgbZYgOWepST3mnhBL_Hag@mail.gmail.com>
- <PH7PR19MB5562CE44BBDF09B2ECD30BEDA02F9@PH7PR19MB5562.namprd19.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PH7PR19MB5562CE44BBDF09B2ECD30BEDA02F9@PH7PR19MB5562.namprd19.prod.outlook.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,10 +81,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 05:54:26AM +0000, Li Chen wrote:
-> **********************************************************************
-> This email and attachments contain Ambarella Proprietary and/or Confidential Information and is intended solely for the use of the individual(s) to whom it is addressed. Any unauthorized review, use, disclosure, distribute, copy, or print is prohibited. If you are not an intended recipient, please contact the sender by reply email and destroy all copies of the original message. Thank you.
+Hi,
 
-This email footer is not compatible with Linux kernel development,
-sorry.  Please get your company to remove it so that you can continue to
-participate.
+On Wed, Jan 26, 2022 at 07:50:38PM +0000, Lad Prabhakar wrote:
+> Hi All,
+> 
+> The current PCIe EPF framework supports DMA data transfers using external
+> DMA only, this patch series aims to add support for platforms supporting
+> internal DMAC on PCIe for data transfers.
+> 
+> R-Car PCIe supports internal DMAC to transfer data between Internal Bus to
+> PCI Express and vice versa. Last patch fills up the required flags and ops
+> to support internal DMAC.
+> 
+> Patches 1-3 are for PCIe EPF core to support internal DMAC handling, patch
+> 4/5 is to fix test cases based on the conversation [1].
+> 
+
+This looks similar to the Synopsys eDMA IP [1] that goes with the Synopsys PCIe
+endpoint IP. Why can't you represent it as a dmaengine driver and use the
+existing DMA support?
+
+Thanks,
+Mani
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/dma/dw-edma 
+
+> Patches are based on top of [1] next branch.
+> 
+> [0] https://www.spinics.net/lists/linux-pci/msg92385.html
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git
+> 
+> Cheers,
+> Prabhakar
+> 
+> Lad Prabhakar (5):
+>   PCI: endpoint: Add ops and flag to support internal DMAC
+>   PCI: endpoint: Add support to data transfer using internal dmac
+>   misc: pci_endpoint_test: Add driver data for Renesas RZ/G2{EHMN}
+>   misc: pci_endpoint_test: Add support to pass flags for buffer
+>     allocation
+>   PCI: rcar-ep: Add support for DMAC
+> 
+>  drivers/misc/pci_endpoint_test.c              |  56 ++++-
+>  drivers/pci/controller/pcie-rcar-ep.c         | 227 ++++++++++++++++++
+>  drivers/pci/controller/pcie-rcar.h            |  23 ++
+>  drivers/pci/endpoint/functions/pci-epf-test.c | 184 ++++++++++----
+>  drivers/pci/endpoint/pci-epf-core.c           |  32 +++
+>  include/linux/pci-epc.h                       |   8 +
+>  include/linux/pci-epf.h                       |   7 +
+>  7 files changed, 483 insertions(+), 54 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
