@@ -2,113 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5150B4B2960
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Feb 2022 16:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE7AF4B2998
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Feb 2022 17:04:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349467AbiBKPsm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Feb 2022 10:48:42 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58416 "EHLO
+        id S1344164AbiBKQDf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Feb 2022 11:03:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349458AbiBKPsl (ORCPT
+        with ESMTP id S237277AbiBKQDf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Feb 2022 10:48:41 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D143E1CF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Feb 2022 07:48:39 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5d5d:ef67:a872:c0be])
-        by xavier.telenet-ops.be with bizsmtp
-        id troe260043ZSXJh01roemk; Fri, 11 Feb 2022 16:48:38 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nIYA1-000MOb-R4; Fri, 11 Feb 2022 16:48:37 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nIYA1-00GiJ7-5d; Fri, 11 Feb 2022 16:48:37 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v5.18
-Date:   Fri, 11 Feb 2022 16:48:35 +0100
-Message-Id: <cover.1644594347.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 11 Feb 2022 11:03:35 -0500
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE641A8;
+        Fri, 11 Feb 2022 08:03:34 -0800 (PST)
+Received: by mail-oi1-f177.google.com with SMTP id y23so9970852oia.13;
+        Fri, 11 Feb 2022 08:03:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oK96NDQ/E6qrHpavTpxLKhY5vh0HN7cuKJXs2+xAB5w=;
+        b=UeKD01R9uRexSk/2mxrZ+gmH3wWYGe4eTcizAPfY6rnp7Pc1Z+NywCL3A78T+MABTR
+         CpYF+iaBlUvvlAmTTmRutnqV289QM2EUphArKCi+k6RoiUq9u9dqmWurgDAX99n4FZlK
+         oLgPIbFx28mIf/g5a5ESqYkHGMH+uwHKqhmQyDtICnfDmi2vFjsD8cENebp56NB9oZ8s
+         WCKOWBEXkmMLTVzoAPCY+C9V4070Z1gqeWHQ6Gi7uPcm+K7ged4ckwaYmtL/cfzoqIrL
+         N//4ZcHD8faa1FiU14n28Tn4G7QYWyrv9ikCIixjCerc/ZcZYEuuebznEo9oyvg5UrNF
+         w7ow==
+X-Gm-Message-State: AOAM530LaM4kX1KilpKyUSSXxQJ/jbaAdurOMfL15HTKvvvBJBYAZpE5
+        LUF0vgvyELMEgA7QQCsTYg4M4p9IWg==
+X-Google-Smtp-Source: ABdhPJx0EqTpAEZur0pxerj8DO4aI9eJkX9cI2W6fhFqx5wXcuO6BRRH7xso+xuLgoqeyCCm3cxStg==
+X-Received: by 2002:aca:1b05:: with SMTP id b5mr474898oib.289.1644595413118;
+        Fri, 11 Feb 2022 08:03:33 -0800 (PST)
+Received: from robh.at.kernel.org ([2607:fb90:5fee:dfce:b6df:c3e1:b1e5:d6d8])
+        by smtp.gmail.com with ESMTPSA id n12sm9549472oop.5.2022.02.11.08.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 08:03:32 -0800 (PST)
+Received: (nullmailer pid 435201 invoked by uid 1000);
+        Fri, 11 Feb 2022 16:03:30 -0000
+Date:   Fri, 11 Feb 2022 10:03:30 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        devicetree@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>, dmaengine@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: dma: rz-dmac: Document RZ/G2UL SoC
+Message-ID: <YgaI0sc5tPKAI11h@robh.at.kernel.org>
+References: <20220206200308.14315-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220206200308.14315-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+On Sun, 06 Feb 2022 20:03:08 +0000, Biju Das wrote:
+> Document RZ/G2UL DMAC bindings. RZ/G2UL DMAC is identical to one found
+> on the RZ/G2L SoC. No driver changes are required as generic compatible
+> string "renesas,rz-dmac" will be used as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> This patch depend upon [1]
+> [1] https://patchwork.kernel.org/project/linux-dmaengine/patch/20220110134659.30424-9-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> ---
+>  Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
-
-  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.18-tag1
-
-for you to fetch changes up to 2e08ab0427fe3e33a92a37cfe3b6db340ab7397f:
-
-  pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register() (2022-02-08 09:54:44 +0100)
-
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v5.18
-
-  - Add MOST (MediaLB I/F) pins on R-Car E3 and D3,
-  - Add support for the new RZ/V2L SoC,
-  - Miscellaneous fixes and improvements.
-
-Thanks for pulling!
-----------------------------------------------------------------
-Biju Das (3):
-      dt-bindings: pinctrl: renesas: Document RZ/V2L pinctrl
-      pinctrl: renesas: Kconfig: Select PINCTRL_RZG2L if RZ/V2L SoC is enabled
-      pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register()
-
-Geert Uytterhoeven (6):
-      pinctrl: renesas: r8a7790: Remove INTC_IRQx_N
-      pinctrl: renesas: r8a7791: Remove INTC_IRQx_N
-      pinctrl: renesas: r8a779a0: Rename MOD_SEL2_* definitions
-      pinctrl: renesas: r8a7779: Restore pin function sort order
-      pinctrl: renesas: r8a7790: Restore pin function sort order
-      pinctrl: renesas: r8a77995: Restore pin group sort order
-
-Lad Prabhakar (1):
-      dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Add description for power-source property
-
-Nikita Yushchenko (1):
-      pinctrl: renesas: r8a7799[05]: Add MediaLB pins
-
-Wolfram Sang (1):
-      pinctrl: renesas: rcar: Do not enforce GPIO if already muxed
-
- .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml    |  16 +++-
- drivers/pinctrl/renesas/Kconfig                    |   6 +-
- drivers/pinctrl/renesas/pfc-r8a7779.c              |   8 +-
- drivers/pinctrl/renesas/pfc-r8a7790.c              |  45 ++++------
- drivers/pinctrl/renesas/pfc-r8a7791.c              |  35 ++++----
- drivers/pinctrl/renesas/pfc-r8a77990.c             |  22 ++++-
- drivers/pinctrl/renesas/pfc-r8a77995.c             | 100 ++++++++++++---------
- drivers/pinctrl/renesas/pfc-r8a779a0.c             |  42 ++++-----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c            |   4 +-
- drivers/pinctrl/renesas/pinctrl.c                  |   2 +-
- 10 files changed, 155 insertions(+), 125 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Acked-by: Rob Herring <robh@kernel.org>
