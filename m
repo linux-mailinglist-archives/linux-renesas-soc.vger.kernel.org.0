@@ -2,69 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 318AD4B23E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Feb 2022 12:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 103EB4B27B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Feb 2022 15:19:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbiBKLC2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Feb 2022 06:02:28 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33080 "EHLO
+        id S229781AbiBKOTt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Feb 2022 09:19:49 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348356AbiBKLC1 (ORCPT
+        with ESMTP id S1347617AbiBKOTr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Feb 2022 06:02:27 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79B9F70
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Feb 2022 03:02:16 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id f41so8569133lfv.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Feb 2022 03:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=TFAnxcFK6GnIUT33Zez6P029wq7EYjQpobBjkOwr/kU=;
-        b=qJXlNFc7Uso8mlUq5GdOGW5ZLEodawZbkH7JX7kcIv9asQ18CqKzLl6DNvVpXsohXX
-         nR4AW45KNe4lEaD++Gva21+xt2SVmujG+/enMbDpUKdmY05Ah9nP3kNDG776MBpVJOWD
-         FxLib241JL0KBwTezLRCjtsMErzU3HgoTAvL/dtwax52cvvQAdCoQhHWuiqFanV7P4Dq
-         MG7LQKi9yGi/Lsy0tFIv2O6mht7WIGoRKxILJ+be4wEc14dEDaULfkfAbv56XrdMZ9lD
-         cDjJ19hKjB71K9C0RoHylFkXl3wYJPXs8ikBeSwqQdtVJvAuFgRf6+mx8iwQpsjogf19
-         tEgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=TFAnxcFK6GnIUT33Zez6P029wq7EYjQpobBjkOwr/kU=;
-        b=rjjoXspmFxy/hayYxtAwC9Us9Ic32cYESLTXgq3dGNeLhiVgwOBV1p9TITVL9HpFlc
-         ZJTqazlNYDrpveRJNXlxuPi3wJNQ6I3t0KGmN9vQQ/NF3EWvk49aw5CcRArsL/wmVO98
-         dMjAM+Aah8FWOImcRd+8W8yUEnqz5uVhuGdERClps/VVwiMH0kBi3Z5egYdsOoV+4Hdz
-         7zitd2YWtPz6Rao1zSM1wABYHQ2dypMXTMcnWLBBuaxSEYc0D4RrRXIEjGmuzKBV3fWO
-         dtuQyRE9br0pdeWYkd/H8jCmvIRk5eYpjXQuHESdWmeRpas1p0Oo2eBsX0QChmzVfe3+
-         PuKQ==
-X-Gm-Message-State: AOAM533to7r3N+sFnb7G8CNGlVigTdGgtaDMsGw1mQc71sSMVNosiQSe
-        nSNpopyWGTt59GUdGJPwRNg9t+ak04gyAQ==
-X-Google-Smtp-Source: ABdhPJxxSyz7Nov30n1EikEENns1+UZvtsJSvu0Lm2pl1BswzS/UiUdSqjgLnB1rjup6Aq+9jJeaZQ==
-X-Received: by 2002:a05:6512:3d26:: with SMTP id d38mr832325lfv.105.1644577334537;
-        Fri, 11 Feb 2022 03:02:14 -0800 (PST)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id m9sm2276849lfp.134.2022.02.11.03.02.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 03:02:14 -0800 (PST)
-Date:   Fri, 11 Feb 2022 12:02:13 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: don't expose function which is only used
- internally
-Message-ID: <YgZCNUogNdQeywAP@oden.dyn.berto.se>
-References: <20220210213341.2121-1-wsa+renesas@sang-engineering.com>
+        Fri, 11 Feb 2022 09:19:47 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565EFB3F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Feb 2022 06:19:45 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5d5d:ef67:a872:c0be])
+        by albert.telenet-ops.be with bizsmtp
+        id tqKi2600D3ZSXJh06qKiu4; Fri, 11 Feb 2022 15:19:42 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nIWlx-000M8j-SO; Fri, 11 Feb 2022 15:19:41 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nIWLx-00Gh8N-JP; Fri, 11 Feb 2022 14:52:49 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/4] Renesas SoC updates for v5.18
+Date:   Fri, 11 Feb 2022 14:52:10 +0100
+Message-Id: <cover.1644587197.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220210213341.2121-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,84 +47,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+	Hi SoC folks,
 
-Thanks for your work.
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.18.
 
-On 2022-02-10 22:33:41 +0100, Wolfram Sang wrote:
-> i2c_setup_smbus_alert() is only needed within the I2C core, so no need
-> to expose it to other modules.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+It consists of 4 parts:
 
-Looks good,
+  [GIT PULL 1/4] Renesas ARM defconfig updates for v5.18
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+    - Enable the new Audio Graph Card2 driver which can handle sound cards
+      more flexibly in the arm64 defconfig,
+    - Disable unneeded 8250 serial options in shmobile_defconfig,
+    - Enable additional support for Renesas platforms in the arm64
+      defconfig.
 
-> ---
-> 
-> Based on i2c/for-mergewindow. Build bots are happy.
-> 
-> Change since v1:
-> 
-> not only remove the symbol, also move the declaration from a public
-> header to the private one.
-> 
->  drivers/i2c/i2c-core-smbus.c | 1 -
->  drivers/i2c/i2c-core.h       | 9 +++++++++
->  include/linux/i2c-smbus.h    | 8 --------
->  3 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
-> index 304c2c8fee68..053b215308c4 100644
-> --- a/drivers/i2c/i2c-core-smbus.c
-> +++ b/drivers/i2c/i2c-core-smbus.c
-> @@ -716,5 +716,4 @@ int i2c_setup_smbus_alert(struct i2c_adapter *adapter)
->  
->  	return PTR_ERR_OR_ZERO(i2c_new_smbus_alert_device(adapter, NULL));
->  }
-> -EXPORT_SYMBOL_GPL(i2c_setup_smbus_alert);
->  #endif
-> diff --git a/drivers/i2c/i2c-core.h b/drivers/i2c/i2c-core.h
-> index 8ce261167a2d..87e2c914f1c5 100644
-> --- a/drivers/i2c/i2c-core.h
-> +++ b/drivers/i2c/i2c-core.h
-> @@ -86,3 +86,12 @@ void of_i2c_register_devices(struct i2c_adapter *adap);
->  static inline void of_i2c_register_devices(struct i2c_adapter *adap) { }
->  #endif
->  extern struct notifier_block i2c_of_notifier;
-> +
-> +#if IS_ENABLED(CONFIG_I2C_SMBUS)
-> +int i2c_setup_smbus_alert(struct i2c_adapter *adap);
-> +#else
-> +static inline int i2c_setup_smbus_alert(struct i2c_adapter *adap)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> diff --git a/include/linux/i2c-smbus.h b/include/linux/i2c-smbus.h
-> index 95cf902e0bda..ced1c6ead52a 100644
-> --- a/include/linux/i2c-smbus.h
-> +++ b/include/linux/i2c-smbus.h
-> @@ -30,14 +30,6 @@ struct i2c_client *i2c_new_smbus_alert_device(struct i2c_adapter *adapter,
->  					      struct i2c_smbus_alert_setup *setup);
->  int i2c_handle_smbus_alert(struct i2c_client *ara);
->  
-> -#if IS_ENABLED(CONFIG_I2C_SMBUS)
-> -int i2c_setup_smbus_alert(struct i2c_adapter *adap);
-> -#else
-> -static inline int i2c_setup_smbus_alert(struct i2c_adapter *adap)
-> -{
-> -	return 0;
-> -}
-> -#endif
->  #if IS_ENABLED(CONFIG_I2C_SMBUS) && IS_ENABLED(CONFIG_I2C_SLAVE)
->  struct i2c_client *i2c_new_slave_host_notify_device(struct i2c_adapter *adapter);
->  void i2c_free_slave_host_notify_device(struct i2c_client *client);
-> -- 
-> 2.30.2
-> 
+  [GIT PULL 2/4] Renesas ARM DT updates for v5.18
 
--- 
-Kind Regards,
-Niklas Söderlund
+    - External interrupt (INTC-EX) support for the R-Car V3U SoC,
+    - Initial support for the RZ/G2LC and RZ/V2L SoCs, and the RZ/G2LC and
+      RZ/V2L SMARC EVK development boards,
+    - Support for MAX9286 GMSL deserializers and GSML cameras on the Eagle
+      and Condor development boards,
+    - NAND support for the RZ/N1D SoC,
+    - DMA engine (SYS-DMAC) support for the R-Car S4-8 SoC,
+    - LVDS support for the R-Car M3-W+ SoC,
+    - HDMI output and 9-axis sensor support for the Kingfisher (ULCB
+      extension) board,
+    - MAX96712 GMSL serializer support for the Falcon development board,
+    - MOST network support for the R-Car H3, M3-W, M3-W+, M3-N, E3, and D3
+      SoCs,
+    - Miscellaneous fixes and improvements.
+
+  [GIT PULL 3/4] Renesas driver updates for v5.18
+
+    - Initial support for the new RZ/V2L SoC,
+    - RZ/G2L product revision support.
+
+  [GIT PULL 4/4] Renesas DT binding updates for v5.18
+
+    - Document support for the new RZ/V2L SoC and the RZ/V2L SMARC EVK
+      board.
+
+Note that the new Renesas RZ/V2L DT Binding Definitions are shared by
+driver and DT source files, and thus included in multiple pull requests:
+  - "[GIT PULL] clk: renesas: Updates for v5.18" (for clk),
+  - "[GIT PULL 2/4] Renesas ARM DT updates for v5.18" (for soc).
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
