@@ -2,170 +2,471 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B46004B4D1E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 12:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62ECD4B4D89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 12:12:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349631AbiBNKwj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Feb 2022 05:52:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43774 "EHLO
+        id S1349947AbiBNLLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Feb 2022 06:11:51 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349391AbiBNKvz (ORCPT
+        with ESMTP id S1350372AbiBNLLo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Feb 2022 05:51:55 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B93469CD8;
-        Mon, 14 Feb 2022 02:16:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644833793; x=1676369793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=iMfir8Hys8PoRkg7XbbXRj39pNMes8hLErnltaIltH8=;
-  b=H0pRtYXVokRBX+RGOdsauOP2aIBK1vtMoRGVk+VDUjA0gjIToKp08alR
-   Tm18cVC3x44oAcrbuiqx/MzOE8OK4CduA2tcM/A1XkQRsBI7PovauGPJd
-   0kz34pErXmws8kirxEiFlrcm3UmngipUs6aMo6zPHQmDtF9jNxNgty5Eu
-   x+fAcade60DLDG7Rwc6dU+y5s++sSBiaXXsF0yEQzBwK49KC3bxrLe4wT
-   TpB1A+VMBkcYrK8YoNp/BJt8twTNALUNIl+xHo6DUgdP8dwR9lZ7s8WuF
-   dPG9EmE0KsElsnrAyZkL2fICumUH0C3VBRwIxaCvdCGRHPC478tlmkk2s
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="230023834"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
-   d="scan'208";a="230023834"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 02:16:32 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
-   d="scan'208";a="603187011"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 02:16:17 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nJYLy-004PC8-6n;
-        Mon, 14 Feb 2022 12:13:06 +0200
-Date:   Mon, 14 Feb 2022 12:13:01 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Mon, 14 Feb 2022 06:11:44 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E88AA2DA
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Feb 2022 02:40:18 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d187so28463965pfa.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Feb 2022 02:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uUR+E4ldgn4ntb5qsJ8f4ysYK9ZYOKl9wz+mUtxKar4=;
+        b=ai0wnVbU8Uj+BSqTxDJSsxpD2nfgptWXroxFEQGf830hsrH2If13p40rSVskcl6S8p
+         qAtK2GEIR2xUEgn4ZN10bIUsnt1VhSZ8tAfpcAwv3PkV43BTgcLTkVYKLlIz5oElNRKc
+         y3dBz7j7XiXLXw2Vx36Att5HMDUmmXjzVKgUrePFqXsJ9qKxNq5wm9syBH5XIfe9MQWe
+         Ct/yzoMI99QpvEfepmiGfDGozFuAwKmw/YIhmvtu9U9w9QV5xgNI7Nz8a6/X8O2QI5NG
+         aKHA/M1qu6wZX8LOJNyElrtNKHYiqaCifP7rt6AxH9nSTQGb++PtA85WsCf5P0J0ZqR3
+         z4tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uUR+E4ldgn4ntb5qsJ8f4ysYK9ZYOKl9wz+mUtxKar4=;
+        b=npJkx6Om4aT8SlmR4SWrhGqABh4An3CDKNIZvnwZcWF+5/mQ7sHM9LRqrPHKxIzn4r
+         AhdUStNM4orVDy5/xmfpFGY8AwnhM92lwHcHwF2AyaQ+r4IED7rlNSO/e6CEoNcVE+XB
+         qHWdS6gYvsHLV8FTXIxs0Lmj95sbWXgBjnTEOmIg+MiJiEplewF4m99cBMXZYTSwtqHp
+         hngZY7WbZBVHRLHgF5CgUU6N95sDH/jFtxrrF2jox3/7YAiTEoa4iWXvJpLVa9vA8nPj
+         vjGTiSNzVTaNKglmoUFpPwOONxNKKBwto9aknjYHHBL77/NN3H5rZhpCUv6GKUnxdJ8o
+         u8Rg==
+X-Gm-Message-State: AOAM533mtzXQtKuIu+xd78bn1/rU59DGDlOOXFGfQZc1lOkjoUAx8j2q
+        GgxqzxUUeED/8t2+XaOE0JaK
+X-Google-Smtp-Source: ABdhPJzbJnSWTRPdRig5siJPmeYOs3hynD34ojdYsuIqwlkp5jN/cua8yt6lTr9gbX6LxfA8msCoPA==
+X-Received: by 2002:a63:5b1c:: with SMTP id p28mr10873994pgb.227.1644835217430;
+        Mon, 14 Feb 2022 02:40:17 -0800 (PST)
+Received: from thinkpad ([2409:4072:817:5a6f:3104:62c0:1941:5033])
+        by smtp.gmail.com with ESMTPSA id em22sm12688347pjb.35.2022.02.14.02.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 02:40:17 -0800 (PST)
+Date:   Mon, 14 Feb 2022 16:10:09 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-iio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, alsa-devel@alsa-project.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-phy@lists.infradead.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Guenter Roeck <groeck@chromium.org>, linux-spi@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        kvm@vger.kernel.org, Kamal Dasu <kdasu.kdev@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        platform-driver-x86@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Corey Minyard <minyard@acm.org>, linux-pm@vger.kernel.org,
-        John Garry <john.garry@huawei.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Benson Leung <bleung@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Eric Auger <eric.auger@redhat.com>, netdev@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        linux-renesas-soc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Brian Norris <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v2 1/2] platform: make platform_get_irq_optional()
- optional
-Message-ID: <YgorLXUr8aT+1ttv@smile.fi.intel.com>
-References: <20220212201631.12648-1-s.shtylyov@omp.ru>
- <20220212201631.12648-2-s.shtylyov@omp.ru>
- <20220214071351.pcvstrzkwqyrg536@pengutronix.de>
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 5/5] PCI: rcar-ep: Add support for DMAC
+Message-ID: <20220214104009.GM3494@thinkpad>
+References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220126195043.28376-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220214071351.pcvstrzkwqyrg536@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220126195043.28376-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 08:13:51AM +0100, Uwe Kleine-König wrote:
-> On Sat, Feb 12, 2022 at 11:16:30PM +0300, Sergey Shtylyov wrote:
-> > This patch is based on the former Andy Shevchenko's patch:
-> > 
-> > https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@linux.intel.com/
-> > 
-> > Currently platform_get_irq_optional() returns an error code even if IRQ
-> > resource simply has not been found.  It prevents the callers from being
-> > error code agnostic in their error handling:
-> > 
-> > 	ret = platform_get_irq_optional(...);
-> > 	if (ret < 0 && ret != -ENXIO)
-> > 		return ret; // respect deferred probe
-> > 	if (ret > 0)
-> > 		...we get an IRQ...
-> > 
-> > All other *_optional() APIs seem to return 0 or NULL in case an optional
-> > resource is not available.  Let's follow this good example, so that the
-> > callers would look like:
-> > 
-> > 	ret = platform_get_irq_optional(...);
-> > 	if (ret < 0)
-> > 		return ret;
-> > 	if (ret > 0)
-> > 		...we get an IRQ...
-> > 
-> > Reported-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+On Wed, Jan 26, 2022 at 07:50:43PM +0000, Lad Prabhakar wrote:
+> R-Car PCIe controller has an internal DMAC to support data transfer
+> between Internal Bus -> PCI Express and vice versa.
 > 
-> While this patch is better than v1, I still don't like it for the
-> reasons discussed for v1. (i.e. 0 isn't usable as a dummy value which I
-> consider the real advantage for the other _get_optional() functions.)
+> This patch fills in the required flags and ops for the PCIe EP to
+> support DMAC transfer.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/pci/controller/pcie-rcar-ep.c | 227 ++++++++++++++++++++++++++
+>  drivers/pci/controller/pcie-rcar.h    |  23 +++
+>  2 files changed, 250 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+> index f9682df1da61..c49b25069328 100644
+> --- a/drivers/pci/controller/pcie-rcar-ep.c
+> +++ b/drivers/pci/controller/pcie-rcar-ep.c
+> @@ -18,6 +18,21 @@
+>  
+>  #define RCAR_EPC_MAX_FUNCTIONS		1
+>  
+> +#define RCAR_PCIE_MAX_DMAC_BYTE_COUNT		0x7FFFFFFU
+> +#define RCAR_PCIE_DMAC_BYTE_COUNT_MULTIPLE	8
+> +#define RCAR_PCIE_DMAC_TIMEOUT			(msecs_to_jiffies(3 * 1000))
+> +#define RCAR_PCIE_DMAC_DEFAULT_CHANNEL		0
+> +
+> +enum rcar_pcie_ep_dmac_xfr_status {
+> +	RCAR_PCIE_DMA_XFR_SUCCESS,
+> +	RCAR_PCIE_DMA_XFR_ERROR,
+> +};
+> +
+> +struct rcar_pcie_ep_dmac_info {
+> +	enum rcar_pcie_ep_dmac_xfr_status status;
+> +	size_t bytes;
+> +};
+> +
+>  /* Structure representing the PCIe interface */
+>  struct rcar_pcie_endpoint {
+>  	struct rcar_pcie	pcie;
+> @@ -28,8 +43,114 @@ struct rcar_pcie_endpoint {
+>  	unsigned long		*ib_window_map;
+>  	u32			num_ib_windows;
+>  	u32			num_ob_windows;
+> +	struct completion	irq_raised;
+> +	struct mutex		dma_operation;
+> +	spinlock_t		lock;
 
-I think you haven't reacted anyhow to my point that you mixing apples and
-bananas together when comparing this 0 to the others _optional APIs.
+Locks should be documented.
 
-> Apart from that, I think the subject is badly chosen. With "Make
-> somefunc() optional" I would expect that you introduce a Kconfig symbol
-> that results in the function not being available when disabled.
+> +	struct rcar_pcie_ep_dmac_info xfr;
+>  };
+>  
+> +static inline bool rcar_pcie_ep_is_dmac_active(struct rcar_pcie_endpoint *ep)
 
+No need of "inline", compiler should be able to judge it.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +{
+> +	if (rcar_pci_read_reg(&ep->pcie, PCIEDMAOR) & PCIEDMAOR_DMAACT)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +static void
+> +rcar_pcie_ep_setup_dmac_request(struct rcar_pcie_endpoint *ep,
+> +				dma_addr_t dma_dst, dma_addr_t dma_src,
+> +				size_t len, enum pci_epf_xfr_direction dir, u8 ch)
+> +{
+> +	struct rcar_pcie *pcie = &ep->pcie;
+> +	u32 val;
+> +
+> +	ep->xfr.status = RCAR_PCIE_DMA_XFR_ERROR;
+> +	ep->xfr.bytes = RCAR_PCIE_MAX_DMAC_BYTE_COUNT;
+> +
+> +	/* swap values if xfr is from pcie to internal */
+> +	if (dir == PCIE_TO_INTERNAL)
+> +		swap(dma_dst, dma_src);
+> +
+> +	/* Configure the PCI Express lower */
+> +	rcar_pci_write_reg(pcie, lower_32_bits(dma_dst), PCIEDMPALR(ch));
+> +
+> +	/* Configure the PCI Express upper */
+> +	rcar_pci_write_reg(pcie, upper_32_bits(dma_dst), PCIEDMPAUR(ch));
+> +
+> +	/* Configure the internal bus address */
+> +	rcar_pci_write_reg(pcie, lower_32_bits(dma_src), PCIEDMIAR(ch));
+> +
+> +	/* Configure the byte count values */
+> +	rcar_pci_write_reg(pcie, len, PCIEDMBCNTR(ch));
+> +
+> +	/* Enable interrupts */
+> +	val = rcar_pci_read_reg(pcie, PCIEDMCHSR(ch));
+> +
+> +	/* set enable flags */
+> +	val |= PCIEDMCHSR_IE;
+> +	val |= PCIEDMCHSR_IBEE;
+> +	val |= PCIEDMCHSR_PEEE;
+> +	val |= PCIEDMCHSR_CHTCE;
+> +
+> +	/* Clear error flags */
+> +	val &= ~PCIEDMCHSR_TE;
+> +	val &= ~PCIEDMCHSR_PEE;
+> +	val &= ~PCIEDMCHSR_IBE;
+> +	val &= ~PCIEDMCHSR_CHTC;
+> +
 
+Can you use bitfield operations everywhere?
 
+> +	rcar_pci_write_reg(pcie, val, PCIEDMCHSR(ch));
+> +
+> +	wmb(); /* flush the settings */
+
+Since the write is at the end of the function, no need to put a barrier here.
+
+> +}
+> +
+> +static void rcar_pcie_ep_execute_dmac_request(struct rcar_pcie_endpoint *ep,
+> +					      enum pci_epf_xfr_direction dir, u8 ch)
+> +{
+> +	struct rcar_pcie *pcie = &ep->pcie;
+> +	u32 val;
+> +
+> +	/* Enable DMA */
+> +	val = rcar_pci_read_reg(pcie, PCIEDMAOR);
+> +	val |= PCIEDMAOR_DMAE;
+> +	rcar_pci_write_reg(pcie, val, PCIEDMAOR);
+> +
+> +	/* Configure the DMA direction */
+> +	val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
+> +	if (dir == INTERNAL_TO_PCIE)
+> +		val |= PCIEDMCHCR_DIR;
+> +	else
+> +		val &= ~PCIEDMCHCR_DIR;
+> +
+> +	val |= PCIEDMCHCR_CHE;
+> +	rcar_pci_write_reg(pcie, val, PCIEDMCHCR(ch));
+> +
+> +	wmb(); /* flush the settings */
+
+Same here.
+
+> +}
+> +
+> +static enum rcar_pcie_ep_dmac_xfr_status
+> +rcar_pcie_ep_get_dmac_status(struct rcar_pcie_endpoint *ep,
+> +			     size_t *count, u8 ch)
+
+ch is unused.
+
+> +{
+> +	*count = ep->xfr.bytes;
+> +	return ep->xfr.status;
+> +}
+> +
+> +static void rcar_pcie_ep_stop_dmac_request(struct rcar_pcie_endpoint *ep, u8 ch)
+> +{
+> +	struct rcar_pcie *pcie = &ep->pcie;
+> +	u32 val;
+> +
+> +	val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
+> +	val &= ~PCIEDMCHCR_CHE;
+> +	rcar_pci_write_reg(pcie, val, PCIEDMCHCR(ch));
+> +
+> +	/* Disable interrupt */
+> +	val = rcar_pci_read_reg(pcie, PCIEDMAOR);
+> +	val &= ~PCIEDMAOR_DMAE;
+> +	rcar_pci_write_reg(pcie, val, PCIEDMAOR);
+> +}
+> +
+>  static void rcar_pcie_ep_hw_init(struct rcar_pcie *pcie)
+>  {
+>  	u32 val;
+> @@ -419,6 +540,44 @@ static int rcar_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn, u8 vfn,
+>  	}
+>  }
+>  
+> +static int rcar_pcie_ep_data_transfer(struct pci_epc *epc, struct pci_epf *epf,
+> +				      dma_addr_t dma_dst, dma_addr_t dma_src,
+> +				      size_t len, enum pci_epf_xfr_direction dir)
+> +{
+> +	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
+> +	u8 ch = RCAR_PCIE_DMAC_DEFAULT_CHANNEL;
+> +	enum rcar_pcie_ep_dmac_xfr_status stat;
+> +	int ret = -EINVAL;
+> +	long wait_status;
+> +	size_t count;
+> +
+> +	if (len > RCAR_PCIE_MAX_DMAC_BYTE_COUNT ||
+> +	    (len % RCAR_PCIE_DMAC_BYTE_COUNT_MULTIPLE) != 0)
+> +		return -EINVAL;
+
+A comment here would be informative.
+
+> +
+> +	if (mutex_is_locked(&ep->dma_operation) || rcar_pcie_ep_is_dmac_active(ep))
+
+Why the mutex should be checked here? Why can't this thread sleep below if mutex
+is not available?
+
+> +		return -EBUSY;
+> +
+> +	mutex_lock(&ep->dma_operation);
+> +
+> +	rcar_pcie_ep_setup_dmac_request(ep, dma_dst, dma_src, len, dir, ch);
+> +
+> +	rcar_pcie_ep_execute_dmac_request(ep, dir, ch);
+> +
+> +	wait_status = wait_for_completion_interruptible_timeout(&ep->irq_raised,
+> +								RCAR_PCIE_DMAC_TIMEOUT);
+> +	if (wait_status <= 0) {
+> +		rcar_pcie_ep_stop_dmac_request(ep, ch);
+
+ret = -ETIMEDOUT;?
+
+> +	} else {
+> +		stat = rcar_pcie_ep_get_dmac_status(ep, &count, ch);
+> +		if (stat == RCAR_PCIE_DMA_XFR_SUCCESS && !count)
+> +			ret = 0;
+> +	}
+> +
+> +	mutex_unlock(&ep->dma_operation);
+> +	return ret;
+> +}
+> +
+>  static int rcar_pcie_ep_start(struct pci_epc *epc)
+>  {
+>  	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
+> @@ -429,6 +588,55 @@ static int rcar_pcie_ep_start(struct pci_epc *epc)
+>  	return 0;
+>  }
+>  
+> +static irqreturn_t rcar_pcie_ep_dmac_irq_handler(int irq, void *arg)
+> +{
+> +	u8 ch = RCAR_PCIE_DMAC_DEFAULT_CHANNEL;
+> +	struct rcar_pcie_endpoint *ep = arg;
+> +	struct rcar_pcie *pcie = &ep->pcie;
+> +	unsigned long flags;
+> +	u32 chsr_val;
+> +	u32 chcr_val;
+> +	u32 bytes;
+> +
+> +	spin_lock_irqsave(&ep->lock, flags);
+
+Since the lock is taken in isr, there is no need to do irqsave/restore.
+Just spin_lock/unlock is enough.
+
+Also, this lock is only used in isr. I'm wondering why the lock is needed.
+
+> +
+> +	chsr_val = rcar_pci_read_reg(pcie, PCIEDMCHSR(ch));
+> +
+> +	chcr_val = rcar_pci_read_reg(pcie, PCIEDMCHCR(ch));
+> +
+> +	if (mutex_is_locked(&ep->dma_operation)) {
+
+Why should the mutex be checked? Are you expecting the irq after transfer
+timeout?
+
+> +		if ((chsr_val &  PCIEDMCHSR_PEE) ||
+> +		    (chsr_val & PCIEDMCHSR_IBE) ||
+> +		    (chsr_val & PCIEDMCHSR_CHTC))
+> +			ep->xfr.status = RCAR_PCIE_DMA_XFR_ERROR;
+> +		else if (chsr_val & PCIEDMCHSR_TE)
+> +			ep->xfr.status = RCAR_PCIE_DMA_XFR_SUCCESS;
+> +
+> +		/* get byte count */
+> +		bytes = rcar_pci_read_reg(pcie, PCIEDMBCNTR(ch));
+> +		ep->xfr.bytes = bytes;
+> +
+> +		if ((chsr_val & PCIEDMCHSR_PEE) || (chsr_val & PCIEDMCHSR_IBE) ||
+> +		    (chsr_val & PCIEDMCHSR_TE) || (chsr_val & PCIEDMCHSR_CHTC)) {
+> +			complete(&ep->irq_raised);
+> +		}
+> +	} else {
+> +		spin_unlock_irqrestore(&ep->lock, flags);
+> +		return IRQ_NONE;
+> +	}
+> +
+> +	if (chcr_val & PCIEDMCHCR_CHE)
+> +		chcr_val &= ~PCIEDMCHCR_CHE;
+> +	rcar_pci_write_reg(pcie, chcr_val, PCIEDMCHCR(ch));
+> +
+> +	/* Clear DMA interrupt source */
+> +	rcar_pci_write_reg(pcie, chsr_val, PCIEDMCHSR(ch));
+> +
+> +	spin_unlock_irqrestore(&ep->lock, flags);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static void rcar_pcie_ep_stop(struct pci_epc *epc)
+>  {
+>  	struct rcar_pcie_endpoint *ep = epc_get_drvdata(epc);
+> @@ -446,6 +654,8 @@ static const struct pci_epc_features rcar_pcie_epc_features = {
+>  	.bar_fixed_size[0] = 128,
+>  	.bar_fixed_size[2] = 256,
+>  	.bar_fixed_size[4] = 256,
+> +	.internal_dmac = true,
+> +	.internal_dmac_mask = DMA_BIT_MASK(32),
+>  };
+>  
+>  static const struct pci_epc_features*
+> @@ -466,6 +676,7 @@ static const struct pci_epc_ops rcar_pcie_epc_ops = {
+>  	.start		= rcar_pcie_ep_start,
+>  	.stop		= rcar_pcie_ep_stop,
+>  	.get_features	= rcar_pcie_ep_get_features,
+> +	.dmac_transfer	= rcar_pcie_ep_data_transfer,
+>  };
+>  
+>  static const struct of_device_id rcar_pcie_ep_of_match[] = {
+> @@ -480,6 +691,7 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+>  	struct rcar_pcie_endpoint *ep;
+>  	struct rcar_pcie *pcie;
+>  	struct pci_epc *epc;
+> +	int dmac_irq;
+>  	int err;
+>  
+>  	ep = devm_kzalloc(dev, sizeof(*ep), GFP_KERNEL);
+> @@ -502,6 +714,14 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+>  		goto err_pm_put;
+>  	}
+>  
+> +	dmac_irq = platform_get_irq(pdev, 1);
+> +	if (dmac_irq < 0)
+
+"err = dmac_irq" or just use "err".
+
+Thanks,
+Mani
+> +		goto err_pm_put;
+> +
+> +	init_completion(&ep->irq_raised);
+> +	mutex_init(&ep->dma_operation);
+> +	spin_lock_init(&ep->lock);
+> +
+>  	ep->num_ib_windows = MAX_NR_INBOUND_MAPS;
+>  	ep->ib_window_map =
+>  			devm_kcalloc(dev, BITS_TO_LONGS(ep->num_ib_windows),
+> @@ -533,6 +753,13 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+>  
+>  	rcar_pcie_ep_hw_init(pcie);
+>  
+> +	err = devm_request_irq(dev, dmac_irq, rcar_pcie_ep_dmac_irq_handler,
+> +			       0, "pcie-rcar-ep-dmac", pcie);
+> +	if (err) {
+> +		dev_err(dev, "failed to request dmac irq\n");
+> +		goto err_pm_put;
+> +	}
+> +
+>  	err = pci_epc_multi_mem_init(epc, ep->ob_window, ep->num_ob_windows);
+>  	if (err < 0) {
+>  		dev_err(dev, "failed to initialize the epc memory space\n");
+> diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
+> index 9bb125db85c6..874f8a384e6d 100644
+> --- a/drivers/pci/controller/pcie-rcar.h
+> +++ b/drivers/pci/controller/pcie-rcar.h
+> @@ -54,6 +54,29 @@
+>  #define  PAR_ENABLE		BIT(31)
+>  #define  IO_SPACE		BIT(8)
+>  
+> +/* PCIe DMAC control reg & mask */
+> +#define PCIEDMAOR		0x04000
+> +#define  PCIEDMAOR_DMAE		BIT(31)
+> +#define  PCIEDMAOR_DMAACT	BIT(16)
+> +#define PCIEDMPALR(x)		(0x04100 + ((x) * 0x40))
+> +#define PCIEDMPAUR(x)		(0x04104 + ((x) * 0x40))
+> +#define PCIEDMIAR(x)		(0x04108 + ((x) * 0x40))
+> +#define PCIEDMBCNTR(x)		(0x04110 + ((x) * 0x40))
+> +#define PCIEDMCCAR(x)		(0x04120 + ((x) * 0x40))
+> +#define PCIEDMCHCR(x)		(0x04128 + ((x) * 0x40))
+> +#define  PCIEDMCHCR_CHE		BIT(31)
+> +#define  PCIEDMCHCR_DIR		BIT(30)
+> +#define PCIEDMCHSR(x)		(0x0412c + ((x) * 0x40))
+> +#define  PCIEDMCHSR_CHTCE	BIT(28)
+> +#define  PCIEDMCHSR_PEEE	BIT(27)
+> +#define  PCIEDMCHSR_IBEE	BIT(25)
+> +#define  PCIEDMCHSR_CHTC	BIT(12)
+> +#define  PCIEDMCHSR_PEE		BIT(11)
+> +#define  PCIEDMCHSR_IBE		BIT(9)
+> +#define  PCIEDMCHSR_IE		BIT(3)
+> +#define  PCIEDMCHSR_TE		BIT(0)
+> +#define PCIEDMCHC2R(x)		(0x04130 + ((x) * 0x40))
+> +
+>  /* Configuration */
+>  #define PCICONF(x)		(0x010000 + ((x) * 0x4))
+>  #define  INTDIS			BIT(10)
+> -- 
+> 2.25.1
+> 
