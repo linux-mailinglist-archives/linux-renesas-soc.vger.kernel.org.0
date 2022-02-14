@@ -2,292 +2,228 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FA64B44F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 09:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E09F4B45D1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 10:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242476AbiBNIyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Feb 2022 03:54:37 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51256 "EHLO
+        id S243553AbiBNJbx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Feb 2022 04:31:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232624AbiBNIyf (ORCPT
+        with ESMTP id S243537AbiBNJbT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Feb 2022 03:54:35 -0500
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36695F8F7;
-        Mon, 14 Feb 2022 00:54:27 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id d22so7786120uaw.2;
-        Mon, 14 Feb 2022 00:54:27 -0800 (PST)
+        Mon, 14 Feb 2022 04:31:19 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A2ACAE42
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Feb 2022 01:30:22 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id a11-20020a17090a740b00b001b8b506c42fso18397931pjg.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Feb 2022 01:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VcnEn/2NWd+/RTs+MullchxIkZjgGZxkU+9opOFbT/E=;
+        b=gBTRLGlaAj4HJU+BV6EKy1c7SRjH3ZcYNjesOBAIUBrh/uJhWfqNl4nuvTvank74fG
+         0Fll3ywyLTal5NaXfV95mwYlAMez8rk1khrDRLlKR6cGCIwsm79cmXPrFfb1qEXUy5QF
+         XUpcU2pDxOq6U/6ODZq3rCeT/5yti0Vz6XB/gUKZDMsy9nxIV+889Bo3t1Ar5w/NkiY/
+         QbN9Q7xhG5aqC1ykGXzg3frw8QOXhjXr8K2osJ7VypdPmuUuU9S91ig7qh8E6uomgVNJ
+         TJlU2PasI8nha32acKj4h5iCGfQRiJoUopwJyYmHBNpTJToSexWQtID9cnFfcBB6eTZz
+         0jiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PlmHX1HHokXQyxG79YUgUTlDvUDqxBtLYhszaegEBgU=;
-        b=h3i1Z8nzAqun82XBV2fD/ig2HLw+teGNCAASQWMQCFHDqI9t1uT19oEhh5zEZcIuU+
-         Bq3M8b9AmuTXFPT84yAOeBuUNlrysibURMR6OFHVHsD4WrkQnARv4DbIUAbb6fVafQYz
-         n172V7K6PZnDeeErnHT3ZVLSeODa4Uxr7vKqr+4Qh3IZkb1Lwq4hfOUAq6oanfaahh4c
-         ghhcMiriuy/5i9xtOyfs2wSI6J4suyWEIwgNarLHNyUsNJeti7MrmGpdUw77pFM2B3V0
-         /VJlWZc3rJUCup9upp+0A3Mec9VHJCM+6ibN/KD5zeMv88Z6ScxHA1wIuvLnRfmNFN+n
-         aU6A==
-X-Gm-Message-State: AOAM532F4oFYgfApr/7sdQbGuIoS9AFkHxff6rc6B32WlsyWg9I0qJIE
-        ufp0G3r2jjEdlorzDZU2+umJO9CvkAFUt1FE
-X-Google-Smtp-Source: ABdhPJxG80+yVkBa/7DTSNK/cqa8g80w345JgDTQHyE4Tngp2pMgRHKbDaroOYU2h5FNY9Fr2rotSQ==
-X-Received: by 2002:a05:6130:413:: with SMTP id ba19mr3797932uab.4.1644828866592;
-        Mon, 14 Feb 2022 00:54:26 -0800 (PST)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id q131sm2271072vkq.23.2022.02.14.00.54.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 00:54:26 -0800 (PST)
-Received: by mail-vk1-f177.google.com with SMTP id l14so8568053vko.12;
-        Mon, 14 Feb 2022 00:54:25 -0800 (PST)
-X-Received: by 2002:a05:6122:c8f:: with SMTP id ba15mr3731293vkb.39.1644828865522;
- Mon, 14 Feb 2022 00:54:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20220212201631.12648-1-s.shtylyov@omp.ru> <20220212201631.12648-2-s.shtylyov@omp.ru>
-In-Reply-To: <20220212201631.12648-2-s.shtylyov@omp.ru>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Feb 2022 09:54:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUPxX7Tja6BCjEb4KDobNFPMcM66Fk7Z+VsO7pgb8JnjA@mail.gmail.com>
-Message-ID: <CAMuHMdUPxX7Tja6BCjEb4KDobNFPMcM66Fk7Z+VsO7pgb8JnjA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] platform: make platform_get_irq_optional() optional
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corey Minyard <minyard@acm.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VcnEn/2NWd+/RTs+MullchxIkZjgGZxkU+9opOFbT/E=;
+        b=oRSnpNbEudLJgsGmxECDZ2/5DpXyU/haCVMwud5hfwxkwXylnw+5DlX9svUIYl5vay
+         RsJ8lUzZZ9z+r3Fg5DYKvolIjRdQ2j9GLvL0fHshw39yTxyZrbDNKGMjArByjQJZyQFz
+         tk/NaEL59o7girP1Rb84fnAkvnWgDfNvU65XiEe2udzK8sB4lHZ+5jUg0Lh3Gu4BYYTG
+         8v+Pa6cpajZguQUH/UaHnItsgXGvOZz8z0T1qGOPgwHioB9036XXxdZggWNtlb5jhxUB
+         TXJ4yfYhI2PcAAPKt92TaMTCEpNpjYO1W7k6pYfrdCjC+rV0KpQ7YORd3MSMD91FNyvQ
+         QqLw==
+X-Gm-Message-State: AOAM530GMjGWsi4rP5ZF8CxTCGUOWZL3Jl3Q1sIySnECnoJyRBBknCwp
+        eZluGikWLQd/8JxRbcNl3O8A
+X-Google-Smtp-Source: ABdhPJw+/gbE94SUWsRBzGerqbSwRwYgZd0xqI8AQd5IBANHze8aVI2ksk/Qqd2UmHldJ+0vAgxYEw==
+X-Received: by 2002:a17:902:d88f:: with SMTP id b15mr13442997plz.44.1644831021418;
+        Mon, 14 Feb 2022 01:30:21 -0800 (PST)
+Received: from thinkpad ([2409:4072:817:5a6f:3104:62c0:1941:5033])
+        by smtp.gmail.com with ESMTPSA id g4sm35616188pfv.63.2022.02.14.01.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 01:30:21 -0800 (PST)
+Date:   Mon, 14 Feb 2022 15:00:12 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        openipmi-developer@lists.sourceforge.net,
-        linux-iio@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-phy@lists.infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-serial@vger.kernel.org, kvm@vger.kernel.org,
-        alsa-devel@alsa-project.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 1/5] PCI: endpoint: Add ops and flag to support
+ internal DMAC
+Message-ID: <20220214093012.GI3494@thinkpad>
+References: <20220126195043.28376-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220126195043.28376-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126195043.28376-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergey,
-
-On Sat, Feb 12, 2022 at 9:17 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
-> This patch is based on the former Andy Shevchenko's patch:
->
-> https://lore.kernel.org/lkml/20210331144526.19439-1-andriy.shevchenko@linux.intel.com/
->
-> Currently platform_get_irq_optional() returns an error code even if IRQ
-> resource simply has not been found.  It prevents the callers from being
-> error code agnostic in their error handling:
->
->         ret = platform_get_irq_optional(...);
->         if (ret < 0 && ret != -ENXIO)
->                 return ret; // respect deferred probe
->         if (ret > 0)
->                 ...we get an IRQ...
->
-> All other *_optional() APIs seem to return 0 or NULL in case an optional
-> resource is not available.  Let's follow this good example, so that the
-> callers would look like:
->
->         ret = platform_get_irq_optional(...);
->         if (ret < 0)
->                 return ret;
->         if (ret > 0)
->                 ...we get an IRQ...
->
-> Reported-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+On Wed, Jan 26, 2022 at 07:50:39PM +0000, Lad Prabhakar wrote:
+> Add flag to indicate if PCIe EP supports internal DMAC and also add a
+> wrapper function which invokes dmac_transfer() callback which lands
+> in the PCIe EP driver.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> Changes in version 2:
+>  drivers/pci/endpoint/pci-epf-core.c | 32 +++++++++++++++++++++++++++++
+>  include/linux/pci-epc.h             |  8 ++++++++
+>  include/linux/pci-epf.h             |  7 +++++++
+>  3 files changed, 47 insertions(+)
+> 
+> diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
+> index 9ed556936f48..f70576d0d4b2 100644
+> --- a/drivers/pci/endpoint/pci-epf-core.c
+> +++ b/drivers/pci/endpoint/pci-epf-core.c
+> @@ -239,6 +239,38 @@ void pci_epf_remove_vepf(struct pci_epf *epf_pf, struct pci_epf *epf_vf)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_epf_remove_vepf);
+>  
+> +/**
+> + * pci_epf_internal_dmac_xfr() - transfer data between EPC and remote PCIe RC
 
-Thanks for the update!
+Transfer data between EP and host using internal DMA engine
 
->  drivers/base/platform.c                  | 60 +++++++++++++++---------
+> + * @epf: the EPF device that performs the data transfer operation
+> + * @dma_dst: The destination address of the data transfer. It can be a physical
+> + *	     address given by pci_epc_mem_alloc_addr or DMA mapping APIs.
+> + * @dma_src: The source address of the data transfer. It can be a physical
+> + *	     address given by pci_epc_mem_alloc_addr or DMA mapping APIs.
+> + * @len: The size of the data transfer
+> + *
+> + * Invoke to transfer data between EPC and remote PCIe RC using internal dmac.
+> + */
+> +int pci_epf_internal_dmac_xfr(struct pci_epf *epf, dma_addr_t dma_dst,
+> +			      dma_addr_t dma_src, size_t len,
+> +			      enum pci_epf_xfr_direction dir)
 
-The core change LGTM.
+How about "pci_epf_internal_dma_xfer"? I think DMAC is somewhat platform
+specific so we could just use DMA. And "xfer" is being used more commonly for
+"transfer".
 
-I'm only looking at Renesas drivers below...
+> +{
+> +	struct pci_epc *epc = epf->epc;
+> +	int ret;
+> +
+> +	if (IS_ERR_OR_NULL(epc) || IS_ERR_OR_NULL(epf))
+> +		return -EINVAL;
+> +
+> +	if (!epc->ops->dmac_transfer)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&epf->lock);
+> +	ret = epc->ops->dmac_transfer(epc, epf, dma_dst, dma_src, len, dir);
 
-> --- a/drivers/mmc/host/sh_mmcif.c
-> +++ b/drivers/mmc/host/sh_mmcif.c
-> @@ -1465,14 +1465,14 @@ static int sh_mmcif_probe(struct platform_device *pdev)
->         sh_mmcif_sync_reset(host);
->         sh_mmcif_writel(host->addr, MMCIF_CE_INT_MASK, MASK_ALL);
->
-> -       name = irq[1] < 0 ? dev_name(dev) : "sh_mmc:error";
-> +       name = irq[1] <= 0 ? dev_name(dev) : "sh_mmc:error";
+internal_dma_xfer? It doesn't look perfect but I can't think of any other way to
+represent it as an internal dma callback.
 
-"== 0" should be sufficient here, if the code above would bail out
-on errors returned by platform_get_irq_optional(), which it currently
-doesn't do.
-As this adds missing error handling, this is to be fixed by a separate
-patch later?
+> +	mutex_unlock(&epf->lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_epf_internal_dmac_xfr);
+> +
+>  /**
+>   * pci_epf_free_space() - free the allocated PCI EPF register space
+>   * @epf: the EPF device from whom to free the memory
+> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+> index a48778e1a4ee..b55dacd09e1e 100644
+> --- a/include/linux/pci-epc.h
+> +++ b/include/linux/pci-epc.h
+> @@ -58,6 +58,7 @@ pci_epc_interface_string(enum pci_epc_interface_type type)
+>   * @map_msi_irq: ops to map physical address to MSI address and return MSI data
+>   * @start: ops to start the PCI link
+>   * @stop: ops to stop the PCI link
+> + * @dmac_transfer: ops to transfer data using internal DMAC
+>   * @get_features: ops to get the features supported by the EPC
+>   * @owner: the module owner containing the ops
+>   */
+> @@ -86,6 +87,9 @@ struct pci_epc_ops {
+>  			       u32 *msi_addr_offset);
+>  	int	(*start)(struct pci_epc *epc);
+>  	void	(*stop)(struct pci_epc *epc);
+> +	int	(*dmac_transfer)(struct pci_epc *epc, struct pci_epf *epf,
+> +				 dma_addr_t dma_dst, dma_addr_t dma_src,
+> +				 size_t len, enum pci_epf_xfr_direction dir);
+>  	const struct pci_epc_features* (*get_features)(struct pci_epc *epc,
+>  						       u8 func_no, u8 vfunc_no);
+>  	struct module *owner;
+> @@ -159,6 +163,8 @@ struct pci_epc {
+>   *			for initialization
+>   * @msi_capable: indicate if the endpoint function has MSI capability
+>   * @msix_capable: indicate if the endpoint function has MSI-X capability
+> + * @internal_dmac: indicate if the endpoint function has internal DMAC
+> + * @internal_dmac_mask: indicates the DMA mask to be applied for the device
+>   * @reserved_bar: bitmap to indicate reserved BAR unavailable to function driver
+>   * @bar_fixed_64bit: bitmap to indicate fixed 64bit BARs
+>   * @bar_fixed_size: Array specifying the size supported by each BAR
+> @@ -169,6 +175,8 @@ struct pci_epc_features {
+>  	unsigned int	core_init_notifier : 1;
+>  	unsigned int	msi_capable : 1;
+>  	unsigned int	msix_capable : 1;
+> +	unsigned int	internal_dmac : 1;
+> +	u64		internal_dmac_mask;
 
->         ret = devm_request_threaded_irq(dev, irq[0], sh_mmcif_intr,
->                                         sh_mmcif_irqt, 0, name, host);
->         if (ret) {
->                 dev_err(dev, "request_irq error (%s)\n", name);
->                 goto err_clk;
->         }
-> -       if (irq[1] >= 0) {
-> +       if (irq[1] > 0) {
+internal_dma?
 
-OK.
+>  	u8	reserved_bar;
+>  	u8	bar_fixed_64bit;
+>  	u64	bar_fixed_size[PCI_STD_NUM_BARS];
+> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+> index 009a07147c61..78d661db085d 100644
+> --- a/include/linux/pci-epf.h
+> +++ b/include/linux/pci-epf.h
+> @@ -32,6 +32,11 @@ enum pci_barno {
+>  	BAR_5,
+>  };
+>  
+> +enum pci_epf_xfr_direction {
+> +	PCIE_TO_INTERNAL,
+> +	INTERNAL_TO_PCIE,
 
->                 ret = devm_request_threaded_irq(dev, irq[1],
->                                                 sh_mmcif_intr, sh_mmcif_irqt,
->                                                 0, "sh_mmc:int", host);
+I think we could just use "dma_data_direction" as we are anyway transferring
+data between host and device.
 
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -439,7 +439,7 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
->         u32 val;
->         int ret;
->
-> -       if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq >= 0) {
-> +       if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq > 0) {
->                 INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
->                 ret = request_irq(channel->irq, rcar_gen3_phy_usb2_irq,
->                                   IRQF_SHARED, dev_name(channel->dev), channel);
-> @@ -486,7 +486,7 @@ static int rcar_gen3_phy_usb2_exit(struct phy *p)
->                 val &= ~USB2_INT_ENABLE_UCOM_INTEN;
->         writel(val, usb2_base + USB2_INT_ENABLE);
->
-> -       if (channel->irq >= 0 && !rcar_gen3_is_any_rphy_initialized(channel))
-> +       if (channel->irq > 0 && !rcar_gen3_is_any_rphy_initialized(channel))
->                 free_irq(channel->irq, channel);
->
->         return 0;
+Thanks,
+Mani
 
-LGTM, but note that all errors returned by platform_get_irq_optional()
-are currently ignored, even real errors, which should be propagated
-up.
-As this adds missing error handling, this is to be fixed by a separate
-patch later?
-
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -432,6 +432,8 @@ static int rcar_gen3_thermal_request_irqs(struct rcar_gen3_thermal_priv *priv,
->                 irq = platform_get_irq_optional(pdev, i);
->                 if (irq < 0)
->                         return irq;
-> +               if (!irq)
-> +                       return -ENXIO;
-
-While correct, and preserving existing behavior, this looks strange
-to me.  Probably this should return zero instead (i.e. the check
-above should be changed to "<= 0"), and the caller should start caring
-about and propagating up real errors.
-As this adds missing error handling, this is to be fixed by a separate
-patch later?
-
->
->                 irqname = devm_kasprintf(dev, GFP_KERNEL, "%s:ch%d",
->                                          dev_name(dev), i);
-> diff --git a/drivers/tty/serial/8250/8250_mtk.c b/drivers/tty/serial/8250/8250_mtk.c
-> index fb65dc601b23..328ab074fd89 100644
-
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-
-I think you missed
-
-    #define SCIx_IRQ_IS_MUXED(port)                 \
-            ((port)->irqs[SCIx_ERI_IRQ] ==  \
-             (port)->irqs[SCIx_RXI_IRQ]) || \
-            ((port)->irqs[SCIx_ERI_IRQ] &&  \
-             ((port)->irqs[SCIx_RXI_IRQ] < 0))
-
-above? The last condition should become "<= 0".
-
-> @@ -1915,7 +1915,7 @@ static int sci_request_irq(struct sci_port *port)
->                          * Certain port types won't support all of the
->                          * available interrupt sources.
->                          */
-> -                       if (unlikely(irq < 0))
-> +                       if (unlikely(irq <= 0))
->                                 continue;
->                 }
->
-> @@ -1963,7 +1963,7 @@ static void sci_free_irq(struct sci_port *port)
->                  * Certain port types won't support all of the available
->                  * interrupt sources.
->                  */
-> -               if (unlikely(irq < 0))
-> +               if (unlikely(irq <= 0))
->                         continue;
->
->                 /* Check if already freed (irq was muxed) */
-> @@ -2875,7 +2875,7 @@ static int sci_init_single(struct platform_device *dev,
->         if (sci_port->irqs[0] < 0)
->                 return -ENXIO;
->
-> -       if (sci_port->irqs[1] < 0)
-> +       if (sci_port->irqs[1] <= 0)
->                 for (i = 1; i < ARRAY_SIZE(sci_port->irqs); i++)
->                         sci_port->irqs[i] = sci_port->irqs[0];
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +};
+> +
+>  /**
+>   * struct pci_epf_header - represents standard configuration header
+>   * @vendorid: identifies device manufacturer
+> @@ -209,6 +214,8 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
+>  			enum pci_epc_interface_type type);
+>  int pci_epf_bind(struct pci_epf *epf);
+>  void pci_epf_unbind(struct pci_epf *epf);
+> +int pci_epf_internal_dmac_xfr(struct pci_epf *epf, dma_addr_t dma_dst, dma_addr_t dma_src,
+> +			      size_t len, enum pci_epf_xfr_direction dir);
+>  struct config_group *pci_epf_type_add_cfs(struct pci_epf *epf,
+>  					  struct config_group *group);
+>  int pci_epf_add_vepf(struct pci_epf *epf_pf, struct pci_epf *epf_vf);
+> -- 
+> 2.25.1
+> 
