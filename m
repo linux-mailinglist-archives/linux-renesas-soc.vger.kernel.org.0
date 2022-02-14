@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92CC84B5109
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 14:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB9E4B510D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Feb 2022 14:06:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352324AbiBNNFM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Feb 2022 08:05:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52974 "EHLO
+        id S1353894AbiBNNGM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Feb 2022 08:06:12 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344837AbiBNNFM (ORCPT
+        with ESMTP id S233758AbiBNNGL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Feb 2022 08:05:12 -0500
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34F24D609;
-        Mon, 14 Feb 2022 05:05:03 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id w4so145828vsq.1;
-        Mon, 14 Feb 2022 05:05:03 -0800 (PST)
+        Mon, 14 Feb 2022 08:06:11 -0500
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16264EA3D;
+        Mon, 14 Feb 2022 05:06:03 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id t22so18700657vsa.4;
+        Mon, 14 Feb 2022 05:06:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I0muS2xi2hk0SUx2u+TUmvYAZnrflht6LNuoC/eSby8=;
-        b=A4IShW5nz70VNL7ZMkaREL5ATxGtMHOjVO1agXYe0RxO7VdL/wlWck/qFmJl/hXvuK
-         aIz1PbUcFL52IPQSlM3gsCm4kmzGqHEgk/g8buQ+FzQJxSdZaXqR520wm2LtaqZKSRo2
-         yK/5XeF/D2u0OGg8YuWwHyVyED6oYiHbVO43w4YW0SVoDM8ZAnehMpR0847S+P5n6HwA
-         lwxciuzV2Q/Nw1al40stwD1BG9ExcncGs5+9WXU7A6PS/u3K4itPy4xUHyVbaJVPejeC
-         trcUo78l3G2lvx0sPtCWIcJrPvJ8YhBz/k6io8801mnBZlqFnUCicEpWCDphDsx8as4L
-         j/2g==
-X-Gm-Message-State: AOAM533JCgrcqp+BKa4T3PehQjb6+gwYtgemi8ULFIsSOf6kHUljeb7d
-        zeMsv/SpkjAIVsVRN+KYw5oHZcru2cENxw==
-X-Google-Smtp-Source: ABdhPJwedacpOLXEDkcLBfzfjh3w5jYvZQPPp+78mMl3W7K5dALR+FN748Cu4v04HN/PHzX+JdK0dw==
-X-Received: by 2002:a05:6102:3e90:: with SMTP id m16mr1417142vsv.21.1644843902945;
-        Mon, 14 Feb 2022 05:05:02 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id l7sm2959561uai.5.2022.02.14.05.05.02
+        bh=9c4MC5Xtn2gF/8NoLdQrBf3/Seq/IL9VP4ML3k/mjKo=;
+        b=6TI0wjSPhCVrxJsathLiQHlozLYagNJb0BrFkChvbOw+D5l9Q6uLSqmCtONregg+qT
+         NMIRQJl74zHqd359TvTg5OLHh90CqagiihGvgSJv94Bx85eFdjft9SPbszPt47lhlt+I
+         +SO1wMl0uZ308C+9oKLxQ38Sy6FFlNjcsPBWaPCSJ5345egXAsGsUFi6q7HAjxByiusn
+         w0t5rOZLW7/aYmkEVRm5xeEPY7B7nnQgfzFquqQPjmsuXZAGLoXUnxcRj23yuyVXwSex
+         0dK/uuTAFm+VXerPu3UfiFVuzXlHdAy2ncxsxF4Gu3+8VKjEWrq4RiDKZzftQNPtnJP9
+         up+w==
+X-Gm-Message-State: AOAM530B+cuWbWm8mz666k/8iz4KuFfTpd54VyaFGL0Q0ouchxm2kkRA
+        L5LMjemSG1zhjlnBNKyycmy6eeoXZDy7vw==
+X-Google-Smtp-Source: ABdhPJxVPw6Vwm4lpfA37lOzvBv8x3SYzHDyaX3IRJu78Vy+eB0auvuQa6SjE+6cMD4a4ImxCJc63Q==
+X-Received: by 2002:a67:ea08:: with SMTP id g8mr3580517vso.19.1644843962944;
+        Mon, 14 Feb 2022 05:06:02 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id m3sm2327094vso.0.2022.02.14.05.06.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 05:05:02 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id p7so7606406vsg.2;
-        Mon, 14 Feb 2022 05:05:02 -0800 (PST)
-X-Received: by 2002:a67:ec0c:: with SMTP id d12mr3442288vso.77.1644843902259;
- Mon, 14 Feb 2022 05:05:02 -0800 (PST)
+        Mon, 14 Feb 2022 05:06:02 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id w4so149511vsq.1;
+        Mon, 14 Feb 2022 05:06:02 -0800 (PST)
+X-Received: by 2002:a05:6102:440d:: with SMTP id df13mr1245927vsb.5.1644843962404;
+ Mon, 14 Feb 2022 05:06:02 -0800 (PST)
 MIME-Version: 1.0
-References: <2f108f63-0cf7-cc4c-462e-ec63736234cf@omp.ru>
-In-Reply-To: <2f108f63-0cf7-cc4c-462e-ec63736234cf@omp.ru>
+References: <6c08e98f-c7bb-9d95-5032-69022e43e39b@omp.ru>
+In-Reply-To: <6c08e98f-c7bb-9d95-5032-69022e43e39b@omp.ru>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Feb 2022 14:04:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWRYf7Lh--YPkpnHrnSBGTF52EpuZD+COv==L2scsj2PQ@mail.gmail.com>
-Message-ID: <CAMuHMdWRYf7Lh--YPkpnHrnSBGTF52EpuZD+COv==L2scsj2PQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: specify IRC channel for Renesas ARM32 port
+Date:   Mon, 14 Feb 2022 14:05:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXfieYjQCFgGJA79BtzTF2UD-9zx7V+g=pqVbqsjqOJeQ@mail.gmail.com>
+Message-ID: <CAMuHMdXfieYjQCFgGJA79BtzTF2UD-9zx7V+g=pqVbqsjqOJeQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: specify IRC channel for Renesas ARM64 port
 To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -65,7 +66,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Sergey,
 
-On Thu, Feb 10, 2022 at 6:58 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
+On Thu, Feb 10, 2022 at 7:00 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
 > The Renesas ARM ports do have their own IRC channel #renesas-soc (initially
 > created on Freenode, then moved to Liberta.Chat).  Hopefully, adding it to
 > this file will attract more people... :-)
@@ -76,13 +77,13 @@ Thanks for your patch!
 
 > --- renesas-devel.orig/MAINTAINERS
 > +++ renesas-devel/MAINTAINERS
-> @@ -2638,6 +2638,7 @@ ARM/SHMOBILE ARM ARCHITECTURE
+> @@ -2525,6 +2525,7 @@ ARM/RENESAS ARM64 ARCHITECTURE
 >  M:     Geert Uytterhoeven <geert+renesas@glider.be>
 >  M:     Magnus Damm <magnus.damm@gmail.com>
 >  L:     linux-renesas-soc@vger.kernel.org
 > +C:     irc://irc.libera.chat/renesas-soc
 
-Should be moved between Q and T below...
+Should be inserted between Q and T below...
 
 >  S:     Supported
 >  Q:     http://patchwork.kernel.org/project/linux-renesas-soc/list/
