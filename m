@@ -2,117 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D5D4B78AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Feb 2022 21:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD8BE4B7999
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Feb 2022 22:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243009AbiBOSUE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Feb 2022 13:20:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36446 "EHLO
+        id S243696AbiBOV2f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Feb 2022 16:28:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236752AbiBOSUE (ORCPT
+        with ESMTP id S233069AbiBOV2f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Feb 2022 13:20:04 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E11119F31
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Feb 2022 10:19:53 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id q17so862026edd.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Feb 2022 10:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=lY9tt/IhIWv9LzXk1s5BH9xemeCbBCE2YYRK5FOvrNE=;
-        b=XhiGCPJDX1x5n00gfop8vtHbzQ5XsVZvmshgTu4acZkOhiIVmg/2mfQGC7XefOGSQh
-         7QEmeeiaF4k3W7qS2sAFNPenGR196oA+WUOgM2DQXvT/BU9Crqh1zHzDT8I6gukAbcSH
-         hGMB/G1SaWUZOj0oRkIv3C5EcIXNTb0NCynacztYe5+s2TPOQ6Pik+hE6AOGmHOJ+CI7
-         usS3nTdkUOGZpWn3+lCNPo+9+f46XQIwlfOliH5nHYU4O+b8NWRFq8IrwdEPYd51Ztfo
-         CVShgB/CHFN5ZljM+JZt1ah9C79Lfq362kngCQUH5StBUEXRZ4485gF11p4WLnNcO/Ty
-         86rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=lY9tt/IhIWv9LzXk1s5BH9xemeCbBCE2YYRK5FOvrNE=;
-        b=ZmbrVDwK09q5VUCzUK8Em/z55+sudOrqHPPY504GSDm2PV6/trvNyYIiOEvYkFL+P8
-         c9RZop3VTp6PuxXuWtuApncG3w9XhR0slEzZMXrJhFgCkr91Hircx8okZE5xBkVx7dP4
-         md5i/68v40MSTjlAloqklg/NpQXNwh0pST55sW4wLI2brheyxyKbjWsuVjcbFSTJ8h9T
-         Pyfq7puN8/5LVAUGmiVTvKvcmZeCjjDCyxXSJuy/yqevNASizzxI0ZIZqyq6iMGGvKG1
-         BCOVpX7RkQrcU0fp0228TGQ3TcgoJTbpqaeXwg92Dv7OrXFoIM6EGMPHfT370lt6Hj8v
-         6xOA==
-X-Gm-Message-State: AOAM5320+IEsokaFKzDjA1JBs1BPVZcOs9a1L7PImTGA50jhBKs3bzFL
-        ACoItX5QdMd/melijKLWqbS6KZ2UmDcI793dOY0=
-X-Google-Smtp-Source: ABdhPJyOokKo/hunjO+CnmnpwKZ0ntLwWp2hx7HBUYTkhBb6eeghBzrAkuDAQczr/LskEt8nG1j3pM9F9r9kIb+Z9z0=
-X-Received: by 2002:aa7:ce90:: with SMTP id y16mr204238edv.292.1644949191868;
- Tue, 15 Feb 2022 10:19:51 -0800 (PST)
+        Tue, 15 Feb 2022 16:28:35 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3515BC24A9;
+        Tue, 15 Feb 2022 13:28:24 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 53B211B000F7;
+        Tue, 15 Feb 2022 23:28:19 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1644960499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TNR+UWwOUIe5Ol5GaIiTKvYLB6cZOFWi5SXT3cza3B8=;
+        b=Vsik3++9JZvVln1Zurc0XQHIHTlb/WOzoGgeYTq/r1s+vuSPf4991ZWyAKrUK2bMly684a
+        U+HomqvrB9Q8zSUUoC7ax+Y8fjUFmT9EDIXy0znNi7acv50Eb37tKatWL2EL7p3yma2cRn
+        S+IzECSditwIB143dK+FOQcQ5EAIYeR7FulasMffmKj/1gYfA1A/FFXYjWmlyjsU5C5gl/
+        Ep++7j9E5SwempIQqvqv3mNsNOLplLdp8y20VwFvq0WDH1N4mpUYQaEp5F3LzD1NZQpF8V
+        MIkaCpIk9lVK6vmiZcx1ZkAONahSRszmns8xyzPvX8MtEHalTrPdvetZE5dGvw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B2BDC634C93;
+        Tue, 15 Feb 2022 23:28:18 +0200 (EET)
+Date:   Tue, 15 Feb 2022 23:28:18 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
+Message-ID: <Ygwa8qJBNBMLREH9@valkosipuli.retiisi.eu>
+References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
+ <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+ <YeMoTVuO8nbgw9Rr@pendragon.ideasonboard.com>
+ <YgbUukylCOq8j0+r@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Sender: mrsaliceragnvar@gmail.com
-Received: by 2002:a17:907:9491:0:0:0:0 with HTTP; Tue, 15 Feb 2022 10:19:51
- -0800 (PST)
-From:   Aisha Al-Qaddafi <aishagaddafi1894@gmail.com>
-Date:   Tue, 15 Feb 2022 18:19:51 +0000
-X-Google-Sender-Auth: NlQaCYS33jJ-knYs833tgwmUXrw
-Message-ID: <CAGHGhXAxG0-TBCBdRxXUbdLcEv_XLE9-+OSKLNf=FQ5a18i=Og@mail.gmail.com>
-Subject: Investment proposal,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,LOTS_OF_MONEY,MILLION_HUNDRED,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY,URG_BIZ
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:536 listed in]
-        [list.dnswl.org]
-        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.7228]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [aishagaddafi1894[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 MILLION_HUNDRED BODY: Million "One to Nine" Hundred
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.6 URG_BIZ Contains urgent matter
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YgbUukylCOq8j0+r@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1644960499; a=rsa-sha256;
+        cv=none;
+        b=ekiXkpD+cJr9GyLovAdkVkstOGXEGQCE3N8NFy0n5voQt8LiGjZs+ruCankt557I8htuPu
+        0HudXoRXIxh6zoqo9E4VLWWM2R096JktZCHv17/jW/00edDLhTymDzMHLeeDlcLCRdDV39
+        s/nvrW71tJmz0NAZCyA5G8TJOv5fibY2yK35ls4rBoJkQ45GEyEI3/pddznK8nKS4yDlYe
+        TcVjGWWiR165/vYkxOmyGGl48/DIWXznCDk8Kj5dXCVJLWjhCYiFNb+enE8v9lfLauD8vK
+        BrEUIkPy9ph7TSAW4m+wYtNfwuglQrYdA8hrk4x9O9TrjkaoJrrGQmVG2e2TmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1644960499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TNR+UWwOUIe5Ol5GaIiTKvYLB6cZOFWi5SXT3cza3B8=;
+        b=LUy0dud2TwkZ3l9rxJ20837f8kR2GlqE8IKTj1kGhVEK1eaUXBVzscHEAo47aBjeHMF1JB
+        Gw+U+GcwFdyHT/nXAs8OGN4YLVvUidRukfTyHEezW8Tm8gwRPY5uoWFJOgkq8D7O+j9lEr
+        HKxflG6XBTj4rRRaBMcy7Ir/8UrsBjVf0hmh+wUWBRhIwL8w0/5DM0VuG7VoK1NEdXcGGl
+        /dhVQXKprzFkvwW4VmO67F4rZkTU0m6vmX7LwaBLWbwYGGNw3XJ0hmH0BPa4qhcJCSmzXQ
+        Lz4MbBusP/g58RlkzUsO2nl3bjTGuXB6Bn/4ZurU8rSyRQCtp10INM5iO/rj3g==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Dear Friend,
+On Fri, Feb 11, 2022 at 11:27:22PM +0200, Laurent Pinchart wrote:
+> > > I'll do that when applying if that's fine.
+> > 
+> > Fine with me, I don't mind either way. Thanks.
+> 
+> Will you take this series for v5.18 ?
 
-With due respect to your person and much sincerity of purpose I wish
-to write to you today for our mutual benefit in this investment
-transaction..
-I'm Mrs. Aisha Al-Gaddafi, presently residing herein Oman the
-Southeastern coast of the Arabian Peninsula in Western Asia, I'm a
-single Mother and a widow with three Children. I am the only
-biological Daughter of the late Libyan President (Late Colonel Muammar
-Gaddafi). I have an investment funds worth Twenty Seven Million Five
-Hundred Thousand United State Dollars ($27.500.000.00 ) and i need an
-investment Manager/Partner and because of my Asylum Status I will
-authorize you the ownership of the investment funds, However, I am
-interested in you for investment project assistance in your country,
-may be from there,. we can build a business relationship in the
-nearest future.
+Yes.
 
-I am willing to negotiate an investment/business profit sharing ratio
-with you based on the future investment earning profits. If you are
-willing to handle this project kindly reply urgently to enable me to
-provide you more information about the investment funds..
-
-Your urgent reply will be appreciated if only you are interested in
-this investment project.
-Best Regards
-Mrs. Aisha Al-Gaddafi.
+-- 
+Sakari Ailus
