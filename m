@@ -2,86 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ADAA4B66D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Feb 2022 10:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2594B6A0D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Feb 2022 12:00:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235519AbiBOJB1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Feb 2022 04:01:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40222 "EHLO
+        id S236776AbiBOLAw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Feb 2022 06:00:52 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235500AbiBOJB0 (ORCPT
+        with ESMTP id S236856AbiBOLAt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Feb 2022 04:01:26 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E2D6114FD5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Feb 2022 01:01:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=y7Ojvod9+ZpN827MzLnUKiSkc9CW
-        wjhDbQFUG6dvktQ=; b=gXMgV5XDsyJL9zRSNeM5aP1wv1TSc/ONmvq8N46jMsKC
-        TcygaTHUr9ADML0lfdQzasKtdZqpg9wjXIw4DAVzXagsPndplCHNxnw7MDdvd3xp
-        cUp1ov6E7LtFHPqhS8j57eQQZWJ9AxhwemEbWT5UB6hQogsqBbY0MkzDQWcIOto=
-Received: (qmail 3495615 invoked from network); 15 Feb 2022 10:01:13 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Feb 2022 10:01:13 +0100
-X-UD-Smtp-Session: l3s3148p1@pRRnxgrYTsEgAQnoAEgfAAKtE+bAt3OE
-Date:   Tue, 15 Feb 2022 10:01:13 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: don't expose function which is only used
- internally
-Message-ID: <Ygtr2dHh93+rTbnu@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20220210213341.2121-1-wsa+renesas@sang-engineering.com>
+        Tue, 15 Feb 2022 06:00:49 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074EFF9562
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Feb 2022 03:00:38 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id C8F71240011;
+        Tue, 15 Feb 2022 11:00:32 +0000 (UTC)
+Date:   Tue, 15 Feb 2022 12:01:41 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>
+Subject: Re: [RFC PATCH 7/8] media: v4l2-mediabus: Drop legacy
+ V4L2_MBUS_CSI2_CHANNEL_* flags
+Message-ID: <20220215110141.se2gyvfb2xvez2vn@uno.localdomain>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220103162414.27723-8-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="N+V3hSAFVQK6Gk6a"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220210213341.2121-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220103162414.27723-8-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent
 
---N+V3hSAFVQK6Gk6a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 03, 2022 at 06:24:13PM +0200, Laurent Pinchart wrote:
+> The V4L2_MBUS_CSI2_CHANNEL_* flags are a legacy API. Only
+> V4L2_MBUS_CSI2_CHANNEL_0 is used, set in a single driver, and never
+> read. Drop those flags. Virtual channel information should be conveyed
+> through frame descriptors instead.
 
-On Thu, Feb 10, 2022 at 10:33:41PM +0100, Wolfram Sang wrote:
-> i2c_setup_smbus_alert() is only needed within the I2C core, so no need
-> to expose it to other modules.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I see one more user in the latest media master
+drivers/media/platform/atmel/microchip-csi2dc.c:        if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
 
-Applied to for-next, thanks!
+With that fixed
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+Thanks
+  j
 
---N+V3hSAFVQK6Gk6a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmILa9kACgkQFA3kzBSg
-KbZRig//SYzvRA2Mz5bCZoYnhySXwRnrBo47NJW2nH+MaRX0d7Br/KgDBz2OYrh1
-y33Blyu6PbC2eWTxaS53nGLaZcV1U11lY9MgQW0iu7rf/29/9u73SH1HRLM8eaTz
-PUB32dOCp8kxxlPElukwyFGFFjeUgOGzHaxHCqxKd6ows5SrQ0avPVdEDw3hqYB7
-w5ha1p85JqYXIkYaVrqGo5uYSlXHBNFyamGKf3faDaGI1uO45dPxrJmizHmOunVO
-dsZtplSHp6I3lluCTMphtkT1re0g/JJlYnxnoeUkZmIJGJFITg2A5oWtW8FDAtjY
-2GzKlBz1Ra9BQeN1zPC+/Tsr/2IBjuDDCZEw/iOuV6kUh1/0xJXYcXk8XHmkXzPi
-MB+ul4i7XvUTgvnbXNY48t96+OYqb7msBdhxxL69U5uEzu4pP/e43Q/zAI37XRAU
-AlToq+iUSBl3CH93Ff3N5NdHV2IA8htycF7M9ieE+Gt/Wpy0A8eOs05W34eS0eYA
-ZVzLVykdA/w+iafeSMGZ0E2sL6CS8lXzEnL8cj8MK/qDRVrdMl+LE/ZuzLv4EHA5
-BZyudr1t4Alyb4GnQ4DRVpWaPzGEGWoVn+42mXByth4QluEfUvgaHd11fN7G8ZrR
-XCuSUUwjqczPbReHcEZrNcyXp6zDwidRZXhQql0ixijEVvTxYvM=
-=xuVw
------END PGP SIGNATURE-----
-
---N+V3hSAFVQK6Gk6a--
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/adv7180.c   |  1 -
+>  include/media/v4l2-mediabus.h | 10 ----------
+>  2 files changed, 11 deletions(-)
+>
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index 286f5017d9c3..3ff37a550810 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -786,7 +786,6 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+>  		cfg->type = V4L2_MBUS_CSI2_DPHY;
+>  		cfg->bus.mipi_csi2.num_data_lanes = 1;
+>  		cfg->bus.mipi_csi2.flags =
+> -				V4L2_MBUS_CSI2_CHANNEL_0 |
+>  				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+>  	} else {
+>  		/*
+> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> index 44195ceeccca..c6626a22b394 100644
+> --- a/include/media/v4l2-mediabus.h
+> +++ b/include/media/v4l2-mediabus.h
+> @@ -67,20 +67,10 @@
+>  #define V4L2_MBUS_DATA_ENABLE_LOW		BIT(15)
+>
+>  /* Serial flags */
+> -/* CSI-2 Virtual Channel identifiers. */
+> -#define V4L2_MBUS_CSI2_CHANNEL_0		BIT(4)
+> -#define V4L2_MBUS_CSI2_CHANNEL_1		BIT(5)
+> -#define V4L2_MBUS_CSI2_CHANNEL_2		BIT(6)
+> -#define V4L2_MBUS_CSI2_CHANNEL_3		BIT(7)
+>  /* Clock non-continuous mode support. */
+>  #define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
+>  #define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
+>
+> -#define V4L2_MBUS_CSI2_CHANNELS		(V4L2_MBUS_CSI2_CHANNEL_0 | \
+> -					 V4L2_MBUS_CSI2_CHANNEL_1 | \
+> -					 V4L2_MBUS_CSI2_CHANNEL_2 | \
+> -					 V4L2_MBUS_CSI2_CHANNEL_3)
+> -
+>  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
+>
+>  /**
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
