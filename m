@@ -2,233 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F37F4B871B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Feb 2022 12:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD5354B8FE3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Feb 2022 19:10:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232426AbiBPLvE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Feb 2022 06:51:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58794 "EHLO
+        id S237459AbiBPSKm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Feb 2022 13:10:42 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbiBPLvC (ORCPT
+        with ESMTP id S237454AbiBPSKl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Feb 2022 06:51:02 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A151CEB29;
-        Wed, 16 Feb 2022 03:50:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2A13BB81EBE;
-        Wed, 16 Feb 2022 11:50:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C879C004E1;
-        Wed, 16 Feb 2022 11:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645012247;
-        bh=WsEFfbYJE6Lo2G0DMfj7k4uUYaubjxYJL8BKx1NHyu0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ERVnwa4fEztdw2J4gsG6nx+Hjo6NBjyBE8kkwayuTCR2yQyfa5e1EzvV3cZYT2nNv
-         jvOeD1k2pp8+lIiC/DvPnRkiKhxeD359FCzH4bewyd2tVjqcy6/vL19WfdAr2eAph3
-         zS/CcGAc70ONpn31HuZFVs6FBbR43Wo7a+ea9pUNFfnt+Zxg9aCXqVI5hTF/5IAPC7
-         QRZmWFSgTP4tGtTRNNukCQIJTbKadPkHBII3xQZKSRsNXcRRQKZ/gn5kMWZ+EgiOXK
-         CrQOpqDPD5rjFNxmeBDvaptQr4vZlmI1sm3YzX5HEtLWzXgWufuhQ7r1R2sIBck/39
-         rTbxDMj3mxd8w==
-Received: by pali.im (Postfix)
-        id CCAC67F4; Wed, 16 Feb 2022 12:50:44 +0100 (CET)
-Date:   Wed, 16 Feb 2022 12:50:44 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     marek.vasut@gmail.com, Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] PCI: rcar: Return all Fs from read which
- triggered an exception
-Message-ID: <20220216115044.kslb47pup4dsukgh@pali>
-References: <20220122221554.196311-1-marek.vasut@gmail.com>
- <20220122221554.196311-2-marek.vasut@gmail.com>
+        Wed, 16 Feb 2022 13:10:41 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D6A2A4A37
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Feb 2022 10:10:28 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id e5so5347331lfr.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Feb 2022 10:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IcjZSFFwvzH/2up3CoXhhR79DVF3xC2YmgnlBmig55Y=;
+        b=w0bfYwr/yIGgKsMa1Lc2zzEf7dvcqLF1kzRhwu0wytHvdRAS+simDuAOgxyM7Vwzu9
+         tlA5U3ssSqPOn3EMDTDRu2aq9oU+7vOWm6Roq0/pqSQOMdVBM3gbeduVwjmbT2DHWVMb
+         q9D5CEfQHC+J+H/Y7rnP2d/ViEGlk215M49G6LxjPZ3Yv1Gz1UZBEOmnRjhgIuqmvUgU
+         C8Eiuf2J1pQ6sjyI8nRt/GyZ2yP3Kbqx5fXJXA3lcicj7pPDK7CF//nRb9Wy/Et7Qb1y
+         iIZdq5bvjNBVYdqRcmCwQjysllfixuxZE6Oo5rcbxX4XfaY1rB9fH43GUQvoq0ccjNTB
+         HcQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IcjZSFFwvzH/2up3CoXhhR79DVF3xC2YmgnlBmig55Y=;
+        b=sAWTVcFheU3GJbHHp/yuC8dvqV/INbCM4jYY3sJ0EjWwj7OOcGDCgBhviYQfVMdixI
+         yRJH1zN+8q+77mWQ5btmR7GCbW8sFXAoEjgOxyRxAaKDOpJBw+eMdA6FolYOToUvFts5
+         rP1G9NBs/UuNPcmXiJu32QeUwipkyeAfkUyTCHl9VLJnuQiEsH0mBH0WyuQP4Yel1irS
+         Hd8PlLMB9uiVVCmno9VDszEDNOEkgBemYnqDe8rwZ4TVkR9a28FrcrXWhF4yucchna2d
+         4cyiTW5L0fupWIehEdfSrtKLyA5r6tkg+3eIJlHwEm1kIJhK/yYPkNDVFGXMacfclzwH
+         GR/A==
+X-Gm-Message-State: AOAM531w3TsJJb1DMsBlYuvgLO7qDN/5eDDQlwC/Q/DEvGfZirb457oa
+        WVD8fxH3Uuk/aYjqoQMErg9t2Q==
+X-Google-Smtp-Source: ABdhPJyHHJ2z98x3FxWyYQVGxbdwLK7ZNxTg/1MKt2UFEenBVMHIcz9Wxy7OW5QZqcMRz5JB8DYs3Q==
+X-Received: by 2002:a05:6512:1507:b0:443:7e88:ce57 with SMTP id bq7-20020a056512150700b004437e88ce57mr2877346lfb.659.1645035026383;
+        Wed, 16 Feb 2022 10:10:26 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id y18sm567909ljd.13.2022.02.16.10.10.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 10:10:25 -0800 (PST)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] arm64: dts: renesas: ulcb-kf: fix wrong comment
+Date:   Wed, 16 Feb 2022 21:10:04 +0300
+Message-Id: <20220216181003.114049-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220122221554.196311-2-marek.vasut@gmail.com>
-User-Agent: NeoMutt/20180716
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Saturday 22 January 2022 23:15:54 marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> In case the controller is transitioning to L1 in rcar_pcie_config_access(),
-> any read/write access to PCIECDR triggers asynchronous external abort. This
-> is because the transition to L1 link state must be manually finished by the
-> driver. The PCIe IP can transition back from L1 state to L0 on its own.
-> 
-> The current asynchronous external abort hook implementation restarts
-> the instruction which finally triggered the fault, which can be a
-> different instruction than the read/write instruction which started
-> the faulting access. Usually the instruction which finally triggers
-> the fault is one which has some data dependency on the result of the
-> read/write. In case of read, the read value after fixup is undefined,
-> while a read value of faulting read should be all Fs.
-> 
-> It is possible to enforce the fault using 'isb' instruction placed
-> right after the read/write instruction which started the faulting
-> access. Add custom register accessors which perform the read/write
-> followed immediately by 'isb'.
-> 
-> This way, the fault always happens on the 'isb' and in case of read,
-> which is located one instruction before the 'isb', it is now possible
-> to fix up the return value of the read in the asynchronous external
-> abort hook and make that read return all Fs.
+Fix comment referencing salvator board, likely a copy-paste leftover.
 
-I'm looking at this again and I do not think that this is reliable.
-Asynchronous aborts are by definition asynchronous. Placing isb looks
-like a hack to decrease probability that asynchronous abort would be
-triggered at wrong time.
+ulcb-kf.dtsi has nothing to do with salvator.
 
-Marek: Cannot you change the code to trigger proper synchronous abort
-for this operation? If this is ARMv7 system, what about trying to change
-memory mapping where is the accessing address to strongly-ordered?
-Writing to strongly-ordered ARMv7 mapping could not report asynchronous
-aborts anymore, but I'm not sure.
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Marek: Are you sure that also ldr instruction is causing asynchronous
-abort? This is strange as normally load from memory mapped config space
-could not finish earlier than data from config space are fetched.
-Normally these load instructions should cause synchronous abort on data
-errors.
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+index d122e645a892..40147920bdf7 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+@@ -413,7 +413,7 @@ &sound_clk_pins
+ 		     &sound_pcm_pins>;
+ 
+ 	ports {
+-		/* rsnd_port0/1 are on salvator-common */
++		/* rsnd_port0/1 are defined in ulcb.dtsi */
+ 		rsnd_port2: port@2 {
+ 			reg = <2>;
+ 			rsnd_for_pcm3168a_play: endpoint {
+-- 
+2.30.2
 
-Bjorn, Lorenzo, Krzysztof: These kind of aborts are common for lot of
-ARM SoCs and I think that some generic/core PCI code would be useful.
-I talked with more people and these aborts really affects more drivers,
-just mainline kernel does not have fixes/workarounds. Common suggestions
-(as workarounds) in vendors kernels are to disable ASPM or other PCIe
-feature (which has probability to trigger this error) or stop using any
-PCIe switches, etc... This is really ridiculous but everything comes to
-the issue that some device in the PCIe topology sends UR or CA response,
-or that PCIe controller itself send this response. Lot of PCIe
-controllers on ARM SoCs converts PCIe UR or CA as fatal aborts to CPU
-(AXI slave error) and crash is there. Note that at least during PCIe
-device enumeration is UR or CA fully valid response which should never
-cause CPU/SoC to crash.
-
-Lorenzo: Do you have an idea if it is possible to completely mute AXI
-slave errors which comes from PCIe controllers?
-
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Wilczyński <kw@linux.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Rebase on 1/2
-> V3: - Add .text.fixup on all three ldr/str/isb instructions and call
->       fixup_exception() in the abort handler to trigger the fixup.
->     - Propagate return value from read/write accessors, in case the
->       access fails, return PCIBIOS_SET_FAILED, else PCIBIOS_SUCCESSFUL.
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 53 +++++++++++++++++++++++--
->  1 file changed, 49 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index 7d38a9c50093..b2e521ee95eb 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -114,6 +114,51 @@ static u32 rcar_read_conf(struct rcar_pcie *pcie, int where)
->  	return val >> shift;
->  }
->  
-> +#ifdef CONFIG_ARM
-> +#define __rcar_pci_rw_reg_workaround(instr)				\
-> +		"1:	" instr " %1, [%2]\n"				\
-> +		"2:	isb\n"						\
-> +		"3:	.pushsection .text.fixup,\"ax\"\n"		\
-> +		"	.align	2\n"					\
-> +		"4:	mov	%0, #" __stringify(PCIBIOS_SET_FAILED) "\n" \
-> +		"	b	3b\n"					\
-> +		"	.popsection\n"					\
-> +		"	.pushsection __ex_table,\"a\"\n"		\
-> +		"	.align	3\n"					\
-> +		"	.long	1b, 4b\n"				\
-> +		"	.long	1b, 4b\n"				\
-> +		"	.popsection\n"
-> +#endif
-> +
-> +int rcar_pci_write_reg_workaround(struct rcar_pcie *pcie, u32 val, unsigned int reg)
-> +{
-> +	int error = PCIBIOS_SUCCESSFUL;
-> +#ifdef CONFIG_ARM
-> +	asm volatile(
-> +		__rcar_pci_rw_reg_workaround("str")
-> +	: "+r"(error):"r"(val), "r"(pcie->base + reg) : "memory");
-> +#else
-> +	rcar_pci_write_reg(pcie, val, reg);
-> +#endif
-> +	return error;
-> +}
-> +
-> +int rcar_pci_read_reg_workaround(struct rcar_pcie *pcie, u32 *val, unsigned int reg)
-> +{
-> +	int error = PCIBIOS_SUCCESSFUL;
-> +#ifdef CONFIG_ARM
-> +	asm volatile(
-> +		__rcar_pci_rw_reg_workaround("ldr")
-> +	: "+r"(error), "=r"(*val) : "r"(pcie->base + reg) : "memory");
-> +
-> +	if (error != PCIBIOS_SUCCESSFUL)
-> +		*val = 0xffffffff;
-> +#else
-> +	*val = rcar_pci_read_reg(pcie, reg);
-> +#endif
-> +	return error;
-> +}
-> +
->  /* Serialization is provided by 'pci_lock' in drivers/pci/access.c */
->  static int rcar_pcie_config_access(struct rcar_pcie_host *host,
->  		unsigned char access_type, struct pci_bus *bus,
-> @@ -185,14 +230,14 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
->  		return PCIBIOS_DEVICE_NOT_FOUND;
->  
->  	if (access_type == RCAR_PCI_ACCESS_READ)
-> -		*data = rcar_pci_read_reg(pcie, PCIECDR);
-> +		ret = rcar_pci_read_reg_workaround(pcie, data, PCIECDR);
->  	else
-> -		rcar_pci_write_reg(pcie, *data, PCIECDR);
-> +		ret = rcar_pci_write_reg_workaround(pcie, *data, PCIECDR);
->  
->  	/* Disable the configuration access */
->  	rcar_pci_write_reg(pcie, 0, PCIECCTLR);
->  
-> -	return PCIBIOS_SUCCESSFUL;
-> +	return ret;
->  }
->  
->  static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
-> @@ -1097,7 +1142,7 @@ static struct platform_driver rcar_pcie_driver = {
->  static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
->  		unsigned int fsr, struct pt_regs *regs)
->  {
-> -	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
-> +	return !fixup_exception(regs);
->  }
->  
->  static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
-> -- 
-> 2.34.1
-> 
