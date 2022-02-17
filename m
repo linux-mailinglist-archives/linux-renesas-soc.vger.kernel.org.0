@@ -2,250 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7581A4BA346
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Feb 2022 15:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DAFC4BAA0E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Feb 2022 20:45:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241999AbiBQOmh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Feb 2022 09:42:37 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38304 "EHLO
+        id S231827AbiBQTpP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Feb 2022 14:45:15 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241975AbiBQOmd (ORCPT
+        with ESMTP id S231135AbiBQTpO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Feb 2022 09:42:33 -0500
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Feb 2022 06:42:15 PST
-Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C881EA710;
-        Thu, 17 Feb 2022 06:42:15 -0800 (PST)
-IronPort-SDR: mYI/ABF/DRwGmr1JDfW7M1EEflyDLpZ/u/DtTUwaTAhdB+IY4z1Iv0/4Q4eCyrZ0TEJ02MIMDk
- bT3ZfG29L6GIXSNvfhzHmTpvA+0OVmKLDV4uHE3MFTYvLgMqvi1I3IqY9a2qbp1E9VOec4niQO
- g1uqKshddxrdVRjTPlppkpc6fju1h36WJxRZwelxnlYFMP3mbnd7UnfgiuEM8ByYfVW0LHeh/q
- qagJPmN6avl2lPeNvEmUjrFD4qrgeV8Gv2IHFiRoXWCoMX1R0Rb7JqM1SBSXS7vXorEBKNFYX7
- mAJUz/FNyMnYqu2nOonSf820
-X-IronPort-AV: E=Sophos;i="5.88,376,1635235200"; 
-   d="scan'208";a="72081798"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 17 Feb 2022 06:41:12 -0800
-IronPort-SDR: 5vO35a3HQ31nmaqSObbk0ZxQamAwBV886ZZr/ckDFS4PvNtTl6wqfs1VyCVw4gV19AYTqWfRbN
- fIOS1bbxoDFnJs4ghqhVoIZOvwGLfvMXV1t6w5hr5J0WPI7IkZND3mUwtYMcM8m/nT+AXS0Ee+
- 55jiF0CzanTegedPQuVhZFc9pKILPVyEncZNNgPjiba9uCiul64Q/Ttj0iP6qbe4T6Viz6zjKM
- QTg6Ys0BmPc6ekxSjWj/GlLTGNilU+jzAxv41tcCMTkLldcCnN3gTPVASIZiVwTS1ufu7fBr3y
- TkY=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Geert Uytterhoeven' <geert+renesas@glider.be>,
-        'Wolfram Sang' <wsa+renesas@sang-engineering.com>
-CC:     'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>,
-        'Linux I2C' <linux-i2c@vger.kernel.org>,
-        'Linux Kernel Mailing List' <linux-kernel@vger.kernel.org>,
-        "Surachari, Bhuvanesh" <Bhuvanesh_Surachari@mentor.com>
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com> <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>    
-In-Reply-To: 
-Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-Date:   Thu, 17 Feb 2022 17:40:56 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000001d8240c$65be7de0$313b79a0$@mentor.com>
+        Thu, 17 Feb 2022 14:45:14 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73F341FB4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Feb 2022 11:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=PLV4LWdDj/u4ldrwNJYwwtOs/CoI
+        lUCOXcXS6q9IYUo=; b=fJL2ikFxTOLyTXIRNVEYrWc0XWEN34j1CyPK4lhiH+rY
+        /9XQ8S2Qp7qxN2GdupIvJ9LbAX7m59ina+JE/ZcEyS5CZF1Rn+mY3j966OJwrHW7
+        QrJ87kXFw2LIK0RqAefXtu3QnG5iYSKr1/gCLMZLk3dyVUK74zEoUh8h8SwMmuQ=
+Received: (qmail 507920 invoked from network); 17 Feb 2022 20:44:54 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Feb 2022 20:44:54 +0100
+X-UD-Smtp-Session: l3s3148p1@9M/h/zvY1uogAQnoAFSyAKtB1T4Nf0Bd
+Date:   Thu, 17 Feb 2022 20:44:51 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Andrew Gabbasov <andrew_gabbasov@mentor.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+Subject: Re: [PATCH v2] i2c: rcar: add SMBus block read support
+Message-ID: <Yg6ls0zyTDe7LQbK@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
+References: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
+ <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>
+ <000001d7badd$a8512d30$f8f38790$@mentor.com>
+ <20211006182314.10585-1-andrew_gabbasov@mentor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHXue1eCQdNXjaiK021FrevUeTu7qvGRbCQgEMVGxCAUkv+EIAYU0UAgCSk5iA=
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-11.mgc.mentorg.com (139.181.222.11) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2acm5ptTzxcRBe88"
+Content-Disposition: inline
+In-Reply-To: <20211006182314.10585-1-andrew_gabbasov@mentor.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Geert, Wolfram,
 
-Could you please let us know your opinion on this patch
-and further requirements, if any.
+--2acm5ptTzxcRBe88
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+Hi Andrew,
 
-Best regards,
-Andrew
+first sorry that it took so long. The reason here is that my original
+plan was to add 256-byte support to RECV_LEN in the I2C core and enable
+it on R-Car afterwards. Sadly, I never found the time to drive this
+forward. So, all RECV_LEN things got stuck for a while :(
 
-> -----Original Message-----
-> From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> Sent: Tuesday, January 25, 2022 9:46 AM
-> To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> Cc: 'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>; 'Linux I2C' <linux-i2c@vger.kernel.org>; 'Linux Kernel
-> Mailing List' <linux-kernel@vger.kernel.org>; 'Wolfram Sang' <wsa+renesas@sang-engineering.com>; Surachari,
-> Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-> 
-> Hello Geert, Wolfram,
-> 
-> Any feedback on the patch, please?
-> 
-> Thanks.
-> 
-> Best regards,
-> Andrew
-> 
-> > -----Original Message-----
-> > From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > Sent: Sunday, January 09, 2022 10:20 PM
-> > To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> > Cc: 'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>; 'Linux I2C' <linux-i2c@vger.kernel.org>; 'Linux Kernel
-> > Mailing List' <linux-kernel@vger.kernel.org>; 'Wolfram Sang' <wsa+renesas@sang-engineering.com>; Surachari,
-> > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-> >
-> > Hello Geert, Wolfram,
-> >
-> > Could you please let me know your opinion on version 2 of this patch,
-> > that addressed your earlier review comments?
-> >
-> > https://lore.kernel.org/all/20211006182314.10585-1-andrew_gabbasov@mentor.com/
-> >
-> > Does it still need any further modifications or are you going to promote it further upstream?
-> >
-> > Thanks.
-> >
-> > Best regards,
-> > Andrew
-> >
-> > > -----Original Message-----
-> > > From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > > Sent: Thursday, November 18, 2021 1:35 PM
-> > > To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> > > Cc: 'Linux-Renesas' <linux-renesas-soc@vger.kernel.org>; 'Linux I2C' <linux-i2c@vger.kernel.org>; 'Linux
-> Kernel
-> > > Mailing List' <linux-kernel@vger.kernel.org>; 'Wolfram Sang' <wsa+renesas@sang-engineering.com>; Surachari,
-> > > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > > Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-> > >
-> > > Hello Geert, Wolfram,
-> > >
-> > > Do you have any feedback on version 2 of this patch, that was submitted
-> > > after your review comments below?
-> > >
-> > > https://lore.kernel.org/all/20211006182314.10585-1-andrew_gabbasov@mentor.com/
-> > >
-> > > Thanks!
-> > >
-> > > Best regards,
-> > > Andrew
-> > >
-> > > > -----Original Message-----
-> > > > From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > > > Sent: Wednesday, October 06, 2021 9:12 PM
-> > > > To: 'Geert Uytterhoeven' <geert@linux-m68k.org>
-> > > > Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>; Linux I2C <linux-i2c@vger.kernel.org>; Linux Kernel
-> > > > Mailing List <linux-kernel@vger.kernel.org>; Wolfram Sang <wsa+renesas@sang-engineering.com>; Surachari,
-> > > > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > > > Subject: RE: [PATCH] i2c: rcar: add SMBus block read support
-> > > >
-> > > > Hi Geert,
-> > > >
-> > > > Thank you for your review!
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > Sent: Tuesday, October 05, 2021 4:32 PM
-> > > > > To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>
-> > > > > Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>; Linux I2C <linux-i2c@vger.kernel.org>; Linux
-> Kernel
-> > > > > Mailing List <linux-kernel@vger.kernel.org>; Wolfram Sang <wsa+renesas@sang-engineering.com>; Surachari,
-> > > > > Bhuvanesh <Bhuvanesh_Surachari@mentor.com>
-> > > > > Subject: Re: [PATCH] i2c: rcar: add SMBus block read support
-> > > > >
-> > > > > Hi Andrew,
-> > > > >
-> > > > > On Wed, Sep 22, 2021 at 6:14 PM Andrew Gabbasov
-> > > > > <andrew_gabbasov@mentor.com> wrote:
-> > > > > > The smbus block read is not currently supported for rcar i2c devices.
-> > > > > > This patchset adds the support to rcar i2c bus so that blocks of data
-> > > > > > can be read using SMbus block reads.(using i2c_smbus_read_block_data()
-> > > > > > function from the i2c-core-smbus.c).
-> > > > > >
-> > > > > > Inspired by commit 8e8782c71595 ("i2c: imx: add SMBus block read support")
-> > > > > >
-> > > > > > This patch (adapted) was tested with v4.14, but due to lack of real
-> > > > > > hardware with SMBus block read operations support, using "simulation",
-> > > > > > that is manual analysis of data, read from plain I2C devices with
-> > > > > > SMBus block read request.
-> > > > > >
-> > > > > > Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
-> > > > > > Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > > > >
-> > > > > Thanks for your patch!
-> > > > >
-> > > > > > --- a/drivers/i2c/busses/i2c-rcar.c
-> > > > > > +++ b/drivers/i2c/busses/i2c-rcar.c
-> > > > > > @@ -429,9 +431,16 @@ static bool rcar_i2c_dma(struct rcar_i2c_priv *priv)
-> > > > > >                 /*
-> > > > > >                  * The last two bytes needs to be fetched using PIO in
-> > > > > >                  * order for the STOP phase to work.
-> > > > > > +                *
-> > > > > > +                * For SMBus block read the first byte was received using PIO.
-> > > > >
-> > > > > So it might be easier to read, and more maintainable, to keep the
-> > > > > old assignments:
-> > > > >
-> > > > >     buf = priv->msg->buf;
-> > > > >     len = priv->msg->len - 2;
-> > > > >
-> > > > > and adjust them for SMBus afterwards:
-> > > > >
-> > > > >     if (block_data) {
-> > > > >             /* For SMBus block read the first byte was received using PIO */
-> > > > >             buf++;
-> > > > >             len--;
-> > > > >     }
-> > > > >
-> > > > > ?
-> > > > >
-> > > > > >                  */
-> > > > > > -               buf = priv->msg->buf;
-> > > > > > -               len = priv->msg->len - 2;
-> > > > > > +               if (block_data) {
-> > > > > > +                       buf = priv->msg->buf + 1;
-> > > > > > +                       len = priv->msg->len - 3;
-> > > > > > +               } else {
-> > > > > > +                       buf = priv->msg->buf;
-> > > > > > +                       len = priv->msg->len - 2;
-> > > > > > +               }
-> > > > > >         } else {
-> > > > > >                 /*
-> > > > > >                  * First byte in message was sent using PIO.
-> > > > >
-> > > > > And below we have another case handling buf and len :-(
-> > > > >
-> > > > > So perhaps:
-> > > > >
-> > > > >     buf = priv->msg->buf;
-> > > > >     len = priv->msg->len;
-> > > > >
-> > > > >     if (read) {
-> > > > >             /*
-> > > > >              * The last two bytes needs to be fetched using PIO in
-> > > > >              * order for the STOP phase to work.
-> > > > >              */
-> > > > >             len -= 2;
-> > > > >     }
-> > > > >     if (!read || block_data) {
-> > > > >             /* First byte in message was sent using PIO *
-> > > > >             buf++;
-> > > > >             len--;
-> > > > >     }
-> > > >
-> > > > Probably I was trying to minimize the changes ;-)
-> > > >
-> > > > However, I agree with you that the whole code fragment can be simplified
-> > > > and your variant indeed looks more clean and understandable.
-> > > > Thank you for your suggestion, I'll submit version 2 of the patch
-> > > > with this fragment changed.
-> > > >
-> > > > Thanks!
-> > > >
-> > > > Best regards,
-> > > > Andrew
+> This patch (adapted) was tested with v4.14, but due to lack of real
+> hardware with SMBus block read operations support, using "simulation",
+> that is manual analysis of data, read from plain I2C devices with
+> SMBus block read request.
 
+You could wire up two R-Car I2C instances, set up one as an I2C slave
+handled by the I2C testunit and then use the other instance with
+SMBUS_BLOCK_PROC_CALL which also needs RECV_LEN. Check
+Documentation/i2c/slave-testunit-backend.rst for details.
+
+I wonder a bit about the complexity of your patch. In my WIP-branch for
+256-byte transfers, I have the following patch. It is only missing the
+range check for the received byte, but that it easy to add. Do you see
+anything else missing? If not, I prefer this simpler version because it
+is less intrusive and the state machine is a bit fragile (due to HW
+issues with old HW).
+
+=46rom: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date: Sun, 2 Aug 2020 00:24:52 +0200
+Subject: [PATCH] i2c: rcar: add support for I2C_M_RECV_LEN
+
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/busses/i2c-rcar.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 217def2d7cb4..e473f5c0a708 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -528,6 +528,7 @@ static void rcar_i2c_irq_send(struct rcar_i2c_priv *pri=
+v, u32 msr)
+ static void rcar_i2c_irq_recv(struct rcar_i2c_priv *priv, u32 msr)
+ {
+ 	struct i2c_msg *msg =3D priv->msg;
++	bool recv_len_init =3D priv->pos =3D=3D 0 && msg->flags & I2C_M_RECV_LEN;
+=20
+ 	/* FIXME: sometimes, unknown interrupt happened. Do nothing */
+ 	if (!(msr & MDR))
+@@ -542,11 +543,13 @@ static void rcar_i2c_irq_recv(struct rcar_i2c_priv *p=
+riv, u32 msr)
+ 	} else if (priv->pos < msg->len) {
+ 		/* get received data */
+ 		msg->buf[priv->pos] =3D rcar_i2c_read(priv, ICRXTX);
++		if (recv_len_init)
++			msg->len +=3D msg->buf[0];
+ 		priv->pos++;
+ 	}
+=20
+ 	/* If next received data is the _LAST_, go to new phase. */
+-	if (priv->pos + 1 =3D=3D msg->len) {
++	if (priv->pos + 1 =3D=3D msg->len && !recv_len_init) {
+ 		if (priv->flags & ID_LAST_MSG) {
+ 			rcar_i2c_write(priv, ICMCR, RCAR_BUS_PHASE_STOP);
+ 		} else {
+@@ -889,7 +892,7 @@ static u32 rcar_i2c_func(struct i2c_adapter *adap)
+ 	 * I2C_M_IGNORE_NAK (automatically sends STOP after NAK)
+ 	 */
+ 	u32 func =3D I2C_FUNC_I2C | I2C_FUNC_SLAVE |
+-		   (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
++		   (I2C_FUNC_SMBUS_EMUL_ALL & ~I2C_FUNC_SMBUS_QUICK);
+=20
+ 	if (priv->flags & ID_P_HOST_NOTIFY)
+ 		func |=3D I2C_FUNC_SMBUS_HOST_NOTIFY;
+
+Happy hacking,
+
+   Wolfram
+
+
+--2acm5ptTzxcRBe88
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIOpa8ACgkQFA3kzBSg
+KbbOpw/6AytfzBlrI+AZSPjgcsIAOV/p95TJu+PcUIgOeKtyleBeoMzd2r29bfuV
+1hrMdmU145BUZHmpiwGOqILZwihZa7TKoZvHB+ZZfSI/5qvCCv5jNyLEx3u8MiOX
+sl0CT5YcMPYCyfDO3AsPAN9Oxq0VdDTbpPv2TZ9MBycl62UDoFbGfYPHfxyKy3CQ
+Bp6QxT05cWiw1yRRK2hF89nGb4oeWeD1EV3ELIkJAIQtQSunJmu0lymr+lJJR8uz
+j03LeikTmgoU2hgW23Y6GLQJe85LyAiQZhGT6g2kXabsJQJv9Fu1YLTwJvcb5+Np
+wQ9daniG9wsqjTvpOkVlPzrAQCyoAZ0veQwkKd9FrCgZZ3K+hXdujkAMY/tHGmvC
+9/kW07yO6a0UlJ1S2QD86Byc5R8+t3WI9xU6y0fQgHKxcUoMfxrnapOMATLb0kEm
+w/Q5RQzgLKaj/71SGf/92/tc57D1Li1i+uG6rVmNLPHHGbqOfSInRDkut8Ac/TJh
+AUft/52hdAVQPgaj2vDXlw43gwfgfrouwBEwjn6thjJ27BQlp+onwkwjuThop8zP
+8erJycPp5fqqSh7hObVQSzZjBljVAuWNIyDM76/TcTtekR+s3AkHmt1D9Z9WeyJS
++zRaqQD016MwwX/r/oKO03y47DzCDg+Vee3h3caQjAVXlLFWmtk=
+=QVKF
+-----END PGP SIGNATURE-----
+
+--2acm5ptTzxcRBe88--
