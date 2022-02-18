@@ -2,68 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC7E44BBBCD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 16:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFF64BBD3F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 17:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234762AbiBRPGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Feb 2022 10:06:22 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33712 "EHLO
+        id S237554AbiBRQRh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Feb 2022 11:17:37 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233904AbiBRPGV (ORCPT
+        with ESMTP id S237491AbiBRQRe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Feb 2022 10:06:21 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C562B2FF4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Feb 2022 07:06:03 -0800 (PST)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38FE0482;
-        Fri, 18 Feb 2022 16:06:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645196761;
-        bh=rwwMKqwZZbpT+GB+iWjjccJ4CPGmW7NoOwERBtmZDs0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IKgla2C0sf5pyVsMJ35nj9dF9BZNP7vfveQU7LmoHhZO5nJYbJ+peGKqRnQml8Kpn
-         cWimKa2WUHn0Z4ao+fAdbpiN3tXReHZwH/VxA+vRgcraeL3XHNgmeLAt04/NuPmHIn
-         ThKcyvkgIsYECFaOqFiTZ9zr8L7DqCc/fdSC9K64=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH] [LOCAL] arm64: renesas: defconfig: Add DRM_TI_SN65DSI86
-Date:   Fri, 18 Feb 2022 15:05:58 +0000
-Message-Id: <20220218150558.1748594-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
+        Fri, 18 Feb 2022 11:17:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A75A21E2B;
+        Fri, 18 Feb 2022 08:17:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 370B2B82685;
+        Fri, 18 Feb 2022 16:17:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EB3C340F0;
+        Fri, 18 Feb 2022 16:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645201033;
+        bh=tCeT+Bo4+/T9ZkNyZsZjBce9KY5pPvJWWLCo0Pn/L5o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q4dN/YAAZshUE1Epd4uR0mpQeEU27iLZYKVkOvSK8Z/VV/pG+yh/5a4xN9rt4NPCq
+         +t9do+9jYBIfM8c9d0ZYLYMlSatnXOsiLFx5ulPn4kDUvCqg9h6CB3jCHwPNZLa5DD
+         3LGY63NDHyMcBUCuASATzyq53BvjulurY/NrABXruwnnKWTPhYO3DKcrnA3NSu2seh
+         x7D4UFmr/z6Hr3004kY86waQ8Fxw0NKJO7Twus0d5KAraMN0abczwddt/SOiCBkTqu
+         +H4nc7+Tbx2hsX4RpJAe1tWba3tLjhCIsdcROnkfcmhgn01wbWusYEi3s5w9wIDBug
+         F9GiNUUtgklow==
+Received: by pali.im (Postfix)
+        id BCDA92BAE; Fri, 18 Feb 2022 17:17:10 +0100 (CET)
+Date:   Fri, 18 Feb 2022 17:17:10 +0100
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] PCI: rcar: Return all Fs from read which
+ triggered an exception
+Message-ID: <20220218161710.rkalq3oyd3negplj@pali>
+References: <7ced7370-1853-b52d-7e04-062d1bf3334c@gmail.com>
+ <20220123164936.cmzvkkkuw5chz3ek@pali>
+ <9d89314c-8757-8965-0f5d-14fd95669320@gmail.com>
+ <20220124093752.l2kpenot6wj76753@pali>
+ <65a09af0-f09d-cf46-3d04-d7c9d2750227@gmail.com>
+ <20220131125341.7jzckjihz3cwrxg3@pali>
+ <20220217112949.xt6saomde47prbom@pali>
+ <ae4dcb09-98d0-64e8-79a8-1bff16505abc@gmail.com>
+ <20220217130405.xq73bqshvldy2vn2@pali>
+ <4901fe69-5bf2-0083-d890-bfaee467f57d@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <4901fe69-5bf2-0083-d890-bfaee467f57d@gmail.com>
+User-Agent: NeoMutt/20180716
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the TI SN65DSI86 to the renesas defconfig to support the V3U
-platform which uses it.
+On Friday 18 February 2022 02:53:39 Marek Vasut wrote:
+> On 2/17/22 14:04, Pali Rohár wrote:
+> 
+> [...]
+> 
+> > > > > > Flipping either bit makes no difference, suspend/resume behaves the same and
+> > > > > > the link always recovers.
+> > > > > 
+> > > > > Ok, perfect! And what happens without suspend/resume (just in normal
+> > > > > conditions)? E.g. during active usage of some PCIe card (wifi, sata, etc..).
+> > > > 
+> > > > PING? Also what lspci see for the root port and card itself during hot reset?
+> > > 
+> > > If I recall, lspci showed the root port and card.
+> > 
+> > This is suspicious. Card should not respond to config read requests when
+> > is in hot reset state. Could you send output of lspci -vvxx of the root
+> > port and also card during this test? Maybe it is possible that root port
+> > has broken BRIDGE_CONTROL register and did not put card into Hot Reset
+> > state?
+> 
+> Yes, I could set the hardware up again and run more tests, it will take some
+> time, but I can still do that.
+> 
+> But before I spend any more time running tests for you here, I have to
+> admit, it seems to me running all those tests is completely off-topic in
+> context of these two bugfixes here.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- arch/arm64/configs/renesas_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I do not think this is off-topic. Issue here is caused when controller
+is not in L0 state and this test is something which deterministically
+put controller into non-L0 state (Hot Reset). The best verification of
+all race conditions and similar timing problems is to to setup scenario
+in which timing windows can be under full control. Which this can can
+do.
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 02e9546c3bea..2c597d368769 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -256,6 +256,7 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
- CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
- CONFIG_DRM_DW_HDMI_CEC=y
-+CONFIG_DRM_TI_SN65DSI86=y
- CONFIG_FB=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
--- 
-2.32.0
+I saw more issues related to PCIe slave errors and I'm feeling that this
+patch is just hacking one or two consequences and not fixing the source
+of the problem globally.
 
+In most cases slave errors are (incorrectly) reported to CPU when PCIe
+controller receive UR/CA response from the bus or if controller itself
+generate UR/CA response for request from CPU.
+
+> So maybe it would make sense to stop the discussion here and move it to
+> separate thread ?
+> 
+> I have to admit, I also don't quite understand what it is that you're trying
+> to find out with all those tests.
+
+Moreover if this test shows that PCI Bridge registers do not work
+properly then it is something which must be fixed too.
+
+There were more discussions about catching and recovering from ARM CPU
+aborts and all patches for catching asynchronous exceptions were
+rejected because they cannot work by their _imprecise_ nature.
+
+And also there were discussions (not sure if on ML or IRC) if the PCI
+core / drivers are the correct place for ARMv7 exceptions / data aborts.
