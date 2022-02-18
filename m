@@ -2,156 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 597224BB78E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 12:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC7E44BBBCD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 16:06:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbiBRLEL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Feb 2022 06:04:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37612 "EHLO
+        id S234762AbiBRPGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Feb 2022 10:06:22 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230168AbiBRLEK (ORCPT
+        with ESMTP id S233904AbiBRPGV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Feb 2022 06:04:10 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Feb 2022 03:03:53 PST
-Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D3E27FBB6;
-        Fri, 18 Feb 2022 03:03:53 -0800 (PST)
-IronPort-SDR: caWXFu+pcF/rMDRfzSlnKIX9Bxt1zKB4JxrEG/lbfrdN8krjjvoyQ5Tfnwe7d4NcdYlTaeiM1H
- 8J4DG/QqvSKwJGTFM8bpM0oA/PBkwqdNI2ZiwsYObCDUc/E2ytj48mDBpWlapq0QiZ0pvOokAT
- zFQpihpwpEz7nzBpx3M436ZUiphgWtnwiM6GHAb6fNxsnsen8315tlybKjRWcY77Oje9DrqTjR
- CCVhlg8duJMhm1LBdEzWSd/Nxbx8HjpI889klbkiH7Tr7FPTl36qnXXI7PTXPDdEirHIsHc8qw
- XKutTvoThWGVhRXalByQfh9H
-X-IronPort-AV: E=Sophos;i="5.88,378,1635235200"; 
-   d="scan'208";a="72155708"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 18 Feb 2022 03:02:50 -0800
-IronPort-SDR: JEvkAQS1YDS72FSv3VvUQMFOuO/TzsBuAuqXsnRwFyMmHksoym7Te+YkdMiUQoT+d++lpCmtKC
- 4Ko/YNotjXl6sVvHfFeDIBQtUcnaTZJoDLtqTgtQq+aWPch6fGJALABf9EA2JYYFIu0ZWuq5DO
- Fj57bvvyZ06XqnFbdlGikS4Ci6+FYA04UUFxKNZRuc61k6r6FMPZIjiOgVOyChacomQEdpPy0F
- fCQIDxBzfND0lAOUHf10PvWEkTYuiAYTt7PVIwsNbUuqIv8g/aMHKnyVFNE6H85kNCozKM+8wV
- 6L8=
-From:   "Gabbasov, Andrew" <Andrew_Gabbasov@mentor.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Surachari, Bhuvanesh" <Bhuvanesh_Surachari@mentor.com>
-Subject: RE: [PATCH v2] i2c: rcar: add SMBus block read support
-Thread-Topic: [PATCH v2] i2c: rcar: add SMBus block read support
-Thread-Index: AQHYJDbc8SPhAEEc60+MP2goKeJNqKyZF7Tw
-Date:   Fri, 18 Feb 2022 11:02:45 +0000
-Message-ID: <0a07902900bc4ecc84bd93a6b85a2e0c@svr-ies-mbx-02.mgc.mentorg.com>
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
- <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>
- <000001d7badd$a8512d30$f8f38790$@mentor.com>
- <20211006182314.10585-1-andrew_gabbasov@mentor.com> <Yg6ls0zyTDe7LQbK@kunai>
-In-Reply-To: <Yg6ls0zyTDe7LQbK@kunai>
-Accept-Language: en-US, en-IE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 18 Feb 2022 10:06:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C562B2FF4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Feb 2022 07:06:03 -0800 (PST)
+Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38FE0482;
+        Fri, 18 Feb 2022 16:06:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1645196761;
+        bh=rwwMKqwZZbpT+GB+iWjjccJ4CPGmW7NoOwERBtmZDs0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IKgla2C0sf5pyVsMJ35nj9dF9BZNP7vfveQU7LmoHhZO5nJYbJ+peGKqRnQml8Kpn
+         cWimKa2WUHn0Z4ao+fAdbpiN3tXReHZwH/VxA+vRgcraeL3XHNgmeLAt04/NuPmHIn
+         ThKcyvkgIsYECFaOqFiTZ9zr8L7DqCc/fdSC9K64=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@glider.be>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH] [LOCAL] arm64: renesas: defconfig: Add DRM_TI_SN65DSI86
+Date:   Fri, 18 Feb 2022 15:05:58 +0000
+Message-Id: <20220218150558.1748594-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgV29sZnJhbSENCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIQ0KU2VlIG15IHJlc3Bv
-bnNlcyBiZWxvdy4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBXb2xm
-cmFtIFNhbmcgPHdzYStyZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPg0KPiBTZW50OiBUaHVy
-c2RheSwgRmVicnVhcnkgMTcsIDIwMjIgMTA6NDUgUE0NCj4gVG86IEdhYmJhc292LCBBbmRyZXcg
-PEFuZHJld19HYWJiYXNvdkBtZW50b3IuY29tPg0KPiBDYzogbGludXgtcmVuZXNhcy1zb2NAdmdl
-ci5rZXJuZWwub3JnOyBsaW51eC1pMmNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnOyBHZWVydA0KPiBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVy
-LmJlPjsgU3VyYWNoYXJpLCBCaHV2YW5lc2ggPEJodXZhbmVzaF9TdXJhY2hhcmlAbWVudG9yLmNv
-bT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gaTJjOiByY2FyOiBhZGQgU01CdXMgYmxvY2sg
-cmVhZCBzdXBwb3J0DQo+IA0KW3NraXBwZWRdDQo+IA0KPiA+IFRoaXMgcGF0Y2ggKGFkYXB0ZWQp
-IHdhcyB0ZXN0ZWQgd2l0aCB2NC4xNCwgYnV0IGR1ZSB0byBsYWNrIG9mIHJlYWwNCj4gPiBoYXJk
-d2FyZSB3aXRoIFNNQnVzIGJsb2NrIHJlYWQgb3BlcmF0aW9ucyBzdXBwb3J0LCB1c2luZyAic2lt
-dWxhdGlvbiIsDQo+ID4gdGhhdCBpcyBtYW51YWwgYW5hbHlzaXMgb2YgZGF0YSwgcmVhZCBmcm9t
-IHBsYWluIEkyQyBkZXZpY2VzIHdpdGgNCj4gPiBTTUJ1cyBibG9jayByZWFkIHJlcXVlc3QuDQo+
-IA0KPiBZb3UgY291bGQgd2lyZSB1cCB0d28gUi1DYXIgSTJDIGluc3RhbmNlcywgc2V0IHVwIG9u
-ZSBhcyBhbiBJMkMgc2xhdmUNCj4gaGFuZGxlZCBieSB0aGUgSTJDIHRlc3R1bml0IGFuZCB0aGVu
-IHVzZSB0aGUgb3RoZXIgaW5zdGFuY2Ugd2l0aA0KPiBTTUJVU19CTE9DS19QUk9DX0NBTEwgd2hp
-Y2ggYWxzbyBuZWVkcyBSRUNWX0xFTi4gQ2hlY2sNCj4gRG9jdW1lbnRhdGlvbi9pMmMvc2xhdmUt
-dGVzdHVuaXQtYmFja2VuZC5yc3QgZm9yIGRldGFpbHMuDQoNCllvdSBtZWFuIHBoeXNpY2FsIGNv
-bm5lY3Rpb24gb2YgdHdvIFItQ2FyIGJvYXJkcyB2aWEgSTJDIGJ1cywNCm9yIHBoeXNpY2FsIGNv
-bm5lY3Rpb24gb2YgSTJDIGJ1cyB3aXJlcyBvbiB0aGUgc2luZ2xlIGJvYXJkLCByaWdodD8NCkl0
-IGxvb2tzIGxpa2UgYWxsIHRoZSBib2FyZHMsIHRoYXQgSSBoYXZlIGFjY2VzcyB0bywgZG8gbm90
-IGhhdmUNCkkyQyBidXMgd2lyZXMgZXhwb3NlZCB0byBzb21lIGNvbm5lY3RvcnMsIHNvIGJvdGgg
-dmFyaWFudHMgd291bGQNCnJlcXVpcmUgaGFyZHdhcmUgcmUtd2lyaW5nIG1vZGlmaWNhdGlvbiBv
-ZiB0aGUgYm9hcmRzLCB3aGljaCBpcw0Kbm90IGFuIG9wdGlvbiBmb3IgbWUuIE9yIGRvIEkgdW5k
-ZXJzdGFuZCB5b3UgaW5jb3JyZWN0bHkgYW5kIHlvdQ0KbWVhbiBzb21ldGhpbmcgZGlmZmVyZW50
-Pw0KDQo+IEkgd29uZGVyIGEgYml0IGFib3V0IHRoZSBjb21wbGV4aXR5IG9mIHlvdXIgcGF0Y2gu
-IEluIG15IFdJUC1icmFuY2ggZm9yDQo+IDI1Ni1ieXRlIHRyYW5zZmVycywgSSBoYXZlIHRoZSBm
-b2xsb3dpbmcgcGF0Y2guIEl0IGlzIG9ubHkgbWlzc2luZyB0aGUNCj4gcmFuZ2UgY2hlY2sgZm9y
-IHRoZSByZWNlaXZlZCBieXRlLCBidXQgdGhhdCBpdCBlYXN5IHRvIGFkZC4gRG8geW91IHNlZQ0K
-PiBhbnl0aGluZyBlbHNlIG1pc3Npbmc/IElmIG5vdCwgSSBwcmVmZXIgdGhpcyBzaW1wbGVyIHZl
-cnNpb24gYmVjYXVzZSBpdA0KPiBpcyBsZXNzIGludHJ1c2l2ZSBhbmQgdGhlIHN0YXRlIG1hY2hp
-bmUgaXMgYSBiaXQgZnJhZ2lsZSAoZHVlIHRvIEhXDQo+IGlzc3VlcyB3aXRoIG9sZCBIVykuDQoN
-Ck1vc3Qgb2YgY29tcGxleGl0eSBpbiBteSBwYXRjaCBpcyByZWxhdGVkIHRvIERNQSB0cmFuc2Zl
-cnMgc3VwcG9ydCwNCnRoYXQgSSdtIHRyeWluZyB0byByZXRhaW4gZm9yIFNNQnVzIGJsb2NrIGRh
-dGEgdHJhbnNmZXJzIHRvbyAoZm9yIHRoZSByZXN0DQpvZiBieXRlcyBhZnRlciB0aGUgZmlyc3Qg
-Imxlbmd0aCIgYnl0ZSkuIFlvdXIgc2ltcGxlIHBhdGNoIG1ha2VzDQp0aGUgZHJpdmVyIHBlcmZv
-cm0gYWxsIE1fUkVDVl9MRU4gdHJhbnNmZXJzIGluIFBJTyBtb2RlIG9ubHkgKHdpdGggbm8gRE1B
-IGF0IGFsbCksDQp3aGljaCBpcyBwcm9iYWJseSBub3QgcXVpdGUgZ29vZCAoaXQncyBhIHBpdHkg
-dG8gbG9vc2UgZXhpc3RpbmcgSFcgY2FwYWJpbGl0eSwNCmFscmVhZHkgc3VwcG9ydGVkIGJ5IHRo
-ZSBkcml2ZXIpLg0KDQpBbHNvLCBzZWUgYSBjb3VwbGUgb2YgY29tbWVudHMgYmVsb3cuDQoNCj4g
-RnJvbTogV29sZnJhbSBTYW5nIDx3c2ErcmVuZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNvbT4NCj4g
-RGF0ZTogU3VuLCAyIEF1ZyAyMDIwIDAwOjI0OjUyICswMjAwDQo+IFN1YmplY3Q6IFtQQVRDSF0g
-aTJjOiByY2FyOiBhZGQgc3VwcG9ydCBmb3IgSTJDX01fUkVDVl9MRU4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IFdvbGZyYW0gU2FuZyA8d3NhK3JlbmVzYXNAc2FuZy1lbmdpbmVlcmluZy5jb20+DQo+
-IC0tLQ0KPiAgZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1yY2FyLmMgfCA3ICsrKysrLS0NCj4gIDEg
-ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1yY2FyLmMgYi9kcml2ZXJzL2kyYy9idXNz
-ZXMvaTJjLXJjYXIuYw0KPiBpbmRleCAyMTdkZWYyZDdjYjQuLmU0NzNmNWMwYTcwOCAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1yY2FyLmMNCj4gKysrIGIvZHJpdmVycy9p
-MmMvYnVzc2VzL2kyYy1yY2FyLmMNCj4gQEAgLTUyOCw2ICs1MjgsNyBAQCBzdGF0aWMgdm9pZCBy
-Y2FyX2kyY19pcnFfc2VuZChzdHJ1Y3QgcmNhcl9pMmNfcHJpdiAqcHJpdiwgdTMyIG1zcikNCj4g
-IHN0YXRpYyB2b2lkIHJjYXJfaTJjX2lycV9yZWN2KHN0cnVjdCByY2FyX2kyY19wcml2ICpwcml2
-LCB1MzIgbXNyKQ0KPiAgew0KPiAgCXN0cnVjdCBpMmNfbXNnICptc2cgPSBwcml2LT5tc2c7DQo+
-ICsJYm9vbCByZWN2X2xlbl9pbml0ID0gcHJpdi0+cG9zID09IDAgJiYgbXNnLT5mbGFncyAmIEky
-Q19NX1JFQ1ZfTEVOOw0KPiANCj4gIAkvKiBGSVhNRTogc29tZXRpbWVzLCB1bmtub3duIGludGVy
-cnVwdCBoYXBwZW5lZC4gRG8gbm90aGluZyAqLw0KPiAgCWlmICghKG1zciAmIE1EUikpDQo+IEBA
-IC01NDIsMTEgKzU0MywxMyBAQCBzdGF0aWMgdm9pZCByY2FyX2kyY19pcnFfcmVjdihzdHJ1Y3Qg
-cmNhcl9pMmNfcHJpdiAqcHJpdiwgdTMyIG1zcikNCj4gIAl9IGVsc2UgaWYgKHByaXYtPnBvcyA8
-IG1zZy0+bGVuKSB7DQo+ICAJCS8qIGdldCByZWNlaXZlZCBkYXRhICovDQo+ICAJCW1zZy0+YnVm
-W3ByaXYtPnBvc10gPSByY2FyX2kyY19yZWFkKHByaXYsIElDUlhUWCk7DQo+ICsJCWlmIChyZWN2
-X2xlbl9pbml0KQ0KPiArCQkJbXNnLT5sZW4gKz0gbXNnLT5idWZbMF07DQo+ICAJCXByaXYtPnBv
-cysrOw0KPiAgCX0NCj4gDQo+ICAJLyogSWYgbmV4dCByZWNlaXZlZCBkYXRhIGlzIHRoZSBfTEFT
-VF8sIGdvIHRvIG5ldyBwaGFzZS4gKi8NCj4gLQlpZiAocHJpdi0+cG9zICsgMSA9PSBtc2ctPmxl
-bikgew0KPiArCWlmIChwcml2LT5wb3MgKyAxID09IG1zZy0+bGVuICYmICFyZWN2X2xlbl9pbml0
-KSB7DQoNCklmIGEgbWVzc2FnZSBjb250YWlucyBhIHNpbmdsZSBieXRlIGFmdGVyIHRoZSBsZW5n
-dGggYnl0ZSwNCndoZW4gd2UgY29tZSBoZXJlIGFmdGVyIHByb2Nlc3NpbmcgdGhlIGxlbmd0aCAo
-aW4gdGhlIHNhbWUgZnVuY3Rpb24gY2FsbCksDQoicG9zIiBpcyAxLCAibGVuIiBpcyAyLCBhbmQg
-d2UgaW5kZWVkIGFyZSBnb2luZyB0byBwcm9jZXNzIHRoZSBsYXN0IGJ5dGUuDQpIb3dldmVyLCAi
-cmVjdl9sZW5faW5pdCIgaXMgc3RpbGwgInRydWUiLCBhbmQgd2Ugc2tpcCB0aGVzZSBjb3JyZXNw
-b25kaW5nDQpyZWdpc3RlciB3cml0ZXMsIHdoaWNoIGlzIHByb2JhYmx5IGluY29ycmVjdC4NClRo
-ZSBmbGFnIGluIHRoaXMgY2FzZSBzaG91bGQgYmUgcmUtc2V0IGJhY2sgdG8gImZhbHNlIiBhZnRl
-ciBsZW5ndGgNCnByb2Nlc3NpbmcgYW5kICJwb3MiIG1vdmluZywgYnV0IEkgdGhpbmsgdGhlIHZh
-cmlhbnQgaW4gbXkgcGF0Y2gNCihsZWF2aW5nIHRoaXMgImlmIiB1bmNoYW5nZWQsIGJ1dCBza2lw
-cGluZyBpdCBvbiB0aGUgZmlyc3QgcGFzcyB3aXRoICJnb3RvIikNCm1heSBiZSBldmVuIHNpbXBs
-ZXIuDQoNCj4gIAkJaWYgKHByaXYtPmZsYWdzICYgSURfTEFTVF9NU0cpIHsNCj4gIAkJCXJjYXJf
-aTJjX3dyaXRlKHByaXYsIElDTUNSLCBSQ0FSX0JVU19QSEFTRV9TVE9QKTsNCj4gIAkJfSBlbHNl
-IHsNCj4gQEAgLTg4OSw3ICs4OTIsNyBAQCBzdGF0aWMgdTMyIHJjYXJfaTJjX2Z1bmMoc3RydWN0
-IGkyY19hZGFwdGVyICphZGFwKQ0KPiAgCSAqIEkyQ19NX0lHTk9SRV9OQUsgKGF1dG9tYXRpY2Fs
-bHkgc2VuZHMgU1RPUCBhZnRlciBOQUspDQo+ICAJICovDQo+ICAJdTMyIGZ1bmMgPSBJMkNfRlVO
-Q19JMkMgfCBJMkNfRlVOQ19TTEFWRSB8DQo+IC0JCSAgIChJMkNfRlVOQ19TTUJVU19FTVVMICYg
-fkkyQ19GVU5DX1NNQlVTX1FVSUNLKTsNCj4gKwkJICAgKEkyQ19GVU5DX1NNQlVTX0VNVUxfQUxM
-ICYgfkkyQ19GVU5DX1NNQlVTX1FVSUNLKTsNCg0KVGhpcyBmbGFncyBzZXR0aW5nIGFkZHMgYWxz
-byBJMkNfRlVOQ19TTUJVU19CTE9DS19QUk9DX0NBTEwgZmxhZywNCndoaWNoIGlzIG1pc3NlZCBp
-biBteSBwYXRjaC4gTXkgcGF0Y2ggc2hvdWxkIHByb2JhYmx5IGJlIHVwZGF0ZWQNCnRvIGluY2x1
-ZGUgaXQgdG9vIChpZiB5b3UnbGwgYWdyZWUgdG8gdGFrZSBteSB2YXJpYW50IDstKSApLg0KDQo+
-IA0KPiAgCWlmIChwcml2LT5mbGFncyAmIElEX1BfSE9TVF9OT1RJRlkpDQo+ICAJCWZ1bmMgfD0g
-STJDX0ZVTkNfU01CVVNfSE9TVF9OT1RJRlk7DQo+IA0KPiBIYXBweSBoYWNraW5nLA0KPiANCj4g
-ICAgV29sZnJhbQ0KDQpUaGFua3MhDQoNCkJlc3QgcmVnYXJkcywNCkFuZHJldw0K
+Add the TI SN65DSI86 to the renesas defconfig to support the V3U
+platform which uses it.
+
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ arch/arm64/configs/renesas_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index 02e9546c3bea..2c597d368769 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -256,6 +256,7 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
+ CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
+ CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
+ CONFIG_DRM_DW_HDMI_CEC=y
++CONFIG_DRM_TI_SN65DSI86=y
+ CONFIG_FB=y
+ CONFIG_FB_MODE_HELPERS=y
+ CONFIG_BACKLIGHT_CLASS_DEVICE=y
+-- 
+2.32.0
+
