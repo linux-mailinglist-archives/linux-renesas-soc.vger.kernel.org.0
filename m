@@ -2,62 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D5D4BB481
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 09:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C53A94BB68F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 11:13:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232728AbiBRIog (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Feb 2022 03:44:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52162 "EHLO
+        id S233913AbiBRKNp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Feb 2022 05:13:45 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232671AbiBRIof (ORCPT
+        with ESMTP id S233953AbiBRKNn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Feb 2022 03:44:35 -0500
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3057E29924D;
-        Fri, 18 Feb 2022 00:44:19 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id f12so4427666vkl.2;
-        Fri, 18 Feb 2022 00:44:19 -0800 (PST)
+        Fri, 18 Feb 2022 05:13:43 -0500
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9BE5EDD9;
+        Fri, 18 Feb 2022 02:13:27 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id d26so4563415vsh.0;
+        Fri, 18 Feb 2022 02:13:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SimntoUMkVEr2cj/igvj4PS7W+Y51sYnkHLvFZaYW80=;
-        b=H6EhQcfUGl/x/FwmMEC0GKzTlKvRrsxJdOISya+K5Mkm8xYNd0hntME3zyIJ+vkjQ/
-         k+vJmT1TvwkEe+vqjgoHwhMvYr2h1k3l7hW2hLOHGs1Yv1An/baL6znslB2wdnlFG6J1
-         2l7YoPkNPezwQJHVbwQNl/lyStlZYs6AoKMOYUnWre8Fk3m+T3dkaPZsEqziH196rizf
-         1F/I5UZg+MMmr2WZtOPhCZ2kjAYaso3BMCprhvakXUjsxAITEsq+RI5MtXZQOLceXcRx
-         ol6URm8dGp69rsuV9Eyj9iE+f6L1R0ICGcZgHuG3xISe87YsFP2GoaLGl9+hrE/W51DN
-         BC1Q==
-X-Gm-Message-State: AOAM531Fvoh2etlhhEEMMIZWPA5/yeBC58bWcFHMirDlBvycAebtSPNF
-        sVF1ULJt1XPk98rRf35p1oRxgikwWXW8EA==
-X-Google-Smtp-Source: ABdhPJzMjRhSvl0VZmieN75UYGGMI1CQ9FCxiL/qO/pUNgU5jpDf48XNxNqWb0Hdh+ZaLQzAuFsmGA==
-X-Received: by 2002:a05:6122:549:b0:330:288:f36d with SMTP id y9-20020a056122054900b003300288f36dmr2942131vko.28.1645173858249;
-        Fri, 18 Feb 2022 00:44:18 -0800 (PST)
+        bh=biimC3ZT2BE1qWlcoP/prHvVGaEl3yOP7VCC6ZAmJec=;
+        b=GwlLUnzqr3Qf3/Dlfc26dn9yftBoS5iP5IpWB4rtuwydAkaKmjQWsLZwhWfNec32Fy
+         vU06IuHCMjfdas3jzEwCTjhSKL73a0rZJJs25JRPDH5B+bKxnw86876PRsCB0dDL04rO
+         ybPIK74pfix7tqGQotSe/VR+guWJ6JpIOZ/NpdnURUEDRq2TRabyMf46uJKhwVu0rbPi
+         ENHKRtIr2PEj6sko+y74D8QXuq3Wi7kxVAnhGTEhkMX3ETf7A1melPOhB+mK/ZeQCl8b
+         E/T67/8ixxTCjIS1PVIsqwe15Kbx5NGcoQaO0Q+oco0WWeJrYWt/GlNNeU4hIDICXvEQ
+         +BkA==
+X-Gm-Message-State: AOAM531atcCGBI5TWGOguFU4H5fS14Fe2uKg7TnqswRMxBEd+7qFIzF3
+        Ia3VXb/fHiXOKF4By3TFP50k5BvZbU6wPQ==
+X-Google-Smtp-Source: ABdhPJzboswq3Qf4DkeS6az73Pe3optwurOBz43dfLXN1TnoFH5VquHl77Z8ldgag6e98Z3Q8txQlA==
+X-Received: by 2002:a05:6102:ccb:b0:31b:93d6:aba7 with SMTP id g11-20020a0561020ccb00b0031b93d6aba7mr2966959vst.79.1645179206169;
+        Fri, 18 Feb 2022 02:13:26 -0800 (PST)
 Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id s25sm2314167vkm.21.2022.02.18.00.44.17
+        by smtp.gmail.com with ESMTPSA id z23sm4964827uaq.2.2022.02.18.02.13.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Feb 2022 00:44:18 -0800 (PST)
-Received: by mail-vk1-f175.google.com with SMTP id k128so4438580vkk.10;
-        Fri, 18 Feb 2022 00:44:17 -0800 (PST)
+        Fri, 18 Feb 2022 02:13:26 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id bj24so4548372vkb.8;
+        Fri, 18 Feb 2022 02:13:25 -0800 (PST)
 X-Received: by 2002:a05:6122:ca1:b0:330:b95b:e048 with SMTP id
- ba33-20020a0561220ca100b00330b95be048mr2974054vkb.39.1645173857563; Fri, 18
- Feb 2022 00:44:17 -0800 (PST)
+ ba33-20020a0561220ca100b00330b95be048mr3094832vkb.39.1645179205702; Fri, 18
+ Feb 2022 02:13:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20220209232232.18461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220209232232.18461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220216181003.114049-1-nikita.yoush@cogentembedded.com>
+In-Reply-To: <20220216181003.114049-1-nikita.yoush@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Feb 2022 09:44:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUgtbqA9M_ZuCJpB0EcH3Ysw-zqG2c1EHuih2DJO714qg@mail.gmail.com>
-Message-ID: <CAMuHMdUgtbqA9M_ZuCJpB0EcH3Ysw-zqG2c1EHuih2DJO714qg@mail.gmail.com>
-Subject: Re: [PATCH] i2c: riic: Simplify reset handling
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+Date:   Fri, 18 Feb 2022 11:13:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUM0tKbJ_8OkNA4Ep_mzhmwr=JNC+v48hgqZtAGu--p1Q@mail.gmail.com>
+Message-ID: <CAMuHMdUM0tKbJ_8OkNA4Ep_mzhmwr=JNC+v48hgqZtAGu--p1Q@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: fix wrong comment
+To:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -69,23 +69,18 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 12:22 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Read reset phandle as optional instead of exclusive so that all the DT's
-> passing the reset phandle can be used to assert/deassert the reset line.
-> With this change we don't have to differentiate the RZ/G2L SoC.
+On Wed, Feb 16, 2022 at 7:10 PM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> Fix comment referencing salvator board, likely a copy-paste leftover.
 >
-> With the above changes we no longer need the "renesas,riic-r9a07g044"
-> compatible string, so drop it from riic_i2c_dt_ids[]. No changes are
-> required to the r9a07g044.dtsi as we already have "renesas,riic-rz" as a
-> fallback compatible string.
+> ulcb-kf.dtsi has nothing to do with salvator.
 >
-> While at it, check the return code of reset_control_deassert() as it might
-> fail and also add a devres action to assert the reset line.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
+Fixes: 80c07701d5918928 ("arm64: dts: renesas: ulcb-kf: add pcm3168
+sound codec")
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
 Gr{oetje,eeting}s,
 
