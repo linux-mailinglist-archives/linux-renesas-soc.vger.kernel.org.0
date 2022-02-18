@@ -2,78 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7B144BAA7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Feb 2022 21:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B604BAF52
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 02:53:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245610AbiBQUBg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Feb 2022 15:01:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48108 "EHLO
+        id S231376AbiBRBx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Feb 2022 20:53:58 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:37244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245615AbiBQUBf (ORCPT
+        with ESMTP id S231375AbiBRBx6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Feb 2022 15:01:35 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF7C1662E1;
-        Thu, 17 Feb 2022 12:01:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 53E4FB82387;
-        Thu, 17 Feb 2022 20:01:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE3AC340E8;
-        Thu, 17 Feb 2022 20:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645128077;
-        bh=1/5hRAMumWZvZceDjvo8Z2SUq8cMuUSNeza7UqhGeR4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=JeZKAsGQJDdUiIqPzbOMqo1Prt+tLiPdmUjD4q1glVvLshra/G6lNeZ3YU9lC5fNn
-         iIsaRjc7y13fL04hKFrXe7D0bb4pdpqLgcLTMdcf9zw9AGAqNClFrHMUui10MJWOQr
-         abnKUHdMFAG2To/hILK6VJExZ2ZPXjNIIS20PxVbrCHUcV0J7QtTVfoanHBTIbW0zS
-         Ke/MH9Mwug7oC1U9IpafqALS5cCHFCWn5H1c+g8Ljyb01/+maFU2XXkK4noVPrDtIR
-         IP/Fy51NiPHD+k3ioFzt1aIfIwURXzBcimQlJTf87nKB4GVMxE28iwg4vJXklcPKNX
-         ktY2iB0ZDFzHA==
-Content-Type: text/plain; charset="utf-8"
+        Thu, 17 Feb 2022 20:53:58 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCBA5BD0F;
+        Thu, 17 Feb 2022 17:53:42 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id e3so12048215wra.0;
+        Thu, 17 Feb 2022 17:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=jMEIB15THGTxtNXLOvB466sh/1SDcuyPpBuIlzUH6sE=;
+        b=DVh/7EC0rBfu1PWqJnTyj5IlsTMU+JwhkX6owWjwQXdzBr5Jd32NOuELM/sS94At7P
+         +nfcIYp61cE0E5gR8D0KQoDYq9KiSGARZR7n0Ga63c/4j/u//U8iYkZIQfJiMsVmhOV6
+         ydqeKEjqikiJSS9Fm8wRb3ED/Q7zarhTabOsoNdcvy1prKX80FKDYvLP8yYxt6Y+T+nA
+         gQ1QdDea/0bMRHsIULjbtO6LjFqLUNVprRHyWtgsEYU0alFFpKb9U1HEw4BjFI9zcebh
+         /2REfg5cRUS0iuDGmlrDwv6sauXIr3RdxIgrd4jO8cxxD1W0kAXwSlu4Xl85zcyH1S5Q
+         Xuvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=jMEIB15THGTxtNXLOvB466sh/1SDcuyPpBuIlzUH6sE=;
+        b=MIjVYGmnj1eYUTGAahEmT9cDdUd/UqklR28KBN2ct3mnXryBJmSCbZV1bqkVN3pdbB
+         d804ihaKEbl6FJygf5nwkhLypxCorJmvprqck8Sbi/+77S1nOI9O1DowxuwZTHiis/Fd
+         MDrmtY8XVIF9DgOG8ifGCdzXXnnpvuvZ0a8Wr1wFUlZSl96lLGiHVw31GIFDS8c9KKvn
+         UQdYIMqR7hbgtDKldnfGvbyJm+o95xfZpvM8tKVgLOTBWi89dHQJcTyuEGZYRJ0pwnv8
+         WW48cLUAw3rULPXcY+b/3qE2qCei/GPkz642Q/u0Ouj6BwnjC5f2Y4KUBDpqCmuCnDle
+         xtwA==
+X-Gm-Message-State: AOAM532fbV40bW46YCaXR0QFB2tIleS/fjfXUgIgcmAcovbR++vq6DSG
+        NLGlQV6NldSpW2nSmOFGvnU=
+X-Google-Smtp-Source: ABdhPJxip/MqSLYCf9Rtf8qtzSgp0RnKlCaTUlOAI84HK18JFRL0tF7UrWAVeYNrBefRrWY0E4jl4Q==
+X-Received: by 2002:a5d:64e3:0:b0:1e4:a380:bb6f with SMTP id g3-20020a5d64e3000000b001e4a380bb6fmr4358992wri.463.1645149221050;
+        Thu, 17 Feb 2022 17:53:41 -0800 (PST)
+Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
+        by smtp.gmail.com with ESMTPSA id m8sm2941228wms.4.2022.02.17.17.53.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Feb 2022 17:53:40 -0800 (PST)
+Message-ID: <4901fe69-5bf2-0083-d890-bfaee467f57d@gmail.com>
+Date:   Fri, 18 Feb 2022 02:53:39 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1644594116.git.geert+renesas@glider.be>
-References: <cover.1644594116.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v5.18
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Thu, 17 Feb 2022 12:01:15 -0800
-User-Agent: alot/0.10
-Message-Id: <20220217200116.DFE3AC340E8@smtp.kernel.org>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 2/2] PCI: rcar: Return all Fs from read which triggered
+ an exception
+Content-Language: en-US
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
+Cc:     linux-pci@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20220122221554.196311-2-marek.vasut@gmail.com>
+ <20220123153147.sv6eoayxqvqbaa66@pali>
+ <7ced7370-1853-b52d-7e04-062d1bf3334c@gmail.com>
+ <20220123164936.cmzvkkkuw5chz3ek@pali>
+ <9d89314c-8757-8965-0f5d-14fd95669320@gmail.com>
+ <20220124093752.l2kpenot6wj76753@pali>
+ <65a09af0-f09d-cf46-3d04-d7c9d2750227@gmail.com>
+ <20220131125341.7jzckjihz3cwrxg3@pali> <20220217112949.xt6saomde47prbom@pali>
+ <ae4dcb09-98d0-64e8-79a8-1bff16505abc@gmail.com>
+ <20220217130405.xq73bqshvldy2vn2@pali>
+From:   Marek Vasut <marek.vasut@gmail.com>
+In-Reply-To: <20220217130405.xq73bqshvldy2vn2@pali>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2022-02-11 07:45:26)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac=
-07:
->=20
->   Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v5.18-tag1
->=20
-> for you to fetch changes up to a1bcf50a99dd1e40f0c6a963bd4f12547a89d4cd:
->=20
->   clk: renesas: rzg2l-cpg: Add support for RZ/V2L SoC (2022-02-10 14:34:5=
-8 +0100)
->=20
-> ----------------------------------------------------------------
+On 2/17/22 14:04, Pali Rohár wrote:
 
-Thanks. Pulled into clk-next
+[...]
+
+>>>>> Flipping either bit makes no difference, suspend/resume behaves the same and
+>>>>> the link always recovers.
+>>>>
+>>>> Ok, perfect! And what happens without suspend/resume (just in normal
+>>>> conditions)? E.g. during active usage of some PCIe card (wifi, sata, etc..).
+>>>
+>>> PING? Also what lspci see for the root port and card itself during hot reset?
+>>
+>> If I recall, lspci showed the root port and card.
+> 
+> This is suspicious. Card should not respond to config read requests when
+> is in hot reset state. Could you send output of lspci -vvxx of the root
+> port and also card during this test? Maybe it is possible that root port
+> has broken BRIDGE_CONTROL register and did not put card into Hot Reset
+> state?
+
+Yes, I could set the hardware up again and run more tests, it will take 
+some time, but I can still do that.
+
+But before I spend any more time running tests for you here, I have to 
+admit, it seems to me running all those tests is completely off-topic in 
+context of these two bugfixes here.
+
+So maybe it would make sense to stop the discussion here and move it to 
+separate thread ?
+
+I have to admit, I also don't quite understand what it is that you're 
+trying to find out with all those tests.
