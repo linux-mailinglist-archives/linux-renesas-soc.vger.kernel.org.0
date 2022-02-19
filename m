@@ -2,94 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9B54BBF34
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Feb 2022 19:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 268264BC3B6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Feb 2022 01:49:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239036AbiBRSNI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Feb 2022 13:13:08 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36306 "EHLO
+        id S232898AbiBSAuF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Feb 2022 19:50:05 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238795AbiBRSNH (ORCPT
+        with ESMTP id S230323AbiBSAuD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Feb 2022 13:13:07 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2237A36302;
-        Fri, 18 Feb 2022 10:12:49 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id D5B1A20007;
-        Fri, 18 Feb 2022 18:12:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1645207966;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9DmvAJFX2U0qo86wiZbyP/58xIuEhZNsNjvYfvIL0Zw=;
-        b=fXTIrpfk6ihAVCE7KFWybnOdSS6ItYmEU4QaNAGseyxApwFoy8+DrLW9qdXRGw/k+TtjVt
-        MksSK4fQBIN34+DDaGatzQYxrlLS0tKUz0kzapVuiJFXr3H9bUYyb5DAkkkGCYSnkFzuOe
-        LFf8eg3izI9lZl5/qEr9co0SYeYvTrzlijfAzvFf/DS1x5Ac49ppRcqB14n6QjmV+/280z
-        gFtA3QOFomHR25ZozcbI7ozE6G6qgvQU15/EYbKEe1qP5LSfbnc19ZzThSw7dc2IjkmjaR
-        WM93nCzFISLNB+MZAfHmkHeCdNJOTWLYBg2IOeHNp2har63SOYFprYtTVMVkvg==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 8/8] ARM: dts: r9a06g032: Describe the DMA router
-Date:   Fri, 18 Feb 2022 19:12:26 +0100
-Message-Id: <20220218181226.431098-9-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220218181226.431098-1-miquel.raynal@bootlin.com>
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
+        Fri, 18 Feb 2022 19:50:03 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA97277917
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Feb 2022 16:49:46 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id p19so22701031ybc.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Feb 2022 16:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dmTl7PiGQWDi2UBFe3lzY73IjWBfZ+A84sNmAGVxFB4=;
+        b=RXFZsklKObsd8yh7MEQurdFkxLWn/o0kcPNYO/fTlABVQehIGuOYe3fw80m9cCn4GL
+         ncFgQobvuKZtiR8UxClZHyzRrfMaam4De8u7xZ6YfE3YXMxX7olxz5m9XBC6MOGJWHc6
+         aJh0Rb+N/4MxzWV8bxb3al52ZwnwkOpiWWoO+ifvlPjo5nwA9/MAZZNcNampx1gCZ9U7
+         ekWaz0+AGbak7/kzTfmvqxJ41DFFvMT6jhWF2WmnRygBH7xNgfuiR2Q30BWQgA03f21Q
+         lH5N2ubqQYoIM2AyGlBvJIDvEc0Jrju2JPdZSUxo0lUl4Kkpy5oj88BtBc5c3D2xvF6x
+         4YKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dmTl7PiGQWDi2UBFe3lzY73IjWBfZ+A84sNmAGVxFB4=;
+        b=JjdVGnHFrdo7sUeERWCQA3vO9ZcmkiDPvfWw44xvkNFbyUTeTgXITqrGVz8I2Fuae7
+         7lJOXaqOMXHod+Jn74fdfct9bq3D0kKdE0vwdc7AdPIiAKi0E0GMaC6Uw9SFnBOFfAS+
+         lP+Fx/oaky6xSwevIJQKTii1iqvdp46g6g3Y5NifHStk2EXq+TWY+T+NZzFCedLDeyeo
+         B77RrpfbQvvaGlfaUJVdDCDg5c7YkCibQeU6+2W0WL+8qDZ1oV+dzBhRwj03BjqUshpC
+         LKIBTMuXxTvWxoFiYpfumkst8XeOnLBF5dVashqGaGlqiOvC1kG09hL50XqesWfBuSoM
+         XLGA==
+X-Gm-Message-State: AOAM531QF0JW0ZMafRq0+T4H59wBxq52ckqiv6wq6kjmGuCow4kUMWpL
+        9f/hlvlBMS3x/FHBgFh2EMrZs1DR604/3us1hwA7mF6pmavQPw==
+X-Google-Smtp-Source: ABdhPJxFl6qNyK0kcFd/U1ATKt7LJVdqrbAAolTb05a8JtEp1bMoF5YGi3JfbNwMmkOiCfCLJpReFMo+K7nqD9xmOaY=
+X-Received: by 2002:a25:75d4:0:b0:61f:e671:7de6 with SMTP id
+ q203-20020a2575d4000000b0061fe6717de6mr9586458ybc.295.1645231785594; Fri, 18
+ Feb 2022 16:49:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <cover.1644594347.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1644594347.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 19 Feb 2022 01:49:34 +0100
+Message-ID: <CACRpkdYPSUzp-3_vRn=poVpO_OLjF28aA56abgZ0mGGgsejUSg@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.18
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a dmamux on this SoC which allows picking two different sources
-for a single DMA request.
+On Fri, Feb 11, 2022 at 4:48 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+> The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+>
+>   Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.18-tag1
+>
+> for you to fetch changes up to 2e08ab0427fe3e33a92a37cfe3b6db340ab7397f:
+>
+>   pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register() (2022-02-08 09:54:44 +0100)
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 640c3eb4bbcd..0eb12c3d9cfd 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -59,6 +59,13 @@ ext_rtc_clk: extrtcclk {
- 		clock-frequency = <0>;
- 	};
- 
-+	dmamux: dma-router {
-+		compatible = "renesas,rzn1-dmamux";
-+		#dma-cells = <6>;
-+		dma-requests = <32>;
-+		dma-masters = <&dma0 &dma1>;
-+	};
-+
- 	soc {
- 		compatible = "simple-bus";
- 		#address-cells = <1>;
--- 
-2.27.0
+Pulled in, sorry for the delay.
 
+Yours,
+Linus Walleij
