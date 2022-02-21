@@ -2,155 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB3EF4BE0E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6398B4BE32D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381315AbiBUQyQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 11:54:16 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42334 "EHLO
+        id S1348967AbiBUROT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 12:14:19 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236640AbiBUQyP (ORCPT
+        with ESMTP id S1343840AbiBUROT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 11:54:15 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4913122534;
-        Mon, 21 Feb 2022 08:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645462432; x=1676998432;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jFAKX07sax2uMuZwpnIsQeZvNSQX6LJPr86+iOLPjR4=;
-  b=ZCJ/1rlP/8Z/iiIBndgFo90PRraxskZEkTXvUuVY34Fnin+P6FOYfWzK
-   vKdAUIbP1VBDf9aZ6wjVC+7/uJ2LZYgBCSV21fe/j998iwGLeE7InxWfX
-   rBuskH3Oaclkc+8sGUiCOdIG1nVtjNrMJaLbtrl1IVIYdU0V1EEaFQGkQ
-   zA7aMqur2eubkJ/a04mwMpvczwtuMx/Z0yHYag7d1y2WEZNIDo1EYWuWc
-   0lyO5CSKZcCyqrRs2Dr+hAoTBjdr7RE/wBvvtdCn0GEandSp4GsOgDgWC
-   JAe4XYr8fpDDBHaRVvbFXokEyPatzF7R+piViFyXBO0Dg2C+lXX3FYPZF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="314803674"
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="314803674"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 08:53:51 -0800
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="706312552"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 08:53:47 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nMBvj-006rFh-Ly;
-        Mon, 21 Feb 2022 18:52:55 +0200
-Date:   Mon, 21 Feb 2022 18:52:55 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
-Subject: Re: [PATCH 5/8] dma: dw: Avoid partial transfers
-Message-ID: <YhPDZ4yb50sMdVgV@smile.fi.intel.com>
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
- <20220218181226.431098-6-miquel.raynal@bootlin.com>
- <YhIcyyBp53LnMbjU@smile.fi.intel.com>
- <TYYPR01MB7086F412B035A09AED2037A9F53A9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+        Mon, 21 Feb 2022 12:14:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD9CE2611C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 09:13:55 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A454482;
+        Mon, 21 Feb 2022 18:13:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1645463633;
+        bh=E0OKuErSDL1WNEJCzwYNIQlTzecUYcbH1CPyRCYIpT8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CefefJs3LrohP7qQmJxmeVCstcxqU7EDFGoDk0UrPmq0s4Ve1GP/s1VubTYIYQzS9
+         tW+u/gN8YJJkAYXuKhCbX0Yyrl5hDyu36j+Z6u4fNs45gD0Tda100lpO7ftZZDrzg8
+         8dBu12uhNcsNApGCXrAn6uVLZgIkrtyK0iia4T78=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Michael Rodin <mrodin@de.adit-jv.com>, michael@rodin.online,
+        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com
+Subject: [PATCH 0/2] drm: rcar-du: Avoid flicker when enabling a VSP plane
+Date:   Mon, 21 Feb 2022 19:13:38 +0200
+Message-Id: <20220221171340.11113-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYYPR01MB7086F412B035A09AED2037A9F53A9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 08:14:47AM +0000, Phil Edworthy wrote:
-> Hi Andy,
-> 
-> I wrote the patch a few years ago, but didn't get the time to upstream it.
-> 
-> I am not aware of a HW integration bug on the RZ/N1 device but can't rule it
-> out. I am struggling to see what kind of HW issue this could be as, iirc,
-> word accesses work fine when the size of the transfer is a multiple of the
-> MEM width.
-> 
-> I found the issue when testing DMA with the UART transferring different amounts of data.
+Hello,
 
-Can you tell more about the setup and test cases?
+This patch series avoids flicker in some scenarios related to dual
+output configuration.
 
-Also, which version of the DW DMAC IP is being used in this SoC?
+The issue was originally reported by Michael Rodin in [1]. The problem
+is described in details there, and copied here to facilitate discussion:
 
-...
+--------
+Restarting a display unit group can cause a visible flicker on the display.
+Particularly when a LVDS display is connected to a Salvator board and an
+HDMI display is (re)connected, then there will be 2 visible flickers on the
+LVDS display:
 
-> > > +		if (sconfig->dst_addr_width && sconfig->dst_addr_width <
-> > data_width)
-> > > +			data_width = sconfig->dst_addr_width;
-> > 
-> > But here no check that you do it for explicitly peripheral to memory, so
-> > this
-> > will affect memory to peripheral transfers as well.
-> No, this should be ok as this change is within:
-> 	case DMA_DEV_TO_MEM:
+ 1. during atomic_flush (The need_restart flag is set in this case by
+    rcar_du_vsp_enable.):
+  rcar_du_crtc_atomic_flush
+    rcar_du_crtc_update_planes
+      ...
+      ...
+      /* Restart the group if plane sources have changed. */
+      if (rcrtc->group->need_restart)
+              rcar_du_group_restart(rcrtc->group);
+ 2. during atomic_enable:
+  rcar_du_crtc_atomic_enable
+    rcar_du_crtc_start
+      rcar_du_group_start_stop(rcrtc->group, true);
 
-Ah, it's better. But still unclear to me why we need this.
+To avoid flickers in all use cases, do not restart DU groups on the Gen3
+SoCs at all, since it is not required any more.
+--------
 
-P.S. Please avoid top-postings.
+The proposed patch unfortunately introduced a regression. This series
+fixes the issue in the first scenario described above. The second
+scenario still leads to flicker, and I don't think that can be fixed as
+the hardware requires the whole group of outputs to be stopped for some
+register changes to take effect.
 
-> > -----Original Message-----
-> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Sent: 20 February 2022 10:50
-> > On Fri, Feb 18, 2022 at 07:12:23PM +0100, Miquel Raynal wrote:
+[1] https://lore.kernel.org/dri-devel/1637680811-90510-1-git-send-email-mrodin@de.adit-jv.com
 
-> > > Pausing a partial transfer only causes data to be written to mem that is
-> > > a multiple of the memory width setting.
-> > >
-> > > However, when a DMA client driver finishes DMA early, e.g. due to UART
-> > > char timeout interrupt, all data read from the DEV must be written to
-> > MEM.
-> > >
-> > > Therefore, allow the slave to limit the memory width to ensure all data
-> > > read from the DEV is written to MEM when DMA is paused.
-> > 
-> > Is this a fix?
-> > What happens to the data if you don't do this?
-> > As far as I understood the Synopsys DesignWare specification the DMA
-> > controller
-> > is capable of flushing FIFO in that case on byte-by-byte basis. Do you
-> > have an
-> > HW integration bug?
-> > 
-> > TL;DR: tell us more about this.
-> > 
-> > ...
-> > 
-> > > +		if (sconfig->dst_addr_width && sconfig->dst_addr_width <
-> > data_width)
-> > > +			data_width = sconfig->dst_addr_width;
-> > 
-> > But here no check that you do it for explicitly peripheral to memory, so
-> > this
-> > will affect memory to peripheral transfers as well.
+Laurent Pinchart (2):
+  drm: rcar-du: Don't select VSP1 sink on Gen3
+  drm: rcar-du: Don't restart group when enabling plane on Gen3
+
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c | 12 ++++++++++--
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  9 ---------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
