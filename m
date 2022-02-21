@@ -2,174 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 656714BE924
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 19:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBACA4BE0FE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:52:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349099AbiBUJi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 04:38:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45648 "EHLO
+        id S1354505AbiBUKbo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 05:31:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351879AbiBUJho (ORCPT
+        with ESMTP id S1354834AbiBUKa2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 04:37:44 -0500
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1F6654E;
-        Mon, 21 Feb 2022 01:16:38 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id e22so30466709qvf.9;
-        Mon, 21 Feb 2022 01:16:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SnKbJVLfgaRymluaOH/LPddpZ+bX9fHGr9MZlFjIlxM=;
-        b=xlszHnUJZbhIjq4nQuqRUxIpX+ZfTRCwdPRH6JUb0Rvq9OUyvuK3ao4uGA/qe8YAt9
-         aRwJPJpGq5UYWG41pIYlqXI+Alf5mMVRRK8lxqxiErOY5SU8dManyJI3h3kghACPJqi1
-         kjcSpxFG4FvYcsgEgWdUQplB7rPtBRPfJDnahGtHTo/ABh6ualHu6ho63zODxfTUL5Q9
-         ZTRrxgqrvH78VCUTlzMKMlmnqdaLNY56+45VCLb30IsXhtnawdeAu0NXckEQ/XmFCm0U
-         os2PcoJHR75srE5I9n5PZ7n+laNlBI2fHCy4fURJZlrlCt7ecBEuK6AdzIrVPzwLG8Xa
-         Rj5w==
-X-Gm-Message-State: AOAM533WDul4UqeTa8pSk3g/J6ynjFVoBSQyFWPowC5KGguzwvWCFn2P
-        NFhzQqWl8QV05TL5cwPqSIygnc8p69MgsQ==
-X-Google-Smtp-Source: ABdhPJzHa1YQ0rsQI9qD1uMb+I73idgYRZxjNeFVFO5wfbo/kE8e/gp5ZtX8MxbtRt9LhMOSES8J4Q==
-X-Received: by 2002:ac8:5988:0:b0:2d7:84d6:aee with SMTP id e8-20020ac85988000000b002d784d60aeemr16892128qte.466.1645434997036;
-        Mon, 21 Feb 2022 01:16:37 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id y18sm30482997qtj.33.2022.02.21.01.16.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Feb 2022 01:16:36 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id e140so32871434ybh.9;
-        Mon, 21 Feb 2022 01:16:36 -0800 (PST)
-X-Received: by 2002:a25:324c:0:b0:623:fb7d:cbc8 with SMTP id
- y73-20020a25324c000000b00623fb7dcbc8mr17519476yby.397.1645434996064; Mon, 21
- Feb 2022 01:16:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com> <20220218181226.431098-4-miquel.raynal@bootlin.com>
-In-Reply-To: <20220218181226.431098-4-miquel.raynal@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Feb 2022 10:16:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWBfJSeEOev81WYSEw+9FAcUzBnN2n5BHJ2n0ig=6fxKQ@mail.gmail.com>
-Message-ID: <CAMuHMdWBfJSeEOev81WYSEw+9FAcUzBnN2n5BHJ2n0ig=6fxKQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] soc: renesas: rzn1-sysc: Export function to set dmamux
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 21 Feb 2022 05:30:28 -0500
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217D263EE;
+        Mon, 21 Feb 2022 01:51:39 -0800 (PST)
+Received: from pro2.mail.ovh.net (unknown [10.108.1.79])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id CC381E72481C;
+        Mon, 21 Feb 2022 10:51:09 +0100 (CET)
+Received: from localhost.localdomain (88.125.132.78) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 21 Feb
+ 2022 10:51:08 +0100
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <linux-renesas-soc@vger.kernel.org>, <geert+renesas@glider.be>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+        <linux-watchdog@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/5] ARM: r9a06g032: add support for the watchdogs
+Date:   Mon, 21 Feb 2022 10:50:26 +0100
+Message-ID: <20220221095032.95054-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.125.132.78]
+X-ClientProxiedBy: CAS3.emp2.local (172.16.1.3) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 6957217000239806939
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjedugfffleelheehveevuedtjeffgfejkedukeekudfguedtfeefuefhueevheeinecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdejkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi all,
 
-On Fri, Feb 18, 2022 at 7:12 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> The dmamux register is located within the system controller.
->
-> Without syscon, we need an extra helper in order to give write access to
-> this register to a dmamux driver.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+This series adds support for the watchdog timers of the RZ/N1.
+The watchdog driver (rzn1-wdt.c) is derived from the driver available at
+https://github.com/renesas-rz/rzn1_linux.git with a few modifications
 
-Thanks for your patch!
+In order to be able to reset the board when a watchdog timer expires,
+the RSTEN register must be configured. it is the responsability of the
+bootloader to set those bits (or not, depending on the chosen policy).
 
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+If the watchdog reset source is not enabled, an interrupt is triggered
+when the watchdog expires. Currently this interrupt doesn't much apart
+from printing a message.
 
-Missing #include <linux/soc/renesas/r9a06g032-syscon.h>
+Changes v2 -> v3:
+* dts: changed compatible strings to include "renesas,r9a06g032-wdt" and
+  "renesas,rzn1-wdt".
+* driver: removed the SOC-specific "renesas,r9a06g032-wdt".
+* removed all the changes in the clock driver: the watchdog reset source
+  are not disabled anymore when the machine is halted.
+* fixed the clock rate type in the computations.
+* removed unnecessary printout and call to clk_disable_unprepare() in the
+  driver probe().
+    
+Changes v1 -> v2:
+* Modified the clock driver to not enable the watchdog reset sources.
+  On other renesas platforms, those bits are by the bootloader. The
+  watchdog reset sources are still disabled when the platform is halted
+  to prevent a watchdog reset.
+* Added a SOC-specific compatible "renesas,r9a06g032-wdt"
+* reordered the dts/i entries
+* default timeout is 60 seconds
+* reworked the probe function of the wdt driver to better error cases
+* removed the set_timeout() and use a fixed period computed in probe().
+  This removes the confusion and makes it clear that the period defined
+  by the user space in indeed handled by the watchdog core
 
-> @@ -315,6 +315,27 @@ struct r9a06g032_priv {
->         void __iomem *reg;
->  };
->
-> +/* Exported helper to access the DMAMUX register */
-> +static struct r9a06g032_priv *syscon_priv;
+Jean-Jacques Hiblot (4):
+  dt-bindings: clock: r9a06g032: Add the definition of the watchdog
+    clock
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/N1
+  ARM: dts: r9a06g032: Add the watchdog nodes
+  ARM: dts: r9a06g032-rzn1d400-db: Enable watchdog0 with a 60s timeout
 
-I'd call this sysctrl_priv, as that matches the bindings and
-binding header file name.
+Phil Edworthy (1):
+  watchdog: Add Renesas RZ/N1 Watchdog driver
 
-> +int r9a06g032_syscon_set_dmamux(u32 mask, u32 val)
-> +{
-> +       u32 dmamux;
-> +
-> +       if (!syscon_priv)
-> +               return -EPROBE_DEFER;
-> +
-> +       spin_lock(&syscon_priv->lock);
+ .../bindings/watchdog/renesas,wdt.yaml        |   6 +
+ arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts   |   5 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  16 ++
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzn1_wdt.c                   | 206 ++++++++++++++++++
+ include/dt-bindings/clock/r9a06g032-sysctrl.h |   1 +
+ 7 files changed, 243 insertions(+)
+ create mode 100644 drivers/watchdog/rzn1_wdt.c
 
-This needs propection against interrupts => spin_lock_irqsave().
+-- 
+2.25.1
 
-> +
-> +       dmamux = readl(syscon_priv->reg + R9A06G032_SYSCON_DMAMUX);
-> +       dmamux &= ~mask;
-> +       dmamux |= val & mask;
-> +       writel(dmamux, syscon_priv->reg + R9A06G032_SYSCON_DMAMUX);
-> +
-> +       spin_unlock(&syscon_priv->lock);
-> +
-> +       return 0;
-> +}
-> +
->  /* register/bit pairs are encoded as an uint16_t */
->  static void
->  clk_rdesc_set(struct r9a06g032_priv *clocks,
-
-> --- a/include/dt-bindings/clock/r9a06g032-sysctrl.h
-> +++ b/include/dt-bindings/clock/r9a06g032-sysctrl.h
-> @@ -145,4 +145,6 @@
->  #define R9A06G032_CLK_UART6            152
->  #define R9A06G032_CLK_UART7            153
->
-> +#define R9A06G032_SYSCON_DMAMUX                0xA0
-
-I don't think this needs to be part of the bindings, so please move
-it to the driver source file.
-
-> --- /dev/null
-> +++ b/include/linux/soc/renesas/r9a06g032-syscon.h
-
-r9a06g032-sysctrl.h etc.
-
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__
-> +#define __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__
-> +
-> +#ifdef CONFIG_CLK_R9A06G032
-> +int r9a06g032_syscon_set_dmamux(u32 mask, u32 val);
-> +#else
-> +static inline int r9a06g032_syscon_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
-> +#endif
-> +
-> +#endif /* __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__ */
-> --
-> 2.27.0
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
