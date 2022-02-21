@@ -2,103 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E600B4BE72E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 19:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 653364BDF36
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381273AbiBUQtI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 11:49:08 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35902 "EHLO
+        id S1381298AbiBUQyN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 11:54:13 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381237AbiBUQs6 (ORCPT
+        with ESMTP id S236640AbiBUQyK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 11:48:58 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E4A237D3;
-        Mon, 21 Feb 2022 08:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645462114; x=1676998114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JMvx6HdjljRIyEJnTyPEGxbsrX44dVlOO6YTuBmXXRM=;
-  b=VrLNDo3tcp2IlRv6CXY3cC1WhaDDsxgQ/ETbaeiCsm06jPXSOPxr+4IP
-   cWyHuNw7I1nN1AlJbvv9Y1iAsr5UK2GcjqwIXW3GbolThkyPnYry2CCwF
-   rj89follcMQVGO18ezEkd4ID5lSqWCuOklsGJCCeGR2AJJiVMV5ku3brf
-   tppQLsdGb69ylHoOH/4mW9RGmmDyQkDInvJLHkgtZeLYjignqCni4V723
-   BElb93z0IaS+tQKG6WjEu1yvY4KdT0JF1GqnPco1aMAYnKEqENfiCJ35Q
-   +403se73nQWCI3Wtqy5xOou5ZIGeGOPTrCe8exuyhY45RgGbPEJCoRKJy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="251492664"
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="251492664"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 08:48:34 -0800
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="591017878"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 08:48:30 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nMBqb-006rBq-PG;
-        Mon, 21 Feb 2022 18:47:37 +0200
-Date:   Mon, 21 Feb 2022 18:47:37 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Viresh Kumar <vireshk@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
-Subject: Re: [PATCH 4/8] dma: dmamux: Introduce RZN1 DMA router support
-Message-ID: <YhPCKbMtB3jnhBo4@smile.fi.intel.com>
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
- <20220218181226.431098-5-miquel.raynal@bootlin.com>
- <YhIeQlwmt/yCc8Uu@smile.fi.intel.com>
- <20220221161320.449b2d4d@xps13>
+        Mon, 21 Feb 2022 11:54:10 -0500
+X-Greylist: delayed 179 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Feb 2022 08:53:45 PST
+Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de [IPv6:2a01:238:400:100::a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB69C22534
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 08:53:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645462242;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=K5C8Dhu+YNf1WOD2amlcnu/3tmStkuqsr65XbgfBlY4=;
+    b=DidxxpUnW3NJcYxsqUoWS0Hkscz9OdBaAEMDSjrEOTvp6KPeoN+Olp64gHRak/G0U3
+    KN0H7PF62fkeYZ+Nt52GfaR0LfGJYyC1xNvYynjNiQ+6CE/frDiCEECTJ8dqRQ0m/O/g
+    YfRjQ7F/tNZnQIyYodk2KDAHlj9/assFTNdpWboff3aYD5RJdWYm1yzeQDNmR3lJkxy9
+    jKp6x6lPXF1WeTwsfgQKh4/MNA34VRarbKw7uyu737u+odLuS2eUtJ7XTbd58TqkDn8/
+    uPYJi1lsDIBvrh2wBiW0DDYP33hiZP8kBP1FbNT/efnTeq9wLKWvej9TyHWhiZj3l7Ss
+    j1mA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/xi15g=="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp01-05.back.ox.d0m.de
+    by smtp-ox.front (RZmta 47.40.0 AUTH)
+    with ESMTPSA id 6c30c7y1LGog0LT
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Mon, 21 Feb 2022 17:50:42 +0100 (CET)
+Date:   Mon, 21 Feb 2022 17:50:42 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <312332855.472251.1645462242686@webmail.strato.com>
+In-Reply-To: <118d62e167f6cf5e98bdf9a738634b4590ea8d09.1645460901.git.geert+renesas@glider.be>
+References: <118d62e167f6cf5e98bdf9a738634b4590ea8d09.1645460901.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] serial: sh-sci: Simplify multiplication/shift logic
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220221161320.449b2d4d@xps13>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.5-Rev38
+X-Originating-Client: open-xchange-appsuite
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 04:13:20PM +0100, Miquel Raynal wrote:
-> andriy.shevchenko@linux.intel.com wrote on Sun, 20 Feb 2022 12:56:02
-> +0200:
-> > On Fri, Feb 18, 2022 at 07:12:22PM +0100, Miquel Raynal wrote:
 
-...
-
-> > > +		dev_err(&pdev->dev, "Missing DMAC requests information\n");
-> > > +		of_node_put(dmac_node);
-> > > +		return -EINVAL;  
-> > 
-> > First put node, then simply use dev_err_probe().
+> On 02/21/2022 5:29 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 > 
-> I don't get the point here. dev_err_probe() is useful when -EPROBE_DEFER
-> can be returned, right? I don't understand what it would bring here nor
-> how I should use it to simplify error handling.
+>  
+> "a * (1 << b)" == "a << b".
+> 
+> No change in generated code.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/tty/serial/sh-sci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+> index 968967d722d494c2..77d76973858f7d7f 100644
+> --- a/drivers/tty/serial/sh-sci.c
+> +++ b/drivers/tty/serial/sh-sci.c
+> @@ -2293,7 +2293,7 @@ static int sci_scbrr_calc(struct sci_port *s, unsigned int bps,
+>  	for_each_sr(sr, s) {
+>  		for (c = 0; c <= 3; c++) {
+>  			/* integerized formulas from HSCIF documentation */
+> -			prediv = sr * (1 << (2 * c + 1));
+> +			prediv = sr << (2 * c + 1);
+>  
+>  			/*
+>  			 * We need to calculate:
+> -- 
+> 2.25.1
 
-Less LOCs, and it's fine to call it here. This usecase is described in the
-dev_err_probe() documentation.
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+CU
+Uli
