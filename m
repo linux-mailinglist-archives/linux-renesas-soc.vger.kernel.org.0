@@ -2,39 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48F3D4BE004
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12DF34BDC24
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:41:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233821AbiBUQ2p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 11:28:45 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36492 "EHLO
+        id S1349831AbiBUQaP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 11:30:15 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232835AbiBUQ2n (ORCPT
+        with ESMTP id S1380351AbiBUQaI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 11:28:43 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38EF013F0A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 08:28:20 -0800 (PST)
+        Mon, 21 Feb 2022 11:30:08 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE411D330
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 08:29:43 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:49dc:a1b5:3fe0:3d2b])
-        by michel.telenet-ops.be with bizsmtp
-        id xsUJ2600b3YJRAw06sUJ9o; Mon, 21 Feb 2022 17:28:18 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id xsVi260083YJRAw01sVirC; Mon, 21 Feb 2022 17:29:42 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nMBXu-001Tix-4U; Mon, 21 Feb 2022 17:28:18 +0100
+        id 1nMBZ0-001TjF-PI; Mon, 21 Feb 2022 17:29:26 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nMBXt-006G6H-GL; Mon, 21 Feb 2022 17:28:17 +0100
+        id 1nMBZ0-006G86-Ah; Mon, 21 Feb 2022 17:29:26 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>
-Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pwm: rcar: Simplify multiplication/shift logic
-Date:   Mon, 21 Feb 2022 17:28:16 +0100
-Message-Id: <4ddca410da1f52a8e2049e0f51f14196cc797200.1645460845.git.geert+renesas@glider.be>
+Subject: [PATCH] serial: sh-sci: Simplify multiplication/shift logic
+Date:   Mon, 21 Feb 2022 17:29:25 +0100
+Message-Id: <118d62e167f6cf5e98bdf9a738634b4590ea8d09.1645460901.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,28 +48,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  - Remove the superfluous cast; the multiplication will yield a 64-bit
-    result due to the "100ULL" anyway,
-  - "a * (1 << b)" == "a << b".
+"a * (1 << b)" == "a << b".
+
+No change in generated code.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pwm/pwm-rcar.c | 2 +-
+ drivers/tty/serial/sh-sci.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pwm/pwm-rcar.c b/drivers/pwm/pwm-rcar.c
-index b437192380e23520..55f46d09602b1907 100644
---- a/drivers/pwm/pwm-rcar.c
-+++ b/drivers/pwm/pwm-rcar.c
-@@ -110,7 +110,7 @@ static int rcar_pwm_set_counter(struct rcar_pwm_chip *rp, int div, int duty_ns,
- 	unsigned long clk_rate = clk_get_rate(rp->clk);
- 	u32 cyc, ph;
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 968967d722d494c2..77d76973858f7d7f 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -2293,7 +2293,7 @@ static int sci_scbrr_calc(struct sci_port *s, unsigned int bps,
+ 	for_each_sr(sr, s) {
+ 		for (c = 0; c <= 3; c++) {
+ 			/* integerized formulas from HSCIF documentation */
+-			prediv = sr * (1 << (2 * c + 1));
++			prediv = sr << (2 * c + 1);
  
--	one_cycle = (unsigned long long)NSEC_PER_SEC * 100ULL * (1 << div);
-+	one_cycle = NSEC_PER_SEC * 100ULL << div;
- 	do_div(one_cycle, clk_rate);
- 
- 	tmp = period_ns * 100ULL;
+ 			/*
+ 			 * We need to calculate:
 -- 
 2.25.1
 
