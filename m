@@ -2,92 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3FBE4BEAF4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 20:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC824BED2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 23:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbiBUS1j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 13:27:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47068 "EHLO
+        id S235467AbiBUW0A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 17:26:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233374AbiBUS0N (ORCPT
+        with ESMTP id S232440AbiBUW0A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 13:26:13 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9379E080
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 10:22:18 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nMDKB-0002CQ-Pi; Mon, 21 Feb 2022 19:22:15 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nMDKB-000Ta4-PH; Mon, 21 Feb 2022 19:22:15 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nMDKA-004ejb-8u; Mon, 21 Feb 2022 19:22:14 +0100
-Date:   Mon, 21 Feb 2022 19:22:13 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-pwm@vger.kernel.org,
+        Mon, 21 Feb 2022 17:26:00 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0CFD023BE4;
+        Mon, 21 Feb 2022 14:25:35 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.88,386,1635174000"; 
+   d="scan'208";a="111174654"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 22 Feb 2022 07:25:35 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AA60C400A8A2;
+        Tue, 22 Feb 2022 07:25:33 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] pwm: rcar: Simplify multiplication/shift logic
-Message-ID: <20220221182213.wjh3lrnaoquinlxg@pengutronix.de>
-References: <4ddca410da1f52a8e2049e0f51f14196cc797200.1645460845.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6zxoayu3tu5xgteu"
-Content-Disposition: inline
-In-Reply-To: <4ddca410da1f52a8e2049e0f51f14196cc797200.1645460845.git.geert+renesas@glider.be>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH] soc: renesas: Kconfig: Explicitly select PM and PM_GENERIC_DOMAINS configs
+Date:   Mon, 21 Feb 2022 22:24:50 +0000
+Message-Id: <20220221222450.5393-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Explicitly select PM and PM_GENERIC_DOMAINS configs for ARCH_R9A07G044
+and ARCH_R9A07G045 configs. PM and PM_GENERIC_DOMAINS configs are
+required for RZ/{G2L,V2L} SoC without these configs the SMARC EVK's
+won't boot.
 
---6zxoayu3tu5xgteu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/soc/renesas/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On Mon, Feb 21, 2022 at 05:28:16PM +0100, Geert Uytterhoeven wrote:
->   - Remove the superfluous cast; the multiplication will yield a 64-bit
->     result due to the "100ULL" anyway,
->   - "a * (1 << b)" =3D=3D "a << b".
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+index 90f4f98be29c..57b6292b46a3 100644
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -293,11 +293,15 @@ config ARCH_R8A774B1
+ 
+ config ARCH_R9A07G044
+ 	bool "ARM64 Platform support for RZ/G2L"
++	select PM
++	select PM_GENERIC_DOMAINS
+ 	help
+ 	  This enables support for the Renesas RZ/G2L SoC variants.
+ 
+ config ARCH_R9A07G054
+ 	bool "ARM64 Platform support for RZ/V2L"
++	select PM
++	select PM_GENERIC_DOMAINS
+ 	help
+ 	  This enables support for the Renesas RZ/V2L SoC variants.
+ 
+-- 
+2.17.1
 
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6zxoayu3tu5xgteu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIT2FIACgkQwfwUeK3K
-7Am27gf/Wz2EWI1e3N2Ei6rtPkAcuxnWK0C3aOdr7KChh7X+ooecBCaLP0QUu7Rm
-7sN16y2czAkETCBoLlBQUcLeOkm2hg831ifr/gn9Jw1CbUeyhmfArU/qRvalth6A
-cK7cKzjWLbrsRmSgFF+lGMfastFNMhh81ZgQ70mAHmNEq52Pe/cw48ywwdwWXpdw
-cb0tLdKovGgBL+peKLG62zw2fORHYB1I0N96Ho2KFLyF3U7lI/2Iyve8JfyyGdvu
-f5Ds4uanz+9MyqFb5wLNHM0fzmWO8VZlPFeifOpbJ7+w7HLVORWj3X7Fb2bqMP/C
-4GuRj5S8gU7exn7lxxQZpx6a7GNNuQ==
-=6X5h
------END PGP SIGNATURE-----
-
---6zxoayu3tu5xgteu--
