@@ -2,83 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBE424BE744
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 19:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DC0D4BE5CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 19:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379285AbiBUPg3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 10:36:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54914 "EHLO
+        id S1379437AbiBUPpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 10:45:05 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379284AbiBUPg2 (ORCPT
+        with ESMTP id S1379455AbiBUPoz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 10:36:28 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E190F220D9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 07:36:01 -0800 (PST)
+        Mon, 21 Feb 2022 10:44:55 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80F722B21
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 07:43:53 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:49dc:a1b5:3fe0:3d2b])
-        by baptiste.telenet-ops.be with bizsmtp
-        id xrby2600B3YJRAw01rbyN8; Mon, 21 Feb 2022 16:35:58 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id xrjr2600P3YJRAw01rjrfY; Mon, 21 Feb 2022 16:43:52 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nMAjF-001TRf-Qz; Mon, 21 Feb 2022 16:35:57 +0100
+        id 1nMAqt-001TTn-7I; Mon, 21 Feb 2022 16:43:51 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nMAjF-006Eaf-Ar; Mon, 21 Feb 2022 16:35:57 +0100
+        id 1nMAqs-006EhO-9q; Mon, 21 Feb 2022 16:43:50 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2] clk: renesas: r8a779f0: Add PFC clock
-Date:   Mon, 21 Feb 2022 16:35:56 +0100
-Message-Id: <4ef3d3dfe714ad75112e4886efea0b66e40a33bc.1645457502.git.geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     LUU HOAI <hoai.luu.ub@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 00/12] pinctrl: renesas: Add R-Car S4-8 support
+Date:   Mon, 21 Feb 2022 16:43:35 +0100
+Message-Id: <cover.1645457792.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the module clock used by the Pin Function (PFC/GPIO) controller
-on the Renesas R-Car S4-8 (R8A779F0) SoC.
+	Hi all,
 
-Extracted from a larger patch in the BSP by LUU HOAI.
+This patch series adds pin control support for the Renesas R-Car S4-8
+Soc.  It is based on patches in the BSP by LUU HOAI, with many changes
+on top (see the individual patches).
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-To be queued in renesas-clk-for-v5.18.
-
-v2:
+Changes compared to v1[1]:
   - Add Reviewed-by,
-  - Split off from the actual pinctrl patches.
+  - Fix whitespace in Makefile,
+  - Remove GPIO and No-GPIO pins, pin function definitions, and
+    registers that can only be accessed from the Control Domain,
+  - Spin off clock and DTS patches into separate series,
+  - Drop RFC state and widen audience.
 
-v1:
-  - https://lore.kernel.org/r/cover.1642599415.git.geert+renesas@glider.be
----
- drivers/clk/renesas/r8a779f0-cpg-mssr.c | 1 +
- 1 file changed, 1 insertion(+)
+Serial console and I2C have been tested on the Renesas Spider
+development board.
 
-diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-index 123c1b01550d97bc..76b441965037798d 100644
---- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-@@ -128,6 +128,7 @@ static const struct mssr_mod_clk r8a779f0_mod_clks[] __initconst = {
- 	DEF_MOD("sys-dmac0",	709,	R8A779F0_CLK_S0D3_PER),
- 	DEF_MOD("sys-dmac1",	710,	R8A779F0_CLK_S0D3_PER),
- 	DEF_MOD("wdt",		907,	R8A779F0_CLK_R),
-+	DEF_MOD("pfc0",		915,	R8A779F0_CLK_CL16M),
- };
- 
- static const unsigned int r8a779f0_crit_mod_clks[] __initconst = {
+Thanks for your comments!
+
+[1] "[PATCH/RFC 00/15] arm64: renesas: Add-R-Car S4-8 Pin control support"
+    https://lore.kernel.org/r/cover.1642599415.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (11):
+  pinctrl: renesas: Add PORT_GP_CFG_19 macros
+  pinctrl: renesas: Initial R8A779F0 PFC support
+  pinctrl: renesas: r8a779f0: Add SCIF pins, groups, and functions
+  pinctrl: renesas: r8a779f0: Add I2C pins, groups, and functions
+  pinctrl: renesas: r8a779f0: Add HSCIF pins, groups, and functions
+  pinctrl: renesas: r8a779f0: Add INTC-EX pins, groups, and function
+  pinctrl: renesas: r8a779f0: Add MMC pins, groups, and function
+  pinctrl: renesas: r8a779f0: Add MSIOF pins, groups, and functions
+  pinctrl: renesas: r8a779f0: Add PCIe pins, groups, and function
+  pinctrl: renesas: r8a779f0: Add QSPI pins, groups, and functions
+  pinctrl: renesas: r8a779f0: Add Ethernet pins, groups, and functions
+
+LUU HOAI (1):
+  dt-bindings: pinctrl: renesas,pfc: Document r8a779f0 support
+
+ .../bindings/pinctrl/renesas,pfc.yaml         |    1 +
+ drivers/pinctrl/renesas/Kconfig               |    5 +
+ drivers/pinctrl/renesas/Makefile              |    1 +
+ drivers/pinctrl/renesas/core.c                |    6 +
+ drivers/pinctrl/renesas/pfc-r8a779f0.c        | 2126 +++++++++++++++++
+ drivers/pinctrl/renesas/sh_pfc.h              |    9 +-
+ 6 files changed, 2146 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/pinctrl/renesas/pfc-r8a779f0.c
+
 -- 
 2.25.1
 
