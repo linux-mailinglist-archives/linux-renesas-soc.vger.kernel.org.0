@@ -2,186 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49EE24BE211
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAAE74BE063
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Feb 2022 18:51:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378160AbiBUOmw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 09:42:52 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55264 "EHLO
+        id S1378722AbiBUPCZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 10:02:25 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344379AbiBUOmu (ORCPT
+        with ESMTP id S1378659AbiBUPCX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 09:42:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F23765B;
-        Mon, 21 Feb 2022 06:42:27 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF0C0482;
-        Mon, 21 Feb 2022 15:42:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645454546;
-        bh=RL7Ns70rAF+Bkb03HTLNS6K1v/ctQIJYbnehlZszA6A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SP0jCEz//2WhKEbnFIUdi4mHWlgJbcvVacjwNITvA4/CWwCiibviiviyfyELCqGeb
-         UhIe19Rs0H1HVPXyZG/1igSQvMnWZQM3/8HWQbUtkknOesA3G6v26LQKBNnWW4+YPu
-         dzX2K9dRjeB1VguY66RAfCWkfkFlELXK+xH7w1BQ=
-Date:   Mon, 21 Feb 2022 16:42:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
+        Mon, 21 Feb 2022 10:02:23 -0500
+X-Greylist: delayed 7320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Feb 2022 07:01:36 PST
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6F7E0D;
+        Mon, 21 Feb 2022 07:01:31 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 96541100015;
+        Mon, 21 Feb 2022 15:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1645455686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hK8yaZhqzk1pLLQ0EIRdH5lQc4U08JDqPo1Cz+pstQU=;
+        b=fxefFsnJtjw0wIlbRk3lkZrzOYrgPmEfqJGrdG+afxpHk3u087CAgCacd9BKOQ5ngMZBOo
+        lRoJQsmNjW5MkMRiMtENwgxOTLFk9mllDeShWemKC+rsqzJPM2/AbyQ+4rTQRpfS4pF/yj
+        yp/3qM/7AeuuRFQojwKJXITP5Jgf5gJXUeu7ckHU5z5HyKs550vki2xaqSPhfMQImwdGaL
+        P4jG8WkEs5Kgd5eJuRjJvWr+knb10/Qf8d3F2SLFeYAbP0MWibPu34uZ4EAQKQUHnEmmgZ
+        vR40cxTsDiZiNJE2yxersBJE306G1R3tmyTgG9yhKuw92onKE3kotNEKQtCZfw==
+Date:   Mon, 21 Feb 2022 16:01:21 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: Re: [PATCH v2 1/3] arm64: dts: renesas: Prepare AA1024XD12 panel
- .dtsi for overlay support
-Message-ID: <YhOkyScHvAi5JQmH@pendragon.ideasonboard.com>
-References: <20211229193135.28767-1-laurent.pinchart+renesas@ideasonboard.com>
- <20211229193135.28767-2-laurent.pinchart+renesas@ideasonboard.com>
- <164545430425.2976960.2974689638537387661@Monstersaurus>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
+Subject: Re: [PATCH 3/8] soc: renesas: rzn1-sysc: Export function to set
+ dmamux
+Message-ID: <20220221160121.6a7a0ed6@xps13>
+In-Reply-To: <CAMuHMdWBfJSeEOev81WYSEw+9FAcUzBnN2n5BHJ2n0ig=6fxKQ@mail.gmail.com>
+References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
+        <20220218181226.431098-4-miquel.raynal@bootlin.com>
+        <CAMuHMdWBfJSeEOev81WYSEw+9FAcUzBnN2n5BHJ2n0ig=6fxKQ@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <164545430425.2976960.2974689638537387661@Monstersaurus>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 02:38:24PM +0000, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2021-12-29 19:31:33)
-> > The Mitsubishi AA1024XD12 panel can be used for R-Car Gen2 and Gen3
-> > boards as an optional external panel. It is described in the
-> > arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi file as a direct child of the
-> > DT root node. This allows including r8a77xx-aa104xd12-panel.dtsi in
-> > board device trees, with other minor modifications, to enable the panel.
-> > 
-> > This is however not how external components should be modelled. Instead
-> > of modifying the board device tree to enable the panel, it should be
-> > compiled as a DT overlay, to be loaded by the boot loader.
-> > 
-> > Prepare the r8a77xx-aa104xd12-panel.dtsi file for this usage by
-> > declaring a panel node only, without hardcoding its path. Overlay
-> > sources can then include r8a77xx-aa104xd12-panel.dtsi where appropriate.
-> > 
-> > This change doesn't cause any regression as r8a77xx-aa104xd12-panel.dtsi
-> > is currently unused. As overlay support for this panel has only been
-> > tested with Gen3 hardware, and Gen2 support will require more
-> > development, move the file to arch/arm64/boot/dts/renesas/.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  .../arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi | 39 -------------------
-> >  .../boot/dts/renesas/panel-aa104xd12.dtsi     | 30 ++++++++++++++
-> >  2 files changed, 30 insertions(+), 39 deletions(-)
-> >  delete mode 100644 arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-> >  create mode 100644 arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
-> > 
-> > diff --git a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi b/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-> > deleted file mode 100644
-> > index 79fce67ebb1c..000000000000
-> > --- a/arch/arm/boot/dts/r8a77xx-aa104xd12-panel.dtsi
-> > +++ /dev/null
-> > @@ -1,39 +0,0 @@
-> > -// SPDX-License-Identifier: GPL-2.0
-> > -/*
-> > - * Common file for the AA104XD12 panel connected to Renesas R-Car boards
-> > - *
-> > - * Copyright (C) 2014 Renesas Electronics Corp.
-> > - */
-> > -
-> > -/ {
-> > -       panel {
-> > -               compatible = "mitsubishi,aa104xd12", "panel-lvds";
-> > -
-> > -               width-mm = <210>;
-> > -               height-mm = <158>;
-> > -               data-mapping = "jeida-18";
-> > -
-> > -               panel-timing {
-> > -                       /* 1024x768 @65Hz */
-> > -                       clock-frequency = <65000000>;
-> > -                       hactive = <1024>;
-> > -                       vactive = <768>;
-> > -                       hsync-len = <136>;
-> > -                       hfront-porch = <20>;
-> > -                       hback-porch = <160>;
-> > -                       vfront-porch = <3>;
-> > -                       vback-porch = <29>;
-> > -                       vsync-len = <6>;
-> > -               };
-> > -
-> > -               port {
-> > -                       panel_in: endpoint {
-> > -                               remote-endpoint = <&lvds_connector>;
-> > -                       };
-> > -               };
-> > -       };
-> > -};
-> > -
-> > -&lvds_connector {
-> > -       remote-endpoint = <&panel_in>;
-> > -};
-> > diff --git a/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
-> > new file mode 100644
-> > index 000000000000..6e9f447d8fe1
+Hi Geert,
+
+geert@linux-m68k.org wrote on Mon, 21 Feb 2022 10:16:24 +0100:
+
+> Hi Miquel,
+>=20
+> On Fri, Feb 18, 2022 at 7:12 PM Miquel Raynal <miquel.raynal@bootlin.com>=
+ wrote:
+> > The dmamux register is located within the system controller.
+> >
+> > Without syscon, we need an extra helper in order to give write access to
+> > this register to a dmamux driver.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com> =20
+>=20
+> Thanks for your patch!
+>=20
+> > --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> > +++ b/drivers/clk/renesas/r9a06g032-clocks.c =20
+>=20
+> Missing #include <linux/soc/renesas/r9a06g032-syscon.h>
+>=20
+> > @@ -315,6 +315,27 @@ struct r9a06g032_priv {
+> >         void __iomem *reg;
+> >  };
+> >
+> > +/* Exported helper to access the DMAMUX register */
+> > +static struct r9a06g032_priv *syscon_priv; =20
+>=20
+> I'd call this sysctrl_priv, as that matches the bindings and
+> binding header file name.
+
+Ok.
+
+>=20
+> > +int r9a06g032_syscon_set_dmamux(u32 mask, u32 val)
+> > +{
+> > +       u32 dmamux;
+> > +
+> > +       if (!syscon_priv)
+> > +               return -EPROBE_DEFER;
+> > +
+> > +       spin_lock(&syscon_priv->lock); =20
+>=20
+> This needs propection against interrupts =3D> spin_lock_irqsave().
+
+Yes.
+
+>=20
+> > +
+> > +       dmamux =3D readl(syscon_priv->reg + R9A06G032_SYSCON_DMAMUX);
+> > +       dmamux &=3D ~mask;
+> > +       dmamux |=3D val & mask;
+> > +       writel(dmamux, syscon_priv->reg + R9A06G032_SYSCON_DMAMUX);
+> > +
+> > +       spin_unlock(&syscon_priv->lock);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  /* register/bit pairs are encoded as an uint16_t */
+> >  static void
+> >  clk_rdesc_set(struct r9a06g032_priv *clocks, =20
+>=20
+> > --- a/include/dt-bindings/clock/r9a06g032-sysctrl.h
+> > +++ b/include/dt-bindings/clock/r9a06g032-sysctrl.h
+> > @@ -145,4 +145,6 @@
+> >  #define R9A06G032_CLK_UART6            152
+> >  #define R9A06G032_CLK_UART7            153
+> >
+> > +#define R9A06G032_SYSCON_DMAMUX                0xA0 =20
+>=20
+> I don't think this needs to be part of the bindings, so please move
+> it to the driver source file.
+
+I've moved it to the top of the file. There definitions are a bit mixed
+with the code, I don't like this, so I kept it at the top.
+
+>=20
 > > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/renesas/panel-aa104xd12.dtsi
-> 
-> Is this a device directly on the renesas board itself?
+> > +++ b/include/linux/soc/renesas/r9a06g032-syscon.h =20
+>=20
+> r9a06g032-sysctrl.h etc.
 
-I would have included it in the board DT if that had been the case :-)
+Done.
 
-> I still wonder if
-> 'extra' overlays should be in a subfolder here, or ... even potentially
-> some more common location - but this can do for now I guess.
-
-They should, but they should then be parametric, it's a whole other
-story.
-
-> And I see I gave this on v1, but /after/ you posted v2 ;-)
-> 
-> You can keep it though ...
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> > @@ -0,0 +1,30 @@
-> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > +/*
-> > + * Common file for the AA104XD12 panel connected to Renesas R-Car Gen3 boards.
-> > + *
-> > + * Copyright (C) 2021 Renesas Electronics Corp.
-> > + */
+>=20
+> > @@ -0,0 +1,11 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__
+> > +#define __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__
 > > +
-> > +panel {
-> > +       compatible = "mitsubishi,aa104xd12", "panel-lvds";
+> > +#ifdef CONFIG_CLK_R9A06G032
+> > +int r9a06g032_syscon_set_dmamux(u32 mask, u32 val);
+> > +#else
+> > +static inline int r9a06g032_syscon_set_dmamux(u32 mask, u32 val) { ret=
+urn -ENODEV; }
+> > +#endif
 > > +
-> > +       width-mm = <210>;
-> > +       height-mm = <158>;
-> > +       data-mapping = "jeida-18";
-> > +
-> > +       panel-timing {
-> > +               /* 1024x768 @65Hz */
-> > +               clock-frequency = <65000000>;
-> > +               hactive = <1024>;
-> > +               vactive = <768>;
-> > +               hsync-len = <136>;
-> > +               hfront-porch = <20>;
-> > +               hback-porch = <160>;
-> > +               vfront-porch = <3>;
-> > +               vback-porch = <29>;
-> > +               vsync-len = <6>;
-> > +       };
-> > +
-> > +       port {
-> > +       };
-> > +};
+> > +#endif /* __LINUX_SOC_RENESAS_R9A06G032_SYSCON_H__ */
+> > --
+> > 2.27.0 =20
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
--- 
-Regards,
 
-Laurent Pinchart
+Thanks,
+Miqu=C3=A8l
