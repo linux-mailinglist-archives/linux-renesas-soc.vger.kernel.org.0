@@ -2,95 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 420FC4BF51C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 10:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA594BF531
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 10:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230352AbiBVJuA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Feb 2022 04:50:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57576 "EHLO
+        id S229825AbiBVJ5C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Feb 2022 04:57:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230344AbiBVJuA (ORCPT
+        with ESMTP id S229481AbiBVJ5B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Feb 2022 04:50:00 -0500
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475B5119419;
-        Tue, 22 Feb 2022 01:49:34 -0800 (PST)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-2d66f95f1d1so166882247b3.0;
-        Tue, 22 Feb 2022 01:49:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I+1ybMhNBxeJhewJGPotloa4lDDMgSvpF+wqTddYHZM=;
-        b=FGj1/Fsy03td8VFZ0StvJLn5LyXeBDYJmtHceMh7Xh1TPTUdKJIMjmcfYkM3l05s8M
-         Hwyy9sWDVtLb1nO75pimabsv8yf4Op+LZrmAyRJ/0xj68Cy/iv/YcIpt9dBKhEmYQTTF
-         9Na7AyztQPF9GNEMAhsmmqYmGLcPj9uTGHvrUXVxo3tJlJsIp3vgbEtf1uhjXVHYFEHG
-         56GN3VSvvRiXHpcSM2u044Q7BN118kSZNxaib8A5zLBwNubq05KJgTFY4HjX/89FxQc8
-         ZHy+uQOtMDzUAoYNXpvrTyBQtKxM2U44RvJIlQun0yQ/MIZgQNG0KBDO9qp3WEbOpsPz
-         yFZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I+1ybMhNBxeJhewJGPotloa4lDDMgSvpF+wqTddYHZM=;
-        b=CrtPOIcktO2KAEuQkODTMUMDODJBwr75we1fD80wx0pCmfURgPnoI3TZd5QjruuArj
-         nPH9GUB5zuAm67EQPHrMWUT6M1ArV5WxP51gS5/WUTmCFvEvBXiX01BURnQb53vNGFwq
-         bJ4O28RW+dqL0mTNeLP7JTFdMgK/y7doJDN+ClGlWp+N1sAT/3i/O+fXKKUDjDwTwZaP
-         NFe+NsvnyWTQaCNgWQyzO2vW8B1AACxfOsb3WpDP82Vpsdd69EWS4yv8xaTLj92k6efD
-         gDOTdX6xsknOCuwnxD9EYGaVJwMPEarhpDFSVsj3WG7hI04v068uBXlWnL3mAqpaG7zt
-         4goQ==
-X-Gm-Message-State: AOAM532+iZFuSPogorYXkOMpZ39iy6ecjWt80f6PQHNFRbLK8tZ6RDYq
-        p7a7OqjLlt+ZAn8rigg2FHbacIrIQ7V3V0fjhKo=
-X-Google-Smtp-Source: ABdhPJxAPHayjDTcrE2Q32HSf/efRSQMSrMjyxlIKw91qY1WplFcblk7uJXq7RGfhsaoWnxwVIGf8c12RxmMx15271k=
-X-Received: by 2002:a81:5f8a:0:b0:2d0:ccb1:9c9c with SMTP id
- t132-20020a815f8a000000b002d0ccb19c9cmr23818472ywb.265.1645523372069; Tue, 22
- Feb 2022 01:49:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20220221222450.5393-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVb38_nhxVqUdtedyP0wMWmgkC-4K+OgbY0bOO8Hw4w4Q@mail.gmail.com>
- <OS0PR01MB59226DF1128AE3BBAEA2E96E863B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXzz1szS=6aY7RKRo1YAGqQ_AjmkXk6x4CryRtoSADfcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXzz1szS=6aY7RKRo1YAGqQ_AjmkXk6x4CryRtoSADfcw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 22 Feb 2022 09:49:06 +0000
-Message-ID: <CA+V-a8ucX_G04wU-pvUtQ7HxDdgp0sguU=x663xvXaE1RaZ8+A@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: Kconfig: Explicitly select PM and
- PM_GENERIC_DOMAINS configs
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tue, 22 Feb 2022 04:57:01 -0500
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FFF5109A;
+        Tue, 22 Feb 2022 01:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1645523606;
+    s=strato-dkim-0002; d=fpond.eu;
+    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=dWKZOFQ+HIvrBNvfir4obwb7uVDZZb0beIIECXtlDkQ=;
+    b=exfJhR7jvCtg4CEw/NPhwh4CrS/VHlNeZhrary/CFZIVX0kpWMYhA10vK6naSw4iMY
+    nYyBeUC8Afyiu/qE7odMcG7NAQIFB9J41nU7dVAbQVLO3QmiY9cqp8faFxXIuGMFbzYw
+    KziTMkmXEwB0XAmjIkyE1GVV2nH4Qns92uFRI3zyIg3TuW0nw4D9ww1mn7FyJAorGnHE
+    yhJOqiyDQWnA+5Ll8RxVVFOQynKJ4EfD8iKLZPtJud/ZaaItB2dsBwDSW1j7BsbqkEv2
+    vRPmVu+o5PWG/mzREGV0C/+iZQ7OS3P/V0Qs4GgJCXRDBdkQbYoJK/vPtVecD9MMkLpF
+    EA5A==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCs/87J2o0="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp05-05.back.ox.d0m.de
+    by smtp-ox.front (RZmta 47.40.0 AUTH)
+    with ESMTPSA id 6c30c7y1M9rQ2KB
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Tue, 22 Feb 2022 10:53:26 +0100 (CET)
+Date:   Tue, 22 Feb 2022 10:53:26 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
+        Pavel Machek <pavel@denx.de>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <1103141484.974980.1645523606875@webmail.strato.com>
+In-Reply-To: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] can: rcar_canfd: Register the CAN device when fully
+ ready
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.5-Rev38
+X-Originating-Client: open-xchange-appsuite
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 22, 2022 at 8:31 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Biju,
->
-> On Tue, Feb 22, 2022 at 9:30 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Subject: Re: [PATCH] soc: renesas: Kconfig: Explicitly select PM and
-> > > PM_GENERIC_DOMAINS configs
-> > >
-> > > On Mon, Feb 21, 2022 at 11:25 PM Lad Prabhakar <prabhakar.mahadev-
-> > > lad.rj@bp.renesas.com> wrote:
-> > > > Explicitly select PM and PM_GENERIC_DOMAINS configs for ARCH_R9A07G044
-> > > > and ARCH_R9A07G045 configs. PM and PM_GENERIC_DOMAINS configs are
-> >
-> > Typo ARCH_R9A07G054 configs
->
-> Thanks, will fix while applying.
->
-Thanks Biju & Geert.
 
-Cheers,
-Prabhakar
+> On 02/21/2022 11:59 PM Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> 
+>  
+> Register the CAN device only when all the necessary initialization
+> is completed. This patch makes sure all the data structures and locks are
+> initialized before registering the CAN device.
+> 
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/net/can/rcar/rcar_canfd.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+> index 3ad3a6f6a1dd..8c378b20b2aa 100644
+> --- a/drivers/net/can/rcar/rcar_canfd.c
+> +++ b/drivers/net/can/rcar/rcar_canfd.c
+> @@ -1783,15 +1783,15 @@ static int rcar_canfd_channel_probe(struct rcar_canfd_global *gpriv, u32 ch,
+>  
+>  	netif_napi_add(ndev, &priv->napi, rcar_canfd_rx_poll,
+>  		       RCANFD_NAPI_WEIGHT);
+> +	spin_lock_init(&priv->tx_lock);
+> +	devm_can_led_init(ndev);
+> +	gpriv->ch[priv->channel] = priv;
+>  	err = register_candev(ndev);
+>  	if (err) {
+>  		dev_err(&pdev->dev,
+>  			"register_candev() failed, error %d\n", err);
+>  		goto fail_candev;
+>  	}
+> -	spin_lock_init(&priv->tx_lock);
+> -	devm_can_led_init(ndev);
+> -	gpriv->ch[priv->channel] = priv;
+>  	dev_info(&pdev->dev, "device registered (channel %u)\n", priv->channel);
+>  	return 0;
+>  
+> -- 
+> 2.17.1
+
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+
+CU
+Uli
