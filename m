@@ -2,81 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BB234BF971
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 14:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 458D44BF9B8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 14:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231163AbiBVNax (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Feb 2022 08:30:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
+        id S232323AbiBVNo3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Feb 2022 08:44:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232586AbiBVNaq (ORCPT
+        with ESMTP id S232545AbiBVNo1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Feb 2022 08:30:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A97A15F373
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 05:30:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A60C2B819C7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 13:30:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 65A8FC340E8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 13:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645536611;
-        bh=Z2z0q344TMGE+kuKmzsT62jGIek2mwaEtY1sdqa8iNE=;
-        h=Subject:From:Date:To:From;
-        b=iI8M8FIFKHvLZs6wcN476+d6Wn6a6TeRzFiUfjcxYVOZypfWvlvpcLAGgJNlDvX/U
-         8SBn7QoU2oHdCl6blw7rH62Dwu0AnjP7tEHsdpElMqfUWcOWvZJqJlW9G5YMC/TrbF
-         cBpQsz6YWCD6sjZ9r6wFMpzQ2/xzZH1LwnCs/xbPYroT5hdd9CrSwzlrF1ym/MAXAi
-         ks8gl7pd/3eiAqmf1ji7nJeE1Ynuhvl7SZ8MVAcY8rREI/UvoFXSdov79AJfT6kJwS
-         XpitkPDWfO37DiDSAIJmZeIFS+wDuBmIY2lHatrvHn415mwwwK1rNYrqZlS01JJy09
-         0hRyv+w/2hB3g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 45AA9E5D07E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 13:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 22 Feb 2022 08:44:27 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E325A11EF14;
+        Tue, 22 Feb 2022 05:44:01 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0AAB51C0BA1; Tue, 22 Feb 2022 14:43:59 +0100 (CET)
+Date:   Tue, 22 Feb 2022 14:43:58 +0100
+From:   Pavel Machek <pavel@denx.de>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
+        Pavel Machek <pavel@denx.de>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] can: rcar_canfd: Register the CAN device when fully ready
+Message-ID: <20220222134358.GA7037@duo.ucw.cz>
+References: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <164553661117.2496.3523378500709791285.git-patchwork-summary@kernel.org>
-Date:   Tue, 22 Feb 2022 13:30:11 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch: soc: renesas: Kconfig: Explicitly select PM and PM_GENERIC_DOMAINS configs
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=616468
-  Lore link: https://lore.kernel.org/r/20220221222450.5393-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+On Mon 2022-02-21 22:59:35, Lad Prabhakar wrote:
+> Register the CAN device only when all the necessary initialization
+> is completed. This patch makes sure all the data structures and locks are
+> initialized before registering the CAN device.
 
-Series: arm64: renesas: Add R-Car S4-8 watchdog support on Spider
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=606327
-  Lore link: https://lore.kernel.org/r/cover.1642525158.git.geert+renesas@glider.be
-    Patches: [1/5] clk: renesas: r8a779f0: Add WDT clock
-             [4/5] arm64: dts: renesas: r8a779f0: Add RWDT node
-             [5/5] arm64: dts: renesas: spider-cpu: Enable watchdog timer
+Reviewed-by: Pavel Machek <pavel@denx.de>
 
+I guess it will go to mainline and then -stable so that we don't have
+to do anything special?
 
-Total patches: 4
+Best regards,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+								Pavel
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
 
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYhTongAKCRAw5/Bqldv6
+8mIWAJ98FJJH5ouSpkP9gaSrTyx+Iv4+CACgj4UJT+tTBbsHMy/iQ1QYWMZJ91E=
+=rWL/
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
