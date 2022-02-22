@@ -2,206 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C614BEEAA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 02:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07BD64BEEB3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 02:14:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237364AbiBVAHN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Feb 2022 19:07:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56820 "EHLO
+        id S237686AbiBVAWX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Feb 2022 19:22:23 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237346AbiBVAHM (ORCPT
+        with ESMTP id S237677AbiBVAWW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Feb 2022 19:07:12 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EBC4240A9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 16:06:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645488408; x=1677024408;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8f2Fbqg3vTYpQ/w0sykVCMiS9Kk2qhsMCtzlFKgVHw8=;
-  b=R7V20fJqkvc/TSahL0GV0NvSgQImtJw23oLxPs9XF028hgepMWaLDydn
-   vu9YkGLmOIlCFFRef8R/usyb0vBcyXeywYLUItxksroJoDGnMMCnmJiBC
-   PJqEgSKfkmryT71qCOFXg7SZhNBlqaJBc8kwISPaBpywzVPvVIPqYGxny
-   xt/5UZV/6CBzM2W41m3vN1XUbxfvADznPOZvZ2jJe9UhU1XTpcbZKwkH7
-   zXZO9tupa7QZIVraXP7rEG9oEvxC3Yr4L3MRNupdA0QpPgEiOQTt2PQLm
-   qwPym9krJdqUtElmtpkAetDN1gAc9Df4RkSCJWg1UQgup9ssGrWybRlHO
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="250403901"
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="250403901"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 16:06:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
-   d="scan'208";a="547499989"
-Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Feb 2022 16:06:46 -0800
-Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nMIhZ-00027W-Ok; Tue, 22 Feb 2022 00:06:45 +0000
-Date:   Tue, 22 Feb 2022 08:06:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 0817e10d064bafaf1215d6e6d39576b9555cc568
-Message-ID: <62142909.jQn3NIRDdRXEP47B%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 21 Feb 2022 19:22:22 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5072AFE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 16:21:56 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id u16so10259665pfg.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Feb 2022 16:21:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=U1OKqTCOYJD4ivzQ4+3N65pWD5dXw1s2eBayof7lxUY=;
+        b=Zl7PWgWjFRgC6vrA3D0pjjJvEWjQ3hgoMcRgcLtWTJmv9KmO5xnTfpYbp0Fq0WRHHX
+         eLLbiEmaPfhG6IUKFnhU9xKQJ/LpecMfJEGJihCM7BTDB2wN6XPP0uDrefbEykT0rXWK
+         FO18fk9XfpcJSndXxMKb7GzPQfvfAA0Jif5/9cWWhatJY302DTVfyoGmX4fk+cGjbZ0F
+         8iZP7rWUvzPH0MS7TXNg6cARRrzvVDg5pQqnyA1DXCTP+2khaqjtp2QQmnxOeXX1u5at
+         iEr0nhpcD1MH6Z2j54umMVoFK078cg1vt41nAxSlTVnUI4CwotazxwgRCEJzw8XzDRWY
+         PhgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=U1OKqTCOYJD4ivzQ4+3N65pWD5dXw1s2eBayof7lxUY=;
+        b=lWqCrIH7/fz/dlLPo3WW8f4JJ4Lmh09FzV4kgaIt2WM7/Mai4PhhU8k2HBJj855gYI
+         ZVMc3+4gDGlM1GB0At3Tkqwr+fnEretz6FQD93IuhnkdXjOttwiwF1mLSEg9vKcRfUMV
+         mz+FYLPEo8EBxuokCj4tQ1My7yd0YcIaFCE4ozGXhe94FRNPi6ttVJzfHg30LHk4/vVL
+         zOjJl7kqu0CP7QpWLihjcAN3t+f+Y0PKGO6vRoVn1+AVFltnemJNgW5iTdazJIQwCm2S
+         xhkaWyzINjeCybg/uo/j6QH7x4G/I9Wy05tcQqxqgJXO1mLTtUg7UTTQW45V5wcM4w1o
+         JCtg==
+X-Gm-Message-State: AOAM530AMEgqNljnwaCwhqwjYwVqw+T/bvDJ+lH8y77Sq2VhcmuMbK3/
+        ap70czV8RAhpcx0N6JOwNF/8PEqCqg3+LTSP
+X-Google-Smtp-Source: ABdhPJzG28s6vzJCnB+X/lhEJM5ZWxHr/YA4chrFSUvHGhGR9U6LM5ZjLxsx9pzzJ+XYV/jaQSyL3A==
+X-Received: by 2002:a63:1060:0:b0:374:6edc:7cfc with SMTP id 32-20020a631060000000b003746edc7cfcmr1795421pgq.500.1645489316310;
+        Mon, 21 Feb 2022 16:21:56 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id jx3-20020a17090b46c300b001b905570597sm453535pjb.17.2022.02.21.16.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Feb 2022 16:21:56 -0800 (PST)
+Message-ID: <62142ca4.1c69fb81.3c3f9.1d8b@mx.google.com>
+Date:   Mon, 21 Feb 2022 16:21:56 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+X-Kernelci-Kernel: renesas-next-2022-02-21-v5.17-rc1
+Subject: renesas/next baseline-nfs: 48 runs,
+ 1 regressions (renesas-next-2022-02-21-v5.17-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 0817e10d064bafaf1215d6e6d39576b9555cc568  Merge branch 'renesas-next', tag 'v5.17-rc5' into renesas-devel
+renesas/next baseline-nfs: 48 runs, 1 regressions (renesas-next-2022-02-21-=
+v5.17-rc1)
 
-elapsed time: 730m
+Regressions Summary
+-------------------
 
-configs tested: 123
-configs skipped: 3
+platform            | arch  | lab          | compiler | defconfig        | =
+regressions
+--------------------+-------+--------------+----------+------------------+-=
+-----------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+crypto | =
+1          =
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220221
-mips                         cobalt_defconfig
-powerpc                       ppc64_defconfig
-alpha                            alldefconfig
-sh                           se7724_defconfig
-sh                               allmodconfig
-powerpc                  storcenter_defconfig
-mips                         tb0226_defconfig
-mips                           ip32_defconfig
-sh                            hp6xx_defconfig
-sh                           se7721_defconfig
-sh                            migor_defconfig
-sh                          urquell_defconfig
-m68k                       m5249evb_defconfig
-powerpc                         ps3_defconfig
-mips                        jmr3927_defconfig
-sh                           sh2007_defconfig
-powerpc                      pcm030_defconfig
-sh                           se7751_defconfig
-xtensa                           alldefconfig
-arm                        trizeps4_defconfig
-arm                  randconfig-c002-20220221
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-parisc                              defconfig
-s390                                defconfig
-parisc64                            defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-i386                              debian-10.3
-i386                   debian-10.3-kselftests
-i386                                defconfig
-sparc                               defconfig
-sparc                            allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a003-20220221
-x86_64               randconfig-a002-20220221
-x86_64               randconfig-a005-20220221
-x86_64               randconfig-a006-20220221
-x86_64               randconfig-a001-20220221
-x86_64               randconfig-a004-20220221
-i386                 randconfig-a002-20220221
-i386                 randconfig-a003-20220221
-i386                 randconfig-a004-20220221
-i386                 randconfig-a001-20220221
-i386                 randconfig-a005-20220221
-i386                 randconfig-a006-20220221
-arc                  randconfig-r043-20220221
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-02-21-v5.17-rc1/plan/baseline-nfs/
 
-clang tested configs:
-mips                 randconfig-c004-20220221
-x86_64               randconfig-c007-20220221
-powerpc              randconfig-c003-20220221
-i386                 randconfig-c001-20220221
-arm                  randconfig-c002-20220221
-s390                 randconfig-c005-20220221
-riscv                randconfig-c006-20220221
-powerpc                       ebony_defconfig
-arm                          pxa168_defconfig
-powerpc                    gamecube_defconfig
-powerpc                 mpc8272_ads_defconfig
-arm                        vexpress_defconfig
-arm                          collie_defconfig
-arm                         hackkit_defconfig
-arm                             mxs_defconfig
-powerpc                      obs600_defconfig
-mips                     loongson2k_defconfig
-powerpc                     skiroot_defconfig
-arm                     davinci_all_defconfig
-mips                           rs90_defconfig
-x86_64               randconfig-a011-20220221
-x86_64               randconfig-a015-20220221
-x86_64               randconfig-a014-20220221
-x86_64               randconfig-a016-20220221
-x86_64               randconfig-a013-20220221
-x86_64               randconfig-a012-20220221
-i386                 randconfig-a016-20220221
-i386                 randconfig-a012-20220221
-i386                 randconfig-a015-20220221
-i386                 randconfig-a011-20220221
-i386                 randconfig-a014-20220221
-i386                 randconfig-a013-20220221
-hexagon              randconfig-r045-20220221
-hexagon              randconfig-r041-20220221
-riscv                randconfig-r042-20220221
-s390                 randconfig-r044-20220221
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2022-02-21-v5.17-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      ee30666d75e27c8e1eb2dd1070527c011c5fbab7 =
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch  | lab          | compiler | defconfig        | =
+regressions
+--------------------+-------+--------------+----------+------------------+-=
+-----------
+r8a77950-salvator-x | arm64 | lab-baylibre | gcc-10   | defconfig+crypto | =
+1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6213f0aa31bdd1d95cc6299e
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-02-21-v5.17-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-02-21-v5.17-rc1/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220218.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6213f0aa31bdd1d95=
+cc6299f
+        failing since 27 days (last pass: v5.17-rc1-18-g925b6371c834, first=
+ fail: renesas-next-2022-01-25-v5.17-rc1) =
+
+ =20
