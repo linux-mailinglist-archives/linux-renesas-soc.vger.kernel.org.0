@@ -2,117 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CA594BFD30
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 16:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F4034C02FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 21:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232090AbiBVPiS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Feb 2022 10:38:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
+        id S235474AbiBVU2d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Feb 2022 15:28:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232110AbiBVPiR (ORCPT
+        with ESMTP id S231694AbiBVU2d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Feb 2022 10:38:17 -0500
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56BCD9EB94;
-        Tue, 22 Feb 2022 07:37:52 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id d26so16777980vsh.0;
-        Tue, 22 Feb 2022 07:37:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KBcpZ9jgJoMWEogAlgZ2QiXNeISgYGA0u6kHLE5F+0E=;
-        b=0U2yZgBjwR3orXqm3oQZOipDgjYPiqo3z5FrqhPWQhyqfXid4gin6IlBFC9QDD29x8
-         l2t4J5TnfwvJ/2RY/fTeomw850eFD2w9cwMMmP5pDCl+WHX8MS8bIU0CH43GoN2Nyn+J
-         vPbdzpxEZgFnHmpFInvoFQTBZslZ0aqOuIL2EJcQgqU/70pbytIY9IZZqR4D53WbMUx5
-         2szm7tJ6ycM7gclac21G+DebJYLlwsZSpdTKETUDMXh/ol31NM04PH46vo/x5QR8IvTf
-         vEvL5tPkxwLsSf5DczAtep+42K+YrqkgY3kvJj/q7lmConThPv2Oh0Dzlv6NQ6NEDkss
-         dPJA==
-X-Gm-Message-State: AOAM532lsMpovtlJWEtWzd/+zjE6q4/sr7HM6hNemxuJ6dnDyZC/bQ1t
-        PDkSJRwy4iaLlpmrOi09CQ+i9XTR+HF/rw==
-X-Google-Smtp-Source: ABdhPJwAmY/e6ylaBrqzes2fn32Q/H1kwG8HLlK27FMstcqZra6HcZnKC/sW3SLOFLtCjuvB5mvjyw==
-X-Received: by 2002:a67:e005:0:b0:31b:74eb:1005 with SMTP id c5-20020a67e005000000b0031b74eb1005mr9092753vsl.50.1645544269870;
-        Tue, 22 Feb 2022 07:37:49 -0800 (PST)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id x144sm2633572vkx.22.2022.02.22.07.37.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Feb 2022 07:37:49 -0800 (PST)
-Received: by mail-vk1-f179.google.com with SMTP id f12so10598364vkl.2;
-        Tue, 22 Feb 2022 07:37:49 -0800 (PST)
-X-Received: by 2002:a05:6122:114e:b0:32d:4662:65a8 with SMTP id
- p14-20020a056122114e00b0032d466265a8mr10537592vko.0.1645544269414; Tue, 22
- Feb 2022 07:37:49 -0800 (PST)
+        Tue, 22 Feb 2022 15:28:33 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B9FB153A;
+        Tue, 22 Feb 2022 12:28:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645561687; x=1677097687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4jxp5Mg8uxJI/IXPsPKFUQEHG9hiu8FZCtEBbIRMLu8=;
+  b=c1dEjXSog6SuJu8nzQ5emFHZWfa1QmaVtK7AJsNMe6QnYDyuC3O78j3F
+   2VALdVFl+b8ihtjrFVeF/+RCXPm13Szaxec4qDKOWm34QTEUtES0SqLZF
+   z4hvfQCqK2VAVuuhNo6lifH6xUkND7eT0lLbsUia3R/8V3JYt2E8Q4njn
+   yXaEN5OLqUUX3aS/A5fG0mZAtuDXf3PTKGvARaXmsxYb2zeVmqfnZVQwH
+   wSPSzKCm9ZbK1Fc45kjAUSi1UU59dGnr96+L358ivGvs9CLMUOCUHhZun
+   t/i5iFQtKDT4Gs1hPI2kjJcxXchwKgLswleh6Q0hV74fTew82huwZ3Xgs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="251725028"
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; 
+   d="scan'208";a="251725028"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2022 12:28:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; 
+   d="scan'208";a="627825309"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2022 12:28:02 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nMblR-0000bD-9X; Tue, 22 Feb 2022 20:28:01 +0000
+Date:   Wed, 23 Feb 2022 04:27:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     kbuild-all@lists.01.org, dmaengine@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 4/8] dma: dmamux: Introduce RZN1 DMA router support
+Message-ID: <202202230444.xjzzeOlo-lkp@intel.com>
+References: <20220222103437.194779-5-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-References: <6d8a6a05564f38f9d20464c1c17f96e52740cf6a.1645460429.git.geert+renesas@glider.be>
- <CACRpkdaJAEivz_RVGCyDvwJtDnb7E+mpxt8a66TicZW=oNttNw@mail.gmail.com>
-In-Reply-To: <CACRpkdaJAEivz_RVGCyDvwJtDnb7E+mpxt8a66TicZW=oNttNw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Feb 2022 16:37:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV4Hv4Z2dMJR4riZy=FzXjJfEenWA4RQZhNvtRkno71Hw@mail.gmail.com>
-Message-ID: <CAMuHMdV4Hv4Z2dMJR4riZy=FzXjJfEenWA4RQZhNvtRkno71Hw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sh-pfc: checker: Fix miscalculation of number of states
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220222103437.194779-5-miquel.raynal@bootlin.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hi Miquel,
 
-On Tue, Feb 22, 2022 at 4:27 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Mon, Feb 21, 2022 at 5:22 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > The checker failed to validate all enum IDs in the description of a
-> > register with fixed-width register fields, due to a miscalculation of
-> > the number of described states: each register field of n bits can have
-> > "1 << n" possible states, not "1".
-> >
-> > Increase SH_PFC_MAX_ENUMS accordingly, now more enum IDs are checked
-> > (SH-Mobile AG5 has more than 4000 enum IDs defined).
-> >
-> > Fixes: 12d057bad683b1c6 ("pinctrl: sh-pfc: checker: Add check for enum ID conflicts")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > To be queued in renesas-pinctrl-for-v5.18.
+I love your patch! Yet something to improve:
 
-And obviously I should have done s/sh-pfc/renesas/ in the subject line.
-Will fix...
+[auto build test ERROR on geert-renesas-devel/next]
+[also build test ERROR on geert-renesas-drivers/renesas-clk robh/for-next linus/master v5.17-rc5 next-20220217]
+[cannot apply to vkoul-dmaengine/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> I certainly trust you to generally do what is best for the Renesas drivers.
+url:    https://github.com/0day-ci/linux/commits/Miquel-Raynal/RZN1-DMA-support/20220222-183549
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220223/202202230444.xjzzeOlo-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/b62059e893c7e3779b96e1c69ae6818260d352de
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Miquel-Raynal/RZN1-DMA-support/20220222-183549
+        git checkout b62059e893c7e3779b96e1c69ae6818260d352de
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash
 
-Thanks!
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> I have a question about this checker infrastructure because it is obviously
-> a piece of really valuable code for Renesas.
->
-> How general is this checker? Do we have other drivers in the kernel that
-> would benefit from it or is it completely Renesas-specific?
->
-> If it has general value I think it should be moved to be one floor down,
-> with the pinctrl framework, if possible. But I don't know the details.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Unfortunately it is completely Renesas-specific, and relies on the way
-pins are configured in most (but not all) Renesas SoCs (both SH and
-ARM).
+ERROR: modpost: missing MODULE_LICENSE() in drivers/dma/dw/dmamux.o
+>> ERROR: modpost: "r9a06g032_sysctrl_set_dmamux" [drivers/dma/dw/dmamux.ko] undefined!
 
-I assume similar checks could be added to other pin control drivers,
-especially if they are using groups.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
