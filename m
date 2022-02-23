@@ -2,163 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E67204C0984
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 03:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B67844C09AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 03:52:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237571AbiBWCmY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Feb 2022 21:42:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
+        id S234653AbiBWCxH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Feb 2022 21:53:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237270AbiBWCmS (ORCPT
+        with ESMTP id S233116AbiBWCxH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Feb 2022 21:42:18 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BAD70F7D
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 18:35:46 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id c9so5432353pll.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 18:35:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=9xLe0HFXy6mHXG4By3gbo80KNJGXsXYkAiGnj+qXCB4=;
-        b=oovET6J1XQWcFW12yZ08fYE+gveTSuhjH6X7oMiyAioOzfO9eec1MW9ZKl8x934IZo
-         wDWLur3ElAuU9GbQXTVY1FMve4oP45flZu7sJkMP0A4ItDn0oi35saMwHLog0/9SVZfw
-         /aveR5MlPte0Vnocotc/LTszUY4AbRbnJCBkNSy0wNM1KO6A381pscrDLGQlW9xfYGxI
-         K55A2Oy5caSKHD6tVCKJ+VwJVV7u9//vGXS27+QTOfVluKd4i8DwF4o6BYWjNMZLVEYB
-         +Kkg2MKjHcLmEeR0S41vrTok5okvZQnwZ1Cc7TK0v4eNed6yWnJjC7g6a1bmYJSeq6B5
-         YXqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=9xLe0HFXy6mHXG4By3gbo80KNJGXsXYkAiGnj+qXCB4=;
-        b=sbUv7tRzwHR5F0TNwcOUrfn8H4DUNkDKAWD/RiKzcNW8Rbf22HeGhwU3rXzoWlP9ix
-         HkY9kbKICaNB680idxXMwijJY6rax/vQSocBeM5rABsFNIV7CxO0g/Efr0W2XoLJau7R
-         jhh9CWxzwPxGFAOvriob9i4FFN40DewlED7u3oGx/Nn7vR/hXOQx4WdK2L1C3Athbg2K
-         9sdfRvI2cG8PmtGPF02P1R++eizXWcgvOQAHvlnDLmLAjrDTHBkoxjW5dfKhgPIYNxCW
-         BkEAPRcBC5A1O/8dRejiDCXt3IT5kIS7iaTIp+Gt7N76rthjUCmfccihrjBrQExq0X4P
-         6Y0A==
-X-Gm-Message-State: AOAM530JAlcnYWKwNs7rzre9lMIsC1SIeNDs1hAl4OEMrTCDaNW6hf+v
-        efYRNPTETmL1F1epEvpLJ800VbS4pgRvp3/4
-X-Google-Smtp-Source: ABdhPJxGfEzaH/9JtcvLmPUwMQi7uALtiZk+XvWCG34fxszDW2Ob3ek9nnNFaW9gQ9nJRkra2fya/w==
-X-Received: by 2002:a17:90a:fe87:b0:1bc:6928:86c7 with SMTP id co7-20020a17090afe8700b001bc692886c7mr7028448pjb.129.1645583744691;
-        Tue, 22 Feb 2022 18:35:44 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id z13sm19376603pfe.20.2022.02.22.18.35.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 18:35:44 -0800 (PST)
-Message-ID: <62159d80.1c69fb81.c92bb.4c61@mx.google.com>
-Date:   Tue, 22 Feb 2022 18:35:44 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 22 Feb 2022 21:53:07 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1035044D
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 18:52:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645584760; x=1677120760;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4KzJ7MSzr6pkrrgcMjWAFHdG1HnDFNuRKUx1THW8VMY=;
+  b=K7SNKApMmW4tRJvZwd35U6W40yuJ27orCZloeOrBUlNJ1+13T5JFVP5t
+   p8xY1AVocfv1vW7/VhmwqnP0xzZYeTSd4HzTeyy0tO4JrT/ZrBd69UhGs
+   x0SkR6mVXS6eSpbEIyXSiwrvwCSQOSW37j+0Wk/KsbadR9isxaRdKCO1X
+   BWQ2PmEiOCCZWuYbheCzGhTt6UmYCu8ozifKncM0AhnM+k73ZubEtf4CC
+   64R2IXl/DPrGUYSsotbnPgGvXApzHgGx1vPdAxElHJjMkUlRJHpBNMPU/
+   wEey3USthF822nlkWoxh4MrEjSvxh07GiET6Zv4rZ4CAww9m7QwBm3pDb
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="338306026"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; 
+   d="scan'208";a="338306026"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2022 18:51:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; 
+   d="scan'208";a="591543692"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2022 18:51:13 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nMhkG-0000tW-Gy; Wed, 23 Feb 2022 02:51:12 +0000
+Date:   Wed, 23 Feb 2022 10:50:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.18] BUILD SUCCESS
+ 1069050467d8c4e91a49d0e95d776c905afb5b03
+Message-ID: <6215a105.iFRac/eo6CXx5n/7%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-X-Kernelci-Kernel: renesas-next-2022-02-22-v5.17-rc1
-Subject: renesas/next igt-gpu-panfrost: 1 runs,
- 1 regressions (renesas-next-2022-02-22-v5.17-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next igt-gpu-panfrost: 1 runs, 1 regressions (renesas-next-2022-02-=
-22-v5.17-rc1)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.18
+branch HEAD: 1069050467d8c4e91a49d0e95d776c905afb5b03  arm64: dts: renesas: spider-cpu: Enable watchdog timer
 
-Regressions Summary
--------------------
+elapsed time: 722m
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+configs tested: 152
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-02-22-v5.17-rc1/plan/igt-gpu-panfrost/
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20220221
+sh                      rts7751r2d1_defconfig
+arm                             pxa_defconfig
+m68k                        m5407c3_defconfig
+mips                            ar7_defconfig
+sh                             espt_defconfig
+sh                   sh7770_generic_defconfig
+powerpc                       maple_defconfig
+arm                       omap2plus_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                     sequoia_defconfig
+powerpc                     pq2fads_defconfig
+ia64                         bigsur_defconfig
+h8300                    h8300h-sim_defconfig
+powerpc                         ps3_defconfig
+m68k                        m5307c3_defconfig
+mips                         db1xxx_defconfig
+sparc                               defconfig
+arm                          pxa910_defconfig
+m68k                       m5475evb_defconfig
+m68k                       m5275evb_defconfig
+arm                         assabet_defconfig
+arm                          gemini_defconfig
+arm                       imx_v6_v7_defconfig
+powerpc                       ppc64_defconfig
+ia64                            zx1_defconfig
+arm                        multi_v7_defconfig
+m68k                       m5249evb_defconfig
+sparc                            alldefconfig
+mips                           ip32_defconfig
+um                                  defconfig
+arm                           sunxi_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                     redwood_defconfig
+powerpc                      makalu_defconfig
+alpha                               defconfig
+m68k                             alldefconfig
+powerpc                      ppc6xx_defconfig
+mips                            gpr_defconfig
+sh                          rsk7203_defconfig
+mips                         bigsur_defconfig
+arm                          badge4_defconfig
+arm                       multi_v4t_defconfig
+m68k                             allyesconfig
+arm                  randconfig-c002-20220221
+arm                  randconfig-c002-20220222
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+csky                                defconfig
+nds32                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64               randconfig-a003-20220221
+x86_64               randconfig-a002-20220221
+x86_64               randconfig-a005-20220221
+x86_64               randconfig-a006-20220221
+x86_64               randconfig-a001-20220221
+x86_64               randconfig-a004-20220221
+i386                 randconfig-a002-20220221
+i386                 randconfig-a001-20220221
+i386                 randconfig-a005-20220221
+i386                 randconfig-a003-20220221
+i386                 randconfig-a006-20220221
+i386                 randconfig-a004-20220221
+arc                  randconfig-r043-20220221
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
 
-  Test:     igt-gpu-panfrost
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-02-22-v5.17-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      77494b5c6a736414fb60a82e47e368b133443306
+clang tested configs:
+powerpc              randconfig-c003-20220221
+x86_64               randconfig-c007-20220221
+arm                  randconfig-c002-20220221
+mips                 randconfig-c004-20220221
+i386                 randconfig-c001-20220221
+riscv                randconfig-c006-20220221
+powerpc                      katmai_defconfig
+arm                          imote2_defconfig
+powerpc                  mpc866_ads_defconfig
+arm                            dove_defconfig
+mips                          ath25_defconfig
+mips                          ath79_defconfig
+mips                       lemote2f_defconfig
+mips                malta_qemu_32r6_defconfig
+arm                           omap1_defconfig
+arm                      pxa255-idp_defconfig
+powerpc                     mpc5200_defconfig
+mips                           ip27_defconfig
+arm64                            allyesconfig
+powerpc                     tqm8540_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a011-20220221
+x86_64               randconfig-a015-20220221
+x86_64               randconfig-a014-20220221
+x86_64               randconfig-a016-20220221
+x86_64               randconfig-a013-20220221
+x86_64               randconfig-a012-20220221
+i386                 randconfig-a016-20220221
+i386                 randconfig-a012-20220221
+i386                 randconfig-a015-20220221
+i386                 randconfig-a011-20220221
+i386                 randconfig-a014-20220221
+i386                 randconfig-a013-20220221
+hexagon              randconfig-r041-20220221
+riscv                randconfig-r042-20220221
+s390                 randconfig-r044-20220221
+hexagon              randconfig-r045-20220221
+hexagon              randconfig-r045-20220222
+hexagon              randconfig-r041-20220222
 
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  8d0fb9b3f225183fb3276a0e4ae1f8354a3519e8
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  9cb64a757d2ff1e180b1648e611439d94afd697d =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/62158bb650169f5180c629ca
-
-  Results:     15 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--02-22-v5.17-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-=
-gpu-panfrost-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--02-22-v5.17-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/igt-=
-gpu-panfrost-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
-t/20220218.1/arm64/rootfs.cpio.gz =
-
-
-
-  * igt-gpu-panfrost.panfrost_submit.pan-unhandled-pagefault: https://kerne=
-lci.org/test/case/id/62158bb650169f5180c629cd
-        new failure (last pass: renesas-next-2022-02-21-v5.17-rc1)
-
-    2022-02-23T01:10:59.833134  <8>[   23.633768] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dpan-submit-and-close RESULT=3Dpass>
-    2022-02-23T01:10:59.863818  <6>[   23.668298] Console: switching to col=
-our dummy device 80x25
-    2022-02-23T01:10:59.870241  <14>[   23.675285] [IGT] panfrost_submit: e=
-xecuting
-    2022-02-23T01:10:59.876470  IGT-Version: 1.26-g9cb64a7 (aarch64) (Linux=
-: 5.17.0-rc1 aarch64)
-    2022-02-23T01:10:59.895943  <14>[   23.698046] [IGT] panfrost_submit: s=
-tarting subtest pan-unhandled-pagefault
-    2022-02-23T01:10:59.900038  Starting subtest: pan-unhandled-pagefault
-    2022-02-23T01:11:00.017365  (panfrost_submit:337) CRITICAL: Test assert=
-ion failure function __igt_unique____real_main65, file ../tests/panfrost_su=
-bmit.c:178<14>[   23.818795] [IGT] panfrost_submit: exiting, ret=3D98
-    2022-02-23T01:11:00.018257  :
-    2022-02-23T01:11:00.031122  (panfrost_submit:337) CRITICAL: Failed asse=
-rtion: syncobj_wait(fd, &submit->args->out_sync, 1, abs_timeout(SHORT_TIME_=
-NSEC), 0, NULL)
-    2022-02-23T01:11:00.032567  Stack trace: =
-
-    ... (13 line(s) more)  =
-
- =20
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
