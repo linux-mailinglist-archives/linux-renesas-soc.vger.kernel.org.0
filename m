@@ -2,253 +2,263 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FEF64C04AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Feb 2022 23:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3974C06F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 02:37:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235145AbiBVWfe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Feb 2022 17:35:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56632 "EHLO
+        id S236590AbiBWBhj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Feb 2022 20:37:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235565AbiBVWfe (ORCPT
+        with ESMTP id S232372AbiBWBhh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Feb 2022 17:35:34 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D43710CF1E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 14:35:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645569308; x=1677105308;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=x1IXBsY/BSPRfbBui8sLTXc4D0OYD4X/gY/l35cm4IU=;
-  b=bA4CHfZz/7+NYYO+ZXz3aDJAwDaFMkRKlnDQmh4tVlV1hgYxtbnbAMNy
-   MhtzgEFInf4BYgUhfQiOQYRRGN/WMLI80E2w7AOyCvRltTlXa9ybF3FTT
-   qdcR0U00Xb9cNg0yLvD0tYGTBxV2qyae3/EQsK+Gx+kFw5biuDCHHiRO5
-   3+QTWkufgc+rsHnvhxxxlpZsYmSxuFb6OT2uPfVuKLjlfh5RIe97OssE4
-   ZJ6wq+Xlwg2qPMv5KIZlGnp+9Qb5I99TkGKD3OcUnlnZgTEe9Ul9e4zM0
-   6gJEYl3f2RrQ3iCBMG/vJn9Dg37LemT+krcYN7Zo5sww75BwihdLQWU5Q
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="276441082"
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; 
-   d="scan'208";a="276441082"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2022 14:35:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,389,1635231600"; 
-   d="scan'208";a="490963888"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Feb 2022 14:35:06 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nMdkP-0000gt-Bp; Tue, 22 Feb 2022 22:35:05 +0000
-Date:   Wed, 23 Feb 2022 06:34:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
- 885487f9399615288d4d89014889450559abd070
-Message-ID: <621564ed.Sk3IyxB/o6sNglJg%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 22 Feb 2022 20:37:37 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00C44E388
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 17:37:10 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id em10-20020a17090b014a00b001bc3071f921so716641pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Feb 2022 17:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=t32DOj5M+nELmSnzzgpgn/c2zRbEjH6Ef0K2kIkwoP4=;
+        b=g/TV1aDE+3l04iiu+FowahVplX3yoamWXgywYeEAb73RFVUgSHdYvNhbKo8G2n0iR0
+         jjQTj1C2RZBV7JPdE2bAVcW9NEO4oChTc8Iyghwwk/R8eGGnivV8ZlEPxw5lciKAx2x2
+         nHsV/O3odI9ihkW7PBmIyrCYMLQHjPXKU+2GxHSTsi5UFbdyFEBOW4Qi6dukMLvBCOHB
+         bwXihqnsOAJSlezgeHsRiwF8xpfJ8Mw1A+T2a5yl7pEaamAILV5yQlQGWUE2sNDEWep9
+         f99+k0ZA/J8ocONnaVXmAqeKfp6EkwsOtyIKC8NMzsBFofz4s/b+hGGluFmDTqs6kWlM
+         h/Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=t32DOj5M+nELmSnzzgpgn/c2zRbEjH6Ef0K2kIkwoP4=;
+        b=jMHAs0ZzcpfQcnQXJJXyBtKA1OkLz/syA0jAgRpFAvz+ncBTvvnCaj0yNZ93YpByEB
+         zwcRjao7GGOl6T25YxLFRbdd2mV5vQKDXe64lDuLMtCEbnGmsYbT1E/7Uuj9n0UejJ3v
+         vKRoH1G/wusjbJ4+L9Y8G9qiSZD9D6RXERxmZthGFU6gQQeZEzsJ6opDTJQy7bqXgnQy
+         /5fLXH99AKrK2hZQJHgeuxAzG9oeqO0hJOc9MhaeGFcmls8cni82hR6sD9JSJG2O6XFi
+         VMoprgz0v2gzXuB31Gagu23bKTZngSE1CtO+gTGaVgj4paFyCByU+wz78F3uL9eGn7ed
+         i55g==
+X-Gm-Message-State: AOAM532fzqHYfmHACzvg8gkOLz83c7yddP/azAPtWU8Spl022b/LU2f9
+        y1c/bbpjhX1ZrG0tBUYqwgfv09NaOa9EmT+7
+X-Google-Smtp-Source: ABdhPJwUX8HDtGRBO6Mbj+BJmR3d6zHPk0UZhC4zYzHa+QG3wldb5KusVh1TKX9+iwMIzypVEkbTKw==
+X-Received: by 2002:a17:902:b208:b0:14f:14e8:1e49 with SMTP id t8-20020a170902b20800b0014f14e81e49mr25159569plr.35.1645580229853;
+        Tue, 22 Feb 2022 17:37:09 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id q21sm18398897pfu.188.2022.02.22.17.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 17:37:09 -0800 (PST)
+Message-ID: <62158fc5.1c69fb81.2eebf.1f86@mx.google.com>
+Date:   Tue, 22 Feb 2022 17:37:09 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2022-02-22-v5.17-rc5
+Subject: renesas/master sleep: 7 runs,
+ 5 regressions (renesas-devel-2022-02-22-v5.17-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-branch HEAD: 885487f9399615288d4d89014889450559abd070  pinctrl: sh-pfc: checker: Fix miscalculation of number of states
+renesas/master sleep: 7 runs, 5 regressions (renesas-devel-2022-02-22-v5.17=
+-rc5)
 
-elapsed time: 732m
+Regressions Summary
+-------------------
 
-configs tested: 168
-configs skipped: 3
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 5          =
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220221
-arm                         lubbock_defconfig
-sh                           se7619_defconfig
-sh                      rts7751r2d1_defconfig
-arm                             pxa_defconfig
-m68k                        m5407c3_defconfig
-powerpc                      pasemi_defconfig
-sh                          r7780mp_defconfig
-arm                        oxnas_v6_defconfig
-xtensa                         virt_defconfig
-ia64                          tiger_defconfig
-arm                          iop32x_defconfig
-sh                             shx3_defconfig
-sh                 kfr2r09-romimage_defconfig
-m68k                        mvme147_defconfig
-powerpc                       maple_defconfig
-arm                       omap2plus_defconfig
-powerpc                 mpc8540_ads_defconfig
-m68k                            q40_defconfig
-alpha                            alldefconfig
-sh                           se7724_defconfig
-powerpc                     sequoia_defconfig
-powerpc                  storcenter_defconfig
-sh                            hp6xx_defconfig
-sh                           se7721_defconfig
-mips                         tb0226_defconfig
-mips                           ip32_defconfig
-powerpc                         ps3_defconfig
-m68k                        m5307c3_defconfig
-mips                         db1xxx_defconfig
-sparc                               defconfig
-arm                          pxa910_defconfig
-m68k                       m5475evb_defconfig
-m68k                       m5275evb_defconfig
-arm                         assabet_defconfig
-arm                          pxa3xx_defconfig
-powerpc                        warp_defconfig
-sh                           sh2007_defconfig
-arm                        clps711x_defconfig
-sh                   sh7770_generic_defconfig
-powerpc                       holly_defconfig
-arm                            pleb_defconfig
-xtensa                  cadence_csp_defconfig
-arc                     haps_hs_smp_defconfig
-arm                           stm32_defconfig
-m68k                       m5249evb_defconfig
-sparc                            alldefconfig
-ia64                            zx1_defconfig
-powerpc                     redwood_defconfig
-powerpc                      makalu_defconfig
-s390                       zfcpdump_defconfig
-sh                         ecovec24_defconfig
-powerpc                    sam440ep_defconfig
-ia64                             allyesconfig
-m68k                             alldefconfig
-powerpc                      ppc6xx_defconfig
-mips                            gpr_defconfig
-sh                          rsk7203_defconfig
-mips                         bigsur_defconfig
-arm                          badge4_defconfig
-arm                       multi_v4t_defconfig
-m68k                             allyesconfig
-arm                  randconfig-c002-20220222
-arm                  randconfig-c002-20220221
-ia64                                defconfig
-ia64                             allmodconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20220221
-x86_64               randconfig-a003-20220221
-x86_64               randconfig-a004-20220221
-x86_64               randconfig-a002-20220221
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64               randconfig-a005-20220221
-x86_64               randconfig-a006-20220221
-i386                 randconfig-a002-20220221
-i386                 randconfig-a001-20220221
-i386                 randconfig-a005-20220221
-i386                 randconfig-a003-20220221
-i386                 randconfig-a006-20220221
-i386                 randconfig-a004-20220221
-arc                  randconfig-r043-20220221
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-02-22-v5.17-rc5/plan/sleep/
 
-clang tested configs:
-powerpc              randconfig-c003-20220221
-x86_64               randconfig-c007-20220221
-arm                  randconfig-c002-20220221
-mips                 randconfig-c004-20220221
-i386                 randconfig-c001-20220221
-riscv                randconfig-c006-20220221
-powerpc                      katmai_defconfig
-arm                          imote2_defconfig
-mips                          ath79_defconfig
-mips                       lemote2f_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                           omap1_defconfig
-arm                      pxa255-idp_defconfig
-arm                        spear3xx_defconfig
-powerpc                     kmeter1_defconfig
-powerpc                          g5_defconfig
-arm                  colibri_pxa300_defconfig
-powerpc                      ppc44x_defconfig
-arm64                            allyesconfig
-powerpc                     tqm8540_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64               randconfig-a011-20220221
-x86_64               randconfig-a015-20220221
-x86_64               randconfig-a014-20220221
-x86_64               randconfig-a016-20220221
-x86_64               randconfig-a013-20220221
-x86_64               randconfig-a012-20220221
-i386                 randconfig-a016-20220221
-i386                 randconfig-a012-20220221
-i386                 randconfig-a011-20220221
-i386                 randconfig-a014-20220221
-i386                 randconfig-a013-20220221
-i386                 randconfig-a015-20220221
-hexagon              randconfig-r045-20220221
-hexagon              randconfig-r041-20220221
-riscv                randconfig-r042-20220221
-s390                 randconfig-r044-20220221
+  Test:     sleep
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-02-22-v5.17-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      764d9473182a7a0e7d0fd7f57c5157204abc9dba =
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch | lab           | compiler | defconfig          =
+| regressions
+--------------------+------+---------------+----------+--------------------=
++------------
+rk3288-rock2-square | arm  | lab-collabora | gcc-10   | multi_v7_defconfig =
+| 5          =
+
+
+  Details:     https://kernelci.org/test/plan/id/621588a4f906494530c6296c
+
+  Results:     3 PASS, 9 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-22-v5.17-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
+8-rock2-square.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-02-22-v5.17-rc5/arm/multi_v7_defconfig/gcc-10/lab-collabora/sleep-rk328=
+8-rock2-square.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220218.1/armhf/rootfs.cpio.gz =
+
+
+
+  * sleep.rtcwake-mem-5: https://kernelci.org/test/case/id/621588a4f9064945=
+30c6296f
+        new failure (last pass: renesas-devel-2022-02-21-v5.17-rc5)
+
+    2022-02-23T01:02:51.720572  rtcwake: assuming RTC uses UTC ...
+    2022-02-23T01:02:51.720891  rtcwake: wakeup from \"mem\" using rtc0 at =
+Wed Feb 23 01:02:58 2022
+    2022-02-23T01:02:51.740084  <6>[   96.726207] PM: suspend entry (deep)
+    2022-02-23T01:02:51.740599  <6>[   96.730589] Filesystems sync: 0.000 s=
+econds
+    2022-02-23T01:03:11.793998  <6>[   96.736343] Freezing user space proce=
+sses ... =
+
+    2022-02-23T01:03:11.794756  <3>[  116.757631] Freezing of tasks failed =
+after 20.015 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-23T01:03:11.795191  <6>[  116.768180] task:systemd-udevd   stat=
+e:D stack:    0 pid:  128 ppid:   116 flags:0x00000081
+    2022-02-23T01:03:11.795578  <6>[  116.778031]  __schedule from schedule=
++0x48/0xd0
+    2022-02-23T01:03:11.795935  <6>[  116.783491]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-23T01:03:11.796278  <6>[  116.789088]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-4: https://kernelci.org/test/case/id/621588a4f9064945=
+30c62970
+        new failure (last pass: renesas-devel-2022-02-21-v5.17-rc5)
+
+    2022-02-23T01:02:31.541359  rtcwake: assuming RTC uses UTC ...
+    2022-02-23T01:02:31.541674  rtcwake: wakeup from \"mem\" using rtc0 at =
+Wed Feb 23 01:02:38 2022
+    2022-02-23T01:02:31.563126  <6>[   76.546622] PM: suspend entry (deep)
+    2022-02-23T01:02:31.563625  <6>[   76.551101] Filesystems sync: 0.000 s=
+econds
+    2022-02-23T01:02:51.609382  <6>[   76.558574] Freezing user space proce=
+sses ... =
+
+    2022-02-23T01:02:51.610014  <3>[   96.573336] Freezing of tasks failed =
+after 20.009 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-23T01:02:51.610605  <6>[   96.583812] task:systemd-udevd   stat=
+e:D stack:    0 pid:  128 ppid:   116 flags:0x00000081
+    2022-02-23T01:02:51.611002  <6>[   96.593551]  __schedule from schedule=
++0x48/0xd0
+    2022-02-23T01:02:51.611370  <6>[   96.598984]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-23T01:02:51.611720  <6>[   96.604479]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-3: https://kernelci.org/test/case/id/621588a4f9064945=
+30c62971
+        new failure (last pass: renesas-devel-2022-02-21-v5.17-rc5)
+
+    2022-02-23T01:02:11.357827  rtcwake: assuming RTC uses UTC ...
+    2022-02-23T01:02:11.358252  rtcwake: wakeup from \"mem\" using rtc0 at =
+Wed Feb 23 01:02:17 2022
+    2022-02-23T01:02:11.378552  <6>[   56.364015] PM: suspend entry (deep)
+    2022-02-23T01:02:11.379054  <6>[   56.368539] Filesystems sync: 0.000 s=
+econds
+    2022-02-23T01:02:31.427918  <6>[   56.375044] Freezing user space proce=
+sses ... =
+
+    2022-02-23T01:02:31.428553  <3>[   76.391471] Freezing of tasks failed =
+after 20.010 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-23T01:02:31.428989  <6>[   76.401930] task:systemd-udevd   stat=
+e:D stack:    0 pid:  128 ppid:   116 flags:0x00000081
+    2022-02-23T01:02:31.429360  <6>[   76.411684]  __schedule from schedule=
++0x48/0xd0
+    2022-02-23T01:02:31.429708  <6>[   76.417125]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-23T01:02:31.434345  <6>[   76.422622]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-2: https://kernelci.org/test/case/id/621588a4f9064945=
+30c62974
+        new failure (last pass: renesas-devel-2022-02-21-v5.17-rc5)
+
+    2022-02-23T01:01:51.170589  rtcwake: assuming RTC uses UTC ...
+    2022-02-23T01:01:51.170916  rtcwake: wakeup from \"mem\" using rtc0 at =
+Wed Feb 23 01:01:57 2022
+    2022-02-23T01:01:51.190428  <6>[   36.175974] PM: suspend entry (deep)
+    2022-02-23T01:01:51.190921  <6>[   36.180360] Filesystems sync: 0.000 s=
+econds
+    2022-02-23T01:02:11.242284  <6>[   36.186136] Freezing user space proce=
+sses ... =
+
+    2022-02-23T01:02:11.243302  <3>[   56.204680] Freezing of tasks failed =
+after 20.013 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-23T01:02:11.243960  <6>[   56.215109] task:systemd-udevd   stat=
+e:D stack:    0 pid:  128 ppid:   116 flags:0x00000081
+    2022-02-23T01:02:11.244336  <6>[   56.224841]  __schedule from schedule=
++0x48/0xd0
+    2022-02-23T01:02:11.244685  <6>[   56.230250]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-23T01:02:11.245020  <6>[   56.235772]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+
+  * sleep.rtcwake-mem-1: https://kernelci.org/test/case/id/621588a4f9064945=
+30c62975
+        new failure (last pass: renesas-devel-2022-02-21-v5.17-rc5)
+
+    2022-02-23T01:01:30.987425  rtcwake: assuming RTC uses UTC ...
+    2022-02-23T01:01:30.987761  rtcwake: wakeup from \"mem\" using rtc0 at =
+Wed Feb 23 01:01:37 2022
+    2022-02-23T01:01:30.988092  <6>[   15.983475] PM: suspend entry (deep)
+    2022-02-23T01:01:30.998983  <6>[   15.988324] Filesystems sync: 0.000 s=
+econds
+    2022-02-23T01:01:51.050929  <6>[   15.999288] Freezing user space proce=
+sses ... =
+
+    2022-02-23T01:01:51.051541  <3>[   36.013959] Freezing of tasks failed =
+after 20.009 seconds (1 tasks refusing to freeze, wq_busy=3D0):
+    2022-02-23T01:01:51.051936  <6>[   36.024397] task:systemd-udevd   stat=
+e:D stack:    0 pid:  128 ppid:   116 flags:0x00000081
+    2022-02-23T01:01:51.052297  <6>[   36.034125]  __schedule from schedule=
++0x48/0xd0
+    2022-02-23T01:01:51.052642  <6>[   36.039534]  schedule from io_schedul=
+e+0x34/0x44
+    2022-02-23T01:01:51.052979  <6>[   36.045065]  io_schedule from folio_w=
+ait_bit_common+0x1b4/0x30c =
+
+    ... (15 line(s) more)  =
+
+ =20
