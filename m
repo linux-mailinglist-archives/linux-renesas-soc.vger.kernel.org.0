@@ -2,211 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E734C1A98
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 19:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C3AA4C1AD5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 19:20:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243762AbiBWSFe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Feb 2022 13:05:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34398 "EHLO
+        id S243808AbiBWSVD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Feb 2022 13:21:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243755AbiBWSFd (ORCPT
+        with ESMTP id S243804AbiBWSVC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Feb 2022 13:05:33 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A0A4474A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Feb 2022 10:05:04 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6DD5DD;
-        Wed, 23 Feb 2022 19:05:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645639502;
-        bh=0KfdNa+vM70EeqFP9yOVby84KYIZfhnNgJkRhONmCio=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=iCQxj9jDdRGe9tablR6QqoOeMuW3kk+aYgNetlvh+Es7hP7bBDt1G0G6w4M7OFUdO
-         hdbw5EBq5/nwYes8sK3BmY+ThQQiv8sHtMgUgbNUAyrr9lUlsjqs+PhtbS4ig2UcXB
-         b0MpRCbvJOSCuG9LJ3QkdUxSKoS4s4W2X4bmENbk=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 23 Feb 2022 13:21:02 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62F6749FBA
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Feb 2022 10:20:34 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id s14so28183879edw.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Feb 2022 10:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kc817LydO28fR6UkAPJN+rJA2Gepj0IpXCsI544eHP0=;
+        b=hXkbGMYnWmwgIGl12e3NPzs5q+2Lgx8L+R2+dw2D7uuQK3jF07CqtynQW9kqCY8jiz
+         9ax3T/B/9vUsDEPKt0lz6WV67/I1ZdJj5Dqo93BAQomcLcnjHrOsI0C8BV8ixjHWuEEt
+         a3lHWmQ9yRRUixbMzbtt4mgK8WEH4rm0XgbxI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kc817LydO28fR6UkAPJN+rJA2Gepj0IpXCsI544eHP0=;
+        b=crfpNb4bi9HdsBPmd4yclAWDgTWwycytAiiH9Xees60iYBhTf04nXPTW5o4DHISjV8
+         9AAMwNtmslq6z92m6CmftXMuSBdWZrnx+Ube0M3t7lUanolIkhGVkKxFIbIK5eDKuj2l
+         3H+7NqOhO6xOakhLNxwsGdoqfHmf077CmiMGN3tLIsU75//TOFMmyo89SxoFLESxYTuJ
+         uS6BG5Zdy9NPxGnUbRprX0Ut5gP1vti+qIPU7ueqStOZ2cZYBQRqf0LTho8BKaoAO8Lo
+         +25phTxUCZDByheZR6Hf2p58lkxi7/yJFbU5GpUkNVu5a2KgrTzvvBBMM+gamm9ok2y5
+         NxHA==
+X-Gm-Message-State: AOAM530dhmMOqhZsFKwd5TLCVWF2OA4U5A7cWQ/lCZHCjBWqTkNaWdp7
+        tvy/mWcf0NbybD42+B3BPggl1WfDj4B/WfMfHs0=
+X-Google-Smtp-Source: ABdhPJw6LBjR28DvRoNd7H6DYWmRBg85dEtHgwftbAIPxEiACDmvuj/4Y3fQoDfQlyZPChs/jEgrLg==
+X-Received: by 2002:a05:6402:2553:b0:412:8684:bd34 with SMTP id l19-20020a056402255300b004128684bd34mr691161edb.436.1645640432665;
+        Wed, 23 Feb 2022 10:20:32 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id q8sm220596edt.78.2022.02.23.10.20.31
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Feb 2022 10:20:31 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id s13so12506062wrb.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Feb 2022 10:20:31 -0800 (PST)
+X-Received: by 2002:a5d:5112:0:b0:1ed:c1da:4ad2 with SMTP id
+ s18-20020a5d5112000000b001edc1da4ad2mr660312wrt.342.1645640431088; Wed, 23
+ Feb 2022 10:20:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com>
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com> <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com> <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com> <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com>
-Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
+ <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com> <164563949999.4066078.2399611738908533224@Monstersaurus>
+In-Reply-To: <164563949999.4066078.2399611738908533224@Monstersaurus>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 23 Feb 2022 10:20:18 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WSHpu3Ub=0Gbq01o_s-SsUa_Q6uC7Z3PaxFL00eeJbdw@mail.gmail.com>
+Message-ID: <CAD=FV=WSHpu3Ub=0Gbq01o_s-SsUa_Q6uC7Z3PaxFL00eeJbdw@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Jonas Karlman <jonas@kwiboo.se>,
         Neil Armstrong <narmstrong@baylibre.com>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         Stephen Boyd <swboyd@chromium.org>,
-        linux-renesas-soc@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Andrzej Hajda <a.hajda@samsung.com>
-To:     Doug Anderson <dianders@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Wed, 23 Feb 2022 18:04:59 +0000
-Message-ID: <164563949999.4066078.2399611738908533224@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Doug, Laurent,
+Hi,
 
-Quoting Laurent Pinchart (2021-06-23 14:59:00)
-> Hi Doug,
->=20
-> On Wed, Mar 24, 2021 at 03:47:07PM -0700, Doug Anderson wrote:
-> > On Sun, Mar 21, 2021 at 8:02 PM Laurent Pinchart wrote:
+On Wed, Feb 23, 2022 at 10:05 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+>
+> > > > +       /* For DisplayPort, disable scrambling mode. */
+> > > > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> > > > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
+> > > > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
 > > >
-> > > Despite the SN65DSI86 being an eDP bridge, on some systems its output=
- is
-> > > routed to a DisplayPort connector. Enable DisplayPort mode when the n=
-ext
-> > > component in the display pipeline is not a panel, and disable eDP
-> > > features in that case.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboar=
-d.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 32 ++++++++++++++++++++-----=
---
-> > >  1 file changed, 24 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/=
-bridge/ti-sn65dsi86.c
-> > > index e2527d597ccb..f792227142a7 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > @@ -55,6 +55,7 @@
-> > >  #define SN_LN_ASSIGN_REG                       0x59
-> > >  #define  LN_ASSIGN_WIDTH                       2
-> > >  #define SN_ENH_FRAME_REG                       0x5A
-> > > +#define  ASSR_CONTROL                          BIT(0)
-> > >  #define  VSTREAM_ENABLE                                BIT(3)
-> > >  #define  LN_POLRS_OFFSET                       4
-> > >  #define  LN_POLRS_MASK                         0xf0
-> > > @@ -86,6 +87,8 @@
-> > >  #define SN_DATARATE_CONFIG_REG                 0x94
-> > >  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
-> > >  #define  DP_DATARATE(x)                                ((x) << 5)
-> > > +#define SN_TRAINING_SETTING_REG                        0x95
-> > > +#define  SCRAMBLE_DISABLE                      BIT(4)
-> > >  #define SN_ML_TX_MODE_REG                      0x96
-> > >  #define  ML_TX_MAIN_LINK_OFF                   0
-> > >  #define  ML_TX_NORMAL_MODE                     BIT(0)
-> > > @@ -723,6 +726,11 @@ static int ti_sn_link_training(struct ti_sn_brid=
-ge *pdata, int dp_rate_idx,
-> > >         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> > >                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx)=
-);
-> > >
-> > > +       /* For DisplayPort, use the standard DP scrambler seed. */
-> > > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > > +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
-> > > +                                  ASSR_CONTROL, 0);
-> >=20
-> > I don't actually know anything about DP scrambler seeds. However:
-> >=20
-> > 1. From reading the docs, this field seems to be documented to be
-> > "read only" unless:
-> >=20
-> > 1a) The "TEST2" pin is pulled high when you power on the bridge.
-> > 1b) You set "ASSR_OVERRIDE" (page select to page 7, write to register
-> > 0x16, page select back to page 0).
-> >=20
-> > I don't know if TEST2 is being pulled high in your hardware, but at
-> > least I can see that 1b) isn't done. So I'm guessing that this line is
-> > a no-op? If I had to guess from all the hoops they're making you jump
-> > through there's some sort of errata around standard scrambling on this
-> > bridge chip. Are you sure it works OK?
->=20
-> Good question :-) We managed to get the SN65DSI86 to work with an
-> external DP monitor yesterday, so it's possible (some modes don't
-> operate correctly yet, but I assume that to be an issue with the DSI
-> encoder).
->=20
-> The TEST2 pin is strapped to ground on the board.
->=20
-> According to the DisplayPort specification, eDP and DP use different
-> scrambler seeds to prevent interoperability between an eDP source and a
-> DP sink. I'll check what happens without this change.
+> > > I'm assuming that this is the important part of your patch? Would be
+> > > sorta nice to include the "why" in your comment. Why do you want to
+> > > disable scrambling mode for DP but not for eDP? Maybe you care about
+> > > compatibility but not EMI if you're hooking up to random DP things?
+> >
+> > I'll investigate and include proper documentation in v2 (or drop the
+> > change altogether if it's not required).
+>
+> And indeed, this part is important. If I drop this hunk - then I get no
+> display output.
+>
+> I'm afraid I don't (yet) know the reasons 'why' to extend the comment,
+> beyond "Scrambling is not supported for DP".
+>
+> If anyone already does, please feel free to provide the text, and I'll
+> include it in the next revision, or I'll try to do some more digging
+> into this part.
 
-Without this change, the display still works...
+I don't know _tons_ about it, but I later learned that the "alternate"
+scrambler is used for eDP and the normal scrambler is used for DP. I
+don't have any background about why they are different other than what
+looks to be intentionally making the two things incompatible.
 
->=20
-> > 2. The docs I see claim that this field is 2 bits big. It seems like
-> > it would be nice to honor. Yeah, it's silly because 0x11 and 0x10 are
-> > "reserved" so it's really more like a 1-bit field, but still seems
-> > like it would be better to set both bits, or at least add a comment
-> > explaining why you're not matching the datasheet.
->=20
-> Sure.
->=20
-> > 3. Your patch doesn't seem to touch the bit of code in
-> > ti_sn_bridge_enable() that says this:
-> >=20
-> > /**
-> >  * The SN65DSI86 only supports ASSR Display Authentication method and
-> >  * this method is enabled by default. An eDP panel must support this
-> >  * authentication method. We need to enable this method in the eDP panel
-> >  * at DisplayPort address 0x0010A prior to link training.
-> >  */
-> > drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
-> >    DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
-> >=20
-> > Won't that be a problem?
->=20
-> I'll have a look.
+...so I guess that would make it pretty clear why you can't use the
+alternate scrambler for DP. I haven't personally done the research to
+know if you can be officially DP compliant with the scrambler
+disabled. I also don't know why the ti-sn65dsi86 makes it so difficult
+to switch to the standard scrambler or if it works at all... ;-)
 
-I'm not sure I yet fully understand the requirements here, but could it
-be that only supporting ASSR is why the scrambling is disabled below?
-
-Commenting out that write does not affect the bring up of my DP monitor.
-
->=20
-> > > +
-> > >         /* enable DP PLL */
-> > >         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
-> > >
-> > > @@ -734,6 +742,11 @@ static int ti_sn_link_training(struct ti_sn_brid=
-ge *pdata, int dp_rate_idx,
-> > >                 goto exit;
-> > >         }
-> > >
-> > > +       /* For DisplayPort, disable scrambling mode. */
-> > > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING=
-_REG,
-> > > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE=
-);
-> >=20
-> > I'm assuming that this is the important part of your patch? Would be
-> > sorta nice to include the "why" in your comment. Why do you want to
-> > disable scrambling mode for DP but not for eDP? Maybe you care about
-> > compatibility but not EMI if you're hooking up to random DP things?
->=20
-> I'll investigate and include proper documentation in v2 (or drop the
-> change altogether if it's not required).
-
-And indeed, this part is important. If I drop this hunk - then I get no
-display output.
-
-I'm afraid I don't (yet) know the reasons 'why' to extend the comment,
-beyond "Scrambling is not supported for DP".
-
-If anyone already does, please feel free to provide the text, and I'll
-include it in the next revision, or I'll try to do some more digging
-into this part.
-
---
-Kieran
-
-
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+-Doug
