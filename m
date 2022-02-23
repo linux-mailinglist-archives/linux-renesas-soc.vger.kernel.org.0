@@ -2,99 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59FE04C145D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 14:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8894C1454
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Feb 2022 14:39:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240827AbiBWNkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Feb 2022 08:40:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
+        id S239571AbiBWNjz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Feb 2022 08:39:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240976AbiBWNkV (ORCPT
+        with ESMTP id S231817AbiBWNjz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Feb 2022 08:40:21 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938F4AC054;
-        Wed, 23 Feb 2022 05:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645623593; x=1677159593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FZ0KBu+BtqC0jHUHWhLs4ra2S4pC0DzuTvWKIPDmerE=;
-  b=e0a0gmGX4MG8Eh4u9XYodxU72GUXU4xDhWUJXcPh/ON4LM9mEl4FKLxi
-   zRFePeBDgsB+tkMPkRtL1G+7cGyH6d0shGw8wVuwpBJ9chPlul7WKQher
-   oge0ncbHdZZW6RG4ruM+Ajcah5KzSDBRhlZbPoDfN+P7cfRDwQk4g+iES
-   XnNOcL2Bv3T6vMvnxa1945/81lYu3Brzt36bVNpM4inpl+2UY1fc/mbCG
-   4/mkMcqpUEP/yxo2tSkEZF+22e672pXZ42Ma6DMAdWSs88OGRL9x/cQ5p
-   9A9Myah0b2b+vR85w0s0+qFAFaNdEl7cxSmYSk4o3bRs/6InC8eJYAGvw
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="232584674"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="232584674"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 05:39:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="491199009"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 05:39:48 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nMrr7-007R40-QO;
-        Wed, 23 Feb 2022 15:38:57 +0200
-Date:   Wed, 23 Feb 2022 15:38:57 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
-Subject: Re: [PATCH 5/8] dma: dw: Avoid partial transfers
-Message-ID: <YhY48chuezpa5i/q@smile.fi.intel.com>
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
- <20220218181226.431098-6-miquel.raynal@bootlin.com>
- <YhIcyyBp53LnMbjU@smile.fi.intel.com>
- <TYYPR01MB7086F412B035A09AED2037A9F53A9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
- <YhPDZ4yb50sMdVgV@smile.fi.intel.com>
- <TYYPR01MB7086183461B9343A2301B4E1F53C9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
- <TYYPR01MB70869A99001C96933FCCFD36F53C9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+        Wed, 23 Feb 2022 08:39:55 -0500
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7584EAC047;
+        Wed, 23 Feb 2022 05:39:27 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id e5so3145814vsg.12;
+        Wed, 23 Feb 2022 05:39:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BG1GJjMEJebhLWZR3fn6x4GIgbQRNOTDQbzziFzPgro=;
+        b=BZyPmjcyHfZtsJXTnZimqVTwz1zZaD7TDbweWKxVyg+9bUzTAP+GR4PVXCY0lDHcOF
+         F4HilB3O0HRwIv/G6thuHFH9kVr/lLm2WpJlCfRnTfi1bT9hn7gKaSiCFqOI81PT1+wI
+         Jc3xrHSIB6CvTSkAvM8g1De7pK0SnVZlnSdPB/7izvxZJ9EuXKeh74DHPds1TVSZZZGL
+         9U7syxRp4GLk5h387m3R+STyIQqKp4PV6+07aGiYEytHBEDEQ5LVNrUdEQz1dwTG1G5b
+         opz6PNAUbZiJoWet5OAXdlbExtn1aNXVaL1vFTvIuv3wOOqe7yIKiBOiupL2uA7vSGLG
+         y/tA==
+X-Gm-Message-State: AOAM530mABVHM8nwf7AafCiaBeqGyC/yhuZ+roP/DLdQ1qehBgpuipD+
+        US5n/FWlGpQAQurrYKJKZrFzFjfP9FFiKg==
+X-Google-Smtp-Source: ABdhPJz4JVYTFdlYSRIzMm2fjEX/5JuI8pzQGmzSdPHKR6Y7fJpTYfmJG6Vrtsp9fYgaZ912hpEPKg==
+X-Received: by 2002:a05:6102:3ed4:b0:31b:3c20:c4f3 with SMTP id n20-20020a0561023ed400b0031b3c20c4f3mr11133743vsv.54.1645623566474;
+        Wed, 23 Feb 2022 05:39:26 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id y22sm674226vsi.25.2022.02.23.05.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Feb 2022 05:39:26 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id q9so3206506vsg.2;
+        Wed, 23 Feb 2022 05:39:26 -0800 (PST)
+X-Received: by 2002:a67:af08:0:b0:31b:9451:bc39 with SMTP id
+ v8-20020a67af08000000b0031b9451bc39mr12231813vsl.68.1645623565961; Wed, 23
+ Feb 2022 05:39:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYYPR01MB70869A99001C96933FCCFD36F53C9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220221095032.95054-1-jjhiblot@traphandler.com> <20220221095032.95054-4-jjhiblot@traphandler.com>
+In-Reply-To: <20220221095032.95054-4-jjhiblot@traphandler.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Feb 2022 14:39:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUuwuJA4r8c7TC0p0Axr9ci-QC8HFieZrkEG+BGxPw8HQ@mail.gmail.com>
+Message-ID: <CAMuHMdUuwuJA4r8c7TC0p0Axr9ci-QC8HFieZrkEG+BGxPw8HQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] ARM: dts: r9a06g032: Add the watchdog nodes
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 08:01:25AM +0000, Phil Edworthy wrote:
-> > > Also, which version of the DW DMAC IP is being used in this SoC?
-> > I'm still checking, but it looks to be 2.18b
-> Our HW people have told me it's v2.19a
+On Mon, Feb 21, 2022 at 10:51 AM Jean-Jacques Hiblot
+<jjhiblot@traphandler.com> wrote:
+> This SOC includes 2 watchdog controllers (one per A7 core).
+>
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 
-Thanks for both answers, I have commented the same patch in v2 with my
-interpretation of what's going on. Let's continue there.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Gr{oetje,eeting}s,
 
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
