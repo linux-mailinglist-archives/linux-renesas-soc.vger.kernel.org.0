@@ -2,68 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE224C27E8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEB944C27AD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:13:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232701AbiBXJPl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 04:15:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46394 "EHLO
+        id S229515AbiBXJLX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 04:11:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232699AbiBXJPj (ORCPT
+        with ESMTP id S232755AbiBXJLO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 04:15:39 -0500
-X-Greylist: delayed 454 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Feb 2022 01:15:06 PST
-Received: from mail.onlinesuccesses.pl (mail.onlinesuccesses.pl [198.244.150.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDE92790A8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 01:15:06 -0800 (PST)
-Received: by mail.onlinesuccesses.pl (Postfix, from userid 1002)
-        id B3466A4DE1; Thu, 24 Feb 2022 09:06:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onlinesuccesses.pl;
-        s=mail; t=1645693608;
-        bh=nE8HqilgMh4dy7+Z8ksfg7Bc9rmPeQtYFq3/3YR2ODU=;
-        h=Date:From:To:Subject:From;
-        b=nC90nIJongxDM/BAkQAmlG11c1/uatDBd/Sqv4Zx3K8RMWtY4v4UioYxKM7vLmPTF
-         U/qaIbNz/Rud/pXW6Hs3WQlAwts6RialmlJXQID/FcCH4na2eGNdBf/gB/t9yzCTA7
-         8+6nqCfYMRWl03c+rNiNHo2Xrf5eo1c1PDbe8y8pPd9FO96CGuP4Zy7BiiTwYrf2ck
-         RRTcJ3LwUVmV1uEohaquLs6cMSPQvBag0lQ4AbAyocwAnGqfkLoaqtdhCHuvPZdvlN
-         N8U5+ta0/Ugfq10VHX6atNSt08oTvZw1735auHXjpAhI2w1CjebQUypfy2qgYVAfv+
-         +SbIT+PWtlfYg==
-Received: by mail.onlinesuccesses.pl for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 09:05:53 GMT
-Message-ID: <20220224074501-0.1.2r.houq.0.2rl2l54698@onlinesuccesses.pl>
-Date:   Thu, 24 Feb 2022 09:05:53 GMT
-From:   "Wiktor Zielonko" <wiktor.zielonko@onlinesuccesses.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: Ruch z pierwszej pozycji w Google
-X-Mailer: mail.onlinesuccesses.pl
+        Thu, 24 Feb 2022 04:11:14 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6899D1B3722;
+        Thu, 24 Feb 2022 01:10:39 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id b37so559992uad.12;
+        Thu, 24 Feb 2022 01:10:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LbWtTNbTjOWP+Sl6jm6eOO1czwhuya4IeIpU5Bfy+cw=;
+        b=F9dCvrR637cZOJg19doiyaA7lvf6dqlzNv/1TzYmmSKS61/w7M6pSgt14Nl2Uybfi8
+         cXxi+lREiKMwXXFA9fPGmzRK/v42Y/Sig878tA5zhUB9uhDP9Xo3K2mAnM+wNVLVp2ty
+         aPCjYUfLmRW9Lo2SRjL897S1cUkvaEc25IuSoi34SWI/m4jtbbyMatgLmbABqle0tcqt
+         Sn5Y/+mFInqEupBxHu8S3hhPN/RW36LcpBfG8/eqdgRn9PMgY0FREu4PohzsM2X9zP9Y
+         +rX1tf29Cl+TSzPyl3OfQpEAPoxNtbkFGWz5pekmtn3L4cUvcLr0M5U1M9GILovirQRs
+         KJ/A==
+X-Gm-Message-State: AOAM5337rWqcCORqr7xJTzJEm+PnMgEOoAF/iqOlUIZ89eToBuohwP8f
+        ERB/M+U/1BbchMHy3zP34btmWG3qfnzb6w==
+X-Google-Smtp-Source: ABdhPJyVHcpOaqQaWiBsiCJO9Q3e5gDmaIHFmKJScc7tGnrMGBng629ACAEXwCKC8ZxUP62Ffdk/yg==
+X-Received: by 2002:ab0:3c4:0:b0:341:ef97:dc24 with SMTP id 62-20020ab003c4000000b00341ef97dc24mr698935uau.141.1645693838378;
+        Thu, 24 Feb 2022 01:10:38 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id s25sm312268vkm.21.2022.02.24.01.10.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Feb 2022 01:10:38 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id d26so1470117vsh.0;
+        Thu, 24 Feb 2022 01:10:37 -0800 (PST)
+X-Received: by 2002:a05:6102:4411:b0:31b:6df1:3b80 with SMTP id
+ df17-20020a056102441100b0031b6df13b80mr714234vsb.5.1645693837468; Thu, 24 Feb
+ 2022 01:10:37 -0800 (PST)
 MIME-Version: 1.0
+References: <20220223165813.24833-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220223165813.24833-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 24 Feb 2022 10:10:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV0CBj-uf5pdyzu8+o3Q3uy5aLz0G_y4xwi4rRLrOWWKg@mail.gmail.com>
+Message-ID: <CAMuHMdV0CBj-uf5pdyzu8+o3Q3uy5aLz0G_y4xwi4rRLrOWWKg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg2lc-smarc-som: Enable watchdog
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+On Wed, Feb 23, 2022 at 5:58 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Enable watchdog{0, 1, 2} interfaces on RZ/G2LC SMARC EVK.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
-j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
-e Google.=20
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
-Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
-=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
-w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
-owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
-dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
+Gr{oetje,eeting}s,
 
-Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
-edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
-edstawi=C4=87 ofert=C4=99?=20
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Pozdrawiam serdecznie,
-Wiktor Zielonko
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
