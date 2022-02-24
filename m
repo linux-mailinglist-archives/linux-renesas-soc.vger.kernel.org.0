@@ -2,115 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F41F4C2DFF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 15:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD954C30A0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 16:59:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234739AbiBXOPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 09:15:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
+        id S231448AbiBXP54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 10:57:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233212AbiBXOPx (ORCPT
+        with ESMTP id S236840AbiBXP5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 09:15:53 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F245294FE6;
-        Thu, 24 Feb 2022 06:15:23 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id x15so3267144wrg.8;
-        Thu, 24 Feb 2022 06:15:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=iQu+mvnzdays90oPbetoHTlkq2SmIDkedVilWnLDVUg=;
-        b=EHXo3YJpqrY7weRU1olhhLoVrnPh7HmBPqN7sa3PP0OekLWVs3IxtmgpbU0FaYqC6h
-         /254EOfdGLDMtEC8LTWIrC3UnSFRihwebodtgYbYrhOvHrKKS+S+jhPXj2ovHIkAy3oA
-         6rqOdRSK8LlWZ9Ooc5LHVd+m5lGUtm1UVxCqZWQkTzDWqzAwOP5W+DrZzxwmVw5KphAI
-         yYS2fhJ/3qroVGrQWQ3ALsueh9NkWw0yInREZdQL127XbnTPyCgtDGsCGp7mGr8Oa+2r
-         I1U7cElTVPZ3Yp7Url3f7RFhfAJtCHT7I7LBgdqazp+r2QLvIbB6FRLoux9lHZTXly7D
-         XfHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iQu+mvnzdays90oPbetoHTlkq2SmIDkedVilWnLDVUg=;
-        b=pXbXM1H0zgv6YiPdMl436liFOG4Eyw0R1WlKfIzM6PEF+YsQ7PdyHKQ4Fm/LQI9Wc6
-         orrmqXiVyZr0pe9vClDTR0khYrE/9+OUJbDIM48+FyaVyXOpDb4B0NmXiuzPnDAsQ+dy
-         sn35uoMZoQwXX3TZK74aklvgMqHgJHQhmM+wxUSGKlCtLFrvidSht2qSf3cnEqG3uB2c
-         SdSS/yujurNPHYsMhoCKTmrGWuGlmdEQw4Bug2Uh4jFFiq+8NrtmT47N/J0fTFfk8u8S
-         jkPw0oeN7zgWojwo05u2+ZEWmfawrxjJ5fnsxs3FjNBbO7z4cX5NVMsTl8QlRZ8jP/x2
-         XelA==
-X-Gm-Message-State: AOAM533IFDoLUOeEtaJWAKQjKIqf/WuNsu92mbgph7yOvwJoTdCwHJha
-        Oj26zwaeNUZt1NpideWjHNg=
-X-Google-Smtp-Source: ABdhPJypnQx7G8VNogPvYu2trjCqyu4gZziaoGWTT3DKaBLGJLFgdfGyz5BCBEFZugLqKDjrWinmvg==
-X-Received: by 2002:a5d:5885:0:b0:1ea:8099:1ed6 with SMTP id n5-20020a5d5885000000b001ea80991ed6mr2375889wrf.494.1645712122003;
-        Thu, 24 Feb 2022 06:15:22 -0800 (PST)
-Received: from orome ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id t9sm2977941wmq.47.2022.02.24.06.15.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 06:15:20 -0800 (PST)
-Date:   Thu, 24 Feb 2022 15:15:18 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lee Jones <lee.jones@linaro.org>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] pwm: rcar: Simplify multiplication/shift logic
-Message-ID: <YheS9vXNYSqPYEJk@orome>
-References: <4ddca410da1f52a8e2049e0f51f14196cc797200.1645460845.git.geert+renesas@glider.be>
- <20220221182213.wjh3lrnaoquinlxg@pengutronix.de>
+        Thu, 24 Feb 2022 10:57:48 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36CC5D644;
+        Thu, 24 Feb 2022 07:56:53 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 91C0810002F;
+        Thu, 24 Feb 2022 15:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1645718203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WVC5Hb4g25SCLSnlfjVTXAofrx2zK62/e4HH3XRyFUU=;
+        b=XeJrFZ1RfxTMcI1LQPhCWXMip6cK1NcwY/MisfO8S/sBqEZTmJa/Nbi+dU5/0msLDud1mO
+        s0oXA+P3JHPPXiVGONryyVE4OHX3aa1nsMa/M/qP/1RGJAHX5yQum3wJW2hpEBU/UXFWeO
+        OtSMX17UKgUfm5SOcy5ClxrNROZRn4PmD/nste9O5M6eA/baGpaBhZe7d5WcoeP/4xVSQc
+        g6YdDfoiZ/gGS6ZOmY1Qycw90v3jd+yDCVV+DPGTQ1gu+KuPocW1x9ofbDY29UKIIyMzu+
+        i5eiMbCHTD4DFycnLo+16zTMMDzWQj8tk5dAohUG+7EOKg6CQbFw7zBNidL1BA==
+Date:   Thu, 24 Feb 2022 16:56:40 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>
+Subject: Re: [PATCH v2 4/8] dma: dmamux: Introduce RZN1 DMA router support
+Message-ID: <20220224165640.321d7c56@xps13>
+In-Reply-To: <CAMuHMdWofNo5aCZscADc_LuQjzDb7YoQhZS736d7_hrswdY5DA@mail.gmail.com>
+References: <20220222103437.194779-1-miquel.raynal@bootlin.com>
+        <20220222103437.194779-5-miquel.raynal@bootlin.com>
+        <CAMuHMdWd150q63Nr-=7tn34D3EyiBkAKyuXHm35MM6wci93KZw@mail.gmail.com>
+        <20220223174902.3a9b85ea@xps13>
+        <CAMuHMdVr4tiicEn-BbBnCd-zP6ncr=zKd-eDvPYoYKNWUKsOBw@mail.gmail.com>
+        <20220224102724.74e2c406@xps13>
+        <CAMuHMdWtx5jnyZ0vhCVvM=nTv9H4tD7+g0YTWX8MALc_hR5x4g@mail.gmail.com>
+        <20220224123620.02740e8c@xps13>
+        <CAMuHMdWofNo5aCZscADc_LuQjzDb7YoQhZS736d7_hrswdY5DA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nKBoE9VG8AfpvbWV"
-Content-Disposition: inline
-In-Reply-To: <20220221182213.wjh3lrnaoquinlxg@pengutronix.de>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert,
 
---nKBoE9VG8AfpvbWV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+geert@linux-m68k.org wrote on Thu, 24 Feb 2022 13:16:09 +0100:
 
-On Mon, Feb 21, 2022 at 07:22:13PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Mon, Feb 21, 2022 at 05:28:16PM +0100, Geert Uytterhoeven wrote:
-> >   - Remove the superfluous cast; the multiplication will yield a 64-bit
-> >     result due to the "100ULL" anyway,
-> >   - "a * (1 << b)" =3D=3D "a << b".
-> >=20
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Hi Miquel,
+>=20
+> On Thu, Feb 24, 2022 at 12:36 PM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > > > > > > > +static int rzn1_dmamux_probe(struct platform_device *pdev)
+> > > > > > > > +{
+> > > > > > > > +       struct device_node *mux_node =3D pdev->dev.of_node;
+> > > > > > > > +       const struct of_device_id *match;
+> > > > > > > > +       struct device_node *dmac_node;
+> > > > > > > > +       struct rzn1_dmamux_data *dmamux;
+> > > > > > > > +
+> > > > > > > > +       dmamux =3D devm_kzalloc(&pdev->dev, sizeof(*dmamux)=
+, GFP_KERNEL);
+> > > > > > > > +       if (!dmamux)
+> > > > > > > > +               return -ENOMEM;
+> > > > > > > > +
+> > > > > > > > +       mutex_init(&dmamux->lock);
+> > > > > > > > +
+> > > > > > > > +       dmac_node =3D of_parse_phandle(mux_node, "dma-maste=
+rs", 0);
+> > > > > > > > +       if (!dmac_node)
+> > > > > > > > +               return dev_err_probe(&pdev->dev, -ENODEV, "=
+Can't get DMA master node\n");
+> > > > > > > > +
+> > > > > > > > +       match =3D of_match_node(rzn1_dmac_match, dmac_node);
+> > > > > > > > +       if (!match) {
+> > > > > > > > +               of_node_put(dmac_node);
+> > > > > > > > +               return dev_err_probe(&pdev->dev, -EINVAL, "=
+DMA master is not supported\n");
+> > > > > > > > +       }
+> > > > > > > > +
+> > > > > > > > +       if (of_property_read_u32(dmac_node, "dma-requests",=
+ &dmamux->dmac_requests)) {
+> > > > > > > > +               of_node_put(dmac_node);
+> > > > > > > > +               return dev_err_probe(&pdev->dev, -EINVAL, "=
+Missing DMAC requests information\n");
+> > > > > > > > +       }
+> > > > > > > > +
+> > > > > > > > +       of_node_put(dmac_node); =20
+> > > > > > >
+> > > > > > > When hardcoding dmac_requests to 16, I guess the whole dmac_n=
+ode
+> > > > > > > handling can be removed? =20
+> > > > > >
+> > > > > > Not really, I think the following checks are still valid and fo=
+rtunate,
+> > > > > > and they need some of_ handling to work properly:
+> > > > > > - verify that the chan requested is within the range of dmac_re=
+quests
+> > > > > >   in the _route_allocate() callback
+> > > > > > - ensure the dmamux is wired to a supported DMAC in the DT (this
+> > > > > >   condition might be loosen in the future if needed or dropped =
+entirely
+> > > > > >   if considered useless)
+> > > > > > - I would like to add a check against the number of requests su=
+pported
+> > > > > >   by the dmamux and the dmac (not done yet).
+> > > > > > For the record, I've taken inspiration to write these lines on =
+the other
+> > > > > > dma router driver from TI. =20
+> >
+> >         ^^^^^^^^^^^
+> > ... these checks =20
+>=20
+> I don't know. Some of them will be checked when calling into the
+> parent DMAC, right?
 
-Applied, thanks.
+Only the first item above will be validated by the DMAC driver. But I
+prefer to error out sooner than later, because getting the mux in
+place while knowing that the request is invalid sounds silly.
 
-Thierry
-
---nKBoE9VG8AfpvbWV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIXkvYACgkQ3SOs138+
-s6G/ghAAoS7r0T4IB/MtGxKlr6PTiMXRhEIvXgz49j4EsMCZfvJ+nkWtOkknboX0
-GsrERKWBIzN3SRZg2NUUP2GxQ8ePjOQKjQ3ThA3FEPlbH2CsJEgx04diCq8fInh0
-ACedV6hIfa2s945EUzODp/37FEeCX+iOs2p9iSfwUZ6YKgFuUwuERYArK96yP/sC
-MZIs5cb/Nl4MRIL6qWih9TWfCo7qPasdvMXqdzK9appAI8uNj0vrkkkvH2G+SsJ7
-Ys0MaTnkqTH8NAcZicEDEyXM0SOo50dQRtxa4Puo30p1OqxJSzfhw/HNlUy7NuRf
-tjdlIHrhBkc6zkVysRN/pWpiWxL6LW+orOJBW6HTaxznz4P/FYO1x2nH9tZb+l/N
-TPTgBCKSUvpbYZdqI3GAqNOHqmjLC+T+Tk96INiapT5nY01oaawIY1DksiDVkQRu
-C85FbY5C1QZSBWax1P4icY/nAcQyuEkGF5ujEz/pVPP7LlpYywdt8jNRSNMvDKcW
-BVLTwKVpI7saLqVZhvOU4cNodjijUA9xWrYohb/mxtgzXpFrl/wmsi9k4vDDdLHf
-NhqkUB6y1zockOJZr+PWrK7ROR9B+Cu+q9insXvh6cCSdj4kIAU8Qo3b32U+xwAh
-gXcfILzQfcM7/rPw2W0Ycw9KJESXDd/sJD9q08pUEGV6dHd2Gdc=
-=8n+d
------END PGP SIGNATURE-----
-
---nKBoE9VG8AfpvbWV--
+Thanks,
+Miqu=C3=A8l
