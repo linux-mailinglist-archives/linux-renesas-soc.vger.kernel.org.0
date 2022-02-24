@@ -2,113 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7242A4C2C5C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 14:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 542854C2D69
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 14:41:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231642AbiBXM76 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 07:59:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47756 "EHLO
+        id S234830AbiBXNks (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 08:40:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234705AbiBXM74 (ORCPT
+        with ESMTP id S235206AbiBXNkr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 07:59:56 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2071E29454A;
-        Thu, 24 Feb 2022 04:59:25 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.90,133,1643641200"; 
-   d="scan'208";a="111465908"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Feb 2022 21:59:25 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8DDB74007550;
-        Thu, 24 Feb 2022 21:59:22 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a07g054: Fillup the ADC stub node
-Date:   Thu, 24 Feb 2022 12:58:43 +0000
-Message-Id: <20220224125843.29733-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220224125843.29733-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220224125843.29733-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Thu, 24 Feb 2022 08:40:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A384FC4C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 05:40:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7CB6CB825CF
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 13:40:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3392EC340E9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 13:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645710011;
+        bh=QiosSst+yAwBGwPoxfuEdeDGa/7OkfLvJen0+DwIJjM=;
+        h=Subject:From:Date:To:From;
+        b=YfuITP4q1r57wmIHhVmNHssW+ICyhbmIHDYZGXvheL7C7ZJY7hf3bIZX+Vvwtcdxy
+         zU60Zx8KqA4sonv0Evdc362t49UrK7DyuWb/3MPQzeO99yFzqJf0jUpyFxR55I4ISr
+         VXxIPKox6wYAZrw3yn0Y43qcLAy6wDZ5dsKNmQqWLn5fWrimP8kJkYMAUjZ1OLzudO
+         JrD5xrWn2aiMMBG3bCyS8z2zt0a/TxiCcXzNJ+a7QNuKNLGjlk3z6Fbc7M0hLyTxsG
+         OZf2J3haj1BLmldz7j4IaJAu/kozSeVEG3Mx5DCxcPVF8mNAvlRJA6ic3N/hvsyWro
+         nquCywarGo54w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1652FE5D09D
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 13:40:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <164571001097.10548.16551148370196122823.git-patchwork-summary@kernel.org>
+Date:   Thu, 24 Feb 2022 13:40:10 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fillup the ADC stub node in RZ/V2L (R9A07G054) SoC DTSI.
+Hello:
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 39 +++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index 5d39e765c291..3ddf0f24071c 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -260,8 +260,45 @@
- 		};
- 
- 		adc: adc@10059000 {
-+			compatible = "renesas,r9a07g054-adc", "renesas,rzg2l-adc";
- 			reg = <0 0x10059000 0 0x400>;
--			/* place holder */
-+			interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD R9A07G054_ADC_ADCLK>,
-+				 <&cpg CPG_MOD R9A07G054_ADC_PCLK>;
-+			clock-names = "adclk", "pclk";
-+			resets = <&cpg R9A07G054_ADC_PRESETN>,
-+				 <&cpg R9A07G054_ADC_ADRST_N>;
-+			reset-names = "presetn", "adrst-n";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			channel@0 {
-+				reg = <0>;
-+			};
-+			channel@1 {
-+				reg = <1>;
-+			};
-+			channel@2 {
-+				reg = <2>;
-+			};
-+			channel@3 {
-+				reg = <3>;
-+			};
-+			channel@4 {
-+				reg = <4>;
-+			};
-+			channel@5 {
-+				reg = <5>;
-+			};
-+			channel@6 {
-+				reg = <6>;
-+			};
-+			channel@7 {
-+				reg = <7>;
-+			};
- 		};
- 
- 		sbc: spi@10060000 {
+Patch: [LOCAL] arm64: renesas: defconfig: Add DRM_TI_SN65DSI86
+  Submitter: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=615800
+  Lore link: https://lore.kernel.org/r/20220218150558.1748594-1-kieran.bingham+renesas@ideasonboard.com
+
+
+Total patches: 1
+
 -- 
-2.17.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
