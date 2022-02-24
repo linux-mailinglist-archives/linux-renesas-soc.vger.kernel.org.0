@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF7E4C2BCA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 13:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 171524C2BD5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 13:36:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbiBXMdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 07:33:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
+        id S234436AbiBXMeW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 07:34:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234401AbiBXMdp (ORCPT
+        with ESMTP id S234415AbiBXMeT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 07:33:45 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02352192E27
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 04:33:13 -0800 (PST)
+        Thu, 24 Feb 2022 07:34:19 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D2628198F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 04:33:44 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:598d:7788:288b:e4f])
-        by andre.telenet-ops.be with bizsmtp
-        id z0ZB2600J0fvPgN010ZBXM; Thu, 24 Feb 2022 13:33:12 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id z0Zi2600a0fvPgN010Zi4S; Thu, 24 Feb 2022 13:33:43 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nNDJ1-001jK1-En; Thu, 24 Feb 2022 13:33:11 +0100
+        id 1nNDJW-001jKC-I3; Thu, 24 Feb 2022 13:33:42 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nNDJ1-00CPJn-08; Thu, 24 Feb 2022 13:33:11 +0100
+        id 1nNDJV-00CPLc-HA; Thu, 24 Feb 2022 13:33:41 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: renesas: Align GPIO hog names with dtschema
-Date:   Thu, 24 Feb 2022 13:33:09 +0100
-Message-Id: <972d982024cbb04dcf29b2a0ac6beaf41e66c363.1645705927.git.geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: Align GPIO hog names with dtschema
+Date:   Thu, 24 Feb 2022 13:33:40 +0100
+Message-Id: <baee4b9980576ffbab24122fce7147c9cbc2ea59.1645705998.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,105 +53,117 @@ Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 To be queued in renesas-devel for v5.18.
 ---
- arch/arm/boot/dts/iwg20d-q7-common.dtsi         | 2 +-
- arch/arm/boot/dts/r8a7740-armadillo800eva.dts   | 2 +-
- arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts | 4 ++--
- arch/arm/boot/dts/r8a7742-iwg21d-q7.dts         | 4 ++--
- arch/arm/boot/dts/r8a7742-iwg21m.dtsi           | 2 +-
- arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts       | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi       | 2 +-
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi            | 2 +-
+ arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi      | 2 +-
+ arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 2 +-
+ arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts         | 4 ++--
+ arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi  | 4 ++--
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-index 849034a49a3f98e2..03caea6fc6ffa4cf 100644
---- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-+++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-@@ -181,7 +181,7 @@ &du {
+diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+index 17d5c4501bbe184c..877d076ffcc9bf92 100644
+--- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+@@ -77,7 +77,7 @@ &extalr_clk {
  };
  
- &gpio2 {
--	touch-interrupt {
-+	touch-interrupt-hog {
+ &gpio6 {
+-	usb_hub_reset {
++	usb-hub-reset-hog {
  		gpio-hog;
- 		gpios = <12 GPIO_ACTIVE_LOW>;
- 		input;
-diff --git a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-index c3ca693b91daebed..4a9e6343d4759b74 100644
---- a/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-+++ b/arch/arm/boot/dts/r8a7740-armadillo800eva.dts
-@@ -276,7 +276,7 @@ lcd0_pins: lcd0 {
- 		function = "lcd0";
+ 		gpios = <10 GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+index 0c7e6f79059020ff..935d06515aa6130b 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+@@ -140,7 +140,7 @@ &extalr_clk {
+ };
+ 
+ &gpio6 {
+-	usb1-reset {
++	usb1-reset-hog {
+ 		gpio-hog;
+ 		gpios = <10 GPIO_ACTIVE_LOW>;
+ 		output-low;
+diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi
+index 40c5e8d6d8418910..d66d17e34694c871 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex-lvds.dtsi
+@@ -20,7 +20,7 @@ &gpio1 {
+ 	 * When GP1_20 is LOW LVDS0 is connected to the LVDS connector
+ 	 * When GP1_20 is HIGH LVDS0 is connected to the LT8918L
+ 	 */
+-	lvds-connector-en-gpio {
++	lvds-connector-en-hog {
+ 		gpio-hog;
+ 		gpios = <20 GPIO_ACTIVE_HIGH>;
+ 		output-low;
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+index a7b27d09f6c25fa1..c1812d1ef06a302a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
++++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+@@ -68,7 +68,7 @@ &gpio0 {
+ 	 * When GP0_17 is low LVDS[01] are connected to the LVDS connector
+ 	 * When GP0_17 is high LVDS[01] are connected to the LT8918L
+ 	 */
+-	lvds-connector-en-gpio{
++	lvds-connector-en-hog {
+ 		gpio-hog;
+ 		gpios = <17 GPIO_ACTIVE_HIGH>;
+ 		output-low;
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
+index 49d141db53f7af37..fc334b4c2aa422ee 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
++++ b/arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dts
+@@ -18,8 +18,8 @@ / {
+ };
+ 
+ &pinctrl {
+-	/delete-node/ can0-stb;
+-	/delete-node/ can1-stb;
++	/delete-node/ can0-stb-hog;
++	/delete-node/ can1-stb-hog;
+ 	/delete-node/ gpio-sd0-pwr-en-hog;
+ 	/delete-node/ sd0-dev-sel-hog;
+ 	/delete-node/ sd1-pwr-en-hog;
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+index 2ef217445f72dae0..9085d8c76ce15452 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-pinfunction.dtsi
+@@ -18,7 +18,7 @@ can0_pins: can0 {
  	};
  
--	lcd0_mux {
-+	lcd0-mux-hog {
- 		/* DBGMD/LCDC0/FSIA MUX */
+ 	/* SW7 should be at position 2->3 so that GPIO8_CAN0_STB line is activated */
+-	can0-stb {
++	can0-stb-hog {
  		gpio-hog;
- 		gpios = <176 0>;
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-index 3c8a7c8b1fdd56d3..4e58c54cde17c382 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-@@ -91,10 +91,10 @@ phy1: ethernet-phy@1 {
- 
- &gpio0 {
- 	/* Disable hogging GP0_18 to output LOW */
--	/delete-node/ qspi_en;
-+	/delete-node/ qspi-en-hog;
- 
- 	/* Hog GP0_18 to output HIGH to enable VIN2 */
--	vin2_en {
-+	vin2-en-hog {
- 		gpio-hog;
- 		gpios = <18 GPIO_ACTIVE_HIGH>;
- 		output-high;
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-index a5a79cdbcd0ee09b..64102b664055b475 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-@@ -226,7 +226,7 @@ &du {
- };
- 
- &gpio0 {
--	touch-interrupt {
-+	touch-interrupt-hog {
- 		gpio-hog;
- 		gpios = <24 GPIO_ACTIVE_LOW>;
- 		input;
-@@ -234,7 +234,7 @@ touch-interrupt {
- };
- 
- &gpio1 {
--	can-trx-en-gpio{
-+	can-trx-en-hog {
- 		gpio-hog;
- 		gpios = <28 GPIO_ACTIVE_HIGH>;
+ 		gpios = <RZG2L_GPIO(42, 2) GPIO_ACTIVE_HIGH>;
  		output-low;
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21m.dtsi b/arch/arm/boot/dts/r8a7742-iwg21m.dtsi
-index 5621c9ed698f0e4a..b281a4d164b0aae8 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21m.dtsi
-+++ b/arch/arm/boot/dts/r8a7742-iwg21m.dtsi
-@@ -37,7 +37,7 @@ &extal_clk {
+@@ -31,7 +31,7 @@ can1_pins: can1 {
+ 	};
  
- &gpio0 {
- 	/* GP0_18 set low to select QSPI. Doing so will disable VIN2 */
--	qspi_en {
-+	qspi-en-hog {
+ 	/* SW8 should be at position 2->3 so that GPIO9_CAN1_STB line is activated */
+-	can1-stb {
++	can1-stb-hog {
  		gpio-hog;
- 		gpios = <18 GPIO_ACTIVE_HIGH>;
+ 		gpios = <RZG2L_GPIO(42, 3) GPIO_ACTIVE_HIGH>;
  		output-low;
-diff --git a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-index b024621c998103b2..6448022852491661 100644
---- a/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-+++ b/arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts
-@@ -116,7 +116,7 @@ &extal_clk {
- };
+diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
+index bff56d69693667f1..37ff2091582ec966 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-pinfunction.dtsi
+@@ -34,7 +34,7 @@ scif1_pins: scif1 {
  
- &gpio2 {
--	interrupt-fixup {
-+	interrupt-fixup-hog {
+ #if SW_RSPI_CAN
+ 	/* SW8 should be at position 2->3 so that GPIO9_CAN1_STB line is activated */
+-	can1-stb {
++	can1-stb-hog {
  		gpio-hog;
- 		gpios = <29 GPIO_ACTIVE_HIGH>;
- 		line-name = "hdmi-hpd-int";
+ 		gpios = <RZG2L_GPIO(44, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
 -- 
 2.25.1
 
