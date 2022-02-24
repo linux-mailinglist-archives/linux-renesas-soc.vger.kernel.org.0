@@ -2,75 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75A634C2892
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13194C2899
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:55:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233044AbiBXJxB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 04:53:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46890 "EHLO
+        id S232838AbiBXJyx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 04:54:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233064AbiBXJw7 (ORCPT
+        with ESMTP id S232359AbiBXJyx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 04:52:59 -0500
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412E55EBCB;
-        Thu, 24 Feb 2022 01:52:30 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id p33so612659uap.8;
-        Thu, 24 Feb 2022 01:52:30 -0800 (PST)
+        Thu, 24 Feb 2022 04:54:53 -0500
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6CEC285714;
+        Thu, 24 Feb 2022 01:54:23 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id d11so1519652vsm.5;
+        Thu, 24 Feb 2022 01:54:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mgeLEIxBxyudasfEDNt0ZffZmgYSCVMrsrr2/B3rRsw=;
-        b=taw73MxMMoeqmmVJE4WtIyXa23C2y0LPulfXegC6j/YHJ984m/SO9aa0WOSNHtThiu
-         OgakrCCIrBS/SQgUvKBltuPzd0U90w68Z4e/ce+D+qqKl2K8/l71nOFoqxc6T8OLMo7D
-         kDsR23x5pOeNJPN/RzoTvzJIl5E5tK2h7DJ3ZS/VGdfwkrFpSLXJu4CnFzVXGPcTIx3F
-         N0pSPDsLdqWNlFD+puFuqJc6Xcx6+VrN4zBoWSDwkDc22UbqYa9fPknihQlh6VbvM1j9
-         OTHJFmqF19IHO48ySHc0GWwj9BMOSBKhPPCFKOB64rz4VHRD18DpcuO80UrEXYdw/GzO
-         52jw==
-X-Gm-Message-State: AOAM530IsKINtuWHm+GIMGQiZ9yb5Ib0FK2OlKH4kpA+rojH6Syz1c03
-        cBa2ioNtGbtreEVU7I7HxjRYCMr0ChrdhQ==
-X-Google-Smtp-Source: ABdhPJzOlVXslZc6S1UzKHmpquSuOpUH7eYS7vU6ydZb2rS7Q7pNsFHdkhFCr1a9a2t2e/Qc7lAApg==
-X-Received: by 2002:ab0:2b8a:0:b0:33c:a7e8:273f with SMTP id q10-20020ab02b8a000000b0033ca7e8273fmr777567uar.129.1645696349103;
-        Thu, 24 Feb 2022 01:52:29 -0800 (PST)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id o11sm322432vsl.0.2022.02.24.01.52.28
+        bh=Mru2FE10dG9bV1APdfhAjWIDvBCNgLJ0fPdX2ljWRrE=;
+        b=V+SstRrua7FzOSQknPoTRfFSvN0CZMlQ6aGG8oiGAnT66V5D20Et/SFtUGO7dWIAMl
+         9eUECQeMB49HX5QcWbXAKXhlv/N1CSUffVeqeOUXkHW3M2My2kvrtmQJ0CNXgA/4zraP
+         pvq9uJKVonUEvTg7QO8SBYv5IqpAklUc7uDoIshWIFitgORJrjwPvZpTOJdXR1RAMY6Y
+         AvV8ROlX89aTqErjDB/8hxudt22c1HIg2ID8u88lIW632MLdsX0TlCsiTFY2/1OV+baw
+         DWMlpym9QWypFF7+zQBaQ+m85H0BwY2IvpurrZJoQT1LSC70XAxiE7iDbEytW6JMWcgx
+         umkw==
+X-Gm-Message-State: AOAM533NzcUPalVwTq/JrxWq0gsQvNFiMEpNEqiO4jLTsjd5IEbcIduo
+        ucLaNTgc5CsJa1buTWrOuAvTDf+JphfaiA==
+X-Google-Smtp-Source: ABdhPJxp+/EtFCEM6t/8uS+W1cBw5Zsul6JU+TbBHLfhbSBp0kqhBSxLWtTcojoPOpx5B6mblgeleg==
+X-Received: by 2002:a67:5e87:0:b0:30d:14c1:719 with SMTP id s129-20020a675e87000000b0030d14c10719mr646776vsb.37.1645696462954;
+        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id u16sm297298vsi.2.2022.02.24.01.54.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 01:52:28 -0800 (PST)
-Received: by mail-vk1-f180.google.com with SMTP id j9so881477vkj.1;
-        Thu, 24 Feb 2022 01:52:28 -0800 (PST)
-X-Received: by 2002:a05:6122:130c:b0:330:e674:ec91 with SMTP id
- e12-20020a056122130c00b00330e674ec91mr666103vkp.33.1645696348471; Thu, 24 Feb
- 2022 01:52:28 -0800 (PST)
+        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id l10so862517vki.9;
+        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
+X-Received: by 2002:a05:6122:8ca:b0:332:64b4:8109 with SMTP id
+ 10-20020a05612208ca00b0033264b48109mr689512vkg.7.1645696462346; Thu, 24 Feb
+ 2022 01:54:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20220222103437.194779-1-miquel.raynal@bootlin.com>
- <20220222103437.194779-5-miquel.raynal@bootlin.com> <CAMuHMdWd150q63Nr-=7tn34D3EyiBkAKyuXHm35MM6wci93KZw@mail.gmail.com>
- <20220223174902.3a9b85ea@xps13> <CAMuHMdVr4tiicEn-BbBnCd-zP6ncr=zKd-eDvPYoYKNWUKsOBw@mail.gmail.com>
- <20220224102724.74e2c406@xps13>
-In-Reply-To: <20220224102724.74e2c406@xps13>
+References: <20220223160100.23543-1-biju.das.jz@bp.renesas.com>
+ <20220223160100.23543-6-biju.das.jz@bp.renesas.com> <CAMuHMdXnLOVSi62_kiZBr2Fze_jr2wNxLfz3ZC8SXU1ei3yecw@mail.gmail.com>
+ <OS0PR01MB5922F825BB8E04A3C5F75300863D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922F825BB8E04A3C5F75300863D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Feb 2022 10:52:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWtx5jnyZ0vhCVvM=nTv9H4tD7+g0YTWX8MALc_hR5x4g@mail.gmail.com>
-Message-ID: <CAMuHMdWtx5jnyZ0vhCVvM=nTv9H4tD7+g0YTWX8MALc_hR5x4g@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] dma: dmamux: Introduce RZN1 DMA router support
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>
+Date:   Thu, 24 Feb 2022 10:54:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU+D+Vb3vy-vaNUcZaco2=2Sb3Bna+=UoiRENgz1__1Vg@mail.gmail.com>
+Message-ID: <CAMuHMdU+D+Vb3vy-vaNUcZaco2=2Sb3Bna+=UoiRENgz1__1Vg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] watchdog: rzg2l_wdt: Use force reset for WDT reset
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -82,102 +73,53 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi Biju,
 
-On Thu, Feb 24, 2022 at 10:27 AM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> geert@linux-m68k.org wrote on Thu, 24 Feb 2022 10:14:48 +0100:
-> > On Wed, Feb 23, 2022 at 5:49 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> > > geert@linux-m68k.org wrote on Wed, 23 Feb 2022 13:46:11 +0100:
-> > > > On Tue, Feb 22, 2022 at 11:35 AM Miquel Raynal
-> > > > <miquel.raynal@bootlin.com> wrote:
-> > > > > The Renesas RZN1 DMA IP is a based on a DW core, with eg. an additional
-> > > > > dmamux register located in the system control area which can take up to
-> > > > > 32 requests (16 per DMA controller). Each DMA channel can be wired to
-> > > > > two different peripherals.
-> > > > >
-> > > > > We need two additional information from the 'dmas' property: the channel
-> > > > > (bit in the dmamux register) that must be accessed and the value of the
-> > > > > mux for this channel.
-> > > > >
-> > > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/dma/dw/dmamux.c
+On Thu, Feb 24, 2022 at 10:51 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v4 5/6] watchdog: rzg2l_wdt: Use force reset for WDT
+> > reset
+> > On Wed, Feb 23, 2022 at 5:01 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > This patch uses the force reset(WDTRSTB) for triggering WDT reset for
+> > > restart callback. This method(ie, Generate Reset (WDTRSTB) Signal on
+> > > parity error)is faster compared to the overflow method for triggering
+> > > watchdog reset.
+> > >
+> > > Overflow method:
+> > >         reboot: Restarting system
+> > >         Reboot failed -- System halted
+> > >         NOTICE:  BL2: v2.5(release):v2.5/rzg2l-1.00-27-gf48f1440c
+> > >
+> > > Parity error method:
+> > >         reboot: Restarting system
+> > >         NOTICE:  BL2: v2.5(release):v2.5/rzg2l-1.00-27-gf48f1440c
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > >
-> > > > > +static int rzn1_dmamux_probe(struct platform_device *pdev)
-> > > > > +{
-> > > > > +       struct device_node *mux_node = pdev->dev.of_node;
-> > > > > +       const struct of_device_id *match;
-> > > > > +       struct device_node *dmac_node;
-> > > > > +       struct rzn1_dmamux_data *dmamux;
-> > > > > +
-> > > > > +       dmamux = devm_kzalloc(&pdev->dev, sizeof(*dmamux), GFP_KERNEL);
-> > > > > +       if (!dmamux)
-> > > > > +               return -ENOMEM;
-> > > > > +
-> > > > > +       mutex_init(&dmamux->lock);
-> > > > > +
-> > > > > +       dmac_node = of_parse_phandle(mux_node, "dma-masters", 0);
-> > > > > +       if (!dmac_node)
-> > > > > +               return dev_err_probe(&pdev->dev, -ENODEV, "Can't get DMA master node\n");
-> > > > > +
-> > > > > +       match = of_match_node(rzn1_dmac_match, dmac_node);
-> > > > > +       if (!match) {
-> > > > > +               of_node_put(dmac_node);
-> > > > > +               return dev_err_probe(&pdev->dev, -EINVAL, "DMA master is not supported\n");
-> > > > > +       }
-> > > > > +
-> > > > > +       if (of_property_read_u32(dmac_node, "dma-requests", &dmamux->dmac_requests)) {
-> > > > > +               of_node_put(dmac_node);
-> > > > > +               return dev_err_probe(&pdev->dev, -EINVAL, "Missing DMAC requests information\n");
-> > > > > +       }
-> > > > > +
-> > > > > +       of_node_put(dmac_node);
-> > > >
-> > > > When hardcoding dmac_requests to 16, I guess the whole dmac_node
-> > > > handling can be removed?
-> > >
-> > > Not really, I think the following checks are still valid and fortunate,
-> > > and they need some of_ handling to work properly:
-> > > - verify that the chan requested is within the range of dmac_requests
-> > >   in the _route_allocate() callback
-> > > - ensure the dmamux is wired to a supported DMAC in the DT (this
-> > >   condition might be loosen in the future if needed or dropped entirely
-> > >   if considered useless)
-> > > - I would like to add a check against the number of requests supported
-> > >   by the dmamux and the dmac (not done yet).
-> > > For the record, I've taken inspiration to write these lines on the other
-> > > dma router driver from TI.
-> > >
-> > > Unless, and I know some people think like that, we do not try to
-> > > validate the DT and if the DT is wrong that is none of our business.
-> > >
-> > > >
-> > > > > +
-> > > > > +       if (of_property_read_u32(mux_node, "dma-requests", &dmamux->dmamux_requests)) {
-> > > >
-> > > > Don't obtain from DT, but fix to 32?
-> > >
-> > > I believe the answer to the previous question should give me a clue
-> > > about why you would prefer hardcoding than reading from the DT such
-> > > an information. Perhaps I should mention that all these properties are
-> > > already part of the bindings, and are not specific to the driver, the
-> > > information will be in the DT anyway.
+> > Thanks for your patch!
 > >
-> > The 32 is a property of the hardware (32 bits in DMAMUX register).
-> > So IMHO it falls under the "differentiate by compatible value,
-> > not by property" rule.
+> > > --- a/drivers/watchdog/rzg2l_wdt.c
+> > > +++ b/drivers/watchdog/rzg2l_wdt.c
+> >
+> > > @@ -117,17 +120,14 @@ static int rzg2l_wdt_restart(struct
+> > > watchdog_device *wdev,  {
+> > >         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
+> > >
+> > > -       /* Reset the module before we modify any register */
+> > > -       reset_control_reset(priv->rstc);
+> > > -
+> >
+> > I think this part belongs in patch 4/6.
 >
-> I agree this is a property of the hardware and feels redundant here.
+> For Overflow method we need to reset the module, so that we can
+> update WDTSET register to change the timeout value from 60sec to 43.69 msec,
+> so that reboot can occur after 43.69 msec which corresponds to counter value of 1.
 >
-> What about the checks below, do you agree with the fact that I should
-> keep them or do you prefer dropping them (all? partially?)?
+> Where as on parity error case, Generating parity error
+> immediately trigger the reboot. Here we don't need to reset the module,
+> for Generating parity error, that is the reason it got removed in this patch.
 
-There are no checks below?
-/me confused.
+Right, so please ignore my comment.
 
 Gr{oetje,eeting}s,
 
