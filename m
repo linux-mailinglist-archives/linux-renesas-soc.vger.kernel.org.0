@@ -2,63 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A484F4C286F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3E2B4C2886
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232947AbiBXJqJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 04:46:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37526 "EHLO
+        id S232113AbiBXJuK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 04:50:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232105AbiBXJqI (ORCPT
+        with ESMTP id S233003AbiBXJuK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 04:46:08 -0500
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A1A27DF33;
-        Thu, 24 Feb 2022 01:45:39 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id 4so631069uaf.0;
-        Thu, 24 Feb 2022 01:45:39 -0800 (PST)
+        Thu, 24 Feb 2022 04:50:10 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 228012819B2;
+        Thu, 24 Feb 2022 01:49:40 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id p33so609901uap.8;
+        Thu, 24 Feb 2022 01:49:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+lUFsauCON4uBivZiDW6aBreXALMZIV7erNXYGtZ9bM=;
-        b=IPT1h4tfmsYFiyG5KoTdbMlwPehEs6riA+GuVGmtDP7Ea5GIiUSsncifR1JSn16Gvz
-         P2oN83HZMB0LeblrfUwRxBQffEzKYpVlC93Hm8XnVn0ZD4nbu2dMube+lHSzOk7ENsrC
-         uIYzetkkzROJlxcUb+j2YbOF6His3MTDEQRYl1f5nRCl/AYFlW2IM+tZFZr9WWNe+2Kz
-         bFoO25wz4QpE8iP63nDOXif33Hc3YWai8tQH2l8nY7P2d9F4sxdODc1zMXyh61o3OiQm
-         rGG4njC9pPRmuqOmV7011jNXiofVuEVRzxH8cresm9bZtDR0EB1gb8wYlxU2LSY0onBN
-         Wimw==
-X-Gm-Message-State: AOAM533Eeg8i9OTIZS7TmGMphpaF2Jem0WD6lyvIHzKatuMQszMa4QQc
-        Z/D+jquUw15m3rtPvqp9PlL54J/DNU3ogw==
-X-Google-Smtp-Source: ABdhPJzZeG4Hge21dDOd4Yfdip2ErudvA9DQP97j3Lu/1PV/h/y1P9hYJETU2AOg3SZFRtf7cQaNQA==
-X-Received: by 2002:ab0:6486:0:b0:343:2539:6e23 with SMTP id p6-20020ab06486000000b0034325396e23mr750271uam.38.1645695938416;
-        Thu, 24 Feb 2022 01:45:38 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id s13sm302758vsk.7.2022.02.24.01.45.38
+        bh=9IkiN0VIfOnYW5l2ddoLdbKXjFAORIEW7LEcXcst+cU=;
+        b=W7Jc42pt22ZkEpdnueYEPN7U/0bcpQgFvPDq0tNlhrn6ZmfeDp8ieB0YLCYZUyookc
+         H2+H+FHS/7yFiiZ1Y48nj9namidksaxQHyp/6msHeDIxPXaEO9BGvM5IZfSEiIOERTeA
+         CB1QDfZgTOUnweMnG0TuNDJSHF6HEJP9xAg5RvzllKYCojK/34cuJz+oR0pqOnoCKtDU
+         H7zIsWVcApnxhI1WF3Z917xDTtzhAiAiGoAXxw88XQaBPSf2A+ktpUmIEGqZPxeR9Sx8
+         A3/9T06T4SeQYtSBfwx4qxyKbGBoS+PwiSrjFjgeUmzGl14iKJxEvBXnHpwNC2gJfOdS
+         iniw==
+X-Gm-Message-State: AOAM53149u0ntyYC1qqBiJO9bRlmUcCd1D7mJPJhjUpzeS/sA8XGvdWW
+        qdcxIsMbxbY9kUWPCGC2EUbyApUg/rPruA==
+X-Google-Smtp-Source: ABdhPJxWI0W/CyVSr5GWmiGwIMIRNdaGuMDum0EpH4QRfsA9DlmWB46r/KgbqAXgfSahbTiyIZ9YnA==
+X-Received: by 2002:ab0:b05:0:b0:342:2961:37ee with SMTP id b5-20020ab00b05000000b00342296137eemr735920uak.29.1645696179094;
+        Thu, 24 Feb 2022 01:49:39 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id l187sm322879vke.6.2022.02.24.01.49.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 01:45:38 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id d11so1499896vsm.5;
-        Thu, 24 Feb 2022 01:45:38 -0800 (PST)
+        Thu, 24 Feb 2022 01:49:38 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id t22so1513805vsa.4;
+        Thu, 24 Feb 2022 01:49:38 -0800 (PST)
 X-Received: by 2002:a05:6102:4411:b0:31b:6df1:3b80 with SMTP id
- df17-20020a056102441100b0031b6df13b80mr756933vsb.5.1645695937899; Thu, 24 Feb
- 2022 01:45:37 -0800 (PST)
+ df17-20020a056102441100b0031b6df13b80mr761507vsb.5.1645696178512; Thu, 24 Feb
+ 2022 01:49:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20220223160100.23543-1-biju.das.jz@bp.renesas.com> <20220223160100.23543-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220223160100.23543-4-biju.das.jz@bp.renesas.com>
+References: <20220224092114.25737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220224092114.25737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Feb 2022 10:45:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX9bzHQJb=w6qcLqB2Lzf6mvL1Bkjzdut+xcPqkxiwr9Q@mail.gmail.com>
-Message-ID: <CAMuHMdX9bzHQJb=w6qcLqB2Lzf6mvL1Bkjzdut+xcPqkxiwr9Q@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Date:   Thu, 24 Feb 2022 10:49:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWebGqoLeDcTYM9vKkdVpC0wCfcUSpV6gr+4wphzkacCg@mail.gmail.com>
+Message-ID: <CAMuHMdWebGqoLeDcTYM9vKkdVpC0wCfcUSpV6gr+4wphzkacCg@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: Kconfig: Introduce ARCH_RZG2L config option
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -70,44 +66,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Prabhakar,
 
-CC linux-pm
-
-On Wed, Feb 23, 2022 at 5:01 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This patch fixes the issue 'BUG: Invalid wait context' during restart()
-> callback by using clk_prepare_enable() instead of pm_runtime_get_sync()
-> for turning on the clocks during restart.
+On Thu, Feb 24, 2022 at 10:21 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Renesas RZ/G2L, RZ/G2LC, RZ/G2UL and RZ/V2L SoC's have identical IP blocks
+> for which drivers are common. To avoid updating the Kconfig files for
+> drivers in common to each SoC, introduce the ARCH_RZG2L config option.
+> ARCH_RZG2L config option will be selected by the above mentioned SoC's and
+> ARCH_RZG2L config option will be used as a dependency for the drivers in
+> common.
 >
-> This issue is noticed when testing with renesas_defconfig.
+> While at it, move PM and PM_GENERIC_DOMAINS under the ARCH_RZG2L
+> config option instead of adding it to individual SoC.
 >
-> [   42.213802] reboot: Restarting system
-> [   42.217860]
-> [   42.219364] =============================
-> [   42.223368] [ BUG: Invalid wait context ]
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> Fixes: 2cbc5cd0b55fa2 ("watchdog: Add Watchdog Timer driver for RZ/G2L")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/watchdog/rzg2l_wdt.c
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-
-> @@ -118,7 +120,9 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->
->         /* Reset the module before we modify any register */
->         reset_control_reset(priv->rstc);
-> -       pm_runtime_get_sync(wdev->parent);
-> +
-> +       clk_prepare_enable(priv->pclk);
-> +       clk_prepare_enable(priv->osc_clk);
-
-I'm not super-happy with this circumvention of Runtime PM, but I
-don't see a better option, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-PM: Is there a better option?
+i.e. will queue in renesas-devel for v5.18, so you can start updating
+dependencies after v5.18-rc1.
 
 Gr{oetje,eeting}s,
 
