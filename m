@@ -2,132 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C13194C2899
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 10:55:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0751F4C28D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Feb 2022 11:04:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232838AbiBXJyx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 04:54:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
+        id S232956AbiBXKED (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Feb 2022 05:04:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232359AbiBXJyx (ORCPT
+        with ESMTP id S233151AbiBXKEC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Feb 2022 04:54:53 -0500
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6CEC285714;
-        Thu, 24 Feb 2022 01:54:23 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id d11so1519652vsm.5;
-        Thu, 24 Feb 2022 01:54:23 -0800 (PST)
+        Thu, 24 Feb 2022 05:04:02 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34B0B285AB3;
+        Thu, 24 Feb 2022 02:03:33 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2d68d519a33so18761117b3.7;
+        Thu, 24 Feb 2022 02:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HGy3rhJaGOOLENr6AOqwxPuX4vsG4p2aTfrjvFG71Ic=;
+        b=VRudSdaelPfQZrHhfpEXS6f84dddWM42vI4uvg/LiTWKyCtuzzOMwN51DlRRI1Baym
+         aPaiCOtQ4y8BwqF0TCTmevgo5If+zdR5riIugpkfd2YoO7a/PmTVRAIjr4gBrIsPaMR3
+         czab589hM1zKDpSiv5/BivJICzXbV9C9NtiP0i7we5er/pt9xCF2IuH5YRmovvGfYbeV
+         TcfbOrSdM04DzZMKUbYdkUpTill6P39i0rQNC7WnodgCqXSp1fHLQ7zlGaaaPu1EO/QM
+         6uv2gDJ8vSCU9FucRqomhS9O+6apXV4ulofElepaULGYY8yZLBO7lyRVGL5EPNWrp04q
+         cLdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mru2FE10dG9bV1APdfhAjWIDvBCNgLJ0fPdX2ljWRrE=;
-        b=V+SstRrua7FzOSQknPoTRfFSvN0CZMlQ6aGG8oiGAnT66V5D20Et/SFtUGO7dWIAMl
-         9eUECQeMB49HX5QcWbXAKXhlv/N1CSUffVeqeOUXkHW3M2My2kvrtmQJ0CNXgA/4zraP
-         pvq9uJKVonUEvTg7QO8SBYv5IqpAklUc7uDoIshWIFitgORJrjwPvZpTOJdXR1RAMY6Y
-         AvV8ROlX89aTqErjDB/8hxudt22c1HIg2ID8u88lIW632MLdsX0TlCsiTFY2/1OV+baw
-         DWMlpym9QWypFF7+zQBaQ+m85H0BwY2IvpurrZJoQT1LSC70XAxiE7iDbEytW6JMWcgx
-         umkw==
-X-Gm-Message-State: AOAM533NzcUPalVwTq/JrxWq0gsQvNFiMEpNEqiO4jLTsjd5IEbcIduo
-        ucLaNTgc5CsJa1buTWrOuAvTDf+JphfaiA==
-X-Google-Smtp-Source: ABdhPJxp+/EtFCEM6t/8uS+W1cBw5Zsul6JU+TbBHLfhbSBp0kqhBSxLWtTcojoPOpx5B6mblgeleg==
-X-Received: by 2002:a67:5e87:0:b0:30d:14c1:719 with SMTP id s129-20020a675e87000000b0030d14c10719mr646776vsb.37.1645696462954;
-        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id u16sm297298vsi.2.2022.02.24.01.54.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
-Received: by mail-vk1-f179.google.com with SMTP id l10so862517vki.9;
-        Thu, 24 Feb 2022 01:54:22 -0800 (PST)
-X-Received: by 2002:a05:6122:8ca:b0:332:64b4:8109 with SMTP id
- 10-20020a05612208ca00b0033264b48109mr689512vkg.7.1645696462346; Thu, 24 Feb
- 2022 01:54:22 -0800 (PST)
+        bh=HGy3rhJaGOOLENr6AOqwxPuX4vsG4p2aTfrjvFG71Ic=;
+        b=KkVBABAN3n6bpyTPPoPI9x+Aqj2oI4lsfNIvhBZmH1gOtRp3g2c2ky4ojZfK/4n0DH
+         zujHP8KPwCKIBdyZkd6ejpsRHv+lFNOfx5Q03vCop5EIDi+qQ5ukLa5UpBsWsL5AQviU
+         S0BeR2AYPYs4cYi8juu37yo4g5oX8052BrSfkilOhEXXqz+kCe1E66YTX9KCUznsZU7t
+         RubkE9xIYei5ySSOyQb1JjyghxrRzn0+v7v5kfnOpFtd9n47Hf/54pxwjExgzQOqyfy6
+         Fi3N9pJmPPJrdQ3G48xLpcls2tnYraAfcAmUjfYo+m1YTdLYfVCdC6Be5Fo7yHhaQdWa
+         A49g==
+X-Gm-Message-State: AOAM532ljtJm7S+vAbd8RarduvO56AAbzR+FBOr544i1GCMNN8yX5rsU
+        1idoIikqKefFMej6C1F4LZhDca+PCi/LBPf8EYE=
+X-Google-Smtp-Source: ABdhPJxIaceg0/qdO5qj8CoPe2p4PvnP0wLB9bIgQveWILrcIpPLXL+jNIzHSTemqFxiGWfXRDV8EsxienAH0FZf3xY=
+X-Received: by 2002:a0d:d483:0:b0:2d6:8422:5417 with SMTP id
+ w125-20020a0dd483000000b002d684225417mr1653571ywd.119.1645697012419; Thu, 24
+ Feb 2022 02:03:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20220223160100.23543-1-biju.das.jz@bp.renesas.com>
- <20220223160100.23543-6-biju.das.jz@bp.renesas.com> <CAMuHMdXnLOVSi62_kiZBr2Fze_jr2wNxLfz3ZC8SXU1ei3yecw@mail.gmail.com>
- <OS0PR01MB5922F825BB8E04A3C5F75300863D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922F825BB8E04A3C5F75300863D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Feb 2022 10:54:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU+D+Vb3vy-vaNUcZaco2=2Sb3Bna+=UoiRENgz1__1Vg@mail.gmail.com>
-Message-ID: <CAMuHMdU+D+Vb3vy-vaNUcZaco2=2Sb3Bna+=UoiRENgz1__1Vg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] watchdog: rzg2l_wdt: Use force reset for WDT reset
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20220224092114.25737-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWebGqoLeDcTYM9vKkdVpC0wCfcUSpV6gr+4wphzkacCg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWebGqoLeDcTYM9vKkdVpC0wCfcUSpV6gr+4wphzkacCg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 24 Feb 2022 10:03:06 +0000
+Message-ID: <CA+V-a8uDodqt6e50b33OA5xcFG5P+8QYURgv6RBSwkPzWr9GtQ@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: Kconfig: Introduce ARCH_RZG2L config option
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Geert,
 
-On Thu, Feb 24, 2022 at 10:51 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v4 5/6] watchdog: rzg2l_wdt: Use force reset for WDT
-> > reset
-> > On Wed, Feb 23, 2022 at 5:01 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > This patch uses the force reset(WDTRSTB) for triggering WDT reset for
-> > > restart callback. This method(ie, Generate Reset (WDTRSTB) Signal on
-> > > parity error)is faster compared to the overflow method for triggering
-> > > watchdog reset.
-> > >
-> > > Overflow method:
-> > >         reboot: Restarting system
-> > >         Reboot failed -- System halted
-> > >         NOTICE:  BL2: v2.5(release):v2.5/rzg2l-1.00-27-gf48f1440c
-> > >
-> > > Parity error method:
-> > >         reboot: Restarting system
-> > >         NOTICE:  BL2: v2.5(release):v2.5/rzg2l-1.00-27-gf48f1440c
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/watchdog/rzg2l_wdt.c
-> > > +++ b/drivers/watchdog/rzg2l_wdt.c
-> >
-> > > @@ -117,17 +120,14 @@ static int rzg2l_wdt_restart(struct
-> > > watchdog_device *wdev,  {
-> > >         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> > >
-> > > -       /* Reset the module before we modify any register */
-> > > -       reset_control_reset(priv->rstc);
-> > > -
-> >
-> > I think this part belongs in patch 4/6.
+Thank you for the review.
+
+On Thu, Feb 24, 2022 at 9:49 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> For Overflow method we need to reset the module, so that we can
-> update WDTSET register to change the timeout value from 60sec to 43.69 msec,
-> so that reboot can occur after 43.69 msec which corresponds to counter value of 1.
+> Hi Prabhakar,
 >
-> Where as on parity error case, Generating parity error
-> immediately trigger the reboot. Here we don't need to reset the module,
-> for Generating parity error, that is the reason it got removed in this patch.
+> On Thu, Feb 24, 2022 at 10:21 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Renesas RZ/G2L, RZ/G2LC, RZ/G2UL and RZ/V2L SoC's have identical IP blocks
+> > for which drivers are common. To avoid updating the Kconfig files for
+> > drivers in common to each SoC, introduce the ARCH_RZG2L config option.
+> > ARCH_RZG2L config option will be selected by the above mentioned SoC's and
+> > ARCH_RZG2L config option will be used as a dependency for the drivers in
+> > common.
+> >
+> > While at it, move PM and PM_GENERIC_DOMAINS under the ARCH_RZG2L
+> > config option instead of adding it to individual SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.18, so you can start updating
+> dependencies after v5.18-rc1.
+>
+In that case I'll withhold the Kconfig changes for v2l and post it
+after v5.18-rc1 and for now will just send the DTSI changes to enable
+them.
 
-Right, so please ignore my comment.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
