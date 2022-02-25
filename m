@@ -2,98 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A78D44C4B49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 17:48:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A7334C4BCC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 18:15:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235078AbiBYQso (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Feb 2022 11:48:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
+        id S242858AbiBYRPn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Feb 2022 12:15:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241433AbiBYQsk (ORCPT
+        with ESMTP id S238153AbiBYRPm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Feb 2022 11:48:40 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B057218CC5D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Feb 2022 08:48:07 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1nNdl2-0002vs-Fv; Fri, 25 Feb 2022 17:47:52 +0100
-Received: from pengutronix.de (2a03-f580-87bc-d400-c8b7-5627-f914-a39f.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:c8b7:5627:f914:a39f])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 777263D845;
-        Fri, 25 Feb 2022 16:47:50 +0000 (UTC)
-Date:   Fri, 25 Feb 2022 17:47:50 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
-        Pavel Machek <pavel@denx.de>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] can: rcar_canfd: Register the CAN device when fully ready
-Message-ID: <20220225164750.stt7xrlteqskt3n5@pengutronix.de>
-References: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 25 Feb 2022 12:15:42 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83F21BB707
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 25 Feb 2022 09:15:08 -0800 (PST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CC9AE580207;
+        Fri, 25 Feb 2022 12:15:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 25 Feb 2022 12:15:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; bh=xNQNRlLUw5C9YQ
+        EvZZD0MEyciFB6BjZ9uMmdZ0lur38=; b=smBW7DY78kE8m2hKyM+42lI4nb439E
+        fNGZnGmyniZzN3NFqItnjSHFunJ0oF2d+5QWsfnrm+KztCA2xFu7j7IqiQG+zTte
+        MAzEJlincC4byL7d5oRlXo82GoTJFVXXsivmrghxAcE3oLUdWQaP136S00PRMs+W
+        pcHfRX7YqsZG4acLBPLFMK41gG/tca6GTrmZ+qC7I+NH+mFnmURoAtBbuLXGAbky
+        lzKIF2mSB2xlmaVab/iUISYFZU0U4mCfv4HHfHp6TAC7uTdgwTrtFsrFuBMTPDd5
+        xz6dxVIbvLEpp71Y/vdLXET4MPGyxpi85EEJYNW64BnJOkucLj40mDaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=xNQNRlLUw5C9YQEvZZD0MEyciFB6BjZ9uMmdZ0lur
+        38=; b=h9KQFBydBEJEBxHstMqdKjCkTo6dl50hLa+E7jj71q/yqFWZIhi90+nPk
+        fi8ALea0MNK2hq02mXaTBYsEX/YiVibAI+3tQKlzCdouUlk7DUYl1oBeombWzZ/m
+        fFO2UqnIjWrb7zITB4g6aRrk6RhTXThfUex4eghP+9/+tsfY2GTDp/yjyR6yZNvj
+        9pcoI0/KGwWgxCyw+WbVsVXhsMmGu+6eulm0abZMm3CjNHnOrYcY86BuwLiRxAPN
+        lqzhsBURdneLBGAAYggIRwxkT5B++07NzZxcOJpUREGXsc+UIPchz2RwOVEo0MLL
+        sNUCiD6nCZIGrFyizYaugClZUzv7Q==
+X-ME-Sender: <xms:mw4ZYk4vg4Q7_5vZttQHW_xG_aKk-GN2SAnmUAVHPqBGZsru3Tm5MA>
+    <xme:mw4ZYl5UOdDYESdnlchG0HDaiWRlPHg4Dyt2Xxz6nRNSpSwwWLJFTbx6wDBix5sU_
+    z4DwXl3ywicGZz7_yE>
+X-ME-Received: <xmr:mw4ZYje4PWw3uPlDz93m6rdkQpYGkmhafe10LJTqXkpoHklv_q1Un0-idoUKiQ6a8jb18StefAB3fdGBcpt9lmXBrHh0CVw01k2JzvY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleeggdellecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:mw4ZYpJFYFMufgnfr-z7VupGsFIqqIiNWKJRZh5QaCu7JgoWnmS7SA>
+    <xmx:mw4ZYoKPWvlp0uBuGpp-gieqfmj6ReKyr84knKuzCqcveRFY3Vo4YA>
+    <xmx:mw4ZYqyCPBHbncwFz4LOyKp4eWBnRciusl7h065ZeqPi1ND2tBPZuA>
+    <xmx:mw4ZYmyY6M0h6CG2rlJJK7lYPZHG3ffV3hYR0QXvubJGponxNPjB8g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 25 Feb 2022 12:15:07 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Maxime Ripard <maxime@cerno.tech>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Tim Gover <tim.gover@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Dom Cobley <dom@raspberrypi.com>
+Subject: Re: (subset) [PATCH v2 15/22] drm/rcar: plane: Remove redundant zpos initialisation
+Date:   Fri, 25 Feb 2022 18:14:45 +0100
+Message-Id: <164580928297.726994.13240358385635559463.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220221095918.18763-16-maxime@cerno.tech>
+References: <20220221095918.18763-1-maxime@cerno.tech> <20220221095918.18763-16-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="62tn3zuzt65dpeai"
-Content-Disposition: inline
-In-Reply-To: <20220221225935.12300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, 21 Feb 2022 10:59:11 +0100, Maxime Ripard wrote:
+> The rcar-du KMS driver will call drm_plane_create_zpos_property() with an
+> init value depending on the plane type.
+> 
+> Since the initial value wasn't carried over in the state, the driver had
+> to set it again in rcar_du_plane_reset() and rcar_du_vsp_plane_reset().
+> However, the helpers have been adjusted to set it properly at reset, so
+> this is not needed anymore.
+> 
+> [...]
 
---62tn3zuzt65dpeai
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to drm/drm-misc (drm-misc-next).
 
-On 21.02.2022 22:59:35, Lad Prabhakar wrote:
-> Register the CAN device only when all the necessary initialization
-> is completed. This patch makes sure all the data structures and locks are
-> initialized before registering the CAN device.
-
-Applied to can/testing.
-
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---62tn3zuzt65dpeai
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmIZCDMACgkQrX5LkNig
-013w0gf9GHv8h+twoAJc+oj+ZtApGB6lXKUKpDTYt4HXx5gytxU287sJ1uTxRLgy
-4OyhPc4csoPX1ENy4De+1yeeUAmWeh6gR0/l+aZaki7NmT8U+ZdAKjnCbs4Y+REg
-mgXQmnDaGLIUOkW0b0IatgZsxAd+iEGXUNhin+aMfr6f5tP1WV6xYOn06XXCPf7u
-HMd72JJged+tSv4k/BrVKbiGvKHYe85HqJXuWtpuy/A7y3rRS68Zg0h0DhHyAIM/
-zENW76mnvEnI65hwWNOI+wXF15FK86cdLUj0nk71Uz0ckNULgOFitLjbOPRryqhp
-EWsyXs7/kJSBBrsgANUL+C5NYr3d0w==
-=wlL+
------END PGP SIGNATURE-----
-
---62tn3zuzt65dpeai--
+Thanks!
+Maxime
