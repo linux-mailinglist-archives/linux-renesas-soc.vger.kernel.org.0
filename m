@@ -2,59 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67A434C3BFD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 03:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA9D14C3BF3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 03:52:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236846AbiBYCxS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Feb 2022 21:53:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236850AbiBYCxQ (ORCPT
-        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        id S230028AbiBYCxQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Thu, 24 Feb 2022 21:53:16 -0500
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EA9F2399EC
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 18:52:45 -0800 (PST)
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236841AbiBYCxP (ORCPT
+        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        Thu, 24 Feb 2022 21:53:15 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E87D24FA02
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Feb 2022 18:52:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645757565; x=1677293565;
+  t=1645757564; x=1677293564;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=ZcEq7vBCLo2NqGpociWNmIe3A3kyOsmoC7En+tkq7L8=;
-  b=l4aa+a2Bj4ZeSCO5iJcllEtiGF8lu9gFuRFI6oWPfXM08BUVH6Trkupo
-   P8+Aqp37uD2YfPfp+co192fUpVsvCThNC+G6dpl0HHG1ICqJMche68YZZ
-   F/wHt9qHqzflJI04L9GKHV8SbZILkixDZz00kLrew0Wyn51syinNYPV4c
-   fbnhRpMf+kI7962whKH4tdRLAUGaL5Y40Vn7Za6asE6eywNsvaJH7H5W8
-   jY+gLk+EIH5gHWWWRJVTNTynHeOzQpmsavnHIerDzyEQr15TIuAFm/OWe
-   G2h0ddPQKgpp7YvI2QiPUdUoIvFocSXp1ia5rs02eL96gAEMGF/19mZUb
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="313122635"
+  bh=4Q7z2USZX0TEiE476wp5n5WdVcSijNc3IRcT51rZLVk=;
+  b=VsDZXgEFNoZSoEABYgZlTwxrJV1bc+LNG/aCU1LlOkIU0rm2hqPOu+5k
+   qqD0/PWgOsQWHCwB5s5WS7Hf775u4oYAVeTF4yVA4OOqBXVbPCMWI5cUZ
+   kiRR2HjinE9PInUMCvKWg7gG5aVOye1fuzsSwdNuzDAwgwjadpNJdgKIq
+   TEfiyCNN0AmNbUmJxGo/FNlr4kBzrsxL4pfPpx6Cl23rfY44UTt0IT3p5
+   MHQ5mHG8DFFjHeSgp2kEP8DEu+9Zu0uDUm27zSJu3FP7uCV8bu+kKsHFO
+   Tw93TNkgMsNPL8oH4GQZ/XTxYcQo8RnLE89E6wn97mkEl4gJjCjTAXQP1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252599015"
 X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="313122635"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 18:52:44 -0800
+   d="scan'208";a="252599015"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 18:52:44 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="638078321"
+   d="scan'208";a="574448114"
 Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2022 18:52:43 -0800
+  by orsmga001.jf.intel.com with ESMTP; 24 Feb 2022 18:52:43 -0800
 Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1nNQio-0003lk-Pl; Fri, 25 Feb 2022 02:52:42 +0000
-Date:   Fri, 25 Feb 2022 10:51:45 +0800
+        id 1nNQio-0003lQ-B2; Fri, 25 Feb 2022 02:52:42 +0000
+Date:   Fri, 25 Feb 2022 10:51:53 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.18] BUILD SUCCESS
- 6a3b10e5c312cae4c1fc7a27bf9a030360999351
-Message-ID: <62184441.4+LXK/BlrMg+/rnu%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
+ d47a74513f54d297bc3e67861a001d3c9239bf8c
+Message-ID: <62184449.QmGDxXeh4gS/45M1%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,12 +62,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.18
-branch HEAD: 6a3b10e5c312cae4c1fc7a27bf9a030360999351  ARM: dts: renesas: Align GPIO hog names with dtschema
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
+branch HEAD: d47a74513f54d297bc3e67861a001d3c9239bf8c  pinctrl: renesas: Remove unneeded #include <linux/gpio.h>
 
-elapsed time: 733m
+elapsed time: 734m
 
-configs tested: 140
+configs tested: 141
 configs skipped: 5
 
 The following configs have been built successfully.
@@ -218,8 +218,9 @@ hexagon              randconfig-r045-20220223
 hexagon              randconfig-r041-20220223
 riscv                randconfig-r042-20220223
 hexagon              randconfig-r045-20220224
-hexagon              randconfig-r045-20220225
+s390                 randconfig-r044-20220223
 hexagon              randconfig-r041-20220224
+hexagon              randconfig-r045-20220225
 hexagon              randconfig-r041-20220225
 riscv                randconfig-r042-20220225
 
