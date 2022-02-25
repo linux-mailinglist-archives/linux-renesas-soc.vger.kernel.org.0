@@ -2,151 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D76784C4F73
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 21:19:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF1494C4FB3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Feb 2022 21:33:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236066AbiBYUT0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Feb 2022 15:19:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        id S235303AbiBYUe2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Feb 2022 15:34:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235940AbiBYUT0 (ORCPT
+        with ESMTP id S231500AbiBYUe1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Feb 2022 15:19:26 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA09E33AB;
-        Fri, 25 Feb 2022 12:18:53 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id y7so8478281oih.5;
-        Fri, 25 Feb 2022 12:18:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=y7aesjg8ASPI1OTE5IesAxyPkyE9K/hsp3kbm5RihPs=;
-        b=IH238Ar1Q6xT5BdmNxSwKTPluXKaJh5M8CAbe7N95duQxTCiYMo4um8qEiRP665sgv
-         +hEvb5SwPiSsssJnrvnBcXChHTQQDEscO7Gb8pqYnsTkH+lR7893mS/usIb/Vq8kLiF5
-         efUFiJcBoSCJ/RngmswAAHmMvJWe2RzQpXvpn4pcj8egIQ8iAGD1nLpZTC3WGT/zdVOL
-         ut7mxGMfNiWQC6slDxYjgFuZ8R5S1Sdz2T3tLtnq0dc8rp6aXXmuzmV805H0o/D94oIO
-         Xy/yOADEpQKcXtTGWOoP/Wl3JcI4RX80GnbFUj7YpyAWiptrfSNBx1hYRjbGAUY0ic3I
-         ni9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=y7aesjg8ASPI1OTE5IesAxyPkyE9K/hsp3kbm5RihPs=;
-        b=gH8ilRjEL+F3K5JPaMdjyWU6hiPJdTK3debAf9LD5Wn6jmyTwgJBplGz5aVXeLjb5B
-         dn5S7YXLQ9alsnFIt4zQTKSmwgPvTn8fKBhdHGjBM++5gztFDh23uc4JZ8wWv3/pxsZ7
-         kwTGzThy1UV/ZY3i9c6qzYURbi86kmOngIvdwVxSoSjx8qgcoztCjm5jKTxaLZUizl+H
-         Ibe82xH3w+wFp8SmefzBhZt4fX+Wr6OAuHu/YqPdeJ35f0vuYc1bNqxdOBMeHlJiSFBj
-         hFiZIrtnGYhwM9Oq+UfMBZ4UXLXlIsS7pUQKM8ffcS3yRxz349tWsXN+8hkGcvnVFhFy
-         RzeA==
-X-Gm-Message-State: AOAM531tp4ZBS9uJ3YTkED6bDMSU6KJadifBZE9yCuV2ZqkSIgHelvcM
-        RwmQq7XHjGNPofzJDLZqBL0=
-X-Google-Smtp-Source: ABdhPJx3jEjaii0zSh/nbcyMq/g3IHZ2QQ+OdZOL9M1gp3YVNAhlZk+758o5skEXupe1XzyBRLp7uA==
-X-Received: by 2002:a05:6808:300b:b0:2d0:a492:e489 with SMTP id ay11-20020a056808300b00b002d0a492e489mr2647942oib.171.1645820332754;
-        Fri, 25 Feb 2022 12:18:52 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a23-20020a056830101700b005ad0bd6fe0csm1677986otp.47.2022.02.25.12.18.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 12:18:52 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 25 Feb 2022 12:18:51 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-watchdog@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 7/7] watchdog: rzg2l_wdt: Add set_timeout callback
-Message-ID: <20220225201851.GD2900426@roeck-us.net>
-References: <20220225175320.11041-1-biju.das.jz@bp.renesas.com>
- <20220225175320.11041-8-biju.das.jz@bp.renesas.com>
+        Fri, 25 Feb 2022 15:34:27 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3731E6E9B;
+        Fri, 25 Feb 2022 12:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645821234; x=1677357234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+lvmAhCYQuyMRE2GihAairv8wMrdoP5LesBMAJZ/n5Y=;
+  b=FDkf/6iaT/P+gdf7lv0EOshl+mvF9z72aiMj3bbp5tjZPSEQq+Vhn6Aw
+   ntzX2MpfUGkF0fgDbdCQmsrFdRhZAwvQPTFFgvAoFd2tAtXvqh0xmyl2T
+   zAaUwYs3yzvmfqL8vgscYlhrCaGiSUJ8owy3ThvDR2j76F6C3O7J7m1F0
+   N0fCjJfcv2jYAHbbPU1Ae+Vk/2v22EFzothj6qUfKgvCmb7jl44BCXsZV
+   yk94WsJ8CAzLXD5KMXPK3Mw/nIIs2Ys1+TkJHaK0mPtSswH18jERkA24n
+   5ekRP2zu7tr1zg61kOZMNMRwZ+BN0G7awXTGqC0hFqIswB9TWMLBfzlhr
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10269"; a="239978678"
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; 
+   d="scan'208";a="239978678"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2022 12:33:53 -0800
+X-IronPort-AV: E=Sophos;i="5.90,137,1643702400"; 
+   d="scan'208";a="607870179"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2022 12:33:49 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nNhEj-008OLi-Fl;
+        Fri, 25 Feb 2022 22:30:45 +0200
+Date:   Fri, 25 Feb 2022 22:30:44 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>
+Subject: Re: [PATCH v2 5/8] dma: dw: Avoid partial transfers
+Message-ID: <Yhk8dAUuQ1OuNkqX@smile.fi.intel.com>
+References: <20220222103437.194779-1-miquel.raynal@bootlin.com>
+ <20220222103437.194779-6-miquel.raynal@bootlin.com>
+ <YhY4PqqOgYTLgpKr@smile.fi.intel.com>
+ <20220224173009.0d37c12e@xps13>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220225175320.11041-8-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220224173009.0d37c12e@xps13>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 25, 2022 at 05:53:20PM +0000, Biju Das wrote:
-> This patch adds support for set_timeout callback.
-> 
-> Once WDT is started, the WDT cycle setting register(WDTSET) can be updated
-> only after issuing a module reset. Otherwise, it will ignore the writes
-> and will hold the previous value. This patch updates the WDTSET register
-> if it is active.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, Feb 24, 2022 at 05:30:09PM +0100, Miquel Raynal wrote:
+> andriy.shevchenko@linux.intel.com wrote on Wed, 23 Feb 2022 15:35:58
+> +0200:
+> > On Tue, Feb 22, 2022 at 11:34:34AM +0100, Miquel Raynal wrote:
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+...
 
-> ---
-> V4->V5:
->  * Added Rb tag from Geert.
-> V3->v4:
->  * Updated commit description
->  * Simplified the logic for updating timeout register, if wdt is active.
-> v2->v3:
->  * Patch reodering Patch 3 -> patch 4
->  * Updated commit description.
-> V1->V2:
->  * Updated commit description
->  * Removed stop/start and started using reset() instead.
->  * After reset, Start WDT based on watchdog timer state.
-> ---
->  drivers/watchdog/rzg2l_wdt.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> > It seems the logic in the ->terminate_all() is broken and we actually need
+> > to resume channel first (possibly conditionally, if it was suspended), then
+> > pause it and disable and resume again.
+> > 
+> > The problem with ->terminate_all() is that it has no knowledge if it has
+> > been called on paused channel (that's why it has to pause channel itself).
+> > The pause on termination is required due to some issues in early steppings
+> > of iDMA 32-bit hardware implementations.
+> > 
+> > If my theory is correct, the above change should fix the issues you see.
 > 
-> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-> index 4e7107655cc2..6eea0ee4af49 100644
-> --- a/drivers/watchdog/rzg2l_wdt.c
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-> @@ -115,6 +115,25 @@ static int rzg2l_wdt_stop(struct watchdog_device *wdev)
->  	return 0;
->  }
->  
-> +static int rzg2l_wdt_set_timeout(struct watchdog_device *wdev, unsigned int timeout)
-> +{
-> +	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
-> +
-> +	wdev->timeout = timeout;
-> +
-> +	/*
-> +	 * If the watchdog is active, reset the module for updating the WDTSET
-> +	 * register so that it is updated with new timeout values.
-> +	 */
-> +	if (watchdog_active(wdev)) {
-> +		pm_runtime_put(wdev->parent);
-> +		reset_control_reset(priv->rstc);
-> +		rzg2l_wdt_start(wdev);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->  			     unsigned long action, void *data)
->  {
-> @@ -151,6 +170,7 @@ static const struct watchdog_ops rzg2l_wdt_ops = {
->  	.start = rzg2l_wdt_start,
->  	.stop = rzg2l_wdt_stop,
->  	.ping = rzg2l_wdt_ping,
-> +	.set_timeout = rzg2l_wdt_set_timeout,
->  	.restart = rzg2l_wdt_restart,
->  };
->  
-> -- 
-> 2.17.1
+> I don't have access to these datasheets so I will believe your words
+> and try to apply Andy's solution. I ended up with the following fix,
+> hopefully I got it right:
 > 
+> diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
+> index 48cdefe997f1..59822664d8ec 100644
+> --- a/drivers/dma/dw/core.c
+> +++ b/drivers/dma/dw/core.c
+> @@ -865,6 +865,10 @@ static int dwc_terminate_all(struct dma_chan *chan)
+>  
+>         clear_bit(DW_DMA_IS_SOFT_LLP, &dwc->flags);
+>  
+> +       /* Ensure the last byte(s) are drained before disabling the channel */
+> +       if (test_bit(DW_DMA_IS_PAUSED, &dwc->flags))
+> +               dwc_chan_resume(dwc, true);
+> +
+>         dwc_chan_pause(dwc, true);
+>  
+>         dwc_chan_disable(dw, dwc);
+
+Yes, this is good enough PoC. Needs to be tested, thanks!
+
+> Phil, I know it's been 3 years since you investigated this issue, but
+> do you still have access to the script reproducing the issue? Even
+> better, do you still have the hardware to test?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
