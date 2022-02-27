@@ -2,82 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DF194C58E5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 02:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37C1E4C5BE1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 15:09:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiB0BVF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Feb 2022 20:21:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
+        id S230116AbiB0OJ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Feb 2022 09:09:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiB0BVD (ORCPT
+        with ESMTP id S229492AbiB0OJ7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Feb 2022 20:21:03 -0500
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1599824EA30
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Feb 2022 17:20:27 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2d68d519a33so72106897b3.7
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Feb 2022 17:20:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=khBiOr8slJchZEaJlLVeLW0g6vac+i0W/8rPUGI50KI=;
-        b=jr8Bd8UekPaxn34A53MoB8zITCmTMQiWmxvdHZB8HA93muwdIl91Y/1PhALdhIN+3F
-         DmGIIAQfXIlBTdytlt48Byslm+rDWBc5gAED8iGGedfxKbV4aEHkd141bhrFi59IFF5a
-         tGuAOXzPeRAMgBzHWoVjOEH+Jq6V9pdr95giW9bs8u5ihkSW7wjF0NxXGMPV4aJnwakM
-         OEnRLesjvVxnu4yB8PpM+pb6jYd6EHEmD+zuJ8ZMEgfcaUSpAZN8JBNyF4VJfBkVRf2O
-         rRBrnXoamDqcSUiyIutTiulmO4FVQ87bzhJAI3Jk3gwzRl7carC8n+o+UYb9kCRylhuf
-         0Vkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=khBiOr8slJchZEaJlLVeLW0g6vac+i0W/8rPUGI50KI=;
-        b=aP5VPdN2IKWJSRp751GLLq1EvESUCssBQBgAD+s00oykNNYmLVo8W1KEc1zxUlmt6S
-         JspwphIUZD5FkpH5zTRHKJ4hscKOdMd2ba7bX8+sAGzGBBp+kNTWoT7QfuBQtXPqxZGK
-         EowPxMXAkMkrBOLKHWLX+vYNe31EoksOk5N9a3BNVZ4iTsT7CfkiKWpiqUoT5f9rPYsH
-         s3q6qGeT9DUuNdzJkQVzhoiQgvuuuts5w6cpTvTRliXqqCbosKinPSrzEGE8x3QziknN
-         e17+aiEWGmfDqaFUWma/Mf0466JKwSqlVlCDQNPd1yZnjacPd+oiYTmnsAtwGt87VDiW
-         q7Tg==
-X-Gm-Message-State: AOAM533r6SZWE/eVKJlis8RzJNRNIH1p4r6sgUEyeU3bhzKf1dIHukVf
-        S/Bf/t49497h1vra1MVESZThKvyfTSgdnZRCeQUEKQ==
-X-Google-Smtp-Source: ABdhPJxKAi0RkwlkdkDuL2Y1yN1SIcFzFH1y6tOJPM7QZS6A81Kb1jQy2a4Pk+M/Awc1Dc2lwVDDdhQ3KmffpX0aa6M=
-X-Received: by 2002:a81:f92:0:b0:2d0:5383:7ca with SMTP id 140-20020a810f92000000b002d0538307camr14268843ywp.268.1645924826305;
- Sat, 26 Feb 2022 17:20:26 -0800 (PST)
+        Sun, 27 Feb 2022 09:09:59 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179063A19C;
+        Sun, 27 Feb 2022 06:09:18 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id F00EB240002;
+        Sun, 27 Feb 2022 14:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1645970957;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8yqwbpyEfeZqCICFZlrGuTav01fic0WcbFUBWtOFHXU=;
+        b=oKpg4XtmYF/rBm3kv52LWXCiGC1apIakuu2yLEpncZqHPaoNfHDSE57tc1TYTsaP3Fe0bX
+        n37oIKqrnR+MbnTke72oMNAO6O5MSMXvXi0gZWn529c5zPSaRXpPbAkOU6gVCGu+EEf0tl
+        /U/A7owcCXEqpUot/Ky3afa/dXImv9N0W/IZtdqoMZHuFKc/jT5qOtf6PFWsXIIZlzoKar
+        SGjkJM79xhatvX/RoSQeIcAC3MfgOtYnPOJtdciQfdt++cc51+XsmFbYfoQn7pDMKZ1+vZ
+        M3zbMdO1eNIN+bSTIm8ZFk9qKg3SJvwgjAHPfy+PYYy7P6lo6iQ+wBBVcDPt6w==
+Date:   Sun, 27 Feb 2022 15:09:13 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
+Subject: Re: [PATCH 3/8] soc: renesas: rzn1-sysc: Export function to set
+ dmamux
+Message-ID: <20220227150913.5b998b2f@xps13>
+In-Reply-To: <Yhkg06bqnU8bpaxe@robh.at.kernel.org>
+References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
+        <20220218181226.431098-4-miquel.raynal@bootlin.com>
+        <Yhkg06bqnU8bpaxe@robh.at.kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1645796337.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1645796337.git.geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 27 Feb 2022 02:20:15 +0100
-Message-ID: <CACRpkdb20-39HygrvDe2b35DM+rGRQUpG2ELW=01XfZq=XpurQ@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.18 (take two)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Feb 25, 2022 at 2:41 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Rob,
 
-> The following changes since commit 2e08ab0427fe3e33a92a37cfe3b6db340ab7397f:
->
->   pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register() (2022-02-08 09:54:44 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.18-tag2
+robh@kernel.org wrote on Fri, 25 Feb 2022 12:32:51 -0600:
 
-Thanks Geert,
+> On Fri, Feb 18, 2022 at 07:12:21PM +0100, Miquel Raynal wrote:
+> > The dmamux register is located within the system controller.
+> >=20
+> > Without syscon, we need an extra helper in order to give write access to
+> > this register to a dmamux driver.
+> >=20
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > ---
+> >  drivers/clk/renesas/r9a06g032-clocks.c        | 27 +++++++++++++++++++
+> >  include/dt-bindings/clock/r9a06g032-sysctrl.h |  2 ++
+> >  include/linux/soc/renesas/r9a06g032-syscon.h  | 11 ++++++++
+> >  3 files changed, 40 insertions(+)
+> >  create mode 100644 include/linux/soc/renesas/r9a06g032-syscon.h =20
+>=20
+> > diff --git a/include/dt-bindings/clock/r9a06g032-sysctrl.h b/include/dt=
+-bindings/clock/r9a06g032-sysctrl.h
+> > index 90c0f3dc1ba1..609e7fe8fcb1 100644
+> > --- a/include/dt-bindings/clock/r9a06g032-sysctrl.h
+> > +++ b/include/dt-bindings/clock/r9a06g032-sysctrl.h
+> > @@ -145,4 +145,6 @@
+> >  #define R9A06G032_CLK_UART6		152
+> >  #define R9A06G032_CLK_UART7		153
+> > =20
+> > +#define R9A06G032_SYSCON_DMAMUX		0xA0 =20
+>=20
+> That looks like a register offset? We generally don't put register=20
+> offsets in DT.
 
-pulled in!
+This is a leftover, the offset is defined somewhere else now, I will
+fix this.
 
-Yours,
-Linus Walleij
+>=20
+> > +
+> >  #endif /* __DT_BINDINGS_R9A06G032_SYSCTRL_H__ */ =20
+
+
+Thanks,
+Miqu=C3=A8l
