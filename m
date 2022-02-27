@@ -2,111 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C1E4C5BE1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 15:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71E684C5EA9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 21:38:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230116AbiB0OJ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Feb 2022 09:09:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53972 "EHLO
+        id S231672AbiB0Uif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Feb 2022 15:38:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiB0OJ7 (ORCPT
+        with ESMTP id S229671AbiB0Uif (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Feb 2022 09:09:59 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179063A19C;
-        Sun, 27 Feb 2022 06:09:18 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id F00EB240002;
-        Sun, 27 Feb 2022 14:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1645970957;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8yqwbpyEfeZqCICFZlrGuTav01fic0WcbFUBWtOFHXU=;
-        b=oKpg4XtmYF/rBm3kv52LWXCiGC1apIakuu2yLEpncZqHPaoNfHDSE57tc1TYTsaP3Fe0bX
-        n37oIKqrnR+MbnTke72oMNAO6O5MSMXvXi0gZWn529c5zPSaRXpPbAkOU6gVCGu+EEf0tl
-        /U/A7owcCXEqpUot/Ky3afa/dXImv9N0W/IZtdqoMZHuFKc/jT5qOtf6PFWsXIIZlzoKar
-        SGjkJM79xhatvX/RoSQeIcAC3MfgOtYnPOJtdciQfdt++cc51+XsmFbYfoQn7pDMKZ1+vZ
-        M3zbMdO1eNIN+bSTIm8ZFk9qKg3SJvwgjAHPfy+PYYy7P6lo6iQ+wBBVcDPt6w==
-Date:   Sun, 27 Feb 2022 15:09:13 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sun, 27 Feb 2022 15:38:35 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0129733359;
+        Sun, 27 Feb 2022 12:37:56 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.90,141,1643641200"; 
+   d="scan'208";a="111718863"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2022 05:37:55 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 684D940175FE;
+        Mon, 28 Feb 2022 05:37:53 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Laetitia MARIOTTINI <laetitia.mariottini@se.com>
-Subject: Re: [PATCH 3/8] soc: renesas: rzn1-sysc: Export function to set
- dmamux
-Message-ID: <20220227150913.5b998b2f@xps13>
-In-Reply-To: <Yhkg06bqnU8bpaxe@robh.at.kernel.org>
-References: <20220218181226.431098-1-miquel.raynal@bootlin.com>
-        <20220218181226.431098-4-miquel.raynal@bootlin.com>
-        <Yhkg06bqnU8bpaxe@robh.at.kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH 00/12] Renesas RZ/V2L add support for SDHI/CANFD/I2C/OSTM/USB2/SBC/RSPI/WDT/SSI
+Date:   Sun, 27 Feb 2022 20:37:32 +0000
+Message-Id: <20220227203744.18355-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi All,
 
-robh@kernel.org wrote on Fri, 25 Feb 2022 12:32:51 -0600:
+This patch series adds support for below IP blocks to Renesas RZ/V2L SoC:
+* SDHI
+* CANFD
+* I2C
+* OSTM
+* WDT
+* SSI
+* USB2
+* RPC-IF (SBC)
+* RSPI
 
-> On Fri, Feb 18, 2022 at 07:12:21PM +0100, Miquel Raynal wrote:
-> > The dmamux register is located within the system controller.
-> >=20
-> > Without syscon, we need an extra helper in order to give write access to
-> > this register to a dmamux driver.
-> >=20
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  drivers/clk/renesas/r9a06g032-clocks.c        | 27 +++++++++++++++++++
-> >  include/dt-bindings/clock/r9a06g032-sysctrl.h |  2 ++
-> >  include/linux/soc/renesas/r9a06g032-syscon.h  | 11 ++++++++
-> >  3 files changed, 40 insertions(+)
-> >  create mode 100644 include/linux/soc/renesas/r9a06g032-syscon.h =20
->=20
-> > diff --git a/include/dt-bindings/clock/r9a06g032-sysctrl.h b/include/dt=
--bindings/clock/r9a06g032-sysctrl.h
-> > index 90c0f3dc1ba1..609e7fe8fcb1 100644
-> > --- a/include/dt-bindings/clock/r9a06g032-sysctrl.h
-> > +++ b/include/dt-bindings/clock/r9a06g032-sysctrl.h
-> > @@ -145,4 +145,6 @@
-> >  #define R9A06G032_CLK_UART6		152
-> >  #define R9A06G032_CLK_UART7		153
-> > =20
-> > +#define R9A06G032_SYSCON_DMAMUX		0xA0 =20
->=20
-> That looks like a register offset? We generally don't put register=20
-> offsets in DT.
+The above peripherals can now be operational on Renesas RZ/V2L SMARC EVK
+with this series.
 
-This is a leftover, the offset is defined somewhere else now, I will
-fix this.
+Note:
+* Im just sending the DTS/I changes as separate series and shall post the
+binding doc changes individually to the corresponding subsystems.
+* Patch 05/12 depends on [0]
+* For OSTM/SSI/USB to work on RZ/V2L SoC ARCH_R9A07G044 needs to be
+enabled as the corresponding drivers have ARCH_R9A07G044 as dependency
+which I intend to change it to ARCH_RZG2L. This will be updated once patch
+[1] is part of -rc* cycle.
+* Patch series applies on top of [2].
 
->=20
-> > +
-> >  #endif /* __DT_BINDINGS_R9A06G032_SYSCTRL_H__ */ =20
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
+20220209232232.18461-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
+20220224092114.25737-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20220224125843.29733-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+Cheers,
+Prabhakar
 
-Thanks,
-Miqu=C3=A8l
+Lad Prabhakar (12):
+  arm64: dts: renesas: r9a07g054: Fillup the SDHI{0,1} stub nodes
+  arm64: dts: renesas: r9a07g054l2-smarc: Drop deleting gpio-hog pins
+    related to SDHI
+  arm64: dts: renesas: r9a07g054: Fillup the CANFD stub node
+  arm64: dts: renesas: r9a07g054l2-smarc: Drop deleting can{0,1}-stb-hog
+    nodes
+  arm64: dts: renesas: r9a07g054: Fillup the I2C{0,1,2,3} stub nodes
+  arm64: dts: renesas: r9a07g054: Fillup the sbc stub node
+  arm64: dts: renesas: r9a07g054: Fillup the OSTM{0,1,2} stub nodes
+  arm64: dts: renesas: r9a07g054: Fillup the WDT{0,1,2} stub nodes
+  arm64: dts: renesas: r9a07g054: Add SSI{1,2,3} nodes and fillup the
+    SSI0 stub node
+  arm64: dts: renesas: r9a07g054: Add USB2.0 phy and host support
+  arm64: dts: renesas: r9a07g054: Add USB2.0 device support
+  arm64: dts: renesas: r9a07g054: Add SPI{0,2} nodes and fillup SPI1
+    stub node
+
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    | 413 +++++++++++++++++-
+ .../boot/dts/renesas/r9a07g054l2-smarc.dts    |   8 -
+ 2 files changed, 390 insertions(+), 31 deletions(-)
+
+-- 
+2.17.1
+
