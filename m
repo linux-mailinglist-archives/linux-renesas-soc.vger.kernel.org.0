@@ -2,113 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 421C84C54CD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Feb 2022 10:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DF194C58E5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 02:20:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230315AbiBZJQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Feb 2022 04:16:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
+        id S229628AbiB0BVF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Feb 2022 20:21:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiBZJQf (ORCPT
+        with ESMTP id S229501AbiB0BVD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Feb 2022 04:16:35 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFE1257951;
-        Sat, 26 Feb 2022 01:16:01 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id j15so13210661lfe.11;
-        Sat, 26 Feb 2022 01:16:01 -0800 (PST)
+        Sat, 26 Feb 2022 20:21:03 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1599824EA30
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Feb 2022 17:20:27 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2d68d519a33so72106897b3.7
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Feb 2022 17:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QJazx2cJf5ZdTHcqxXP+EOlF6Z2u1b+F0PrhhVh6sN0=;
-        b=iflXdRqwOm0bitmzuO5JMgYm2/p87H8AAPhbrsdFzq83U/Ttmsen5h5GYlxu49/77D
-         i3Amd2NC7YMSIC2mt09Mm36yNXVBb6Q+cgnp4KmwSBUn2c8m3HB+0XO/Gwh60FPd6AuS
-         +hDPiAJKP9WBPecXx78U6LHV0PioNvRSfW8ualmTWfEWqe4NfS8jKRfSaCv92xEUWTCL
-         0510Lbu6hlg9bbgsq2y6Kiz3wa+atuRj5m73vxZQa19inznhmATVapXR/ja0/0IdiGSb
-         vJOY0TUxuXs5BDTbhJ8ldRcNyMktSRcUd+4qzS64oeOyiMsc0xgythnOMWiFCdm1hKIg
-         Q4AQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=khBiOr8slJchZEaJlLVeLW0g6vac+i0W/8rPUGI50KI=;
+        b=jr8Bd8UekPaxn34A53MoB8zITCmTMQiWmxvdHZB8HA93muwdIl91Y/1PhALdhIN+3F
+         DmGIIAQfXIlBTdytlt48Byslm+rDWBc5gAED8iGGedfxKbV4aEHkd141bhrFi59IFF5a
+         tGuAOXzPeRAMgBzHWoVjOEH+Jq6V9pdr95giW9bs8u5ihkSW7wjF0NxXGMPV4aJnwakM
+         OEnRLesjvVxnu4yB8PpM+pb6jYd6EHEmD+zuJ8ZMEgfcaUSpAZN8JBNyF4VJfBkVRf2O
+         rRBrnXoamDqcSUiyIutTiulmO4FVQ87bzhJAI3Jk3gwzRl7carC8n+o+UYb9kCRylhuf
+         0Vkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QJazx2cJf5ZdTHcqxXP+EOlF6Z2u1b+F0PrhhVh6sN0=;
-        b=SNYodN8X0f2M2jEzGQyaOqSHbQN4Mrfk+oLO3ffJP1utBoloYGK6f5gZ3V3217r3Vd
-         0oP9imKmQwmvh/s/ojj81UFSDzz9SHlCjkjxKnY5tRvrdf0FiiLfTmPfcf/i5y+gfWca
-         Ry4gV2iLuQMKYsRPxSuHPc8nhwSjuOuhF8i0Nn/RHIp0RQcOFPwqUQkUvLyCohPAWZ9d
-         HYH2MgMi+2c+XxXevKoff2HThpD8VE4l7f+Auh5QabjeYYol5x8LRyCL2yIHIQOSQ95a
-         iH0kvNtO0mpTxsg61HJbNwYkrJV2p1ALoGU46HH29epxt5tU53M3raNDL6UAWBik7uJZ
-         +Igg==
-X-Gm-Message-State: AOAM530n2MohJ81TpgFt/bvtr0DtP5ByPzwujZYErQfE/kJaz6KwRETR
-        bPkoBun8ge3F2COmFUPIJlcbJCeJUlA=
-X-Google-Smtp-Source: ABdhPJxUvc+V4Y2c1YMUKpm6u+IvR8fvScpC+NdJJGP0PKLRuPOf037S2T8qSwCm9iz5u7ATf+cSaQ==
-X-Received: by 2002:a05:6512:3e13:b0:443:3055:97d3 with SMTP id i19-20020a0565123e1300b00443305597d3mr7332135lfv.658.1645866959515;
-        Sat, 26 Feb 2022 01:15:59 -0800 (PST)
-Received: from [192.168.1.103] ([178.176.75.229])
-        by smtp.gmail.com with ESMTPSA id u13-20020a056512094d00b0043e6c108925sm410434lft.136.2022.02.26.01.15.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Feb 2022 01:15:58 -0800 (PST)
-Subject: Re: [PATCH v5 5/7] watchdog: rzg2l_wdt: Add error check for
- reset_control_deassert
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-watchdog@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20220225175320.11041-1-biju.das.jz@bp.renesas.com>
- <20220225175320.11041-6-biju.das.jz@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <425f9f1c-2007-a623-c4ba-0b78ce156c81@gmail.com>
-Date:   Sat, 26 Feb 2022 12:15:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=khBiOr8slJchZEaJlLVeLW0g6vac+i0W/8rPUGI50KI=;
+        b=aP5VPdN2IKWJSRp751GLLq1EvESUCssBQBgAD+s00oykNNYmLVo8W1KEc1zxUlmt6S
+         JspwphIUZD5FkpH5zTRHKJ4hscKOdMd2ba7bX8+sAGzGBBp+kNTWoT7QfuBQtXPqxZGK
+         EowPxMXAkMkrBOLKHWLX+vYNe31EoksOk5N9a3BNVZ4iTsT7CfkiKWpiqUoT5f9rPYsH
+         s3q6qGeT9DUuNdzJkQVzhoiQgvuuuts5w6cpTvTRliXqqCbosKinPSrzEGE8x3QziknN
+         e17+aiEWGmfDqaFUWma/Mf0466JKwSqlVlCDQNPd1yZnjacPd+oiYTmnsAtwGt87VDiW
+         q7Tg==
+X-Gm-Message-State: AOAM533r6SZWE/eVKJlis8RzJNRNIH1p4r6sgUEyeU3bhzKf1dIHukVf
+        S/Bf/t49497h1vra1MVESZThKvyfTSgdnZRCeQUEKQ==
+X-Google-Smtp-Source: ABdhPJxKAi0RkwlkdkDuL2Y1yN1SIcFzFH1y6tOJPM7QZS6A81Kb1jQy2a4Pk+M/Awc1Dc2lwVDDdhQ3KmffpX0aa6M=
+X-Received: by 2002:a81:f92:0:b0:2d0:5383:7ca with SMTP id 140-20020a810f92000000b002d0538307camr14268843ywp.268.1645924826305;
+ Sat, 26 Feb 2022 17:20:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220225175320.11041-6-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1645796337.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1645796337.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 27 Feb 2022 02:20:15 +0100
+Message-ID: <CACRpkdb20-39HygrvDe2b35DM+rGRQUpG2ELW=01XfZq=XpurQ@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.18 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On Fri, Feb 25, 2022 at 2:41 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On 2/25/22 8:53 PM, Biju Das wrote:
+> The following changes since commit 2e08ab0427fe3e33a92a37cfe3b6db340ab7397f:
+>
+>   pinctrl: renesas: rzg2l: Improve rzg2l_gpio_register() (2022-02-08 09:54:44 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.18-tag2
 
-> If reset_control_deassert() fails, then we won't be able to
-> access the device registers. Therefore check the return code of
-> reset_control_deassert() and bailout in case of error.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-[...]
+Thanks Geert,
 
-> diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-> index 88274704b260..73b667ed3e99 100644
-> --- a/drivers/watchdog/rzg2l_wdt.c
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-> @@ -203,7 +203,10 @@ static int rzg2l_wdt_probe(struct platform_device *pdev)
->  		return dev_err_probe(&pdev->dev, PTR_ERR(priv->rstc),
->  				     "failed to get cpg reset");
->  
-> -	reset_control_deassert(priv->rstc);
-> +	ret = reset_control_deassert(priv->rstc);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to deassert");
+pulled in!
 
-   Deassert what? :-)
-
-[...]
-
-MBR, Sergey
+Yours,
+Linus Walleij
