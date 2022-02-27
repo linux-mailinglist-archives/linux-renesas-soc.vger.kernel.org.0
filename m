@@ -2,45 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AE4E4C5F8E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 23:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 713BB4C5F98
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Feb 2022 23:53:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232100AbiB0Wth (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Feb 2022 17:49:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
+        id S231287AbiB0Wxz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Feb 2022 17:53:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbiB0Wtg (ORCPT
+        with ESMTP id S229714AbiB0Wxz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Feb 2022 17:49:36 -0500
+        Sun, 27 Feb 2022 17:53:55 -0500
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CDD66593AB;
-        Sun, 27 Feb 2022 14:48:58 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 583BF31909;
+        Sun, 27 Feb 2022 14:53:17 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.90,142,1643641200"; 
-   d="scan'208";a="111725986"
+   d="scan'208";a="111726148"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2022 07:48:57 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2022 07:53:16 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C590C4006DFA;
-        Mon, 28 Feb 2022 07:48:54 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2C00E4007F56;
+        Mon, 28 Feb 2022 07:53:13 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chris Brandt <chris.brandt@renesas.com>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] dt-bindings: timer: renesas: ostm: Document Renesas RZ/V2L OSTM
-Date:   Sun, 27 Feb 2022 22:48:44 +0000
-Message-Id: <20220227224845.27348-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-watchdog@vger.kernel.org
+Subject: [PATCH] dt-bindings: watchdog: renesas,wdt: Document RZ/V2L SoC
+Date:   Sun, 27 Feb 2022 22:53:09 +0000
+Message-Id: <20220227225309.28098-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -51,42 +48,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the General Timer Module(a.k.a OSTM) found on the RZ/V2L SoC.
-OSTM module is identical to one found RZ/G2L SoC. No driver changes are
-required as generic compatible string "renesas,ostm" will be used as a
-fallback.
+Document RZ/V2L WDT bindings. RZ/V2L WDT is identical to one found
+on the RZ/G2L SoC. No driver changes are required as generic compatible
+string "renesas,rzg2l-wdt" will be used as a fallback.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
-DTSI changes have been posted as part of series [0]
+DTSI changes have been posted as part of series [0].
 
 [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-20220227203744.18355-8-prabhakar.mahadev-lad.rj@bp.renesas.com/
+20220227203744.18355-9-prabhakar.mahadev-lad.rj@bp.renesas.com/
 ---
- Documentation/devicetree/bindings/timer/renesas,ostm.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-index 7fa7f977b44c..c399a019dde7 100644
---- a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-@@ -24,6 +24,7 @@ properties:
-           - renesas,r7s72100-ostm  # RZ/A1H
-           - renesas,r7s9210-ostm   # RZ/A2M
-           - renesas,r9a07g044-ostm # RZ/G2{L,LC}
-+          - renesas,r9a07g054-ostm # RZ/V2L
-       - const: renesas,ostm        # Generic
+diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+index 91a98ccd4226..26c7a152ff98 100644
+--- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+@@ -22,6 +22,7 @@ properties:
+       - items:
+           - enum:
+               - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
++              - renesas,r9a07g054-wdt    # RZ/V2L
+           - const: renesas,rzg2l-wdt     # RZ/G2L
  
-   reg:
-@@ -54,6 +55,7 @@ if:
-       contains:
-         enum:
-           - renesas,r9a07g044-ostm
-+          - renesas,r9a07g054-ostm
- then:
-   required:
-     - resets
+       - items:
 -- 
 2.17.1
 
