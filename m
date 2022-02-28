@@ -2,51 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 465C14C788F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 20:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B13094C7C95
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 23:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiB1TQi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 14:16:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41636 "EHLO
+        id S231236AbiB1WBB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 17:01:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiB1TQi (ORCPT
+        with ESMTP id S231145AbiB1WBA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 14:16:38 -0500
+        Mon, 28 Feb 2022 17:01:00 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05936E4481;
-        Mon, 28 Feb 2022 11:15:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE3442EFE;
+        Mon, 28 Feb 2022 14:00:20 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F9066157E;
-        Mon, 28 Feb 2022 19:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D61FAC340F4;
-        Mon, 28 Feb 2022 19:15:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D87956126A;
+        Mon, 28 Feb 2022 22:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7E9C340F1;
+        Mon, 28 Feb 2022 22:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646075750;
-        bh=4ffxVFmIhfSz2RtkuWHLovxc6YbAAP8sRv97sOREYfc=;
+        s=k20201202; t=1646085619;
+        bh=ILU4k4S973vdYYdBOn+r/mutpeUjmBaupdBD+w+y3X8=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=owGY+crFVM3JpKfDcYPQnUzKuoDo1rTOE31vlN/spxk8l2WCA7mVrq1kAMb5fRTIW
-         8g2XhjsJ35xlVBOUCrQBsCGGIedCKaXq991oEoAxr3d1nj16SpptakxkYcIG3CIAbZ
-         ZSs8J6oRO+jcMax2xMYxVMZ6QCzlzyEsZ10UcZrjqIJ84BXsdxSK8cuTSF7BZuDkST
-         oIEw66ubt95eP7K118GgZEnKcHsQ2HaddQWZkMsGQa/LQ8w29/EQ0YQjktMz0uRlA2
-         1qr6YfaVnZFCfZrRB9ffjE6ju9IyWMM998IB+Kxbl/caFh/JkQaEGyPS/Ymukh50vs
-         pQ9EjwytV+xsQ==
+        b=YIVhXnYZKvFP98jw8SeIsqt8Rv0+yWL+dUNzcQA2g+HqsSDMe/yMHAkyDy/fQFBuU
+         QBELhwB5OcEYMgVp9I/73hbKW15bK6hzx3mz87XZGT2HrXBeItwtNj10ncxEvmaXWq
+         AWHX/rEHFnHDcYYQJs+XiRvB6IXP/aMVzjhEeHxg4Omtak0ZL7PyL/fbAydaN30GQi
+         /TBGHd1kT5wS1IORRv8FtPclmGBjp1nf9tk+2LJS1sdxc5tVkfel7+zs1TgfQfLYit
+         ml1FU/AWwnWl5M/qcMIkrWgew/NHXNwaeVMFdMFHhs++obJ0d2rQTCiHtGpDDEcRXS
+         zfcdBkS1vzUpA==
 From:   Mark Brown <broonie@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
+To:     Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-In-Reply-To: <20220227225633.28829-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220227225633.28829-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: renesas,rz-ssi: Document RZ/V2L SoC
-Message-Id: <164607574758.3538791.1940020429283173746.b4-ty@kernel.org>
-Date:   Mon, 28 Feb 2022 19:15:47 +0000
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>, linux-spi@vger.kernel.org
+In-Reply-To: <20220227225956.29570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220227225956.29570-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] spi: dt-bindings: renesas,rspi: Document RZ/V2L SoC
+Message-Id: <164608561623.2299679.12178967236581861002.b4-ty@kernel.org>
+Date:   Mon, 28 Feb 2022 22:00:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -60,21 +60,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 27 Feb 2022 22:56:32 +0000, Lad Prabhakar wrote:
-> Document RZ/V2L SSI bindings. RZ/V2L SSI is identical to one found
-> on the RZ/G2L SoC. No driver changes are required as generic compatible
-> string "renesas,rz-ssi" will be used as a fallback.
+On Sun, 27 Feb 2022 22:59:56 +0000, Lad Prabhakar wrote:
+> Add RSPI binding documentation for Renesas RZ/V2L SoC.
+> 
+> RSPI block is identical to one found on RZ/A, so no driver changes are
+> required. The fallback compatible string "renesas,rspi-rz" will be used
+> on RZ/V2L.
 > 
 > 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: renesas,rz-ssi: Document RZ/V2L SoC
-      commit: 032959d880fd99a790607cf59cf6c00b77a32cef
+[1/1] spi: dt-bindings: renesas,rspi: Document RZ/V2L SoC
+      commit: f16ed63e53c79070283d3c264de5309794272ae9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
