@@ -2,81 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3017B4C6610
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 10:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66DD34C6617
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 10:50:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbiB1Jtu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 04:49:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39858 "EHLO
+        id S231841AbiB1Juk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 04:50:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234521AbiB1Jtt (ORCPT
+        with ESMTP id S234523AbiB1Juk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 04:49:49 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F2C3237F9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:49:11 -0800 (PST)
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+        Mon, 28 Feb 2022 04:50:40 -0500
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 482916A06C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:50:02 -0800 (PST)
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 101673F1DD
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 09:49:10 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1A1CA3F170
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 09:50:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1646041750;
-        bh=K8UVf48N+Jv0xX6sCbZYY6ItX765Q2FeYJ8hE11hC+Y=;
+        s=20210705; t=1646041801;
+        bh=ectxMCPGM0jarbOBkCu9KZ4bvDNGZx3m+YCA9hoUnz8=;
         h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
          In-Reply-To:Content-Type;
-        b=qAFnIrX0Yg5Q0Es0yed+Q5pvV38WyylnFIFG7qPtSY6em75sxoP6IerOP+NsjciIx
-         M+9sK4UmDDKJxRPAVWd6f9hlL4jM7R9IpoCdcg3tBpZ816+g7EAPrBl4rCliBodKBh
-         x2gdRHgIE9Uyb6lR4vDc9dx4bc8o/1UNix3PKH6ADQlSgfEEohmHWtdkR8Awr6LgzA
-         nyW9AQcKpeF4rol8kSwXkMqPI6lGYdBUWjb0EmRWPojbq0qrOJYIbMixmQMjWForQu
-         qn5qQXExtGGidpsNWsNjbTKtFenxjRjfVQyHh5qPESz/+K6dSoIISGWesncmqubzqs
-         KxuYGpGJkbYRA==
-Received: by mail-ej1-f72.google.com with SMTP id ga31-20020a1709070c1f00b006cec400422fso4894656ejc.22
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:49:10 -0800 (PST)
+        b=MHg3mxK1zxIt6eHxdmZbdxvpmg/OY9q3mUjQ7k5sScXb2c9PUnU/1S4IUYkfQ2Jev
+         vRi+6Ny631TbsctqBVJEF6+HrjyPOZz78G8OyEIOo6xhH72fURzjr7CSG97z08bz4R
+         qJV9354k3mje9dbTSFYXMAKV0Bb1e7FEjfC75ZZhRWbt8BjDpQbL7rVSYcCsP5Oid1
+         GsrwgxgRqIfv0De/iu6s6bFommCIN/CIdQ9AsXJRv5uD/7V+FDA1GHOqEjQ5JxbTo/
+         rU2RsGr+5pP4t17EKDWPvuXwMt0e+FrkoGfACw/Sikc69Prhma5Noegj/CEBFwd4Bj
+         JPWI5whe0KNqw==
+Received: by mail-ed1-f72.google.com with SMTP id s7-20020a508dc7000000b0040f29ccd65aso5566828edh.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:50:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=K8UVf48N+Jv0xX6sCbZYY6ItX765Q2FeYJ8hE11hC+Y=;
-        b=mZtKmf9Iofz79rlpUMcCG5tqeLp4+j6Wdw4vIduJYxdUUW1K6sdf5wH5xbBqQ23GaI
-         BlqmKMygRMqI1DWaLtmCEcGy5qxgx+DYeh8A/CYSLYeuTYiyUWBTOPXz32xuMFwEGsgc
-         YZBOkjGGyVD0H1hOUKpty9YgQbAC+ENVwn3WetTMMjWzDcpKenEWFaLuBP4TUyK2nM5+
-         EqOs34o1NNJ8iKalH0wbExOIAyaAkYU93DPJRJhpM//EP4qyZJyNhb3RZLnzHniSJEZe
-         UC+XsdDMbQU6oHJqFCsU5FVUPoUaG5kDoZ9p91ZPz/8sdeyCYTAIUUZycjcygvfucBdO
-         Avkg==
-X-Gm-Message-State: AOAM530YcwgUMgi5djIDpvutNypUjbte70FJp4I3mbJEwgRN+IlooHv7
-        U93S07FjbfV1rqs3xo0MYlWamPZEBAbdqufgQDL2AxUqEecqr1RU+UyvAfEeaUVKz3jk3gW1MlE
-        1LrO0FPM+vaXRqRDbR/yv09l3e8dMwjcfj5B9ESEwU3QaiVdL
-X-Received: by 2002:a17:906:5a6e:b0:6d0:afaa:6ce9 with SMTP id my46-20020a1709065a6e00b006d0afaa6ce9mr14525309ejc.72.1646041749713;
-        Mon, 28 Feb 2022 01:49:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxiPlkY9rsiYiTnm/CU3aQEVQ1j+U9P0OWAKpk1KLMObh0w4NoWTo25mdmg/4GZXBmyUWBHrQ==
-X-Received: by 2002:a17:906:5a6e:b0:6d0:afaa:6ce9 with SMTP id my46-20020a1709065a6e00b006d0afaa6ce9mr14525304ejc.72.1646041749549;
-        Mon, 28 Feb 2022 01:49:09 -0800 (PST)
+        bh=ectxMCPGM0jarbOBkCu9KZ4bvDNGZx3m+YCA9hoUnz8=;
+        b=me9RV2NS703ctOAjWCleNa6mPij+T7xPQ+0uFH83PIj3IsVY6rj/pV4MM5/WCyWqJo
+         tPhyx22tVbrbw+obW04kF6lcJlo6t89BW/lnnzdYIHAwVXqXaKNoo8/NV9XnMfzfXfl+
+         7QMnBWNMB73DtwAVGIrg5qy0ZlGfFzqfX/ZgPkOU236m6L7yxTsipxljgfosjdwLq/hQ
+         FmpA90TEy2J8KVM5XDrgP3IlIxCS20EUKxa+6GHgPgLnvGAfDZdJ5yxPOjyKFUyNgunW
+         +PUEovrEgg7pAei9w2LYXEXRKf8U1HRdkCfy4jZFuJ18yhkdnyzo0JshEmDWgtLgu3P0
+         UN0Q==
+X-Gm-Message-State: AOAM530K5ySPhkYC47VEXCzPpXXpg2ImnH/Gp+nNFCTzBWPweI8ZQPHf
+        HBCy97ZMBujiYJMUbsMxRU0v8sfIOyNCWoyTx1Yx4rB6K3BZ+L92TlhmbwM9qpzKaeVLfruWu0t
+        6GDdURbk1TNh2hgQwCL9xSBVjzjQ1XT9u7W7uC28YuYahqfCV
+X-Received: by 2002:a17:906:9947:b0:6cf:e903:fb75 with SMTP id zm7-20020a170906994700b006cfe903fb75mr14136910ejb.400.1646041800868;
+        Mon, 28 Feb 2022 01:50:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoSz/yW/2BamQye2ioyaZE2tA+1fxGPPHeFOaN4uciiznvM0Ldgztis+ElZDaSR3ouoVVosQ==
+X-Received: by 2002:a17:906:9947:b0:6cf:e903:fb75 with SMTP id zm7-20020a170906994700b006cfe903fb75mr14136893ejb.400.1646041800659;
+        Mon, 28 Feb 2022 01:50:00 -0800 (PST)
 Received: from [192.168.0.133] (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
-        by smtp.gmail.com with ESMTPSA id f5-20020a17090624c500b006cee6661b6esm4241494ejb.10.2022.02.28.01.49.07
+        by smtp.gmail.com with ESMTPSA id h21-20020a170906829500b006cef3dcd067sm4217812ejx.174.2022.02.28.01.49.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 01:49:08 -0800 (PST)
-Message-ID: <99a91e37-87fc-c0a3-8dec-20ebbba84f4d@canonical.com>
-Date:   Mon, 28 Feb 2022 10:49:07 +0100
+        Mon, 28 Feb 2022 01:49:59 -0800 (PST)
+Message-ID: <7a7c1f00-65e0-add5-0cbc-373c58e160d1@canonical.com>
+Date:   Mon, 28 Feb 2022 10:49:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] dt-bindings: reset: renesas,rzg2l-usbphy-ctrl: Document
- RZ/V2L USBPHY Control bindings
+Subject: Re: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/V2L bindings
 Content-Language: en-US
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20220227230302.30388-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-usb@vger.kernel.org
+References: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220227230302.30388-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -89,11 +90,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 28/02/2022 00:03, Lad Prabhakar wrote:
-> Add device tree binding document for RZ/V2L USBPHY Control Device.
-> RZ/V2L USBPHY Control Device is identical to one found on the RZ/G2L SoC.
-> No driver changes are required as generic compatible string
-> "renesas,rzg2l-usbphy-ctrl" will be used as a fallback.
+On 28/02/2022 00:15, Lad Prabhakar wrote:
+> Document RZ/V2L (R9A07G054) SoC bindings. USBHS block is identical to one
+> found on RZ/A2 SoC. No driver changes are required as generic compatible
+> string "renesas,rza2-usbhs" will be used as a fallback.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
@@ -103,8 +103,8 @@ On 28/02/2022 00:03, Lad Prabhakar wrote:
 > [0] https://patchwork.kernel.org/project/linux-renesas-soc/
 > cover/20220227203744.18355-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 > ---
->  .../devicetree/bindings/reset/renesas,rzg2l-usbphy-ctrl.yaml   | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 
 
