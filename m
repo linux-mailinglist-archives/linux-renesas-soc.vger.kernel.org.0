@@ -2,76 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FD594C6AA2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 12:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFB74C6B75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 13:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235865AbiB1LhC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 06:37:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54244 "EHLO
+        id S235785AbiB1MBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 07:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231419AbiB1LhB (ORCPT
+        with ESMTP id S230520AbiB1MBw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 06:37:01 -0500
+        Mon, 28 Feb 2022 07:01:52 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 665CD70F77
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 03:36:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66D2E478;
-        Mon, 28 Feb 2022 12:36:20 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A6B66620;
+        Mon, 28 Feb 2022 04:01:14 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BB1E478;
+        Mon, 28 Feb 2022 13:01:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646048180;
-        bh=H3HZ/Mlhc1M1ULfPJ1oa8WfwDCFnUmvds5CzKtz0kt8=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=ndf681gGulN6r09ZcZaQE+3WIrGTAeWVkAcq7X+XTcoF5mnn4b+jwCzu8EiKfsm4J
-         WuoONGGAPn0LaB59Dd6myyDTmHNglOyjjdyZ+yF/LfU8NI7kM7zE28iIDBHOrC336D
-         7ko+Wi10dzJLf8qY2lWHNFK1cKefTflBGPS3zS7E=
-Content-Type: text/plain; charset="utf-8"
+        s=mail; t=1646049672;
+        bh=P6tUqqE8TNWEPznGIjIdUEUJRaoDO4TBx2QwQ9Kl/qU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bQvXV+9NbXjyk9uiYfoJf7VYJvsCqQBUooSMyC8jTuQ3TyUDqfF3i1MY5ZAvdZ8iK
+         d0Hxth+DYz/B4IutQIC0FES5YF2WOSzJt9Ec5+Vm9nVR3Qsp91uKccl/Em6POifUG0
+         2r43pO2kqhEMvra+u731M32kgwrO/Oxr+hHhHHuo=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] media: v4l: vsp1: Fix offset calculation for plane cropping
+Date:   Mon, 28 Feb 2022 14:00:58 +0200
+Message-Id: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220228112901.21289-1-laurent.pinchart@ideasonboard.com>
-References: <20220228112901.21289-1-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/3] tests: Add SPDX headers to vsp-unit-test-0026.sh
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Mon, 28 Feb 2022 11:36:17 +0000
-Message-ID: <164604817788.2091767.6470693310278933011@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-02-28 11:28:59)
-> vsp-unit-test-0026.sh is missing SPDX headers. Add them.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Michael Rodin <mrodin@de.adit-jv.com>
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The vertical subsampling factor is currently not considered in the
+offset calculation for plane cropping done in rpf_configure_partition.
+This causes a distortion (shift of the color plane) when formats with
+the vsub factor larger than 1 are used (e.g. NV12, see
+vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
+for all planes except plane 0 (luminance).
 
-> ---
->  tests/vsp-unit-test-0026.sh | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
-> index 0e013cec881b..36ed0b03469b 100755
-> --- a/tests/vsp-unit-test-0026.sh
-> +++ b/tests/vsp-unit-test-0026.sh
-> @@ -1,4 +1,6 @@
->  #!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +# SPDX-FileCopyrightText: 2020 Renesas Electronics Corporation
-> =20
->  #
->  # Test unbinding and binding all VSP1 devices, performing a simple
->=20
-> base-commit: 2e98a1bf774bc8516aa8027411a2fd511e52561c
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+
+Drop generalization of the offset calculation to reduce the binary size.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
+index 85587c1b6a37..75083cb234fe 100644
+--- a/drivers/media/platform/vsp1/vsp1_rpf.c
++++ b/drivers/media/platform/vsp1/vsp1_rpf.c
+@@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+ 		     + crop.left * fmtinfo->bpp[0] / 8;
+ 
+ 	if (format->num_planes > 1) {
++		unsigned int bpl = format->plane_fmt[1].bytesperline;
+ 		unsigned int offset;
+ 
+-		offset = crop.top * format->plane_fmt[1].bytesperline
+-		       + crop.left / fmtinfo->hsub
+-		       * fmtinfo->bpp[1] / 8;
++		offset = crop.top / fmtinfo->vsub * bpl
++		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
+ 		mem.addr[1] += offset;
+ 		mem.addr[2] += offset;
+ 	}
+-- 
+Regards,
+
+Laurent Pinchart
+
