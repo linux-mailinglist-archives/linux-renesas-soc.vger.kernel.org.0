@@ -2,68 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E80BB4C6F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 15:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3BAE4C6F63
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 15:26:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237022AbiB1OXx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 09:23:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46264 "EHLO
+        id S233165AbiB1O1a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 09:27:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232089AbiB1OXx (ORCPT
+        with ESMTP id S229845AbiB1O13 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 09:23:53 -0500
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E64192BC;
-        Mon, 28 Feb 2022 06:23:14 -0800 (PST)
-Received: by mail-vs1-f48.google.com with SMTP id i27so13070930vsr.10;
-        Mon, 28 Feb 2022 06:23:14 -0800 (PST)
+        Mon, 28 Feb 2022 09:27:29 -0500
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C51373061;
+        Mon, 28 Feb 2022 06:26:50 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id t22so13134748vsa.4;
+        Mon, 28 Feb 2022 06:26:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=f5mSQXselbLEuJjsTNuLw+fQoeJTjUmyz7z46v3uwMA=;
-        b=e1jke7zjfyAIypZTASxQZfxKnNswSBb1N/gujfu3ZuJpPt6tq7iagkYabTzLGEjxMp
-         I+VgOPIOZ7tfRXvvYAhjuEpjvnVOlMssT3GKW+n/W9cO3CnuM0HLQ1IblUhH1Osp6jlp
-         wffZzBmS7GY9In/jJRHiL2kaOwkolLxpcTjcCBsWKEcqrwpAmHNV32AMIaC38pONUWnt
-         BxEVr94usaqx/QK+RMwSkgCBM+z0RFxAbsHW8ceMxejIDgxXbB4Vlvck5Y5SlYwHNeUu
-         r3/yDr+s8Q/g++Fg7Q+SpsnVVjgGd9G7ALF08szo+NeEs2fAUfc2khgZdX75mcuqXjVz
-         rDpQ==
-X-Gm-Message-State: AOAM530N0LJCTpP6tgzr08NeOqr7v26BFWzHxhSyInaSpAmOa28k7wR7
-        gDEq1FW59Dnx8dC84hxoWOfH505iiA3VmA==
-X-Google-Smtp-Source: ABdhPJzACp7n3YWPXW8ElHVOLXVJo7LWKTzyM0qikiTi5T/8sqaq/EzKOTs3KJdWGWfZPuT0Fy2sog==
-X-Received: by 2002:a05:6102:3e95:b0:31b:524c:e311 with SMTP id m21-20020a0561023e9500b0031b524ce311mr7551873vsv.21.1646058193659;
-        Mon, 28 Feb 2022 06:23:13 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id k1-20020ab07541000000b00341f0ce5666sm1817489uaq.5.2022.02.28.06.23.13
+        bh=rHVfZaJmFUUxRDQIT5T7S/1vPYYPoz8peXZ1+ZnXKGg=;
+        b=2Ws8LTW2VKWXPa5VjufKbtaRdPmDehrgKSygWsYKb/qQl1633kYsmu2Q7eOCLqZgsp
+         0E5b0JDL0iPydM9/j0tRkfYUjrmb9TmNyRzKmElmHHN1ExDoV18N6XFTfmDaEL7g0/qU
+         kdufsBeU/QPJCpDfU4x0ZniVVARxhBjRnjE8E4AeSCiaYuOo0e/3uqKF32lsXL1+vS6k
+         23f5gGDfRbH2AsYjHiwST/AG98AtD6UGW5HECM9YlBwrB7vkOmACre6DDjEJzdXHRlpW
+         DR0qMl0buDlSnTLvvb3kxBn22n1FiVBDMSe8gM4lImDJKBCLplX9kOXmvrAtkg4BKajk
+         4R+w==
+X-Gm-Message-State: AOAM531b5Kh5kn7H2F9yQyWocGr030JhP2HokjCJ3YUBUG3OzfbKcSpF
+        nekBEKrtKE6asfTiVl/2tETMqfDL6xJ6eg==
+X-Google-Smtp-Source: ABdhPJxJBe8kFwXiLQ0in7GgJKfoSIk0LfgsB1/plJqIaBs3tfbN45or2P5Izdcb+/e6CGDN7KLC0Q==
+X-Received: by 2002:a67:4284:0:b0:31c:1e12:bc0f with SMTP id p126-20020a674284000000b0031c1e12bc0fmr7127346vsa.23.1646058409578;
+        Mon, 28 Feb 2022 06:26:49 -0800 (PST)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id a25-20020a056102025900b0031c34d0f8d5sm1332033vsq.3.2022.02.28.06.26.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 06:23:13 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id w128so5231582vkd.3;
-        Mon, 28 Feb 2022 06:23:13 -0800 (PST)
-X-Received: by 2002:a05:6122:8ca:b0:332:64b4:8109 with SMTP id
- 10-20020a05612208ca00b0033264b48109mr8035847vkg.7.1646058192797; Mon, 28 Feb
- 2022 06:23:12 -0800 (PST)
+        Mon, 28 Feb 2022 06:26:49 -0800 (PST)
+Received: by mail-vs1-f41.google.com with SMTP id u10so13093928vsu.13;
+        Mon, 28 Feb 2022 06:26:49 -0800 (PST)
+X-Received: by 2002:a67:b00e:0:b0:30d:dc98:6024 with SMTP id
+ z14-20020a67b00e000000b0030ddc986024mr8274728vse.57.1646058408965; Mon, 28
+ Feb 2022 06:26:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20220224125843.29733-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220224125843.29733-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220224125843.29733-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220227225309.28098-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220227225309.28098-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Feb 2022 15:23:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWyyXEXh5OTpMzj=v0xtYKWjHN1GmZ+4hUD1Z7iTb6EOg@mail.gmail.com>
-Message-ID: <CAMuHMdWyyXEXh5OTpMzj=v0xtYKWjHN1GmZ+4hUD1Z7iTb6EOg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r9a07g054: Fillup the ADC stub node
+Date:   Mon, 28 Feb 2022 15:26:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWn=jvt_6rt_Z5OpdfStNT2B6sz_WhZvKrptHqOkqe5mg@mail.gmail.com>
+Message-ID: <CAMuHMdWn=jvt_6rt_Z5OpdfStNT2B6sz_WhZvKrptHqOkqe5mg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: watchdog: renesas,wdt: Document RZ/V2L SoC
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-iio@vger.kernel.org,
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -75,15 +74,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 24, 2022 at 1:59 PM Lad Prabhakar
+On Sun, Feb 27, 2022 at 11:53 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Fillup the ADC stub node in RZ/V2L (R9A07G054) SoC DTSI.
+> Document RZ/V2L WDT bindings. RZ/V2L WDT is identical to one found
+> on the RZ/G2L SoC. No driver changes are required as generic compatible
+> string "renesas,rzg2l-wdt" will be used as a fallback.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
 
 Gr{oetje,eeting}s,
 
