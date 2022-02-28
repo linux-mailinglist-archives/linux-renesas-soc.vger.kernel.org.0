@@ -2,65 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56B6A4C6F7F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 15:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23DE64C6F99
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 15:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234528AbiB1Oa7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 09:30:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42978 "EHLO
+        id S236322AbiB1Og2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 09:36:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231190AbiB1Oa6 (ORCPT
+        with ESMTP id S231896AbiB1OgZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 09:30:58 -0500
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16877EB2E;
-        Mon, 28 Feb 2022 06:30:19 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id e5so13100702vsg.12;
-        Mon, 28 Feb 2022 06:30:19 -0800 (PST)
+        Mon, 28 Feb 2022 09:36:25 -0500
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2B55C355;
+        Mon, 28 Feb 2022 06:35:47 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id w4so13190374vsq.1;
+        Mon, 28 Feb 2022 06:35:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hLDg9b1GHF+fe9nzYW7P+voNdzuk8gxLdevvVVqMTeA=;
-        b=F9bUwdb9FGS8VzXIaDrcOoT1f5PnlnW+a6o/5esAAwoPIvw1eHupFMjcB6vvitODnU
-         L2RK3K63T0JtwTDurEHzSyXmun310qjeKK6qomiAHnE1BmRJwNyLiRxXlx12e5XkHTPZ
-         ZJEzpO6GWkODH1HlxJua2n2SLypOZjnqZoVxdg0/IaJkZHYCWVGfFThLZi9ZMkmnEE96
-         1kQbKfC0iOqJ2VbCKJMw/GZwbZ4wj2Zg2EfmY8gd1jK1+bImmm902VR/QG4RmSsU1und
-         kaWoh6Gbs3KwvI9ukeBtdcy0zpI2VeUrfnEyiRHQejgAZwgR6scLxXukFsFIelXRHb8P
-         aFGA==
-X-Gm-Message-State: AOAM530xq7pQfIXE5XlQCZu4ZWvBb/c0UkSfbvS/VP55s6ETIfDek5tF
-        lWuJV81l2FrIdklg61XPiXS6s8H6qQNy7A==
-X-Google-Smtp-Source: ABdhPJybWC/1NAsc24SK88u8C3rWhPmobnnbH2FLr9u1MmV06w/LWEB2rGyGZiJxyRk5XMcyA5X1WQ==
-X-Received: by 2002:a05:6102:14a8:b0:31c:1cd1:be56 with SMTP id d40-20020a05610214a800b0031c1cd1be56mr8020334vsv.7.1646058618810;
-        Mon, 28 Feb 2022 06:30:18 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id y5-20020a1f4b05000000b003314159259bsm1690241vka.3.2022.02.28.06.30.18
+        bh=4W2KAZr0aee0ddqrQkvXwCKjH8/N/IF9E6sKuTx6QWo=;
+        b=WZ0Srq2yjm6TWI53WpOX2kL98AV3P+95MEqgZatTTDa1qpnvbJ+Iks5OEF9kgiJYuy
+         quomm+1gkOsTgu18UOg81fdD7Yp6gcFQlBgdnK41vGmhVwr6ruaaT+DnpUCI/FZuTznZ
+         jIGyd/M+x2f9hb3WM2CWp88exurWAqNw4q2MWRyOPj0W3rgTTMiP9jB7fqEohtt0xV2E
+         lMpV6D9rE+h7nh5Ppg3VXJyaAQNRGW3mTJlGj63qdEqipvcGPF/bI8L3eY4utiLSs0lQ
+         p1uK4CdlDPR+x+lv/POyMpb0DqE4UnVlCMyRbVHoVvsjnwsipFzuGOlaE1ktoX22Uf7/
+         Nsvw==
+X-Gm-Message-State: AOAM533sMFCB7UpMPLsII6kFT9Cbpi5YuHzVV4LiZVGuA+91rV3ChJjO
+        U/X7prGuClyHes6+vp9aB+EiuNmnQCtx1A==
+X-Google-Smtp-Source: ABdhPJz44Q0aWzgG+Gli1HDq4Z+MRgEVa88GKww0p0I/iJpGa2R8u8VgP79WWQixv0qLtfWPuyJ9IQ==
+X-Received: by 2002:a67:ca9d:0:b0:30f:88c9:df83 with SMTP id a29-20020a67ca9d000000b0030f88c9df83mr7368744vsl.23.1646058946110;
+        Mon, 28 Feb 2022 06:35:46 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id g7-20020a67ee47000000b0031ac5122f3dsm1326757vsp.10.2022.02.28.06.35.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 06:30:18 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id d11so13147694vsm.5;
-        Mon, 28 Feb 2022 06:30:18 -0800 (PST)
-X-Received: by 2002:a67:af08:0:b0:31b:9451:bc39 with SMTP id
- v8-20020a67af08000000b0031b9451bc39mr7624667vsl.68.1646058618146; Mon, 28 Feb
- 2022 06:30:18 -0800 (PST)
+        Mon, 28 Feb 2022 06:35:45 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id x62so5255232vkg.6;
+        Mon, 28 Feb 2022 06:35:45 -0800 (PST)
+X-Received: by 2002:a05:6122:130d:b0:333:33a4:52a9 with SMTP id
+ e13-20020a056122130d00b0033333a452a9mr2122971vkp.33.1646058945038; Mon, 28
+ Feb 2022 06:35:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220227215308.26135-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220227215308.26135-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220227230817.31094-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <TYBPR01MB5341A5DC3BBB4AA59668AF87D8019@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB5341A5DC3BBB4AA59668AF87D8019@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Feb 2022 15:30:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXaPc0bPE1Rf33hHg7c3Mq0UfYAqFcc+_q-NLG2y8WcYQ@mail.gmail.com>
-Message-ID: <CAMuHMdXaPc0bPE1Rf33hHg7c3Mq0UfYAqFcc+_q-NLG2y8WcYQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Document RZ/V2L SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+Date:   Mon, 28 Feb 2022 15:35:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX5yW3_3ydFXZBsOd+s-23-3dCfcgCxi8g_VEg0XPYnDA@mail.gmail.com>
+Message-ID: <CAMuHMdX5yW3_3ydFXZBsOd+s-23-3dCfcgCxi8g_VEg0XPYnDA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: phy: renesas,usb2-phy: Document RZ/V2L phy bindings
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -72,35 +75,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Feb 27, 2022 at 10:53 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document RZ/V2L RPC-IF bindings. RZ/V2L RPC-IF is identical to one found
-> on the RZ/G2L SoC. No driver changes are required as generic compatible
-> string "renesas,rzg2l-rpc-if" will be used as a fallback.
+On Mon, Feb 28, 2022 at 3:18 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Lad Prabhakar, Sent: Monday, February 28, 2022 8:08 AM
+> >
+> > Document USB phy bindings for RZ/V2L SoC. RZ/V2L USB phy is identical to
+> > one found on the RZ/G2L SoC. No driver changes are required as generic
+> > compatible string "renesas,rzg2l-usb2-phy" will be used as a fallback.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > index 3a6e1165419c..4c475be413ef 100644
+> > --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > @@ -33,6 +33,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
+> > +              - renesas,usb2-phy-r9a07g054 # RZ/V2L
+> >            - const: renesas,rzg2l-usb2-phy  # RZ/G2L family
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> DTSI changes have been posted as part of series [0].
->
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
-> patch/20220227203744.18355-7-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> ---
->  .../devicetree/bindings/memory-controllers/renesas,rpc-if.yaml   | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> index 294f1036420d..f051ffb2a421 100644
-> --- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> +++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> @@ -40,6 +40,7 @@ properties:
->        - items:
->            - enum:
->                - renesas,r9a07g044-rpc-if      # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-rpc-if      # RZ/V2L
->            - const: renesas,rzg2l-rpc-if       # RZ/G2L family
+> The "# RZ/G2L family" is not suitable now. I think removing
+> the comment is better like "renesas,rcar-gen3-usb2-phy".
 
-Please drop the comment on the previous line.
+Indeed.
+
+> I don't have the RZ/V2L- documentation. So, I cannot check
+> whether the RZ/V2L is the same specification with RZ/G2{L,LC}.
+> But I trust you. So, after the comment was removed,
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
