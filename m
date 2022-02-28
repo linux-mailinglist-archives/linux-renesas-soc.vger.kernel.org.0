@@ -2,128 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B8E74C6109
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 03:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 469CB4C65F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 10:47:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232533AbiB1CSz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Feb 2022 21:18:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43554 "EHLO
+        id S233969AbiB1Jro (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 04:47:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232376AbiB1CSz (ORCPT
+        with ESMTP id S231363AbiB1Jro (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Feb 2022 21:18:55 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2090.outbound.protection.outlook.com [40.107.114.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85ECD50B0F;
-        Sun, 27 Feb 2022 18:18:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QvwXrfHKr00dB7lYAH7tZH2Wh65IYMkD50SIan6DMgaDaYAOpuh5KEUhS10uJuXlodHwiSOcc2T6JB5Vb/EMERNU/RDvZsKwZ4/nltwGyaaAkW6+0Pde1cwxOXyaJbZlOLvfwd7Ep1U/WIWolnxK1WhFtDFRbtZRHeEvm4L7wfhrU1hJf9B3Hb/o2hSJZoaOEgAg6A9lwT6Il4EOLU0zrVv7UVwkWGC40IV59ZVPAbfvujPlF8RURjJuHJ+7a/I+FaG7DYFYb1oSyd/SNAa0DCazOoVG57h1qx4Ll/1qs5Qqr3hBIjX3/WetY8M038/YuhqUWnVcicfcQA9tr9CaGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ip/bj1TZ29z7sYlnqMWkdep5c34M+/uqTyGDOf+jJnU=;
- b=kZ9ceA+dC8Ya1BUsj9D5syRG88i95l3HWkL44mvExoyghVma9Y0/p8zKgDZ9ou6NOVQ4v13V7asrWiS0s7urO614Q/AsLsNRaWECyLfLfo3zJYz1Qj/vPZH06onq/Ut6lT8mtpPkxyq3mr1dtMxFNUAW57njhfrCtsjg15Jw7Js4/j3RwHUnSaGd73rYvbI115jl9soxqKwXx2SfTAV8bAVQ0TlDiifjupYViIZBhCtsk9sVY2+YijtF2DVNLOcOl+GpsPPYwQ5opk27Pbzg//A/QJcUKAGCqY9yw7vXFEkd9fkqwFK2TVkElMhFpPsPi2co1YaAMg0gEUaSVuYMdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ip/bj1TZ29z7sYlnqMWkdep5c34M+/uqTyGDOf+jJnU=;
- b=BvsdxNGck9KzScGsCzhkXaW5axs7buIDf+cwIFfIaSfzfiwG8XX6LhGNcP6Yuz+sjFCaF+AffgUzA++xyUXPCoYFnNlQCMmeNwQbRFDxOnZqT1K2GEf53VN06sQWicgSsAccUItQ8bXyt5fTsI+pXFt1ixlYTeB1RFtaN0Wl1bM=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OSAPR01MB3665.jpnprd01.prod.outlook.com
- (2603:1096:604:58::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Mon, 28 Feb
- 2022 02:18:15 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::458:e316:da3:511a]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::458:e316:da3:511a%4]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
- 02:18:15 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/V2L bindings
-Thread-Topic: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/V2L
- bindings
-Thread-Index: AQHYLC/ufjTQ3VJg4UuoCutmzBFRuqyoOgOA
-Date:   Mon, 28 Feb 2022 02:18:15 +0000
-Message-ID: <TYBPR01MB53418B04F64031354B9ABE79D8019@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4a7c029f-9246-481c-6585-08d9fa60942e
-x-ms-traffictypediagnostic: OSAPR01MB3665:EE_
-x-microsoft-antispam-prvs: <OSAPR01MB366504CC7AD88670F94B94D6D8019@OSAPR01MB3665.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kYNkOeg1yuFTvbwaoltNC6SM3BWg0Q4D+NLsIYjZaIX9lrXSVoQV8nfBQIh/1VRxCr5KOk7xpZqHvFynlIyu0EF0sk7lfIrMJTAcNjxvV1YFMVvrLtpAlPIbwYO9UGXKz+X51iFbyUcAhTzvgykVPJKViE2F693/UTvxR1XwN9d/Dy++DUVW90/4PM+QocdUfSSCFkuzXvFsSUz4bfdTcxZWCeJNHGVGPaxHsiqIRfWLim7YM9OtbMWpwIx+DcAUB+UyiXxWCGvLsFoxH+wJ1aTQYUxiRq3T5Av2FWHOLa6Py7P3p1pPMK7z58D3ceQL1yQoCx+7L84JkSRcxNS9ykbHmqWgxlcWunuqpk4tsY3Qulfjm+bBbmRQuuyDJe3P1Q7JVaVWD6THVQ7vC8hRFO58/vi4y8nSAE62NkLZrHQ+Df7tmpNOPFOkiSgtztQ9uFGYmZxUgtMTzBtgEVFY5C+uOh17ZdcR4AHLZGzTJ6cS8+W6vtMxg1Lxec4ySroeYyEVZiS79yB3sCzvvdaft5Ugz+GgsTaAECw/ZIhlprqjD3iZT9oRXj8ZAbxMYsg9lCDacnJtHyd/9EG0XcuptBptJscrJqCruSfrltRZD63XbCFFsMVJiupWDp1XrEYL7Sorn1p4lwlUnQRx854WIrrs/zxJRMNAKkG/jtutjELlZdr+FWiUGIMQqtzU8F8KQkTJb11+JxHb5+zZW1XzQw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(7696005)(54906003)(4326008)(83380400001)(86362001)(8676002)(33656002)(8936002)(9686003)(5660300002)(64756008)(38070700005)(66446008)(6506007)(4744005)(110136005)(66946007)(76116006)(66476007)(71200400001)(52536014)(66556008)(186003)(316002)(122000001)(508600001)(38100700002)(55016003)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZnHIaHxo0b73QvyUGGydY7n90j9nxcm4Pg5/dDNlp/NP5JVHrTvALM8HV4hs?=
- =?us-ascii?Q?vsQR0BSQgvlOvkcMiGj6NAPzhFW1l8kfygY32EmKxpbE2LSGeZyr4oPODsSr?=
- =?us-ascii?Q?Iv44fRsFowJJiWitDLN3NXNhRWRIEwHRCC7Ezxua7jc3mRvpTzgnyybGYShJ?=
- =?us-ascii?Q?Efi2wHbIfrvY5P3alYa0uQxG9NjQ7Z4IRcuI7p0yBrurh5dZO/+OGpno2lnx?=
- =?us-ascii?Q?cO61H8P+27Mxl7a6GkceCllGsSsKNE0D9UoR4NsCJ0oWGxOJLNimmBWcOEcH?=
- =?us-ascii?Q?afStlh4k3C1qkK+17VhkfB8pbJ5aguE1ys9SACutN8RDvXaW+a+792e+Z+T4?=
- =?us-ascii?Q?4WxiJ8eHChKgl/ABLNSbyK+ayvp2m+BPij8dbaJeFrdj2s2apSDqOVkl7x99?=
- =?us-ascii?Q?ZyrvbVEYCBCE7iUMlTMTrIb+pkgFdPtMQP35m7AtXBHEEE1Z04VD3HwUlKWy?=
- =?us-ascii?Q?tcZQ3x+NHaYlniyPFpsH1kHObGOT6hDWQd6HVntIWQZeVyUENiyzlqv22R9s?=
- =?us-ascii?Q?kYJaYEOZgGFCBR52cPAPZl34Z/yToNoQuFVabgeLVHSsmlBjfNyxUOGRGkaq?=
- =?us-ascii?Q?8GxIHY8jODGoaXDWLSW7n+UUwHqF4la2jOwuY4hy+1ylY8Pi7EsCQ3yAafBj?=
- =?us-ascii?Q?0EYbCpjz+/fU8cOSvtyiu8aKtOfyY3N1qP9s/IEOmUrtaH/M6I2Irt8hmrRH?=
- =?us-ascii?Q?ClCSjSYeHS1Tjh3i0sNmkWK1ZWjnGwzQ6KMBTWaN4GE/ZLCsU3So9cavQjdI?=
- =?us-ascii?Q?qmW/UrKcCgyUAIkPZzF+U8XBP9TSQezvDjhXqo3cEYC/5g8GCYM0MF3/Tupn?=
- =?us-ascii?Q?9KtqRbQgRT0MoxGXLW/+uPw5UdHGdTUX0NjtcWMVTS1pUtovxFFG7XmEpmHH?=
- =?us-ascii?Q?WBhwKoVuXpy8slmNvkxVKUB5bhE34zPHHbKl7ICF/vbNRqu8mmjYT3qKhRi9?=
- =?us-ascii?Q?rSlYiPL6ylUf2ZhwdMwnaAr/qms7LdgtOFPjA8q53Vv8EhNLCeNy9PYLNSPH?=
- =?us-ascii?Q?oidKYWqR2uQXRXvo9+XlPgf28ZV9bqT2ZTco+AKG7UPkSWNvt5KzisGDVkmI?=
- =?us-ascii?Q?/1xyOnIiqk7WDA6NegEc/8QAsREztX6iu0dHlWb3sZIVMG4BaN9j5DjNhZ+e?=
- =?us-ascii?Q?TZEjYVKedEhcUmhjYlYfwFUg/bSaa5utOyJKiH3rKTJeZ8DSfY1aPbCELJvz?=
- =?us-ascii?Q?qBfxrI/g+9Ea3O1A3+bZprIi9l2eaC5Lo5vZyux1yAVp1YcTIdtV289B9rgY?=
- =?us-ascii?Q?8n/a27F/E8ZA87iCjOSGp8UFKJVAlLm/oLVPnhCf7uE20wE1LUXDodxwnsOe?=
- =?us-ascii?Q?0RWGtHubsu8VTlAZbdWN0wckabFi20cNkdh+daZcTF2ls4MrqTqkl8DW+UmT?=
- =?us-ascii?Q?kLNSlzsJAVvC5u5vUTYqNNZQVarywFxcbfS6H8ZFsKaMesnOgReGAOYe7DLq?=
- =?us-ascii?Q?QgHrZBMKfhPnPaOV+gXIVhbOh9XqkYacKD/NWjmkNbfHPFLOLiAuLau6+7D7?=
- =?us-ascii?Q?/m3af1ACEtkP9h8hIL2iUgxIqnrIbPIvans6KBKXepXpodi5oR9xSjc0I3JT?=
- =?us-ascii?Q?FepZYFiBpT1suDRQo58MaeGyI21j8ZeKKWaf3CgP1HRK6a+L/ulJarKCd9sI?=
- =?us-ascii?Q?pBPbLj+ntM9zVJvxB2jwHOCUCPneT0jairDowFpKUnvvKmLKbVbCGbgPeQEd?=
- =?us-ascii?Q?TOyawRTSXLIeHGDfRPRfE2G3vtPoM4SciuUi7lo/2SNGGavDh86FrcsckADH?=
- =?us-ascii?Q?qjbm2k6FuFuZfydVeX1LqImuPYy3t4HZOpzfqxPrVqeGBaTt9ivr?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 28 Feb 2022 04:47:44 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6C56A002
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:47:04 -0800 (PST)
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 71A923F1B7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 09:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1646041623;
+        bh=EpgoMOR6UC3l3nQ7gCKRaGHrh4PEexWfIMc6Exi5PTY=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=oy3Vmdxb5GAIsP79rJx7ozgGMITlUSQPJsw6Q/B6qY6A3Nl9ObBkEKyiivzvuH0lD
+         sSEpC7Wzs1q4GN/YHXftXY2iLo/HB2JNpmwvLRzUT9BNiuxE1bdrpmvCX0pjLUeGQw
+         F74gFHuFd56fbqhxen8UMJ98f1BnT68SokhGanu19+1UuLf3P7K/P/Pod+xg78j/I8
+         yepZThQU8+cqXAaer1wvHK1G+ypeLM5jpXyM2em+D1fSwfwRbtp1SngZ8cDnCdZM0e
+         UcjHS3LpjL2tFADllQmI68p4gtW1jbW0ncSCpCDjfT7uastRT05Oe3Yyhn1E+Ds7QJ
+         B6MzIwpW9sTXQ==
+Received: by mail-wm1-f70.google.com with SMTP id ay7-20020a05600c1e0700b003813d7a7d03so5012379wmb.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 01:47:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EpgoMOR6UC3l3nQ7gCKRaGHrh4PEexWfIMc6Exi5PTY=;
+        b=GYs+w5ihuaoXY+AFLX6rpViG2gUxVBcOIiAmWeOUWVRTeTFt/w0+AcuIENQkTZCyBe
+         4RjgoIR0qlmZJaSDGMcN2GIyoMwMBmWrVkcHXxEonQqbaPixVW/4OCXccIrzjRO2nRc0
+         Zc5EGRpkM0OBLyOzjzcYDNZ4GfZIf1I+vzWrkD4YtYg+WwWKOl3klReV58/ujQdBZp61
+         5Pkq00kcVDWowGmLquOz1SrSTk9JT9XbSfaOHca93qbPLdz2o9rz8iNZ4Fbpde6+5C8l
+         /xRkaHMfbhWxr2usxzw37Aw13zRmxzy694ZKTniNxsa6vsT+5uYa3SvRrZzVQs0fsk7F
+         QMdA==
+X-Gm-Message-State: AOAM532H0OvooMW3LQU3w+JhD8G1Bn9ACtdVx2tPbfUPKavoSh6mxw+4
+        bJP90Rpzi9QuYnGRsWjvC83fP7/9SedPFcMfvvijTKzNcrj8n198QBqtBcFDAJrwcDFvLwcF/+1
+        BIQJg2iK6U/KrPeaepLFPp6soi3KHO10jcvTFWbwZygd7XzCP
+X-Received: by 2002:adf:c188:0:b0:1e6:8ecb:ea5a with SMTP id x8-20020adfc188000000b001e68ecbea5amr14682250wre.711.1646041623218;
+        Mon, 28 Feb 2022 01:47:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1MQrmxE/R+HSmU+JGaqJA8OjgOG3SQPiDIMSEoBZ6fjSsDIfcUwdI70YoFS/spyArSqyQFQ==
+X-Received: by 2002:adf:c188:0:b0:1e6:8ecb:ea5a with SMTP id x8-20020adfc188000000b001e68ecbea5amr14682238wre.711.1646041623070;
+        Mon, 28 Feb 2022 01:47:03 -0800 (PST)
+Received: from [192.168.0.133] (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
+        by smtp.gmail.com with ESMTPSA id v5-20020adfe4c5000000b001edc1e5053esm9854945wrm.82.2022.02.28.01.47.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Feb 2022 01:47:01 -0800 (PST)
+Message-ID: <0d605f73-aa26-58dd-6bb4-674764baadb6@canonical.com>
+Date:   Mon, 28 Feb 2022 10:47:00 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7c029f-9246-481c-6585-08d9fa60942e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2022 02:18:15.8415
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RJcQnZNPaAWnEsJJxaWwGJCM6L0TSZzcWsVgnSB33lcu2uv95S1I2nlzsr76F/+LOvmFNRFO8lQ1IDEo5WvLChbikwUmy5gR2B/VDT3ZHSjlg64CXLhwf4sFsLnCvLKN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3665
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Document RZ/V2L SoC
+Content-Language: en-US
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220227214747.24819-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220227214747.24819-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -131,22 +90,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad-san,
-
-> From: Lad Prabhakar, Sent: Monday, February 28, 2022 8:16 AM
->=20
-> Document RZ/V2L (R9A07G054) SoC bindings. USBHS block is identical to one
-> found on RZ/A2 SoC. No driver changes are required as generic compatible
-> string "renesas,rza2-usbhs" will be used as a fallback.
->=20
+On 27/02/2022 22:47, Lad Prabhakar wrote:
+> Document RZ/V2L I2C bindings. RZ/V2L I2C is identical to one found on
+> the RZ/G2L SoC. No driver changes are required as RZ/G2L compatible
+> string "renesas,riic-rz" will be used as a fallback.
+> 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> DTSI changes have been posted as part of series [0].
+> 
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
+> patch/20220227203744.18355-6-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> ---
+>  Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Thank you for the patch! I didn't have the RZ/V2L documentation though,
-this patch looks good to me. So,
 
-Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
 
 Best regards,
-Yoshihiro Shimoda
-
+Krzysztof
