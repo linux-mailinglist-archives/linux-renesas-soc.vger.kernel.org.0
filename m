@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDBF44C6BE0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 13:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F214C6C7A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Feb 2022 13:29:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235076AbiB1MMK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Feb 2022 07:12:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44426 "EHLO
+        id S236072AbiB1M37 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Feb 2022 07:29:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233197AbiB1MMJ (ORCPT
+        with ESMTP id S236042AbiB1M36 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Feb 2022 07:12:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93E763BFB
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 04:11:30 -0800 (PST)
+        Mon, 28 Feb 2022 07:29:58 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D631E3B54C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Feb 2022 04:29:18 -0800 (PST)
 Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24D0B478;
-        Mon, 28 Feb 2022 13:11:29 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8CCAE478;
+        Mon, 28 Feb 2022 13:29:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646050289;
-        bh=wc5qM2DpZwoP/+bXRDLD6LF5cgpgELANjo0Ovq/VvJg=;
+        s=mail; t=1646051356;
+        bh=SEjaXkU4/jUbL3xBPUg/ZS1Kzskh1SWCG9z2ojY9kU8=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=B6u8Lyo/JAiS9mvzzcMv8LY3KMl/s5OKA5C8EaD3ICivuwJXO/qJVZN7xqk827Uuv
-         pl1DM+vELhY/uCbkpdFgsddBbD4fSZZiSm0fz2ZmqvgiPmK9MFsmYF9KXclg81/0kM
-         XnX2HUmJWcl2fBafJCK5kEWLuiqdVbdMzNzPkUxE=
+        b=dK//tFssh+B2hjiYl7F6uC7VLVMLwlzRqvGwSUCteB8BLb1t4kWR3QczGNtzI80iA
+         rVllANQ/zhL6erYGn5dJg8z6rX1WmzZwRpkqnBcf8HpZebexTuJnc76JGd182/g6sQ
+         4clQH6pUwBPMXXKpL3Mz+eO62CeNK8Auk9mGents=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220228112901.21289-2-laurent.pinchart@ideasonboard.com>
-References: <20220228112901.21289-1-laurent.pinchart@ideasonboard.com> <20220228112901.21289-2-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/3] gen-image: Crop input image before format conversion to YUV
+In-Reply-To: <20220228112901.21289-3-laurent.pinchart@ideasonboard.com>
+References: <20220228112901.21289-1-laurent.pinchart@ideasonboard.com> <20220228112901.21289-3-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 3/3] tests: Add RPF cropping test for YUV formats
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org
-Date:   Mon, 28 Feb 2022 12:11:26 +0000
-Message-ID: <164605028669.2091767.828878744851316530@Monstersaurus>
+Date:   Mon, 28 Feb 2022 12:29:14 +0000
+Message-ID: <164605135487.2091767.11542421263644129120@Monstersaurus>
 User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
@@ -46,80 +46,82 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-02-28 11:29:00)
-> When converting the input image to a subsampled YUV format, chroma
-> components are averaged horizontally to emulate the VSP internal
-> conversion to YUV444. If the image is subsequently cropped to emulate
-> the RPF cropping, the edge chroma values end up effectively taking into
-> account pixels outside of the crop rectangle. This doesn't match the
-> hardware mode of operation which crops the image when reading it through
-> DMA, before performing any other operation.
->=20
-> Fix this by cropping the image just after reading it, before format
-> conversion.
+Quoting Laurent Pinchart (2022-02-28 11:29:01)
+> YUV formats can be subsampled, which interact with cropping. Add a test
+> to verify that the VSP driver handles this correctly.
 >=20
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  tests/vsp-unit-test-0027.sh | 46 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100755 tests/vsp-unit-test-0027.sh
+>=20
+> diff --git a/tests/vsp-unit-test-0027.sh b/tests/vsp-unit-test-0027.sh
+> new file mode 100755
+> index 000000000000..8be8ae736375
+> --- /dev/null
+> +++ b/tests/vsp-unit-test-0027.sh
+> @@ -0,0 +1,46 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +# SPDX-FileCopyrightText: 2017-2022 Renesas Electronics Corporation
+> +
+> +#
+> +# Test RPF crop using multiplanar YUV formats, test buffer offset calcul=
+ation
+> +# with subsampling. Use a RPF -> WPF pipeline, passing a selection of cr=
+opping
+> +# windows.
+> +#
+> +
+> +. ./vsp-lib.sh
+> +
+> +features=3D"rpf.0 wpf.0"
+> +crops=3D"(0,0)/512x384 (32,32)/512x384 (32,64)/512x384 (64,32)/512x384"
 
-Seems fine. And there's only one input format so:
+I was expecting to see more strenuous variations here. Are the crops
+limited for now ? Does this already highlight any failures in the
+driver? or do these pass?
+
+Anyway, Extending the tests is beneficial, even if this can be further
+extended.
+
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> ---
->  src/gen-image.c | 33 +++++++++++++++++----------------
->  1 file changed, 17 insertions(+), 16 deletions(-)
->=20
-> diff --git a/src/gen-image.c b/src/gen-image.c
-> index d9f92253af46..170d69490399 100644
-> --- a/src/gen-image.c
-> +++ b/src/gen-image.c
-> @@ -1531,6 +1531,23 @@ static int process(const struct options *options)
->                 goto done;
->         }
-> =20
-> +       /* Crop */
-> +       if (options->crop) {
-> +               struct image *cropped;
+> +formats=3D"NV12M NV16M YUV420M YUV422M YUV444M"
 > +
-> +               cropped =3D image_new(format_by_name("RGB24"),
-> +                                   options->inputcrop.width,
-> +                                   options->inputcrop.height);
-> +               if (!cropped) {
-> +                       ret =3D -ENOMEM;
-> +                       goto done;
-> +               }
+> +test_rpf_cropping() {
+> +       local format=3D$1
+> +       local crop=3D$2
 > +
-> +               image_crop(input, cropped, &options->inputcrop);
-> +               image_delete(input);
-> +               input =3D cropped;
-> +       }
+> +       test_start "RPF crop from $crop in $format"
 > +
->         /* Convert colorspace */
->         if (options->input_format->type =3D=3D FORMAT_YUV) {
->                 struct image *yuv;
-> @@ -1561,22 +1578,6 @@ static int process(const struct options *options)
->                 input =3D rgb;
->         }
-> =20
-> -       /* Crop */
-> -       if (options->crop) {
-> -               struct image *cropped;
-> -
-> -               cropped =3D image_new(input->format, options->inputcrop.w=
-idth,
-> -                               options->inputcrop.height);
-> -               if (!cropped) {
-> -                       ret =3D -ENOMEM;
-> -                       goto done;
-> -               }
-> -
-> -               image_crop(input, cropped, &options->inputcrop);
-> -               image_delete(input);
-> -               input =3D cropped;
-> -       }
-> -
->         /* Scale */
->         if (options->output_width && options->output_height) {
->                 output_width =3D options->output_width;
+> +       pipe_configure rpf-wpf 0 0
+> +       format_configure rpf-wpf 0 0 $format 1024x768 YUV444M --rpfcrop=
+=3D$crop
+> +
+> +       vsp_runner rpf.0 &
+> +       vsp_runner wpf.0
+> +
+> +       local result=3D$(compare_frames crop=3D${crop})
+> +
+> +       test_complete $result
+> +}
+> +
+> +test_main() {
+> +       local crop
+> +       local format
+> +
+> +       for format in $formats ; do
+> +               for crop in $crops ; do
+> +                       test_rpf_cropping $format $crop
+> +               done
+> +       done
+> +}
+> +
+> +test_init $0 "$features"
+> +test_run
 > --=20
 > Regards,
 >=20
