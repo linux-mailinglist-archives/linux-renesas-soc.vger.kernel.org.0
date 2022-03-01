@@ -2,74 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34FBB4C8CD8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 14:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DA24C8E3B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 15:50:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234212AbiCANnf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 08:43:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59792 "EHLO
+        id S235399AbiCAOut (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 09:50:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232244AbiCANnf (ORCPT
+        with ESMTP id S235396AbiCAOus (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 08:43:35 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CEB7348E45;
-        Tue,  1 Mar 2022 05:42:53 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.90,146,1643641200"; 
-   d="scan'208";a="112809852"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Mar 2022 22:42:53 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F2FDE43D5A80;
-        Tue,  1 Mar 2022 22:42:50 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-spi@vger.kernel.org
-Subject: [PATCH] spi: dt-bindings: renesas,rspi: Drop comment for generic compatible string
-Date:   Tue,  1 Mar 2022 13:42:43 +0000
-Message-Id: <20220301134244.20174-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tue, 1 Mar 2022 09:50:48 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E5796808
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 06:50:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=yGGppxEG16RTXq0yehDXklpKmtJe
+        60Z2xNgIyioCZxI=; b=V19faUqNnzAweXP//tp+4nWvOTn0KxszJDI7FMqzE7ks
+        gy+nVJggCvL0j323mew0z/D7X9AOMlptaaqJIxWbXIDSaosOUbgNxDZ4P3G6e+93
+        FrG1sCGue5q9lUUGkL7U5sxFUm/MbJdUGEQbea/DEcnJY8+GIuClozAOxFwGloU=
+Received: (qmail 3899439 invoked from network); 1 Mar 2022 15:50:02 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Mar 2022 15:50:02 +0100
+X-UD-Smtp-Session: l3s3148p1@U9GdRynZ5tQgAQnoAGI9AP6D0HJXVmR3
+Date:   Tue, 1 Mar 2022 15:50:01 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] mmc: sh_mmcif: Simplify division/shift logic
+Message-ID: <Yh4ymcHsCK9rU85Y@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <68d689c39c769d298b53ee8cb9de0e594a2999b2.1645460780.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6xXqU3Svdn9icg6S"
+Content-Disposition: inline
+In-Reply-To: <68d689c39c769d298b53ee8cb9de0e594a2999b2.1645460780.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Drop comment "# RZ/A and RZ/G2{L,LC}" for generic compatible string
-"renesas,rspi-rz" as this will avoid changing the line for every new SoC
-addition.
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- Documentation/devicetree/bindings/spi/renesas,rspi.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--6xXqU3Svdn9icg6S
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-index a902f0ca2198..2c3c6bd6ec45 100644
---- a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-@@ -23,7 +23,7 @@ properties:
-               - renesas,rspi-r7s9210   # RZ/A2
-               - renesas,r9a07g044-rspi # RZ/G2{L,LC}
-               - renesas,r9a07g054-rspi # RZ/V2L
--          - const: renesas,rspi-rz     # RZ/A and RZ/G2{L,LC}
-+          - const: renesas,rspi-rz
- 
-       - items:
-           - enum:
+On Mon, Feb 21, 2022 at 05:27:20PM +0100, Geert Uytterhoeven wrote:
+> "a / (1 << b)" =3D=3D "a >> b".
+>=20
+> No change in generated code.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-base-commit: f16ed63e53c79070283d3c264de5309794272ae9
--- 
-2.17.1
+Better late than never :/
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--6xXqU3Svdn9icg6S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIeMpYACgkQFA3kzBSg
+KbaCvw//dw3Sz6fAoBaBH+L37exYw30woNnbdX0QkTAAPSo+CUVNe5O6pEGbxnjQ
+vpDBr9I/EXFw/X17YdSRZzJ88I/3vsFecPtJFp4f3L+IB5DcWMIgv2g84VGd21is
+rykGUnh7UMY4BegCYCjfkU9WD6ll3+wtefQ/2XsZZaRt1u+xq3yjI3o/TuJsrmdB
+DIoadDbBAMDTHXTlhb8/vpGIx9Vr29jVQiKeFoUGN97VehG+ZpHL7z7zaFksuaNN
+HM9GFw2AMZE0fgENo/Fxn+csv6wgUcRtBSpdhdYbrozpy63i6D1LFpeqYzlND/4u
+/OGGWGy3g3gec4C/UYSBoPWi7ILgjWPWbJNMOmrzA6uvf7+k6nWZJbMo+Og/FVLP
+eJ/26HUvv76C7zvGEo0Dl+vQucBjKI/+AK0PaziXxtj3q2WnwgyuRYf6hBKYb/j6
+0k2f2uXF6Ca/WAvxrujYI4saanVcPyjFMYA4HyYH9pS4VrDBA3XSlpA3YJPWV5SM
+NCobHX5eEzgBoOOQyShVSJg9UECUTiWw2ZmV56oCZABThpCMebxOPm/mZr1yr9Lr
+NFmYf5LSnhfELXS2YCePJoboSnQbv2vdxp0zpTkSewEwFGsd43Q+b+GNIRVo+3Bf
+6AOozgPcFJNMBafsdDNh/vSR+i05XW5DV1JefwLUjpu1YmV6mJk=
+=FCz0
+-----END PGP SIGNATURE-----
+
+--6xXqU3Svdn9icg6S--
