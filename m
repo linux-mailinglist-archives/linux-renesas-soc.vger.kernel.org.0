@@ -2,111 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCCD14C9065
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 17:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14DAD4C9118
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 18:07:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236219AbiCAQdd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 11:33:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41022 "EHLO
+        id S232756AbiCARIE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 12:08:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235535AbiCAQdd (ORCPT
+        with ESMTP id S236377AbiCARID (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 11:33:33 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF09DEEB
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 08:32:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=a7xZZNqg70zc1ELrqB3sPdab+5VW
-        7WN/5OAqtIbWZZA=; b=VXeLFVHdIZbUwTOT7C4kQrZ4yEtvldu9pqY0fUSG7433
-        6MlqhsTXTMTJJtOsjNsZucItTTYYNVwxZ2OzST9+Hlk5wGvX3fg0OJua0XV4bZ5y
-        8lSbegNooJiyKSMPZDsLw5w5BgVIB4qS7p7ibXk1a7oiDr5JKcZdTovMDNKL1+Q=
-Received: (qmail 3933407 invoked from network); 1 Mar 2022 17:32:48 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Mar 2022 17:32:48 +0100
-X-UD-Smtp-Session: l3s3148p1@HeAstyrZitYgAQnoAGI9AP6D0HJXVmR3
-Date:   Tue, 1 Mar 2022 17:32:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: i2c: renesas,riic: Document RZ/V2L SoC
-Message-ID: <Yh5KsF7zpcAiasim@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tue, 1 Mar 2022 12:08:03 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2014FBC;
+        Tue,  1 Mar 2022 09:07:22 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAA5EED1;
+        Tue,  1 Mar 2022 09:07:21 -0800 (PST)
+Received: from e123427-lin.home (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4829B3F73D;
+        Tue,  1 Mar 2022 09:07:20 -0800 (PST)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     marek.vasut@gmail.com, linux-pci@vger.kernel.org
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>, linux-i2c@vger.kernel.org
-References: <20220301125046.17737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v5 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date:   Tue,  1 Mar 2022 17:07:08 +0000
+Message-Id: <164615441330.28960.10937638212220997224.b4-ty@arm.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20220219034604.603656-1-marek.vasut@gmail.com>
+References: <20220219034604.603656-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q5ze+JLfrrDhvaFy"
-Content-Disposition: inline
-In-Reply-To: <20220301125046.17737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Sat, 19 Feb 2022 04:46:03 +0100, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+> 
+> In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+> any read/write access to PCIECDR triggers asynchronous external abort. This
+> is because the transition to L1 link state must be manually finished by the
+> driver. The PCIe IP can transition back from L1 state to L0 on its own.
+> 
+> [...]
 
---q5ze+JLfrrDhvaFy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to pci/rcar, thanks!
 
-On Tue, Mar 01, 2022 at 12:50:46PM +0000, Lad Prabhakar wrote:
-> Document RZ/V2L I2C bindings. RZ/V2L I2C is identical to one found on the
-> RZ/G2L and RZ/A SoC's. No driver changes are required as the generic
-> compatible string "renesas,riic-rz" will be used as a fallback.
->=20
-> While at it, drop the comment "# RZ/A or RZ/G2L" for "renesas,riic-rz"
-> compatible string as this will avoid changing the line for every new
-> SoC addition.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+      https://git.kernel.org/lpieralisi/pci/c/de6b5097f5
+[2/2] PCI: rcar: Use PCI_SET_ERROR_RESPONSE after read which triggered an exception
+      https://git.kernel.org/lpieralisi/pci/c/9775965dba
 
-If Rob wants to pick it up:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---q5ze+JLfrrDhvaFy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIeSrAACgkQFA3kzBSg
-KbZngRAAiRbyJwmReo5IvpgjhXx0eZHWrs1ceCuuI49fbCi2lQpyEJ5YZuZDcr2W
-u/D2y/K6+ha/XrseY8dV2wIsGhQ+V4r7T9bLmkD37YIrsSITN+qDZe/M1kOqcrvo
-Hg4dfcL7SCtWCbCII0gMiN8lDEFwgWLWGaWF+VXrESd4+4hqkNGULKqmRI/j97+i
-sY46vHnG9+eWLzbYWbuBdwNORoJMvGeUmgMLw4gFFXkfPBNOsdqkvV0sicuSmPw6
-bqiaXZdZXbT5wVqZPDZMTqtKh++IASfpahmBbfFEopQ0z7S/YzMkWfgSmES20Ffh
-gLUdIw9bktpHAchzra0FQmPFe8MWfhEnJs1ih7yqkeVJRp4nXT+ZpRjMK0+1ZjVp
-D1TP9yMiuTt8oclXSHXe4NfC9B0cWGhXiBfOO21cR8XZPehwstdI00uqzPv1qt7t
-QSL5LlW+edzNd9O/+TjApTr1l+tyk/jENjuTSWB76JX4B5uMoUQeV07dDPuxFDqr
-2qoOvOaBakaqRbJ7ATK6TmsRbMWYlht5kCeYHsjaHp/tNNCPbpM6XO4ZtQbuEjJ3
-4nXx6Wq1bMqCb+b7i+rGZIcxDi0dzS2qkiB3ja9LBB9xJqPD49xaW4MfrjDZxpBi
-muvlXS0wMadSmHhafdBnPlPDeuq2aDW3ci1Zp5bC/mPSFBfl5wk=
-=Gtmn
------END PGP SIGNATURE-----
-
---q5ze+JLfrrDhvaFy--
+Thanks,
+Lorenzo
