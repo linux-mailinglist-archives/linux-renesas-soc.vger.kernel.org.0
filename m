@@ -2,89 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64E9A4C8F3C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 16:38:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D09E04C905F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 17:32:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235813AbiCAPjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 10:39:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38074 "EHLO
+        id S236139AbiCAQdJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 11:33:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231776AbiCAPjF (ORCPT
+        with ESMTP id S235197AbiCAQdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 10:39:05 -0500
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330DC3F889;
-        Tue,  1 Mar 2022 07:38:24 -0800 (PST)
-Received: by mail-oo1-f51.google.com with SMTP id u47-20020a4a9732000000b00316d0257de0so22965838ooi.7;
-        Tue, 01 Mar 2022 07:38:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IgFdAQ+7rpP01kxtGmU2BZRc0yJm0gPUU3cLLc8Jk3I=;
-        b=J7PeG/lQ3o2cNCZf6zJh2Nj3BiJRvcUFaJOcqfEZnyloqc/pCfPv3u19Uk+JmO6vND
-         BIuViC2kaz8pNSL6blPPjp4T6P9CRfgxxbMPqZTwNX+kiUg4R+clDN+8LgFxc1EsDMdz
-         oCDhD1OKxLukW8AuhEJ1INpDh1P/xBb/YJ7XlpBhsZy5l7vYP6HAsMPwYN60fbqcdobw
-         g0rLAv++iLEwdRVcppfcY8HfYJOCYKuDcSp79jXc+/JuUmpMZpd3PuMsAVj4MSUsRZEI
-         X5xWxp/PH6xBjuG6KKwfdKFN3lHFG7rJTYkVk/g891qPGGICoT/O/xa9fRVdFMTRkwTF
-         asTQ==
-X-Gm-Message-State: AOAM531uXBpNfdA20TLMz3ZSCgyRmMlxZuxlULYCxQCmu+PKnDZdxwzM
-        v4qC4PHUR1YDmudxfPSBjQ==
-X-Google-Smtp-Source: ABdhPJxnILQc7GonthpI4taLLpmtwW7NoXOejQ9ut/CquT/SyVavj3WgIPY3n6l9AQJxHWqwjh4Qzg==
-X-Received: by 2002:a05:6870:4392:b0:d7:844:3d99 with SMTP id r18-20020a056870439200b000d708443d99mr8431062oah.56.1646149103443;
-        Tue, 01 Mar 2022 07:38:23 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id x10-20020a4a2a4a000000b0031bf0818df1sm6273831oox.4.2022.03.01.07.38.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 07:38:22 -0800 (PST)
-Received: (nullmailer pid 1294204 invoked by uid 1000);
-        Tue, 01 Mar 2022 15:38:21 -0000
-Date:   Tue, 1 Mar 2022 09:38:21 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
+        Tue, 1 Mar 2022 11:33:09 -0500
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C48A694B5
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 08:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=qiCg38jybDtK7ip2hwmrJLWVCfFh
+        NKMCiTIU7NlaokM=; b=SocujXex9oOjxybLXmsTLM4a41zHr7eC+n/usNRb6Fzo
+        yIj86Xz4+SFm4XuOD8B88U39zgwzRvF0FeQGVkRca4Pa27ixCxuhs7wocdXkx6E5
+        kGGNsslnh4apc21/5bhofEDx4CfUTM07zArxtr7PeFTFXGhZD3nd1Er0CMLPSoI=
+Received: (qmail 3933236 invoked from network); 1 Mar 2022 17:32:21 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Mar 2022 17:32:21 +0100
+X-UD-Smtp-Session: l3s3148p1@CimRtSrZiNYgAQnoAGI9AP6D0HJXVmR3
+Date:   Tue, 1 Mar 2022 17:32:21 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Document RZ/V2L SoC
+Message-ID: <Yh5KlYezX9kd4Qz0@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/V2L bindings
-Message-ID: <Yh497cZIqQFrc/Mi@robh.at.kernel.org>
-References: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>, linux-i2c@vger.kernel.org
+References: <20220227214747.24819-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yh49IbR4B0m+kh1f@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="S2aq5rdaODxW07+f"
 Content-Disposition: inline
-In-Reply-To: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <Yh49IbR4B0m+kh1f@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 27 Feb 2022 23:15:31 +0000, Lad Prabhakar wrote:
-> Document RZ/V2L (R9A07G054) SoC bindings. USBHS block is identical to one
-> found on RZ/A2 SoC. No driver changes are required as generic compatible
-> string "renesas,rza2-usbhs" will be used as a fallback.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> DTSi changes have been posted as part of series [0].
-> 
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/
-> cover/20220227203744.18355-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> ---
->  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
 
-Applied, thanks!
+--S2aq5rdaODxW07+f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+> >  Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+>=20
+> Applied, thanks!
+
+There is a V2 of this patch.
+
+
+--S2aq5rdaODxW07+f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIeSpEACgkQFA3kzBSg
+KbbcCA//faBA5KGUKnrvv81tjULSFdvi5LTps1HaEBBciowDsg3IhMgXtig/l4sI
+TgQMF4616wJrWr9QJQFr7PvOUMVGfvMFSEXV+vvfI31ovP50io935TiDv3siFmds
+SU8erxZVcGJIEdvoyqZHLeQ/TPSTuHh5cV2JeovW16/tTF+6Vl5HJx6kFotDGmYJ
+WHgIbjiTJ2mkaRp87INnFOP4uQuEukxriDjBqJGdzYoef8vx2zlM5C/0fcVvCcx/
+BOTneggPjnrzaDHjGMC8tkdMfwkOwh3oBUagm69EAdMyuR9DEs7XMeMnWpO8t9ZP
+AXiJFbckIk8Wrax8WbMoHyLmsOYrwLKSJaueVVP8a9j5RjEXEeaekrKSa4nC4xNi
+1gszhH72a18jASXYsfsx8mivQ/lnEaFXL5mWY+2AK18A7o2jr18KmZib0Ye27dMM
+BTGuyM+1E7NBrljw2FCsgBiOdD+6lB6N9BsgBD0Xgw6rmgWbWsf4nX10OxTyEFmg
+kW2dirAOVIp5U0nT++6HO1Du1oyaqULQ0mRRqY+ZtHozOM8/LcD8R1xkxn7TYcbI
+I6eEFyLO8xdhxLgp5VtH1rHgJ798PG2+wMhX38LJgCEMmiR2Wi7BN9uq5dhlQAi8
+CC80qSwHLXMIum6HIK8j5RMvv1XrArlRCiKL6FPYQqROCZhZi7c=
+=n9X6
+-----END PGP SIGNATURE-----
+
+--S2aq5rdaODxW07+f--
