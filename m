@@ -2,94 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B64C94C8806
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 10:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AD5D4C8A4F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 12:10:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233879AbiCAJeC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 04:34:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46556 "EHLO
+        id S233196AbiCALLX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 06:11:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233846AbiCAJd6 (ORCPT
+        with ESMTP id S229670AbiCALLX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 04:33:58 -0500
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F9C5EDCD;
-        Tue,  1 Mar 2022 01:33:02 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id d11so15893995vsm.5;
-        Tue, 01 Mar 2022 01:33:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lf33iephp6ug1P/9SN9wHQyO21IddGLRrW3tOM/qrS8=;
-        b=fbRFJ+x8/XWb03ujSpC2UUOsui//z6C/0XHY18N+e6CEbhgV75hyBeq9acDLRBZWuO
-         a+hpoKA4XgO22DpmC/KcNI8I0LySzpU+PqDzKPNEkmeiT0U4wJxgxnk3HvNlqm0FgEHj
-         FasxKk2N/1BRvnX0+GZtitfmQuawsC62dq2GswiN5McFLuQm4mzjNV+VME0sL+6XNRLy
-         iXXZq+u+59F+HvmVGSMw2LCoALtCXEDWnH8WfGiM6PT0TPw4e6Zmn2L9HOul6KIJldHi
-         0VKhSVBkZR9SmS2aQhIpTnKADLEW3NhPHqnk0TLM+YsdsX1f/PzDhHPWG+I+zMba1dyC
-         Kpag==
-X-Gm-Message-State: AOAM533qRZmC3TzHd3+CAyCvmN5fberyqP64OuxTMvCe224Nf2Knrami
-        rzASRcxxFPzsCjAGaJs2nUYLNAsK+oV3NQ==
-X-Google-Smtp-Source: ABdhPJxLT6uZi5gkC7PSIWIsqg57BGgz65kyGhj855AKoYFdeM6eEUsg2hIkDsj4FAwIEz2JKrZkyg==
-X-Received: by 2002:a67:c80c:0:b0:31b:4428:73ea with SMTP id u12-20020a67c80c000000b0031b442873eamr9502557vsk.54.1646127181922;
-        Tue, 01 Mar 2022 01:33:01 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id j8-20020ac5ce08000000b00333295130d5sm1532533vki.0.2022.03.01.01.33.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Mar 2022 01:33:01 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id q9so15906456vsg.2;
-        Tue, 01 Mar 2022 01:33:01 -0800 (PST)
-X-Received: by 2002:a67:b00e:0:b0:30d:dc98:6024 with SMTP id
- z14-20020a67b00e000000b0030ddc986024mr10340990vse.57.1646127181303; Tue, 01
- Mar 2022 01:33:01 -0800 (PST)
+        Tue, 1 Mar 2022 06:11:23 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217CD574AA
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 03:10:40 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d19a:1d86:8408:fe96])
+        by laurent.telenet-ops.be with bizsmtp
+        id 0zAd2704K2dyv6m01zAdTt; Tue, 01 Mar 2022 12:10:38 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nP0Or-002KSx-BH; Tue, 01 Mar 2022 12:10:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nP0Oq-006QpQ-Kp; Tue, 01 Mar 2022 12:10:36 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] base: soc: Make soc_device_match() simpler and easier to read
+Date:   Tue,  1 Mar 2022 12:10:35 +0100
+Message-Id: <9f9107c06f7d065ae6581e5290ef5d72f7298fd1.1646132835.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220227203744.18355-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220227203744.18355-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220227203744.18355-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Mar 2022 10:32:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXggJm39DkL-DjX7UsGSkzfLOuJoQcvb-XG7vpjgT8O9w@mail.gmail.com>
-Message-ID: <CAMuHMdXggJm39DkL-DjX7UsGSkzfLOuJoQcvb-XG7vpjgT8O9w@mail.gmail.com>
-Subject: Re: [PATCH 12/12] arm64: dts: renesas: r9a07g054: Add SPI{0,2} nodes
- and fillup SPI1 stub node
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Feb 27, 2022 at 9:38 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add SPI{0,2} nodes and fillup SPI1 stub node in RZ/V2L (R9A07G054)
-> SoC DTSI.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+The function soc_device_match() is difficult to read for various
+reasons:
+  - There are two loop conditions using different styles: "while (...)"
+    (which is BTW always true) vs. "if ... break",
+  - The are two return condition using different logic: "if ... return
+    foo" vs. "if ... else return bar".
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+Make the code easier to read by:
+  1. Removing the always-true "!ret" loop condition, and dropping the
+     now unneeded pre-initialization of "ret",
+  2. Converting "if ... break" to a proper "while (...)" loop condition,
+  3. Inverting the logic of the second return condition.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/base/soc.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-                        Geert
+diff --git a/drivers/base/soc.c b/drivers/base/soc.c
+index 0af5363a582c36dd..22130b5f789d9d7e 100644
+--- a/drivers/base/soc.c
++++ b/drivers/base/soc.c
+@@ -241,15 +241,13 @@ static int soc_device_match_one(struct device *dev, void *arg)
+ const struct soc_device_attribute *soc_device_match(
+ 	const struct soc_device_attribute *matches)
+ {
+-	int ret = 0;
++	int ret;
+ 
+ 	if (!matches)
+ 		return NULL;
+ 
+-	while (!ret) {
+-		if (!(matches->machine || matches->family ||
+-		      matches->revision || matches->soc_id))
+-			break;
++	while (matches->machine || matches->family || matches->revision ||
++	       matches->soc_id) {
+ 		ret = bus_for_each_dev(&soc_bus_type, NULL, (void *)matches,
+ 				       soc_device_match_one);
+ 		if (ret < 0 && early_soc_dev_attr)
+@@ -257,10 +255,10 @@ const struct soc_device_attribute *soc_device_match(
+ 						    matches);
+ 		if (ret < 0)
+ 			return NULL;
+-		if (!ret)
+-			matches++;
+-		else
++		if (ret)
+ 			return matches;
++
++		matches++;
+ 	}
+ 	return NULL;
+ }
+-- 
+2.25.1
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
