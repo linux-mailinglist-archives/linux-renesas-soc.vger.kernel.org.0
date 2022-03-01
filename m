@@ -2,107 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD5D4C8A4F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 12:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8310E4C8A8B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 12:20:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233196AbiCALLX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 06:11:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
+        id S231981AbiCALVD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 06:21:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiCALLX (ORCPT
+        with ESMTP id S229736AbiCALVC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 06:11:23 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217CD574AA
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 03:10:40 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d19a:1d86:8408:fe96])
-        by laurent.telenet-ops.be with bizsmtp
-        id 0zAd2704K2dyv6m01zAdTt; Tue, 01 Mar 2022 12:10:38 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nP0Or-002KSx-BH; Tue, 01 Mar 2022 12:10:37 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nP0Oq-006QpQ-Kp; Tue, 01 Mar 2022 12:10:36 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] base: soc: Make soc_device_match() simpler and easier to read
-Date:   Tue,  1 Mar 2022 12:10:35 +0100
-Message-Id: <9f9107c06f7d065ae6581e5290ef5d72f7298fd1.1646132835.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 1 Mar 2022 06:21:02 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 679A192D05;
+        Tue,  1 Mar 2022 03:20:22 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id b35so26476785ybi.13;
+        Tue, 01 Mar 2022 03:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0T0gSikPTrVECzotPCXInq3GYJxj5g1aZIYL6syoEIU=;
+        b=HklaV1Cs9+rJp25ErTKhRKoE80TEBZLB7YWf7aYAqQaUQZUtYlWphcMuItZi1W44fM
+         52mpLVbCYesybBkVWu3/YtWQ5wyCaD+Z59Um5GNzKDDBZaf/TMB3nxCuB30XB0gt4Utb
+         a0AtcTTr9xt4wRCXmS0wkhn2UAQ7w9TwCAE1GPbn99e/gEzlg5W6SUNhg7OOs5OQ9wRg
+         u3e/3EaTytfbcs9ZvXVy6h7JVDA/2zk3XQeHZKj0OQjV4v/T0EmQmvULCGUNkxBAXt/2
+         y1QDvJgOc05YrCv1BojSYhhFv2h8O/jDLY3kNlJoBbA4GAi4e/h+onCOuJ1SqXBXM6Pb
+         Z7rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0T0gSikPTrVECzotPCXInq3GYJxj5g1aZIYL6syoEIU=;
+        b=t9LL5VO2Rn91pzwRC3sp67x87iXTPXrpQAIWAtG51Ndk64cRYcTNmnWm/MTftEyy05
+         h488c1knmdC/FvUu/H2dM+YoXWj+oEeb/t2E3hW/gcgQWmE5dQvS2RlU6bR8/Nhrk/0y
+         qGBdFtu1XshWpkMIomAWQZVVxx2cB8tsuukXDfa5m1djshZoL9ywaPAmf1bVZCmmuor4
+         lUuvkULmFlwQPsW0FXKpiMU9Vctu83TCUMkqsOd6loMzLmu1zMeLHgzepJZusxgFS3SN
+         RCQXBgSdj1N5b/JDChpIcLryLX76R4J4jL9LP1bYsCNRQymFlmcYiDdWLQQYLPba16ih
+         srdg==
+X-Gm-Message-State: AOAM5329zfFNo8H9Ywvj9wo7F8J5jkHls6lV7NYw+CQ9UIvAmg8IS/Qt
+        oiHcoZMoYjG8cE7J23SSvWETyXKP4KwL1XJhMcM=
+X-Google-Smtp-Source: ABdhPJwOEvMwWhE4ZaDlTxB0TFjEYbrp4JPVed1eNLSGqlWh9vshf9+agBKo/K2Eo4i2Yh4YNJX5FWhFR6ETLa1L5SU=
+X-Received: by 2002:a25:6a43:0:b0:624:45c7:f629 with SMTP id
+ f64-20020a256a43000000b0062445c7f629mr22413278ybc.218.1646133621662; Tue, 01
+ Mar 2022 03:20:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220227225309.28098-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX1J=S+LczVXy3cmWEkRV4U_WffAuxTTReeLAJ8rpacjQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdX1J=S+LczVXy3cmWEkRV4U_WffAuxTTReeLAJ8rpacjQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 1 Mar 2022 11:19:55 +0000
+Message-ID: <CA+V-a8t62gJLfsJZA0HiHdp0i2DB-dW=2TB=2wfbpPLkdT_wQw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: watchdog: renesas,wdt: Document RZ/V2L SoC
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The function soc_device_match() is difficult to read for various
-reasons:
-  - There are two loop conditions using different styles: "while (...)"
-    (which is BTW always true) vs. "if ... break",
-  - The are two return condition using different logic: "if ... return
-    foo" vs. "if ... else return bar".
+Hi Geert,
 
-Make the code easier to read by:
-  1. Removing the always-true "!ret" loop condition, and dropping the
-     now unneeded pre-initialization of "ret",
-  2. Converting "if ... break" to a proper "while (...)" loop condition,
-  3. Inverting the logic of the second return condition.
+Thank you for the review.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/base/soc.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+On Mon, Feb 28, 2022 at 2:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> On Sun, Feb 27, 2022 at 11:53 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Document RZ/V2L WDT bindings. RZ/V2L WDT is identical to one found
+> > on the RZ/G2L SoC. No driver changes are required as generic compatible
+> > string "renesas,rzg2l-wdt" will be used as a fallback.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > DTSI changes have been posted as part of series [0].
+> >
+> > [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
+> > 20220227203744.18355-9-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> > ---
+> >  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > index 91a98ccd4226..26c7a152ff98 100644
+> > --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> > @@ -22,6 +22,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
+> > +              - renesas,r9a07g054-wdt    # RZ/V2L
+> >            - const: renesas,rzg2l-wdt     # RZ/G2L
+>
+> Please drop the comment on the previous line.
+>
+OK, I will drop " # RZ/G2L" and resend the patch.
 
-diff --git a/drivers/base/soc.c b/drivers/base/soc.c
-index 0af5363a582c36dd..22130b5f789d9d7e 100644
---- a/drivers/base/soc.c
-+++ b/drivers/base/soc.c
-@@ -241,15 +241,13 @@ static int soc_device_match_one(struct device *dev, void *arg)
- const struct soc_device_attribute *soc_device_match(
- 	const struct soc_device_attribute *matches)
- {
--	int ret = 0;
-+	int ret;
- 
- 	if (!matches)
- 		return NULL;
- 
--	while (!ret) {
--		if (!(matches->machine || matches->family ||
--		      matches->revision || matches->soc_id))
--			break;
-+	while (matches->machine || matches->family || matches->revision ||
-+	       matches->soc_id) {
- 		ret = bus_for_each_dev(&soc_bus_type, NULL, (void *)matches,
- 				       soc_device_match_one);
- 		if (ret < 0 && early_soc_dev_attr)
-@@ -257,10 +255,10 @@ const struct soc_device_attribute *soc_device_match(
- 						    matches);
- 		if (ret < 0)
- 			return NULL;
--		if (!ret)
--			matches++;
--		else
-+		if (ret)
- 			return matches;
-+
-+		matches++;
- 	}
- 	return NULL;
- }
--- 
-2.25.1
-
+Cheers,
+Prabhakar
