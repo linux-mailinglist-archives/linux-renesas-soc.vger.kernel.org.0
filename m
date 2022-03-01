@@ -2,49 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08AF34C8E42
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 15:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D51E94C8E60
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 15:55:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232178AbiCAOvN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 09:51:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42348 "EHLO
+        id S231549AbiCAO4W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 09:56:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234265AbiCAOvM (ORCPT
+        with ESMTP id S231428AbiCAO4W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 09:51:12 -0500
+        Tue, 1 Mar 2022 09:56:22 -0500
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 890D59D4E7
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 06:50:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE24DA2506
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  1 Mar 2022 06:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=LwmHWS3KY+5jPXVxII4Z2Zx8C54Z
-        VmnqqoLSjb4+hfA=; b=0nYkWssaFALNdNb61Jnxp1X3kmk/HF9bilr1tSQTHx0G
-        ZpeLY8r0fiBewvTv2Vc32R0ikQb60/wAruSihkW9cfy0cTWfX3cGf6X5bR5Z+c2Q
-        UvK6Y32SIwMyUeUB3Y+tup6D1wb86Peg4ZKR1J2IrHNyuwrqBL0kbYrawJQWcPM=
-Received: (qmail 3899662 invoked from network); 1 Mar 2022 15:50:29 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Mar 2022 15:50:29 +0100
-X-UD-Smtp-Session: l3s3148p1@AQU+SSnZ6NQgAQnoAGI9AP6D0HJXVmR3
-Date:   Tue, 1 Mar 2022 15:50:29 +0100
+        :content-type:in-reply-to; s=k1; bh=NWFwramrqcFN43h+FBE0GPSWZHqM
+        i8FJofMttgZwmB0=; b=J6slbFMQLnPPz2J5t9hb+AoYlMna/ORbwBNKz1CGhoUr
+        Ym+qcrtL1mF9xTFEiC6jy7J1IDIj6fcNJvRd4zlljN092tZnUB6B9U4OUO5/2FjV
+        BgswJtc1TZ70PcYe/ZnhaJQbQQKWO6S9roZue0GE90+rlbekCLWX19IG7qdhyQU=
+Received: (qmail 3901312 invoked from network); 1 Mar 2022 15:55:38 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Mar 2022 15:55:38 +0100
+X-UD-Smtp-Session: l3s3148p1@keipWynZ9NQgAQnoAGI9AP6D0HJXVmR3
+Date:   Tue, 1 Mar 2022 15:55:38 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] serial: sh-sci: Simplify multiplication/shift logic
-Message-ID: <Yh4ytfelBIbUyip7@ninjato>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: watchdog: renesas,wdt: Document RZ/V2L
+ SoC
+Message-ID: <Yh4z6kUetYEtP2BJ@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>, linux-serial@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <118d62e167f6cf5e98bdf9a738634b4590ea8d09.1645460901.git.geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-watchdog@vger.kernel.org
+References: <20220301122332.14796-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SF+PDfvhQIF5ffB/"
+        protocol="application/pgp-signature"; boundary="IB0UhyAI3pAW8tBk"
 Content-Disposition: inline
-In-Reply-To: <118d62e167f6cf5e98bdf9a738634b4590ea8d09.1645460901.git.geert+renesas@glider.be>
+In-Reply-To: <20220301122332.14796-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -56,39 +69,46 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---SF+PDfvhQIF5ffB/
+--IB0UhyAI3pAW8tBk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 21, 2022 at 05:29:25PM +0100, Geert Uytterhoeven wrote:
-> "a * (1 << b)" =3D=3D "a << b".
+On Tue, Mar 01, 2022 at 12:23:32PM +0000, Lad Prabhakar wrote:
+> Document RZ/V2L WDT bindings. RZ/V2L WDT is identical to one found
+> on the RZ/G2L SoC. No driver changes are required as generic compatible
+> string "renesas,rzg2l-wdt" will be used as a fallback.
 >=20
-> No change in generated code.
+> While at it, drop the comment "# RZ/G2L" for "renesas,rzg2l-wdt"
+> compatible string as this will avoid changing the line for every new
+> SoC addition.
 >=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---SF+PDfvhQIF5ffB/
+--IB0UhyAI3pAW8tBk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIeMrUACgkQFA3kzBSg
-KbZmSA/+OzlzsXds23t0Z82jdO0es7tz2/zXkdHwlyvFSC15bjfTWu52nGzTBBYL
-mkq90P18VfA0F+QmYnm/BX/f0fCjBzL1tsNu9+PjNn0UhE8Qj+6luu0MiBiDPq+h
-bEoATnRHbkUgvuGsgzXW4aQ06GepKWm1mdYQxwKVLLFjKFoxxiWGFeOSqyHSYRVV
-SSVHR7phQdIqIJXgNVPMDJ/8DBTS2xbvTUg0cg72a3c1BaiMUk6aMafvL0vUGifl
-XlQEXtRgMuyPbyPdZJIXY/JOvhsbIzhVk5UXF+9Q6Fal6sW3cunc43QeiHr3P7aw
-NUgQKrRSZOAKKG7WfAA851xCJhMfn3q+EJGd+Uofy7Y10Er26RLOF8Gg8nPsXWbO
-gXSB8UfDX/L7ePxKwXZmvUjkJNalLZRFQmB2HBTQMErlB3IJ12rDSAX1EOxKAbso
-fqi325w58mWarVFdrjrnWIQpiKYR/ri2MhKqTBkxqxKz6gHmPJSRp+48eHYmvKMN
-BUEpRpdHDBfRSFwJhk5QGMYEtrBDGbXIizmKtRN6HCArcvkaoPfh4CiZzJ8ZAeaW
-nwJH41S0rgH8CTbTAS0pECsKz+xUsrvZz99URHhXPry4h06JhuWHNXTDiKPZ8SBv
-0O8YjD5IHV9FECkwCcyi6cV4dnLGSDBhcJ8FU4FvZeFdNbYdQRw=
-=fZKF
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIeM+oACgkQFA3kzBSg
+KbY1dQ/9HhVFB9t7bUHKAmblMsWFLb4M+BaQnTCbCaI8oQTi4U75I3XSVnNcqMyS
+qTTX+m0FusfG3XjVXeKg4Bniv5O25Zppt0cp631e3ghBY16aRNYBuo/xCXRtRHSS
+kynx6Uustw2K2PxZ35XFDE4NzUgYw33COlNU9QOOIfs0bt5Z+oe9h+mvbQMeV7PO
+qXjWVjcTZnaBf1yBEwL+YQ9O80+3xRay4NMcgCJ9zvsy2QvDDN8wy3IgKOTYnSSr
+pEuH3RkGuOwFwW2Mie+a78QfYjkFX/o0yxLHEzgBri7wlnt5JRDRy7lHjGo79IIG
+6dG/ACRu1+f4bs25lSoGIPIkivitYMICFJH6BLgTxmQzEDbf95h+/LskfGf77vLZ
+blIJncavupjf5nf8gHfyOlJzZN13vi3Cv7PjS5zLYpSmWBX+JNUyE2o6pyYHegib
+TKuP9jFSG3NNH8DVZd+J0HpgVIQIq9J+MYGq3IkOFKZpWuBB6W7uFdV/mqXUZ9oq
+Go1agEP5cTQ7vx6J+R0VWgH64XZTrg/ia+Nj8tCe+pw/rz2bPhfdF5LxVvMNtS54
+hek4o2SLjgGzW/PpvObIjze4foEdmDOGs8MrrLMzug8MqXQghjVGLgFF7hzLdN1T
+2tK7ouGke1MV5YgxyQrVIQZx6igHz9N+1qY4gv65ThBSPFv3j0A=
+=Jowe
 -----END PGP SIGNATURE-----
 
---SF+PDfvhQIF5ffB/--
+--IB0UhyAI3pAW8tBk--
