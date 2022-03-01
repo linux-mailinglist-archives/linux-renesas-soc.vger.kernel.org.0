@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B5734C8BDD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 13:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A024C8BFD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Mar 2022 13:50:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234811AbiCAMn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Mar 2022 07:43:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49680 "EHLO
+        id S234846AbiCAMvg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Mar 2022 07:51:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233222AbiCAMn5 (ORCPT
+        with ESMTP id S233451AbiCAMvg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Mar 2022 07:43:57 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7CEC137AB8;
-        Tue,  1 Mar 2022 04:43:16 -0800 (PST)
+        Tue, 1 Mar 2022 07:51:36 -0500
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F073931BA;
+        Tue,  1 Mar 2022 04:50:54 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.90,146,1643641200"; 
-   d="scan'208";a="112806374"
+   d="scan'208";a="111989007"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Mar 2022 21:43:15 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Mar 2022 21:50:54 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4FA5E400F7B5;
-        Tue,  1 Mar 2022 21:43:13 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id EE83A4000931;
+        Tue,  1 Mar 2022 21:50:51 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-phy@lists.infradead.org
-Subject: [PATCH v2] dt-bindings: phy: renesas,usb2-phy: Document RZ/V2L phy bindings
-Date:   Tue,  1 Mar 2022 12:42:55 +0000
-Message-Id: <20220301124255.16836-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-i2c@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: i2c: renesas,riic: Document RZ/V2L SoC
+Date:   Tue,  1 Mar 2022 12:50:46 +0000
+Message-Id: <20220301125046.17737-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -48,17 +47,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document USB phy bindings for RZ/V2L SoC. RZ/V2L USB phy is identical to
-one found on the RZ/G2L SoC. No driver changes are required as generic
-compatible string "renesas,rzg2l-usb2-phy" will be used as a fallback.
+Document RZ/V2L I2C bindings. RZ/V2L I2C is identical to one found on the
+RZ/G2L and RZ/A SoC's. No driver changes are required as the generic
+compatible string "renesas,riic-rz" will be used as a fallback.
 
-While at it, drop the comment "RZ/G2L family" for "renesas,rzg2l-usb2-phy"
-compatible string as this will avoid changing the line for every new SoC
-addition.
+While at it, drop the comment "# RZ/A or RZ/G2L" for "renesas,riic-rz"
+compatible string as this will avoid changing the line for every new
+SoC addition.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v1->v2
@@ -67,25 +66,33 @@ v1->v2
 
 v1:
 https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-20220227230817.31094-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+20220227214747.24819-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 ---
- Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-index 3a6e1165419c..16807bbbdcb1 100644
---- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-@@ -33,7 +33,8 @@ properties:
-       - items:
-           - enum:
-               - renesas,usb2-phy-r9a07g044 # RZ/G2{L,LC}
--          - const: renesas,rzg2l-usb2-phy  # RZ/G2L family
-+              - renesas,usb2-phy-r9a07g054 # RZ/V2L
-+          - const: renesas,rzg2l-usb2-phy
+diff --git a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+index 402fd125e010..26d523f3f420 100644
+--- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
++++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+@@ -20,7 +20,8 @@ properties:
+           - renesas,riic-r7s72100   # RZ/A1H
+           - renesas,riic-r7s9210    # RZ/A2M
+           - renesas,riic-r9a07g044  # RZ/G2{L,LC}
+-      - const: renesas,riic-rz      # RZ/A or RZ/G2L
++          - renesas,riic-r9a07g054  # RZ/V2L
++      - const: renesas,riic-rz
  
    reg:
      maxItems: 1
+@@ -75,6 +76,7 @@ if:
+       contains:
+         enum:
+           - renesas,riic-r9a07g044
++          - renesas,riic-r9a07g054
+ then:
+   required:
+     - resets
 -- 
 2.17.1
 
