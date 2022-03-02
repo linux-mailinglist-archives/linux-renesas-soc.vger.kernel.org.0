@@ -2,97 +2,250 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E53614CAE8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Mar 2022 20:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC0754CAF82
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Mar 2022 21:17:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232644AbiCBTXV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Mar 2022 14:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S243017AbiCBUS1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Mar 2022 15:18:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235115AbiCBTXT (ORCPT
+        with ESMTP id S237884AbiCBUS0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Mar 2022 14:23:19 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D8EB2BCC;
-        Wed,  2 Mar 2022 11:22:36 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id em10-20020a17090b014a00b001bc3071f921so5644113pjb.5;
-        Wed, 02 Mar 2022 11:22:36 -0800 (PST)
+        Wed, 2 Mar 2022 15:18:26 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0718D396B8
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Mar 2022 12:17:41 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id j15so4718567lfe.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Mar 2022 12:17:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=e4GTR8GaUHYkyzZntKtPvMACHaO+jIs3XNbO6sJQm48=;
-        b=h5rBD0THGtQxl3P8+fdalmIEcRsx/fi77wxgGlwZxzhpp85g6zGKMvnReB2R/0KApi
-         l1aI3C88GAiJqiCsBkG+ZtAuBdx0tt3VqJZjygi/VkVAfKV0j08DA961K7c3CQRPe5Tl
-         KMk+4JySvAq5V+LO8jhFzy5phCBnwDWOwxWAIMqqGRM3FNr1nfzEUZ8hoI+NPr2x7rXO
-         78GtcdFyOcVD2XEJL0R5aCV/6983WJF18lX1v0oL0PCGhVIxMMycjQA+DHAjbvXwbPnD
-         Nm412ij1baoGvURNcQkhu0qHGAA9unCxHIk9AK0A3sAzyeol1LFFTA4wT4nQU5G62+X5
-         X/BQ==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=1pxEOtklzqS53zpS9txXVsAp0O7Dl97xVaLaW4NoOck=;
+        b=43txZ59qoCgUVXXEk1LkGQVf0t7rkvwukjrCDu1lglQkufQ+ylX20olgEHOkR4laCq
+         /hX03lqXz9x2JZHfkagF/Al7gaemfFLJY1ZCU22ACpBC/6Km9bZqVZlkvdA/3b9g3wU3
+         wvNnZ2rZeKQcSBDWtVaWYGgoMlKtfxwcHDCa2uPUuJEGectble8426SwfDDSm4va4mI6
+         1DnyDDLc32o3nb0EOgP4Al7P93LXUCFbPSTkHFKJ0LdhlqS9yDZkfPFeO6qzy5QsLEkn
+         buSJiwRYzkEMBx3iZDv9cohc9q5wwHiLjgRarLXopAR8KRoocKjmg6OP2XoVbCALOQSa
+         HDWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=e4GTR8GaUHYkyzZntKtPvMACHaO+jIs3XNbO6sJQm48=;
-        b=BIlDnYziS7CsPwGrGzjFw1871uhEsorYq2mhruerrYVEjXnEtcVnvbuDDhtqCArfC7
-         tMGDTvBCgG/oE3DXBaVV7412rQZBXia0SVb+YX5/PMJipRSBX/qImlov6gHXHwChVXgr
-         UBAZJet6fip7UR2PHn/qOWhAFafbMhUdhh+7YgEk3Y67ytDvWtz0W4ZqJIQJZ81jHC57
-         ELPN5GgVi6gU36S5AiLAWBh1DwbUSFwG1HVZURTTX6TykccOBgoHnGHxIHF7BJmMkxC+
-         8Om6IVTyPql4LAovFwhElQOqGT0vdOFgvzX+LZQLjXFmfAPIdJJd/SllFs2OlIdzaXDf
-         sMig==
-X-Gm-Message-State: AOAM532QC0BIqmEcXrOeyNlKn8YJuW/VkcBzjoXBSjWhZG/JHpkiGoWX
-        pGDho35mdUkNDhyZM6LnpUY=
-X-Google-Smtp-Source: ABdhPJya2BuKC74VQ9qxushY+WD8JX8/Ndgb9h19iixfLdlcy5xscoib53+wVHcJeAnpY31fdMwQ2w==
-X-Received: by 2002:a17:90b:f87:b0:1bc:b82b:69fc with SMTP id ft7-20020a17090b0f8700b001bcb82b69fcmr1357002pjb.236.1646248955678;
-        Wed, 02 Mar 2022 11:22:35 -0800 (PST)
-Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id 142-20020a621894000000b004dfc714b076sm22597207pfy.11.2022.03.02.11.22.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 11:22:35 -0800 (PST)
-Message-ID: <f3320bb8-b7eb-95d8-2f8d-9821dcecc198@gmail.com>
-Date:   Wed, 2 Mar 2022 11:22:33 -0800
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=1pxEOtklzqS53zpS9txXVsAp0O7Dl97xVaLaW4NoOck=;
+        b=hApGoYY56uN2xpntAabptiFXqFMm19vOYmQ6tDIHeW2C1DcE1tJzIPsuAFxiK4JT0D
+         j6969/o8kKj6n1pOp+eU4xpJyCNjaYldgFh1H9Gw3GcuZooxDPjV9nRDXNj2TvIxoxi5
+         bYuq6AOHRdR+rqjI+nY4QA2ciinsRiZ6wATgEnI2tWUZtuAorNQ8mfQopgiA4ZYCFHBS
+         d/R+KIqgSp8Zh3iHZ0UrfRhR5YoucEyQS2PxoEP+B2UmxkHCVl0jSU+oDXFdLGrOxcxP
+         LT1lHitljEakkQpoHcJjOp51Ov9So3XKZQo8aWs+BnzhwDimSUzp4eK+p6hJwoJdyAUL
+         CodA==
+X-Gm-Message-State: AOAM533sqv0ZmzblA3EE/KHBa0UDxWMoptE9uMHTo+cP7a+19po6kmfE
+        rKJ3FvIbAIf8ll+HjOByVq317Q==
+X-Google-Smtp-Source: ABdhPJzDMc15xfRp/bhvhH5tNY6NReNjaBaytknMofFcYiJuqOf3FnFUDEhJHaTzMr0UmJ09+AXxtg==
+X-Received: by 2002:a19:550b:0:b0:443:e008:3e12 with SMTP id n11-20020a19550b000000b00443e0083e12mr19438099lfe.11.1646252259276;
+        Wed, 02 Mar 2022 12:17:39 -0800 (PST)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id f9-20020a05651232c900b0044377158635sm11607lfg.37.2022.03.02.12.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 12:17:38 -0800 (PST)
+Date:   Wed, 2 Mar 2022 21:17:37 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Michael Rodin <mrodin@de.adit-jv.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH 3/4] rcar-vin: Stop stream when subdevice signal transfer
+ error
+Message-ID: <Yh/Q4XOc4HqY0W/h@oden.dyn.berto.se>
+References: <20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se>
+ <20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se>
+ <1fddc966-5a23-63b4-185e-c17aa6d65b54@xs4all.nl>
+ <YYlvqY21JvTtKysK@oden.dyn.berto.se>
+ <9e405ed3-fb65-c16d-f84f-2530adbdc9b7@xs4all.nl>
+ <20220302164834.GA23637@vmlxhi-121.adit-jv.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] ata: Drop commas after OF match table sentinels
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-ide@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-References: <15d4b8e1108c902c4e80c87edfc702a7786de4ba.1646209667.git.geert+renesas@glider.be>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <15d4b8e1108c902c4e80c87edfc702a7786de4ba.1646209667.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220302164834.GA23637@vmlxhi-121.adit-jv.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Michael,
 
+Thanks for your feedback.
 
-On 3/2/2022 12:30 AM, Geert Uytterhoeven wrote:
-> It does not make sense to have a comma after a sentinel, as any new
-> elements must be added before the sentinel.
+On 2022-03-02 17:48:34 +0100, Michael Rodin wrote:
+> Hi Niklas, Hans,
 > 
-> Add comments to clarify the purpose of the empty elements.
+> On Mon, Nov 15, 2021 at 03:26:53PM +0100, Hans Verkuil wrote:
+> > On 08/11/2021 19:42, Niklas Söderlund wrote:
+> > > Hi Hans,
+> > > 
+> > > On 2021-11-08 18:36:25 +0100, Hans Verkuil wrote:
+> > >> On 08/11/2021 17:02, Niklas Söderlund wrote:
+> > >>> When a subdevice signals a transfer error stop the VIN in addition to
+> > >>> informing user-space of the event.
+> > >>>
+> > >>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > >>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >>> ---
+> > >>> * Changes since v3
+> > >>> - Switch to new V4L2_EVENT_XFER_ERROR from V4L2_EVENT_EOS.
+> > >>> - Call vb2_queue_error() when encountering the event.
+> > >>>
+> > >>> * Changes since v2
+> > >>> - Log using vin_dbg() instead of v4l2_info().
+> > >>> ---
+> > >>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 17 ++++++++++++++++-
+> > >>>  1 file changed, 16 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > >>> index a5bfa76fdac6e55a..bf17fdefe90aabf5 100644
+> > >>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > >>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > >>> @@ -992,9 +992,24 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+> > >>>  static void rvin_notify_video_device(struct rvin_dev *vin,
+> > >>>  				     unsigned int notification, void *arg)
+> > >>>  {
+> > >>> +	const struct v4l2_event *event;
+> > >>> +
+> > >>>  	switch (notification) {
+> > >>>  	case V4L2_DEVICE_NOTIFY_EVENT:
+> > >>> -		v4l2_event_queue(&vin->vdev, arg);
+> > >>> +		event = arg;
+> > >>> +
+> > >>> +		switch (event->type) {
+> > >>> +		case V4L2_EVENT_XFER_ERROR:
+> > >>> +			vin_dbg(vin,
+> > >>> +				"Subdevice signaled transfer error, stopping.\n");
+> > >>> +			rvin_stop_streaming(vin);
+> > >>> +			vb2_queue_error(&vin->queue);
+> > >>
+> > >> Hmm, wouldn't it be the case that every driver that calls vb2_queue_error()
+> > >> would also have to send this new event? Would it be possible to modify
+> > >> vb2_queue_error() to raise this event? I haven't analyzed all the drivers
+> > >> that call this function to see if that makes sense.
+> > >>
+> > >> Perhaps a separate new function vb2_queue_error_with_event() would also be
+> > >> an option.
+> > > 
+> > > I think that maybe a good idea, but I think that would be needed on-top 
+> > > of this work as I can't really test it. Here the rcar-csi2.ko is a 
+> > > subdevice which detects the error condition and generates the event. And 
+> > > this code is in rcar-vin.ko, the video device driver which reacts to the 
+> > > event and then forwards it to user-space.
+> > > 
+> > > Or am I misunderstanding you? And you think I should remove the 
+> > > v4l2_event_queue() below in favor of a new vb2_queue_error_with_event() 
+> > > call?
+> > 
+> > Yes. And use vb2_queue_error_with_event in other drivers as well where
+> > applicable. Hmm, it can't be called vb2_ since it is v4l2_ specific, so
+> > perhaps v4l2_queue_error which takes a video_device and a vb2_queue as
+> > arguments. I don't want this just in rcar since it makes perfect sense
+> > as a generic event for such situations.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Handling errors in this way could be problematic, because a (CSI2) transfer
+> error does not mean a total hardware failure on Rcar3. From my experience
+> there are 3 kinds of CSI2 errors:
+>   1. errors which occur sometimes, but do not affect video streaming
+>   2. errors which occur on every start of streaming but usually do not
+>      affect actual video streaming to VIN module after the start
+>   3. fatal errors which require a "Software Reset" mentioned by Renesas in
+>      the chapter 25.3.13 of the hardware manual in order to continue
+>      video streaming
+> This patch set makes the video pipeline unusable if we get errors described
+> in the first scenario if I am not mistaken. In the second scenario the
+> video pipeline was already not usable before because we end up in a
+> continuous restart loop in rcar-csi2.c. And the third scenario is not
+> really addressed by this patch set (or maybe the job is offloaded on to
+> userspace)?
+> 
+> Maybe it's better to implement a recovery in a different way, which would
+> consider the three mentioned error scenarios above:
+>   1. Monitor rvin_irq after streaming has started, e.g. by using a timer
+>      (I tried someting similar in [1])
+>   2. restart the complete video pipeline via rvin_stop_streaming and
+>      rvin_start_streaming if no frame is captured in a reasonable amount
+>      of time (optionally after checking if a subdevice has sent a
+>      V4L2_EVENT_XFER_ERROR).
+> This would make the complete recovery process almost invisible for the
+> application and avoid any application changes.
+> 
+> What do you think?
 
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+I think you bring up a few interesting points and for discussions sake I 
+think we need to split it in two. One on how we could implement 
+V4L2_EVENT_XFER_ERROR in a generic sens and one on how to best deal with 
+errors in the R-Car Gen3 capture pipeline.
 
-For:
-> ---
->   drivers/ata/ahci_brcm.c        | 2 +-
+For the proposed V4L2_EVENT_XFER_ERROR the idea from my side is that a 
+driver in the pipeline shall only raise this error (and propagate it to 
+the effected video node) when there is no way to recover without 
+involving user-space. So when this event happens an application at the 
+very least needs to do a full s_stream cycle to restart the capture 
+session.
+
+On the particulars of the VIN capture pipeline the only way I found so 
+far to freak out the CSI-2 receiver enough to trigger the event with this 
+patch series is to disconnect the HDMI source from the ADV7481 while 
+streaming and I don't think any in kernel recover method can fix that 
+;-)
+
+Over all I do agree with your idea that if we can recover from errors 
+that are recovererable that is good. For this series I would like to 
+focus on the former to get V4L2_EVENT_XFER_ERROR in and then if we have 
+ways to provoke and test recovery in the Gen3 pipeline we can add such 
+things to the drivers. Do this make sens or do you think the change in 
+the R-Car CSI-2 driver to raise V4L2_EVENT_XFER_ERROR is to harsh? My 
+motivation for is is the new datasheet and discussions with Renesas, but 
+then again my only way to trigger CSI-2 errors is to pull cables while 
+streaming so maybe I'm biased as such issues can't really be recover 
+from...
+
+Let me know what you think, I was about to spin a new version of this 
+series.
+
+> 
+> [1] https://lore.kernel.org/linux-renesas-soc/1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com/
+> 
+> > Regards,
+> > 
+> > 	Hans
+> > 
+> > > 
+> > >>
+> > >> Regards,
+> > >>
+> > >> 	Hans
+> > >>
+> > >>> +			break;
+> > >>> +		default:
+> > >>> +			break;
+> > >>> +		}
+> > >>> +
+> > >>> +		v4l2_event_queue(&vin->vdev, event);
+> > >>>  		break;
+> > >>>  	default:
+> > >>>  		break;
+> > >>>
+> > >>
+> > > 
+> > 
+> 
+> -- 
+> Best Regards,
+> Michael
+
 -- 
-Florian
+Kind Regards,
+Niklas Söderlund
