@@ -2,112 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4858E4CBECC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 14:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4774CBF05
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 14:42:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231921AbiCCNYv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Mar 2022 08:24:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59804 "EHLO
+        id S233628AbiCCNnC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Mar 2022 08:43:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbiCCNYu (ORCPT
+        with ESMTP id S233831AbiCCNnA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Mar 2022 08:24:50 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA1915B9A1
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Mar 2022 05:24:04 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id s25so6768248lji.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Mar 2022 05:24:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Cia1EWSdbf33wCtPBv6MrE1rw+APjYhmmceAP03JicI=;
-        b=6vQCE+T2ZX6PNebpBXNw0tvDYonDICy6angiw992OIMjhO0RJ/5wWcvnr3y4u0gAwN
-         2QXkfKyeDZWS+FJKqLOQu8hv1eUKxZU+AHwbeSxDopqrfeS1e7Jglrr8J1sLRWHUP/i4
-         lcfpri/bfj3ugSikysPahN+bjdaZXwGIkgsBehwbUCgwsRF28ANNiCor9gcBxM7gaYpA
-         Qv3vNHhym0k3dhKY76++Zks0GLZzSqW7KyphBCB9MP8Ru3po9/a97tiyEnVAQzK3r7PY
-         b67bn+aqw8ZQvHTD/o2CcDdOstCw+VlKlsz7B9LpFkJuRjjndgkFBiS3XsecR8ED/ccb
-         P7Sw==
+        Thu, 3 Mar 2022 08:43:00 -0500
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9879D18A79E;
+        Thu,  3 Mar 2022 05:42:14 -0800 (PST)
+Received: by mail-oo1-f49.google.com with SMTP id x6-20020a4a4106000000b003193022319cso5795140ooa.4;
+        Thu, 03 Mar 2022 05:42:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Cia1EWSdbf33wCtPBv6MrE1rw+APjYhmmceAP03JicI=;
-        b=CA74pdUQXV11OzXJXet/OE3HEdkv5v4wqUhkowHcyzP8NW1auOUW/rWIcnt13Eu/6F
-         bcqjjVW+ESAcyH54lLKFj8/nMuj5e8PMQdyVQlEWvEb5ClupGHH8cD87/p++t1oOUyrn
-         kN1BMTuaED/t1x8fH2PvKVxeVmgRrsxbqrkfsLnDBG/bbd+CVpD04iynfWTnt6rAsKzC
-         lxnLR5b/BYxy2+EPurZJ9jmhqyPIZ8vSAWBsMji1jYxDFhtRnfdJSGaP6HiVtF883ZK0
-         ciaVF+qVZm7t4GgzGFpdcbRBPKxbxSIHr8ov5uOqkFVBQ95LK6w5nVmgGGohBeAmu6Jn
-         iafw==
-X-Gm-Message-State: AOAM533uAGK9CeREoocqdNkbGIHJdtJ63ahYg2Pli+y1f1MqUHuL88W0
-        wUxQDjX7GscguWpr+XIM7iJptg==
-X-Google-Smtp-Source: ABdhPJxGYRq19AbS8xH4J9fU8hrzvYWQJXXcp85rNNe6HsawJNNmmn/LNCjtTr8DZDtqetolSpVYkA==
-X-Received: by 2002:a2e:7a15:0:b0:236:deb2:1f74 with SMTP id v21-20020a2e7a15000000b00236deb21f74mr23329664ljc.315.1646313842506;
-        Thu, 03 Mar 2022 05:24:02 -0800 (PST)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id f18-20020ac25332000000b00442e9987b7fsm426666lfh.106.2022.03.03.05.24.01
+         :mime-version:content-disposition:in-reply-to;
+        bh=z0y5GAHHBXUabdP29H45OGCTi0pJFGkuEdFh5jBbOJE=;
+        b=YUbN/uAoWmU49nH2TgWT9JozsXKqhYV/rlrlh6CWI9OSzCPULxyQajwykVFDmd8JIT
+         LL1A2aLqZ0kXeGrnKbb4ffJp3SKd+ZfbQv2G/w6oLLsyPhC833UzNS1BaeWHdCRM5N9H
+         NLtziHMUXWJtYoHo8ByjfzvcdCu4zLR529gPbk9oGkk/g4HZojCkf/lpHU2O89GcjSz1
+         sIY3EWoNL9jFypMjiAEm/V/QoaTAzCUfNcgOV932LT7EPRobfATsMYfnlqrqUGcjuU88
+         fwMc1KFyZ/Sxn5/7JPsc7TIuqW5oEoIdwf1EeO62upl5fUrRd8HdWeSvedl0pCnHWufQ
+         v8Ww==
+X-Gm-Message-State: AOAM5324lVY8eOxhCXx6wxITUuV1J2EsxmGWkNlFjHabvaLM0cFbQbX7
+        wkbb2G8ROwTek120Nge5LQ==
+X-Google-Smtp-Source: ABdhPJy8jFFRsHPWCtBjc6J0UoOl1dzwjcqx+x5MClx5x4UV+ugoQdJc5iruRkhAJVVJIf5+G1t+NQ==
+X-Received: by 2002:a05:6870:51d0:b0:d7:1e2a:2587 with SMTP id b16-20020a05687051d000b000d71e2a2587mr4028837oaj.176.1646314933848;
+        Thu, 03 Mar 2022 05:42:13 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id l7-20020a9d4c07000000b005afa8981a42sm914321otf.8.2022.03.03.05.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 05:24:02 -0800 (PST)
-Date:   Thu, 3 Mar 2022 14:24:01 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-csi2: Drop comma after SoC match table
- sentinel
-Message-ID: <YiDBcf0SktgHj9MF@oden.dyn.berto.se>
-References: <0c6a183ade26c68b96d91ce14e675ca01fc563fb.1646311410.git.geert+renesas@glider.be>
+        Thu, 03 Mar 2022 05:42:12 -0800 (PST)
+Received: (nullmailer pid 1490403 invoked by uid 1000);
+        Thu, 03 Mar 2022 13:42:11 -0000
+Date:   Thu, 3 Mar 2022 07:42:11 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v3 1/7] dt-bindings: dma: Introduce RZN1 dmamux bindings
+Message-ID: <YiDFs0gfBsWt0edy@robh.at.kernel.org>
+References: <20220225112403.505562-1-miquel.raynal@bootlin.com>
+ <20220225112403.505562-2-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0c6a183ade26c68b96d91ce14e675ca01fc563fb.1646311410.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220225112403.505562-2-miquel.raynal@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Fri, Feb 25, 2022 at 12:23:56PM +0100, Miquel Raynal wrote:
+> The Renesas RZN1 DMA IP is a based on a DW core, with eg. an additional
+> dmamux register located in the system control area which can take up to
+> 32 requests (16 per DMA controller). Each DMA channel can be wired to
+> two different peripherals.
 
-Thanks for your work.
+This should be a child of and referenced by the 'system control area' 
+schema. Also, add a reg property for the register.
 
-On 2022-03-03 13:43:57 +0100, Geert Uytterhoeven wrote:
-> It does not make sense to have a comma after a sentinel, as any new
-> elements must be added before the sentinel.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Make sens.
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/dma/renesas,rzn1-dmamux.yaml     | 42 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 8c939cb3073d79ec..54428f0a5758ae10 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1414,7 +1414,7 @@ static const struct soc_device_attribute r8a7795[] = {
->  		.soc_id = "r8a7795", .revision = "ES2.*",
->  		.data = &rcar_csi2_info_r8a7795es2,
->  	},
-> -	{ /* sentinel */ },
-> +	{ /* sentinel */ }
->  };
->  
->  static int rcsi2_probe(struct platform_device *pdev)
+> diff --git a/Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml b/Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+> new file mode 100644
+> index 000000000000..e2c82e43b8b1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/dma/renesas,rzn1-dmamux.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/N1 DMA mux
+> +
+> +maintainers:
+> +  - Miquel Raynal <miquel.raynal@bootlin.com>
+> +
+> +allOf:
+> +  - $ref: "dma-router.yaml#"
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,rzn1-dmamux
+> +
+> +  '#dma-cells':
+> +    const: 6
+> +    description:
+> +      The first four cells are dedicated to the master DMA controller. The fifth
+> +      cell gives the DMA mux bit index that must be set starting from 0. The
+> +      sixth cell gives the binary value that must be written there, ie. 0 or 1.
+> +
+> +  dma-masters:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  dma-requests:
+> +    const: 32
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dma-router {
+> +      compatible = "renesas,rzn1-dmamux";
+> +      #dma-cells = <6>;
+> +      dma-masters = <&dma0 &dma1>;
+> +      dma-requests = <32>;
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ea3e6c914384..c70c9c39a2f3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18636,6 +18636,7 @@ SYNOPSYS DESIGNWARE DMAC DRIVER
+>  M:	Viresh Kumar <vireshk@kernel.org>
+>  R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>  S:	Maintained
+> +F:	Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+>  F:	Documentation/devicetree/bindings/dma/snps,dma-spear1340.yaml
+>  F:	drivers/dma/dw/
+>  F:	include/dt-bindings/dma/dw-dmac.h
 > -- 
-> 2.25.1
+> 2.27.0
 > 
-
--- 
-Kind Regards,
-Niklas Söderlund
+> 
