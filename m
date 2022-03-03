@@ -2,94 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A764CB9E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 10:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66DDE4CBA23
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 10:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231721AbiCCJPX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Mar 2022 04:15:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50352 "EHLO
+        id S231932AbiCCJ0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Mar 2022 04:26:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbiCCJPW (ORCPT
+        with ESMTP id S230450AbiCCJ0B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Mar 2022 04:15:22 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887B4119435;
-        Thu,  3 Mar 2022 01:14:37 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1A6885;
-        Thu,  3 Mar 2022 10:14:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646298876;
-        bh=OSe+PR5iWXfk7TT5SmP463t6QDDD1+tQqfbrYuJ59f8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XnUFRHaoCchmSwwnyhCDedhVyStwSz2xuZyQIv1ynac1QJiCugETWID5aNAINkn0p
-         tpChYrzOvLoJh6Tv78+ZZ2V0KnuTwB0WmtY7iK5EbxWEh4sMnxGzLtebJZ+3LarCIN
-         Z4kWWgD51SU28KPoS1cw/FwUbTe6bHkRWX6Jij/Y=
-Date:   Thu, 3 Mar 2022 11:14:23 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        Thu, 3 Mar 2022 04:26:01 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26C5847AC1;
+        Thu,  3 Mar 2022 01:25:16 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id f37so7313049lfv.8;
+        Thu, 03 Mar 2022 01:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=q6dWyOSxtQaqc6rOdj1kSMlaHNYdY8a6NUWiCmzKlBU=;
+        b=Wu6azQb51NeYK2nXdZ4c+57Tqdxw0f2J8bT9gGTqou+kF7sYbWqIZLP3Wzt07AsRwk
+         FoZsY71KojwkB5vzjVg0Td/eX5chuwVl0W7NQABSIJ7nMUGUpRkwfVjsjR75gHAqw0Td
+         SJ2x3c6uuU0GR89MPXsPmqV/G8jrclkAArWz4nyeuuBUzYcwlE4iuqBLJkdYwwginf2M
+         EpMqc2x3y99e5Gx80k2nVM4ofj24hnzyy93TMGSPnnL+TVvno8m85/9E+9gXo+J0gXRr
+         y8xKY9HQRwqDiuk/M1VUvnl6q8Kh0lu4dqi2wQQ6422/HJ7CpexWGZG3EkUZTN3rtDTw
+         5cSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=q6dWyOSxtQaqc6rOdj1kSMlaHNYdY8a6NUWiCmzKlBU=;
+        b=hpcrw021P9QCt2SAZVnOY5Ay5WU0H3/4WXXIvWJig6ElThSflGxO7q0FrKmpI/JLr4
+         lI2gSSzsxare/5VdZcdliJJbykBUNQKjFVh4kKZ5LdLI1h9Ghql6LSWcloKWXVrDtTIW
+         xVjPMOfA0pQxkAsbzqV3c7G+GhLTfQQ4LdSvrgL2jIQf0lPxyYbt+0uOBP/jhFF4ng3O
+         CDqVdaWwq6hcI/SymwQ9laNIMrkcRbp2Lbe7Qe/qFhn3Waqbst1ae5IUBgB7UW67szuk
+         SHe4w4zTWNGOrYlBWElKpPPvDK1Mp+E60NDyF5O6vstQhpv3Au1l8Z2AljxmD/84p5Nt
+         q8Kg==
+X-Gm-Message-State: AOAM532geIddcbvIfZbAaeRTpqtfPEgrX84MPN19ix6AfLFdXKTFvLIJ
+        a54C2GHo8HEp6wVtOHpC8kY=
+X-Google-Smtp-Source: ABdhPJx8KZKR+FK3NQRCubIjKos2NSeV9iIUKZ41fLvSBPNb/4w/2u6vpuX6J8ZLgwoPKvHczRqKCA==
+X-Received: by 2002:ac2:5963:0:b0:442:eff6:4219 with SMTP id h3-20020ac25963000000b00442eff64219mr20886948lfp.56.1646299514385;
+        Thu, 03 Mar 2022 01:25:14 -0800 (PST)
+Received: from [192.168.1.103] ([31.173.85.105])
+        by smtp.gmail.com with ESMTPSA id y3-20020a2e3203000000b0024630256cdbsm354462ljy.58.2022.03.03.01.25.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Mar 2022 01:25:13 -0800 (PST)
+Subject: Re: [PATCH 1/4] arm64: dts: renesas: rzg2lc-smarc-pinfunction: Sort
+ the nodes
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: display: bridge: renesas,lvds: Document
- r8a77961 bindings
-Message-ID: <YiCG7xSHx6qqFlrc@pendragon.ideasonboard.com>
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-4-nikita.yoush@cogentembedded.com>
- <YcyRAk/d2728mDgH@pendragon.ideasonboard.com>
- <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220302103301.23852-1-biju.das.jz@bp.renesas.com>
+ <20220302103301.23852-2-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <98b0cafb-4f0b-5e4c-72b0-a0983d0ff493@gmail.com>
+Date:   Thu, 3 Mar 2022 12:25:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20220302103301.23852-2-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 02, 2022 at 06:00:08PM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 29, 2021 at 5:47 PM Laurent Pinchart wrote:
-> > On Fri, Dec 24, 2021 at 08:23:09AM +0300, Nikita Yushchenko wrote:
-> > > Document the R-Car M3-W+ (R8A77961) SoC in the R-Car LVDS encoder
-> > > bindings.
-> > >
-> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > ---
-> > >  .../devicetree/bindings/display/bridge/renesas,lvds.yaml         | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > index acfc327f70a7..ca5443e5c2e3 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > @@ -27,6 +27,7 @@ properties:
-> > >        - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-> > >        - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-> > >        - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-> > > +      - renesas,r8a77961-lvds # for R-Car M3-W+ compatible LVDS encoders
-> >
-> > I'll move this line after the next to keep them sorted. No need to
-> > resubmit.
-> 
-> Any chance this will happen soon? Same for patch 1/3 .
-> Patch 2/3 is already queued in soc/for-next.
+Hello!
 
-Oops. I can send a pull request right away, but we're already at -rc6,
-so I'm afraid it will get delayed to v5.19.
+On 3/2/22 1:32 PM, Biju Das wrote:
 
--- 
-Regards,
+> Sort the pinctrl nodes alphabatically.
 
-Laurent Pinchart
+   Alphabetically. :-)
+   Could prolly be fixed while applying...
+
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+[...]
+
+MBR, Sergey
