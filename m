@@ -2,60 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1055D4CBB45
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 11:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E1CA4CBB50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 11:26:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232322AbiCCK0N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Mar 2022 05:26:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56818 "EHLO
+        id S231379AbiCCK0w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Mar 2022 05:26:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232320AbiCCK0M (ORCPT
+        with ESMTP id S229665AbiCCK0v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Mar 2022 05:26:12 -0500
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130E8179A11;
-        Thu,  3 Mar 2022 02:25:28 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id i16so4951330vsb.10;
-        Thu, 03 Mar 2022 02:25:28 -0800 (PST)
+        Thu, 3 Mar 2022 05:26:51 -0500
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C18A6175869;
+        Thu,  3 Mar 2022 02:26:06 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id v62so71521vsv.1;
+        Thu, 03 Mar 2022 02:26:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=q+5ZeZUWLd3GM/keM7my5lGc+n2WZ148lAyhrGASB0I=;
-        b=FKTjoiElSx8HRC599wfx1aY1ttPHpjRl1GIBNoDzOuoh0nfgm2e568GFR4QXbSlsaT
-         8aqtc+uyWwNXcdRmxuyUnvn74OOV3z/15893V7ErjOhyufPYR8TOiF6/hmHQw+J7uDJM
-         45H6QqXLYTAyke0cBLvwYlnihc5Lj5DSBJ8XgiE/nK/y0CorukfuxkAX0VjelRvSuItI
-         8Rw7qGI+QUfmssBJ9QXsZ8bOVbKo/s+S/I+phXD6D054WBacO3GNu5R+YseAw5UCEJyA
-         51mSZQxFPRc+TQ2llFnpEfty4OKIuCDg4Zs5w7iAA5NkMG2YethCoxh5i+fIpBb1fOQA
-         XUgw==
-X-Gm-Message-State: AOAM5339cGTYN2xn+dswOFD4AkmaHXXqUxbiIkOn/deatv7kfc4K8dhE
-        0PgL8HL+o13JjAI/luCXdcqxXcS2JWFtWQ==
-X-Google-Smtp-Source: ABdhPJxgaV8cMTpphP/ydBJt9LZy5E31t7ZE2vu1tGxlLjrTHEC+UEQx3JQqKDB5REkZ/Y+QKpLGuA==
-X-Received: by 2002:a05:6102:351:b0:31c:3444:aaf6 with SMTP id e17-20020a056102035100b0031c3444aaf6mr8912256vsa.72.1646303127095;
-        Thu, 03 Mar 2022 02:25:27 -0800 (PST)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id h79-20020a1f2152000000b0033176aaacb1sm257668vkh.35.2022.03.03.02.25.26
+        bh=DqANOVEBE1ifRQMdow3CTMTDQ7ypFtiFbef3UWAqnWI=;
+        b=xzabRn09srUS5kbVEw7zxeR0a3KoD8Eyv0hKoXeS0rrUS0rG7PbmReyJxCo5Na8TTh
+         QXLI6PG319PlE6fMIHyq+ZLGX5Q7IJqiDyDoBEylfmc7534ZNfGPF9UccOewfrZVjawc
+         8X+Yg63wrOP2/SWonJuaJj1xaHz7ySiO4dcUG1ilBTVNSZSThed7WTHAdsMn6f9RqEsS
+         hi5+gv1g+9EOAL1K62VsCmsLmHoiDANI8w0VRE9gCQ/f7UunBVb3ECwzT3iAVGzANXAt
+         SnghLPxI8dHohoy7rNFmU16Oo4uYjz3CD8YrqRbDNI7wT3XzcOQfd3HwJrd+x6MwTlhO
+         XPrA==
+X-Gm-Message-State: AOAM533yRGz7vySo/dUKnKbZ2BZQwryjFrWuKloJtZMFWNNoXfnA/7Ql
+        fpzaEnj5K1kWh/axbgJz7Dc7rDfXqqLA9Q==
+X-Google-Smtp-Source: ABdhPJyKTFQeQTKO8YkaQvAmt2Shihd8mdIaRedCbLAlKPzxVFP88y1Ijn+XhKlvanKki4tBY5WmBQ==
+X-Received: by 2002:a05:6102:453:b0:320:5e2a:d9db with SMTP id e19-20020a056102045300b003205e2ad9dbmr2322448vsq.14.1646303165767;
+        Thu, 03 Mar 2022 02:26:05 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id 106-20020ab003f3000000b0034a4433fe7asm265610uau.28.2022.03.03.02.26.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Mar 2022 02:25:26 -0800 (PST)
-Received: by mail-vk1-f177.google.com with SMTP id f12so2388273vkl.2;
-        Thu, 03 Mar 2022 02:25:26 -0800 (PST)
-X-Received: by 2002:a05:6122:8ca:b0:332:64b4:8109 with SMTP id
- 10-20020a05612208ca00b0033264b48109mr14855968vkg.7.1646303126625; Thu, 03 Mar
- 2022 02:25:26 -0800 (PST)
+        Thu, 03 Mar 2022 02:26:05 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id j3so4957353vsi.7;
+        Thu, 03 Mar 2022 02:26:05 -0800 (PST)
+X-Received: by 2002:a67:c499:0:b0:320:2cd8:9e1a with SMTP id
+ d25-20020a67c499000000b003202cd89e1amr2443124vsk.38.1646303165309; Thu, 03
+ Mar 2022 02:26:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220303085934.29792-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdWSgjipMd_39+J=egH+yh=G-cb4jpD43FU7O77CZzDhNg@mail.gmail.com> <OS0PR01MB59226DC72B72B75EBBC4E07A86049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59226DC72B72B75EBBC4E07A86049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220303090158.30834-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUXXkoeAU7as+-t5AkWv4Y6ZW15wwDSozOeH+gZetD1YA@mail.gmail.com> <OS0PR01MB59221E953FD970E3877643D386049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59221E953FD970E3877643D386049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 3 Mar 2022 11:25:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVS6+KjQ5Tp6C+-dw7gVM6CwLrFX25SoaX5fU5VN5C+tA@mail.gmail.com>
-Message-ID: <CAMuHMdVS6+KjQ5Tp6C+-dw7gVM6CwLrFX25SoaX5fU5VN5C+tA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: serial: renesas,scif: Update compatible
- string for RZ/G2UL SoC
+Date:   Thu, 3 Mar 2022 11:25:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVNEhrcjkO+vZVn3jk0XEuVYooxTL0mZn+Aa1=STBf5rw@mail.gmail.com>
+Message-ID: <CAMuHMdVNEhrcjkO+vZVn3jk0XEuVYooxTL0mZn+Aa1=STBf5rw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: dma: rz-dmac: Update compatible string for
+ RZ/G2UL SoC
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -75,36 +74,41 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Thu, Mar 3, 2022 at 10:55 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH 1/2] dt-bindings: serial: renesas,scif: Update
-> > compatible string for RZ/G2UL SoC
-> > On Thu, Mar 3, 2022 at 9:59 AM Biju Das <biju.das.jz@bp.renesas.com>
+On Thu, Mar 3, 2022 at 10:59 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH] dt-bindings: dma: rz-dmac: Update compatible string
+> > for RZ/G2UL SoC
+> > On Thu, Mar 3, 2022 at 10:02 AM Biju Das <biju.das.jz@bp.renesas.com>
 > > wrote:
 > > > Both RZ/G2UL and RZ/Five SoC's have SoC ID starting with R9A07G043.
 > > > To distinguish between them update the compatible string to
-> > > "renesas,scif-r9a07g043u" for RZ/G2UL SoC.
+> > > "renesas,r9a07g043u-dmac" for RZ/G2UL SoC.
 > > >
 > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
 > > Thanks for your patch!
 > >
-> > > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > > @@ -76,7 +76,7 @@ properties:
-> > >
-> > >        - items:
-> > >            - enum:
-> > > -              - renesas,scif-r9a07g043      # RZ/G2UL
-> > > +              - renesas,scif-r9a07g043u     # RZ/G2UL
+> > > --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > @@ -16,9 +16,9 @@ properties:
+> > >    compatible:
+> > >      items:
+> > >        - enum:
+> > > -          - renesas,r9a07g043-dmac # RZ/G2UL
+> > > -          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
+> > > -          - renesas,r9a07g054-dmac # RZ/V2L
+> > > +          - renesas,r9a07g043u-dmac # RZ/G2UL
 > >
 > > Is this really needed? As far as we know, RZ/Five and RZ/G2UL do use the
 > > same I/O blocks?
 >
-> OK, Just thought their DEVID is different and they use RISC-V instead of ARM64.
+> OK, Just thought their DEVID is different and they use RISC-V instead of ARM64
+> And also the CPU caches are different.
+>
 > I agree it uses identical IP blocks.
 >
 > May be I can drop this patch, if it is not really needed. Please let me know.
+
 
 Please see my response in
 https://lore.kernel.org/r/CAMuHMdUZw5bxUgEif=pT-2Gm1ha-Z01r+AJ6ieC62SwkfMYD5Q@mail.gmail.com/
