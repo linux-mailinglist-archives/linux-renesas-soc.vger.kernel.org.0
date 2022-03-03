@@ -2,115 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6D64CB9DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 10:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A764CB9E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 10:14:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231786AbiCCJIJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Mar 2022 04:08:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60958 "EHLO
+        id S231721AbiCCJPX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Mar 2022 04:15:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231792AbiCCJII (ORCPT
+        with ESMTP id S229930AbiCCJPW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Mar 2022 04:08:08 -0500
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B51617776E;
-        Thu,  3 Mar 2022 01:07:23 -0800 (PST)
-Received: by mail-vk1-f173.google.com with SMTP id j12so2326384vkr.0;
-        Thu, 03 Mar 2022 01:07:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XvhjvqX/ORl1h+Ros5nFxo3M1sWx2Alkxm/DTftA/zE=;
-        b=XryT5S3Cg1yUzAxrhRbrNE1STE7TlgYBZFF1myYQRL/J82m4rwIAsLMN4/JyfzYAt7
-         SsYNa7VABueGVVgZ1XqMzx7xZxTe5Q6cDU2FdrtHsEBXiwLQd6Z5xE+fEhCjq4jBUPIn
-         U9LbyNLcxyNdoEDPhmzmiGRxZ3bkP9fP1fUfYgAS84uq+VwFt3KCOb0kpjDt0ZKBCNjY
-         B+d+gZis2UzDq1ckYoEZB+ZA8NUY6U9d8iQn28W4YFPgJdPFt0YB1q/l5CpHctSTd+q6
-         goE8bczuCH0DhkBoqoWM0x0iDWyAs1Wsq+jvju3TUMe/nxPiD0iHjuLMWDhAmKHwoYMJ
-         zU+Q==
-X-Gm-Message-State: AOAM530qsLAidFI2kDjpvr5mqQ7SD6V63+Q5v0Gv8b7D8flTgP2euSdY
-        TpzPcNK8Jxsm6TFacBKqulmgoPq71OOcLA==
-X-Google-Smtp-Source: ABdhPJwDYcMmuj0GNWeKWZlx/qSTPZqWH2z+Ty/grFnZGez2KUBatwKTCwtOCzkFfE0WA5zkoh5S8Q==
-X-Received: by 2002:a05:6122:e47:b0:321:73dd:d8cd with SMTP id bj7-20020a0561220e4700b0032173ddd8cdmr15100111vkb.37.1646298442561;
-        Thu, 03 Mar 2022 01:07:22 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id q131-20020a1f2a89000000b003209a39cc60sm239518vkq.5.2022.03.03.01.07.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Mar 2022 01:07:22 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id g21so4767774vsp.6;
-        Thu, 03 Mar 2022 01:07:22 -0800 (PST)
-X-Received: by 2002:a67:af08:0:b0:31b:9451:bc39 with SMTP id
- v8-20020a67af08000000b0031b9451bc39mr14185854vsl.68.1646298441808; Thu, 03
- Mar 2022 01:07:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20220303090158.30834-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220303090158.30834-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 3 Mar 2022 10:07:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUXXkoeAU7as+-t5AkWv4Y6ZW15wwDSozOeH+gZetD1YA@mail.gmail.com>
-Message-ID: <CAMuHMdUXXkoeAU7as+-t5AkWv4Y6ZW15wwDSozOeH+gZetD1YA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: dma: rz-dmac: Update compatible string for
- RZ/G2UL SoC
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
+        Thu, 3 Mar 2022 04:15:22 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887B4119435;
+        Thu,  3 Mar 2022 01:14:37 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1A6885;
+        Thu,  3 Mar 2022 10:14:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646298876;
+        bh=OSe+PR5iWXfk7TT5SmP463t6QDDD1+tQqfbrYuJ59f8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XnUFRHaoCchmSwwnyhCDedhVyStwSz2xuZyQIv1ynac1QJiCugETWID5aNAINkn0p
+         tpChYrzOvLoJh6Tv78+ZZ2V0KnuTwB0WmtY7iK5EbxWEh4sMnxGzLtebJZ+3LarCIN
+         Z4kWWgD51SU28KPoS1cw/FwUbTe6bHkRWX6Jij/Y=
+Date:   Thu, 3 Mar 2022 11:14:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] dt-bindings: display: bridge: renesas,lvds: Document
+ r8a77961 bindings
+Message-ID: <YiCG7xSHx6qqFlrc@pendragon.ideasonboard.com>
+References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
+ <20211224052309.1997096-4-nikita.yoush@cogentembedded.com>
+ <YcyRAk/d2728mDgH@pendragon.ideasonboard.com>
+ <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Wed, Mar 02, 2022 at 06:00:08PM +0100, Geert Uytterhoeven wrote:
+> On Wed, Dec 29, 2021 at 5:47 PM Laurent Pinchart wrote:
+> > On Fri, Dec 24, 2021 at 08:23:09AM +0300, Nikita Yushchenko wrote:
+> > > Document the R-Car M3-W+ (R8A77961) SoC in the R-Car LVDS encoder
+> > > bindings.
+> > >
+> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/renesas,lvds.yaml         | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> > > index acfc327f70a7..ca5443e5c2e3 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> > > @@ -27,6 +27,7 @@ properties:
+> > >        - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
+> > >        - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
+> > >        - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
+> > > +      - renesas,r8a77961-lvds # for R-Car M3-W+ compatible LVDS encoders
+> >
+> > I'll move this line after the next to keep them sorted. No need to
+> > resubmit.
+> 
+> Any chance this will happen soon? Same for patch 1/3 .
+> Patch 2/3 is already queued in soc/for-next.
 
-On Thu, Mar 3, 2022 at 10:02 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Both RZ/G2UL and RZ/Five SoC's have SoC ID starting with R9A07G043.
-> To distinguish between them update the compatible string to
-> "renesas,r9a07g043u-dmac" for RZ/G2UL SoC.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Oops. I can send a pull request right away, but we're already at -rc6,
+so I'm afraid it will get delayed to v5.19.
 
-Thanks for your patch!
+-- 
+Regards,
 
-> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> @@ -16,9 +16,9 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -          - renesas,r9a07g043-dmac # RZ/G2UL
-> -          - renesas,r9a07g044-dmac # RZ/G2{L,LC}
-> -          - renesas,r9a07g054-dmac # RZ/V2L
-> +          - renesas,r9a07g043u-dmac # RZ/G2UL
-
-Is this really needed? As far as we know, RZ/Five and RZ/G2UL
-do use the same I/O blocks?
-
-> +          - renesas,r9a07g044-dmac  # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-dmac  # RZ/V2L
->        - const: renesas,rz-dmac
->
->    reg:
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
