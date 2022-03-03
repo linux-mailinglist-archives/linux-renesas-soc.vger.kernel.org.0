@@ -2,187 +2,443 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 374AD4CBBAF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 11:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57E784CBC14
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Mar 2022 12:03:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232488AbiCCKtX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Mar 2022 05:49:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33492 "EHLO
+        id S232620AbiCCLEf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Mar 2022 06:04:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232484AbiCCKtW (ORCPT
+        with ESMTP id S232603AbiCCLEa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Mar 2022 05:49:22 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2136.outbound.protection.outlook.com [40.107.113.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E1E177D0F;
-        Thu,  3 Mar 2022 02:48:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U60xKIccb+wlBRn29F8UJhF45GzsezTcF8SQeTOxYPfFO0MqfyZ417429ENCUrpiw1WV2WwvEBUXBoi+v4IN7WNqNLNtNZYexuzCQ666ohKUqQ0Cvxig6JGYJ9zrAdJ8G2t/heRgFxYrCQzJPb6oDqHzXqvVErFu+9lQRg7KR1GMLFCfjgp1J9Rm6DMc6z/qER0FgqBdPS03bXGfP9AM3ju9/Tc9h9k+ptv9Ud6qnkP9gZJxUTSVWHBkB7AGnge/P4g0EpbMl2NaABmYL0JRbDxAR7/6NUKe+RACdrqDQQWI69/nQSRCoeNKf20cBpu/umq/3x6Rwa/vQBJzzcg5og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E8atejXMU/Tu1wx5bHtoCoTInOWQ/7HUBjRh6hQQ07U=;
- b=VnrwGry2JTBqhLRP3vkIGTdMVDYnHXbiFEyKTL8Q7/ew6ZsKEKOgz04R4RMZPYQZOQ7OIfJGVesr8XsMc71dY8FY0anox13XJNQSHDg0dkY/IavAcW1VTQE8M+v7iTeviGp19vRyEemgu3fKQkCW968EIsMvnM2PjASiMTpNZb8OJcCVY53kk7ZitNQBy2C7Gnjs02/5Lvf4d7M83qpUo+SjFto57p1IBH4P38d4UnMYUvYqcmsbAjOmdKB9QekyUVsJsrk4eKqRGn/QcAZy+KcwKF3lm6pT6lsy8AS/fCdw8zvkvTpQCQ7GAvxatMO9MKzdF7CTM38WEJOJRYVTrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E8atejXMU/Tu1wx5bHtoCoTInOWQ/7HUBjRh6hQQ07U=;
- b=QqTnHGF6zsZlRTvW3W4Bn/kmZTypeHaZpjZZR4cNejXbVtyiHYVZDBYgC3XCzdwvMFpEMUJ9owVyMcXQde4PESpqKpmux+cjN2DwYH3PnkslfWIsNQcZ45bIRpaz2j6jcs7/QOUtudmBlIVne1m4sTVsTn13vev1L79TRBAMP0Q=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB6348.jpnprd01.prod.outlook.com (2603:1096:400:a2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Thu, 3 Mar
- 2022 10:48:35 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500%4]) with mapi id 15.20.5038.014; Thu, 3 Mar 2022
- 10:48:35 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 2/2] dt-bindings: serial: renesas,sci: Update compatible
- string for RZ/G2UL SoC
-Thread-Topic: [PATCH 2/2] dt-bindings: serial: renesas,sci: Update compatible
- string for RZ/G2UL SoC
-Thread-Index: AQHYLt0GxdAENj1IRU+g0GIU0w2p0KytXh8AgAAMYDCAAAhygIAAA2Vg
-Date:   Thu, 3 Mar 2022 10:48:35 +0000
-Message-ID: <OS0PR01MB592271A192E4F5A445428CF686049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220303085934.29792-1-biju.das.jz@bp.renesas.com>
- <20220303085934.29792-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdUD_jsZCh95O290y1OTz7Y9gHAcVZ6=Nm=k=1fAqPQJVw@mail.gmail.com>
- <OS0PR01MB5922D605643E8F52D15B069586049@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUZw5bxUgEif=pT-2Gm1ha-Z01r+AJ6ieC62SwkfMYD5Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdUZw5bxUgEif=pT-2Gm1ha-Z01r+AJ6ieC62SwkfMYD5Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b7e2f73d-758a-4746-6dd1-08d9fd035dd4
-x-ms-traffictypediagnostic: TYAPR01MB6348:EE_
-x-microsoft-antispam-prvs: <TYAPR01MB6348E7EB8B4DA3CAAEC6E90A86049@TYAPR01MB6348.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: R5yEchIJ2KxiAXBGPHHL+c4qczQGgffhReKO28v0Wl0JpFkWT8EsfH91nyXGDk/ExmlADUyTdSN2sUhJaNJP/qli9KxAEfcTPZzZlS7WMJ5GyaFQD8Ohr6XEzDfViqI10bJ0tCvz7SH1MrODLoIE7ynvFITmVdVbMx15rQZtdwsfIeiZ8Y8ebT1bwTlU1pvSCZyECAM3zeuDXFt5D8hMa0/WDuAD0s07BpayIVmYYC3ZML3K0VuuiM/mAY2QKknHZOb4XYIDsajs+2Cn86S68UdJjG87CoPYBT8GM7hZY9w/f6NozmM2BqLUZJvCoOf6QU5vTBgu/oBpu0K8XnjDqUl2VWeKZv1DBPJPLFKMogffNXY/WE+p8vSvBquU4u4RyU/Ws3JTP2vqfmOFL5ks/awONZu8/mbr4cc1G3DsxuUrohZ/OZoeKRX2k4suJieEqVUusBbVpjkRdUIPW3Txjxt/5lYclLfSG9HYf8ZVmP2mv27rdlxe2fwIlN1UilMh8m81LJ/n05Ac3f+oKLFmStPc+jRm/8EELc7cWJfrgXq+70goOU+AOi2ODvBZz2R8a+aUjEHX/xcEZhMFtARgs9Gveq9i0an6hRv3KFXatCeu5X1QsN0fRN1JlVYUCzYtQAldaKj2S7jcOaOGOb/wtEMEk39e7fTlhtihqR3rvOXAkttCQWqFBkbCTcu0x78+3M/q9x9w6I6y/9JyzQ5pmA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6916009)(66946007)(76116006)(8676002)(64756008)(33656002)(86362001)(66446008)(54906003)(4326008)(66556008)(66476007)(6506007)(53546011)(7696005)(316002)(508600001)(9686003)(38070700005)(5660300002)(83380400001)(8936002)(52536014)(71200400001)(38100700002)(55016003)(26005)(186003)(2906002)(122000001)(15650500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R21UVXB0R1UrelNVeW5SSEZGcFBST3oxM2pLQ2tleFJQKzh3TExtRlFvckdO?=
- =?utf-8?B?OUhKN0d0ckNqMU5NeHBZQXRRbUJEZkpkb3J4cW14VWUxdll3eUhaWkVxRXJn?=
- =?utf-8?B?d2Y5TWhFNFJLRU5XM0p6c0hRUE5uZzJEelRIZ3NNaDNzZmU3V3loblF3TVl0?=
- =?utf-8?B?TC83dEswK2IzaGFvdExmVWRDMnhSbXZxOU44MnNJSzNiTlJPM2x5YUh0dXNE?=
- =?utf-8?B?bExXRTFnQnV2Ukd2dkRkbVM3T3NEVE1HQUQ3SW9SdW11MCtGWms2L1dhRi8r?=
- =?utf-8?B?SnFEN1NSWkp1NWlyMU01YzI2Vk8xa0VFaDdiWDIyY1BobFczb1oyS0wwanBP?=
- =?utf-8?B?MFM1R0N1SkJBOE12YktITmY4dGpKK2Q2QmJkQTFQZmM2R2w4TUJHTW5CbWZH?=
- =?utf-8?B?Yll6c3pIVDNvNld5VG5IUmoxbTNmUnVCNis3T1ZuWjZEZXFpVm84STQ2K0dM?=
- =?utf-8?B?d3AvZnBqcWRhWjl1aXR6TUJ5UEZnUUNwdmJUUStVU2FVczBOdTMvZlVtMXhl?=
- =?utf-8?B?WUhhSzEwKzU5czdiRjd5TXRGT0oxTjZBSmxNVnZBUVZqbVJWVEJjS3hxWkR0?=
- =?utf-8?B?RjRPZjhwQlhzRVZ3bmVCajd4RWtDQlVxSmJVVGYzSEJLc2R3Tm5OZFA3OHMw?=
- =?utf-8?B?Y3c0THMxZU5mM3BKSks3a0lJeHlhTys4akV1RnlmSFk1anNLbEFSZ3ZrY3NK?=
- =?utf-8?B?b3JKWTE3NjhnenBxWVdXWDVMb2xuUjRTbzNQVXBBUVRpVjgzM0hCSXpOaHl3?=
- =?utf-8?B?T2twNTN6K01rUlhkYk02SGdOSVpRZEs4Sm96YllXb2w0citMbkxCdkpIS0xI?=
- =?utf-8?B?Mk50QTZJWXZPZGFDSmxQTnoyNzB6bWxRYlBMRmtKdkRCWEtqY21Rc1h3RUFt?=
- =?utf-8?B?UWhFNXZqUnRWQ0xBWXlhQnI3ZGhIS1h4T3Rhb0NLNyt2TmZsY2EyZVIwM1Ir?=
- =?utf-8?B?NkpVZm5ET1BHRk5SWkZhUU5vckU0QTd2ZWhRMDZEbUU2NjRscWp3b0FGcTBv?=
- =?utf-8?B?NmhmRmg3eU9uVXg1eHlZZnpKeHVQanIyTzZyckNvUkxOcWtZbW1GZGJtaFJB?=
- =?utf-8?B?RCtobkZZMTBiRFZ4YkZmVW1UWFQwVkU3b2ZKTklsM2NHODl0YzFNSHEvMVgv?=
- =?utf-8?B?cGErVlpyVG44dXJNY2sxSEpyYjVSZnpoS1YyaEhwdEdTLzg0R25HeTNlcVdh?=
- =?utf-8?B?NlVCQllZTEgxZE4vMVRiL3FQV0tsMHpORi8xbFZTQkE4T3BQUTR1NHlnYUNF?=
- =?utf-8?B?dXFvRUVITC9YUlJQaFNieFdYMWM0NGYrNENmNUt6Ym9FeDhGOVFDVjVKUEVy?=
- =?utf-8?B?a1FVUzhmeFdTWDgvVXVvYW9lY3JkVzVPb2VLdnpwT3pvOTlRK3FYL2ZTWHQz?=
- =?utf-8?B?OEJDL29iU1RHc2NhZUpmSWxScklGMDd5VGc3YTZwYjJObzFWTnJUQ2xZaFo4?=
- =?utf-8?B?RlUrZm5kd2FSZko1cHJlUVN6V2dIdXZIckY4VXN3dldPZE1GZTR4VTFVck12?=
- =?utf-8?B?TklJYmlyK2N3TWpla01QeVJ4anVEYzZ2dVJHclRqODkxRXAydGpKbU1WWWhu?=
- =?utf-8?B?R3ZjaXBPTXBQckNBUVFqWWlNaFo5RXBSUDIzUkNhNDAreEJRWVNGa2J1TmlP?=
- =?utf-8?B?bm9ES05oVktuZU9HMUIvSkdsazdaSFN6eXJQZzhPOG5xRVdzUy9DOWZqYXlx?=
- =?utf-8?B?L1BTZmxnWGdHaU5XT0dRUDcxV2NGdFBpb1p6QXpxNk5zVnZydlhpR0xvclFr?=
- =?utf-8?B?eTFCZlRWdkNRVGRNNFlXRW9BYnE5Z1RRNFdJUlA0N3dZY3RycW0zeHVNZnZQ?=
- =?utf-8?B?RHFYc1Y1M3ZRakpaRjExVFNnMjVjZzlwcU5KclMwZ0cyNzJSbFZUcTRMYVcw?=
- =?utf-8?B?WThoV1ppRDdEK2dLMC9ObHBmQnVUZDk4N3ZUTkRpcUtYeUNlbE04NFpYb3Bo?=
- =?utf-8?B?ZjJzdCtiQ1hyK0tEaHJaNWx4c3JjRlNLcHk2U2ZNL2s2Z0dFc2gwMDR2OEVC?=
- =?utf-8?B?TDlTb0NjWUl2bUlBS0pDQ1hBbHk1My9TdUNaeGJCLzY5YmxhcklFeXNsQkJC?=
- =?utf-8?B?N090YUhvZHZhYnFMc0Nua1M5c1pWQ0FQNnpxY0QyV1JZTnVDMnFIYi9LajdV?=
- =?utf-8?B?WHdab2s0QWozb2tOZnhTVUtZUVZueGZMcEQ0UUhyRG9seUxnTHM5SWZITjJL?=
- =?utf-8?B?Ykk5aXE1RFBRcVlDOVhLUGlGc3hncVAvRjBDRXplOTFWdCtZV05obkltTW5G?=
- =?utf-8?B?SUJSRjkxemFJeG53K25pYlhXNFdBPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 3 Mar 2022 06:04:30 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFBE154735
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Mar 2022 03:03:42 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8cac:a75c:6aef:8a67])
+        by laurent.telenet-ops.be with bizsmtp
+        id 1n3d2700B36NB4j01n3dxR; Thu, 03 Mar 2022 12:03:40 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nPjBk-002XIk-1J; Thu, 03 Mar 2022 12:00:04 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nPgwu-0081bP-8i; Thu, 03 Mar 2022 09:36:36 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-ide@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Subject: [PATCH v2] ata: Drop commas after OF match table sentinels
+Date:   Thu,  3 Mar 2022 09:36:35 +0100
+Message-Id: <52970494111d9287cc8355e0f2e3de474361c75f.1646296493.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7e2f73d-758a-4746-6dd1-08d9fd035dd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2022 10:48:35.0099
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pxESnj2j28tnFwpO8MKgY32ly+ppDoOtHo17ri0amQSpm0qOw2a++9kenTAz9l8Vkc4Y1foJhWM5Pk8kEZiCQJb5ph1YgeX2bIOkUWPbUvA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6348
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAyLzJdIGR0LWJpbmRpbmdzOiBzZXJp
-YWw6IHJlbmVzYXMsc2NpOiBVcGRhdGUNCj4gY29tcGF0aWJsZSBzdHJpbmcgZm9yIFJaL0cyVUwg
-U29DDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gVGh1LCBNYXIgMywgMjAyMiBhdCAxMDo1MyBB
-TSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+ID4g
-U3ViamVjdDogUmU6IFtQQVRDSCAyLzJdIGR0LWJpbmRpbmdzOiBzZXJpYWw6IHJlbmVzYXMsc2Np
-OiBVcGRhdGUNCj4gPiA+IGNvbXBhdGlibGUgc3RyaW5nIGZvciBSWi9HMlVMIFNvQyBPbiBUaHUs
-IE1hciAzLCAyMDIyIGF0IDk6NTkgQU0NCj4gPiA+IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5y
-ZW5lc2FzLmNvbT4NCj4gPiA+IHdyb3RlOg0KPiA+ID4gPiBCb3RoIFJaL0cyVUwgYW5kIFJaL0Zp
-dmUgU29DJ3MgaGF2ZSBTb0MgSUQgc3RhcnRpbmcgd2l0aCBSOUEwN0cwNDMuDQo+ID4gPiA+IFRv
-IGRpc3Rpbmd1aXNoIGJldHdlZW4gdGhlbSB1cGRhdGUgdGhlIGNvbXBhdGlibGUgc3RyaW5nIHRv
-DQo+ID4gPiA+ICJyZW5lc2FzLHI5YTA3ZzA0M3Utc2NpIiBmb3IgUlovRzJVTCBTb0MuDQo+ID4g
-PiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5l
-c2FzLmNvbT4NCj4gPiA+ID4gUmV2aWV3ZWQtYnk6IExhZCBQcmFiaGFrYXINCj4gPiA+ID4gPHBy
-YWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiA+DQo+ID4gPiBUaGFu
-a3MgZm9yIHlvdXIgcGF0Y2ghDQo+ID4gPg0KPiA+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3Mvc2VyaWFsL3JlbmVzYXMsc2NpLnlhbWwNCj4gPiA+ID4gKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NlcmlhbC9yZW5lc2FzLHNjaS55YW1s
-DQo+ID4gPiA+IEBAIC0xNyw3ICsxNyw3IEBAIHByb3BlcnRpZXM6DQo+ID4gPiA+ICAgICAgb25l
-T2Y6DQo+ID4gPiA+ICAgICAgICAtIGl0ZW1zOg0KPiA+ID4gPiAgICAgICAgICAgIC0gZW51bToN
-Cj4gPiA+ID4gLSAgICAgICAgICAgICAgLSByZW5lc2FzLHI5YTA3ZzA0My1zY2kgICAgICMgUlov
-RzJVTA0KPiA+ID4gPiArICAgICAgICAgICAgICAtIHJlbmVzYXMscjlhMDdnMDQzdS1zY2kgICAg
-IyBSWi9HMlVMDQo+ID4gPg0KPiA+ID4gSXMgdGhpcyByZWFsbHkgbmVlZGVkPyBBcyBmYXIgYXMg
-d2Uga25vdywgUlovRml2ZSBhbmQgUlovRzJVTCBkbyB1c2UNCj4gPiA+IHRoZSBzYW1lIEkvTyBi
-bG9ja3M/DQo+ID4NCj4gPiBPSywgSnVzdCB0aG91Z2h0IHRoZWlyIERFVklEIGlzIGRpZmZlcmVu
-dCBhbmQgdGhleSB1c2UgUklTQy1WIGluc3RlYWQgb2YNCj4gQVJNNjQuDQo+ID4gSSBhZ3JlZSBp
-dCB1c2VzIGlkZW50aWNhbCBJUCBibG9ja3MuDQo+ID4NCj4gPiBNYXkgYmUgSSBjYW4gZHJvcCB0
-aGlzIHBhdGNoLCBpZiBpdCBpcyBub3QgcmVhbGx5IG5lZWRlZC4gUGxlYXNlIGxldCBtZQ0KPiBr
-bm93Lg0KPiANCj4gSSB0aGluayBpdCBpcyBub3QgbmVlZGVkLiBXZSB1c2VkIHRoZSBzYW1lIGNv
-bXBhdGlibGUgdmFsdWVzDQo+ICgicjhhNzc3OCIpIGZvciBSLUNhciBNMUEgKFI4QTc3NzgxLCBT
-SC00QSArIENBOSkgYW5kIE0xUyAoUjhBNzc3ODAsIFNILTRBDQo+IG9ubHkpLCB0b28sIChwcm9i
-YWJseSBub3QgYnkgZGVzaWduLCBhcyB3ZSBuZXZlciBzdXBwb3J0ZWQgdGhlIGxhdHRlcg0KPiB1
-bmRlciBhcmNoL3NoLyA7LSkNCj4gDQo+IFdlIGRvIG5lZWQgYSBkaWZmZXJlbnQgdG9wLWxldmVs
-IGNvbXBhdGlibGUgdmFsdWUgZm9yIHRoZSBSWi9GaXZlIFNvQywNCj4gbGlrZSB3ZSBhbHJlYWR5
-IGhhdmUgZm9yIHRoZSBSWi9HMlVMIHZhcmlhbnRzOg0KPiANCj4gICAgICAgLSBkZXNjcmlwdGlv
-bjogUlovRzJVTCAoUjlBMDdHMDQzKQ0KPiAgICAgICAgIGl0ZW1zOg0KPiAgICAgICAgICAgLSBl
-bnVtOg0KPiAgICAgICAgICAgICAgIC0gcmVuZXNhcyxyOWEwN2cwNDN1MTEgIyBSWi9HMlVMIFR5
-cGUtMQ0KPiAgICAgICAgICAgICAgIC0gcmVuZXNhcyxyOWEwN2cwNDN1MTIgIyBSWi9HMlVMIFR5
-cGUtMg0KPiAgICAgICAgICAgLSBjb25zdDogcmVuZXNhcyxyOWEwN2cwNDMNCj4gDQo+IFNvIGlm
-IHdlIGV2ZXIgaGF2ZSBhbiBpc3N1ZSBkdWUgdG8gYSBkaWZmZXJlbmNlLCB3ZSBjYW4gaGFuZGxl
-IHRoYXQNCj4gdGhyb3VnaCBzb2NfZGV2aWNlX21hdGNoKCksIGp1c3QgbGlrZSBmb3IgUlovVjJM
-IHZzLiBSWi9HMkwuDQoNCkFncmVlZC4NCg0KPiANCj4gQlRXLCBJIGd1ZXNzIFJaL0cyVUwgVHlw
-ZS0xIGFuZCBUeXBlLTIgZG8gaGF2ZSB0aGUgc2FtZSBERVZJRCwgYW5kIG9ubHkNCj4gZGlmZmVy
-IGluIFBSUj8NCg0KWWVzLCBUaGV5IGhhdmUgc2FtZSBERVZJRCBhbmQgUFJSLCBidXQgdGhlcmUg
-aXMgYSB3YXkgdG8gZGlzdGluZ3Vpc2ggYmV0d2Vlbg0KVHlwZS0xIGFuZCBUeXBlLTIuIEkgYW0g
-Y2hlY2tpbmcgdGhpcyB3aXRoIGhhcmR3YXJlIHBlb3BsZS4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo=
+It does not make sense to have a comma after a sentinel, as any new
+elements must be added before the sentinel.
+
+Add comments to clarify the purpose of the empty elements.
+Rewrap entries to a single line to have a consistent style.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Acked-by: Florian Fainelli <f.fainelli@gmail.com> [ahci_brcm]
+---
+v2:
+  - Add Reviewed-by, Acked-by,
+  - Rewrap entries as requested by Damien.
+---
+ drivers/ata/ahci_brcm.c        |  2 +-
+ drivers/ata/ahci_ceva.c        |  2 +-
+ drivers/ata/ahci_da850.c       |  2 +-
+ drivers/ata/ahci_dm816.c       |  2 +-
+ drivers/ata/ahci_imx.c         |  2 +-
+ drivers/ata/ahci_mtk.c         |  2 +-
+ drivers/ata/ahci_mvebu.c       |  2 +-
+ drivers/ata/ahci_octeon.c      |  2 +-
+ drivers/ata/ahci_platform.c    |  2 +-
+ drivers/ata/ahci_qoriq.c       |  2 +-
+ drivers/ata/ahci_st.c          |  2 +-
+ drivers/ata/ahci_sunxi.c       |  2 +-
+ drivers/ata/ahci_xgene.c       |  2 +-
+ drivers/ata/pata_ftide010.c    |  6 ++----
+ drivers/ata/pata_ixp4xx_cf.c   |  2 +-
+ drivers/ata/pata_macio.c       | 18 +++++-------------
+ drivers/ata/pata_mpc52xx.c     |  2 +-
+ drivers/ata/pata_octeon_cf.c   |  6 ++----
+ drivers/ata/pata_of_platform.c |  2 +-
+ drivers/ata/sata_fsl.c         | 10 +++-------
+ drivers/ata/sata_gemini.c      |  6 ++----
+ drivers/ata/sata_highbank.c    |  2 +-
+ drivers/ata/sata_mv.c          |  2 +-
+ drivers/ata/sata_rcar.c        |  2 +-
+ 24 files changed, 33 insertions(+), 51 deletions(-)
+
+diff --git a/drivers/ata/ahci_brcm.c b/drivers/ata/ahci_brcm.c
+index 64dd8aa397d5276b..ab8552b1ff2a14ad 100644
+--- a/drivers/ata/ahci_brcm.c
++++ b/drivers/ata/ahci_brcm.c
+@@ -427,7 +427,7 @@ static const struct of_device_id ahci_of_match[] = {
+ 	{.compatible = "brcm,bcm63138-ahci", .data = (void *)BRCM_SATA_BCM7445},
+ 	{.compatible = "brcm,bcm-nsp-ahci", .data = (void *)BRCM_SATA_NSP},
+ 	{.compatible = "brcm,bcm7216-ahci", .data = (void *)BRCM_SATA_BCM7216},
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_of_match);
+ 
+diff --git a/drivers/ata/ahci_ceva.c b/drivers/ata/ahci_ceva.c
+index acf59f51b3569d71..cb24ecf36fafe040 100644
+--- a/drivers/ata/ahci_ceva.c
++++ b/drivers/ata/ahci_ceva.c
+@@ -363,7 +363,7 @@ static SIMPLE_DEV_PM_OPS(ahci_ceva_pm_ops, ceva_ahci_suspend, ceva_ahci_resume);
+ 
+ static const struct of_device_id ceva_ahci_of_match[] = {
+ 	{ .compatible = "ceva,ahci-1v84" },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ceva_ahci_of_match);
+ 
+diff --git a/drivers/ata/ahci_da850.c b/drivers/ata/ahci_da850.c
+index 0e82766007128e72..052c28e250aa8d96 100644
+--- a/drivers/ata/ahci_da850.c
++++ b/drivers/ata/ahci_da850.c
+@@ -241,7 +241,7 @@ static SIMPLE_DEV_PM_OPS(ahci_da850_pm_ops, ahci_platform_suspend,
+ 
+ static const struct of_device_id ahci_da850_of_match[] = {
+ 	{ .compatible = "ti,da850-ahci", },
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_da850_of_match);
+ 
+diff --git a/drivers/ata/ahci_dm816.c b/drivers/ata/ahci_dm816.c
+index 8bec4104167142c5..8a92112dcd59080a 100644
+--- a/drivers/ata/ahci_dm816.c
++++ b/drivers/ata/ahci_dm816.c
+@@ -176,7 +176,7 @@ static SIMPLE_DEV_PM_OPS(ahci_dm816_pm_ops,
+ 
+ static const struct of_device_id ahci_dm816_of_match[] = {
+ 	{ .compatible = "ti,dm816-ahci", },
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_dm816_of_match);
+ 
+diff --git a/drivers/ata/ahci_imx.c b/drivers/ata/ahci_imx.c
+index 388baf528fa81cab..79aa9f2853129f6e 100644
+--- a/drivers/ata/ahci_imx.c
++++ b/drivers/ata/ahci_imx.c
+@@ -811,7 +811,7 @@ static const struct of_device_id imx_ahci_of_match[] = {
+ 	{ .compatible = "fsl,imx6q-ahci", .data = (void *)AHCI_IMX6Q },
+ 	{ .compatible = "fsl,imx6qp-ahci", .data = (void *)AHCI_IMX6QP },
+ 	{ .compatible = "fsl,imx8qm-ahci", .data = (void *)AHCI_IMX8QM },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, imx_ahci_of_match);
+ 
+diff --git a/drivers/ata/ahci_mtk.c b/drivers/ata/ahci_mtk.c
+index d9b08ae7c3b22104..1f6c85fde9830ac1 100644
+--- a/drivers/ata/ahci_mtk.c
++++ b/drivers/ata/ahci_mtk.c
+@@ -169,7 +169,7 @@ static SIMPLE_DEV_PM_OPS(ahci_pm_ops, ahci_platform_suspend,
+ 
+ static const struct of_device_id ahci_of_match[] = {
+ 	{ .compatible = "mediatek,mtk-ahci", },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_of_match);
+ 
+diff --git a/drivers/ata/ahci_mvebu.c b/drivers/ata/ahci_mvebu.c
+index 3ad46d26d9d51790..991413a272e608a2 100644
+--- a/drivers/ata/ahci_mvebu.c
++++ b/drivers/ata/ahci_mvebu.c
+@@ -239,7 +239,7 @@ static const struct of_device_id ahci_mvebu_of_match[] = {
+ 		.compatible = "marvell,armada-3700-ahci",
+ 		.data = &ahci_mvebu_armada_3700_plat_data,
+ 	},
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_mvebu_of_match);
+ 
+diff --git a/drivers/ata/ahci_octeon.c b/drivers/ata/ahci_octeon.c
+index 5a44e089c6bb6ae2..b9460b91288f772d 100644
+--- a/drivers/ata/ahci_octeon.c
++++ b/drivers/ata/ahci_octeon.c
+@@ -80,7 +80,7 @@ static int ahci_octeon_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id octeon_ahci_match[] = {
+ 	{ .compatible = "cavium,octeon-7130-sata-uctl", },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, octeon_ahci_match);
+ 
+diff --git a/drivers/ata/ahci_platform.c b/drivers/ata/ahci_platform.c
+index 3aab2e3d57f3373a..28a8de5b48b979c9 100644
+--- a/drivers/ata/ahci_platform.c
++++ b/drivers/ata/ahci_platform.c
+@@ -88,7 +88,7 @@ static const struct of_device_id ahci_of_match[] = {
+ 	{ .compatible = "snps,dwc-ahci", },
+ 	{ .compatible = "hisilicon,hisi-ahci", },
+ 	{ .compatible = "cavium,octeon-7130-ahci", },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_of_match);
+ 
+diff --git a/drivers/ata/ahci_qoriq.c b/drivers/ata/ahci_qoriq.c
+index bf5b388bd4e0db9b..dd612d7963159118 100644
+--- a/drivers/ata/ahci_qoriq.c
++++ b/drivers/ata/ahci_qoriq.c
+@@ -77,7 +77,7 @@ static const struct of_device_id ahci_qoriq_of_match[] = {
+ 	{ .compatible = "fsl,ls1088a-ahci", .data = (void *)AHCI_LS1088A},
+ 	{ .compatible = "fsl,ls2088a-ahci", .data = (void *)AHCI_LS2088A},
+ 	{ .compatible = "fsl,lx2160a-ahci", .data = (void *)AHCI_LX2160A},
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_qoriq_of_match);
+ 
+diff --git a/drivers/ata/ahci_st.c b/drivers/ata/ahci_st.c
+index c268264c2129c52a..7526653c843b3226 100644
+--- a/drivers/ata/ahci_st.c
++++ b/drivers/ata/ahci_st.c
+@@ -232,7 +232,7 @@ static SIMPLE_DEV_PM_OPS(st_ahci_pm_ops, st_ahci_suspend, st_ahci_resume);
+ 
+ static const struct of_device_id st_ahci_match[] = {
+ 	{ .compatible = "st,ahci", },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, st_ahci_match);
+ 
+diff --git a/drivers/ata/ahci_sunxi.c b/drivers/ata/ahci_sunxi.c
+index 56b695136977ab72..c7273c1cb0c73b9b 100644
+--- a/drivers/ata/ahci_sunxi.c
++++ b/drivers/ata/ahci_sunxi.c
+@@ -286,7 +286,7 @@ static SIMPLE_DEV_PM_OPS(ahci_sunxi_pm_ops, ahci_platform_suspend,
+ static const struct of_device_id ahci_sunxi_of_match[] = {
+ 	{ .compatible = "allwinner,sun4i-a10-ahci", },
+ 	{ .compatible = "allwinner,sun8i-r40-ahci", },
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_sunxi_of_match);
+ 
+diff --git a/drivers/ata/ahci_xgene.c b/drivers/ata/ahci_xgene.c
+index 8e206379d699f080..d205896f66cfb228 100644
+--- a/drivers/ata/ahci_xgene.c
++++ b/drivers/ata/ahci_xgene.c
+@@ -726,7 +726,7 @@ MODULE_DEVICE_TABLE(acpi, xgene_ahci_acpi_match);
+ static const struct of_device_id xgene_ahci_of_match[] = {
+ 	{.compatible = "apm,xgene-ahci", .data = (void *) XGENE_AHCI_V1},
+ 	{.compatible = "apm,xgene-ahci-v2", .data = (void *) XGENE_AHCI_V2},
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, xgene_ahci_of_match);
+ 
+diff --git a/drivers/ata/pata_ftide010.c b/drivers/ata/pata_ftide010.c
+index 34cb104f6b43e5cf..2e35505b683c7649 100644
+--- a/drivers/ata/pata_ftide010.c
++++ b/drivers/ata/pata_ftide010.c
+@@ -554,10 +554,8 @@ static int pata_ftide010_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id pata_ftide010_of_match[] = {
+-	{
+-		.compatible = "faraday,ftide010",
+-	},
+-	{},
++	{ .compatible = "faraday,ftide010", },
++	{ /* sentinel */ }
+ };
+ 
+ static struct platform_driver pata_ftide010_driver = {
+diff --git a/drivers/ata/pata_ixp4xx_cf.c b/drivers/ata/pata_ixp4xx_cf.c
+index 17b557c91e1c78fc..e225913a619d8414 100644
+--- a/drivers/ata/pata_ixp4xx_cf.c
++++ b/drivers/ata/pata_ixp4xx_cf.c
+@@ -293,7 +293,7 @@ static int ixp4xx_pata_probe(struct platform_device *pdev)
+ 
+ static const struct of_device_id ixp4xx_pata_of_match[] = {
+ 	{ .compatible = "intel,ixp4xx-compact-flash", },
+-	{ },
++	{ /* sentinel */ }
+ };
+ 
+ static struct platform_driver ixp4xx_pata_platform_driver = {
+diff --git a/drivers/ata/pata_macio.c b/drivers/ata/pata_macio.c
+index 16e8aa184a75793f..b986908eaebc4977 100644
+--- a/drivers/ata/pata_macio.c
++++ b/drivers/ata/pata_macio.c
+@@ -1333,19 +1333,11 @@ static int pata_macio_pci_resume(struct pci_dev *pdev)
+ 
+ static const struct of_device_id pata_macio_match[] =
+ {
+-	{
+-	.name 		= "IDE",
+-	},
+-	{
+-	.name 		= "ATA",
+-	},
+-	{
+-	.type		= "ide",
+-	},
+-	{
+-	.type		= "ata",
+-	},
+-	{},
++	{ .name = "IDE", },
++	{ .name = "ATA", },
++	{ .type = "ide", },
++	{ .type = "ata", },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, pata_macio_match);
+ 
+diff --git a/drivers/ata/pata_mpc52xx.c b/drivers/ata/pata_mpc52xx.c
+index f1d352d5f128537a..bc9d9df3b5aced64 100644
+--- a/drivers/ata/pata_mpc52xx.c
++++ b/drivers/ata/pata_mpc52xx.c
+@@ -849,7 +849,7 @@ mpc52xx_ata_resume(struct platform_device *op)
+ static const struct of_device_id mpc52xx_ata_of_match[] = {
+ 	{ .compatible = "fsl,mpc5200-ata", },
+ 	{ .compatible = "mpc5200-ata", },
+-	{},
++	{ /* sentinel */ }
+ };
+ 
+ 
+diff --git a/drivers/ata/pata_octeon_cf.c b/drivers/ata/pata_octeon_cf.c
+index 05c2ab3757568c62..ab264a3a57b0243a 100644
+--- a/drivers/ata/pata_octeon_cf.c
++++ b/drivers/ata/pata_octeon_cf.c
+@@ -1006,10 +1006,8 @@ static void octeon_cf_shutdown(struct device *dev)
+ }
+ 
+ static const struct of_device_id octeon_cf_match[] = {
+-	{
+-		.compatible = "cavium,ebt3000-compact-flash",
+-	},
+-	{},
++	{ .compatible = "cavium,ebt3000-compact-flash", },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, octeon_cf_match);
+ 
+diff --git a/drivers/ata/pata_of_platform.c b/drivers/ata/pata_of_platform.c
+index c3a40b717dcdcc2a..ac5a633c00a57ac1 100644
+--- a/drivers/ata/pata_of_platform.c
++++ b/drivers/ata/pata_of_platform.c
+@@ -79,7 +79,7 @@ static int pata_of_platform_probe(struct platform_device *ofdev)
+ 
+ static const struct of_device_id pata_of_platform_match[] = {
+ 	{ .compatible = "ata-generic", },
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, pata_of_platform_match);
+ 
+diff --git a/drivers/ata/sata_fsl.c b/drivers/ata/sata_fsl.c
+index 556034a15430461f..9513f22d64749199 100644
+--- a/drivers/ata/sata_fsl.c
++++ b/drivers/ata/sata_fsl.c
+@@ -1577,13 +1577,9 @@ static int sata_fsl_resume(struct platform_device *op)
+ #endif
+ 
+ static const struct of_device_id fsl_sata_match[] = {
+-	{
+-		.compatible = "fsl,pq-sata",
+-	},
+-	{
+-		.compatible = "fsl,pq-sata-v2",
+-	},
+-	{},
++	{ .compatible = "fsl,pq-sata", },
++	{ .compatible = "fsl,pq-sata-v2", },
++	{ /* sentinel */ }
+ };
+ 
+ MODULE_DEVICE_TABLE(of, fsl_sata_match);
+diff --git a/drivers/ata/sata_gemini.c b/drivers/ata/sata_gemini.c
+index 440a63de20d01a07..00e1c7941d0ea0dd 100644
+--- a/drivers/ata/sata_gemini.c
++++ b/drivers/ata/sata_gemini.c
+@@ -419,10 +419,8 @@ static int gemini_sata_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id gemini_sata_of_match[] = {
+-	{
+-		.compatible = "cortina,gemini-sata-bridge",
+-	},
+-	{},
++	{ .compatible = "cortina,gemini-sata-bridge", },
++	{ /* sentinel */ }
+ };
+ 
+ static struct platform_driver gemini_sata_driver = {
+diff --git a/drivers/ata/sata_highbank.c b/drivers/ata/sata_highbank.c
+index b29d3f1d64b03317..cd375e4df9644e33 100644
+--- a/drivers/ata/sata_highbank.c
++++ b/drivers/ata/sata_highbank.c
+@@ -444,7 +444,7 @@ static struct scsi_host_template ahci_highbank_platform_sht = {
+ 
+ static const struct of_device_id ahci_of_match[] = {
+ 	{ .compatible = "calxeda,hb-ahci" },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, ahci_of_match);
+ 
+diff --git a/drivers/ata/sata_mv.c b/drivers/ata/sata_mv.c
+index 53446b997740d5fd..13d92b71e6659cda 100644
+--- a/drivers/ata/sata_mv.c
++++ b/drivers/ata/sata_mv.c
+@@ -4277,7 +4277,7 @@ static int mv_platform_resume(struct platform_device *pdev)
+ static const struct of_device_id mv_sata_dt_ids[] = {
+ 	{ .compatible = "marvell,armada-370-sata", },
+ 	{ .compatible = "marvell,orion-sata", },
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, mv_sata_dt_ids);
+ #endif
+diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
+index 3d96b6faa3f0e1c6..1483d3efeb7e220e 100644
+--- a/drivers/ata/sata_rcar.c
++++ b/drivers/ata/sata_rcar.c
+@@ -857,7 +857,7 @@ static const struct of_device_id sata_rcar_match[] = {
+ 		.compatible = "renesas,rcar-gen3-sata",
+ 		.data = (void *)RCAR_GEN3_SATA
+ 	},
+-	{ },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sata_rcar_match);
+ 
+-- 
+2.25.1
+
