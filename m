@@ -2,109 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 237A44CCFBD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 09:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F1D34CD0D6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 10:09:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbiCDIOV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Mar 2022 03:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49618 "EHLO
+        id S236437AbiCDJKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Mar 2022 04:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232323AbiCDIOR (ORCPT
+        with ESMTP id S229991AbiCDJKh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Mar 2022 03:14:17 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56C565820
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Mar 2022 00:13:30 -0800 (PST)
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 427F33F5F2
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Mar 2022 08:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1646381609;
-        bh=PN+MwFyyD7KNKhN3V9sTc9ozhjbNqMNAeFcwOrkH/Mc=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version:Content-Type;
-        b=jQLZrH58hWlRQirutLmFiWPu4+xkDTRoSVsohYkU5Qbg2tOzNcCOilU/ZgG1pyA7z
-         KZ+1Y4rrxdEBoDbBune7YWUpbGGLe0W8MFlGdRhX9p7Vh6SiR0qhqxCZIfF1kwApOf
-         OYDhZr80irR0CmKpITNYJ6vboRR3cx3rE8kpAVrvozRnQA3pLL1kAa46a9UH6GBMu/
-         22Vffzlml/Wgmj35JV4Xuk65B9+AlDgvFsM3qeNVxM757ukWfEHVX4IuBBCmoXoPRd
-         l55QKz/SSVks4pmZfLZYQnYAz9lZP8RSl5YiaZg5kRhmk0F8SsLG1dmwOx4Wx+JZ3/
-         bcl+Plt2EmB9A==
-Received: by mail-ej1-f70.google.com with SMTP id sa22-20020a1709076d1600b006ce78cacb85so4063851ejc.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Mar 2022 00:13:29 -0800 (PST)
+        Fri, 4 Mar 2022 04:10:37 -0500
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4959D14D268;
+        Fri,  4 Mar 2022 01:09:50 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id j7so3299200uap.5;
+        Fri, 04 Mar 2022 01:09:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PN+MwFyyD7KNKhN3V9sTc9ozhjbNqMNAeFcwOrkH/Mc=;
-        b=Zm9e2Xm7juCk1NjzDE4rvBcQT1xWhFTNfVtUAUdH9onGoxR6OGGd121YuCFO2M/G8W
-         XzvCJvaLaew32PiUNTx/jBXi1iqQuQYCEsxV3B6ExznKJQik6PHg3IqdpN6UAxtLXAGM
-         kwINk2LqRn7nu1hpKMB1ePUFdCk9/1QmGLInCpEwU3GS7jUbVHmBqHPxWkSnDeDfVRyK
-         tvxVmzPMQ2GaLtlnkPQf3lbU/m5V/dlB7LH4YIfTgPxsVw0jQ7tmFE7YPvIQn6iYEjkg
-         2sPmmxQyGWfRq7bhEezPAjEru7SeeOuMflNKSH68m+oSbifH44eYkSQQfIXDQ8qYmMkA
-         WbkQ==
-X-Gm-Message-State: AOAM530MU2/wktTRCYPYfmTJwfECGducM5QEuxnhW5QNkDtJ0RcGR0D9
-        QBLs/1VJrSmoKuA2/2wMaGe7FB5wL9EgFEGm8yWoHhCqACYVQn51AJqGuop0kk06Pv7Vs+tJ/iX
-        n4AtOtum8LUajQu7yENfs0SIP5giBI1xI7dqXlr4x0K9/mOzJ
-X-Received: by 2002:a17:907:d0f:b0:6da:63d6:b84f with SMTP id gn15-20020a1709070d0f00b006da63d6b84fmr9408974ejc.302.1646381608974;
-        Fri, 04 Mar 2022 00:13:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtmf4M0vAgtkkJF2MjO14bSsPEfmcjiMMhZeu+y4rewMDiaaGtcHGsndvzz05ZBZ+o9hJiUg==
-X-Received: by 2002:a17:907:d0f:b0:6da:63d6:b84f with SMTP id gn15-20020a1709070d0f00b006da63d6b84fmr9408960ejc.302.1646381608738;
-        Fri, 04 Mar 2022 00:13:28 -0800 (PST)
-Received: from localhost.localdomain (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
-        by smtp.gmail.com with ESMTPSA id z2-20020a05640235c200b00415cec386a5sm1889584edc.16.2022.03.04.00.13.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 00:13:28 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: memory: renesas,rpc-if: Document RZ/V2L SoC
-Date:   Fri,  4 Mar 2022 09:13:23 +0100
-Message-Id: <164638154584.220122.4689452706717484391.b4-ty@canonical.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220301123527.15950-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220301123527.15950-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2wwmuMoWRvfCtBBLu/hFltTlPEmL6J5ImpGm3gFZ0ZU=;
+        b=hMcYxNurzCwZUxIZtZ5BS/vI+Fp1QCr2yfxdmQHWl5Sk14kPb2wrmnp/OSpwWB/2OA
+         Kp8vqxQ54+Zpyg8NaKixXkObvxDRqZ5hIGxKoUYbKlFMRAVzvWUrag/1rS43C/viKOER
+         kTjp870Bs0rAr4mJBUtE295bmu9RXi/+w3yQc82W5stJMoBAX2da75FthwuAcJlvCWoM
+         Ywehz7qN5pvofORgO6yMbW8eP+C0UGZJVTf47bZJWbKuBuHERL61Jdwlt8AxaqiZYpbP
+         uJ4htuyY7BzFwZlp3kCBhTdMONGzMk9I3COrpAWmJl5vRqk69AirnEMSju5jpa7JxxPQ
+         nvvQ==
+X-Gm-Message-State: AOAM531AA788NFMdzYTmOaN1Mg2r+bNFsitIKFj8CghYFof384jv7gKf
+        rFov72dR4kI6MqeMhKAcmah2oyQBlXv/Sg==
+X-Google-Smtp-Source: ABdhPJyiYSV/AfTujndsARMI806rKvOJUXDD2WYXjy/Tt8EaUNxroeTuh1wNo4ulx2f+YuSPmxIRtQ==
+X-Received: by 2002:ab0:154e:0:b0:345:ecb3:3a9c with SMTP id p14-20020ab0154e000000b00345ecb33a9cmr15460364uae.106.1646384989351;
+        Fri, 04 Mar 2022 01:09:49 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id k4-20020a1fa104000000b00336fb22af69sm16443vke.15.2022.03.04.01.09.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Mar 2022 01:09:49 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id k9so4057123vki.4;
+        Fri, 04 Mar 2022 01:09:48 -0800 (PST)
+X-Received: by 2002:a05:6122:130d:b0:333:33a4:52a9 with SMTP id
+ e13-20020a056122130d00b0033333a452a9mr11085816vkp.33.1646384988811; Fri, 04
+ Mar 2022 01:09:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220301190400.1644150-1-robh@kernel.org>
+In-Reply-To: <20220301190400.1644150-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 4 Mar 2022 10:09:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
+Message-ID: <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: clock: renesas: Make example 'clocks' parsable
+To:     Rob Herring <robh@kernel.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 1 Mar 2022 12:35:26 +0000, Lad Prabhakar wrote:
-> Document RZ/V2L RPC-IF bindings. RZ/V2L RPC-IF is identical to one found
-> on the RZ/G2L SoC. No driver changes are required as generic compatible
-> string "renesas,rzg2l-rpc-if" will be used as a fallback.
-> 
-> While at it, drop the comment "# RZ/G2L family" for "renesas,rzg2l-rpc-if"
-> compatible string as this will avoid changing the line for every new SoC
-> addition.
-> 
-> [...]
+Hi Rob,
 
-It's late in the cycle so I might not be able to push it out to SoC folks. If
-that happens, I will keep it for the next cycle.
+On Tue, Mar 1, 2022 at 8:04 PM Rob Herring <robh@kernel.org> wrote:
+> 'clocks' in the example is not parsable with the 0 phandle value
+> because the number of #clock-cells is unknown in the previous entry.
+> Solve this by adding the clock provider node. Only 'cpg_clocks' is
+> needed as the examples are built with fixups which can be used to
+> identify phandles.
+>
+> This is in preparation to support schema validation on .dtb files.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Applied, thanks!
+Thanks for your patch!
 
-[1/1] dt-bindings: memory: renesas,rpc-if: Document RZ/V2L SoC
-      commit: 69d6941949ea8a113ffc89410b0cb79bc7b35a0b
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Do you want me to queue this in renesas-clk-for-v5.19, or do you
+want to take it yourself, together with the validation patches?
+Please let me know.
+
+In the latter case:
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
