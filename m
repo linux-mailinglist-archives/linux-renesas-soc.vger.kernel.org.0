@@ -2,63 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0998E4CD456
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 13:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DABA64CD4B0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 14:07:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbiCDMik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Mar 2022 07:38:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
+        id S231825AbiCDNH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Mar 2022 08:07:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230015AbiCDMig (ORCPT
+        with ESMTP id S229482AbiCDNH4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Mar 2022 07:38:36 -0500
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246534E3B7;
-        Fri,  4 Mar 2022 04:37:47 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id v128so4091484vsb.8;
-        Fri, 04 Mar 2022 04:37:47 -0800 (PST)
+        Fri, 4 Mar 2022 08:07:56 -0500
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0911F1B4024
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Mar 2022 05:07:08 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id w128so4354483vkd.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Mar 2022 05:07:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VOH735E+VucQT20j1gNC+hhSNDzASMXoPAxJOcmos/E=;
-        b=XvcqEPfm243WJSfHHk3htCYvf2oJiOOaaf8tARvgeLE5mh52GBCHS7ls4p0VXgHNGY
-         UkYTkE9f6HB2ON/eBusQUyPx+xsAKv9GbpIFcw+AnVQASDFPDBFGSDkuogJpdE5evfuP
-         U4JCNA2a6o9zkRSTAHdSM/VUuzXIXMfuMN+wAEGIs4P8/5GuQFAv+qZJd4P/bw+ZU1Dl
-         BHgJXfFfsJOx5lvDaIb5pLK3fOWhTDT6tf8rZKpmghTJ+P+5AOXhZzEMPbCFiGPdsCDl
-         5H+gfnHLiPPMEBbFWpk8gdven7mABok/KGk5JNt2bsGAzOK/EzuYNtR2CyGthMNzs+WE
-         sVSQ==
-X-Gm-Message-State: AOAM532tKRNgRRwCecf6hWhxu7plhx1ULoPOdTh3mjgMnauQa2OEr8C4
-        NbzGtoOiibBi7Q5Sc+AfzowkeAYsbVfq0A==
-X-Google-Smtp-Source: ABdhPJxdrhoCnd6UV42jcAmA552wjS8d6HILavg79WLtmr+MOp1IsB6n6PigNUA1neNpas1o5F2pNg==
-X-Received: by 2002:a05:6102:418a:b0:31a:1d33:6803 with SMTP id cd10-20020a056102418a00b0031a1d336803mr17846056vsb.40.1646397466085;
-        Fri, 04 Mar 2022 04:37:46 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id e20-20020ab02b14000000b00345f0381ddcsm874030uar.0.2022.03.04.04.37.45
+        bh=tIHfkMgtiFE9hswQYNJywb9axtt1hJZXDf5gsyqrIWc=;
+        b=YwULX1Dm/VPynQgUhlVNWctFZ1T4Y1JM2AFti0GSq1LabPN4yvC1i1CcpUqXcX20ST
+         kky9DeY2w2Lt+Hyt6ZZcH+Ek805qURFWiLkKUK1cXfDjcPkyhqh/y3guGzPsPbbdjqpk
+         tHwm1LlbhASYssR2FlYilwq5VeC43PND85RK7ulVRz1Bz68F8j3ytdWwiW2WFGxSgg61
+         9tBELQV8NAoD8idLzC+jwgkxGtMU7vKrRUWiJkUV6RTWS56Ph4kcje5I5YTfx/wCnyTF
+         w/K2CkRMsVHXlwVcSlWdUPdWe9IO57acNIKMtn2C1+TBz7GnLSLdSIwUM6p/iTjBjFxc
+         pM9w==
+X-Gm-Message-State: AOAM5330Z8FwNeoGn8DK1TNcyRNJFA3qoS5ng+ClKTc8t7WDD2EEH9JW
+        2j2A/rh6gh3fPs31Ae6xL+iQP7guk5mHHA==
+X-Google-Smtp-Source: ABdhPJxwj/DC74jD7xk/oAR+qyiLc3LdD1fLyXIjLw+6jhcf9+ivCTpsX2XKjpZcga3ckhsMybVg4w==
+X-Received: by 2002:a1f:3244:0:b0:332:2037:83b1 with SMTP id y65-20020a1f3244000000b00332203783b1mr17562503vky.24.1646399226946;
+        Fri, 04 Mar 2022 05:07:06 -0800 (PST)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id o84-20020a1f2857000000b00336dfe5589csm491750vko.28.2022.03.04.05.07.06
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Mar 2022 04:37:45 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id y4so8868542vsd.11;
-        Fri, 04 Mar 2022 04:37:45 -0800 (PST)
-X-Received: by 2002:a05:6102:2922:b0:31e:bd90:f1c3 with SMTP id
- cz34-20020a056102292200b0031ebd90f1c3mr6892512vsb.77.1646397465187; Fri, 04
- Mar 2022 04:37:45 -0800 (PST)
+        Fri, 04 Mar 2022 05:07:06 -0800 (PST)
+Received: by mail-vs1-f41.google.com with SMTP id g21so8968798vsp.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Mar 2022 05:07:06 -0800 (PST)
+X-Received: by 2002:a05:6102:c1:b0:320:7de8:3bbb with SMTP id
+ u1-20020a05610200c100b003207de83bbbmr1261877vsp.5.1646399226371; Fri, 04 Mar
+ 2022 05:07:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220304114110.3939390-1-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220304114110.3939390-1-kieran.bingham+renesas@ideasonboard.com>
+References: <20220303162634.6572-1-biju.das.jz@bp.renesas.com> <20220303162634.6572-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220303162634.6572-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Mar 2022 13:37:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU+sO+LAOxaSfN6aLa4ROnF71j=RQVqk_1jAfvjYyeCwA@mail.gmail.com>
-Message-ID: <CAMuHMdU+sO+LAOxaSfN6aLa4ROnF71j=RQVqk_1jAfvjYyeCwA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: falcon-cpu: Use INTC_EX for SN65DSI86
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        open list <linux-kernel@vger.kernel.org>
+Date:   Fri, 4 Mar 2022 14:06:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX12L55NLABtTvE6b16a+9NvC6LcDG7npRhiHSWeMQ7Zw@mail.gmail.com>
+Message-ID: <CAMuHMdX12L55NLABtTvE6b16a+9NvC6LcDG7npRhiHSWeMQ7Zw@mail.gmail.com>
+Subject: Re: [PATCH V2 2/7] soc: renesas: Identify RZ/G2UL SoC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -70,38 +68,79 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Biju,
 
-On Fri, Mar 4, 2022 at 12:41 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> The INTC block is a better choice for handling the interrupts on the V3U
-> as the INTC will always be powered, while the GPIO block may be
-> de-clocked if not in use. Further more, it may be likely to have a lower
-> power consumption as it does not need to drive the pins.
+On Thu, Mar 3, 2022 at 5:26 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add support for identifying the RZ/G2UL (R9A07G043U) SoC.
 >
-> Switch the interrupt parent and interrupts definition from gpio1 to
-> intc_ex, allowing the PFC to configure the pin muxing accordingly.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-> @@ -198,8 +198,8 @@ bridge@2c {
->                 clocks = <&sn65dsi86_refclk>;
->                 clock-names = "refclk";
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -296,6 +296,12 @@ config ARCH_R8A774B1
+>         help
+>           This enables support for the Renesas RZ/G2N SoC.
 >
-> -               interrupt-parent = <&gpio1>;
-> -               interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
-> +               interrupt-parent = <&intc_ex>;
-> +               interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
->
->                 vccio-supply = <&reg_1p8v>;
->                 vpll-supply = <&reg_1p8v>;
+> +config ARCH_R9A07G043U
 
-The above is correct, but you forgot to configure pin control for the
-irq0 pin.
+Likewise (cfr. my comments on 1/7), I think this should use
+ARCH_R9A07G043 instead.
+
+> +       bool "ARM64 Platform support for RZ/G2UL"
+> +       select ARCH_RZG2L
+> +       help
+> +         This enables support for the Renesas RZ/G2UL SoC variants.
+> +
+>  config ARCH_R9A07G044
+>         bool "ARM64 Platform support for RZ/G2L"
+>         select ARCH_RZG2L
+> diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+> index 92c7b42250ee..c667baf4fc59 100644
+> --- a/drivers/soc/renesas/renesas-soc.c
+> +++ b/drivers/soc/renesas/renesas-soc.c
+> @@ -64,6 +64,10 @@ static const struct renesas_family fam_rzg2l __initconst __maybe_unused = {
+>         .name   = "RZ/G2L",
+>  };
+>
+> +static const struct renesas_family fam_rzg2ul __initconst __maybe_unused = {
+> +       .name   = "RZ/G2UL",
+> +};
+> +
+>  static const struct renesas_family fam_rzv2l __initconst __maybe_unused = {
+>         .name   = "RZ/V2L",
+>  };
+> @@ -148,6 +152,11 @@ static const struct renesas_soc soc_rz_g2l __initconst __maybe_unused = {
+>         .id     = 0x841c447,
+>  };
+>
+> +static const struct renesas_soc soc_rz_g2ul __initconst __maybe_unused = {
+> +       .family = &fam_rzg2ul,
+> +       .id     = 0x8450447,
+
+Rev. 0.51 of the RZ/G2UL Hardware User's Manual still lists the same
+ID as RZ/G2L, so I can't check this :-(
+
+> +};
+> +
+>  static const struct renesas_soc soc_rz_v2l __initconst __maybe_unused = {
+>         .family = &fam_rzv2l,
+>         .id     = 0x8447447,
+> @@ -340,6 +349,9 @@ static const struct of_device_id renesas_socs[] __initconst = {
+>  #ifdef CONFIG_ARCH_R8A779F0
+>         { .compatible = "renesas,r8a779f0",     .data = &soc_rcar_s4 },
+>  #endif
+> +#if defined(CONFIG_ARCH_R9A07G043U)
+> +       { .compatible = "renesas,r9a07g043u11", .data = &soc_rz_g2ul },
+
+ "renesas,r9a07g043", so it catches both Type-1 and Type-2 SoCs?
+
+> +#endif
+>  #if defined(CONFIG_ARCH_R9A07G044)
+>         { .compatible = "renesas,r9a07g044",    .data = &soc_rz_g2l },
+>  #endif
 
 Gr{oetje,eeting}s,
 
