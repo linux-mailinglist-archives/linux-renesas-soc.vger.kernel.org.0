@@ -2,105 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F1D34CD0D6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 10:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C34994CD3AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 12:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236437AbiCDJKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Mar 2022 04:10:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43662 "EHLO
+        id S233357AbiCDLmE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Mar 2022 06:42:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229991AbiCDJKh (ORCPT
+        with ESMTP id S231373AbiCDLmE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Mar 2022 04:10:37 -0500
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4959D14D268;
-        Fri,  4 Mar 2022 01:09:50 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id j7so3299200uap.5;
-        Fri, 04 Mar 2022 01:09:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2wwmuMoWRvfCtBBLu/hFltTlPEmL6J5ImpGm3gFZ0ZU=;
-        b=hMcYxNurzCwZUxIZtZ5BS/vI+Fp1QCr2yfxdmQHWl5Sk14kPb2wrmnp/OSpwWB/2OA
-         Kp8vqxQ54+Zpyg8NaKixXkObvxDRqZ5hIGxKoUYbKlFMRAVzvWUrag/1rS43C/viKOER
-         kTjp870Bs0rAr4mJBUtE295bmu9RXi/+w3yQc82W5stJMoBAX2da75FthwuAcJlvCWoM
-         Ywehz7qN5pvofORgO6yMbW8eP+C0UGZJVTf47bZJWbKuBuHERL61Jdwlt8AxaqiZYpbP
-         uJ4htuyY7BzFwZlp3kCBhTdMONGzMk9I3COrpAWmJl5vRqk69AirnEMSju5jpa7JxxPQ
-         nvvQ==
-X-Gm-Message-State: AOAM531AA788NFMdzYTmOaN1Mg2r+bNFsitIKFj8CghYFof384jv7gKf
-        rFov72dR4kI6MqeMhKAcmah2oyQBlXv/Sg==
-X-Google-Smtp-Source: ABdhPJyiYSV/AfTujndsARMI806rKvOJUXDD2WYXjy/Tt8EaUNxroeTuh1wNo4ulx2f+YuSPmxIRtQ==
-X-Received: by 2002:ab0:154e:0:b0:345:ecb3:3a9c with SMTP id p14-20020ab0154e000000b00345ecb33a9cmr15460364uae.106.1646384989351;
-        Fri, 04 Mar 2022 01:09:49 -0800 (PST)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id k4-20020a1fa104000000b00336fb22af69sm16443vke.15.2022.03.04.01.09.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Mar 2022 01:09:49 -0800 (PST)
-Received: by mail-vk1-f175.google.com with SMTP id k9so4057123vki.4;
-        Fri, 04 Mar 2022 01:09:48 -0800 (PST)
-X-Received: by 2002:a05:6122:130d:b0:333:33a4:52a9 with SMTP id
- e13-20020a056122130d00b0033333a452a9mr11085816vkp.33.1646384988811; Fri, 04
- Mar 2022 01:09:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20220301190400.1644150-1-robh@kernel.org>
-In-Reply-To: <20220301190400.1644150-1-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Mar 2022 10:09:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
-Message-ID: <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: clock: renesas: Make example 'clocks' parsable
-To:     Rob Herring <robh@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Fri, 4 Mar 2022 06:42:04 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7B9162013;
+        Fri,  4 Mar 2022 03:41:16 -0800 (PST)
+Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B971D51C;
+        Fri,  4 Mar 2022 12:41:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646394074;
+        bh=znyJ/7LFtbo32JZV1vCfRMhmsn+HUg4UTHM7rnmyVe8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=F6zHpnkwai2c7OsKRk5k0Mjvwc82dbr4e5vtOsxIzLVLrQnYaIXRsTm+zNZ4e3c4D
+         /EUbSu4cN2IW+5NYS3GH4xN1iLKurnQn/4TbO9qS8aNIueHnVvpfM/mY+A5z6ILyQE
+         OhOidrPUXTVzZfW/p9bGDUTYpelBeqv34yFcmISs=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@glider.be>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] arm64: dts: renesas: falcon-cpu: Use INTC_EX for SN65DSI86
+Date:   Fri,  4 Mar 2022 11:41:10 +0000
+Message-Id: <20220304114110.3939390-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+The INTC block is a better choice for handling the interrupts on the V3U
+as the INTC will always be powered, while the GPIO block may be
+de-clocked if not in use. Further more, it may be likely to have a lower
+power consumption as it does not need to drive the pins.
 
-On Tue, Mar 1, 2022 at 8:04 PM Rob Herring <robh@kernel.org> wrote:
-> 'clocks' in the example is not parsable with the 0 phandle value
-> because the number of #clock-cells is unknown in the previous entry.
-> Solve this by adding the clock provider node. Only 'cpg_clocks' is
-> needed as the examples are built with fixups which can be used to
-> identify phandles.
->
-> This is in preparation to support schema validation on .dtb files.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Switch the interrupt parent and interrupts definition from gpio1 to
+intc_ex, allowing the PFC to configure the pin muxing accordingly.
 
-Thanks for your patch!
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+index 6af3f4f4f268..b7254a0f08b6 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+@@ -198,8 +198,8 @@ bridge@2c {
+ 		clocks = <&sn65dsi86_refclk>;
+ 		clock-names = "refclk";
+ 
+-		interrupt-parent = <&gpio1>;
+-		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-parent = <&intc_ex>;
++		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+ 
+ 		vccio-supply = <&reg_1p8v>;
+ 		vpll-supply = <&reg_1p8v>;
+-- 
+2.32.0
 
-Do you want me to queue this in renesas-clk-for-v5.19, or do you
-want to take it yourself, together with the validation patches?
-Please let me know.
-
-In the latter case:
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
