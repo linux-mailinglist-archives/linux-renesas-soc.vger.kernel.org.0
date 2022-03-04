@@ -2,99 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 614DD4CD420
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 13:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0998E4CD456
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 13:37:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231679AbiCDMVs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Mar 2022 07:21:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
+        id S231261AbiCDMik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Mar 2022 07:38:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbiCDMVr (ORCPT
+        with ESMTP id S230015AbiCDMig (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Mar 2022 07:21:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 741EC1AF8EA;
-        Fri,  4 Mar 2022 04:21:00 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A279651C;
-        Fri,  4 Mar 2022 13:20:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646396458;
-        bh=oIDe/f8B9cn87MHXgHXk87sK0s0dk8BfabHrG4XHYD4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WRL/LjPiTjiAls3MikIQdkLhAmW/kDjyUryPHWK1ojr/2N9y0Ac0aZOg9FxYZQe4P
-         JZvO5JOHF2RoxQ4Ik7EBmBB9o7o5OC4P01Sn47U7+frUFdDRDq9IQy4AQQVwZENId8
-         9U+x7KGQzRTPpWXEsV4Qq4JwlhC6AefEG/j8Nvl4=
-Date:   Fri, 4 Mar 2022 14:20:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Fri, 4 Mar 2022 07:38:36 -0500
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246534E3B7;
+        Fri,  4 Mar 2022 04:37:47 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id v128so4091484vsb.8;
+        Fri, 04 Mar 2022 04:37:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VOH735E+VucQT20j1gNC+hhSNDzASMXoPAxJOcmos/E=;
+        b=XvcqEPfm243WJSfHHk3htCYvf2oJiOOaaf8tARvgeLE5mh52GBCHS7ls4p0VXgHNGY
+         UkYTkE9f6HB2ON/eBusQUyPx+xsAKv9GbpIFcw+AnVQASDFPDBFGSDkuogJpdE5evfuP
+         U4JCNA2a6o9zkRSTAHdSM/VUuzXIXMfuMN+wAEGIs4P8/5GuQFAv+qZJd4P/bw+ZU1Dl
+         BHgJXfFfsJOx5lvDaIb5pLK3fOWhTDT6tf8rZKpmghTJ+P+5AOXhZzEMPbCFiGPdsCDl
+         5H+gfnHLiPPMEBbFWpk8gdven7mABok/KGk5JNt2bsGAzOK/EzuYNtR2CyGthMNzs+WE
+         sVSQ==
+X-Gm-Message-State: AOAM532tKRNgRRwCecf6hWhxu7plhx1ULoPOdTh3mjgMnauQa2OEr8C4
+        NbzGtoOiibBi7Q5Sc+AfzowkeAYsbVfq0A==
+X-Google-Smtp-Source: ABdhPJxdrhoCnd6UV42jcAmA552wjS8d6HILavg79WLtmr+MOp1IsB6n6PigNUA1neNpas1o5F2pNg==
+X-Received: by 2002:a05:6102:418a:b0:31a:1d33:6803 with SMTP id cd10-20020a056102418a00b0031a1d336803mr17846056vsb.40.1646397466085;
+        Fri, 04 Mar 2022 04:37:46 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
+        by smtp.gmail.com with ESMTPSA id e20-20020ab02b14000000b00345f0381ddcsm874030uar.0.2022.03.04.04.37.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Mar 2022 04:37:45 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id y4so8868542vsd.11;
+        Fri, 04 Mar 2022 04:37:45 -0800 (PST)
+X-Received: by 2002:a05:6102:2922:b0:31e:bd90:f1c3 with SMTP id
+ cz34-20020a056102292200b0031ebd90f1c3mr6892512vsb.77.1646397465187; Fri, 04
+ Mar 2022 04:37:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20220304114110.3939390-1-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220304114110.3939390-1-kieran.bingham+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 4 Mar 2022 13:37:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU+sO+LAOxaSfN6aLa4ROnF71j=RQVqk_1jAfvjYyeCwA@mail.gmail.com>
+Message-ID: <CAMuHMdU+sO+LAOxaSfN6aLa4ROnF71j=RQVqk_1jAfvjYyeCwA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: falcon-cpu: Use INTC_EX for SN65DSI86
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: display: bridge: renesas,lvds: Document
- r8a77961 bindings
-Message-ID: <YiIEHpI3ltyOwumx@pendragon.ideasonboard.com>
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-4-nikita.yoush@cogentembedded.com>
- <YcyRAk/d2728mDgH@pendragon.ideasonboard.com>
- <CAMuHMdWkgEwgSEBrNt57nMPuMvyCSPsSbKFuQTGX8qX0-mrDLA@mail.gmail.com>
- <YiCG7xSHx6qqFlrc@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YiCG7xSHx6qqFlrc@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 11:14:24AM +0200, Laurent Pinchart wrote:
-> On Wed, Mar 02, 2022 at 06:00:08PM +0100, Geert Uytterhoeven wrote:
-> > On Wed, Dec 29, 2021 at 5:47 PM Laurent Pinchart wrote:
-> > > On Fri, Dec 24, 2021 at 08:23:09AM +0300, Nikita Yushchenko wrote:
-> > > > Document the R-Car M3-W+ (R8A77961) SoC in the R-Car LVDS encoder
-> > > > bindings.
-> > > >
-> > > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > > ---
-> > > >  .../devicetree/bindings/display/bridge/renesas,lvds.yaml         | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > > index acfc327f70a7..ca5443e5c2e3 100644
-> > > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > > @@ -27,6 +27,7 @@ properties:
-> > > >        - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-> > > >        - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-> > > >        - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-> > > > +      - renesas,r8a77961-lvds # for R-Car M3-W+ compatible LVDS encoders
-> > >
-> > > I'll move this line after the next to keep them sorted. No need to
-> > > resubmit.
-> > 
-> > Any chance this will happen soon? Same for patch 1/3 .
-> > Patch 2/3 is already queued in soc/for-next.
-> 
-> Oops. I can send a pull request right away, but we're already at -rc6,
-> so I'm afraid it will get delayed to v5.19.
+Hi Kieran,
 
-The patch has been merged in the drm-next branch, thanks to Dave being
-very reactive before the tree freeze period begins. Thank you Dave.
+On Fri, Mar 4, 2022 at 12:41 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> The INTC block is a better choice for handling the interrupts on the V3U
+> as the INTC will always be powered, while the GPIO block may be
+> de-clocked if not in use. Further more, it may be likely to have a lower
+> power consumption as it does not need to drive the pins.
+>
+> Switch the interrupt parent and interrupts definition from gpio1 to
+> intc_ex, allowing the PFC to configure the pin muxing accordingly.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
--- 
-Regards,
+Thanks for your patch!
 
-Laurent Pinchart
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+> @@ -198,8 +198,8 @@ bridge@2c {
+>                 clocks = <&sn65dsi86_refclk>;
+>                 clock-names = "refclk";
+>
+> -               interrupt-parent = <&gpio1>;
+> -               interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
+> +               interrupt-parent = <&intc_ex>;
+> +               interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+>
+>                 vccio-supply = <&reg_1p8v>;
+>                 vpll-supply = <&reg_1p8v>;
+
+The above is correct, but you forgot to configure pin control for the
+irq0 pin.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
