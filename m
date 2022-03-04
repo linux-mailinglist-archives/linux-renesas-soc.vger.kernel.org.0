@@ -2,33 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB254CD845
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 16:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E2344CD924
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Mar 2022 17:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240404AbiCDPuZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Mar 2022 10:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45898 "EHLO
+        id S240524AbiCDQcC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Mar 2022 11:32:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiCDPuZ (ORCPT
+        with ESMTP id S239323AbiCDQcB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Mar 2022 10:50:25 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557751AF8CA
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Mar 2022 07:49:37 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADAAC51C;
-        Fri,  4 Mar 2022 16:49:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646408975;
-        bh=kLQmwl/+vPNRO8xx7xBk2B3LJG9VaxVZC9LOvPp9fQA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EdNwZ6D9NPGyzWVZHNT3+8PqzH1cG8XCGrsEwPF9zKez8+LD3WlVUUqrrtrtOx54A
-         dCXPwihgf1ooNsSdBbRsuFG+qXs9t/rmFSMKknrozGGzFEK4mx0e/Qy0CFJeiaWIE1
-         Rdv0QW6BuC+NyBx7Xb2cXo38j1LlR8HHtHk3NmNA=
-Date:   Fri, 4 Mar 2022 17:49:23 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Fri, 4 Mar 2022 11:32:01 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AE41CBAAC
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Mar 2022 08:31:13 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id s1so11405649edd.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Mar 2022 08:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kipyyfQhII/lUc7ysFVEiW0FpeN/L7xlD0io3E8wlvc=;
+        b=V9VXpoR2CA3L+SEaFUZyvVoeyi/77ttHxWBlqvxLVMmPTjoYR/nKzSOkXUSlRFawnH
+         SUWqu7YOXW9wdIjUgiRAmaJXZDwLokkfZ19LAfe5+A5R7Y0l4IQWKyO/T7HW2uT5KIoS
+         +IIi0cc+vsdq4W/QrEKG3xPPXJ5ATrszY1WkM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kipyyfQhII/lUc7ysFVEiW0FpeN/L7xlD0io3E8wlvc=;
+        b=hwW6QuyTe5ZUOHNtTwv8TM15nHXY+v9fWCD/C85yAii0pJYE64+lSX2qGZHP9Z3VHE
+         76ioMWrcanzYmJD9kinD7erx7YUDyygQGZbpkJeUdZ09DRzL/c6KRpmgn8QwS76mf7u5
+         pth9X0bDiG3NxtkSjQMXANiHOgs66PBYUHRJWLI2tRwPYjGXgTFItB63da8TJaCD2D4s
+         UhwNpYM1ZkRq/MrQju0xb/LMMiniA9hF6mBKOPfCRR9OlASEur0hEb3RtvrRLvh1SR4I
+         59YXQVfRvAMvX6eZlMxJLjftzci/93bIa1QsbHnYnKD6GPHTHGi8bKqhecPrtOMbFXUJ
+         n8uA==
+X-Gm-Message-State: AOAM531mlZ5zQwckVpVwxQcGjPTofTVyMaTnUmwehqvO5dUMVGmYgQZI
+        CzLTbx0ivCK+oULacZ91tz8Jw9kDyFtircKv
+X-Google-Smtp-Source: ABdhPJy2rL80Pd0YbUQocD3aeUTAVySPtJGc0lF4CGXIHtXxEyOBbRhnKBR9hQkhPbGSPlAe/+18aw==
+X-Received: by 2002:a05:6402:40d0:b0:415:db98:c263 with SMTP id z16-20020a05640240d000b00415db98c263mr8647538edb.82.1646411471582;
+        Fri, 04 Mar 2022 08:31:11 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id u3-20020a17090657c300b006d01de78926sm1933667ejr.22.2022.03.04.08.31.09
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Mar 2022 08:31:10 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id n33-20020a05600c3ba100b003832caf7f3aso4252717wms.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Mar 2022 08:31:09 -0800 (PST)
+X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
+ s1-20020a7bc0c1000000b00385be1b0e6amr8416576wmh.73.1646411469246; Fri, 04 Mar
+ 2022 08:31:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210322030128.2283-12-laurent.pinchart+renesas@ideasonboard.com>
+ <CAD=FV=XeUbw44OZ0H6hJhS3Pb7LgknVpKynHFxWpPx_qPQ6+QA@mail.gmail.com>
+ <YNPDAyODcvlWtxpj@pendragon.ideasonboard.com> <CAD=FV=W6npK+NhethhY8ghtt7gwDHYfpX00w07nHE82anqx5aA@mail.gmail.com>
+ <164563818901.4066078.3221991328451321918@Monstersaurus> <CAD=FV=VxOOhZMjVWzXHbEV_EZKRLxtuKgbko-7SUFMsj7upz0g@mail.gmail.com>
+ <164640875638.4039516.894310137608889285@Monstersaurus>
+In-Reply-To: <164640875638.4039516.894310137608889285@Monstersaurus>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 4 Mar 2022 08:30:57 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WC09+-H+pFTgxFHa8B+fqMkJPO0Jm81FLJiu6+PeNn7w@mail.gmail.com>
+Message-ID: <CAD=FV=WC09+-H+pFTgxFHa8B+fqMkJPO0Jm81FLJiu6+PeNn7w@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/11] drm/bridge: ti-sn65dsi86: Support hotplug detection
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Jonas Karlman <jonas@kwiboo.se>,
         Neil Armstrong <narmstrong@baylibre.com>,
@@ -36,70 +73,50 @@ Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Stephen Boyd <swboyd@chromium.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [RFC PATCH 10/11] drm/bridge: ti-sn65dsi86: Support DisplayPort
- (non-eDP) mode
-Message-ID: <YiI1A+dtLXMQzkVf@pendragon.ideasonboard.com>
-References: <20210322030128.2283-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210322030128.2283-11-laurent.pinchart+renesas@ideasonboard.com>
- <CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com>
- <YNM+JO4AAkPOLg7Y@pendragon.ideasonboard.com>
- <164563949999.4066078.2399611738908533224@Monstersaurus>
- <CAD=FV=WSHpu3Ub=0Gbq01o_s-SsUa_Q6uC7Z3PaxFL00eeJbdw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=WSHpu3Ub=0Gbq01o_s-SsUa_Q6uC7Z3PaxFL00eeJbdw@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 10:20:18AM -0800, Doug Anderson wrote:
-> On Wed, Feb 23, 2022 at 10:05 AM Kieran Bingham wrote:
-> >
-> > > > > +       /* For DisplayPort, disable scrambling mode. */
-> > > > > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-> > > > > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
-> > > > > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
-> > > >
-> > > > I'm assuming that this is the important part of your patch? Would be
-> > > > sorta nice to include the "why" in your comment. Why do you want to
-> > > > disable scrambling mode for DP but not for eDP? Maybe you care about
-> > > > compatibility but not EMI if you're hooking up to random DP things?
+Hi,
+
+On Fri, Mar 4, 2022 at 7:46 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+>
+> > > What about:
 > > >
-> > > I'll investigate and include proper documentation in v2 (or drop the
-> > > change altogether if it's not required).
+> > >         pdata->no_hpd = of_property_read_bool(np, "no-hpd");
+> > >         if (panel && !pdata->no_hpd) {
+> > >                 DRM_ERROR("Panels will not function with HPD. Enforcing no-hpd\n");
+> > >                 pdata->no_hpd = true;
+> > >         }
+> > >
+> > > That leaves it still optional to DP connectors, but enforced on eDP?
 > >
-> > And indeed, this part is important. If I drop this hunk - then I get no
-> > display output.
-> >
-> > I'm afraid I don't (yet) know the reasons 'why' to extend the comment,
-> > beyond "Scrambling is not supported for DP".
-> >
-> > If anyone already does, please feel free to provide the text, and I'll
-> > include it in the next revision, or I'll try to do some more digging
-> > into this part.
-> 
-> I don't know _tons_ about it, but I later learned that the "alternate"
-> scrambler is used for eDP and the normal scrambler is used for DP. I
-> don't have any background about why they are different other than what
-> looks to be intentionally making the two things incompatible.
+> > Yeah, that's fine with me. Nits would be to use "warn" instead of
+> > "error" since this isn't fatal and use the non-SHOUTING versions of
+> > the prints since the SHOUTING versions are deprecated.
+>
+> Could you clarify this please? The whole driver uses DRM_ERROR style. Is
+> there a new debug macro somewhere?
 
-I think it was done for DRM purpose, to prevent signals meant for a
-panel to be connected to a device that could capture video from a DP
-source.
+Mostly looking at commit 306589856399 ("drm/print: Add deprecation
+notes to DRM_...() functions"), which I added a few months ago.
+Despite the fact that I added the documentation, though, I'm not the
+one driving the transition away from the SHOUTing versions. If you
+look through history you can see this is driven by more senior DRM
+people.
 
-> ...so I guess that would make it pretty clear why you can't use the
-> alternate scrambler for DP. I haven't personally done the research to
-> know if you can be officially DP compliant with the scrambler
-> disabled. I also don't know why the ti-sn65dsi86 makes it so difficult
-> to switch to the standard scrambler or if it works at all... ;-)
+IMO it's fine to transition slowly to the new non-shouting versions
+and it doesn't bother me to have some code in a file using the old
+SHOUTing versions and some using the newer functions. Basically for
+new code or when we're touching code anyway we do the transition then.
+That being said, if you want to
 
--- 
-Regards,
-
-Laurent Pinchart
+-Doug
