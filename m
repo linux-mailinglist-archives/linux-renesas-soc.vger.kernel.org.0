@@ -2,63 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3A74D0BF3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 00:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A582E4D0BFA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 00:22:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbiCGXWj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Mar 2022 18:22:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48058 "EHLO
+        id S242197AbiCGXXN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Mar 2022 18:23:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242042AbiCGXWj (ORCPT
+        with ESMTP id S243654AbiCGXXN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Mar 2022 18:22:39 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE72E49F06
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Mar 2022 15:21:43 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id bg10so35398341ejb.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Mar 2022 15:21:43 -0800 (PST)
+        Mon, 7 Mar 2022 18:23:13 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DE349F0D
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Mar 2022 15:22:16 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id a8so35347070ejc.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Mar 2022 15:22:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=x4LLMVs4SZ7QvseE6w5ftUNf9lVckC3RDBoYM0EFIDE=;
-        b=ThMD+dbiLXkBNHXSUOp/TCqN39zftsJ2YeoVnCSVRgksqbEwShSMTLMQDxtpotpDPI
-         UtnheIGCjS5S5J36Kmgg7Zfy4E31WE+cUU29Dkzdp6LTbSPvQbRzG+9UB5nzl+rHxN5d
-         4dhxTaH+VrgM2Coi5dOnGVG7q5i2qwGS7J9MM=
+        bh=NtQPHi8MlejTb0WOYkUro+FgYs2jI22g5jze1Xz11Wc=;
+        b=EDn3vpkM0MQwAwbvMPZgM+4OdqB7ZpPc9q1RFkFJr/ikmYNZUKI3PXVdTz9AODjcx4
+         gzVtjQYGQmSseMru8nUKU6chiUchOkZOxR6fIMRcX9zdvOO2cZ9rD/Zmp3udjJpBSOCG
+         uBO3oq/4FaIzk8ef+UNffI1feZv+ynCiuTZc0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=x4LLMVs4SZ7QvseE6w5ftUNf9lVckC3RDBoYM0EFIDE=;
-        b=yvPtBCAkZU7I8IixKqSPmmtN5ecSgDBaY74VakduoCgJKRWyAxpxRU7e2jHgktcFI6
-         KjTPwJKGyWNNbHZJl5W9I2LkcgTFccVabnhYtwCUgKBF5I50v/6ahOln7MJQfFVUQRK1
-         WuogII9j59qY0OBqEacYJ4TQjrU/ZWi8u4QMIw6r9HOeR613fU/ceWrp/Ax3VoyHiF7T
-         +0SlVfsLvnK2V89VfoCUkiXZzP3mgoruwi8FkPSH+pODeADkLZccHLYZ5RfVf9k6mXrJ
-         IKXdGK1VyrDkZLkDzqeUe6LTdq9A0Mq1zp1vC4N8xz+aWhxg/JZYwLlrMScaF+tDFPXQ
-         XTjw==
-X-Gm-Message-State: AOAM5329nxM+S6c4QZmlS7OPeldfwusCnUus/fj9o9Afh8UW7uSelQeF
-        Q2GcKAhuJQYS3whaUrhYPUe6X8o6JGU8Tz5L
-X-Google-Smtp-Source: ABdhPJy8SfxZ6l4p1x5TU/IQcT3lPsKKyUx3UqsLK+c6w/N4uCq3vDaxF5kO9ZRw9pG9M6FXWd1ciQ==
-X-Received: by 2002:a17:906:edbd:b0:6b6:bd54:235c with SMTP id sa29-20020a170906edbd00b006b6bd54235cmr11021030ejb.363.1646695302120;
-        Mon, 07 Mar 2022 15:21:42 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com. [209.85.128.47])
-        by smtp.gmail.com with ESMTPSA id k20-20020a170906681400b006da86bef01fsm5224548ejr.79.2022.03.07.15.21.41
+        bh=NtQPHi8MlejTb0WOYkUro+FgYs2jI22g5jze1Xz11Wc=;
+        b=26/UmOjuHOPubpIjzYm3rBD1nvVHuyXgUGIMTWQGuBBsuYlMK60mRhIN5gBqMQ4yOl
+         VuAMIlAda672Xo9ghKWcdTDRraQKcrrI891kaMfBPdYBXTysOTMJO0YlxX1daJdimBQj
+         dK4aLPDch4cEQI70MfKJFRHIzmT/XAeCqLrTsAa4n3pbZlL4Rv7zdkZkSox57clMKjb/
+         gRAPhz2xeouOHx4OLtv/Glg5cI/McN4exu1OFYe9POTBgDTSecszkFs3cHFaa6V7fIbw
+         jpM7Fcnz7sAsZ8ibNbDY4J7YGQrDe4AEUe39uWLGWr2fQD2Wq/yfZDAssZfenoRRcb9K
+         piLQ==
+X-Gm-Message-State: AOAM532rsjKZWuvYi/BNsc+COA4BpO6v39Mng6NAa7amXA86T+4rCKfP
+        DprNq4yMdKm0Hf4e0h7q6B4Tdfz9DGxX/2CU
+X-Google-Smtp-Source: ABdhPJzFeaG8RIW63FDEnGvfJVZkl+P8JHkFw6NRVX+BU5w2co7VAT/7lx0M6/6TXvi8sehNyRVVJw==
+X-Received: by 2002:a17:906:68c2:b0:6b4:9f26:c099 with SMTP id y2-20020a17090668c200b006b49f26c099mr11014140ejr.41.1646695334904;
+        Mon, 07 Mar 2022 15:22:14 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b006da745f7233sm5158121ejx.5.2022.03.07.15.22.13
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Mar 2022 15:21:41 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id c192so10125052wma.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Mar 2022 15:21:41 -0800 (PST)
-X-Received: by 2002:a05:600c:1d08:b0:381:6eda:67d1 with SMTP id
- l8-20020a05600c1d0800b003816eda67d1mr1108164wms.88.1646695300817; Mon, 07 Mar
- 2022 15:21:40 -0800 (PST)
+        Mon, 07 Mar 2022 15:22:13 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id r65so10154257wma.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Mar 2022 15:22:13 -0800 (PST)
+X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
+ s1-20020a7bc0c1000000b00385be1b0e6amr1048093wmh.73.1646695332499; Mon, 07 Mar
+ 2022 15:22:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com> <20220307175955.363057-3-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220307175955.363057-3-kieran.bingham+renesas@ideasonboard.com>
+References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com> <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com>
 From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 7 Mar 2022 15:21:28 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U5VPogd4Lf9TRhpqdpfyhxArkS=fgfXMJa-hC-JqnW1Q@mail.gmail.com>
-Message-ID: <CAD=FV=U5VPogd4Lf9TRhpqdpfyhxArkS=fgfXMJa-hC-JqnW1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/bridge: ti-sn65dsi86: Make connector creation optional
+Date:   Mon, 7 Mar 2022 15:22:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
+Message-ID: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -69,8 +70,7 @@ Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Sam Ravnborg <sam@ravnborg.org>
+        Andrzej Hajda <andrzej.hajda@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -89,63 +89,81 @@ On Mon, Mar 7, 2022 at 10:00 AM Kieran Bingham
 >
 > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >
-> Now that the driver supports the connector-related bridge operations,
-> make the connector creation optional. This enables usage of the
-> sn65dsi86 with the DRM bridge connector helper.
+> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
+> routed to a DisplayPort connector. Enable DisplayPort mode when the next
+> component in the display pipeline is detected as a DisplayPort
+> connector, and disable eDP features in that case.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reworked to set bridge type based on the next bridge/connector.
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> --
+> Changes since v1/RFC:
+>  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
+>    devm_drm_of_get_bridge"
+>  - eDP/DP mode determined from the next bridge connector type.
 >
-> ---
-> Changes since v1:
->  - None
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
 >
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 17 +++++++----------
->  1 file changed, 7 insertions(+), 10 deletions(-)
-
-Can you please CC me on this series next time you send it out? I was
-pretty involved in previous reviews here. Luckily I got CCed on one of
-the patches so I knew to look, but since that one is (probably)
-getting dropped it'd be good to make sure I was on the others. It's
-also pretty important to include +Sam Ravnborg since there's a lot of
-overlap with his series [1]:
-
-
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index ffb6c04f6c46..29f5f7123ed9 100644
+> index 29f5f7123ed9..461f963faa0b 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -745,11 +745,6 @@ static int  (struct drm_bridge *bridge,
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->         int ret;
+> @@ -60,6 +60,7 @@
+>  #define SN_LN_ASSIGN_REG                       0x59
+>  #define  LN_ASSIGN_WIDTH                       2
+>  #define SN_ENH_FRAME_REG                       0x5A
+> +#define  ASSR_CONTROL                          BIT(0)
+>  #define  VSTREAM_ENABLE                                BIT(3)
+>  #define  LN_POLRS_OFFSET                       4
+>  #define  LN_POLRS_MASK                         0xf0
+> @@ -91,6 +92,8 @@
+>  #define SN_DATARATE_CONFIG_REG                 0x94
+>  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
+>  #define  DP_DATARATE(x)                                ((x) << 5)
+> +#define SN_TRAINING_SETTING_REG                        0x95
+> +#define  SCRAMBLE_DISABLE                      BIT(4)
+>  #define SN_ML_TX_MODE_REG                      0x96
+>  #define  ML_TX_MAIN_LINK_OFF                   0
+>  #define  ML_TX_NORMAL_MODE                     BIT(0)
+> @@ -1005,6 +1008,11 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+>         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
+>                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
 >
-> -       if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> -               DRM_ERROR("Fix bridge driver to make connector optional!");
-> -               return -EINVAL;
-> -       }
+> +       /* For DisplayPort, use the standard DP scrambler seed. */
+> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
+> +                                  ASSR_CONTROL, 0);
 
-That won't work without some other fixes, sorry!
+I thought it was agreed that this hunk wasn't doing anything and
+should be removed? I did some research previously [1] and the manual
+said that this bit is "read only" unless "TEST2" is pulled high. In
+the previous discussion Laurent said that it wasn't. I also pointed
+out that this conflicts with the bit of code in ti_sn_bridge_enable()
+which tells the sink to enable the alternate scrambler.
 
-The problem is that you'll break ti_sn_bridge_get_bpp(). That
-absolutely relies on having our own connector so you need to fix that
-_before_ making the connector optional.
 
-Rob Clark made an attempt on this [2] but Laurent didn't like the
-solution he came up with. Sam's series that I mentioned [1] also made
-an attempt at this, specifically in patch 5 ("drm/bridge:
-ti-sn65dsi86: Fetch bpc via drm_bridge_state") of his series.
-Unfortunately, it didn't work because the "output_bus_cfg.format"
-wasn't set to anything. Personally I wouldn't mind Rob's solution as a
-stopgap if Laurent removes his NAK. Then we're not stuck while someone
-tries to find time to fix this correctly.
+>         /* enable DP PLL */
+>         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
+>
+> @@ -1016,6 +1024,11 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+>                 goto exit;
+>         }
+>
+> +       /* For DisplayPort, disable scrambling mode. */
+> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
+> +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
 
-One last problem here is that your patch doesn't actually apply to
-drm-misc/drm-misc-next, which is likely where it would land. I believe
-it conflicts with my recent commit e283820cbf80 ("drm/bridge:
-ti-sn65dsi86: Use drm_bridge_connector"). It looks like you based your
-series on mainline, but you should really be targeting drm-misc-next.
+In my previous review I asked for some comments to include the "why"
+we disabling scrambling mode for DP. Can you please add that?
+
+I also presume that for DP it's probably a good idea to avoid the code
+in ti_sn_bridge_enable() that tells the sink to use the alternate
+scrambler.
+
+
+[1] https://lore.kernel.org/r/CAD=FV=Wwayx1Y-xv=RPuJbG+Q1wHrUWgh4P7wuzy_bAL=_FN0g@mail.gmail.com
 
 -Doug
-
-[1] https://lore.kernel.org/r/20220206154405.1243333-1-sam@ravnborg.org/
-[2] https://lore.kernel.org/all/20210920225801.227211-4-robdclark@gmail.com/
