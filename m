@@ -2,110 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 172E74D13E5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 10:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEEA4D1419
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 11:00:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237076AbiCHJyM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Mar 2022 04:54:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35780 "EHLO
+        id S1345589AbiCHKBL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Mar 2022 05:01:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbiCHJyL (ORCPT
+        with ESMTP id S1345587AbiCHKBK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Mar 2022 04:54:11 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68EE34B93;
-        Tue,  8 Mar 2022 01:53:15 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id a14so2726584qtx.12;
-        Tue, 08 Mar 2022 01:53:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RhnnNRTUQhZ66DiV0sFKGErrjIL8uzqVLKi9U1XyIMU=;
-        b=67a9/olw7Lui86qnC8r6WCSUTlNFBD0ajR0SUMXISia9ODkBCfvNeRfofNmEZKM3wU
-         zDCHfZjeNcE51Y+rIfZtoeh64Ek8cs041+xk79xvFB1faSqYa2Il9hoIKBi7bMPrbSkx
-         EYcCTMf4uepmb+APeBRENBhregIFFjDBelaf7AeFtVvHiEbOHRZNGE1c1uXiVEoYx3v6
-         6knwe9cBfs4YulG4ccg/QPGx0S9yIZEiGiR5HDyZQnqkIyWmuMZ/LV+RKdGRCC7LG9/n
-         nAhY6SP6o9Ymf+WKPP62r7A+06iWr2qyEL8Tggq4vsgOdk3NgyMxRItwCos6Fy8HLqRQ
-         lF5g==
-X-Gm-Message-State: AOAM530U7UFY/BnhldFP4JaDouWev2xOIXT+oFW7tIOpskuwIkysGtNl
-        K5IzFEZ9ml/yrbjt7V928qLB32IOrpowMg==
-X-Google-Smtp-Source: ABdhPJxAM/RrpROx9BNYQugwuKU7LEzbGQw+a4KKOhS0kVbUseOgmmL9XBqkF5xN8JzSmUEOcP/v0Q==
-X-Received: by 2002:a05:622a:164b:b0:2e0:769e:fa2a with SMTP id y11-20020a05622a164b00b002e0769efa2amr404124qtj.343.1646733194799;
-        Tue, 08 Mar 2022 01:53:14 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id n13-20020ac85b4d000000b002de6fe91d2fsm10228796qtw.68.2022.03.08.01.53.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 01:53:14 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2dbfe58670cso195106257b3.3;
-        Tue, 08 Mar 2022 01:53:14 -0800 (PST)
-X-Received: by 2002:a0d:f1c7:0:b0:2db:d2bc:be11 with SMTP id
- a190-20020a0df1c7000000b002dbd2bcbe11mr11992421ywf.62.1646733193799; Tue, 08
- Mar 2022 01:53:13 -0800 (PST)
+        Tue, 8 Mar 2022 05:01:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5330427C1
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Mar 2022 02:00:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5557E61416
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Mar 2022 10:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BB713C340EF
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Mar 2022 10:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646733612;
+        bh=r3n85Zhl5qjQYwGA46ZwMo+gyJBfjQT0FPihiGc1Nfc=;
+        h=Subject:From:Date:To:From;
+        b=kqd+Qo+FyNG52mSD58MT7IPgHIAq+PgM7U5+RQNzzxlo5lBZysrHcYoHjWzO1X6Fe
+         9Dfz1bR4CFNeXJYKnasNbCFcV28YXcITWlysS7UoiudOzs5DWmL80u6R/MddlnP4tI
+         qFiEetSMtEuzLdYE1kitHTaBGHWoqRR50QH8teRgwjSl/G38sX/OaGN054w/DJInM4
+         plERvcw53YqbHpsCgV56PIYaPCnkHBNYUTRk1ottfwNt5qA7un1lCrE8C5md/djgJJ
+         NOVazr6SbRQMiBzB/vz7oudHJEEtU5sTmXhkZAYYu9x4nNxWmBvnc+x/b2aTKNKowN
+         CfIzCKEWvXsqw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A2BE6EAC095
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Mar 2022 10:00:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220301190400.1644150-1-robh@kernel.org> <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
- <CAL_JsqKX7XrSS1OktT6OfPgyxte6_+AcGh4uV0Abdf2Wi4eCFg@mail.gmail.com>
-In-Reply-To: <CAL_JsqKX7XrSS1OktT6OfPgyxte6_+AcGh4uV0Abdf2Wi4eCFg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Mar 2022 10:53:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXzNpjSjhT3crdN3XzcFNXd8Uojqo8gA7Y=Qtz8utH6Mw@mail.gmail.com>
-Message-ID: <CAMuHMdXzNpjSjhT3crdN3XzcFNXd8Uojqo8gA7Y=Qtz8utH6Mw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: clock: renesas: Make example 'clocks' parsable
-To:     Rob Herring <robh@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <164673361260.14443.1497740342181530148.git-patchwork-summary@kernel.org>
+Date:   Tue, 08 Mar 2022 10:00:12 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hello:
 
-On Fri, Mar 4, 2022 at 2:28 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Mar 4, 2022 at 3:09 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Mar 1, 2022 at 8:04 PM Rob Herring <robh@kernel.org> wrote:
-> > > 'clocks' in the example is not parsable with the 0 phandle value
-> > > because the number of #clock-cells is unknown in the previous entry.
-> > > Solve this by adding the clock provider node. Only 'cpg_clocks' is
-> > > needed as the examples are built with fixups which can be used to
-> > > identify phandles.
-> > >
-> > > This is in preparation to support schema validation on .dtb files.
-> > >
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> >
-> > Thanks for your patch!
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Do you want me to queue this in renesas-clk-for-v5.19, or do you
-> > want to take it yourself, together with the validation patches?
-> > Please let me know.
->
-> You can take it.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Thanks, queuing in renesas-clk-for-v5.19.
+Series: Renesas RZ/V2L add support for SDHI/CANFD/I2C/OSTM/USB2/SBC/RSPI/WDT/SSI
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=618474
+  Lore link: https://lore.kernel.org/r/20220227203744.18355-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [01/12] arm64: dts: renesas: r9a07g054: Fillup the SDHI{0,1} stub nodes
+             [02/12] arm64: dts: renesas: r9a07g054l2-smarc: Drop deleting gpio-hog pins related to SDHI
+             [03/12] arm64: dts: renesas: r9a07g054: Fillup the CANFD stub node
+             [04/12] arm64: dts: renesas: r9a07g054l2-smarc: Drop deleting can{0,1}-stb-hog nodes
+             [06/12] arm64: dts: renesas: r9a07g054: Fillup the sbc stub node
+             [07/12] arm64: dts: renesas: r9a07g054: Fillup the OSTM{0,1,2} stub nodes
+             [08/12] arm64: dts: renesas: r9a07g054: Fillup the WDT{0,1,2} stub nodes
+             [09/12] arm64: dts: renesas: r9a07g054: Add SSI{1,2,3} nodes and fillup the SSI0 stub node
+             [10/12] arm64: dts: renesas: r9a07g054: Add USB2.0 phy and host support
+             [11/12] arm64: dts: renesas: r9a07g054: Add USB2.0 device support
+             [12/12] arm64: dts: renesas: r9a07g054: Add SPI{0,2} nodes and fillup SPI1 stub node
 
-Gr{oetje,eeting}s,
+Series: Add ADC support to Renesas RZ/V2L SoC
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=617556
+  Lore link: https://lore.kernel.org/r/20220224125843.29733-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/2] dt-bindings: iio: adc: renesas,rzg2l-adc: Document RZ/V2L SoC
+             [2/2] arm64: dts: renesas: r9a07g054: Fillup the ADC stub node
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Total patches: 13
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
