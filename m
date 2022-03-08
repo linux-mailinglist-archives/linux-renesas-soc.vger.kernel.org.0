@@ -2,101 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 570FD4D12DE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 09:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C18B4D12FA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Mar 2022 10:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345332AbiCHIxC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Mar 2022 03:53:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
+        id S1345081AbiCHJCt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Mar 2022 04:02:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345255AbiCHIww (ORCPT
+        with ESMTP id S1345105AbiCHJCq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Mar 2022 03:52:52 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD3974090E;
-        Tue,  8 Mar 2022 00:51:51 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id dr20so37504624ejc.6;
-        Tue, 08 Mar 2022 00:51:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=weKpcHAcnZbt3XokDlK6GEAJ8PK3dGcUQJAFMx5soSc=;
-        b=YcCGih06qdszN3WESTIuZ81II8HBzbpwHe8fbppflLOAsMDS32mq8z8ZH6k101gg8z
-         Marfr2hHyKsthm618MBbMYiVdVA7p0nKmGsFmQBjx+pqSw9gF14RDOnfoDL7znJLh3ZM
-         p5ZRtxA/H8YeBjfDSHrX+jCNFrR81JY5F48pVVyyx4/qiqepfzkfiDTPkEG/IXA8ztEA
-         H5c1LJ0rlF4nOjxRkG+gH8CO4M7pwFEX3PilXFw3o5yk43xLoeAtgC5WkLxXahZsmVcz
-         y3EYfnSdy0N6VLdceHkl9iCcx4XMiZULWNJUb/isBhSNlKrS9IzI7eb3J630YL80ojMI
-         G7+g==
+        Tue, 8 Mar 2022 04:02:46 -0500
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3FCC3914F;
+        Tue,  8 Mar 2022 01:01:50 -0800 (PST)
+Received: by mail-qk1-f173.google.com with SMTP id r127so3254640qke.13;
+        Tue, 08 Mar 2022 01:01:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=weKpcHAcnZbt3XokDlK6GEAJ8PK3dGcUQJAFMx5soSc=;
-        b=7cf/uGO1brkO3wqKM7vlEsnlyIghkIu3QLqa5AA5xO0Q3IUFMHRVyKEseM+4I6sJEw
-         Uk+AZ2gQnN8LRcCKMs/hpMyJhvmfFqbVigb7Q+C1skUlmAR1OiH+Muwmbi7jqOdnnTV/
-         pXRSBJo+WlrkjpWgp/Y8epK/y6LQ/krRWQx/AICfL7l5t/4jhK7B0UcTHER9Y6ndNLUJ
-         NFZ/4ZbG71s+ek1RwcMv0lq4Mc0MLh/0L/BMVB3KBvzI1ALbPqPeeM7MwzQg3JbblWnd
-         3QETvmIGSbp3q1gCdafmee5XUwS2QmtRQH8F3OqkFubw1Q0/cLguoYQCKhAgz4hGno0R
-         f2PQ==
-X-Gm-Message-State: AOAM530i99xAKP+XnkcqEzypAXn+hNs44dzB3GL/3L7B0bD52LmgnTp8
-        tZLBLdRdOyEYs5JgQhdYGNsXEEN9Tz4=
-X-Google-Smtp-Source: ABdhPJx9TgI8fo2rPRv7i3Gr41qIyvnF3isNGnqAzJKtTTygfNkGSUPBDjqZvpo8BnuURfm23fu/gg==
-X-Received: by 2002:a17:906:4a96:b0:6c5:5ea9:5366 with SMTP id x22-20020a1709064a9600b006c55ea95366mr12075447eju.473.1646729510133;
-        Tue, 08 Mar 2022 00:51:50 -0800 (PST)
-Received: from felia.fritz.box (200116b82626c9000cc91df728b27ead.dip.versatel-1u1.de. [2001:16b8:2626:c900:cc9:1df7:28b2:7ead])
-        by smtp.gmail.com with ESMTPSA id z22-20020a17090655d600b006d229436793sm5558656ejp.223.2022.03.08.00.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 00:51:49 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: rectify entry for ROHM MULTIFUNCTION BD9571MWV-M PMIC DEVICE DRIVERS
-Date:   Tue,  8 Mar 2022 09:51:36 +0100
-Message-Id: <20220308085136.30753-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/0A3fiI6SF5FkbWt8i2s+Fk+OXU1UOQjwNrha0L6c9s=;
+        b=c/ovzKt+T8ns6swRibqXcCl7nCDL1fq3Jd6+PazKY10o8Y0cTuSETuD8flOloIRL36
+         YQ148lbHU+LUV7ksREOVF0/feHykb+mESh//Xt8z9dQOHzNbJAoxn2rqC0jRaYNPDBDc
+         b5ZTkLLpcuJB3TgCqPdWZeY1/REzye/dZhvJU4BRAACdoKdxSzOIvLALm9juG4uTj6Nl
+         IErpRlljmKK3b2B7LdyDzdGOC2kTNIDbU1Sd7ILyOy1yMPZ7foeDx1G3Ex5yfBaWA7/9
+         qpUpUjF0b1YP8xw/ogWHI6MuFzzfKXKm/IOX700ozI4J27WLHt5m/ogDmbrkb9ONbqtB
+         mrsQ==
+X-Gm-Message-State: AOAM531HgdLxbhTowQYNbo9sdVN6aZ3YvbWXuf3iBJutSlaycoglxS35
+        wEvr6PlwfDRndbvSyYroJ8A5cCsOrllEFA==
+X-Google-Smtp-Source: ABdhPJxk+Uyi25qvPlYvu1p4PomyOf9VNNgEc1JsPXCUH71SY4dDPeLAUOc1dWQlbZCkMTdvlwUdsw==
+X-Received: by 2002:a05:620a:1903:b0:67d:243b:a8ae with SMTP id bj3-20020a05620a190300b0067d243ba8aemr217701qkb.142.1646730109522;
+        Tue, 08 Mar 2022 01:01:49 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id j11-20020a37a00b000000b0067b436faccesm1596499qke.122.2022.03.08.01.01.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Mar 2022 01:01:49 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2d6d0cb5da4so193403507b3.10;
+        Tue, 08 Mar 2022 01:01:48 -0800 (PST)
+X-Received: by 2002:a81:5247:0:b0:2dc:2171:d42 with SMTP id
+ g68-20020a815247000000b002dc21710d42mr11891435ywb.438.1646730108371; Tue, 08
+ Mar 2022 01:01:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+ <163282533892.34438.1878675609177525004.b4-ty@canonical.com>
+ <CAMuHMdUqQLo7=NFaNEukqniTJbx-mSZv7eQNB9eCT=L28y3u=A@mail.gmail.com>
+ <YicSCZfl4wLUzvEJ@shikoro> <CAMuHMdUTgooY6SRfp4LB3tSa=-GtS0EH=BD5zo5orLTKp0hjBg@mail.gmail.com>
+ <YicX67PsQO0+bMTZ@shikoro>
+In-Reply-To: <YicX67PsQO0+bMTZ@shikoro>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 8 Mar 2022 10:01:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX6h8s0AaonKGNwmqriMikC5tUXjrtoXURqqN4w+ZM5eg@mail.gmail.com>
+Message-ID: <CAMuHMdX6h8s0AaonKGNwmqriMikC5tUXjrtoXURqqN4w+ZM5eg@mail.gmail.com>
+Subject: Re: [RFC PATCH] memory: renesas-rpc-if: Correct QSPI data transfer in
+ Manual mode
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit 983b62975e90 ("dt-bindings: mfd: bd9571mwv: Convert to json-schema")
-converts bd9571mwv.txt to rohm,bd9571mwv.yaml, but missed to adjust its
-reference in MAINTAINERS.
+Hi Wolfram,
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+On Tue, Mar 8, 2022 at 9:46 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > This is not QSPI, but HF.
+>
+> Ah, okay.
+>
+> > Building a new firmware for R-Car H3 ES1.0 with HF unlocked will be
+> > complicated, as it is not supported by upstream TF-A.
+>
+> You mean QSPI here?
 
-Repair this file reference in ROHM MULTIFUNCTION BD9571MWV-M PMIC DEVICE
-DRIVERS.
+No, HF. Salvator-X(S) boots from HF.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Lee, please pick this minor non-urgent clean-up patch. Thanks.
+> > Note that HF also fails to probe on R-Car M3-W and M3-N ES1.0.
+>
+> Do you have this patch form Andrew in your tree:
+>
+> [PATCH] memory: renesas-rpc-if: Avoid unaligned bus access for HyperFlash
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sure I have it. It's in v5.16 ;-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dc984c050086..c1eed1a2ffc9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16695,7 +16695,7 @@ M:	Marek Vasut <marek.vasut+renesas@gmail.com>
- L:	linux-kernel@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
--F:	Documentation/devicetree/bindings/mfd/bd9571mwv.txt
-+F:	Documentation/devicetree/bindings/mfd/rohm,bd9571mwv.yaml
- F:	drivers/gpio/gpio-bd9571mwv.c
- F:	drivers/mfd/bd9571mwv.c
- F:	drivers/regulator/bd9571mwv-regulator.c
--- 
-2.17.1
+> Even if so, I don't think that reverting patches is the solution. As you
 
+Sure, a plain revert is definitely not the right solution.
+
+> could see from Andrew's patch, HyperFlash was also broken before and it
+> just may need more fixes for Gen3 perhaps? IIRC my patches didn't break
+> Andrew's tests but maybe we should ask him again. Maybe Andrew has also
+> some more ideas, I only did QSPI.
+
+My understanding from reading the threads is that Andrew's patch and
+yours arrived in parallel, and are believed to fix two different and
+non-intersecting things (QSPI vs. HF).  I also found no explicit mention
+that Andrew tried your patch.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
