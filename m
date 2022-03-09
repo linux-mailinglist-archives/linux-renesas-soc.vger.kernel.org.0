@@ -2,61 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D6954D2A69
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 09:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE0C4D2A70
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 09:17:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbiCIIQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Mar 2022 03:16:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36562 "EHLO
+        id S231234AbiCIISS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Mar 2022 03:18:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbiCIIQ2 (ORCPT
+        with ESMTP id S231230AbiCIISS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Mar 2022 03:16:28 -0500
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909DAE02CD;
-        Wed,  9 Mar 2022 00:15:30 -0800 (PST)
-Received: by mail-qv1-f52.google.com with SMTP id e22so1397064qvf.9;
-        Wed, 09 Mar 2022 00:15:30 -0800 (PST)
+        Wed, 9 Mar 2022 03:18:18 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31AC166E0E;
+        Wed,  9 Mar 2022 00:17:18 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id a14so1238069qtx.12;
+        Wed, 09 Mar 2022 00:17:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dxAUDyS9GJLYSOSCc/5rpqFIxvMO8bZDSJoz+/4nqZE=;
-        b=6xjZVgDMfz1TxOIGdMxLLkKGmEKdLtgqrbessUQn/+m9ULl9XXELzjK9fJyFlAZ22B
-         2rg3ZR3Kjxu5Kd3YE7xI2Ndsd+k4jETqKotq9Vq5855edjGaLMbiUPmD+YjdIEUBVghD
-         IyrgfN3Rnu4r3ahhvRbU7w2yc58H3yND7+lD/fUHxU/LDJprtzuzioXdLmS2/ppM88t3
-         Q3y2aPp/+CCB9cTtjuvtJDu5O3rOQYz1IWwwWm/TnO/aRxw85jidHgKo5WY/UFYhVatT
-         8Yfqqx6yuY9WnMfvHSiGy3OADXnDtASNmLK4ramMuzc1o5olJCwT9Tv9J2k8vLJSFHKw
-         nmHw==
-X-Gm-Message-State: AOAM533zdhuM9XK8KS5tl/+5PX32dYsVqk/u7Y/KzzWL7YSvs0oUD6Ia
-        LvJBNqAX9pwVBe3vWcukTnuvA4vtWllEGg==
-X-Google-Smtp-Source: ABdhPJx+oYvs9QIq6WWeTPOaPh/sQlMSM5QMEm7pRhAdnwC/+0PEjcSdVFaiOWoSShpgDOiBPHtsCg==
-X-Received: by 2002:ad4:594a:0:b0:435:23f0:d6ba with SMTP id eo10-20020ad4594a000000b0043523f0d6bamr15694088qvb.90.1646813729054;
-        Wed, 09 Mar 2022 00:15:29 -0800 (PST)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05622a13c700b002de9f3894c2sm931275qtk.50.2022.03.09.00.15.27
+        bh=35/fzUJmyZh70VM9SdFaR6MnuP0bGFW2YUKkfdLZvtY=;
+        b=zzG6gwLgkifK3NHs5l5W1mPnbMjdYn46UtmzYYMPZwdQYD5couPR/uUPBm6t1YFirv
+         7XK2BGCegVzuGKhXW5HrfdY0T17+rUlK1Xu6cVM+Z35CSrr/ClJmPo9p5t7jchZota2w
+         bujy7xf/E2lKqnLbLY9PCFvFmluLy/SSCnTe3uz7QQ6RqCbBhs4RtOJ3nzs3Zexo9APq
+         QS52b3LfRs4mwTbgHcZMOZSjNaOPVM6IZOSRMqmIcwOrVIEbJpCyUp4ZYqX/Wh4RLRjT
+         IA9XVtYa0nVHUJx+0rtIzbsCqamR5CeaifdjPDT05tlW3/7rlTsuyuvJ7G3ybzYouxZH
+         x5zg==
+X-Gm-Message-State: AOAM532VRFC/uIT2I+wBdNGokQlY7aKh4ZhPexkVjuyXniLeTt5H50py
+        XOQ74GeWyUR+7T0kjD1v0v/POdzCrv3/6Q==
+X-Google-Smtp-Source: ABdhPJy5NUZ1e22kMEvbrC3NoR38LNeI0GEHpPtEAwp6L8m2FR1dzz9+fYtJomuTQ1sat7Z0f5zxRw==
+X-Received: by 2002:ac8:59d5:0:b0:2e0:775e:ed9e with SMTP id f21-20020ac859d5000000b002e0775eed9emr4385680qtf.419.1646813837622;
+        Wed, 09 Mar 2022 00:17:17 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id q8-20020a05622a04c800b002e06d7c1eabsm925904qtx.16.2022.03.09.00.17.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Mar 2022 00:15:28 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2dbfe58670cso14262697b3.3;
-        Wed, 09 Mar 2022 00:15:27 -0800 (PST)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr15779778ywi.449.1646813727425; Wed, 09
- Mar 2022 00:15:27 -0800 (PST)
+        Wed, 09 Mar 2022 00:17:16 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2dbfe58670cso14305817b3.3;
+        Wed, 09 Mar 2022 00:17:16 -0800 (PST)
+X-Received: by 2002:a81:6dd1:0:b0:2dc:56d1:1dae with SMTP id
+ i200-20020a816dd1000000b002dc56d11daemr15691271ywc.479.1646813836049; Wed, 09
+ Mar 2022 00:17:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220308212315.4551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220308212315.4551-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Mar 2022 09:15:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUuu8-wEfVRZo-yLCBaTYhOa1No1mE+SgekW3jQW9+9ig@mail.gmail.com>
-Message-ID: <CAMuHMdUuu8-wEfVRZo-yLCBaTYhOa1No1mE+SgekW3jQW9+9ig@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpu: mali-bifrost: Document RZ/V2L SoC
+Date:   Wed, 9 Mar 2022 09:17:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXpZrfuXBh1-mfv2z9aaUpUEjotCgr-i70sv72WN55_dw@mail.gmail.com>
+Message-ID: <CAMuHMdXpZrfuXBh1-mfv2z9aaUpUEjotCgr-i70sv72WN55_dw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: thermal: rzg2l-thermal: Document RZ/V2L bindings
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
@@ -72,10 +75,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 10:16 PM Lad Prabhakar
+On Tue, Mar 8, 2022 at 10:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The Renesas RZ/V2L SoC (a.k.a R9A07G054) has a Bifrost Mali-G31 GPU,
-> add a compatible string for it.
+> Document RZ/V2L TSU bindings. The TSU block on RZ/V2L is identical to one
+> found on RZ/G2L SoC. No driver changes are required as generic compatible
+> string "renesas,rzg2l-tsu" will be used as a fallback.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
