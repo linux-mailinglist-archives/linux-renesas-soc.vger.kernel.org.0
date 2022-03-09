@@ -2,187 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65C024D3726
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 18:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F5C74D3939
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 19:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236912AbiCIRLy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Mar 2022 12:11:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54680 "EHLO
+        id S235544AbiCISw4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Mar 2022 13:52:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236900AbiCIRLN (ORCPT
+        with ESMTP id S231675AbiCISwz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Mar 2022 12:11:13 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99F6AF1C9
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Mar 2022 09:04:58 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5822D8C4;
-        Wed,  9 Mar 2022 18:04:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646845496;
-        bh=5Fo54rwgvgRJxqVwV2aN1QaPQFVna5hLv/7lAvz14Ks=;
+        Wed, 9 Mar 2022 13:52:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC67108C;
+        Wed,  9 Mar 2022 10:51:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1180461797;
+        Wed,  9 Mar 2022 18:51:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CCDC340E8;
+        Wed,  9 Mar 2022 18:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646851915;
+        bh=xzJ5MUhWVJhz7dgkUY0gBf+kW/zn0zNkmEhZ9It9QA4=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=evFB6li6o4vZyLAeiZy28cPS5VPrdOPnh1RVpE3Q7CSQtUFlL+Gbo1f33/9QXYB5L
-         fBVoJA/j0E1f1Qytw1wBNxeOwX9C5m+fQ2aY+gPVBimrFcOcGyudGG1BvWrDtOM2P6
-         l9BPjqFObjK425H9sjmdGhPGZBr8DWkwdF9oE9ro=
+        b=FwnEI0nFWdWAYlc1MD4qq1hCYtmQfnj23PnNY6G7735I0PuGDd812/PKE2su/qUTf
+         +pgM/NcOA8QuSnaU9+0U6w7T3KnH/ymQO9UCOa6VQ05X1QoB4M7jO5BllxQrxdAHYd
+         3VuEJi6VNHJsNCcgjn/WycKcFEVF51F5fFNZjxchLQzXXIl1b465OG2ALqybpXUujL
+         /DZoClYmQh0iZXGScvA/8a4EjUiNXmGEBGzvs4DcPglP6LEx31JWU19uuIWEPXlBz1
+         obXGah2qz9HVFQgKiUn7JItHR3GQyMmn/5k5JhxY5CVhc8dNWD741GfLZhT2UKopaB
+         O46uX3wfBw+jw==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com> <20220307175955.363057-4-kieran.bingham+renesas@ideasonboard.com> <CAD=FV=X=KuONU5NeFQvjTVix86CzyA2c6HWbg1HoqgS3TTy6Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Support DisplayPort (non-eDP) mode
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        David Airlie <airlied@linux.ie>,
-        Robert Foss <robert.foss@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>
-To:     Doug Anderson <dianders@chromium.org>
-Date:   Wed, 09 Mar 2022 17:04:54 +0000
-Message-ID: <164684549417.11309.167290259626544349@Monstersaurus>
+In-Reply-To: <cover.1645795940.git.geert+renesas@glider.be>
+References: <cover.1645795940.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v5.18 (take two)
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Wed, 09 Mar 2022 10:51:53 -0800
 User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Message-Id: <20220309185155.70CCDC340E8@smtp.kernel.org>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Doug Anderson (2022-03-07 23:22:00)
-> Hi,
+Quoting Geert Uytterhoeven (2022-02-25 05:38:29)
+>         Hi Mike, Stephen,
 >=20
-> On Mon, Mar 7, 2022 at 10:00 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > Despite the SN65DSI86 being an eDP bridge, on some systems its output is
-> > routed to a DisplayPort connector. Enable DisplayPort mode when the next
-> > component in the display pipeline is detected as a DisplayPort
-> > connector, and disable eDP features in that case.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > Reworked to set bridge type based on the next bridge/connector.
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > --
-> > Changes since v1/RFC:
-> >  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
-> >    devm_drm_of_get_bridge"
-> >  - eDP/DP mode determined from the next bridge connector type.
-> >
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi86.c
-> > index 29f5f7123ed9..461f963faa0b 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -60,6 +60,7 @@
-> >  #define SN_LN_ASSIGN_REG                       0x59
-> >  #define  LN_ASSIGN_WIDTH                       2
-> >  #define SN_ENH_FRAME_REG                       0x5A
-> > +#define  ASSR_CONTROL                          BIT(0)
-> >  #define  VSTREAM_ENABLE                                BIT(3)
-> >  #define  LN_POLRS_OFFSET                       4
-> >  #define  LN_POLRS_MASK                         0xf0
-> > @@ -91,6 +92,8 @@
-> >  #define SN_DATARATE_CONFIG_REG                 0x94
-> >  #define  DP_DATARATE_MASK                      GENMASK(7, 5)
-> >  #define  DP_DATARATE(x)                                ((x) << 5)
-> > +#define SN_TRAINING_SETTING_REG                        0x95
-> > +#define  SCRAMBLE_DISABLE                      BIT(4)
-> >  #define SN_ML_TX_MODE_REG                      0x96
-> >  #define  ML_TX_MAIN_LINK_OFF                   0
-> >  #define  ML_TX_NORMAL_MODE                     BIT(0)
-> > @@ -1005,6 +1008,11 @@ static int ti_sn_link_training(struct ti_sn65dsi=
-86 *pdata, int dp_rate_idx,
-> >         regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> >                            DP_DATARATE_MASK, DP_DATARATE(dp_rate_idx));
-> >
-> > +       /* For DisplayPort, use the standard DP scrambler seed. */
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +               regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG,
-> > +                                  ASSR_CONTROL, 0);
+> The following changes since commit a1bcf50a99dd1e40f0c6a963bd4f12547a89d4=
+cd:
 >=20
-> I thought it was agreed that this hunk wasn't doing anything and
-> should be removed? I did some research previously [1] and the manual
-> said that this bit is "read only" unless "TEST2" is pulled high. In
-> the previous discussion Laurent said that it wasn't. I also pointed
-> out that this conflicts with the bit of code in ti_sn_bridge_enable()
-> which tells the sink to enable the alternate scrambler.
-
-Sorry - I had misremembered indeed, and looking back I confirmed that
-this hunk was not required. I had incorrectly remembered that the second
-part was required (below) and assumed that had meant both were.
-
-Of course if we're disabling the scrambling mode, then it likely doesn't
-matter what the seed is!.
-
-Looking at the datasheet though, register 0x5a, clearly says the default
-is 01 (ASSR) which we're not using. So the datasheet implies we want the
-DP scrambler seed (if it were enabled?)
-
-Reading the 0x5a register here shows we have 0x05. Indeed, re-reading
-after attempting to write '0' to it still shows 0x05. So it's read-only
-and not relevant regardless.
-
-I've removed this hunk now.
-
-> >         /* enable DP PLL */
-> >         regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
-> >
-> > @@ -1016,6 +1024,11 @@ static int ti_sn_link_training(struct ti_sn65dsi=
-86 *pdata, int dp_rate_idx,
-> >                 goto exit;
-> >         }
-> >
-> > +       /* For DisplayPort, disable scrambling mode. */
-> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-> > +               regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_R=
-EG,
-> > +                                  SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
+>   clk: renesas: rzg2l-cpg: Add support for RZ/V2L SoC (2022-02-10 14:34:5=
+8 +0100)
 >=20
-> In my previous review I asked for some comments to include the "why"
-> we disabling scrambling mode for DP. Can you please add that?
+> are available in the Git repository at:
 >=20
-> I also presume that for DP it's probably a good idea to avoid the code
-> in ti_sn_bridge_enable() that tells the sink to use the alternate
-> scrambler.
-
-looking at it yes. I've added a check to avoid that in my DP connector
-case, and there doesn't seem to be any effect on the output. But I'll
-add it to the patch for the next version.
-
-
-
->> I think it was done for DRM purpose, to prevent signals meant for a
->> panel to be connected to a device that could capture video from a DP
->> source.
-
-Is this better:
-
-	/*
-	 * Only eDP pannels which support Alternate Scrambler Seed Reset (ASSR)
-	 * are supported by the SN65DSI86. For DisplayPort, disable scrambling
-	 * mode.
-	 */
-
-I don't know if it answers your 'why' ... and I don't think adding
- "We think it is for DRM protection"
-
-really suits the comment.
-
-=20
-> [1] https://lore.kernel.org/r/CAD=3DFV=3DWwayx1Y-xv=3DRPuJbG+Q1wHrUWgh4P7=
-wuzy_bAL=3D_FN0g@mail.gmail.com
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v5.18-tag2
 >=20
-> -Doug
+> for you to fetch changes up to 73421f2a48e6bd1d1024a09aedbc9c662cb88e77:
+>=20
+>   clk: renesas: r8a779f0: Add PFC clock (2022-02-22 09:51:20 +0100)
+>=20
+> ----------------------------------------------------------------
+
+Thanks. Pulled into clk-next
