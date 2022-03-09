@@ -2,78 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F5C74D3939
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 19:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 150CA4D3983
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Mar 2022 20:06:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235544AbiCISw4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Mar 2022 13:52:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37916 "EHLO
+        id S231883AbiCITHq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Mar 2022 14:07:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbiCISwz (ORCPT
+        with ESMTP id S232102AbiCITHp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Mar 2022 13:52:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC67108C;
-        Wed,  9 Mar 2022 10:51:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1180461797;
-        Wed,  9 Mar 2022 18:51:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CCDC340E8;
-        Wed,  9 Mar 2022 18:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646851915;
-        bh=xzJ5MUhWVJhz7dgkUY0gBf+kW/zn0zNkmEhZ9It9QA4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=FwnEI0nFWdWAYlc1MD4qq1hCYtmQfnj23PnNY6G7735I0PuGDd812/PKE2su/qUTf
-         +pgM/NcOA8QuSnaU9+0U6w7T3KnH/ymQO9UCOa6VQ05X1QoB4M7jO5BllxQrxdAHYd
-         3VuEJi6VNHJsNCcgjn/WycKcFEVF51F5fFNZjxchLQzXXIl1b465OG2ALqybpXUujL
-         /DZoClYmQh0iZXGScvA/8a4EjUiNXmGEBGzvs4DcPglP6LEx31JWU19uuIWEPXlBz1
-         obXGah2qz9HVFQgKiUn7JItHR3GQyMmn/5k5JhxY5CVhc8dNWD741GfLZhT2UKopaB
-         O46uX3wfBw+jw==
-Content-Type: text/plain; charset="utf-8"
+        Wed, 9 Mar 2022 14:07:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179C6101F04;
+        Wed,  9 Mar 2022 11:06:42 -0800 (PST)
+Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA5678C4;
+        Wed,  9 Mar 2022 20:06:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646852800;
+        bh=/m3d0aHMIAS1HEDWSlNqe6DHmSt/5s6vdPbAB/zGIz0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=U4qnpIo6dwFVy323NorSvuXsy0gGFyfbBH+Hsb5jt7ULpFvYUWH9dDpoIS1Y35eI3
+         A8yodoIlVqyuL0Dx4/7oAOKTq+ID0zgUSPTCigG248coNwaP7Fty4zpM60vrifOkci
+         b+65eHT5PoIFepQ1o89uFqSPnFXxi+Yl9S97VbNg=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@glider.be>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] arm64: dts: renesas: falcon-cpu: Use INTC_EX for SN65DSI86
+Date:   Wed,  9 Mar 2022 19:06:31 +0000
+Message-Id: <20220309190631.1576372-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1645795940.git.geert+renesas@glider.be>
-References: <cover.1645795940.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v5.18 (take two)
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Wed, 09 Mar 2022 10:51:53 -0800
-User-Agent: alot/0.10
-Message-Id: <20220309185155.70CCDC340E8@smtp.kernel.org>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2022-02-25 05:38:29)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit a1bcf50a99dd1e40f0c6a963bd4f12547a89d4=
-cd:
->=20
->   clk: renesas: rzg2l-cpg: Add support for RZ/V2L SoC (2022-02-10 14:34:5=
-8 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v5.18-tag2
->=20
-> for you to fetch changes up to 73421f2a48e6bd1d1024a09aedbc9c662cb88e77:
->=20
->   clk: renesas: r8a779f0: Add PFC clock (2022-02-22 09:51:20 +0100)
->=20
-> ----------------------------------------------------------------
+The INTC block is a better choice for handling the interrupts on the V3U
+as the INTC will always be powered, while the GPIO block may be
+de-clocked if not in use. Further more, it may be likely to have a lower
+power consumption as it does not need to drive the pins.
 
-Thanks. Pulled into clk-next
+Switch the interrupt parent and interrupts definition from gpio1 to
+irq0 on intc_ex, and configure the PFC accordingly.
+
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+---
+v2:
+
+ - Define irq0_pins, and ensure pinctrl is set in the bridge node.
+---
+ arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+index 6af3f4f4f268..53c4a26198e3 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+@@ -192,14 +192,17 @@ &i2c1 {
+ 	clock-frequency = <400000>;
+ 
+ 	bridge@2c {
++		pinctrl-0 = <&irq0_pins>;
++		pinctrl-names = "default";
++
+ 		compatible = "ti,sn65dsi86";
+ 		reg = <0x2c>;
+ 
+ 		clocks = <&sn65dsi86_refclk>;
+ 		clock-names = "refclk";
+ 
+-		interrupt-parent = <&gpio1>;
+-		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-parent = <&intc_ex>;
++		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+ 
+ 		vccio-supply = <&reg_1p8v>;
+ 		vpll-supply = <&reg_1p8v>;
+@@ -271,6 +274,11 @@ i2c6_pins: i2c6 {
+ 		function = "i2c6";
+ 	};
+ 
++	irq0_pins: irq0 {
++		groups = "intc_ex_irq0";
++		function = "intc_ex";
++	};
++
+ 	keys_pins: keys {
+ 		pins = "GP_6_18", "GP_6_19", "GP_6_20";
+ 		bias-pull-up;
+-- 
+2.32.0
+
