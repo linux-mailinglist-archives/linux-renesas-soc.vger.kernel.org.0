@@ -2,48 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D14504D50CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 18:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBCC4D50EC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 18:52:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244054AbiCJRqE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 12:46:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59428 "EHLO
+        id S242751AbiCJRv7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 12:51:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243762AbiCJRqE (ORCPT
+        with ESMTP id S237937AbiCJRv7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 12:46:04 -0500
+        Thu, 10 Mar 2022 12:51:59 -0500
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F05180D2A;
-        Thu, 10 Mar 2022 09:45:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246E012F144;
+        Thu, 10 Mar 2022 09:50:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646934302; x=1678470302;
+  t=1646934658; x=1678470658;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4Hgem/xb7fgEnabZDJWfqC0vFwT+ahTBVHdBBEWMA6Q=;
-  b=PzXzYF182SeA3S6798u/dsu0OGjOVd5XzUY8WmAxF6CsVxVnJSsfSYOu
-   YKJtCfP9By8HgoN3PevDbE1RgK6rVACn9LUR03HDzRL4+49+q8UFQP65E
-   FOfcJ+0W3J8vEEw9FYBL/JjpJR3DkcUNdwVQa8SKsl91fq0Cu5APcWy8n
-   ajZw+AqwjHwatqlzhH67aqAuiLgY5O+4N9HRoJGlM2qttixiEeSgvo0r1
-   uEH1ptOIQcvZypBIjNqxegeSJSJQq8seCxmTesz17PDCX7eF9dwPhxrU3
-   VDgw7hjLr60aNqqE+d2IlSKcoDSE/q3hMS0FJyNenXWdtCdsOP4UrzNTI
+  bh=oK7blUt0TFCk1NJ5HyN0lfCWqR9i06S7tHBY6OymPcs=;
+  b=PC6xLAGOoUM/V5TdGwY+JhWtto/4FQ5oYzTRF6B3oCrEYivaQDubKAEC
+   KJfSHFV964I8eSeIzY/g3bKRnkoLD0xY8kTYGKfXQxvlYZUEeUpMRct34
+   cqCv/8/D2e5ayO8wRcc9c/JPymSiWRAqsVzXqF7UJtwb2adT05GODwotk
+   sY0MRoiQNQZBnCWRyYJ1WuLKan/XxGUiLOXNwqzxo01O6ngHuDm2KPdLY
+   niWx+f8utec/wRxjqbp6Eu+AmfbWlE4NwnUAeniSsRkMKMbdb4T0ttHe1
+   q48G+Pay2XblZ73tG4JwNSRdeJ9ufsRLSdZ64gJTQpJOQu6bbmgFsWEku
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="341748011"
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="341749142"
 X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="341748011"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 09:45:02 -0800
+   d="scan'208";a="341749142"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 09:50:57 -0800
 X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="781540349"
+   d="scan'208";a="644538148"
 Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 09:44:57 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 09:50:52 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nSMpi-00Eqwb-AB;
-        Thu, 10 Mar 2022 19:44:14 +0200
-Date:   Thu, 10 Mar 2022 19:44:13 +0200
+        id 1nSMvR-00Er5F-GG;
+        Thu, 10 Mar 2022 19:50:09 +0200
+Date:   Thu, 10 Mar 2022 19:50:09 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
         Gareth Williams <gareth.williams.jx@renesas.com>,
@@ -60,14 +61,14 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH v4 5/9] dma: dw: dmamux: Introduce RZN1 DMA router support
-Message-ID: <Yio47YVZuHaFvwE8@smile.fi.intel.com>
+Subject: Re: [PATCH v4 7/9] dma: dw: Avoid partial transfers
+Message-ID: <Yio6UWYIDZWXx2Ux@smile.fi.intel.com>
 References: <20220310155755.287294-1-miquel.raynal@bootlin.com>
- <20220310155755.287294-6-miquel.raynal@bootlin.com>
+ <20220310155755.287294-8-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220310155755.287294-6-miquel.raynal@bootlin.com>
+In-Reply-To: <20220310155755.287294-8-miquel.raynal@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
@@ -79,89 +80,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 04:57:51PM +0100, Miquel Raynal wrote:
-> The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
-> dmamux register located in the system control area which can take up to
-> 32 requests (16 per DMA controller). Each DMA channel can be wired to
-> two different peripherals.
++Cc: Ilpo who is currently doing adjoining stuff.
+
+Ilpo, this one affects Intel Bay Trail and Cherry Trail platforms.
+Not sure if it's in scope of your interest right now, but it might
+be useful to see how DMA <--> 8250 UART functioning.
+
+On Thu, Mar 10, 2022 at 04:57:53PM +0100, Miquel Raynal wrote:
+> As investigated by Phil Edworthy <phil.edworthy@renesas.com> on RZN1 a
+
+Email can be dropped as you put it below, just (full) name is enough.
+
+I'm wondering if Phil or anybody else who possess the hardware can
+test / tested this.
+
+> while ago, pausing a partial transfer only causes data to be written to
+> memory that is a multiple of the memory width setting. Such a situation
+> can happen eg. because of a char timeout interrupt on a UART. In this
+> case, the current ->terminate_all() implementation does not always flush
+> the remaining data as it should.
 > 
-> We need two additional information from the 'dmas' property: the channel
-> (bit in the dmamux register) that must be accessed and the value of the
-> mux for this channel.
+> In order to workaround this, a solutions is to resume and then pause
+> again the transfer before termination. The resume call in practice
+> actually flushes the remaining data.
+
+Perhaps Fixes tag?
+
+> Reported-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/dma/dw/core.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Aside from the driver introduction, as these devices are described as
-> subnodes of the system controller, we also need the system controller
-> (clock) driver to populate its children manually. Starting from now on,
-> one child can be the dmamux.
-
-In all DMA engine related patches the prefix should be "dmaengine:".
-
-...
-
-> +static void *rzn1_dmamux_route_allocate(struct of_phandle_args *dma_spec,
-> +					struct of_dma *ofdma)
-> +{
-> +	struct platform_device *pdev = of_find_device_by_node(ofdma->of_node);
-> +	struct rzn1_dmamux_data *dmamux = platform_get_drvdata(pdev);
-> +	struct rzn1_dmamux_map *map;
-> +	unsigned int dmac_idx, chan, val;
-> +	u32 mask;
-> +	int ret;
+> diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
+> index 7ab83fe601ed..2f6183177ba5 100644
+> --- a/drivers/dma/dw/core.c
+> +++ b/drivers/dma/dw/core.c
+> @@ -862,6 +862,10 @@ static int dwc_terminate_all(struct dma_chan *chan)
+>  
+>  	clear_bit(DW_DMA_IS_SOFT_LLP, &dwc->flags);
+>  
+> +	/* Ensure the last byte(s) are drained before disabling the channel */
+> +	if (test_bit(DW_DMA_IS_PAUSED, &dwc->flags))
+> +		dwc_chan_resume(dwc, true);
 > +
-> +	map = kzalloc(sizeof(*map), GFP_KERNEL);
-> +	if (!map)
-> +		return ERR_PTR(-ENOMEM);
-
-> +	if (dma_spec->args_count != 6) {
-> +		kfree(map);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-
-You may move this check above and get one kfree() call less.
-Moreover, you may use a goto approach to call kfree() from
-a single point of exit.
-
-> +	chan = dma_spec->args[0];
-> +	map->req_idx = dma_spec->args[4];
-> +	val = dma_spec->args[5];
-> +	dma_spec->args_count -= 2;
-> +
-> +	if (chan >= RZN1_DMAMUX_SPLIT) {
-> +		kfree(map);
-> +		dev_err(&pdev->dev, "Invalid DMA request line: %u\n", chan);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	if (map->req_idx >= RZN1_DMAMUX_LINES ||
-> +	    (map->req_idx % RZN1_DMAMUX_SPLIT) != chan) {
-> +		kfree(map);
-> +		dev_err(&pdev->dev, "Invalid MUX request line: %u\n", map->req_idx);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	dmac_idx = map->req_idx < RZN1_DMAMUX_SPLIT ? 0 : 1;
-> +	dma_spec->np = of_parse_phandle(ofdma->of_node, "dma-masters", dmac_idx);
-> +	if (!dma_spec->np) {
-> +		kfree(map);
-> +		dev_err(&pdev->dev, "Can't get DMA master\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	dev_dbg(&pdev->dev, "Mapping DMAMUX request %u to DMAC%u request %u\n",
-> +		map->req_idx, dmac_idx, chan);
-> +
-> +	mask = BIT(map->req_idx);
-> +	mutex_lock(&dmamux->lock);
-> +	dmamux->used_chans |= mask;
-> +	ret = r9a06g032_sysctrl_set_dmamux(mask, val ? mask : 0);
-> +	mutex_unlock(&dmamux->lock);
-> +	if (ret) {
-> +		rzn1_dmamux_free(&pdev->dev, map);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return map;
-> +}
+>  	dwc_chan_pause(dwc, true);
+>  
+>  	dwc_chan_disable(dw, dwc);
+> -- 
+> 2.27.0
+> 
 
 -- 
 With Best Regards,
