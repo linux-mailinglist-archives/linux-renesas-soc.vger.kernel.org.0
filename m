@@ -2,157 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40E1A4D461D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 12:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B032B4D4680
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 13:10:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234061AbiCJLov (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 06:44:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46990 "EHLO
+        id S241837AbiCJML1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 07:11:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233471AbiCJLop (ORCPT
+        with ESMTP id S236942AbiCJML1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 06:44:45 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4399F13FACF
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 03:43:44 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B19494AB;
-        Thu, 10 Mar 2022 12:43:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646912621;
-        bh=vhSlSbIAIeTx7W4jXct0DPFUBYu3d62MHycSYQkm0MI=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=EkcBlfSYOxzP83BhaSG840F7DenwPXdhwrzPCCHeaq0mK2tpiwm0G+Bcwk4nHnAib
-         rC3GYS5Kh1R/iX9/Tx2d0srr9eh3PhOxIJUG8tBoSc6kCld/DFaqePWDbooslowjjJ
-         AJbHcHV2MsXyURM5bc6G8qWvsPttM0MtAIF5UBfM=
-Content-Type: text/plain; charset="utf-8"
+        Thu, 10 Mar 2022 07:11:27 -0500
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FF71480C0;
+        Thu, 10 Mar 2022 04:10:26 -0800 (PST)
+Received: by mail-qv1-f45.google.com with SMTP id x3so4316393qvd.8;
+        Thu, 10 Mar 2022 04:10:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K0j5f+HYrjCTV0jzOeOydTM6Pe5LBji1gm3c+tuqjgY=;
+        b=oKomq/9OSpsN5ys0gQK+/Mwt/fGycPfMbtj/kewA6PAFFSr0ypVjOZghdnsWwUhCGJ
+         2pcU1NHLliKrkRTBrwHAq+FbGHqfzSkFUcnWq6OJ7RreIK203hXP+49LojpNiyGHZoBi
+         246WJ127Ndd4us+U+5pqqMwtTOW4qJ96YNefkP1S4YK5881oPPyXeii27HLRJGK3ZjZm
+         zVuLF88rAy8pKDJPtwICx0O90MIUWlIwHFC/mDJ+H3rTwLLlxKy3a6SpwyoF0B08UJXl
+         4QtFt4lZxIpiNSUojztHxHt/ibO0GeQDwnw3uqC/b+AcL6vkOLD+DSAqrcTxjBEXsqm8
+         J7cA==
+X-Gm-Message-State: AOAM530u3d+d/2DJj5R7LWxDMLdIVXiztmiQ5NIh0++h+boUqeWzXM7m
+        lmUgjDIOC5uyiYu/nGlC1+yDn88dpC/kFg==
+X-Google-Smtp-Source: ABdhPJwU58ts8TG5udbpR4NAjoAskvhPI32DRaavl4P/Ig3gTP4bnk809SJao+5o6r9nlQbJdKc+VA==
+X-Received: by 2002:a0c:d692:0:b0:432:3605:6192 with SMTP id k18-20020a0cd692000000b0043236056192mr3306324qvi.90.1646914224452;
+        Thu, 10 Mar 2022 04:10:24 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id x26-20020ae9f81a000000b005f1916fc61fsm2159953qkh.106.2022.03.10.04.10.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Mar 2022 04:10:23 -0800 (PST)
+Received: by mail-yb1-f182.google.com with SMTP id u61so10393002ybi.11;
+        Thu, 10 Mar 2022 04:10:23 -0800 (PST)
+X-Received: by 2002:a25:c54a:0:b0:628:9d7f:866a with SMTP id
+ v71-20020a25c54a000000b006289d7f866amr3597669ybe.546.1646914222934; Thu, 10
+ Mar 2022 04:10:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=VAwCzQvCPzAOk9i8u7-pfbO3cGVa8nqj6V1eQc8mRwFA@mail.gmail.com>
-References: <20220307175955.363057-1-kieran.bingham+renesas@ideasonboard.com> <20220307175955.363057-2-kieran.bingham+renesas@ideasonboard.com> <CAD=FV=VAwCzQvCPzAOk9i8u7-pfbO3cGVa8nqj6V1eQc8mRwFA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: ti-sn65dsi86: Implement bridge connector operations
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Stephen Boyd <swboyd@chromium.org>
-To:     Doug Anderson <dianders@chromium.org>
-Date:   Thu, 10 Mar 2022 11:43:38 +0000
-Message-ID: <164691261863.11309.15102491071451078046@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220309194521.7028-1-biju.das.jz@bp.renesas.com>
+ <20220309194521.7028-4-biju.das.jz@bp.renesas.com> <164690820109.123014.3107899517422264094@Monstersaurus>
+ <OS0PR01MB5922FA79BF95266260364627860B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922FA79BF95266260364627860B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Mar 2022 13:10:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUSBY6pE81OuoE9LX-Ekn+kFHDK=YT4=1w_+yfx-OmJ2A@mail.gmail.com>
+Message-ID: <CAMuHMdUSBY6pE81OuoE9LX-Ekn+kFHDK=YT4=1w_+yfx-OmJ2A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Doug,
+Hi Biju,
 
-Quoting Doug Anderson (2022-03-07 19:52:08)
-> Hi,
->=20
-> On Mon, Mar 7, 2022 at 10:00 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > Implement the bridge connector-related .get_edid() operation, and report
-> > the related bridge capabilities and type.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> >
-> > - The connector .get_modes() operation doesn't rely on EDID anymore,
-> >   __ti_sn_bridge_get_edid() and ti_sn_bridge_get_edid() got merged
-> >   together
-> >
-> > Notes from Kieran:
-> >
-> > RB Tags collected from:
-> >  https://lore.kernel.org/all/20210322030128.2283-9-laurent.pinchart+ren=
-esas@ideasonboard.com/
-> >
-> > However this was over a year ago, so let me know if other patches now
-> > superceed this one or otherwise invalidate this update.
-> >
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi86.c
-> > index c55848588123..ffb6c04f6c46 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -1154,6 +1154,19 @@ static void ti_sn_bridge_post_disable(struct drm=
-_bridge *bridge)
-> >         pm_runtime_put_sync(pdata->dev);
-> >  }
-> >
-> > +static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
-> > +                                         struct drm_connector *connect=
-or)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +       struct edid *edid;
-> > +
-> > +       pm_runtime_get_sync(pdata->dev);
-> > +       edid =3D drm_get_edid(connector, &pdata->aux.ddc);
-> > +       pm_runtime_put_autosuspend(pdata->dev);
-> > +
-> > +       return edid;
-> > +}
-> > +
-> >  static const struct drm_bridge_funcs ti_sn_bridge_funcs =3D {
-> >         .attach =3D ti_sn_bridge_attach,
-> >         .detach =3D ti_sn_bridge_detach,
-> > @@ -1162,6 +1175,7 @@ static const struct drm_bridge_funcs ti_sn_bridge=
-_funcs =3D {
-> >         .enable =3D ti_sn_bridge_enable,
-> >         .disable =3D ti_sn_bridge_disable,
-> >         .post_disable =3D ti_sn_bridge_post_disable,
-> > +       .get_edid =3D ti_sn_bridge_get_edid,
-> >  };
-> >
-> >  static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-> > @@ -1248,6 +1262,8 @@ static int ti_sn_bridge_probe(struct auxiliary_de=
-vice *adev,
-> >
-> >         pdata->bridge.funcs =3D &ti_sn_bridge_funcs;
-> >         pdata->bridge.of_node =3D np;
-> > +       pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
-> > +       pdata->bridge.type =3D DRM_MODE_CONNECTOR_eDP;
->=20
-> This doesn't look right to me. In the eDP case the EDID reading is
-> driven by the panel.
+On Thu, Mar 10, 2022 at 12:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
+> > Quoting Biju Das (2022-03-09 19:45:21)
+> > > The RZ/G2L VSPD provides a single VSPD instance. It has the following
+> > > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+> > >
+> > > The VSPD block on RZ/G2L does not have a version register, so added a
+> > > new compatible string "renesas,vsp2-rzg2l" with a data pointer
+> > > containing
 
-Now that I have the optional connector working based on Sam's series I
-think this is the last issue to solve before reposting the DP/HPD
-support.
+> > >  drivers/media/platform/vsp1/vsp1_drv.c  | 32
+> > > +++++++++++++++++++------  drivers/media/platform/vsp1/vsp1_lif.c  |
+> > > 7 ++++--  drivers/media/platform/vsp1/vsp1_regs.h |  1 +
+> > >  3 files changed, 31 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/vsp1/vsp1_drv.c
+> > > b/drivers/media/platform/vsp1/vsp1_drv.c
+> > > index 77da6a6732d8..40c6d9290681 100644
+> > > --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> > > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
 
-Are you saying that the bridge.ops should only set DRM_BRIDGE_OP_EDID
-when pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort?
+> > >         if (IS_ERR(vsp1->rstc))
+> > >                 return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+> > >                                      "failed to get reset ctrl\n"); @@
+> > > -874,13 +889,15 @@ static int vsp1_probe(struct platform_device *pdev)
+> > >         if (ret < 0)
+> > >                 goto done;
+> > >
+> > > -       vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> > > +       if (!vsp1->info) {
+> > > +               vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> > >
+> > > -       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> > > -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> > > -                   vsp1_device_infos[i].version) {
+> > > -                       vsp1->info = &vsp1_device_infos[i];
+> > > -                       break;
+> > > +               for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> > > +                       if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK)
+> > ==
+> > > +                           vsp1_device_infos[i].version) {
+> > > +                               vsp1->info = &vsp1_device_infos[i];
+> > > +                               break;
+> > > +                       }
+> >
+> >
+> > This is looking like it gets a bit awkward. Two methods for identifying
+> > the version and info structure is going to be a pain.
+>
+> On RFC, Laurent suggested to use info for RZ/G2L. Do you have better
+> Suggestion? Please let me know.
+
+I'm afraid we have no other option.  But the flow could be made
+prettier by moving the table lookup into its own function, and using
+something like below in the probe function:
+
+    vsp1->info = of_device_get_match_data(&pdev->dev);
+    if (!vsp1->info)
+            vsp1->info = vsp1_lookup(vsp1_read(vsp1, VI6_IP_VERSION));
+    if (!vsp1->info)
+            return -ENODEV.
+
+> > > @@ -943,6 +960,7 @@ static int vsp1_remove(struct platform_device
+> > > *pdev)  static const struct of_device_id vsp1_of_match[] = {
+> > >         { .compatible = "renesas,vsp1" },
+> > >         { .compatible = "renesas,vsp2" },
+> > > +       { .compatible = "renesas,vsp2-rzg2l", .data =
+> > > + &vsp1_device_infos[14] },
+> >
+> > I don't think you should reference a specific index of the infos table.
+> > What happens if someone adds an entry higher in the table which pushes the
+> > indexes down ?
+>
+> I can think of adding macros in info structure and use that macro
+> here to avoid such condition, if it all needed.
+>
+> Do you have any other better alternative to handle this scenario?
+> Please let me know.
+
+I would use a pointer to an independent struct vsp1_device_info, not
+part of vsp1_device_infos[], so it can never be matched by accident
+(see below).
+
+> > > --- a/drivers/media/platform/vsp1/vsp1_regs.h
+> > > +++ b/drivers/media/platform/vsp1/vsp1_regs.h
+> > > @@ -766,6 +766,7 @@
+> > >  #define VI6_IP_VERSION_MODEL_VSPD_V3   (0x18 << 8)
+> > >  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3        (0x19 << 8)
+> > >  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3        (0x1a << 8)
+> > > +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L        (0x1b << 8)
+> >
+> > I don't like the idea of using a value here that could really be used on a
+> > real device somewhere.
+> >
+> > The hole in the sequence is only there because we havent' seen a datasheet
+> > with 0x1b defined.
+> >
+> > If there truely is no version register on this hardware, we're going to
+> > have to make sure this version value can't conflict.
+>
+> Currently, I don't see any device with 0x1b. If in future if we found a device
+> With 0x1b, This can be moved to a higher value for eg:- 0xfe.
+>
+> Please let me know your thoughts.
+
+I agree with Kieran, and strongly recommend against using a number
+that might exist for real on current or future SoCs.  Unfortunately
+there's only 8 bits available, precluding the use of e.g. (0xbeef01
+<< 8). But starting from (0xff << 8), and counting down for future
+entries, if needed, sounds like a good compromise.
+
+And of course there should be a comment next to the definition,
+to make it clear this is a made-up number.
+
+P.S. If possible, please communicate to the hardware engineers it
+     was IMHO a bad decision to get rid of the version register,
+     which should be reconsidered for future SoCs.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --
-Regards
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Kieran
-
-
->=20
-> -Doug
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
