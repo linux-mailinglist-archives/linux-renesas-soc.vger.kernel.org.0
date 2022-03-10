@@ -2,141 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F20FE4D4E9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 17:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1564D4E8E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 17:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242235AbiCJQSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 11:18:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37760 "EHLO
+        id S237204AbiCJQUu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 11:20:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242361AbiCJQSM (ORCPT
+        with ESMTP id S236664AbiCJQUi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 11:18:12 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAED190B6A
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 08:17:10 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 26342C000A;
-        Thu, 10 Mar 2022 16:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1646929029;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VjUPIaxQ1WBMLteeByIABCjhVWOu3Y3N20N5eUaJ/3w=;
-        b=X7iP3eV6hikcEbM46cBxOKlShAsQUKQBFFesGuHsRkK7cJRwU0HGQCcpGhHRvfMYpL4MWE
-        yLmovwzysfDt/8A+n683PbYnLsOwrNMmlrv90BvdgyHU2IldsffiPuRNFpULVjCMThwiIS
-        r9TfkxOrBjRfhFZ1VisfjGgHX4S6gp1Nv4bDDVkpONx4k5h49PwAt0ab9Q+E9Qm+FlY/Kv
-        r9ZiPJYmDSHO5M5KtR0l3gNxlteOU2BIgSRcBxHPMXMtAxSQNCAiEtkvtxilFwL80muP4K
-        VPSLN3OS0oZAjJ42/Q1yY9OYacRbUL5Pp4ln6xfxrQHaKf3JhZqmpyoJpIvx4Q==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-serial@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 7/7] ARM: dts: r9a06g032: Fill the UART DMA properties
-Date:   Thu, 10 Mar 2022 17:16:50 +0100
-Message-Id: <20220310161650.289387-8-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220310161650.289387-1-miquel.raynal@bootlin.com>
-References: <20220310161650.289387-1-miquel.raynal@bootlin.com>
+        Thu, 10 Mar 2022 11:20:38 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED3E199D58;
+        Thu, 10 Mar 2022 08:18:55 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 179FB491;
+        Thu, 10 Mar 2022 17:18:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646929121;
+        bh=IigNmedq/u5cq+uo4SiOOQpiDOP+uOQZNVbqmVyBaLw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H+Ip+sLggMnFavGSB11bgBBXLtNPbzXIzKaioFZTMeua44tvb+OG4ptOFE/EQ0R3N
+         NY4MlbyFC+mU8T+V8e5Ff/Dy3JNxRUXUmvexwXHREdbWMochDKS+qdv3AQo5jZLmnC
+         Tu26812mZn+lAnBum/+p4CdA/qrEY++dNe+X4Vug=
+Date:   Thu, 10 Mar 2022 18:18:25 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 1/3] drm/bridge: ti-sn65dsi86: Support DisplayPort
+ (non-eDP) mode
+Message-ID: <Yiok0XZUgDyveWKj@pendragon.ideasonboard.com>
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220310152227.2122960-2-kieran.bingham+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-UART 0 to 2 do not have DMA support, while UART 3 to 7 do.
+Hi Kieran,
 
-Fill the "dmas" and "dma-names" properties for each of these nodes.
+Thank you for the patch.
 
-Please mind that these nodes go through the dmamux node which will
-redirect the requests to the right DMA controller. The first 4 cells of
-the "dmas" properties will be transferred as-is to the DMA
-controllers. The last 2 cells are consumed by the dmamux. Which means
-cell 0 and 4 are almost redundant, one giving the controller request ID
-and the other the dmamux channel which is a 1:1 translation of the
-request IDs, shifted by 16 when pointing to the second DMA controller.
+On Thu, Mar 10, 2022 at 03:22:25PM +0000, Kieran Bingham wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Despite the SN65DSI86 being an eDP bridge, on some systems its output is
+> routed to a DisplayPort connector. Enable DisplayPort mode when the next
+> component in the display pipeline is detected as a DisplayPort
+> connector, and disable eDP features in that case.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reworked to set bridge type based on the next bridge/connector.
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 804f2d6f416f..aa447e2622e0 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -128,6 +128,9 @@ uart3: serial@50000000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART3>, <&sysctrl R9A06G032_HCLK_UART3>;
- 			clock-names = "baudclk", "apb_pclk";
-+			dmas =  <&dmamux 0 0 0 0 0 1>,
-+				<&dmamux 1 0 0 0 1 1>;
-+			dma-names = "rx", "tx";
- 			status = "disabled";
- 		};
- 
-@@ -139,6 +142,9 @@ uart4: serial@50001000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART4>, <&sysctrl R9A06G032_HCLK_UART4>;
- 			clock-names = "baudclk", "apb_pclk";
-+			dmas =  <&dmamux 2 0 0 0 2 1>,
-+				<&dmamux 3 0 0 0 3 1>;
-+			dma-names = "rx", "tx";
- 			status = "disabled";
- 		};
- 
-@@ -150,6 +156,9 @@ uart5: serial@50002000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART5>, <&sysctrl R9A06G032_HCLK_UART5>;
- 			clock-names = "baudclk", "apb_pclk";
-+			dmas =  <&dmamux 4 0 0 0 4 1>,
-+				<&dmamux 5 0 0 0 5 1>;
-+			dma-names = "rx", "tx";
- 			status = "disabled";
- 		};
- 
-@@ -161,6 +170,9 @@ uart6: serial@50003000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART6>, <&sysctrl R9A06G032_HCLK_UART6>;
- 			clock-names = "baudclk", "apb_pclk";
-+			dmas =  <&dmamux 6 0 0 0 6 1>,
-+				<&dmamux 7 0 0 0 7 1>;
-+			dma-names = "rx", "tx";
- 			status = "disabled";
- 		};
- 
-@@ -172,6 +184,9 @@ uart7: serial@50004000 {
- 			reg-io-width = <4>;
- 			clocks = <&sysctrl R9A06G032_CLK_UART7>, <&sysctrl R9A06G032_HCLK_UART7>;
- 			clock-names = "baudclk", "apb_pclk";
-+			dmas =  <&dmamux 4 0 0 0 20 1>,
-+				<&dmamux 5 0 0 0 21 1>;
-+			dma-names = "rx", "tx";
- 			status = "disabled";
- 		};
- 
+(I know I'm listed as the author, but your changes look good :-))
+
+> --
+> Changes since v1/RFC:
+>  - Rebased on top of "drm/bridge: ti-sn65dsi86: switch to
+>    devm_drm_of_get_bridge"
+>  - eDP/DP mode determined from the next bridge connector type.
+> 
+> Changes since v2:
+>  - Remove setting of Standard DP Scrambler Seed. (It's read-only).
+>  - Prevent setting DP_EDP_CONFIGURATION_SET in
+>    ti_sn_bridge_atomic_enable()
+>  - Use Doug's suggested text for disabling ASSR on DP mode.
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index c892ecba91c7..93b54fcba8ba 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -62,6 +62,7 @@
+>  #define SN_LN_ASSIGN_REG			0x59
+>  #define  LN_ASSIGN_WIDTH			2
+>  #define SN_ENH_FRAME_REG			0x5A
+> +#define  ASSR_CONTROL				BIT(0)
+>  #define  VSTREAM_ENABLE				BIT(3)
+>  #define  LN_POLRS_OFFSET			4
+>  #define  LN_POLRS_MASK				0xf0
+> @@ -93,6 +94,8 @@
+>  #define SN_DATARATE_CONFIG_REG			0x94
+>  #define  DP_DATARATE_MASK			GENMASK(7, 5)
+>  #define  DP_DATARATE(x)				((x) << 5)
+> +#define SN_TRAINING_SETTING_REG			0x95
+> +#define  SCRAMBLE_DISABLE			BIT(4)
+>  #define SN_ML_TX_MODE_REG			0x96
+>  #define  ML_TX_MAIN_LINK_OFF			0
+>  #define  ML_TX_NORMAL_MODE			BIT(0)
+> @@ -982,6 +985,17 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+>  		goto exit;
+>  	}
+>  
+> +	/*
+> +	 * eDP panels use an Alternate Scrambler Seed compared to displays
+> +	 * hooked up via a full DisplayPort connector. SN65DSI86 only supports
+> +	 * the alternate scrambler seed, not the normal one, so the only way we
+> +	 * can support full DisplayPort displays is by fully turning off the
+> +	 * scrambler.
+> +	 */
+> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +		regmap_update_bits(pdata->regmap, SN_TRAINING_SETTING_REG,
+> +				   SCRAMBLE_DISABLE, SCRAMBLE_DISABLE);
+> +
+>  	/*
+>  	 * We'll try to link train several times.  As part of link training
+>  	 * the bridge chip will write DP_SET_POWER_D0 to DP_SET_POWER.  If
+> @@ -1046,12 +1060,13 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+>  
+>  	/*
+>  	 * The SN65DSI86 only supports ASSR Display Authentication method and
+> -	 * this method is enabled by default. An eDP panel must support this
+> +	 * this method is enabled for eDP panels. An eDP panel must support this
+>  	 * authentication method. We need to enable this method in the eDP panel
+>  	 * at DisplayPort address 0x0010A prior to link training.
+>  	 */
+> -	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+> -			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+> +	if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
+> +		drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+> +				   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+>  
+>  	/* Set the DP output format (18 bpp or 24 bpp) */
+>  	val = (ti_sn_bridge_get_bpp(old_bridge_state) == 18) ? BPP_18_RGB : 0;
+> @@ -1215,6 +1230,8 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>  
+>  	pdata->bridge.funcs = &ti_sn_bridge_funcs;
+>  	pdata->bridge.of_node = np;
+> +	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+> +			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
+>  
+>  	drm_bridge_add(&pdata->bridge);
+>  
+
 -- 
-2.27.0
+Regards,
 
+Laurent Pinchart
