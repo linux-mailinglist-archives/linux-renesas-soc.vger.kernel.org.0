@@ -2,74 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 359624D518A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 20:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8BC04D5192
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 20:43:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233999AbiCJS2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 13:28:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40174 "EHLO
+        id S245571AbiCJSrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 13:47:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238705AbiCJS2D (ORCPT
+        with ESMTP id S245567AbiCJSrs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 13:28:03 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD210158D96;
-        Thu, 10 Mar 2022 10:27:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646936820; x=1678472820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XAlKDXqiQfOaTdOU/lfgyFC9vnJAIdUuMofC2PNYdto=;
-  b=nxA9JkHe73ESMmtFJJ83iXy8qii36V6K+hn+l7YazOS0QQnMRJ3wreI0
-   PGKnapBsBo3sVRImtTwHS3Vk32UUCCmKntFgJJRCeWIsnRsDitLnydSDF
-   ENiVv95j7vWD7j9nZZ9P5evB9ZdTI6Tb2HROJq9Kz28AVQnFPsAukjpM8
-   YwRwDTEAbrtJcwr6lNeolWyFPYb88yS9pfokZ2p5c6itUskIZockxQKPE
-   aCS9egnCUaxYgIg/uHlKjciCfZT6QU0SSUfLSxGrYMTegOLjABwHmVLec
-   rkamAUAHun6huPtcXVts+wGewTXzAwdMUP3ZLx2zev/ImznT8M4W6URWz
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="235935896"
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="235935896"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 10:26:40 -0800
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="511007377"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 10:26:36 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nSNU1-00Es0O-DU;
-        Thu, 10 Mar 2022 20:25:53 +0200
-Date:   Thu, 10 Mar 2022 20:25:52 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Thu, 10 Mar 2022 13:47:48 -0500
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD56B19D74B;
+        Thu, 10 Mar 2022 10:46:45 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 169C7200005;
+        Thu, 10 Mar 2022 18:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646938004;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hZU6SVWgpj28SgSGWMJlq8dkif2ZOccvFZ1KeCDp1sk=;
+        b=FAOz01qqILI59eL5ElxRP3GT03NPc1HH1ll9vqDcFFee61xZTV22Khog1bIExta4/W41i1
+        NUMhmPFfsPJS6vs0mUmrZu72ekB4YcH6MopkfDsKEBR4j8Hl93ITk5Se6QQgc6ak2JyxOV
+        TUglNrbYgTnAs4Sirkex6I0Mhw4Arwz2vRoOo7rBDprDvjAdHmHFHW+ZkYpHLEm0um6x3P
+        AfkAIMXhXUxrg++lgicu7PioRmhyDVv3C55LyUoQTdWUkDv23TotkWH6jyib1s55ubi66i
+        PGFS3oo5C4KE2woLLEZjXvqB80EXt2/daOQNVm8j8P2CPcKjmqUtJPQDIilXSA==
+Date:   Thu, 10 Mar 2022 19:46:40 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
         Gareth Williams <gareth.williams.jx@renesas.com>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH 6/7] serial: 8250_dw: Add support for RZ/N1 DMA
-Message-ID: <YipCsO+UMcGOqLaG@smile.fi.intel.com>
-References: <20220310161650.289387-1-miquel.raynal@bootlin.com>
- <20220310161650.289387-7-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v4 7/9] dma: dw: Avoid partial transfers
+Message-ID: <20220310194640.4bc6e604@xps13>
+In-Reply-To: <Yio6UWYIDZWXx2Ux@smile.fi.intel.com>
+References: <20220310155755.287294-1-miquel.raynal@bootlin.com>
+        <20220310155755.287294-8-miquel.raynal@bootlin.com>
+        <Yio6UWYIDZWXx2Ux@smile.fi.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310161650.289387-7-miquel.raynal@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,160 +71,78 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 05:16:49PM +0100, Miquel Raynal wrote:
-> From: Phil Edworthy <phil.edworthy@renesas.com>
-> 
-> The Renesas RZ/N1 devices have a modified Synopsys DW UART. The
-> modifications are mostly related to the DMA handlnig, and so this patch
-> adds support for DMA.
+Hi Andy,
 
-> The RZ/N1 UART must be used with the peripheral as the flow
-> controller.
+andriy.shevchenko@linux.intel.com wrote on Thu, 10 Mar 2022 19:50:09
++0200:
 
-(1)
+> +Cc: Ilpo who is currently doing adjoining stuff.
+>=20
+> Ilpo, this one affects Intel Bay Trail and Cherry Trail platforms.
+> Not sure if it's in scope of your interest right now, but it might
+> be useful to see how DMA <--> 8250 UART functioning.
+>=20
+> On Thu, Mar 10, 2022 at 04:57:53PM +0100, Miquel Raynal wrote:
+> > As investigated by Phil Edworthy <phil.edworthy@renesas.com> on RZN1 a =
+=20
+>=20
+> Email can be dropped as you put it below, just (full) name is enough.
 
-> This means the DMA length should also be programmed into
-> UART registers.
+Sure.
 
-(2)
+> I'm wondering if Phil or anybody else who possess the hardware can
+> test / tested this.
 
-Hmm... DMA controller vs. Peripheral flow control is about signalling on the HW
-level on who starts the transaction. This is programmed in the DMA controller
-device driver. Is it what you do in DesignWare DMA patch series?
+I have a board with an RZN1 SoC but I don't have exactly the same setup
+as Phil (I only have one port with DMA working, while he used two as a
+loopback device). I tried to reproduce the error with no luck so far. I
+however verified that there was apparently no performance hit
+whatsoever due to this change. IIRC Phil does not have the hardware
+anymore.
 
-Ah, I see now, you set fc here.
+> > while ago, pausing a partial transfer only causes data to be written to
+> > memory that is a multiple of the memory width setting. Such a situation
+> > can happen eg. because of a char timeout interrupt on a UART. In this
+> > case, the current ->terminate_all() implementation does not always flush
+> > the remaining data as it should.
+> >=20
+> > In order to workaround this, a solutions is to resume and then pause
+> > again the transfer before termination. The resume call in practice
+> > actually flushes the remaining data. =20
+>=20
+> Perhaps Fixes tag?
 
-But still it's not clear how (2) and (1) are related.
+I don't know exactly what hardware can suffer from this, hence I
+decided not to add a Fixes tag given the fact that it was only observed
+on RZN1 (which was until now not yet supported upstream).
 
-> Aside from this, there are some points to note about DMA burst sizes.
-> First, DMA must not remove all of the data from the rx FIFO. Otherwise,
-> we do not get a 'character timeout' interrupt, and so do not know that
-> we should push data up the serial stack. Therefore, we have the rx
-> threshold for generating an interrupt set to half the FIFO depth (this
-> is the default for 16550A), and set the DMA burst size when reading the
-> FIFO to a quarter of the FIFO depth.
-> 
-> Second, when transmitting data using DMA, the burst size must be limited
-> to 1 byte to handle then case when transmitting just 1 byte. Otherwise
-> the DMA doesn't complete the burst, and nothing happens.
-
-...
-
-> +/* Offsets for the Renesas RZ/N1 DesignWare specific registers */
-> +/* DMA Software Ack */
-> +#define RZN1_UART_DMASA			0xa8
-
-Is it specific to Renesas? IIRC it's Synopsys DesignWare register, makes
-sense to use appropriate prefix or no prefix.
-
-...
-
-> +#define RZN1_UART_xDMACR_1_WORD_BURST	0
-> +#define RZN1_UART_xDMACR_4_WORD_BURST	BIT(1)
-> +#define RZN1_UART_xDMACR_8_WORD_BURST	(BIT(1) | BIT(2))
-
-This looks like incorrect use of BIT() macro.
-Please, use plain decimal integers. Something like
-
-	1	(0 << 1)
-	4	(1 << 1)
-	8	(3 << 1)
-
-If I'm mistaken, describe the meaning of each bit there.
-
-...
-
-> +static void rzn1_8250_handle_irq(struct uart_port *port, unsigned int iir)
-> +{
-> +	struct uart_8250_port *up = up_to_u8250p(port);
-> +	struct uart_8250_dma *dma = up->dma;
-> +	unsigned char status;
-
-> +	if (up->dma && dma->rx_running) {
-
-With
-
-	if (!)up->dma && dma->rx_running))
-		return;
-
-maybe easier to read the rest.
-
-> +		status = port->serial_in(port, UART_LSR);
-> +		if (status & (UART_LSR_DR | UART_LSR_BI)) {
-> +			/* Stop the DMA transfer */
-> +			writel(0, port->membase + RZN1_UART_RDMACR);
-> +			writel(1, port->membase + RZN1_UART_DMASA);
-> +		}
-> +	}
-> +}
-
-...
-
-> +	if (d->is_rzn1 && ((iir & 0x3f) == UART_IIR_RX_TIMEOUT))
-> +		rzn1_8250_handle_irq(p, iir);
-
-A few years ago it was a discussion about broken timeout on some platforms
-with Synopsys DesignWare UART + DMA. Can it be that this is actually required
-for all of them that uses same combination of IPs?
-
-...
-
-> +static u32 rzn1_get_dmacr_burst(int max_burst)
-> +{
-
-> +	u32 val = 0;
-
-Redundant assignment and variable itself. Use return statements directly.
-
-> +	if (max_burst >= 8)
-> +		val = RZN1_UART_xDMACR_8_WORD_BURST;
-> +	else if (max_burst >= 4)
-> +		val = RZN1_UART_xDMACR_4_WORD_BURST;
-> +	else
-> +		val = RZN1_UART_xDMACR_1_WORD_BURST;
-> +
-> +	return val;
-> +}
-
-...
-
-> +static int rzn1_dw8250_tx_dma(struct uart_8250_port *p)
-> +{
-> +	struct uart_port		*up = &p->port;
-> +	struct uart_8250_dma		*dma = p->dma;
-> +	struct circ_buf			*xmit = &p->port.state->xmit;
-> +	int tx_size;
-> +	u32 val;
-> +
-> +	if (uart_tx_stopped(&p->port) || dma->tx_running ||
-> +	    uart_circ_empty(xmit))
-> +		return 0;
-> +
-> +	tx_size = CIRC_CNT_TO_END(xmit->head, xmit->tail, UART_XMIT_SIZE);
-
-> +	writel(0, up->membase + RZN1_UART_TDMACR);
-> +	val = rzn1_get_dmacr_burst(dma->txconf.dst_maxburst);
-> +	val |= tx_size << RZN1_UART_xDMACR_BLK_SZ_OFFSET;
-> +	val |= RZN1_UART_xDMACR_DMA_EN;
-> +	writel(val, up->membase + RZN1_UART_TDMACR);
-
-Can this be added as a callback to the serial8250_tx_dma()?
-Ditto for Rx counterpart.
-
-> +	return serial8250_tx_dma(p);
-> +}
-
-...
-
-> +	data->is_rzn1 = of_device_is_compatible(dev->of_node, "renesas,rzn1-uart");
-
-Device property API.
-
->  	/* Always ask for fixed clock rate from a property. */
->  	device_property_read_u32(dev, "clock-frequency", &p->uartclk);
-
--- 
-With Best Regards,
-Andy Shevchenko
+> > Reported-by: Phil Edworthy <phil.edworthy@renesas.com>
+> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > ---
+> >  drivers/dma/dw/core.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >=20
+> > diff --git a/drivers/dma/dw/core.c b/drivers/dma/dw/core.c
+> > index 7ab83fe601ed..2f6183177ba5 100644
+> > --- a/drivers/dma/dw/core.c
+> > +++ b/drivers/dma/dw/core.c
+> > @@ -862,6 +862,10 @@ static int dwc_terminate_all(struct dma_chan *chan)
+> > =20
+> >  	clear_bit(DW_DMA_IS_SOFT_LLP, &dwc->flags);
+> > =20
+> > +	/* Ensure the last byte(s) are drained before disabling the channel */
+> > +	if (test_bit(DW_DMA_IS_PAUSED, &dwc->flags))
+> > +		dwc_chan_resume(dwc, true);
+> > +
+> >  	dwc_chan_pause(dwc, true);
+> > =20
+> >  	dwc_chan_disable(dw, dwc);
+> > --=20
+> > 2.27.0
+> >  =20
+>=20
 
 
+Thanks,
+Miqu=C3=A8l
