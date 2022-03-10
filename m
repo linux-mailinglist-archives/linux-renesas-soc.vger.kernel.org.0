@@ -2,231 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E82364D43FB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 10:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EA304D4498
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 11:30:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241021AbiCJJy3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 04:54:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S233210AbiCJKbI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 05:31:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241072AbiCJJyV (ORCPT
+        with ESMTP id S229627AbiCJKbI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 04:54:21 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2136.outbound.protection.outlook.com [40.107.114.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687D8B151A;
-        Thu, 10 Mar 2022 01:53:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hx8DBv3DG/XnpTij886QMcje9Tm2DzeJMGHwaQaKk6t2LnhN9E4ZThqiRneUr6vtLyCBBI3BtdOlrz1Xw13p5moN/VucbQ+iPgOzWkIz4DvvvWktQIe1gb7lIq2y1pWk4QCu8tOma7w+C1XcaoJ2VEIzjiE17WsQ19NzCHkM/IL51iA2mNSVMSI9Wc73VeuggVoxyfda0HdhF0Z+bxhD7LkBk45SO24aagpRxdQlHM/JgxbdPxn7Wb6CCtmM1YZLk5grs4iYRzpE5YYATZPmObfTQ+Tf+JKUWai/OgUPHLl0PVrWoS9t2M5Gz39uCYQJ+eKbuo8ps6NSXprrUx4AFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1cyY4abdhhM+p0YDExGY74Jtri9qoCYScidI23EAx6Q=;
- b=CvLTMSepN559G72Wov6ymCl0xJbG0ejeAXkK3mTL2bvt+SEDBR5pmosWdopA9yajXiQRODoG0Pvm8CcXp5n6J1cD2G6bdbn7Lu/oLNsyUnSFDgV9YcdAXef8JMraK4ouSqw+Qqzp8zkirEV/Nu+0jmCN5Q180l4Cbwc+Cmp3o0dkGIfDhgViPW2/9cxVlMO/SiaYySklrMV6wscRsrOCih0ffmiZaQclGbJLMYm6YCJ2AW5jZ/1mKs6FXOzd9Ilw7Wv3wlOY7IGoX/tWHUAgQKAeSndV85eSBfiRZodmyyIFRmJM0B1Kvx75U49YpMloTjLXO0AECo2wi1252X3vng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1cyY4abdhhM+p0YDExGY74Jtri9qoCYScidI23EAx6Q=;
- b=aSLDvjUNGfZRdl5sGcSsqAAYphHhEdn6Ehl9z1SdtJa7FClsXo+nDGbScXM4aAgqCAyEsvMYF8PUwxdsdfI9sOy84SS6/nz8Mef8ayndfmed6xEV9htFoajLYQaooNnxKhQmZQTTRL9lTxQp3Hi8wLtVby8QrDgl6OF8+0D0VTg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB3520.jpnprd01.prod.outlook.com (2603:1096:404:c1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 10 Mar
- 2022 09:53:07 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500%4]) with mapi id 15.20.5038.023; Thu, 10 Mar 2022
- 09:53:07 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Thu, 10 Mar 2022 05:31:08 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57179139111;
+        Thu, 10 Mar 2022 02:30:06 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EE594AB;
+        Thu, 10 Mar 2022 11:30:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646908203;
+        bh=KAXmryB0vxqyrH/sdzNKVLSz4adLQt4di4zYqhekAdc=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=ZYU1IfhPmJzgsYdIal50+C8WOm01WYdRTGOMREaNlLXraOcX1ykANa8jTwvtKgMN3
+         0fpae1h4/Dp1OtzrvxX83TEwa41bRAgsETConfhyWJs1EaddpaCuFimBxdgUrDoAQ4
+         Td9ToBAKiMOaEEIk+iJ89XYMayVcIYo+jVQrrmMQ=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220309194521.7028-4-biju.das.jz@bp.renesas.com>
+References: <20220309194521.7028-1-biju.das.jz@bp.renesas.com> <20220309194521.7028-4-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Topic: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Index: AQHYM+5AeJxexxDclU2PUbIF1R4c/ay4Xh8AgAAA1ZA=
-Date:   Thu, 10 Mar 2022 09:53:06 +0000
-Message-ID: <OS0PR01MB59227D305D9CD055809F32A0860B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220309194521.7028-1-biju.das.jz@bp.renesas.com>
- <20220309194521.7028-4-biju.das.jz@bp.renesas.com>
- <CAMuHMdV8kuqD31n8wkkuu_UFc6aMnr3LrfD4rNboxO6wJqcF4Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdV8kuqD31n8wkkuu_UFc6aMnr3LrfD4rNboxO6wJqcF4Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6eab070b-2d63-4bc5-588e-08da027bc70c
-x-ms-traffictypediagnostic: TYAPR01MB3520:EE_
-x-microsoft-antispam-prvs: <TYAPR01MB3520C780231ABD2AFD9F2393860B9@TYAPR01MB3520.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nemjNqIv56X+AxKiuvXjCWrkmhP9DOJ/cUcs4A+sBseyRA0qsES8VD5ILayiaPTX6DQX9sVLkK9sr2AGGCjeeTSFYXEW7tyd4tyUMj3SPNUpQZbwnvtd0zf/rcHSkSuMs+lpox9Ca+AHoGFaS9iDXVZaPB0xry21pRg1jJYYvgCFlLCdA2/u8GhMAaWJbXW6zl6xp13Kv0DIScnxg77oYblOqruFNQqtgDyw/Dkd9M95q9IOAt2w9br0rXjO1ePI6pLQl1U2W1y5rEG5iEaG4qpo3uce7U8w1cuEkuecUCLmN+W4908w+ZNRlGK/oxmZ74X8Ce4vgVdFXcLfcdJ/lxBq8ydItI45B20DmiRHfdciY2QGJfUQEkt95ao+L2mxAk9VhtlH+bpPm8ywCQXwzHEjk1WqIC1inhwZVxz5ehy5ydmXJeCN0qm+kAQwUjsSel1c/ie0fVmUKZKk7gCy8HLiIbA2/tuR1tamzahrZY7w/R8QKeinSm3lS1DNCx9KDJ+YmcWXoDjelNeW9De1eeVvZ/xgRlnxhpfuoU5K98GwCK/nVJ2Shas/MdpssmokSA3118tev21WN0XuTwiA8bvkFIBmjlQ0+ngDZ25U1zGXME3hiYV6g7OIM800/JxSfofZw7lKwNQhR7Pyu7EJlyDeTekxsh7LBNBn4tBDcgGkCapEJQI33EFWq+n1aab86537h+iFCBuwvl0RTq27Vg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(66446008)(66476007)(8676002)(71200400001)(64756008)(66556008)(4326008)(66946007)(76116006)(5660300002)(33656002)(6506007)(7696005)(2906002)(53546011)(8936002)(52536014)(26005)(186003)(107886003)(83380400001)(38100700002)(508600001)(6916009)(55016003)(54906003)(122000001)(38070700005)(316002)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?B/+U0K71NkQz7KliCRkXjOavVSMR42PgBS6egp5/r/Yt0GLjhpk8HzGP3kfH?=
- =?us-ascii?Q?Jj3p2kc1vfkO/s+Z4tnSxmYF/nCp/lud63HpXpYyY2tsxFHt+tYUvkW+ykMr?=
- =?us-ascii?Q?EeiGENeJkXGTqGTD0GUPT6OLt9XJccR2hFRfJGoWdIRJ2Z8n/s7XAv+qiq9K?=
- =?us-ascii?Q?rlgCkcZFJGHdMmMZ3qxow05VL8XY9rWB9HzHNq9BMNiPwQFkFGlP0vEjl6PI?=
- =?us-ascii?Q?Gzno6QFJe79AYfEcONiVj0vSdJNXq/K9zseBCstrW8ZRMJVIMhb9lPbjUR2T?=
- =?us-ascii?Q?eDxvPNQdTpHXO3H4lwYubfadj1jPP9OjlHiRZJQX6Fx9stvGIMZaTrz1r8zp?=
- =?us-ascii?Q?hqA7yjVO0WfMhHMznJBZ9hEfJyCAQrtzUZDFTXVBuRgdN300wmdkkAB/X4tH?=
- =?us-ascii?Q?595FzigEuEbT33tGut8QvFbCGDoG4F3ZR8SipIh6Etb18vEVcVJJ55mNKPUX?=
- =?us-ascii?Q?1bOM7m0Tbf9DbtTf68b+m4IC8dIMDTFYi0JTDkFbP5Yi4cmklRrCYChm4c4S?=
- =?us-ascii?Q?f9rCdbJcsFuHYVd4hEh6pSf1F1mxt0A3IUoWpFrFewh85vFK2jq9d+QmIwyC?=
- =?us-ascii?Q?T5Ic3IgtQpe8UFXcTMXrOyghKQTMjmuefNI9b2XVK+KR3+FSx3Ts3xBUR5oI?=
- =?us-ascii?Q?Co57zpTZJQsltJpUo57lRL0fX88mqeGhTLsC8s8uWMi8fRk70NP+9AItdfaD?=
- =?us-ascii?Q?mdkU6TbP484DFcLs7cooldLVXMzKKQHCTLPMDyOER97ng/7lVdP+CvU07ELw?=
- =?us-ascii?Q?fb06DCwAnhX70NDDDYc3UnIfEQY4x8kTgg8b/Ybnhbxi8/67qJe7lfaYSWUR?=
- =?us-ascii?Q?YX/bTt9zFROiBz0KUArBFqDArfxnXStFxt4AYoiLtyp6CFG2J+VqtTRzelZw?=
- =?us-ascii?Q?SnzNyDgjyd/ukibUI9aQluxNj3x8tGjmEXKgXlqIowZbgmU3cxI1YEdiIQHl?=
- =?us-ascii?Q?NGP5EjqjBxp1j7ADo7AJq9l0r/noJ8N3+7fniEWcLBIErBaftLaIxrYLuoGE?=
- =?us-ascii?Q?CMcEY3tgngUrQ2A7AwWYUo93VU1dbarj25/ctpmbYjcn0d7pXtNGK5c+IBJ9?=
- =?us-ascii?Q?oYwHEBTh+6So6zx4euKGpZMKp6itATzysLHXSyudCHJ8FfG18s56f1muJ5Se?=
- =?us-ascii?Q?g0/CDeB7weSHnx8sZzrKFK8sFefKckmW1UOxKqNlQpnYfZgLDlg5AfbGpaR9?=
- =?us-ascii?Q?h7SF+YJeg+TjbzBtxqNboAPwbgFtHohV0Qg/Qcy/9vZwZWovM5UeIMsvhmtY?=
- =?us-ascii?Q?pM7TwDsqQTSnf80U72WDV6D5X8PFisb8SBNHrkSg3YcyTBX/MMN9e92lVbok?=
- =?us-ascii?Q?FTnkdJKSZDEReQdvQGJnOwbeFxm0c9V0VNhb62iuOJKZDPWkkeYnIVIVi1ll?=
- =?us-ascii?Q?+WKNiCb3COZ+iGC6fUMDztXBsvmbn/u8pFcxh557x7NkpFVmOPdLk++9hgSw?=
- =?us-ascii?Q?MXwqwMVNDIGrMHVSCBXMMM2hO00HgSG8D6oFkK+H2FgbDlNpZK6N+GyURD1v?=
- =?us-ascii?Q?6NvnOxJQ0KXFidViwbWZQQYxERh/cngleLQu2Zv4URovvwzPbvsjkp/DwcTu?=
- =?us-ascii?Q?VMklv2bcSp8PLYINAlYCf69n76bfh25osdSH6M7oeSvp5/nbUm4YBqgitEI9?=
- =?us-ascii?Q?ORdPQL0/W3jIyObARRBxjUdmPj6EeGj8ZURIKq8T8VF+wAjlxDhs6jDUmsXo?=
- =?us-ascii?Q?pZ2pXg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6eab070b-2d63-4bc5-588e-08da027bc70c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 09:53:06.9117
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3K7F8XF1sJ01cyOp8NHqAjBnzQdQ3g9iG7KkWuqsvupzQqOHkP/TcCPaJ42cU9rldnTPkqz7CGhilV6aWCQSLWbwWwAaancQP6Irfdtt7zE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3520
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Date:   Thu, 10 Mar 2022 10:30:01 +0000
+Message-ID: <164690820109.123014.3107899517422264094@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Biju,
 
-Thanks for the feedback.
+Quoting Biju Das (2022-03-09 19:45:21)
+> The RZ/G2L VSPD provides a single VSPD instance. It has the following
+> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+>=20
+> The VSPD block on RZ/G2L does not have a version register, so added a
+> new compatible string "renesas,vsp2-rzg2l" with a data pointer containing
 
-> Subject: Re: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
->=20
-> Hi Biju,
->=20
-> On Wed, Mar 9, 2022 at 8:45 PM Biju Das <biju.das.jz@bp.renesas.com>
-> wrote:
-> > The RZ/G2L VSPD provides a single VSPD instance. It has the following
-> > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
-> >
-> > The VSPD block on RZ/G2L does not have a version register, so added a
-> > new compatible string "renesas,vsp2-rzg2l" with a data pointer
-> > containing the info structure. Also the reset line is shared with the
-> > DU module so devm_reset_control_get_shared() call is used in case of
-> RZ/G2L.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC->v1:
-> >  * Used data pointer containing info structure to retrieve version
-> > information
-> > RFC:
-> >  *
->=20
-> Thanks for the update!
->=20
-> > --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
->=20
-> > @@ -841,7 +849,14 @@ static int vsp1_probe(struct platform_device *pdev=
-)
-> >         if (irq < 0)
-> >                 return irq;
-> >
-> > -       vsp1->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NUL=
-L);
-> > +       vsp1->info =3D of_device_get_match_data(&pdev->dev);
-> > +       if (vsp1->info) {
-> > +               vsp1->version =3D vsp1->info->version;
-> > +               vsp1->rstc =3D devm_reset_control_get_shared(&pdev->dev=
-,
-> NULL);
-> > +       } else {
-> > +               vsp1->rstc =3D
-> > + devm_reset_control_get_exclusive(&pdev->dev, NULL);
->=20
-> Making the reset control shared or exclusive dependent on the presence of
-> match data looks fragile to me.  I think you want to check the IP version
-> instead (ideally, the SoC, as this is an integration feature).
-> Or just make it shared unconditionally (in the previous patch)?
+Does this mean it is 'not' a VSP2? Is it a VSP2-lite or something
+different? (As opposed to 'the vsp2 found in an rzg2l part').
 
-Agreed.
 
+> the info structure. Also the reset line is shared with the DU module
+> so devm_reset_control_get_shared() call is used in case of RZ/G2L.
 >=20
-> > +       }
-> > +
-> >         if (IS_ERR(vsp1->rstc))
-> >                 return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> >                                      "failed to get reset ctrl\n"); @@
-> > -874,13 +889,15 @@ static int vsp1_probe(struct platform_device *pdev)
-> >         if (ret < 0)
-> >                 goto done;
-> >
-> > -       vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> > +       if (!vsp1->info) {
-> > +               vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> >
-> > -       for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> > -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
-> > -                   vsp1_device_infos[i].version) {
-> > -                       vsp1->info =3D &vsp1_device_infos[i];
-> > -                       break;
-> > +               for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> > +                       if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK)
-> =3D=3D
-> > +                           vsp1_device_infos[i].version) {
-> > +                               vsp1->info =3D &vsp1_device_infos[i];
-> > +                               break;
-> > +                       }
-> >                 }
-> >         }
-> >
-> > @@ -943,6 +960,7 @@ static int vsp1_remove(struct platform_device
-> > *pdev)  static const struct of_device_id vsp1_of_match[] =3D {
-> >         { .compatible =3D "renesas,vsp1" },
-> >         { .compatible =3D "renesas,vsp2" },
-> > +       { .compatible =3D "renesas,vsp2-rzg2l", .data =3D
-> > + &vsp1_device_infos[14] },
-> >         { },
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC->v1:
+>  * Used data pointer containing info structure to retrieve version inform=
+ation
+> RFC:
+>  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/202201121=
+74612.10773-21-biju.das.jz@bp.renesas.com/
+> ---
+>  drivers/media/platform/vsp1/vsp1_drv.c  | 32 +++++++++++++++++++------
+>  drivers/media/platform/vsp1/vsp1_lif.c  |  7 ++++--
+>  drivers/media/platform/vsp1/vsp1_regs.h |  1 +
+>  3 files changed, 31 insertions(+), 9 deletions(-)
 >=20
-> Is VI6_IP_VERSION_MODEL_VSPD_RZG2L =3D 0x1b an official number?
-> If yes, it might make sense to change the compatible value to
-> "renesas,vsp2-0x1b".
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platf=
+orm/vsp1/vsp1_drv.c
+> index 77da6a6732d8..40c6d9290681 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -811,6 +811,14 @@ static const struct vsp1_device_info vsp1_device_inf=
+os[] =3D {
+>                 .uif_count =3D 2,
+>                 .wpf_count =3D 1,
+>                 .num_bru_inputs =3D 5,
+> +       }, {
+> +               .version =3D VI6_IP_VERSION_MODEL_VSPD_RZG2L,
+> +               .model =3D "VSP2-D",
+> +               .gen =3D 3,
+> +               .features =3D VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HA=
+S_EXT_DL,
+> +               .lif_count =3D 1,
+> +               .rpf_count =3D 2,
+> +               .wpf_count =3D 1,
+>         },
+>  };
+> =20
+> @@ -841,7 +849,14 @@ static int vsp1_probe(struct platform_device *pdev)
+>         if (irq < 0)
+>                 return irq;
+> =20
+> -       vsp1->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> +       vsp1->info =3D of_device_get_match_data(&pdev->dev);
+> +       if (vsp1->info) {
+> +               vsp1->version =3D vsp1->info->version;
+> +               vsp1->rstc =3D devm_reset_control_get_shared(&pdev->dev, =
+NULL);
+> +       } else {
+> +               vsp1->rstc =3D devm_reset_control_get_exclusive(&pdev->de=
+v, NULL);
+> +       }
+> +
 
-No, it is not official one. I just use 0x1b as no one claimed it.
+I'll leave this as Geert has already commented.
 
-Cheers,
-Biju
+>         if (IS_ERR(vsp1->rstc))
+>                 return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+>                                      "failed to get reset ctrl\n");
+> @@ -874,13 +889,15 @@ static int vsp1_probe(struct platform_device *pdev)
+>         if (ret < 0)
+>                 goto done;
+> =20
+> -       vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
+> +       if (!vsp1->info) {
+> +               vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
+> =20
+> -       for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
+> -                   vsp1_device_infos[i].version) {
+> -                       vsp1->info =3D &vsp1_device_infos[i];
+> -                       break;
+> +               for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> +                       if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =
+=3D=3D
+> +                           vsp1_device_infos[i].version) {
+> +                               vsp1->info =3D &vsp1_device_infos[i];
+> +                               break;
+> +                       }
+
+
+This is looking like it gets a bit awkward. Two methods for identifying
+the version and info structure is going to be a pain.
+
+
+>                 }
+>         }
+> =20
+> @@ -943,6 +960,7 @@ static int vsp1_remove(struct platform_device *pdev)
+>  static const struct of_device_id vsp1_of_match[] =3D {
+>         { .compatible =3D "renesas,vsp1" },
+>         { .compatible =3D "renesas,vsp2" },
+> +       { .compatible =3D "renesas,vsp2-rzg2l", .data =3D &vsp1_device_in=
+fos[14] },
+
+I don't think you should reference a specific index of the infos table.
+What happens if someone adds an entry higher in the table which pushes
+the indexes down ?
+
+
+>         { },
+>  };
+>  MODULE_DEVICE_TABLE(of, vsp1_of_match);
+> diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platf=
+orm/vsp1/vsp1_lif.c
+> index 6a6857ac9327..6e997653cfac 100644
+> --- a/drivers/media/platform/vsp1/vsp1_lif.c
+> +++ b/drivers/media/platform/vsp1/vsp1_lif.c
+> @@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *=
+entity,
+> =20
+>         case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
+>         case VI6_IP_VERSION_MODEL_VSPD_V3:
+> +       case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
+>                 hbth =3D 0;
+>                 obth =3D 1500;
+>                 lbth =3D 0;
+> @@ -135,8 +136,10 @@ static void lif_configure_stream(struct vsp1_entity =
+*entity,
+>          * may appear on the output). The value required by the manual is=
+ not
+>          * explained but is likely a buffer size or threshold.
+>          */
+> -       if ((entity->vsp1->version & VI6_IP_VERSION_MASK) =3D=3D
+> -           (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
+> +       if (((entity->vsp1->version & VI6_IP_VERSION_MASK) =3D=3D
+> +           (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M)) ||
+> +           ((entity->vsp1->version & VI6_IP_VERSION_MASK) =3D=3D
+> +            VI6_IP_VERSION_MODEL_VSPD_RZG2L))
+
+The comment here directly references V3M, and you haven't updated it.
+But if this is going to grow I wonder if it will end up needing a quirks
+flag that can be set per device in the vsp1_device_info rather than
+coding a massive conditional if (platform x or platform y or platform
+z.3);
+
+>                 vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
+>                                VI6_LIF_LBA_LBA0 |
+>                                (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/plat=
+form/vsp1/vsp1_regs.h
+> index fae7286eb01e..12c5b09885dc 100644
+> --- a/drivers/media/platform/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
+> @@ -766,6 +766,7 @@
+>  #define VI6_IP_VERSION_MODEL_VSPD_V3   (0x18 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3        (0x19 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3        (0x1a << 8)
+> +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L        (0x1b << 8)
+
+I don't like the idea of using a value here that could really be used on
+a real device somewhere.
+
+The hole in the sequence is only there because we havent' seen a
+datasheet with 0x1b defined.
+
+If there truely is no version register on this hardware, we're going to
+have to make sure this version value can't conflict.
+
+--
+Kieran
+
+
+>  #define VI6_IP_VERSION_MODEL_VSPD_V3U  (0x1c << 8)
+> =20
+>  #define VI6_IP_VERSION_SOC_MASK                (0xff << 0)
+> --=20
+> 2.17.1
+>
