@@ -2,140 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6794D4F60
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 17:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F634D4F6B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 17:35:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240208AbiCJQfQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 11:35:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57102 "EHLO
+        id S240274AbiCJQgw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 11:36:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239304AbiCJQfN (ORCPT
+        with ESMTP id S229769AbiCJQgw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 11:35:13 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CD7192E0F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 08:34:10 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSLjq-0007u3-00; Thu, 10 Mar 2022 17:34:06 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSLjp-003uun-4X; Thu, 10 Mar 2022 17:34:04 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSLjn-000BDj-Dr; Thu, 10 Mar 2022 17:34:03 +0100
-Message-ID: <5321c864355578750d814024a1902ce2362e1f9a.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/3] media: vsp1: Add support to deassert/assert
- reset line
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Thu, 10 Mar 2022 11:36:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38746192E33;
+        Thu, 10 Mar 2022 08:35:50 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4045491;
+        Thu, 10 Mar 2022 17:35:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646930149;
+        bh=H/rScwjhv6h4uAEVs0m6qTExsU33rCuexQYAnXBvt/k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A0q2CNfvbL9OZM/GMoGCtTsu4c0wPkWgBXb7U0F4V7JhU+5WxJAE1X6LqEs2outIm
+         9j3REsnvTfLYtC6N7P4xgW9XskNfG+WboemKYOY0FEaLwm4z3qPMU23uJ2aHC7RLzn
+         hbBgY5PGYlTqt7dDar2Ru3kGT7V9Jnu6pA9myyGs=
+Date:   Thu, 10 Mar 2022 18:35:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Date:   Thu, 10 Mar 2022 17:34:03 +0100
-In-Reply-To: <20220310162814.22234-3-biju.das.jz@bp.renesas.com>
-References: <20220310162814.22234-1-biju.das.jz@bp.renesas.com>
-         <20220310162814.22234-3-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: drm: bridge: adi,adv7533: Document
+ adi,disable-lanes-override property
+Message-ID: <Yioo1Wgo1eC6IIvf@pendragon.ideasonboard.com>
+References: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220309151109.20957-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Do, 2022-03-10 at 16:28 +0000, Biju Das wrote:
-> As the resets DT property is mandatory, and is present in all .dtsi
-> in mainline, add support to perform deassert/assert using reference
-> counted reset handle.
+Hi Biju,
+
+Thank you for the patch.
+
+On Wed, Mar 09, 2022 at 03:11:08PM +0000, Biju Das wrote:
+> On Renesas RZ/{G2L,V2L} platforms changing the lanes from 4 to 3 at
+> lower frequencies causes display instability. On such platforms, it
+> is better to avoid switching lanes from 4 to 3 as it needs different
+> set of PLL parameter constraints to make the display stable with 3
+> lanes.
+
+Is this because the PLL calculation code doesn't work properly, or
+because the hardware can't support this ?
+
+> This patch introduces 'adi,disable-lanes-override' property to disable
+> lane switching at lower frequencies.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v1->v2:
->  * Used reference counted reset handle to perform deassert/assert
-> RFC->v1:
->  * Added reset support as separate patch
->  * Moved rstc just after the bus_master field in struct vsp1_device
-> RFC:
->  * 
-> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
-> ---
->  drivers/media/platform/vsp1/vsp1.h     |  1 +
->  drivers/media/platform/vsp1/vsp1_drv.c | 21 ++++++++++++++++++++-
->  2 files changed, 21 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/display/bridge/adi,adv7533.yaml      | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/media/platform/vsp1/vsp1.h
-> b/drivers/media/platform/vsp1/vsp1.h
-> index 37cf33c7e6ca..c5da829c79b5 100644
-> --- a/drivers/media/platform/vsp1/vsp1.h
-> +++ b/drivers/media/platform/vsp1/vsp1.h
-> @@ -79,6 +79,7 @@ struct vsp1_device {
->         void __iomem *mmio;
->         struct rcar_fcp_device *fcp;
->         struct device *bus_master;
-> +       struct reset_control *rstc;
->  
->         struct vsp1_brx *brs;
->         struct vsp1_brx *bru;
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c
-> b/drivers/media/platform/vsp1/vsp1_drv.c
-> index 502c7d9d6890..dbe90ceec327 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
->  #include <linux/videodev2.h>
->  
->  #include <media/rcar-fcp.h>
-> @@ -569,7 +570,19 @@ static void vsp1_mask_all_interrupts(struct
-> vsp1_device *vsp1)
->   */
->  int vsp1_device_get(struct vsp1_device *vsp1)
->  {
-> -       return pm_runtime_resume_and_get(vsp1->dev);
-> +       int ret = reset_control_deassert(vsp1->rstc);
+> diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
+> index f36209137c8a..2dc378039d21 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
+> @@ -84,6 +84,11 @@ properties:
+>        timings for HDMI output.
+>      type: boolean
+>  
+> +  adi,disable-lanes-override:
+> +    description:
+> +      Disables the overriding lanes at lower frequencies.
+> +    type: boolean
 > +
-> +       if (ret < 0)
-> +               goto err;
+>    adi,dsi-lanes:
+>      description: Number of DSI data lanes connected to the DSI host.
+>      $ref: /schemas/types.yaml#/definitions/uint32
 
-If reset_control_deassert() failed, return ret directly, do not jump to
-err: to call reset_control_assert().
+-- 
+Regards,
 
-> +
-> +       ret = pm_runtime_resume_and_get(vsp1->dev);
-> +       if (ret < 0)
-> +               goto err;
-> +
-> +       return 0;
-> +err:
-> +       reset_control_assert(vsp1->rstc);
-> +       return ret;
->  }
-
-With that fixed,
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+Laurent Pinchart
