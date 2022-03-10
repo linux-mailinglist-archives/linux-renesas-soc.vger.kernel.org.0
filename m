@@ -2,142 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AD044D3DD6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 01:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D28284D3E9A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Mar 2022 02:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234684AbiCJAFS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Mar 2022 19:05:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
+        id S239091AbiCJBP4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Mar 2022 20:15:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiCJAFS (ORCPT
+        with ESMTP id S233367AbiCJBP4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Mar 2022 19:05:18 -0500
-X-Greylist: delayed 1330 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Mar 2022 16:04:18 PST
-Received: from gateway31.websitewelcome.com (gateway31.websitewelcome.com [192.185.143.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925335BD38
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Mar 2022 16:04:18 -0800 (PST)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway31.websitewelcome.com (Postfix) with ESMTP id 5E9454A545
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Mar 2022 17:42:08 -0600 (CST)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-        by cmsmtp with SMTP
-        id S5wWnDRQzRnrrS5wWntIRg; Wed, 09 Mar 2022 17:42:08 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=GPyJkkzP2b2Zzo0Mi+hbVkx7KDeH96AGeS0W7v+SO+s=; b=OuoQIRyOFs0Tpv9h58tBwa6OLI
-        /i0153JtPSaqeGelbVsHSf8+BC2QA17NWy+NgwcM12ZOUJwFsENUO/jYvsw+StsyPbGz85gPSU3Aj
-        tEOHfnVv4isZ47YsK9o8XakEgMkOj1xDjrG8M6Pe1QL02BqPyGkzgO/AUPMAzOscZkuO6TYVvbmgB
-        SAKEaQCAeEXw4zMfAVEGViVmLMKEerLw2UqG8P5WbsJfTPAqMIQMvn9GPvxxLp5+LehH4tsGG3Rhg
-        UILWSV6fqvjoYsCmLgSB3L6Av56XbiyldfDa1DhQexhU64f+S2n012MkSFsAQlXRc1Zyz51F6AuqU
-        juofjcWw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54206)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@roeck-us.net>)
-        id 1nS5wV-000dtB-Om; Wed, 09 Mar 2022 23:42:07 +0000
-Message-ID: <53821770-23b0-11ef-a76a-1e0beda01c42@roeck-us.net>
-Date:   Wed, 9 Mar 2022 15:42:06 -0800
+        Wed, 9 Mar 2022 20:15:56 -0500
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800E71216AF;
+        Wed,  9 Mar 2022 17:14:55 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id z30so7985947ybi.2;
+        Wed, 09 Mar 2022 17:14:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+InUruY8tQ2+BAFaImHW4QdOeZX6IYvHbk4u3vv089s=;
+        b=Kx2LJ2xM9XepM89x5VhJdml/ZhjSKuhS9A3iUgEAp0MFVQki4WIZSKslR8cbFZ93vJ
+         NALXcA9g0vYvD5dXmzqpKCALzQodHyDEclIalpxaX9b26SrqU1mW41ZuS5tR4giliZwO
+         nRg4bXw+NLWfMS4wwQ1hxQxNRQxWPn5CMp51PizHNENnzrXI39bCjAMgt4OUKeYaimy3
+         +PjjHfcdO8AiK5O4vJmQ6d+vOkxvAUmTnAkDKEOyR7acZw/QXqNvdxSquzUj8LFr/jFY
+         X+gkPClNmKdrfbZ+taUds54F+2j9kDAj4h3LnSQ5vFhVNklJDByjxdMKMXnSpIvMbNXQ
+         N28A==
+X-Gm-Message-State: AOAM532sgDuVy5udbd0YDRmj9tWrH78EwpuaqcGIuaa4aVu7GwLFubq5
+        6JS8iZZUKW9O7Rs0MRLMOd8gz8wBAmYUtyVNeOA=
+X-Google-Smtp-Source: ABdhPJxdzwCvqhe15mU55+WEmQC8lyFUp+DeQqi9+c00ZVfOhM3o/Yy5zp9ZivzeCqX6yGaNBKgDPrzBp9Oi7p72G6g=
+X-Received: by 2002:a25:9f8a:0:b0:628:b9f3:6d2f with SMTP id
+ u10-20020a259f8a000000b00628b9f36d2fmr1981622ybq.151.1646874894636; Wed, 09
+ Mar 2022 17:14:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 0/7] RZG2L_WDT Fixes and Improvements
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20220225175320.11041-1-biju.das.jz@bp.renesas.com>
- <OS0PR01MB5922BE07E79DB3CF32B8D95C86089@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <OS0PR01MB5922BE07E79DB3CF32B8D95C86089@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nS5wV-000dtB-Om
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54206
-X-Source-Auth: linux@roeck-us.net
-X-Email-Count: 96
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20220309162609.3726306-1-uli+renesas@fpond.eu> <20220309162609.3726306-2-uli+renesas@fpond.eu>
+In-Reply-To: <20220309162609.3726306-2-uli+renesas@fpond.eu>
+From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date:   Thu, 10 Mar 2022 10:14:43 +0900
+Message-ID: <CAMZ6RqK=PFOWd++cLzua7R8mGRB1hbwLVrn5t_Mpkr0Tat_frg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] can: rcar_canfd: Add support for r8a779a0 SoC
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        davem@davemloft.net, linux-can@vger.kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, wsa@kernel.org,
+        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
+        mkl@pengutronix.de, kuba@kernel.org, socketcan@hartkopp.net,
+        geert@linux-m68k.org, kieran.bingham@ideasonboard.com,
+        horms@verge.net.au
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/7/22 00:52, Biju Das wrote:
-> Hi All,
-> 
-> Gentle ping. Are we happy with this patch series?
-> 
-> Please let me know.
-> 
+On Thu. 10 mars 2022 à 01:26, Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> Adds support for the CANFD IP variant in the V3U SoC.
+>
+> Differences to controllers in other SoCs are limited to an increase in
+> the number of channels from two to eight, an absence of dedicated
+> registers for "classic" CAN mode, and a number of differences in magic
+> numbers (register offsets and layouts).
+>
+> Inspired by BSP patch by Kazuya Mizuguchi.
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-Should be good to go. I added the series to my watchdog-next branch.
-Usually Wim picks it up from there.
+Thanks for addressing my comments! v4 looks good to me.
 
-Guenter
-
-> Cheers,
-> Biju
-> 
->> Subject: [PATCH v5 0/7] RZG2L_WDT Fixes and Improvements
->>
->> The first 4 patch in this series fixes the below issues
->> 1) 32 bit overflow issue
->> 2) Runtime PM usage count issue
->> 3) BUG: Invalid context during reset.
->> 4) Reset control imbalance
->>
->> The later 3 patches are enhancements to the WDT driver.
->> 1) Adding error check for reset_control_deassert() and fixing
->> reset_control imbalance.
->> 2) Generate Parity error for WDT reset
->> 3) Add support for set_timeout callback
->>
->> v4->v5:
->>   * Updated commit description of patch#4
->>   * Added Rb tag from Geert.
->>   * Separated reset control imbalance from patch#4
->>
->> Biju Das (7):
->>    watchdog: rzg2l_wdt: Fix 32bit overflow issue
->>    watchdog: rzg2l_wdt: Fix Runtime PM usage
->>    watchdog: rzg2l_wdt: Fix 'BUG: Invalid wait context'
->>    watchdog: rzg2l_wdt: Fix reset control imbalance
->>    watchdog: rzg2l_wdt: Add error check for reset_control_deassert
->>    watchdog: rzg2l_wdt: Use force reset for WDT reset
->>    watchdog: rzg2l_wdt: Add set_timeout callback
->>
->>   drivers/watchdog/rzg2l_wdt.c | 83 ++++++++++++++++++++----------------
->>   1 file changed, 47 insertions(+), 36 deletions(-)
->>
->> --
->> 2.17.1
-> 
-
+Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
