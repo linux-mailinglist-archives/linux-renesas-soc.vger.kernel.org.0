@@ -2,97 +2,246 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C78E4D597A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 05:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A55D4D5AC6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 06:47:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344253AbiCKEVY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 23:21:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
+        id S1343568AbiCKFsq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Mar 2022 00:48:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232117AbiCKEVW (ORCPT
+        with ESMTP id S240044AbiCKFsp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 23:21:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAE41A1295;
-        Thu, 10 Mar 2022 20:20:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 235CE6191D;
-        Fri, 11 Mar 2022 04:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 70D75C340F3;
-        Fri, 11 Mar 2022 04:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646972416;
-        bh=8UMDEKb+dFf1zR9kfW4ts0xq7mHj2Wz9lOo4zGn7Wz0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=IOZDplzCei7DQ0ly1xxQ90GjNMP/aKOAnz+2935fK0uPHEihw3owJItNGaQSZk1Lp
-         mtfTd/7D0eeyHfxUMJXHMvGLYpr6YXAXk+zt0Q+HSsR0ejDyJH0lEmqp3bscwK3VfR
-         FyssxSRiPBjZrLk7QrlDKs+VDpIbhAuYMbTCO27wLjFYZ79CU/sIF+MeZl0Le4Aaor
-         TB6yJh9jhym/Zao/nmtTUk+Z9GZW0Z1iS4eD0p+IrgLQLewdb4XsMVcfzjFl9t6sKN
-         SQIa0+E2T1WMsb8Mebb6GwNMasDlVHooUMDEUBThBfW5FzcSMe+fZcYODTr/TL2E13
-         kJS112Ar270xg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 56343E6D3DD;
-        Fri, 11 Mar 2022 04:20:16 +0000 (UTC)
+        Fri, 11 Mar 2022 00:48:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D572BF6;
+        Thu, 10 Mar 2022 21:47:26 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FE6F488;
+        Fri, 11 Mar 2022 06:47:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646977645;
+        bh=oockvR1LA+v9n302HI7aC2gMooUZaYtMOy6sArIIR2I=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=DHFCOygtdIWYDOa312BgpS/tKmOtVfjrUwPBlAjBDNa8Dku1KLiq4c2nL217+FDpI
+         asDffEq0T0LvXow4y7D/ESM6SMGACt2+ghp5a59VfUYhFyPu0MUiTka6sY5IdhzjfT
+         ttCRAF4JC0ihIbgIoE9i9m/u0UI+icDdw5BB2YaY=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/4] can: rcar_canfd: Add support for V3U flavor
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164697241634.8307.12005930852651825961.git-patchwork-notify@kernel.org>
-Date:   Fri, 11 Mar 2022 04:20:16 +0000
-References: <20220309162609.3726306-1-uli+renesas@fpond.eu>
-In-Reply-To: <20220309162609.3726306-1-uli+renesas@fpond.eu>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, linux-can@vger.kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        biju.das.jz@bp.renesas.com, wsa@kernel.org,
-        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
-        mkl@pengutronix.de, kuba@kernel.org, mailhol.vincent@wanadoo.fr,
-        socketcan@hartkopp.net, geert@linux-m68k.org,
-        kieran.bingham@ideasonboard.com, horms@verge.net.au
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=UqTh-FLDyXvH=ED-4cbJ6ggDLsTGqhTeqNMsKDphbzYA@mail.gmail.com>
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com> <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com> <CAD=FV=UqTh-FLDyXvH=ED-4cbJ6ggDLsTGqhTeqNMsKDphbzYA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     Doug Anderson <dianders@chromium.org>
+Date:   Fri, 11 Mar 2022 05:47:22 +0000
+Message-ID: <164697764297.2392702.10094603553189733655@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Doug,
 
-This series was applied to netdev/net-next.git (master)
-by Marc Kleine-Budde <mkl@pengutronix.de>:
+Quoting Doug Anderson (2022-03-10 23:10:12)
+> Hi,
+>=20
+> On Thu, Mar 10, 2022 at 7:22 AM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+> >
+> > @@ -1135,6 +1161,36 @@ static void ti_sn_bridge_atomic_post_disable(str=
+uct drm_bridge *bridge,
+> >         pm_runtime_put_sync(pdata->dev);
+> >  }
+> >
+> > +static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge=
+ *bridge)
+> > +{
+> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +       int val;
+> > +
+> > +       regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
+>=20
+> Don't you need a pm_runtime_get_sync() before this and a
+> put_autosuspend() after? The "detect" will be used in the yes-HPD but
+> no-IRQ case, right? In that case there's nobody holding the pm_runtime
+> reference.
 
-On Wed,  9 Mar 2022 17:26:05 +0100 you wrote:
-> Hi!
-> 
-> This adds CANFD support for V3U (R8A779A0) SoCs. The V3U's IP supports up
-> to eight channels and has some other minor differences to the Gen3 variety:
-> 
-> - changes to some register offsets and layouts
-> - absence of "classic CAN" registers, both modes are handled through the
->   CANFD register set
-> 
-> [...]
+Hrm ... I'll have to dig on this a bit. The polling is done by the DRM
+core, so indeed I suspect it could be done outside of a context that
+holds the pm runtime reference.
 
-Here is the summary with links:
-  - [v4,1/4] can: rcar_canfd: Add support for r8a779a0 SoC
-    https://git.kernel.org/netdev/net-next/c/45721c406dcf
-  - [v4,2/4] arm64: dts: renesas: r8a779a0: Add CANFD device node
-    (no matching commit)
-  - [v4,3/4] arm64: dts: renesas: r8a779a0-falcon: enable CANFD 0 and 1
-    (no matching commit)
-  - [v4,4/4] dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support
-    https://git.kernel.org/netdev/net-next/c/d6254d52d70d
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Equally a get and put on the reference doesn't hurt even if it's already
+taken, so perhaps it's best to add it, but I'll try to confirm it's
+requirement first.
 
 
+> Also, a nit that it'd be great if you error checked the regmap_read().
+> I know this driver isn't very good about it, but it's probably
+> something to get better. i2c transactions can fail. I guess another
+> alternative would be to init "val" to 0...
+
+It's a good point indeed. If we can't read the device we should return
+disconnected.
+
+>=20
+>=20
+> > +       return val & HPD_DEBOUNCED_STATE ? connector_status_connected
+> > +                                        : connector_status_disconnecte=
+d;
+> > +}
+> > +
+> > +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
+> > +{
+> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +
+> > +       /* The device must remain active for HPD to function */
+> > +       pm_runtime_get_sync(pdata->dev);
+> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
+> > +                    IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
+> > +                    IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
+> > +}
+> > +
+> > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
+> > +{
+> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
+> > +
+> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
+> > +       pm_runtime_put_autosuspend(pdata->dev);
+>=20
+> Before doing the pm_runtime_put_autosuspend() it feels like you should
+> ensure that the interrupt has finished. Otherwise we could be midway
+> through processing an interrupt and the pm_runtime reference could go
+> away, right? Maybe we just disable the irq which I think will wait for
+> anything outstanding to finish?
+
+Should the IRQ handler also call pm_runtime_get/put then?
+
+> > @@ -1223,6 +1282,34 @@ static int ti_sn_bridge_parse_dsi_host(struct ti=
+_sn65dsi86 *pdata)
+> >         return 0;
+> >  }
+> >
+> > +static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
+> > +{
+> > +       struct ti_sn65dsi86 *pdata =3D arg;
+> > +       int ret;
+> > +       unsigned int hpd;
+> > +
+> > +       ret =3D regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
+> > +       if (ret || !hpd)
+> > +               return IRQ_NONE;
+> > +
+> > +       if (hpd & IRQ_HPD_INSERTION_STATUS)
+> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
+connected);
+> > +
+> > +       if (hpd & IRQ_HPD_REMOVAL_STATUS)
+> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
+disconnected);
+> > +
+> > +       /* When replugged, ensure we trigger a detect to update the dis=
+play */
+> > +       if (hpd & IRQ_HPD_REPLUG_STATUS)
+> > +               drm_bridge_hpd_notify(&pdata->bridge, connector_status_=
+disconnected);
+>=20
+> How does the ordering work here if _both_ insertion and removal are
+> asserted? Is that somehow not possible? Should this be "else if" type
+> statements then, or give a warn if more than one bit is set, or ... ?
+
+As I understand it, that would trigger a REPLUG IRQ. However this is one
+part I quite disliked about the drm_bridge_hpd_notify. The values here
+are not taken as the hardware state anyway. A call to drm_bridge_hpd_notify=
+ will=20
+trigger a call on the detect function so a further read will occur to
+determine the current state using the same function as is used with
+polling.
+
+The IRQ handler only cuts out the polling as far as I see.
+
+
+> > +       /* reset the status registers */
+> > +       regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG,
+> > +                    IRQ_HPD_STATUS | IRQ_HPD_INSERTION_STATUS |
+> > +                    IRQ_HPD_REMOVAL_STATUS | IRQ_HPD_REPLUG_STATUS);
+>=20
+> IMO this regmap_write() belongs right after the read and should be
+> based on what you read--you shouldn't just clear all of them. AKA:
+>=20
+> a) Read to see what interrupt are asserted.
+> b) Ack the interrupts that you saw asserted.
+> c) Process the interrupts that you saw asserted.
+>=20
+> If you process before acking then you can miss interrupts (in other
+> words if you do "a" then "c" then "b" then you can miss interrupts
+> that come in after "b" but before "c".
+
+Agreed, I'll respin.
+
+> > @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >         pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE=
+_CONNECTOR_DisplayPort
+> >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_=
+CONNECTOR_eDP;
+> >
+> > -       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
+> >                 pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> >
+> > +               if (!pdata->no_hpd)
+> > +                       pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
+> > +       }
+> > +
+> > +       if (!pdata->no_hpd && pdata->irq > 0) {
+> > +               dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
+> > +
+> > +               ret =3D devm_request_threaded_irq(pdata->dev, pdata->ir=
+q, NULL,
+> > +                                               ti_sn65dsi86_irq_handle=
+r,
+> > +                                               IRQF_ONESHOT, "sn65dsi8=
+6-irq",
+> > +                                               pdata);
+> > +               if (ret)
+> > +                       return dev_err_probe(pdata->dev, ret,
+> > +                                            "Failed to register DP int=
+errupt\n");
+> > +
+> > +               /* Enable IRQ based HPD */
+> > +               regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
+>=20
+> Why not put the above regmap_write() in the ti_sn_bridge_hpd_enable() cal=
+l?
+
+I assumed the IRQ handler may get used by other non-HPD events. Which is
+also why it was originally registered in the main probe(). HPD is just
+one feature of the interrupts. Of course it's only used for HPD now
+though. I guess I could have solved the bridge dependency by splitting
+the IRQ handler to have a dedicated HPD handler function which would
+return if the bridge wasn't initialised, but went with the deferred
+registration of the handler.
+
+I can move this and then leave it to anyone else implementing further
+IRQ features to refactor if needed.
+
+>=20
+> -Doug
