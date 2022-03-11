@@ -2,189 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 822074D6416
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 15:49:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46ABE4D6483
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 16:25:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232377AbiCKOuQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Mar 2022 09:50:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40342 "EHLO
+        id S234259AbiCKP0R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Mar 2022 10:26:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245729AbiCKOuQ (ORCPT
+        with ESMTP id S1349060AbiCKP0R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Mar 2022 09:50:16 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB54ADEA22;
-        Fri, 11 Mar 2022 06:49:10 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id v130-20020a1cac88000000b00389d0a5c511so1225701wme.5;
-        Fri, 11 Mar 2022 06:49:10 -0800 (PST)
+        Fri, 11 Mar 2022 10:26:17 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F3CD1C1AD1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Mar 2022 07:25:10 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id kt27so19959315ejb.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Mar 2022 07:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6dQdHI9dLytxKLqKgd0flhRQJmBT3Sb7jYe1e8xodHs=;
-        b=cbrQ7J7OXrDkMMkI859YK2c4weCQ78c/XwQ8tuTdTcs7SuUmpMO0f0OXChVit9c8Tm
-         qsMUyUB8NUNb1UBHBfe13iuSnlTveikXTDUf3kqBIVOynYGbWjyW6R0lSdsPaZ75gvLn
-         mHFfbqt28rbaOs+L7Uo2Q39YRNyK9bLzv7vla0nWSOl28vkEQjIeF+q4N6oaVqyWIUe/
-         x+LhxJeK9xjphs6z7Avt+Wb1kpuIhuL0SCdoRMkDiP4WKV1LmjOm7lC3x2vzP1ZMuARS
-         PEKZN9NIfh7qLe6I2Ne1+NsSnP7SeTO61QJkNCeltqHMsmrEo8A+hnOODlpSRyNHQgpv
-         Oavg==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zwx2dquPgXqVb9I6BHmiQ+yT5s0mktYKdstbqhp11lo=;
+        b=LZw05L5Lr1SXFIo6n9NicjBiQs9xio5ncAzPl86VwNojgxdv5FPbVwMMXuEcJz2S20
+         ot3tgRK3A5u9pbBVwcgTi2rS4v13JgC5uYbnVZmyUnMWKjqhW5TNSobrzT5CLci/ll6v
+         VKRbsmHUHjxAMKGUnVtLcdXXgpKMegfNZ1Xz8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=6dQdHI9dLytxKLqKgd0flhRQJmBT3Sb7jYe1e8xodHs=;
-        b=qz3hzrMymnX4/oFOuMSHfWcKAs9h9gt4d+dEHsB9l9NZZOuvrm8PQB2wa9U/YzhG15
-         8uwD7+jDuBLj86WKKsaSfW8O6ioUmdjh5VFEHDCInUIgRQA6R9cGFOuydM12XBsVZq2K
-         g5XddYFFuTa7hwwrMj/HZaYjifTzyz83hwzqCmBvFnChmrVP3iVoCFGOC0Hy0ATshv5n
-         2eg6yeggqkGKX477nCdcKbXrCJ3+MNtVww8EPdlH0QacqZDp05ef0z5QT3AgTwa7h3dX
-         a3++zwOhsdCl6dctym6srEoVlsf6Zp0S7aJCRb+6Gun1emO7rdqcdFFOqlYtnt/Uzl+n
-         Bc0w==
-X-Gm-Message-State: AOAM533PHDpMXY8I6iV47xTEdFCXyJy+Pov0rxo3kGLq7OprFy6eCyN2
-        kCuBFCOfYVP1mOLWTNSnTI8=
-X-Google-Smtp-Source: ABdhPJx0wr/NwEcnZjDvWXiTlVA1I33XM/WlN2KA1GtVmk91sK+8d/QvMbK3laheSeZllrglBHRilQ==
-X-Received: by 2002:a05:600c:2905:b0:381:67e2:3992 with SMTP id i5-20020a05600c290500b0038167e23992mr16073620wmd.182.1647010149211;
-        Fri, 11 Mar 2022 06:49:09 -0800 (PST)
-Received: from stitch.. (80.71.140.73.ipv4.parknet.dk. [80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c22cb00b00382a960b17csm10509047wmg.7.2022.03.11.06.49.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Mar 2022 06:49:08 -0800 (PST)
-Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
-From:   Emil Renner Berthing <kernel@esmil.dk>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Emil Renner Berthing <kernel@esmil.dk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] serial: 8250_dw: Use device tree match data
-Date:   Fri, 11 Mar 2022 15:48:14 +0100
-Message-Id: <20220311144814.21944-1-kernel@esmil.dk>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220311105934.5827d0d6@xps13>
-References: <20220311105934.5827d0d6@xps13>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zwx2dquPgXqVb9I6BHmiQ+yT5s0mktYKdstbqhp11lo=;
+        b=KehJSgNNjITBDjSBxLFaEqt1DmAaL4BIj9GbP6IkJ2YlTQ+t3d0hjX7fjBb7rfA59r
+         uQT0cV+4on4UTObvLozCTfMX9W8Mb1Tx4di3avGyF72cPhT31zWJZifLRcOsLu8F1INH
+         ksqJffy1XW2fjyFUyBDIyB0h4aHPCqEM4Ff7Ld0LB+njLfWydiDkklfT390h00P+PReQ
+         CuuMrROEiB1pJTC4ImK/rVAjGyHrjAYymKew8fsk65Je1kshXz3ZWkADm2dXxJ9jjL5D
+         oA1J+tjzFJt0Wit8z89z6/jIVJOpTnWNIjW/zhucQytN79jIcX8mTAT8IeMj88qa6ZTt
+         c9EA==
+X-Gm-Message-State: AOAM532WZiV95SxTY86s1wdAN/BntI6fHGPxF9HFHctglly35m2028j3
+        2/ISmvFWqeuBm1RTUpFgzw+449w6eDwuEN+hw5Y=
+X-Google-Smtp-Source: ABdhPJzY26Kfml5GRRvXdXwy1a4lTcCLy+g+VGK5JlUn4ai7SnoIzK4QbTIWe4sYZbP+NL58XqStpQ==
+X-Received: by 2002:a17:906:7307:b0:6da:92e1:9c83 with SMTP id di7-20020a170906730700b006da92e19c83mr8990396ejc.459.1647012308221;
+        Fri, 11 Mar 2022 07:25:08 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id m13-20020a056402510d00b00416ca731b5fsm1357133edd.9.2022.03.11.07.25.06
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Mar 2022 07:25:06 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id l1-20020a05600c4f0100b00389645443d2so5550182wmq.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Mar 2022 07:25:06 -0800 (PST)
+X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
+ o24-20020a1c7518000000b0037c07ebf255mr15836065wmc.29.1647012305467; Fri, 11
+ Mar 2022 07:25:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
+ <20220310152227.2122960-4-kieran.bingham+renesas@ideasonboard.com>
+ <CAD=FV=UqTh-FLDyXvH=ED-4cbJ6ggDLsTGqhTeqNMsKDphbzYA@mail.gmail.com> <164697764297.2392702.10094603553189733655@Monstersaurus>
+In-Reply-To: <164697764297.2392702.10094603553189733655@Monstersaurus>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 11 Mar 2022 07:24:52 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U6+VdLL0UM_j++fc5Wu7akm9LyJ_Ac19VCqbgPZiw3ZA@mail.gmail.com>
+Message-ID: <CAD=FV=U6+VdLL0UM_j++fc5Wu7akm9LyJ_Ac19VCqbgPZiw3ZA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-..rather than multiple calls to of_device_is_compatible().
+Hi,
 
-Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
----
+On Thu, Mar 10, 2022 at 9:47 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+>
+> > > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
+> > > +{
+> > > +       struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+> > > +
+> > > +       regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
+> > > +       pm_runtime_put_autosuspend(pdata->dev);
+> >
+> > Before doing the pm_runtime_put_autosuspend() it feels like you should
+> > ensure that the interrupt has finished. Otherwise we could be midway
+> > through processing an interrupt and the pm_runtime reference could go
+> > away, right? Maybe we just disable the irq which I think will wait for
+> > anything outstanding to finish?
+>
+> Should the IRQ handler also call pm_runtime_get/put then?
 
-Hi Miquel,
+I thought about that, but I suspect it's cleaner to disable the IRQ
+handler (and block waiting for it to finish if it was running). That
+will ensure that the core isn't notified about HPD after HPD was
+disabled.  Once you do that then there's no need to get/put in the irq
+handler since we always hold a pm_runtime reference when the IRQ
+handler is enabled.
 
-> > > > --- a/drivers/tty/serial/8250/8250_dma.c
-> > > > +++ b/drivers/tty/serial/8250/8250_dma.c =20
-> > > =20
-> > > > @@ -501,6 +589,8 @@ static int dw8250_probe(struct platform_device *p=
-> dev)
-> > > >                 data->msr_mask_off |=3D UART_MSR_TERI;
-> > > >         }
-> > > >
-> > > > +       data->is_rzn1 =3D of_device_is_compatible(dev->of_node, "rene=
-> sas,rzn1-uart"); =20
+
+> > > @@ -1247,9 +1342,29 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+> > >         pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+> > >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
 > > >
-> > > Explicit checks for compatible values are frowned upon if you have
-> > > a match table.
-> > > Please handle this through of_device.data, cfr. the various quirks. =20
-> >=20
-> > Oops, these are not yet upstream, but present in my tree due to including
-> > support for StarLight, cfr.
-> > https://github.com/esmil/linux/commits/visionfive/drivers/tty/serial/8250=
-> /8250_dw.c
-> 
-> Oh thanks for pointing it! Too bad that these quirks were not
-> introduced inside a wider structure, I think it's always a must even if
-> there is only one parameter there. Anyway, I'll introduce a wider
-> specific structure and use it.
+> > > -       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> > > +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
+> > >                 pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+> > >
+> > > +               if (!pdata->no_hpd)
+> > > +                       pdata->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+> > > +       }
+> > > +
+> > > +       if (!pdata->no_hpd && pdata->irq > 0) {
+> > > +               dev_err(pdata->dev, "registering IRQ %d\n", pdata->irq);
+> > > +
+> > > +               ret = devm_request_threaded_irq(pdata->dev, pdata->irq, NULL,
+> > > +                                               ti_sn65dsi86_irq_handler,
+> > > +                                               IRQF_ONESHOT, "sn65dsi86-irq",
+> > > +                                               pdata);
+> > > +               if (ret)
+> > > +                       return dev_err_probe(pdata->dev, ret,
+> > > +                                            "Failed to register DP interrupt\n");
+> > > +
+> > > +               /* Enable IRQ based HPD */
+> > > +               regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
+> >
+> > Why not put the above regmap_write() in the ti_sn_bridge_hpd_enable() call?
+>
+> I assumed the IRQ handler may get used by other non-HPD events. Which is
+> also why it was originally registered in the main probe(). HPD is just
+> one feature of the interrupts. Of course it's only used for HPD now
+> though. I guess I could have solved the bridge dependency by splitting
+> the IRQ handler to have a dedicated HPD handler function which would
+> return if the bridge wasn't initialised, but went with the deferred
+> registration of the handler.
+>
+> I can move this and then leave it to anyone else implementing further
+> IRQ features to refactor if needed.
 
-For reference this is the patch I wrote for the StarFive JH7100 tree.
-Feel free to use it or do something better as you see fit.
-
-/Emil
-
- drivers/tty/serial/8250/8250_dw.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 1769808031c5..f564a019a7be 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -37,6 +37,11 @@
- /* DesignWare specific register fields */
- #define DW_UART_MCR_SIRE		BIT(6)
- 
-+/* Quirks */
-+#define DW_UART_QUIRK_OCTEON		BIT(0)
-+#define DW_UART_QUIRK_ARMADA_38X	BIT(1)
-+#define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
-+
- struct dw8250_data {
- 	struct dw8250_port_data	data;
- 
-@@ -389,6 +394,7 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 	struct device_node *np = p->dev->of_node;
- 
- 	if (np) {
-+		unsigned long quirks = (unsigned long)of_device_get_match_data(p->dev);
- 		int id;
- 
- 		/* get index of serial line, if found in DT aliases */
-@@ -396,7 +402,7 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 		if (id >= 0)
- 			p->line = id;
- #ifdef CONFIG_64BIT
--		if (of_device_is_compatible(np, "cavium,octeon-3860-uart")) {
-+		if (quirks & DW_UART_QUIRK_OCTEON) {
- 			p->serial_in = dw8250_serial_inq;
- 			p->serial_out = dw8250_serial_outq;
- 			p->flags = UPF_SKIP_TEST | UPF_SHARE_IRQ | UPF_FIXED_TYPE;
-@@ -412,9 +418,9 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 			p->serial_out = dw8250_serial_out32be;
- 		}
- 
--		if (of_device_is_compatible(np, "marvell,armada-38x-uart"))
-+		if (quirks & DW_UART_QUIRK_ARMADA_38X)
- 			p->serial_out = dw8250_serial_out38x;
--		if (of_device_is_compatible(np, "starfive,jh7100-uart"))
-+		if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
- 			p->set_termios = dw8250_do_set_termios;
- 
- 	} else if (acpi_dev_present("APMC0D08", NULL, -1)) {
-@@ -695,10 +701,10 @@ static const struct dev_pm_ops dw8250_pm_ops = {
- 
- static const struct of_device_id dw8250_of_match[] = {
- 	{ .compatible = "snps,dw-apb-uart" },
--	{ .compatible = "cavium,octeon-3860-uart" },
--	{ .compatible = "marvell,armada-38x-uart" },
-+	{ .compatible = "cavium,octeon-3860-uart", .data = (void *)DW_UART_QUIRK_OCTEON },
-+	{ .compatible = "marvell,armada-38x-uart", .data = (void *)DW_UART_QUIRK_ARMADA_38X },
- 	{ .compatible = "renesas,rzn1-uart" },
--	{ .compatible = "starfive,jh7100-uart" },
-+	{ .compatible = "starfive,jh7100-uart",    .data = (void *)DW_UART_QUIRK_SKIP_SET_RATE },
- 	{ /* Sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dw8250_of_match);
--- 
-2.35.1
-
+Sounds good. In general the pm_runtime_get reference need to go with
+the IRQ enabling, so if someone else finds a non-HPD need then they'll
+have to move that too.
