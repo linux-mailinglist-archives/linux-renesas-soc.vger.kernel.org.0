@@ -2,46 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C6AD4D6744
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 18:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 745CE4D675A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 18:15:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349007AbiCKRLC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Mar 2022 12:11:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57752 "EHLO
+        id S1350644AbiCKRQn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Mar 2022 12:16:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350430AbiCKRLA (ORCPT
+        with ESMTP id S1350636AbiCKRQn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Mar 2022 12:11:00 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33B3E1B74;
-        Fri, 11 Mar 2022 09:09:57 -0800 (PST)
+        Fri, 11 Mar 2022 12:16:43 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9F61AD941;
+        Fri, 11 Mar 2022 09:15:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647018597; x=1678554597;
+  t=1647018939; x=1678554939;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+2vSXrp9bpo3dFcT4oUhafdE88P9a2v3QaAMCpMts7c=;
-  b=Hvup+avnCpfbKJw9T5pyClkyKxdW77QvsbMiWl2fu70S19qefuPZY+Ay
-   E9E9TdoAYrug5TS28qKBxMmPxLwVgCBVvGU9B/6mQev1wgVBvOCcaOt9J
-   ZjKIW/PQnHXoJpSX4ql0p2TqRrCFZ+IEC4kI3ZOTF/srcKgBJuFY1Cjvl
-   4u/rA1xdfywy6m5k+MyJOgVJd5SHyaBcZMvBTotVUtBVxMp/3on2bYSm2
-   iA15CKWH91SvVjs4jKcAeRBIMxGBdEjPHqh5Pk9x3KobLxC/Vsyb9TP28
-   zynoVYMatHyQkpSKmB1CMmNBIgENCzbIvbFqj0B00SR0E13ck+CU5CyDk
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="280357545"
+  bh=qjDj1MlPQCYCGIPasVXStuQKCtbPfwXvLPxUEazTmck=;
+  b=SW3VW2APb7r8XTt7N2UWCLkAogeuP8JwJ4Sux2l8Oa7HnlRkvDnc+Vcw
+   yHZ+K6DQvrCZJEpQjM31a2sRvkf75Uesfe543Ba2AjpPbl7Z5ezKWovx1
+   u22WU7A1OZa2jQBCSHQa5GjAh4lfB0/qaGdfKo+sqihO6kyF+HCfjYqoC
+   IRHTAZXFYSjAkf9/yHLuMaW7uWdbb5HZ2ELPmFwQ0VPWG2GC2Olczjg19
+   nH3KIq33E+WDNtBRmi53MWNILNExN3ufU7m2Coj0JnFC5KdQCKSEupGEW
+   zzNZKI7T/LpzLjRf4BpkmqNpQLoEL8sK6ieo1Wd6jQeribHdeb/TOl+6u
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="236215532"
 X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="280357545"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 09:09:57 -0800
+   d="scan'208";a="236215532"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 09:15:39 -0800
 X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="643039346"
+   d="scan'208";a="496821336"
 Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 09:09:53 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 09:15:35 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nSilK-00FTgA-TB;
-        Fri, 11 Mar 2022 19:09:10 +0200
-Date:   Fri, 11 Mar 2022 19:09:10 +0200
+        id 1nSiqq-00FTpB-Fn;
+        Fri, 11 Mar 2022 19:14:52 +0200
+Date:   Fri, 11 Mar 2022 19:14:52 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -58,77 +58,82 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH 5/7] serial: 8250_dw: Add a dma_capable bit to the
- platform data
-Message-ID: <YiuCNl1ek7xmbNXn@smile.fi.intel.com>
+Subject: Re: [PATCH 6/7] serial: 8250_dw: Add support for RZ/N1 DMA
+Message-ID: <YiuDjOFv2jmZrUpt@smile.fi.intel.com>
 References: <20220310161650.289387-1-miquel.raynal@bootlin.com>
- <20220310161650.289387-6-miquel.raynal@bootlin.com>
- <Yio+IdeWn+G7xcNv@smile.fi.intel.com>
- <20220310201351.1f15bf7e@xps13>
+ <20220310161650.289387-7-miquel.raynal@bootlin.com>
+ <YipCsO+UMcGOqLaG@smile.fi.intel.com>
+ <20220310202743.1a2bf51d@xps13>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220310201351.1f15bf7e@xps13>
+In-Reply-To: <20220310202743.1a2bf51d@xps13>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 08:13:51PM +0100, Miquel Raynal wrote:
-> andriy.shevchenko@linux.intel.com wrote on Thu, 10 Mar 2022 20:06:25
+On Thu, Mar 10, 2022 at 08:27:43PM +0100, Miquel Raynal wrote:
+> andriy.shevchenko@linux.intel.com wrote on Thu, 10 Mar 2022 20:25:52
 > +0200:
-> > On Thu, Mar 10, 2022 at 05:16:48PM +0100, Miquel Raynal wrote:
-> > > From: Phil Edworthy <phil.edworthy@renesas.com>
+> > On Thu, Mar 10, 2022 at 05:16:49PM +0100, Miquel Raynal wrote:
 
 ...
 
-> > > +	/* If we have a valid fifosize and DMA support, try hooking up DMA */
-> > > +	if (p->fifosize && data->dma_capable) {  
+> > > +/* Offsets for the Renesas RZ/N1 DesignWare specific registers */
+> > > +/* DMA Software Ack */
+> > > +#define RZN1_UART_DMASA			0xa8  
 > > 
-> > > +	if (reg & DW_UART_CPR_DMA_EXTRA)
-> > > +		data->dma_capable = 1;  
-> > 
-> > How many designs will be broken by this change?
+> > Is it specific to Renesas? IIRC it's Synopsys DesignWare register, makes
+> > sense to use appropriate prefix or no prefix.
 > 
-> My understanding was that CPR registers where always synthesized until
-> now even though it was not mandatory and that the RZN1 SoC was the
-> first one to not embed it. My hope was that people using this driver
-> would have brought "external" CPR support earlier if they needed it,
-> but I understand this assumption might be wrong.
-> 
-> Anyway, I also hesitated to do something more custom for the RZN1 I'll
-> try something else.
+> I have no idea, I can use a more common prefix.
 
-My point is that you have put this requirement to the above conditionals.
-Have you checked all supported platforms that announce CPR that that bit
-is set when DMA is indeed in use?
-
-AFAIK on Intel SoCs the native UART DMA signalling is not used, the
-integration between DMA and UART is done differently because it requires
-more signals to connect. It might be that I misread the documentation
-and this is not the case and we indeed set that bit as well.
-
-Also, what to do with the platforms that have no CPR but support DMA currently?
+It's a register described in Synopsys DesignWare specification. It's not
+related to Renesas IP integration.
 
 ...
 
-> > > +	unsigned int		dma_capable:1;  
+> > > +#define RZN1_UART_xDMACR_1_WORD_BURST	0
+> > > +#define RZN1_UART_xDMACR_4_WORD_BURST	BIT(1)
+> > > +#define RZN1_UART_xDMACR_8_WORD_BURST	(BIT(1) | BIT(2))  
 > > 
-> > Note, we use up->dma == NULL for no-DMA, no additional flag is needed.
-> > Just make sure that for your platform you enable DMA by filling that.
+> > This looks like incorrect use of BIT() macro.
+> > Please, use plain decimal integers. Something like
+> > 
+> > 	1	(0 << 1)
+> > 	4	(1 << 1)
+> > 	8	(3 << 1)
+> > 
+> > If I'm mistaken, describe the meaning of each bit there.
 > 
-> dma_capable is just a capability the SoC has. It was discovered at
-> probe time and should be saved to know, later, if DMA can be hooked up
-> or not. At the time we look at the CPR register we don't yet have DMA
-> fields populated so its too early to set up->dma to NULL.
+> Matter of taste, I believe, whatever.
 
-'up->dma == NULL' check will tell you that, no?
+Actually no, when one uses BIT() masks it implies that in the datasheet each
+bit is meaningful. So, please clarify this and update accordingly.
+
+...
+
+> > > +	data->is_rzn1 = of_device_is_compatible(dev->of_node, "renesas,rzn1-uart");
+> > 
+> > Device property API.
+> 
+> I'm not sure to get what you mean here again. The Information is in the
+> device tree, the compatible string already gives us what we need, why
+> would we need a device property? (or perhaps I misunderstand what
+> "device property API" means)
+
+Use non-OF APIs, which usually starts with device_property_ or fwnode_.
+But Geert already suggested something better.
+
+> > >  	/* Always ask for fixed clock rate from a property. */
+> > >  	device_property_read_u32(dev, "clock-frequency", &p->uartclk);
 
 -- 
 With Best Regards,
