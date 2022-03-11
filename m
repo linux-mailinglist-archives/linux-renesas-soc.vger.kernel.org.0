@@ -2,81 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD92C4D5537
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 00:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C78E4D597A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 05:20:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344642AbiCJXXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Mar 2022 18:23:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45438 "EHLO
+        id S1344253AbiCKEVY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Mar 2022 23:21:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344617AbiCJXW5 (ORCPT
+        with ESMTP id S232117AbiCKEVW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Mar 2022 18:22:57 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1BA166E14
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 15:21:55 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id y22so8946346eds.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 15:21:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PRoRNGVXeBqETfXyFZpgopVazVuZfI/uR73/ovgOFQY=;
-        b=L+XUhuaJEipGfKdRYP0YvnmyWyW5lJGOgrzwPa/o+u54QQq4AWVLuHZIvZC0accbpV
-         /aSkWVCNDX5cWh2Oc/bP8q8fVsVfvhNyxEAA0ntZB5Npfw7O7eGWb8juxgdRF+bhNvrz
-         4Qyf1P6BcBPB2zHBxj/u0XbE8pSOhuWI0rq/U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PRoRNGVXeBqETfXyFZpgopVazVuZfI/uR73/ovgOFQY=;
-        b=HsTM3LSUfw6c6En4bimTZHvFhLoWXNuU2ykGxEux2WR2/R7WZ9zzERd16rV1TIKAGv
-         O/MHPgmdRxdJpYihdQ7W3pAzGicnSYfzNP6LfpXILE5m2kv4Nk8L2zSobMfgAxLtGV4+
-         EEZlF71nkRLK8JndziQFNGa8PUVkKyQFrX/eIb/ZgDfJV2x8BmN7GKn2HindiIkoxukO
-         lwK9Mh8RWws/HgZSoKezUj03/cwM9MVyhPUmBgSCY6YmwaL0ZvUIae8ZNqjvs7R3++Uq
-         v79Lwi/d9lEUrqxLbD+1MF3JU6XOrQmVIvb1kTYYvVGpR7cWFjYnCGGbuw6WA4plStCg
-         sGHQ==
-X-Gm-Message-State: AOAM5337yu9gNNLD1niUgLuZKWl6IIJJXKBbY6AGRPOE1ELBHC7/wKgd
-        f/OzAhAg+RufGOf245PEdeHI26POSk3wwQdedMQ=
-X-Google-Smtp-Source: ABdhPJz/bqukAbyq1cONsRwKeh+voNXqjvAGLdPJvKLADOXKrZa8657aJft8ksmQ0oa4WnNreOFDAQ==
-X-Received: by 2002:aa7:c793:0:b0:408:4a69:90b4 with SMTP id n19-20020aa7c793000000b004084a6990b4mr6490383eds.58.1646954513648;
-        Thu, 10 Mar 2022 15:21:53 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id m24-20020a170906161800b006d420027b63sm2246149ejd.18.2022.03.10.15.21.51
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Mar 2022 15:21:52 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id p184-20020a1c29c1000000b0037f76d8b484so4388034wmp.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Mar 2022 15:21:51 -0800 (PST)
-X-Received: by 2002:a7b:c042:0:b0:389:7336:158b with SMTP id
- u2-20020a7bc042000000b003897336158bmr5478597wmc.15.1646954511190; Thu, 10 Mar
- 2022 15:21:51 -0800 (PST)
+        Thu, 10 Mar 2022 23:21:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAE41A1295;
+        Thu, 10 Mar 2022 20:20:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 235CE6191D;
+        Fri, 11 Mar 2022 04:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70D75C340F3;
+        Fri, 11 Mar 2022 04:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646972416;
+        bh=8UMDEKb+dFf1zR9kfW4ts0xq7mHj2Wz9lOo4zGn7Wz0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=IOZDplzCei7DQ0ly1xxQ90GjNMP/aKOAnz+2935fK0uPHEihw3owJItNGaQSZk1Lp
+         mtfTd/7D0eeyHfxUMJXHMvGLYpr6YXAXk+zt0Q+HSsR0ejDyJH0lEmqp3bscwK3VfR
+         FyssxSRiPBjZrLk7QrlDKs+VDpIbhAuYMbTCO27wLjFYZ79CU/sIF+MeZl0Le4Aaor
+         TB6yJh9jhym/Zao/nmtTUk+Z9GZW0Z1iS4eD0p+IrgLQLewdb4XsMVcfzjFl9t6sKN
+         SQIa0+E2T1WMsb8Mebb6GwNMasDlVHooUMDEUBThBfW5FzcSMe+fZcYODTr/TL2E13
+         kJS112Ar270xg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 56343E6D3DD;
+        Fri, 11 Mar 2022 04:20:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220310152227.2122960-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 10 Mar 2022 15:21:38 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U3fLvixpJfGxzmJd89+yVEDgbNYPsfJtq92QObUxw=3A@mail.gmail.com>
-Message-ID: <CAD=FV=U3fLvixpJfGxzmJd89+yVEDgbNYPsfJtq92QObUxw=3A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] drm/bridge: ti-sn65dsi86: Support non-eDP
- DisplayPort connectors
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 0/4] can: rcar_canfd: Add support for V3U flavor
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164697241634.8307.12005930852651825961.git-patchwork-notify@kernel.org>
+Date:   Fri, 11 Mar 2022 04:20:16 +0000
+References: <20220309162609.3726306-1-uli+renesas@fpond.eu>
+In-Reply-To: <20220309162609.3726306-1-uli+renesas@fpond.eu>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        davem@davemloft.net, linux-can@vger.kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        biju.das.jz@bp.renesas.com, wsa@kernel.org,
+        yoshihiro.shimoda.uh@renesas.com, wg@grandegger.com,
+        mkl@pengutronix.de, kuba@kernel.org, mailhol.vincent@wanadoo.fr,
+        socketcan@hartkopp.net, geert@linux-m68k.org,
+        kieran.bingham@ideasonboard.com, horms@verge.net.au
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,35 +63,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hello:
 
-On Thu, Mar 10, 2022 at 7:22 AM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
->
-> Implement support for non eDP connectors on the TI-SN65DSI86 bridge, and
-> provide IRQ based hotplug detect to identify when the connector is
-> present.
->
-> no-hpd is extended to be the default behaviour for non DisplayPort
-> connectors.
->
-> This series is based upon Sam Ravnborgs and Rob Clarks series [0] to
-> support DRM_BRIDGE_STATE_OPS and NO_CONNECTOR support on the SN65DSI86,
-> however some extra modifications have been made on the top of Sam's
-> series to fix compile breakage and the NO_CONNECTOR support.
+This series was applied to netdev/net-next.git (master)
+by Marc Kleine-Budde <mkl@pengutronix.de>:
 
-This confused me a little bit. As far as I know Rob's series is
-abandoned and he's not working on it. I assume that Sam will
-eventually re-post his series, but it had unsolved problems and the
-bpp solution he had totally didn't work because nobody was setting
-"output_bus_cfg.format" [1]. Did you solve that? ...or you're just
-going to let your patches sit there and hope that Sam will solve the
-problem and re-post his series?
+On Wed,  9 Mar 2022 17:26:05 +0100 you wrote:
+> Hi!
+> 
+> This adds CANFD support for V3U (R8A779A0) SoCs. The V3U's IP supports up
+> to eight channels and has some other minor differences to the Gen3 variety:
+> 
+> - changes to some register offsets and layouts
+> - absence of "classic CAN" registers, both modes are handled through the
+>   CANFD register set
+> 
+> [...]
 
-I'll admit I didn't go through your git tree to figure out if you
-solved it some way. If you did, I would have assumed you'd have
-re-posted his patches in your series w/ the solution...
+Here is the summary with links:
+  - [v4,1/4] can: rcar_canfd: Add support for r8a779a0 SoC
+    https://git.kernel.org/netdev/net-next/c/45721c406dcf
+  - [v4,2/4] arm64: dts: renesas: r8a779a0: Add CANFD device node
+    (no matching commit)
+  - [v4,3/4] arm64: dts: renesas: r8a779a0-falcon: enable CANFD 0 and 1
+    (no matching commit)
+  - [v4,4/4] dt-bindings: can: renesas,rcar-canfd: Document r8a779a0 support
+    https://git.kernel.org/netdev/net-next/c/d6254d52d70d
 
-[1] https://lore.kernel.org/r/CAD=FV=WW6HWLOD9AzTpjwva9UHY=AR+LABEWqJQznz6Nbb4sOw@mail.gmail.com/
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
--Doug
+
