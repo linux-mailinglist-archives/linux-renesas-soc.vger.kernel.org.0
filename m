@@ -2,157 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 386A24D5EFB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 10:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1744F4D5F0B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 11:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347724AbiCKJ7k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Mar 2022 04:59:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
+        id S240968AbiCKKAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Mar 2022 05:00:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240844AbiCKJ7i (ORCPT
+        with ESMTP id S237881AbiCKKAr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Mar 2022 04:59:38 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B7F4199E;
-        Fri, 11 Mar 2022 01:58:31 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id s15so6866354qtk.10;
-        Fri, 11 Mar 2022 01:58:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BrEpZif76TmKwCPFDGrRusv6mAnQRTigyHyseK33rgE=;
-        b=RORDpFG/B/3JWN5kUH0V1qUkYgJbOi5hf5yyPRDccaQnDXkddCO4GPLp7v4vamnTl/
-         KUFs+dybgPWc2SdCryBBBMi92v9fjYWU9ZakjuhV7hm1UCA0GAiWxj1F5yejJaTuwBOJ
-         LtuYn42Q63XN09Yg0cjSu9paCJvqOlL5WrzfcBAGvns69KF7lKTfj3vIeh8irhJIEFRD
-         pqZnBz/iCF+4VytG+sCMYwq0xX8SvzhlmsUCb1JPkKZLtuwLv9SI4W7UeFwcyko12oSk
-         Q4TiO+FjR8Gc1KNRAYUDLNNO9sZ4lykfDfpgRCjxK7BGH7Qo6ShXoeNebdebsytmvpG1
-         RjQA==
-X-Gm-Message-State: AOAM532mURMgX/sof+1+mgwLfAVFRrPOjmD/JplhWTshIouy8K8WWRCg
-        hF2tcX/1KjWFPB7F8j3ALbfDrNoy0Z4daw==
-X-Google-Smtp-Source: ABdhPJwbX1eWHKYXBbszynC40m+MAI49/kkBXGdVZRsw08hfXFjff//tNkDjVcnfJjL5uEMT9Mn+7A==
-X-Received: by 2002:a05:622a:48f:b0:2dd:b41a:e206 with SMTP id p15-20020a05622a048f00b002ddb41ae206mr7415874qtx.274.1646992709482;
-        Fri, 11 Mar 2022 01:58:29 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id 75-20020a37044e000000b0067d47fb5aa4sm2875546qke.63.2022.03.11.01.58.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Mar 2022 01:58:28 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id j2so16286118ybu.0;
-        Fri, 11 Mar 2022 01:58:28 -0800 (PST)
-X-Received: by 2002:a25:c54a:0:b0:628:9d7f:866a with SMTP id
- v71-20020a25c54a000000b006289d7f866amr7460415ybe.546.1646992707870; Fri, 11
- Mar 2022 01:58:27 -0800 (PST)
+        Fri, 11 Mar 2022 05:00:47 -0500
+X-Greylist: delayed 53915 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Mar 2022 01:59:44 PST
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED7464BCD;
+        Fri, 11 Mar 2022 01:59:43 -0800 (PST)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 63ED810000C;
+        Fri, 11 Mar 2022 09:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646992782;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JyarCos91loX1PtLquN+7zDMcXGRHqdS3/mBa9eLFas=;
+        b=XltjhA9YtwcdwJXvgw8veFNyUOssgFGJfbDgbGbm2L9NB4vG1cSIgCyxrXxksKEnrDxG8j
+        TFXdbeZhBLEWQUlYBDSBdpUBPRklhGzyFJRm1dhoAVK4+n6JahhJKO+fnyKlFulrOPSVVU
+        q40/x0IHJgTNrWuiYdMukyObGKHCTyv+gkSktXuFhRnWfDB+HOXrLXz4h5N0bbEE79pKsQ
+        J7bp6uIreScuhMYp2fEV/Fc/pf0R7SO9yjyFnzbJJmyjFviosALmgsuHY6BqeySk2ICMX9
+        XC3og6E7FGEFO45qnreFua06/K+u0oVq8D8G+7lT2JeiI8cNF7BvV3P2QnwmAg==
+Date:   Fri, 11 Mar 2022 10:59:34 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Emil Renner Berthing <kernel@esmil.dk>
+Subject: Re: [PATCH 6/7] serial: 8250_dw: Add support for RZ/N1 DMA
+Message-ID: <20220311105934.5827d0d6@xps13>
+In-Reply-To: <CAMuHMdXUC2ndMJr1DhPxsg6JX2o0Bh9odq3rvpfzHN+T9miuQg@mail.gmail.com>
+References: <20220310161650.289387-1-miquel.raynal@bootlin.com>
+        <20220310161650.289387-7-miquel.raynal@bootlin.com>
+        <CAMuHMdW0VZsx-zAFr__PPBqKBVyu4v7sAU_yV-ROcTLq10fE6g@mail.gmail.com>
+        <CAMuHMdXUC2ndMJr1DhPxsg6JX2o0Bh9odq3rvpfzHN+T9miuQg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220310162814.22234-1-biju.das.jz@bp.renesas.com> <20220310162814.22234-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220310162814.22234-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Mar 2022 10:58:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU4K3xJE=q4-yS+UOefvP4FT6U1uQQ1ig1S8QnwDYr_HQ@mail.gmail.com>
-Message-ID: <CAMuHMdU4K3xJE=q4-yS+UOefvP4FT6U1uQQ1ig1S8QnwDYr_HQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: vsp1: Add support for RZ/G2L VSPD
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Geert,
 
-On Thu, Mar 10, 2022 at 5:28 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The RZ/G2L VSPD provides a single VSPD instance. It has the following
-> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
->
-> The VSPD block on RZ/G2L does not have a version register, so added a
-> new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
-> the info structure. Also the reset line is shared with the DU module.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2:
->  * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
->  * Added standalone device info for rzg2l-vsp2.
->  * Added vsp1_lookup helper function.
->  * Updated comments for LIF0 buffer attribute register
->  * Used last ID for rzg2l-vsp2.
+geert@linux-m68k.org wrote on Fri, 11 Mar 2022 10:51:53 +0100:
 
-Thanks for the update!
+> Hi Miquel,
+>=20
+> CC esmil
+>=20
 
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -814,11 +814,36 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->         },
->  };
->
-> +static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-> +               .version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-> +               .model = "VSP2-D",
-> +               .gen = 3,
-> +               .features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
-> +               .lif_count = 1,
-> +               .rpf_count = 2,
-> +               .wpf_count = 1,
-> +};
-> +
-> +static const struct vsp1_device_info *vsp1_lookup(struct vsp1_device *vsp1,
-> +                                                 u32 version)
-> +{
-> +       unsigned int i;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> +               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == version) {
+> > > --- a/drivers/tty/serial/8250/8250_dma.c
+> > > +++ b/drivers/tty/serial/8250/8250_dma.c =20
+> > =20
+> > > @@ -501,6 +589,8 @@ static int dw8250_probe(struct platform_device *p=
+dev)
+> > >                 data->msr_mask_off |=3D UART_MSR_TERI;
+> > >         }
+> > >
+> > > +       data->is_rzn1 =3D of_device_is_compatible(dev->of_node, "rene=
+sas,rzn1-uart"); =20
+> >
+> > Explicit checks for compatible values are frowned upon if you have
+> > a match table.
+> > Please handle this through of_device.data, cfr. the various quirks. =20
+>=20
+> Oops, these are not yet upstream, but present in my tree due to including
+> support for StarLight, cfr.
+> https://github.com/esmil/linux/commits/visionfive/drivers/tty/serial/8250=
+/8250_dw.c
 
-While moving this block, you replaced the wrong side of the comparison
-by "version".
+Oh thanks for pointing it! Too bad that these quirks were not
+introduced inside a wider structure, I think it's always a must even if
+there is only one parameter there. Anyway, I'll introduce a wider
+specific structure and use it.
 
-> +                       vsp1->info = &vsp1_device_infos[i];
-> +                       break;
-> +               }
+> But you do already have:
+>=20
+> +       { .compatible =3D "renesas,rzn1-uart", .data =3D &rzn1_pdata },
+>=20
+> since "[PATCH 4/7] serial: 8250_dw: Provide the RZN1 CPR register value".
+>=20
+> > Please rename "is_rzn1" to something that describes the feature.
+> > =20
+> > > +
+> > >         /* Always ask for fixed clock rate from a property. */
+> > >         device_property_read_u32(dev, "clock-frequency", &p->uartclk)=
+; =20
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
 
-> @@ -874,24 +899,21 @@ static int vsp1_probe(struct platform_device *pdev)
->         if (ret < 0)
->                 goto done;
->
-> -       vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-> -
-> -       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
-> -                   vsp1_device_infos[i].version) {
-> -                       vsp1->info = &vsp1_device_infos[i];
-> -                       break;
-> -               }
-> +       vsp1->info = of_device_get_match_data(&pdev->dev);
-> +       if (!vsp1->info) {
-> +               version = vsp1_read(vsp1, VI6_IP_VERSION);
-> +               vsp1->info = vsp1_lookup(vsp1, version);
->         }
 
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Miqu=C3=A8l
