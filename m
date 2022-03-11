@@ -2,162 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 621794D66DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 17:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B70F14D66E4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Mar 2022 17:55:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241658AbiCKQys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Mar 2022 11:54:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
+        id S237186AbiCKQ4u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Mar 2022 11:56:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347594AbiCKQys (ORCPT
+        with ESMTP id S235595AbiCKQ4t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Mar 2022 11:54:48 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F1DC6822
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Mar 2022 08:53:43 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a0a6:d8d9:ef56:e074])
-        by albert.telenet-ops.be with bizsmtp
-        id 54te270051w1Cbs064tedd; Fri, 11 Mar 2022 17:53:40 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nSiWH-003aRp-Oc; Fri, 11 Mar 2022 17:53:37 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nSiWH-009rYw-2i; Fri, 11 Mar 2022 17:53:37 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>, Lad@rox.of.borg,
-        Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH RFC] memory: renesas-rpc-if: Fix HF/OSPI data transfer in Manual mode
-Date:   Fri, 11 Mar 2022 17:53:32 +0100
-Message-Id: <27107f2d578b198078df841ee2e4d7b71b183898.1647017136.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 11 Mar 2022 11:56:49 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46A2E1B68;
+        Fri, 11 Mar 2022 08:55:45 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id 11so7755647qtt.9;
+        Fri, 11 Mar 2022 08:55:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O04Tgt92cZNLvP3O4lxF6PDwJJc7vj4viTMsv34RNKk=;
+        b=LM02D/hd9Fd42cKbhPd9qo8JsnRYGr9TgjzNlby5hS4akWw6ib74a2F0uPv25kymaw
+         OgdWQAsJ4UJ9JV+/lLSzehZhayzuRKD8JyGZl42SSkoEN6Mkz+42qONoTQk1psvnqKE+
+         zoRsdc76MAHt+MvJ2mB7jQAVliJTqCc9WRUHxA2yZ7J/81D/Xcp+L4J6XRk424sG2+83
+         +5guugXPzxHsQhetF5JeknFtXKotTpP7Ywau5eCyGFLzNVAtoiQ4k7gfuYPuR67qMoOb
+         4LgDKKur6Xpynoncnn6jwE801FSdpn+566ZF5SmSyOLs6J2DYfi0WEw5GDAtnz2OGGs3
+         xClA==
+X-Gm-Message-State: AOAM533qDS+L+n12b9SK1usPUbv7NqXifmcYh4gtTSL3XYA0y5/K53Fv
+        La7GXBzjCyO9oit7wdZnJqDumJAiW8xbpA==
+X-Google-Smtp-Source: ABdhPJycoxv6tjf51BFgs5FOR0zlp7buh4K/8ohlf0YtHSsNdGjz8x1tWyhzEAvbqeWKIwQEwT1ZBg==
+X-Received: by 2002:a05:622a:1011:b0:2dd:5b59:66ed with SMTP id d17-20020a05622a101100b002dd5b5966edmr8896422qte.550.1647017744707;
+        Fri, 11 Mar 2022 08:55:44 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id c35-20020a05620a26a300b0067d4eed36desm2814847qkp.130.2022.03.11.08.55.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Mar 2022 08:55:44 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id w16so18101885ybi.12;
+        Fri, 11 Mar 2022 08:55:44 -0800 (PST)
+X-Received: by 2002:a25:dc4:0:b0:629:2337:f9ea with SMTP id
+ 187-20020a250dc4000000b006292337f9eamr8674653ybn.6.1647017743779; Fri, 11 Mar
+ 2022 08:55:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+ <163282533892.34438.1878675609177525004.b4-ty@canonical.com> <CAMuHMdUqQLo7=NFaNEukqniTJbx-mSZv7eQNB9eCT=L28y3u=A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUqQLo7=NFaNEukqniTJbx-mSZv7eQNB9eCT=L28y3u=A@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 11 Mar 2022 17:55:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV-uhw5u1joz9JK7kPh_E1zFzccVqo_GZFcs_EKkiq1cQ@mail.gmail.com>
+Message-ID: <CAMuHMdV-uhw5u1joz9JK7kPh_E1zFzccVqo_GZFcs_EKkiq1cQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] memory: renesas-rpc-if: Correct QSPI data transfer in
+ Manual mode
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-HyperFlash devices fail to probe:
+On Mon, Mar 7, 2022 at 5:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Sep 28, 2021 at 12:36 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@canonical.com> wrote:
+> > On Wed, 22 Sep 2021 11:10:06 +0200, Wolfram Sang wrote:
+> > > This patch fixes 2 problems:
+> > > [1] The output warning logs and data loss when performing
+> > > mount/umount then remount the device with jffs2 format.
+> > > [2] The access width of SMWDR[0:1]/SMRDR[0:1] register is wrong.
+> > >
+> > > This is the sample warning logs when performing mount/umount then
+> > > remount the device with jffs2 format:
+> > > jffs2: jffs2_scan_inode_node(): CRC failed on node at 0x031c51d4:
+> > > Read 0x00034e00, calculated 0xadb272a7
+> > >
+> > > [...]
+> >
+> > Applied, thanks!
+> >
+> > [1/1] memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode
+> >       commit: fff53a551db50f5edecaa0b29a64056ab8d2bbca
+>
+> While trying to enable support for RPC on Salvator-X(S)[*], I
+> discovered HyperFLASH detection is broken:
+>
+>     rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
 
-    rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
+I've sent an RFC fix, see
+https://lore.kernel.org/all/27107f2d578b198078df841ee2e4d7b71b183898.1647017136.git.geert+renesas@glider.be
 
-In HyperFLASH or Octal-SPI Flash mode, the Transfer Data Enable bits
-(SPIDE) in the Manual Mode Enable Setting Register (SMENR) are derived
-from half of the transfer size, cfr. the rpcif_bits_set() helper
-function.
+Gr{oetje,eeting}s,
 
-Hence when converting back from Transfer Data Enable bits to transfer
-size, the bus width must be taken into account, and all Manual Mode Data
-Register access sizes must be doubled when communicating with a
-HyperFLASH or Octal-SPI Flash device.
+                        Geert
 
-Fixes: fff53a551db50f5e ("memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Marked RFC, a (1) we should avoid the back-and-forth conversion between
-transfer size and Transfer Data Enable bits, and (2) actual HyperFlash
-data reads (which follows a completely different code path) still return
-all zeros.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-On Salvator-XS with unlocked HyperFlash, the HyperFlash is now detected
-again, cfr. (with DEBUG_CFI enabled):
-
-    Number of erase regions: 1
-    Primary Vendor Command Set: 0002 (AMD/Fujitsu Standard)
-    Primary Algorithm Table at 0040
-    Alternative Vendor Command Set: 0000 (None)
-    No Alternate Algorithm Table
-    Vcc Minimum:  1.7 V
-    Vcc Maximum:  1.9 V
-    No Vpp line
-    Typical byte/word write timeout: 512 \xc2\xb5s
-    Maximum byte/word write timeout: 2048 \xc2\xb5s
-    Typical full buffer write timeout: 512 \xc2\xb5s
-    Maximum full buffer write timeout: 2048 \xc2\xb5s
-    Typical block erase timeout: 1024 ms
-    Maximum block erase timeout: 4096 ms
-    Typical chip erase timeout: 262144 ms
-    Maximum chip erase timeout: 1048576 ms
-    Device size: 0x4000000 bytes (64 MiB)
-    Flash Device Interface description: 0x0000
-      - x8-only asynchronous interface
-    Max. bytes in buffer write: 0x200
-    Number of Erase Block Regions: 1
-      Erase Region #0: BlockSize 0x40000 bytes, 256 blocks
-    rpc-if-hyperflash: Found 1 x16 devices at 0x0 in 16-bit bank. Manufacturer ID 0x000001 Chip ID 0x007000
-    Amd/Fujitsu Extended Query Table at 0x0040
-      Amd/Fujitsu Extended Query version 1.5.
-    rpc-if-hyperflash: CFI contains unrecognised boot bank location (0). Assuming bottom.
-    number of CFI chips: 1
-
-At first, the failure looked like an endianness-issue, as reading two
-bytes resulted in e.g. 0x51 0x00 instead of 0x00 0x51.  But it turned
-out to be reading a single 8-bit value of 0x51 instead of a 16-bit value
-of 0x5100.
-
-Note that commit 0d37f69cacb33435 ("memory: renesas-rpc-if: Correct QSPI
-data transfer in Manual mode") in the BSP does not suffer from this bug,
-as it bases its decision on the real number of bytes to transfer, not on
-the SMENR.SPIDE register bits.
----
- drivers/memory/renesas-rpc-if.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 3fbdd2bb8bfdb6ec..9bf880f843437dc2 100644
---- a/drivers/memory/renesas-rpc-if.c
-+++ b/drivers/memory/renesas-rpc-if.c
-@@ -175,10 +175,16 @@ static int rpcif_reg_read(void *context, unsigned int reg, unsigned int *val)
- 		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
- 
- 		if (spide == 0x8) {
--			*val = readb(rpc->base + reg);
-+			if (rpc->bus_size == 2)
-+				*val = readw(rpc->base + reg);
-+			else
-+				*val = readb(rpc->base + reg);
- 			return 0;
- 		} else if (spide == 0xC) {
--			*val = readw(rpc->base + reg);
-+			if (rpc->bus_size == 2)
-+				*val = readl(rpc->base + reg);
-+			else
-+				*val = readw(rpc->base + reg);
- 			return 0;
- 		} else if (spide != 0xF) {
- 			return -EILSEQ;
-@@ -198,10 +204,16 @@ static int rpcif_reg_write(void *context, unsigned int reg, unsigned int val)
- 		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
- 
- 		if (spide == 0x8) {
--			writeb(val, rpc->base + reg);
-+			if (rpc->bus_size == 2)
-+				writew(val, rpc->base + reg);
-+			else
-+				writeb(val, rpc->base + reg);
- 			return 0;
- 		} else if (spide == 0xC) {
--			writew(val, rpc->base + reg);
-+			if (rpc->bus_size == 2)
-+				writel(val, rpc->base + reg);
-+			else
-+				writew(val, rpc->base + reg);
- 			return 0;
- 		} else if (spide != 0xF) {
- 			return -EILSEQ;
--- 
-2.25.1
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
