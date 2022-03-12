@@ -2,225 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89A1F4D6DA7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Mar 2022 09:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C6014D7107
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Mar 2022 22:24:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbiCLInZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Mar 2022 03:43:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S232727AbiCLVZa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Mar 2022 16:25:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiCLInZ (ORCPT
+        with ESMTP id S229803AbiCLVZ3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Mar 2022 03:43:25 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6128E2965C9;
-        Sat, 12 Mar 2022 00:42:19 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.90,175,1643641200"; 
-   d="scan'208";a="114165840"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 12 Mar 2022 17:42:19 +0900
-Received: from localhost.localdomain (unknown [10.226.93.53])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CABC6423991B;
-        Sat, 12 Mar 2022 17:42:16 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sat, 12 Mar 2022 16:25:29 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37CF2B278;
+        Sat, 12 Mar 2022 13:24:22 -0800 (PST)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 8AFDE81F9A;
+        Sat, 12 Mar 2022 22:24:19 +0100 (CET)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Date:   Sat, 12 Mar 2022 08:42:05 +0000
-Message-Id: <20220312084205.31462-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220312084205.31462-1-biju.das.jz@bp.renesas.com>
-References: <20220312084205.31462-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 1/2] PCI: rcar: Finish transition to L1 state in rcar_pcie_config_access()
+Date:   Sat, 12 Mar 2022 22:23:48 +0100
+Message-Id: <20220312212349.781799-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL,SPOOFED_FREEMAIL,SPOOF_GMAIL_MID,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-The VSPD block on RZ/G2L does not have a version register, so added a
-new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
-the info structure. Also the reset line is shared with the DU module.
+In case the controller is transitioning to L1 in rcar_pcie_config_access(),
+any read/write access to PCIECDR triggers asynchronous external abort. This
+is because the transition to L1 link state must be manually finished by the
+driver. The PCIe IP can transition back from L1 state to L0 on its own.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Avoid triggering the abort in rcar_pcie_config_access() by checking whether
+the controller is in the transition state, and if so, finish the transition
+right away. This prevents a lot of unnecessary exceptions, although not all
+of them.
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Wilczyński <kw@linux.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+V2: Pull DEFINE_SPINLOCK(pmsr_lock) and rcar_pcie_wakeup() out of ifdef(CONFIG_ARM),
+    since this change is applicable even on arm64
+V3: - Convert non-zero return value from rcar_pcie_wakeup() in either
+      PCIBIOS_SET_FAILED in rcar_pcie_config_access(), or, 1 in
+      rcar_pcie_aarch32_abort_handler().
+    - Set error response using PCI_SET_ERROR_RESPONSE() in
+      rcar_pcie_config_access()
+    - Fix double spinlock unlock in rcar_pcie_aarch32_abort_handler().
+V4: No change
+V5: No change
+V6: Add RB/TB from Geert
 ---
- drivers/media/platform/vsp1/vsp1_drv.c  | 44 +++++++++++++++++++------
- drivers/media/platform/vsp1/vsp1_lif.c  | 16 +++++----
- drivers/media/platform/vsp1/vsp1_regs.h |  4 +++
- 3 files changed, 48 insertions(+), 16 deletions(-)
+ drivers/pci/controller/pcie-rcar-host.c | 76 +++++++++++++++----------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index 699d7d985df4..4eef6d525eda 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -811,11 +811,37 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index dfca59c4ae34..0966cf63d9b3 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -65,6 +65,42 @@ struct rcar_pcie_host {
+ 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
  };
  
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+		.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+		.model = "VSP2-D",
-+		.gen = 3,
-+		.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
-+		.lif_count = 1,
-+		.rpf_count = 2,
-+		.wpf_count = 1,
-+};
++static DEFINE_SPINLOCK(pmsr_lock);
 +
-+static const struct vsp1_device_info *vsp1_lookup(struct vsp1_device *vsp1,
-+						  u32 version)
++static int rcar_pcie_wakeup(struct device *pcie_dev, void __iomem *pcie_base)
 +{
-+	unsigned int i;
++	unsigned long flags;
++	u32 pmsr, val;
++	int ret = 0;
 +
-+	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-+		if ((version & VI6_IP_VERSION_MODEL_MASK) ==
-+		    vsp1_device_infos[i].version) {
-+			vsp1->info = &vsp1_device_infos[i];
-+			break;
-+		}
++	spin_lock_irqsave(&pmsr_lock, flags);
++
++	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
++		ret = -EINVAL;
++		goto unlock_exit;
 +	}
 +
-+	return vsp1->info;
++	pmsr = readl(pcie_base + PMSR);
++
++	/*
++	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
++	 * the PCIe controller is not in L1 link state. If true, apply
++	 * fix, which will put the controller into L1 link state, from
++	 * which it can return to L0s/L0 on its own.
++	 */
++	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
++		writel(L1IATN, pcie_base + PMCTLR);
++		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
++						val & L1FAEG, 10, 1000);
++		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
++		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
++	}
++
++unlock_exit:
++	spin_unlock_irqrestore(&pmsr_lock, flags);
++	return ret;
 +}
 +
- static int vsp1_probe(struct platform_device *pdev)
+ static struct rcar_pcie_host *msi_to_host(struct rcar_msi *msi)
  {
- 	struct vsp1_device *vsp1;
- 	struct device_node *fcp_node;
--	unsigned int i;
-+	u32 version;
- 	int ret;
- 	int irq;
- 
-@@ -871,24 +897,21 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto done;
- 
--	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
--
--	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
--		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
--		    vsp1_device_infos[i].version) {
--			vsp1->info = &vsp1_device_infos[i];
--			break;
--		}
-+	vsp1->info = of_device_get_match_data(&pdev->dev);
-+	if (!vsp1->info) {
-+		version = vsp1_read(vsp1, VI6_IP_VERSION);
-+		vsp1->info = vsp1_lookup(vsp1, version);
- 	}
- 
- 	if (!vsp1->info) {
- 		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
--			vsp1->version);
-+			version);
- 		vsp1_device_put(vsp1);
- 		ret = -ENXIO;
- 		goto done;
- 	}
- 
-+	vsp1->version = vsp1->info->version;
- 	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
- 
- 	/*
-@@ -940,6 +963,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,rzg2l-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/vsp1/vsp1_lif.c
-index 6a6857ac9327..35abed29f269 100644
---- a/drivers/media/platform/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,16 +131,19 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
--	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
--	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
-+	switch (entity->vsp1->version & VI6_IP_VERSION_MASK) {
-+	case (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M):
-+	case (VI6_IP_VERSION_MODEL_VSPD_RZG2L | VI6_IP_VERSION_SOC_G2L):
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
- 			       VI6_LIF_LBA_LBA0 |
- 			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
-+		break;
+ 	return container_of(msi, struct rcar_pcie_host, msi);
+@@ -85,6 +121,14 @@ static int rcar_pcie_config_access(struct rcar_pcie_host *host,
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+ 	unsigned int dev, func, reg, index;
++	int ret;
++
++	/* Wake the bus up in case it is in L1 state. */
++	ret = rcar_pcie_wakeup(pcie->dev, pcie->base);
++	if (ret) {
++		PCI_SET_ERROR_RESPONSE(data);
++		return PCIBIOS_SET_FAILED;
 +	}
+ 
+ 	dev = PCI_SLOT(devfn);
+ 	func = PCI_FUNC(devfn);
+@@ -1050,40 +1094,10 @@ static struct platform_driver rcar_pcie_driver = {
+ };
+ 
+ #ifdef CONFIG_ARM
+-static DEFINE_SPINLOCK(pmsr_lock);
+ static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+ 		unsigned int fsr, struct pt_regs *regs)
+ {
+-	unsigned long flags;
+-	u32 pmsr, val;
+-	int ret = 0;
+-
+-	spin_lock_irqsave(&pmsr_lock, flags);
+-
+-	if (!pcie_base || pm_runtime_suspended(pcie_dev)) {
+-		ret = 1;
+-		goto unlock_exit;
+-	}
+-
+-	pmsr = readl(pcie_base + PMSR);
+-
+-	/*
+-	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+-	 * the PCIe controller is not in L1 link state. If true, apply
+-	 * fix, which will put the controller into L1 link state, from
+-	 * which it can return to L0s/L0 on its own.
+-	 */
+-	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+-		writel(L1IATN, pcie_base + PMCTLR);
+-		ret = readl_poll_timeout_atomic(pcie_base + PMSR, val,
+-						val & L1FAEG, 10, 1000);
+-		WARN(ret, "Timeout waiting for L1 link state, ret=%d\n", ret);
+-		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+-	}
+-
+-unlock_exit:
+-	spin_unlock_irqrestore(&pmsr_lock, flags);
+-	return ret;
++	return !!rcar_pcie_wakeup(pcie_dev, pcie_base);
  }
  
- static const struct vsp1_entity_operations lif_entity_ops = {
-diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-index fae7286eb01e..3963119eecc5 100644
---- a/drivers/media/platform/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/vsp1/vsp1_regs.h
-@@ -767,8 +767,12 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoC's have no version register, So using last ID for the version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0xff << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
-+/* RZ/G2L SoC's have no version register, So use '0' for SoC Identification */
-+#define VI6_IP_VERSION_SOC_G2L		(0x00 << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
- #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
- #define VI6_IP_VERSION_SOC_V3M		(0x01 << 0)
+ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
 -- 
-2.17.1
+2.35.1
 
