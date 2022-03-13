@@ -2,848 +2,265 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E77F4D735D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 08:23:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A00094D7431
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 11:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233913AbiCMHXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Mar 2022 03:23:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46456 "EHLO
+        id S231452AbiCMKNb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Mar 2022 06:13:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233795AbiCMHXK (ORCPT
+        with ESMTP id S231351AbiCMKNa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Mar 2022 03:23:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C79194562;
-        Sat, 12 Mar 2022 23:21:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C42CA60F63;
-        Sun, 13 Mar 2022 07:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD01FC34104;
-        Sun, 13 Mar 2022 07:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647156114;
-        bh=3xr2VRYfdP6M7KyD6E9rT4iBUO+uDPc+vtPMiWGqVeY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sRg6CB3M1ycZ0jUayW3hPFVHuiMXpy7Sh1G8VFU8SfyLajgAznXffa/C8PuJ6c8nd
-         kqsOEPKUX9KjJ+QnwrKf2NTFzP0Cuq1GtRxDO2fdxHgmcs6agRVWT9TERJhbIGeIMO
-         zfM4YszFmYoKlomgAugO+HSCs0PMSvf5AekQCrEHJECJvLG7CA22YfZIAQ8EH0sUhr
-         NstFJTuR9l+m+zl188F/UPusi3ba3Sc599k8ZGtIGlBg6aidCArpyIwWf1bBdl/A1R
-         I/3PsSR6EEGWCeHTJClnKN/gcloAp4Vm1EmPGxS8G9NKC1skJFsnlfIVYSTPB5a4tE
-         3UpFwofTus5qw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nTIY3-0012w8-EI; Sun, 13 Mar 2022 08:21:51 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Herman <herman.yim88@gmail.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sun, 13 Mar 2022 06:13:30 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2092.outbound.protection.outlook.com [40.107.114.92])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207C0A66C1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Mar 2022 03:12:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MFLIdznnAOxdZrC7kkgZ7OP3osYONEK1YElcxRS2gOaJl1xyylQa6ZZntFAc/NIlnCRiA6GrXoeqq9NUNkRQxnhaz5dPHKPiOpqTKaq63BcwiPhhrVoAbV4g42R2qrQ9xaHSkhQsIV71RKA/+Dxmny8kUALJE8ayhK2SqMVmgCi07cx2yLAqZo+u7cmM8eGVVQSGB5NJ6RiD6c2FKX2DgqzGRCBpkqEcqUD6wK+iTYS1fwFKZm3u/FPV5OquKsGyA6qN05gB4lqq11OBDMYhw2f1uCczXSQrZACAlQWk8clW58e99hPd9ZfM+aJLbOW3Wg61QOUuWYgToy9ZWQJZTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=muTI3/q+il7FI3ZYSQWJMK6YKvvqGFCpDKPNtICTUTA=;
+ b=HaJhzkrlazmuo/5juu8htIi0gDyoFYiTxxlXNnk3+79oKscqMks8SQ1A2KjJGVKM1U2q+l3/Nt2oeQVkMqD75vbFXY6olWUp70MFdbCkIirm/9mNs/tK1AGVzCB96sJUOYtk0ouEjHXOYauaJrTnY/K3uT+iSbUdSdf8Eudwq27IIqjWEioDC0e4sV8ie7NbE01fHaLh2/X+E6jw27BnJVnVKwsRxiFnoEZcdwJiexA0Dy1P4F0cCNSADvagpvtq86nqH6q0CjrVtdDb3I8u4+lFt/wAJSFVZA6/mF7iNLrMxvmSYQg0VomfEIwNJ1QJmCJtyH27m/PZ5qUClzLLjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=muTI3/q+il7FI3ZYSQWJMK6YKvvqGFCpDKPNtICTUTA=;
+ b=GmEBjkA+kxKvG58BIMojrY1gZPvvx2qlcXmZ8gaa2cgEsN2OqMZAAKqhozOza6GlWF5QsbJHMOUBsNvejQ0Gr1TrnIl6ahxvHgT80YqnwYrxvD4jSp26ioMG8jXirvfPI30YrpduSMhuovsvwDOijsotgS9vT4mJrTSbiIgFpW0=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSBPR01MB4901.jpnprd01.prod.outlook.com (2603:1096:604:7d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Sun, 13 Mar
+ 2022 10:12:18 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::cc77:910b:66c1:524b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::cc77:910b:66c1:524b%5]) with mapi id 15.20.5061.026; Sun, 13 Mar 2022
+ 10:12:17 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Suresh Udipi <sudipi@jp.adit-jv.com>,
-        Tang Bin <tangbin@cmss.chinamobile.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 10/39] media: platform: place Renesas drivers on a separate dir
-Date:   Sun, 13 Mar 2022 08:21:19 +0100
-Message-Id: <8f9726e9df5f4fb1df17aebc30b0fee07c2ca44a.1647155572.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1647155572.git.mchehab@kernel.org>
-References: <cover.1647155572.git.mchehab@kernel.org>
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [RFC 11/28] drm: rcar-du: Add num_rpf to struct
+ rcar_du_device_info
+Thread-Topic: [RFC 11/28] drm: rcar-du: Add num_rpf to struct
+ rcar_du_device_info
+Thread-Index: AQHYB9xfc1STQwyhr0ScFdMwC/73h6xwsg8AgEzC8CA=
+Date:   Sun, 13 Mar 2022 10:12:17 +0000
+Message-ID: <OS0PR01MB5922D1536F7C90A154F0515C860E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
+ <20220112174612.10773-12-biju.das.jz@bp.renesas.com>
+ <Ye1eVmxyPtrmKzlK@pendragon.ideasonboard.com>
+In-Reply-To: <Ye1eVmxyPtrmKzlK@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 26d09fe8-32e4-4464-7a2a-08da04d9f3ee
+x-ms-traffictypediagnostic: OSBPR01MB4901:EE_
+x-microsoft-antispam-prvs: <OSBPR01MB4901DDBF1A7AA79AF9FF45A4860E9@OSBPR01MB4901.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BisXu7IhLcUkDl7FPBhrRTuwlN4HvqARVgsr5n61JuQ+2aalaTBdcwHpN/3dSK+A9S0hk0p07H5NVHiNCYcAgBGWF1JwWmEDxmjsiFRvFTIagasJY+sM5401qi96QXH2RJAWP5xwPd54DSfBJZ1/S4PpqWilBL8eysMOTPK8IwwLiqlJQ2n4eavcMZk3eMZkwLpPV6N3j/Y+LiWCgp225MLRvXptQIA28JUokXdO4xnnlS+lkPzlXzKqXctPfzJyJkKoGKeh0u5adt+OP7xep3O1lvKq7jncxWGLTsMZREhh5r1OWJ38lfp5zkJa96Mjei2Kl/SeZCNh/upIfQ2vV428nsko5W+LXmUDZ+hz/f//SlHAy0mD+9yA1KUaoZWdCcwrD86N+Sb71LOX8LdD1fc9+cjs48Ue4CEjUaQ5X3jB4kTTSkr7sMk9NWND44U/PBBgUIbQ2vdffcWkPb6G07tjS+TKcGvgzSzYWjsAA+cMgwP5OS1MzHUCm+nYRfoeYwTMD40Jxq2U07jnrnzmxB+hBy6+AJDkeVuyY35mN9+BsrsFgIcIa9EJ+mZ5G5cZTvN+pRSulStas98xPN6S/bB8DERfB5vGnlv6GYLr/fl/XC0ohkB9IUeIGhOOce8miPgjbOxikEXQFxO0zfizr0NEk8CcYtQJrSDizQnUH9jCede68fFpJGhyOhFnGuPb81U00yBIwh3eMSiX44z/qut9FJmbbH2pOzNyHXns4QtFBzp6e+jzlktxYCpbwMkbvyOIEq13RQ2UZcWqkreoeCUrFI0ssZlY9gBRMbm4jXc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(66476007)(64756008)(66446008)(66556008)(76116006)(4326008)(966005)(71200400001)(66946007)(316002)(8676002)(38070700005)(54906003)(55016003)(6916009)(33656002)(508600001)(9686003)(86362001)(52536014)(8936002)(107886003)(5660300002)(7696005)(38100700002)(26005)(2906002)(186003)(122000001)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eGhRM2dPUTYzUGZhcFU4WDJpcDVFcXZZU2NjU1hYaWxBSGpidUNjbzFqbk9Y?=
+ =?utf-8?B?NjhmSG4weVVXeFkvQ3YvWWdydnpyOVcrTVFidTZuZVZwU0IxVXBNUzZSOGxr?=
+ =?utf-8?B?djRNNkRicGtWMUtOMFpseThrQVBCNGZSa1pEMUIzL29WV01Memk4WU9DMXQ2?=
+ =?utf-8?B?bmZXa1pBeTQxOUNQajhHUjlQMzVrdU5hUVdqQ1EzeTRoblRDWFpFNE55bGR3?=
+ =?utf-8?B?bGVkTmc1Y0RqM2wvd0VOZWRtNU1iQzhNamhNcUF5NXlNY0tQQmJEMkxGVHM4?=
+ =?utf-8?B?QWVVcURyQ1ZaQlVENXdDV3hBWTcvZ1RmVTRidExWRjBQZ0diNTA3V21ITUFl?=
+ =?utf-8?B?YWVSK0JqbnZBUTVncTNsQkdZbnoyVnlySHZ5UDFWMmg4VVJqUmZYdWpiaXJj?=
+ =?utf-8?B?OVBubGJuTnpGbUdVQWFobXJQT1lDR0xieHk5aVluVUNaSlhOMjNaa01FOWZt?=
+ =?utf-8?B?eTFFMm1jNFYrS2FUWS9VeDJPVU5pVU9NM243aDhaME5GUGpUTHkrbEJzLzkr?=
+ =?utf-8?B?b2p5S0ZnNHNLQU04WVJJSS9aUFRFSzlqK2lram54eTBsVUFWOU9PY3FWbGJH?=
+ =?utf-8?B?OGt0SUEvQkNmZzRBM1dKT2pMRVpleDlGSnNJTUEwT0tOV2Q1S3dWRkkrL1BC?=
+ =?utf-8?B?dVpmaGZzR3A5QkRmTGozQitWMGJTWjBkVWZOMU1UeDU5akY5ZkN1T0NtK0Ix?=
+ =?utf-8?B?SEtiMnVrRDVKUWNQTjZQbUdCQ3RLbEFYMlpUMGg2S2FZeUQ1VjN2cWJCaDFk?=
+ =?utf-8?B?WDVLdmFMcDdlWEZJdHpoTlJVZitXdmRDNjYwZ0ZPbkl0OWZXQmYvS2FNR2d0?=
+ =?utf-8?B?VE11Y2V1YnVDYzRWbWpJYWZCZE4xNG4zVkxpRGtwYVJhRHhZeS9PbVc3MGVv?=
+ =?utf-8?B?Z1pZNnp1dTd4a1FjV1k2bFhySEZoZC84Ym1abzZObVN3cWRrQUFHRWxJdy9N?=
+ =?utf-8?B?STFHSHVPdGpoZytOVjR5aW56aHlZclpBSFZ4UGZZWVhmQmM0Z2JKL0dUY3pE?=
+ =?utf-8?B?eWJRRTRDNGgrNDBGZGhSSHZ1Y0F0dGdMdnp2eCtYdWtINUkxWjlRc2tkNkRU?=
+ =?utf-8?B?STk4aGpZWkVTaDZTYVl4NUlMSVhpN0ZlZHFsT001SC9SWXN1YVpFVGhVNVlp?=
+ =?utf-8?B?cm5FME95amthNktQTDhDdXhwelZwY1NPTjNLaGl6RFZNV1hvV3hVZElrWlRp?=
+ =?utf-8?B?Rk92RWlCa3owcUFDZFRrNUN3SzdWL0pSaVhxZW83ZkxiaFFML0FhWXQ5cGhE?=
+ =?utf-8?B?SStQNW9VKzVGZEduSHY0eGNHSTUyUTJnekpaOHZIdGcrYUJWQlNzZXBHR3U1?=
+ =?utf-8?B?ZVphSWkxeW9aSndLdGlpMW1NRElNV3hiSHJjY3dVL24ydVFQVllQUGR5Tm5z?=
+ =?utf-8?B?UDNmd0d6K0ZGY1dJVHFKL2JINmdvWU1hU3VFZk5hZGlqMVpmSUZwOVY5WXRj?=
+ =?utf-8?B?VkQrMXgzWkREWSt6N0t2Ty92NldnNTBBdm5yWlg3eEZ3Rk1EVGZpdW9aeHJk?=
+ =?utf-8?B?OHMxR0hBMzBIa0RRZUJmN3FIKy9jQ2d0a2V4Z1JyM0RtWS9rendxMU5mQk9z?=
+ =?utf-8?B?UFFDaitObFllb3YrMFJmYW84UWdQb2hCQnMvMXdzN09EYkk2bWUvaHcrQS9Y?=
+ =?utf-8?B?d2UzVmRnOEVySDdndlBRNGRNS0svZjR6M1JKSUZyTVVBdjIyM2piTks1c0Q4?=
+ =?utf-8?B?b3dMTm1iOEs2WUpuKzl4L1d5Nm1JdU9uY3d2TXFBcktkcGtBQW84Q3hPY0Yz?=
+ =?utf-8?B?amw2VlJNT1lGMGl4L3QzcTAzall1WFNwd05qdHVoL2d6QlNQRmthNDZnZkhn?=
+ =?utf-8?B?TUZjYlNhYXJZZHl2SHBoVThhNGYrRGhPdmhtd0pENkRUVjFKNG1XblNQS2N6?=
+ =?utf-8?B?a1daNU1hMWRsWVNrQjNyVzI4U290a3hPcXEvN081VW5FZitkUzBySTB2TWtj?=
+ =?utf-8?B?RmZabHM4dnI2S3phM0NZalduT2xqbXlkUTlOVVpabHQ1L0YrU0NON3NjNUNS?=
+ =?utf-8?B?SXF6dzdCa1NRPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26d09fe8-32e4-4464-7a2a-08da04d9f3ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2022 10:12:17.2472
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Yt6lK2FE0EmMKQchVv07lqYVXuoEmkK0nrHDx8g4bop/5EjavB+rAdeK3gBggmepF0L4z3D/eDkgbikp1v4LCttPDa3K1S7+EDZExNbvQ3E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4901
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In order to cleanup the main platform media directory, move Renesas
-driver to its own directory.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
-
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v3 00/39] at: https://lore.kernel.org/all/cover.1647155572.git.mchehab@kernel.org/
-
- MAINTAINERS                                   |  18 +--
- drivers/media/platform/Kconfig                | 113 +----------------
- drivers/media/platform/Makefile               |  10 +-
- drivers/media/platform/renesas/Kconfig        | 119 ++++++++++++++++++
- drivers/media/platform/renesas/Makefile       |  15 +++
- .../media/platform/{ => renesas}/rcar-fcp.c   |   0
- .../media/platform/{ => renesas}/rcar-isp.c   |   0
- .../platform/{ => renesas}/rcar-vin/Kconfig   |   0
- .../platform/{ => renesas}/rcar-vin/Makefile  |   0
- .../{ => renesas}/rcar-vin/rcar-core.c        |   0
- .../{ => renesas}/rcar-vin/rcar-csi2.c        |   0
- .../{ => renesas}/rcar-vin/rcar-dma.c         |   0
- .../{ => renesas}/rcar-vin/rcar-v4l2.c        |   0
- .../{ => renesas}/rcar-vin/rcar-vin.h         |   0
- .../media/platform/{ => renesas}/rcar_drif.c  |   0
- .../media/platform/{ => renesas}/rcar_fdp1.c  |   0
- .../media/platform/{ => renesas}/rcar_jpu.c   |   0
- .../platform/{ => renesas}/renesas-ceu.c      |   0
- drivers/media/platform/{ => renesas}/sh_vou.c |   0
- .../platform/{ => renesas}/vsp1/Makefile      |   0
- .../media/platform/{ => renesas}/vsp1/vsp1.h  |   0
- .../platform/{ => renesas}/vsp1/vsp1_brx.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_brx.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_clu.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_clu.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_dl.c     |   0
- .../platform/{ => renesas}/vsp1/vsp1_dl.h     |   0
- .../platform/{ => renesas}/vsp1/vsp1_drm.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_drm.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_drv.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_entity.c |   0
- .../platform/{ => renesas}/vsp1/vsp1_entity.h |   0
- .../platform/{ => renesas}/vsp1/vsp1_hgo.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_hgo.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_hgt.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_hgt.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_histo.c  |   0
- .../platform/{ => renesas}/vsp1/vsp1_histo.h  |   0
- .../platform/{ => renesas}/vsp1/vsp1_hsit.c   |   0
- .../platform/{ => renesas}/vsp1/vsp1_hsit.h   |   0
- .../platform/{ => renesas}/vsp1/vsp1_lif.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_lif.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_lut.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_lut.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_pipe.c   |   0
- .../platform/{ => renesas}/vsp1/vsp1_pipe.h   |   0
- .../platform/{ => renesas}/vsp1/vsp1_regs.h   |   0
- .../platform/{ => renesas}/vsp1/vsp1_rpf.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_rwpf.c   |   0
- .../platform/{ => renesas}/vsp1/vsp1_rwpf.h   |   0
- .../platform/{ => renesas}/vsp1/vsp1_sru.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_sru.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_uds.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_uds.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_uif.c    |   0
- .../platform/{ => renesas}/vsp1/vsp1_uif.h    |   0
- .../platform/{ => renesas}/vsp1/vsp1_video.c  |   0
- .../platform/{ => renesas}/vsp1/vsp1_video.h  |   0
- .../platform/{ => renesas}/vsp1/vsp1_wpf.c    |   0
- 59 files changed, 146 insertions(+), 129 deletions(-)
- create mode 100644 drivers/media/platform/renesas/Kconfig
- create mode 100644 drivers/media/platform/renesas/Makefile
- rename drivers/media/platform/{ => renesas}/rcar-fcp.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-isp.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/Kconfig (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/Makefile (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-core.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-csi2.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-dma.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-v4l2.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-vin.h (100%)
- rename drivers/media/platform/{ => renesas}/rcar_drif.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar_fdp1.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar_jpu.c (100%)
- rename drivers/media/platform/{ => renesas}/renesas-ceu.c (100%)
- rename drivers/media/platform/{ => renesas}/sh_vou.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/Makefile (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_brx.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_brx.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_clu.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_clu.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_dl.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_dl.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drm.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drm.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drv.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_entity.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_entity.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgo.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgo.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgt.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgt.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_histo.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_histo.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hsit.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hsit.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lif.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lif.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lut.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lut.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_pipe.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_pipe.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_regs.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rpf.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rwpf.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rwpf.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_sru.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_sru.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uds.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uds.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uif.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uif.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.c (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.h (100%)
- rename drivers/media/platform/{ => renesas}/vsp1/vsp1_wpf.c (100%)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 780ef2ef3362..848640546398 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10322,7 +10322,7 @@ M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
- L:	linux-media@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Maintained
--F:	drivers/media/platform/rcar_jpu.c
-+F:	drivers/media/platform/renesas/rcar_jpu.c
- 
- JSM Neo PCI based serial card
- L:	linux-serial@vger.kernel.org
-@@ -11973,7 +11973,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,ceu.yaml
--F:	drivers/media/platform/renesas-ceu.c
-+F:	drivers/media/platform/renesas/renesas-ceu.c
- F:	include/media/drv-intf/renesas-ceu.h
- 
- MEDIA DRIVERS FOR RENESAS - DRIF
-@@ -11983,7 +11983,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,drif.yaml
--F:	drivers/media/platform/rcar_drif.c
-+F:	drivers/media/platform/renesas/rcar_drif.c
- 
- MEDIA DRIVERS FOR RENESAS - FCP
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-@@ -11992,7 +11992,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,fcp.yaml
--F:	drivers/media/platform/rcar-fcp.c
-+F:	drivers/media/platform/renesas/rcar-fcp.c
- F:	include/media/rcar-fcp.h
- 
- MEDIA DRIVERS FOR RENESAS - FDP1
-@@ -12002,7 +12002,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,fdp1.yaml
--F:	drivers/media/platform/rcar_fdp1.c
-+F:	drivers/media/platform/renesas/rcar_fdp1.c
- 
- MEDIA DRIVERS FOR RENESAS - VIN
- M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
-@@ -12013,8 +12013,8 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
- F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
- F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
--F:	drivers/media/platform/rcar-isp.c
--F:	drivers/media/platform/rcar-vin/
-+F:	drivers/media/platform/renesas/rcar-isp.c
-+F:	drivers/media/platform/renesas/rcar-vin/
- 
- MEDIA DRIVERS FOR RENESAS - VSP1
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-@@ -12024,7 +12024,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,vsp1.yaml
--F:	drivers/media/platform/vsp1/
-+F:	drivers/media/platform/renesas/vsp1/
- 
- MEDIA DRIVERS FOR ST STV0910 DEMODULATOR ICs
- L:	linux-media@vger.kernel.org
-@@ -17536,7 +17536,7 @@ F:	include/media/i2c/rj54n1cb0c.h
- SH_VOU V4L2 OUTPUT DRIVER
- L:	linux-media@vger.kernel.org
- S:	Orphan
--F:	drivers/media/platform/sh_vou.c
-+F:	drivers/media/platform/renesas/sh_vou.c
- F:	include/media/drv-intf/sh_vou.h
- 
- SI2157 MEDIA DRIVER
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 83a496327325..b6650caecf45 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -31,6 +31,8 @@ config V4L_MEM2MEM_DRIVERS
- 
- source "drivers/media/platform/nxp/Kconfig"
- 
-+source "drivers/media/platform/renesas/Kconfig"
-+
- # V4L platform drivers
- 
- source "drivers/media/platform/marvell-ccic/Kconfig"
-@@ -45,15 +47,6 @@ source "drivers/media/platform/omap/Kconfig"
- 
- source "drivers/media/platform/aspeed/Kconfig"
- 
--config VIDEO_SH_VOU
--	tristate "SuperH VOU video output driver"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && I2C
--	depends on ARCH_SHMOBILE || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	help
--	  Support for the Video Output Unit (VOU) on SuperH SoCs.
--
- config VIDEO_MUX
- 	tristate "Video Multiplexer"
- 	depends on V4L_PLATFORM_DRIVERS
-@@ -129,16 +122,6 @@ config VIDEO_STM32_DCMI
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called stm32-dcmi.
- 
--config VIDEO_RENESAS_CEU
--	tristate "Renesas Capture Engine Unit (CEU) driver"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && VIDEO_V4L2
--	depends on ARCH_SHMOBILE || ARCH_R7S72100 || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select V4L2_FWNODE
--	help
--	  This is a v4l2 driver for the Renesas CEU Interface
--
- config VIDEO_ROCKCHIP_ISP1
- 	tristate "Rockchip Image Signal Processing v1 Unit driver"
- 	depends on V4L_PLATFORM_DRIVERS
-@@ -161,7 +144,6 @@ config VIDEO_ROCKCHIP_ISP1
- source "drivers/media/platform/exynos4-is/Kconfig"
- source "drivers/media/platform/am437x/Kconfig"
- source "drivers/media/platform/xilinx/Kconfig"
--source "drivers/media/platform/rcar-vin/Kconfig"
- source "drivers/media/platform/atmel/Kconfig"
- source "drivers/media/platform/sunxi/Kconfig"
- 
-@@ -191,22 +173,6 @@ config VIDEO_TI_CAL_MC
- 	  default. Note that this behavior can be overridden via
- 	  module parameter 'mc_api'.
- 
--config VIDEO_RCAR_ISP
--	tristate "R-Car Image Signal Processor (ISP)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_V4L2 && OF
--	depends on ARCH_RENESAS || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select RESET_CONTROLLER
--	select V4L2_FWNODE
--	help
--	  Support for Renesas R-Car Image Signal Processor (ISP).
--	  Enable this to support the Renesas R-Car Image Signal
--	  Processor (ISP).
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called rcar-isp.
- 
- # Mem2mem drivers
- 
-@@ -477,64 +443,6 @@ config VIDEO_STM32_DMA2D
- 	  The STM32 DMA2D is a memory-to-memory engine for pixel conversion
- 	  and specialized DMA dedicated to image manipulation.
- 
--config VIDEO_RENESAS_FDP1
--	tristate "Renesas Fine Display Processor"
--	depends on V4L_MEM2MEM_DRIVERS
--	depends on VIDEO_DEV && VIDEO_V4L2
--	depends on ARCH_RENESAS || COMPILE_TEST
--	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
--	select VIDEOBUF2_DMA_CONTIG
--	select V4L2_MEM2MEM_DEV
--	help
--	  This is a V4L2 driver for the Renesas Fine Display Processor
--	  providing colour space conversion, and de-interlacing features.
--
--	  To compile this driver as a module, choose M here: the module
--	  will be called rcar_fdp1.
--
--config VIDEO_RENESAS_JPU
--	tristate "Renesas JPEG Processing Unit"
--	depends on V4L_MEM2MEM_DRIVERS
--	depends on VIDEO_DEV && VIDEO_V4L2
--	depends on ARCH_RENESAS || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select V4L2_MEM2MEM_DEV
--	help
--	  This is a V4L2 driver for the Renesas JPEG Processing Unit.
--
--	  To compile this driver as a module, choose M here: the module
--	  will be called rcar_jpu.
--
--config VIDEO_RENESAS_FCP
--	tristate "Renesas Frame Compression Processor"
--	depends on V4L_MEM2MEM_DRIVERS
--	depends on ARCH_RENESAS || COMPILE_TEST
--	depends on OF
--	help
--	  This is a driver for the Renesas Frame Compression Processor (FCP).
--	  The FCP is a companion module of video processing modules in the
--	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
--	  the codec, VSP and FDP modules.
--
--	  To compile this driver as a module, choose M here: the module
--	  will be called rcar-fcp.
--
--config VIDEO_RENESAS_VSP1
--	tristate "Renesas VSP1 Video Processing Engine"
--	depends on V4L_MEM2MEM_DRIVERS
--	depends on VIDEO_V4L2
--	depends on ARCH_RENESAS || COMPILE_TEST
--	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select VIDEOBUF2_VMALLOC
--	help
--	  This is a V4L2 driver for the Renesas VSP1 video processing engine.
--
--	  To compile this driver as a module, choose M here: the module
--	  will be called vsp1.
--
- config VIDEO_ROCKCHIP_RGA
- 	tristate "Rockchip Raster 2d Graphic Acceleration Unit"
- 	depends on V4L_MEM2MEM_DRIVERS
-@@ -664,20 +572,3 @@ config VIDEO_TI_CSC
- 
- # DVB platform drivers
- source "drivers/media/platform/sti/c8sectpfe/Kconfig"
--
--# SDR platform drivers
--config VIDEO_RCAR_DRIF
--	tristate "Renesas Digital Radio Interface (DRIF)"
--	depends on SDR_PLATFORM_DRIVERS
--	depends on VIDEO_V4L2
--	depends on ARCH_RENESAS || COMPILE_TEST
--	select VIDEOBUF2_VMALLOC
--	select V4L2_ASYNC
--	help
--	  Say Y if you want to enable R-Car Gen3 DRIF support. DRIF is Digital
--	  Radio Interface that interfaces with an RF front end chip. It is a
--	  receiver of digital data which uses DMA to transfer received data to
--	  a configured location for an application to use.
--
--	  To compile this driver as a module, choose M here; the module
--	  will be called rcar_drif.
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index 4742b18fd8d8..20b07ae3ebf1 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -27,7 +27,7 @@ obj-y += omap/
- obj-y += omap3isp/
- obj-y += qcom/camss/
- obj-y += qcom/venus/
--obj-y += rcar-vin/
-+obj-y += renesas/
- obj-y += rockchip/rga/
- obj-y += rockchip/rkisp1/
- obj-y += s3c-camif/
-@@ -43,7 +43,6 @@ obj-y += sunxi/
- obj-y += tegra/vde/
- obj-y += ti-vpe/
- obj-y += via/
--obj-y += vsp1/
- obj-y += xilinx/
- 
- # Please place here only ancillary drivers that aren't SoC-specific
-@@ -51,10 +50,3 @@ obj-y += xilinx/
- # (e. g. LC_ALL=C sort Makefile)
- obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
- obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
--obj-$(CONFIG_VIDEO_RCAR_DRIF)		+= rcar_drif.o
--obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
--obj-$(CONFIG_VIDEO_RENESAS_CEU)		+= renesas-ceu.o
--obj-$(CONFIG_VIDEO_RENESAS_FCP)		+= rcar-fcp.o
--obj-$(CONFIG_VIDEO_RENESAS_FDP1)	+= rcar_fdp1.o
--obj-$(CONFIG_VIDEO_RENESAS_JPU)		+= rcar_jpu.o
--obj-$(CONFIG_VIDEO_SH_VOU)		+= sh_vou.o
-diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
-new file mode 100644
-index 000000000000..e1329a60d3fa
---- /dev/null
-+++ b/drivers/media/platform/renesas/Kconfig
-@@ -0,0 +1,119 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+# V4L drivers
-+
-+config VIDEO_RENESAS_CEU
-+	tristate "Renesas Capture Engine Unit (CEU) driver"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && VIDEO_V4L2
-+	depends on ARCH_SHMOBILE || ARCH_R7S72100 || COMPILE_TEST
-+	select VIDEOBUF2_DMA_CONTIG
-+	select V4L2_FWNODE
-+	help
-+	  This is a v4l2 driver for the Renesas CEU Interface
-+
-+config VIDEO_RCAR_ISP
-+	tristate "R-Car Image Signal Processor (ISP)"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_V4L2 && OF
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select RESET_CONTROLLER
-+	select V4L2_FWNODE
-+	help
-+	  Support for Renesas R-Car Image Signal Processor (ISP).
-+	  Enable this to support the Renesas R-Car Image Signal
-+	  Processor (ISP).
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called rcar-isp.
-+
-+config VIDEO_SH_VOU
-+	tristate "SuperH VOU video output driver"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && I2C
-+	depends on ARCH_SHMOBILE || COMPILE_TEST
-+	select VIDEOBUF2_DMA_CONTIG
-+	help
-+	  Support for the Video Output Unit (VOU) on SuperH SoCs.
-+
-+source "drivers/media/platform/renesas/rcar-vin/Kconfig"
-+
-+# Mem2mem drivers
-+
-+config VIDEO_RENESAS_FDP1
-+	tristate "Renesas Fine Display Processor"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on VIDEO_DEV && VIDEO_V4L2
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
-+	select VIDEOBUF2_DMA_CONTIG
-+	select V4L2_MEM2MEM_DEV
-+	help
-+	  This is a V4L2 driver for the Renesas Fine Display Processor
-+	  providing colour space conversion, and de-interlacing features.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called rcar_fdp1.
-+
-+config VIDEO_RENESAS_JPU
-+	tristate "Renesas JPEG Processing Unit"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on VIDEO_DEV && VIDEO_V4L2
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select VIDEOBUF2_DMA_CONTIG
-+	select V4L2_MEM2MEM_DEV
-+	help
-+	  This is a V4L2 driver for the Renesas JPEG Processing Unit.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called rcar_jpu.
-+
-+config VIDEO_RENESAS_FCP
-+	tristate "Renesas Frame Compression Processor"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on OF
-+	help
-+	  This is a driver for the Renesas Frame Compression Processor (FCP).
-+	  The FCP is a companion module of video processing modules in the
-+	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
-+	  the codec, VSP and FDP modules.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called rcar-fcp.
-+
-+config VIDEO_RENESAS_VSP1
-+	tristate "Renesas VSP1 Video Processing Engine"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on VIDEO_V4L2
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select VIDEOBUF2_DMA_CONTIG
-+	select VIDEOBUF2_VMALLOC
-+	help
-+	  This is a V4L2 driver for the Renesas VSP1 video processing engine.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called vsp1.
-+
-+# SDR drivers
-+
-+config VIDEO_RCAR_DRIF
-+	tristate "Renesas Digital Radio Interface (DRIF)"
-+	depends on SDR_PLATFORM_DRIVERS
-+	depends on VIDEO_V4L2
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select VIDEOBUF2_VMALLOC
-+	select V4L2_ASYNC
-+	help
-+	  Say Y if you want to enable R-Car Gen3 DRIF support. DRIF is Digital
-+	  Radio Interface that interfaces with an RF front end chip. It is a
-+	  receiver of digital data which uses DMA to transfer received data to
-+	  a configured location for an application to use.
-+
-+	  To compile this driver as a module, choose M here; the module
-+	  will be called rcar_drif.
-diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
-new file mode 100644
-index 000000000000..9518e6dd794d
---- /dev/null
-+++ b/drivers/media/platform/renesas/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for the Renesas capture/playback device drivers.
-+#
-+
-+obj-y += rcar-vin/
-+obj-y += vsp1/
-+
-+obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
-+obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
-+obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
-+obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
-+obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
-+obj-$(CONFIG_VIDEO_RENESAS_JPU) += rcar_jpu.o
-+obj-$(CONFIG_VIDEO_SH_VOU) += sh_vou.o
-diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/renesas/rcar-fcp.c
-similarity index 100%
-rename from drivers/media/platform/rcar-fcp.c
-rename to drivers/media/platform/renesas/rcar-fcp.c
-diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
-similarity index 100%
-rename from drivers/media/platform/rcar-isp.c
-rename to drivers/media/platform/renesas/rcar-isp.c
-diff --git a/drivers/media/platform/rcar-vin/Kconfig b/drivers/media/platform/renesas/rcar-vin/Kconfig
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/Kconfig
-rename to drivers/media/platform/renesas/rcar-vin/Kconfig
-diff --git a/drivers/media/platform/rcar-vin/Makefile b/drivers/media/platform/renesas/rcar-vin/Makefile
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/Makefile
-rename to drivers/media/platform/renesas/rcar-vin/Makefile
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/rcar-core.c
-rename to drivers/media/platform/renesas/rcar-vin/rcar-core.c
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/rcar-csi2.c
-rename to drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/rcar-dma.c
-rename to drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/rcar-v4l2.c
-rename to drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-similarity index 100%
-rename from drivers/media/platform/rcar-vin/rcar-vin.h
-rename to drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
-similarity index 100%
-rename from drivers/media/platform/rcar_drif.c
-rename to drivers/media/platform/renesas/rcar_drif.c
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-similarity index 100%
-rename from drivers/media/platform/rcar_fdp1.c
-rename to drivers/media/platform/renesas/rcar_fdp1.c
-diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-similarity index 100%
-rename from drivers/media/platform/rcar_jpu.c
-rename to drivers/media/platform/renesas/rcar_jpu.c
-diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
-similarity index 100%
-rename from drivers/media/platform/renesas-ceu.c
-rename to drivers/media/platform/renesas/renesas-ceu.c
-diff --git a/drivers/media/platform/sh_vou.c b/drivers/media/platform/renesas/sh_vou.c
-similarity index 100%
-rename from drivers/media/platform/sh_vou.c
-rename to drivers/media/platform/renesas/sh_vou.c
-diff --git a/drivers/media/platform/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
-similarity index 100%
-rename from drivers/media/platform/vsp1/Makefile
-rename to drivers/media/platform/renesas/vsp1/Makefile
-diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1.h
-rename to drivers/media/platform/renesas/vsp1/vsp1.h
-diff --git a/drivers/media/platform/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_brx.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_brx.c
-diff --git a/drivers/media/platform/vsp1/vsp1_brx.h b/drivers/media/platform/renesas/vsp1/vsp1_brx.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_brx.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_brx.h
-diff --git a/drivers/media/platform/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_clu.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_clu.c
-diff --git a/drivers/media/platform/vsp1/vsp1_clu.h b/drivers/media/platform/renesas/vsp1/vsp1_clu.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_clu.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_clu.h
-diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_dl.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_dl.c
-diff --git a/drivers/media/platform/vsp1/vsp1_dl.h b/drivers/media/platform/renesas/vsp1/vsp1_dl.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_dl.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_dl.h
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_drm.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_drm.c
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_drm.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_drm.h
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_drv.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_drv.c
-diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_entity.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_entity.c
-diff --git a/drivers/media/platform/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_entity.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_entity.h
-diff --git a/drivers/media/platform/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hgo.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.c
-diff --git a/drivers/media/platform/vsp1/vsp1_hgo.h b/drivers/media/platform/renesas/vsp1/vsp1_hgo.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hgo.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.h
-diff --git a/drivers/media/platform/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hgt.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.c
-diff --git a/drivers/media/platform/vsp1/vsp1_hgt.h b/drivers/media/platform/renesas/vsp1/vsp1_hgt.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hgt.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.h
-diff --git a/drivers/media/platform/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_histo.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_histo.c
-diff --git a/drivers/media/platform/vsp1/vsp1_histo.h b/drivers/media/platform/renesas/vsp1/vsp1_histo.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_histo.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_histo.h
-diff --git a/drivers/media/platform/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hsit.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-diff --git a/drivers/media/platform/vsp1/vsp1_hsit.h b/drivers/media/platform/renesas/vsp1/vsp1_hsit.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_hsit.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.h
-diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_lif.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_lif.c
-diff --git a/drivers/media/platform/vsp1/vsp1_lif.h b/drivers/media/platform/renesas/vsp1/vsp1_lif.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_lif.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_lif.h
-diff --git a/drivers/media/platform/vsp1/vsp1_lut.c b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_lut.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_lut.c
-diff --git a/drivers/media/platform/vsp1/vsp1_lut.h b/drivers/media/platform/renesas/vsp1/vsp1_lut.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_lut.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_lut.h
-diff --git a/drivers/media/platform/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_pipe.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-diff --git a/drivers/media/platform/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_pipe.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_regs.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_regs.h
-diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_rpf.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_rwpf.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_rwpf.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-diff --git a/drivers/media/platform/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_sru.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_sru.c
-diff --git a/drivers/media/platform/vsp1/vsp1_sru.h b/drivers/media/platform/renesas/vsp1/vsp1_sru.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_sru.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_sru.h
-diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_uds.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_uds.c
-diff --git a/drivers/media/platform/vsp1/vsp1_uds.h b/drivers/media/platform/renesas/vsp1/vsp1_uds.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_uds.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_uds.h
-diff --git a/drivers/media/platform/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_uif.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_uif.c
-diff --git a/drivers/media/platform/vsp1/vsp1_uif.h b/drivers/media/platform/renesas/vsp1/vsp1_uif.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_uif.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_uif.h
-diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_video.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_video.c
-diff --git a/drivers/media/platform/vsp1/vsp1_video.h b/drivers/media/platform/renesas/vsp1/vsp1_video.h
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_video.h
-rename to drivers/media/platform/renesas/vsp1/vsp1_video.h
-diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-similarity index 100%
-rename from drivers/media/platform/vsp1/vsp1_wpf.c
-rename to drivers/media/platform/renesas/vsp1/vsp1_wpf.c
--- 
-2.35.1
-
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
+IFtSRkMgMTEvMjhdIGRybTogcmNhci1kdTogQWRkIG51bV9ycGYgdG8gc3RydWN0DQo+IHJjYXJf
+ZHVfZGV2aWNlX2luZm8NCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHRoZSBw
+YXRjaC4NCj4gDQo+IE9uIFdlZCwgSmFuIDEyLCAyMDIyIGF0IDA1OjQ1OjU1UE0gKzAwMDAsIEJp
+anUgRGFzIHdyb3RlOg0KPiA+IE51bWJlciBvZiBSUEYncyBWU1AgaXMgZGlmZmVyZW50IG9uIFIt
+Q2FyIGFuZCBSWi9HMkwgIFItQ2FyIEdlbjMgLT4gNQ0KPiA+IFJQRidzICBSLUNhciBHZW4yIC0+
+IDQgUlBGJ3MgIFJaL0cyTCAtPiAyIFJQRidzDQo+ID4NCj4gPiBBZGQgbnVtX3JwZiB0byBzdHJ1
+Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbyB0byBzdXBwb3J0IGxhdGVyIFNvQyB3aXRob3V0DQo+ID4g
+YW55IGNvZGUgY2hhbmdlcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1
+LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL3Jj
+YXItZHUvcmNhcl9kdV9kcnYuYyB8IDE3ICsrKysrKysrKysrKysrKysrDQo+ID4gZHJpdmVycy9n
+cHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuaCB8ICAyICsrDQo+ID4gZHJpdmVycy9ncHUvZHJt
+L3JjYXItZHUvcmNhcl9kdV92c3AuYyB8ICA2ICstLS0tLQ0KPiA+ICAzIGZpbGVzIGNoYW5nZWQs
+IDIwIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuYw0KPiA+IGIvZHJpdmVycy9ncHUv
+ZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuYw0KPiA+IGluZGV4IDVhODEzMWVmODFkNS4uNWNhN2Nk
+MDg1Nzk0IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVf
+ZHJ2LmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2Rydi5jDQo+
+ID4gQEAgLTU2LDYgKzU2LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9p
+bmZvDQo+IHJ6ZzFfZHVfcjhhNzc0M19pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+
+ICAJLm51bV9sdmRzID0gMSwNCj4gPiArCS5udW1fcnBmID0gNCwNCj4gPiAgfTsNCj4gPg0KPiA+
+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8gcnpnMV9kdV9yOGE3NzQ1
+X2luZm8gPSB7IEBADQo+ID4gLTc4LDYgKzc5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2Fy
+X2R1X2RldmljZV9pbmZvDQo+IHJ6ZzFfZHVfcjhhNzc0NV9pbmZvID0gew0KPiA+ICAJCQkucG9y
+dCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07
+DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHJ6ZzFf
+ZHVfcjhhNzc0NzBfaW5mbyA9IHsgQEANCj4gPiAtMTA1LDYgKzEwNyw3IEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByemcxX2R1X3I4YTc3NDcwX2luZm8gPSB7
+DQo+ID4gIAkJCS5wb3J0ID0gMiwNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiArCS5udW1fcnBm
+ID0gNCwNCj4gPiAgfTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2
+aWNlX2luZm8gcmNhcl9kdV9yOGE3NzRhMV9pbmZvID0geyBAQA0KPiA+IC0xMzQsNiArMTM3LDcg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhh
+Nzc0YTFfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9IDEs
+DQo+ID4gKwkubnVtX3JwZiA9IDUsDQo+ID4gIAkuZHBsbF9tYXNrID0gIEJJVCgxKSwNCj4gPiAg
+fTsNCj4gPg0KPiA+IEBAIC0xNjQsNiArMTY4LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2Fy
+X2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc0YjFfaW5mbyA9IHsNCj4gPiAgCQl9LA0K
+PiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9IDEsDQo+ID4gKwkubnVtX3JwZiA9IDUsDQo+ID4g
+IAkuZHBsbF9tYXNrID0gIEJJVCgxKSwNCj4gPiAgfTsNCj4gPg0KPiA+IEBAIC0xOTEsNiArMTk2
+LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVf
+cjhhNzc0YzBfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9
+IDIsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIAkubHZkc19jbGtfbWFzayA9ICBCSVQoMSkg
+fCBCSVQoMCksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAtMjIxLDYgKzIyNyw3IEBAIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByY2FyX2R1X3I4YTc3NGUxX2luZm8g
+PSB7DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51
+bV9ycGYgPSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBCSVQoMSksDQo+ID4gIH07DQo+ID4NCj4g
+PiBAQCAtMjczLDYgKzI4MCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2Vf
+aW5mbw0KPiByY2FyX2R1X3I4YTc3OTBfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4g
+PiAgCS5udW1fbHZkcyA9IDIsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07DQo+ID4NCj4g
+PiAgLyogTTItVyAocjhhNzc5MSkgYW5kIE0yLU4gKHI4YTc3OTMpIGFyZSBpZGVudGljYWwgKi8g
+QEAgLTI5OCw2DQo+ID4gKzMwNiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZp
+Y2VfaW5mbyByY2FyX2R1X3I4YTc3OTFfaW5mbyA9DQo+IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwN
+Cj4gPiAgCS5udW1fbHZkcyA9IDEsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07DQo+ID4N
+Cj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHJjYXJfZHVfcjhh
+Nzc5Ml9pbmZvID0geyBAQA0KPiA+IC0zMTgsNiArMzI3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5Ml9pbmZvID0gew0KPiA+ICAJ
+CQkucG9ydCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+
+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZv
+IHJjYXJfZHVfcjhhNzc5NF9pbmZvID0geyBAQA0KPiA+IC0zNDEsNiArMzUxLDcgQEAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5NF9pbmZv
+ID0gew0KPiA+ICAJCQkucG9ydCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVt
+X3JwZiA9IDQsDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1
+X2RldmljZV9pbmZvIHJjYXJfZHVfcjhhNzc5NV9pbmZvID0geyBAQA0KPiA+IC0zNzQsNiArMzg1
+LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVf
+cjhhNzc5NV9pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICAJLm51bV9sdmRzID0g
+MSwNCj4gPiArCS5udW1fcnBmID0gNSwNCj4gPiAgCS5kcGxsX21hc2sgPSAgQklUKDIpIHwgQklU
+KDEpLA0KPiA+ICB9Ow0KPiA+DQo+ID4gQEAgLTQwNCw2ICs0MTYsNyBAQCBzdGF0aWMgY29uc3Qg
+c3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8NCj4gcmNhcl9kdV9yOGE3Nzk2X2luZm8gPSB7DQo+
+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9ycGYg
+PSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBCSVQoMSksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAt
+NDM0LDYgKzQ0Nyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0K
+PiByY2FyX2R1X3I4YTc3OTY1X2luZm8gPSB7DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAku
+bnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9ycGYgPSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBC
+SVQoMSksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAtNDYwLDYgKzQ3NCw3IEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByY2FyX2R1X3I4YTc3OTcwX2luZm8gPSB7
+DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9y
+cGYgPSA1LA0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9k
+ZXZpY2VfaW5mbyByY2FyX2R1X3I4YTc3OTl4X2luZm8gPSB7IEBADQo+ID4gLTQ4Nyw2ICs1MDIs
+NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8NCj4gcmNhcl9kdV9y
+OGE3Nzk5eF9pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICAJLm51bV9sdmRzID0g
+MiwNCj4gPiArCS5udW1fcnBmID0gNSwNCj4gPiAgCS5sdmRzX2Nsa19tYXNrID0gIEJJVCgxKSB8
+IEJJVCgwKSwNCj4gPiAgfTsNCj4gPg0KPiA+IEBAIC01MDYsNiArNTIyLDcgQEAgc3RhdGljIGNv
+bnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5YTBfaW5mbyA9
+IHsNCj4gPiAgCQkJLnBvcnQgPSAxLA0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICsJLm51bV9y
+cGYgPSA1LA0KPiA+ICAJLmRzaV9jbGtfbWFzayA9ICBCSVQoMSkgfCBCSVQoMCksDQo+ID4gIH07
+DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9k
+cnYuaA0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuaA0KPiA+IGlu
+ZGV4IDEwMWY0MmRmODZlYS4uOTc5MmE3NzU5MGJlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cmNhci1kdS9yY2FyX2R1X2Rydi5oDQo+ID4gQEAgLTY5LDYgKzY5LDcgQEAgc3RydWN0IHJjYXJf
+ZHVfb3V0cHV0X3JvdXRpbmcgew0KPiA+ICAgKiBAY2hhbm5lbHNfbWFzazogYml0IG1hc2sgb2Yg
+YXZhaWxhYmxlIERVIGNoYW5uZWxzDQo+ID4gICAqIEByb3V0ZXM6IGFycmF5IG9mIENSVEMgdG8g
+b3V0cHV0IHJvdXRlcywgaW5kZXhlZCBieSBvdXRwdXQNCj4gKFJDQVJfRFVfT1VUUFVUXyopDQo+
+ID4gICAqIEBudW1fbHZkczogbnVtYmVyIG9mIGludGVybmFsIExWRFMgZW5jb2RlcnMNCj4gPiAr
+ICogQG51bV9ycGY6IG1heCBudW1iZXIgb2YgcnBmJ3MgaW4gdnNwDQo+IA0KPiBzL3JwZidzL1JQ
+RnMvIGFuZCBzL3ZzcC9WU1AvDQo+IA0KPiBXaGlsZSB0aGUgcGF0Y2ggaXRzZWxmIGxvb2tzIGZp
+bmUgdG8gbWUsIHRoZSBSWi9HMkwgaGFzIGEgZGlzcGxheQ0KPiBjb250cm9sbGVyIHRoYXQgaXMg
+Y29tcGxldGVseSB1bnJlbGF0ZWQgdG8gdGhlIERVLCBkZXNwaXRlIHNoYXJpbmcgdGhlDQo+IHNh
+bWUgbmFtZS4gSSdkIHJhdGhlciBoYXZlIGEgcnpnMmxfZHUgZHJpdmVyLiBJdCBtYXkgYmUgcG9z
+c2libHkgdG8gc2hhcmUNCj4gc29tZSBjb2RlIHdpdGggdGhlIHJjYXJfZHUgZHJpdmVyIChJJ20g
+dGhpbmtpbmcgYWJvdXQgdGhlIFZTUCBoYW5kbGluZyBmb3INCj4gaW5zdGFuY2UpLCBidXQgaW4g
+dGhlIGVuZCBJJ20gbm90IHN1cmUgaWYgZXZlbiB0aGF0IHdvdWxkIGJlIHdvcnRoIGl0Lg0KDQpP
+SywgSSBoYXZlIGNyZWF0ZWQgc2VwYXJhdGUgUlovRzJMIGRpc3BsYXkgZHJpdmVyIHdpdGggbWlu
+aW1hbCBjb2RlIGNoYW5nZXMgYW5kIA0KTWF4aW11bSBjb2RlIHJldXNlLiBQbGVhc2UgcHJvdmlk
+ZSBmZWVkYmFjayBvbiBuZXcgcGF0Y2ggc2Vycmllc1sxXQ0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvbGludXgtcmVuZXNhcy1zb2MvMjAyMjAzMTIyMTU0MTcuODAyMy0xLWJpanUuZGFz
+Lmp6QGJwLnJlbmVzYXMuY29tL1QvI3QNCg0KUmVnYXJkcywNCkJpanUNCg0KPiANCj4gPiAgICog
+QGRwbGxfbWFzazogYml0IG1hc2sgb2YgRFUgY2hhbm5lbHMgZXF1aXBwZWQgd2l0aCBhIERQTEwN
+Cj4gPiAgICogQGRzaV9jbGtfbWFzazogYml0bWFzayBvZiBjaGFubmVscyB0aGF0IGNhbiB1c2Ug
+dGhlIERTSSBjbG9jayBhcyBkb3QNCj4gY2xvY2sNCj4gPiAgICogQGx2ZHNfY2xrX21hc2s6IGJp
+dG1hc2sgb2YgY2hhbm5lbHMgdGhhdCBjYW4gdXNlIHRoZSBMVkRTIGNsb2NrIGFzDQo+ID4gZG90
+IGNsb2NrIEBAIC04MCw2ICs4MSw3IEBAIHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHsNCj4g
+PiAgCXVuc2lnbmVkIGludCBjaGFubmVsc19tYXNrOw0KPiA+ICAJc3RydWN0IHJjYXJfZHVfb3V0
+cHV0X3JvdXRpbmcgcm91dGVzW1JDQVJfRFVfT1VUUFVUX01BWF07DQo+ID4gIAl1bnNpZ25lZCBp
+bnQgbnVtX2x2ZHM7DQo+ID4gKwl1bnNpZ25lZCBpbnQgbnVtX3JwZjsNCj4gPiAgCXVuc2lnbmVk
+IGludCBkcGxsX21hc2s7DQo+ID4gIAl1bnNpZ25lZCBpbnQgZHNpX2Nsa19tYXNrOw0KPiA+ICAJ
+dW5zaWduZWQgaW50IGx2ZHNfY2xrX21hc2s7DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
+L3JjYXJfZHVfdnNwLmMNCj4gPiBpbmRleCBiN2ZjNWIwNjljYmMuLmNmMDQ1YTIwM2FhNSAxMDA2
+NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3ZzcC5jDQo+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV92c3AuYw0KPiA+IEBAIC00MTUs
+MTEgKzQxNSw3IEBAIGludCByY2FyX2R1X3ZzcF9pbml0KHN0cnVjdCByY2FyX2R1X3ZzcCAqdnNw
+LA0KPiBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLA0KPiA+ICAJaWYgKHJldCA8IDApDQo+ID4gIAkJ
+cmV0dXJuIHJldDsNCj4gPg0KPiA+IC0JIC8qDQo+ID4gLQkgICogVGhlIFZTUDJEIChHZW4zKSBo
+YXMgNSBSUEZzLCBidXQgdGhlIFZTUDFEIChHZW4yKSBpcyBsaW1pdGVkIHRvDQo+ID4gLQkgICog
+NCBSUEZzLg0KPiA+IC0JICAqLw0KPiA+IC0JbnVtX3BsYW5lcyA9IHJjZHUtPmluZm8tPmdlbiA+
+PSAzID8gNSA6IDQ7DQo+ID4gKwludW1fcGxhbmVzID0gcmNkdS0+aW5mby0+bnVtX3JwZjsNCj4g
+Pg0KPiA+ICAJdnNwLT5wbGFuZXMgPSBrY2FsbG9jKG51bV9wbGFuZXMsIHNpemVvZigqdnNwLT5w
+bGFuZXMpLCBHRlBfS0VSTkVMKTsNCj4gPiAgCWlmICghdnNwLT5wbGFuZXMpDQo+IA0KPiAtLQ0K
+PiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5jaGFydA0K
