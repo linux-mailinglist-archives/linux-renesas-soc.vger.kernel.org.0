@@ -2,1315 +2,1147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9C04D7133
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Mar 2022 22:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 712604D7346
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 08:22:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232327AbiCLVzy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Mar 2022 16:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46134 "EHLO
+        id S231244AbiCMHXb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Mar 2022 03:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232136AbiCLVzx (ORCPT
+        with ESMTP id S233848AbiCMHXZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Mar 2022 16:55:53 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 00A0936E03
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Mar 2022 13:54:44 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.90,177,1643641200"; 
-   d="scan'208";a="114196816"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Mar 2022 06:54:44 +0900
-Received: from localhost.localdomain (unknown [10.226.92.30])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 10DF34007521;
-        Sun, 13 Mar 2022 06:54:41 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 7/7] drm: rcar-du: Add RZ/G2L LCDC Support
-Date:   Sat, 12 Mar 2022 21:54:17 +0000
-Message-Id: <20220312215417.8023-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220312215417.8023-1-biju.das.jz@bp.renesas.com>
-References: <20220312215417.8023-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Sun, 13 Mar 2022 03:23:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AECA81945DE;
+        Sat, 12 Mar 2022 23:21:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8C446B80C75;
+        Sun, 13 Mar 2022 07:21:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5840FC340F5;
+        Sun, 13 Mar 2022 07:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647156114;
+        bh=GHziQy0Uk4uTJH7a17gyMNm8mew5G6o5Vt+QUWf5uiQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oiHsWppUezI4z1jSNg19Rxm4LFjBd1agV5AYdAZO2S+tUl5R15IIMEhzLVHHs5DaR
+         U0gJusXv6HsiyrvB5UbunVnF/CkbShjCl/rJvGrTDsHOcBJKKRQZbk8o8Q4oDRfvhi
+         Fq9E6DiOfp0J0VZ1KZMalHgjitojcNVCNYbnKhoVYpwPH0P86fJEpiD/GMYIZ7uPiu
+         +w1OmW9fsctQJfp8hMimXwXM8qXURoh31LWADte9b27+c5G3kZMXmfLApYE0O/givN
+         9dXwGxk6NwWgrAg6EahEvjoqypeEez7A6xqFD0aj3e6kiQOzHUnUFPX3LZ4kabAXIh
+         HXREFoPBASacQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1nTIY2-0012vV-Ur; Sun, 13 Mar 2022 08:21:50 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Benoit Parrot <bparrot@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Eddie James <eajames@linux.ibm.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Robert Foss <robert.foss@linaro.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, openbmc@lists.ozlabs.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 00/39]  Sort Makefiles and platform/Kconfig
+Date:   Sun, 13 Mar 2022 08:21:09 +0100
+Message-Id: <cover.1647155572.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The LCD controller is composed of Frame Compression Processor (FCPVD),
-Video Signal Processor (VSPD), and Display Unit (DU).
+Entries at Makefiles and Kconfig files end being merged on random order. 
 
-It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-along with 2 rpf's to support blending of two picture layers and
-raster operations (ROPs).
+Sort Makefile entries in alphabetical order. 
 
-The DU part is similar to R-Car like DU is connected to VSPD, so reusing
-most of the functionality from R Car. This patch introduces separate CRTC
-handling as it does not have plane/group registers.
+Sorting Kconfig is harder. So, for now, do it only for platform/Kconfig.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-RFC->v1:
- * Added RZ/G2L LCDC driver with special handling for CRTC reusing
-   most of RCar DU code
-RFC:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-19-biju.das.jz@bp.renesas.com/
----
- drivers/gpu/drm/rcar-du/Kconfig            |  18 +-
- drivers/gpu/drm/rcar-du/Makefile           |  13 +
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h     |   7 +
- drivers/gpu/drm/rcar-du/rcar_du_plane.h    |  12 +
- drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c  | 722 +++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c   | 221 +++++++
- drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c |  82 +++
- drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h  |  64 ++
- 8 files changed, 1137 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c
- create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c
- create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c
- create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h
+On platform/Kconfig, there is a mix of:
+	- two ancillary drivers;
+	- per-SoC drivers whose Kconfig/Makefile is on separate files;
+	- per-SoC drivers whose Makefile is on separate files, but the
+	  driver is at platform/Makefile;
+	- per-SoC drivers that are specified inside platform/Makefile and
+	  platform/Kconfig.
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index ca87fb186f02..de026a8b8412 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -11,6 +11,19 @@ config DRM_RCAR_DU
- 	  Choose this option if you have an R-Car chipset.
- 	  If M is selected the module will be called rcar-du-drm.
+Give some order by ensuring that all non-generic drivers will be on
+subdirectories.
+
+The end goal is to have one directory below platform per manufacturer,
+This series prepare for that.
+
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+-
+
+v3:
+  - used ASCII sort instead of LC-dependent sort;
+  - add a comment about the sort at the files;
+  - moved vsp1 driver ro renesas/ dir;
+  - moved imx drivers to nxp/ dir;
+  - the new MEDIA_PLATFORM_DRIVERS menu is on a separate patch and defaults to "Y";
+  - split the several obj-y at usb/Makefile into one line per driver (sorted).
+
+v2:
+  - removed some renames at DVB frontend;
+  - added patches for platform/Kconfig sort.
+
+Mauro Carvalho Chehab (39):
+  media: xc2028: rename the driver from tuner-xc2028
+  media: Makefiles: remove extra spaces
+  media: Makefiles: sort entries where it fits
+  media: platform: Makefile: reorganize its contents
+  media: platform: move platform menu dependencies to drivers
+  media: platform: place Aspeed driver on a separate dir
+  media: platform: place NXP drivers on a separate dir
+  media: platform: place Intel drivers on a separate dir
+  media: platform: place Via drivers on a separate dir
+  media: platform: place Renesas drivers on a separate dir
+  media: platform: allegro-dvt: move config to its own file
+  media: platform: amphion: move config to its own file
+  media: platform: coda: move config to its own file
+  media: platform: exynos-gsc: move config to its own file
+  media: platform: ge2d: move config to its own file
+  media: platform: mtk-jpeg: move config to its own file
+  media: platform: mtk-mdp: move config to its own file
+  media: platform: mtk-vcodec: move config to its own file
+  media: platform: mtk-vpu: move config to its own file
+  media: platform: omap3isp: move config to its own file
+  media: platform: camss: move config to its own file
+  media: platform: venus: move config to its own file
+  media: platform: rga: move config to its own file
+  media: platform: s3c-camif: move config to its own file
+  media: platform: s5p-g2d: move config to its own file
+  media: platform: hva: move config to its own file
+  media: platform: stm32: move config to its own file
+  media: platform: sun8i-di: move config to its own file
+  media: platform: sun8i-rotate: move config to its own file
+  media: platform: vde: move config to its own file
+  media: platform: ti-vpe: move config to its own file
+  media: platform: rkisp1: move config to its own file
+  media: platform: delta: move config to its own file
+  media: platform: bdisp: move config to its own file
+  media: platform: s5p-mfc: move config to its own file
+  media: platform: s5p-jpeg: move config to its own file
+  media: platform: Kconfig: sort entries
+  media: platform: move some manufacturer entries
+  media: platform: Kconfig: place platform drivers on a submenu
+
+ .../admin-guide/media/i2c-cardlist.rst        |   2 +-
+ MAINTAINERS                                   |  24 +-
+ drivers/media/Kconfig                         |   8 +-
+ drivers/media/Makefile                        |   4 +-
+ drivers/media/cec/platform/Makefile           |  16 +-
+ drivers/media/common/Makefile                 |   5 +-
+ drivers/media/common/videobuf2/Makefile       |   8 +-
+ drivers/media/dvb-frontends/Makefile          | 193 ++---
+ drivers/media/firewire/Makefile               |   2 +-
+ drivers/media/i2c/Makefile                    |  92 +--
+ drivers/media/pci/Makefile                    |  21 +-
+ drivers/media/pci/cx18/cx18-driver.c          |   2 +-
+ drivers/media/pci/cx18/cx18-dvb.c             |   2 +-
+ drivers/media/pci/cx18/cx18-gpio.c            |   2 +-
+ drivers/media/pci/cx23885/cx23885-cards.c     |   2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |   2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |   2 +-
+ drivers/media/pci/cx88/cx88.h                 |   2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c          |   2 +-
+ drivers/media/pci/ivtv/ivtv-gpio.c            |   2 +-
+ drivers/media/pci/saa7134/saa7134-cards.c     |   2 +-
+ drivers/media/pci/saa7134/saa7134-dvb.c       |   2 +-
+ drivers/media/platform/Kconfig                | 753 ++----------------
+ drivers/media/platform/Makefile               | 132 +--
+ drivers/media/platform/allegro-dvt/Kconfig    |  16 +
+ drivers/media/platform/am437x/Kconfig         |   1 +
+ drivers/media/platform/amphion/Kconfig        |  20 +
+ drivers/media/platform/aspeed/Kconfig         |  10 +
+ drivers/media/platform/aspeed/Makefile        |   2 +
+ .../platform/{ => aspeed}/aspeed-video.c      |   0
+ drivers/media/platform/atmel/Kconfig          |   4 +
+ drivers/media/platform/cadence/Kconfig        |   1 +
+ drivers/media/platform/coda/Kconfig           |  17 +
+ drivers/media/platform/davinci/Kconfig        |   6 +
+ drivers/media/platform/exynos-gsc/Kconfig     |  10 +
+ drivers/media/platform/exynos4-is/Kconfig     |   1 +
+ drivers/media/platform/imx/Kconfig            |  24 -
+ drivers/media/platform/imx/Makefile           |   1 -
+ drivers/media/platform/intel/Kconfig          |  11 +
+ drivers/media/platform/intel/Makefile         |   2 +
+ .../media/platform/{ => intel}/pxa_camera.c   |   0
+ drivers/media/platform/marvell-ccic/Kconfig   |   2 +
+ drivers/media/platform/meson/ge2d/Kconfig     |  14 +
+ drivers/media/platform/mtk-jpeg/Kconfig       |  16 +
+ drivers/media/platform/mtk-mdp/Kconfig        |  17 +
+ drivers/media/platform/mtk-vcodec/Kconfig     |  36 +
+ drivers/media/platform/mtk-vpu/Kconfig        |  15 +
+ drivers/media/platform/nxp/Kconfig            |  66 ++
+ drivers/media/platform/nxp/Makefile           |   8 +
+ drivers/media/platform/{ => nxp}/fsl-viu.c    |   0
+ .../media/platform/{ => nxp}/imx-jpeg/Kconfig |   1 +
+ .../platform/{ => nxp}/imx-jpeg/Makefile      |   0
+ .../platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.c |   0
+ .../platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.h |   0
+ .../platform/{ => nxp}/imx-jpeg/mxc-jpeg.c    |   0
+ .../platform/{ => nxp}/imx-jpeg/mxc-jpeg.h    |   0
+ .../platform/{imx => nxp}/imx-mipi-csis.c     |   0
+ drivers/media/platform/{ => nxp}/imx-pxp.c    |   0
+ drivers/media/platform/{ => nxp}/imx-pxp.h    |   0
+ .../media/platform/{ => nxp}/mx2_emmaprp.c    |   0
+ drivers/media/platform/omap/Kconfig           |   1 +
+ drivers/media/platform/omap3isp/Kconfig       |  21 +
+ drivers/media/platform/qcom/Kconfig           |   3 +
+ drivers/media/platform/qcom/camss/Kconfig     |   9 +
+ drivers/media/platform/qcom/venus/Kconfig     |  14 +
+ drivers/media/platform/renesas/Kconfig        | 119 +++
+ drivers/media/platform/renesas/Makefile       |  15 +
+ .../media/platform/{ => renesas}/rcar-fcp.c   |   0
+ .../media/platform/{ => renesas}/rcar-isp.c   |   0
+ .../platform/{ => renesas}/rcar-vin/Kconfig   |   2 +
+ .../platform/{ => renesas}/rcar-vin/Makefile  |   0
+ .../{ => renesas}/rcar-vin/rcar-core.c        |   0
+ .../{ => renesas}/rcar-vin/rcar-csi2.c        |   0
+ .../{ => renesas}/rcar-vin/rcar-dma.c         |   0
+ .../{ => renesas}/rcar-vin/rcar-v4l2.c        |   0
+ .../{ => renesas}/rcar-vin/rcar-vin.h         |   0
+ .../media/platform/{ => renesas}/rcar_drif.c  |   0
+ .../media/platform/{ => renesas}/rcar_fdp1.c  |   0
+ .../media/platform/{ => renesas}/rcar_jpu.c   |   0
+ .../platform/{ => renesas}/renesas-ceu.c      |   0
+ drivers/media/platform/{ => renesas}/sh_vou.c |   0
+ .../platform/{ => renesas}/vsp1/Makefile      |   0
+ .../media/platform/{ => renesas}/vsp1/vsp1.h  |   0
+ .../platform/{ => renesas}/vsp1/vsp1_brx.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_brx.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_clu.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_clu.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_dl.c     |   0
+ .../platform/{ => renesas}/vsp1/vsp1_dl.h     |   0
+ .../platform/{ => renesas}/vsp1/vsp1_drm.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_drm.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_drv.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_entity.c |   0
+ .../platform/{ => renesas}/vsp1/vsp1_entity.h |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hgo.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hgo.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hgt.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hgt.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_histo.c  |   0
+ .../platform/{ => renesas}/vsp1/vsp1_histo.h  |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hsit.c   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_hsit.h   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_lif.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_lif.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_lut.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_lut.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_pipe.c   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_pipe.h   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_regs.h   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_rpf.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_rwpf.c   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_rwpf.h   |   0
+ .../platform/{ => renesas}/vsp1/vsp1_sru.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_sru.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_uds.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_uds.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_uif.c    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_uif.h    |   0
+ .../platform/{ => renesas}/vsp1/vsp1_video.c  |   0
+ .../platform/{ => renesas}/vsp1/vsp1_video.h  |   0
+ .../platform/{ => renesas}/vsp1/vsp1_wpf.c    |   0
+ drivers/media/platform/rockchip/Kconfig       |   3 +
+ drivers/media/platform/rockchip/rga/Kconfig   |  14 +
+ .../media/platform/rockchip/rkisp1/Kconfig    |  19 +
+ drivers/media/platform/s3c-camif/Kconfig      |  15 +
+ drivers/media/platform/s5p-g2d/Kconfig        |  11 +
+ drivers/media/platform/s5p-jpeg/Kconfig       |  12 +
+ drivers/media/platform/s5p-mfc/Kconfig        |   9 +
+ drivers/media/platform/sti/Kconfig            |   5 +
+ drivers/media/platform/sti/bdisp/Kconfig      |  10 +
+ drivers/media/platform/sti/c8sectpfe/Kconfig  |   1 +
+ drivers/media/platform/sti/delta/Kconfig      |  36 +
+ drivers/media/platform/sti/hva/Kconfig        |  26 +
+ drivers/media/platform/stm32/Kconfig          |  31 +
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ .../media/platform/sunxi/sun4i-csi/Kconfig    |   1 +
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |   1 +
+ drivers/media/platform/sunxi/sun8i-di/Kconfig |  14 +
+ .../media/platform/sunxi/sun8i-rotate/Kconfig |  14 +
+ drivers/media/platform/tegra/vde/Kconfig      |  17 +
+ drivers/media/platform/ti-vpe/Kconfig         |  62 ++
+ drivers/media/platform/via/Kconfig            |  11 +
+ drivers/media/platform/via/Makefile           |   2 +
+ drivers/media/platform/{ => via}/via-camera.c |   0
+ drivers/media/platform/{ => via}/via-camera.h |   0
+ drivers/media/platform/xilinx/Kconfig         |   1 +
+ drivers/media/radio/Makefile                  |  43 +-
+ drivers/media/rc/Makefile                     |  47 +-
+ drivers/media/rc/keymaps/Makefile             |  34 +-
+ drivers/media/spi/Makefile                    |   7 +-
+ drivers/media/test-drivers/Makefile           |  14 +-
+ drivers/media/tuners/Makefile                 |  66 +-
+ drivers/media/tuners/tuner-types.c            |   2 +-
+ .../{tuner-xc2028-types.h => xc2028-types.h}  |   6 +-
+ .../media/tuners/{tuner-xc2028.c => xc2028.c} |   6 +-
+ .../media/tuners/{tuner-xc2028.h => xc2028.h} |   2 +-
+ drivers/media/tuners/xc4000.c                 |   2 +-
+ drivers/media/usb/Makefile                    |  40 +-
+ drivers/media/usb/dvb-usb/cxusb.c             |   2 +-
+ drivers/media/usb/dvb-usb/dib0700_devices.c   |   2 +-
+ drivers/media/usb/em28xx/em28xx-i2c.c         |   2 +-
+ drivers/media/usb/em28xx/em28xx.h             |   2 +-
+ drivers/media/usb/gspca/Makefile              |  88 +-
+ drivers/media/usb/tm6000/tm6000-cards.c       |   2 +-
+ drivers/media/usb/tm6000/tm6000-dvb.c         |   2 +-
+ drivers/media/usb/tm6000/tm6000-i2c.c         |   2 +-
+ drivers/media/v4l2-core/Makefile              |  34 +-
+ drivers/media/v4l2-core/tuner-core.c          |   2 +-
+ 168 files changed, 1316 insertions(+), 1175 deletions(-)
+ create mode 100644 drivers/media/platform/allegro-dvt/Kconfig
+ create mode 100644 drivers/media/platform/amphion/Kconfig
+ create mode 100644 drivers/media/platform/aspeed/Kconfig
+ create mode 100644 drivers/media/platform/aspeed/Makefile
+ rename drivers/media/platform/{ => aspeed}/aspeed-video.c (100%)
+ create mode 100644 drivers/media/platform/coda/Kconfig
+ create mode 100644 drivers/media/platform/exynos-gsc/Kconfig
+ delete mode 100644 drivers/media/platform/imx/Kconfig
+ delete mode 100644 drivers/media/platform/imx/Makefile
+ create mode 100644 drivers/media/platform/intel/Kconfig
+ create mode 100644 drivers/media/platform/intel/Makefile
+ rename drivers/media/platform/{ => intel}/pxa_camera.c (100%)
+ create mode 100644 drivers/media/platform/meson/ge2d/Kconfig
+ create mode 100644 drivers/media/platform/mtk-jpeg/Kconfig
+ create mode 100644 drivers/media/platform/mtk-mdp/Kconfig
+ create mode 100644 drivers/media/platform/mtk-vcodec/Kconfig
+ create mode 100644 drivers/media/platform/mtk-vpu/Kconfig
+ create mode 100644 drivers/media/platform/nxp/Kconfig
+ create mode 100644 drivers/media/platform/nxp/Makefile
+ rename drivers/media/platform/{ => nxp}/fsl-viu.c (100%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/Kconfig (91%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/Makefile (100%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.c (100%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.h (100%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg.c (100%)
+ rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg.h (100%)
+ rename drivers/media/platform/{imx => nxp}/imx-mipi-csis.c (100%)
+ rename drivers/media/platform/{ => nxp}/imx-pxp.c (100%)
+ rename drivers/media/platform/{ => nxp}/imx-pxp.h (100%)
+ rename drivers/media/platform/{ => nxp}/mx2_emmaprp.c (100%)
+ create mode 100644 drivers/media/platform/omap3isp/Kconfig
+ create mode 100644 drivers/media/platform/qcom/Kconfig
+ create mode 100644 drivers/media/platform/qcom/camss/Kconfig
+ create mode 100644 drivers/media/platform/qcom/venus/Kconfig
+ create mode 100644 drivers/media/platform/renesas/Kconfig
+ create mode 100644 drivers/media/platform/renesas/Makefile
+ rename drivers/media/platform/{ => renesas}/rcar-fcp.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-isp.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/Kconfig (93%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/Makefile (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-core.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-csi2.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-dma.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-v4l2.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-vin.h (100%)
+ rename drivers/media/platform/{ => renesas}/rcar_drif.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar_fdp1.c (100%)
+ rename drivers/media/platform/{ => renesas}/rcar_jpu.c (100%)
+ rename drivers/media/platform/{ => renesas}/renesas-ceu.c (100%)
+ rename drivers/media/platform/{ => renesas}/sh_vou.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/Makefile (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_brx.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_brx.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_clu.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_clu.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_dl.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_dl.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drm.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drm.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_drv.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_entity.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_entity.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgo.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgo.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgt.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hgt.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_histo.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_histo.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hsit.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_hsit.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lif.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lif.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lut.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_lut.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_pipe.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_pipe.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_regs.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rpf.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rwpf.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_rwpf.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_sru.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_sru.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uds.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uds.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uif.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_uif.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.c (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.h (100%)
+ rename drivers/media/platform/{ => renesas}/vsp1/vsp1_wpf.c (100%)
+ create mode 100644 drivers/media/platform/rockchip/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/rga/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/rkisp1/Kconfig
+ create mode 100644 drivers/media/platform/s3c-camif/Kconfig
+ create mode 100644 drivers/media/platform/s5p-g2d/Kconfig
+ create mode 100644 drivers/media/platform/s5p-jpeg/Kconfig
+ create mode 100644 drivers/media/platform/s5p-mfc/Kconfig
+ create mode 100644 drivers/media/platform/sti/Kconfig
+ create mode 100644 drivers/media/platform/sti/bdisp/Kconfig
+ create mode 100644 drivers/media/platform/sti/delta/Kconfig
+ create mode 100644 drivers/media/platform/sti/hva/Kconfig
+ create mode 100644 drivers/media/platform/stm32/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-rotate/Kconfig
+ create mode 100644 drivers/media/platform/tegra/vde/Kconfig
+ create mode 100644 drivers/media/platform/ti-vpe/Kconfig
+ create mode 100644 drivers/media/platform/via/Kconfig
+ create mode 100644 drivers/media/platform/via/Makefile
+ rename drivers/media/platform/{ => via}/via-camera.c (100%)
+ rename drivers/media/platform/{ => via}/via-camera.h (100%)
+ rename drivers/media/tuners/{tuner-xc2028-types.h => xc2028-types.h} (96%)
+ rename drivers/media/tuners/{tuner-xc2028.c => xc2028.c} (99%)
+ rename drivers/media/tuners/{tuner-xc2028.h => xc2028.h} (99%)
+
+Diff from v2:
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5a5cc49e27a6..848640546398 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12024,7 +12024,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+-F:	drivers/media/platform/vsp1/
++F:	drivers/media/platform/renesas/vsp1/
  
-+config DRM_RZG2L_LCDC
-+	tristate "DRM Support for RZ/G2L LCDC"
-+	depends on DRM && OF
-+	depends on ARM || ARM64
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_CMA_HELPER
-+	select VIDEOMODE_HELPERS
-+	help
-+	  Choose this option if you have an RZ/G2L chipset.
-+	  If M is selected the module will be called rzg2l-lcdc-drm.
+ MEDIA DRIVERS FOR ST STV0910 DEMODULATOR ICs
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+index f3f24c63536b..01b536863657 100644
+--- a/drivers/media/Kconfig
++++ b/drivers/media/Kconfig
+@@ -216,13 +216,12 @@ menu "Media drivers"
+ comment "Drivers filtered as selected at 'Filter media drivers'"
+ 	depends on MEDIA_SUPPORT_FILTER
+ 
++comment "media drivers"
 +
+ source "drivers/media/usb/Kconfig"
+ source "drivers/media/pci/Kconfig"
+ source "drivers/media/radio/Kconfig"
+ 
+-# Common driver options
+-source "drivers/media/common/Kconfig"
+-
+ if MEDIA_PLATFORM_SUPPORT
+ source "drivers/media/platform/Kconfig"
+ source "drivers/media/mmc/Kconfig"
+@@ -234,6 +233,9 @@ endif
+ 
+ source "drivers/media/firewire/Kconfig"
+ 
++# Common driver options
++source "drivers/media/common/Kconfig"
 +
- config DRM_RCAR_USE_CMM
- 	bool "R-Car DU Color Management Module (CMM) Support"
- 	depends on DRM_RCAR_DU
-@@ -61,12 +74,13 @@ config DRM_RZG2L_MIPI_DSI
- config DRM_RCAR_VSP
- 	bool "R-Car DU VSP Compositor Support" if ARM
- 	default y if ARM64
--	depends on DRM_RCAR_DU
-+	depends on DRM_RCAR_DU || DRM_RZG2L_LCDC
- 	depends on VIDEO_RENESAS_VSP1=y || (VIDEO_RENESAS_VSP1 && DRM_RCAR_DU=m)
-+	depends on VIDEO_RENESAS_VSP1=y || (VIDEO_RENESAS_VSP1 && DRM_RZG2L_LCDC=m)
+ endmenu
+ 
+ #
+diff --git a/drivers/media/common/Makefile b/drivers/media/common/Makefile
+index 2e3cc25c5695..ce84391ce664 100644
+--- a/drivers/media/common/Makefile
++++ b/drivers/media/common/Makefile
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y += b2c2/ saa7146/ siano/ v4l2-tpg/ videobuf2/
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_VIDEO_CX2341X) += cx2341x.o
+ obj-$(CONFIG_CYPRESS_FIRMWARE) += cypress_firmware.o
+ obj-$(CONFIG_TTPCI_EEPROM) += ttpci-eeprom.o
+diff --git a/drivers/media/common/videobuf2/Makefile b/drivers/media/common/videobuf2/Makefile
+index 7036e5d56e04..a6fe3f304685 100644
+--- a/drivers/media/common/videobuf2/Makefile
++++ b/drivers/media/common/videobuf2/Makefile
+@@ -6,6 +6,8 @@ ifeq ($(CONFIG_TRACEPOINTS),y)
+   videobuf2-common-objs += vb2-trace.o
+ endif
+ 
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_VIDEOBUF2_CORE) += videobuf2-common.o
+ obj-$(CONFIG_VIDEOBUF2_DMA_CONTIG) += videobuf2-dma-contig.o
+ obj-$(CONFIG_VIDEOBUF2_DMA_SG) += videobuf2-dma-sg.o
+diff --git a/drivers/media/dvb-frontends/Makefile b/drivers/media/dvb-frontends/Makefile
+index 2cb52330fba3..a93146cb428c 100644
+--- a/drivers/media/dvb-frontends/Makefile
++++ b/drivers/media/dvb-frontends/Makefile
+@@ -16,7 +16,8 @@ drxk-objs := drxk_hard.o
+ stb0899-objs := stb0899_drv.o stb0899_algo.o
+ stv0900-objs := stv0900_core.o stv0900_sw.o
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ 
+ obj-$(CONFIG_DVB_A8293) += a8293.o
+ obj-$(CONFIG_DVB_AF9013) += af9013.o
+diff --git a/drivers/media/pci/Makefile b/drivers/media/pci/Makefile
+index b234a5d78777..2aa7027b6807 100644
+--- a/drivers/media/pci/Makefile
++++ b/drivers/media/pci/Makefile
+@@ -3,6 +3,8 @@
+ # Makefile for the kernel multimedia device drivers.
+ #
+ 
++# Please keep it alphabetically sorted by directory
++# (e. g. LC_ALL=C sort Makefile)
+ obj-y        +=	ttpci/		\
+ 		b2c2/		\
+ 		pluto2/		\
+@@ -19,7 +21,8 @@ obj-y        +=	ttpci/		\
+ 
+ obj-$(CONFIG_STA2X11_VIP) += sta2x11/
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_VIDEO_BT848) += bt8xx/
+ obj-$(CONFIG_VIDEO_COBALT) += cobalt/
+ obj-$(CONFIG_VIDEO_CX18) += cx18/
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index a3ad25c6a56c..721f27ef0130 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -5,6 +5,7 @@
+ 
+ menuconfig MEDIA_PLATFORM_DRIVERS
+ 	bool "Media platform devices"
++	default "y"
  	help
- 	  Enable support to expose the R-Car VSP Compositor as KMS planes.
+ 	  Say Y here to enable support for platform-specific media drivers.
  
- config DRM_RCAR_WRITEBACK
- 	bool
- 	default y if ARM64
--	depends on DRM_RCAR_DU
-+	depends on DRM_RCAR_DU || DRM_RZG2L_LCDC
-diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-index 7475c329e2cf..2dc453e5c80b 100644
---- a/drivers/gpu/drm/rcar-du/Makefile
-+++ b/drivers/gpu/drm/rcar-du/Makefile
-@@ -7,9 +7,22 @@ rcar-du-drm-y := rcar_du_crtc.o \
- 		 rcar_du_kms.o \
- 		 rcar_du_plane.o \
+@@ -47,6 +48,7 @@ config VIDEO_MEM2MEM_DEINTERLACE
+ 	select V4L2_MEM2MEM_DEV
+ 	help
+ 	    Generic deinterlacing V4L2 driver.
++
+ config VIDEO_MUX
+ 	tristate "Video Multiplexer"
+ 	depends on V4L_PLATFORM_DRIVERS
+@@ -71,10 +73,8 @@ source "drivers/media/platform/atmel/Kconfig"
+ source "drivers/media/platform/cadence/Kconfig"
+ source "drivers/media/platform/coda/Kconfig"
+ source "drivers/media/platform/davinci/Kconfig"
+-source "drivers/media/platform/exynos4-is/Kconfig"
+ source "drivers/media/platform/exynos-gsc/Kconfig"
+-source "drivers/media/platform/imx-jpeg/Kconfig"
+-source "drivers/media/platform/imx/Kconfig"
++source "drivers/media/platform/exynos4-is/Kconfig"
+ source "drivers/media/platform/intel/Kconfig"
+ source "drivers/media/platform/marvell-ccic/Kconfig"
+ source "drivers/media/platform/meson/ge2d/Kconfig"
+@@ -83,8 +83,8 @@ source "drivers/media/platform/mtk-mdp/Kconfig"
+ source "drivers/media/platform/mtk-vcodec/Kconfig"
+ source "drivers/media/platform/mtk-vpu/Kconfig"
+ source "drivers/media/platform/nxp/Kconfig"
+-source "drivers/media/platform/omap3isp/Kconfig"
+ source "drivers/media/platform/omap/Kconfig"
++source "drivers/media/platform/omap3isp/Kconfig"
+ source "drivers/media/platform/qcom/Kconfig"
+ source "drivers/media/platform/renesas/Kconfig"
+ source "drivers/media/platform/rockchip/Kconfig"
+@@ -100,4 +100,4 @@ source "drivers/media/platform/ti-vpe/Kconfig"
+ source "drivers/media/platform/via/Kconfig"
+ source "drivers/media/platform/xilinx/Kconfig"
  
-+rzg2l-lcdc-drm-y := rcar_du_common.o \
-+		 rzg2l_lcdc_crtc.o \
-+		 rzg2l_lcdc_drv.o \
-+		 rzg2l_lcdc_plane.o \
-+		 rcar_du_encoder.o \
-+		 rcar_du_kms.o \
-+
-+rzg2l-lcdc-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
-+rzg2l-lcdc-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
-+
- rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
- rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+-endif #MEDIA_PLATFORM_DRIVERS
++endif # MEDIA_PLATFORM_DRIVERS
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 1a6c41e6e261..20b07ae3ebf1 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the video capture/playback device drivers.
+ #
  
-+obj-$(CONFIG_DRM_RZG2L_LCDC)		+= rzg2l-lcdc-drm.o
-+obj-$(CONFIG_DRM_RZG2L_MIPI_DSI)	+= rzg2l_mipi_dsi.o
-+
- obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
- obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
- obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-index 66e8839db708..6c3302395062 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-@@ -28,6 +28,7 @@ struct rcar_du_vsp;
-  * @dev: the DU device
-  * @clock: the CRTC functional clock
-  * @extclock: external pixel dot clock (optional)
-+ * @rstc: reset controller (optional)
-  * @mmio_offset: offset of the CRTC registers in the DU MMIO block
-  * @index: CRTC hardware index
-  * @initialized: whether the CRTC has been initialized and clocks enabled
-@@ -50,6 +51,7 @@ struct rcar_du_crtc {
- 	struct rcar_du_device *dev;
- 	struct clk *clock;
- 	struct clk *extclock;
-+	struct reset_control *rstc;
- 	unsigned int mmio_offset;
- 	unsigned int index;
- 	bool initialized;
-@@ -100,4 +102,9 @@ void rcar_du_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc);
+-# Place here, alphabetically sorted, all directories
++# Place here, alphabetically sorted by directory
++# (e. g. LC_ALL=C sort Makefile)
+ obj-y += allegro-dvt/
+ obj-y += aspeed/
+ obj-y += am437x/
+@@ -12,10 +13,8 @@ obj-y += atmel/
+ obj-y += cadence/
+ obj-y += coda/
+ obj-y += davinci/
+-obj-y += exynos4-is/
+ obj-y += exynos-gsc/
+-obj-y += imx/
+-obj-y += imx-jpeg/
++obj-y += exynos4-is/
+ obj-y += intel/
+ obj-y += marvell-ccic/
+ obj-y += meson/ge2d/
+@@ -44,9 +43,10 @@ obj-y += sunxi/
+ obj-y += tegra/vde/
+ obj-y += ti-vpe/
+ obj-y += via/
+-obj-y += vsp1/
+ obj-y += xilinx/
  
- void rcar_du_crtc_dsysr_clr_set(struct rcar_du_crtc *rcrtc, u32 clr, u32 set);
+ # Please place here only ancillary drivers that aren't SoC-specific
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
+ obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
+diff --git a/drivers/media/platform/aspeed/Makefile b/drivers/media/platform/aspeed/Makefile
+index 4ee15b3ddd90..b8394b7e537d 100644
+--- a/drivers/media/platform/aspeed/Makefile
++++ b/drivers/media/platform/aspeed/Makefile
+@@ -1 +1,2 @@
+-obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_VIDEO_ASPEED) += aspeed-video.o
+diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
+deleted file mode 100644
+index 7cd0617c9b1b..000000000000
+--- a/drivers/media/platform/imx/Kconfig
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-
+-menuconfig VIDEO_IMX
+-	bool "V4L2 capture drivers for NXP i.MX devices"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on ARCH_MXC || COMPILE_TEST
+-	depends on VIDEO_DEV && VIDEO_V4L2
+-	help
+-	  Say yes here to enable support for capture drivers on i.MX SoCs.
+-	  Support for the single SoC features are selectable in the sub-menu
+-	  options.
+-
+-if VIDEO_IMX
+-
+-config VIDEO_IMX_MIPI_CSIS
+-	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
+-	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
+-	select VIDEO_V4L2_SUBDEV_API
+-	default n
+-	help
+-	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
+-	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
+-
+-endif # VIDEO_IMX
+diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
+deleted file mode 100644
+index f72bdbe8e6ef..000000000000
+--- a/drivers/media/platform/imx/Makefile
++++ /dev/null
+@@ -1 +0,0 @@
+-obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
+diff --git a/drivers/media/platform/intel/Makefile b/drivers/media/platform/intel/Makefile
+index 10ea23fb2bcc..45b5c59d57da 100644
+--- a/drivers/media/platform/intel/Makefile
++++ b/drivers/media/platform/intel/Makefile
+@@ -1 +1,2 @@
+-obj-$(CONFIG_VIDEO_PXA27x)		+= pxa_camera.o
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_VIDEO_PXA27x) += pxa_camera.o
+diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+index 92724121ff91..df52d32ebe50 100644
+--- a/drivers/media/platform/nxp/Kconfig
++++ b/drivers/media/platform/nxp/Kconfig
+@@ -2,6 +2,30 @@
  
-+int rzg2l_lcdc_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
-+			   unsigned int hwindex);
-+
-+void rzg2l_lcdc_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc);
-+
- #endif /* __RCAR_DU_CRTC_H__ */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-index 81bbf207ad0e..bfa4224ae47d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-@@ -83,4 +83,16 @@ static inline void rcar_du_plane_setup(struct rcar_du_plane *plane)
- 	return __rcar_du_plane_setup(plane->group, state);
- }
+ # V4L drivers
  
-+int rzg2l_lcdc_atomic_check_planes(struct drm_device *dev,
-+				   struct drm_atomic_state *state);
-+
-+int __rzg2l_lcdc_plane_atomic_check(struct drm_plane *plane,
-+				    struct drm_plane_state *state,
-+				    const struct rcar_du_format_info **format);
-+
-+int rzg2l_lcdc_planes_init(struct rcar_du_group *rgrp);
-+
-+void __rzg2l_lcdc_plane_setup(struct rcar_du_group *rgrp,
-+			      const struct rcar_du_plane_state *state);
-+
- #endif /* __RCAR_DU_PLANE_H__ */
-diff --git a/drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c
-new file mode 100644
-index 000000000000..7dbf9cf4ae0d
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_crtc.c
-@@ -0,0 +1,722 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * rzg2l_lcdc_crtc.c  --  RZ/G2L LCDC CRTCs
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Based on rcar_du_crtc.c
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/reset.h>
-+#include <linux/sys_soc.h>
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_plane_helper.h>
-+#include <drm/drm_vblank.h>
-+
-+#include "rcar_du_crtc.h"
-+#include "rcar_du_drv.h"
-+#include "rcar_du_encoder.h"
-+#include "rcar_du_kms.h"
-+#include "rcar_du_plane.h"
-+#include "rcar_du_vsp.h"
-+#include "rzg2l_lcdc_regs.h"
-+
-+/* -----------------------------------------------------------------------------
-+ * Hardware Setup
-+ */
-+
-+static void rzg2l_lcdc_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
-+{
-+	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
-+	struct rcar_du_device *rcdu = rcrtc->dev;
-+	unsigned long mode_clock = mode->clock * 1000;
-+	u32 ditr0, ditr1, ditr2, ditr3, ditr4, ditr5, pbcr0;
-+
-+	clk_set_rate(rcrtc->extclock, mode_clock);
-+
-+	ditr0 = (DU_DITR0_DEMD_HIGH
-+		 | ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DU_DITR0_VSPOL : 0)
-+		 | ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? DU_DITR0_HSPOL : 0));
-+
-+	ditr1 = DU_DITR1_VSA(mode->vsync_end - mode->vsync_start)
-+		| DU_DITR1_VACTIVE(mode->vdisplay);
-+
-+	ditr2 = DU_DITR2_VBP(mode->vtotal - mode->vsync_end)
-+		| DU_DITR2_VFP(mode->vsync_start - mode->vdisplay);
-+
-+	ditr3 = DU_DITR3_HSA(mode->hsync_end - mode->hsync_start)
-+		| DU_DITR3_HACTIVE(mode->hdisplay);
-+
-+	ditr4 = DU_DITR4_HBP(mode->htotal - mode->hsync_end)
-+		| DU_DITR4_HFP(mode->hsync_start - mode->hdisplay);
-+
-+	ditr5 = DU_DITR5_VSFT(0) | DU_DITR5_HSFT(0);
-+
-+	pbcr0 = DU_PBCR0_PB_DEP(0x1F);
-+
-+	rcar_du_write(rcdu, DU_DITR0, ditr0);
-+	rcar_du_write(rcdu, DU_DITR1, ditr1);
-+	rcar_du_write(rcdu, DU_DITR2, ditr2);
-+	rcar_du_write(rcdu, DU_DITR3, ditr3);
-+	rcar_du_write(rcdu, DU_DITR4, ditr4);
-+	rcar_du_write(rcdu, DU_DITR5, ditr5);
-+	rcar_du_write(rcdu, DU_PBCR0, pbcr0);
-+}
-+
-+static void rzg2l_lcdc_crtc_update_planes(struct rcar_du_crtc *rcrtc)
-+{
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Page Flip
-+ */
-+
-+void rzg2l_lcdc_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc)
-+{
-+	struct drm_pending_vblank_event *event;
-+	struct drm_device *dev = rcrtc->crtc.dev;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+	event = rcrtc->event;
-+	rcrtc->event = NULL;
-+	spin_unlock_irqrestore(&dev->event_lock, flags);
-+
-+	if (!event)
-+		return;
-+
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+	drm_crtc_send_vblank_event(&rcrtc->crtc, event);
-+	wake_up(&rcrtc->flip_wait);
-+	spin_unlock_irqrestore(&dev->event_lock, flags);
-+
-+	drm_crtc_vblank_put(&rcrtc->crtc);
-+}
-+
-+static bool rzg2l_lcdc_crtc_page_flip_pending(struct rcar_du_crtc *rcrtc)
-+{
-+	struct drm_device *dev = rcrtc->crtc.dev;
-+	unsigned long flags;
-+	bool pending;
-+
-+	spin_lock_irqsave(&dev->event_lock, flags);
-+	pending = rcrtc->event;
-+	spin_unlock_irqrestore(&dev->event_lock, flags);
-+
-+	return pending;
-+}
-+
-+static void rzg2l_lcdc_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
-+{
-+	struct rcar_du_device *rcdu = rcrtc->dev;
-+
-+	if (wait_event_timeout(rcrtc->flip_wait,
-+			       !rzg2l_lcdc_crtc_page_flip_pending(rcrtc),
-+			       msecs_to_jiffies(50)))
-+		return;
-+
-+	dev_warn(rcdu->dev, "page flip timeout\n");
-+
-+	rzg2l_lcdc_crtc_finish_page_flip(rcrtc);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Start/Stop and Suspend/Resume
-+ */
-+
-+static void rzg2l_lcdc_crtc_setup(struct rcar_du_crtc *rcrtc)
-+{
-+	/* Configure display timings and output routing */
-+	rzg2l_lcdc_crtc_set_display_timing(rcrtc);
-+
-+	/* Enable the VSP compositor. */
-+	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-+		rcar_du_vsp_enable(rcrtc);
-+
-+	/* Turn vertical blanking interrupt reporting on. */
-+	drm_crtc_vblank_on(&rcrtc->crtc);
-+}
-+
-+static int rzg2l_lcdc_crtc_get(struct rcar_du_crtc *rcrtc)
-+{
-+	int ret;
-+
-+	/*
-+	 * Guard against double-get, as the function is called from both the
-+	 * .atomic_enable() and .atomic_begin() handlers.
-+	 */
-+	if (rcrtc->initialized)
-+		return 0;
-+
-+	ret = reset_control_deassert(rcrtc->rstc);
-+	if (ret < 0)
-+		goto error_reset;
-+
-+	ret = clk_prepare_enable(rcrtc->clock);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = clk_prepare_enable(rcrtc->extclock);
-+	if (ret < 0)
-+		goto error_clock;
-+
-+	rzg2l_lcdc_crtc_setup(rcrtc);
-+	rcrtc->initialized = true;
-+
-+	return 0;
-+
-+error_clock:
-+	clk_disable_unprepare(rcrtc->clock);
-+error_reset:
-+	reset_control_assert(rcrtc->rstc);
-+	return ret;
-+}
-+
-+static void rzg2l_lcdc_crtc_put(struct rcar_du_crtc *rcrtc)
-+{
-+	clk_disable_unprepare(rcrtc->extclock);
-+	clk_disable_unprepare(rcrtc->clock);
-+	reset_control_assert(rcrtc->rstc);
-+
-+	rcrtc->initialized = false;
-+}
-+
-+static void __rzg2l_lcdc_group_start_stop(struct rcar_du_group *rgrp, bool start)
-+{
-+	rcar_du_write(rgrp->dev, DU_MCR0, start ? DU_MCR0_DI_EN : 0);
-+}
-+
-+static void rzg2l_lcdc_crtc_start(struct rcar_du_crtc *rcrtc)
-+{
-+	__rzg2l_lcdc_group_start_stop(rcrtc->group, true);
-+}
-+
-+static void rzg2l_lcdc_crtc_disable_planes(struct rcar_du_crtc *rcrtc)
-+{
-+	struct rcar_du_device *rcdu = rcrtc->dev;
-+	struct drm_crtc *crtc = &rcrtc->crtc;
-+
-+	/* Make sure vblank interrupts are enabled. */
-+	drm_crtc_vblank_get(crtc);
-+
-+	if (!wait_event_timeout(rcrtc->vblank_wait, rcrtc->vblank_count == 0,
-+				msecs_to_jiffies(100)))
-+		dev_warn(rcdu->dev, "vertical blanking timeout\n");
-+
-+	drm_crtc_vblank_put(crtc);
-+}
-+
-+static void rzg2l_lcdc_crtc_stop(struct rcar_du_crtc *rcrtc)
-+{
-+	struct drm_crtc *crtc = &rcrtc->crtc;
-+
-+	/*
-+	 * Disable all planes and wait for the change to take effect. This is
-+	 * required as the plane enable registers are updated on vblank, and no
-+	 * vblank will occur once the CRTC is stopped. Disabling planes when
-+	 * starting the CRTC thus wouldn't be enough as it would start scanning
-+	 * out immediately from old frame buffers until the next vblank.
-+	 *
-+	 * This increases the CRTC stop delay, especially when multiple CRTCs
-+	 * are stopped in one operation as we now wait for one vblank per CRTC.
-+	 * Whether this can be improved needs to be researched.
-+	 */
-+	rzg2l_lcdc_crtc_disable_planes(rcrtc);
-+
-+	/*
-+	 * Disable vertical blanking interrupt reporting. We first need to wait
-+	 * for page flip completion before stopping the CRTC as userspace
-+	 * expects page flips to eventually complete.
-+	 */
-+	rzg2l_lcdc_crtc_wait_page_flip(rcrtc);
-+	drm_crtc_vblank_off(crtc);
-+
-+	/* Disable the VSP compositor. */
-+	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-+		rcar_du_vsp_disable(rcrtc);
-+
-+	__rzg2l_lcdc_group_start_stop(rcrtc->group, false);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * CRTC Functions
-+ */
-+
-+static int rzg2l_lcdc_crtc_atomic_check(struct drm_crtc *crtc,
-+					struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
-+									  crtc);
-+	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc_state);
-+	struct drm_encoder *encoder;
-+
-+	/* Store the routes from the CRTC output to the DU outputs. */
-+	rstate->outputs = 0;
-+
-+	drm_for_each_encoder_mask(encoder, crtc->dev,
-+				  crtc_state->encoder_mask) {
-+		struct rcar_du_encoder *renc;
-+
-+		/* Skip the writeback encoder. */
-+		if (encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
-+			continue;
-+
-+		renc = to_rcar_encoder(encoder);
-+		rstate->outputs |= BIT(renc->output);
-+	}
-+
-+	return 0;
-+}
-+
-+static void rzg2l_lcdc_crtc_atomic_enable(struct drm_crtc *crtc,
-+					  struct drm_atomic_state *state)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	rzg2l_lcdc_crtc_get(rcrtc);
-+
-+	rzg2l_lcdc_crtc_start(rcrtc);
-+}
-+
-+static void rzg2l_lcdc_crtc_atomic_disable(struct drm_crtc *crtc,
-+					   struct drm_atomic_state *state)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	rzg2l_lcdc_crtc_stop(rcrtc);
-+	rzg2l_lcdc_crtc_put(rcrtc);
-+
-+	spin_lock_irq(&crtc->dev->event_lock);
-+	if (crtc->state->event) {
-+		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-+		crtc->state->event = NULL;
-+	}
-+	spin_unlock_irq(&crtc->dev->event_lock);
-+}
-+
-+static void rzg2l_lcdc_crtc_atomic_begin(struct drm_crtc *crtc,
-+					 struct drm_atomic_state *state)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	WARN_ON(!crtc->state->enable);
-+
-+	/*
-+	 * If a mode set is in progress we can be called with the CRTC disabled.
-+	 * We thus need to first get and setup the CRTC in order to configure
-+	 * planes. We must *not* put the CRTC in .atomic_flush(), as it must be
-+	 * kept awake until the .atomic_enable() call that will follow. The get
-+	 * operation in .atomic_enable() will in that case be a no-op, and the
-+	 * CRTC will be put later in .atomic_disable().
-+	 *
-+	 * If a mode set is not in progress the CRTC is enabled, and the
-+	 * following get call will be a no-op. There is thus no need to balance
-+	 * it in .atomic_flush() either.
-+	 */
-+	rzg2l_lcdc_crtc_get(rcrtc);
-+
-+	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-+		rcar_du_vsp_atomic_begin(rcrtc);
-+}
-+
-+void rzg2l_lcdc_group_restart(struct rcar_du_group *rgrp)
-+{
-+	__rzg2l_lcdc_group_start_stop(rgrp, false);
-+	__rzg2l_lcdc_group_start_stop(rgrp, true);
-+}
-+
-+static void rzg2l_lcdc_crtc_atomic_flush(struct drm_crtc *crtc,
-+					 struct drm_atomic_state *state)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct drm_device *dev = rcrtc->crtc.dev;
-+	unsigned long flags;
-+
-+	rzg2l_lcdc_crtc_update_planes(rcrtc);
-+
-+	if (crtc->state->event) {
-+		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
-+
-+		spin_lock_irqsave(&dev->event_lock, flags);
-+		rcrtc->event = crtc->state->event;
-+		crtc->state->event = NULL;
-+		spin_unlock_irqrestore(&dev->event_lock, flags);
-+	}
-+
-+	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-+		rcar_du_vsp_atomic_flush(rcrtc);
-+}
-+
-+static enum drm_mode_status
-+rzg2l_lcdc_crtc_mode_valid(struct drm_crtc *crtc,
-+			   const struct drm_display_mode *mode)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct rcar_du_device *rcdu = rcrtc->dev;
-+	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+	unsigned int min_sync_porch;
-+	unsigned int vbp;
-+
-+	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-+		return MODE_NO_INTERLACE;
-+
-+	/*
-+	 * The hardware requires a minimum combined horizontal sync and back
-+	 * porch of 20 pixels (when CMM isn't used) or 45 pixels (when CMM is
-+	 * used), and a minimum vertical back porch of 3 lines.
-+	 */
-+	min_sync_porch = 20;
-+
-+	if (mode->htotal - mode->hsync_start < min_sync_porch)
-+		return MODE_HBLANK_NARROW;
-+
-+	vbp = (mode->vtotal - mode->vsync_end) / (interlaced ? 2 : 1);
-+	if (vbp < 3)
-+		return MODE_VBLANK_NARROW;
-+
-+	return MODE_OK;
-+}
-+
-+static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
-+	.atomic_check = rzg2l_lcdc_crtc_atomic_check,
-+	.atomic_begin = rzg2l_lcdc_crtc_atomic_begin,
-+	.atomic_flush = rzg2l_lcdc_crtc_atomic_flush,
-+	.atomic_enable = rzg2l_lcdc_crtc_atomic_enable,
-+	.atomic_disable = rzg2l_lcdc_crtc_atomic_disable,
-+	.mode_valid = rzg2l_lcdc_crtc_mode_valid,
-+};
-+
-+static void rzg2l_lcdc_crtc_crc_init(struct rcar_du_crtc *rcrtc)
-+{
-+	const char **sources;
-+	unsigned int count;
-+	int i = -1;
-+
-+	/* Reserve 1 for "auto" source. */
-+	count = rcrtc->vsp->num_planes + 1;
-+
-+	sources = kmalloc_array(count, sizeof(*sources), GFP_KERNEL);
-+	if (!sources)
-+		return;
-+
-+	sources[0] = kstrdup("auto", GFP_KERNEL);
-+	if (!sources[0])
-+		goto error;
-+
-+	for (i = 0; i < rcrtc->vsp->num_planes; ++i) {
-+		struct drm_plane *plane = &rcrtc->vsp->planes[i].plane;
-+		char name[16];
-+
-+		sprintf(name, "plane%u", plane->base.id);
-+		sources[i + 1] = kstrdup(name, GFP_KERNEL);
-+		if (!sources[i + 1])
-+			goto error;
-+	}
-+
-+	rcrtc->sources = sources;
-+	rcrtc->sources_count = count;
-+	return;
-+
-+error:
-+	while (i >= 0) {
-+		kfree(sources[i]);
-+		i--;
-+	}
-+	kfree(sources);
-+}
-+
-+static void rzg2l_lcdc_crtc_crc_cleanup(struct rcar_du_crtc *rcrtc)
-+{
-+	unsigned int i;
-+
-+	if (!rcrtc->sources)
-+		return;
-+
-+	for (i = 0; i < rcrtc->sources_count; i++)
-+		kfree(rcrtc->sources[i]);
-+	kfree(rcrtc->sources);
-+
-+	rcrtc->sources = NULL;
-+	rcrtc->sources_count = 0;
-+}
-+
-+static struct drm_crtc_state *
-+rzg2l_lcdc_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
-+{
-+	struct rcar_du_crtc_state *state;
-+	struct rcar_du_crtc_state *copy;
-+
-+	if (WARN_ON(!crtc->state))
-+		return NULL;
-+
-+	state = to_rcar_crtc_state(crtc->state);
-+	copy = kmemdup(state, sizeof(*state), GFP_KERNEL);
-+	if (!copy)
-+		return NULL;
-+
-+	__drm_atomic_helper_crtc_duplicate_state(crtc, &copy->state);
-+
-+	return &copy->state;
-+}
-+
-+static void rzg2l_lcdc_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-+						 struct drm_crtc_state *state)
-+{
-+	__drm_atomic_helper_crtc_destroy_state(state);
-+	kfree(to_rcar_crtc_state(state));
-+}
-+
-+static void rzg2l_lcdc_crtc_cleanup(struct drm_crtc *crtc)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	rzg2l_lcdc_crtc_crc_cleanup(rcrtc);
-+
-+	return drm_crtc_cleanup(crtc);
-+}
-+
-+static void rzg2l_lcdc_crtc_reset(struct drm_crtc *crtc)
-+{
-+	struct rcar_du_crtc_state *state;
-+
-+	if (crtc->state) {
-+		rzg2l_lcdc_crtc_atomic_destroy_state(crtc, crtc->state);
-+		crtc->state = NULL;
-+	}
-+
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (!state)
-+		return;
-+
-+	state->crc.source = VSP1_DU_CRC_NONE;
-+	state->crc.index = 0;
-+
-+	__drm_atomic_helper_crtc_reset(crtc, &state->state);
-+}
-+
-+static int rzg2l_lcdc_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	rcrtc->vblank_enable = true;
-+
-+	return 0;
-+}
-+
-+static void rzg2l_lcdc_crtc_disable_vblank(struct drm_crtc *crtc)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	rcrtc->vblank_enable = false;
-+}
-+
-+static int rzg2l_lcdc_crtc_parse_crc_source(struct rcar_du_crtc *rcrtc,
-+					    const char *source_name,
-+					    enum vsp1_du_crc_source *source)
-+{
-+	unsigned int index;
-+	int ret;
-+
-+	/*
-+	 * Parse the source name. Supported values are "plane%u" to compute the
-+	 * CRC on an input plane (%u is the plane ID), and "auto" to compute the
-+	 * CRC on the composer (VSP) output.
-+	 */
-+
-+	if (!source_name) {
-+		*source = VSP1_DU_CRC_NONE;
-+		return 0;
-+	} else if (!strcmp(source_name, "auto")) {
-+		*source = VSP1_DU_CRC_OUTPUT;
-+		return 0;
-+	} else if (strstarts(source_name, "plane")) {
-+		unsigned int i;
-+
-+		*source = VSP1_DU_CRC_PLANE;
-+
-+		ret = kstrtouint(source_name + strlen("plane"), 10, &index);
-+		if (ret < 0)
-+			return ret;
-+
-+		for (i = 0; i < rcrtc->vsp->num_planes; ++i) {
-+			if (index == rcrtc->vsp->planes[i].plane.base.id)
-+				return i;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int rzg2l_lcdc_crtc_verify_crc_source(struct drm_crtc *crtc,
-+					     const char *source_name,
-+					     size_t *values_cnt)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	enum vsp1_du_crc_source source;
-+
-+	if (rzg2l_lcdc_crtc_parse_crc_source(rcrtc, source_name, &source) < 0) {
-+		DRM_DEBUG_DRIVER("unknown source %s\n", source_name);
-+		return -EINVAL;
-+	}
-+
-+	*values_cnt = 1;
-+	return 0;
-+}
-+
-+static const char *const *
-+rzg2l_lcdc_crtc_get_crc_sources(struct drm_crtc *crtc, size_t *count)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+
-+	*count = rcrtc->sources_count;
-+	return rcrtc->sources;
-+}
-+
-+static int rzg2l_lcdc_crtc_set_crc_source(struct drm_crtc *crtc,
-+					  const char *source_name)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_atomic_state *state;
-+	enum vsp1_du_crc_source source;
-+	unsigned int index;
-+	int ret;
-+
-+	ret = rzg2l_lcdc_crtc_parse_crc_source(rcrtc, source_name, &source);
-+	if (ret < 0)
-+		return ret;
-+
-+	index = ret;
-+
-+	/* Perform an atomic commit to set the CRC source. */
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+	state = drm_atomic_state_alloc(crtc->dev);
-+	if (!state) {
-+		ret = -ENOMEM;
-+		goto unlock;
-+	}
-+
-+	state->acquire_ctx = &ctx;
-+
-+retry:
-+	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (!IS_ERR(crtc_state)) {
-+		struct rcar_du_crtc_state *rcrtc_state;
-+
-+		rcrtc_state = to_rcar_crtc_state(crtc_state);
-+		rcrtc_state->crc.source = source;
-+		rcrtc_state->crc.index = index;
-+
-+		ret = drm_atomic_commit(state);
-+	} else {
-+		ret = PTR_ERR(crtc_state);
-+	}
-+
-+	if (ret == -EDEADLK) {
-+		drm_atomic_state_clear(state);
-+		drm_modeset_backoff(&ctx);
-+		goto retry;
-+	}
-+
-+	drm_atomic_state_put(state);
-+
-+unlock:
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+
-+	return ret;
-+}
-+
-+static const struct drm_crtc_funcs crtc_funcs_rzg2l = {
-+	.reset = rzg2l_lcdc_crtc_reset,
-+	.destroy = rzg2l_lcdc_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = rzg2l_lcdc_crtc_atomic_duplicate_state,
-+	.atomic_destroy_state = rzg2l_lcdc_crtc_atomic_destroy_state,
-+	.enable_vblank = rzg2l_lcdc_crtc_enable_vblank,
-+	.disable_vblank = rzg2l_lcdc_crtc_disable_vblank,
-+	.set_crc_source = rzg2l_lcdc_crtc_set_crc_source,
-+	.verify_crc_source = rzg2l_lcdc_crtc_verify_crc_source,
-+	.get_crc_sources = rzg2l_lcdc_crtc_get_crc_sources,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Initialization
-+ */
-+
-+int rzg2l_lcdc_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
-+			   unsigned int hwindex)
-+{
-+	struct rcar_du_device *rcdu = rgrp->dev;
-+	struct rcar_du_crtc *rcrtc = &rcdu->crtcs[swindex];
-+	struct drm_crtc *crtc = &rcrtc->crtc;
-+	struct drm_plane *primary;
-+	struct clk *clk;
-+	char clk_name[9];
-+	char *name;
-+	int ret;
-+
-+	/* Get the CRTC clock and the optional external clock. */
-+	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_CLOCK)) {
-+		sprintf(clk_name, "du.%u", hwindex);
-+		name = clk_name;
-+	} else {
-+		name = NULL;
-+	}
-+
-+	rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
-+	if (IS_ERR(rcrtc->rstc)) {
-+		dev_err(rcdu->dev, "can't get cpg reset\n");
-+		return PTR_ERR(rcrtc->rstc);
-+	}
-+
-+	rcrtc->clock = devm_clk_get(rcdu->dev, name);
-+	if (IS_ERR(rcrtc->clock)) {
-+		dev_err(rcdu->dev, "no clock for DU channel %u\n", hwindex);
-+		return PTR_ERR(rcrtc->clock);
-+	}
-+
-+	clk = devm_clk_get(rcdu->dev, "vclk");
-+	if (!IS_ERR(clk))
-+		rcrtc->extclock = clk;
-+	else if (PTR_ERR(clk) == -EPROBE_DEFER)
-+		return -EPROBE_DEFER;
-+
-+	init_waitqueue_head(&rcrtc->flip_wait);
-+	init_waitqueue_head(&rcrtc->vblank_wait);
-+	spin_lock_init(&rcrtc->vblank_lock);
-+
-+	rcrtc->dev = rcdu;
-+	rcrtc->group = rgrp;
-+	rcrtc->index = hwindex;
-+
-+	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
-+		primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
-+	else
-+		primary = &rgrp->planes[swindex % 2].plane;
-+
-+	ret = drm_crtc_init_with_planes(&rcdu->ddev, crtc, primary, NULL,
-+					&crtc_funcs_rzg2l,
-+					NULL);
-+	if (ret < 0)
-+		return ret;
-+
-+	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-+
-+	rzg2l_lcdc_crtc_crc_init(rcrtc);
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c
-new file mode 100644
-index 000000000000..dc2cd7b0ad26
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_drv.c
-@@ -0,0 +1,221 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * rzg2l_lcdc_drv.c  --  RZ/G2L LCDC DRM driver
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Based on rcar_du_drv.c
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/io.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm.h>
-+#include <linux/slab.h>
-+#include <linux/wait.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include "rcar_du_drv.h"
-+#include "rcar_du_kms.h"
-+
-+/* -----------------------------------------------------------------------------
-+ * Device Information
-+ */
-+
-+static struct rcar_du_crtc_helper_funcs rzg2l_crtc_helper_funcs = {
-+	.du_planes_init = rzg2l_lcdc_planes_init,
-+	.du_crtc_create = rzg2l_lcdc_crtc_create,
-+	.du_atomic_check_planes = rzg2l_lcdc_atomic_check_planes,
-+	.__du_plane_setup = __rzg2l_lcdc_plane_setup,
-+	.__du_plane_atomic_check = __rzg2l_lcdc_plane_atomic_check,
-+	.du_crtc_finish_page_flip = rzg2l_lcdc_crtc_finish_page_flip,
-+};
-+
-+static const struct rcar_du_device_info rzg2l_lcdc_r9a07g044l_info = {
-+	.gen = 3,
-+	.features = RCAR_DU_FEATURE_CRTC_IRQ
-+		  | RCAR_DU_FEATURE_CRTC_CLOCK
-+		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-+	.channels_mask = BIT(0),
-+	.routes = {
-+		[RCAR_DU_OUTPUT_DPAD0] = {
-+			.possible_crtcs = BIT(0),
-+			.port = 0,
-+		},
-+		[RCAR_DU_OUTPUT_DSI0] = {
-+			.possible_crtcs = BIT(0),
-+			.port = 1,
-+		},
-+	},
-+	.num_rpf = 2,
-+	.max_width = 1920,
-+	.max_height = 1080,
-+	.fns = &rzg2l_crtc_helper_funcs,
-+};
-+
-+static const struct of_device_id rzg2l_lcdc_of_table[] = {
-+	{ .compatible = "renesas,du-r9a07g044l", .data = &rzg2l_lcdc_r9a07g044l_info },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, rzg2l_lcdc_of_table);
-+
-+/* -----------------------------------------------------------------------------
-+ * DRM operations
-+ */
-+
-+DEFINE_DRM_GEM_CMA_FOPS(rzg2l_lcdc_fops);
-+
-+static const struct drm_driver rzg2l_lcdc_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.dumb_create		= rcar_du_dumb_create,
-+	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-+	.gem_prime_import_sg_table = rcar_du_gem_prime_import_sg_table,
-+	.gem_prime_mmap		= drm_gem_prime_mmap,
-+	.fops			= &rzg2l_lcdc_fops,
-+	.name			= "rzg2l-du",
-+	.desc			= "Renesas RZG2L LCDC",
-+	.date			= "20220305",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Power management
-+ */
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int rzg2l_lcdc_pm_suspend(struct device *dev)
-+{
-+	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-+
-+	return drm_mode_config_helper_suspend(&rcdu->ddev);
-+}
-+
-+static int rzg2l_lcdc_pm_resume(struct device *dev)
-+{
-+	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-+
-+	return drm_mode_config_helper_resume(&rcdu->ddev);
-+}
-+#endif
-+
-+static const struct dev_pm_ops rcar_du_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(rzg2l_lcdc_pm_suspend, rzg2l_lcdc_pm_resume)
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Platform driver
-+ */
-+
-+static int rzg2l_lcdc_remove(struct platform_device *pdev)
-+{
-+	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
-+	struct drm_device *ddev = &rcdu->ddev;
-+
-+	drm_dev_unregister(ddev);
-+	drm_atomic_helper_shutdown(ddev);
-+
-+	drm_kms_helper_poll_fini(ddev);
-+
-+	return 0;
-+}
-+
-+static void rzg2l_lcdc_shutdown(struct platform_device *pdev)
-+{
-+	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
-+
-+	drm_atomic_helper_shutdown(&rcdu->ddev);
-+}
-+
-+static int rzg2l_lcdc_probe(struct platform_device *pdev)
-+{
-+	struct rcar_du_device *rcdu;
-+	unsigned int mask;
-+	int ret;
-+
-+	if (drm_firmware_drivers_only())
-+		return -ENODEV;
-+
-+	/* Allocate and initialize the R-Car device structure. */
-+	rcdu = devm_drm_dev_alloc(&pdev->dev, &rzg2l_lcdc_driver,
-+				  struct rcar_du_device, ddev);
-+	if (IS_ERR(rcdu))
-+		return PTR_ERR(rcdu);
-+
-+	rcdu->dev = &pdev->dev;
-+	rcdu->info = of_device_get_match_data(rcdu->dev);
-+
-+	platform_set_drvdata(pdev, rcdu);
-+
-+	/* I/O resources */
-+	rcdu->mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(rcdu->mmio))
-+		return PTR_ERR(rcdu->mmio);
-+
-+	/*
-+	 * Set the DMA coherent mask to reflect the DU 32-bit DMA address space
-+	 * limitations. When sourcing frames from a VSP the DU doesn't perform
-+	 * any memory access so set the mask to 40 bits to accept all buffers.
-+	 */
-+	mask = rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE) ? 40 : 32;
-+	ret = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(mask));
-+	if (ret)
-+		return ret;
-+
-+	/* DRM/KMS objects */
-+	ret = rcar_du_modeset_init(rcdu);
-+	if (ret < 0) {
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(&pdev->dev,
-+				"failed to initialize DRM/KMS (%d)\n", ret);
-+		goto error;
-+	}
-+
-+	/*
-+	 * Register the DRM device with the core and the connectors with
-+	 * sysfs.
-+	 */
-+	ret = drm_dev_register(&rcdu->ddev, 0);
-+	if (ret)
-+		goto error;
-+
-+	DRM_INFO("Device %s probed\n", dev_name(&pdev->dev));
-+
-+	drm_fbdev_generic_setup(&rcdu->ddev, 32);
-+
-+	return 0;
-+
-+error:
-+	drm_kms_helper_poll_fini(&rcdu->ddev);
-+	return ret;
-+}
-+
-+static struct platform_driver rzg2l_lcdc_platform_driver = {
-+	.probe		= rzg2l_lcdc_probe,
-+	.remove		= rzg2l_lcdc_remove,
-+	.shutdown	= rzg2l_lcdc_shutdown,
-+	.driver		= {
-+		.name	= "rzg2l-du",
-+		.pm	= &rcar_du_pm_ops,
-+		.of_match_table = rzg2l_lcdc_of_table,
-+	},
-+};
-+
-+module_platform_driver(rzg2l_lcdc_platform_driver);
-+
-+MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_DESCRIPTION("Renesas RZ/G2L LCDC DRM Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c
-new file mode 100644
-index 000000000000..f625ff214b87
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_plane.c
-@@ -0,0 +1,82 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * rzg2l_lcdc_plane.c  --  RZ/G2L LCDC Planes
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ * Based on rcar_du_plane.c
-+ */
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_plane_helper.h>
-+
-+#include "rcar_du_drv.h"
-+#include "rcar_du_group.h"
-+#include "rcar_du_kms.h"
-+#include "rcar_du_plane.h"
-+
-+int rzg2l_lcdc_atomic_check_planes(struct drm_device *dev,
-+				   struct drm_atomic_state *state)
-+{
-+	return 0;
-+}
-+
-+void __rzg2l_lcdc_plane_setup(struct rcar_du_group *rgrp,
-+			      const struct rcar_du_plane_state *state)
-+{
-+}
-+
-+int __rzg2l_lcdc_plane_atomic_check(struct drm_plane *plane,
-+				    struct drm_plane_state *state,
-+				    const struct rcar_du_format_info **format)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct drm_crtc_state *crtc_state;
-+	int ret;
-+
-+	if (!state->crtc) {
-+		/*
-+		 * The visible field is not reset by the DRM core but only
-+		 * updated by drm_plane_helper_check_state(), set it manually.
-+		 */
-+		state->visible = false;
-+		*format = NULL;
-+		return 0;
-+	}
-+
-+	crtc_state = drm_atomic_get_crtc_state(state->state, state->crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
-+
-+	ret = drm_atomic_helper_check_plane_state(state, crtc_state,
-+						  DRM_PLANE_HELPER_NO_SCALING,
-+						  DRM_PLANE_HELPER_NO_SCALING,
-+						  true, true);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!state->visible) {
-+		*format = NULL;
-+		return 0;
-+	}
-+
-+	*format = rcar_du_format_info(state->fb->format->format);
-+	if (*format == NULL) {
-+		dev_dbg(dev->dev, "%s: unsupported format %08x\n", __func__,
-+			state->fb->format->format);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+int rzg2l_lcdc_planes_init(struct rcar_du_group *rgrp)
-+{
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h
-new file mode 100644
-index 000000000000..cc2897649cde
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rzg2l_lcdc_regs.h
-@@ -0,0 +1,64 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * rzg2l_lcdc_regs.h  --  RZ/G2L LCDC Registers Definitions
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ *
-+ */
-+
-+#ifndef __RZG2L_DU_REGS_H__
-+#define __RZG2L_DU_REGS_H__
-+
-+/* -----------------------------------------------------------------------------
-+ * RZ/G2L Display Registers
-+ */
-+
-+#define DU_MCR0			0x00
-+#define DU_MCR0_DPI_OE		BIT(0)
-+#define DU_MCR0_DI_EN		BIT(8)
-+#define DU_MCR0_PB_CLR		BIT(16)
-+
-+#define DU_MSR0			0x04
-+#define DU_MSR0_ST_DI_BSY	BIT(8)
-+#define DU_MSR0_ST_PB_WFULL	BIT(16)
-+#define DU_MSR0_ST_PB_WINIT	BIT(18)
-+#define DU_MSR0_ST_PB_REMPTY	BIT(20)
-+#define DU_MSR0_ST_PB_RUF	BIT(21)
-+#define DU_MSR0_ST_PB_RINIT	BIT(22)
-+
-+#define DU_MSR1			0x08
-+
-+#define DU_IMR0			0x0C
-+#define DU_MSR0_IM_PB_RUF	BIT(0)
-+
-+#define DU_DITR0		0x10
-+#define DU_DITR0_DPI_CLKMD	BIT(0)
-+#define DU_DITR0_DEMD_LOW	0x0
-+#define DU_DITR0_DEMD_HIGH	(BIT(8) | BIT(9))
-+#define DU_DITR0_VSPOL		BIT(16)
-+#define DU_DITR0_HSPOL		BIT(17)
-+
-+#define DU_DITR1		0x14
-+#define DU_DITR1_VSA(x)		((x) << 0)
-+#define DU_DITR1_VACTIVE(x)	((x) << 16)
-+
-+#define DU_DITR2		0x18
-+#define DU_DITR2_VBP(x)		((x) << 0)
-+#define DU_DITR2_VFP(x)		((x) << 16)
-+
-+#define DU_DITR3		0x1C
-+#define DU_DITR3_HSA(x)		((x) << 0)
-+#define DU_DITR3_HACTIVE(x)	((x) << 16)
-+
-+#define DU_DITR4		0x20
-+#define DU_DITR4_HBP(x)		((x) << 0)
-+#define DU_DITR4_HFP(x)		((x) << 16)
-+
-+#define DU_DITR5		0x24
-+#define DU_DITR5_VSFT(x)	((x) << 0)
-+#define DU_DITR5_HSFT(x)	((x) << 16)
-+
-+#define DU_PBCR0		0x4C
-+#define DU_PBCR0_PB_DEP(x)	((x) << 0)
-+
-+#endif /* __RZG2L_DU_REGS_H__ */
--- 
-2.17.1
++menuconfig VIDEO_IMX
++	bool "V4L2 capture drivers for NXP i.MX devices"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on ARCH_MXC || COMPILE_TEST
++	depends on VIDEO_DEV && VIDEO_V4L2
++	help
++	  Say yes here to enable support for capture drivers on i.MX SoCs.
++	  Support for the single SoC features are selectable in the sub-menu
++	  options.
++
++if VIDEO_IMX
++
++config VIDEO_IMX_MIPI_CSIS
++	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	default n
++	help
++	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
++	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
++
++endif # VIDEO_IMX
++
+ config VIDEO_VIU
+ 	tristate "Freescale/NXP VIU Video Driver"
+ 	depends on V4L_PLATFORM_DRIVERS
+@@ -38,3 +62,5 @@ config VIDEO_MX2_EMMAPRP
+ 	    MX2X chips have a PrP that can be used to process buffers from
+ 	    memory to memory. Operations include resizing and format
+ 	    conversion.
++
++source "drivers/media/platform/nxp/imx-jpeg/Kconfig"
+diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
+index 147bd7ad4ef4..a217cf7f109d 100644
+--- a/drivers/media/platform/nxp/Makefile
++++ b/drivers/media/platform/nxp/Makefile
+@@ -1,5 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
+-obj-$(CONFIG_VIDEO_VIU)			+= fsl-viu.o
+-obj-$(CONFIG_VIDEO_MX2_EMMAPRP)		+= mx2_emmaprp.o
++obj-y += imx-jpeg/
++
++obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
++obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
++obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
++obj-$(CONFIG_VIDEO_VIU) += fsl-viu.o
+diff --git a/drivers/media/platform/imx-jpeg/Kconfig b/drivers/media/platform/nxp/imx-jpeg/Kconfig
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/Kconfig
+rename to drivers/media/platform/nxp/imx-jpeg/Kconfig
+diff --git a/drivers/media/platform/imx-jpeg/Makefile b/drivers/media/platform/nxp/imx-jpeg/Makefile
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/Makefile
+rename to drivers/media/platform/nxp/imx-jpeg/Makefile
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
+rename to drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
+rename to drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/mxc-jpeg.c
+rename to drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+similarity index 100%
+rename from drivers/media/platform/imx-jpeg/mxc-jpeg.h
+rename to drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+similarity index 100%
+rename from drivers/media/platform/imx/imx-mipi-csis.c
+rename to drivers/media/platform/nxp/imx-mipi-csis.c
+diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+index fd2e0c5a8953..9518e6dd794d 100644
+--- a/drivers/media/platform/renesas/Makefile
++++ b/drivers/media/platform/renesas/Makefile
+@@ -4,11 +4,12 @@
+ #
+ 
+ obj-y += rcar-vin/
++obj-y += vsp1/
+ 
+-obj-$(CONFIG_VIDEO_RCAR_DRIF)		+= rcar_drif.o
+-obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
+-obj-$(CONFIG_VIDEO_RENESAS_CEU)		+= renesas-ceu.o
+-obj-$(CONFIG_VIDEO_RENESAS_FCP)		+= rcar-fcp.o
+-obj-$(CONFIG_VIDEO_RENESAS_FDP1)	+= rcar_fdp1.o
+-obj-$(CONFIG_VIDEO_RENESAS_JPU)		+= rcar_jpu.o
+-obj-$(CONFIG_VIDEO_SH_VOU)		+= sh_vou.o
++obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
++obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
++obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
++obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
++obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
++obj-$(CONFIG_VIDEO_RENESAS_JPU) += rcar_jpu.o
++obj-$(CONFIG_VIDEO_SH_VOU) += sh_vou.o
+diff --git a/drivers/media/platform/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
+similarity index 100%
+rename from drivers/media/platform/vsp1/Makefile
+rename to drivers/media/platform/renesas/vsp1/Makefile
+diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1.h
+rename to drivers/media/platform/renesas/vsp1/vsp1.h
+diff --git a/drivers/media/platform/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_brx.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_brx.c
+diff --git a/drivers/media/platform/vsp1/vsp1_brx.h b/drivers/media/platform/renesas/vsp1/vsp1_brx.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_brx.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_brx.h
+diff --git a/drivers/media/platform/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_clu.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_clu.c
+diff --git a/drivers/media/platform/vsp1/vsp1_clu.h b/drivers/media/platform/renesas/vsp1/vsp1_clu.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_clu.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_clu.h
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_dl.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_dl.c
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.h b/drivers/media/platform/renesas/vsp1/vsp1_dl.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_dl.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_dl.h
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drm.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_drm.c
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drm.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_drm.h
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drv.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_drv.c
+diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_entity.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_entity.c
+diff --git a/drivers/media/platform/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_entity.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_entity.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgo.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hgo.h b/drivers/media/platform/renesas/vsp1/vsp1_hgo.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgo.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgt.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hgt.h b/drivers/media/platform/renesas/vsp1/vsp1_hgt.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgt.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.h
+diff --git a/drivers/media/platform/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_histo.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_histo.c
+diff --git a/drivers/media/platform/vsp1/vsp1_histo.h b/drivers/media/platform/renesas/vsp1/vsp1_histo.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_histo.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_histo.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hsit.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hsit.h b/drivers/media/platform/renesas/vsp1/vsp1_hsit.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hsit.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.h
+diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lif.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_lif.c
+diff --git a/drivers/media/platform/vsp1/vsp1_lif.h b/drivers/media/platform/renesas/vsp1/vsp1_lif.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lif.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_lif.h
+diff --git a/drivers/media/platform/vsp1/vsp1_lut.c b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lut.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_lut.c
+diff --git a/drivers/media/platform/vsp1/vsp1_lut.h b/drivers/media/platform/renesas/vsp1/vsp1_lut.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lut.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_lut.h
+diff --git a/drivers/media/platform/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_pipe.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+diff --git a/drivers/media/platform/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_pipe.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_regs.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_regs.h
+diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rwpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rwpf.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+diff --git a/drivers/media/platform/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_sru.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_sru.c
+diff --git a/drivers/media/platform/vsp1/vsp1_sru.h b/drivers/media/platform/renesas/vsp1/vsp1_sru.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_sru.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_sru.h
+diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uds.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_uds.c
+diff --git a/drivers/media/platform/vsp1/vsp1_uds.h b/drivers/media/platform/renesas/vsp1/vsp1_uds.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uds.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_uds.h
+diff --git a/drivers/media/platform/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uif.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_uif.c
+diff --git a/drivers/media/platform/vsp1/vsp1_uif.h b/drivers/media/platform/renesas/vsp1/vsp1_uif.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uif.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_uif.h
+diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_video.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_video.c
+diff --git a/drivers/media/platform/vsp1/vsp1_video.h b/drivers/media/platform/renesas/vsp1/vsp1_video.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_video.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_video.h
+diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_wpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+diff --git a/drivers/media/platform/via/Makefile b/drivers/media/platform/via/Makefile
+index e5cd95d27523..a5c04c825840 100644
+--- a/drivers/media/platform/via/Makefile
++++ b/drivers/media/platform/via/Makefile
+@@ -1 +1,2 @@
+-obj-$(CONFIG_VIDEO_VIA_CAMERA)		+= via-camera.o
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
+diff --git a/drivers/media/radio/Makefile b/drivers/media/radio/Makefile
+index 615070803429..cfb6af7d3bc3 100644
+--- a/drivers/media/radio/Makefile
++++ b/drivers/media/radio/Makefile
+@@ -5,7 +5,8 @@
+ 
+ shark2-objs := radio-shark2.o radio-tea5777.o
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_RADIO_AZTECH) += radio-aztech.o
+ obj-$(CONFIG_RADIO_CADET) += radio-cadet.o
+ obj-$(CONFIG_RADIO_GEMTEK) += radio-gemtek.o
+diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
+index be8657391f74..a9285266e944 100644
+--- a/drivers/media/rc/Makefile
++++ b/drivers/media/rc/Makefile
+@@ -9,7 +9,8 @@ rc-core-$(CONFIG_BPF_LIRC_MODE2) += bpf-lirc.o
+ 
+ obj-$(CONFIG_RC_CORE) += rc-core.o
+ 
+-# IR decoders - please keep it alphabetically sorted
++# IR decoders - please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_IR_IMON_DECODER) += ir-imon-decoder.o
+ obj-$(CONFIG_IR_JVC_DECODER) += ir-jvc-decoder.o
+ obj-$(CONFIG_IR_MCE_KBD_DECODER) += ir-mce_kbd-decoder.o
+@@ -22,7 +23,8 @@ obj-$(CONFIG_IR_SHARP_DECODER) += ir-sharp-decoder.o
+ obj-$(CONFIG_IR_SONY_DECODER) += ir-sony-decoder.o
+ obj-$(CONFIG_IR_XMP_DECODER) += ir-xmp-decoder.o
+ 
+-# stand-alone IR receivers/transmitters  - please keep it alphabetically sorted
++# stand-alone IR receivers/transmitters  - please keep it alphabetically
++# sorted by Kconfig name (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_IR_ENE) += ene_ir.o
+ obj-$(CONFIG_IR_FINTEK) += fintek-cir.o
+ obj-$(CONFIG_IR_GPIO_CIR) += gpio-ir-recv.o
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index a7e34ed39424..f513ff5caf4e 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# Please keep keymaps alphabetically sorted
++# Please keep keymaps alphabetically sorted by directory name
++#(e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_RC_MAP) += \
+ 			rc-adstech-dvb-t-pci.o \
+ 			rc-alink-dtu-m.o \
+diff --git a/drivers/media/spi/Makefile b/drivers/media/spi/Makefile
+index 3c7c67cd048e..6ac7adc64124 100644
+--- a/drivers/media/spi/Makefile
++++ b/drivers/media/spi/Makefile
+@@ -2,5 +2,7 @@
+ 
+ ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/cxd2880
+ 
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_CXD2880_SPI_DRV) += cxd2880-spi.o
+ obj-$(CONFIG_VIDEO_GS1662) += gs1662.o
+diff --git a/drivers/media/test-drivers/Makefile b/drivers/media/test-drivers/Makefile
+index b0951a57dcc0..ff390b687189 100644
+--- a/drivers/media/test-drivers/Makefile
++++ b/drivers/media/test-drivers/Makefile
+@@ -3,7 +3,8 @@
+ # Makefile for the test drivers.
+ #
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ 
+ obj-$(CONFIG_DVB_VIDTV) += vidtv/
+ 
+diff --git a/drivers/media/tuners/Makefile b/drivers/media/tuners/Makefile
+index 3657e89acdd1..bd350a285aad 100644
+--- a/drivers/media/tuners/Makefile
++++ b/drivers/media/tuners/Makefile
+@@ -6,8 +6,8 @@
+ ccflags-y += -I$(srctree)/drivers/media/dvb-frontends
+ tda18271-objs := tda18271-maps.o tda18271-common.o tda18271-fe.o
+ 
+-# Please keep it alphabetically sorted
+-
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_MEDIA_TUNER_E4000) += e4000.o
+ obj-$(CONFIG_MEDIA_TUNER_FC0011) += fc0011.o
+ obj-$(CONFIG_MEDIA_TUNER_FC0012) += fc0012.o
+diff --git a/drivers/media/usb/Makefile b/drivers/media/usb/Makefile
+index f3daa71e8396..044bd46c799c 100644
+--- a/drivers/media/usb/Makefile
++++ b/drivers/media/usb/Makefile
+@@ -3,11 +3,20 @@
+ # Makefile for the USB media device drivers
+ #
+ 
+-# DVB USB-only drivers
+-obj-y += ttusb-dec/ ttusb-budget/ dvb-usb/ dvb-usb-v2/ siano/ b2c2/
+-obj-y += zr364xx/ stkwebcam/ s2255/
++# DVB USB-only drivers. Please keep it alphabetically sorted by directory name
++# (e. g. LC_ALL=C sort Makefile)
++obj-y += b2c2/
++obj-y += dvb-usb/
++obj-y += dvb-usb-v2/
++obj-y += s2255/
++obj-y += siano/
++obj-y += stkwebcam/
++obj-y += ttusb-budget/
++obj-y += ttusb-dec/
++obj-y += zr364xx/
+ 
+-# Please keep it alphabetically sorted
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_DVB_AS102) += as102/
+ obj-$(CONFIG_USB_AIRSPY) += airspy/
+ obj-$(CONFIG_USB_GSPCA) += gspca/
+diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+index b7440f0a6710..1ec7e9cae1fa 100644
+--- a/drivers/media/v4l2-core/Makefile
++++ b/drivers/media/v4l2-core/Makefile
+@@ -13,12 +13,17 @@ videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+ 			v4l2-ctrls-core.o v4l2-ctrls-api.o \
+ 			v4l2-ctrls-request.o v4l2-ctrls-defs.o
+ 
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
+ videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+ videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+ videodev-$(CONFIG_SPI) += v4l2-spi.o
+ videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+ 
++# Please keep it alphabetically sorted by Kconfig name
++# (e. g. LC_ALL=C sort Makefile)
++
+ obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+ obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+ obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+
+
+
 
