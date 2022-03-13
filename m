@@ -2,300 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D2F4D74CE
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 12:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9EDC4D7583
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 14:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234661AbiCMLBZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Mar 2022 07:01:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+        id S231888AbiCMNjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Mar 2022 09:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234654AbiCMLBX (ORCPT
+        with ESMTP id S231164AbiCMNjj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Mar 2022 07:01:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BD3ED4464;
-        Sun, 13 Mar 2022 04:00:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C328CB80CA9;
-        Sun, 13 Mar 2022 11:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9060C340EC;
-        Sun, 13 Mar 2022 11:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647169213;
-        bh=K6raQ3hcVYXvtlWvYXOLgzshf6ywpYtouqfgtS4XSgI=;
-        h=Date:From:Cc:Subject:In-Reply-To:References:From;
-        b=f6FajvJWGzBUEAJpip4FTCW+ziT2N4Fes+bwxhm6P4X7wHhwUaOMcP7i6caQXwqAV
-         SWFJaTRBzr7UeVqgZ+iQvK2L3/es8ZmF5h5H5xaq7iNbSQ7hOWUmfOoqgkr4yH0Kyi
-         NtI8zelQGEh4QkIsNyt+pRe1NmA2S5GeVN6NyJtGOiToEcx9OvPpDe6BbFPYjsJ0TW
-         Q2BxYhRUItV5G1A7lThY+qbpnEFFMkYGlshPOVw01Xmd9feBk2BRWRn4e0xWiwwXF3
-         /6jc7G1QK35edetsIKmeke+nHWz8o2iqh3gG38fXqgG+tLtV3iKAFRUZpClo/8XJVp
-         Lk/RW6spFk5+g==
-Date:   Sun, 13 Mar 2022 12:00:02 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sun, 13 Mar 2022 09:39:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C65427EE;
+        Sun, 13 Mar 2022 06:38:30 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AE4030B;
+        Sun, 13 Mar 2022 14:38:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647178709;
+        bh=EXJnCiCRqy+g/2TuttL9AaFJXRbKev9zoShQU+wjxnw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bYlwWVi3uKK0qrHrknOsH4FDqIgEFNssJx3KIzPo+bRExQK8IYu5uWBUfhLXMxb1m
+         W2aC4jDrrzqCJWKtCc17WswQMrvi0Byhfjuk60RHd7NBuiT/xt1kBvs0oeCAuCZCzx
+         g2KsUiP3sekPzUm1EkOibFZeSHX1kxXqh8jM0Ino=
+Date:   Sun, 13 Mar 2022 15:38:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Subject: Re: [PATCH 00/24] Organize media platform drivers per manufacturer
-Message-ID: <20220313120002.0d782ce7@coco.lan>
-In-Reply-To: <cover.1647167750.git.mchehab@kernel.org>
-References: <cover.1647167750.git.mchehab@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 2/3] media: vsp1: Add support to deassert/assert reset
+ line
+Message-ID: <Yi3zxKdAZTTEhLXw@pendragon.ideasonboard.com>
+References: <20220312084205.31462-1-biju.das.jz@bp.renesas.com>
+ <20220312084205.31462-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220312084205.31462-3-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Em Sun, 13 Mar 2022 11:51:41 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+Hi Biju,
 
-> This series comes after the one I sent earlier today sorting media/platform Makefile and Kconfig.
+Thank you for the patch.
+
+On Sat, Mar 12, 2022 at 08:42:04AM +0000, Biju Das wrote:
+> As the resets DT property is mandatory, and is present in all .dtsi
+> in mainline, add support to perform deassert/assert using reference
+> counted reset handle.
 > 
-> It basically groups all drivers per vendor, ensuring that each vendor has a Makefile/Kconfig
-> pair.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v4->v5:
+>  * Added Rb tag from Geert
+> v3->v4:
+>  * Restored error check for pm_runtime_resume_and_get and calls
+>    assert() in case of failure.
+> v2->v3:
+>  * Added Rb tag from Philipp
+>  * If reset_control_deassert() failed, return ret directly. 
+> v1->v2:
+>  * Used reference counted reset handle to perform deassert/assert
+> RFC->v1:
+>  * Added reset support as separate patch
+>  * Moved rstc just after the bus_master field in struct vsp1_device
+> RFC:
+>  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+> ---
+>  drivers/media/platform/vsp1/vsp1.h     |  1 +
+>  drivers/media/platform/vsp1/vsp1_drv.c | 18 +++++++++++++++++-
+>  2 files changed, 18 insertions(+), 1 deletion(-)
 > 
-> The end goal is to keep the platform Makefile/Kconfig clean and easier to maintain, less
-> prune to errors. After applying both series, the size of such files were drastically reduced:
-> 
-> 	 drivers/media/platform/Kconfig  |  731 ++------------------------------
-> 	 drivers/media/platform/Makefile |  115 +----
-> 	 2 files changed, 78 insertions(+), 768 deletions(-)
-> 
-> Mauro Carvalho Chehab (24):
->   media: platform: rename coda/ to chips-media/
->   media: platform: rename marvell-ccic/ to marvell/
->   media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
->   media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
->   media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
->   media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
->   media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
->   media: platform: rename sunxi/ to allwinner/
->   media: platform: rename tegra/vde/ to nvidia/tegra-vde/
->   media: platform: rename amphion/ to nxp/amphion/
->   media: platform: rename exynos4-is/ to samsung/exynos4-is/
->   media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
->   media: platform: rename s3c-camif/ to samsung/s3c-camif/
->   media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
->   media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
->   media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
->   media: platform: rename stm32/ to sti/stm32/
->   media: platform: rename am437x/ to ti/am437x/
->   media: platform: rename davinci/ to ti/davinci/
->   media: platform: rename omap3isp/ to ti/omap3isp/
->   media: platform: rename omap/ to ti/omap/
->   media: platform: rename ti-vpe/ to ti/vpe/
->   media: platform: Create vendor/{Makefile,Kconfig} files
+> diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/vsp1/vsp1.h
+> index 37cf33c7e6ca..c5da829c79b5 100644
+> --- a/drivers/media/platform/vsp1/vsp1.h
+> +++ b/drivers/media/platform/vsp1/vsp1.h
+> @@ -79,6 +79,7 @@ struct vsp1_device {
+>  	void __iomem *mmio;
+>  	struct rcar_fcp_device *fcp;
+>  	struct device *bus_master;
+> +	struct reset_control *rstc;
 
-Worth mention that, while the above changes are really trivial, it is
-no fun to do them individually. It is also subject to errors.
+This is missing a forward declaration for struct reset_control.
 
-So, after manually doing a couple of them, I decided to revert
-to the original state and do it via the script below, checking
-the patches and editing the last one.
+>  	struct vsp1_brx *brs;
+>  	struct vsp1_brx *bru;
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> index 502c7d9d6890..699d7d985df4 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/videodev2.h>
+>  
+>  #include <media/rcar-fcp.h>
+> @@ -569,7 +570,16 @@ static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
+>   */
+>  int vsp1_device_get(struct vsp1_device *vsp1)
+>  {
+> -	return pm_runtime_resume_and_get(vsp1->dev);
+> +	int ret = reset_control_deassert(vsp1->rstc);
+> +
+> +	if (ret < 0)
+> +		return ret;
 
-Thanks,
-Mauro
+I you don't mind, I'd prefer
 
----
+	int ret;
 
-#!/bin/bash -e
+	ret = reset_control_deassert(vsp1->rstc);
+	if (ret < 0)
+		return ret;
 
-export LC_ALL=C # Needed by sort
+> +
+> +	ret = pm_runtime_resume_and_get(vsp1->dev);
+> +	if (ret < 0)
+> +		reset_control_assert(vsp1->rstc);
+> +
+> +	return ret;
+>  }
+>  
+>  /*
+> @@ -581,6 +591,7 @@ int vsp1_device_get(struct vsp1_device *vsp1)
+>  void vsp1_device_put(struct vsp1_device *vsp1)
+>  {
+>  	pm_runtime_put_sync(vsp1->dev);
+> +	reset_control_assert(vsp1->rstc);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -827,6 +838,11 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	if (irq < 0)
+>  		return irq;
+>  
+> +	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+> +	if (IS_ERR(vsp1->rstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+> +				     "failed to get reset ctrl\n");
 
-TMP=$(mktemp /tmp/rename.XXXXXXXXX)
+s/ctrl/control/
 
-trap 'catch $LINENO' ERR SIGINT
-catch()
-{
-	echo "Error on line $1"
-	rm $TMP || true
-	exit 1
-}
+With these small issues addressed,
 
-sort_makefile()
-{
-	# sort Makefile
-	sed '/^obj-y/Q' drivers/media/platform/Makefile> $TMP
-	grep "^obj-y" drivers/media/platform/Makefile |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-# Please place here only ancillary drivers that aren't SoC-specific
-# Please keep it alphabetically sorted by Kconfig name
-# (e. g. LC_ALL=C sort Makefile)
-obj-\$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
-obj-\$(CONFIG_VIDEO_MUX)			+= video-mux.o
-EOF
-	mv $TMP drivers/media/platform/Makefile
-}
+> +
+>  	/* FCP (optional). */
+>  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
+>  	if (fcp_node) {
 
-sort_kconfig()
-{
-	# sort Kconfig
-	sed '/^source/Q' drivers/media/platform/Kconfig> $TMP
-	grep "^source" drivers/media/platform/Kconfig |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
+-- 
+Regards,
 
-endif # MEDIA_PLATFORM_DRIVERS
-EOF
-
-	mv $TMP drivers/media/platform/Kconfig
-}
-
-do_rename_vendor()
-{
-	old=$(echo $1 |perl -ne 's,/$,,; print $_')
-	new=$(echo $2 |perl -ne 's,/$,,; print $_')
-
-	echo "$old -> $new"
-
-	mkdir -p dirname drivers/media/platform/$new
-
-	git mv drivers/media/platform/$old/* drivers/media/platform/$new/
-
-	sed s,$old/,$new/, -i $(find drivers/media/platform/ -name Kconfig) $(find drivers/media/platform/ -name Makefile)
-	sed s,drivers/media/platform/$old,drivers/media/platform/$new, -i $(git grep -l drivers/media/platform/$old) || true
-
-	# Remove obj files, to make the directory cleaner
-	rm -rf drivers/media/platform/$old/ || true
-
-	sort_makefile
-	sort_kconfig
-
-	cat <<EOF >> $TMP
-media: platform: rename $old/ to $new/
-
-As the end goal is to have platform drivers split by vendor,
-rename $old/ to $new/.
-EOF
-
-	git commit -as -m "$(cat $TMP)" --no-edit
-}
-
-do_rename_vendor coda chips-media
-do_rename_vendor marvell-ccic/ marvell/
-do_rename_vendor meson/ge2d/ amlogic/meson-ge2d/
-do_rename_vendor mtk-jpeg mediatek/mtk-jpeg
-do_rename_vendor mtk-mdp mediatek/mtk-mdp
-do_rename_vendor mtk-vcodec mediatek/mtk-vcodec
-do_rename_vendor mtk-vpu mediatek/mtk-vpu
-do_rename_vendor sunxi/ allwinner/
-do_rename_vendor tegra/vde nvidia/tegra-vde
-do_rename_vendor amphion nxp/amphion
-do_rename_vendor exynos4-is/ samsung/exynos4-is/
-do_rename_vendor exynos-gsc samsung/exynos-gsc
-do_rename_vendor s3c-camif samsung/s3c-camif
-do_rename_vendor s5p-g2d samsung/s5p-g2d
-do_rename_vendor s5p-jpeg samsung/s5p-jpeg
-do_rename_vendor s5p-mfc samsung/s5p-mfc
-do_rename_vendor stm32 sti/stm32
-do_rename_vendor am437x/ ti/am437x/
-do_rename_vendor davinci ti/davinci
-do_rename_vendor omap3isp ti/omap3isp
-do_rename_vendor omap ti/omap
-do_rename_vendor ti-vpe ti/vpe
-
-# Create or update drivers/media/platform/*/Kconfig
-
-IFS=$'\n'
-
-# Fixup Kconfig files
-for i in $(cat drivers/media/platform/Kconfig|perl -ne 'if (m,platform/([^/]+)/([^/]+)/Kconfig,) { print "$1 $2\n" }'); do
-        echo "Handling $i Kconfig entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-	kconfig="drivers/media/platform/$a/$b/Kconfig"
-	parent="drivers/media/platform/$a/Kconfig"
-
-        if [ ! -e $parent ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > $parent
-		git add $parent
-        fi
-
-        echo "source \"$kconfig\"" >> drivers/media/platform/$a/Kconfig
-        echo "source \"$parent\"" >> drivers/media/platform/Kconfig
-
-        sed s,$kconfig,$parent, -i drivers/media/platform/Kconfig
-
-        echo "sorting..."
-	sort_kconfig
-done
-
-# Create or update drivers/media/platform/*/Makefile
-
-for i in $(cat drivers/media/platform/Makefile|perl -ne 'if (m,.*=\s*([^/]+)/([^/]+)/,) { print "$1 $2\n" }'); do
-        echo "Handling $i Makefile entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-        make="$a/$b/"
-        parent="$a/"
-
-        if [ ! -e drivers/media/platform/$a/Makefile ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > drivers/media/platform/$a/Makefile
-                git add drivers/media/platform/$a/Makefile
-        fi
-        echo "obj-y += $b/" >> drivers/media/platform/$a/Makefile
-        echo "obj-y += $parent" >> drivers/media/platform/Makefile
-
-        sed s,$make\$,$parent, -i drivers/media/platform/Makefile
-done
-
-sort_kconfig
-sort_makefile
-
-	cat <<EOF >> $TMP
-media: platform: Create vendor/{Makefile,Kconfig} files
-
-Instead of placing multiple per-vendor entries at the
-platform/{Makefile,Kconfig}, create them at the per-vendor
-directories.
-EOF
-
-git commit -as -m "$(cat $TMP)" --no-edit
+Laurent Pinchart
