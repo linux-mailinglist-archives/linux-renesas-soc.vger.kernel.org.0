@@ -2,265 +2,888 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A00094D7431
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 11:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EED24D74A3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Mar 2022 11:54:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbiCMKNb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Mar 2022 06:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44408 "EHLO
+        id S234564AbiCMKz2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Mar 2022 06:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbiCMKNa (ORCPT
+        with ESMTP id S234526AbiCMKys (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Mar 2022 06:13:30 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2092.outbound.protection.outlook.com [40.107.114.92])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207C0A66C1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 13 Mar 2022 03:12:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MFLIdznnAOxdZrC7kkgZ7OP3osYONEK1YElcxRS2gOaJl1xyylQa6ZZntFAc/NIlnCRiA6GrXoeqq9NUNkRQxnhaz5dPHKPiOpqTKaq63BcwiPhhrVoAbV4g42R2qrQ9xaHSkhQsIV71RKA/+Dxmny8kUALJE8ayhK2SqMVmgCi07cx2yLAqZo+u7cmM8eGVVQSGB5NJ6RiD6c2FKX2DgqzGRCBpkqEcqUD6wK+iTYS1fwFKZm3u/FPV5OquKsGyA6qN05gB4lqq11OBDMYhw2f1uCczXSQrZACAlQWk8clW58e99hPd9ZfM+aJLbOW3Wg61QOUuWYgToy9ZWQJZTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=muTI3/q+il7FI3ZYSQWJMK6YKvvqGFCpDKPNtICTUTA=;
- b=HaJhzkrlazmuo/5juu8htIi0gDyoFYiTxxlXNnk3+79oKscqMks8SQ1A2KjJGVKM1U2q+l3/Nt2oeQVkMqD75vbFXY6olWUp70MFdbCkIirm/9mNs/tK1AGVzCB96sJUOYtk0ouEjHXOYauaJrTnY/K3uT+iSbUdSdf8Eudwq27IIqjWEioDC0e4sV8ie7NbE01fHaLh2/X+E6jw27BnJVnVKwsRxiFnoEZcdwJiexA0Dy1P4F0cCNSADvagpvtq86nqH6q0CjrVtdDb3I8u4+lFt/wAJSFVZA6/mF7iNLrMxvmSYQg0VomfEIwNJ1QJmCJtyH27m/PZ5qUClzLLjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=muTI3/q+il7FI3ZYSQWJMK6YKvvqGFCpDKPNtICTUTA=;
- b=GmEBjkA+kxKvG58BIMojrY1gZPvvx2qlcXmZ8gaa2cgEsN2OqMZAAKqhozOza6GlWF5QsbJHMOUBsNvejQ0Gr1TrnIl6ahxvHgT80YqnwYrxvD4jSp26ioMG8jXirvfPI30YrpduSMhuovsvwDOijsotgS9vT4mJrTSbiIgFpW0=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSBPR01MB4901.jpnprd01.prod.outlook.com (2603:1096:604:7d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Sun, 13 Mar
- 2022 10:12:18 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b%5]) with mapi id 15.20.5061.026; Sun, 13 Mar 2022
- 10:12:17 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [RFC 11/28] drm: rcar-du: Add num_rpf to struct
- rcar_du_device_info
-Thread-Topic: [RFC 11/28] drm: rcar-du: Add num_rpf to struct
- rcar_du_device_info
-Thread-Index: AQHYB9xfc1STQwyhr0ScFdMwC/73h6xwsg8AgEzC8CA=
-Date:   Sun, 13 Mar 2022 10:12:17 +0000
-Message-ID: <OS0PR01MB5922D1536F7C90A154F0515C860E9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-12-biju.das.jz@bp.renesas.com>
- <Ye1eVmxyPtrmKzlK@pendragon.ideasonboard.com>
-In-Reply-To: <Ye1eVmxyPtrmKzlK@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 26d09fe8-32e4-4464-7a2a-08da04d9f3ee
-x-ms-traffictypediagnostic: OSBPR01MB4901:EE_
-x-microsoft-antispam-prvs: <OSBPR01MB4901DDBF1A7AA79AF9FF45A4860E9@OSBPR01MB4901.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BisXu7IhLcUkDl7FPBhrRTuwlN4HvqARVgsr5n61JuQ+2aalaTBdcwHpN/3dSK+A9S0hk0p07H5NVHiNCYcAgBGWF1JwWmEDxmjsiFRvFTIagasJY+sM5401qi96QXH2RJAWP5xwPd54DSfBJZ1/S4PpqWilBL8eysMOTPK8IwwLiqlJQ2n4eavcMZk3eMZkwLpPV6N3j/Y+LiWCgp225MLRvXptQIA28JUokXdO4xnnlS+lkPzlXzKqXctPfzJyJkKoGKeh0u5adt+OP7xep3O1lvKq7jncxWGLTsMZREhh5r1OWJ38lfp5zkJa96Mjei2Kl/SeZCNh/upIfQ2vV428nsko5W+LXmUDZ+hz/f//SlHAy0mD+9yA1KUaoZWdCcwrD86N+Sb71LOX8LdD1fc9+cjs48Ue4CEjUaQ5X3jB4kTTSkr7sMk9NWND44U/PBBgUIbQ2vdffcWkPb6G07tjS+TKcGvgzSzYWjsAA+cMgwP5OS1MzHUCm+nYRfoeYwTMD40Jxq2U07jnrnzmxB+hBy6+AJDkeVuyY35mN9+BsrsFgIcIa9EJ+mZ5G5cZTvN+pRSulStas98xPN6S/bB8DERfB5vGnlv6GYLr/fl/XC0ohkB9IUeIGhOOce8miPgjbOxikEXQFxO0zfizr0NEk8CcYtQJrSDizQnUH9jCede68fFpJGhyOhFnGuPb81U00yBIwh3eMSiX44z/qut9FJmbbH2pOzNyHXns4QtFBzp6e+jzlktxYCpbwMkbvyOIEq13RQ2UZcWqkreoeCUrFI0ssZlY9gBRMbm4jXc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(66476007)(64756008)(66446008)(66556008)(76116006)(4326008)(966005)(71200400001)(66946007)(316002)(8676002)(38070700005)(54906003)(55016003)(6916009)(33656002)(508600001)(9686003)(86362001)(52536014)(8936002)(107886003)(5660300002)(7696005)(38100700002)(26005)(2906002)(186003)(122000001)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eGhRM2dPUTYzUGZhcFU4WDJpcDVFcXZZU2NjU1hYaWxBSGpidUNjbzFqbk9Y?=
- =?utf-8?B?NjhmSG4weVVXeFkvQ3YvWWdydnpyOVcrTVFidTZuZVZwU0IxVXBNUzZSOGxr?=
- =?utf-8?B?djRNNkRicGtWMUtOMFpseThrQVBCNGZSa1pEMUIzL29WV01Memk4WU9DMXQ2?=
- =?utf-8?B?bmZXa1pBeTQxOUNQajhHUjlQMzVrdU5hUVdqQ1EzeTRoblRDWFpFNE55bGR3?=
- =?utf-8?B?bGVkTmc1Y0RqM2wvd0VOZWRtNU1iQzhNamhNcUF5NXlNY0tQQmJEMkxGVHM4?=
- =?utf-8?B?QWVVcURyQ1ZaQlVENXdDV3hBWTcvZ1RmVTRidExWRjBQZ0diNTA3V21ITUFl?=
- =?utf-8?B?YWVSK0JqbnZBUTVncTNsQkdZbnoyVnlySHZ5UDFWMmg4VVJqUmZYdWpiaXJj?=
- =?utf-8?B?OVBubGJuTnpGbUdVQWFobXJQT1lDR0xieHk5aVluVUNaSlhOMjNaa01FOWZt?=
- =?utf-8?B?eTFFMm1jNFYrS2FUWS9VeDJPVU5pVU9NM243aDhaME5GUGpUTHkrbEJzLzkr?=
- =?utf-8?B?b2p5S0ZnNHNLQU04WVJJSS9aUFRFSzlqK2lram54eTBsVUFWOU9PY3FWbGJH?=
- =?utf-8?B?OGt0SUEvQkNmZzRBM1dKT2pMRVpleDlGSnNJTUEwT0tOV2Q1S3dWRkkrL1BC?=
- =?utf-8?B?dVpmaGZzR3A5QkRmTGozQitWMGJTWjBkVWZOMU1UeDU5akY5ZkN1T0NtK0Ix?=
- =?utf-8?B?SEtiMnVrRDVKUWNQTjZQbUdCQ3RLbEFYMlpUMGg2S2FZeUQ1VjN2cWJCaDFk?=
- =?utf-8?B?WDVLdmFMcDdlWEZJdHpoTlJVZitXdmRDNjYwZ0ZPbkl0OWZXQmYvS2FNR2d0?=
- =?utf-8?B?VE11Y2V1YnVDYzRWbWpJYWZCZE4xNG4zVkxpRGtwYVJhRHhZeS9PbVc3MGVv?=
- =?utf-8?B?Z1pZNnp1dTd4a1FjV1k2bFhySEZoZC84Ym1abzZObVN3cWRrQUFHRWxJdy9N?=
- =?utf-8?B?STFHSHVPdGpoZytOVjR5aW56aHlZclpBSFZ4UGZZWVhmQmM0Z2JKL0dUY3pE?=
- =?utf-8?B?eWJRRTRDNGgrNDBGZGhSSHZ1Y0F0dGdMdnp2eCtYdWtINUkxWjlRc2tkNkRU?=
- =?utf-8?B?STk4aGpZWkVTaDZTYVl4NUlMSVhpN0ZlZHFsT001SC9SWXN1YVpFVGhVNVlp?=
- =?utf-8?B?cm5FME95amthNktQTDhDdXhwelZwY1NPTjNLaGl6RFZNV1hvV3hVZElrWlRp?=
- =?utf-8?B?Rk92RWlCa3owcUFDZFRrNUN3SzdWL0pSaVhxZW83ZkxiaFFML0FhWXQ5cGhE?=
- =?utf-8?B?SStQNW9VKzVGZEduSHY0eGNHSTUyUTJnekpaOHZIdGcrYUJWQlNzZXBHR3U1?=
- =?utf-8?B?ZVphSWkxeW9aSndLdGlpMW1NRElNV3hiSHJjY3dVL24ydVFQVllQUGR5Tm5z?=
- =?utf-8?B?UDNmd0d6K0ZGY1dJVHFKL2JINmdvWU1hU3VFZk5hZGlqMVpmSUZwOVY5WXRj?=
- =?utf-8?B?VkQrMXgzWkREWSt6N0t2Ty92NldnNTBBdm5yWlg3eEZ3Rk1EVGZpdW9aeHJk?=
- =?utf-8?B?OHMxR0hBMzBIa0RRZUJmN3FIKy9jQ2d0a2V4Z1JyM0RtWS9rendxMU5mQk9z?=
- =?utf-8?B?UFFDaitObFllb3YrMFJmYW84UWdQb2hCQnMvMXdzN09EYkk2bWUvaHcrQS9Y?=
- =?utf-8?B?d2UzVmRnOEVySDdndlBRNGRNS0svZjR6M1JKSUZyTVVBdjIyM2piTks1c0Q4?=
- =?utf-8?B?b3dMTm1iOEs2WUpuKzl4L1d5Nm1JdU9uY3d2TXFBcktkcGtBQW84Q3hPY0Yz?=
- =?utf-8?B?amw2VlJNT1lGMGl4L3QzcTAzall1WFNwd05qdHVoL2d6QlNQRmthNDZnZkhn?=
- =?utf-8?B?TUZjYlNhYXJZZHl2SHBoVThhNGYrRGhPdmhtd0pENkRUVjFKNG1XblNQS2N6?=
- =?utf-8?B?a1daNU1hMWRsWVNrQjNyVzI4U290a3hPcXEvN081VW5FZitkUzBySTB2TWtj?=
- =?utf-8?B?RmZabHM4dnI2S3phM0NZalduT2xqbXlkUTlOVVpabHQ1L0YrU0NON3NjNUNS?=
- =?utf-8?B?SXF6dzdCa1NRPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Sun, 13 Mar 2022 06:54:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B08C403F5;
+        Sun, 13 Mar 2022 03:53:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B12D6B80CB4;
+        Sun, 13 Mar 2022 10:52:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 273E0C340EC;
+        Sun, 13 Mar 2022 10:52:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647168729;
+        bh=WCgJLNmJn89eRx4DwYQ1y4Yv2DkBnoc9GfKMP4+ftaE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fltQenL+s7whS4KfDypncBtCKglPAwvKNeKOIa55jx+4x7u5IMUX9wZpU5BKSu7o9
+         h5SUIsbdvl9sy+0f3wh2qsAJI+tk55CrkdITmU0p9JKM0kZmlg+XcH9hN6UBiCSsBj
+         tge4Ol25DxUe13jOexqaOd6qY56IDnRgRxjjkL6WFHc7jOVbyxzYG981+i6VwM5+di
+         yfT3N8DTDSa4CjfYneghWfMNHjxIkZ601CvlkT0lqq0pC013QMeuf5DcKDpSszYF1O
+         5LTAc0Pj1enri7qlKn/+r+B8jIsFI24m/SDRuj86tVy8Ooq/eRklN6j5FwUFKiWDw+
+         mp+CSsSoMUcag==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1nTLpW-001I1F-LH; Sun, 13 Mar 2022 11:52:06 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Eddie James <eajames@linux.ibm.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        openbmc@lists.ozlabs.org
+Subject: [PATCH 00/24] Organize media platform drivers per manufacturer
+Date:   Sun, 13 Mar 2022 11:51:41 +0100
+Message-Id: <cover.1647167750.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26d09fe8-32e4-4464-7a2a-08da04d9f3ee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2022 10:12:17.2472
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yt6lK2FE0EmMKQchVv07lqYVXuoEmkK0nrHDx8g4bop/5EjavB+rAdeK3gBggmepF0L4z3D/eDkgbikp1v4LCttPDa3K1S7+EDZExNbvQ3E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4901
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
-IFtSRkMgMTEvMjhdIGRybTogcmNhci1kdTogQWRkIG51bV9ycGYgdG8gc3RydWN0DQo+IHJjYXJf
-ZHVfZGV2aWNlX2luZm8NCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHRoZSBw
-YXRjaC4NCj4gDQo+IE9uIFdlZCwgSmFuIDEyLCAyMDIyIGF0IDA1OjQ1OjU1UE0gKzAwMDAsIEJp
-anUgRGFzIHdyb3RlOg0KPiA+IE51bWJlciBvZiBSUEYncyBWU1AgaXMgZGlmZmVyZW50IG9uIFIt
-Q2FyIGFuZCBSWi9HMkwgIFItQ2FyIEdlbjMgLT4gNQ0KPiA+IFJQRidzICBSLUNhciBHZW4yIC0+
-IDQgUlBGJ3MgIFJaL0cyTCAtPiAyIFJQRidzDQo+ID4NCj4gPiBBZGQgbnVtX3JwZiB0byBzdHJ1
-Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbyB0byBzdXBwb3J0IGxhdGVyIFNvQyB3aXRob3V0DQo+ID4g
-YW55IGNvZGUgY2hhbmdlcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1
-LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL3Jj
-YXItZHUvcmNhcl9kdV9kcnYuYyB8IDE3ICsrKysrKysrKysrKysrKysrDQo+ID4gZHJpdmVycy9n
-cHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuaCB8ICAyICsrDQo+ID4gZHJpdmVycy9ncHUvZHJt
-L3JjYXItZHUvcmNhcl9kdV92c3AuYyB8ICA2ICstLS0tLQ0KPiA+ICAzIGZpbGVzIGNoYW5nZWQs
-IDIwIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuYw0KPiA+IGIvZHJpdmVycy9ncHUv
-ZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuYw0KPiA+IGluZGV4IDVhODEzMWVmODFkNS4uNWNhN2Nk
-MDg1Nzk0IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVf
-ZHJ2LmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2Rydi5jDQo+
-ID4gQEAgLTU2LDYgKzU2LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9p
-bmZvDQo+IHJ6ZzFfZHVfcjhhNzc0M19pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+
-ICAJLm51bV9sdmRzID0gMSwNCj4gPiArCS5udW1fcnBmID0gNCwNCj4gPiAgfTsNCj4gPg0KPiA+
-ICBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8gcnpnMV9kdV9yOGE3NzQ1
-X2luZm8gPSB7IEBADQo+ID4gLTc4LDYgKzc5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2Fy
-X2R1X2RldmljZV9pbmZvDQo+IHJ6ZzFfZHVfcjhhNzc0NV9pbmZvID0gew0KPiA+ICAJCQkucG9y
-dCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07
-DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHJ6ZzFf
-ZHVfcjhhNzc0NzBfaW5mbyA9IHsgQEANCj4gPiAtMTA1LDYgKzEwNyw3IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByemcxX2R1X3I4YTc3NDcwX2luZm8gPSB7
-DQo+ID4gIAkJCS5wb3J0ID0gMiwNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiArCS5udW1fcnBm
-ID0gNCwNCj4gPiAgfTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2
-aWNlX2luZm8gcmNhcl9kdV9yOGE3NzRhMV9pbmZvID0geyBAQA0KPiA+IC0xMzQsNiArMTM3LDcg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhh
-Nzc0YTFfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9IDEs
-DQo+ID4gKwkubnVtX3JwZiA9IDUsDQo+ID4gIAkuZHBsbF9tYXNrID0gIEJJVCgxKSwNCj4gPiAg
-fTsNCj4gPg0KPiA+IEBAIC0xNjQsNiArMTY4LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2Fy
-X2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc0YjFfaW5mbyA9IHsNCj4gPiAgCQl9LA0K
-PiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9IDEsDQo+ID4gKwkubnVtX3JwZiA9IDUsDQo+ID4g
-IAkuZHBsbF9tYXNrID0gIEJJVCgxKSwNCj4gPiAgfTsNCj4gPg0KPiA+IEBAIC0xOTEsNiArMTk2
-LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVf
-cjhhNzc0YzBfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4gPiAgCS5udW1fbHZkcyA9
-IDIsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIAkubHZkc19jbGtfbWFzayA9ICBCSVQoMSkg
-fCBCSVQoMCksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAtMjIxLDYgKzIyNyw3IEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByY2FyX2R1X3I4YTc3NGUxX2luZm8g
-PSB7DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51
-bV9ycGYgPSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBCSVQoMSksDQo+ID4gIH07DQo+ID4NCj4g
-PiBAQCAtMjczLDYgKzI4MCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2Vf
-aW5mbw0KPiByY2FyX2R1X3I4YTc3OTBfaW5mbyA9IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwNCj4g
-PiAgCS5udW1fbHZkcyA9IDIsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07DQo+ID4NCj4g
-PiAgLyogTTItVyAocjhhNzc5MSkgYW5kIE0yLU4gKHI4YTc3OTMpIGFyZSBpZGVudGljYWwgKi8g
-QEAgLTI5OCw2DQo+ID4gKzMwNiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZp
-Y2VfaW5mbyByY2FyX2R1X3I4YTc3OTFfaW5mbyA9DQo+IHsNCj4gPiAgCQl9LA0KPiA+ICAJfSwN
-Cj4gPiAgCS5udW1fbHZkcyA9IDEsDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+ID4gIH07DQo+ID4N
-Cj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHJjYXJfZHVfcjhh
-Nzc5Ml9pbmZvID0geyBAQA0KPiA+IC0zMTgsNiArMzI3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5Ml9pbmZvID0gew0KPiA+ICAJ
-CQkucG9ydCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVtX3JwZiA9IDQsDQo+
-ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZv
-IHJjYXJfZHVfcjhhNzc5NF9pbmZvID0geyBAQA0KPiA+IC0zNDEsNiArMzUxLDcgQEAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5NF9pbmZv
-ID0gew0KPiA+ICAJCQkucG9ydCA9IDEsDQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gKwkubnVt
-X3JwZiA9IDQsDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1
-X2RldmljZV9pbmZvIHJjYXJfZHVfcjhhNzc5NV9pbmZvID0geyBAQA0KPiA+IC0zNzQsNiArMzg1
-LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVf
-cjhhNzc5NV9pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICAJLm51bV9sdmRzID0g
-MSwNCj4gPiArCS5udW1fcnBmID0gNSwNCj4gPiAgCS5kcGxsX21hc2sgPSAgQklUKDIpIHwgQklU
-KDEpLA0KPiA+ICB9Ow0KPiA+DQo+ID4gQEAgLTQwNCw2ICs0MTYsNyBAQCBzdGF0aWMgY29uc3Qg
-c3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8NCj4gcmNhcl9kdV9yOGE3Nzk2X2luZm8gPSB7DQo+
-ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9ycGYg
-PSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBCSVQoMSksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAt
-NDM0LDYgKzQ0Nyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0K
-PiByY2FyX2R1X3I4YTc3OTY1X2luZm8gPSB7DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAku
-bnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9ycGYgPSA1LA0KPiA+ICAJLmRwbGxfbWFzayA9ICBC
-SVQoMSksDQo+ID4gIH07DQo+ID4NCj4gPiBAQCAtNDYwLDYgKzQ3NCw3IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgcmNhcl9kdV9kZXZpY2VfaW5mbw0KPiByY2FyX2R1X3I4YTc3OTcwX2luZm8gPSB7
-DQo+ID4gIAkJfSwNCj4gPiAgCX0sDQo+ID4gIAkubnVtX2x2ZHMgPSAxLA0KPiA+ICsJLm51bV9y
-cGYgPSA1LA0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9kdV9k
-ZXZpY2VfaW5mbyByY2FyX2R1X3I4YTc3OTl4X2luZm8gPSB7IEBADQo+ID4gLTQ4Nyw2ICs1MDIs
-NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHJjYXJfZHVfZGV2aWNlX2luZm8NCj4gcmNhcl9kdV9y
-OGE3Nzk5eF9pbmZvID0gew0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICAJLm51bV9sdmRzID0g
-MiwNCj4gPiArCS5udW1fcnBmID0gNSwNCj4gPiAgCS5sdmRzX2Nsa19tYXNrID0gIEJJVCgxKSB8
-IEJJVCgwKSwNCj4gPiAgfTsNCj4gPg0KPiA+IEBAIC01MDYsNiArNTIyLDcgQEAgc3RhdGljIGNv
-bnN0IHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvDQo+IHJjYXJfZHVfcjhhNzc5YTBfaW5mbyA9
-IHsNCj4gPiAgCQkJLnBvcnQgPSAxLA0KPiA+ICAJCX0sDQo+ID4gIAl9LA0KPiA+ICsJLm51bV9y
-cGYgPSA1LA0KPiA+ICAJLmRzaV9jbGtfbWFzayA9ICBCSVQoMSkgfCBCSVQoMCksDQo+ID4gIH07
-DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9k
-cnYuaA0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9kcnYuaA0KPiA+IGlu
-ZGV4IDEwMWY0MmRmODZlYS4uOTc5MmE3NzU5MGJlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cmNhci1kdS9yY2FyX2R1X2Rydi5oDQo+ID4gQEAgLTY5LDYgKzY5LDcgQEAgc3RydWN0IHJjYXJf
-ZHVfb3V0cHV0X3JvdXRpbmcgew0KPiA+ICAgKiBAY2hhbm5lbHNfbWFzazogYml0IG1hc2sgb2Yg
-YXZhaWxhYmxlIERVIGNoYW5uZWxzDQo+ID4gICAqIEByb3V0ZXM6IGFycmF5IG9mIENSVEMgdG8g
-b3V0cHV0IHJvdXRlcywgaW5kZXhlZCBieSBvdXRwdXQNCj4gKFJDQVJfRFVfT1VUUFVUXyopDQo+
-ID4gICAqIEBudW1fbHZkczogbnVtYmVyIG9mIGludGVybmFsIExWRFMgZW5jb2RlcnMNCj4gPiAr
-ICogQG51bV9ycGY6IG1heCBudW1iZXIgb2YgcnBmJ3MgaW4gdnNwDQo+IA0KPiBzL3JwZidzL1JQ
-RnMvIGFuZCBzL3ZzcC9WU1AvDQo+IA0KPiBXaGlsZSB0aGUgcGF0Y2ggaXRzZWxmIGxvb2tzIGZp
-bmUgdG8gbWUsIHRoZSBSWi9HMkwgaGFzIGEgZGlzcGxheQ0KPiBjb250cm9sbGVyIHRoYXQgaXMg
-Y29tcGxldGVseSB1bnJlbGF0ZWQgdG8gdGhlIERVLCBkZXNwaXRlIHNoYXJpbmcgdGhlDQo+IHNh
-bWUgbmFtZS4gSSdkIHJhdGhlciBoYXZlIGEgcnpnMmxfZHUgZHJpdmVyLiBJdCBtYXkgYmUgcG9z
-c2libHkgdG8gc2hhcmUNCj4gc29tZSBjb2RlIHdpdGggdGhlIHJjYXJfZHUgZHJpdmVyIChJJ20g
-dGhpbmtpbmcgYWJvdXQgdGhlIFZTUCBoYW5kbGluZyBmb3INCj4gaW5zdGFuY2UpLCBidXQgaW4g
-dGhlIGVuZCBJJ20gbm90IHN1cmUgaWYgZXZlbiB0aGF0IHdvdWxkIGJlIHdvcnRoIGl0Lg0KDQpP
-SywgSSBoYXZlIGNyZWF0ZWQgc2VwYXJhdGUgUlovRzJMIGRpc3BsYXkgZHJpdmVyIHdpdGggbWlu
-aW1hbCBjb2RlIGNoYW5nZXMgYW5kIA0KTWF4aW11bSBjb2RlIHJldXNlLiBQbGVhc2UgcHJvdmlk
-ZSBmZWVkYmFjayBvbiBuZXcgcGF0Y2ggc2Vycmllc1sxXQ0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGludXgtcmVuZXNhcy1zb2MvMjAyMjAzMTIyMTU0MTcuODAyMy0xLWJpanUuZGFz
-Lmp6QGJwLnJlbmVzYXMuY29tL1QvI3QNCg0KUmVnYXJkcywNCkJpanUNCg0KPiANCj4gPiAgICog
-QGRwbGxfbWFzazogYml0IG1hc2sgb2YgRFUgY2hhbm5lbHMgZXF1aXBwZWQgd2l0aCBhIERQTEwN
-Cj4gPiAgICogQGRzaV9jbGtfbWFzazogYml0bWFzayBvZiBjaGFubmVscyB0aGF0IGNhbiB1c2Ug
-dGhlIERTSSBjbG9jayBhcyBkb3QNCj4gY2xvY2sNCj4gPiAgICogQGx2ZHNfY2xrX21hc2s6IGJp
-dG1hc2sgb2YgY2hhbm5lbHMgdGhhdCBjYW4gdXNlIHRoZSBMVkRTIGNsb2NrIGFzDQo+ID4gZG90
-IGNsb2NrIEBAIC04MCw2ICs4MSw3IEBAIHN0cnVjdCByY2FyX2R1X2RldmljZV9pbmZvIHsNCj4g
-PiAgCXVuc2lnbmVkIGludCBjaGFubmVsc19tYXNrOw0KPiA+ICAJc3RydWN0IHJjYXJfZHVfb3V0
-cHV0X3JvdXRpbmcgcm91dGVzW1JDQVJfRFVfT1VUUFVUX01BWF07DQo+ID4gIAl1bnNpZ25lZCBp
-bnQgbnVtX2x2ZHM7DQo+ID4gKwl1bnNpZ25lZCBpbnQgbnVtX3JwZjsNCj4gPiAgCXVuc2lnbmVk
-IGludCBkcGxsX21hc2s7DQo+ID4gIAl1bnNpZ25lZCBpbnQgZHNpX2Nsa19tYXNrOw0KPiA+ICAJ
-dW5zaWduZWQgaW50IGx2ZHNfY2xrX21hc2s7DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
-L3JjYXJfZHVfdnNwLmMNCj4gPiBpbmRleCBiN2ZjNWIwNjljYmMuLmNmMDQ1YTIwM2FhNSAxMDA2
-NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3ZzcC5jDQo+ID4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV92c3AuYw0KPiA+IEBAIC00MTUs
-MTEgKzQxNSw3IEBAIGludCByY2FyX2R1X3ZzcF9pbml0KHN0cnVjdCByY2FyX2R1X3ZzcCAqdnNw
-LA0KPiBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLA0KPiA+ICAJaWYgKHJldCA8IDApDQo+ID4gIAkJ
-cmV0dXJuIHJldDsNCj4gPg0KPiA+IC0JIC8qDQo+ID4gLQkgICogVGhlIFZTUDJEIChHZW4zKSBo
-YXMgNSBSUEZzLCBidXQgdGhlIFZTUDFEIChHZW4yKSBpcyBsaW1pdGVkIHRvDQo+ID4gLQkgICog
-NCBSUEZzLg0KPiA+IC0JICAqLw0KPiA+IC0JbnVtX3BsYW5lcyA9IHJjZHUtPmluZm8tPmdlbiA+
-PSAzID8gNSA6IDQ7DQo+ID4gKwludW1fcGxhbmVzID0gcmNkdS0+aW5mby0+bnVtX3JwZjsNCj4g
-Pg0KPiA+ICAJdnNwLT5wbGFuZXMgPSBrY2FsbG9jKG51bV9wbGFuZXMsIHNpemVvZigqdnNwLT5w
-bGFuZXMpLCBHRlBfS0VSTkVMKTsNCj4gPiAgCWlmICghdnNwLT5wbGFuZXMpDQo+IA0KPiAtLQ0K
-PiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5jaGFydA0K
+This series comes after the one I sent earlier today sorting media/platform Makefile and Kconfig.
+
+It basically groups all drivers per vendor, ensuring that each vendor has a Makefile/Kconfig
+pair.
+
+The end goal is to keep the platform Makefile/Kconfig clean and easier to maintain, less
+prune to errors. After applying both series, the size of such files were drastically reduced:
+
+	 drivers/media/platform/Kconfig  |  731 ++------------------------------
+	 drivers/media/platform/Makefile |  115 +----
+	 2 files changed, 78 insertions(+), 768 deletions(-)
+
+Mauro Carvalho Chehab (24):
+  media: platform: rename coda/ to chips-media/
+  media: platform: rename marvell-ccic/ to marvell/
+  media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
+  media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
+  media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
+  media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
+  media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
+  media: platform: rename sunxi/ to allwinner/
+  media: platform: rename tegra/vde/ to nvidia/tegra-vde/
+  media: platform: rename amphion/ to nxp/amphion/
+  media: platform: rename exynos4-is/ to samsung/exynos4-is/
+  media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
+  media: platform: rename s3c-camif/ to samsung/s3c-camif/
+  media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
+  media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
+  media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
+  media: platform: rename stm32/ to sti/stm32/
+  media: platform: rename am437x/ to ti/am437x/
+  media: platform: rename davinci/ to ti/davinci/
+  media: platform: rename omap3isp/ to ti/omap3isp/
+  media: platform: rename omap/ to ti/omap/
+  media: platform: rename ti-vpe/ to ti/vpe/
+  media: platform: Create vendor/{Makefile,Kconfig} files
+  media: platform/*/Kconfig: make menus more uniform
+
+ Documentation/admin-guide/media/fimc.rst      |  2 +-
+ Documentation/admin-guide/media/omap3isp.rst  |  2 +-
+ .../admin-guide/media/omap4_camera.rst        |  2 +-
+ .../media/drivers/davinci-vpbe-devel.rst      | 20 ++++----
+ .../driver-api/media/drivers/fimc-devel.rst   | 14 +++---
+ Documentation/driver-api/media/v4l2-event.rst |  2 +-
+ MAINTAINERS                                   | 48 +++++++++----------
+ drivers/media/platform/Kconfig                | 30 ++++--------
+ drivers/media/platform/Makefile               | 41 +++++-----------
+ drivers/media/platform/allegro-dvt/Kconfig    |  3 ++
+ drivers/media/platform/allwinner/Kconfig      |  6 +++
+ .../platform/{sunxi => allwinner}/Makefile    |  0
+ .../{sunxi => allwinner}/sun4i-csi/Kconfig    |  0
+ .../{sunxi => allwinner}/sun4i-csi/Makefile   |  0
+ .../sun4i-csi/sun4i_csi.c                     |  0
+ .../sun4i-csi/sun4i_csi.h                     |  0
+ .../sun4i-csi/sun4i_dma.c                     |  0
+ .../sun4i-csi/sun4i_v4l2.c                    |  0
+ .../{sunxi => allwinner}/sun6i-csi/Kconfig    |  0
+ .../{sunxi => allwinner}/sun6i-csi/Makefile   |  0
+ .../sun6i-csi/sun6i_csi.c                     |  0
+ .../sun6i-csi/sun6i_csi.h                     |  0
+ .../sun6i-csi/sun6i_csi_reg.h                 |  0
+ .../sun6i-csi/sun6i_video.c                   |  0
+ .../sun6i-csi/sun6i_video.h                   |  0
+ .../{sunxi => allwinner}/sun8i-di/Kconfig     |  0
+ .../{sunxi => allwinner}/sun8i-di/Makefile    |  0
+ .../{sunxi => allwinner}/sun8i-di/sun8i-di.c  |  0
+ .../{sunxi => allwinner}/sun8i-di/sun8i-di.h  |  0
+ .../{sunxi => allwinner}/sun8i-rotate/Kconfig |  0
+ .../sun8i-rotate/Makefile                     |  0
+ .../sun8i-rotate/sun8i-formats.h              |  0
+ .../sun8i-rotate/sun8i-rotate.h               |  0
+ .../sun8i-rotate/sun8i_formats.c              |  0
+ .../sun8i-rotate/sun8i_rotate.c               |  0
+ drivers/media/platform/amlogic/Kconfig        |  5 ++
+ drivers/media/platform/amlogic/Makefile       |  2 +
+ .../ge2d => amlogic/meson-ge2d}/Kconfig       |  0
+ .../ge2d => amlogic/meson-ge2d}/Makefile      |  0
+ .../ge2d => amlogic/meson-ge2d}/ge2d-regs.h   |  0
+ .../{meson/ge2d => amlogic/meson-ge2d}/ge2d.c |  0
+ drivers/media/platform/aspeed/Kconfig         |  3 ++
+ drivers/media/platform/atmel/Kconfig          |  3 ++
+ drivers/media/platform/cadence/Kconfig        | 13 +----
+ .../platform/{coda => chips-media}/Kconfig    |  3 ++
+ .../platform/{coda => chips-media}/Makefile   |  0
+ .../platform/{coda => chips-media}/coda-bit.c |  0
+ .../{coda => chips-media}/coda-common.c       |  0
+ .../platform/{coda => chips-media}/coda-gdi.c |  0
+ .../{coda => chips-media}/coda-h264.c         |  0
+ .../{coda => chips-media}/coda-jpeg.c         |  0
+ .../{coda => chips-media}/coda-mpeg2.c        |  0
+ .../{coda => chips-media}/coda-mpeg4.c        |  0
+ .../platform/{coda => chips-media}/coda.h     |  0
+ .../{coda => chips-media}/coda_regs.h         |  2 +-
+ .../platform/{coda => chips-media}/imx-vdoa.c |  0
+ .../platform/{coda => chips-media}/imx-vdoa.h |  0
+ .../platform/{coda => chips-media}/trace.h    |  2 +-
+ drivers/media/platform/intel/Kconfig          |  3 ++
+ .../{marvell-ccic => marvell}/Kconfig         |  3 ++
+ .../{marvell-ccic => marvell}/Makefile        |  0
+ .../{marvell-ccic => marvell}/cafe-driver.c   |  0
+ .../{marvell-ccic => marvell}/mcam-core.c     |  0
+ .../{marvell-ccic => marvell}/mcam-core.h     |  0
+ .../{marvell-ccic => marvell}/mmp-driver.c    |  0
+ drivers/media/platform/mediatek/Kconfig       |  8 ++++
+ drivers/media/platform/mediatek/Makefile      |  5 ++
+ .../platform/{ => mediatek}/mtk-jpeg/Kconfig  |  0
+ .../platform/{ => mediatek}/mtk-jpeg/Makefile |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_core.c   |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_core.h   |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.c |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.h |  0
+ .../mtk-jpeg/mtk_jpeg_dec_parse.c             |  0
+ .../mtk-jpeg/mtk_jpeg_dec_parse.h             |  0
+ .../mtk-jpeg/mtk_jpeg_dec_reg.h               |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.c |  0
+ .../{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.h |  0
+ .../platform/{ => mediatek}/mtk-mdp/Kconfig   |  0
+ .../platform/{ => mediatek}/mtk-mdp/Makefile  |  2 +-
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_comp.c     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_comp.h     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_core.c     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_core.h     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_ipi.h      |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_m2m.c      |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_m2m.h      |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_regs.c     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_regs.h     |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_vpu.c      |  0
+ .../{ => mediatek}/mtk-mdp/mtk_mdp_vpu.h      |  0
+ .../{ => mediatek}/mtk-vcodec/Kconfig         |  0
+ .../{ => mediatek}/mtk-vcodec/Makefile        |  0
+ .../mtk-vcodec/mtk_vcodec_dec.c               |  0
+ .../mtk-vcodec/mtk_vcodec_dec.h               |  0
+ .../mtk-vcodec/mtk_vcodec_dec_drv.c           |  0
+ .../mtk-vcodec/mtk_vcodec_dec_hw.c            |  0
+ .../mtk-vcodec/mtk_vcodec_dec_hw.h            |  0
+ .../mtk-vcodec/mtk_vcodec_dec_pm.c            |  0
+ .../mtk-vcodec/mtk_vcodec_dec_pm.h            |  0
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |  0
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  0
+ .../mtk-vcodec/mtk_vcodec_drv.h               |  0
+ .../mtk-vcodec/mtk_vcodec_enc.c               |  0
+ .../mtk-vcodec/mtk_vcodec_enc.h               |  0
+ .../mtk-vcodec/mtk_vcodec_enc_drv.c           |  0
+ .../mtk-vcodec/mtk_vcodec_enc_pm.c            |  0
+ .../mtk-vcodec/mtk_vcodec_enc_pm.h            |  0
+ .../{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.c |  0
+ .../{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.h |  0
+ .../mtk-vcodec/mtk_vcodec_fw_priv.h           |  0
+ .../mtk-vcodec/mtk_vcodec_fw_scp.c            |  0
+ .../mtk-vcodec/mtk_vcodec_fw_vpu.c            |  0
+ .../mtk-vcodec/mtk_vcodec_intr.c              |  0
+ .../mtk-vcodec/mtk_vcodec_intr.h              |  0
+ .../mtk-vcodec/mtk_vcodec_util.c              |  0
+ .../mtk-vcodec/mtk_vcodec_util.h              |  0
+ .../mtk-vcodec/vdec/vdec_h264_if.c            |  0
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  0
+ .../mtk-vcodec/vdec/vdec_vp8_if.c             |  0
+ .../mtk-vcodec/vdec/vdec_vp9_if.c             |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_drv_base.h |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_drv_if.c   |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_drv_if.h   |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_ipi_msg.h  |  0
+ .../mtk-vcodec/vdec_msg_queue.c               |  0
+ .../mtk-vcodec/vdec_msg_queue.h               |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_vpu_if.c   |  0
+ .../{ => mediatek}/mtk-vcodec/vdec_vpu_if.h   |  0
+ .../mtk-vcodec/venc/venc_h264_if.c            |  0
+ .../mtk-vcodec/venc/venc_vp8_if.c             |  0
+ .../{ => mediatek}/mtk-vcodec/venc_drv_base.h |  0
+ .../{ => mediatek}/mtk-vcodec/venc_drv_if.c   |  0
+ .../{ => mediatek}/mtk-vcodec/venc_drv_if.h   |  0
+ .../{ => mediatek}/mtk-vcodec/venc_ipi_msg.h  |  0
+ .../{ => mediatek}/mtk-vcodec/venc_vpu_if.c   |  0
+ .../{ => mediatek}/mtk-vcodec/venc_vpu_if.h   |  0
+ .../platform/{ => mediatek}/mtk-vpu/Kconfig   |  0
+ .../platform/{ => mediatek}/mtk-vpu/Makefile  |  0
+ .../platform/{ => mediatek}/mtk-vpu/mtk_vpu.c |  0
+ .../platform/{ => mediatek}/mtk-vpu/mtk_vpu.h |  0
+ drivers/media/platform/nvidia/Kconfig         |  5 ++
+ .../{tegra/vde => nvidia/tegra-vde}/Kconfig   |  0
+ .../{tegra/vde => nvidia/tegra-vde}/Makefile  |  0
+ .../vde => nvidia/tegra-vde}/dmabuf-cache.c   |  0
+ .../{tegra/vde => nvidia/tegra-vde}/h264.c    |  0
+ .../{tegra/vde => nvidia/tegra-vde}/iommu.c   |  0
+ .../{tegra/vde => nvidia/tegra-vde}/trace.h   |  2 +-
+ .../{tegra/vde => nvidia/tegra-vde}/v4l2.c    |  0
+ .../{tegra/vde => nvidia/tegra-vde}/vde.c     |  0
+ .../{tegra/vde => nvidia/tegra-vde}/vde.h     |  0
+ drivers/media/platform/nxp/Kconfig            | 23 +++------
+ drivers/media/platform/nxp/Makefile           |  1 +
+ .../media/platform/{ => nxp}/amphion/Kconfig  |  0
+ .../media/platform/{ => nxp}/amphion/Makefile |  0
+ .../media/platform/{ => nxp}/amphion/vdec.c   |  0
+ .../media/platform/{ => nxp}/amphion/venc.c   |  0
+ .../media/platform/{ => nxp}/amphion/vpu.h    |  0
+ .../platform/{ => nxp}/amphion/vpu_cmds.c     |  0
+ .../platform/{ => nxp}/amphion/vpu_cmds.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_codec.h    |  0
+ .../platform/{ => nxp}/amphion/vpu_color.c    |  0
+ .../platform/{ => nxp}/amphion/vpu_core.c     |  0
+ .../platform/{ => nxp}/amphion/vpu_core.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_dbg.c      |  0
+ .../platform/{ => nxp}/amphion/vpu_defs.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_drv.c      |  0
+ .../platform/{ => nxp}/amphion/vpu_helpers.c  |  0
+ .../platform/{ => nxp}/amphion/vpu_helpers.h  |  0
+ .../platform/{ => nxp}/amphion/vpu_imx8q.c    |  0
+ .../platform/{ => nxp}/amphion/vpu_imx8q.h    |  0
+ .../platform/{ => nxp}/amphion/vpu_malone.c   |  0
+ .../platform/{ => nxp}/amphion/vpu_malone.h   |  0
+ .../platform/{ => nxp}/amphion/vpu_mbox.c     |  0
+ .../platform/{ => nxp}/amphion/vpu_mbox.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_msgs.c     |  0
+ .../platform/{ => nxp}/amphion/vpu_msgs.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_rpc.c      |  0
+ .../platform/{ => nxp}/amphion/vpu_rpc.h      |  0
+ .../platform/{ => nxp}/amphion/vpu_v4l2.c     |  0
+ .../platform/{ => nxp}/amphion/vpu_v4l2.h     |  0
+ .../platform/{ => nxp}/amphion/vpu_windsor.c  |  0
+ .../platform/{ => nxp}/amphion/vpu_windsor.h  |  0
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    |  2 +-
+ drivers/media/platform/qcom/Kconfig           |  3 ++
+ drivers/media/platform/qcom/Makefile          |  3 ++
+ drivers/media/platform/renesas/Kconfig        |  2 +
+ drivers/media/platform/renesas/rcar_jpu.c     |  2 +-
+ drivers/media/platform/rockchip/Kconfig       |  3 ++
+ drivers/media/platform/rockchip/Makefile      |  3 ++
+ drivers/media/platform/samsung/Kconfig        | 10 ++++
+ drivers/media/platform/samsung/Makefile       |  7 +++
+ .../platform/{ => samsung}/exynos-gsc/Kconfig |  0
+ .../{ => samsung}/exynos-gsc/Makefile         |  0
+ .../{ => samsung}/exynos-gsc/gsc-core.c       |  0
+ .../{ => samsung}/exynos-gsc/gsc-core.h       |  0
+ .../{ => samsung}/exynos-gsc/gsc-m2m.c        |  0
+ .../{ => samsung}/exynos-gsc/gsc-regs.c       |  0
+ .../{ => samsung}/exynos-gsc/gsc-regs.h       |  0
+ .../platform/{ => samsung}/exynos4-is/Kconfig |  0
+ .../{ => samsung}/exynos4-is/Makefile         |  0
+ .../{ => samsung}/exynos4-is/common.c         |  0
+ .../{ => samsung}/exynos4-is/common.h         |  0
+ .../{ => samsung}/exynos4-is/fimc-capture.c   |  0
+ .../{ => samsung}/exynos4-is/fimc-core.c      |  0
+ .../{ => samsung}/exynos4-is/fimc-core.h      |  0
+ .../exynos4-is/fimc-is-command.h              |  0
+ .../{ => samsung}/exynos4-is/fimc-is-errno.c  |  0
+ .../{ => samsung}/exynos4-is/fimc-is-errno.h  |  0
+ .../{ => samsung}/exynos4-is/fimc-is-i2c.c    |  0
+ .../{ => samsung}/exynos4-is/fimc-is-i2c.h    |  0
+ .../{ => samsung}/exynos4-is/fimc-is-param.c  |  0
+ .../{ => samsung}/exynos4-is/fimc-is-param.h  |  0
+ .../{ => samsung}/exynos4-is/fimc-is-regs.c   |  0
+ .../{ => samsung}/exynos4-is/fimc-is-regs.h   |  0
+ .../{ => samsung}/exynos4-is/fimc-is-sensor.c |  0
+ .../{ => samsung}/exynos4-is/fimc-is-sensor.h |  0
+ .../{ => samsung}/exynos4-is/fimc-is.c        |  0
+ .../{ => samsung}/exynos4-is/fimc-is.h        |  0
+ .../{ => samsung}/exynos4-is/fimc-isp-video.c |  0
+ .../{ => samsung}/exynos4-is/fimc-isp-video.h |  0
+ .../{ => samsung}/exynos4-is/fimc-isp.c       |  0
+ .../{ => samsung}/exynos4-is/fimc-isp.h       |  0
+ .../{ => samsung}/exynos4-is/fimc-lite-reg.c  |  0
+ .../{ => samsung}/exynos4-is/fimc-lite-reg.h  |  0
+ .../{ => samsung}/exynos4-is/fimc-lite.c      |  0
+ .../{ => samsung}/exynos4-is/fimc-lite.h      |  0
+ .../{ => samsung}/exynos4-is/fimc-m2m.c       |  0
+ .../{ => samsung}/exynos4-is/fimc-reg.c       |  0
+ .../{ => samsung}/exynos4-is/fimc-reg.h       |  0
+ .../{ => samsung}/exynos4-is/media-dev.c      |  0
+ .../{ => samsung}/exynos4-is/media-dev.h      |  0
+ .../{ => samsung}/exynos4-is/mipi-csis.c      |  0
+ .../{ => samsung}/exynos4-is/mipi-csis.h      |  0
+ .../platform/{ => samsung}/s3c-camif/Kconfig  |  0
+ .../platform/{ => samsung}/s3c-camif/Makefile |  0
+ .../{ => samsung}/s3c-camif/camif-capture.c   |  0
+ .../{ => samsung}/s3c-camif/camif-core.c      |  0
+ .../{ => samsung}/s3c-camif/camif-core.h      |  0
+ .../{ => samsung}/s3c-camif/camif-regs.c      |  0
+ .../{ => samsung}/s3c-camif/camif-regs.h      |  0
+ .../platform/{ => samsung}/s5p-g2d/Kconfig    |  0
+ .../platform/{ => samsung}/s5p-g2d/Makefile   |  0
+ .../platform/{ => samsung}/s5p-g2d/g2d-hw.c   |  0
+ .../platform/{ => samsung}/s5p-g2d/g2d-regs.h |  0
+ .../platform/{ => samsung}/s5p-g2d/g2d.c      |  0
+ .../platform/{ => samsung}/s5p-g2d/g2d.h      |  0
+ .../platform/{ => samsung}/s5p-jpeg/Kconfig   |  0
+ .../platform/{ => samsung}/s5p-jpeg/Makefile  |  0
+ .../{ => samsung}/s5p-jpeg/jpeg-core.c        |  2 +-
+ .../{ => samsung}/s5p-jpeg/jpeg-core.h        |  2 +-
+ .../s5p-jpeg/jpeg-hw-exynos3250.c             |  0
+ .../s5p-jpeg/jpeg-hw-exynos3250.h             |  2 +-
+ .../{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c  |  0
+ .../{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h  |  0
+ .../{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c      |  2 +-
+ .../{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h      |  2 +-
+ .../{ => samsung}/s5p-jpeg/jpeg-regs.h        |  2 +-
+ .../platform/{ => samsung}/s5p-mfc/Kconfig    |  0
+ .../platform/{ => samsung}/s5p-mfc/Makefile   |  0
+ .../{ => samsung}/s5p-mfc/regs-mfc-v10.h      |  0
+ .../{ => samsung}/s5p-mfc/regs-mfc-v6.h       |  0
+ .../{ => samsung}/s5p-mfc/regs-mfc-v7.h       |  0
+ .../{ => samsung}/s5p-mfc/regs-mfc-v8.h       |  0
+ .../platform/{ => samsung}/s5p-mfc/regs-mfc.h |  0
+ .../platform/{ => samsung}/s5p-mfc/s5p_mfc.c  |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd.c       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd.h       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.c    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.h    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.c    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.h    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_common.h    |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_ctrl.c      |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_ctrl.h      |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_debug.h     |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_dec.c       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_dec.h       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_enc.c       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_enc.h       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_intr.c      |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_intr.h      |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_iommu.h     |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr.c       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr.h       |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.c    |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.h    |  0
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.c    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.h    |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_pm.c        |  2 +-
+ .../{ => samsung}/s5p-mfc/s5p_mfc_pm.h        |  2 +-
+ drivers/media/platform/sti/Kconfig            |  4 ++
+ drivers/media/platform/sti/Makefile           |  6 +++
+ .../media/platform/{ => sti}/stm32/Kconfig    |  0
+ .../media/platform/{ => sti}/stm32/Makefile   |  0
+ .../platform/{ => sti}/stm32/dma2d/dma2d-hw.c |  0
+ .../{ => sti}/stm32/dma2d/dma2d-regs.h        |  0
+ .../platform/{ => sti}/stm32/dma2d/dma2d.c    |  0
+ .../platform/{ => sti}/stm32/dma2d/dma2d.h    |  0
+ .../platform/{ => sti}/stm32/stm32-dcmi.c     |  0
+ drivers/media/platform/sunxi/Kconfig          |  6 ---
+ drivers/media/platform/ti/Kconfig             |  9 ++++
+ drivers/media/platform/ti/Makefile            |  6 +++
+ .../media/platform/{ => ti}/am437x/Kconfig    |  0
+ .../media/platform/{ => ti}/am437x/Makefile   |  0
+ .../platform/{ => ti}/am437x/am437x-vpfe.c    |  0
+ .../platform/{ => ti}/am437x/am437x-vpfe.h    |  0
+ .../{ => ti}/am437x/am437x-vpfe_regs.h        |  0
+ .../media/platform/{ => ti}/davinci/Kconfig   |  0
+ .../media/platform/{ => ti}/davinci/Makefile  |  0
+ .../{ => ti}/davinci/ccdc_hw_device.h         |  0
+ .../platform/{ => ti}/davinci/dm355_ccdc.c    |  0
+ .../{ => ti}/davinci/dm355_ccdc_regs.h        |  0
+ .../platform/{ => ti}/davinci/dm644x_ccdc.c   |  0
+ .../{ => ti}/davinci/dm644x_ccdc_regs.h       |  0
+ .../media/platform/{ => ti}/davinci/isif.c    |  0
+ .../platform/{ => ti}/davinci/isif_regs.h     |  0
+ .../media/platform/{ => ti}/davinci/vpbe.c    |  0
+ .../platform/{ => ti}/davinci/vpbe_display.c  |  0
+ .../platform/{ => ti}/davinci/vpbe_osd.c      |  0
+ .../platform/{ => ti}/davinci/vpbe_osd_regs.h |  0
+ .../platform/{ => ti}/davinci/vpbe_venc.c     |  0
+ .../{ => ti}/davinci/vpbe_venc_regs.h         |  0
+ .../platform/{ => ti}/davinci/vpfe_capture.c  |  0
+ .../media/platform/{ => ti}/davinci/vpif.c    |  0
+ .../media/platform/{ => ti}/davinci/vpif.h    |  0
+ .../platform/{ => ti}/davinci/vpif_capture.c  |  0
+ .../platform/{ => ti}/davinci/vpif_capture.h  |  0
+ .../platform/{ => ti}/davinci/vpif_display.c  |  0
+ .../platform/{ => ti}/davinci/vpif_display.h  |  0
+ .../media/platform/{ => ti}/davinci/vpss.c    |  0
+ drivers/media/platform/{ => ti}/omap/Kconfig  |  0
+ drivers/media/platform/{ => ti}/omap/Makefile |  0
+ .../media/platform/{ => ti}/omap/omap_vout.c  |  0
+ .../platform/{ => ti}/omap/omap_vout_vrfb.c   |  0
+ .../platform/{ => ti}/omap/omap_vout_vrfb.h   |  0
+ .../platform/{ => ti}/omap/omap_voutdef.h     |  0
+ .../platform/{ => ti}/omap/omap_voutlib.c     |  0
+ .../platform/{ => ti}/omap/omap_voutlib.h     |  0
+ .../media/platform/{ => ti}/omap3isp/Kconfig  |  0
+ .../media/platform/{ => ti}/omap3isp/Makefile |  0
+ .../{ => ti}/omap3isp/cfa_coef_table.h        |  0
+ .../platform/{ => ti}/omap3isp/gamma_table.h  |  0
+ .../media/platform/{ => ti}/omap3isp/isp.c    |  0
+ .../media/platform/{ => ti}/omap3isp/isp.h    |  0
+ .../platform/{ => ti}/omap3isp/ispccdc.c      |  0
+ .../platform/{ => ti}/omap3isp/ispccdc.h      |  0
+ .../platform/{ => ti}/omap3isp/ispccp2.c      |  0
+ .../platform/{ => ti}/omap3isp/ispccp2.h      |  0
+ .../platform/{ => ti}/omap3isp/ispcsi2.c      |  0
+ .../platform/{ => ti}/omap3isp/ispcsi2.h      |  0
+ .../platform/{ => ti}/omap3isp/ispcsiphy.c    |  0
+ .../platform/{ => ti}/omap3isp/ispcsiphy.h    |  0
+ .../media/platform/{ => ti}/omap3isp/isph3a.h |  0
+ .../platform/{ => ti}/omap3isp/isph3a_aewb.c  |  0
+ .../platform/{ => ti}/omap3isp/isph3a_af.c    |  0
+ .../platform/{ => ti}/omap3isp/isphist.c      |  0
+ .../platform/{ => ti}/omap3isp/isphist.h      |  0
+ .../platform/{ => ti}/omap3isp/isppreview.c   |  0
+ .../platform/{ => ti}/omap3isp/isppreview.h   |  0
+ .../media/platform/{ => ti}/omap3isp/ispreg.h |  0
+ .../platform/{ => ti}/omap3isp/ispresizer.c   |  0
+ .../platform/{ => ti}/omap3isp/ispresizer.h   |  0
+ .../platform/{ => ti}/omap3isp/ispstat.c      |  0
+ .../platform/{ => ti}/omap3isp/ispstat.h      |  0
+ .../platform/{ => ti}/omap3isp/ispvideo.c     |  0
+ .../platform/{ => ti}/omap3isp/ispvideo.h     |  0
+ .../{ => ti}/omap3isp/luma_enhance_table.h    |  0
+ .../{ => ti}/omap3isp/noise_filter_table.h    |  0
+ .../platform/{ => ti}/omap3isp/omap3isp.h     |  0
+ .../media/platform/{ti-vpe => ti/vpe}/Kconfig |  0
+ .../platform/{ti-vpe => ti/vpe}/Makefile      |  0
+ .../{ti-vpe => ti/vpe}/cal-camerarx.c         |  0
+ .../platform/{ti-vpe => ti/vpe}/cal-video.c   |  0
+ .../media/platform/{ti-vpe => ti/vpe}/cal.c   |  0
+ .../media/platform/{ti-vpe => ti/vpe}/cal.h   |  0
+ .../platform/{ti-vpe => ti/vpe}/cal_regs.h    |  0
+ .../media/platform/{ti-vpe => ti/vpe}/csc.c   |  0
+ .../media/platform/{ti-vpe => ti/vpe}/csc.h   |  0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.c    |  0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.h    |  0
+ .../platform/{ti-vpe => ti/vpe}/sc_coeff.h    |  0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.c |  0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.h |  0
+ .../platform/{ti-vpe => ti/vpe}/vpdma_priv.h  |  0
+ .../media/platform/{ti-vpe => ti/vpe}/vpe.c   |  0
+ .../platform/{ti-vpe => ti/vpe}/vpe_regs.h    |  0
+ drivers/media/platform/via/Kconfig            |  3 ++
+ drivers/media/platform/xilinx/Kconfig         |  7 ++-
+ 389 files changed, 214 insertions(+), 167 deletions(-)
+ create mode 100644 drivers/media/platform/allwinner/Kconfig
+ rename drivers/media/platform/{sunxi => allwinner}/Makefile (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/Kconfig (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/Makefile (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_csi.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_csi.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_dma.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_v4l2.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/Kconfig (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/Makefile (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi_reg.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_video.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_video.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/Kconfig (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/Makefile (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/sun8i-di.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/sun8i-di.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/Kconfig (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/Makefile (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i-formats.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i-rotate.h (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i_formats.c (100%)
+ rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i_rotate.c (100%)
+ create mode 100644 drivers/media/platform/amlogic/Kconfig
+ create mode 100644 drivers/media/platform/amlogic/Makefile
+ rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/Kconfig (100%)
+ rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/Makefile (100%)
+ rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/ge2d-regs.h (100%)
+ rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/ge2d.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/Kconfig (94%)
+ rename drivers/media/platform/{coda => chips-media}/Makefile (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-bit.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-common.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-gdi.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-h264.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-jpeg.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-mpeg2.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda-mpeg4.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda.h (100%)
+ rename drivers/media/platform/{coda => chips-media}/coda_regs.h (99%)
+ rename drivers/media/platform/{coda => chips-media}/imx-vdoa.c (100%)
+ rename drivers/media/platform/{coda => chips-media}/imx-vdoa.h (100%)
+ rename drivers/media/platform/{coda => chips-media}/trace.h (98%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/Kconfig (97%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/Makefile (100%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/cafe-driver.c (100%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/mcam-core.c (100%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/mcam-core.h (100%)
+ rename drivers/media/platform/{marvell-ccic => marvell}/mmp-driver.c (100%)
+ create mode 100644 drivers/media/platform/mediatek/Kconfig
+ create mode 100644 drivers/media/platform/mediatek/Makefile
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/Kconfig (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/Makefile (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_core.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_core.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_parse.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_parse.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_reg.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/Kconfig (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/Makefile (77%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_comp.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_comp.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_core.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_core.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_ipi.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_m2m.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_m2m.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_regs.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_regs.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_vpu.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_vpu.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/Kconfig (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/Makefile (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_drv.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_hw.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_hw.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_pm.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_pm.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_stateful.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_stateless.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_drv.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_drv.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_pm.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_pm.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_priv.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_scp.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_vpu.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_intr.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_intr.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_util.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_util.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_h264_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_h264_req_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_vp8_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_vp9_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_base.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_if.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_ipi_msg.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_msg_queue.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_msg_queue.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_vpu_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_vpu_if.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc/venc_h264_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc/venc_vp8_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_base.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_if.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_ipi_msg.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_vpu_if.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_vpu_if.h (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vpu/Kconfig (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vpu/Makefile (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vpu/mtk_vpu.c (100%)
+ rename drivers/media/platform/{ => mediatek}/mtk-vpu/mtk_vpu.h (100%)
+ create mode 100644 drivers/media/platform/nvidia/Kconfig
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Kconfig (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Makefile (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/dmabuf-cache.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/h264.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/iommu.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/trace.h (97%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/v4l2.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.c (100%)
+ rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/Kconfig (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/Makefile (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vdec.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/venc.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_codec.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_color.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_core.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_core.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_dbg.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_defs.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_drv.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.h (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.c (100%)
+ rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.h (100%)
+ create mode 100644 drivers/media/platform/qcom/Makefile
+ create mode 100644 drivers/media/platform/rockchip/Makefile
+ create mode 100644 drivers/media/platform/samsung/Kconfig
+ create mode 100644 drivers/media/platform/samsung/Makefile
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-core.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-core.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-m2m.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-regs.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-regs.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/common.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/common.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-capture.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-core.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-core.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-command.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-errno.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-errno.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-i2c.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-i2c.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-param.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-param.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-regs.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-regs.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-sensor.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-sensor.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp-video.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp-video.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite-reg.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite-reg.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-m2m.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-reg.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-reg.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/media-dev.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/media-dev.h (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/mipi-csis.c (100%)
+ rename drivers/media/platform/{ => samsung}/exynos4-is/mipi-csis.h (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/camif-capture.c (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/camif-core.c (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/camif-core.h (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/camif-regs.c (100%)
+ rename drivers/media/platform/{ => samsung}/s3c-camif/camif-regs.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d-hw.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d-regs.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h (97%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h (97%)
+ rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/Kconfig (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/Makefile (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v10.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v6.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v7.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v8.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd.c (89%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd.h (92%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.c (98%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.h (82%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.c (98%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.h (82%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_common.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_ctrl.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_ctrl.h (92%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_debug.h (95%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_dec.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_dec.h (90%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_enc.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_enc.h (90%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_intr.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_intr.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_iommu.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr.c (98%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr.h (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.c (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.h (100%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.c (99%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.h (96%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_pm.c (97%)
+ rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_pm.h (87%)
+ create mode 100644 drivers/media/platform/sti/Makefile
+ rename drivers/media/platform/{ => sti}/stm32/Kconfig (100%)
+ rename drivers/media/platform/{ => sti}/stm32/Makefile (100%)
+ rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-hw.c (100%)
+ rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-regs.h (100%)
+ rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.c (100%)
+ rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.h (100%)
+ rename drivers/media/platform/{ => sti}/stm32/stm32-dcmi.c (100%)
+ delete mode 100644 drivers/media/platform/sunxi/Kconfig
+ create mode 100644 drivers/media/platform/ti/Kconfig
+ create mode 100644 drivers/media/platform/ti/Makefile
+ rename drivers/media/platform/{ => ti}/am437x/Kconfig (100%)
+ rename drivers/media/platform/{ => ti}/am437x/Makefile (100%)
+ rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe.c (100%)
+ rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe.h (100%)
+ rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/Kconfig (100%)
+ rename drivers/media/platform/{ => ti}/davinci/Makefile (100%)
+ rename drivers/media/platform/{ => ti}/davinci/ccdc_hw_device.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/dm355_ccdc.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/dm355_ccdc_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/dm644x_ccdc.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/dm644x_ccdc_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/isif.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/isif_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe_display.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe_osd.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe_osd_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe_venc.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpbe_venc_regs.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpfe_capture.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif_capture.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif_capture.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif_display.c (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpif_display.h (100%)
+ rename drivers/media/platform/{ => ti}/davinci/vpss.c (100%)
+ rename drivers/media/platform/{ => ti}/omap/Kconfig (100%)
+ rename drivers/media/platform/{ => ti}/omap/Makefile (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_vout.c (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.c (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.h (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_voutdef.h (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_voutlib.c (100%)
+ rename drivers/media/platform/{ => ti}/omap/omap_voutlib.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/Kconfig (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/Makefile (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/cfa_coef_table.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/gamma_table.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isp.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isp.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispccdc.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispccdc.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispccp2.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispccp2.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispcsi2.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispcsi2.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispcsiphy.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispcsiphy.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isph3a.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isph3a_aewb.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isph3a_af.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isphist.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isphist.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isppreview.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/isppreview.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispreg.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispresizer.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispresizer.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispstat.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispstat.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispvideo.c (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/ispvideo.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/luma_enhance_table.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/noise_filter_table.h (100%)
+ rename drivers/media/platform/{ => ti}/omap3isp/omap3isp.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/Kconfig (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/Makefile (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/cal-camerarx.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/cal-video.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/cal.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/cal.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/cal_regs.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc_coeff.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma_priv.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe_regs.h (100%)
+
+-- 
+2.35.1
+
+
