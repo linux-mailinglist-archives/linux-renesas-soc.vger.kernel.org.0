@@ -2,126 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB164D7C7A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 08:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 454CA4D7C77
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 08:56:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237080AbiCNH5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S237082AbiCNH5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 14 Mar 2022 03:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41786 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236973AbiCNH5u (ORCPT
+        with ESMTP id S236989AbiCNH5u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 14 Mar 2022 03:57:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27EC41601;
-        Mon, 14 Mar 2022 00:56:12 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087614161B;
+        Mon, 14 Mar 2022 00:56:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 197CE611A1;
-        Mon, 14 Mar 2022 07:56:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8B7C36AE2;
-        Mon, 14 Mar 2022 07:56:00 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 15831CE10BA;
+        Mon, 14 Mar 2022 07:56:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12825C34101;
+        Mon, 14 Mar 2022 07:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1647244561;
-        bh=6D5XdwweEMzcZ9LzIxNFok8hrjwkxH5bQJrQfS+UAMM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NaX6z/MiLjww0RV/0SZKyQn8elK8Y4Zrjp/g42Cg9xanNNp5ddl6wdn3UM0BvK0n7
-         RbWhbd8WrWqh5gn6o7rOteCA808N5eiMX1tv73RslNmQqHJ0z1NidqzluaLuUunfFV
-         EnFtLr+fZNhZt6KfxYLsOJHm5TjU1Ee46jdI4JQmge1tgN55v7VFY667NQmVFXYVIS
-         FnGfIJA2mYSYKL7D352T5PLZ+Vwlq0R5KLtSVVxjgOr+qhGzgneBhQC+4Sc0MTzJgN
-         mWYcNHttU0ASyq/YjgoiRtMZfN7FvobMRdGqbhoU1+Y/wpmXZZs6gg7fin0YUYn6gI
-         REDXKahlcGAbw==
+        bh=Dk4qqeKZEyRVnvBhM69IPdSRAU4TzxaUegvICcNvNHA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=au9V19f5CZObn9/JNtEts1aQulAknUkMahLtDRce7fekd/eNcoW3NJ/Qx68zjo665
+         s+7L0+QLt4DMHqA294hKt/Hx/vrdZUX+kislsFM28SOfC0AtP09I5gg/12ZPwBKKJv
+         /32NhRPuC7QRBVZ11EaPJOKMW+3tZY7NqPfddb5C0sRRwm82/L/MKUa5PgAsgfOZel
+         mI0yG8wMd5wUFDJnAt7YbBxY/yWWOtEC6VBnWaxKE7HybwUQDB1z+wJ1hXi1H7/s5G
+         8o0fB8i9HtwHW6Bvj899vQP/XRFhMeErloB414rzEkX0xyFUGmZ8UZAmU61mbM4OFc
+         YB5Zx2m72x3VQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1nTfYc-001kUC-5U; Mon, 14 Mar 2022 08:55:58 +0100
+        id 1nTfYc-001kUp-Ou; Mon, 14 Mar 2022 08:55:58 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Antoine Jacquet <royale@zerezo.com>,
-        Antti Palosaari <crope@iki.fi>, Benoit Parrot <bparrot@ti.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Dan Scally <djrscally@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Dmitry Osipenko <digetx@gmail.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Erik Andren <erik.andren@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Fabio Estevam <festevam@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mike Isely <isely@pobox.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Herman <herman.yim88@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
         Ming Qian <ming.qian@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Olivier Lorin <o.lorin@laposte.net>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ray Jui <rjui@broadcom.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Shijie Qin <shijie.qin@nxp.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Todor Tomov <todor.too@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Yong Zhi <yong.zhi@intel.com>, Zhou Peng <eagle.zhou@nxp.com>,
-        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        mjpeg-users@lists.sourceforge.net, openbmc@lists.ozlabs.org
-Subject: [PATCH 00/64] media: Kconfig/Makefile reorg
-Date:   Mon, 14 Mar 2022 08:54:52 +0100
-Message-Id: <cover.1647242578.git.mchehab@kernel.org>
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Tang Bin <tangbin@cmss.chinamobile.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 10/64] media: platform: place Renesas drivers on a separate dir
+Date:   Mon, 14 Mar 2022 08:55:02 +0100
+Message-Id: <1d83f5b7a19947e0b996c0c03fe3f0580d0143a1.1647242579.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1647242578.git.mchehab@kernel.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
@@ -134,365 +84,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I opted to join two series and one separate patch on a single series, as they're
-related and one depends on the others:
+In order to cleanup the main platform media directory, move Renesas
+driver to its own directory.
 
-- Sort Makefiles and platform/Kconfig
-  https://lore.kernel.org/linux-media/cover.1647155572.git.mchehab@kernel.org/T/#t
-- Organize media platform drivers per manufacturer
-  https://lore.kernel.org/linux-media/20220313120002.0d782ce7@coco.lan/T/#t
-- https://lore.kernel.org/linux-media/Yi3ciCTbHrxYUatX@pendragon.ideasonboard.com/#r
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-It basically sorts the main media Makefiles and reorganizes drivers/media/platform
-building system. Now, the entries there are organized per-vendor, and each per-vendor
-directory under drivers/media/platform contains its own Kconfig/Makefile.
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH 00/64] at: https://lore.kernel.org/all/cover.1647242578.git.mchehab@kernel.org/
 
-It should be noticed that I opted to not sort the manufacturer's Kconfig files on this series
-by purpose. After this series, the per-vendor Kconfig menus have only a few drivers (up to
-~10 config symbols). That makes it a lot more manageable than what we had before when
-almost every platform driver config entry were on a single file.
-
-My current understaning is that the driver maintainers knows best how to better organize
-their Kconfig files,  considering that:
-
-- the per-vendor driver order may not be in alphabetical order, as it may make sense to group
-  drivers per type, platform and/or by its dependency chain;
-
-- It is now easy to sort the per-vendor entries alphabetically,  either per config title or per Kconfig
-  symbol;
-
-- Now that the main sort criteria is per-vendor, IMO it makes sense to define a per-vendor 
-  config space, like:
-
-	config VIDEO_VNDR_bar
-		...
-	config VIDEO_VNDR_foo
-		...
-	config VIDEO_VNDR_foobar
-		...
-
-Regards,
-Mauro
-
-Mauro Carvalho Chehab (64):
-  media: xc2028: rename the driver from tuner-xc2028
-  media: Makefiles: remove extra spaces
-  media: Makefiles: sort entries where it fits
-  media: platform: Makefile: reorganize its contents
-  media: platform: move platform menu dependencies to drivers
-  media: platform: place Aspeed driver on a separate dir
-  media: platform: place NXP drivers on a separate dir
-  media: platform: place Intel drivers on a separate dir
-  media: platform: place Via drivers on a separate dir
-  media: platform: place Renesas drivers on a separate dir
-  media: platform: allegro-dvt: move config to its own file
-  media: platform: amphion: move config to its own file
-  media: platform: coda: move config to its own file
-  media: platform: exynos-gsc: move config to its own file
-  media: platform: ge2d: move config to its own file
-  media: platform: mtk-jpeg: move config to its own file
-  media: platform: mtk-mdp: move config to its own file
-  media: platform: mtk-vcodec: move config to its own file
-  media: platform: mtk-vpu: move config to its own file
-  media: platform: omap3isp: move config to its own file
-  media: platform: camss: move config to its own file
-  media: platform: venus: move config to its own file
-  media: platform: rga: move config to its own file
-  media: platform: s3c-camif: move config to its own file
-  media: platform: s5p-g2d: move config to its own file
-  media: platform: hva: move config to its own file
-  media: platform: stm32: move config to its own file
-  media: platform: sun8i-di: move config to its own file
-  media: platform: sun8i-rotate: move config to its own file
-  media: platform: vde: move config to its own file
-  media: platform: ti-vpe: move config to its own file
-  media: platform: rkisp1: move config to its own file
-  media: platform: delta: move config to its own file
-  media: platform: bdisp: move config to its own file
-  media: platform: s5p-mfc: move config to its own file
-  media: platform: s5p-jpeg: move config to its own file
-  media: platform: Kconfig: sort entries
-  media: platform: move some manufacturer entries
-  media: platform: Kconfig: place platform drivers on a submenu
-  media: platform: rename coda/ to chips-media/
-  media: platform: rename marvell-ccic/ to marvell/
-  media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
-  media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
-  media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
-  media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
-  media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
-  media: platform: rename sunxi/ to allwinner/
-  media: platform: rename tegra/vde/ to nvidia/tegra-vde/
-  media: platform: rename amphion/ to nxp/amphion/
-  media: platform: rename exynos4-is/ to samsung/exynos4-is/
-  media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
-  media: platform: rename s3c-camif/ to samsung/s3c-camif/
-  media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
-  media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
-  media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
-  media: platform: rename stm32/ to sti/stm32/
-  media: platform: rename am437x/ to ti/am437x/
-  media: platform: rename davinci/ to ti/davinci/
-  media: platform: rename omap3isp/ to ti/omap3isp/
-  media: platform: rename omap/ to ti/omap/
-  media: platform: rename ti-vpe/ to ti/vpe/
-  media: platform: Create vendor/{Makefile,Kconfig} files
-  media: platform/*/Kconfig: make manufacturer menus more uniform
-  media: Kconfig: cleanup VIDEO_DEV dependencies
-
- Documentation/admin-guide/media/fimc.rst      |   2 +-
- .../admin-guide/media/i2c-cardlist.rst        |   2 +-
- Documentation/admin-guide/media/omap3isp.rst  |   2 +-
- .../admin-guide/media/omap4_camera.rst        |   2 +-
- .../media/drivers/davinci-vpbe-devel.rst      |  20 +-
- .../driver-api/media/drivers/fimc-devel.rst   |  14 +-
- Documentation/driver-api/media/v4l2-event.rst |   2 +-
- MAINTAINERS                                   |  72 +-
- drivers/input/rmi4/Kconfig                    |   2 +-
- drivers/input/touchscreen/Kconfig             |   4 +-
- drivers/media/Kconfig                         |  11 +-
- drivers/media/Makefile                        |   4 +-
- drivers/media/cec/platform/Makefile           |  16 +-
- drivers/media/common/Makefile                 |   7 +-
- drivers/media/common/saa7146/Kconfig          |   2 +-
- drivers/media/common/videobuf2/Makefile       |   8 +-
- drivers/media/dvb-core/Kconfig                |   2 +-
- drivers/media/dvb-frontends/Kconfig           |   4 +-
- drivers/media/dvb-frontends/Makefile          | 193 ++---
- drivers/media/firewire/Makefile               |   2 +-
- drivers/media/i2c/Kconfig                     | 250 +++---
- drivers/media/i2c/Makefile                    |  92 +--
- drivers/media/i2c/ccs/Kconfig                 |   2 +-
- drivers/media/i2c/cx25840/Kconfig             |   2 +-
- drivers/media/i2c/et8ek8/Kconfig              |   2 +-
- drivers/media/i2c/m5mols/Kconfig              |   2 +-
- drivers/media/pci/Kconfig                     |   2 +-
- drivers/media/pci/Makefile                    |  22 +-
- drivers/media/pci/bt8xx/Kconfig               |   2 +-
- drivers/media/pci/cobalt/Kconfig              |   2 +-
- drivers/media/pci/cx18/Kconfig                |   2 +-
- drivers/media/pci/cx18/cx18-driver.c          |   2 +-
- drivers/media/pci/cx18/cx18-dvb.c             |   2 +-
- drivers/media/pci/cx18/cx18-gpio.c            |   2 +-
- drivers/media/pci/cx23885/cx23885-cards.c     |   2 +-
- drivers/media/pci/cx23885/cx23885-dvb.c       |   2 +-
- drivers/media/pci/cx23885/cx23885-video.c     |   2 +-
- drivers/media/pci/cx88/cx88.h                 |   2 +-
- drivers/media/pci/dt3155/Kconfig              |   2 +-
- drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
- drivers/media/pci/ivtv/Kconfig                |   2 +-
- drivers/media/pci/ivtv/ivtv-driver.c          |   2 +-
- drivers/media/pci/ivtv/ivtv-gpio.c            |   2 +-
- drivers/media/pci/meye/Kconfig                |   2 +-
- drivers/media/pci/saa7134/saa7134-cards.c     |   2 +-
- drivers/media/pci/saa7134/saa7134-dvb.c       |   2 +-
- drivers/media/pci/saa7146/Kconfig             |   6 +-
- drivers/media/pci/sta2x11/Kconfig             |   2 +-
- drivers/media/pci/tw5864/Kconfig              |   2 +-
- drivers/media/pci/tw68/Kconfig                |   2 +-
- drivers/media/pci/tw686x/Kconfig              |   2 +-
- drivers/media/platform/Kconfig                | 740 ++----------------
- drivers/media/platform/Makefile               | 113 +--
- drivers/media/platform/allegro-dvt/Kconfig    |  19 +
- drivers/media/platform/allwinner/Kconfig      |   6 +
- .../platform/{sunxi => allwinner}/Makefile    |   0
- .../{sunxi => allwinner}/sun4i-csi/Kconfig    |   3 +-
- .../{sunxi => allwinner}/sun4i-csi/Makefile   |   0
- .../sun4i-csi/sun4i_csi.c                     |   0
- .../sun4i-csi/sun4i_csi.h                     |   0
- .../sun4i-csi/sun4i_dma.c                     |   0
- .../sun4i-csi/sun4i_v4l2.c                    |   0
- .../{sunxi => allwinner}/sun6i-csi/Kconfig    |   3 +-
- .../{sunxi => allwinner}/sun6i-csi/Makefile   |   0
- .../sun6i-csi/sun6i_csi.c                     |   0
- .../sun6i-csi/sun6i_csi.h                     |   0
- .../sun6i-csi/sun6i_csi_reg.h                 |   0
- .../sun6i-csi/sun6i_video.c                   |   0
- .../sun6i-csi/sun6i_video.h                   |   0
- .../media/platform/allwinner/sun8i-di/Kconfig |  14 +
- .../{sunxi => allwinner}/sun8i-di/Makefile    |   0
- .../{sunxi => allwinner}/sun8i-di/sun8i-di.c  |   0
- .../{sunxi => allwinner}/sun8i-di/sun8i-di.h  |   0
- .../platform/allwinner/sun8i-rotate/Kconfig   |  14 +
- .../sun8i-rotate/Makefile                     |   0
- .../sun8i-rotate/sun8i-formats.h              |   0
- .../sun8i-rotate/sun8i-rotate.h               |   0
- .../sun8i-rotate/sun8i_formats.c              |   0
- .../sun8i-rotate/sun8i_rotate.c               |   0
- drivers/media/platform/amlogic/Kconfig        |   5 +
- drivers/media/platform/amlogic/Makefile       |   2 +
- .../media/platform/amlogic/meson-ge2d/Kconfig |  14 +
- .../ge2d => amlogic/meson-ge2d}/Makefile      |   0
- .../ge2d => amlogic/meson-ge2d}/ge2d-regs.h   |   0
- .../{meson/ge2d => amlogic/meson-ge2d}/ge2d.c |   0
- drivers/media/platform/aspeed/Kconfig         |  13 +
- drivers/media/platform/aspeed/Makefile        |   2 +
- .../platform/{ => aspeed}/aspeed-video.c      |   0
- drivers/media/platform/atmel/Kconfig          |  15 +-
- drivers/media/platform/cadence/Kconfig        |  16 +-
- drivers/media/platform/chips-media/Kconfig    |  20 +
- .../platform/{coda => chips-media}/Makefile   |   0
- .../platform/{coda => chips-media}/coda-bit.c |   0
- .../{coda => chips-media}/coda-common.c       |   0
- .../platform/{coda => chips-media}/coda-gdi.c |   0
- .../{coda => chips-media}/coda-h264.c         |   0
- .../{coda => chips-media}/coda-jpeg.c         |   0
- .../{coda => chips-media}/coda-mpeg2.c        |   0
- .../{coda => chips-media}/coda-mpeg4.c        |   0
- .../platform/{coda => chips-media}/coda.h     |   0
- .../{coda => chips-media}/coda_regs.h         |   2 +-
- .../platform/{coda => chips-media}/imx-vdoa.c |   0
- .../platform/{coda => chips-media}/imx-vdoa.h |   0
- .../platform/{coda => chips-media}/trace.h    |   2 +-
- drivers/media/platform/imx/Kconfig            |  24 -
- drivers/media/platform/imx/Makefile           |   1 -
- drivers/media/platform/intel/Kconfig          |  14 +
- drivers/media/platform/intel/Makefile         |   2 +
- .../media/platform/{ => intel}/pxa_camera.c   |   0
- .../{marvell-ccic => marvell}/Kconfig         |   9 +-
- .../{marvell-ccic => marvell}/Makefile        |   0
- .../{marvell-ccic => marvell}/cafe-driver.c   |   0
- .../{marvell-ccic => marvell}/mcam-core.c     |   0
- .../{marvell-ccic => marvell}/mcam-core.h     |   0
- .../{marvell-ccic => marvell}/mmp-driver.c    |   0
- drivers/media/platform/mediatek/Kconfig       |   8 +
- drivers/media/platform/mediatek/Makefile      |   5 +
- .../media/platform/mediatek/mtk-jpeg/Kconfig  |  16 +
- .../platform/{ => mediatek}/mtk-jpeg/Makefile |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_core.c   |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_core.h   |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.c |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.h |   0
- .../mtk-jpeg/mtk_jpeg_dec_parse.c             |   0
- .../mtk-jpeg/mtk_jpeg_dec_parse.h             |   0
- .../mtk-jpeg/mtk_jpeg_dec_reg.h               |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.c |   0
- .../{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.h |   0
- .../media/platform/mediatek/mtk-mdp/Kconfig   |  17 +
- .../platform/{ => mediatek}/mtk-mdp/Makefile  |   2 +-
- .../{ => mediatek}/mtk-mdp/mtk_mdp_comp.c     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_comp.h     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_core.c     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_core.h     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_ipi.h      |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_m2m.c      |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_m2m.h      |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_regs.c     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_regs.h     |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_vpu.c      |   0
- .../{ => mediatek}/mtk-mdp/mtk_mdp_vpu.h      |   0
- .../platform/mediatek/mtk-vcodec/Kconfig      |  36 +
- .../{ => mediatek}/mtk-vcodec/Makefile        |   0
- .../mtk-vcodec/mtk_vcodec_dec.c               |   0
- .../mtk-vcodec/mtk_vcodec_dec.h               |   0
- .../mtk-vcodec/mtk_vcodec_dec_drv.c           |   0
- .../mtk-vcodec/mtk_vcodec_dec_hw.c            |   0
- .../mtk-vcodec/mtk_vcodec_dec_hw.h            |   0
- .../mtk-vcodec/mtk_vcodec_dec_pm.c            |   0
- .../mtk-vcodec/mtk_vcodec_dec_pm.h            |   0
- .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   0
- .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   0
- .../mtk-vcodec/mtk_vcodec_drv.h               |   0
- .../mtk-vcodec/mtk_vcodec_enc.c               |   0
- .../mtk-vcodec/mtk_vcodec_enc.h               |   0
- .../mtk-vcodec/mtk_vcodec_enc_drv.c           |   0
- .../mtk-vcodec/mtk_vcodec_enc_pm.c            |   0
- .../mtk-vcodec/mtk_vcodec_enc_pm.h            |   0
- .../{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.c |   0
- .../{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.h |   0
- .../mtk-vcodec/mtk_vcodec_fw_priv.h           |   0
- .../mtk-vcodec/mtk_vcodec_fw_scp.c            |   0
- .../mtk-vcodec/mtk_vcodec_fw_vpu.c            |   0
- .../mtk-vcodec/mtk_vcodec_intr.c              |   0
- .../mtk-vcodec/mtk_vcodec_intr.h              |   0
- .../mtk-vcodec/mtk_vcodec_util.c              |   0
- .../mtk-vcodec/mtk_vcodec_util.h              |   0
- .../mtk-vcodec/vdec/vdec_h264_if.c            |   0
- .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   0
- .../mtk-vcodec/vdec/vdec_vp8_if.c             |   0
- .../mtk-vcodec/vdec/vdec_vp9_if.c             |   0
- .../{ => mediatek}/mtk-vcodec/vdec_drv_base.h |   0
- .../{ => mediatek}/mtk-vcodec/vdec_drv_if.c   |   0
- .../{ => mediatek}/mtk-vcodec/vdec_drv_if.h   |   0
- .../{ => mediatek}/mtk-vcodec/vdec_ipi_msg.h  |   0
- .../mtk-vcodec/vdec_msg_queue.c               |   0
- .../mtk-vcodec/vdec_msg_queue.h               |   0
- .../{ => mediatek}/mtk-vcodec/vdec_vpu_if.c   |   0
- .../{ => mediatek}/mtk-vcodec/vdec_vpu_if.h   |   0
- .../mtk-vcodec/venc/venc_h264_if.c            |   0
- .../mtk-vcodec/venc/venc_vp8_if.c             |   0
- .../{ => mediatek}/mtk-vcodec/venc_drv_base.h |   0
- .../{ => mediatek}/mtk-vcodec/venc_drv_if.c   |   0
- .../{ => mediatek}/mtk-vcodec/venc_drv_if.h   |   0
- .../{ => mediatek}/mtk-vcodec/venc_ipi_msg.h  |   0
- .../{ => mediatek}/mtk-vcodec/venc_vpu_if.c   |   0
- .../{ => mediatek}/mtk-vcodec/venc_vpu_if.h   |   0
- .../media/platform/mediatek/mtk-vpu/Kconfig   |  15 +
- .../platform/{ => mediatek}/mtk-vpu/Makefile  |   0
- .../platform/{ => mediatek}/mtk-vpu/mtk_vpu.c |   0
- .../platform/{ => mediatek}/mtk-vpu/mtk_vpu.h |   0
- drivers/media/platform/nvidia/Kconfig         |   5 +
- .../media/platform/nvidia/tegra-vde/Kconfig   |  17 +
- .../{tegra/vde => nvidia/tegra-vde}/Makefile  |   0
- .../vde => nvidia/tegra-vde}/dmabuf-cache.c   |   0
- .../{tegra/vde => nvidia/tegra-vde}/h264.c    |   0
- .../{tegra/vde => nvidia/tegra-vde}/iommu.c   |   0
- .../{tegra/vde => nvidia/tegra-vde}/trace.h   |   2 +-
- .../{tegra/vde => nvidia/tegra-vde}/v4l2.c    |   0
- .../{tegra/vde => nvidia/tegra-vde}/vde.c     |   0
- .../{tegra/vde => nvidia/tegra-vde}/vde.h     |   0
- drivers/media/platform/nxp/Kconfig            |  55 ++
- drivers/media/platform/nxp/Makefile           |   9 +
- drivers/media/platform/nxp/amphion/Kconfig    |  21 +
- .../media/platform/{ => nxp}/amphion/Makefile |   0
- .../media/platform/{ => nxp}/amphion/vdec.c   |   0
- .../media/platform/{ => nxp}/amphion/venc.c   |   0
- .../media/platform/{ => nxp}/amphion/vpu.h    |   0
- .../platform/{ => nxp}/amphion/vpu_cmds.c     |   0
- .../platform/{ => nxp}/amphion/vpu_cmds.h     |   0
- .../platform/{ => nxp}/amphion/vpu_codec.h    |   0
- .../platform/{ => nxp}/amphion/vpu_color.c    |   0
- .../platform/{ => nxp}/amphion/vpu_core.c     |   0
- .../platform/{ => nxp}/amphion/vpu_core.h     |   0
- .../platform/{ => nxp}/amphion/vpu_dbg.c      |   0
- .../platform/{ => nxp}/amphion/vpu_defs.h     |   0
- .../platform/{ => nxp}/amphion/vpu_drv.c      |   0
- .../platform/{ => nxp}/amphion/vpu_helpers.c  |   0
- .../platform/{ => nxp}/amphion/vpu_helpers.h  |   0
- .../platform/{ => nxp}/amphion/vpu_imx8q.c    |   0
- .../platform/{ => nxp}/amphion/vpu_imx8q.h    |   0
- .../platform/{ => nxp}/amphion/vpu_malone.c   |   0
- .../platform/{ => nxp}/amphion/vpu_malone.h   |   0
- .../platform/{ => nxp}/amphion/vpu_mbox.c     |   0
- .../platform/{ => nxp}/amphion/vpu_mbox.h     |   0
- .../platform/{ => nxp}/amphion/vpu_msgs.c     |   0
- .../platform/{ => nxp}/amphion/vpu_msgs.h     |   0
- .../platform/{ => nxp}/amphion/vpu_rpc.c      |   0
- .../platform/{ => nxp}/amphion/vpu_rpc.h      |   0
- .../platform/{ => nxp}/amphion/vpu_v4l2.c     |   0
- .../platform/{ => nxp}/amphion/vpu_v4l2.h     |   0
- .../platform/{ => nxp}/amphion/vpu_windsor.c  |   0
- .../platform/{ => nxp}/amphion/vpu_windsor.h  |   0
- drivers/media/platform/{ => nxp}/fsl-viu.c    |   0
- .../media/platform/{ => nxp}/imx-jpeg/Kconfig |   3 +-
- .../platform/{ => nxp}/imx-jpeg/Makefile      |   0
- .../platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.c |   0
- .../platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.h |   0
- .../platform/{ => nxp}/imx-jpeg/mxc-jpeg.c    |   2 +-
- .../platform/{ => nxp}/imx-jpeg/mxc-jpeg.h    |   0
- .../platform/{imx => nxp}/imx-mipi-csis.c     |   0
- drivers/media/platform/{ => nxp}/imx-pxp.c    |   0
- drivers/media/platform/{ => nxp}/imx-pxp.h    |   0
- .../media/platform/{ => nxp}/mx2_emmaprp.c    |   0
- drivers/media/platform/qcom/Kconfig           |   6 +
- drivers/media/platform/qcom/Makefile          |   3 +
- drivers/media/platform/qcom/camss/Kconfig     |   9 +
- drivers/media/platform/qcom/venus/Kconfig     |  14 +
- drivers/media/platform/renesas/Kconfig        | 121 +++
- drivers/media/platform/renesas/Makefile       |  15 +
+ MAINTAINERS                                   |  18 +--
+ drivers/media/platform/Kconfig                | 113 +----------------
+ drivers/media/platform/Makefile               |  10 +-
+ drivers/media/platform/renesas/Kconfig        | 119 ++++++++++++++++++
+ drivers/media/platform/renesas/Makefile       |  15 +++
  .../media/platform/{ => renesas}/rcar-fcp.c   |   0
  .../media/platform/{ => renesas}/rcar-isp.c   |   0
- .../platform/{ => renesas}/rcar-vin/Kconfig   |   6 +-
+ .../platform/{ => renesas}/rcar-vin/Kconfig   |   0
  .../platform/{ => renesas}/rcar-vin/Makefile  |   0
  .../{ => renesas}/rcar-vin/rcar-core.c        |   0
  .../{ => renesas}/rcar-vin/rcar-csi2.c        |   0
@@ -501,7 +110,7 @@ Mauro Carvalho Chehab (64):
  .../{ => renesas}/rcar-vin/rcar-vin.h         |   0
  .../media/platform/{ => renesas}/rcar_drif.c  |   0
  .../media/platform/{ => renesas}/rcar_fdp1.c  |   0
- .../media/platform/{ => renesas}/rcar_jpu.c   |   2 +-
+ .../media/platform/{ => renesas}/rcar_jpu.c   |   0
  .../platform/{ => renesas}/renesas-ceu.c      |   0
  drivers/media/platform/{ => renesas}/sh_vou.c |   0
  .../platform/{ => renesas}/vsp1/Makefile      |   0
@@ -544,484 +153,12 @@ Mauro Carvalho Chehab (64):
  .../platform/{ => renesas}/vsp1/vsp1_video.c  |   0
  .../platform/{ => renesas}/vsp1/vsp1_video.h  |   0
  .../platform/{ => renesas}/vsp1/vsp1_wpf.c    |   0
- drivers/media/platform/rockchip/Kconfig       |   6 +
- drivers/media/platform/rockchip/Makefile      |   3 +
- drivers/media/platform/rockchip/rga/Kconfig   |  14 +
- .../media/platform/rockchip/rkisp1/Kconfig    |  19 +
- drivers/media/platform/samsung/Kconfig        |  10 +
- drivers/media/platform/samsung/Makefile       |   7 +
- .../media/platform/samsung/exynos-gsc/Kconfig |  10 +
- .../{ => samsung}/exynos-gsc/Makefile         |   0
- .../{ => samsung}/exynos-gsc/gsc-core.c       |   0
- .../{ => samsung}/exynos-gsc/gsc-core.h       |   0
- .../{ => samsung}/exynos-gsc/gsc-m2m.c        |   0
- .../{ => samsung}/exynos-gsc/gsc-regs.c       |   0
- .../{ => samsung}/exynos-gsc/gsc-regs.h       |   0
- .../platform/{ => samsung}/exynos4-is/Kconfig |   3 +-
- .../{ => samsung}/exynos4-is/Makefile         |   0
- .../{ => samsung}/exynos4-is/common.c         |   0
- .../{ => samsung}/exynos4-is/common.h         |   0
- .../{ => samsung}/exynos4-is/fimc-capture.c   |   0
- .../{ => samsung}/exynos4-is/fimc-core.c      |   0
- .../{ => samsung}/exynos4-is/fimc-core.h      |   0
- .../exynos4-is/fimc-is-command.h              |   0
- .../{ => samsung}/exynos4-is/fimc-is-errno.c  |   0
- .../{ => samsung}/exynos4-is/fimc-is-errno.h  |   0
- .../{ => samsung}/exynos4-is/fimc-is-i2c.c    |   0
- .../{ => samsung}/exynos4-is/fimc-is-i2c.h    |   0
- .../{ => samsung}/exynos4-is/fimc-is-param.c  |   0
- .../{ => samsung}/exynos4-is/fimc-is-param.h  |   0
- .../{ => samsung}/exynos4-is/fimc-is-regs.c   |   0
- .../{ => samsung}/exynos4-is/fimc-is-regs.h   |   0
- .../{ => samsung}/exynos4-is/fimc-is-sensor.c |   0
- .../{ => samsung}/exynos4-is/fimc-is-sensor.h |   0
- .../{ => samsung}/exynos4-is/fimc-is.c        |   0
- .../{ => samsung}/exynos4-is/fimc-is.h        |   0
- .../{ => samsung}/exynos4-is/fimc-isp-video.c |   0
- .../{ => samsung}/exynos4-is/fimc-isp-video.h |   0
- .../{ => samsung}/exynos4-is/fimc-isp.c       |   0
- .../{ => samsung}/exynos4-is/fimc-isp.h       |   0
- .../{ => samsung}/exynos4-is/fimc-lite-reg.c  |   0
- .../{ => samsung}/exynos4-is/fimc-lite-reg.h  |   0
- .../{ => samsung}/exynos4-is/fimc-lite.c      |   0
- .../{ => samsung}/exynos4-is/fimc-lite.h      |   0
- .../{ => samsung}/exynos4-is/fimc-m2m.c       |   0
- .../{ => samsung}/exynos4-is/fimc-reg.c       |   0
- .../{ => samsung}/exynos4-is/fimc-reg.h       |   0
- .../{ => samsung}/exynos4-is/media-dev.c      |   0
- .../{ => samsung}/exynos4-is/media-dev.h      |   0
- .../{ => samsung}/exynos4-is/mipi-csis.c      |   0
- .../{ => samsung}/exynos4-is/mipi-csis.h      |   0
- .../media/platform/samsung/s3c-camif/Kconfig  |  15 +
- .../platform/{ => samsung}/s3c-camif/Makefile |   0
- .../{ => samsung}/s3c-camif/camif-capture.c   |   0
- .../{ => samsung}/s3c-camif/camif-core.c      |   0
- .../{ => samsung}/s3c-camif/camif-core.h      |   0
- .../{ => samsung}/s3c-camif/camif-regs.c      |   0
- .../{ => samsung}/s3c-camif/camif-regs.h      |   0
- .../media/platform/samsung/s5p-g2d/Kconfig    |  11 +
- .../platform/{ => samsung}/s5p-g2d/Makefile   |   0
- .../platform/{ => samsung}/s5p-g2d/g2d-hw.c   |   0
- .../platform/{ => samsung}/s5p-g2d/g2d-regs.h |   0
- .../platform/{ => samsung}/s5p-g2d/g2d.c      |   0
- .../platform/{ => samsung}/s5p-g2d/g2d.h      |   0
- .../media/platform/samsung/s5p-jpeg/Kconfig   |  12 +
- .../platform/{ => samsung}/s5p-jpeg/Makefile  |   0
- .../{ => samsung}/s5p-jpeg/jpeg-core.c        |   2 +-
- .../{ => samsung}/s5p-jpeg/jpeg-core.h        |   2 +-
- .../s5p-jpeg/jpeg-hw-exynos3250.c             |   0
- .../s5p-jpeg/jpeg-hw-exynos3250.h             |   2 +-
- .../{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c  |   0
- .../{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h  |   0
- .../{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c      |   2 +-
- .../{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h      |   2 +-
- .../{ => samsung}/s5p-jpeg/jpeg-regs.h        |   2 +-
- .../media/platform/samsung/s5p-mfc/Kconfig    |   9 +
- .../platform/{ => samsung}/s5p-mfc/Makefile   |   0
- .../{ => samsung}/s5p-mfc/regs-mfc-v10.h      |   0
- .../{ => samsung}/s5p-mfc/regs-mfc-v6.h       |   0
- .../{ => samsung}/s5p-mfc/regs-mfc-v7.h       |   0
- .../{ => samsung}/s5p-mfc/regs-mfc-v8.h       |   0
- .../platform/{ => samsung}/s5p-mfc/regs-mfc.h |   0
- .../platform/{ => samsung}/s5p-mfc/s5p_mfc.c  |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd.c       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd.h       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.c    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.h    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.c    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.h    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_common.h    |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_ctrl.c      |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_ctrl.h      |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_debug.h     |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_dec.c       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_dec.h       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_enc.c       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_enc.h       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_intr.c      |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_intr.h      |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_iommu.h     |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr.c       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr.h       |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.c    |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.h    |   0
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.c    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.h    |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_pm.c        |   2 +-
- .../{ => samsung}/s5p-mfc/s5p_mfc_pm.h        |   2 +-
- drivers/media/platform/sti/Kconfig            |   9 +
- drivers/media/platform/sti/Makefile           |   6 +
- drivers/media/platform/sti/bdisp/Kconfig      |  10 +
- drivers/media/platform/sti/c8sectpfe/Kconfig  |   1 +
- drivers/media/platform/sti/delta/Kconfig      |  36 +
- drivers/media/platform/sti/hva/Kconfig        |  26 +
- drivers/media/platform/sti/stm32/Kconfig      |  31 +
- .../media/platform/{ => sti}/stm32/Makefile   |   0
- .../platform/{ => sti}/stm32/dma2d/dma2d-hw.c |   0
- .../{ => sti}/stm32/dma2d/dma2d-regs.h        |   0
- .../platform/{ => sti}/stm32/dma2d/dma2d.c    |   0
- .../platform/{ => sti}/stm32/dma2d/dma2d.h    |   0
- .../platform/{ => sti}/stm32/stm32-dcmi.c     |   0
- drivers/media/platform/sunxi/Kconfig          |   4 -
- drivers/media/platform/ti/Kconfig             |   9 +
- drivers/media/platform/ti/Makefile            |   6 +
- .../media/platform/{ => ti}/am437x/Kconfig    |   3 +-
- .../media/platform/{ => ti}/am437x/Makefile   |   0
- .../platform/{ => ti}/am437x/am437x-vpfe.c    |   0
- .../platform/{ => ti}/am437x/am437x-vpfe.h    |   0
- .../{ => ti}/am437x/am437x-vpfe_regs.h        |   0
- .../media/platform/{ => ti}/davinci/Kconfig   |  18 +-
- .../media/platform/{ => ti}/davinci/Makefile  |   0
- .../{ => ti}/davinci/ccdc_hw_device.h         |   0
- .../platform/{ => ti}/davinci/dm355_ccdc.c    |   0
- .../{ => ti}/davinci/dm355_ccdc_regs.h        |   0
- .../platform/{ => ti}/davinci/dm644x_ccdc.c   |   0
- .../{ => ti}/davinci/dm644x_ccdc_regs.h       |   0
- .../media/platform/{ => ti}/davinci/isif.c    |   0
- .../platform/{ => ti}/davinci/isif_regs.h     |   0
- .../media/platform/{ => ti}/davinci/vpbe.c    |   0
- .../platform/{ => ti}/davinci/vpbe_display.c  |   0
- .../platform/{ => ti}/davinci/vpbe_osd.c      |   0
- .../platform/{ => ti}/davinci/vpbe_osd_regs.h |   0
- .../platform/{ => ti}/davinci/vpbe_venc.c     |   0
- .../{ => ti}/davinci/vpbe_venc_regs.h         |   0
- .../platform/{ => ti}/davinci/vpfe_capture.c  |   0
- .../media/platform/{ => ti}/davinci/vpif.c    |   0
- .../media/platform/{ => ti}/davinci/vpif.h    |   0
- .../platform/{ => ti}/davinci/vpif_capture.c  |   0
- .../platform/{ => ti}/davinci/vpif_capture.h  |   0
- .../platform/{ => ti}/davinci/vpif_display.c  |   0
- .../platform/{ => ti}/davinci/vpif_display.h  |   0
- .../media/platform/{ => ti}/davinci/vpss.c    |   0
- drivers/media/platform/{ => ti}/omap/Kconfig  |   3 +-
- drivers/media/platform/{ => ti}/omap/Makefile |   0
- .../media/platform/{ => ti}/omap/omap_vout.c  |   0
- .../platform/{ => ti}/omap/omap_vout_vrfb.c   |   0
- .../platform/{ => ti}/omap/omap_vout_vrfb.h   |   0
- .../platform/{ => ti}/omap/omap_voutdef.h     |   0
- .../platform/{ => ti}/omap/omap_voutlib.c     |   0
- .../platform/{ => ti}/omap/omap_voutlib.h     |   0
- drivers/media/platform/ti/omap3isp/Kconfig    |  21 +
- .../media/platform/{ => ti}/omap3isp/Makefile |   0
- .../{ => ti}/omap3isp/cfa_coef_table.h        |   0
- .../platform/{ => ti}/omap3isp/gamma_table.h  |   0
- .../media/platform/{ => ti}/omap3isp/isp.c    |   0
- .../media/platform/{ => ti}/omap3isp/isp.h    |   0
- .../platform/{ => ti}/omap3isp/ispccdc.c      |   0
- .../platform/{ => ti}/omap3isp/ispccdc.h      |   0
- .../platform/{ => ti}/omap3isp/ispccp2.c      |   0
- .../platform/{ => ti}/omap3isp/ispccp2.h      |   0
- .../platform/{ => ti}/omap3isp/ispcsi2.c      |   0
- .../platform/{ => ti}/omap3isp/ispcsi2.h      |   0
- .../platform/{ => ti}/omap3isp/ispcsiphy.c    |   0
- .../platform/{ => ti}/omap3isp/ispcsiphy.h    |   0
- .../media/platform/{ => ti}/omap3isp/isph3a.h |   0
- .../platform/{ => ti}/omap3isp/isph3a_aewb.c  |   0
- .../platform/{ => ti}/omap3isp/isph3a_af.c    |   0
- .../platform/{ => ti}/omap3isp/isphist.c      |   0
- .../platform/{ => ti}/omap3isp/isphist.h      |   0
- .../platform/{ => ti}/omap3isp/isppreview.c   |   0
- .../platform/{ => ti}/omap3isp/isppreview.h   |   0
- .../media/platform/{ => ti}/omap3isp/ispreg.h |   0
- .../platform/{ => ti}/omap3isp/ispresizer.c   |   0
- .../platform/{ => ti}/omap3isp/ispresizer.h   |   0
- .../platform/{ => ti}/omap3isp/ispstat.c      |   0
- .../platform/{ => ti}/omap3isp/ispstat.h      |   0
- .../platform/{ => ti}/omap3isp/ispvideo.c     |   0
- .../platform/{ => ti}/omap3isp/ispvideo.h     |   0
- .../{ => ti}/omap3isp/luma_enhance_table.h    |   0
- .../{ => ti}/omap3isp/noise_filter_table.h    |   0
- .../platform/{ => ti}/omap3isp/omap3isp.h     |   0
- drivers/media/platform/ti/vpe/Kconfig         |  62 ++
- .../platform/{ti-vpe => ti/vpe}/Makefile      |   0
- .../{ti-vpe => ti/vpe}/cal-camerarx.c         |   0
- .../platform/{ti-vpe => ti/vpe}/cal-video.c   |   0
- .../media/platform/{ti-vpe => ti/vpe}/cal.c   |   0
- .../media/platform/{ti-vpe => ti/vpe}/cal.h   |   0
- .../platform/{ti-vpe => ti/vpe}/cal_regs.h    |   0
- .../media/platform/{ti-vpe => ti/vpe}/csc.c   |   0
- .../media/platform/{ti-vpe => ti/vpe}/csc.h   |   0
- .../media/platform/{ti-vpe => ti/vpe}/sc.c    |   0
- .../media/platform/{ti-vpe => ti/vpe}/sc.h    |   0
- .../platform/{ti-vpe => ti/vpe}/sc_coeff.h    |   0
- .../media/platform/{ti-vpe => ti/vpe}/vpdma.c |   0
- .../media/platform/{ti-vpe => ti/vpe}/vpdma.h |   0
- .../platform/{ti-vpe => ti/vpe}/vpdma_priv.h  |   0
- .../media/platform/{ti-vpe => ti/vpe}/vpe.c   |   0
- .../platform/{ti-vpe => ti/vpe}/vpe_regs.h    |   0
- drivers/media/platform/via/Kconfig            |  14 +
- drivers/media/platform/via/Makefile           |   2 +
- drivers/media/platform/{ => via}/via-camera.c |   0
- drivers/media/platform/{ => via}/via-camera.h |   0
- drivers/media/platform/xilinx/Kconfig         |  10 +-
- drivers/media/radio/Kconfig                   |  54 +-
- drivers/media/radio/Makefile                  |  43 +-
- drivers/media/radio/si470x/Kconfig            |   2 +-
- drivers/media/radio/wl128x/Kconfig            |   2 +-
- drivers/media/rc/Makefile                     |  47 +-
- drivers/media/rc/keymaps/Makefile             |  34 +-
- drivers/media/spi/Kconfig                     |   4 +-
- drivers/media/spi/Makefile                    |   7 +-
- drivers/media/test-drivers/Kconfig            |   2 +-
- drivers/media/test-drivers/Makefile           |  14 +-
- drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
- drivers/media/test-drivers/vimc/Kconfig       |   2 +-
- drivers/media/test-drivers/vivid/Kconfig      |   2 +-
- drivers/media/tuners/Kconfig                  |   6 +-
- drivers/media/tuners/Makefile                 |  66 +-
- drivers/media/tuners/e4000.c                  |   6 +-
- drivers/media/tuners/fc2580.c                 |   6 +-
- drivers/media/tuners/tuner-types.c            |   2 +-
- .../{tuner-xc2028-types.h => xc2028-types.h}  |   6 +-
- .../media/tuners/{tuner-xc2028.c => xc2028.c} |   6 +-
- .../media/tuners/{tuner-xc2028.h => xc2028.h} |   2 +-
- drivers/media/tuners/xc4000.c                 |   2 +-
- drivers/media/usb/Makefile                    |  40 +-
- drivers/media/usb/airspy/Kconfig              |   2 +-
- drivers/media/usb/au0828/Kconfig              |   6 +-
- drivers/media/usb/cpia2/Kconfig               |   2 +-
- drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
- drivers/media/usb/dvb-usb/Kconfig             |   4 +-
- drivers/media/usb/dvb-usb/cxusb.c             |   2 +-
- drivers/media/usb/dvb-usb/dib0700_devices.c   |   2 +-
- drivers/media/usb/em28xx/em28xx-i2c.c         |   2 +-
- drivers/media/usb/em28xx/em28xx.h             |   2 +-
- drivers/media/usb/gspca/Kconfig               |  96 +--
- drivers/media/usb/gspca/Makefile              |  88 +--
- drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
- drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
- drivers/media/usb/hackrf/Kconfig              |   2 +-
- drivers/media/usb/hdpvr/Kconfig               |   2 +-
- drivers/media/usb/msi2500/Kconfig             |   2 +-
- drivers/media/usb/pvrusb2/Kconfig             |   2 +-
- drivers/media/usb/pwc/Kconfig                 |   2 +-
- drivers/media/usb/s2255/Kconfig               |   2 +-
- drivers/media/usb/stkwebcam/Kconfig           |   2 +-
- drivers/media/usb/tm6000/tm6000-cards.c       |   2 +-
- drivers/media/usb/tm6000/tm6000-dvb.c         |   2 +-
- drivers/media/usb/tm6000/tm6000-i2c.c         |   2 +-
- drivers/media/usb/usbtv/Kconfig               |   2 +-
- drivers/media/usb/uvc/Kconfig                 |   2 +-
- drivers/media/usb/zr364xx/Kconfig             |   2 +-
- drivers/media/v4l2-core/Kconfig               |  12 +-
- drivers/media/v4l2-core/Makefile              |  34 +-
- drivers/media/v4l2-core/tuner-core.c          |   2 +-
- drivers/staging/media/atomisp/Kconfig         |   2 +-
- drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
- drivers/staging/media/hantro/Kconfig          |   2 +-
- drivers/staging/media/imx/Kconfig             |   2 +-
- drivers/staging/media/ipu3/Kconfig            |   2 +-
- drivers/staging/media/max96712/Kconfig        |   2 +-
- drivers/staging/media/meson/vdec/Kconfig      |   2 +-
- drivers/staging/media/omap4iss/Kconfig        |   2 +-
- drivers/staging/media/rkvdec/Kconfig          |   2 +-
- drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
- drivers/staging/media/tegra-video/Kconfig     |   2 +-
- drivers/staging/media/zoran/Kconfig           |   2 +-
- drivers/staging/most/video/Kconfig            |   2 +-
- .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
- drivers/usb/gadget/Kconfig                    |   2 +-
- drivers/usb/gadget/legacy/Kconfig             |   2 +-
- sound/pci/Kconfig                             |   4 +-
- 583 files changed, 1778 insertions(+), 1596 deletions(-)
- create mode 100644 drivers/media/platform/allegro-dvt/Kconfig
- create mode 100644 drivers/media/platform/allwinner/Kconfig
- rename drivers/media/platform/{sunxi => allwinner}/Makefile (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/Kconfig (83%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/Makefile (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_csi.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_csi.h (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_dma.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun4i-csi/sun4i_v4l2.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/Kconfig (81%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/Makefile (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi.h (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_csi_reg.h (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_video.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun6i-csi/sun6i_video.h (100%)
- create mode 100644 drivers/media/platform/allwinner/sun8i-di/Kconfig
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/Makefile (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/sun8i-di.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-di/sun8i-di.h (100%)
- create mode 100644 drivers/media/platform/allwinner/sun8i-rotate/Kconfig
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/Makefile (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i-formats.h (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i-rotate.h (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i_formats.c (100%)
- rename drivers/media/platform/{sunxi => allwinner}/sun8i-rotate/sun8i_rotate.c (100%)
- create mode 100644 drivers/media/platform/amlogic/Kconfig
- create mode 100644 drivers/media/platform/amlogic/Makefile
- create mode 100644 drivers/media/platform/amlogic/meson-ge2d/Kconfig
- rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/Makefile (100%)
- rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/ge2d-regs.h (100%)
- rename drivers/media/platform/{meson/ge2d => amlogic/meson-ge2d}/ge2d.c (100%)
- create mode 100644 drivers/media/platform/aspeed/Kconfig
- create mode 100644 drivers/media/platform/aspeed/Makefile
- rename drivers/media/platform/{ => aspeed}/aspeed-video.c (100%)
- create mode 100644 drivers/media/platform/chips-media/Kconfig
- rename drivers/media/platform/{coda => chips-media}/Makefile (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-bit.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-common.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-gdi.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-h264.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-jpeg.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-mpeg2.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda-mpeg4.c (100%)
- rename drivers/media/platform/{coda => chips-media}/coda.h (100%)
- rename drivers/media/platform/{coda => chips-media}/coda_regs.h (99%)
- rename drivers/media/platform/{coda => chips-media}/imx-vdoa.c (100%)
- rename drivers/media/platform/{coda => chips-media}/imx-vdoa.h (100%)
- rename drivers/media/platform/{coda => chips-media}/trace.h (98%)
- delete mode 100644 drivers/media/platform/imx/Kconfig
- delete mode 100644 drivers/media/platform/imx/Makefile
- create mode 100644 drivers/media/platform/intel/Kconfig
- create mode 100644 drivers/media/platform/intel/Makefile
- rename drivers/media/platform/{ => intel}/pxa_camera.c (100%)
- rename drivers/media/platform/{marvell-ccic => marvell}/Kconfig (85%)
- rename drivers/media/platform/{marvell-ccic => marvell}/Makefile (100%)
- rename drivers/media/platform/{marvell-ccic => marvell}/cafe-driver.c (100%)
- rename drivers/media/platform/{marvell-ccic => marvell}/mcam-core.c (100%)
- rename drivers/media/platform/{marvell-ccic => marvell}/mcam-core.h (100%)
- rename drivers/media/platform/{marvell-ccic => marvell}/mmp-driver.c (100%)
- create mode 100644 drivers/media/platform/mediatek/Kconfig
- create mode 100644 drivers/media/platform/mediatek/Makefile
- create mode 100644 drivers/media/platform/mediatek/mtk-jpeg/Kconfig
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/Makefile (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_core.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_core.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_hw.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_parse.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_parse.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_dec_reg.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-jpeg/mtk_jpeg_enc_hw.h (100%)
- create mode 100644 drivers/media/platform/mediatek/mtk-mdp/Kconfig
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/Makefile (77%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_comp.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_comp.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_core.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_core.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_ipi.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_m2m.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_m2m.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_regs.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_regs.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_vpu.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-mdp/mtk_mdp_vpu.h (100%)
- create mode 100644 drivers/media/platform/mediatek/mtk-vcodec/Kconfig
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/Makefile (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_drv.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_hw.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_hw.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_pm.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_pm.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_stateful.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_dec_stateless.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_drv.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_drv.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_pm.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_enc_pm.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_priv.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_scp.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_fw_vpu.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_intr.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_intr.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_util.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/mtk_vcodec_util.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_h264_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_h264_req_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_vp8_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec/vdec_vp9_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_base.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_drv_if.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_ipi_msg.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_msg_queue.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_msg_queue.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_vpu_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/vdec_vpu_if.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc/venc_h264_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc/venc_vp8_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_base.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_drv_if.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_ipi_msg.h (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_vpu_if.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vcodec/venc_vpu_if.h (100%)
- create mode 100644 drivers/media/platform/mediatek/mtk-vpu/Kconfig
- rename drivers/media/platform/{ => mediatek}/mtk-vpu/Makefile (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vpu/mtk_vpu.c (100%)
- rename drivers/media/platform/{ => mediatek}/mtk-vpu/mtk_vpu.h (100%)
- create mode 100644 drivers/media/platform/nvidia/Kconfig
- create mode 100644 drivers/media/platform/nvidia/tegra-vde/Kconfig
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/Makefile (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/dmabuf-cache.c (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/h264.c (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/iommu.c (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/trace.h (97%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/v4l2.c (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.c (100%)
- rename drivers/media/platform/{tegra/vde => nvidia/tegra-vde}/vde.h (100%)
- create mode 100644 drivers/media/platform/nxp/Kconfig
- create mode 100644 drivers/media/platform/nxp/Makefile
- create mode 100644 drivers/media/platform/nxp/amphion/Kconfig
- rename drivers/media/platform/{ => nxp}/amphion/Makefile (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vdec.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/venc.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_codec.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_color.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_core.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_core.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_dbg.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_defs.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_drv.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.h (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.c (100%)
- rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.h (100%)
- rename drivers/media/platform/{ => nxp}/fsl-viu.c (100%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/Kconfig (85%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/Makefile (100%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.c (100%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg-hw.h (100%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg.c (99%)
- rename drivers/media/platform/{ => nxp}/imx-jpeg/mxc-jpeg.h (100%)
- rename drivers/media/platform/{imx => nxp}/imx-mipi-csis.c (100%)
- rename drivers/media/platform/{ => nxp}/imx-pxp.c (100%)
- rename drivers/media/platform/{ => nxp}/imx-pxp.h (100%)
- rename drivers/media/platform/{ => nxp}/mx2_emmaprp.c (100%)
- create mode 100644 drivers/media/platform/qcom/Kconfig
- create mode 100644 drivers/media/platform/qcom/Makefile
- create mode 100644 drivers/media/platform/qcom/camss/Kconfig
- create mode 100644 drivers/media/platform/qcom/venus/Kconfig
+ 59 files changed, 146 insertions(+), 129 deletions(-)
  create mode 100644 drivers/media/platform/renesas/Kconfig
  create mode 100644 drivers/media/platform/renesas/Makefile
  rename drivers/media/platform/{ => renesas}/rcar-fcp.c (100%)
  rename drivers/media/platform/{ => renesas}/rcar-isp.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar-vin/Kconfig (87%)
+ rename drivers/media/platform/{ => renesas}/rcar-vin/Kconfig (100%)
  rename drivers/media/platform/{ => renesas}/rcar-vin/Makefile (100%)
  rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-core.c (100%)
  rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-csi2.c (100%)
@@ -1030,7 +167,7 @@ Mauro Carvalho Chehab (64):
  rename drivers/media/platform/{ => renesas}/rcar-vin/rcar-vin.h (100%)
  rename drivers/media/platform/{ => renesas}/rcar_drif.c (100%)
  rename drivers/media/platform/{ => renesas}/rcar_fdp1.c (100%)
- rename drivers/media/platform/{ => renesas}/rcar_jpu.c (99%)
+ rename drivers/media/platform/{ => renesas}/rcar_jpu.c (100%)
  rename drivers/media/platform/{ => renesas}/renesas-ceu.c (100%)
  rename drivers/media/platform/{ => renesas}/sh_vou.c (100%)
  rename drivers/media/platform/{ => renesas}/vsp1/Makefile (100%)
@@ -1073,219 +210,642 @@ Mauro Carvalho Chehab (64):
  rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.c (100%)
  rename drivers/media/platform/{ => renesas}/vsp1/vsp1_video.h (100%)
  rename drivers/media/platform/{ => renesas}/vsp1/vsp1_wpf.c (100%)
- create mode 100644 drivers/media/platform/rockchip/Kconfig
- create mode 100644 drivers/media/platform/rockchip/Makefile
- create mode 100644 drivers/media/platform/rockchip/rga/Kconfig
- create mode 100644 drivers/media/platform/rockchip/rkisp1/Kconfig
- create mode 100644 drivers/media/platform/samsung/Kconfig
- create mode 100644 drivers/media/platform/samsung/Makefile
- create mode 100644 drivers/media/platform/samsung/exynos-gsc/Kconfig
- rename drivers/media/platform/{ => samsung}/exynos-gsc/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-core.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-core.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-m2m.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-regs.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos-gsc/gsc-regs.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/Kconfig (96%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/common.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/common.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-capture.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-core.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-core.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-command.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-errno.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-errno.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-i2c.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-i2c.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-param.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-param.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-regs.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-regs.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-sensor.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is-sensor.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-is.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp-video.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp-video.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-isp.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite-reg.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite-reg.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-lite.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-m2m.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-reg.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/fimc-reg.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/media-dev.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/media-dev.h (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/mipi-csis.c (100%)
- rename drivers/media/platform/{ => samsung}/exynos4-is/mipi-csis.h (100%)
- create mode 100644 drivers/media/platform/samsung/s3c-camif/Kconfig
- rename drivers/media/platform/{ => samsung}/s3c-camif/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/s3c-camif/camif-capture.c (100%)
- rename drivers/media/platform/{ => samsung}/s3c-camif/camif-core.c (100%)
- rename drivers/media/platform/{ => samsung}/s3c-camif/camif-core.h (100%)
- rename drivers/media/platform/{ => samsung}/s3c-camif/camif-regs.c (100%)
- rename drivers/media/platform/{ => samsung}/s3c-camif/camif-regs.h (100%)
- create mode 100644 drivers/media/platform/samsung/s5p-g2d/Kconfig
- rename drivers/media/platform/{ => samsung}/s5p-g2d/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d-hw.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d-regs.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-g2d/g2d.h (100%)
- create mode 100644 drivers/media/platform/samsung/s5p-jpeg/Kconfig
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h (97%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h (97%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h (99%)
- create mode 100644 drivers/media/platform/samsung/s5p-mfc/Kconfig
- rename drivers/media/platform/{ => samsung}/s5p-mfc/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v10.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v6.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v7.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc-v8.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/regs-mfc.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd.c (89%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd.h (92%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.c (98%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v5.h (82%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.c (98%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_cmd_v6.h (82%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_common.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_ctrl.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_ctrl.h (92%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_debug.h (95%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_dec.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_dec.h (90%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_enc.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_enc.h (90%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_intr.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_intr.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_iommu.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr.c (98%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr.h (99%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v5.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_opr_v6.h (96%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_pm.c (97%)
- rename drivers/media/platform/{ => samsung}/s5p-mfc/s5p_mfc_pm.h (87%)
- create mode 100644 drivers/media/platform/sti/Kconfig
- create mode 100644 drivers/media/platform/sti/Makefile
- create mode 100644 drivers/media/platform/sti/bdisp/Kconfig
- create mode 100644 drivers/media/platform/sti/delta/Kconfig
- create mode 100644 drivers/media/platform/sti/hva/Kconfig
- create mode 100644 drivers/media/platform/sti/stm32/Kconfig
- rename drivers/media/platform/{ => sti}/stm32/Makefile (100%)
- rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-hw.c (100%)
- rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-regs.h (100%)
- rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.c (100%)
- rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.h (100%)
- rename drivers/media/platform/{ => sti}/stm32/stm32-dcmi.c (100%)
- delete mode 100644 drivers/media/platform/sunxi/Kconfig
- create mode 100644 drivers/media/platform/ti/Kconfig
- create mode 100644 drivers/media/platform/ti/Makefile
- rename drivers/media/platform/{ => ti}/am437x/Kconfig (88%)
- rename drivers/media/platform/{ => ti}/am437x/Makefile (100%)
- rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe.c (100%)
- rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe.h (100%)
- rename drivers/media/platform/{ => ti}/am437x/am437x-vpfe_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/Kconfig (90%)
- rename drivers/media/platform/{ => ti}/davinci/Makefile (100%)
- rename drivers/media/platform/{ => ti}/davinci/ccdc_hw_device.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/dm355_ccdc.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/dm355_ccdc_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/dm644x_ccdc.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/dm644x_ccdc_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/isif.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/isif_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe_display.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe_osd.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe_osd_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe_venc.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpbe_venc_regs.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpfe_capture.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif_capture.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif_capture.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif_display.c (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpif_display.h (100%)
- rename drivers/media/platform/{ => ti}/davinci/vpss.c (100%)
- rename drivers/media/platform/{ => ti}/omap/Kconfig (89%)
- rename drivers/media/platform/{ => ti}/omap/Makefile (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_vout.c (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.c (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.h (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_voutdef.h (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_voutlib.c (100%)
- rename drivers/media/platform/{ => ti}/omap/omap_voutlib.h (100%)
- create mode 100644 drivers/media/platform/ti/omap3isp/Kconfig
- rename drivers/media/platform/{ => ti}/omap3isp/Makefile (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/cfa_coef_table.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/gamma_table.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isp.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isp.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispccdc.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispccdc.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispccp2.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispccp2.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispcsi2.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispcsi2.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispcsiphy.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispcsiphy.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isph3a.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isph3a_aewb.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isph3a_af.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isphist.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isphist.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isppreview.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/isppreview.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispreg.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispresizer.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispresizer.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispstat.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispstat.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispvideo.c (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/ispvideo.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/luma_enhance_table.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/noise_filter_table.h (100%)
- rename drivers/media/platform/{ => ti}/omap3isp/omap3isp.h (100%)
- create mode 100644 drivers/media/platform/ti/vpe/Kconfig
- rename drivers/media/platform/{ti-vpe => ti/vpe}/Makefile (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/cal-camerarx.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/cal-video.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/cal.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/cal.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/cal_regs.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/sc_coeff.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma_priv.h (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe.c (100%)
- rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe_regs.h (100%)
- create mode 100644 drivers/media/platform/via/Kconfig
- create mode 100644 drivers/media/platform/via/Makefile
- rename drivers/media/platform/{ => via}/via-camera.c (100%)
- rename drivers/media/platform/{ => via}/via-camera.h (100%)
- rename drivers/media/tuners/{tuner-xc2028-types.h => xc2028-types.h} (96%)
- rename drivers/media/tuners/{tuner-xc2028.c => xc2028.c} (99%)
- rename drivers/media/tuners/{tuner-xc2028.h => xc2028.h} (99%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 780ef2ef3362..848640546398 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10322,7 +10322,7 @@ M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Maintained
+-F:	drivers/media/platform/rcar_jpu.c
++F:	drivers/media/platform/renesas/rcar_jpu.c
+ 
+ JSM Neo PCI based serial card
+ L:	linux-serial@vger.kernel.org
+@@ -11973,7 +11973,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,ceu.yaml
+-F:	drivers/media/platform/renesas-ceu.c
++F:	drivers/media/platform/renesas/renesas-ceu.c
+ F:	include/media/drv-intf/renesas-ceu.h
+ 
+ MEDIA DRIVERS FOR RENESAS - DRIF
+@@ -11983,7 +11983,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,drif.yaml
+-F:	drivers/media/platform/rcar_drif.c
++F:	drivers/media/platform/renesas/rcar_drif.c
+ 
+ MEDIA DRIVERS FOR RENESAS - FCP
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+@@ -11992,7 +11992,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,fcp.yaml
+-F:	drivers/media/platform/rcar-fcp.c
++F:	drivers/media/platform/renesas/rcar-fcp.c
+ F:	include/media/rcar-fcp.h
+ 
+ MEDIA DRIVERS FOR RENESAS - FDP1
+@@ -12002,7 +12002,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,fdp1.yaml
+-F:	drivers/media/platform/rcar_fdp1.c
++F:	drivers/media/platform/renesas/rcar_fdp1.c
+ 
+ MEDIA DRIVERS FOR RENESAS - VIN
+ M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+@@ -12013,8 +12013,8 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+ F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+ F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+-F:	drivers/media/platform/rcar-isp.c
+-F:	drivers/media/platform/rcar-vin/
++F:	drivers/media/platform/renesas/rcar-isp.c
++F:	drivers/media/platform/renesas/rcar-vin/
+ 
+ MEDIA DRIVERS FOR RENESAS - VSP1
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+@@ -12024,7 +12024,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+-F:	drivers/media/platform/vsp1/
++F:	drivers/media/platform/renesas/vsp1/
+ 
+ MEDIA DRIVERS FOR ST STV0910 DEMODULATOR ICs
+ L:	linux-media@vger.kernel.org
+@@ -17536,7 +17536,7 @@ F:	include/media/i2c/rj54n1cb0c.h
+ SH_VOU V4L2 OUTPUT DRIVER
+ L:	linux-media@vger.kernel.org
+ S:	Orphan
+-F:	drivers/media/platform/sh_vou.c
++F:	drivers/media/platform/renesas/sh_vou.c
+ F:	include/media/drv-intf/sh_vou.h
+ 
+ SI2157 MEDIA DRIVER
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 83a496327325..b6650caecf45 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -31,6 +31,8 @@ config V4L_MEM2MEM_DRIVERS
+ 
+ source "drivers/media/platform/nxp/Kconfig"
+ 
++source "drivers/media/platform/renesas/Kconfig"
++
+ # V4L platform drivers
+ 
+ source "drivers/media/platform/marvell-ccic/Kconfig"
+@@ -45,15 +47,6 @@ source "drivers/media/platform/omap/Kconfig"
+ 
+ source "drivers/media/platform/aspeed/Kconfig"
+ 
+-config VIDEO_SH_VOU
+-	tristate "SuperH VOU video output driver"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && I2C
+-	depends on ARCH_SHMOBILE || COMPILE_TEST
+-	select VIDEOBUF2_DMA_CONTIG
+-	help
+-	  Support for the Video Output Unit (VOU) on SuperH SoCs.
+-
+ config VIDEO_MUX
+ 	tristate "Video Multiplexer"
+ 	depends on V4L_PLATFORM_DRIVERS
+@@ -129,16 +122,6 @@ config VIDEO_STM32_DCMI
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called stm32-dcmi.
+ 
+-config VIDEO_RENESAS_CEU
+-	tristate "Renesas Capture Engine Unit (CEU) driver"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && VIDEO_V4L2
+-	depends on ARCH_SHMOBILE || ARCH_R7S72100 || COMPILE_TEST
+-	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_FWNODE
+-	help
+-	  This is a v4l2 driver for the Renesas CEU Interface
+-
+ config VIDEO_ROCKCHIP_ISP1
+ 	tristate "Rockchip Image Signal Processing v1 Unit driver"
+ 	depends on V4L_PLATFORM_DRIVERS
+@@ -161,7 +144,6 @@ config VIDEO_ROCKCHIP_ISP1
+ source "drivers/media/platform/exynos4-is/Kconfig"
+ source "drivers/media/platform/am437x/Kconfig"
+ source "drivers/media/platform/xilinx/Kconfig"
+-source "drivers/media/platform/rcar-vin/Kconfig"
+ source "drivers/media/platform/atmel/Kconfig"
+ source "drivers/media/platform/sunxi/Kconfig"
+ 
+@@ -191,22 +173,6 @@ config VIDEO_TI_CAL_MC
+ 	  default. Note that this behavior can be overridden via
+ 	  module parameter 'mc_api'.
+ 
+-config VIDEO_RCAR_ISP
+-	tristate "R-Car Image Signal Processor (ISP)"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_V4L2 && OF
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select RESET_CONTROLLER
+-	select V4L2_FWNODE
+-	help
+-	  Support for Renesas R-Car Image Signal Processor (ISP).
+-	  Enable this to support the Renesas R-Car Image Signal
+-	  Processor (ISP).
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called rcar-isp.
+ 
+ # Mem2mem drivers
+ 
+@@ -477,64 +443,6 @@ config VIDEO_STM32_DMA2D
+ 	  The STM32 DMA2D is a memory-to-memory engine for pixel conversion
+ 	  and specialized DMA dedicated to image manipulation.
+ 
+-config VIDEO_RENESAS_FDP1
+-	tristate "Renesas Fine Display Processor"
+-	depends on V4L_MEM2MEM_DRIVERS
+-	depends on VIDEO_DEV && VIDEO_V4L2
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
+-	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_MEM2MEM_DEV
+-	help
+-	  This is a V4L2 driver for the Renesas Fine Display Processor
+-	  providing colour space conversion, and de-interlacing features.
+-
+-	  To compile this driver as a module, choose M here: the module
+-	  will be called rcar_fdp1.
+-
+-config VIDEO_RENESAS_JPU
+-	tristate "Renesas JPEG Processing Unit"
+-	depends on V4L_MEM2MEM_DRIVERS
+-	depends on VIDEO_DEV && VIDEO_V4L2
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	select VIDEOBUF2_DMA_CONTIG
+-	select V4L2_MEM2MEM_DEV
+-	help
+-	  This is a V4L2 driver for the Renesas JPEG Processing Unit.
+-
+-	  To compile this driver as a module, choose M here: the module
+-	  will be called rcar_jpu.
+-
+-config VIDEO_RENESAS_FCP
+-	tristate "Renesas Frame Compression Processor"
+-	depends on V4L_MEM2MEM_DRIVERS
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	depends on OF
+-	help
+-	  This is a driver for the Renesas Frame Compression Processor (FCP).
+-	  The FCP is a companion module of video processing modules in the
+-	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
+-	  the codec, VSP and FDP modules.
+-
+-	  To compile this driver as a module, choose M here: the module
+-	  will be called rcar-fcp.
+-
+-config VIDEO_RENESAS_VSP1
+-	tristate "Renesas VSP1 Video Processing Engine"
+-	depends on V4L_MEM2MEM_DRIVERS
+-	depends on VIDEO_V4L2
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select VIDEOBUF2_DMA_CONTIG
+-	select VIDEOBUF2_VMALLOC
+-	help
+-	  This is a V4L2 driver for the Renesas VSP1 video processing engine.
+-
+-	  To compile this driver as a module, choose M here: the module
+-	  will be called vsp1.
+-
+ config VIDEO_ROCKCHIP_RGA
+ 	tristate "Rockchip Raster 2d Graphic Acceleration Unit"
+ 	depends on V4L_MEM2MEM_DRIVERS
+@@ -664,20 +572,3 @@ config VIDEO_TI_CSC
+ 
+ # DVB platform drivers
+ source "drivers/media/platform/sti/c8sectpfe/Kconfig"
+-
+-# SDR platform drivers
+-config VIDEO_RCAR_DRIF
+-	tristate "Renesas Digital Radio Interface (DRIF)"
+-	depends on SDR_PLATFORM_DRIVERS
+-	depends on VIDEO_V4L2
+-	depends on ARCH_RENESAS || COMPILE_TEST
+-	select VIDEOBUF2_VMALLOC
+-	select V4L2_ASYNC
+-	help
+-	  Say Y if you want to enable R-Car Gen3 DRIF support. DRIF is Digital
+-	  Radio Interface that interfaces with an RF front end chip. It is a
+-	  receiver of digital data which uses DMA to transfer received data to
+-	  a configured location for an application to use.
+-
+-	  To compile this driver as a module, choose M here; the module
+-	  will be called rcar_drif.
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 4742b18fd8d8..20b07ae3ebf1 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -27,7 +27,7 @@ obj-y += omap/
+ obj-y += omap3isp/
+ obj-y += qcom/camss/
+ obj-y += qcom/venus/
+-obj-y += rcar-vin/
++obj-y += renesas/
+ obj-y += rockchip/rga/
+ obj-y += rockchip/rkisp1/
+ obj-y += s3c-camif/
+@@ -43,7 +43,6 @@ obj-y += sunxi/
+ obj-y += tegra/vde/
+ obj-y += ti-vpe/
+ obj-y += via/
+-obj-y += vsp1/
+ obj-y += xilinx/
+ 
+ # Please place here only ancillary drivers that aren't SoC-specific
+@@ -51,10 +50,3 @@ obj-y += xilinx/
+ # (e. g. LC_ALL=C sort Makefile)
+ obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
+ obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
+-obj-$(CONFIG_VIDEO_RCAR_DRIF)		+= rcar_drif.o
+-obj-$(CONFIG_VIDEO_RCAR_ISP)		+= rcar-isp.o
+-obj-$(CONFIG_VIDEO_RENESAS_CEU)		+= renesas-ceu.o
+-obj-$(CONFIG_VIDEO_RENESAS_FCP)		+= rcar-fcp.o
+-obj-$(CONFIG_VIDEO_RENESAS_FDP1)	+= rcar_fdp1.o
+-obj-$(CONFIG_VIDEO_RENESAS_JPU)		+= rcar_jpu.o
+-obj-$(CONFIG_VIDEO_SH_VOU)		+= sh_vou.o
+diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+new file mode 100644
+index 000000000000..3f35f1b5106d
+--- /dev/null
++++ b/drivers/media/platform/renesas/Kconfig
+@@ -0,0 +1,119 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++# V4L drivers
++
++config VIDEO_RCAR_ISP
++	tristate "R-Car Image Signal Processor (ISP)"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on VIDEO_V4L2 && OF
++	depends on ARCH_RENESAS || COMPILE_TEST
++	select MEDIA_CONTROLLER
++	select VIDEO_V4L2_SUBDEV_API
++	select RESET_CONTROLLER
++	select V4L2_FWNODE
++	help
++	  Support for Renesas R-Car Image Signal Processor (ISP).
++	  Enable this to support the Renesas R-Car Image Signal
++	  Processor (ISP).
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called rcar-isp.
++
++config VIDEO_RENESAS_CEU
++	tristate "Renesas Capture Engine Unit (CEU) driver"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on VIDEO_DEV && VIDEO_V4L2
++	depends on ARCH_SHMOBILE || ARCH_R7S72100 || COMPILE_TEST
++	select VIDEOBUF2_DMA_CONTIG
++	select V4L2_FWNODE
++	help
++	  This is a v4l2 driver for the Renesas CEU Interface
++
++config VIDEO_SH_VOU
++	tristate "SuperH VOU video output driver"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on VIDEO_DEV && I2C
++	depends on ARCH_SHMOBILE || COMPILE_TEST
++	select VIDEOBUF2_DMA_CONTIG
++	help
++	  Support for the Video Output Unit (VOU) on SuperH SoCs.
++
++source "drivers/media/platform/renesas/rcar-vin/Kconfig"
++
++# Mem2mem drivers
++
++config VIDEO_RENESAS_FCP
++	tristate "Renesas Frame Compression Processor"
++	depends on V4L_MEM2MEM_DRIVERS
++	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on OF
++	help
++	  This is a driver for the Renesas Frame Compression Processor (FCP).
++	  The FCP is a companion module of video processing modules in the
++	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
++	  the codec, VSP and FDP modules.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called rcar-fcp.
++
++config VIDEO_RENESAS_FDP1
++	tristate "Renesas Fine Display Processor"
++	depends on V4L_MEM2MEM_DRIVERS
++	depends on VIDEO_DEV && VIDEO_V4L2
++	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
++	select VIDEOBUF2_DMA_CONTIG
++	select V4L2_MEM2MEM_DEV
++	help
++	  This is a V4L2 driver for the Renesas Fine Display Processor
++	  providing colour space conversion, and de-interlacing features.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called rcar_fdp1.
++
++config VIDEO_RENESAS_JPU
++	tristate "Renesas JPEG Processing Unit"
++	depends on V4L_MEM2MEM_DRIVERS
++	depends on VIDEO_DEV && VIDEO_V4L2
++	depends on ARCH_RENESAS || COMPILE_TEST
++	select VIDEOBUF2_DMA_CONTIG
++	select V4L2_MEM2MEM_DEV
++	help
++	  This is a V4L2 driver for the Renesas JPEG Processing Unit.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called rcar_jpu.
++
++config VIDEO_RENESAS_VSP1
++	tristate "Renesas VSP1 Video Processing Engine"
++	depends on V4L_MEM2MEM_DRIVERS
++	depends on VIDEO_V4L2
++	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on (!ARM64 && !VIDEO_RENESAS_FCP) || VIDEO_RENESAS_FCP
++	select MEDIA_CONTROLLER
++	select VIDEO_V4L2_SUBDEV_API
++	select VIDEOBUF2_DMA_CONTIG
++	select VIDEOBUF2_VMALLOC
++	help
++	  This is a V4L2 driver for the Renesas VSP1 video processing engine.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called vsp1.
++
++# SDR drivers
++
++config VIDEO_RCAR_DRIF
++	tristate "Renesas Digital Radio Interface (DRIF)"
++	depends on SDR_PLATFORM_DRIVERS
++	depends on VIDEO_V4L2
++	depends on ARCH_RENESAS || COMPILE_TEST
++	select VIDEOBUF2_VMALLOC
++	select V4L2_ASYNC
++	help
++	  Say Y if you want to enable R-Car Gen3 DRIF support. DRIF is Digital
++	  Radio Interface that interfaces with an RF front end chip. It is a
++	  receiver of digital data which uses DMA to transfer received data to
++	  a configured location for an application to use.
++
++	  To compile this driver as a module, choose M here; the module
++	  will be called rcar_drif.
+diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+new file mode 100644
+index 000000000000..3ec226ef5fd2
+--- /dev/null
++++ b/drivers/media/platform/renesas/Makefile
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Makefile for the Renesas capture/playback device drivers.
++#
++
++obj-y += rcar-vin/
++obj-y += vsp1/
++
++obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
++obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
++obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
++obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
++obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
++obj-$(CONFIG_VIDEO_RENESAS_JPU) += rcar_jpu.o
++obj-$(CONFIG_VIDEO_SH_VOU) += sh_vou.o
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/renesas/rcar-fcp.c
+similarity index 100%
+rename from drivers/media/platform/rcar-fcp.c
+rename to drivers/media/platform/renesas/rcar-fcp.c
+diff --git a/drivers/media/platform/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
+similarity index 100%
+rename from drivers/media/platform/rcar-isp.c
+rename to drivers/media/platform/renesas/rcar-isp.c
+diff --git a/drivers/media/platform/rcar-vin/Kconfig b/drivers/media/platform/renesas/rcar-vin/Kconfig
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/Kconfig
+rename to drivers/media/platform/renesas/rcar-vin/Kconfig
+diff --git a/drivers/media/platform/rcar-vin/Makefile b/drivers/media/platform/renesas/rcar-vin/Makefile
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/Makefile
+rename to drivers/media/platform/renesas/rcar-vin/Makefile
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/rcar-core.c
+rename to drivers/media/platform/renesas/rcar-vin/rcar-core.c
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/rcar-csi2.c
+rename to drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/rcar-dma.c
+rename to drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/rcar-v4l2.c
+rename to drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+similarity index 100%
+rename from drivers/media/platform/rcar-vin/rcar-vin.h
+rename to drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+similarity index 100%
+rename from drivers/media/platform/rcar_drif.c
+rename to drivers/media/platform/renesas/rcar_drif.c
+diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+similarity index 100%
+rename from drivers/media/platform/rcar_fdp1.c
+rename to drivers/media/platform/renesas/rcar_fdp1.c
+diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
+similarity index 100%
+rename from drivers/media/platform/rcar_jpu.c
+rename to drivers/media/platform/renesas/rcar_jpu.c
+diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
+similarity index 100%
+rename from drivers/media/platform/renesas-ceu.c
+rename to drivers/media/platform/renesas/renesas-ceu.c
+diff --git a/drivers/media/platform/sh_vou.c b/drivers/media/platform/renesas/sh_vou.c
+similarity index 100%
+rename from drivers/media/platform/sh_vou.c
+rename to drivers/media/platform/renesas/sh_vou.c
+diff --git a/drivers/media/platform/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
+similarity index 100%
+rename from drivers/media/platform/vsp1/Makefile
+rename to drivers/media/platform/renesas/vsp1/Makefile
+diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1.h
+rename to drivers/media/platform/renesas/vsp1/vsp1.h
+diff --git a/drivers/media/platform/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_brx.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_brx.c
+diff --git a/drivers/media/platform/vsp1/vsp1_brx.h b/drivers/media/platform/renesas/vsp1/vsp1_brx.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_brx.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_brx.h
+diff --git a/drivers/media/platform/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_clu.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_clu.c
+diff --git a/drivers/media/platform/vsp1/vsp1_clu.h b/drivers/media/platform/renesas/vsp1/vsp1_clu.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_clu.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_clu.h
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_dl.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_dl.c
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.h b/drivers/media/platform/renesas/vsp1/vsp1_dl.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_dl.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_dl.h
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drm.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_drm.c
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drm.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_drm.h
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_drv.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_drv.c
+diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_entity.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_entity.c
+diff --git a/drivers/media/platform/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_entity.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_entity.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgo.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hgo.h b/drivers/media/platform/renesas/vsp1/vsp1_hgo.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgo.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgo.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgt.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hgt.h b/drivers/media/platform/renesas/vsp1/vsp1_hgt.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hgt.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hgt.h
+diff --git a/drivers/media/platform/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_histo.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_histo.c
+diff --git a/drivers/media/platform/vsp1/vsp1_histo.h b/drivers/media/platform/renesas/vsp1/vsp1_histo.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_histo.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_histo.h
+diff --git a/drivers/media/platform/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hsit.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+diff --git a/drivers/media/platform/vsp1/vsp1_hsit.h b/drivers/media/platform/renesas/vsp1/vsp1_hsit.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_hsit.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_hsit.h
+diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lif.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_lif.c
+diff --git a/drivers/media/platform/vsp1/vsp1_lif.h b/drivers/media/platform/renesas/vsp1/vsp1_lif.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lif.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_lif.h
+diff --git a/drivers/media/platform/vsp1/vsp1_lut.c b/drivers/media/platform/renesas/vsp1/vsp1_lut.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lut.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_lut.c
+diff --git a/drivers/media/platform/vsp1/vsp1_lut.h b/drivers/media/platform/renesas/vsp1/vsp1_lut.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_lut.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_lut.h
+diff --git a/drivers/media/platform/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_pipe.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+diff --git a/drivers/media/platform/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_pipe.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_regs.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_regs.h
+diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rwpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+diff --git a/drivers/media/platform/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_rwpf.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+diff --git a/drivers/media/platform/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_sru.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_sru.c
+diff --git a/drivers/media/platform/vsp1/vsp1_sru.h b/drivers/media/platform/renesas/vsp1/vsp1_sru.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_sru.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_sru.h
+diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uds.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_uds.c
+diff --git a/drivers/media/platform/vsp1/vsp1_uds.h b/drivers/media/platform/renesas/vsp1/vsp1_uds.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uds.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_uds.h
+diff --git a/drivers/media/platform/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uif.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_uif.c
+diff --git a/drivers/media/platform/vsp1/vsp1_uif.h b/drivers/media/platform/renesas/vsp1/vsp1_uif.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_uif.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_uif.h
+diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_video.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_video.c
+diff --git a/drivers/media/platform/vsp1/vsp1_video.h b/drivers/media/platform/renesas/vsp1/vsp1_video.h
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_video.h
+rename to drivers/media/platform/renesas/vsp1/vsp1_video.h
+diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+similarity index 100%
+rename from drivers/media/platform/vsp1/vsp1_wpf.c
+rename to drivers/media/platform/renesas/vsp1/vsp1_wpf.c
 -- 
 2.35.1
-
 
