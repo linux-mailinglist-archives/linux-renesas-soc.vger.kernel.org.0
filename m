@@ -2,453 +2,329 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 368934D7DBD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 09:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B6C4D7DDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 09:54:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbiCNIph (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Mar 2022 04:45:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
+        id S236817AbiCNIz5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Mar 2022 04:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231392AbiCNIpg (ORCPT
+        with ESMTP id S231972AbiCNIz4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Mar 2022 04:45:36 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2132.outbound.protection.outlook.com [40.107.114.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A8C39810;
-        Mon, 14 Mar 2022 01:44:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QlsbvYoNHBwONIoNcVH/XOmvwi2zN2UN5+Jc1dknImc5fo+dEc0mezMSqex3492xf0EFEjzF9SkvhbQ0U9TpGeDSljew18xJR+e9i8duaV8ZKAzemXM7ObdFopbjcpbgT63VA8GIwhgcXk1owIgHIul70SDeH/HKCCp8uCHc6OrnevooEcJrEhiv+6DlgJQgoZwOke6jpolBhI4Z/8di375rK2jl37fzW/JHJzU6+JmY7C8iYdTzM1j4arANsD554wRcClnLAwQP6BYm0MdFnv8AtXSQkuJETwCea/1R3c5EtDBDh04lWENdvB3czrIua7hOv5quWVN28tAAPifSpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oZnaNXYc142wlHAiTcZu3P0CG3V3Y2RHSyJe5GEFAp8=;
- b=Z1aygPCte1IIb293rcbewrOU4x6d1F7pQD8eEYdqBRDvQQAZRmUM78SSe2GxGbIqGyYP1MJaDSkyVHSpVOezGkIG6WWKPunzhJHWSVRigtCfx1DNshuYUBiOrtQ6V8HDE3mbcugptXZhZpV1FIGqZhj3XDye5ihyAmu2WuqJ1scDxIjHtguA/wzt1iz54qkRfSkzMnov+fP0HGr06qaacuo4cXQQxb/Uqt2eMSJkZ7jgK6y6OxQEsNin6npmRtZK/WhevpwKC306Q/FY3HxBO3uzyA6vIt0iCQSbQGtt8cimho6E3sBqM1kd7zkjG3SHhrjs1jIhzhtdc1Sy2EeQRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oZnaNXYc142wlHAiTcZu3P0CG3V3Y2RHSyJe5GEFAp8=;
- b=HHfkojLwwmME9AkZZ/8fNx2tVic7o0i4UrCRQ9NiElDR2m7CpIZ3JLtkVi1KX+5Gg/1nIVuMM0HYZ0Bwj9HjcIXjoQOti+p0ujJkjC9G+Zb3U6mB8fq4lM3UCgZNcqIFkVyudXpNF08PdJjNaQDOHx9/4jPDgfNpuleOPoHvKjU=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSBPR01MB4038.jpnprd01.prod.outlook.com (2603:1096:604:40::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Mon, 14 Mar
- 2022 08:44:24 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b%5]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
- 08:44:24 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v5 1/3] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings
-Thread-Topic: [PATCH v5 1/3] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings
-Thread-Index: AQHYNe0T57itYmyO506UcYfwSM1OkKy9XuYAgAEuykA=
-Date:   Mon, 14 Mar 2022 08:44:23 +0000
-Message-ID: <OS0PR01MB592293BC9493DC1DAD1DA0C0860F9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220312084205.31462-1-biju.das.jz@bp.renesas.com>
- <20220312084205.31462-2-biju.das.jz@bp.renesas.com>
- <Yi39fGVE0f9LgN/1@pendragon.ideasonboard.com>
-In-Reply-To: <Yi39fGVE0f9LgN/1@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a91d9a5e-957a-440a-5e50-08da0596d742
-x-ms-traffictypediagnostic: OSBPR01MB4038:EE_
-x-microsoft-antispam-prvs: <OSBPR01MB4038797FF907E2A621CCA123860F9@OSBPR01MB4038.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xNVBvVnZpM80rM3TZpI07VN28kFjYRdsOXyPY99dXaq8O4jgRmAsSqyVthDZ4ftcKuHjZkRFTOT+i//VLeDakFXHmM+JizQdQKefVcFBxQK855dNPlDyLGuPu9HqI3/NaPqOhwCsUEpaHq95r68wrrMtyV483rFL8mIlB54onItLWW6NLX9241j4xaiEAGYbx01q9k/b63Yu4djMsnpLW7MYJMojwH2aUuzMEtaEJBi4NziGNVdKS0ixLHQPwumhGlcEuhiaK7jiz1LLk8QD9RH9d6fWbOgXceE15JPQRMv+FJ5EthlcRUmSFg6qfc0Avc3lM/kCtnRAmAEWb0X2G9X07tODNPwN8RqzxFXTLIuCRHV40jU1T+Ux1e+bQdbEQk2RbCnTWe5Nuf7PjqinzuBLgDcBA5DyTguJ7tuGcJ3wL6cyE06pf+KPKGFByPjFthnnAf5sJxf3QDMVeRqaeD1qiz0qAIM4mT5VaHX89ggxjivt8uuhgQnFTFJaiBJWJiYXMGaJ72sRTSouNloP6bEhLBU2SkmdL/PzlJEGWJp0JArVFPO5GJWFEGQxgLkAOy1OkhvpbciELfeIjiIpIp5NL9Xjohgb2h7AgGuzvXErt+J3AgbPx2GibeV0LvHcSAHc5EqYRlESfpGDrQrWbNN4piIbz7thPLD/ZknvnFuAplXWVkgVKdkU8vN9IMxGwqkAdjBikYNaDfzfCZLuMA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(107886003)(2906002)(38070700005)(55016003)(5660300002)(52536014)(83380400001)(26005)(122000001)(186003)(38100700002)(86362001)(33656002)(54906003)(4326008)(9686003)(6506007)(7696005)(71200400001)(66946007)(508600001)(64756008)(66446008)(66476007)(8676002)(66556008)(316002)(6916009)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-7?Q?D6aqf5dGZLxgjwCRgticQpq5ffAMJtzJ1njiNKS5I9tal+q+EGBFn3ba9q?=
- =?iso-8859-7?Q?EHUKs2PJOuoEAY94cFlSm2+b2mPWBXd2C2IVak+Xqx6+ipRsAGhzr3Hs6f?=
- =?iso-8859-7?Q?/wiVTwjTxGei2TRyKWGco3gv2TiiitGinz1C5fl/qhryKU1iKbd9yzfR66?=
- =?iso-8859-7?Q?QfscFA2WJf2vpFyJK4daow63YtprZLoLMKFf6kW/CMKlBe6VJMyfmNjFa8?=
- =?iso-8859-7?Q?9aEZqgo/xMdW2OsXko55zMlKumyntukegcvnuec+NQR4wCYmesIxy64Fbv?=
- =?iso-8859-7?Q?bWVHi5ofJ6yp30ngZ13MhkuAAcuHqmgiy/idFYd8DCA7hwYFk2iClT3Qnd?=
- =?iso-8859-7?Q?R+jr3h8/7FHSNCCmwjGF1sVNgn1BAybkiI/8M2iEuuh3e+DR0uoa0iouis?=
- =?iso-8859-7?Q?Oe5wzoZ7KnZVEZCYzXFM//eUHXA+oUtqHaVYqg9Rxq5rlL1d8qYNwfQJ/l?=
- =?iso-8859-7?Q?f4cYRndL8e/7V3xNrcyolA1kbLE1fyc+xAGQZbd7B42Mr62sL6ukzFbFIn?=
- =?iso-8859-7?Q?fCSLQ9f7Z0NEK86qTeh0FsfTfD1SKZLuJ/nklFDritWJcsxLZdSo0jUz00?=
- =?iso-8859-7?Q?ZOezbpXq+RSBCn/DFtlFjBHIUk25s2BRR9d3Tqybgiw7cJ7kMTqi5ApucC?=
- =?iso-8859-7?Q?8JIVo+khVxHqxvbU8u5yGGnvBScjfzxSVVwmRyo2WaPQfnFKBiVTP0v17n?=
- =?iso-8859-7?Q?exNV4QCJg77bjPpQRPwHNN7LVbOdT1PLVQvq6Y1idSKS/l7feF9ttcB6LM?=
- =?iso-8859-7?Q?fzvSndgQfycrcX4LRoQ78o1og89Bq31zGEgMnMF+7K4iMUxZB2qlHAGeXd?=
- =?iso-8859-7?Q?L12Q1mvmN+N4ArH3uoNlVRlmJx29xruIMwxx1naKTned+0l5cd5MWiBs04?=
- =?iso-8859-7?Q?HN6eIY6C9714BSL/gSG3hJAOSZFrmYUapZkDp4tuwtgIXbRRr6mYoDTn69?=
- =?iso-8859-7?Q?FBA9AH9JsnJ0tbui+orXsPEiMsZcAxfH49FCivNNxWIkl8xWjhJizNrwij?=
- =?iso-8859-7?Q?yU77FY5cM5FGgNEod5AQzCG+JZ/ld2hmKuC0uA11gNzI1vcDM11rJbNzyK?=
- =?iso-8859-7?Q?ApyfBKtdqHNsRCByeWHz3ZhTj94NA+DSMtEYPZlvfQsKaRew1wqKneNKKQ?=
- =?iso-8859-7?Q?nBa788F6bxtYWKKrFwKlsq2eNgg21R+MUvWoIqlYNmNTiDxmyLIwWghjXQ?=
- =?iso-8859-7?Q?S71/Gc2bLArH1POZshCwuVMqzBIpj3bijpqG/Jwvqk6qlmis0Niq7wTas7?=
- =?iso-8859-7?Q?dMEY2peNqiCLrE4f2DbCsmRrbQgfUBhMG6tPH0FSwZooCVUO7SAb49hEYN?=
- =?iso-8859-7?Q?T9nXoj2sAFUBE6nJaLrXwD6PcrxjxvFFWxWCq2BcSWaOnWiwvX2lYe1bUG?=
- =?iso-8859-7?Q?mcLpT/paBoD3wAm4aNdlmcAFQmUcCYUySaJ6aZazG9Bei668FJ9DR6oGSD?=
- =?iso-8859-7?Q?rJyin5lsRSsrKcZuivzzc8SOX0MNabX/80riTi+7PGIiO7a4kskuYq5hGp?=
- =?iso-8859-7?Q?kv2SxENWtSkYSxECpJ0ksUQzllKS7U/j9iAWym20kB0A=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-7"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 14 Mar 2022 04:55:56 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8AC2180A;
+        Mon, 14 Mar 2022 01:54:45 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id s29so4417542lfb.13;
+        Mon, 14 Mar 2022 01:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=NG8o060Tka0L3sIFkp3uolm5d8/wc9yzHfKOZpMlr6U=;
+        b=MtVa3tYQXYf6RuRhg1nJdlMpiyhdH6usMXSTG9Ck2EZN6WaGb0CYgjQVb+UrqSEVpG
+         Layl0e8k6AtU4DUtaTBTNUUpdvcVBahgxkXPRurjeoW00OmY5boGQ58RQ8drB8XDalR6
+         VwgaWR94taGLDSqIM80jMfdSJ2VY9Mz8XPyMPQEjuNV6Psf2x6d4MWICM+W6rfSZlpxn
+         +ire/8QFIn1zt5Xwxba81c6IenogkY4D03U4BLLhwZQRKbVCKma2eGUwxN4y0atVbb09
+         KWQLtWJciH5jdZ6k8OxLBBzaP9DFfz6+VaQem/lMhSkLotRCDasZJF1HBRHGvrDNIsO2
+         oyrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=NG8o060Tka0L3sIFkp3uolm5d8/wc9yzHfKOZpMlr6U=;
+        b=HA+M0wxd8ocby5CbnpxqlKS0EHiMiA5Bz+yeWAhpT1uQEQiMG6M2xsb6eXDnj6W0pV
+         VjVeZAxUOMFjFrmL85bzZvixTrIySdkKTpfj7WTJL2s7qiskRYhL4ZOMXYHj3qeb//0A
+         YY1wgGl456XMi5Cus7Ktz141KeK1hYREaf/rVUjnbwe+J8QKvVbdZzBZx5XTcYZK47/p
+         BsHtqoxUmil7dyrO59C1oujNUokaYJ5ApC6fivMHsE7Nc6DZznnAV02qXuLoQheaNyWt
+         /qj2oB9WOMytl9Bog/tKPD/HTaaO6t735cx0QVQpCgLoLFUsD2pzZj+4GtybKewzGwYh
+         MVEA==
+X-Gm-Message-State: AOAM530HmEKiiRPk1PGPoZkLd21ECoflYNI2mf6litpte34FSjLwHXrz
+        ih3yUKw3BsB+LWsDAjH+5pA=
+X-Google-Smtp-Source: ABdhPJwL5+FzxL3+pOy50Oa5xyzBYMKk+RLCzYWZVTIm2eYjorck162HwIriR5jBgx1gP2Y0zGf5eg==
+X-Received: by 2002:a05:6512:2304:b0:448:46a9:7263 with SMTP id o4-20020a056512230400b0044846a97263mr12854556lfu.309.1647248083097;
+        Mon, 14 Mar 2022 01:54:43 -0700 (PDT)
+Received: from [192.168.0.192] ([194.146.248.76])
+        by smtp.gmail.com with ESMTPSA id bq5-20020a056512150500b004433c791651sm3155349lfb.69.2022.03.14.01.54.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Mar 2022 01:54:42 -0700 (PDT)
+Message-ID: <174d7d1f-2483-04de-81be-8f63c569851a@gmail.com>
+Date:   Mon, 14 Mar 2022 09:54:40 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a91d9a5e-957a-440a-5e50-08da0596d742
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2022 08:44:24.0249
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MEE+PnKrOwPXZ6t9CJOOVsAwgOFUKftB+dTFYL1SATPdRtvwbRgAPgpbmY8I+3pE64bE8M5mOMY0dLDj6C+6IGGD591PK+dVlJdxB/BG0nY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4038
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 15/24] media: platform: rename s5p-jpeg/ to
+ samsung/s5p-jpeg/
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Colin Ian King <colin.king@intel.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+References: <cover.1647167750.git.mchehab@kernel.org>
+ <4be1962723cfc2ad1c1031c3885ea53023fae642.1647167750.git.mchehab@kernel.org>
+From:   Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+In-Reply-To: <4be1962723cfc2ad1c1031c3885ea53023fae642.1647167750.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Mauro,
 
-Thanks for the feedback.
+Thanks,
 
-> Subject: Re: [PATCH v5 1/3] media: dt-bindings: media: renesas,vsp1:
-> Document RZ/{G2L,V2L} VSPD bindings
->=20
-> Hi Biju,
->=20
-> Thank you for the patch.
->=20
-> On Sat, Mar 12, 2022 at 08:42:03AM +0000, Biju Das wrote:
-> > Document VSPD found in RZ/G2L and RZ/V2L family SoC's. VSPD block is
-> > similar to VSP2-D found on R-Car SoC's, but it does not have a version
-> > register and it has 3 clocks compared to 1 clock on vsp1 and vsp2.
-> >
-> > This patch introduces a new compatible 'renesas,rzg2l-vsp2' to handle
-> > these differences.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > ---
-> > v4->v5:
-> >  * No change
-> > v3->v4:
-> >  * No change
-> > v2->v3:
-> >  * Added Rb tag from Krzysztof.
-> > v1->v2:
-> >  * Changed compatible from vsp2-rzg2l->rzg2l-vsp2
-> > RFC->v1:
-> >  * Updated commit description
-> >  * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
-> >  * Defined the clocks
-> >  * Clock max Items is based on SoC Compatible string
-> > RFC:
-> >  *
-> > ---
-> >  .../bindings/media/renesas,vsp1.yaml          | 52 ++++++++++++++-----
-> >  1 file changed, 39 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > index 990e9c1dbc43..2696a4582251 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > @@ -19,6 +19,7 @@ properties:
-> >      enum:
-> >        - renesas,vsp1 # R-Car Gen2 and RZ/G1
-> >        - renesas,vsp2 # R-Car Gen3 and RZ/G2
-> > +      - renesas,rzg2l-vsp2 # RZ/G2L and RZ/V2L
-> >
-> >    reg:
-> >      maxItems: 1
-> > @@ -26,8 +27,8 @@ properties:
-> >    interrupts:
-> >      maxItems: 1
-> >
-> > -  clocks:
-> > -    maxItems: 1
-> > +  clocks: true
-> > +  clock-names: true
-> >
-> >    power-domains:
-> >      maxItems: 1
-> > @@ -50,17 +51,42 @@ required:
-> >
-> >  additionalProperties: false
-> >
-> > -if:
-> > -  properties:
-> > -    compatible:
-> > -      items:
-> > -        - const: renesas,vsp1
-> > -then:
-> > -  properties:
-> > -    renesas,fcp: false
-> > -else:
-> > -  required:
-> > -    - renesas,fcp
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,vsp1
-> > +    then:
-> > +      properties:
-> > +        renesas,fcp: false
-> > +    else:
-> > +      required:
-> > +        - renesas,fcp
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,rzg2l-vsp2
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: LCDC Main clock
-> > +            - description: LCDC Register Access Clock
-> > +            - description: LCDC Video Clock
->=20
-> Shouldn't we avoid referring to LCDC in the VSP bindings ?
+W dniu 13.03.2022 o 11:51, Mauro Carvalho Chehab pisze:
+> As the end goal is to have platform drivers split by vendor,
+> rename s5p-jpeg/ to samsung/s5p-jpeg/.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-OK will drop prefix LCDC.
+Acked-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
 
->=20
-> > +        clock-names:
-> > +          items:
-> > +            - const: du.0
->=20
-> Similarly, I'm not sure this is a good name from the point of view of the
-> VSP.
-
-OK, will use the name 'aclk', which is Main clock for this module which is
-shared with LCDC. 'du.0' is not valid any more here as we are using differe=
-nt
-CRTC implementation for RZ/G2LC.
-
->=20
-> > +            - const: pclk
-> > +            - const: vclk
->=20
-> I couldn't find those names in the documentation, where do they come from
-
-HW manual (page 312) mentions about LCDC_CLK_A, LCDC_CLK_P & LCDC_CLK_D.
-
-Detailed description is mentioned in Clock list document. Please see below.
-
-	LCDC_CLK_A	M0=F6	PLL3	200	200		LCDC  Main clock
-	LCDC_CLK_P	ZT=F6	PLL3	100	100		LCDC Register Access Clock=09
-	LCDC_CLK_D	M3=F6	SEL_PLL5_4	148.5~5.803	LCDC Video Clock=09
-
-> ? Could you maybe share a DT integration example ?
-
-Please see below,
-
-+		fcpvd0: fcp@10880000 {
-+			compatible =3D "renesas,fcpv";
-+			reg =3D <0 0x10880000 0 0x10000>;
-+			clocks =3D <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
-+			power-domains =3D <&cpg>;
-+			resets =3D <&cpg R9A07G044_LCDC_RESET_N>;
-+		};
-
-+		vspd0: vsp@10870000 {
-+			compatible =3D "renesas,rzg2l-vsp2";
-+			reg =3D <0 0x10870000 0 0x10000>;
-+			interrupts =3D <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks =3D <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
-+			clock-names =3D "du.0", "pclk", "vclk";
-+			power-domains =3D <&cpg>;
-+			resets =3D <&cpg R9A07G044_LCDC_RESET_N>;
-+			renesas,fcp =3D <&fcpvd0>;
-+		};
-
-+		du: display@0x10890000 {
-+			compatible =3D "renesas,du-r9a07g044l";
-+			reg =3D <0 0x10890000 0 0x10000>;
-+			interrupts =3D <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks =3D <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-+				 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
-+			clock-names =3D "du.0", "pclk", "vclk";
-+			power-domains =3D <&cpg>;
-+			resets =3D <&cpg R9A07G044_LCDC_RESET_N>;
-+			reset-names =3D "du.0";
-+			renesas,vsps =3D <&vspd0 0>;
-+
-+			status =3D "disabled";
-+
-+			ports {
-+				#address-cells =3D <1>;
-+				#size-cells =3D <0>;
-+
-+				port@0 {
-+					reg =3D <0>;
-+					du_out_rgb: endpoint {
-+					};
-+				};
-+
-+				port@1 {
-+					reg =3D <1>;
-+					du_out_dsi0: endpoint {
-+					};
-+				};
-+			};
-+		};
-
-+		dsi0: dsi@10860000 {
-+			compatible =3D "renesas,r9a07g044-mipi-dsi";
-+			reg =3D	<0 0x10860000 0 0x10000>, /* LINK */
-+				<0 0x10850000 0 0x10000>; /* DPHY */
-+
-+			clocks =3D <&cpg CPG_MOD R9A07G044_MIPI_DSI_PLLCLK>,
-+				 <&cpg CPG_MOD R9A07G044_MIPI_DSI_SYSCLK>,
-+				 <&cpg CPG_MOD R9A07G044_MIPI_DSI_ACLK>,
-+				 <&cpg CPG_MOD R9A07G044_MIPI_DSI_PCLK>,
-+				 <&cpg CPG_MOD R9A07G044_MIPI_DSI_VCLK>,
-+				 <&cpg CPG_MOD R9A07G044_MIPI_DSI_LPCLK>;
-+			clock-names =3D "pllclk", "sysclk", "aclk", "pclk", "vclk", "lpclk";
-+			power-domains =3D <&cpg>;
-+			resets =3D <&cpg R9A07G044_MIPI_DSI_CMN_RSTB>,
-+				 <&cpg R9A07G044_MIPI_DSI_ARESET_N>,
-+				 <&cpg R9A07G044_MIPI_DSI_PRESET_N>;
-+			reset-names =3D "rst", "arst", "prst";
-+			status =3D "disabled";
-+
-+			ports {
-+				#address-cells =3D <1>;
-+				#size-cells =3D <0>;
-+
-+				port@0 {
-+					reg =3D <0>;
-+					dsi0_in: endpoint {
-+						remote-endpoint =3D <&dsi0_in>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg =3D <1>;
-+					dsi0_out: endpoint {
-+						remote-endpoint =3D <&du_out_dsi0>;
-+					};
-+				};
-+			};
-+		};
-
-+	hdmi-out {
-+		compatible =3D "hdmi-connector";
-+		type =3D "d";
-+
-+		port {
-+			hdmi_con_out: endpoint {
-+				remote-endpoint =3D <&adv7535_out>;
-+			};
-+		};
-+	};
-
-+&dsi0 {
-+	status =3D "okay";
-+
-+	ports {
-+		port@1 {
-+			dsi0_out: endpoint {
-+				data-lanes =3D <1 2 3 4>;
-+				remote-endpoint =3D <&adv7535_in>;
-+			};
-+		};
-+	};
-+};
-
-+&du {
-+	status =3D "okay";
-+};
-
-+&i2c1 {
-+	pinctrl-0 =3D <&i2c1_pins>;
-+	pinctrl-names =3D "default";
-+
-+	status =3D "okay";
-+
-+	adv7535: hdmi@3d {
-+		compatible =3D "adi,adv7535";
-+		reg =3D <0x3d>;
-+
-+		avdd-supply =3D <&reg_1p8v>;
-+		dvdd-supply =3D <&reg_1p8v>;
-+		pvdd-supply =3D <&reg_1p8v>;
-+		a2vdd-supply =3D <&reg_1p8v>;
-+		v3p3-supply =3D <&reg_3p3v>;
-+		v1p2-supply =3D <&reg_1p8v>;
-+
-+		adi,dsi-lanes =3D <4>;
-+		adi,disable-lanes-override;
-+
-+		ports {
-+			#address-cells =3D <1>;
-+			#size-cells =3D <0>;
-+
-+			port@0 {
-+				reg =3D <0>;
-+				adv7535_in: endpoint {
-+					remote-endpoint =3D <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg =3D <1>;
-+				adv7535_out: endpoint {
-+					remote-endpoint =3D <&hdmi_con_out>;
-+				};
-+			};
-+		};
-+	};
-
-Cheers,
-Biju
-
->=20
-> > +      required:
-> > +        - clock-names
-> > +    else:
-> > +      properties:
-> > +        clocks:
-> > +          maxItems: 1
-> >
-> >  examples:
-> >    # R8A7790 (R-Car H2) VSP1-S
->=20
-> --
-> Regards,
->=20
-> Laurent Pinchart
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/24] at: https://lore.kernel.org/all/cover.1647167750.git.mchehab@kernel.org/
+> 
+>   MAINTAINERS                                                     | 2 +-
+>   drivers/media/platform/Kconfig                                  | 2 +-
+>   drivers/media/platform/Makefile                                 | 2 +-
+>   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                  | 2 +-
+>   drivers/media/platform/renesas/rcar_jpu.c                       | 2 +-
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/Kconfig           | 0
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile          | 0
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c       | 2 +-
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h       | 2 +-
+>   .../media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c  | 0
+>   .../media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h  | 2 +-
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c | 0
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h | 0
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c     | 2 +-
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h     | 2 +-
+>   drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h       | 2 +-
+>   16 files changed, 11 insertions(+), 11 deletions(-)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/Kconfig (100%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile (100%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c (99%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h (99%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c (100%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h (97%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c (100%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h (100%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c (99%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h (97%)
+>   rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h (99%)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4c4be0d7ec14..dfd490369d48 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2633,7 +2633,7 @@ M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+>   L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   L:	linux-media@vger.kernel.org
+>   S:	Maintained
+> -F:	drivers/media/platform/s5p-jpeg/
+> +F:	drivers/media/platform/samsung/s5p-jpeg/
+>   
+>   ARM/SAMSUNG S5P SERIES Multi Format Codec (MFC) SUPPORT
+>   M:	Marek Szyprowski <m.szyprowski@samsung.com>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index f70fc95e4195..0af01626c008 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -88,12 +88,12 @@ source "drivers/media/platform/omap3isp/Kconfig"
+>   source "drivers/media/platform/qcom/Kconfig"
+>   source "drivers/media/platform/renesas/Kconfig"
+>   source "drivers/media/platform/rockchip/Kconfig"
+> -source "drivers/media/platform/s5p-jpeg/Kconfig"
+>   source "drivers/media/platform/s5p-mfc/Kconfig"
+>   source "drivers/media/platform/samsung/exynos-gsc/Kconfig"
+>   source "drivers/media/platform/samsung/exynos4-is/Kconfig"
+>   source "drivers/media/platform/samsung/s3c-camif/Kconfig"
+>   source "drivers/media/platform/samsung/s5p-g2d/Kconfig"
+> +source "drivers/media/platform/samsung/s5p-jpeg/Kconfig"
+>   source "drivers/media/platform/sti/Kconfig"
+>   source "drivers/media/platform/stm32/Kconfig"
+>   source "drivers/media/platform/ti-vpe/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index a5a068e18492..94bdd5d94bb2 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -30,12 +30,12 @@ obj-y += qcom/venus/
+>   obj-y += renesas/
+>   obj-y += rockchip/rga/
+>   obj-y += rockchip/rkisp1/
+> -obj-y += s5p-jpeg/
+>   obj-y += s5p-mfc/
+>   obj-y += samsung/exynos-gsc/
+>   obj-y += samsung/exynos4-is/
+>   obj-y += samsung/s3c-camif/
+>   obj-y += samsung/s5p-g2d/
+> +obj-y += samsung/s5p-jpeg/
+>   obj-y += sti/bdisp/
+>   obj-y += sti/c8sectpfe/
+>   obj-y += sti/delta/
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> index 3b892c5792b4..d1ec1f4b506b 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> @@ -35,7 +35,7 @@
+>    * it, enable dynamic debug for this module and:
+>    * echo 1 > /sys/module/mxc_jpeg_encdec/parameters/jpeg_tracing
+>    *
+> - * This is inspired by the drivers/media/platform/s5p-jpeg driver
+> + * This is inspired by the drivers/media/platform/samsung/s5p-jpeg driver
+>    *
+>    * Copyright 2018-2019 NXP
+>    */
+> diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
+> index 56bb464629ed..293beba131e2 100644
+> --- a/drivers/media/platform/renesas/rcar_jpu.c
+> +++ b/drivers/media/platform/renesas/rcar_jpu.c
+> @@ -4,7 +4,7 @@
+>    * Copyright (C) 2014-2015 Cogent Embedded, Inc.  <source@cogentembedded.com>
+>    * Copyright (C) 2014-2015 Renesas Electronics Corporation
+>    *
+> - * This is based on the drivers/media/platform/s5p-jpeg driver by
+> + * This is based on the drivers/media/platform/samsung/s5p-jpeg driver by
+>    * Andrzej Pietrasiewicz and Jacek Anaszewski.
+>    * Some portions of code inspired by VSP1 driver by Laurent Pinchart.
+>    *
+> diff --git a/drivers/media/platform/s5p-jpeg/Kconfig b/drivers/media/platform/samsung/s5p-jpeg/Kconfig
+> similarity index 100%
+> rename from drivers/media/platform/s5p-jpeg/Kconfig
+> rename to drivers/media/platform/samsung/s5p-jpeg/Kconfig
+> diff --git a/drivers/media/platform/s5p-jpeg/Makefile b/drivers/media/platform/samsung/s5p-jpeg/Makefile
+> similarity index 100%
+> rename from drivers/media/platform/s5p-jpeg/Makefile
+> rename to drivers/media/platform/samsung/s5p-jpeg/Makefile
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> similarity index 99%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-core.c
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> index a8d9159d5ed8..5479bc8d474d 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> @@ -1,5 +1,5 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+>    *
+>    * Copyright (c) 2011-2014 Samsung Electronics Co., Ltd.
+>    *		http://www.samsung.com
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
+> similarity index 99%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-core.h
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
+> index 4a5fb1b15455..5570c79f122f 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.h
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
+> @@ -1,5 +1,5 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-core.h
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
+>    *
+>    * Copyright (c) 2011 Samsung Electronics Co., Ltd.
+>    *		http://www.samsung.com
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
+> similarity index 100%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+> similarity index 97%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+> index 68160befce39..15af928fad76 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+> @@ -1,5 +1,5 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
+>    *
+>    * Copyright (c) 2014 Samsung Electronics Co., Ltd.
+>    *		http://www.samsung.com
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
+> similarity index 100%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
+> similarity index 100%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.h
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
+> similarity index 99%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
+> index 491e9248286c..01b47b3df1e7 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
+> @@ -1,5 +1,5 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw.h
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw.h
+>    *
+>    * Copyright (c) 2011 Samsung Electronics Co., Ltd.
+>    *		http://www.samsung.com
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
+> similarity index 97%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
+> index 98ddf7097562..f068d52c66b7 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
+> @@ -1,5 +1,5 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw.h
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw.h
+>    *
+>    * Copyright (c) 2011 Samsung Electronics Co., Ltd.
+>    *		http://www.samsung.com
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-regs.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
+> similarity index 99%
+> rename from drivers/media/platform/s5p-jpeg/jpeg-regs.h
+> rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
+> index 86f376b50581..c2298b680022 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-regs.h
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
+> @@ -1,5 +1,5 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* linux/drivers/media/platform/s5p-jpeg/jpeg-regs.h
+> +/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
+>    *
+>    * Register definition file for Samsung JPEG codec driver
+>    *
