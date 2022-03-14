@@ -2,306 +2,302 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B0844D898D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 17:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E584D8EA6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 22:28:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243275AbiCNQgx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Mar 2022 12:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45030 "EHLO
+        id S239744AbiCNVaH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Mar 2022 17:30:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239619AbiCNQgm (ORCPT
+        with ESMTP id S236574AbiCNVaH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Mar 2022 12:36:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889182E686;
-        Mon, 14 Mar 2022 09:35:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A1A5361480;
-        Mon, 14 Mar 2022 16:35:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49363C340F6;
-        Mon, 14 Mar 2022 16:35:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647275709;
-        bh=cT/vXjenoBPKI/Hl1lNbu660CQn8eXNAAX/gaT9yC74=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rHi9+mkgDAuaWVinfOr+4m5XVpkyvxoH705k6fsi66/AkAKSo+ZsfTR+xQ+zLQO8K
-         74VEfdi7VZR+FWa30hd5JX/cI+uuvWdxkDFQIq+qHy8kiuhLfYZj4IPjbBADk09K2Q
-         m20sucw27q/KCk2a8eWrG3DKHQVPReRgoh7mtruMY0xz4gAs9eTzhl+z5ykWYmkmCq
-         bzhVn+/fRz1vH8m7B4ocP6awJLywC/5i4PjGNDir+xrzt8wDk8dBv9txIqBPdm9p7q
-         9ZsA7GMwtFaE8M/tpWkkqY4m5MfsNhL5SM/UUjxKjbHgUdTMfU8yMnLSpp+U2z0HNH
-         ATZem0Z18WA9g==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nTnf1-001wzY-2L; Mon, 14 Mar 2022 17:35:07 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Colin Ian King <colin.king@intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 53/67] media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
-Date:   Mon, 14 Mar 2022 17:34:48 +0100
-Message-Id: <4242d32300816e24c5990245b2950a5f058d61ab.1647274407.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1647274406.git.mchehab@kernel.org>
-References: <cover.1647274406.git.mchehab@kernel.org>
+        Mon, 14 Mar 2022 17:30:07 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760A821243
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Mar 2022 14:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647293336; x=1678829336;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rM/ZAP85tgKEpvxFReb8R+0tNOV80/BOKDAv1Nbjjio=;
+  b=gVr1X1EeTc+SHiZu0H21ObyXDq/sZVAdM/ka7Qe7xlBQkAIYivRHdd67
+   DqovY8fVY7RcCzPiPny5JLTCapPECWdzJHQ5Z05RkLbnVtGSjj8LWvEp0
+   5L6j1gNWeBXuqLKHl0czTZKkwLRHMf99dgS0s3vOV3xZ7OJKHmlF4rePa
+   8pM/mhFW6CDfK6psAL7xf2gFfqWL+jgV5xtzwgb3SvQiYmjhXtw3MqNq1
+   JPl6Nzv9fcIWskFzBEOZXYuFAp1mldH+T4QymerHulxIsODooFB4huatW
+   Jn7za1AfyN/IaOIxnYAP3UqN8yyRU2W+imyVANc0z8zukJ5w5Ip9YYNGY
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="319371642"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="319371642"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 14:28:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="497779782"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 14 Mar 2022 14:28:54 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nTsFJ-000AF8-DC; Mon, 14 Mar 2022 21:28:53 +0000
+Date:   Tue, 15 Mar 2022 05:28:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.19] BUILD SUCCESS
+ 76695c0ce0be5e4f690a85c48b9333fb7056eb30
+Message-ID: <622fb369.CCVcWh5oWOY9lQ78%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As the end goal is to have platform drivers split by vendor,
-rename s5p-jpeg/ to samsung/s5p-jpeg/.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.19
+branch HEAD: 76695c0ce0be5e4f690a85c48b9333fb7056eb30  arm64: dts: renesas: r8a779a0-falcon: enable CANFD 0 and 1
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+elapsed time: 726m
+
+configs tested: 216
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+i386                          randconfig-c001
+i386                 randconfig-c001-20220314
+mips                 randconfig-c004-20220314
+powerpc              randconfig-c003-20220313
+mips                           xway_defconfig
+arm                            zeus_defconfig
+m68k                          multi_defconfig
+arm                          pxa910_defconfig
+sh                                  defconfig
+powerpc                      pasemi_defconfig
+arm                       imx_v6_v7_defconfig
+x86_64                              defconfig
+xtensa                              defconfig
+arm                         nhk8815_defconfig
+h8300                            allyesconfig
+arm                           u8500_defconfig
+mips                        jmr3927_defconfig
+arm                            xcep_defconfig
+sh                           se7343_defconfig
+sh                          rsk7264_defconfig
+m68k                        mvme16x_defconfig
+arm                       omap2plus_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                     tqm8555_defconfig
+powerpc                 linkstation_defconfig
+powerpc                      bamboo_defconfig
+arc                          axs101_defconfig
+openrisc                  or1klitex_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                            migor_defconfig
+powerpc                         ps3_defconfig
+arm                         lpc18xx_defconfig
+i386                                defconfig
+sh                             sh03_defconfig
+m68k                           sun3_defconfig
+m68k                        m5272c3_defconfig
+powerpc                        cell_defconfig
+sh                           se7705_defconfig
+csky                             alldefconfig
+parisc                generic-32bit_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                      makalu_defconfig
+sh                   sh7770_generic_defconfig
+mips                      fuloong2e_defconfig
+sparc                            alldefconfig
+sh                          kfr2r09_defconfig
+s390                                defconfig
+powerpc                  storcenter_defconfig
+arm                         vf610m4_defconfig
+xtensa                  nommu_kc705_defconfig
+arm                             rpc_defconfig
+arm                             ezx_defconfig
+mips                           jazz_defconfig
+sh                   secureedge5410_defconfig
+h8300                     edosk2674_defconfig
+m68k                         apollo_defconfig
+powerpc                      arches_defconfig
+powerpc                   motionpro_defconfig
+arc                                 defconfig
+sh                            titan_defconfig
+xtensa                  audio_kc705_defconfig
+arc                         haps_hs_defconfig
+mips                 decstation_r4k_defconfig
+sh                         microdev_defconfig
+sh                     sh7710voipgw_defconfig
+i386                             alldefconfig
+sh                        sh7785lcr_defconfig
+powerpc                     pq2fads_defconfig
+openrisc                 simple_smp_defconfig
+arc                     haps_hs_smp_defconfig
+m68k                       m5475evb_defconfig
+sh                           se7750_defconfig
+arm                        mini2440_defconfig
+mips                           ip32_defconfig
+sh                   rts7751r2dplus_defconfig
+m68k                        stmark2_defconfig
+powerpc                       maple_defconfig
+ia64                             allmodconfig
+powerpc                 mpc8540_ads_defconfig
+sh                          sdk7780_defconfig
+m68k                       m5208evb_defconfig
+nios2                            allyesconfig
+mips                        bcm47xx_defconfig
+arm                           h3600_defconfig
+arm                            lart_defconfig
+arm                         axm55xx_defconfig
+powerpc                mpc7448_hpc2_defconfig
+mips                  decstation_64_defconfig
+arm                  randconfig-c002-20220313
+arm                  randconfig-c002-20220314
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64               randconfig-a002-20220314
+x86_64               randconfig-a001-20220314
+x86_64               randconfig-a003-20220314
+x86_64               randconfig-a004-20220314
+x86_64               randconfig-a006-20220314
+x86_64               randconfig-a005-20220314
+i386                 randconfig-a003-20220314
+i386                 randconfig-a004-20220314
+i386                 randconfig-a001-20220314
+i386                 randconfig-a006-20220314
+i386                 randconfig-a002-20220314
+i386                 randconfig-a005-20220314
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+s390                 randconfig-r044-20220313
+arc                  randconfig-r043-20220313
+riscv                randconfig-r042-20220313
+arc                  randconfig-r043-20220314
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                                  kexec
+
+clang tested configs:
+arm                  randconfig-c002-20220313
+x86_64                        randconfig-c007
+powerpc              randconfig-c003-20220313
+riscv                randconfig-c006-20220313
+mips                 randconfig-c004-20220313
+i386                          randconfig-c001
+hexagon                             defconfig
+powerpc                       ebony_defconfig
+mips                      bmips_stb_defconfig
+arm                       cns3420vb_defconfig
+arm                      pxa255-idp_defconfig
+arm                        magician_defconfig
+powerpc                     ksi8560_defconfig
+mips                         tb0287_defconfig
+arm                         lpc32xx_defconfig
+powerpc                      obs600_defconfig
+powerpc                      ppc64e_defconfig
+powerpc                      pmac32_defconfig
+powerpc                          allyesconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                     cu1000-neo_defconfig
+arm                           omap1_defconfig
+mips                          ath25_defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                      ppc44x_defconfig
+i386                             allyesconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                 mpc832x_rdb_defconfig
+arm                          collie_defconfig
+powerpc                     kilauea_defconfig
+powerpc                     mpc512x_defconfig
+mips                      malta_kvm_defconfig
+arm                          pxa168_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a014-20220314
+x86_64               randconfig-a015-20220314
+x86_64               randconfig-a016-20220314
+x86_64               randconfig-a012-20220314
+x86_64               randconfig-a013-20220314
+x86_64               randconfig-a011-20220314
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                 randconfig-a013-20220314
+i386                 randconfig-a015-20220314
+i386                 randconfig-a014-20220314
+i386                 randconfig-a011-20220314
+i386                 randconfig-a016-20220314
+i386                 randconfig-a012-20220314
+hexagon              randconfig-r045-20220313
+hexagon              randconfig-r045-20220314
+hexagon              randconfig-r041-20220313
+s390                 randconfig-r044-20220314
+hexagon              randconfig-r041-20220314
+riscv                randconfig-r042-20220314
+
 ---
-
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.1647274406.git.mchehab@kernel.org/
-
- MAINTAINERS                                                     | 2 +-
- drivers/media/platform/Kconfig                                  | 2 +-
- drivers/media/platform/Makefile                                 | 2 +-
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                  | 2 +-
- drivers/media/platform/renesas/rcar_jpu.c                       | 2 +-
- drivers/media/platform/{ => samsung}/s5p-jpeg/Kconfig           | 0
- drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile          | 0
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c       | 2 +-
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h       | 2 +-
- .../media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c  | 0
- .../media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h  | 2 +-
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c | 0
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h | 0
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c     | 2 +-
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h     | 2 +-
- drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h       | 2 +-
- 16 files changed, 11 insertions(+), 11 deletions(-)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/Kconfig (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/Makefile (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-core.h (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos3250.h (97%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.c (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-exynos4.h (100%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.c (99%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-hw-s5p.h (97%)
- rename drivers/media/platform/{ => samsung}/s5p-jpeg/jpeg-regs.h (99%)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4b03db9ee31e..e01013c68fc1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2633,7 +2633,7 @@ M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- L:	linux-media@vger.kernel.org
- S:	Maintained
--F:	drivers/media/platform/s5p-jpeg/
-+F:	drivers/media/platform/samsung/s5p-jpeg/
- 
- ARM/SAMSUNG S5P SERIES Multi Format Codec (MFC) SUPPORT
- M:	Marek Szyprowski <m.szyprowski@samsung.com>
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 8dd178e1a359..df67690c8f3a 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -88,12 +88,12 @@ source "drivers/media/platform/omap3isp/Kconfig"
- source "drivers/media/platform/qcom/Kconfig"
- source "drivers/media/platform/renesas/Kconfig"
- source "drivers/media/platform/rockchip/Kconfig"
--source "drivers/media/platform/s5p-jpeg/Kconfig"
- source "drivers/media/platform/s5p-mfc/Kconfig"
- source "drivers/media/platform/samsung/exynos-gsc/Kconfig"
- source "drivers/media/platform/samsung/exynos4-is/Kconfig"
- source "drivers/media/platform/samsung/s3c-camif/Kconfig"
- source "drivers/media/platform/samsung/s5p-g2d/Kconfig"
-+source "drivers/media/platform/samsung/s5p-jpeg/Kconfig"
- source "drivers/media/platform/sti/Kconfig"
- source "drivers/media/platform/stm32/Kconfig"
- source "drivers/media/platform/ti-vpe/Kconfig"
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index aa822365d8d0..9c6c272797cd 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -30,12 +30,12 @@ obj-y += qcom/venus/
- obj-y += renesas/
- obj-y += rockchip/rga/
- obj-y += rockchip/rkisp1/
--obj-y += s5p-jpeg/
- obj-y += s5p-mfc/
- obj-y += samsung/exynos-gsc/
- obj-y += samsung/exynos4-is/
- obj-y += samsung/s3c-camif/
- obj-y += samsung/s5p-g2d/
-+obj-y += samsung/s5p-jpeg/
- obj-y += sti/bdisp/
- obj-y += sti/c8sectpfe/
- obj-y += sti/delta/
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index 3b892c5792b4..d1ec1f4b506b 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -35,7 +35,7 @@
-  * it, enable dynamic debug for this module and:
-  * echo 1 > /sys/module/mxc_jpeg_encdec/parameters/jpeg_tracing
-  *
-- * This is inspired by the drivers/media/platform/s5p-jpeg driver
-+ * This is inspired by the drivers/media/platform/samsung/s5p-jpeg driver
-  *
-  * Copyright 2018-2019 NXP
-  */
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 56bb464629ed..293beba131e2 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -4,7 +4,7 @@
-  * Copyright (C) 2014-2015 Cogent Embedded, Inc.  <source@cogentembedded.com>
-  * Copyright (C) 2014-2015 Renesas Electronics Corporation
-  *
-- * This is based on the drivers/media/platform/s5p-jpeg driver by
-+ * This is based on the drivers/media/platform/samsung/s5p-jpeg driver by
-  * Andrzej Pietrasiewicz and Jacek Anaszewski.
-  * Some portions of code inspired by VSP1 driver by Laurent Pinchart.
-  *
-diff --git a/drivers/media/platform/s5p-jpeg/Kconfig b/drivers/media/platform/samsung/s5p-jpeg/Kconfig
-similarity index 100%
-rename from drivers/media/platform/s5p-jpeg/Kconfig
-rename to drivers/media/platform/samsung/s5p-jpeg/Kconfig
-diff --git a/drivers/media/platform/s5p-jpeg/Makefile b/drivers/media/platform/samsung/s5p-jpeg/Makefile
-similarity index 100%
-rename from drivers/media/platform/s5p-jpeg/Makefile
-rename to drivers/media/platform/samsung/s5p-jpeg/Makefile
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-similarity index 99%
-rename from drivers/media/platform/s5p-jpeg/jpeg-core.c
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-index a8d9159d5ed8..5479bc8d474d 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-core.c
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-  *
-  * Copyright (c) 2011-2014 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-similarity index 99%
-rename from drivers/media/platform/s5p-jpeg/jpeg-core.h
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-index 4a5fb1b15455..5570c79f122f 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-core.h
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-core.h
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.h
-  *
-  * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
-similarity index 100%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.c
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.c
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-similarity index 97%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-index 68160befce39..15af928fad76 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos3250.h
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos3250.h
-  *
-  * Copyright (c) 2014 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
-similarity index 100%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.c
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.c
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
-similarity index 100%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-exynos4.h
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-exynos4.h
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-similarity index 99%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-index 491e9248286c..01b47b3df1e7 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.c
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw.h
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw.h
-  *
-  * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
-similarity index 97%
-rename from drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
-index 98ddf7097562..f068d52c66b7 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-hw-s5p.h
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-hw.h
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw.h
-  *
-  * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-regs.h b/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
-similarity index 99%
-rename from drivers/media/platform/s5p-jpeg/jpeg-regs.h
-rename to drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
-index 86f376b50581..c2298b680022 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-regs.h
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* linux/drivers/media/platform/s5p-jpeg/jpeg-regs.h
-+/* linux/drivers/media/platform/samsung/s5p-jpeg/jpeg-regs.h
-  *
-  * Register definition file for Samsung JPEG codec driver
-  *
--- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
