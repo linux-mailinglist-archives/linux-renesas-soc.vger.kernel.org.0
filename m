@@ -2,42 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F10A4D9F83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Mar 2022 16:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3D24DA309
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Mar 2022 20:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349903AbiCOQAx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Mar 2022 12:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35000 "EHLO
+        id S245710AbiCOTOU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Mar 2022 15:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349901AbiCOQAx (ORCPT
+        with ESMTP id S245232AbiCOTOT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Mar 2022 12:00:53 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A279C55BDC;
-        Tue, 15 Mar 2022 08:59:40 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,184,1643641200"; 
-   d="scan'208";a="113587967"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Mar 2022 00:59:40 +0900
-Received: from localhost.localdomain (unknown [10.226.92.209])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5B5F04017C4E;
-        Wed, 16 Mar 2022 00:59:38 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tue, 15 Mar 2022 15:14:19 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACCC4C78;
+        Tue, 15 Mar 2022 12:13:00 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id E1059C0003;
+        Tue, 15 Mar 2022 19:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1647371579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=u/D6SPGhBpyZWC2aFb7aJ6eFgcFPSvIErLak7uOUgJw=;
+        b=i36aWtw+u0tKkOfg00+abz853z0qOK6sKfT3Vlcw7y24U5AO6XehDFkk2y+Yu0gwqMvk30
+        6+AXFGV7xre+YUd0GUMrfOx2BUAFO0cRXy9m5io2AXDNh57WCQhTf98zD/YC7vBatyJz5t
+        Opz2abLPnaPJsKekuFEHQHDSSc7ZHFa8cFwlr3Q7Ow/SKOgq/8C+upbuuL0rHqPtnzLUaW
+        mi6YzGb8wysMtHu/axGKMkMW91/J6Ueo0jYfrQ9oONkuYQ1MMcyT+dyRA/6opAzI0r7RRZ
+        6K/9jawK+WrlUM26GrDWXlKVKj/49kEUmQPmQ7Z7mLytacYygq7KeTfqikTinQ==
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 7/7] arm64: dts: renesas: rzg2ul-smarc-som: Enable Ethernet on SMARC platform
-Date:   Tue, 15 Mar 2022 15:59:19 +0000
-Message-Id: <20220315155919.23451-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220315155919.23451-1-biju.das.jz@bp.renesas.com>
-References: <20220315155919.23451-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        dmaengine@vger.kernel.org
+Cc:     Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v5 0/8] RZN1 DMA support
+Date:   Tue, 15 Mar 2022 20:12:47 +0100
+Message-Id: <20220315191255.221473-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,160 +65,95 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable Ethernet{0,1} interfaces on RZ/G2UL SMARC EVK.
+Hello,
 
-Ethernet0 pins are muxed with CAN0, CAN1, SSI1 and RSPI1 pins and Ethernet0
-device selection is based on the SW1[3] switch position.
+Here is a first series bringing DMA support to RZN1 platforms. Soon a
+second series will come with changes made to the UART controller
+driver, in order to interact with the RZN1 DMA controller.
 
-Set SW1[3] to position OFF for selecting CAN0, CAN1, SSI1 and RSPI1.
-Set SW1[3] to position ON for selecting Ethernet0.
+Cheers,
+Miquèl
 
-This patch disables Ethernet0 on RZ/G2UL SMARC platform by default.
+Changes in v5:
+* Used gotos in rzn1_dmamux_route_allocate().
+* Changed the prefix to "dmaengine:".
+* Dropped the partial transfers fix.
+* Added Rob's acks.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    | 97 ++++++++++++++++++-
- arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi |  2 +
- 2 files changed, 98 insertions(+), 1 deletion(-)
+Changes in v4:
+* Freed "map" in the error path of the dmamux driver.
+* Improved a bit the style as requested by Prabhakar.
+* Dropped a __maybe_unused.
+* Reorder the includes.
+* Added a dependency on ARCH_RZN1.
+* Added Rob's Ack.
+* Added a reg property to the dmamux binding file.
+* Referenced the dmamux binding from the system controller file.
+* Called of_platform_populate from the end of the system controller
+  (clock) driver probe in order to probe the dmamux if it was
+  populated.
+* Added DMA properties to all the relevant UARTs.
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index 0d6fc0d84783..b0822679a55b 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -9,8 +9,13 @@
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
- / {
-+	aliases {
-+		ethernet0 = &eth0;
-+		ethernet1 = &eth1;
-+	};
-+
- 	chosen {
--		bootargs = "ignore_loglevel";
-+		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
- 	};
- 
- 	memory@48000000 {
-@@ -52,11 +57,101 @@
- #endif
- };
- 
-+#if (!SW_ET0_EN_N)
-+&eth0 {
-+	pinctrl-0 = <&eth0_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	phy-mode = "rgmii-id";
-+	status = "okay";
-+
-+	phy0: ethernet-phy@7 {
-+		compatible = "ethernet-phy-id0022.1640",
-+			     "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+		rxc-skew-psec = <2400>;
-+		txc-skew-psec = <2400>;
-+		rxdv-skew-psec = <0>;
-+		txdv-skew-psec = <0>;
-+		rxd0-skew-psec = <0>;
-+		rxd1-skew-psec = <0>;
-+		rxd2-skew-psec = <0>;
-+		rxd3-skew-psec = <0>;
-+		txd0-skew-psec = <0>;
-+		txd1-skew-psec = <0>;
-+		txd2-skew-psec = <0>;
-+		txd3-skew-psec = <0>;
-+	};
-+};
-+#endif
-+
-+&eth1 {
-+	pinctrl-0 = <&eth1_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy1>;
-+	phy-mode = "rgmii-id";
-+	status = "okay";
-+
-+	phy1: ethernet-phy@7 {
-+		compatible = "ethernet-phy-id0022.1640",
-+			     "ethernet-phy-ieee802.3-c22";
-+		reg = <7>;
-+		rxc-skew-psec = <2400>;
-+		txc-skew-psec = <2400>;
-+		rxdv-skew-psec = <0>;
-+		txdv-skew-psec = <0>;
-+		rxd0-skew-psec = <0>;
-+		rxd1-skew-psec = <0>;
-+		rxd2-skew-psec = <0>;
-+		rxd3-skew-psec = <0>;
-+		txd0-skew-psec = <0>;
-+		txd1-skew-psec = <0>;
-+		txd2-skew-psec = <0>;
-+		txd3-skew-psec = <0>;
-+	};
-+};
-+
- &extal_clk {
- 	clock-frequency = <24000000>;
- };
- 
- &pinctrl {
-+	eth0_pins: eth0 {
-+		pinmux = <RZG2L_PORT_PINMUX(4, 5, 1)>, /* ET0_LINKSTA */
-+			 <RZG2L_PORT_PINMUX(4, 3, 1)>, /* ET0_MDC */
-+			 <RZG2L_PORT_PINMUX(4, 4, 1)>, /* ET0_MDIO */
-+			 <RZG2L_PORT_PINMUX(1, 0, 1)>, /* ET0_TXC */
-+			 <RZG2L_PORT_PINMUX(1, 1, 1)>, /* ET0_TX_CTL */
-+			 <RZG2L_PORT_PINMUX(1, 2, 1)>, /* ET0_TXD0 */
-+			 <RZG2L_PORT_PINMUX(1, 3, 1)>, /* ET0_TXD1 */
-+			 <RZG2L_PORT_PINMUX(1, 4, 1)>, /* ET0_TXD2 */
-+			 <RZG2L_PORT_PINMUX(2, 0, 1)>, /* ET0_TXD3 */
-+			 <RZG2L_PORT_PINMUX(3, 0, 1)>, /* ET0_RXC */
-+			 <RZG2L_PORT_PINMUX(3, 1, 1)>, /* ET0_RX_CTL */
-+			 <RZG2L_PORT_PINMUX(3, 2, 1)>, /* ET0_RXD0 */
-+			 <RZG2L_PORT_PINMUX(3, 3, 1)>, /* ET0_RXD1 */
-+			 <RZG2L_PORT_PINMUX(4, 0, 1)>, /* ET0_RXD2 */
-+			 <RZG2L_PORT_PINMUX(4, 1, 1)>; /* ET0_RXD3 */
-+	};
-+
-+	eth1_pins: eth1 {
-+		pinmux = <RZG2L_PORT_PINMUX(10, 4, 1)>, /* ET1_LINKSTA */
-+			 <RZG2L_PORT_PINMUX(10, 2, 1)>, /* ET1_MDC */
-+			 <RZG2L_PORT_PINMUX(10, 3, 1)>, /* ET1_MDIO */
-+			 <RZG2L_PORT_PINMUX(7, 0, 1)>, /* ET1_TXC */
-+			 <RZG2L_PORT_PINMUX(7, 1, 1)>, /* ET1_TX_CTL */
-+			 <RZG2L_PORT_PINMUX(7, 2, 1)>, /* ET1_TXD0 */
-+			 <RZG2L_PORT_PINMUX(7, 3, 1)>, /* ET1_TXD1 */
-+			 <RZG2L_PORT_PINMUX(7, 4, 1)>, /* ET1_TXD2 */
-+			 <RZG2L_PORT_PINMUX(8, 0, 1)>, /* ET1_TXD3 */
-+			 <RZG2L_PORT_PINMUX(8, 4, 1)>, /* ET1_RXC */
-+			 <RZG2L_PORT_PINMUX(9, 0, 1)>, /* ET1_RX_CTL */
-+			 <RZG2L_PORT_PINMUX(9, 1, 1)>, /* ET1_RXD0 */
-+			 <RZG2L_PORT_PINMUX(9, 2, 1)>, /* ET1_RXD1 */
-+			 <RZG2L_PORT_PINMUX(9, 3, 1)>, /* ET1_RXD2 */
-+			 <RZG2L_PORT_PINMUX(10, 0, 1)>; /* ET1_RXD3 */
-+	};
-+
- 	sdhi0_emmc_pins: sd0emmc {
- 		sd0_emmc_data {
- 			pins = "SD0_DATA0", "SD0_DATA1", "SD0_DATA2", "SD0_DATA3",
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-index b8caa833e349..81da096d0704 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
-@@ -9,9 +9,11 @@
-  * DIP-Switch SW1 setting
-  * 1 : High; 0: Low
-  * SW1-2 : SW_SD0_DEV_SEL	(0: uSD; 1: eMMC)
-+ * SW1-3 : SW_ET0_EN_N		(0: ETHER0; 1: CAN0, CAN1, SSI1, RSPI1)
-  * Please change below macros according to SW1 setting
-  */
- #define SW_SW0_DEV_SEL	1
-+#define SW_ET0_EN_N	1
- 
- #include "rzg2ul-smarc-som.dtsi"
- #include "rzg2ul-smarc-pinfunction.dtsi"
+Changes in v3:
+* Added Reviewed-by tags.
+* Exported the set_dmamux* symbol properly.
+* Dropped a useless check in the probe and moved the sysctrl_priv
+  assignation to the end of the probe.
+* Renamed the dmamux driver
+* Added a couple of missing MODULE_ macros in the dmamux driver.
+* Decided to use a regular platform init call instead of the
+  arch_initcall() initially proposed.
+* s/%d/%u/ in printk's when appropriate.
+* Used a hardcoded value instead of dmamux->dmac_requests when
+  appropriate.
+* Changed the variable name "master" to "dmac_idx" to be more
+  descriptive.
+* Dropped most of the of_* calls in favor of #define's.
+* Fixed a typo.
+* Exported two symbols from 8250_dma.c.
+
+Changes in v2:
+* Clarified that the 'fix' regarding non aligned reads would only apply
+  to the DEV_TO_MEM case.
+* Fix the DMA controller compatible string (copy-paste error).
+* s/syscon/sysctrl/ as advised by Geert.
+* Disabled irqs when taking the spinlock from the clocks driver.
+* Moved the DMAMUX offset inside the driver.
+* Removed extra commas.
+* Improved the style as suggested by Andy.
+* Removed a dupplicated check against the device node presence.
+* Reduced the number of lines of code by using dev_err_probe().
+* Created a Kconfig symbol for DMAMUX to fix the two robot reports
+  received and be sure there was no useless overhead with other
+  platforms.
+* Exported the serial8250_{tx,rx}_dma() symbols.
+
+Miquel Raynal (8):
+  dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
+  dt-bindings: clock: r9a06g032-sysctrl: Reference the DMAMUX subnode
+  dt-bindings: dmaengine: Introduce RZN1 DMA compatible
+  soc: renesas: rzn1-sysc: Export function to set dmamux
+  dmaengine: dw: dmamux: Introduce RZN1 DMA router support
+  dmaengine: dw: Add RZN1 compatible
+  ARM: dts: r9a06g032: Add the two DMA nodes
+  ARM: dts: r9a06g032: Describe the DMA router
+
+ .../clock/renesas,r9a06g032-sysctrl.yaml      |  11 ++
+ .../bindings/dma/renesas,rzn1-dmamux.yaml     |  51 ++++++
+ .../bindings/dma/snps,dma-spear1340.yaml      |   8 +-
+ MAINTAINERS                                   |   1 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  40 +++++
+ drivers/clk/renesas/r9a06g032-clocks.c        |  36 +++-
+ drivers/dma/dw/Kconfig                        |   9 +
+ drivers/dma/dw/Makefile                       |   2 +
+ drivers/dma/dw/platform.c                     |   1 +
+ drivers/dma/dw/rzn1-dmamux.c                  | 157 ++++++++++++++++++
+ include/linux/soc/renesas/r9a06g032-sysctrl.h |  11 ++
+ 11 files changed, 325 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+ create mode 100644 drivers/dma/dw/rzn1-dmamux.c
+ create mode 100644 include/linux/soc/renesas/r9a06g032-sysctrl.h
+
 -- 
-2.17.1
+2.27.0
 
