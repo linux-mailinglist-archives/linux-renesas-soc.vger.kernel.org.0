@@ -2,89 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A39F4D8F27
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Mar 2022 23:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 679C74D927E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Mar 2022 03:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245422AbiCNWBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Mar 2022 18:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42800 "EHLO
+        id S237199AbiCOCRV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Mar 2022 22:17:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245421AbiCNWBy (ORCPT
+        with ESMTP id S231442AbiCOCRU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Mar 2022 18:01:54 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4083BF8A;
-        Mon, 14 Mar 2022 15:00:44 -0700 (PDT)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id DE7B083937;
-        Mon, 14 Mar 2022 23:00:40 +0100 (CET)
-From:   marek.vasut@gmail.com
-To:     linux-clk@vger.kernel.org
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/3] clk: renesas: r8a77965: Add ZG clocks
-Date:   Mon, 14 Mar 2022 23:00:12 +0100
-Message-Id: <20220314220012.218731-3-marek.vasut@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220314220012.218731-1-marek.vasut@gmail.com>
-References: <20220314220012.218731-1-marek.vasut@gmail.com>
+        Mon, 14 Mar 2022 22:17:20 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFCC33ED22
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Mar 2022 19:16:08 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id cx5so16534987pjb.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Mar 2022 19:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=EZ2ZfMREa0lt/FKbVt9sP5UNJSV/vrYWLkAk7ZHfHNA=;
+        b=hCKK50Ixi5U6SoCJhu0yd1bbkTBcyZTyaLMXyGfKX4dxlBneebAQSsm6F8XeqoP+wQ
+         DrYN17iBr3UavQcV9eWb9NTPbIqQSmZir7N2gJxw6GOqbGgTrbZgNUuTXzMCD2u5PBPD
+         uvKGu8qqp6LNmcBwdbSZbVyLwMrw4C+cteLkS7HZIqJcYqa27Yft2XcZbmtnA0ObhSGC
+         6no54fc6lSi892cMjB45Qj2YljDmHuOVqtVWBFO+CYh6Iad406RMhOgRNLcXFdPM4Yrr
+         H/eMlkUWsth7p4/bbjSDaJ5xbkIDBozqr5+UQPwiQ8VubOAjjhS5N6B1/fNpdjV8Ly+g
+         +pUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=EZ2ZfMREa0lt/FKbVt9sP5UNJSV/vrYWLkAk7ZHfHNA=;
+        b=G2gNSYEwjDlCy1asAIDxS9wBObC1OoJwCqNqUVzNfi3o5sdzC5swY3wtmAXYqLnQr1
+         OYHVmiMjgyRfsIvzwVyjlIbWH2HxksvMYqw2pj+n+WMqvI6kRW5FzkKhKylC16oKdjc/
+         5p4l/4TwY6CJiCnbvbJ656HvSyyAVc2jJ5roERGl+JGaky0y+3FIQvs/17dKqT7MWsyK
+         B7mSpSqln6aBuVIr6Xs581l8Y5vKsrq4GUSih+3g8NurqCmy0V1yAIv60QWsy6gTpS6E
+         sedQLK3YkzVD9P2cyH85TWI/nBeU6gtheef5b+4tHHFlpPjYQ1gLSjHpnXDH9ROyQunT
+         sQmA==
+X-Gm-Message-State: AOAM530Ci8KMpyY2UbvmVkQqgdu+5eM0WYAFQq9/b/I3qH9pu080ptNF
+        nAcou/3yNtwsntUSwg8iO8P1mrPSKhawrqVc69A=
+X-Google-Smtp-Source: ABdhPJylhHnKYqX7ZW+/nFOxZakxKdCy8iBmKKdmZfJ2cnP8fVfWrgtW4tlbRjroqBRvATcCmHXpFg==
+X-Received: by 2002:a17:90b:1c0d:b0:1c2:71f6:2fea with SMTP id oc13-20020a17090b1c0d00b001c271f62feamr2092564pjb.88.1647310568355;
+        Mon, 14 Mar 2022 19:16:08 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id l1-20020a17090aec0100b001bfa1bafeadsm794637pjy.53.2022.03.14.19.16.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 19:16:08 -0700 (PDT)
+Message-ID: <622ff6e8.1c69fb81.aa37e.33b6@mx.google.com>
+Date:   Mon, 14 Mar 2022 19:16:08 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2022-03-14-v5.17-rc8
+Subject: renesas/master baseline-nfs: 60 runs,
+ 1 regressions (renesas-devel-2022-03-14-v5.17-rc8)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marek Vasut <marek.vasut+renesas@gmail.com>
+renesas/master baseline-nfs: 60 runs, 1 regressions (renesas-devel-2022-03-=
+14-v5.17-rc8)
 
-This patch adds ZG clocks used by the PowerVR GPU.
+Regressions Summary
+-------------------
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/clk/renesas/r8a77965-cpg-mssr.c | 2 ++
- 1 file changed, 2 insertions(+)
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
-diff --git a/drivers/clk/renesas/r8a77965-cpg-mssr.c b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-index d687c29efa3c..854b0173827d 100644
---- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-@@ -80,6 +80,7 @@ static const struct cpg_core_clk r8a77965_core_clks[] __initconst = {
- 
- 	/* Core Clock Outputs */
- 	DEF_GEN3_Z("z",		R8A77965_CLK_Z,		CLK_TYPE_GEN3_Z,  CLK_PLL0, 2, 8),
-+	DEF_GEN3_Z("zg",	R8A77965_CLK_ZG,	CLK_TYPE_GEN3_Z,  CLK_PLL4, 2, 0),
- 	DEF_FIXED("ztr",	R8A77965_CLK_ZTR,	CLK_PLL1_DIV2,	6, 1),
- 	DEF_FIXED("ztrd2",	R8A77965_CLK_ZTRD2,	CLK_PLL1_DIV2,	12, 1),
- 	DEF_FIXED("zt",		R8A77965_CLK_ZT,	CLK_PLL1_DIV2,	4, 1),
-@@ -126,6 +127,7 @@ static const struct cpg_core_clk r8a77965_core_clks[] __initconst = {
- };
- 
- static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
-+	DEF_MOD("3dge",			112,	R8A77965_CLK_ZG),
- 	DEF_MOD("fdp1-0",		119,	R8A77965_CLK_S0D1),
- 	DEF_MOD("tmu4",			121,	R8A77965_CLK_S0D6),
- 	DEF_MOD("tmu3",			122,	R8A77965_CLK_S3D2),
--- 
-2.35.1
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-03-14-v5.17-rc8/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-03-14-v5.17-rc8
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      1bffc90f0b511234bda84bd62ae16394a7b0a260 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/622fbddd3c7d5f4d4cc6297e
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-03-14-v5.17-rc8/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-03-14-v5.17-rc8/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220228.1/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/622fbddd3c7d5f4d4cc629a2
+        failing since 6 days (last pass: renesas-devel-2022-02-28-v5.17-rc6=
+, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-03-14T22:12:17.625207  [   37.293296] <LAVA_SIGNAL_TESTCASE TEST_C=
+ASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
+    2022-03-14T22:12:18.662026  /lava-5879345/1/../bin/lava-test-case   =
+
+ =20
