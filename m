@@ -2,139 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4D04D9F10
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Mar 2022 16:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 465DC4D9F78
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Mar 2022 16:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349738AbiCOPsR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Mar 2022 11:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        id S1349893AbiCOQAk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Mar 2022 12:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349739AbiCOPsQ (ORCPT
+        with ESMTP id S245084AbiCOQAh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Mar 2022 11:48:16 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 413EF1707D;
-        Tue, 15 Mar 2022 08:47:04 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,183,1643641200"; 
-   d="scan'208";a="114499314"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Mar 2022 00:47:03 +0900
+        Tue, 15 Mar 2022 12:00:37 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3EF674B43D;
+        Tue, 15 Mar 2022 08:59:24 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,184,1643641200"; 
+   d="scan'208";a="113587932"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Mar 2022 00:59:23 +0900
 Received: from localhost.localdomain (unknown [10.226.92.209])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A719A4000A83;
-        Wed, 16 Mar 2022 00:47:01 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 876DA4017C38;
+        Wed, 16 Mar 2022 00:59:21 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] clk: renesas: r9a07g043: Add SDHI clock and reset entries
-Date:   Tue, 15 Mar 2022 15:46:49 +0000
-Message-Id: <20220315154649.22343-5-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 0/7] Enable Ethernet and SDHI on RZ/G2UL SMARC EVK
+Date:   Tue, 15 Mar 2022 15:59:12 +0000
+Message-Id: <20220315155919.23451-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220315154649.22343-1-biju.das.jz@bp.renesas.com>
-References: <20220315154649.22343-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SDHI{0,1} mux, clock and reset entries to CPG driver
+This patch series aims to enable Ethernet and SDHI on RZ/G2UL
+SMARC EVK. This patches also adds pinctrl support to SoC
+dtsi and enables scif0 and audio clk pins.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g043-cpg.c | 35 +++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+This patch series depend upon [1]
+[1] https://lore.kernel.org/linux-renesas-soc/20220315142644.17660-1-biju.das.jz@bp.renesas.com/T/#t
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index d8c0900432ff..0aa11dffde49 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -37,6 +37,12 @@ enum clk_ids {
- 	CLK_PLL6,
- 	CLK_PLL6_250,
- 	CLK_P1_DIV2,
-+	CLK_PLL2_800,
-+	CLK_PLL2_SDHI_533,
-+	CLK_PLL2_SDHI_400,
-+	CLK_PLL2_SDHI_266,
-+	CLK_SD0_DIV4,
-+	CLK_SD1_DIV4,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -62,6 +68,7 @@ static const struct clk_div_table dtable_1_32[] = {
- 
- /* Mux clock tables */
- static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
-+static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
- 
- static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	/* External Clock Inputs */
-@@ -73,6 +80,10 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
- 	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
- 	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk_800", CLK_PLL2_800, CLK_PLL2, 1, 2),
-+	DEF_FIXED(".clk_533", CLK_PLL2_SDHI_533, CLK_PLL2, 1, 3),
-+	DEF_FIXED(".clk_400", CLK_PLL2_SDHI_400, CLK_PLL2_800, 1, 2),
-+	DEF_FIXED(".clk_266", CLK_PLL2_SDHI_266, CLK_PLL2_SDHI_533, 1, 2),
- 	DEF_FIXED(".pll2_div2_8", CLK_PLL2_DIV2_8, CLK_PLL2_DIV2, 1, 8),
- 	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
- 	DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
-@@ -98,6 +109,12 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	DEF_FIXED("ZT", R9A07G043_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
- 	DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2,
- 		sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
-+	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi)),
-+	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1,
-+		   sel_shdi, ARRAY_SIZE(sel_shdi)),
-+	DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G043_CLK_SD0, 1, 4),
-+	DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G043_CLK_SD1, 1, 4),
- };
- 
- static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
-@@ -111,6 +128,22 @@ static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
- 				0x52c, 0),
- 	DEF_MOD("dmac_pclk",	R9A07G043_DMAC_PCLK, CLK_P1_DIV2,
- 				0x52c, 1),
-+	DEF_MOD("sdhi0_imclk",	R9A07G043_SDHI0_IMCLK, CLK_SD0_DIV4,
-+				0x554, 0),
-+	DEF_MOD("sdhi0_imclk2",	R9A07G043_SDHI0_IMCLK2, CLK_SD0_DIV4,
-+				0x554, 1),
-+	DEF_MOD("sdhi0_clk_hs",	R9A07G043_SDHI0_CLK_HS, R9A07G043_CLK_SD0,
-+				0x554, 2),
-+	DEF_MOD("sdhi0_aclk",	R9A07G043_SDHI0_ACLK, R9A07G043_CLK_P1,
-+				0x554, 3),
-+	DEF_MOD("sdhi1_imclk",	R9A07G043_SDHI1_IMCLK, CLK_SD1_DIV4,
-+				0x554, 4),
-+	DEF_MOD("sdhi1_imclk2",	R9A07G043_SDHI1_IMCLK2, CLK_SD1_DIV4,
-+				0x554, 5),
-+	DEF_MOD("sdhi1_clk_hs",	R9A07G043_SDHI1_CLK_HS, R9A07G043_CLK_SD1,
-+				0x554, 6),
-+	DEF_MOD("sdhi1_aclk",	R9A07G043_SDHI1_ACLK, R9A07G043_CLK_P1,
-+				0x554, 7),
- 	DEF_COUPLED("eth0_axi",	R9A07G043_ETH0_CLK_AXI, R9A07G043_CLK_M0,
- 				0x57c, 0),
- 	DEF_COUPLED("eth0_chi",	R9A07G043_ETH0_CLK_CHI, R9A07G043_CLK_ZT,
-@@ -143,6 +176,8 @@ static struct rzg2l_reset r9a07g043_resets[] = {
- 	DEF_RST(R9A07G043_IA55_RESETN, 0x818, 0),
- 	DEF_RST(R9A07G043_DMAC_ARESETN, 0x82c, 0),
- 	DEF_RST(R9A07G043_DMAC_RST_ASYNC, 0x82c, 1),
-+	DEF_RST(R9A07G043_SDHI0_IXRST, 0x854, 0),
-+	DEF_RST(R9A07G043_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A07G043_ETH0_RST_HW_N, 0x87c, 0),
- 	DEF_RST(R9A07G043_ETH1_RST_HW_N, 0x87c, 1),
- 	DEF_RST(R9A07G043_SCIF0_RST_SYSTEM_N, 0x884, 0),
+Biju Das (7):
+  arm64: dts: renesas: r9a07g043: Fillup the pinctrl stub node
+  arm64: dts: renesas: rzg2ul-smarc: Add scif0 and audio clk pins
+  arm64: dts: renesas: r9a07g043: Add SDHI nodes
+  arm64: dts: renesas: r9a07g043: Add GbEthernet nodes
+  arm64: dts: renesas: rzg2ul-smarc: Enable microSD on SMARC platform
+  arm64: dts: renesas: rzg2ul-smarc-som: Enable eMMC on SMARC platform
+  arm64: dts: renesas: rzg2ul-smarc-som: Enable Ethernet on SMARC
+    platform
+
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |  74 +++++-
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   |  16 +-
+ .../dts/renesas/rzg2ul-smarc-pinfunction.dtsi |  63 ++++++
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    | 210 +++++++++++++++++-
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi |  37 +++
+ 5 files changed, 381 insertions(+), 19 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+
 -- 
 2.17.1
 
