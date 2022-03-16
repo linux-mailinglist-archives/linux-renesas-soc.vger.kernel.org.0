@@ -2,146 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5910D4DB35A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Mar 2022 15:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B3C34DB380
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Mar 2022 15:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234776AbiCPOhF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Mar 2022 10:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35772 "EHLO
+        id S1348162AbiCPOmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Mar 2022 10:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232943AbiCPOhF (ORCPT
+        with ESMTP id S243855AbiCPOmN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Mar 2022 10:37:05 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E99452E29;
-        Wed, 16 Mar 2022 07:35:51 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22GCo7sF011400;
-        Wed, 16 Mar 2022 14:35:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=IMMlCsNtSx3p57Rsj9lnyP8mBV4eyqm/TBHuqsizASA=;
- b=Di64CiFcLnQba2giD5Da3TIl1u0y5BE/c1LU4tzDvsD6Ozdz4UpEtdompHdA2jMnuPS1
- IbM+fCwBK6RPF9/uvWlQ3NQIPiPXTEvXkbLATpnyEiyBKNuZnQRhAbxJAbEHkKXOVeaV
- WEQRQ+BwgC5XHrwx9JCwEW7DlF+fl66awYlrglIoDYynGRI38b+RqmcSoeJzd7Wp0IXL
- nJYAgQApUe2PiKpyzViRw6KUpxzpev9HiHOV3xAV5fMKWHUNmpqrPIlzxfuqd1cNOrrV
- p/cDRs+RXjUSwW3ZyUqLn9njWPHK+QMcuCf/qW83V4JhzmcPVhhm+PhVVnhGhj3Hy8oZ gQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3et52pxdjv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 16 Mar 2022 14:35:32 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22GEHkop016120;
-        Wed, 16 Mar 2022 14:35:29 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
-        by userp3020.oracle.com with ESMTP id 3et658qdj5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 16 Mar 2022 14:35:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c7rZBC/imMR4mk7ZsJNiWboUDKUCw19Uc02bReY7AHcCYel1ZAJttZKIXb0rliKeDdiBLXI/Pt5ZtmVOw07t3RVvl+ACybasagCakam6bmIGp694G5wKDXm0ARatXgEzEMso2MS5zd/ztJowTjj6mEu09hE6xyCzgbnfuXQE+rb1z1FZUP7Aw8ClJwn1csLM/V+B6mOklbUOWqFDqiwPX+8CDFdllYJY1YCtLlzFIAEDJkc4hvBH30MfK2MRedX2ZP5VIN5bW9JbNhAgCjXr5+k83AvzhRZhZdtTz8YQMT6RUsUC3Cg5NwAs53arWNJvY0+f8J2LzZQtP8OumT5cnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IMMlCsNtSx3p57Rsj9lnyP8mBV4eyqm/TBHuqsizASA=;
- b=HBKOR8kevUei6P/+FcczGu6sFLfjtCbgCRL1yKCVq784fw36k0R4U+qlHO1n0cBEok3Fy29U5szpg9ZW93Fc48bm3Y9T+I5JdcAJ2qap8CZ/ChI989xLULEw3qYcASP2dICy9hU9NEf2RFVaF7x10Qt2uj/ExmqqRHJ7KiG+Uat8CQgIz8eZC5ysGePhOfW+ZW9SiGYTuC6T4fec5wMe6qAhPW/iHuecrXHC4ZsBDkXRGGaWmqubWAAgksmVz5LREO9vwgGrA0swTaaK7qPS9kAMOmUeoTldGZ+77efi9ouEJxuFjEdyyLOuqKuMXmAdrusJDip3QJ2YEo9YEEmqjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IMMlCsNtSx3p57Rsj9lnyP8mBV4eyqm/TBHuqsizASA=;
- b=qBP9xM5pfz2jkQAjCsOLt6ylFr6CRLfhv2CRpt0VRljVQk4A/lTefeNm1E67bLd7fAK5wzdWFTh2nLIvytNXVxMSxUDMKYtmQn5GlG/w6rekjDCf8rjMHv4BuFcNX0QEGbuu0LyrAl2Xc32OiRWcv28hWDOGB99ENfpERPpmVmw=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BLAPR10MB5057.namprd10.prod.outlook.com
- (2603:10b6:208:30e::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
- 2022 14:35:27 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
- 14:35:27 +0000
-Date:   Wed, 16 Mar 2022 17:35:08 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Colin Ian King <colin.king@intel.com>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] dmaengine: sh: rz-dmac: Set DMA transfer size for
- src/dst based on the transfer direction
-Message-ID: <20220316143508.GG1841@kadam>
-References: <20220307191211.12087-1-biju.das.jz@bp.renesas.com>
- <OS0PR01MB59220760F588124231136C8686119@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59220760F588124231136C8686119@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        Wed, 16 Mar 2022 10:42:13 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B592D5F261;
+        Wed, 16 Mar 2022 07:40:57 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5F69860006;
+        Wed, 16 Mar 2022 14:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1647441653;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KZrHkZTxdSaDlw1duqlnaB5GO9gaLPPnJ7VLgxAsVCM=;
+        b=Sgy6Uw3Hq4bzryd7jgDrLxnlDuFcQNzwj1Ol0d0ZRL2IKeNetEX12zWFLqe3fxDNHq/Mwl
+        lnJRskBlK23oye0baB8eF2Zz3e7H5OInJ9Rm4BIcnXpcAD6N+UaO34Sqtnn07N8/o6vlCy
+        Rh0wAh2fPy/Nw0qz05pub9Rd6wUDCj7fJBZsxo0XO6Y5C+HMvjosDIAV60pQe7NfIRnutB
+        d3ex+/92laIOVgA/Io8u/1uy45zAkQCUlIc7iZg6kwQuY+jfeaYNsmsLigfhNp86cyjDdN
+        Ozh9FDuteZlicqM+Bs1K656LgEBvTZ2naPyx8jNDjPV5V4Erruyn9EKudLUhuQ==
+Date:   Wed, 16 Mar 2022 15:40:50 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Emil Renner Berthing <kernel@esmil.dk>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] serial: 8250_dw: Use device tree match data
+Message-ID: <20220316154050.317fee11@xps13>
+In-Reply-To: <20220311144814.21944-1-kernel@esmil.dk>
+References: <20220311105934.5827d0d6@xps13>
+        <20220311144814.21944-1-kernel@esmil.dk>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75a4508f-4a61-45fb-d06a-08da075a3651
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5057:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB50575426A76C6CBB8E955DA28E119@BLAPR10MB5057.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5jM5rRyy9P/zts9Jszw502tCNZPHjEefsBHIKaf2kBiZuRbHJuWpjjbFxs8WBhMWu6pfJNCNw374oTPKlLQswXCOssX1bEG1WsrQjDsDb7AkQEiw+TZovGHIYZ/FghSbY3leAwD+VUASVBFcfNu0bRFfIW2I7D/6DK5l5tzhC0jXp8+tby8dFM20aYG6phQLd5ddSquL6RhKb7BXAAd3/K94tvkdpGaGCuAaw6LUNwJ3CdcmUMpvGvmIxJtiVc5i1lje+aYXr1E/doLzqxbGPQ42xJ6rarKZ+CQUOf7Cm8XdYy64jb3aUJ5LsM36mEjf/8nmShSkLBpzihFt9hRdpmDb7nv1l+NgFVTZZ8MquRw+0QEDrNpPum9jfBcxicHtMhtghGVrwaiwTlL5Rpzvsp/K8dRoTIqzwtpHZYLhV8PQ7l261whBREKFZPO2f+GsVrUzbUjZT3FuTdxs3kY2lRAn5yotWCGxiHMOR71UyR8j/cwNXvLOPsYT4Cm+kgT6jto0qujdK7saieWVI2glhpWjVnqGfSv2b/w98Xh3cbN5LWWQnKfCsbnoZLTuogJlUSOUswiKqu+fn6998WPgFOi7THL8J10FnT0ZzVTZ7kqVLoG9P9dqEYD2S5wC7usUFnpM8PtLzywMnI5nwy04ckwBplO7ldXHPAllFBimWo9XAkul39ofgWr+PZJvRgYUQ8PQ2waPJafn1ge0R5lh8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(2906002)(6486002)(44832011)(26005)(186003)(5660300002)(8936002)(1076003)(6666004)(508600001)(558084003)(52116002)(4326008)(86362001)(33656002)(6506007)(54906003)(9686003)(316002)(6512007)(66476007)(66556008)(66946007)(33716001)(8676002)(38350700002)(6916009)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W8TlKOV+F90PbPQfSs8fz58W4X5By9zQFj+iXbD8uh5ShBM5vw8nfKqOumyV?=
- =?us-ascii?Q?/rIUYXoN2txzvV1CsMA44czpK6NGVsPpYnmPeXQGq0JJ0kiJZdnnOKG4UjxG?=
- =?us-ascii?Q?OPSHcPeXPQq/MXiP+ramCqm8JOIqO966rT2Ojnlz7DSpGvR+wKkoEpv+R2OF?=
- =?us-ascii?Q?2AMRn0Dyz04Tit0NZoR+6b/QRAqpVjHBByptjPSlg3lEwcFoWSHvHeNnUFPp?=
- =?us-ascii?Q?WGPJ/g8NCHFFgL8JJ+PHktSW0SQkntZtJaYDjrqz7c2bvx3HPmbP1a0q6fEQ?=
- =?us-ascii?Q?2n9WL0IfWmKzs20EE68h0Brq4SRIK15CMGNrkI5nZCvWjMbkwb+yJp1zYyUW?=
- =?us-ascii?Q?21+lqD7lgZpoiTTlF63OYWFUGCFuwHxjP6AIetWfxYsumyJnnB075fKhdKPU?=
- =?us-ascii?Q?PH2rsZkaQg3dh6fZO/adK3J2iQp1iOENo/2/wBp+uThhplJNM/zRP5osopLW?=
- =?us-ascii?Q?Xw+qR8B2m8CJ9kDuNaEhnLTe92WspS82WgMD4hoDVkQYHSHBN3edb524Gbaw?=
- =?us-ascii?Q?J7ez4UVk5stcW9h/OVVJIMxE1oplZ1w80sJ3AzqbSa+Jb5H3O22qpjoVmor5?=
- =?us-ascii?Q?izgeHMKzSRm321bvmSPM4/Agvh6aYmjjsVKOL1nar2WXeEjV+ybo9R+Yzr6W?=
- =?us-ascii?Q?BHSBfpPOhDYf/RGNgsU2Mgre8tU+/lkql+PXKYMSCAoa3/bOAVAA58iUkaTB?=
- =?us-ascii?Q?UFn0qwHK1qlKG98uJcljK22lIw8loqbgWarbUX9l17UKfresFtQhWuukBI1U?=
- =?us-ascii?Q?KpuT7i860WbK9zc0v9hHtQW6R0g0zp14Y3xqON83r+A8LPEZzDORyboi2vr1?=
- =?us-ascii?Q?kmKgN/ZYfdm+GvatbmOaGyE3w0BqJJ2JZjBU6dtaUpmR+BLnOVeTJzhmjsqb?=
- =?us-ascii?Q?ujhTRYPaNkT2/VLF4f1fBB2xC4CAY8ulawZ/Ly6DynAwgR7ucp43vsovYr/4?=
- =?us-ascii?Q?U5PEa8R0DhmrkuQvoYEg0LNVktLeH+M/5csiAgChhIl8AQP/nfGyc2gLnsGf?=
- =?us-ascii?Q?MvRPf/Cq+TGcmayQpSLHqnLYDOwKnrnShiRiav1/zQzRIhDNdwOc2QgpD2Nh?=
- =?us-ascii?Q?IsrW7MmArRCpco781iR432GEdI7g3bYDuDEgmzS19/KanPpR3/5adghZw7Sr?=
- =?us-ascii?Q?ZPtFueQ7aujQmfRg8gbpTSQPl6rWELQWiBqUZMki5X55Osr8ZGnUAhvJIDrx?=
- =?us-ascii?Q?HrKbn3hijrXgmNR5z/lLdSZvWf/vlmLFSUrFpyc9FegOVn+oAEOtpaDtbXfx?=
- =?us-ascii?Q?MZZ2AIn/22ucLhW8ZSPLjwSEYg+pJK64xPlOCaef0IIw1vj7xONgU8Wn+x2/?=
- =?us-ascii?Q?W4Z+XZF87mQgGk5fRCN2sY+cOJcVSq/gTFmNR6CmqK/HupmOQX0D8LFEKoRY?=
- =?us-ascii?Q?v4hRVH2v3JodODIElLdz337ELvzu2PP8MjBH/q2KuH6N7+cJ1QM8m1ejHtf8?=
- =?us-ascii?Q?kocZlyvbItd2SH39nNU4L7NNkuL1RJLqwiN+bI5mXoHZHlW5g+iZ7A=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75a4508f-4a61-45fb-d06a-08da075a3651
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 14:35:27.0816
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tdug1B4COc8YpfJjZ3T+bQWHKHSHCHdyiwW7mMTvqlooesOnJVaDIRh469PasHXb11HWxZCjfaV9+YOJuJ/P9j2JtRpEPdppitp07sEWM7M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5057
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10287 signatures=693139
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0
- malwarescore=0 adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=700
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203160090
-X-Proofpoint-GUID: MtY1dpJwwApnbENoWgiFZ_Tw-mK7dwgS
-X-Proofpoint-ORIG-GUID: MtY1dpJwwApnbENoWgiFZ_Tw-mK7dwgS
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -149,14 +67,130 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 16, 2022 at 02:27:01PM +0000, Biju Das wrote:
-> Hi Vinod,
-> 
-> Gentle ping. Are you happy with this patch?
+Hi Emil,
 
-It's only been a week.  Please wait at least two weeks before asking
-about a patch.
+kernel@esmil.dk wrote on Fri, 11 Mar 2022 15:48:14 +0100:
 
-regards,
-dan carpenter
+> ..rather than multiple calls to of_device_is_compatible().
+>=20
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> ---
+>=20
+> Hi Miquel,
+>=20
+> > > > > --- a/drivers/tty/serial/8250/8250_dma.c
+> > > > > +++ b/drivers/tty/serial/8250/8250_dma.c =3D20 =20
+> > > > =3D20 =20
+> > > > > @@ -501,6 +589,8 @@ static int dw8250_probe(struct platform_devic=
+e *p=3D =20
+> > dev) =20
+> > > > >                 data->msr_mask_off |=3D3D UART_MSR_TERI;
+> > > > >         }
+> > > > >
+> > > > > +       data->is_rzn1 =3D3D of_device_is_compatible(dev->of_node,=
+ "rene=3D =20
+> > sas,rzn1-uart"); =3D20 =20
+> > > >
+> > > > Explicit checks for compatible values are frowned upon if you have
+> > > > a match table.
+> > > > Please handle this through of_device.data, cfr. the various quirks.=
+ =3D20 =20
+> > >=3D20
+> > > Oops, these are not yet upstream, but present in my tree due to inclu=
+ding
+> > > support for StarLight, cfr.
+> > > https://github.com/esmil/linux/commits/visionfive/drivers/tty/serial/=
+8250=3D =20
+> > /8250_dw.c
+> >=20
+> > Oh thanks for pointing it! Too bad that these quirks were not
+> > introduced inside a wider structure, I think it's always a must even if
+> > there is only one parameter there. Anyway, I'll introduce a wider
+> > specific structure and use it. =20
+>=20
+> For reference this is the patch I wrote for the StarFive JH7100 tree.
+> Feel free to use it or do something better as you see fit.
 
+Thanks for the pointers, I've fetched the three 8250_dw patches from
+your tree directly, and will build on top of them!
+
+Cheers,
+Miqu=C3=A8l
+
+>=20
+> /Emil
+>=20
+>  drivers/tty/serial/8250/8250_dw.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/=
+8250_dw.c
+> index 1769808031c5..f564a019a7be 100644
+> --- a/drivers/tty/serial/8250/8250_dw.c
+> +++ b/drivers/tty/serial/8250/8250_dw.c
+> @@ -37,6 +37,11 @@
+>  /* DesignWare specific register fields */
+>  #define DW_UART_MCR_SIRE		BIT(6)
+> =20
+> +/* Quirks */
+> +#define DW_UART_QUIRK_OCTEON		BIT(0)
+> +#define DW_UART_QUIRK_ARMADA_38X	BIT(1)
+> +#define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
+> +
+>  struct dw8250_data {
+>  	struct dw8250_port_data	data;
+> =20
+> @@ -389,6 +394,7 @@ static void dw8250_quirks(struct uart_port *p, struct=
+ dw8250_data *data)
+>  	struct device_node *np =3D p->dev->of_node;
+> =20
+>  	if (np) {
+> +		unsigned long quirks =3D (unsigned long)of_device_get_match_data(p->de=
+v);
+>  		int id;
+> =20
+>  		/* get index of serial line, if found in DT aliases */
+> @@ -396,7 +402,7 @@ static void dw8250_quirks(struct uart_port *p, struct=
+ dw8250_data *data)
+>  		if (id >=3D 0)
+>  			p->line =3D id;
+>  #ifdef CONFIG_64BIT
+> -		if (of_device_is_compatible(np, "cavium,octeon-3860-uart")) {
+> +		if (quirks & DW_UART_QUIRK_OCTEON) {
+>  			p->serial_in =3D dw8250_serial_inq;
+>  			p->serial_out =3D dw8250_serial_outq;
+>  			p->flags =3D UPF_SKIP_TEST | UPF_SHARE_IRQ | UPF_FIXED_TYPE;
+> @@ -412,9 +418,9 @@ static void dw8250_quirks(struct uart_port *p, struct=
+ dw8250_data *data)
+>  			p->serial_out =3D dw8250_serial_out32be;
+>  		}
+> =20
+> -		if (of_device_is_compatible(np, "marvell,armada-38x-uart"))
+> +		if (quirks & DW_UART_QUIRK_ARMADA_38X)
+>  			p->serial_out =3D dw8250_serial_out38x;
+> -		if (of_device_is_compatible(np, "starfive,jh7100-uart"))
+> +		if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
+>  			p->set_termios =3D dw8250_do_set_termios;
+> =20
+>  	} else if (acpi_dev_present("APMC0D08", NULL, -1)) {
+> @@ -695,10 +701,10 @@ static const struct dev_pm_ops dw8250_pm_ops =3D {
+> =20
+>  static const struct of_device_id dw8250_of_match[] =3D {
+>  	{ .compatible =3D "snps,dw-apb-uart" },
+> -	{ .compatible =3D "cavium,octeon-3860-uart" },
+> -	{ .compatible =3D "marvell,armada-38x-uart" },
+> +	{ .compatible =3D "cavium,octeon-3860-uart", .data =3D (void *)DW_UART_=
+QUIRK_OCTEON },
+> +	{ .compatible =3D "marvell,armada-38x-uart", .data =3D (void *)DW_UART_=
+QUIRK_ARMADA_38X },
+>  	{ .compatible =3D "renesas,rzn1-uart" },
+> -	{ .compatible =3D "starfive,jh7100-uart" },
+> +	{ .compatible =3D "starfive,jh7100-uart",    .data =3D (void *)DW_UART_=
+QUIRK_SKIP_SET_RATE },
+>  	{ /* Sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, dw8250_of_match);
+
+
+Thanks,
+Miqu=C3=A8l
