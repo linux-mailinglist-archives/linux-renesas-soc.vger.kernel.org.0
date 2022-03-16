@@ -2,114 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C3A4DB92C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Mar 2022 21:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3174DB9EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Mar 2022 22:09:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354296AbiCPUIx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Mar 2022 16:08:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
+        id S1354971AbiCPVLF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Mar 2022 17:11:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343924AbiCPUIx (ORCPT
+        with ESMTP id S230479AbiCPVLE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Mar 2022 16:08:53 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C89006E362;
-        Wed, 16 Mar 2022 13:07:37 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,187,1643641200"; 
-   d="scan'208";a="114644573"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Mar 2022 05:07:36 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 05153409A4C2;
-        Thu, 17 Mar 2022 05:07:34 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH] of/platform: Drop static setup of IRQ resource from DT core
-Date:   Wed, 16 Mar 2022 20:06:33 +0000
-Message-Id: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 16 Mar 2022 17:11:04 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D67D65796;
+        Wed, 16 Mar 2022 14:09:48 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 9A74D20005;
+        Wed, 16 Mar 2022 21:09:44 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: i2c: rdacm20: Fix format definition
+Date:   Wed, 16 Mar 2022 22:09:16 +0100
+Message-Id: <20220316210916.606929-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Now that all the DT drivers have switched to platform_get_irq() we can now
-safely drop the static setup of IRQ resource from DT core code.
+The RDACM20 camera supports a single image format which is currently
+listed as MEDIA_BUS_FMT_UYVY8_2X8. As the video stream is transmitted on
+the GMSL serial bus, the 2X8 variant does not apply.
 
-With the above change hierarchical setup of irq domains is no longer
-bypassed and thus allowing hierarchical interrupt domains to describe
-interrupts using "interrupts" DT property.
+Fix the format byusing MEDIA_BUS_FMT_UYVY8_1X16.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+This fixes a runtime error which is now triggered as the MAX9286
+deserializer implements .link_validate().
+
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
-Hi All,
+ drivers/media/i2c/rdacm20.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Sending this as RFC as couple of more drivers need to hit -rc yet with
-the platform_get_irq() change while that is in progress I wanted to get
-some feedback on this patch.
+diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+index ba956733aa89..6f23776ad214 100644
+--- a/drivers/media/i2c/rdacm20.c
++++ b/drivers/media/i2c/rdacm20.c
+@@ -47,11 +47,11 @@
+ #define OV10635_VTS			933
 
-Cheers,
-Prabhakar
----
- drivers/of/platform.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ /*
+- * As the drivers supports a single MEDIA_BUS_FMT_UYVY8_2X8 format we
++ * As the drivers supports a single MEDIA_BUS_FMT_UYVY8_1X16 format we
+  * can harcode the pixel rate.
+  *
+  * PCLK is fed through the system clock, programmed @88MHz.
+- * MEDIA_BUS_FMT_UYVY8_2X8 format = 2 samples per pixel.
++ * MEDIA_BUS_FMT_UYVY8_1X16 format = 2 samples per pixel.
+  *
+  * Pixelrate = PCLK / 2
+  * FPS = (OV10635_VTS * OV10635_HTS) / PixelRate
+@@ -409,7 +409,7 @@ static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
+ 	if (code->pad || code->index > 0)
+ 		return -EINVAL;
 
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index 793350028906..6890f7fe556f 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -114,35 +114,31 @@ struct platform_device *of_device_alloc(struct device_node *np,
- 				  struct device *parent)
- {
- 	struct platform_device *dev;
--	int rc, i, num_reg = 0, num_irq;
-+	int rc, i, num_reg = 0;
- 	struct resource *res, temp_res;
- 
- 	dev = platform_device_alloc("", PLATFORM_DEVID_NONE);
- 	if (!dev)
- 		return NULL;
- 
--	/* count the io and irq resources */
-+	/* count the io resources */
- 	while (of_address_to_resource(np, num_reg, &temp_res) == 0)
- 		num_reg++;
--	num_irq = of_irq_count(np);
- 
- 	/* Populate the resource table */
--	if (num_irq || num_reg) {
--		res = kcalloc(num_irq + num_reg, sizeof(*res), GFP_KERNEL);
-+	if (num_reg) {
-+		res = kcalloc(num_reg, sizeof(*res), GFP_KERNEL);
- 		if (!res) {
- 			platform_device_put(dev);
- 			return NULL;
- 		}
- 
--		dev->num_resources = num_reg + num_irq;
-+		dev->num_resources = num_reg;
- 		dev->resource = res;
- 		for (i = 0; i < num_reg; i++, res++) {
- 			rc = of_address_to_resource(np, i, res);
- 			WARN_ON(rc);
- 		}
--		if (of_irq_to_resource_table(np, res, num_irq) != num_irq)
--			pr_debug("not all legacy IRQ resources mapped for %pOFn\n",
--				 np);
- 	}
- 
- 	dev->dev.of_node = of_node_get(np);
--- 
-2.17.1
+-	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
++	code->code = MEDIA_BUS_FMT_UYVY8_1X16;
+
+ 	return 0;
+ }
+@@ -425,7 +425,7 @@ static int rdacm20_get_fmt(struct v4l2_subdev *sd,
+
+ 	mf->width		= OV10635_WIDTH;
+ 	mf->height		= OV10635_HEIGHT;
+-	mf->code		= MEDIA_BUS_FMT_UYVY8_2X8;
++	mf->code		= MEDIA_BUS_FMT_UYVY8_1X16;
+ 	mf->colorspace		= V4L2_COLORSPACE_RAW;
+ 	mf->field		= V4L2_FIELD_NONE;
+ 	mf->ycbcr_enc		= V4L2_YCBCR_ENC_601;
+--
+2.35.1
 
