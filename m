@@ -2,102 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B144DC1F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 09:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43B524DC28A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 10:23:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiCQI4D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 04:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51942 "EHLO
+        id S231794AbiCQJYb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 05:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231551AbiCQI4D (ORCPT
+        with ESMTP id S229480AbiCQJYa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:56:03 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6C11CAF26
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Mar 2022 01:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=HjPmz2Ga5G8Vj2cnXScLES8GLciR
-        Lx9DNNktST9XckY=; b=bNCIJqbn7GumthizLZCASHzto2yiEG4xv2a3gCwqktP2
-        /SRoRQEPAEoeRfgKQtzCQ9R8wdOhz97i/LaJC+nsa4DqALSd5L63vGkOU7PeiECi
-        E6LCHH2SFZ8xABGI4M0luUbSGtJDD7XEqJYEhjcjNfi9+Jrm5exNBx2Rc6zQGOA=
-Received: (qmail 3380571 invoked from network); 17 Mar 2022 09:54:44 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2022 09:54:44 +0100
-X-UD-Smtp-Session: l3s3148p1@Q5Z0LmbaOs0gAQnoAEd5ADwsgXkBgqk7
-Date:   Thu, 17 Mar 2022 09:54:44 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-mmc@vger.kernel.org,
-        devicetree@vger.kernel.org,
+        Thu, 17 Mar 2022 05:24:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A3B126FA2;
+        Thu, 17 Mar 2022 02:23:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 329F8616B2;
+        Thu, 17 Mar 2022 09:23:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DAA4C340E9;
+        Thu, 17 Mar 2022 09:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647508991;
+        bh=YGn+Z4H/YBaaOjmefJswWEOVJ5oKib0xXfG0EOkv2Jc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iYQzPnAcGBuGMrTVfPcGOotEs/hPzXCfKWAs2Ouaqc2emPvt/bUdHsyFtBVcd1dIH
+         nqLbIEf82HgdEwolh4hcTsFVhbtBFaW5XyRsexkbQ5GIegJ3ns0jR9csnmUjeLP0Am
+         9Nw0JlAqMW9M+qAApGww2kScdzCHITvXoi+O2SqwoGqMbW6jPl+mZNG0BPIHVg1h/o
+         H9QZgVbwtteqAWsqOxoDsp3nXvki0RZ9WZsJbGK3MlZva00B7q5vPLavTOTFt5g3At
+         jh5Q7rk0hPRP6UqpM1NxwbbXo9fBAvR4b9XvFwagjXQpjyc5TTdBrwnZvPC2pIhNg8
+         rh77u/8BfP0zg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nUmLd-00F8Bg-2X; Thu, 17 Mar 2022 09:23:09 +0000
+Date:   Thu, 17 Mar 2022 09:23:08 +0000
+Message-ID: <87wngtx79f.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/G2UL SoC
-Message-ID: <YjL3VAlsqzCtXPLM@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-mmc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20220315153258.21097-1-biju.das.jz@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tG1BYTBMChgnHQNN"
-Content-Disposition: inline
-In-Reply-To: <20220315153258.21097-1-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH v4 0/5] Renesas RZ/G2L IRQC support
+In-Reply-To: <CAHp75Vc+uSNF4L0WCfCyadOqJ6szXS3Ct5BmEUbeQ_aKg1zjWg@mail.gmail.com>
+References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <CAHp75Vc+uSNF4L0WCfCyadOqJ6szXS3Ct5BmEUbeQ_aKg1zjWg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: andy.shevchenko@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, geert+renesas@glider.be, p.zabel@pengutronix.de, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, prabhakar.csengg@gmail.com, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, 17 Mar 2022 08:46:14 +0000,
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> 
+> On Thu, Mar 17, 2022 at 5:43 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Hi All,
+> >
+> > The RZ/G2L Interrupt Controller is a front-end for the GIC found on
+> > Renesas RZ/G2L SoC's with below pins:
+> > - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
+> > - GPIO pins used as external interrupt input pins out of GPIOINT0-122 a
+> >   maximum of only 32 can be mapped to 32 GIC SPI interrupts,
+> > - NMI edge select.
+> >
+> What I want to know now is whether it is going to collide with Marc's
+> series about GPIO IRQ chip constification?
 
---tG1BYTBMChgnHQNN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Probably, but the current scheme will still be alive for some time
+(you'll need a couple of cycles to sort out all the drivers).
 
-On Tue, Mar 15, 2022 at 03:32:58PM +0000, Biju Das wrote:
-> Document RZ/G2UL SDHI bindings. RZ/G2UL SDHI is almost identical to one
-> found on the R-Car Gen3. No driver changes are required as generic
-> compatible string "renesas,rcar-gen3-sdhi" will be used as a fallback.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Worse case, this can be fixed at merge time.
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	M.
 
-
---tG1BYTBMChgnHQNN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIy91AACgkQFA3kzBSg
-Kbb22w//WlsMf1JqyhJFzYpfFuqxfdAZIjN3xP0sQo3x7YZ2wfsykLhgwcCXdABX
-otWfOaJxnsJrTBq5eJKJcWcNI9wkVNa7qdovuy1wZbL5OHBqMAJK0sXfR55dyJRv
-lqpximRNnsNz3poP7gBwfoIaCt1u2VjKLizsGFSxF8lMJHSU91KYS+AalzCyYE0N
-t+6Fpqno0ugAZ1zXcUmVhI+oZ8rgr2XsDdUPvK95rECODcxcXRukrsLHM3ZF0sht
-++DniY/AyOyyDrwFTwTcukpV/QHHdwMaP6RAYrALQeprCyx5Lj2CociUrmvGqUC5
-qARlYXq54p3dqaErHJ6EezkK0I8EikZO/R5ipy2VssFi6teux9hRXlVzjm7I/3fS
-LiBBgJqDR7HW7Jj2A0OOoAc3IEisSjaGQyih74HJD8LGCWGeFlDvp2pN8N4k4NCT
-pkIV2O8WjmnrGRlsdTVnUC0xmmEN900vMGGaLhfNpiXzUsfRamn52DEl3y9vG+q0
-6jvwmmF/w6GOYO9TPfPTET5o5YdxFF+fMghzWRWHdh8zqXcPHAPayJP+JUhasLI6
-Md9c+jcX1hJo9uAmw0xuIWOQiwN4QzPcZ567ekYow18sJQskjW6LWb0oOgldQLEf
-jNhTP3v8n+uacSKsQo/NvKmGBdivhbrRWJ5dkwZfXWWGD1UgLnQ=
-=gGDg
------END PGP SIGNATURE-----
-
---tG1BYTBMChgnHQNN--
+-- 
+Without deviation from the norm, progress is not possible.
