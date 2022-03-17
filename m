@@ -2,118 +2,225 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81FA74DC1CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 09:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE0624DC1DE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 09:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbiCQIsp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 04:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36374 "EHLO
+        id S231199AbiCQIvq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 04:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231482AbiCQIso (ORCPT
+        with ESMTP id S231143AbiCQIvq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:48:44 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E351C404A;
-        Thu, 17 Mar 2022 01:47:28 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id pv16so9287989ejb.0;
-        Thu, 17 Mar 2022 01:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZG5185nJ6k1YXwanTMNCyELYsf9XafiDPUoNL5M7s7c=;
-        b=UjRIu4w9EW6mJAEI8yux7EMavG4fNOozHxLNna5jngKBoA0q3QaEUx2jqtlTZO0lUZ
-         kMpImqv9K8doOTDIR/6CL+IP2hm9SqjrtBhsIEm/bV2py+4DKNNSYKgA7DH2fcwcIvVx
-         0Gcnee6kfeaze1qVSKAuLploPo92n4HRJr2UJ7UW6wo0eHtxblzbcvJMi4fsmIK39bXU
-         KxkcnplYZOkLflHie4BWdj9NFfIt/GCMT+f9vUXbchF4bL0cCah3Zl66ebghy3QLFdsw
-         boluZplmS0FmDOC3mDc9UtSnCbd00QGblOU2aL8MeIQjqYJlRvG43OryYFRsp+fGSo2h
-         c9AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZG5185nJ6k1YXwanTMNCyELYsf9XafiDPUoNL5M7s7c=;
-        b=pWAhplIKKuqf3smYtXBFeCYQbmVBqH96irWnJu24XTgdAQqJ7XOsClEra1rdxzbGD/
-         DHQuvL+rN5dS3RMATwaa1eQ8W0djI1JY3lYCT9+MKRBdEDOeQ5CjNQD9lj8Cc8wtDTNH
-         lTo8rhl/lo7TwGhDfsNliZkltuUPHyuLypEDp/U61ag1C7Mfxt+XMFTivGUF3I2exZkp
-         d9VNWY7/cYPLngDkzGMwYweI3+3T00sjHzCIsW5LJ8BW/y36PzA/D/5PIOeO+B25Ibe2
-         pctAGGbEDxL64Xz0m5C6APnWd9uU0DfSWy37l/K5hmfiHctun77Ll3tuPk1zSgqGL5hW
-         AeJg==
-X-Gm-Message-State: AOAM5333tdKTITayUyw0sx94gzhlC9oEO3AS/jUoHmAd48M6C8ZlKqhs
-        tQ5Nbd2avawPqWlursUeE9R/CEGR7SAmZ3qoTKQ=
-X-Google-Smtp-Source: ABdhPJyHwl6Pt0flOWQCs8CzoVmYea2PjIP/v1XQBe5xLIQpQxHGpyqeaZHSvx6ZSFPjZbRCVa1tg1kxTr4BfCAFYYU=
-X-Received: by 2002:a17:907:e93:b0:6df:10b3:4fc0 with SMTP id
- ho19-20020a1709070e9300b006df10b34fc0mr3432415ejc.44.1647506846924; Thu, 17
- Mar 2022 01:47:26 -0700 (PDT)
+        Thu, 17 Mar 2022 04:51:46 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACBADBF97A
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Mar 2022 01:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=/psyaRdsVlBoPSQar3nutqmlxiw
+        1nqEeNHN3sJwG3XQ=; b=IlJ3sFfjgXrCV/iFL1WPeYu3Qgy+L75APYhe7y+lKfl
+        QP0UNXhvDEyRQADam9sEYoZDOqrqtITCKE2jJqHeyWuwT9L8oaDxdraMtBG8R8cU
+        ZVAdrkDKy/yFyFtH64I0wiq7p+CD54XaixmF0K9tTB0xDuaoaenYJpiegHDpqk60
+        =
+Received: (qmail 3379127 invoked from network); 17 Mar 2022 09:50:25 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2022 09:50:25 +0100
+X-UD-Smtp-Session: l3s3148p1@1XTUHmbaIM0gAQnoAEd5ADwsgXkBgqk7
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-gpio@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v7 0/1] gpio: add simple logic analyzer using polling
+Date:   Thu, 17 Mar 2022 09:50:18 +0100
+Message-Id: <20220317085019.3987-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 17 Mar 2022 10:46:14 +0200
-Message-ID: <CAHp75Vc+uSNF4L0WCfCyadOqJ6szXS3Ct5BmEUbeQ_aKg1zjWg@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/5] Renesas RZ/G2L IRQC support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 17, 2022 at 5:43 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> Hi All,
->
-> The RZ/G2L Interrupt Controller is a front-end for the GIC found on
-> Renesas RZ/G2L SoC's with below pins:
-> - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> - GPIO pins used as external interrupt input pins out of GPIOINT0-122 a
->   maximum of only 32 can be mapped to 32 GIC SPI interrupts,
-> - NMI edge select.
->
->                                                                 _____________
->                                                                 |    GIC     |
->                                                                 |  ________  |
->                                          ____________           | |        | |
-> NMI ------------------------------------>|          |  SPI0-479 | | GIC-600| |
->                 _______                  |          |------------>|        | |
->                 |      |                 |          |  PPI16-31 | |        | |
->                 |      | IRQ0-IRQ7       |   IRQC   |------------>|        | |
-> P0_P48_4 ------>| GPIO |---------------->|          |           | |________| |
->                 |      |GPIOINT0-122     |          |           |            |
->                 |      |---------------->| TINT0-31 |           |            |
->                 |______|                 |__________|           |____________|
->
-> The proposed RFC patches adds hierarchical IRQ domain one in IRQC driver and other in
+Here is the next version of the sloppy GPIO logic analyzer. Changes
+since last version:
 
-add
-domain, one
-another
+* improved the script to handle already mounted (legacy) cpusets or
+  cgroups. Works also with cgroups2 as long as the cpuset controller
+  is not used.
 
-> pinctrl driver. Upon interrupt requests map the interrupt to GIC. Out of GPIOINT0-122
-> only 32 can be mapped to GIC SPI, this mapping is handled by the pinctrl and IRQC driver.
+* needed Kconfig options and cpuset hints added to docs
 
-What I want to know now is whether it is going to collide with Marc's
-series about GPIO IRQ chip constification?
+* driver depends now on DEBUG_FS and CPUSETS
+
+The changes are rather small. To ease reviewing, I'll add the diff to
+the previous version to the end of this cover-letter. Note that I tried
+to convert the analyzer to cgroups2 but I wasn't able to create a new
+process on the isolated CPU. Maybe we fix this incrementally or we just
+leave it as is, it works well enough and cgroups are still around.
+
+For those new to this sloppy GPIO logic analyzer, here is a small
+excerpt from a previous cover-letter with the links updated:
+
+===
+
+Here is the next update of the in-kernel logic analyzer based on GPIO
+polling with local irqs disabled. It has been tested locally and
+remotely. It provided satisfactory results. Besides the driver, there is
+also a script which isolates a CPU to achieve the best possible result.
+I am aware of the latency limitations. However, the intention is for
+debugging only, not mass production. Especially for remote debugging and
+to get a first impression, this has already been useful. Documentation
+is within the patch, to get a better idea what this is all about.
+
+A branch is here:
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/gpio-logic-analyzer-v7
+
+And an eLinux-wiki page with a picture of a result is here:
+https://elinux.org/Kernel_GPIO_Logic_analyzer
+
+I've used the analyzer in a few more scenarios and on multiple SoCs
+(Renesas R-Car H3 and M3-W) and was happy with the outcome. Looking
+forward to other tests and comments. From my side this is good to go.
+
+===
+
+Here is the diff:
+
+--- 8< ---
+
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  5 ++++
+ drivers/gpio/Kconfig                          |  2 +-
+ tools/gpio/gpio-sloppy-logic-analyzer         | 27 ++++++++++++-------
+ 3 files changed, 24 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst b/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+index 330d45046f0f..a9b1cd6c2fea 100644
+--- a/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
++++ b/Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+@@ -33,6 +33,11 @@ first view and aid further debugging.
+ Setup
+ =====
+ 
++Your kernel must have CONFIG_DEBUG_FS and CONFIG_CPUSETS enabled. Ideally, your
++runtime environment does not utilize cpusets otherwise, then isolation of a CPU
++core is easiest. If you do need cpusets, check that helper script for the
++sloppy logic analyzer does not interfere with your other settings.
++
+ Tell the kernel which GPIOs are used as probes. For a Device Tree based system,
+ you need to use the following bindings. Because these bindings are only for
+ debugging, there is no official schema::
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 299205f7628c..2a75a3ffb0ef 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -1695,7 +1695,7 @@ menu "GPIO hardware hacking tools"
+ 
+ config GPIO_SLOPPY_LOGIC_ANALYZER
+ 	tristate "Sloppy GPIO logic analyzer"
+-	depends on (GPIOLIB || COMPILE_TEST) && EXPERT
++	depends on (GPIOLIB || COMPILE_TEST) && CPUSETS && DEBUG_FS && EXPERT
+ 	help
+ 	  This option enables support for a sloppy logic analyzer using polled
+ 	  GPIOs. Use the 'tools/gpio/gpio-sloppy-logic-analyzer' script with
+diff --git a/tools/gpio/gpio-sloppy-logic-analyzer b/tools/gpio/gpio-sloppy-logic-analyzer
+index eb2065fe6733..09065535e874 100755
+--- a/tools/gpio/gpio-sloppy-logic-analyzer
++++ b/tools/gpio/gpio-sloppy-logic-analyzer
+@@ -8,7 +8,8 @@
+ 
+ samplefreq=1000000
+ numsamples=250000
+-cpusetdir='/dev/cpuset'
++cpusetdefaultdir='/sys/fs/cgroup'
++cpusetprefix='cpuset.'
+ debugdir='/sys/kernel/debug'
+ ladirname='gpio-sloppy-logic-analyzer'
+ outputdir="$PWD"
+@@ -76,17 +77,16 @@ set_newmask()
+ init_cpu()
+ {
+ 	isol_cpu="$1"
+-	[ -d $cpusetdir ] || mkdir $cpusetdir
+-	mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
++
+ 	[ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
+ 
+-	cur_cpu="$(cat "$lacpusetdir"/cpus)"
++	cur_cpu=$(cat "${lacpusetfile}cpus")
+ 	[ "$cur_cpu" = "$isol_cpu" ] && return
+ 	[ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
+ 
+-	echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$isol_cpu. Does it exist?"
+-	echo 1 > "$lacpusetdir"/cpu_exclusive
+-	echo 0 > "$lacpusetdir"/mems
++	echo "$isol_cpu" > "${lacpusetfile}cpus" || fail "Could not isolate CPU$isol_cpu. Does it exist?"
++	echo 1 > "${lacpusetfile}cpu_exclusive"
++	echo 0 > "${lacpusetfile}mems"
+ 
+ 	oldmask=$(cat /proc/irq/default_smp_affinity)
+ 	newmask=$(printf "%x" $((0x$oldmask & ~(1 << isol_cpu))))
+@@ -183,7 +183,16 @@ for f in $neededcmds; do
+ 	command -v "$f" >/dev/null || fail "Command '$f' not found"
+ done
+ 
++# print cpuset mountpoint if any, errorcode > 0 if noprefix option was found
++cpusetdir=$(awk '$3 == "cgroup" && $4 ~ /cpuset/ { print $2; exit (match($4, /noprefix/) > 0) }' /proc/self/mounts) || cpusetprefix=''
++if [ -z "$cpusetdir" ]; then
++	cpusetdir="$cpusetdefaultdir"
++	[ -d $cpusetdir ] || mkdir $cpusetdir
++	mount -t cgroup -o cpuset none $cpusetdir || fail "Couldn't mount cpusets. Not in kernel or already in use?"
++fi
++
+ lacpusetdir="$cpusetdir/$ladirname"
++lacpusetfile="$lacpusetdir/$cpusetprefix"
+ sysfsdir="$debugdir/$ladirname"
+ 
+ [ "$samplefreq" -ne 0 ] || fail "Invalid sample frequency"
+@@ -194,7 +203,7 @@ sysfsdir="$debugdir/$ladirname"
+ if [ -n "$lainstance" ]; then
+ 	lasysfsdir="$sysfsdir/$lainstance"
+ else
+-	lasysfsdir="$(find "$sysfsdir" -mindepth 1 -type d -print -quit)"
++	lasysfsdir=$(find "$sysfsdir" -mindepth 1 -type d -print -quit)
+ fi
+ [ -d "$lasysfsdir" ] || fail "Logic analyzer directory '$lasysfsdir' not found!"
+ [ -d "$outputdir" ] || fail "Output directory '$outputdir' not found!"
+@@ -213,7 +222,7 @@ if [ -n "$triggerdat" ]; then
+ 	printf "$trigger_bindat" > "$lasysfsdir"/trigger 2>/dev/null || fail "Trigger data '$triggerdat' rejected"
+ fi
+ 
+-workcpu=$(cat "$lacpusetdir"/effective_cpus)
++workcpu=$(cat "${lacpusetfile}effective_cpus")
+ [ -n "$workcpu" ] || fail "No isolated CPU found"
+ cpumask=$(printf '%x' $((1 << workcpu)))
+ instance=${lasysfsdir##*/}
+
+--- 8< ---
+
+
+Happy hacking,
+
+   Wolfram
+
+Wolfram Sang (1):
+  gpio: add sloppy logic analyzer using polling
+
+ .../dev-tools/gpio-sloppy-logic-analyzer.rst  |  91 +++++
+ Documentation/dev-tools/index.rst             |   1 +
+ drivers/gpio/Kconfig                          |  17 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sloppy-logic-analyzer.c     | 340 ++++++++++++++++++
+ tools/gpio/gpio-sloppy-logic-analyzer         | 230 ++++++++++++
+ 6 files changed, 680 insertions(+)
+ create mode 100644 Documentation/dev-tools/gpio-sloppy-logic-analyzer.rst
+ create mode 100644 drivers/gpio/gpio-sloppy-logic-analyzer.c
+ create mode 100755 tools/gpio/gpio-sloppy-logic-analyzer
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
