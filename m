@@ -2,115 +2,243 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5532F4DC3CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 11:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 187C44DC406
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 11:34:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbiCQKQ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 06:16:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38732 "EHLO
+        id S232618AbiCQKfS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 06:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232442AbiCQKQ6 (ORCPT
+        with ESMTP id S232615AbiCQKfS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 06:16:58 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91687DFF89
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Mar 2022 03:15:41 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id y17so6516926ljd.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Mar 2022 03:15:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BBJNQVwMyLBs8lLLZ+phXdIS1BZRlnyigKaYZzIPGus=;
-        b=ZrFqjnS8CKuQDGyyWGOZxHY0dGaUnHUw9IrhHx+mGdrVp9Z/v5mQOg4A/OmMPxsD9+
-         gQbMkSOAZTYsrKOxBBcT1OFivH9Qu8cr/eScxhBZB6FsY0Nugc+3Fy0sPIZTWUHg9zGy
-         T2eFPO8ju7YBrDfOwhUZqPDQluCD5HcNRftCCYIBLKibbgSPObkpQtx61uZYb31vceUd
-         Tr8Ah6tvAhRcrzhAmYmqPbMlC3McRihY8SgCMMf97Sy0skRr9ZDLQIW6ycO7InxovhaY
-         yeFqHg2wY4brCSvwZPUbAEeKOF4bDZsmVInJVGhZzsp1lvINlMPckA0vyNxer+0N879q
-         vWrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BBJNQVwMyLBs8lLLZ+phXdIS1BZRlnyigKaYZzIPGus=;
-        b=DwMl6eF3AjYCcLG4elrRCQh89J9scxCXdF2W2TJfS+H//Oy8mYOP6IponHTyzbBtHb
-         4Sdez40vzo4cmUFDoW4hI+TawR08UxyZ7K+ocf9y44cJ0Tsy1EHp/xU9RC6Ue1tm810b
-         I7ljj5MQ19yc9xr2rf4cznSCIe4c49ilikX3aDRFQaQEjuh5M+WckwgBvuQnQ5WWb/9Z
-         OOH+DprkX8vcNxf7aAKkKlofRIe/mTgtgS/PifhGcRdyu71QfBDmYC96MS4ofXDIUVHL
-         J+Oc2ODS6ODoMnMVDcEkMHo4WIOmmqHKn/bnZL2mmI09OPGtxElnFnQ8/G62gmaPbWIV
-         6fYQ==
-X-Gm-Message-State: AOAM531wzJLXIhJjEsdcyvpTJBLo5L2WvgWzInEYNG6a3Clc6G1PiVhO
-        8zkco1UPVAAQf7Rxo2vnjT4PZywopLrPSVWHcVFvB7R0RPY=
-X-Google-Smtp-Source: ABdhPJzMAlFb6clniGiYBXS5RvYGVXflZX6StQiwUqd7rEWmCRagcg/bgKr+R6rvw17Siwuf39WjLbMxfMx2e9HTTg0=
-X-Received: by 2002:a2e:890e:0:b0:249:295a:eb40 with SMTP id
- d14-20020a2e890e000000b00249295aeb40mr2376622lji.463.1647512139862; Thu, 17
- Mar 2022 03:15:39 -0700 (PDT)
+        Thu, 17 Mar 2022 06:35:18 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6967D8F57
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Mar 2022 03:34:00 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f500:58f9:d953:424b])
+        by michel.telenet-ops.be with bizsmtp
+        id 7NZw2700P0M4NNo06NZwKe; Thu, 17 Mar 2022 11:33:58 +0100
+Received: from rox.of.borg ([192.168.97.57] helo=rox)
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nUnS7-004wS8-P1; Thu, 17 Mar 2022 11:33:55 +0100
+Received: from geert by rox with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nUnS7-005Bf1-9H; Thu, 17 Mar 2022 11:33:55 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Dung Nguyen <dung.nguyen.zy@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] memory: renesas-rpc-if: Fix HF/OSPI data transfer in Manual mode
+Date:   Thu, 17 Mar 2022 11:33:52 +0100
+Message-Id: <b409ea3fae4a6778fd6b44815ad17c9e8e10df87.1647512831.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220315153258.21097-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220315153258.21097-1-biju.das.jz@bp.renesas.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 17 Mar 2022 11:15:03 +0100
-Message-ID: <CAPDyKFpLVsNjuWX-5sketEw-j4nbgVpUY8qvWKBjDSXPG4Sfwg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/G2UL SoC
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 15 Mar 2022 at 16:33, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Document RZ/G2UL SDHI bindings. RZ/G2UL SDHI is almost identical to one
-> found on the R-Car Gen3. No driver changes are required as generic
-> compatible string "renesas,rcar-gen3-sdhi" will be used as a fallback.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+HyperFlash devices fail to probe:
 
-Applied for next, thanks!
+    rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
 
-Kind regards
-Uffe
+In HyperFLASH or Octal-SPI Flash mode, the Transfer Data Enable bits
+(SPIDE) in the Manual Mode Enable Setting Register (SMENR) are derived
+from half of the transfer size, cfr. the rpcif_bits_set() helper
+function.  However, rpcif_reg_{read,write}() does not take the bus size
+into account, and does not double all Manual Mode Data Register access
+sizes when communicating with a HyperFLASH or Octal-SPI Flash device.
 
+Fix this, and avoid the back-and-forth conversion between transfer size
+and Transfer Data Enable bits, by explicitly storing the transfer size
+in struct rpcif, and using that value to determine access size in
+rpcif_reg_{read,write}().
 
-> ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index 3b191fb89cf1..9ac4986988c5 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -57,6 +57,7 @@ properties:
->                - renesas,sdhi-r8a77990  # R-Car E3
->                - renesas,sdhi-r8a77995  # R-Car D3
->                - renesas,sdhi-r8a779a0  # R-Car V3U
-> +              - renesas,sdhi-r9a07g043 # RZ/G2UL
->                - renesas,sdhi-r9a07g044 # RZ/G2{L,LC}
->                - renesas,sdhi-r9a07g054 # RZ/V2L
->            - const: renesas,rcar-gen3-sdhi # R-Car Gen3 or RZ/G2
-> @@ -109,6 +110,7 @@ allOf:
->          compatible:
->            contains:
->              enum:
-> +              - renesas,sdhi-r9a07g043
->                - renesas,sdhi-r9a07g044
->                - renesas,sdhi-r9a07g054
->      then:
-> --
-> 2.17.1
->
+Enforce that the "high" Manual Mode Read/Write Data Registers
+(SM[RW]DR1) are only used for 8-byte data accesses.
+While at it, forbid writing to the Manual Mode Read Data Registers,
+as they are read-only.
+
+Fixes: fff53a551db50f5e ("memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Lightly (read-only) tested on:
+  - Salvator-XS with R-Car M3-W ES1.0 with HyperFLASH,
+  - Falcon with R-Car V3U ES1.0 with QSPI.
+
+v2:
+  - Use rpc->xfer_size instead of SPIDE register reads and
+    rpc->bus_size.
+      Note: Alternatively, rpcif_manual_xfer() could bypass regmap and
+      use {read,write}[bwl]() directly, cfr. commit 0d37f69cacb33435
+      ("memory: renesas-rpc-if: Correct QSPI data transfer in Manual
+      mode") in the BSP.
+  - HF dirmap reads are confirmed to work on R-Car M3-W,
+  - Drop RFC.
+
+On Salvator-XS with unlocked HyperFlash, the HyperFlash is now detected
+again, cfr. (with DEBUG_CFI enabled):
+
+    Number of erase regions: 1
+    Primary Vendor Command Set: 0002 (AMD/Fujitsu Standard)
+    Primary Algorithm Table at 0040
+    Alternative Vendor Command Set: 0000 (None)
+    No Alternate Algorithm Table
+    Vcc Minimum:  1.7 V
+    Vcc Maximum:  1.9 V
+    No Vpp line
+    Typical byte/word write timeout: 512 \xc2\xb5s
+    Maximum byte/word write timeout: 2048 \xc2\xb5s
+    Typical full buffer write timeout: 512 \xc2\xb5s
+    Maximum full buffer write timeout: 2048 \xc2\xb5s
+    Typical block erase timeout: 1024 ms
+    Maximum block erase timeout: 4096 ms
+    Typical chip erase timeout: 262144 ms
+    Maximum chip erase timeout: 1048576 ms
+    Device size: 0x4000000 bytes (64 MiB)
+    Flash Device Interface description: 0x0000
+      - x8-only asynchronous interface
+    Max. bytes in buffer write: 0x200
+    Number of Erase Block Regions: 1
+      Erase Region #0: BlockSize 0x40000 bytes, 256 blocks
+    rpc-if-hyperflash: Found 1 x16 devices at 0x0 in 16-bit bank. Manufacturer ID 0x000001 Chip ID 0x007000
+    Amd/Fujitsu Extended Query Table at 0x0040
+      Amd/Fujitsu Extended Query version 1.5.
+    rpc-if-hyperflash: CFI contains unrecognised boot bank location (0). Assuming bottom.
+    number of CFI chips: 1
+
+v1: https://lore.kernel.org/r/27107f2d578b198078df841ee2e4d7b71b183898.1647017136.git.geert+renesas@glider.be/
+---
+ drivers/memory/renesas-rpc-if.c | 56 ++++++++++++++++++++++++++-------
+ include/memory/renesas-rpc-if.h |  1 +
+ 2 files changed, 45 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+index e4cc64f560196d55..a8c7abe1cf00be65 100644
+--- a/drivers/memory/renesas-rpc-if.c
++++ b/drivers/memory/renesas-rpc-if.c
+@@ -171,18 +171,32 @@ static int rpcif_reg_read(void *context, unsigned int reg, unsigned int *val)
+ {
+ 	struct rpcif *rpc = context;
+ 
+-	if (reg == RPCIF_SMRDR0 || reg == RPCIF_SMWDR0) {
+-		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
+-
+-		if (spide == 0x8) {
++	switch (reg) {
++	case RPCIF_SMRDR0:
++	case RPCIF_SMWDR0:
++		switch (rpc->xfer_size) {
++		case 1:
+ 			*val = readb(rpc->base + reg);
+ 			return 0;
+-		} else if (spide == 0xC) {
++
++		case 2:
+ 			*val = readw(rpc->base + reg);
+ 			return 0;
+-		} else if (spide != 0xF) {
++
++		case 4:
++		case 8:
++			break;
++
++		default:
+ 			return -EILSEQ;
+ 		}
++		break;
++
++	case RPCIF_SMRDR1:
++	case RPCIF_SMWDR1:
++		if (rpc->xfer_size != 8)
++			return -EILSEQ;
++		break;
+ 	}
+ 
+ 	*val = readl(rpc->base + reg);
+@@ -193,18 +207,34 @@ static int rpcif_reg_write(void *context, unsigned int reg, unsigned int val)
+ {
+ 	struct rpcif *rpc = context;
+ 
+-	if (reg == RPCIF_SMRDR0 || reg == RPCIF_SMWDR0) {
+-		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
+-
+-		if (spide == 0x8) {
++	switch (reg) {
++	case RPCIF_SMWDR0:
++		switch (rpc->xfer_size) {
++		case 1:
+ 			writeb(val, rpc->base + reg);
+ 			return 0;
+-		} else if (spide == 0xC) {
++
++		case 2:
+ 			writew(val, rpc->base + reg);
+ 			return 0;
+-		} else if (spide != 0xF) {
++
++		case 4:
++		case 8:
++			break;
++
++		default:
+ 			return -EILSEQ;
+ 		}
++		break;
++
++	case RPCIF_SMWDR1:
++		if (rpc->xfer_size != 8)
++			return -EILSEQ;
++		break;
++
++	case RPCIF_SMRDR0:
++	case RPCIF_SMRDR1:
++		return -EPERM;
+ 	}
+ 
+ 	writel(val, rpc->base + reg);
+@@ -469,6 +499,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ 
+ 			smenr |= RPCIF_SMENR_SPIDE(rpcif_bits_set(rpc, nbytes));
+ 			regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
++			rpc->xfer_size = nbytes;
+ 
+ 			memcpy(data, rpc->buffer + pos, nbytes);
+ 			if (nbytes == 8) {
+@@ -533,6 +564,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ 			regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
+ 			regmap_write(rpc->regmap, RPCIF_SMCR,
+ 				     rpc->smcr | RPCIF_SMCR_SPIE);
++			rpc->xfer_size = nbytes;
+ 			ret = wait_msg_xfer_end(rpc);
+ 			if (ret)
+ 				goto err_out;
+diff --git a/include/memory/renesas-rpc-if.h b/include/memory/renesas-rpc-if.h
+index 7c93f5177532f187..9c0ad64b8d292d49 100644
+--- a/include/memory/renesas-rpc-if.h
++++ b/include/memory/renesas-rpc-if.h
+@@ -72,6 +72,7 @@ struct rpcif {
+ 	enum rpcif_type type;
+ 	enum rpcif_data_dir dir;
+ 	u8 bus_size;
++	u8 xfer_size;
+ 	void *buffer;
+ 	u32 xferlen;
+ 	u32 smcr;
+-- 
+2.25.1
+
