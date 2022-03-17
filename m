@@ -2,361 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B497F4DC752
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 14:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AC274DC7AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 14:34:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbiCQNO2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 09:14:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
+        id S234617AbiCQNf5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 09:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233738AbiCQNO1 (ORCPT
+        with ESMTP id S234616AbiCQNf4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 09:14:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C72CE09AE;
-        Thu, 17 Mar 2022 06:13:10 -0700 (PDT)
-Received: from Monstersaurus.ksquared.org.uk.beta.tailscale.net (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71208493;
-        Thu, 17 Mar 2022 14:13:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647522784;
-        bh=Hi+FWC8Co0gEia7jaGPAW/1py87J1SaX5z05kXCvEG8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tJEckVUr+mtgVruuF3ttV9HtJ3SH+EsSBor0SUKGu3R0LljjoizgPsKyz6H3hDzo0
-         P3an91bItsirgpAHppN+YSAuldkSxCHYEQNEglk97d7zeptsJMhyvLz/eYGLMvPrcs
-         YzliFAldvxCtT3Wk91Yd7rW/lcVBCyewG8/8a6q8=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Douglas Anderson <dianders@chromium.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
-Date:   Thu, 17 Mar 2022 13:12:50 +0000
-Message-Id: <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com>
+        Thu, 17 Mar 2022 09:35:56 -0400
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5511D8327;
+        Thu, 17 Mar 2022 06:34:39 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id u16so6396582wru.4;
+        Thu, 17 Mar 2022 06:34:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:content-language:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=tiddZtdatCAOBeWoKQ39T3OINXD+ANIwjKxCq8gFVyg=;
+        b=r5Xue6WFoXurEsZZDzrwuYYHerUIraIHaA8RcD1K2dwTdrJR/ys9oxo8JnZUeiowya
+         /JKKn+N2g9pdGaVg+WXJFfuGBd9hqyxWORyB+eIw+TkEMv58C2IK+43ibfqKc5ZNdOdQ
+         rslf09TaabA/6ht9ox4jWORmdh71/MDAsvzzxx5SUsW7srpNBvBlvoHlW8x+yoUGy20k
+         DdIhJH17iUKZvgiz9q0Imu+GT5JuMLZjIOGTnAb6bUaKQxwqnXgImUEC5tHpyhjdpDu8
+         QwbC9TkJFV+i3bsCSwB8b/El6XBcQ3tr5AavmNxLVAeoamTzNLkBj58mMDw+CiaATA26
+         dacQ==
+X-Gm-Message-State: AOAM530YHZkbfpsp45xK7mSYZoZvp3oXxlegV0dkvQb5cq51ZK/iZ/Ub
+        gAC7oJwDfj/oMudRHyNv5js=
+X-Google-Smtp-Source: ABdhPJwAnfd4irGcCYcMc4ioXDUc5jApZtA3VHsE3K+y3gDHzFM/81yNXsSr4TkmhdNbWlYAtnsHIg==
+X-Received: by 2002:adf:9123:0:b0:1ef:9b6d:60c1 with SMTP id j32-20020adf9123000000b001ef9b6d60c1mr4030511wrj.169.1647524078009;
+        Thu, 17 Mar 2022 06:34:38 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.googlemail.com with ESMTPSA id f11-20020a7bcc0b000000b0037e0c362b6dsm4314005wmh.31.2022.03.17.06.34.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Mar 2022 06:34:35 -0700 (PDT)
+Message-ID: <e26ab4e4-6774-e292-8fcb-c86b33af048a@kernel.org>
+Date:   Thu, 17 Mar 2022 14:34:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [RFC PATCH v4 1/5] dt-bindings: interrupt-controller: Add Renesas
+ RZ/G2L Interrupt Controller
+Content-Language: en-US
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220317012404.8069-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <971850ad-96af-2abb-f4bf-ba6188e2d732@kernel.org>
+ <CA+V-a8t+=dVsofAT=Qk-v3hvJ7_zGNNLoj_EQK8hUGptnQROhQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8t+=dVsofAT=Qk-v3hvJ7_zGNNLoj_EQK8hUGptnQROhQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When the SN65DSI86 is used in DisplayPort mode, its output is likely
-routed to a DisplayPort connector, which can benefit from hotplug
-detection. Support it in such cases, with both polling mode and IRQ
-based detection.
+On 17/03/2022 12:55, Lad, Prabhakar wrote:
+> Hi Krzysztof,
+> 
+> Thank you for the review.
+> 
+> On Thu, Mar 17, 2022 at 9:44 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 17/03/2022 02:24, Lad Prabhakar wrote:
+>>> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> ---
+>>>  .../renesas,rzg2l-irqc.yaml                   | 131 ++++++++++++++++++
+>>>  1 file changed, 131 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+>>> new file mode 100644
+>>> index 000000000000..a14492ec9235
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
+>>> @@ -0,0 +1,131 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Renesas RZ/G2L (and alike SoC's) Interrupt Controller (IA55)
+>>> +
+>>> +maintainers:
+>>> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+>>> +
+>>> +description: |
+>>> +  IA55 performs various interrupt controls including synchronization for the external
+>>> +  interrupts of NMI, IRQ, and GPIOINT and the interrupts of the built-in peripheral
+>>> +  interrupts output by each IP. And it notifies the interrupt to the GIC
+>>> +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
+>>> +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts
+>>> +    - NMI edge select (NMI is not treated as NMI exception and supports fall edge and
+>>> +      stand-up edge detection interrupts)
+>>> +
+>>> +allOf:
+>>> +  - $ref: /schemas/interrupt-controller.yaml#
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - renesas,r9a07g044-irqc    # RZ/G2L
+>>> +      - const: renesas,rzg2l-irqc
+>>> +
+>>> +  '#interrupt-cells':
+>>> +    const: 2
+>>> +
+>>> +  '#address-cells':
+>>> +    const: 0
+>>> +
+>>> +  interrupt-controller: true
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1> +
+>>> +  interrupts:
+>>> +    maxItems: 41
+>>> +
+>>> +  clocks:
+>>> +    maxItems: 2
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: clk
+>>> +      - const: pclk
+>>> +
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +
+>>> +  resets:
+>>> +    maxItems: 1
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - '#interrupt-cells'
+>>> +  - '#address-cells'
+>>> +  - interrupt-controller
+>>> +  - reg
+>>> +  - interrupts
+>>> +  - clocks
+>>> +  - clock-names
+>>> +  - power-domains
+>>> +  - resets
+>>> +
+>>> +additionalProperties: false
+>>
+>> This should be rather unevaluatedProperties and remove
+>> interrupt-controller:true from properties.
+>>
+> Ok will do.
 
-The implementation is limited to the bridge operations, as the connector
-operations are legacy and new users should use
-DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+After some tests it seems interrupt-controller:true is required in
+properties, so only change unevaluatedProperties.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-Changes since v1:
 
-- Document the no_hpd field
-- Rely on the SN_HPD_DISABLE_REG default value in the HPD case
-- Add a TODO comment regarding IRQ support
-[Kieran]
-- Fix spelling s/assrted/asserted/
-- Only enable HPD on DisplayPort connector.
-- Support IRQ based hotplug detect
-
-Changes since v2: [Kieran]
- - Use unsigned int for values read by regmap
- - Update HPD support warning message
- - Only enable OP_HPD if IRQ support enabled.
- - Only register IRQ handler during ti_sn_bridge_probe()
- - Store IRQ in the struct ti_sn65dsi86
- - Register IRQ only when !no-hpd
- - Refactor DRM_BRIDGE_OP_DETECT and DRM_BRIDGE_OP_HPD handling
-
-Since v3:
- - Fix commit message
- - Remove stray debug print
- - initialise val in case of regmap read error in ti_sn_bridge_detect
- - Ensure pm-runtime reference held for ti_sn_bridge_detect
- - Reset status immediately after reading to reduce risk of lost
-   interrupts during ti_sn65dsi86_irq_handler()
- - Reset only the IRQ bits set during ti_sn65dsi86_irq_handler()
- - Enable / disable IRQ during hpd_{enable,disable}
-   This ensures the handler completes before it is disabled.
- - Extra comments to detail the notification process in
-   ti_sn65dsi86_irq_handler()
- - Move SN_IRQ_EN_REG handling to hpd_{enable,disable} calls.
-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 159 +++++++++++++++++++++++---
- 1 file changed, 146 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 910bf3d41d2f..0cc0409dcdd4 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -69,6 +69,7 @@
- #define  BPP_18_RGB				BIT(0)
- #define SN_HPD_DISABLE_REG			0x5C
- #define  HPD_DISABLE				BIT(0)
-+#define  HPD_DEBOUNCED_STATE			BIT(4)
- #define SN_GPIO_IO_REG				0x5E
- #define  SN_GPIO_INPUT_SHIFT			4
- #define  SN_GPIO_OUTPUT_SHIFT			0
-@@ -105,10 +106,24 @@
- #define SN_PWM_EN_INV_REG			0xA5
- #define  SN_PWM_INV_MASK			BIT(0)
- #define  SN_PWM_EN_MASK				BIT(1)
-+#define SN_IRQ_EN_REG				0xE0
-+#define  IRQ_EN					BIT(0)
-+#define SN_IRQ_HPD_REG				0xE6
-+#define  IRQ_HPD_EN				BIT(0)
-+#define  IRQ_HPD_INSERTION_EN			BIT(1)
-+#define  IRQ_HPD_REMOVAL_EN			BIT(2)
-+#define  IRQ_HPD_REPLUG_EN			BIT(3)
-+#define  IRQ_HPD_PLL_UNLOCK_EN			BIT(5)
- #define SN_AUX_CMD_STATUS_REG			0xF4
- #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
- #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
- #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
-+#define SN_IRQ_HPD_STATUS_REG			0xF5
-+#define  IRQ_HPD_STATUS				BIT(0)
-+#define  IRQ_HPD_INSERTION_STATUS		BIT(1)
-+#define  IRQ_HPD_REMOVAL_STATUS			BIT(2)
-+#define  IRQ_HPD_REPLUG_STATUS			BIT(3)
-+#define  IRQ_PLL_UNLOCK				BIT(5)
- 
- #define MIN_DSI_CLK_FREQ_MHZ	40
- 
-@@ -167,6 +182,12 @@
-  * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
-  * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
-  * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-+ *
-+ * @no_hpd:       Disable hot-plug detection as instructed by device tree (used
-+ *                for instance for eDP panels whose HPD signal won't be asserted
-+ *                until the panel is turned on, and is thus not usable for
-+ *                downstream device detection).
-+ * @irq:          IRQ number for the device.
-  */
- struct ti_sn65dsi86 {
- 	struct auxiliary_device		bridge_aux;
-@@ -201,6 +222,9 @@ struct ti_sn65dsi86 {
- 	atomic_t			pwm_pin_busy;
- #endif
- 	unsigned int			pwm_refclk_freq;
-+
-+	bool				no_hpd;
-+	int				irq;
- };
- 
- static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
-@@ -315,23 +339,25 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
- 	ti_sn_bridge_set_refclk_freq(pdata);
- 
- 	/*
--	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
--	 * so the HPD is an internal signal that's only there to signal that
--	 * the panel is done powering up.  ...but the bridge chip debounces
--	 * this signal by between 100 ms and 400 ms (depending on process,
--	 * voltage, and temperate--I measured it at about 200 ms).  One
-+	 * As this is an eDP bridge, the output will be connected to a fixed
-+	 * panel in most systems. HPD is in that case only an internal signal
-+	 * to signal that the panel is done powering up. The bridge chip
-+	 * debounces this signal by between 100 ms and 400 ms (depending on
-+	 * process, voltage, and temperate--I measured it at about 200 ms). One
- 	 * particular panel asserted HPD 84 ms after it was powered on meaning
- 	 * that we saw HPD 284 ms after power on.  ...but the same panel said
- 	 * that instead of looking at HPD you could just hardcode a delay of
--	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
--	 * delay in its prepare and always disable HPD.
-+	 * 200 ms. HPD is thus a bit useless. For this type of use cases, we'll
-+	 * assume that the panel driver will have the hardcoded delay in its
-+	 * prepare and always disable HPD.
- 	 *
--	 * If HPD somehow makes sense on some future panel we'll have to
--	 * change this to be conditional on someone specifying that HPD should
--	 * be used.
-+	 * However, on some systems, the output is connected to a DisplayPort
-+	 * connector. HPD is needed in such cases. To accommodate both use
-+	 * cases, enable HPD only when requested.
- 	 */
--	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
--			   HPD_DISABLE);
-+	if (pdata->no_hpd)
-+		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-+				   HPD_DISABLE, HPD_DISABLE);
- 
- 	pdata->comms_enabled = true;
- 
-@@ -1134,6 +1160,46 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(pdata->dev);
- }
- 
-+static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	int val = 0;
-+
-+	pm_runtime_get_sync(pdata->dev);
-+	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
-+	pm_runtime_put_autosuspend(pdata->dev);
-+
-+	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
-+					 : connector_status_disconnected;
-+}
-+
-+static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	/* The device must remain active for HPD to function */
-+	pm_runtime_get_sync(pdata->dev);
-+
-+	enable_irq(pdata->irq);
-+
-+	regmap_write(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN);
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_REG,
-+		     IRQ_HPD_EN | IRQ_HPD_INSERTION_EN |
-+		     IRQ_HPD_REMOVAL_EN | IRQ_HPD_REPLUG_EN);
-+}
-+
-+static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_REG, 0);
-+	regmap_write(pdata->regmap, SN_IRQ_EN_REG, 0);
-+
-+	disable_irq(pdata->irq);
-+
-+	pm_runtime_put_autosuspend(pdata->dev);
-+}
-+
- static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
- 					  struct drm_connector *connector)
- {
-@@ -1147,6 +1213,9 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.detach = ti_sn_bridge_detach,
- 	.mode_valid = ti_sn_bridge_mode_valid,
- 	.get_edid = ti_sn_bridge_get_edid,
-+	.detect = ti_sn_bridge_detect,
-+	.hpd_enable = ti_sn_bridge_hpd_enable,
-+	.hpd_disable = ti_sn_bridge_hpd_disable,
- 	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
- 	.atomic_enable = ti_sn_bridge_atomic_enable,
- 	.atomic_disable = ti_sn_bridge_atomic_disable,
-@@ -1217,6 +1286,38 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
- 	return 0;
- }
- 
-+static irqreturn_t ti_sn65dsi86_irq_handler(int irq, void *arg)
-+{
-+	struct ti_sn65dsi86 *pdata = arg;
-+	int ret;
-+	unsigned int hpd;
-+
-+	ret = regmap_read(pdata->regmap, SN_IRQ_HPD_STATUS_REG, &hpd);
-+	if (ret || !hpd)
-+		return IRQ_NONE;
-+
-+	/* reset the status register */
-+	regmap_write(pdata->regmap, SN_IRQ_HPD_STATUS_REG, hpd);
-+
-+	/*
-+	 * These notify calls will not reset the connector status themselves,
-+	 * but request a call to ti_sn_bridge_detect() to confirm the status
-+	 * if the notify status differs from the current state.
-+	 */
-+
-+	if (hpd & IRQ_HPD_INSERTION_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_connected);
-+
-+	if (hpd & IRQ_HPD_REMOVAL_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-+
-+	/* When replugged, ensure we trigger a detect to update the display */
-+	if (hpd & IRQ_HPD_REPLUG_STATUS)
-+		drm_bridge_hpd_notify(&pdata->bridge, connector_status_disconnected);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 			      const struct auxiliary_device_id *id)
- {
-@@ -1230,6 +1331,14 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 		return PTR_ERR(pdata->next_bridge);
- 	}
- 
-+	pdata->no_hpd = of_property_read_bool(np, "no-hpd");
-+	if (pdata->next_bridge->type != DRM_MODE_CONNECTOR_DisplayPort &&
-+	    !pdata->no_hpd) {
-+		dev_warn(pdata->dev,
-+			 "HPD support only implemented for full DP connectors\n");
-+		pdata->no_hpd = true;
-+	}
-+
- 	ti_sn_bridge_parse_lanes(pdata, np);
- 
- 	ret = ti_sn_bridge_parse_dsi_host(pdata);
-@@ -1241,9 +1350,32 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
- 			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
- 
--	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
-+	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
- 		pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
- 
-+		if (!pdata->no_hpd)
-+			pdata->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-+	}
-+
-+	if (!pdata->no_hpd && pdata->irq > 0) {
-+		ret = devm_request_threaded_irq(pdata->dev, pdata->irq, NULL,
-+						ti_sn65dsi86_irq_handler,
-+						IRQF_ONESHOT, "sn65dsi86-irq",
-+						pdata);
-+		if (ret)
-+			return dev_err_probe(pdata->dev, ret,
-+					     "Failed to register DP interrupt\n");
-+
-+		/* Enable IRQ based HPD */
-+		pdata->bridge.ops |= DRM_BRIDGE_OP_HPD;
-+
-+		/*
-+		 * Keep the IRQ disabled initially. It will only be enabled when
-+		 * requested through ti_sn_bridge_hpd_enable().
-+		 */
-+		disable_irq(pdata->irq);
-+	}
-+
- 	drm_bridge_add(&pdata->bridge);
- 
- 	ret = ti_sn_attach_host(pdata);
-@@ -1825,6 +1957,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client,
- 		return -ENOMEM;
- 	dev_set_drvdata(dev, pdata);
- 	pdata->dev = dev;
-+	pdata->irq = client->irq;
- 
- 	mutex_init(&pdata->comms_mutex);
- 
--- 
-2.32.0
-
+Best regards,
+Krzysztof
