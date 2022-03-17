@@ -2,186 +2,539 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AC274DC7AB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 14:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C3D74DCB07
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 17:14:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234617AbiCQNf5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 09:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
+        id S236479AbiCQQPL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 12:15:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234616AbiCQNf4 (ORCPT
+        with ESMTP id S236416AbiCQQO4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 09:35:56 -0400
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5511D8327;
-        Thu, 17 Mar 2022 06:34:39 -0700 (PDT)
-Received: by mail-wr1-f45.google.com with SMTP id u16so6396582wru.4;
-        Thu, 17 Mar 2022 06:34:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:content-language:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=tiddZtdatCAOBeWoKQ39T3OINXD+ANIwjKxCq8gFVyg=;
-        b=r5Xue6WFoXurEsZZDzrwuYYHerUIraIHaA8RcD1K2dwTdrJR/ys9oxo8JnZUeiowya
-         /JKKn+N2g9pdGaVg+WXJFfuGBd9hqyxWORyB+eIw+TkEMv58C2IK+43ibfqKc5ZNdOdQ
-         rslf09TaabA/6ht9ox4jWORmdh71/MDAsvzzxx5SUsW7srpNBvBlvoHlW8x+yoUGy20k
-         DdIhJH17iUKZvgiz9q0Imu+GT5JuMLZjIOGTnAb6bUaKQxwqnXgImUEC5tHpyhjdpDu8
-         QwbC9TkJFV+i3bsCSwB8b/El6XBcQ3tr5AavmNxLVAeoamTzNLkBj58mMDw+CiaATA26
-         dacQ==
-X-Gm-Message-State: AOAM530YHZkbfpsp45xK7mSYZoZvp3oXxlegV0dkvQb5cq51ZK/iZ/Ub
-        gAC7oJwDfj/oMudRHyNv5js=
-X-Google-Smtp-Source: ABdhPJwAnfd4irGcCYcMc4ioXDUc5jApZtA3VHsE3K+y3gDHzFM/81yNXsSr4TkmhdNbWlYAtnsHIg==
-X-Received: by 2002:adf:9123:0:b0:1ef:9b6d:60c1 with SMTP id j32-20020adf9123000000b001ef9b6d60c1mr4030511wrj.169.1647524078009;
-        Thu, 17 Mar 2022 06:34:38 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.googlemail.com with ESMTPSA id f11-20020a7bcc0b000000b0037e0c362b6dsm4314005wmh.31.2022.03.17.06.34.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Mar 2022 06:34:35 -0700 (PDT)
-Message-ID: <e26ab4e4-6774-e292-8fcb-c86b33af048a@kernel.org>
-Date:   Thu, 17 Mar 2022 14:34:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [RFC PATCH v4 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/G2L Interrupt Controller
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+        Thu, 17 Mar 2022 12:14:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA0CB82F5;
+        Thu, 17 Mar 2022 09:13:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 32F55B81F13;
+        Thu, 17 Mar 2022 16:13:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88CB3C340EF;
+        Thu, 17 Mar 2022 16:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647533614;
+        bh=Tu536cqcac0KGT+JP/suBXBn5PgT7OIv4s/Ep1zRlfI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PL2n33nFCHRlp91VmYYeTGcnVs3kP6gU7VHuu95tS5GRglXyKgdSgk4rrNBSLObT3
+         fj2oF4cdz2ueA0rRNEw2dGv7VZ08fIYQ7SvsEn7V3LcEhfBu/JUrqguAXKCXp9H7AJ
+         F1rHRIcsKMh8th7DBDlulW3ZWKjdZy3VTOYQGEjt0K9u75cVzweLqpnCipP1AtsoiN
+         lRhqm6goPvUH0WNKZ6ehxniR3aG3hJB4gSUJ95xejCqT4xSjrVUSItKo2e6j1r6Pkc
+         5ihr+5iLz8wSw0ol3VPv0BSZtiTfxxH3ugUEcr2FO4W/yaHDzstIS/hsWJbAe7i/Xl
+         /myMW9A4PUXaw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nUskm-00FEW8-2j; Thu, 17 Mar 2022 16:13:32 +0000
+Date:   Thu, 17 Mar 2022 16:13:31 +0000
+Message-ID: <87pmmky2tw.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH v4 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+In-Reply-To: <20220317012404.8069-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220317012404.8069-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <971850ad-96af-2abb-f4bf-ba6188e2d732@kernel.org>
- <CA+V-a8t+=dVsofAT=Qk-v3hvJ7_zGNNLoj_EQK8hUGptnQROhQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8t+=dVsofAT=Qk-v3hvJ7_zGNNLoj_EQK8hUGptnQROhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        <20220317012404.8069-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, geert+renesas@glider.be, p.zabel@pengutronix.de, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, prabhakar.csengg@gmail.com, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17/03/2022 12:55, Lad, Prabhakar wrote:
-> Hi Krzysztof,
+On Thu, 17 Mar 2022 01:24:01 +0000,
+Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > 
-> Thank you for the review.
+> Add a driver for the Renesas RZ/G2L Interrupt Controller.
 > 
-> On Thu, Mar 17, 2022 at 9:44 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 17/03/2022 02:24, Lad Prabhakar wrote:
->>> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> ---
->>>  .../renesas,rzg2l-irqc.yaml                   | 131 ++++++++++++++++++
->>>  1 file changed, 131 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
->>> new file mode 100644
->>> index 000000000000..a14492ec9235
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
->>> @@ -0,0 +1,131 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Renesas RZ/G2L (and alike SoC's) Interrupt Controller (IA55)
->>> +
->>> +maintainers:
->>> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> +  - Geert Uytterhoeven <geert+renesas@glider.be>
->>> +
->>> +description: |
->>> +  IA55 performs various interrupt controls including synchronization for the external
->>> +  interrupts of NMI, IRQ, and GPIOINT and the interrupts of the built-in peripheral
->>> +  interrupts output by each IP. And it notifies the interrupt to the GIC
->>> +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
->>> +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts
->>> +    - NMI edge select (NMI is not treated as NMI exception and supports fall edge and
->>> +      stand-up edge detection interrupts)
->>> +
->>> +allOf:
->>> +  - $ref: /schemas/interrupt-controller.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    items:
->>> +      - enum:
->>> +          - renesas,r9a07g044-irqc    # RZ/G2L
->>> +      - const: renesas,rzg2l-irqc
->>> +
->>> +  '#interrupt-cells':
->>> +    const: 2
->>> +
->>> +  '#address-cells':
->>> +    const: 0
->>> +
->>> +  interrupt-controller: true
->>> +
->>> +  reg:
->>> +    maxItems: 1> +
->>> +  interrupts:
->>> +    maxItems: 41
->>> +
->>> +  clocks:
->>> +    maxItems: 2
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: clk
->>> +      - const: pclk
->>> +
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>> +  resets:
->>> +    maxItems: 1
->>> +
->>> +required:
->>> +  - compatible
->>> +  - '#interrupt-cells'
->>> +  - '#address-cells'
->>> +  - interrupt-controller
->>> +  - reg
->>> +  - interrupts
->>> +  - clocks
->>> +  - clock-names
->>> +  - power-domains
->>> +  - resets
->>> +
->>> +additionalProperties: false
->>
->> This should be rather unevaluatedProperties and remove
->> interrupt-controller:true from properties.
->>
-> Ok will do.
+> This supports external pins being used as interrupts. It supports
+> one line for NMI, 8 external pins and 32 GPIO pins (out of 123)
+> to be used as IRQ lines.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/irqchip/Kconfig             |   8 +
+>  drivers/irqchip/Makefile            |   1 +
+>  drivers/irqchip/irq-renesas-rzg2l.c | 462 ++++++++++++++++++++++++++++
+>  3 files changed, 471 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-renesas-rzg2l.c
+> 
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 7038957f4a77..afc5999f4955 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -242,6 +242,14 @@ config RENESAS_RZA1_IRQC
+>  	  Enable support for the Renesas RZ/A1 Interrupt Controller, to use up
+>  	  to 8 external interrupts with configurable sense select.
+>  
+> +config RENESAS_RZG2L_IRQC
+> +	bool "Renesas RZ/G2L (and alike SoC) IRQC support" if COMPILE_TEST
+> +	select GENERIC_IRQ_CHIP
+> +	select IRQ_DOMAIN_HIERARCHY
+> +	help
+> +	  Enable support for the Renesas RZ/G2L (and alike SoC) Interrupt Controller
+> +	  for external devices.
+> +
+>  config SL28CPLD_INTC
+>  	bool "Kontron sl28cpld IRQ controller"
+>  	depends on MFD_SL28CPLD=y || COMPILE_TEST
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index c1f611cbfbf8..b536e514a7c9 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -51,6 +51,7 @@ obj-$(CONFIG_RDA_INTC)			+= irq-rda-intc.o
+>  obj-$(CONFIG_RENESAS_INTC_IRQPIN)	+= irq-renesas-intc-irqpin.o
+>  obj-$(CONFIG_RENESAS_IRQC)		+= irq-renesas-irqc.o
+>  obj-$(CONFIG_RENESAS_RZA1_IRQC)		+= irq-renesas-rza1.o
+> +obj-$(CONFIG_RENESAS_RZG2L_IRQC)	+= irq-renesas-rzg2l.o
+>  obj-$(CONFIG_VERSATILE_FPGA_IRQ)	+= irq-versatile-fpga.o
+>  obj-$(CONFIG_ARCH_NSPIRE)		+= irq-zevio.o
+>  obj-$(CONFIG_ARCH_VT8500)		+= irq-vt8500.o
+> diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+> new file mode 100644
+> index 000000000000..be9741e88bd7
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> @@ -0,0 +1,462 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2L IRQC Driver
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corporation.
+> + *
+> + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/of_address.h>
+> +#include <linux/reset.h>
+> +#include <linux/spinlock.h>
+> +
+> +#define IRQC_IRQ_START			1
+> +#define IRQC_IRQ_COUNT			8
+> +#define IRQC_TINT_START			9
+> +#define IRQC_TINT_COUNT			32
+> +#define IRQC_NUM_IRQ			41
+> +
+> +#define ISCR				0x10
+> +#define IITSR				0x14
+> +#define TSCR				0x20
+> +#define TITSR0				0x24
+> +#define TITSR1				0x28
+> +#define TITSR0_MAX_INT			16
+> +#define TITSEL_WIDTH			0x2
+> +#define TSSR(n)				(0x30 + ((n) * 4))
+> +#define TIEN				BIT(7)
+> +#define TSSEL_SHIFT(n)			(8 * (n))
+> +#define TSSEL_MASK			GENMASK(7, 0)
+> +#define IRQ_MASK			0x3
+> +
+> +#define TSSR_OFFSET(n)			((n) % 4)
+> +#define TSSR_INDEX(n)			((n) / 4)
+> +
+> +#define TITSR_TITSEL_EDGE_RISING	0
+> +#define TITSR_TITSEL_EDGE_FALLING	1
+> +#define TITSR_TITSEL_LEVEL_HIGH		2
+> +#define TITSR_TITSEL_LEVEL_LOW		3
+> +
+> +#define IITSR_IITSEL(n, sense)		((sense) << ((n) * 2))
+> +#define IITSR_IITSEL_LEVEL_LOW		0
+> +#define IITSR_IITSEL_EDGE_FALLING	1
+> +#define IITSR_IITSEL_EDGE_RISING	2
+> +#define IITSR_IITSEL_EDGE_BOTH		3
+> +#define IITSR_IITSEL_MASK(n)		IITSR_IITSEL((n), 3)
+> +
+> +#define TINT_EXTRACT_HWIRQ(x)		((x) & ~GENMASK(31, 16))
+> +#define TINT_EXTRACT_GPIOINT(x)		((x) >> 16)
+> +
+> +struct rzg2l_irqc_priv {
+> +	void __iomem *base;
+> +	struct of_phandle_args map[IRQC_NUM_IRQ];
+> +	raw_spinlock_t lock;
+> +};
+> +
+> +struct rzg2l_irqc_chip_data {
+> +	int tint;
+> +};
+> +
+> +static struct rzg2l_irqc_priv *irq_data_to_priv(struct irq_data *data)
+> +{
+> +	return data->domain->host_data;
+> +}
+> +
+> +static void rzg2l_irq_eoi(struct irq_data *d)
+> +{
+> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +	unsigned int hw_irq = irqd_to_hwirq(d) - IRQC_IRQ_START;
+> +	u16 bit = BIT(hw_irq);
+> +	unsigned long flags;
+> +	u32 reg;
+> +
+> +	raw_spin_lock_irqsave(&priv->lock, flags);
 
-After some tests it seems interrupt-controller:true is required in
-properties, so only change unevaluatedProperties.
+Why the irqsave flavour? Is there any case where EOI isn't performed
+in a context that has interrupts already disabled?
 
+> +	reg = readl_relaxed(priv->base + ISCR);
+> +	if (reg & bit)
+> +		writel_relaxed(GENMASK(IRQC_IRQ_COUNT - 1, 0) & ~bit,
+> +			       priv->base + ISCR);
+> +	raw_spin_unlock_irqrestore(&priv->lock, flags);
+> +	irq_chip_eoi_parent(d);
+> +}
+> +
+> +static void rzg2l_tint_eoi(struct irq_data *d)
+> +{
+> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +	unsigned int hw_irq = irqd_to_hwirq(d);
+> +	u32 bit = BIT(hw_irq - IRQC_TINT_START);
+> +	unsigned long flags;
+> +	u32 reg;
+> +
+> +	raw_spin_lock_irqsave(&priv->lock, flags);
+> +	reg = readl_relaxed(priv->base + TSCR);
+> +	if (reg & bit)
+> +		writel_relaxed(GENMASK(IRQC_TINT_COUNT - 1, 0) & ~bit,
+> +			       priv->base + TSCR);
+> +	raw_spin_unlock_irqrestore(&priv->lock, flags);
+> +	irq_chip_eoi_parent(d);
+> +}
+> +
+> +static void rzg2l_irqc_eoi(struct irq_data *d)
+> +{
+> +	unsigned int hw_irq = irqd_to_hwirq(d);
+> +
+> +	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+> +		return rzg2l_irq_eoi(d);
 
-Best regards,
-Krzysztof
+return function_returning_void()? No, please.
+
+> +	else if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT)
+> +		return rzg2l_tint_eoi(d);
+
+Move the locking and the call to irq_chip_eoi_parent() here, as there
+is no need to duplicate any of this.
+
+> +}
+> +
+> +static void rzg2l_irqc_irq_disable(struct irq_data *d)
+> +{
+> +	unsigned int hw_irq = irqd_to_hwirq(d);
+> +
+> +	if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT) {
+> +		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +		u32 offset = hw_irq - IRQC_TINT_START;
+> +		u32 tssr_offset = TSSR_OFFSET(offset);
+> +		u8 tssr_index = TSSR_INDEX(offset);
+> +		unsigned long flags;
+> +		u32 reg;
+> +
+> +		raw_spin_lock_irqsave(&priv->lock, flags);
+> +		reg = readl_relaxed(priv->base + TSSR(tssr_index));
+> +		reg &= ~(TSSEL_MASK << tssr_offset);
+> +		writel_relaxed(reg, priv->base + TSSR(tssr_index));
+> +		raw_spin_unlock_irqrestore(&priv->lock, flags);
+> +	}
+> +	irq_chip_disable_parent(d);
+> +}
+> +
+> +static void rzg2l_irqc_irq_enable(struct irq_data *d)
+> +{
+> +	unsigned int hw_irq = irqd_to_hwirq(d);
+> +
+> +	if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT) {
+> +		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +		struct rzg2l_irqc_chip_data *chip_data = d->chip_data;
+> +		u32 offset = hw_irq - IRQC_TINT_START;
+> +		u32 tssr_offset = TSSR_OFFSET(offset);
+> +		u8 tssr_index = TSSR_INDEX(offset);
+> +		unsigned long flags;
+> +		u32 reg;
+> +
+> +		raw_spin_lock_irqsave(&priv->lock, flags);
+> +		reg = readl_relaxed(priv->base + TSSR(tssr_index));
+> +		reg |= (TIEN | chip_data->tint) << TSSEL_SHIFT(tssr_offset);
+> +		writel_relaxed(reg, priv->base + TSSR(tssr_index));
+> +		raw_spin_unlock_irqrestore(&priv->lock, flags);
+> +	}
+> +	irq_chip_enable_parent(d);
+> +}
+> +
+> +static int rzg2l_irq_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +	unsigned int hw_irq = irqd_to_hwirq(d) - IRQC_IRQ_START;
+> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +	unsigned long flags;
+> +	u16 sense, tmp;
+> +
+> +	switch (type & IRQ_TYPE_SENSE_MASK) {
+> +	case IRQ_TYPE_LEVEL_LOW:
+> +		sense = IITSR_IITSEL_LEVEL_LOW;
+> +		break;
+> +
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		sense = IITSR_IITSEL_EDGE_FALLING;
+> +		break;
+> +
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		sense = IITSR_IITSEL_EDGE_RISING;
+> +		break;
+> +
+> +	case IRQ_TYPE_EDGE_BOTH:
+> +		sense = IITSR_IITSEL_EDGE_BOTH;
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	raw_spin_lock_irqsave(&priv->lock, flags);
+
+This already happens in an irq disabled context.
+
+> +	tmp = readl_relaxed(priv->base + IITSR);
+> +	tmp &= ~IITSR_IITSEL_MASK(hw_irq);
+> +	tmp |= IITSR_IITSEL(hw_irq, sense);
+> +	writel_relaxed(tmp, priv->base + IITSR);
+> +	raw_spin_unlock_irqrestore(&priv->lock, flags);
+
+What about the parent irqchip? If this is a hierarchical setup, it
+definitely should be told.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_tint_set_edge(struct irq_data *d, unsigned int type)
+> +{
+> +	struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> +	unsigned int hwirq = irqd_to_hwirq(d);
+> +	u32 titseln = hwirq - IRQC_TINT_START;
+> +	unsigned long flags;
+> +	u32 offset;
+> +	u8 sense;
+> +	u32 reg;
+> +
+> +	switch (type & IRQ_TYPE_SENSE_MASK) {
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		sense = TITSR_TITSEL_EDGE_RISING;
+> +		break;
+> +
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		sense = TITSR_TITSEL_EDGE_FALLING;
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (titseln < TITSR0_MAX_INT) {
+> +		offset = TITSR0;
+> +	} else {
+> +		titseln /= TITSEL_WIDTH;
+> +		offset  = TITSR1;
+> +	}
+> +
+> +	raw_spin_lock_irqsave(&priv->lock, flags);
+> +	reg = readl_relaxed(priv->base + offset);
+> +	reg &= ~(IRQ_MASK << (titseln * TITSEL_WIDTH));
+> +	reg |= sense << (titseln * TITSEL_WIDTH);
+> +	writel_relaxed(reg, priv->base + offset);
+> +	raw_spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +	unsigned int hw_irq = irqd_to_hwirq(d);
+> +
+> +	if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
+> +		return rzg2l_irq_set_type(d, type);
+> +	else if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT)
+> +		return rzg2l_tint_set_edge(d, type);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static struct irq_chip irqc_chip = {
+> +	.name			= "rzg2l-irqc",
+> +	.irq_eoi		= rzg2l_irqc_eoi,
+> +	.irq_mask		= irq_chip_mask_parent,
+> +	.irq_unmask		= irq_chip_unmask_parent,
+> +	.irq_disable		= rzg2l_irqc_irq_disable,
+> +	.irq_enable		= rzg2l_irqc_irq_enable,
+
+So this looks a bit odd. irq_mask only calls the parent and does nothing
+locally, while irq_disable does something locally and calls into the
+parent. If the parent is a GIC, this is turned into a mask (GIC has no
+notion of disabled).
+
+If that's the flow you expect, good. But please check this is the case.
+
+> +	.irq_get_irqchip_state	= irq_chip_get_parent_state,
+> +	.irq_set_irqchip_state	= irq_chip_set_parent_state,
+> +	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+> +	.irq_set_type		= rzg2l_irqc_set_type,
+> +	.flags			= IRQCHIP_MASK_ON_SUSPEND |
+> +				  IRQCHIP_SET_TYPE_MASKED |
+> +				  IRQCHIP_SKIP_SET_WAKE,
+> +};
+> +
+> +static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+> +			    unsigned int nr_irqs, void *arg)
+> +{
+> +	struct rzg2l_irqc_priv *priv = domain->host_data;
+> +	struct rzg2l_irqc_chip_data *chip_data = NULL;
+> +	struct irq_fwspec spec;
+> +	irq_hw_number_t hwirq;
+> +	int tint = -EINVAL;
+> +	unsigned int type;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = irq_domain_translate_twocell(domain, arg, &hwirq, &type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * For TINIT interrupts ie where pinctrl driver is child of irqc domain
+> +	 * the hwirq and TINT are encoded in fwspec->param[0].
+> +	 * hwirq for TINIT range from 9-40, hwirq is embedded 0-15 bits and TINT
+> +	 * from 16-31 bits. TINIT from the pinctrl driver needs to be programmed
+> +	 * in IRQC registers to enable a given gpio pin as interrupt.
+> +	 */
+> +	if (hwirq > IRQC_IRQ_COUNT) {
+> +		tint = TINT_EXTRACT_GPIOINT(hwirq);
+> +		hwirq = TINT_EXTRACT_HWIRQ(hwirq);
+> +	}
+> +
+> +	if (hwirq > (IRQC_NUM_IRQ - 1))
+> +		return -EINVAL;
+> +
+> +	if (tint != -EINVAL && (hwirq < IRQC_TINT_START || hwirq > (IRQC_NUM_IRQ - 1)))
+> +		return -EINVAL;
+> +
+> +	chip_data = kzalloc(sizeof(*chip_data), GFP_KERNEL);
+> +	if (!chip_data)
+> +		return -ENOMEM;
+> +	chip_data->tint = tint;
+> +
+> +	ret = irq_domain_set_hwirq_and_chip(domain, virq, hwirq, &irqc_chip,
+> +					    chip_data);
+> +	if (ret) {
+> +		kfree(chip_data);
+> +		return ret;
+> +	}
+> +
+> +	spec.fwnode = domain->parent->fwnode;
+> +	spec.param_count = priv->map[hwirq].args_count;
+> +	for (i = 0; i < spec.param_count; i++)
+> +		spec.param[i] = priv->map[hwirq].args[i];
+> +
+> +	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, &spec);
+> +	if (ret)
+> +		kfree(chip_data);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rzg2l_irqc_domain_free(struct irq_domain *domain, unsigned int virq,
+> +				   unsigned int nr_irqs)
+> +{
+> +	struct irq_data *d;
+> +
+> +	d = irq_domain_get_irq_data(domain, virq);
+> +	if (d) {
+> +		struct rzg2l_irqc_chip_data *chip_data = d->chip_data;
+> +
+> +		kfree(chip_data);
+> +	}
+> +	irq_domain_free_irqs_common(domain, virq, nr_irqs);
+> +}
+> +
+> +static const struct irq_domain_ops rzg2l_irqc_domain_ops = {
+> +	.alloc = rzg2l_irqc_alloc,
+> +	.free = rzg2l_irqc_domain_free,
+> +	.translate = irq_domain_translate_twocell,
+> +};
+> +
+> +static int rzg2l_irqc_parse_map(struct rzg2l_irqc_priv *priv,
+> +				struct device_node *np,
+> +				struct device_node *parent)
+> +{
+> +	unsigned int len, j;
+> +	const __be32 *range;
+> +
+> +	range = of_get_property(np, "interrupts", &len);
+> +	if (!range)
+> +		return -EINVAL;
+> +
+> +	for (len /= sizeof(*range), j = 0; len >= 3; len -= 3) {
+> +		if (j >= IRQC_NUM_IRQ)
+> +			return -EINVAL;
+> +
+> +		priv->map[j].args[0] = be32_to_cpu(*range++);
+> +		priv->map[j].args[1] = be32_to_cpu(*range++);
+> +		priv->map[j].args[2] = be32_to_cpu(*range++);
+> +		priv->map[j].args_count = 3;
+> +		j++;
+> +	}
+
+I'm confused. Why do you have to invent a new interrupt parser? What
+is wrong with of_irq_parse_one() populating the of_phandle_args array?
+I expected to see something like:
+
+static void rzg2l_irqc_parse_map(struct rzg2l_irqc_priv *priv,
+				 struct device_node *np)
+{
+	int i;
+
+	for (i = 0; i < IRQC_NUM_IRQ; i++)
+		of_irq_parse_one(np, i, &priv->map[i]);
+}
+
+and that's it.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
