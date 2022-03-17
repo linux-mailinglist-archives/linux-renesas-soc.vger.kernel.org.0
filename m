@@ -2,117 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B09284DC553
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 13:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0F64DC5C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 13:25:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233291AbiCQMBg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Mar 2022 08:01:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
+        id S233538AbiCQM0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Mar 2022 08:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233268AbiCQMBf (ORCPT
+        with ESMTP id S231142AbiCQM0z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 08:01:35 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BAB170DA8;
-        Thu, 17 Mar 2022 05:00:18 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id o5so9796159ybe.2;
-        Thu, 17 Mar 2022 05:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w7umAd0HdQF/0Y/dcMA5O7GL9fe1/Zuc2dVyyldUlgw=;
-        b=gfZ92XehhNSgAL1i916bWJTKe1a1eeZ0rlq0AUvo23EAZz9KwhhgS3njKZeyzpk/Ey
-         vTOdsvqySgrQd5J7nGndrNwNTMBUFcDBdFy95ZNtJtmbvCqyIP3eCgp71S4WMHHHlKla
-         PslTZh1Zwt9t6sxKrVidMy/kfisuV8rOpMCOMDYR2H63sr1PebYkdvyvYEIJpbnQMFJO
-         SPm3dzu23FG1oGpcQbO+1RXRins5MimoZHVlIiGYnapBq2drmDJNN3xojvP/IoYMJYaX
-         rm+ekHq39HFlWjNztSMKB/g0q6VJjEpG6Ay5DLhe/94K4yGtlGTCX/Y7NmM8JP9ui7mj
-         IK1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w7umAd0HdQF/0Y/dcMA5O7GL9fe1/Zuc2dVyyldUlgw=;
-        b=QqM0Vxe7js/qI0kerPxlPNEFJmN67u1pSCN5ZGopQ6BsgA4deYmKLRPzQGWMYlWo3Z
-         BqWWNg3i4nru4v4/V8CAIZwG8Z5rnhIw78s05pCZ4F2N609hplAsbjo9mXtjY7OP9Fus
-         gNRJRJ6jvicMVHwwqjApRsVvNRqHa6YH//o473xLbU94a8vkB3Kj3I8dZPa2UDjASBj1
-         Lom0r42FgAXNzlnpqYHXEnzfU83qNNj381TkWmuZcnRhCpClhkpWeDv1iQLnywPENqAE
-         GBBSMbmv791D3SL4O4bzOrvfz0oQDZveD2Ik5HwprGMRqAxsrhlJWQPWT2o7kxIjvPma
-         I6kw==
-X-Gm-Message-State: AOAM533lxqVcF7MV0XjA+6KUuccwClyAvPmfsEtlvBdtPLfyp0Dd/ZtS
-        WqYiJxzm5YgSHgxHh3ehdwmdyBE6iiqwm9FPVrg=
-X-Google-Smtp-Source: ABdhPJwYmzfiLbLPvbajfh4qpduHNmcl11o8Nfezb4d7zLMfNtasZCOtvIKOiNO97c1p13rWPLnTSu6EhzR8seFgAYs=
-X-Received: by 2002:a25:8812:0:b0:633:7bd8:16ff with SMTP id
- c18-20020a258812000000b006337bd816ffmr4357088ybl.645.1647518418131; Thu, 17
- Mar 2022 05:00:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAHp75Vc+uSNF4L0WCfCyadOqJ6szXS3Ct5BmEUbeQ_aKg1zjWg@mail.gmail.com> <87wngtx79f.wl-maz@kernel.org>
-In-Reply-To: <87wngtx79f.wl-maz@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 17 Mar 2022 11:59:52 +0000
-Message-ID: <CA+V-a8uBrau7-0x95O750nPeckz=vdhK2RJtFZ2rfiQhEtrdwA@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/5] Renesas RZ/G2L IRQC support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Thu, 17 Mar 2022 08:26:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5431CABF0;
+        Thu, 17 Mar 2022 05:25:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AEE9660FA0;
+        Thu, 17 Mar 2022 12:25:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F0D0C340E9;
+        Thu, 17 Mar 2022 12:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647519938;
+        bh=djIfn2o+hfPfTL+TBFE+wa1DHVPc7L9QaL2b4KZ+Go4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SVyv/45fN9euf1qljHRkVZdQnC7QHDarrkC5FM7JJevRVaDbtl3wJ5seadk51dUMW
+         mJCEnhixKm+ghlzRE+TetlEiAKVZTvSX15+W7EJAgBeflXvbICENrLNsipkbRXq+Nk
+         9xBwZVJhi6WxEt7tJvT22yLWrrLa+1SAZHRkkSq+K3V/qDwRHVWWzPcAX68elVVNYZ
+         IUV+1wH89uBPQ+j6yqJgMS9UrwzQLZnNJNDjvTROJUgHg2MyE+E4enDApGj69TvvAP
+         TUOVu7d2J9xoiTX+iQnaG/gxGKjGbPz/C+dDnSzzqaS9Ekdf4Wyjvjoc7LaC+l9Ht1
+         jhS5XJy/NV5YQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nUpCB-00FAni-JM; Thu, 17 Mar 2022 12:25:35 +0000
+Date:   Thu, 17 Mar 2022 12:25:35 +0000
+Message-ID: <87r170ydds.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [RFC PATCH] of/platform: Drop static setup of IRQ resource from DT core
+In-Reply-To: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: prabhakar.mahadev-lad.rj@bp.renesas.com, robh+dt@kernel.org, frowand.list@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, prabhakar.csengg@gmail.com, linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+On Wed, 16 Mar 2022 20:06:33 +0000,
+Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> 
+> Now that all the DT drivers have switched to platform_get_irq() we can now
+> safely drop the static setup of IRQ resource from DT core code.
+> 
+> With the above change hierarchical setup of irq domains is no longer
+> bypassed and thus allowing hierarchical interrupt domains to describe
+> interrupts using "interrupts" DT property.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Hi All,
+> 
+> Sending this as RFC as couple of more drivers need to hit -rc yet with
+> the platform_get_irq() change while that is in progress I wanted to get
+> some feedback on this patch.
+> 
+> Cheers,
+> Prabhakar
+> ---
+>  drivers/of/platform.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> index 793350028906..6890f7fe556f 100644
+> --- a/drivers/of/platform.c
+> +++ b/drivers/of/platform.c
+> @@ -114,35 +114,31 @@ struct platform_device *of_device_alloc(struct device_node *np,
+>  				  struct device *parent)
+>  {
+>  	struct platform_device *dev;
+> -	int rc, i, num_reg = 0, num_irq;
+> +	int rc, i, num_reg = 0;
+>  	struct resource *res, temp_res;
+>  
+>  	dev = platform_device_alloc("", PLATFORM_DEVID_NONE);
+>  	if (!dev)
+>  		return NULL;
+>  
+> -	/* count the io and irq resources */
+> +	/* count the io resources */
+>  	while (of_address_to_resource(np, num_reg, &temp_res) == 0)
+>  		num_reg++;
+> -	num_irq = of_irq_count(np);
+>  
+>  	/* Populate the resource table */
+> -	if (num_irq || num_reg) {
+> -		res = kcalloc(num_irq + num_reg, sizeof(*res), GFP_KERNEL);
+> +	if (num_reg) {
+> +		res = kcalloc(num_reg, sizeof(*res), GFP_KERNEL);
+>  		if (!res) {
+>  			platform_device_put(dev);
+>  			return NULL;
+>  		}
+>  
+> -		dev->num_resources = num_reg + num_irq;
+> +		dev->num_resources = num_reg;
+>  		dev->resource = res;
+>  		for (i = 0; i < num_reg; i++, res++) {
+>  			rc = of_address_to_resource(np, i, res);
+>  			WARN_ON(rc);
+>  		}
+> -		if (of_irq_to_resource_table(np, res, num_irq) != num_irq)
+> -			pr_debug("not all legacy IRQ resources mapped for %pOFn\n",
+> -				 np);
+>  	}
+>  
+>  	dev->dev.of_node = of_node_get(np);
 
-On Thu, Mar 17, 2022 at 9:23 AM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Thu, 17 Mar 2022 08:46:14 +0000,
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> >
-> > On Thu, Mar 17, 2022 at 5:43 AM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > >
-> > > Hi All,
-> > >
-> > > The RZ/G2L Interrupt Controller is a front-end for the GIC found on
-> > > Renesas RZ/G2L SoC's with below pins:
-> > > - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> > > - GPIO pins used as external interrupt input pins out of GPIOINT0-122 a
-> > >   maximum of only 32 can be mapped to 32 GIC SPI interrupts,
-> > > - NMI edge select.
-> > >
-> > What I want to know now is whether it is going to collide with Marc's
-> > series about GPIO IRQ chip constification?
->
-> Probably, but the current scheme will still be alive for some time
-> (you'll need a couple of cycles to sort out all the drivers).
->
-Ouch, thanks for letting me know. BTW there are a couple of changes to
-GPIO core which you have to review (this was missed in the previous
-version).
+I think this definitely goes in the right direction by not eagerly
+populating resources without a driver actually needing it. If anything
+breaks, that should be seen as an opportunity to fix the users of this
+misfeature. I booted a couple of boxes with this patch, and nothing
+caught fire, so:
 
-Cheers,
-Prabhakar
+Acked-by: Marc Zyngier <maz@kernel.org>
+Tested-by: Marc Zyngier <maz@kernel.org>
 
-> Worse case, this can be fixed at merge time.
->
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
