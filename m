@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 679274DCCD6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 18:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 506F54DCCDA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Mar 2022 18:47:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237083AbiCQRsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S237086AbiCQRsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Thu, 17 Mar 2022 13:48:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237154AbiCQRsF (ORCPT
+        with ESMTP id S237060AbiCQRsH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Mar 2022 13:48:05 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650541F2DFF;
-        Thu, 17 Mar 2022 10:46:48 -0700 (PDT)
+        Thu, 17 Mar 2022 13:48:07 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211541F42CC;
+        Thu, 17 Mar 2022 10:46:49 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 88214FF803;
-        Thu, 17 Mar 2022 17:46:45 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 39A6EFF808;
+        Thu, 17 Mar 2022 17:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1647539207;
+        t=1647539208;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Qgpw4atx94cJSZySLKvheDqmzOrZHQhOeNUtmGPnW18=;
-        b=OVh4WYe0BpTGyjipaG875ejoCbhLwz411VDC61mBCx8UfJoX+2M2L0UTFsreR/BDTWWsj4
-        hGQ//AWFT14CgwueDqUJMDVkAH1qpmfrwBx+1Fi9MOGYO50yCLdn4OTG2s4ntqhqTp0vzR
-        +vVU5wtWhDbnyyV3W9Ka4JHQMFxfZ/hs3nJp1aN4/gRNgBhBFJz3lh5fgT3RXBu2qG3H2Q
-        4QlpCEO1WOBrIoXW3e2x/HlziwMxa68/JWhHW5EtyoaAlwGUFjBSIiSQVwDAKgK14WgOJz
-        qlAZV7c4SniLtEejXlQVAJ/XiFjhDcva35WCgYC9hZmhN/shlfCu/2LMWbCMOw==
+        bh=VjUPIaxQ1WBMLteeByIABCjhVWOu3Y3N20N5eUaJ/3w=;
+        b=Zvp4syqQwPORdpfAeNysGP67cu0Y03N7jdlfU5kOai8bWRok0QdXhdUIZqMLbH57Ytjelr
+        8VG+yXaG95u2hHLJWFZ5hCPJiBnD4TRQP/XvhFBNpCgCNBvdgMDSO0Ln+oymwE/4PstrGw
+        5rtxQHslntIXNGuN+KqNABnfBJUArxgNmb2Ny4F8Q7gzPoA1A8nBx8GwHZy3L+toDerDd7
+        NanKy7dsl/5/uxEOmfyL9bfLa7GlrRh0903jPZaCZNOUxLkizoHMEpanI/pX1Y+oeit/S3
+        jfmTs4f++tTzfT9qCVpUJmWWIfg2aLOpUEXnFmyvkxyUvclInLJ0FvbTcCFrjg==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -47,9 +47,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Clement Leger <clement.leger@bootlin.com>,
         linux-serial@vger.kernel.org,
         Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v2 09/10] serial: 8250: dw: Improve RZN1 support
-Date:   Thu, 17 Mar 2022 18:46:26 +0100
-Message-Id: <20220317174627.360815-10-miquel.raynal@bootlin.com>
+Subject: [PATCH v2 10/10] ARM: dts: r9a06g032: Fill the UART DMA properties
+Date:   Thu, 17 Mar 2022 18:46:27 +0100
+Message-Id: <20220317174627.360815-11-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220317174627.360815-1-miquel.raynal@bootlin.com>
 References: <20220317174627.360815-1-miquel.raynal@bootlin.com>
@@ -66,48 +66,77 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Phil Edworthy <phil.edworthy@renesas.com>
+UART 0 to 2 do not have DMA support, while UART 3 to 7 do.
 
-Renesas RZ/N1 SoC features a slightly modified DW UART.
+Fill the "dmas" and "dma-names" properties for each of these nodes.
 
-On this SoC, the CPR register value is known but not synthetized in
-hardware. We hence need to provide a CPR value in the platform
-data. This version of the controller also relies on acting as flow
-controller when using DMA, so we need to provide the
-'IS_DMA_FLOW_CONTROLLER' quirk.
+Please mind that these nodes go through the dmamux node which will
+redirect the requests to the right DMA controller. The first 4 cells of
+the "dmas" properties will be transferred as-is to the DMA
+controllers. The last 2 cells are consumed by the dmamux. Which means
+cell 0 and 4 are almost redundant, one giving the controller request ID
+and the other the dmamux channel which is a 1:1 translation of the
+request IDs, shifted by 16 when pointing to the second DMA controller.
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/tty/serial/8250/8250_dw.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/r9a06g032.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index edb3f347be8e..9b393770d40e 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -756,6 +756,11 @@ static const struct dw8250_platform_data dw8250_armada_38x_data = {
- 	.quirks = DW_UART_QUIRK_ARMADA_38X,
- };
+diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+index 804f2d6f416f..aa447e2622e0 100644
+--- a/arch/arm/boot/dts/r9a06g032.dtsi
++++ b/arch/arm/boot/dts/r9a06g032.dtsi
+@@ -128,6 +128,9 @@ uart3: serial@50000000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART3>, <&sysctrl R9A06G032_HCLK_UART3>;
+ 			clock-names = "baudclk", "apb_pclk";
++			dmas =  <&dmamux 0 0 0 0 0 1>,
++				<&dmamux 1 0 0 0 1 1>;
++			dma-names = "rx", "tx";
+ 			status = "disabled";
+ 		};
  
-+static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
-+	.quirks = DW_UART_QUIRK_IS_DMA_FLOW_CONTROLLER,
-+	.cpr = 0x00012f32,
-+};
-+
- static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
- 	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
- };
-@@ -764,7 +769,7 @@ static const struct of_device_id dw8250_of_match[] = {
- 	{ .compatible = "snps,dw-apb-uart" },
- 	{ .compatible = "cavium,octeon-3860-uart", .data = &dw8250_octeon_3860_data },
- 	{ .compatible = "marvell,armada-38x-uart", .data = &dw8250_armada_38x_data },
--	{ .compatible = "renesas,rzn1-uart" },
-+	{ .compatible = "renesas,rzn1-uart", .data = &dw8250_renesas_rzn1_data },
- 	{ .compatible = "starfive,jh7100-hsuart", .data = &dw8250_starfive_jh7100_data },
- 	{ .compatible = "starfive,jh7100-uart", .data = &dw8250_starfive_jh7100_data },
- 	{ /* Sentinel */ }
+@@ -139,6 +142,9 @@ uart4: serial@50001000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART4>, <&sysctrl R9A06G032_HCLK_UART4>;
+ 			clock-names = "baudclk", "apb_pclk";
++			dmas =  <&dmamux 2 0 0 0 2 1>,
++				<&dmamux 3 0 0 0 3 1>;
++			dma-names = "rx", "tx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -150,6 +156,9 @@ uart5: serial@50002000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART5>, <&sysctrl R9A06G032_HCLK_UART5>;
+ 			clock-names = "baudclk", "apb_pclk";
++			dmas =  <&dmamux 4 0 0 0 4 1>,
++				<&dmamux 5 0 0 0 5 1>;
++			dma-names = "rx", "tx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -161,6 +170,9 @@ uart6: serial@50003000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART6>, <&sysctrl R9A06G032_HCLK_UART6>;
+ 			clock-names = "baudclk", "apb_pclk";
++			dmas =  <&dmamux 6 0 0 0 6 1>,
++				<&dmamux 7 0 0 0 7 1>;
++			dma-names = "rx", "tx";
+ 			status = "disabled";
+ 		};
+ 
+@@ -172,6 +184,9 @@ uart7: serial@50004000 {
+ 			reg-io-width = <4>;
+ 			clocks = <&sysctrl R9A06G032_CLK_UART7>, <&sysctrl R9A06G032_HCLK_UART7>;
+ 			clock-names = "baudclk", "apb_pclk";
++			dmas =  <&dmamux 4 0 0 0 20 1>,
++				<&dmamux 5 0 0 0 21 1>;
++			dma-names = "rx", "tx";
+ 			status = "disabled";
+ 		};
+ 
 -- 
 2.27.0
 
