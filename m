@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664B64DE05D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 18:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 566C14DE07D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 18:52:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236328AbiCRRwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Mar 2022 13:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S237812AbiCRRw5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Mar 2022 13:52:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236439AbiCRRww (ORCPT
+        with ESMTP id S238926AbiCRRw4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Mar 2022 13:52:52 -0400
+        Fri, 18 Mar 2022 13:52:56 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45C7B193B7F;
-        Fri, 18 Mar 2022 10:51:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A7CCF1903FE;
+        Fri, 18 Mar 2022 10:51:23 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,192,1643641200"; 
-   d="scan'208";a="115031011"
+   d="scan'208";a="115031017"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Mar 2022 02:51:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 19 Mar 2022 02:51:23 +0900
 Received: from localhost.localdomain (unknown [10.226.93.159])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 99C19400E8E2;
-        Sat, 19 Mar 2022 02:51:18 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 110F4400E8E2;
+        Sat, 19 Mar 2022 02:51:20 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/9] clk: renesas: rzg2l: Add FOUTPOSTDIV clk support
-Date:   Fri, 18 Mar 2022 17:51:05 +0000
-Message-Id: <20220318175113.8956-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/9] clk: renesas: rzg2l: Add PLL5_4 clk mux support
+Date:   Fri, 18 Mar 2022 17:51:06 +0000
+Message-Id: <20220318175113.8956-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220318175113.8956-1-biju.das.jz@bp.renesas.com>
 References: <20220318175113.8956-1-biju.das.jz@bp.renesas.com>
@@ -46,181 +46,107 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-PLL5 generates FOUTPOSTDIV clk and is sourced by LCDC/DSI modules.
-The FOUTPOSTDIV is connected to PLL5_4 MUX. Video clock is sourced
-from DSI divider which is connected to PLL5_4 MUX.
-
-This patch adds support for generating FOUTPOSTDIV clk.
+Add PLL5_4 clk mux support to select clock from clock
+sources FOUTPOSTDIV and FOUT1PH0.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 RFC->V1:
  * Removed LUT.
- * Replaced magic numbers with macros.
 RFC:
- *https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-2-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-3-biju.das.jz@bp.renesas.com/
 ---
- drivers/clk/renesas/rzg2l-cpg.c | 140 ++++++++++++++++++++++++++++++++
- drivers/clk/renesas/rzg2l-cpg.h |  20 +++++
- 2 files changed, 160 insertions(+)
+ drivers/clk/renesas/rzg2l-cpg.c | 84 +++++++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h | 10 ++++
+ 2 files changed, 94 insertions(+)
 
 diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 486d0656c58a..4d18699852fb 100644
+index 4d18699852fb..f8e177ef3f93 100644
 --- a/drivers/clk/renesas/rzg2l-cpg.c
 +++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -64,6 +64,15 @@ struct sd_hw_data {
- 
- #define to_sd_hw_data(_hw)	container_of(_hw, struct sd_hw_data, hw)
- 
-+struct rzg2l_pll5_param {
-+	u32 frequency;
-+	u32 pl5_fracin;
-+	u8 pl5_refdiv;
-+	u8 pl5_intin;
-+	u8 pl5_postdiv1;
-+	u8 pl5_postdiv2;
-+};
-+
- /**
-  * struct rzg2l_cpg_priv - Clock Pulse Generator Private Data
-  *
-@@ -78,6 +87,7 @@ struct sd_hw_data {
-  * @last_dt_core_clk: ID of the last Core Clock exported to DT
-  * @notifiers: Notifier chain to save/restore clock state for system resume
-  * @info: Pointer to platform data
-+ * @pll5_params: pll5 parameters
-  */
- struct rzg2l_cpg_priv {
- 	struct reset_controller_dev rcdev;
-@@ -93,6 +103,8 @@ struct rzg2l_cpg_priv {
- 
- 	struct raw_notifier_head notifiers;
- 	const struct rzg2l_cpg_info *info;
-+
-+	struct rzg2l_pll5_param pll5_params;
+@@ -71,6 +71,7 @@ struct rzg2l_pll5_param {
+ 	u8 pl5_intin;
+ 	u8 pl5_postdiv1;
+ 	u8 pl5_postdiv2;
++	u8 clksrc;
  };
  
- static void rzg2l_cpg_del_clk_provider(void *data)
-@@ -266,6 +278,131 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
+ /**
+@@ -278,6 +279,86 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
  	return clk_hw->clk;
  }
  
-+struct sipll5 {
++struct pll5_mux_hw_data {
 +	struct clk_hw hw;
 +	u32 conf;
++	unsigned long rate;
 +	struct rzg2l_cpg_priv *priv;
 +};
 +
-+#define to_sipll5(_hw)	container_of(_hw, struct sipll5, hw)
++#define to_pll5_mux_hw_data(_hw)	container_of(_hw, struct pll5_mux_hw_data, hw)
 +
-+static unsigned long rzg2l_cpg_sipll5_recalc_rate(struct clk_hw *hw,
-+						  unsigned long parent_rate)
++static int rzg2l_cpg_pll5_4_clk_mux_determine_rate(struct clk_hw *hw,
++						   struct clk_rate_request *req)
 +{
-+	struct sipll5 *sipll5 = to_sipll5(hw);
-+	struct rzg2l_cpg_priv *priv = sipll5->priv;
++	struct clk_hw *parent;
++	struct pll5_mux_hw_data *hwdata = to_pll5_mux_hw_data(hw);
++	struct rzg2l_cpg_priv *priv = hwdata->priv;
 +
-+	return priv->pll5_params.frequency;
-+}
-+
-+static long rzg2l_cpg_sipll5_round_rate(struct clk_hw *hw,
-+					unsigned long rate,
-+					unsigned long *parent_rate)
-+{
-+	struct sipll5 *sipll5 = to_sipll5(hw);
-+	struct rzg2l_cpg_priv *priv = sipll5->priv;
-+
-+	return priv->pll5_params.frequency;
-+}
-+
-+static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
-+				     unsigned long rate,
-+				     unsigned long parent_rate)
-+{
-+	struct sipll5 *sipll5 = to_sipll5(hw);
-+	struct rzg2l_cpg_priv *priv = sipll5->priv;
-+	int ret;
-+	u32 val;
-+
-+	/* Put PLL5 into standby mode */
-+	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
-+	ret = readl_poll_timeout(priv->base + CPG_SIPLL5_MON, val,
-+				 !(val & CPG_SIPLL5_MON_PLL5_LOCK), 100, 250000);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to release pll5 lock");
-+		return ret;
-+	}
-+
-+	/* Output clock setting 1 */
-+	writel(CPG_SIPLL5_CLK1_POSTDIV1_WEN | CPG_SIPLL5_CLK1_REFDIV_WEN |
-+	       CPG_SIPLL5_CLK1_REFDIV_WEN  |
-+	       (priv->pll5_params.pl5_postdiv1 << 0) |
-+	       (priv->pll5_params.pl5_postdiv2 << 4) |
-+	       (priv->pll5_params.pl5_refdiv << 8),
-+	       priv->base + CPG_SIPLL5_CLK1);
-+
-+	/* Output clock setting, SSCG modulation value setting 3 */
-+	writel((priv->pll5_params.pl5_fracin << 8), priv->base + CPG_SIPLL5_CLK3);
-+
-+	/* Output clock setting 4 */
-+	writel(CPG_SIPLL5_CLK4_RESV_LSB | (priv->pll5_params.pl5_intin << 16),
-+	       priv->base + CPG_SIPLL5_CLK4);
-+
-+	/* PLL normal mode setting */
-+	writel(CPG_SIPLL5_STBY_SSCG_EN_WEN | CPG_SIPLL5_STBY_RESETB_WEN |
-+	       CPG_SIPLL5_STBY_RESETB, priv->base + CPG_SIPLL5_STBY);
-+
-+	/* PLL normal mode transition, output clock stability check */
-+	ret = readl_poll_timeout(priv->base + CPG_SIPLL5_MON, val,
-+				 (val & CPG_SIPLL5_MON_PLL5_LOCK), 100, 250000);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to lock pll5");
-+		return ret;
-+	}
++	parent = clk_hw_get_parent_by_index(hw, priv->pll5_params.clksrc);
++	req->best_parent_hw = parent;
++	req->best_parent_rate = req->rate;
 +
 +	return 0;
 +}
 +
-+static const struct clk_ops rzg2l_cpg_sipll5_ops = {
-+	.recalc_rate = rzg2l_cpg_sipll5_recalc_rate,
-+	.round_rate = rzg2l_cpg_sipll5_round_rate,
-+	.set_rate = rzg2l_cpg_sipll5_set_rate,
++static int rzg2l_cpg_pll5_4_clk_mux_set_parent(struct clk_hw *hw, u8 index)
++{
++	struct pll5_mux_hw_data *hwdata = to_pll5_mux_hw_data(hw);
++	struct rzg2l_cpg_priv *priv = hwdata->priv;
++
++	writel(CPG_OTHERFUNC1_REG_RES0_ON_WEN | index,
++	       priv->base + CPG_OTHERFUNC1_REG);
++
++	return 0;
++}
++
++static u8 rzg2l_cpg_pll5_4_clk_mux_get_parent(struct clk_hw *hw)
++{
++	struct pll5_mux_hw_data *hwdata = to_pll5_mux_hw_data(hw);
++	struct rzg2l_cpg_priv *priv = hwdata->priv;
++
++	return readl(priv->base + GET_REG_OFFSET(hwdata->conf));
++}
++
++static const struct clk_ops rzg2l_cpg_pll5_4_clk_mux_ops = {
++	.determine_rate = rzg2l_cpg_pll5_4_clk_mux_determine_rate,
++	.set_parent	= rzg2l_cpg_pll5_4_clk_mux_set_parent,
++	.get_parent	= rzg2l_cpg_pll5_4_clk_mux_get_parent,
 +};
 +
 +static struct clk * __init
-+rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
-+			  struct clk **clks,
-+			  struct rzg2l_cpg_priv *priv)
++rzg2l_cpg_pll5_4_mux_clk_register(const struct cpg_core_clk *core,
++				  struct rzg2l_cpg_priv *priv)
 +{
-+	const struct clk *parent;
++	struct pll5_mux_hw_data *clk_hw_data;
 +	struct clk_init_data init;
-+	const char *parent_name;
-+	struct sipll5 *sipll5;
 +	struct clk_hw *clk_hw;
 +	int ret;
 +
-+	parent = clks[core->parent & 0xffff];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	sipll5 = devm_kzalloc(priv->dev, sizeof(*sipll5), GFP_KERNEL);
-+	if (!sipll5)
++	clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
++	if (!clk_hw_data)
 +		return ERR_PTR(-ENOMEM);
 +
++	clk_hw_data->priv = priv;
++	clk_hw_data->conf = core->conf;
++
 +	init.name = core->name;
-+	parent_name = __clk_get_name(parent);
-+	init.ops = &rzg2l_cpg_sipll5_ops;
-+	init.flags = 0;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
++	init.ops = &rzg2l_cpg_pll5_4_clk_mux_ops;
++	init.flags = CLK_SET_RATE_PARENT;
++	init.num_parents = core->num_parents;
++	init.parent_names = core->parent_names;
 +
-+	sipll5->hw.init = &init;
-+	sipll5->conf = core->conf;
-+	sipll5->priv = priv;
-+
-+	writel(CPG_SIPLL5_STBY_SSCG_EN_WEN | CPG_SIPLL5_STBY_RESETB_WEN |
-+	       CPG_SIPLL5_STBY_RESETB, priv->base + CPG_SIPLL5_STBY);
-+
-+	clk_hw = &sipll5->hw;
++	clk_hw = &clk_hw_data->hw;
 +	clk_hw->init = &init;
 +
 +	ret = devm_clk_hw_register(priv->dev, clk_hw);
@@ -230,68 +156,65 @@ index 486d0656c58a..4d18699852fb 100644
 +	return clk_hw->clk;
 +}
 +
- struct pll_clk {
+ struct sipll5 {
  	struct clk_hw hw;
- 	unsigned int conf;
-@@ -420,6 +557,9 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
- 		clk = rzg2l_cpg_pll_clk_register(core, priv->clks,
- 						 priv->base, priv);
+ 	u32 conf;
+@@ -570,6 +651,9 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
+ 	case CLK_TYPE_SD_MUX:
+ 		clk = rzg2l_cpg_sd_mux_clk_register(core, priv->base, priv);
  		break;
-+	case CLK_TYPE_SIPLL5:
-+		clk = rzg2l_cpg_sipll5_register(core, priv->clks, priv);
++	case CLK_TYPE_PLL5_4_MUX:
++		clk = rzg2l_cpg_pll5_4_mux_clk_register(core, priv);
 +		break;
- 	case CLK_TYPE_DIV:
- 		clk = rzg2l_cpg_div_clk_register(core, priv->clks,
- 						 priv->base, priv);
+ 	default:
+ 		goto fail;
+ 	}
 diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index ce657beaf160..40f61db902b2 100644
+index 40f61db902b2..a4bdc1d7b5aa 100644
 --- a/drivers/clk/renesas/rzg2l-cpg.h
 +++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -9,6 +9,12 @@
- #ifndef __RENESAS_RZG2L_CPG_H__
- #define __RENESAS_RZG2L_CPG_H__
- 
-+#define CPG_SIPLL5_STBY		(0x140)
-+#define CPG_SIPLL5_CLK1		(0x144)
-+#define CPG_SIPLL5_CLK3		(0x14C)
-+#define CPG_SIPLL5_CLK4		(0x150)
-+#define CPG_SIPLL5_CLK5		(0x154)
-+#define CPG_SIPLL5_MON		(0x15C)
- #define CPG_PL1_DDIV		(0x200)
- #define CPG_PL2_DDIV		(0x204)
- #define CPG_PL3A_DDIV		(0x208)
-@@ -19,6 +25,15 @@
+@@ -24,6 +24,7 @@
+ #define CPG_PL3_SSEL		(0x408)
  #define CPG_PL6_SSEL		(0x414)
  #define CPG_PL6_ETH_SSEL	(0x418)
++#define CPG_OTHERFUNC1_REG	(0xBE8)
  
-+#define CPG_SIPLL5_STBY_RESETB		BIT(0)
-+#define CPG_SIPLL5_STBY_RESETB_WEN	BIT(16)
-+#define CPG_SIPLL5_STBY_SSCG_EN_WEN	BIT(18)
-+#define CPG_SIPLL5_CLK1_POSTDIV1_WEN	BIT(16)
-+#define CPG_SIPLL5_CLK1_POSTDIV2_WEN	BIT(20)
-+#define CPG_SIPLL5_CLK1_REFDIV_WEN	BIT(24)
-+#define CPG_SIPLL5_CLK4_RESV_LSB	(0xFF)
-+#define CPG_SIPLL5_MON_PLL5_LOCK	BIT(4)
+ #define CPG_SIPLL5_STBY_RESETB		BIT(0)
+ #define CPG_SIPLL5_STBY_RESETB_WEN	BIT(16)
+@@ -34,6 +35,8 @@
+ #define CPG_SIPLL5_CLK4_RESV_LSB	(0xFF)
+ #define CPG_SIPLL5_MON_PLL5_LOCK	BIT(4)
+ 
++#define CPG_OTHERFUNC1_REG_RES0_ON_WEN	BIT(16)
 +
  #define CPG_CLKSTATUS_SELSDHI0_STS	BIT(28)
  #define CPG_CLKSTATUS_SELSDHI1_STS	BIT(29)
  
-@@ -86,6 +101,9 @@ enum clk_types {
+@@ -58,6 +61,7 @@
+ 		(((offset) << 20) | ((bitpos) << 12) | ((size) << 8))
  
- 	/* Clock with SD clock source selector */
- 	CLK_TYPE_SD_MUX,
+ #define SEL_PLL3_3	SEL_PLL_PACK(CPG_PL3_SSEL, 8, 1)
++#define SEL_PLL5_4	SEL_PLL_PACK(CPG_OTHERFUNC1_REG, 0, 1)
+ #define SEL_PLL6_2	SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
+ #define SEL_GPU2	SEL_PLL_PACK(CPG_PL6_SSEL, 12, 1)
+ 
+@@ -104,6 +108,9 @@ enum clk_types {
+ 
+ 	/* Clock for SIPLL5 */
+ 	CLK_TYPE_SIPLL5,
 +
-+	/* Clock for SIPLL5 */
-+	CLK_TYPE_SIPLL5,
++	/* Clock for PLL5_4 clock source selector */
++	CLK_TYPE_PLL5_4_MUX,
  };
  
  #define DEF_TYPE(_name, _id, _type...) \
-@@ -109,6 +127,8 @@ enum clk_types {
- #define DEF_SD_MUX(_name, _id, _conf, _parent_names, _num_parents) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_SD_MUX, .conf = _conf, \
+@@ -129,6 +136,9 @@ enum clk_types {
  		 .parent_names = _parent_names, .num_parents = _num_parents)
-+#define DEF_PLL5_FOUTPOSTDIV(_name, _id, _parent) \
-+	DEF_TYPE(_name, _id, CLK_TYPE_SIPLL5, .parent = _parent)
+ #define DEF_PLL5_FOUTPOSTDIV(_name, _id, _parent) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_SIPLL5, .parent = _parent)
++#define DEF_PLL5_4_MUX(_name, _id, _conf, _parent_names, _num_parents) \
++	DEF_TYPE(_name, _id, CLK_TYPE_PLL5_4_MUX, .conf = _conf, \
++		 .parent_names = _parent_names, .num_parents = _num_parents)
  
  /**
   * struct rzg2l_mod_clk - Module Clocks definitions
