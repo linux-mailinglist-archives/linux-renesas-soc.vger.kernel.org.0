@@ -2,100 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A665A4DDA94
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 14:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E617D4DDAEC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 14:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236019AbiCRNd4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Mar 2022 09:33:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
+        id S236871AbiCRNw2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Mar 2022 09:52:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234702AbiCRNd4 (ORCPT
+        with ESMTP id S236881AbiCRNw1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Mar 2022 09:33:56 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC43111DFA;
-        Fri, 18 Mar 2022 06:32:36 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id i65so904003qkd.7;
-        Fri, 18 Mar 2022 06:32:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ws/WgsI+NgYJBvxRZWDWAq8NCIF4x7eB852P4+r+ZlQ=;
-        b=wrVA6N2gRNLSu9TR0BBzzIFYBDaBOCjTuWWRHWOcOahXcdaYjMj1P1UuBoQm7riiN6
-         hLiGg5YfEh2I37Wf9AgWwov0Qsy52QKmIM35X96N5uMfObrBMGMJi39ZggKLTaiGA+jz
-         4gVpNAZtimmh+g5ce6sa7K6i+kVp6QkbfU7ImA+BAxhROOA61bmmy8NdV2DPgvAgQmpO
-         kRpRZcUCMNs/bICRiaCrMkYlyCFsNUI9di5o23V/0SlMgZ7UP6pk7Sn8ykkNwYqgFWEP
-         wR28IMm1IXmtJgBGEbwzUuzDcCsdyQCNTBY9JmLxk1QCUMJpkeRakQaHZsL5mrK1Mqxm
-         gvHQ==
-X-Gm-Message-State: AOAM532MBEan0CHfmtei1R7LIR6gopRLNLgoPzL5s6rByou6CpV3yMUG
-        3mmdbtaaekyv86+eKB9Qw+BkjvKfaEaCsVMT
-X-Google-Smtp-Source: ABdhPJyATVE8LsURnvhzpkzCNNImVaW8iYxsiuhTCRpXp2xxmZQVJgt+8wRLKNW+X+MiTbQkjEAKxQ==
-X-Received: by 2002:ae9:f501:0:b0:67b:2d97:93c5 with SMTP id o1-20020ae9f501000000b0067b2d9793c5mr5796600qkg.380.1647610354924;
-        Fri, 18 Mar 2022 06:32:34 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id j18-20020ac85c52000000b002e1b9897ae7sm5636584qtj.10.2022.03.18.06.32.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 06:32:34 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2dbd97f9bfcso90763657b3.9;
-        Fri, 18 Mar 2022 06:32:34 -0700 (PDT)
-X-Received: by 2002:a81:59c4:0:b0:2e5:c7c3:5d29 with SMTP id
- n187-20020a8159c4000000b002e5c7c35d29mr7200941ywb.512.1647610353914; Fri, 18
- Mar 2022 06:32:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220309190631.1576372-1-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20220309190631.1576372-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Mar 2022 14:32:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWmu1hzpf+yYicLLjRQFCC7voXUAY7An4EEgCDTNZsnQg@mail.gmail.com>
-Message-ID: <CAMuHMdWmu1hzpf+yYicLLjRQFCC7voXUAY7An4EEgCDTNZsnQg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: falcon-cpu: Use INTC_EX for SN65DSI86
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Fri, 18 Mar 2022 09:52:27 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B304E0D9;
+        Fri, 18 Mar 2022 06:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647611455; x=1679147455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IjbDKBS7kb8HLR3kyQSzHMONMtObEHvlnqKqgDL0Bts=;
+  b=gWCh0r8Av/kVx4YfxwKDc0DSmTcN5UgB049IwLD1fDOlK5ea1j7xFjYO
+   UUAaDOEvJQZPxlkaCbh8vcr95NnlvHKlJqjVuF0uXnfqEeMFq028wshll
+   5/RV11ud7eiDNP/VQ2Z1g7uxy7IkTo6jyaI+VATvLuXcurJaEh253DQnC
+   XPWIIz0k3H5bVcINJBhcS9GS01mhKfckvPJZXaVP+ELa/uJsIOXqg/5Kc
+   e4Zqem798FYkL3SsgRsp6xZTVH5/m9V/6+3ZF+H81p9AT1LByqxnFluKS
+   8PXdaU4PSheskHPCCRTkKQE+v/2NUm1wRyW/CQnVtHZ0w491fSsDUNZpA
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="343573624"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
+   d="scan'208";a="343573624"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 06:50:55 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
+   d="scan'208";a="635758455"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 06:50:51 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nVCzc-002FyR-Ja;
+        Fri, 18 Mar 2022 15:50:12 +0200
+Date:   Fri, 18 Mar 2022 15:50:12 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 05/10] serial: 8250: dw: Check when possible if DMA is
+ effectively supported
+Message-ID: <YjSOFII3l+vz0q8L@smile.fi.intel.com>
+References: <20220317174627.360815-1-miquel.raynal@bootlin.com>
+ <20220317174627.360815-6-miquel.raynal@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317174627.360815-6-miquel.raynal@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 9, 2022 at 8:06 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> The INTC block is a better choice for handling the interrupts on the V3U
-> as the INTC will always be powered, while the GPIO block may be
-> de-clocked if not in use. Further more, it may be likely to have a lower
-> power consumption as it does not need to drive the pins.
->
-> Switch the interrupt parent and interrupts definition from gpio1 to
-> irq0 on intc_ex, and configure the PFC accordingly.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->
-> ---
-> v2:
->
->  - Define irq0_pins, and ensure pinctrl is set in the bridge node.
+On Thu, Mar 17, 2022 at 06:46:22PM +0100, Miquel Raynal wrote:
+> The CPR register can give the information whether the IP is DMA capable
+> or not. Let's extract this information when the CPR register is valid
+> and use it to discriminate when the DMA cannot be hooked up.
+> 
+> We assume existing designs either provide a valid CPR register or do not
+> provide any.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+...
 
-Gr{oetje,eeting}s,
+> +	if (!(reg & DW_UART_CPR_DMA_EXTRA))
+> +		data->no_dma = 1;
 
-                        Geert
+My question still remains: Does this bit is _guaranteed_ to be set when this IP
+is integrated on all possible DMAs?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+With Best Regards,
+Andy Shevchenko
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
