@@ -2,114 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515184DD876
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 11:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA974DD9EF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 13:47:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234987AbiCRKyD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Mar 2022 06:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
+        id S236402AbiCRMsY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Mar 2022 08:48:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbiCRKyC (ORCPT
+        with ESMTP id S230247AbiCRMsX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Mar 2022 06:54:02 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E8422D4D4E;
-        Fri, 18 Mar 2022 03:52:43 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id u23so6655045ejt.1;
-        Fri, 18 Mar 2022 03:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cmRyc1i4zTT9JhIhbJra7/fAc7CJ0O3rKCVZUptpSnA=;
-        b=QSG4V70aEkbKs5h1yKVtkiAzok/dUwV0YkAWbYj944YOZRVk+NCamQDuRvuQAilt5C
-         Z/w62u9Ouf1gi4uzasYTjrNfZwLfzmegiFB6w1EJe6txdE6Yc0kVmZuSAIVRLlg2j1im
-         qdboRECATBqo5HUxlJDmByhQMhxDXXSI0P1FJMcqGss1C5xRotM36bSYdWPJOyYTEKQ0
-         Q6N+Aga/NMQGkxEbG5uW6XrPQkGkz1nFa6mGCkGccCoUpkM6HnLBH8rozuW4UOhOXB4H
-         rirF2kOyQC9MUOB3vbLqKIbbMOuz55NRhdyCLkORFwbNu/zNPsLJG/VCN8aRWmmmHuzw
-         evgA==
+        Fri, 18 Mar 2022 08:48:23 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3DEE2E415F;
+        Fri, 18 Mar 2022 05:47:04 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id 85so6617965qkm.9;
+        Fri, 18 Mar 2022 05:47:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cmRyc1i4zTT9JhIhbJra7/fAc7CJ0O3rKCVZUptpSnA=;
-        b=lYPsTjObi4DiZzfH2LwLNJW1+Uoi04A1xn2KIiBc32xOAO4WVZlx/PsK3thKfquwPG
-         STqQY74Z/2yFJ0cBvqjdceA0aDorPmkIo6XfZM/n8vpx5S4eJZ71Ri/QWAVfrm1UmtdN
-         Yswcei+nK4W9aqv2O1+dTdE3abLrzn9/1lgN05jIJ4XS1+LDyv/ZtU51H06+OpnWLE6f
-         sd+GYcDe3i3HNwlL/8gfhwKTPJXZhDOBxLIkT3J0mSn+Y/02GOdIf+9jFi1tpgMLt9Di
-         SkC7gs2FS/C4Fff6Vb9G3EcEM+tn+dpMte+yfKaDfu+Jnem700fAYEKLsBPkPASK7aPe
-         GPlA==
-X-Gm-Message-State: AOAM531ujz9bdJbpsINgofGo+NRxpFMtJOZFByi75iIkxA2wWpMzwupE
-        T4onm9JYZZ+Vhvz/V64MG6djRRBoIJyZ+jUddYY=
-X-Google-Smtp-Source: ABdhPJy1bmhUdWHHrDILakB/pEMzPeurROPFcxHe7XoceumLy/XOf+ZKpIscQV/GvvZbMVpdU+yZ7e35O/TKiMzbHcc=
-X-Received: by 2002:a17:907:e93:b0:6df:10b3:4fc0 with SMTP id
- ho19-20020a1709070e9300b006df10b34fc0mr8582505ejc.44.1647600761919; Fri, 18
- Mar 2022 03:52:41 -0700 (PDT)
+        bh=5B3KQWrldWxXQq7bWnFH8zmvuqf+yb5fkUCi5k4X7kk=;
+        b=EbsYVWg+7fQBzoLYEs1MejsblCNDd7QXdXQMiBRJ6O/UwEZw4KMI8icnl6qoiUGUnv
+         FqzGVgVrW/vbuIT3NDxpBJQrw/s/lFFXRMdsiZ+Rp5sVwB3NZSweZGDdNeIcKrit/9vF
+         guza29N3s0nFyHGmybhdiG9TZPSvBV9Oqh12xBioHKho1loplYkEjMJx0ht8g0R/Rp82
+         qggUujqcePq/jt+q3UE22UK2rrx9jDC3dJguaSvtth/bpZ4nXywcrIjNYjSWtXbSh9pu
+         4rw0atoa8x6z78LpGzQYR0YOw9+muAMHVaLyLn/DhMvLbj9lPLJbP+Uj+cCyUoBts+Bm
+         pkvA==
+X-Gm-Message-State: AOAM532vFZDjdDICplKJpDx27qxhhBA4OZtne7mIiVtnfMR3U5Q/hkge
+        eyYnbqOnJ30nLrkamDPq2p1udK4b/o1J77wa
+X-Google-Smtp-Source: ABdhPJz95MM2bxG7MIAxcfgMlQHZnHppAO4eWfhI24D1SFEQxbqPF0GR11Mp1bZuGYZiP68yaejyrQ==
+X-Received: by 2002:a37:e214:0:b0:637:f295:cde8 with SMTP id g20-20020a37e214000000b00637f295cde8mr5362362qki.753.1647607623648;
+        Fri, 18 Mar 2022 05:47:03 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id k10-20020a05622a03ca00b002e0684cf81fsm5466813qtx.73.2022.03.18.05.47.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 05:47:03 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id m67so15652357ybm.4;
+        Fri, 18 Mar 2022 05:47:03 -0700 (PDT)
+X-Received: by 2002:a25:dc4:0:b0:629:2337:f9ea with SMTP id
+ 187-20020a250dc4000000b006292337f9eamr9998539ybn.6.1647607622806; Fri, 18 Mar
+ 2022 05:47:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220317174627.360815-1-miquel.raynal@bootlin.com> <20220317174627.360815-2-miquel.raynal@bootlin.com>
-In-Reply-To: <20220317174627.360815-2-miquel.raynal@bootlin.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 18 Mar 2022 12:51:29 +0200
-Message-ID: <CAHp75Ve-PbTMBdb6Y0TYdaOMDwsJ_2JVoKCkwCFBG=iUd8baEA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] serial: 8250: dw: Move the per-device structure
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+References: <20220304143241.8523-1-phil.edworthy@renesas.com>
+In-Reply-To: <20220304143241.8523-1-phil.edworthy@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 18 Mar 2022 13:46:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW6m9vWCGmU-C+Z0ky6-kwG0MZjjP+JYDERk_KBBh5m1g@mail.gmail.com>
+Message-ID: <CAMuHMdW6m9vWCGmU-C+Z0ky6-kwG0MZjjP+JYDERk_KBBh5m1g@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rzg2l: Remove unused notifiers
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 17, 2022 at 9:56 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+On Fri, Mar 4, 2022 at 3:32 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
+> notifiers is not used.
 >
-> From: Phil Edworthy <phil.edworthy@renesas.com>
->
-> This structure needs to be reused from dwlib, so let's move it into a
-> shared header. There is no functional change.
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 
-...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.19.
 
->  #include <linux/types.h>
+Gr{oetje,eeting}s,
 
-> +#include <linux/clk.h>
+                        Geert
 
-I have mentioned forward declarations.
-So, this can be simply replaced by
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-struct clk;
-
-> +#include <linux/notifier.h>
-> +#include <linux/workqueue.h>
-
-> +#include <linux/reset.h>
-
-Ditto.
-
-struct reset_control;
-
-On top of that, please keep them ordered.
-
-Otherwise it looks good to me.
-
--- 
-With Best Regards,
-Andy Shevchenko
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
