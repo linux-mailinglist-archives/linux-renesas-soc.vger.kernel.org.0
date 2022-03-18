@@ -2,55 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF83D4DDA45
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 14:14:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEF04DDA47
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 14:14:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236570AbiCRNPg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Mar 2022 09:15:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
+        id S236575AbiCRNPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Mar 2022 09:15:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236576AbiCRNPf (ORCPT
+        with ESMTP id S236578AbiCRNPg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Mar 2022 09:15:35 -0400
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C822C204ABC;
-        Fri, 18 Mar 2022 06:14:14 -0700 (PDT)
-Received: by mail-qk1-f181.google.com with SMTP id v15so6680828qkg.8;
-        Fri, 18 Mar 2022 06:14:14 -0700 (PDT)
+        Fri, 18 Mar 2022 09:15:36 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FF44204AAB;
+        Fri, 18 Mar 2022 06:14:17 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id 85so6676077qkm.9;
+        Fri, 18 Mar 2022 06:14:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Eu4PPeVrj7ip1pAYS174BYH69LkOPbKrT06DG/rxONU=;
-        b=jeuB2Blrh04cN5Vko/MaREsGY/7kStwhqDcU97H5BZlvMNi6cWBnB6F6rMKZ6Pk9bE
-         YwmDts04XWWPJWK8iOmAgq8eLwaTuCQgfzaDQYIHjiausMR76uV/hZwIxo8sTBiW1KsD
-         NZ949/E/IS1E0HOBgh0u28D3cye7I5CNMbx/V19OVz/VtZofdKUVht5FRUXCNgl1UeZ2
-         1813efBOia7IR9BHpQm6dgOEleWFWNQM9VfRaNRAr8gdy1nxj+OpNGmmZo2SO+N6tqi/
-         9B6SYlfE1Vv9g34f1GSD9TGrRqyp8xWc5bePmyW0QYPlkx/fV6vT/lLlPQKFnHIGlYN+
-         bqOA==
-X-Gm-Message-State: AOAM530B9eAzvRVCKdP9HzF3yc+yfEkkiYHjfV1AA7B7ZO3ATJI2oxFl
-        jB1kfkC/hhJ8RNRIM1ggIxEd/wgE3KlGLzcV
-X-Google-Smtp-Source: ABdhPJzYi7EFY2Kl2S0x6w2Sd2nlwGPTOhX9+hHdCY6a0PvmAasaXwVPg9dfRYbTKfB1erfOlniJtw==
-X-Received: by 2002:a37:acb:0:b0:67b:15f9:55b8 with SMTP id 194-20020a370acb000000b0067b15f955b8mr5673518qkk.694.1647609253047;
-        Fri, 18 Mar 2022 06:14:13 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id d6-20020ac85d86000000b002e1e20444b6sm5671008qtx.57.2022.03.18.06.14.11
+        bh=JyaLSw4LKIUFqLhaxJ7qVFkRw6/W/xI9y413ExJG+IE=;
+        b=KsYxjavkwAe6AR3QvtWMmdDYOgwpFLtbyThSoV7BbT97JKEkEG1NQ2pPRL+IQGRC5v
+         UdUbNJ813ws5LwCyBZ0xs+jl8ZY8vh6zQ2AjZ/AUemdqBsKZ+PdDpieYVEJanSAmhqc9
+         Ya6hUt9VoIArugHbfNZhCZEiAqAGow5DAv1x15/EGLLon/2sGXyU7DJys83x15+pnmSi
+         yf0EW3fr/cyi4TPdaMTxkdL6WSbt6TTftZXhvr+7WfecUkVmr1K3+AIvGWYOwzWXa2bW
+         h2obSBwDTalf002D7P7HLBEYQqVDEIj09qxtXtBBR7OUOkK65Eotgp7m2AF+6raKr6Te
+         Frtw==
+X-Gm-Message-State: AOAM532HaBgVi23raYRqxJ9p1E/RamM3mrQ2NRyIjCH8M0WNFy0C+pfa
+        rQ8mmz5wbmmfYLRNBZ1Od0PrYucuKplLVxpp
+X-Google-Smtp-Source: ABdhPJzdOndWG41OpuWWTNZjH9WepMJC7yas88wJv9okhhrIlFXH1cXfM914lMWsshBIg+MXEM0amA==
+X-Received: by 2002:a05:620a:4450:b0:67c:258e:58d with SMTP id w16-20020a05620a445000b0067c258e058dmr5633147qkp.97.1647609255994;
+        Fri, 18 Mar 2022 06:14:15 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05622a048d00b002e1ce0c627csm5975370qtx.58.2022.03.18.06.14.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 06:14:12 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2e592e700acso90529127b3.5;
-        Fri, 18 Mar 2022 06:14:11 -0700 (PDT)
-X-Received: by 2002:a81:24d6:0:b0:2e5:b253:f9fc with SMTP id
- k205-20020a8124d6000000b002e5b253f9fcmr11244696ywk.438.1647609251646; Fri, 18
- Mar 2022 06:14:11 -0700 (PDT)
+        Fri, 18 Mar 2022 06:14:15 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id l2so15745506ybe.8;
+        Fri, 18 Mar 2022 06:14:15 -0700 (PDT)
+X-Received: by 2002:a25:4fc4:0:b0:633:25c8:7d9 with SMTP id
+ d187-20020a254fc4000000b0063325c807d9mr10305411ybb.506.1647609255418; Fri, 18
+ Mar 2022 06:14:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220307192436.13237-1-biju.das.jz@bp.renesas.com> <20220307192436.13237-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220307192436.13237-2-biju.das.jz@bp.renesas.com>
+References: <20220307192436.13237-1-biju.das.jz@bp.renesas.com> <20220307192436.13237-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220307192436.13237-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Mar 2022 14:13:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXFyaefXmgsQpbQtXjr4X8NRvzik_5FwHN9goGJ-81ssg@mail.gmail.com>
-Message-ID: <CAMuHMdXFyaefXmgsQpbQtXjr4X8NRvzik_5FwHN9goGJ-81ssg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] arm64: dts: renesas: rzg2lc-smarc-som: Enable serial
- NOR flash
+Date:   Fri, 18 Mar 2022 14:14:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU4P2cOWq1uA0t-QLiB7smF3HxOwPB-eJ5qVOpgzkEMFQ@mail.gmail.com>
+Message-ID: <CAMuHMdU4P2cOWq1uA0t-QLiB7smF3HxOwPB-eJ5qVOpgzkEMFQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] arm64: dts: renesas: rzg2lc-smarc-som: Enable OSTM
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -72,7 +71,8 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, Mar 7, 2022 at 8:24 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable mt25qu512a flash connected to QSPI0.
+> Enable OSTM{1, 2} interfaces on RZ/G2LC SMARC EVK.
+> OSTM0 is reserved for TF-A.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
