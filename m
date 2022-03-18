@@ -2,124 +2,228 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0CB14DE033
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 18:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47ACB4DE077
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Mar 2022 18:52:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239739AbiCRRpv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Mar 2022 13:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47478 "EHLO
+        id S235895AbiCRRwt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Mar 2022 13:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238668AbiCRRpv (ORCPT
+        with ESMTP id S239967AbiCRRws (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Mar 2022 13:45:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E7E1FAA3E;
-        Fri, 18 Mar 2022 10:44:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 42F9BB824B1;
-        Fri, 18 Mar 2022 17:44:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE635C340E8;
-        Fri, 18 Mar 2022 17:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647625469;
-        bh=Yel17+YGUIPsFPXXcsUfkRlEDGY7ldlZnUFhHc3cQPw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=sOKaWg8DMVhBONoscKdx8z/Nuue8RGTH0Yue+H5spIiJtuvaGZ6SoPBfHh4EPUd2M
-         WTr6kba6yQdG9bI1zT9ERS5pqHz419ctvoV0JLBb+HhFVRpayObI8EJWLlRqXdYRRd
-         sDkRA27zCjPxzEU7sOqf4nzMvd0M9MVWIg4ceDaWgaPPJDnIxmeLbGBh69OEbBc2/O
-         XEk0LkpNmuZ9LHCZCDe8AAVH3CT63gNe2NTpdvDZeB5IHLfmO9IMtarS7IyI3Ta25i
-         +ACWlfobCRAIBowxC1BuBFgAtSCIP+NiFv65xf2Y/+IfOHO4BA0X27VcVMU1WghWjN
-         OCbicGD50y9Yg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1nVGeI-00FVvX-H7; Fri, 18 Mar 2022 17:44:26 +0000
-Date:   Fri, 18 Mar 2022 17:44:25 +0000
-Message-ID: <87mthnxiiu.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Fri, 18 Mar 2022 13:52:48 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D12D418FAF7;
+        Fri, 18 Mar 2022 10:51:19 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,192,1643641200"; 
+   d="scan'208";a="115031006"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Mar 2022 02:51:18 +0900
+Received: from localhost.localdomain (unknown [10.226.93.159])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 037E140165BF;
+        Sat, 19 Mar 2022 02:51:15 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC PATCH v4 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
-In-Reply-To: <CA+V-a8uw9wwnA=_n+1MUtUhdwCdMFNb22HOq0R3yEeqsfTJLBQ@mail.gmail.com>
-References: <20220317012404.8069-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220317012404.8069-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <87pmmky2tw.wl-maz@kernel.org>
-        <CA+V-a8uw9wwnA=_n+1MUtUhdwCdMFNb22HOq0R3yEeqsfTJLBQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl, geert+renesas@glider.be, p.zabel@pengutronix.de, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/9] Add RZ/G2L Display clock support
+Date:   Fri, 18 Mar 2022 17:51:04 +0000
+Message-Id: <20220318175113.8956-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 18 Mar 2022 14:59:41 +0000,
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> 
-> Hi Marc,
-> 
-> Thank you for the review.
-> 
-> On Thu, Mar 17, 2022 at 4:13 PM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > On Thu, 17 Mar 2022 01:24:01 +0000,
-> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > >
-> > > +static struct irq_chip irqc_chip = {
-> > > +     .name                   = "rzg2l-irqc",
-> > > +     .irq_eoi                = rzg2l_irqc_eoi,
-> > > +     .irq_mask               = irq_chip_mask_parent,
-> > > +     .irq_unmask             = irq_chip_unmask_parent,
-> > > +     .irq_disable            = rzg2l_irqc_irq_disable,
-> > > +     .irq_enable             = rzg2l_irqc_irq_enable,
-> >
-> > So this looks a bit odd. irq_mask only calls the parent and does nothing
-> > locally, while irq_disable does something locally and calls into the
-> > parent. If the parent is a GIC, this is turned into a mask (GIC has no
-> > notion of disabled).
-> >
-> My understanding for enable callback is one time call during irq setup
-> and for the disable callback it will be called during irq shutdown.
-> During enable/disable callback we config the required registers.
-> For mask callback this will be called when an interrupt occurs and for
-> unmask we want to re-enable the interrupt. Since there are no specific
-> registers to mask/unmask on RZ/G2L the callbacks point to
-> irq_chip_mask_parent/irq_chip_unmask_parent.
-> 
-> I could move all the code from enable/disable callbacks to mask/unmask
-> callbacks and drop setting irq_enable/irq_disable completely. Please
-> let me know what should be the correct approach.
+This patch series aims to add display clock support on RZ/G2L SMARC
+EVK platform. The output from DSI is connected to ADV7535.
 
-I'm OK with your current setup, but I just wanted to check that this
-was your understanding as well.
+Implementation details:-
 
-	M.
+PLL5 generates 2 clock sources, FOUTPOSTDIV and FOUT1PH0 and vclk is
+sourced through DSI divider which is connected to a mux with the above
+clock sources.
+
+Pll5-->Mux->DSI divider--> vclk.
+
+DSI mode and DPI mode needs different set of PLL5 parameters for
+generating the video clock. Currently we support only DSI mode.
+later plan to extend this support to DPI mode.
+
+RFC->V1:
+ * Replaced LUT with an equation for computing pll5 parameters for generating vclk.
+ * Replaced magic numbers with macros.
+ * Added Rb tag from Geert.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-2-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-3-biju.das.jz@bp.renesas.com/
+
+Logs:-
+
+Clock tree output with monitor connected at 1080p@60Hz:
+root@smarc-rzg2l:~# cat /sys/kernel/debug/clk/clk_summary
+                                 enable  prepare  protect                                duty  hardware
+   clock                          count    count    count        rate   accuracy phase  cycle    enable
+-------------------------------------------------------------------------------------------------------
+ audio_mclock                         0        0        0    11289600          0     0  50000         Y
+ extal                                5        5        0    24000000          0     0  50000         Y
+    .pll5_foutpostdiv                 2        2        0   888000000          0     0  50000         Y
+       M1                             1        1        0   888000000          0     0  50000         Y
+          dsi_pll_clk                 1        1        0   888000000          0     0  50000         Y
+       .pll5_fout1ph0                 1        1        0   444000000          0     0  50000         Y
+          .sel_pll5_4                 1        1        0   444000000          0     0  50000         Y
+             DSI_DIV                  1        1        0   148500000          0     0  50000         Y
+                M3                    2        2        0   148500000          0     0  50000         Y
+                   lcdc_clk_d         3        4        0   148500000          0     0  50000         Y
+                   dsi_vclk           1        1        0   148500000          0     0  50000         Y
+    .pll6                             2        2        0   500000000          0     0  50000         Y
+       .sel_gpu2                      1        1        0   500000000          0     0  50000         Y
+          G                           1        1        0    62500000          0     0  50000         Y
+             gpu_clk                  1        2        0    62500000          0     0  50000         Y
+       .pll6_250                      1        1        0   250000000          0     0  50000         Y
+          HP                          2        2        0   250000000          0     0  50000         Y
+    .pll5                             0        0        0  3000000000          0     0  50000         Y
+       .pll5_fout3                    0        0        0   500000000          0     0  50000         Y
+          .pll5_250                   0        0        0   250000000          0     0  50000         Y
+    .pll3                             2        2        0  1600000000          0     0  50000         Y
+       .pll3_div2                     1        1        0   800000000          0     0  50000         Y
+          .pll3_div2_4                3        3        0   200000000          0     0  50000         Y
+             M0                       3        3        0   200000000          0     0  50000         Y
+                eth1_axi              1        1        0   200000000          0     0  50000         Y
+                eth0_axi              1        1        0   200000000          0     0  50000         Y
+                lcdc_a                3        4        0   200000000          0     0  50000         Y
+             P1                      12       13        0   200000000          0     0  50000         Y
+                usb_pclk              8       12        0   200000000          0     0  50000         Y
+                usb0_func             1        1        0   200000000          0     0  50000         Y
+                usb1_host             3        5        0   200000000          0     0  50000         Y
+                usb0_host             3        5        0   200000000          0     0  50000         Y
+                dsi_aclk              1        1        0   200000000          0     0  50000         Y
+                gpu_ace_clk           0        1        0   200000000          0     0  50000         N
+                gpu_axi_clk           1        2        0   200000000          0     0  50000         Y
+                sdhi1_aclk            1        1        0   200000000          0     0  50000         Y
+                sdhi0_aclk            1        1        0   200000000          0     0  50000         Y
+                dmac_aclk             2        2        0   200000000          0     0  50000         Y
+                ia55_clk              1        1        0   200000000          0     0  50000         Y
+                gic                   1        1        0   200000000          0     0  50000         Y
+                P1_DIV2               1        1        0   100000000          0     0  50000         Y
+                   dmac_pclk          1        1        0   100000000          0     0  50000         Y
+             .pll3_div2_4_2           2        2        0   100000000          0     0  50000         Y
+                ZT                    3        3        0   100000000          0     0  50000         Y
+                   eth1_chi           1        1        0   100000000          0     0  50000         Y
+                   eth0_chi           1        1        0   100000000          0     0  50000         Y
+                   lcdc_p             2        3        0   100000000          0     0  50000         Y
+                P2                    1        1        0   100000000          0     0  50000         Y
+                   dsi_pclk           1        1        0   100000000          0     0  50000         Y
+                   ia55_pclk          0        0        0   100000000          0     0  50000         N
+          .pll3_div2_2                0        0        0   400000000          0     0  50000         Y
+       .pll3_533                      1        2        0   533333333          0     0  50000         Y
+          M2                          1        1        0   266666666          0     0  50000         Y
+             M2_DIV2                  1        1        0   133333333          0     0  50000         Y
+                dsi_sys_clk           1        1        0   133333333          0     0  50000         Y
+          .sel_pll3_3                 0        1        0   533333333          0     0  50000         Y
+             divpl3c                  0        2        0   266666667          0     0  50000         Y
+                SPI1                  0        1        0    66666666          0     0  50000         Y
+                   spi_clk2           0        1        0    66666666          0     0  50000         N
+                SPI0                  0        1        0   133333333          0     0  50000         Y
+                   spi_clk            0        1        0   133333333          0     0  50000         N
+       .pll3_400                      0        0        0   400000000          0     0  50000         Y
+    .pll2                             3        3        0  1600000000          0     0  50000         Y
+       .clk_533                       0        0        0   533333333          0     0  50000         Y
+          .clk_266                    0        0        0   266666666          0     0  50000         Y
+       .clk_800                       1        1        0   800000000          0     0  50000         Y
+          .clk_400                    2        2        0   400000000          0     0  50000         Y
+             sd1                      2        2        0   400000000          0     0  50000         Y
+                sdhi1_clk_hs          1        1        0   400000000          0     0  50000         Y
+                SD1_DIV4              2        2        0   100000000          0     0  50000         Y
+                   sdhi1_imclk2       2        2        0   100000000          0     0  50000         Y
+                   sdhi1_imclk        1        1        0   100000000          0     0  50000         Y
+             sd0                      2        2        0   400000000          0     0  50000         Y
+                sdhi0_clk_hs          1        1        0   400000000          0     0  50000         Y
+                SD0_DIV4              2        2        0   100000000          0     0  50000         Y
+                   sdhi0_imclk2       2        2        0   100000000          0     0  50000         Y
+                   sdhi0_imclk        1        1        0   100000000          0     0  50000         Y
+       .pll2_div2                     2        2        0   800000000          0     0  50000         Y
+          .pll2_div2_10               1        1        0    80000000          0     0  50000         Y
+             TSU                      1        2        0    80000000          0     0  50000         Y
+                tsu_pclk              1        1        0    80000000          0     0  50000         Y
+                adc_adclk             0        1        0    80000000          0     0  50000         N
+          .pll2_div2_8                1        1        0   100000000          0     0  50000         Y
+             P0                       6       15        0   100000000          0     0  50000         Y
+                adc_pclk              0        1        0   100000000          0     0  50000         N
+                canfd                 1        2        0   100000000          0     0  50000         Y
+                rspi2                 0        0        0   100000000          0     0  50000         N
+                rspi1                 0        1        0   100000000          0     0  50000         N
+                rspi0                 0        0        0   100000000          0     0  50000         N
+                sci1                  0        0        0   100000000          0     0  50000         N
+                sci0                  0        0        0   100000000          0     0  50000         N
+                scif4                 0        0        0   100000000          0     0  50000         N
+                scif3                 0        0        0   100000000          0     0  50000         N
+                scif2                 0        1        0   100000000          0     0  50000         N
+                scif1                 0        0        0   100000000          0     0  50000         N
+                scif0                 2        2        0   100000000          0     0  50000         Y
+                i2c3                  0        1        0   100000000          0     0  50000         N
+                i2c2                  0        0        0   100000000          0     0  50000         N
+                i2c1                  0        1        0   100000000          0     0  50000         N
+                i2c0                  0        1        0   100000000          0     0  50000         N
+                ssi3_sfr              0        0        0   100000000          0     0  50000         N
+                ssi3_pclk             0        0        0   100000000          0     0  50000         N
+                ssi2_sfr              0        0        0   100000000          0     0  50000         N
+                ssi2_pclk             0        0        0   100000000          0     0  50000         N
+                ssi1_sfr              0        0        0   100000000          0     0  50000         N
+                ssi1_pclk             0        0        0   100000000          0     0  50000         N
+                ssi0_sfr              1        1        0   100000000          0     0  50000         Y
+                ssi0_pclk             1        1        0   100000000          0     0  50000         Y
+                wdt2_pclk             0        1        0   100000000          0     0  50000         N
+                wdt1_pclk             0        1        0   100000000          0     0  50000         N
+                wdt0_pclk             0        1        0   100000000          0     0  50000         N
+                ostm2_pclk            1        2        0   100000000          0     0  50000         Y
+                ostm1_clk             1        2        0   100000000          0     0  50000         Y
+                ostm0_pclk            0        0        0   100000000          0     0  50000         N
+                P0_DIV2               0        0        0    50000000          0     0  50000         Y
+       .pll2_533                      1        1        0   533333333          0     0  50000         Y
+          .pll2_533_div2              1        1        0   266666666          0     0  50000         Y
+             .div_dsi_lpclk           1        1        0    16666667          0     0  50000         Y
+                M4                    1        1        0    16666667          0     0  50000         Y
+                   dsi_lpclk          1        1        0    16666667          0     0  50000         Y
+    .pll1                             0        0        0  1200000000          0     0  50000         Y
+       I                              0        0        0  1200000000          0     0  50000         Y
+    .osc_div1000                      0        0        0       24000          0     0  50000         Y
+    .osc                              1        4        0    24000000          0     0  50000         Y
+       gpio                           1        2        0    24000000          0     0  50000         Y
+       wdt2_clk                       0        1        0    24000000          0     0  50000         N
+       wdt1_clk                       0        1        0    24000000          0     0  50000         N
+       wdt0_clk                       0        1        0    24000000          0     0  50000         N
+ can                                  0        0        0           0          0     0  50000         Y
+ audio_clk2                           0        0        0    12288000          0     0  50000         Y
+ audio_clk1                           0        0        0    11289600          0     0  50000         Y
+root@smarc-rzg2l:~#
+
+Biju Das (9):
+  clk: renesas: rzg2l: Add FOUTPOSTDIV clk support
+  clk: renesas: rzg2l: Add PLL5_4 clk mux support
+  clk: renesas: rzg2l: Add DSI divider clk support
+  clk: renesas: r9a07g044: Add M1 clock support
+  clk: renesas: r9a07g044: Add {M2, M2_DIV2} Clocks support
+  clk: renesas: r9a07g044: Add M3 Clock support
+  clk: renesas: r9a07g044: Add M4 Clock support
+  clk: renesas: r9a07g044: Add LCDC clock and reset entries
+  clk: renesas: r9a07g044: Add DSI clock and reset entries
+
+ drivers/clk/renesas/r9a07g044-cpg.c |  58 ++++-
+ drivers/clk/renesas/rzg2l-cpg.c     | 338 ++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.h     |  43 ++++
+ 3 files changed, 437 insertions(+), 2 deletions(-)
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.17.1
+
