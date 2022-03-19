@@ -2,81 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F8B4DE7BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Mar 2022 12:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBC0F4E18C3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Mar 2022 22:57:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240062AbiCSLzg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 19 Mar 2022 07:55:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
+        id S244273AbiCSV6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 19 Mar 2022 17:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238833AbiCSLze (ORCPT
+        with ESMTP id S244266AbiCSV6m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 19 Mar 2022 07:55:34 -0400
-X-Greylist: delayed 2315 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 19 Mar 2022 04:54:13 PDT
-Received: from mail.36gkh.ru (mail.36gkh.ru [176.107.162.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41F9269350;
-        Sat, 19 Mar 2022 04:54:13 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.36gkh.ru (Postfix) with ESMTP id 01FC318E2EDD;
-        Sat, 19 Mar 2022 14:13:55 +0300 (MSK)
-Received: from mail.36gkh.ru ([127.0.0.1])
-        by localhost (mail.36gkh.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id CRFqTx-kWGuE; Sat, 19 Mar 2022 14:13:55 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.36gkh.ru (Postfix) with ESMTP id C300E18E2F9F;
-        Sat, 19 Mar 2022 14:13:55 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at mail.36gkh.ru
-Received: from mail.36gkh.ru ([127.0.0.1])
-        by localhost (mail.36gkh.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id e3QTim6p31Za; Sat, 19 Mar 2022 14:13:55 +0300 (MSK)
-Received: from [23.229.34.108] (unknown [23.229.34.108])
-        by mail.36gkh.ru (Postfix) with ESMTPSA id D739218E2F8B;
-        Sat, 19 Mar 2022 14:13:52 +0300 (MSK)
-Content-Type: text/plain; charset="utf-8"
+        Sat, 19 Mar 2022 17:58:42 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6BAD260C74
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 19 Mar 2022 14:57:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=ZANJSblX0TZCK+Nkrd6vqR9UqAP
+        caPEfKPQvNgD9izI=; b=YXiVgMczmIRUgwOcbsjW3hk5n7YeHsNhVEtBE+zPJXv
+        pHb8seruffLBdnsMZvcq6BhUW9pnAUcRQioGMV3OfnSd+P2Tcw/Fvj151zZHXYc2
+        Ql17F+hiEdVtuzwvhuK0lKtDbCqY2K4Ly7lDS1ik8qMRuFVFLL+R6RWd9Lm2+YoU
+        =
+Received: (qmail 244794 invoked from network); 19 Mar 2022 22:57:16 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2022 22:57:16 +0100
+X-UD-Smtp-Session: l3s3148p1@JyGyWJnaoNwgAQnoAFEUAKkXZRZ8X9Wv
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-gpio@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 0/2] pinctrl: renesas: r8a77990: add drive-strength
+Date:   Sat, 19 Mar 2022 22:57:04 +0100
+Message-Id: <20220319215706.59519-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: SMAVA
-To:     Recipients <Mail.36gkh.ru@mail.36gkh.ru>
-From:   Mail.36gkh.ru@mail.36gkh.ru
-Date:   Sat, 19 Mar 2022 04:13:49 -0700
-Reply-To: samavaloan@outlook.com
-Message-Id: <20220319111352.D739218E2F8B@mail.36gkh.ru>
-X-Spam-Status: No, score=3.9 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-DOBRÝ DEN
+This series upports a BSP patch. Please check the notes on the patches.
 
-Potrebujete osobný alebo podnikatelský úver bez stresu a rýchleho schválenia? Pre viac informácií nám pošlite e-mail:
+Wolfram Sang (2):
+  pinctrl: renesas: allow up to 10 fields for drive_regs
+  pinctrl: renesas: r8a77990: add drive-strength
 
-  Celé meno:
-  Krajina:
-  Potrebná výška pôžicky:
-  Trvanie úveru:
-  Úcel pôžicky:
-  Sex:
-  adresa:
-  telefón):
+ drivers/pinctrl/renesas/pfc-r8a77990.c | 38 ++++++++++++++++++++++++--
+ drivers/pinctrl/renesas/sh_pfc.h       |  2 +-
+ 2 files changed, 37 insertions(+), 3 deletions(-)
 
+-- 
+2.30.2
 
-Upozornujeme, že ponúkame pôžicky aj jednotlivcom, firmám, investíciám atd.
-
-
-S pozdravom,
-==================================================== ==========================================
-
-  | Smava financial as
-
-E-mail: smavaloan@outlook.com
-******************************************************* ******************************************************* **************
-
-(C) 2007-2022 SMAVA. Všetky práva vyhradené.
