@@ -2,40 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B87604E1AD8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Mar 2022 10:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51E144E1B99
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Mar 2022 13:30:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243143AbiCTJ1O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Mar 2022 05:27:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53278 "EHLO
+        id S245077AbiCTMcF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Mar 2022 08:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243150AbiCTJ1L (ORCPT
+        with ESMTP id S245065AbiCTMcD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Mar 2022 05:27:11 -0400
+        Sun, 20 Mar 2022 08:32:03 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC21B3F33E
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Mar 2022 02:25:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BDEEF0AC
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Mar 2022 05:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=S6Fe2zTRzKD2nz
-        loiVC1QadhIbbmzBX7TlaW9WkSIlA=; b=CMPTPluSycGlH1YcgJx612GWPI7/iM
-        tFXVsRiA+z8ifZeCYp8F6g6rYlZBmDec2y2T5crpq3e3rpmzIDFAinCxPAcjLLVl
-        2U21mC6K+2KJcJH8oKARPa45Eo/4YMenuJLTwp0XKOX3SJvmpTw9fD10ry65Pv3H
-        Sg5KdDHZcQEGo=
-Received: (qmail 413121 invoked from network); 20 Mar 2022 10:25:47 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2022 10:25:47 +0100
-X-UD-Smtp-Session: l3s3148p1@ErH+9qLaArggAQnoAFbkANnMMFqLOUjD
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=LyZEibhHtlO/qw4MHivepLmzXwI
+        rfMLU/TYNPQ0JpjI=; b=Pkn8fr71SthIH6YYeeFUJQ57HQtvp04/5oOAoOmF0q3
+        26N4z96AikWMFL6Dl9jUNETcl8YA0remg8Wtf/2sKCH2nMorj7WilRPmO9ifyhm6
+        +hHy/xroplhdv0G89QrcMC3pAUZniodvw85dixUsUuFkg60cO1vGVgFGrQ5gB7JY
+        =
+Received: (qmail 461083 invoked from network); 20 Mar 2022 13:30:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2022 13:30:35 +0100
+X-UD-Smtp-Session: l3s3148p1@Xyjii6XaerkgAQnoAFbkANnMMFqLOUjD
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     linux-gpio@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Subject: [PATCH v2 2/2] pinctrl: renesas: r8a77990: add drive-strength
-Date:   Sun, 20 Mar 2022 10:25:42 +0100
-Message-Id: <20220320092542.2308-3-wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 0/6] mmc: renesas_sdhi: internal_dmac: updates after refactoring
+Date:   Sun, 20 Mar 2022 13:30:10 +0100
+Message-Id: <20220320123016.57991-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220320092542.2308-1-wsa+renesas@sang-engineering.com>
-References: <20220320092542.2308-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -48,101 +45,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to R-Car Gen3 HW documentation 2.20 onwards, drive-strength is
-introduced to r8a77990. It is also documented for r8a774c0. Add it to
-the pinctrl driver.
+Shimoda-san's much appreciated refactoring of the quirk handling allows
+for further cleanups which you can find in this series plus some other
+improvements found on the way. Finally, 'soc_dma_quirks' can be removed
+in favor of regular quirks.
 
-Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Changes since V1:
-* support RZ/G2E as well
+The series is based on mmc/next as of today and was tested on Salvator-X
+(H3 ES1.0), Salvator XS (H3 ES2.0 as well as M3-N).
 
-Original BSP commit: f479c5a4e5e5 ("pinctrl: renesas: r8a77990: Add driver-strength for R8A77990")
+Looking forward for tests and comments.
 
-However, this was incomplete and missed 6 pins of table 6D.6 which were
-on a separate page. Adding them simplifies PORT_GP updates a lot.
-However, a preparational patch is needed then which is patch 1 of this
-series.
+All the best,
 
- drivers/pinctrl/renesas/pfc-r8a77990.c | 39 ++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+   Wolfram
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77990.c b/drivers/pinctrl/renesas/pfc-r8a77990.c
-index f44c7da3ec16..bbd1cdada522 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77990.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77990.c
-@@ -22,12 +22,12 @@
- 	PORT_GP_CFG_18(0, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_23(1, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_26(2, fn, sfx, CFG_FLAGS), \
--	PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE), \
-+	PORT_GP_CFG_12(3, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE | SH_PFC_PIN_CFG_DRIVE_STRENGTH), \
- 	PORT_GP_CFG_1(3, 12, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_1(3, 13, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_1(3, 14, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_1(3, 15, fn, sfx, CFG_FLAGS), \
--	PORT_GP_CFG_11(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE), \
-+	PORT_GP_CFG_11(4, fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE | SH_PFC_PIN_CFG_DRIVE_STRENGTH), \
- 	PORT_GP_CFG_20(5, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_9(6, fn, sfx, CFG_FLAGS), \
- 	PORT_GP_CFG_1(6, 9, fn, sfx, SH_PFC_PIN_CFG_PULL_UP), \
-@@ -5104,6 +5104,39 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
- 	{ },
- };
- 
-+static const struct pinmux_drive_reg pinmux_drive_regs[] = {
-+	{ PINMUX_DRIVE_REG("DRVCTRL8", 0xe6060320) {
-+		{ RCAR_GP_PIN(3,  0), 18, 2 },	/* SD0_CLK */
-+		{ RCAR_GP_PIN(3,  1), 15, 2 },	/* SD0_CMD */
-+		{ RCAR_GP_PIN(3,  2), 12, 2 },	/* SD0_DAT0 */
-+		{ RCAR_GP_PIN(3,  3),  9, 2 },	/* SD0_DAT1 */
-+		{ RCAR_GP_PIN(3,  4),  6, 2 },	/* SD0_DAT2 */
-+		{ RCAR_GP_PIN(3,  5),  3, 2 },	/* SD0_DAT3 */
-+		{ RCAR_GP_PIN(3,  6),  0, 2 },	/* SD1_CLK */
-+	} },
-+	{ PINMUX_DRIVE_REG("DRVCTRL9", 0xe6060324) {
-+		{ RCAR_GP_PIN(3,  7), 29, 2 },	/* SD1_CMD */
-+		{ RCAR_GP_PIN(3,  8), 26, 2 },	/* SD1_DAT0 */
-+		{ RCAR_GP_PIN(3,  9), 23, 2 },	/* SD1_DAT1 */
-+		{ RCAR_GP_PIN(3, 10), 20, 2 },	/* SD1_DAT2 */
-+		{ RCAR_GP_PIN(3, 11), 17, 2 },	/* SD1_DAT3 */
-+		{ RCAR_GP_PIN(4,  0), 14, 2 },	/* SD3_CLK */
-+		{ RCAR_GP_PIN(4,  1), 11, 2 },	/* SD3_CMD */
-+		{ RCAR_GP_PIN(4,  2),  8, 2 },	/* SD3_DAT0 */
-+		{ RCAR_GP_PIN(4,  3),  5, 2 },	/* SD3_DAT1 */
-+		{ RCAR_GP_PIN(4,  4),  2, 2 },	/* SD3_DAT2 */
-+	} },
-+	{ PINMUX_DRIVE_REG("DRVCTRL10", 0xe6060328) {
-+		{ RCAR_GP_PIN(4,  5), 29, 2 },	/* SD3_DAT3 */
-+		{ RCAR_GP_PIN(4,  6), 26, 2 },	/* SD3_DAT4 */
-+		{ RCAR_GP_PIN(4,  7), 23, 2 },	/* SD3_DAT5 */
-+		{ RCAR_GP_PIN(4,  8), 20, 2 },	/* SD3_DAT6 */
-+		{ RCAR_GP_PIN(4,  9), 17, 2 },	/* SD3_DAT7 */
-+		{ RCAR_GP_PIN(4, 10), 14, 2 },	/* SD3_DS */
-+	} },
-+	{ },
-+};
-+
- enum ioctrl_regs {
- 	POCCTRL0,
- 	TDSELCTRL,
-@@ -5361,6 +5394,7 @@ const struct sh_pfc_soc_info r8a774c0_pinmux_info = {
- 	.nr_functions = ARRAY_SIZE(pinmux_functions.common),
- 
- 	.cfg_regs = pinmux_config_regs,
-+	.drive_regs = pinmux_drive_regs,
- 	.bias_regs = pinmux_bias_regs,
- 	.ioctrl_regs = pinmux_ioctrl_regs,
- 
-@@ -5387,6 +5421,7 @@ const struct sh_pfc_soc_info r8a77990_pinmux_info = {
- 		ARRAY_SIZE(pinmux_functions.automotive),
- 
- 	.cfg_regs = pinmux_config_regs,
-+	.drive_regs = pinmux_drive_regs,
- 	.bias_regs = pinmux_bias_regs,
- 	.ioctrl_regs = pinmux_ioctrl_regs,
- 
+Wolfram Sang (6):
+  mmc: renesas_sdhi: remove outdated headers
+  mmc: renesas_sdhi: R-Car D3 also has no HS400
+  mmc: renesas_sdhi: make setup selection more understandable
+  mmc: renesas_sdhi: remove a stale comment
+  mmc: renesas_sdhi: make 'fixed_addr_mode' a quirk
+  mmc: renesas_sdhi: make 'dmac_only_one_rx' a quirk
+
+ drivers/mmc/host/renesas_sdhi.h               |  2 +
+ drivers/mmc/host/renesas_sdhi_core.c          |  2 -
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 70 ++++++++-----------
+ 3 files changed, 33 insertions(+), 41 deletions(-)
+
 -- 
 2.30.2
 
