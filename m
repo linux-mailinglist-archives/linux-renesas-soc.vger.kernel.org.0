@@ -2,83 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D61C84E3C03
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Mar 2022 10:55:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F8D54E3F99
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Mar 2022 14:33:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232216AbiCVJ4z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Mar 2022 05:56:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37810 "EHLO
+        id S233715AbiCVNfL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Mar 2022 09:35:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232234AbiCVJ4w (ORCPT
+        with ESMTP id S233612AbiCVNfK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Mar 2022 05:56:52 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43FDE7E5BC
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Mar 2022 02:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=ZapqxcZIUvJ4Qn
-        ZHiW2gyk3DnG6ywmX+tceW2OqvBoA=; b=wothT5PdsRkwkjKKk/qDBJnZC34yzT
-        0qaXO8XtuRX3WDE65I44h0/SAkN/BrBwC8s75OfQ0SwbXdY28ttSAkdXsoeRFi02
-        5N9P0Lq5ofl59R9tTnYVrNQsGJYkwAVSoUp/U4Yd1NRo0LkC6BhfnhcjImrEUJwe
-        utQ742ZXH4kT4=
-Received: (qmail 1276172 invoked from network); 22 Mar 2022 10:55:22 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Mar 2022 10:55:22 +0100
-X-UD-Smtp-Session: l3s3148p1@BZV5nMvaSOsgAQnoAGKBAIBddhzCa5pi
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Tue, 22 Mar 2022 09:35:10 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8341D6C900
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Mar 2022 06:33:42 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:2570:2129:8411:150])
+        by laurent.telenet-ops.be with bizsmtp
+        id 9RZe2700N2VfmkD01RZe66; Tue, 22 Mar 2022 14:33:38 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nWedm-006CEP-BT
+        for linux-renesas-soc@vger.kernel.org; Tue, 22 Mar 2022 14:33:38 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nWedl-00A79U-TT
+        for linux-renesas-soc@vger.kernel.org; Tue, 22 Mar 2022 14:33:37 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     devicetree@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 5/5] arm64: dts: renesas: rcar-gen4: add interrupt property to the watchdog node
-Date:   Tue, 22 Mar 2022 10:55:12 +0100
-Message-Id: <20220322095512.4707-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220322095512.4707-1-wsa+renesas@sang-engineering.com>
-References: <20220322095512.4707-1-wsa+renesas@sang-engineering.com>
+Subject: renesas-drivers-2022-03-22-v5.17
+Date:   Tue, 22 Mar 2022 14:33:37 +0100
+Message-Id: <20220322133337.2410729-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Driver doesn't use it yet, but let's describe the HW properly.
+I have pushed renesas-drivers-2022-03-22-v5.17 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 1 +
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 1 +
- 2 files changed, 2 insertions(+)
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index c4be288b1912..39b1391c0cb2 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -81,6 +81,7 @@ rwdt: watchdog@e6020000 {
- 			compatible = "renesas,r8a779a0-wdt",
- 				     "renesas,rcar-gen3-wdt";
- 			reg = <0 0xe6020000 0 0x0c>;
-+			interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 907>;
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
- 			resets = <&cpg 907>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index b0241aa29fc8..df46fb87cffc 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -63,6 +63,7 @@ rwdt: watchdog@e6020000 {
- 			compatible = "renesas,r8a779f0-wdt",
- 				     "renesas,rcar-gen4-wdt";
- 			reg = <0 0xe6020000 0 0x0c>;
-+			interrupts = <GIC_SPI 515 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 907>;
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
- 			resets = <&cpg 907>;
--- 
-2.34.1
+Today's version is based on renesas-devel-2022-03-21-v5.17.
 
+Included branches with driver code:
+  - renesas-clk-for-v5.19
+  - renesas-pinctrl-for-v5.18
+  - topic/r8a779f0-wdt-v1
+  - topic/r8a779f0-i2c-v1
+  - topic/r8a779f0-gpio-v2
+
+Included fixes:
+  - gpio: add sloppy logic analyzer using polling
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.libc.org/linux-sh#for-next
+  - https://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
