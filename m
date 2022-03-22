@@ -2,125 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F8D54E3F99
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Mar 2022 14:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07F204E4643
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Mar 2022 19:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233715AbiCVNfL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Mar 2022 09:35:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
+        id S229472AbiCVSvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Mar 2022 14:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233612AbiCVNfK (ORCPT
+        with ESMTP id S229509AbiCVSu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Mar 2022 09:35:10 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8341D6C900
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Mar 2022 06:33:42 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:2570:2129:8411:150])
-        by laurent.telenet-ops.be with bizsmtp
-        id 9RZe2700N2VfmkD01RZe66; Tue, 22 Mar 2022 14:33:38 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nWedm-006CEP-BT
-        for linux-renesas-soc@vger.kernel.org; Tue, 22 Mar 2022 14:33:38 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nWedl-00A79U-TT
-        for linux-renesas-soc@vger.kernel.org; Tue, 22 Mar 2022 14:33:37 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2022-03-22-v5.17
-Date:   Tue, 22 Mar 2022 14:33:37 +0100
-Message-Id: <20220322133337.2410729-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 22 Mar 2022 14:50:59 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42BC8AE69
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Mar 2022 11:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647974971; x=1679510971;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=36UMbHEB++aPsu+bDTu3CxUmcPkaAe83iXrD2Y/TY+c=;
+  b=CTTpF9+yhRip2dNgvETL5sAJCuG7cUzFjaJugxa4h/oY1HfSLzecILOs
+   0ySdmL/sDTVE643Hb1LN5kI/10mb2ry9tywo7E9eUtxLGQCct/6T4fJ8f
+   Y3sdTlZiRZ4JUZt/R0VKhRNiIxtJ92b+iiRu3d0eUOdQIaJpJGm3hWOeu
+   CYkI5FW2Yxbc5kPF80grEErorayZNddCtfxKuNvIg1VzP3/ZwYaf/lm2t
+   9cqzcJ6N+RnRUBAHbpaf3KgxhjFmscslnkgxEklzPawXlXG1uJZkbdwZ/
+   jgeFj1g2p6ylwb9lvu1Zs1VNX2oXVyWZOshEou7zK4RVW1KBj7l/rUgMq
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="256740924"
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; 
+   d="scan'208";a="256740924"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2022 11:49:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,202,1643702400"; 
+   d="scan'208";a="649121935"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2022 11:49:29 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nWjZQ-000JBX-Rd; Tue, 22 Mar 2022 18:49:28 +0000
+Date:   Wed, 23 Mar 2022 02:48:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dave Airlie <airlied@redhat.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 64/99]
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c:391:12: error: incompatible function
+ pointer types initializing 'void (*)(struct spi_device *)' with an
+ expression of type 'int (struct spi_device *)'
+Message-ID: <202203230213.cy4sjibp-lkp@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2022-03-22-v5.17 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   6a5d6020e6854b38797ea17807457dcdc858aa29
+commit: a3b63172d757ac1a27e1f179585052f38e0ddd8c [64/99] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
+config: hexagon-randconfig-r045-20220322 (https://download.01.org/0day-ci/archive/20220323/202203230213.cy4sjibp-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2687a13d1908aa86d1b89c5ce398a06cd39)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=a3b63172d757ac1a27e1f179585052f38e0ddd8c
+        git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+        git fetch --no-tags geert-renesas-drivers master
+        git checkout a3b63172d757ac1a27e1f179585052f38e0ddd8c
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/tiny/
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Today's version is based on renesas-devel-2022-03-21-v5.17.
+All errors (new ones prefixed by >>):
 
-Included branches with driver code:
-  - renesas-clk-for-v5.19
-  - renesas-pinctrl-for-v5.18
-  - topic/r8a779f0-wdt-v1
-  - topic/r8a779f0-i2c-v1
-  - topic/r8a779f0-gpio-v2
+>> drivers/gpu/drm/tiny/panel-mipi-dbi.c:391:12: error: incompatible function pointer types initializing 'void (*)(struct spi_device *)' with an expression of type 'int (struct spi_device *)' [-Werror,-Wincompatible-function-pointer-types]
+           .remove = panel_mipi_dbi_spi_remove,
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-Included fixes:
-  - gpio: add sloppy logic analyzer using polling
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+vim +391 drivers/gpu/drm/tiny/panel-mipi-dbi.c
 
-Gr{oetje,eeting}s,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  381  
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  382  static struct spi_driver panel_mipi_dbi_spi_driver = {
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  383  	.driver = {
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  384  		.name = "panel-mipi-dbi-spi",
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  385  		.owner = THIS_MODULE,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  386  		.of_match_table = panel_mipi_dbi_spi_of_match,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  387  		.pm = &panel_mipi_dbi_pm_ops,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  388  	},
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  389  	.id_table = panel_mipi_dbi_spi_id,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  390  	.probe = panel_mipi_dbi_spi_probe,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27 @391  	.remove = panel_mipi_dbi_spi_remove,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  392  	.shutdown = panel_mipi_dbi_spi_shutdown,
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  393  };
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  394  module_spi_driver(panel_mipi_dbi_spi_driver);
+0e65e2e6abb09d8 Noralf Trønnes 2022-02-27  395  
 
-						Geert
+:::::: The code at line 391 was first introduced by commit
+:::::: 0e65e2e6abb09d84a75c51999e3a6cf80f30c929 drm/tiny: Add MIPI DBI compatible SPI driver
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+:::::: TO: Noralf Trønnes <noralf@tronnes.org>
+:::::: CC: Maxime Ripard <maxime@cerno.tech>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
