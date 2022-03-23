@@ -2,123 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1BE64E5859
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 19:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A418C4E5893
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 19:41:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245682AbiCWS2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Mar 2022 14:28:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45368 "EHLO
+        id S1343835AbiCWSnO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Mar 2022 14:43:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231986AbiCWS2F (ORCPT
+        with ESMTP id S240166AbiCWSnO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Mar 2022 14:28:05 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2113.outbound.protection.outlook.com [40.107.114.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B047892F;
-        Wed, 23 Mar 2022 11:26:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aK9MEcwTy5MshxUedVDEkWr2rh/JzAtw+4X7lQWW5uQpaYUcZrvZkWXGARimHBiPZWFBZxW1BRsxRTSG9yQnNQzqzX+UtxVU3n/kFIeUsrN8ZVagk/xL1xXm7Ak1s1iZ0L75hqcCYwWCAAPGndayNFTLRUBOsuFwL+sCrvLnQY8CNfrURgLuyTOzyulIHLKf7KA59keKNZUhmPfGWK4k7RrrR23BXjbTWChrph4DVg0/c/SXicAYH0rlOfSrR7yr30M8falD26M2dw8NJRsWGqo4o87Ztmaf+mwnJCmGCZL0d97CdHqjbPnPQOoXqahKFX0wxwhpleKyIEBc9CEBqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/DhOY2/sIpJnoMqUyKSt4WTpmoo3pG5jHqNtQKmzlPk=;
- b=So6RYR2ZRx+jjjsWX3AL0glSed4OZtWfacmYNJwQYNP7tPeSSAMKaXupJ8yo1ptE3uUzzsJsuIMwUTR/GA0WnF3FUekjrljTBI8VaJtGO59Ks1jANeil+RIflPwvIuv1j5XFpzyabUZn1q/Thy8EfDUKyeUMhxjkTAvL6POHV3cElL9UfiQYi6CbUEx0q278mksJWdeqbdNRyVAJsGQItz0LH6/o3in59iz7KP0Ml80cKI6Q4/4VmoKJpWIaBE5xxLn2pYqu5do/VN96jQn4j5zVJVa+jhdV3MMgjrxwtPQ1pWnRZ9nFsynu4KbOZoSAaMBp2Y0NwbtNo+dDn68llg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/DhOY2/sIpJnoMqUyKSt4WTpmoo3pG5jHqNtQKmzlPk=;
- b=XTSqWuibHDYblDQRxQRj7vJrsgTe2dqUfdVkl7U9arJEGYEKXm1hWwbb2/NALXfbZhKjZCNETBgGwv/bZCfTRP0TCKl1+NbochfK0A0zEH1k/861xoE1sY0fXdLPXrVraHMDjqcI6Eb3flfQrzIwZhHDlKDJ+EBYXGvbDJI80G8=
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
- by OS3PR01MB9382.jpnprd01.prod.outlook.com (2603:1096:604:1ce::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.17; Wed, 23 Mar
- 2022 18:26:31 +0000
-Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::2c9d:7128:8d19:7a24]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
- ([fe80::2c9d:7128:8d19:7a24%8]) with mapi id 15.20.5081.023; Wed, 23 Mar 2022
- 18:26:31 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Wed, 23 Mar 2022 14:43:14 -0400
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC5289306;
+        Wed, 23 Mar 2022 11:41:44 -0700 (PDT)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so2609217fac.7;
+        Wed, 23 Mar 2022 11:41:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QO/s30AeDsz4+7g7RPmSLLhafA+HggffAhCY8fOimp4=;
+        b=3bE7S3UYKrpZE0EiinDTtwb0iK1PYTHHVBi33ItjLkf7Z8MQSdXeCB6EOMfw8dzjH3
+         nf29ot7iUZoShxI8jwvtqCCTrzMt/5fw85tp3mYYDqwyw/rIZN3Xrycln1d+GkqMGNJ1
+         d+kUCS1uK7Cgt+8xiI9sYNb4O7q17AGrxsOkR8TlXbRPGCbFh0OzwCmpKPPpwW9j9QLe
+         ig3HjkIxrqYm9w9X8F9Z1Udd8eYroCilk/D9xbt0A7Zlyb2jrKfIYILVSdyKVCy1ZcNy
+         6HVcVVBg80ZjXqikRLCVrnnsf6R/cKdJMQ6NVVwsl3MI+URmkKVPnb2McDTfQQpi4ggL
+         WKBA==
+X-Gm-Message-State: AOAM530tASDtWspFOYDqrW74+oX2efld1SQPIPunlZnIW4ACpwh177w3
+        25Tq8iWIsjRQl6bkHCCCSViQl15SIw==
+X-Google-Smtp-Source: ABdhPJz5YJ2IIuFHvJtu1d/UgA2ZlStrJ3l8Wbd96hiER8iVwRTTGn6pTseDKC9xwVQeMOPlRHWnDw==
+X-Received: by 2002:a05:6870:eaa5:b0:da:b3f:2b45 with SMTP id s37-20020a056870eaa500b000da0b3f2b45mr5027313oap.228.1648060903981;
+        Wed, 23 Mar 2022 11:41:43 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p12-20020a4a95cc000000b003246cd15eaasm361216ooi.2.2022.03.23.11.41.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Mar 2022 11:41:42 -0700 (PDT)
+Received: (nullmailer pid 232472 invoked by uid 1000);
+        Wed, 23 Mar 2022 18:41:42 -0000
+Date:   Wed, 23 Mar 2022 13:41:42 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
- DSI TX bindings
-Thread-Topic: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
- DSI TX bindings
-Thread-Index: AQHYN739eKkm02BV80+gG/89zR29V6zNVP+AgAABAfA=
-Date:   Wed, 23 Mar 2022 18:26:31 +0000
-Message-ID: <TYCPR01MB593341D2E966F3C60ADAC8E986189@TYCPR01MB5933.jpnprd01.prod.outlook.com>
-References: <20220314161004.14765-1-biju.das.jz@bp.renesas.com>
- <20220314161004.14765-2-biju.das.jz@bp.renesas.com>
- <YjtkMxC0X7mMvMKX@robh.at.kernel.org>
-In-Reply-To: <YjtkMxC0X7mMvMKX@robh.at.kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5cd013b6-21b1-4f32-08ee-08da0cfaa782
-x-ms-traffictypediagnostic: OS3PR01MB9382:EE_
-x-microsoft-antispam-prvs: <OS3PR01MB9382A18D32A8B3BB7A199E2686189@OS3PR01MB9382.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kBJvKI1Kgr5ww0xxb+6ids2HVRgUM1OYz+DtC7GpNgV3Exv578T58JPTdqtww3MxseERC6jBqAN1O4bwA81OVaiYJVqX11+eA/smJa1fSo7SvHcNfWvpPz8A6VnLedQg257MbUcPAs/K05F6V8Eo+wQ/34+zQV/9V67I6xEq/Wx0ZGC7HeBKGtVPpgnw68g+0OXEwI82Z6zaC8w7Zt+xbU4ey30Wc4IbBbCHj0sO9HPQhblnhrPdLaZGKAGHG6sAPR7HzRbZfOf1CrXr4ZUI1pGVdQdCBur5ptjuSa83hvwX+WVR3WnY2VxQKnoE+GIqEqK+Q57s/dzEFYY7hpVIsYpzSUi7P8o2hIgnyY9xpLhnvdLiaaTbKBG7fiMT+LU2oXLgdqgo9LkQOSU919Mx+wdE0/Mf/1O8SiDzJMXAa4iVPSC8Ht09i25c9XyiXg3bZfoenq6TAsUOWQ3Z0u6V4SYf6Rlrs7PNJ6bBDb2+wQp7gdQmIDBwMRqQjjXRaIp4Dk5GlTJ41uYaAXsm3YiYfGs8QXbfSSHNDH4vKclVRUZZ2m/phrmyCba5+GD6XJneEi6plLh705AvEsRyicHXSQIwg3AfKyTrjFSLt5WY21KoF9CYDDlfPNKLQntdONZS5xdTaGkmbNNlBZk+1aTN6+dJ+tPJ7hSfmWoYon52uI1ya446nAGcBMOVqjW4W5fnfinPEeLeUQlNsWy/6dox4g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(55016003)(52536014)(38070700005)(508600001)(8936002)(71200400001)(33656002)(4326008)(64756008)(122000001)(5660300002)(8676002)(316002)(66446008)(66946007)(2906002)(38100700002)(86362001)(66476007)(66556008)(76116006)(6916009)(54906003)(83380400001)(6506007)(9686003)(7696005)(26005)(186003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4Xb36G7rd19caPXnlfkYtZaDjh3mj6CR8mFZRrP/THSxmH7fjtMFS7dPN3bP?=
- =?us-ascii?Q?QvUWda3l7dJW7hwhLgXqeq9Q7KxTdjAMrzRw/j0NSEkFYrT9/lzlnzhkIwog?=
- =?us-ascii?Q?H9GNpJjri6WJnucJACYSkE+IldqP/TshFRsqq1yQAcQgJz16RYBZsnFMXs3y?=
- =?us-ascii?Q?52oHGLdbS5M3x8AmAA/cpPTDrqZywMHSLhFf4x/CyiULEsY7/c//xa0czaqk?=
- =?us-ascii?Q?jpX1QcWLTEh4koGemkz16oNHws1QeEKQlwnIYUa+PWwJBc+OJyyl3pVtU7EE?=
- =?us-ascii?Q?BDebmFxR45h/u1kfg76A2P6EAu1ySNDszAjVHC6iwzWFPb/lL6VkV80YjFpf?=
- =?us-ascii?Q?JmVr61BZfP5YDkG2cKDnZPMuEbnzKJqyEZqGkU2HaKDY2IHthkG6KDTw3hfI?=
- =?us-ascii?Q?Trq9pkSg756nVEjXYp2/c7IWmG9w9XDe1CCCPUrV17+KDOpoqBTR8cCAsYax?=
- =?us-ascii?Q?Zo9d205PqD3OD0W9fScrVJdB/roeqCzDlpcr9MF5K99W9wz4WgzFEIZkA418?=
- =?us-ascii?Q?OgTO+XYwZ7MChCSyqqm3Q3SCcoVFzf2Wb3fY0CJDc3WhvDtpll7vY+Ba03OD?=
- =?us-ascii?Q?302ZFkGo0d6wW7YxRaitf+jUXO+cL1IlveJFRxKg9O35cPcpuEFWfMn/Vxfn?=
- =?us-ascii?Q?EKIKsj5R4Bq2OQ4tYGCwlkK2Jtk/tHozI4O3UXq4M8Zx0JwwhqgKDmnzxXNC?=
- =?us-ascii?Q?gW9xtiqri66jsuUuuUzbd+NhufdbfgX2wLPNJbl1ydIykYTSAucG1B2jHmfj?=
- =?us-ascii?Q?jwwnGNLRj+LjCQ0Y1QnPLKMKKf50oxrGPd7qMzJWZXDWat9ZBkq2NaaqJVzE?=
- =?us-ascii?Q?mEleRh2PFu0q2gNLuL8B27+OyciJHRKnjvdb7gAeTQ09eDn8V5RC0OZrOZfi?=
- =?us-ascii?Q?iC/Cs57U0AeERozbQMcAOHhGKkjLTD2G6nkz0ph2xIcMHqHv79TvekrWoLF9?=
- =?us-ascii?Q?vui0lkZA24hvoK5GDD//+i3A5GEY90DCALdkRRXpmdDBq4EUyFITUJ/xbV9n?=
- =?us-ascii?Q?TFDTWx7+EwmpZibthFce4JaV/iGHES8hFc5C62ufimhu+/hhBAeSLWDvkLkK?=
- =?us-ascii?Q?ulHUCizRHdLFo124DBCdDvBaS8LOjCJea5sFO9UbKZ1mvIZeRQrZFTgYcgv7?=
- =?us-ascii?Q?PMPCoyK2JTk1GkRbqdvtfVGuIofiA2owOduSgZpEBg62ywByOZpOhY63D7gx?=
- =?us-ascii?Q?t3SAiRYVQtzfmbYKxfaD7nsnfkjeBExAKoR35Zwq1Re7riV0g6a8P7uyNmsp?=
- =?us-ascii?Q?RCJ+/rugw6hQSinRB9fFjhdvpnICJIpZ4zTN547Zey4UC3DR8jRCXlJonSoi?=
- =?us-ascii?Q?c6r+9UwnfF315dKnOU5spa038jYmmMy9oCZ2IkYa20GQm9HNED61GQDcQT04?=
- =?us-ascii?Q?nmyyFEdRypPRJc6c/SiwJv9cja1pxCwPnze8mNHKkHEK+9kzN7AXlCNX014F?=
- =?us-ascii?Q?TWefYSe3oEHV/2Ubn24KnDH0t7e0Jg6on00aqBFwFpHct5cRBJTBLw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] dt-bindings: clock: Add R9A07G043 CPG Clock and
+ Reset Definitions
+Message-ID: <Yjtp5gTD6PaKMqCW@robh.at.kernel.org>
+References: <20220315142644.17660-1-biju.das.jz@bp.renesas.com>
+ <20220315142644.17660-4-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cd013b6-21b1-4f32-08ee-08da0cfaa782
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2022 18:26:31.7165
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cX2Ci8rDrsGtgUcZgKrwZ7WYGYL/yJsDsZMCoOPWyE6OFfGQwdxBnXYQMLMQGoYLhcJ72pa/YpjIPU6D+M61bC/xfL1OSptf7wWXTqO3EHc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9382
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220315142644.17660-4-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -126,213 +69,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On Tue, 15 Mar 2022 14:26:40 +0000, Biju Das wrote:
+> Define RZ/G2UL (R9A07G043U) Clock Pulse Generator Core Clock and module
+> clock outputs, as listed in Table 7.1.4.2 ("Clock List r0.51") and also
+> add Reset definitions referring to registers CPG_RST_* in Section 7.2.3
+> ("Register configuration") of the RZ/G2UL Hardware User's Manual (Rev.
+> 0.51, Nov. 2021).
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Removed leading u/U from r9a07g043
+>  * renamed the file r9a07g043u-cpg.h->r9a07g043-cpg.h
+>  * Prepared Common Module Clock/Reset indices for RZ/G2UL and RZ/Five
+>  * Prepared RZ/G2UL specific Module Clock/Reset indices.
+> v1->v2:
+>  * No change
+> ---
+>  include/dt-bindings/clock/r9a07g043-cpg.h | 190 ++++++++++++++++++++++
+>  1 file changed, 190 insertions(+)
+>  create mode 100644 include/dt-bindings/clock/r9a07g043-cpg.h
+> 
 
-Thanks for the feedback.
-
-> Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Document RZ/G2L
-> MIPI DSI TX bindings
->=20
-> On Mon, Mar 14, 2022 at 04:10:02PM +0000, Biju Das wrote:
-> > The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's.
-> > It can operate in DSI mode, with up to four data lanes.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > RFC->v1:
-> >  * Added a ref to dsi-controller.yaml.
-> > RFC:-
-> >  *
-> > ---
-> >  .../bindings/display/bridge/renesas,dsi.yaml  | 146
-> > ++++++++++++++++++
-> >  1 file changed, 146 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> > new file mode 100644
-> > index 000000000000..74bc3782d230
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yam
-> > +++ l
-> > @@ -0,0 +1,146 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > +---
-> > +$id:
-> > +
-> > +title: Renesas RZ/G2L MIPI DSI Encoder
-> > +
-> > +maintainers:
-> > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > +
-> > +description: |
-> > +  This binding describes the MIPI DSI encoder embedded in the Renesas
-> > +  RZ/G2L family of SoC's. The encoder can operate in DSI mode with up
-> > +  to four data lanes.
-> > +
-> > +allOf:
-> > +  - $ref: ../dsi-controller.yaml#
->=20
-> Full path preferred:
->=20
-> /schemas/display/dsi-controller.yaml#
-
-OK. Will fix this.
-
->=20
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - renesas,rzg2l-mipi-dsi # RZ/G2L and RZ/V2L
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: Link register
-> > +      - description: D-PHY register
->=20
-> D-PHY is not a separate block?
-
-Basically D-PHY is integrated inside MIPI-DSI Tx module.
-
-MIPI-DSI Tx module consists of MIPI DSI-2 Host controller (LINK)
-and MIPI D-PHY Tx(D-PHY).
-
-That is the reason I have modelled like this.
-
-Is this model ok or am I missing something here? Please let me know.
-
->=20
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: DSI D-PHY PLL multiplied clock
-> > +      - description: DSI D-PHY system clock
-> > +      - description: DSI AXI bus clock
-> > +      - description: DSI Register access clock
-> > +      - description: DSI Video clock
-> > +      - description: DSI D_PHY Escape mode Receive clock
->=20
-> D-PHY
-OK, Will fix this.
-
-Regards,
-Biju
->=20
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: pllclk
-> > +      - const: sysclk
-> > +      - const: aclk
-> > +      - const: pclk
-> > +      - const: vclk
-> > +      - const: lpclk
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: MIPI_DSI_CMN_RSTB
-> > +      - description: MIPI_DSI_ARESET_N
-> > +      - description: MIPI_DSI_PRESET_N
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: rst
-> > +      - const: arst
-> > +      - const: prst
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Parallel input port
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: DSI output port
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                maxItems: 4
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - power-domains
-> > +  - resets
-> > +  - reset-names
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +
-> > +    dsi0: dsi@10860000 {
-> > +        compatible =3D "renesas,rzg2l-mipi-dsi";
-> > +        reg =3D <0x10860000 0x10000>,
-> > +              <0x10850000 0x10000>;
-> > +        power-domains =3D <&cpg>;
-> > +        clocks =3D <&cpg CPG_MOD R9A07G044_MIPI_DSI_PLLCLK>,
-> > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_SYSCLK>,
-> > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_ACLK>,
-> > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_PCLK>,
-> > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_VCLK>,
-> > +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_LPCLK>;
-> > +        clock-names =3D "pllclk", "sysclk", "aclk", "pclk", "vclk",
-> "lpclk";
-> > +        resets =3D <&cpg R9A07G044_MIPI_DSI_CMN_RSTB>,
-> > +                 <&cpg R9A07G044_MIPI_DSI_ARESET_N>,
-> > +                 <&cpg R9A07G044_MIPI_DSI_PRESET_N>;
-> > +        reset-names =3D "rst", "arst", "prst";
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                dsi0_in: endpoint {
-> > +                    remote-endpoint =3D <&du_out_dsi0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@1 {
-> > +                reg =3D <1>;
-> > +                dsi0_out: endpoint {
-> > +                    data-lanes =3D <1 2 3 4>;
-> > +                    remote-endpoint =3D <&adv7535_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > --
-> > 2.17.1
-> >
-> >
+Acked-by: Rob Herring <robh@kernel.org>
