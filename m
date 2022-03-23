@@ -2,264 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A044E5AFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 23:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47C224E5B18
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 23:11:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345071AbiCWWBo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Mar 2022 18:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55972 "EHLO
+        id S1345119AbiCWWNC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Mar 2022 18:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbiCWWBn (ORCPT
+        with ESMTP id S241228AbiCWWNA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Mar 2022 18:01:43 -0400
-X-Greylist: delayed 454 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Mar 2022 15:00:11 PDT
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CFE593A2;
-        Wed, 23 Mar 2022 15:00:11 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 483E13C003B;
-        Wed, 23 Mar 2022 22:52:35 +0100 (CET)
-Received: from lxhi-065 (10.72.94.3) by hi2exch02.adit-jv.com (10.72.92.28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.21; Wed, 23 Mar
- 2022 22:52:34 +0100
-Date:   Wed, 23 Mar 2022 22:52:29 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v2] i2c: rcar: add SMBus block read support
-Message-ID: <20220323215229.GA9403@lxhi-065>
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
- <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>
- <000001d7badd$a8512d30$f8f38790$@mentor.com>
- <20211006182314.10585-1-andrew_gabbasov@mentor.com>
- <Yg6ls0zyTDe7LQbK@kunai>
+        Wed, 23 Mar 2022 18:13:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2C98EB70;
+        Wed, 23 Mar 2022 15:11:29 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61EDC9DE;
+        Wed, 23 Mar 2022 23:11:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1648073487;
+        bh=Cu9CS4EcUA66RrE2+hvm21/iwXWcI2SNQFBnwa7VelA=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=uduwI57/WGxWM6rcFpc626bfNvb2SR3SMatQIGW1ipk/Y8xEd+K6E01T46HcdhFiM
+         1V1NJQz2j18mbjdGYmWLd4CBPAWIBsGjLdDjKAC8jLHIad4Gofq9YF6N3aAWdW4Ijp
+         pMC9Lw+frXy8hsuRmAMc5qazgKOdiUiw+xWzziJU=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Yg6ls0zyTDe7LQbK@kunai>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.94.3]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
+References: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com> <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com> <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        open list <linux-kernel@vger.kernel.org>
+To:     Doug Anderson <dianders@chromium.org>
+Date:   Wed, 23 Mar 2022 22:11:25 +0000
+Message-ID: <164807348512.1092274.4092058426102648400@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear Wolfram,
-Dear Andrew,
-Dear Geert,
+Quoting Doug Anderson (2022-03-23 21:47:17)
+> Hi,
+>=20
+> On Thu, Mar 17, 2022 at 6:13 AM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+> >
+> > @@ -1241,9 +1350,32 @@ static int ti_sn_bridge_probe(struct auxiliary_d=
+evice *adev,
+> >         pdata->bridge.type =3D pdata->next_bridge->type =3D=3D DRM_MODE=
+_CONNECTOR_DisplayPort
+> >                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_=
+CONNECTOR_eDP;
+> >
+> > -       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+> > +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) {
+> >                 pdata->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+> >
+> > +               if (!pdata->no_hpd)
+> > +                       pdata->bridge.ops |=3D DRM_BRIDGE_OP_DETECT;
+> > +       }
+> > +
+> > +       if (!pdata->no_hpd && pdata->irq > 0) {
+> > +               ret =3D devm_request_threaded_irq(pdata->dev, pdata->ir=
+q, NULL,
+> > +                                               ti_sn65dsi86_irq_handle=
+r,
+> > +                                               IRQF_ONESHOT, "sn65dsi8=
+6-irq",
+> > +                                               pdata);
+> > +               if (ret)
+> > +                       return dev_err_probe(pdata->dev, ret,
+> > +                                            "Failed to register DP int=
+errupt\n");
+> > +
+> > +               /* Enable IRQ based HPD */
+> > +               pdata->bridge.ops |=3D DRM_BRIDGE_OP_HPD;
+> > +
+> > +               /*
+> > +                * Keep the IRQ disabled initially. It will only be ena=
+bled when
+> > +                * requested through ti_sn_bridge_hpd_enable().
+> > +                */
+> > +               disable_irq(pdata->irq);
+>=20
+> Instead, I think you should use `IRQF_NO_AUTOEN` which makes sure that
+> no matter what the state of the hardware is your IRQ won't fire
+> "early". ...and, of course, it saves a line of code. ;-)
+>=20
+> Other than that this looks nice to me now so feel free to add my
 
-A couple of questions and test results below.
+Aha, thanks, - didn't realise I could do that. I'll remove the
+disable_irq, and move the coment above devm_request_threaded_irq, it
+still makes sense there with the flag.
 
-On Thu, Feb 17, 2022 at 08:44:51PM +0100, Wolfram Sang wrote:
-> Hi Andrew,
-> 
-> first sorry that it took so long. The reason here is that my original
-> plan was to add 256-byte support to RECV_LEN in the I2C core and enable
-> it on R-Car afterwards. Sadly, I never found the time to drive this
-> forward. So, all RECV_LEN things got stuck for a while :(
-> 
-> > This patch (adapted) was tested with v4.14, but due to lack of real
-> > hardware with SMBus block read operations support, using "simulation",
-> > that is manual analysis of data, read from plain I2C devices with
-> > SMBus block read request.
-> 
-> You could wire up two R-Car I2C instances, set up one as an I2C slave
-> handled by the I2C testunit and then use the other instance with
-> SMBUS_BLOCK_PROC_CALL which also needs RECV_LEN. Check
-> Documentation/i2c/slave-testunit-backend.rst for details.
+I believe I've got the format handling solved on the NO_CONNECTOR patch
+from Rob/Sam, so I'm just waiting for some spare cycles to get back and
+clean up - and repost the whole of this work as a new series,
+incorporating Sam, Rob and Laurent's work with this on top.
 
-I am obviously not an SMBus expert, but I wonder if simply testing the
-PCA9654 I/O Expander with SMBus support on the H3-Salvator-X target
-could be acceptable as a test procedure? See some test results below.
+--
+Kieran
 
-> 
-> I wonder a bit about the complexity of your patch. In my WIP-branch for
-> 256-byte transfers, I have the following patch. It is only missing the
-> range check for the received byte, but that it easy to add. Do you see
-> anything else missing? If not, I prefer this simpler version because it
-> is less intrusive and the state machine is a bit fragile (due to HW
-> issues with old HW).
-> 
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Date: Sun, 2 Aug 2020 00:24:52 +0200
-> Subject: [PATCH] i2c: rcar: add support for I2C_M_RECV_LEN
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/i2c/busses/i2c-rcar.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-> index 217def2d7cb4..e473f5c0a708 100644
-> --- a/drivers/i2c/busses/i2c-rcar.c
-> +++ b/drivers/i2c/busses/i2c-rcar.c
-> @@ -528,6 +528,7 @@ static void rcar_i2c_irq_send(struct rcar_i2c_priv *priv, u32 msr)
->  static void rcar_i2c_irq_recv(struct rcar_i2c_priv *priv, u32 msr)
->  {
->  	struct i2c_msg *msg = priv->msg;
-> +	bool recv_len_init = priv->pos == 0 && msg->flags & I2C_M_RECV_LEN;
->  
->  	/* FIXME: sometimes, unknown interrupt happened. Do nothing */
->  	if (!(msr & MDR))
-> @@ -542,11 +543,13 @@ static void rcar_i2c_irq_recv(struct rcar_i2c_priv *priv, u32 msr)
->  	} else if (priv->pos < msg->len) {
->  		/* get received data */
->  		msg->buf[priv->pos] = rcar_i2c_read(priv, ICRXTX);
-> +		if (recv_len_init)
-> +			msg->len += msg->buf[0];
->  		priv->pos++;
->  	}
->  
->  	/* If next received data is the _LAST_, go to new phase. */
-> -	if (priv->pos + 1 == msg->len) {
-> +	if (priv->pos + 1 == msg->len && !recv_len_init) {
->  		if (priv->flags & ID_LAST_MSG) {
->  			rcar_i2c_write(priv, ICMCR, RCAR_BUS_PHASE_STOP);
->  		} else {
-> @@ -889,7 +892,7 @@ static u32 rcar_i2c_func(struct i2c_adapter *adap)
->  	 * I2C_M_IGNORE_NAK (automatically sends STOP after NAK)
->  	 */
->  	u32 func = I2C_FUNC_I2C | I2C_FUNC_SLAVE |
-> -		   (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
-> +		   (I2C_FUNC_SMBUS_EMUL_ALL & ~I2C_FUNC_SMBUS_QUICK);
->  
->  	if (priv->flags & ID_P_HOST_NOTIFY)
->  		func |= I2C_FUNC_SMBUS_HOST_NOTIFY;
-> 
 
-############################################################
-################# PATCH-INDEPENDENT OUTPUT #################
-############################################################
-
-## .config: https://gist.github.com/erosca/690c3e6065b55546e511f9ef8ba59625
-## i2c-tools: https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/commit/?id=cf3541b8a7
-
-root@rcar-gen3:# uname -r
-5.17.0+
-
-root@rcar-gen3:# cat /sys/firmware/devicetree/base/model 
-Renesas Salvator-X board based on r8a77951
-
-root@rcar-gen3:# i2cdetect -l     
-i2c-7   i2c             e60b0000.i2c                            I2C adapter
-i2c-2   i2c             e6510000.i2c                            I2C adapter
-i2c-4   i2c             e66d8000.i2c                            I2C adapter
-    ^
-     ` i2c-4 is the PCA9654 I/O Expander with SMBus protocol support
-
-root@rcar-gen3:# i2cdetect -y -r 4
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-00:                         -- -- -- -- -- -- -- -- 
-10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-20: UU -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-60: UU UU UU UU UU UU -- -- 68 -- UU -- -- -- -- -- 
-70: UU UU UU UU UU UU -- --      
-
-############################################################
-###################### VANILLA v5.17 #######################
-############################################################
-
-root@rcar-gen3:# i2cdetect -F 4
-Functionalities implemented by /dev/i2c-4:
-I2C                              yes
-SMBus Quick Command              no
-SMBus Send Byte                  yes
-SMBus Receive Byte               yes
-SMBus Write Byte                 yes
-SMBus Read Byte                  yes
-SMBus Write Word                 yes
-SMBus Read Word                  yes
-SMBus Process Call               yes
-SMBus Block Write                yes
-SMBus Block Read                 no	<<<--- We aim to enable this
-SMBus Block Process Call         no
-SMBus PEC                        yes
-I2C Block Write                  yes
-I2C Block Read                   yes
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 i 8
-0x08 0xff 0x06 0xff 0x5f 0xff 0x11 0x08
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 s
-Error: Adapter does not have SMBus block read capability
-
-############################################################
-#################### ANDREW'S V2 PATCH #####################
-############################################################
-
-root@rcar-gen3:# i2cdetect -F 4
-Functionalities implemented by /dev/i2c-4:
-I2C                              yes
-SMBus Quick Command              no
-SMBus Send Byte                  yes
-SMBus Receive Byte               yes
-SMBus Write Byte                 yes
-SMBus Read Byte                  yes
-SMBus Write Word                 yes
-SMBus Read Word                  yes
-SMBus Process Call               yes
-SMBus Block Write                yes
-SMBus Block Read                 yes 	<<<--- Enabled (tested below)
-SMBus Block Process Call         no
-SMBus PEC                        yes
-I2C Block Write                  yes
-I2C Block Read                   yes
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 i 8
-0x08 0xff 0x06 0xff 0x5f 0xff 0x11 0x08
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 s
-0x08 0xff 0x06 0xff 0x5f 0xff 0x11 0x08
-
-############################################################
-##################### WOLFRAM'S PATCH ######################
-############################################################
-
-root@rcar-gen3:# i2cdetect -F 4
-Functionalities implemented by /dev/i2c-4:
-I2C                              yes
-SMBus Quick Command              no
-SMBus Send Byte                  yes
-SMBus Receive Byte               yes
-SMBus Write Byte                 yes
-SMBus Read Byte                  yes
-SMBus Write Word                 yes
-SMBus Read Word                  yes
-SMBus Process Call               yes
-SMBus Block Write                yes
-SMBus Block Read                 yes	<<<--- Enabled (tested)
-SMBus Block Process Call         yes	<<<--- Enabled (not tested)
-SMBus PEC                        yes
-I2C Block Write                  yes
-I2C Block Read                   yes
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 i 8
-0x08 0xff 0x06 0xff 0x5f 0xff 0x11 0x08
-
-root@rcar-gen3:# i2cget -y 4 0x68 0 s
-0xff 0x06 0xff 0x5f 0xff 0x11 0x08 0x08
-
-############################################################
-
-Any comments?
-
-Best regards,
-Eugeniu
+> Reviewed-by tag after the above is fixed.
+>=20
+> -Doug
