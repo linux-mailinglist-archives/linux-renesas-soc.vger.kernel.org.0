@@ -2,59 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B922B4E5088
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 11:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45B904E508F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 11:42:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243591AbiCWKnF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Mar 2022 06:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
+        id S240536AbiCWKn4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Mar 2022 06:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236222AbiCWKnE (ORCPT
+        with ESMTP id S243601AbiCWKnz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Mar 2022 06:43:04 -0400
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D352A6D1B4;
-        Wed, 23 Mar 2022 03:41:34 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id r13so1958609ejd.5;
-        Wed, 23 Mar 2022 03:41:34 -0700 (PDT)
+        Wed, 23 Mar 2022 06:43:55 -0400
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAEE86D1B4;
+        Wed, 23 Mar 2022 03:42:25 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id a17so1299584edm.9;
+        Wed, 23 Mar 2022 03:42:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=Almyyc1IrKf1zO+Kw8vUDsh6wUJc2+4bjOhxQbAJAVM=;
-        b=hlOWAf6Oq7tFsyTJuvN4tvwht9VfkqrH+Ethwh5csZozPsIiER92eJV0Avk7NLw8fW
-         rrrQcwgaBZB/xRz9DE6w4BG7cprDlidXYnjPsRdXcXPf7oA393RqjYQ6RR/8j+QPEIpk
-         9OhdVR9uc70EF0Zuv13zyq8CeWbASj3p9svcHYDq5QyOSVcodpQHw1vpBbhIEGkVwC8v
-         RJFaNrBfvmrNdhdOayrQzcGHxVhJ+S0/onqV2RS7BuH+YcNMt01fWWAD3fCb8eMvN26a
-         8izqLGDWXqQy6vUsA7syciG1j+wRO+iF3/vb783YkaNzTaNsRwZPHfCYv23yLFOFMPna
-         3iJw==
-X-Gm-Message-State: AOAM530txvN9ui2OqW9RJy9sJWIai+0Fch28JGyHzmFilxaaXi3sQ54e
-        QAV4Nm28ONDGxlLfsAzJ9ZXwokCQmqc=
-X-Google-Smtp-Source: ABdhPJwIa6bE48WVeXssjbI2MwYz2RKFkBZESjJZuw58Kq+0+MIM0XkbuDIwWj+ZCutP0aiSmDwRmg==
-X-Received: by 2002:a17:906:c0c8:b0:6d0:562c:2894 with SMTP id bn8-20020a170906c0c800b006d0562c2894mr31259441ejb.625.1648032092732;
-        Wed, 23 Mar 2022 03:41:32 -0700 (PDT)
+        bh=vd7QNTqcRsNtUiR5SfPXYp8f/qt3tOGwUcaDmokl0Wc=;
+        b=eyhA+oz2JcA2xSKhyGqXIInUrJdbRIC+SjFa4trP7EZoEct08vBFqs4XJr++ctFgPU
+         aJAGwh9vq5QASRbEFEtYJduTSY33OGKTttYJzmk9olV+O93HMtnZAkVT/nCK922pbW0J
+         fc7+UCJGyIO9NFClIcYPqN7OspA4Zg0M/67Hhri2hoFfx8aKAtfplk3R1oL5KbEXGRKb
+         YCNcf1v1hBB6ufQwBcDJpm0BN8iCd0ZIns//+dVKTaXww+Xkp4FrkGzoxbX8PIjtbcEc
+         /bhTB7U/s0JaEs7Fm2ICl42jb/fMzku969yHJZY4Jb2LYMLNTiV51w6UHcab2Wso+SSA
+         mpuw==
+X-Gm-Message-State: AOAM531fxCz9yFG77CQ9P7Y7Krv0/DcfnrfK2aaSh1Kq0ctDTP8atTif
+        n1s/VloG946gbK9bL3JmTSA=
+X-Google-Smtp-Source: ABdhPJzF5mK9OJgDsOl9Uf4V9+esys2ss5Bk0M7g0YKuOv7BY/U0lcMdVqKHlHgW4XH2eLmDEQybqg==
+X-Received: by 2002:a05:6402:2553:b0:418:ff6a:ca66 with SMTP id l19-20020a056402255300b00418ff6aca66mr31596593edb.273.1648032144140;
+        Wed, 23 Mar 2022 03:42:24 -0700 (PDT)
 Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.googlemail.com with ESMTPSA id bk1-20020a170906b0c100b006d47308d84dsm9652311ejb.33.2022.03.23.03.41.31
+        by smtp.googlemail.com with ESMTPSA id gn1-20020a1709070d0100b006e012aaa918sm3928387ejc.139.2022.03.23.03.42.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Mar 2022 03:41:32 -0700 (PDT)
-Message-ID: <a51dec7d-4dfd-5603-3d34-a40b0fd9ec08@kernel.org>
-Date:   Wed, 23 Mar 2022 11:41:31 +0100
+        Wed, 23 Mar 2022 03:42:23 -0700 (PDT)
+Message-ID: <faa4c924-a523-a02d-3fc8-7333e46c4038@kernel.org>
+Date:   Wed, 23 Mar 2022 11:42:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 02/14] dt-bindings: arm: renesas: Document Renesas RZ/V2M
- System Configuration
+Subject: Re: [PATCH 03/14] dt-bindings: serial: renesas,em-uart: Document
+ r9a09g011 bindings
 Content-Language: en-US
 To:     Phil Edworthy <phil.edworthy@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+        devicetree@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
 References: <20220321154232.56315-1-phil.edworthy@renesas.com>
- <20220321154232.56315-3-phil.edworthy@renesas.com>
+ <20220321154232.56315-4-phil.edworthy@renesas.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220321154232.56315-3-phil.edworthy@renesas.com>
+In-Reply-To: <20220321154232.56315-4-phil.edworthy@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -69,80 +71,35 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 21/03/2022 16:42, Phil Edworthy wrote:
-> Add DT binding documentation for System Configuration (SYS) found on
-> RZ/V2M SoC's.
-> 
-> SYS block contains the SYS_VERSION register which can be used to retrieve
-> SoC version information.
+> The Renesas RZ/V2M (r9a09g011) SoC uses a uart that is compatible with the
+> EMMA Mobile SoC.
 > 
 > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Could you send reviewed-by tags publicly? Maybe there was internal
-review, maybe not and it was just copy-pasted to all submissions...
-
 > ---
->  .../bindings/arm/renesas,rzv2m-sys.yaml       | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml
+>  .../devicetree/bindings/serial/renesas,em-uart.yaml         | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml b/Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml
-> new file mode 100644
-> index 000000000000..1a58906336b8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml
-> @@ -0,0 +1,39 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/arm/renesas,rzv2m-sys.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Renesas RZ/V2M System Configuration (SYS)
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The RZ/V2M System Configuration (SYS) performs system control of the LSI
-> +  and supports the following functions,
-> +  - LSI version
-> +  - 34-bit address space access function
-> +  - PCIe related settings
-> +  - WDT stop control
-> +  - Temperature sensor (TSU) monitor
+> diff --git a/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml b/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
+> index e98ec48fee46..42733eaa0ece 100644
+> --- a/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
+> @@ -14,7 +14,11 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    const: renesas,em-uart
+> +    oneOf:
 
-Usually all these are separate devices, so what does it mean that SYS is
-supporting these functions? Is it related to other Renesas System
-Controllers? For example
-Documentation/devicetree/bindings/power/renesas,apmu.yaml
-?
-Why one is in power and one in arm subdirectory? Maybe you should extend
-existing one?
+No need for oneOf, you have just one element below.
 
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g011-sys
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    sysc: system-configuration@a3f03000 {
-> +            compatible = "renesas,r9a09g011-sys";
-> +            reg = <0 0xa3f03000 0 0x400>;
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g011-uart    # RZ/V2M
+> +          - const: renesas,em-uart        # generic EMMA Mobile compatible UART
+>  
 
-Did you actually test it (make dt_binding_check)? This looks wrong.
-
-> +    };
+Does not look like you tested it...
 
 
 Best regards,
