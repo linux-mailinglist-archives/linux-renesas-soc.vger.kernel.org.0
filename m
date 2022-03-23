@@ -2,70 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C864E4E5988
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 21:05:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 339F84E5AD8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 22:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242610AbiCWUHN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Mar 2022 16:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50416 "EHLO
+        id S1345016AbiCWVtF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Mar 2022 17:49:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244359AbiCWUHN (ORCPT
+        with ESMTP id S1345008AbiCWVtE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Mar 2022 16:07:13 -0400
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29FB486E2B;
-        Wed, 23 Mar 2022 13:05:43 -0700 (PDT)
-Received: by mail-oi1-f172.google.com with SMTP id z8so2796527oix.3;
-        Wed, 23 Mar 2022 13:05:43 -0700 (PDT)
+        Wed, 23 Mar 2022 17:49:04 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E2C8E1B2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Mar 2022 14:47:33 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id h1so3480638edj.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Mar 2022 14:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rpLwbK3ZnF+KGIeTyi7JNaXNXc/YWjWIzY7cGfQ2thU=;
+        b=h9CHNPAQ59ce5gX3E3LT7N4cDZX1qchaMgh3A5YmdHQ4QDZBFl/0mMp+tdW0oqGKqU
+         GTnYaCQVfa+GI9VYPsnlf2uq/sE/M1KX/IqMVW7rwPFtP0S5ops03rpEgo3PT7MDeyrS
+         DLhaTFlm20CZbBmtPVCo5pv+38jIh7WjTd/KQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gR3650OK4Kk4y8p0bJ8B5cWOD9FNq9cookGajVqOgH8=;
-        b=eaTzxYX2tWl3IMWmKp4862ik3+IWEw24C+etcIam/bhMgiyDySD7BB6cMFa+yQ1ene
-         RFfRP4ZAAcqUCWT/pbCGOd20DXl2UKfgFT4uHByZULF/6C8nI1TUDh2LhyGbzSQDovKg
-         1ZgrEK6OTNG/kpKUrGgOlGFqS7nQbD5UCJBApEj7dyt54hI7lXMYAVN3rzrOOf7uCaqK
-         3Hj5RlthO9j1qZMqEoRMuPg3bFpm8uT2l3HmiH/NcoTIV0iliLS8IgWM6spGfc37srz7
-         weFAtXSq+UZWjm5HQNbgMWT54YVQfo8JtfWlIu6PM91QXZFdsvz6CIvQ5ocPonKOaGy0
-         PwrA==
-X-Gm-Message-State: AOAM531lwptYimRdYAYyXBuPXbeC3EoiHDI1qePtVPsVbGIAbNyOGG/C
-        BRKNkqZR0LA51q66k6/kOw==
-X-Google-Smtp-Source: ABdhPJytsw/Iu8lzVzWw09sb/tW8nq9AKE1yUUK4QZT1ga++TGAD+SxkJPnMP8020ukMFZCVHMpfrg==
-X-Received: by 2002:a05:6808:c:b0:2ef:8913:354 with SMTP id u12-20020a056808000c00b002ef89130354mr3422949oic.201.1648065941050;
-        Wed, 23 Mar 2022 13:05:41 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id n128-20020a4a4086000000b0032118eda64bsm418856ooa.38.2022.03.23.13.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 13:05:40 -0700 (PDT)
-Received: (nullmailer pid 361968 invoked by uid 1000);
-        Wed, 23 Mar 2022 20:05:39 -0000
-Date:   Wed, 23 Mar 2022 15:05:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das@bp.renesas.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: display: renesas,du: Document
- r9a07g044l bindings
-Message-ID: <Yjt9kxLDLlJSB8sd@robh.at.kernel.org>
-References: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
- <20220316131100.30685-2-biju.das.jz@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rpLwbK3ZnF+KGIeTyi7JNaXNXc/YWjWIzY7cGfQ2thU=;
+        b=BL2l36jI38FXUO/J/04JTP6dbPmrre7mYEx5Mv6/8iMIC/6NFaHGHJYfatwLRBLOkL
+         klTZg0mBWOVO1bPJDlcZoCtb4qI1tVGvsb1FyUdz8YcxmksJfxggSJ/cTbxQGHZ0l0mq
+         gcXAZdQbi+hF0UU6gKaKDL7UM1NpDJrPXy+fxv1U+lxv82KmgccTzztPBbHBBIPtk5ii
+         xR810i0ukKKRQ2i80iKdmsOa4xehnTsr+3eKxUfjXjicA4beWsjizOqu6IYlP0VkKV0G
+         q8bTZhkPXgAqatiKTXHamJMbUy+xiV/LvdM9U0yGXfNp9MUH6momAqI+ax5I2OMBI5vz
+         zgXg==
+X-Gm-Message-State: AOAM5315vYCe1j63iJUE9wzpFoLDYcT30IMfWX5jOdYcYpzqth1uFhPm
+        bAha5JmZogP1kVxgrL50mzQZ+zKbwpr5jA==
+X-Google-Smtp-Source: ABdhPJx9pJ5Azd9C9qOzHi7VYtDtPYVYtEu3tccDeW0p7j+d6QUg6PLHQhD/mIWjmTQAPiHPAtITgA==
+X-Received: by 2002:a05:6402:909:b0:415:cdbf:4748 with SMTP id g9-20020a056402090900b00415cdbf4748mr2735035edz.395.1648072051080;
+        Wed, 23 Mar 2022 14:47:31 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id z11-20020a50e68b000000b00412ec8b2180sm487153edm.90.2022.03.23.14.47.29
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Mar 2022 14:47:29 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id r64so1711118wmr.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Mar 2022 14:47:29 -0700 (PDT)
+X-Received: by 2002:a05:600c:2e02:b0:38c:8390:d8ca with SMTP id
+ o2-20020a05600c2e0200b0038c8390d8camr1947078wmf.15.1648072049203; Wed, 23 Mar
+ 2022 14:47:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220316131100.30685-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+References: <20220317131250.1481275-1-kieran.bingham+renesas@ideasonboard.com> <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 23 Mar 2022 14:47:17 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
+Message-ID: <CAD=FV=WmkYg33qsXS4znQ8K2H0xVhJfZoPC+HjKt-rPhZ_R4KA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] drm/bridge: ti-sn65dsi86: Support hotplug detection
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,24 +84,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 16 Mar 2022 13:10:54 +0000, Biju Das wrote:
-> Extend the Renesas DU display bindings to support the r9a07g044l
-> DU module found on RZ/G2L LCDC.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Updated commit description.
->  * Removed LCDC references
->  * Changed clock name from du.0->aclk
->  * Changed reset name from du.0->du
-> RFC->v1:
->  * Changed  minItems->maxItems for renesas,vsps.
-> RFC:
->  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-18-biju.das.jz@bp.renesas.com/
-> ---
->  .../bindings/display/renesas,du.yaml          | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
-> 
+Hi,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Thu, Mar 17, 2022 at 6:13 AM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+>
+> @@ -1241,9 +1350,32 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
+>         pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
+>                            ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
+>
+> -       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
+> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
+>                 pdata->bridge.ops = DRM_BRIDGE_OP_EDID;
+>
+> +               if (!pdata->no_hpd)
+> +                       pdata->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+> +       }
+> +
+> +       if (!pdata->no_hpd && pdata->irq > 0) {
+> +               ret = devm_request_threaded_irq(pdata->dev, pdata->irq, NULL,
+> +                                               ti_sn65dsi86_irq_handler,
+> +                                               IRQF_ONESHOT, "sn65dsi86-irq",
+> +                                               pdata);
+> +               if (ret)
+> +                       return dev_err_probe(pdata->dev, ret,
+> +                                            "Failed to register DP interrupt\n");
+> +
+> +               /* Enable IRQ based HPD */
+> +               pdata->bridge.ops |= DRM_BRIDGE_OP_HPD;
+> +
+> +               /*
+> +                * Keep the IRQ disabled initially. It will only be enabled when
+> +                * requested through ti_sn_bridge_hpd_enable().
+> +                */
+> +               disable_irq(pdata->irq);
+
+Instead, I think you should use `IRQF_NO_AUTOEN` which makes sure that
+no matter what the state of the hardware is your IRQ won't fire
+"early". ...and, of course, it saves a line of code. ;-)
+
+Other than that this looks nice to me now so feel free to add my
+Reviewed-by tag after the above is fixed.
+
+-Doug
