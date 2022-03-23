@@ -2,112 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCE34E5432
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 15:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C62BB4E5441
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Mar 2022 15:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237128AbiCWO2P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Mar 2022 10:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33466 "EHLO
+        id S237232AbiCWObH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Mar 2022 10:31:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbiCWO2P (ORCPT
+        with ESMTP id S235642AbiCWObG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Mar 2022 10:28:15 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B38DF2C;
-        Wed, 23 Mar 2022 07:26:44 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id t7so1234978qta.10;
-        Wed, 23 Mar 2022 07:26:44 -0700 (PDT)
+        Wed, 23 Mar 2022 10:31:06 -0400
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366A620F7B;
+        Wed, 23 Mar 2022 07:29:37 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id f3so1297140qvz.10;
+        Wed, 23 Mar 2022 07:29:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MgaVbTc6NIAbgS2wEZfzTz0EIf+0SLB19R8ha1w5Zmc=;
-        b=6yh7OkIoFpKFL3aPJ7SSm/F4hrHx85q6Ka0r12r0MXCDIuKsUseKrtkxutPWaOBqFR
-         DsWng2xiiJYyaQuFoKxrWH/gZtgpZXuEyj01WrK0XuLQcWyChNzW5KbKPyBca37a+i8d
-         Mxc40PYPJXFpaHz46kIHmtEEiFLwO+URSI1aBIB9PjMVKxompgXlBsd6XhwKxrUHZfnJ
-         84QOYmLQo6FE8XiHp4qedljX5H2HGCGDzJ2lk/5XSOLzgKoG2cqIQlbu4ErJO/X7qG/u
-         yNjFmsOwd+OowWNLgVHTL9hLFyFOSVcBPnToBZJP/YRb/VIq/KmTErDqWKDx/pixMIGU
-         XAqQ==
-X-Gm-Message-State: AOAM533tbJpw0/aOGCa5UG78a9EZUN8hpq3xlmtzzQCl+J2jFkkRYEWE
-        yKJRwP8gmpXcFHHLlPA9CZOlNAhT1k0rqquj
-X-Google-Smtp-Source: ABdhPJzPnzoyNIrd1y1A1+ahUJOehAFamtMkh/kPgcBS1SG4dLj9mcGF3yn2if79yS8zlNzQ6JvmxQ==
-X-Received: by 2002:ac8:57ca:0:b0:2e2:131b:6f0e with SMTP id w10-20020ac857ca000000b002e2131b6f0emr11994094qta.664.1648045602739;
-        Wed, 23 Mar 2022 07:26:42 -0700 (PDT)
+        bh=tlpmkSfgXVfoxMwJeIm4aL1qE+oyk0bbD2VRYa7nEVU=;
+        b=ScO7If8ts/JcGq37J6EueqF1FDXf1l1REpM0+27N8IlEjw01+JoOc3gHCmDumLcy4R
+         KnRdfCvGHx+hh5Q3V0qUFYxl3gwQGAoLGFv0BYkLT4Y6UFm+j0Pjw/1v/N7xqb/xSP0a
+         aNvFMHN3X3Wtf7jdqRHx3MGqYA/q6vKnk7zv8bqvXa2NEJuqO7QciK3vYUMFPSIgmdg1
+         9tGeCcVWM+L1oTa1I0FUGEDbhtIYL3r+zOHBvr0T2J3JarxYezmxf27v+tYazVUggf/a
+         hWRccmBW0chQ/WBaBqCuKYFyDK8mkis3yo7N95KaB79OxKpfe2w47nxnXm14TWlKGNy2
+         TJrQ==
+X-Gm-Message-State: AOAM530A3CAgLA0Wc6Da/G/ADbPPxZolRMul0cl7125STmvK3JBRExmO
+        J1F6AClbAZ94RWOqKTZoyk2cvosO9Qizuw==
+X-Google-Smtp-Source: ABdhPJwxFbDGhkyoZUQD3xpBDKCPG2vUmtrMsZBZEchLdDcnR6Q+sAEC7mBH+OFjexfcaILyIDyqFQ==
+X-Received: by 2002:a0c:c38d:0:b0:42c:1a57:24d2 with SMTP id o13-20020a0cc38d000000b0042c1a5724d2mr23350342qvi.1.1648045775927;
+        Wed, 23 Mar 2022 07:29:35 -0700 (PDT)
 Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id b21-20020a05620a04f500b0067b4895472esm75201qkh.5.2022.03.23.07.26.42
+        by smtp.gmail.com with ESMTPSA id 145-20020a370897000000b0067b30c65415sm69272qki.75.2022.03.23.07.29.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Mar 2022 07:26:42 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id z8so2989358ybh.7;
-        Wed, 23 Mar 2022 07:26:42 -0700 (PDT)
-X-Received: by 2002:a5b:a8f:0:b0:633:fd57:f587 with SMTP id
- h15-20020a5b0a8f000000b00633fd57f587mr190730ybq.506.1648045601981; Wed, 23
- Mar 2022 07:26:41 -0700 (PDT)
+        Wed, 23 Mar 2022 07:29:35 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id g9so574364ybf.1;
+        Wed, 23 Mar 2022 07:29:35 -0700 (PDT)
+X-Received: by 2002:a25:c049:0:b0:634:6751:e8d2 with SMTP id
+ c70-20020a25c049000000b006346751e8d2mr235361ybf.6.1648045775243; Wed, 23 Mar
+ 2022 07:29:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220301190400.1644150-1-robh@kernel.org> <CAMuHMdXqsvQy_6+6w8DVCtqNiFERPV29xd3HRqtyz9RY3KXOYw@mail.gmail.com>
- <CAL_JsqKX7XrSS1OktT6OfPgyxte6_+AcGh4uV0Abdf2Wi4eCFg@mail.gmail.com>
- <CAMuHMdXzNpjSjhT3crdN3XzcFNXd8Uojqo8gA7Y=Qtz8utH6Mw@mail.gmail.com> <CAL_Jsq+=2oibXA1otjaVoGY0GWdLZg2bmw1C9BACga5P99X35A@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+=2oibXA1otjaVoGY0GWdLZg2bmw1C9BACga5P99X35A@mail.gmail.com>
+References: <20220321154232.56315-1-phil.edworthy@renesas.com>
+ <20220321154232.56315-5-phil.edworthy@renesas.com> <b00a4cc8-c8b8-60ab-9891-e6cb44c8bf75@kernel.org>
+In-Reply-To: <b00a4cc8-c8b8-60ab-9891-e6cb44c8bf75@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Mar 2022 15:26:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUHUqCccnUa2WaAm=7s8EcumwJoZ22Wyy1=hosOu1kVuQ@mail.gmail.com>
-Message-ID: <CAMuHMdUHUqCccnUa2WaAm=7s8EcumwJoZ22Wyy1=hosOu1kVuQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: clock: renesas: Make example 'clocks' parsable
-To:     Rob Herring <robh@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 23 Mar 2022 15:29:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXFOjuvWiORs_CNt+xgm4QWgDaHvzb0Q0OPibmKP7uhRA@mail.gmail.com>
+Message-ID: <CAMuHMdXFOjuvWiORs_CNt+xgm4QWgDaHvzb0Q0OPibmKP7uhRA@mail.gmail.com>
+Subject: Re: [PATCH 04/14] dt-bindings: clock: Add r9a09g011 CPG Clock Definitions
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Krzysztof,
 
-On Wed, Mar 23, 2022 at 3:07 PM Rob Herring <robh@kernel.org> wrote:
-> On Tue, Mar 8, 2022 at 3:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, Mar 4, 2022 at 2:28 PM Rob Herring <robh@kernel.org> wrote:
-> > > On Fri, Mar 4, 2022 at 3:09 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Tue, Mar 1, 2022 at 8:04 PM Rob Herring <robh@kernel.org> wrote:
-> > > > > 'clocks' in the example is not parsable with the 0 phandle value
-> > > > > because the number of #clock-cells is unknown in the previous entry.
-> > > > > Solve this by adding the clock provider node. Only 'cpg_clocks' is
-> > > > > needed as the examples are built with fixups which can be used to
-> > > > > identify phandles.
-> > > > >
-> > > > > This is in preparation to support schema validation on .dtb files.
-> > > > >
-> > > > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > >
-> > > > Do you want me to queue this in renesas-clk-for-v5.19, or do you
-> > > > want to take it yourself, together with the validation patches?
-> > > > Please let me know.
-> > >
-> > > You can take it.
+On Wed, Mar 23, 2022 at 11:44 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 21/03/2022 16:42, Phil Edworthy wrote:
+> > Define RZ/V2M (R9A09G011) Clock Pulse Generator core clocks, module clock
+> > outputs (CPG_CLK_ON* registers), and reset definitions (CPG_RST_*
+> > registers) in Section 48.5 ("Register Description") of the RZ/V2M Hardware
+> > User's Manual (Rev. 1.10, Sep. 2021).
 > >
-> > Thanks, queuing in renesas-clk-for-v5.19.
+> > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> > --- /dev/null
+> > +++ b/include/dt-bindings/clock/r9a09g011-cpg.h
+> > @@ -0,0 +1,337 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > + *
+> > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > + */
+> > +#ifndef __DT_BINDINGS_CLOCK_R9A09G011_CPG_H__
+> > +#define __DT_BINDINGS_CLOCK_R9A09G011_CPG_H__
+> > +
+> > +#include <dt-bindings/clock/renesas-cpg-mssr.h>
 >
-> This needs to go in 5.18, not 5.19.
+> Include only headers which you use here. Do you use it directly here?
 
-Mike/Stephen: can you please take this directly?
-Thanks!
+Technically, it is part of the clock bindings for the SoC.
+That's why it's included here, and in several other *-cpg-mssr.h files.
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So I prefer to keep it that way.
 
 Gr{oetje,eeting}s,
 
