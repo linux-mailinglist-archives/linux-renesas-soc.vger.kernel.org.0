@@ -2,144 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0329A4E98D4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Mar 2022 16:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2474E98EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Mar 2022 16:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243026AbiC1OBv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Mar 2022 10:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
+        id S243632AbiC1OG4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Mar 2022 10:06:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239631AbiC1OBu (ORCPT
+        with ESMTP id S243637AbiC1OGy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Mar 2022 10:01:50 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6511929CB0;
-        Mon, 28 Mar 2022 07:00:08 -0700 (PDT)
+        Mon, 28 Mar 2022 10:06:54 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF96E1CFD6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Mar 2022 07:05:12 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id e203so17354045ybc.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Mar 2022 07:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476009; x=1680012009;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=U8/IvxCtevfYoGYrmAhmdvhsaSlpF29tUqtt73uDLA1mNqIdn9gAh5Px
-   LS3s2pIN8sFmOrO/atdnDsCnOk2QBkaCZTV5pGjo+XhXYYarAiIIzXbCI
-   KuAYCgpNsw2miPHYKSwBDdywOVa9743uWj5iGnEiCOVJIgtcJbuIArtuB
-   FiU0E0VJSlejFS+KsPWvPv6sxjL5m10MlkFYv8diGYs+wI7oYwi9BScOm
-   b1YQukNL5OvfmlbFPT95RwnRBykJWQqZ02S/dtSs24P6pyjcRpe4glG6y
-   b8YQyedffRPaJTs0VmLXut/QlvD30JS5tFylRtBCgwTcQfY5ZDcCWeQ0m
-   A==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935295"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 28 Mar 2022 16:00:05 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 28 Mar 2022 16:00:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476005; x=1680012005;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=WuV252Nu+GZzN74VzCmlspBKd0dca8X2+xSzsUDOC+VBkSdAcRJKkpz9
-   V6ZhUvtyzJXo40EU/KoKsnsMA+udDgpFrmJjA0OOrI8Du6AE/IqQXvbD0
-   l7/oi3cIclt6kdqSsBk62dD3jTXzpYH4IITmDIWCq1j5VlQdR/7ht0rkB
-   UzXa+gf9sB2fMmE9Y4BJg30hxvVMBs2s+cV3pKJsYN741b+m12/z4LAVK
-   Ghd0BfGmPSMkfRYy9LlDPSTztxPRWJXf02LYJ3AALa7lqL+bNoPBea5QD
-   q3OLZ+wYdDSKr/JtyC5EC84xkLnc6lGkLWsLSzPCKdl/McKEhN7OLwWQj
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935294"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 20160280065;
-        Mon, 28 Mar 2022 16:00:04 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc:     Ansuel Smith <ansuelsmth@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org
-Subject: Re: (EXT) Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Date:   Mon, 28 Mar 2022 16:00:02 +0200
-Message-ID: <2100132.irdbgypaU6@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <YkG2RPrtPaBNXb7a@latitude>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <YkG2RPrtPaBNXb7a@latitude>
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=53hfCds/HOn34hVWrA7541rRTz3YTdreaZ+mvzS7WRE=;
+        b=Cx62eGgcgtXYkGjFpRxnw9cG3E1PTmxLGrWqwA/zYtPl9JBOdDem519S2UoyoOHnJ2
+         7JnULEL1svsTOyITUGi25DlUzszhdXc4um0N5RXWQZ71aXnLFdRokP3kEujq97AXymtV
+         75IAs+4jax2YMyu/9YkSOg4nN64rFw55wbkMc/xPJj39M0o7ibOT2rCoGSPGDZzW99Eb
+         MznbzLtmE/j4qrTSAAX3arhLaVYiSVp9HKe0Xc7OMSt7d7EKmLEqCqk6WpE+N0/2UjZV
+         5InW4u9eqLKk0kPwrUgWWEd+AtPRHc35XU3RqIJQzMVdZIPsskNQKDpYCiE2LU1Faslx
+         5QBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=53hfCds/HOn34hVWrA7541rRTz3YTdreaZ+mvzS7WRE=;
+        b=Gx4lY/jJlgSKFinB2p95LplOdd3wKs0qyHcqHH5zykAb8aEYnN/DXmLpQWgtLGJxl+
+         rn13QqnW9Ff2pyvmM4OPdubmeuS6oo/BkEu8jS5X9/jXXKw1CmR2vMXxbJmc7GnbkVSs
+         sKr5DPTlj1zuQ/QjbllPlXt1DYWtc010GcCIfdr6h1hfxj2zg55dTI55vjvVYEiSiPJe
+         l2xaGR9W1mEsHa9qc8dSgIiQKy4pEOdAimq8TW4yaglvv3SIsZToP99ye1IiYHE/QyMy
+         EhT5sAmdMmoSLDHKfeYopWt/dmzt+NU4flRc1J/TxSLedXjNKYAPdzkfIvWGtLhs/i3K
+         8AJA==
+X-Gm-Message-State: AOAM530Zpz/XOTXfGyyKvcz4ZqMCcGK4WQSn1iuAlz3iE4qEo5Grvk2S
+        LSZ7z2OyWHP/ctdr7UMmvJ2WAmXxYiTdZYyroLwNDw==
+X-Google-Smtp-Source: ABdhPJwS1cf/SA/NQaVx2IlTtQpE6Zm6uckyjLWileFFOnVlhsE+7jQYLkUhbPoSZmGhmdocSjQLYT/bWvm/mPvTQSQ=
+X-Received: by 2002:a25:4289:0:b0:633:7135:1689 with SMTP id
+ p131-20020a254289000000b0063371351689mr23074419yba.397.1648476311808; Mon, 28
+ Mar 2022 07:05:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,
-        T_SCC_BODY_TEXT_LINE,WEIRD_QUOTING autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20220320123016.57991-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220320123016.57991-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 28 Mar 2022 16:04:35 +0200
+Message-ID: <CAPDyKFq=f3R_37nLq=Vm+6ZaDCqOU_9q-4A1X0r55z9uLT27XQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] mmc: renesas_sdhi: internal_dmac: updates after refactoring
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Am Montag, 28. M=E4rz 2022, 15:21:08 CEST schrieb Jonathan Neusch=E4fer:
-> * PGP Signed by an unknown key
->=20
-> On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
-> > Hi,
-> > as the title say, the intention of this ""series"" is to finally
-> > categorize
-> > the ARM dts directory in subdirectory for each oem.
->=20
-> [...]
->=20
-> > [1] https://gist.github.com/Ansuel/47c49925ee7ef4b1dd035afc74679ab5
-> > [2] https://gist.github.com/Ansuel/19f61f1e583c49407ce35c10e770fbe0
->=20
-> Nice idea, thank you!
->=20
-> A few notes on categorization below.
-> [...]
-> >  create mode 100644 arch/arm/boot/dts/freescale/Makefile
->=20
-> Freescale has been part of NXP for a while, so it might make sense to
-> merge the freescale and nxp directories. I can't speak for
-> NXP-the-company, so that's just my view as a bystander.
+On Sun, 20 Mar 2022 at 13:30, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Shimoda-san's much appreciated refactoring of the quirk handling allows
+> for further cleanups which you can find in this series plus some other
+> improvements found on the way. Finally, 'soc_dma_quirks' can be removed
+> in favor of regular quirks.
+>
+> The series is based on mmc/next as of today and was tested on Salvator-X
+> (H3 ES1.0), Salvator XS (H3 ES2.0 as well as M3-N).
+>
+> Looking forward for tests and comments.
+>
+> All the best,
+>
+>    Wolfram
+>
+> Wolfram Sang (6):
+>   mmc: renesas_sdhi: remove outdated headers
+>   mmc: renesas_sdhi: R-Car D3 also has no HS400
+>   mmc: renesas_sdhi: make setup selection more understandable
+>   mmc: renesas_sdhi: remove a stale comment
+>   mmc: renesas_sdhi: make 'fixed_addr_mode' a quirk
+>   mmc: renesas_sdhi: make 'dmac_only_one_rx' a quirk
+>
+>  drivers/mmc/host/renesas_sdhi.h               |  2 +
+>  drivers/mmc/host/renesas_sdhi_core.c          |  2 -
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 70 ++++++++-----------
+>  3 files changed, 33 insertions(+), 41 deletions(-)
+>
 
-Please don't mix the names for arm and arm64. It's very confusing if the=20
-vendor directory is named differently for each architecture.
+Queued up on the "devel" branch for v5.19, thanks!
 
->[...]
-> >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
->=20
-> armv7-m.dtsi is a bit confusing, because it contains a few devices at
-> fixed addresses, so it looks vendor-specific at a first glance into the
-> file. However, if it is actually as vendor-neutral as the name implies,
-> I think it should live dts/ directly, rather than in vendor
-> subdirectories.
-
-This seems to be some generic devices common for all ARMv7M CPUs used in=20
-Cortex-M CPUs. It's also used by some stm32 .dtsi.
-
-Best regards,
-Alexander
-
-
-
+Kind regards
+Uffe
