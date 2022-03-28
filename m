@@ -2,50 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E42B4E9182
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Mar 2022 11:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 915594E92BF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Mar 2022 12:48:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239874AbiC1JjT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Mar 2022 05:39:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43924 "EHLO
+        id S240349AbiC1Ktb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Mar 2022 06:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239869AbiC1JjS (ORCPT
+        with ESMTP id S234251AbiC1Kta (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Mar 2022 05:39:18 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6706541AF
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Mar 2022 02:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=LE7raKislCZZkXpLroZs2BIDbLhu
-        zFOoOiX4Xsm/vFc=; b=Oa/AVQQZxo59EXMkSKt745EdgGRQcy55ANXgYVA+K+7+
-        gvKw+Yxir2ugT1vMk6zhw1DAy2MB8AvT7r7dg1hkMKtbCYHg49N97mzJ0v9YieQY
-        +WDtacUu9gnA8SuNNa1fVgaiZ8LnHTgY4nhcLEJeRJYrMV5Lw4YhJ8OIFSEVoNI=
-Received: (qmail 1305304 invoked from network); 28 Mar 2022 11:37:33 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Mar 2022 11:37:33 +0200
-X-UD-Smtp-Session: l3s3148p1@pfDOD0TbpNUgAQnoAEkIAFmtuepKDVA5
-Date:   Mon, 28 Mar 2022 11:37:32 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <YkGB3AgME/OZAdoG@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20220317085019.3987-1-wsa+renesas@sang-engineering.com>
- <20220317085019.3987-2-wsa+renesas@sang-engineering.com>
- <YjiC6Lg5k5gK/BfP@smile.fi.intel.com>
+        Mon, 28 Mar 2022 06:49:30 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7462954F9E;
+        Mon, 28 Mar 2022 03:47:50 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id d7so19744485wrb.7;
+        Mon, 28 Mar 2022 03:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to
+         :references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=S4BUcd6hJObrfpqKxdRcJRoKACX0pcH5PLnHV9ghRjU=;
+        b=B9rhYXNFCJG8FVrCwa5K+POuffvNj9XzTQKCajpz8pCCAe58zDB/aU9DL5fqtqJWAI
+         ky54WS/d9TWKJ7aQI2ZqzXMkcPHxKAbOnYADOVDTZRl4K4EZ6nKuXHMRMOUlTa3pZvcK
+         Y8cetVauSkzbUxvUnWzmQRJ7x7hfdMpVLYHTE3/Ae2k2izID9wHS/jw5EaXtUzwHEHAR
+         K1L5smUPkm9azb41ja7r0hy1dRp/X4/xrOgLDr5HfLY+yO2hJuHnUmcoNrEBPPoA5ZAp
+         n8/SKRsojeJxYPxX0tjb6jEnopKhJ1kNHYloxuyu3SfO3NpPdbAhGWlCkOMUqOnXfwdd
+         bWzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=S4BUcd6hJObrfpqKxdRcJRoKACX0pcH5PLnHV9ghRjU=;
+        b=MgQ9hkrNTF0XIh4KZe7OFFYt1qcn9S5VIKWMqz6EY1/rj05xMb1KzbmSKK5SYaV0ku
+         Jlpe9ut6mp7fIfl6cP36XE5Lf6tv48/fE0xFkurmyMa9NlyLS90l8mra71ApOKem21dL
+         Ivo2dGich+jHWbQXxjPZ7E3ldEGnG0ICZO4emxBSbrP4HAdplfg0ATNhUNlar1pIa48l
+         hLMg7wFxD7etBnpjp5t7DlAZ3xxTim1jiX+by62jbHcdWVJGw8VQbA+W14per9mun7zj
+         aB0CQ5tXUzeuEBgZxGMEPd0M+GApWXSHJkGG4QmQEKiZf7GlLLDVZEWGtQtaK7Jq2aij
+         c/Ww==
+X-Gm-Message-State: AOAM530neTTLBkY6DhP7gPueUe349GYlkH/wJEa+YS04EiwcLI7l40l6
+        gXJdNJRME4NBGKTa98lgyfA=
+X-Google-Smtp-Source: ABdhPJxpNsUPF4FVDfJw3TgkeBx1g5iROwUOuCmVKrZ2Kp8QiOuC95uyQZ19znx7Kf29FzrQ8qx3og==
+X-Received: by 2002:a5d:404c:0:b0:203:ea4e:3c07 with SMTP id w12-20020a5d404c000000b00203ea4e3c07mr22646484wrp.597.1648464468913;
+        Mon, 28 Mar 2022 03:47:48 -0700 (PDT)
+Received: from [192.168.0.32] ([137.101.87.65])
+        by smtp.gmail.com with ESMTPSA id l19-20020a05600c4f1300b0038cb924c3d7sm11665275wmq.45.2022.03.28.03.47.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Mar 2022 03:47:48 -0700 (PDT)
+Message-ID: <c5eeca79-38b6-eb9f-1d78-1685aa1cca6c@gmail.com>
+Date:   Mon, 28 Mar 2022 12:47:46 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="inDyF/t2z9scnhMV"
-Content-Disposition: inline
-In-Reply-To: <YjiC6Lg5k5gK/BfP@smile.fi.intel.com>
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Ansuel Smith <ansuelsmth@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
+        linux-aspeed@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+        linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-realtek-soc@lists.infradead.org
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <20220328000915.15041-2-ansuelsmth@gmail.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [RFC PATCH 1/1] ARM/arm64: categorize dts in arm dir and fix
+ dependency in arm64
+In-Reply-To: <20220328000915.15041-2-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,97 +92,51 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---inDyF/t2z9scnhMV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+On 28/03/2022 02:09, Ansuel Smith wrote:
+> - Categorize every dts in arm directory in subdirectory
+> - Fix Makefile to address for the arm subdirectory
+> - Fix any arm64 dependency
+> 
+> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> ---
+[...]
+>   arch/arm/boot/dts/mediatek/Makefile           |   14 +
+>   .../boot/dts/{ => mediatek}/mt2701-evb.dts    |    0
+>   .../boot/dts/{ => mediatek}/mt2701-pinfunc.h  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt2701.dtsi  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt6323.dtsi  |    0
+>   .../boot/dts/{ => mediatek}/mt6580-evbp1.dts  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt6580.dtsi  |    0
+>   .../mt6582-prestigio-pmt5008-3g.dts           |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt6582.dtsi  |    0
+>   .../dts/{ => mediatek}/mt6589-aquaris5.dts    |    0
+>   .../{ => mediatek}/mt6589-fairphone-fp1.dts   |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt6589.dtsi  |    0
+>   .../boot/dts/{ => mediatek}/mt6592-evb.dts    |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt6592.dtsi  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt7623.dtsi  |    0
+>   .../dts/{ => mediatek}/mt7623a-rfb-emmc.dts   |    0
+>   .../dts/{ => mediatek}/mt7623a-rfb-nand.dts   |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt7623a.dtsi |    0
+>   .../mt7623n-bananapi-bpi-r2.dts               |    0
+>   .../dts/{ => mediatek}/mt7623n-rfb-emmc.dts   |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt7623n.dtsi |    0
+>   .../boot/dts/{ => mediatek}/mt7629-rfb.dts    |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt7629.dtsi  |    0
+>   .../boot/dts/{ => mediatek}/mt8127-moose.dts  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt8127.dtsi  |    0
+>   .../boot/dts/{ => mediatek}/mt8135-evbp1.dts  |    0
+>   arch/arm/boot/dts/{ => mediatek}/mt8135.dtsi  |    0
 
-> > +	for (i =3D 0; i < priv->trig_len; i+=3D 2) {
->=20
-> Missed space.
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-Yes.
+Would it be possible to also script a fix for the MAINTAINERS file?
 
-> > +static int fops_buf_size_set(void *data, u64 val)
-> > +{
-> > +	struct gpio_la_poll_priv *priv =3D data;
->=20
-> > +	int ret =3D 0;
->=20
-> Instead of this assignment and other related things, can we do the follow=
-ing?
->=20
-> > +	void *p;
-> > +
-> > +	if (!val)
-> > +		return -EINVAL;
-> > +
-> > +	mutex_lock(&priv->lock);
-> > +
-> > +	vfree(priv->blob.data);
->=20
-> 	priv->blob.data =3D NULL;
-> 	priv->blob.size =3D 0;
->=20
-> > +	p =3D vzalloc(val);
-> > +	if (!p) {
-> > +		val =3D 0;
-> > +		ret =3D -ENOMEM;
-> > +	}
->=20
-> 	p =3D vzalloc(val);
-> 	if (!p)
-> 		return -ENOMEM;
->=20
-> > +	priv->blob.data =3D p;
-> > +	priv->blob.size =3D val;
+$ git grep "arch\/arm\/boot\/dts" MAINTAINERS |wc -l
 
-I don't like assigning 'priv' memebers twice, so I'd like to keep it as
-is.
-
-> > +static const struct file_operations fops_trigger =3D {
-> > +	.owner =3D THIS_MODULE,
-> > +	.open =3D trigger_open,
-> > +	.write =3D trigger_write,
-> > +	.llseek =3D no_llseek,
-> > +	.release =3D single_release,
-> > +};
->=20
-> Can it be wrapped by DEFINE_SHOW_ATTRIBUTE()?
-
-I don't see a way. Do you?
-
-> > +	dev_info(dev, "initialized");
->=20
-> Not sure how this one would be helpful.
-
-Then please check my comments on your previous reviews.
-
-All the best,
-
-   Wolfram
+101
 
 
---inDyF/t2z9scnhMV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJBgdwACgkQFA3kzBSg
-KbYyZBAAnxhHF2fEwbRxNWZSbs6cieerGxqMW3ujNQ61Y0c4z3zjENN2DGF7nz8C
-iyHg20CYpZE+j/aPRV0v9CK4PjWSn6Au4UM+0SNKUtLwQRl+pQ/iJFQHc4opHlOD
-Ri4Balpx5AwcpiSxiTPY2RlpNipoWseC4npofbNLrLOVQrVkuO21Fc0oHlgy1yXp
-m34X0XRm2g37kyOgRsl2PxW5qVRNeuns4m8aXX3CFT/QApxH4GDXFOZ+MGJhCN5B
-WxdvxdPDgITRjgUR1xUtKp1adZaD+nM2sPrqdZt9cQZi5GMPUJLInnx6KQbqMQZ/
-wwPJu8YWiPhyK3M6wvSxFIBFwdrkWD5Igl4VpV3MnECzoFLQ4WZYsJeyMezvA9dp
-4zZwbvuJqs7GImS9gr9PTuMU9niKPqKOIiN+GsawvQdceu/++cLue/Z8yDn6wvYa
-WNuI2A3JQQib3ZlksuQ45boGaPrzpV2Oh9nwLhKuP+IOGPPU2e4rsC55WE0y5Eg5
-ngP5hp7L+1/FPAn4XrSnTtxs9gh0hsvYAa4FM5ErrDhuiph3Kbzu2d5Jwjv1PTdS
-nVPnboyMhb3HPd5sD2Sz5n6bFERktycMTcTuKD/+C/1gbbLw1iYP6GX7c8uJMAWM
-4bllfRcoHft54irxD8KSuDJAOnIbeaJji+h8Knmtf5V2Ctrwc+c=
-=wf1u
------END PGP SIGNATURE-----
-
---inDyF/t2z9scnhMV--
+Regards,
+Matthias
