@@ -2,124 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D26B4EAAFF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 12:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF1014EABFA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 13:12:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234969AbiC2KIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 06:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47824 "EHLO
+        id S235583AbiC2LNo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 07:13:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232312AbiC2KIY (ORCPT
+        with ESMTP id S235242AbiC2LNm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 06:08:24 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0C2127589;
-        Tue, 29 Mar 2022 03:06:42 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id bi13-20020a05600c3d8d00b0038c2c33d8f3so949563wmb.4;
-        Tue, 29 Mar 2022 03:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gJYdJOur1iY6XbbeGXFj0ECGEHoJkzCeSnRWw+1akAE=;
-        b=g1SGsbd/jLtCfDq6yzASjQLg1D1Di4TRzjMb5UiIfrE9WiDmnp4ps8sIblZUNtYLhl
-         BEYp/E3cwcQ3Zx0+p3QoptHL3A/ppqsLefEG80tXSSwr+mpdP4i1AcDwb/671KD/V7Or
-         SrBc47ULMLUb19cniOzsSHJIDLc2hutPluz+X07qok/90+UjDzhv6DSHFkWqgCReRafg
-         8hQGGxrcX5P2AlRlhAUeG7o275fLN5UY/luSiQ/PippZc5scePfD88DWfB5YY4mbajP2
-         /wEv07hBPdodolgvcwPf/ryO4mcjf2pm6CqHleQKRp4LwbU9hZS+Lg1pg+jJITwfzWUK
-         5rMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=gJYdJOur1iY6XbbeGXFj0ECGEHoJkzCeSnRWw+1akAE=;
-        b=tJUfPXpB3D2Xr+ifPFHavkeZNEPQfTtJn/OUXgNNdDNK7IJJvF28uxxd3HaUo5EoVl
-         DU3BecZu54cfnnrUnz4gbwCDeYy475OG/I5eEv1ayFd8Mx/EX4N966VkSRN6OYQ3qMZL
-         huOOgIHooNwpXcdJO3lzCWKt6VjlC675C9CDeICyDrvWVZfFonlA16xSs7Gd40B6sVTo
-         OL7W0l+nS77jrGDwSJ6U7XlgmaeVhBHZssjRicRpVvjCMTCnrYv6JkjBdU+ld5L4QBYN
-         WF4KkMsSnfX0T3+GHWOxQabWecMGtPSvmCXWLaMfGf/wNx5cgnsBkMgl9g+8Q2TfX6tp
-         CI3A==
-X-Gm-Message-State: AOAM533VsGwlnV6P5hUppzwI4BcK6mAItODsRNu2yon+FtI4iBdCf5Kb
-        /TM+8NycYzU1/kB4h6W7Tgk=
-X-Google-Smtp-Source: ABdhPJw/yl37bo84CH0/pwnTrqSkLHICdBHbZfyNAKleJ5pkLbBWcMtajlzC2TVgbnU7tHyn6wt30Q==
-X-Received: by 2002:a05:600c:a47:b0:37c:965:2b6f with SMTP id c7-20020a05600c0a4700b0037c09652b6fmr5636166wmq.31.1648548400811;
-        Tue, 29 Mar 2022 03:06:40 -0700 (PDT)
-Received: from [192.168.1.145] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id a11-20020a5d456b000000b0020406ce0e06sm14201716wrc.94.2022.03.29.03.06.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 03:06:39 -0700 (PDT)
-Message-ID: <6dafde7d-17c6-bd25-dbe8-7f7acf80fd91@gmail.com>
-Date:   Tue, 29 Mar 2022 12:06:38 +0200
+        Tue, 29 Mar 2022 07:13:42 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0AE35DF0;
+        Tue, 29 Mar 2022 04:12:00 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="241376675"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="241376675"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 04:11:59 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="618092593"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 04:11:56 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1nZ9kw-008hko-7Y;
+        Tue, 29 Mar 2022 14:11:22 +0300
+Date:   Tue, 29 Mar 2022 14:11:21 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v2 01/10] serial: 8250: dw: Move the per-device structure
+Message-ID: <YkLpWexrf8RS5bfG@smile.fi.intel.com>
+References: <20220317174627.360815-1-miquel.raynal@bootlin.com>
+ <20220317174627.360815-2-miquel.raynal@bootlin.com>
+ <CAHp75Ve-PbTMBdb6Y0TYdaOMDwsJ_2JVoKCkwCFBG=iUd8baEA@mail.gmail.com>
+ <20220329101049.069a0b1b@xps13>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Language: en-US
-To:     Tony Lindgren <tony@atomide.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Daniel Palmer <daniel@0x0f.com>,
-        Ansuel Smith <ansuelsmth@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
-        <linux-omap@vger.kernel.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-        chrome-platform@lists.linux.dev,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org,
-        linux-tegra <linux-tegra@vger.kernel.org>, linux-oxnas@groups.io,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-unisoc@lists.infradead.org,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-realtek-soc@lists.infradead.org
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
- <YkK691VG6ON/6Ysn@atomide.com>
- <CAMuHMdXDDNTgBdJTa8+H1H5v1gAarp07xxWu_E1JL8mXS8HPMg@mail.gmail.com>
- <YkLXTWdZ3zASxr4H@atomide.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <YkLXTWdZ3zASxr4H@atomide.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329101049.069a0b1b@xps13>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Mar 29, 2022 at 10:10:49AM +0200, Miquel Raynal wrote:
+> andy.shevchenko@gmail.com wrote on Fri, 18 Mar 2022 12:51:29 +0200:
+> > On Thu, Mar 17, 2022 at 9:56 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
+...
 
-On 29/03/2022 11:54, Tony Lindgren wrote:
-> * Geert Uytterhoeven <geert@linux-m68k.org> [220329 09:02]:
->> On Tue, Mar 29, 2022 at 10:03 AM Tony Lindgren <tony@atomide.com> wrote:
->>> For example, I have a pile of pending omap clock clean-up dts patches
->>> posted and tested waiting for v5.19-rc1 to apply. I'd rather not start
->>> redoing or fixing up the patches with sed :)
->>
->> Git merge/rebase/cherry-pick should handle renames fine?
+> > > +#include <linux/clk.h>  
+> > 
+> > I have mentioned forward declarations.
 > 
-> Possibly.. Not sure I'd count on that based on my earlier experiences
-> though :)
+> Why do you want forward declarations more than includes?
+
+Because they will speed up the kernel build and avoid dirtifying the namespace
+(less possible collisions).
+
+> > So, this can be simply replaced by
+> > 
+> > struct clk;
+> > 
+> > > +#include <linux/notifier.h>
+> > > +#include <linux/workqueue.h>  
 > 
+> And why these two should remain but reset and clk be replaced?
 
-Yes. If this could be split up in per silicon-vendor patches, the maintainer 
-could take them. Although it might be a pain to soc maintainers to resolve small 
-conflicts when merging that branches.
+Because these one are being used, clk and reset are not (the pointers
+are opaque from the point of view of this header).
 
-Just my 5 cents.
+> > > +#include <linux/reset.h>  
+> > 
+> > Ditto.
+> > 
+> > struct reset_control;
+> > 
+> > On top of that, please keep them ordered.
+> > 
+> > Otherwise it looks good to me.
 
-Matthias
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
