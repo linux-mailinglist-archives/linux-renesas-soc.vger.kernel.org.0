@@ -2,132 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E414EACFE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 14:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE214EAD1A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 14:26:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236240AbiC2MV4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 08:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34682 "EHLO
+        id S236285AbiC2M1f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 08:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236239AbiC2MVw (ORCPT
+        with ESMTP id S232550AbiC2M1e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 08:21:52 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E147A340C7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Mar 2022 05:20:09 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d553:ff0a:6830:6bde])
-        by michel.telenet-ops.be with bizsmtp
-        id CCL82700649QC4406CL8PU; Tue, 29 Mar 2022 14:20:08 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nZApT-007GW8-Oy; Tue, 29 Mar 2022 14:20:07 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nZApS-00CDdw-Ls; Tue, 29 Mar 2022 14:20:06 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Tue, 29 Mar 2022 08:27:34 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43F44D9C1;
+        Tue, 29 Mar 2022 05:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648556751; x=1680092751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B4gfQZ727rl7OXibsvWflHV4WHOqBqSX/MZ7Umzjj+U=;
+  b=hTOMwYLmd5r+rqE7BtdFiUKsn2Enep2Mdr/hIep4uQGm0f0IcAi58d0t
+   PULxF3zK06I27mRsmOd5t4qwZCx16bDluOdf2XF7HkOyHAVgC7eVNiZNm
+   ozb2NpuXNKgq4/XhqKdvETHMoM39ZB2YI8Mbh4CDPTSGPiSInjyxecZNW
+   eVIs9931oGuS90Y2RvF3ptaA01BkU6G34Cy9DKFLrSrZXKnkyfLushqQm
+   3Ms/z3Y4iy5NRlS0oSSG1e1+Iy393TVHUhFeZJa8W4D8udllThbZGqf0Z
+   LaDQ5gsW3uN/bb4h+BgJgp3kyxUoGfKQ4KYiJE/Q7Tj5D1CwfUdy0qGZA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="258065891"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="258065891"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 05:25:51 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="518900483"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 05:25:46 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nZAuN-008jlQ-PL;
+        Tue, 29 Mar 2022 15:25:11 +0300
+Date:   Tue, 29 Mar 2022 15:25:11 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Fabien DESSENNE <fabien.dessenne@foss.st.com>
+Cc:     Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 5/5] arm64: dts: renesas: ulcb: Add RPC HyperFlash device node
-Date:   Tue, 29 Mar 2022 14:20:05 +0200
-Message-Id: <61a63e819d4296760ca7ae83ef5226a2c4d7bd93.1648548339.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1648548339.git.geert+renesas@glider.be>
-References: <cover.1648548339.git.geert+renesas@glider.be>
+        linux-stm32@st-md-mailman.stormreply.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v1 2/5] pinctrl: stm32: Replace custom code by
+ gpiochip_count() call
+Message-ID: <YkL6p89LpPS4kLHo@smile.fi.intel.com>
+References: <20220325200338.54270-1-andriy.shevchenko@linux.intel.com>
+ <20220325200338.54270-2-andriy.shevchenko@linux.intel.com>
+ <ca54534d-9752-44fc-7341-a8b45e1a00d7@foss.st.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca54534d-9752-44fc-7341-a8b45e1a00d7@foss.st.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the RPC HyperFlash device node along with its partitions to the
-common ULCB board DTS file.
+On Tue, Mar 29, 2022 at 02:07:01PM +0200, Fabien DESSENNE wrote:
+> Hi Andy
+> 
+> Thank you for your the clarification.
 
-Based on a patch in the BSP by Valentine Barshak.
+> Reviewed-by: Fabien Dessenne <fabien.dessenne@foss.st.com>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes compared to the BSP:
-  - Update label,
-  - Keep RPC disabled,
-  - Add missing "cypress,hyperflash" compatible value,
-  - Drop leading zeroes from unit addresses,
-  - Use lower-case hexadecimal values.
-  - Enlarge uboot partition,
-  - Drop uboot-env partition.
----
- arch/arm64/boot/dts/renesas/ulcb.dtsi | 49 +++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+Thanks!
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index b4bdb2d7e4bacb9d..90a4c0629d240fdb 100644
---- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -426,6 +426,55 @@ rsnd_for_hdmi: endpoint {
- 	};
- };
- 
-+&rpc {
-+	/* Left disabled.  To be enabled by firmware when unlocked. */
-+
-+	flash@0 {
-+		compatible = "cypress,hyperflash", "cfi-flash";
-+		reg = <0>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			bootparam@0 {
-+				reg = <0x00000000 0x040000>;
-+				read-only;
-+			};
-+			bl2@40000 {
-+				reg = <0x00040000 0x140000>;
-+				read-only;
-+			};
-+			cert_header_sa6@180000 {
-+				reg = <0x00180000 0x040000>;
-+				read-only;
-+			};
-+			bl31@1c0000 {
-+				reg = <0x001c0000 0x040000>;
-+				read-only;
-+			};
-+			tee@200000 {
-+				reg = <0x00200000 0x440000>;
-+				read-only;
-+			};
-+			uboot@640000 {
-+				reg = <0x00640000 0x100000>;
-+				read-only;
-+			};
-+			dtb@740000 {
-+				reg = <0x00740000 0x080000>;
-+			};
-+			kernel@7c0000 {
-+				reg = <0x007c0000 0x1400000>;
-+			};
-+			user@1bc0000 {
-+				reg = <0x01bc0000 0x2440000>;
-+			};
-+		};
-+	};
-+};
-+
- &rwdt {
- 	timeout-sec = <60>;
- 	status = "okay";
+In v2 I'm going to add another patch and the first (against gpiolib) will be
+split to two. This patch will be almost unchanged: I've decided to rename
+gpiochip_count() to gpiochip_node_count(), otherwise it's the same. So, I'll
+keep your tag.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
