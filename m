@@ -2,114 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2814B4EB125
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 17:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7435A4EB128
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 17:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236464AbiC2QAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 12:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
+        id S239108AbiC2QBU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 12:01:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232964AbiC2QAh (ORCPT
+        with ESMTP id S236624AbiC2QBK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 12:00:37 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F3E3140DE;
-        Tue, 29 Mar 2022 08:58:54 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id kd21so11791275qvb.6;
-        Tue, 29 Mar 2022 08:58:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6+WmnTJxOFwxQWCEL6DrdbnoZwCmM3ipAFq3iiXlCUA=;
-        b=2Q0QUMmEIV4+ZUmDxQVvkd05XWq1ecxArhenz12toHM3OrHIT5n8Pp7Uug3BqTDBPJ
-         aUpIap992yYrXb2UUYiw90U/cr6AVbt+YT/4hoiwp8OT8og+tkQI7taX98fuSZqkR1CQ
-         Zy7UWTCHtn03VtPwB8Cp4/7l3/41J252/twwZa9AsNM3+HJmnvxZDRMKGf28hdFQBKQ7
-         3M70Vhp5ftZEn+5cndgd8c+6LC23V06UmRmgMg4Qihz6GUvWbHhrd82oN5KwjM29+mJJ
-         o5EBU0ft1k4P4NEcG1dp/pqXq2peGvRCkuj84v3Ru0aX6vor+0SUA/KstQqEgCdHy1o2
-         w4KA==
-X-Gm-Message-State: AOAM532Rc3KZb9fzowuBButEc5Rhg6XWbctps/C1xHdrFa5Y6fCDA1CW
-        YzQ/8OLcUyALUUos7hWFmIGKTLmQuzA9vA==
-X-Google-Smtp-Source: ABdhPJxv2YzKoPn2Xf1/88BG0xdZUhWMU6zzVWUwan8PsnVzZZ4MgtoIH3wkdjUsUTgOxzrxC2EJBQ==
-X-Received: by 2002:a05:6214:27e9:b0:440:f6c9:dbe0 with SMTP id jt9-20020a05621427e900b00440f6c9dbe0mr27095594qvb.22.1648569532899;
-        Tue, 29 Mar 2022 08:58:52 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id q8-20020a05622a030800b002e1c9304db8sm15103583qtw.38.2022.03.29.08.58.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 08:58:52 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id y38so29679640ybi.8;
-        Tue, 29 Mar 2022 08:58:52 -0700 (PDT)
-X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
- p9-20020a259e89000000b0063cad37a5demr13900472ybq.342.1648569531851; Tue, 29
- Mar 2022 08:58:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220329152430.756947-1-miquel.raynal@bootlin.com> <20220329152430.756947-4-miquel.raynal@bootlin.com>
-In-Reply-To: <20220329152430.756947-4-miquel.raynal@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 29 Mar 2022 17:58:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXh-6YWvQUJ957PNB_fv+3+L-GbGg3dYDCZhp5+g7fcSQ@mail.gmail.com>
-Message-ID: <CAMuHMdXh-6YWvQUJ957PNB_fv+3+L-GbGg3dYDCZhp5+g7fcSQ@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] serial: 8250: dw: Change the quirks type to
- unsigned int
+        Tue, 29 Mar 2022 12:01:10 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA108140DE;
+        Tue, 29 Mar 2022 08:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648569567; x=1680105567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gNHHB7leAHtb7Q/wj8FnI4OMlNWqrpOwN82fZxOmZh8=;
+  b=LfAXo56pcDgHwzJuN/iJnngRmDqM9zq2S18YfMq7UkXF4lUWbi/g0yIF
+   V7kYQJaLqjNYboWOEsBBClSwPWTPPoBxooESWr2AS7nN/LgsUv1/cWH7X
+   gAdggwtLkoWiyjicsSm4k3q7rbrs16yk8u+4tYGczsD0cU/BQ6JUXvOvt
+   Lcq54FpGrYGmBQZ5+8UninaYW2KU9zjE1pWXJhf/6w9ejHGOO+n53WO7b
+   /bFyrsb4MSzWAc9dAwU03wiafzEe8b5OLDUj3vcnPW+FQMGBClfM/Lg1U
+   2U4biOFIDL+8GoNOlNS/RF6yvnFNBPXgNSswG306JYx+zfZBiTyN5koYk
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="241437634"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="241437634"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 08:59:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="653065178"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 08:59:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nZEF7-008qMZ-Ve;
+        Tue, 29 Mar 2022 18:58:49 +0300
+Date:   Tue, 29 Mar 2022 18:58:49 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Clement Leger <clement.leger@bootlin.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH v3 08/10] serial: 8250: dw: Add support for DMA flow
+ controlling devices
+Message-ID: <YkMsubn0I7TOT0KC@smile.fi.intel.com>
+References: <20220329152430.756947-1-miquel.raynal@bootlin.com>
+ <20220329152430.756947-9-miquel.raynal@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329152430.756947-9-miquel.raynal@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+On Tue, Mar 29, 2022 at 05:24:28PM +0200, Miquel Raynal wrote:
+> From: Phil Edworthy <phil.edworthy@renesas.com>
+> 
+> DW based controllers like the one on Renesas RZ/N1 must be programmed as
+> flow controllers when using DMA.
+> 
+> * Table 11.45 of the system manual, "Flow Control Combinations", states
+>   that using UART with DMA requires setting the DMA in the peripheral
+>   flow controller mode regardless of the direction.
+> 
+> * Chapter 11.6.1.3 of the system manual, "Basic Interface Definitions",
+>   explains that the burst size in the above case must be configured in
+>   the peripheral's register DEST/SRC_BURST_SIZE.
+> 
+> Experiments shown that upon Rx timeout, the DMA transaction needed to be
+> manually cleared as well.
 
-On Tue, Mar 29, 2022 at 5:24 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> Unsigned int is better than unsigned long as its size does not change
-> between setups and we don't really need this variable to be more than a
-> few bits wide for now.
->
-> Suggested-by: Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+...
 
-Thanks for your patch!
+>  #define DW_UART_USR	0x1f /* UART Status Register */
+> +#define DW_UART_DMASA	0xa8 /* DMA Software Ack */
+> +#define RZN1_UART_TDMACR 0x10c /* DMA Control Register Transmit Mode */
+> +#define RZN1_UART_RDMACR 0x110 /* DMA Control Register Receive Mode */
 
-> --- a/drivers/tty/serial/8250/8250_dw.c
-> +++ b/drivers/tty/serial/8250/8250_dw.c
-> @@ -376,7 +376,7 @@ static bool dw8250_idma_filter(struct dma_chan *chan, void *param)
->  static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
->  {
->         struct device_node *np = p->dev->of_node;
-> -       unsigned long quirks = (unsigned long)device_get_match_data(p->dev);
-> +       unsigned int quirks = (unsigned int)device_get_match_data(p->dev);
+Yep!
 
-"(uintptr_t)" (or "(unsigned long)" ;-), else you'll get a "cast from
-pointer to integer of different size" warning on 64-bit builds.
+Since it seems we may have a v4, I would add a blank line between Synopsys
+and custom register groups.
 
->
->         if (np) {
->                 int id;
+...
 
-Gr{oetje,eeting}s,
+>  #define DW_UART_QUIRK_OCTEON		BIT(0)
+>  #define DW_UART_QUIRK_ARMADA_38X	BIT(1)
+>  #define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
+> +#define DW_UART_QUIRK_IS_DMA_FLOW_CONTROLLER BIT(3)
 
-                        Geert
+Seems the last has no TAB in it. It may require to indent the above as well.
+Alternatively you may rename FLOW_CONTROLLER --> FC and add a comment on top
+to explain this.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +	const struct dw8250_platform_data *pdata = device_get_match_data(p->dev);
+
+Third one!
+
+> +	/* Manually stop the Rx DMA transfer when acting as flow controller */
+> +	if (up->dma && up->dma->rx_running && rx_timeout && pdata &&
+> +	    pdata->quirks & DW_UART_QUIRK_IS_DMA_FLOW_CONTROLLER) {
+
+For example,
+
+	unsigned int quirks = data->pdata.quirks;
+
+	if (up->dma && up->dma->rx_running && rx_timeout && quirks & DW_UART_QUIRK_IS_DMA_FC) {
+
+(It's also fine to have that on one line)
+
+> +		status = p->serial_in(p, UART_LSR);
+> +		if (status & (UART_LSR_DR | UART_LSR_BI)) {
+> +			writel(0, p->membase + RZN1_UART_RDMACR);
+> +			writel(1, p->membase + DW_UART_DMASA);
+> +		}
+> +	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
