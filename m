@@ -2,156 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E62754EA468
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 03:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2FDF4EA8E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 10:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbiC2BFF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Mar 2022 21:05:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43026 "EHLO
+        id S231262AbiC2IBm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 04:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbiC2BFE (ORCPT
+        with ESMTP id S233689AbiC2IBk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Mar 2022 21:05:04 -0400
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653D3D49;
-        Mon, 28 Mar 2022 18:03:22 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so17161125fac.7;
-        Mon, 28 Mar 2022 18:03:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WqdeoowukI4GOOScgfXJxtzumhshPQliLbbvvYlwjuE=;
-        b=JaLz7WclRVXI38iw8fVHlWWKYxNqI4rFkjIRKEqxSfVnRT3Qet/VVAqK29isPvSDx/
-         knGXLj8pgVdLXAviiNmr8k5STP7fYKmMcx5tuydGAai12+ggcal5NW7IwsPLEgYgyIuV
-         CrbrdPQRgtS+aaysfxf5kJc/ARhnI+7EWOHZZtaI9Xdytm1gshByMMKMv5Me3JaTH2eS
-         BHaVti3SXwO1uVBcpRqU7Up95bnQIfeIzofoQdGv7XULBE6sGsgiO3TAgXfqxajFkcxL
-         IzMKm2r7kQB1F1EDNolCGKFzCeZHpfJ9DZB83VyQBIeB0G6RNizToa4C+1j+Ct9rk5d4
-         Z64w==
-X-Gm-Message-State: AOAM533zNCEv+rzUoZ227ISBE+Q+EO0Rng0bo/EUhvtbtZvwl3DXEFa5
-        5G+eeC2KghjtsA4RZzvluGphc7Fnew==
-X-Google-Smtp-Source: ABdhPJxVw7hTnrsgTjFG/lNeL9wfFbY+EmJgV5O2no4mHIVJi5WnXqNYiLrxCo6nPwg0hewhyQe2Ww==
-X-Received: by 2002:a05:6870:f104:b0:da:b3f:2b62 with SMTP id k4-20020a056870f10400b000da0b3f2b62mr956039oac.257.1648515799891;
-        Mon, 28 Mar 2022 18:03:19 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 12-20020a05687012cc00b000de97cc1beesm6529315oam.43.2022.03.28.18.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 18:03:19 -0700 (PDT)
-Received: (nullmailer pid 3403807 invoked by uid 1000);
-        Tue, 29 Mar 2022 01:03:18 -0000
-Date:   Mon, 28 Mar 2022 20:03:18 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 02/14] dt-bindings: arm: renesas: Document Renesas RZ/V2M
- System Configuration
-Message-ID: <YkJa1oLSEP8R4U6y@robh.at.kernel.org>
-References: <20220321154232.56315-1-phil.edworthy@renesas.com>
- <20220321154232.56315-3-phil.edworthy@renesas.com>
- <a51dec7d-4dfd-5603-3d34-a40b0fd9ec08@kernel.org>
- <TYYPR01MB70862B27A67D868B196A70E7F5189@TYYPR01MB7086.jpnprd01.prod.outlook.com>
- <4297b8c2-1958-9abb-7d93-0e6d283b6194@kernel.org>
+        Tue, 29 Mar 2022 04:01:40 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DCD1D0DF;
+        Tue, 29 Mar 2022 00:59:55 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22T7N1Xq020398;
+        Tue, 29 Mar 2022 09:59:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=UcgvQ2AdqobLy8N84Hdj82PeXx82mB/fu9p/MaYyHdI=;
+ b=CQMOzzrneW0mojI+xjGHYXulRxrDP0c0Y8GdKIAHw8Ff1gWo5+MYtj88VtmxM40gQrBY
+ c7pnL8L44jCHw0rYTnsvnuQdzFDItQi4+Mz032IrPBqztShXfcqDNiudSgA6CwE1AGjE
+ 4LPcfxDVVw23/+hJkqI9l+edsrjGqW9VWCBzhbVl+jWRnETCBwn8E9XI2dANUjRVG1lG
+ V43tCejVYcyrKlTl2akWBAg6osT663vAqpwEG7QKfQffgXn0a78BoAZ3mp7cpYeMJyau
+ iDJPm6xle6YBOczTZDPwJjIPY6rWnu4vAyEA35ZjFK1xtIziGCtY/6Q5hb3H2e2eZlcZ CQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f1tkm7m18-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Mar 2022 09:59:37 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3A60110002A;
+        Tue, 29 Mar 2022 09:59:34 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 216872138C3;
+        Tue, 29 Mar 2022 09:59:34 +0200 (CEST)
+Received: from [10.211.10.49] (10.75.127.49) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 29 Mar
+ 2022 09:59:33 +0200
+Message-ID: <44057328-2454-4f4d-cc90-b0ca35ba1e5a@foss.st.com>
+Date:   Tue, 29 Mar 2022 09:59:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4297b8c2-1958-9abb-7d93-0e6d283b6194@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 2/5] pinctrl: stm32: Replace custom code by
+ gpiochip_count() call
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        <linux-gpio@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+CC:     Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20220325200338.54270-1-andriy.shevchenko@linux.intel.com>
+ <20220325200338.54270-2-andriy.shevchenko@linux.intel.com>
+From:   Fabien DESSENNE <fabien.dessenne@foss.st.com>
+In-Reply-To: <20220325200338.54270-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-29_02,2022-03-28_01,2022-02-23_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 03:54:42PM +0100, Krzysztof Kozlowski wrote:
-> On 23/03/2022 15:44, Phil Edworthy wrote:
-> > Hi Krzysztof,
-> > 
-> > Thanks for the review.
-> > 
-> > On 23 March 2022 10:42, Krzysztof Kozlowski wrote:
-> >> On 21/03/2022 16:42, Phil Edworthy wrote:
-> >>> Add DT binding documentation for System Configuration (SYS) found on
-> >>> RZ/V2M SoC's.
-> >>>
-> >>> SYS block contains the SYS_VERSION register which can be used to
-> >> retrieve
-> >>> SoC version information.
-> >>>
-> >>> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> >>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>
-> >> Could you send reviewed-by tags publicly? Maybe there was internal
-> >> review, maybe not and it was just copy-pasted to all submissions...
-> > Yes, it was reviewed internally.
-> > We've done it like this for a while, I'll see what we can do to change
-> > the way we do it. Would just copying the person who reviewed it be
-> > enough?
-> > 
-> >>> ---
-> >>>  .../bindings/arm/renesas,rzv2m-sys.yaml       | 39 +++++++++++++++++++
-> >>>  1 file changed, 39 insertions(+)
-> >>>  create mode 100644 Documentation/devicetree/bindings/arm/renesas,rzv2m-
-> >> sys.yaml
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/arm/renesas,rzv2m-
-> >> sys.yaml b/Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml
-> >>> new file mode 100644
-> >>> index 000000000000..1a58906336b8
-> >>> --- /dev/null
-> >>> +++ b/Documentation/devicetree/bindings/arm/renesas,rzv2m-sys.yaml
-> >>> @@ -0,0 +1,39 @@
-> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>> +%YAML 1.2
-> >>> +---
-> >>> +$id: "http://devicetree.org/schemas/arm/renesas,rzv2m-sys.yaml#"
-> >>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> >>> +
-> >>> +title: Renesas RZ/V2M System Configuration (SYS)
-> >>> +
-> >>> +maintainers:
-> >>> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> +
-> >>> +description:
-> >>> +  The RZ/V2M System Configuration (SYS) performs system control of the
-> >> LSI
-> >>> +  and supports the following functions,
-> >>> +  - LSI version
-> >>> +  - 34-bit address space access function
-> >>> +  - PCIe related settings
-> >>> +  - WDT stop control
-> >>> +  - Temperature sensor (TSU) monitor
-> >>
-> >> Usually all these are separate devices, so what does it mean that SYS is
-> >> supporting these functions? Is it related to other Renesas System
-> >> Controllers? For example
-> >> Documentation/devicetree/bindings/power/renesas,apmu.yaml
-> >> ?
-> >> Why one is in power and one in arm subdirectory? Maybe you should extend
-> >> existing one?
-> > 
-> > SYS looks like somewhere to put registers that don't have a logical home.
-> > There are lots of little bits, I just listed the main functions.
-> > On other Renesas SoCs, it's similar but they include power related
-> > registers. Actually, I originally put it in the power directory, then
-> > moved it.
+Hi Andy,
+
+
+On 25/03/2022 21:03, Andy Shevchenko wrote:
+> Since we have generic function to count GPIO controller nodes
+> under given device, there is no need to open code it. Replace
+> custom code by gpiochip_count() call.
 > 
-> The existing rzg2l-sysc looks similar and is in power. If arm location
-> is conscious choice (not just placeholder), fine with me. :)
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>   drivers/pinctrl/stm32/pinctrl-stm32.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
+> index 9ed764731570..d4bbeec82c1f 100644
+> --- a/drivers/pinctrl/stm32/pinctrl-stm32.c
+> +++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+> @@ -1423,7 +1423,8 @@ int stm32_pctl_probe(struct platform_device *pdev)
+>   	struct device *dev = &pdev->dev;
+>   	struct stm32_pinctrl *pctl;
+>   	struct pinctrl_pin_desc *pins;
+> -	int i, ret, hwlock_id, banks = 0;
+> +	int i, ret, hwlock_id;
+> +	unsigned int banks;
+>   
+>   	if (!np)
+>   		return -EINVAL;
+> @@ -1513,10 +1514,7 @@ int stm32_pctl_probe(struct platform_device *pdev)
+>   		return PTR_ERR(pctl->pctl_dev);
+>   	}
+>   
+> -	for_each_available_child_of_node(np, child)
 
-The preference is:
+Here we look for "available" child, while the new generic helper 
+gpiochip_count() looks for any child, available or not.
+Would it be possible to hav gpiochip_count() looking for available child 
+as well?
+It looks like there is '_available_' version of 
+'device_for_each_child_node', maybe this shall be added too.
 
-1) subsystem/class
-2) soc/ dir
 
-And arm/ for just top-level bindings.
+> -		if (of_property_read_bool(child, "gpio-controller"))
+> -			banks++;
+> -
+> +	banks = gpiochip_count(dev);
+>   	if (!banks) {
+>   		dev_err(dev, "at least one GPIO bank is required\n");
+>   		return -EINVAL;
 
-Rob
+Fabien
