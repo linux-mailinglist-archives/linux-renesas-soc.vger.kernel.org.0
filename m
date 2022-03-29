@@ -2,135 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07CCC4EAA61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 11:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4934EAAA0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 11:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234419AbiC2JV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 05:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34152 "EHLO
+        id S234770AbiC2Jjw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 05:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234592AbiC2JV0 (ORCPT
+        with ESMTP id S234768AbiC2Jjv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 05:21:26 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCCB173F44;
-        Tue, 29 Mar 2022 02:19:35 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 17680240012;
-        Tue, 29 Mar 2022 09:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1648545573;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4OYEQcpxV5ZoCImFdldnCROqjeYEuOqk5lTqs4xQNOw=;
-        b=E0C2ytxPlV1W+Oe2MExHPN7L1HAoV5OikaBi/U7DewsMCqNtbPDqkZmi2EkEtqy1h9eSgE
-        iiefcHj+RmgZ+f+Nhg1dBvgQLIyFkVMlqvsI0mQLoe4LXrWKzoi2/xC4DJe0nxuepZkThU
-        FRyNwSRBCCVeRjb5oEYt0caD6HgzFm/e5R4zbhwmHQOWSB6a/GJnngaEUVODgCoYqdO+7g
-        DcfNnSRhpGEP/dmCe7VL2vFiRtpk1xrIevN5WpjBBTppF28IllsoBjw5Ux75BSFoUNa40U
-        iEy83TwJxTr5nOyIxsdHupHOzrfEzXzdR3N0Ts3ALvlLshPNCnGr1VoMVatfnA==
-Date:   Tue, 29 Mar 2022 11:19:30 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc:     Ansuel Smith <ansuelsmth@gmail.com>,
+        Tue, 29 Mar 2022 05:39:51 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FDA985BF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Mar 2022 02:38:08 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d553:ff0a:6830:6bde])
+        by albert.telenet-ops.be with bizsmtp
+        id C9e52700k49QC44069e6Kh; Tue, 29 Mar 2022 11:38:06 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nZ8If-007Eie-H9; Tue, 29 Mar 2022 11:38:05 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nZ8Ie-00CC2F-Mp; Tue, 29 Mar 2022 11:38:04 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com,
-        linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <YkLPIgwClJAUc1Uf@piout.net>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <YkG2RPrtPaBNXb7a@latitude>
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: memory: renesas,rpc-if: Document R-Car H3/M3/E3 support
+Date:   Tue, 29 Mar 2022 11:38:03 +0200
+Message-Id: <3784b6cb76a008fb56d6cb4ba228d78c77e710fa.1648546583.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YkG2RPrtPaBNXb7a@latitude>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Document support for the SPI Multi I/O Bus Controller (RPC-IF) in the
+R-Car H3, M3-W, M3-W+, M3-N, and E3 SoCs.
 
-On 28/03/2022 15:21:08+0200, Jonathan Neuschäfer wrote:
-> On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
-> >  create mode 100644 arch/arm/boot/dts/freescale/Makefile
-> 
-> Freescale has been part of NXP for a while, so it might make sense to
-> merge the freescale and nxp directories. I can't speak for
-> NXP-the-company, so that's just my view as a bystander.
-> 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../bindings/memory-controllers/renesas,rpc-if.yaml          | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Maybe we should wait for the market consolidation to end so we can put
-all the files in a single subfolder?
-
-this would save us from all the bikeshedding ;)
-
-> >  create mode 100644 arch/arm/boot/dts/kirkwood/Makefile
-> 
-> The Kirkwood family should probably be sorted into Marvell.
-> 
-> >  create mode 100644 arch/arm/boot/dts/layerscape/Makefile
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-moxa-uc-8410a.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-qds.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-tsn.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-twr.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a.dtsi (100%)
-> 
-> The Layerscape family is part of Freescale/NXP.
-> 
-> >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
-> 
-> armv7-m.dtsi is a bit confusing, because it contains a few devices at
-> fixed addresses, so it looks vendor-specific at a first glance into the
-> file. However, if it is actually as vendor-neutral as the name implies,
-> I think it should live dts/ directly, rather than in vendor
-> subdirectories.
-> 
-> >  rename arch/arm/boot/dts/{ => nxp}/lpc18xx.dtsi (100%)
-> 
-> Here we have the NXP LPCxxxx family, which is AFAIK unrelated to the
-> i.MX family (and thus the bulk of the Freescale legacy).
-> 
-> >  create mode 100644 arch/arm/boot/dts/vybrid/Makefile
-> 
-> Vybrid is another chip family of NXP, with a good deal of Freescale
-> legacy in it as evidenced by the "fsl," prefix in the devicetrees.
-> 
-> 
-> 
-> Thanks,
-> Jonathan
-
-
-
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
-
+diff --git a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+index 9a6dbf54b5406eb6..ae31dc97524cd6c9 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+@@ -31,8 +31,13 @@ properties:
+               - renesas,r8a774b1-rpc-if       # RZ/G2N
+               - renesas,r8a774c0-rpc-if       # RZ/G2E
+               - renesas,r8a774e1-rpc-if       # RZ/G2H
++              - renesas,r8a7795-rpc-if        # R-Car H3
++              - renesas,r8a7796-rpc-if        # R-Car M3-W
++              - renesas,r8a77961-rpc-if       # R-Car M3-W+
++              - renesas,r8a77965-rpc-if       # R-Car M3-N
+               - renesas,r8a77970-rpc-if       # R-Car V3M
+               - renesas,r8a77980-rpc-if       # R-Car V3H
++              - renesas,r8a77990-rpc-if       # R-Car E3
+               - renesas,r8a77995-rpc-if       # R-Car D3
+               - renesas,r8a779a0-rpc-if       # R-Car V3U
+           - const: renesas,rcar-gen3-rpc-if   # a generic R-Car gen3 or RZ/G2{E,H,M,N} device
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
