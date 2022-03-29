@@ -2,94 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515AB4EA8ED
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 10:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 845614EA8FE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 10:10:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbiC2IDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 04:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
+        id S233755AbiC2IMj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 04:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233733AbiC2IB4 (ORCPT
+        with ESMTP id S232285AbiC2IMj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 04:01:56 -0400
-X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 29 Mar 2022 01:00:11 PDT
-Received: from muru.com (muru.com [72.249.23.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DD6D81FCCE;
-        Tue, 29 Mar 2022 01:00:11 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 727F580F9;
-        Tue, 29 Mar 2022 07:51:24 +0000 (UTC)
-Date:   Tue, 29 Mar 2022 10:53:27 +0300
-From:   Tony Lindgren <tony@atomide.com>
-To:     Daniel Palmer <daniel@0x0f.com>
-Cc:     Ansuel Smith <ansuelsmth@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        kernel@dh-electronics.com, linux-mediatek@lists.infradead.org,
-        openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-unisoc@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <YkK691VG6ON/6Ysn@atomide.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
+        Tue, 29 Mar 2022 04:12:39 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC73024587;
+        Tue, 29 Mar 2022 01:10:55 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7ABEA60015;
+        Tue, 29 Mar 2022 08:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1648541454;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NIWeVXp5W7Tm62vf3HbLfCCWgDNazWwRL2/kVsgxxvU=;
+        b=fPwKcMracZgtVY+QxEkAB4PGiZlBSbk3ENnAi+LgEhzlNp2Um/GE2p5n0cwC5d3daLI/ix
+        7aKmE6Eu1Z0ETiHkb3+CjIfGBjsEFAcrK4ZYja1FVBPwt0L2RCrdj+EnkvMftaOSkE6gIX
+        2cjZuatijrYYM224DGEiYyxV9izW6Y9Iz469eRbi9M74cQ9GUNCz3LGfohPy9lNS3XoCG1
+        giAC38DktbX6E9BcNb4GULiveRSFpv0j0cFlRceoYm8gFYEv2YU8Ento/jVSUDHxhoXlyZ
+        WnLWQW/B6l/EMGsNuibAiBCxMN2y1+by54kCL4hy13lSnqjSti3KPp2FJFaBKg==
+Date:   Tue, 29 Mar 2022 10:10:49 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v2 01/10] serial: 8250: dw: Move the per-device
+ structure
+Message-ID: <20220329101049.069a0b1b@xps13>
+In-Reply-To: <CAHp75Ve-PbTMBdb6Y0TYdaOMDwsJ_2JVoKCkwCFBG=iUd8baEA@mail.gmail.com>
+References: <20220317174627.360815-1-miquel.raynal@bootlin.com>
+        <20220317174627.360815-2-miquel.raynal@bootlin.com>
+        <CAHp75Ve-PbTMBdb6Y0TYdaOMDwsJ_2JVoKCkwCFBG=iUd8baEA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,WEIRD_QUOTING autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Andy,
 
-* Daniel Palmer <daniel@0x0f.com> [220328 08:53]:
-> Hi Ansuel
-> 
-> On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+andy.shevchenko@gmail.com wrote on Fri, 18 Mar 2022 12:51:29 +0200:
+
+> On Thu, Mar 17, 2022 at 9:56 PM Miquel Raynal <miquel.raynal@bootlin.com>=
+ wrote:
 > >
-> > Hi,
-> > as the title say, the intention of this ""series"" is to finally categorize
-> > the ARM dts directory in subdirectory for each oem.
-> 
-> While I agree with this change and think it's for the good (browsing
-> the ARM dts directory at the moment is frustrating..) I think
-> buildroot and others need to be told about this as it'll potentially
-> break their kernel build scripting for ARM and probably messes up the
-> configs they have for existing boards.
+> > From: Phil Edworthy <phil.edworthy@renesas.com>
+> >
+> > This structure needs to be reused from dwlib, so let's move it into a
+> > shared header. There is no functional change. =20
+>=20
+> ...
+>=20
+> >  #include <linux/types.h> =20
+>=20
+> > +#include <linux/clk.h> =20
+>=20
+> I have mentioned forward declarations.
 
-Yeah.. And ideally this would be done in smaller steps as these will
-conflict with all the other pending patches.
+Why do you want forward declarations more than includes?
 
-For example, I have a pile of pending omap clock clean-up dts patches
-posted and tested waiting for v5.19-rc1 to apply. I'd rather not start
-redoing or fixing up the patches with sed :)
+> So, this can be simply replaced by
+>=20
+> struct clk;
+>=20
+> > +#include <linux/notifier.h>
+> > +#include <linux/workqueue.h> =20
 
-What I'd like to have see is that at some point when suitable we move
-one machine at a time with a script if possible.. Maybe the dtb files
-generated would need to remain in the current directory until all of
-the machine dts files are moved? That should help with the build
-scripting too probably :)
+And why these two should remain but reset and clk be replaced?
 
-In general I like the idea though and I think we should do it.
+>=20
+> > +#include <linux/reset.h> =20
+>=20
+> Ditto.
+>=20
+> struct reset_control;
+>=20
+> On top of that, please keep them ordered.
+>=20
+> Otherwise it looks good to me.
+>=20
 
-Regards,
 
-Tony
+Thanks,
+Miqu=C3=A8l
