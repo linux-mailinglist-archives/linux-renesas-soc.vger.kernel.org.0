@@ -2,133 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E80EF4EACDA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 14:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B3754EACF0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 14:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234767AbiC2MJV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 08:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46698 "EHLO
+        id S236228AbiC2MTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 08:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232767AbiC2MJU (ORCPT
+        with ESMTP id S232767AbiC2MTR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 08:09:20 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FF411F608;
-        Tue, 29 Mar 2022 05:07:37 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22TAHJCk029058;
-        Tue, 29 Mar 2022 14:07:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=osMzLdkQ6grvoOD0PPp5+8N1DayXK6oHusZTOhnzDIM=;
- b=WzpjXfluC2otRdrEe4i5lw1dl188CauxupIF+mewKyPX71/QFMK5DvdWjx8UmmtivDGW
- qar4zP/mCmw1UC+kCef1dNuxpgZFQ58pZIJy6FKOm6OATZTwxaXmzY4akFdHxul1zQJW
- OYAHjDvPIZ1etazETuJzN60T9DFLBvyNoNQ+fBbOIJfM+ymxxCkngHi25tzBePPen9wl
- EV+D6BXiuYOqGAIFOgKNuSRM63u4elTJ5Jy8D6LthyQtQpd7Fq0CNcCcOgBxCk7gynWN
- FKHdojIp8gcYQF6OHx9ZLHzO6mwmgrPmvceHoRU7dgezm/Fr1FU3YUL9aSmtPkPcb5bg lA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f1rud9q5a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Mar 2022 14:07:05 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 01DE910002A;
-        Tue, 29 Mar 2022 14:07:04 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EAE95221764;
-        Tue, 29 Mar 2022 14:07:03 +0200 (CEST)
-Received: from [10.211.9.54] (10.75.127.51) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 29 Mar
- 2022 14:07:01 +0200
-Message-ID: <ca54534d-9752-44fc-7341-a8b45e1a00d7@foss.st.com>
-Date:   Tue, 29 Mar 2022 14:07:01 +0200
+        Tue, 29 Mar 2022 08:19:17 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D684237FFF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Mar 2022 05:17:34 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d553:ff0a:6830:6bde])
+        by laurent.telenet-ops.be with bizsmtp
+        id CCHY2700F49QC4401CHYk8; Tue, 29 Mar 2022 14:17:32 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nZAmx-007GUM-V3; Tue, 29 Mar 2022 14:17:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nZAmx-00CDVB-7A; Tue, 29 Mar 2022 14:17:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     tf-a@lists.trustedfirmware.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH TF-A] fix(plat/rcar3): Fix RPC-IF device node name
+Date:   Tue, 29 Mar 2022 14:17:20 +0200
+Message-Id: <3685623bed84674039adb61e723288d359ab0a50.1648544199.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 2/5] pinctrl: stm32: Replace custom code by
- gpiochip_count() call
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        <linux-gpio@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-CC:     Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20220325200338.54270-1-andriy.shevchenko@linux.intel.com>
- <20220325200338.54270-2-andriy.shevchenko@linux.intel.com>
-From:   Fabien DESSENNE <fabien.dessenne@foss.st.com>
-In-Reply-To: <20220325200338.54270-2-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.51]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-29_04,2022-03-29_01,2022-02-23_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy
+According to the Generic Names Recommendation in the Devicetree
+Specification Release v0.3, and the DT Bindings for the Renesas Reduced
+Pin Count Interface, the node name for a Renesas RPC-IF device should be
+"spi".  The node name matters, as the node is enabled by passing a DT
+fragment from TF-A to subsequent software.
 
-Thank you for your the clarification.
+Fix this by renaming the device nodes from "rpc" to "spi".
 
+Fixes: 12c75c8886a0ee69 ("feat(plat/rcar3): emit RPC status to DT fragment if RPC unlocked")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Background:
 
-On 25/03/2022 21:03, Andy Shevchenko wrote:
-> Since we have generic function to count GPIO controller nodes
-> under given device, there is no need to open code it. Replace
-> custom code by gpiochip_count() call.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->   drivers/pinctrl/stm32/pinctrl-stm32.c | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
-> index 9ed764731570..d4bbeec82c1f 100644
-> --- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-> +++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-> @@ -1423,7 +1423,8 @@ int stm32_pctl_probe(struct platform_device *pdev)
->   	struct device *dev = &pdev->dev;
->   	struct stm32_pinctrl *pctl;
->   	struct pinctrl_pin_desc *pins;
-> -	int i, ret, hwlock_id, banks = 0;
-> +	int i, ret, hwlock_id;
-> +	unsigned int banks;
->   
->   	if (!np)
->   		return -EINVAL;
-> @@ -1513,10 +1514,7 @@ int stm32_pctl_probe(struct platform_device *pdev)
->   		return PTR_ERR(pctl->pctl_dev);
->   	}
->   
-> -	for_each_available_child_of_node(np, child)
-> -		if (of_property_read_bool(child, "gpio-controller"))
-> -			banks++;
-> -
-> +	banks = gpiochip_count(dev);
->   	if (!banks) {
->   		dev_err(dev, "at least one GPIO bank is required\n");
->   		return -EINVAL;
+On Renesas R-Car Gen3 platforms, the SPI Multi I/O Bus Controllers
+(RPC-IF) provide access to HyperFlash or QSPI storage.  On production
+systems, they are typically locked by the TF-A firmware, unless TF-A is
+built with RCAR_RPC_HYPERFLASH_LOCKED=0.  When unlocked, TF-A
+communicates this to subsequent software by passing a DT fragment that
+sets the "status" property of the RPC-IF device node to "okay".
 
-Reviewed-by: Fabien Dessenne <fabien.dessenne@foss.st.com>
+Unfortunately there are several issues preventing this from working all
+the way to Linux:
+  1. TF-A (and U-Boot on the receiving side) uses a device node name
+     that does not conform to the DT specification nor the DT bindings
+     for RPC-IF,
+  2. While U-Boot receives the RPC-IF enablement from TF-A, it does not
+     propagate it to Linux yet,
+  3. The DTS files that are part of Linux do not have RPC HyperFlash
+     support yet.
+
+This patch takes care of the first issue in TF-A.
+
+The related patches for U-Boot are [1].
+Patches to enable RPC-IF support in Linux are available at [2].
+
+Thanks for your comments!
+
+[1] "[PATCH u-boot 0/3] renesas: Fix RPC-IF enablement"
+    https://lore.kernel.org/r/cover.1648544792.git.geert+renesas@glider.be
+[2] "[PATCH 0/5] arm64: dts: renesas: rcar-gen3: Enable HyperFlash support"
+    https://lore.kernel.org/r/cover.1648548339.git.geert+renesas@glider.be
+
+---
+ plat/renesas/rcar/bl2_plat_setup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plat/renesas/rcar/bl2_plat_setup.c b/plat/renesas/rcar/bl2_plat_setup.c
+index bbfa16927d6c2384..f85db8d650c6b1a5 100644
+--- a/plat/renesas/rcar/bl2_plat_setup.c
++++ b/plat/renesas/rcar/bl2_plat_setup.c
+@@ -574,7 +574,7 @@ static void bl2_add_rpc_node(void)
+ 		goto err;
+ 	}
+ 
+-	node = ret = fdt_add_subnode(fdt, node, "rpc@ee200000");
++	node = ret = fdt_add_subnode(fdt, node, "spi@ee200000");
+ 	if (ret < 0) {
+ 		goto err;
+ 	}
+-- 
+2.25.1
+
