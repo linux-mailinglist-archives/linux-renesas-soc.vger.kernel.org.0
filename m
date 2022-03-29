@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 299DC4EB035
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 17:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A854EB03A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Mar 2022 17:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238523AbiC2P0Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Mar 2022 11:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
+        id S238525AbiC2P0d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Mar 2022 11:26:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238514AbiC2P0V (ORCPT
+        with ESMTP id S238524AbiC2P0Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Mar 2022 11:26:21 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611F36831D;
-        Tue, 29 Mar 2022 08:24:38 -0700 (PDT)
+        Tue, 29 Mar 2022 11:26:24 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666806949D;
+        Tue, 29 Mar 2022 08:24:40 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5F4F5100004;
-        Tue, 29 Mar 2022 15:24:35 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 37F89100015;
+        Tue, 29 Mar 2022 15:24:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1648567477;
+        t=1648567479;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wytuO7Me9MjXv7Hhp4w2eOGWZDHmrxoRQSwtCDnU0cU=;
-        b=pnGTPPR95WcATjwOIEXjLWAWDwGu9DtfZ+lq/wybMuUOMJpvgdafjoHAXjUSO0GmcE1MgP
-        DvLc+ahdNxEgd7/Lq4XgJgyP7227aa2gAgWUZ//f/e2mHv3OiW/zLwRHWTGGZAlgbLNrJX
-        uMEYmnHEG9O+r52a8mXZW72yVXxuv6xdd50EENWBAh788hoNNr6YmRhdVCmMvRl4T8gyL8
-        980+VOVb/Zpy8qrZ9AzlPFsHeIS3oyLWTaPcDYBV5xOkaXdWHm0W+vBwKKX94Op1ltLmQ+
-        WcQyuo40jO/+DX+9G2a0gRHL4BOqSIhl66+QfM5HlWU8QtBK9/izHi6bFAI71Q==
+        bh=yOgHMD+FKdOx4v/F+hsB7NfXbZyTvDjo+nCDRmBoyZI=;
+        b=IpYBj8NTUEO0CYvF0EBZAJHiHRBECO1Ij3+UHVb8H2kYJ4rQF9Be4oVqxtFH0rlCASiMTW
+        xDJf8QJLR1mmomUiFvHfZk0TJ+Ah1wgrR+OrbCfnaUXC0yfBwkl2WzD5wSJaQOkD2I7moT
+        mIsJ4uX35gEEQhx+RbICnAvxORag/Dn0o1KkFCeV19rXY7R1no7sW67K7x17F1RvgYlR2l
+        cxdCZ+ArEjzHV7ZLNVJR0evLBho8qa6Vj51c2AHQR9tkhJLAByi8eIO1lO4/9y6ppO2c/k
+        bRKqd+hM4rpeU1TNsxRlnVgKxShV+aWjBRUT8ghuYzIuZtzvYyzbscfBufjJ6g==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -43,54 +43,49 @@ Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Emil Renner Berthing <kernel@esmil.dk>
-Subject: [PATCH v3 02/10] serial: 8250: dw: Use the device API
-Date:   Tue, 29 Mar 2022 17:24:22 +0200
-Message-Id: <20220329152430.756947-3-miquel.raynal@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>
+Subject: [PATCH v3 03/10] serial: 8250: dw: Change the quirks type to unsigned int
+Date:   Tue, 29 Mar 2022 17:24:23 +0200
+Message-Id: <20220329152430.756947-4-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220329152430.756947-1-miquel.raynal@bootlin.com>
 References: <20220329152430.756947-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the device API instead of the of_* API.
-While at it move this operation outside of the if block to reduce the
-indentation level.
+Unsigned int is better than unsigned long as its size does not change
+between setups and we don't really need this variable to be more than a
+few bits wide for now.
 
-Cc: Emil Renner Berthing <kernel@esmil.dk>
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Suggested-by: Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
  drivers/tty/serial/8250/8250_dw.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index d89731d6c94c..28f0dea2ed88 100644
+index 28f0dea2ed88..20c9ca03225b 100644
 --- a/drivers/tty/serial/8250/8250_dw.c
 +++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -376,9 +376,9 @@ static bool dw8250_idma_filter(struct dma_chan *chan, void *param)
+@@ -376,7 +376,7 @@ static bool dw8250_idma_filter(struct dma_chan *chan, void *param)
  static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
  {
  	struct device_node *np = p->dev->of_node;
-+	unsigned long quirks = (unsigned long)device_get_match_data(p->dev);
+-	unsigned long quirks = (unsigned long)device_get_match_data(p->dev);
++	unsigned int quirks = (unsigned int)device_get_match_data(p->dev);
  
  	if (np) {
--		unsigned long quirks = (unsigned long)of_device_get_match_data(p->dev);
  		int id;
- 
- 		/* get index of serial line, if found in DT aliases */
 -- 
 2.27.0
 
