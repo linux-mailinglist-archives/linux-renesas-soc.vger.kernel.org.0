@@ -2,43 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA2B4EC8A8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D94694EC8AC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:42:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348361AbiC3Po3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 11:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
+        id S1348365AbiC3Poi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 11:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348364AbiC3Po1 (ORCPT
+        with ESMTP id S233868AbiC3Poh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:44:27 -0400
+        Wed, 30 Mar 2022 11:44:37 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5F71E34644
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Mar 2022 08:42:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2816933EAA;
+        Wed, 30 Mar 2022 08:42:52 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,223,1643641200"; 
-   d="scan'208";a="115200313"
+   d="scan'208";a="115200319"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Mar 2022 00:42:42 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 31 Mar 2022 00:42:51 +0900
 Received: from localhost.localdomain (unknown [10.226.92.121])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 67FDD400A6DE;
-        Thu, 31 Mar 2022 00:42:39 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2BFDC400A92C;
+        Thu, 31 Mar 2022 00:42:49 +0900 (JST)
 From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 11/13] arm64: defconfig: Enable Renesas RZ/V2M SoC
-Date:   Wed, 30 Mar 2022 16:40:22 +0100
-Message-Id: <20220330154024.112270-12-phil.edworthy@renesas.com>
+Subject: [PATCH v2 12/13] arm64: dts: renesas: Add initial DTSI for RZ/V2M SoC
+Date:   Wed, 30 Mar 2022 16:40:23 +0100
+Message-Id: <20220330154024.112270-13-phil.edworthy@renesas.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220330154024.112270-1-phil.edworthy@renesas.com>
 References: <20220330154024.112270-1-phil.edworthy@renesas.com>
@@ -53,35 +47,121 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable the Renesas RZ/V2M SoC and the uart it uses.
+Details of the SoC can be found here:
+https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-cortex-a-mpus/rzv2m-dual-cortex-a53-lpddr4x32bit-ai-accelerator-isp-4k-video-codec-4k-camera-input-fhd-display-output
 
 Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 ---
- arch/arm64/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 99 ++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r9a09g011.dtsi
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 813e644b6af1..cc8196c48029 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -428,6 +428,7 @@ CONFIG_SERIAL_8250_DW=y
- CONFIG_SERIAL_8250_OMAP=y
- CONFIG_SERIAL_8250_MT6577=y
- CONFIG_SERIAL_8250_UNIPHIER=y
-+CONFIG_SERIAL_8250_EM=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_SERIAL_AMBA_PL011=y
- CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
-@@ -1106,6 +1107,7 @@ CONFIG_ARCH_R8A774E1=y
- CONFIG_ARCH_R8A774A1=y
- CONFIG_ARCH_R8A774B1=y
- CONFIG_ARCH_R9A07G044=y
-+CONFIG_ARCH_R9A09G011=y
- CONFIG_ROCKCHIP_IODOMAIN=y
- CONFIG_ROCKCHIP_PM_DOMAINS=y
- CONFIG_ARCH_TEGRA_132_SOC=y
+diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+new file mode 100644
+index 000000000000..fe1f5107351f
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
+@@ -0,0 +1,99 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Source for the RZ/V2M SoC
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/clock/r9a09g011-cpg.h>
++
++/ {
++	compatible = "renesas,r9a09g011";
++	#address-cells = <2>;
++	#size-cells = <2>;
++
++	/* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
++	extal_clk: extal {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by the board */
++		clock-frequency = <0>;
++	};
++
++	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu0>;
++				};
++			};
++		};
++
++		cpu0: cpu@0 {
++			compatible = "arm,cortex-a53";
++			reg = <0>;
++			device_type = "cpu";
++			clocks = <&cpg CPG_CORE R9A09G011_CA53_CLK>;
++		};
++	};
++
++	soc: soc {
++		compatible = "simple-bus";
++		interrupt-parent = <&gic>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		gic: interrupt-controller@82000000 {
++			compatible = "arm,gic-400";
++			#interrupt-cells = <3>;
++			#address-cells = <0>;
++			interrupt-controller;
++			reg = <0x0 0x82010000 0 0x1000>,
++			      <0x0 0x82020000 0 0x20000>,
++			      <0x0 0x82040000 0 0x20000>,
++			      <0x0 0x82060000 0 0x20000>;
++			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_HIGH)>;
++		};
++
++		cpg: clock-controller@a3500000 {
++			compatible = "renesas,r9a09g011-cpg";
++			reg = <0 0xa3500000 0 0x10000>;
++			clocks = <&extal_clk>;
++			clock-names = "extal";
++			#clock-cells = <2>;
++			#reset-cells = <1>;
++			#power-domain-cells = <0>;
++		};
++
++		sys: system-configuration@a3f03000 {
++			compatible = "renesas,r9a09g011-sys";
++			reg = <0 0xa3f03000 0 0x400>;
++			status = "disabled";
++		};
++
++		uart0: serial@a4040000 {
++			compatible = "renesas,r9a09g011-uart", "renesas,em-uart";
++			reg = <0 0xa4040000 0 0x38>;
++			interrupts = <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A09G011_URT0_CLK>;
++			clock-names = "sclk";
++			status = "disabled";
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
++				      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
++		clocks = <&cpg CPG_MOD R9A09G011_SYC_CNT_CLK>;
++		clock-names = "clk";
++		resets = <&cpg R9A09G011_SYC_RST_N>;
++	};
++};
 -- 
 2.32.0
 
