@@ -2,145 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE1A4EBE61
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 12:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B4F4EBE63
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 12:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239929AbiC3KKf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 06:10:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50780 "EHLO
+        id S245211AbiC3KKh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 06:10:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239182AbiC3KKe (ORCPT
+        with ESMTP id S245210AbiC3KKh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 06:10:34 -0400
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A366154062;
-        Wed, 30 Mar 2022 03:08:49 -0700 (PDT)
-Received: by mail-oi1-f169.google.com with SMTP id w127so21570785oig.10;
-        Wed, 30 Mar 2022 03:08:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xxF35tmxxnkPH4ZK5NEAQj60FJRzpVvnSJO5oaHeufw=;
-        b=bXL1LDJiE/6ieyVsC90DLDVyC8H1dKobB4kHzTlDE9Z2547r/IDGGYH8DiJWkVUBCT
-         pcE0oGhb4L3WhvncB8ozlqungtkvBf5GVYwEpQ6SX2DfMxrwp4rf4rFJf7JrCmg0saQr
-         N5EbzB/Q8YEcgJJAhP9TvJd6pjohubjrImmANwNIc6jF24Td6iBKumJfDLugJ5m18XYW
-         zFwfC8S6P9sxJ/wRI2EemqttjWVcdNBGJR/7M4S83h5tJ4vIL6SgkSS9ks43kwRP4fQ2
-         Jo5gHaJK0POdLwt1JSqdkc86Cb9CwGN/qZjTGYWzZ2DjgTPms//ZXQWRYXt4Var6TG1Y
-         D+8w==
-X-Gm-Message-State: AOAM530mMYtjo8iU5txLYS28mh4DSIAH/CRL2AH3Fc0v/tte+wMVZGH6
-        ClGDDcdv8kOcVw41F/R8oCdrFL6vGp6TSQ==
-X-Google-Smtp-Source: ABdhPJymrMim6GuwgG9rkn34Y1quZ1IiNIC4NOmV1OZ5Z5iCKb5JvPXw5xtEE+GYbr53q5P+yRUSMA==
-X-Received: by 2002:a05:6808:f07:b0:2da:4916:578e with SMTP id m7-20020a0568080f0700b002da4916578emr1377280oiw.271.1648634928459;
-        Wed, 30 Mar 2022 03:08:48 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id u23-20020a056870d59700b000de821ba7cbsm9454429oao.15.2022.03.30.03.08.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Mar 2022 03:08:48 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id i11-20020a9d4a8b000000b005cda3b9754aso14578539otf.12;
-        Wed, 30 Mar 2022 03:08:48 -0700 (PDT)
-X-Received: by 2002:a0d:ccd6:0:b0:2e7:98e2:a5a2 with SMTP id
- o205-20020a0dccd6000000b002e798e2a5a2mr28100571ywd.479.1648634538529; Wed, 30
- Mar 2022 03:02:18 -0700 (PDT)
+        Wed, 30 Mar 2022 06:10:37 -0400
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F4D154709
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Mar 2022 03:08:51 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.109.156.52])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 0257AF291B06;
+        Wed, 30 Mar 2022 12:08:48 +0200 (CEST)
+Received: from localhost.localdomain (88.125.132.78) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 30 Mar
+ 2022 12:08:48 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <wim@linux-watchdog.org>, <linux@roeck-us.net>,
+        <geert+renesas@glider.be>, <linux-watchdog@vger.kernel.org>
+CC:     <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v4 0/2] ARM: r9a06g032: add support for the watchdogs
+Date:   Wed, 30 Mar 2022 12:08:27 +0200
+Message-ID: <20220330100829.1000679-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220329152926.50958-1-andriy.shevchenko@linux.intel.com> <20220329152926.50958-3-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20220329152926.50958-3-andriy.shevchenko@linux.intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 30 Mar 2022 12:02:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWFENTrXsYq3PKRFBqUL570-pPMG43Vct62=U9cyyF0yQ@mail.gmail.com>
-Message-ID: <CAMuHMdWFENTrXsYq3PKRFBqUL570-pPMG43Vct62=U9cyyF0yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] gpiolib: Introduce gpiochip_node_count() helper
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Qianggui Song <qianggui.song@amlogic.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.125.132.78]
+X-ClientProxiedBy: DAG3EX1.emp2.local (172.16.2.21) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 3184326415195060699
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjedugfffleelheehveevuedtjeffgfejkedukeekudfguedtfeefuefhueevheeinecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdejkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+Hi all,
 
-On Tue, Mar 29, 2022 at 5:29 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> The gpiochip_node_count() helper iterates over the device child nodes that
-> have the "gpio-controller" property set. It returns the number of such nodes
-> under a given device.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+This series adds support for the watchdog timers of the RZ/N1.
+The watchdog driver (rzn1-wdt.c) is derived from the driver available at
+https://github.com/renesas-rz/rzn1_linux.git with a few modifications
 
-Thanks for your patch!
+In order to be able to reset the board when a watchdog timer expires,
+the RSTEN register must be configured. it is the responsability of the
+bootloader to set those bits (or not, depending on the chosen policy).
 
-> --- a/include/linux/gpio/driver.h
-> +++ b/include/linux/gpio/driver.h
-> @@ -755,4 +755,16 @@ static inline void gpiochip_unlock_as_irq(struct gpio_chip *gc,
->         device_for_each_child_node(dev, child)                                  \
->                 if (!fwnode_property_present(child, "gpio-controller")) {} else
->
-> +static inline unsigned int gpiochip_node_count(struct device *dev)
-> +{
-> +       struct fwnode_handle *child;
-> +       unsigned int count;
+If the watchdog reset source is not enabled, an interrupt is triggered
+when the watchdog expires. The interrupt handler will trigger an
+emergency restart.
 
-Preinitialize to zero?
 
-> +
-> +       count = 0;
-> +       for_each_gpiochip_node(dev, child)
-> +               count++;
-> +
-> +       return count;
-> +}
-> +
->  #endif /* __LINUX_GPIO_DRIVER_H */
+Changes v3 -> v4:
+ * dts: removed the patches that modify the device tree (already taken in
+   the renesas dt tree)
+ * driver: Call emergency_restart() in the interrupt handler.
+ 
+Changes v2 -> v3:
+* dts: changed compatible strings to include "renesas,r9a06g032-wdt" and
+  "renesas,rzn1-wdt".
+* driver: removed the SOC-specific "renesas,r9a06g032-wdt".
+* removed all the changes in the clock driver: the watchdog reset source
+  are not disabled anymore when the machine is halted.
+* fixed the clock rate type in the computations.
+* removed unnecessary printout and call to clk_disable_unprepare() in the
+  driver probe().
+    
+Changes v1 -> v2:
+* Modified the clock driver to not enable the watchdog reset sources.
+  On other renesas platforms, those bits are by the bootloader. The
+  watchdog reset sources are still disabled when the platform is halted
+  to prevent a watchdog reset.
+* Added a SOC-specific compatible "renesas,r9a06g032-wdt"
+* reordered the dts/i entries
+* default timeout is 60 seconds
+* reworked the probe function of the wdt driver to better error cases
+* removed the set_timeout() and use a fixed period computed in probe().
+  This removes the confusion and makes it clear that the period defined
+  by the user space in indeed handled by the watchdog core
 
-Regardless:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+Jean-Jacques Hiblot (1):
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/N1
 
-                        Geert
+Phil Edworthy (1):
+  watchdog: Add Renesas RZ/N1 Watchdog driver
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ .../bindings/watchdog/renesas,wdt.yaml        |   6 +
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzn1_wdt.c                   | 207 ++++++++++++++++++
+ 4 files changed, 222 insertions(+)
+ create mode 100644 drivers/watchdog/rzn1_wdt.c
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+2.25.1
+
