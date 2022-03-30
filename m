@@ -2,40 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8742D4EC888
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54EBB4EC88A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344900AbiC3PnX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 11:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51998 "EHLO
+        id S243644AbiC3Pnp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 11:43:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239041AbiC3PnW (ORCPT
+        with ESMTP id S239041AbiC3Pnp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:43:22 -0400
+        Wed, 30 Mar 2022 11:43:45 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A53C033E3E;
-        Wed, 30 Mar 2022 08:41:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8322F33E0A;
+        Wed, 30 Mar 2022 08:41:59 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,223,1643641200"; 
-   d="scan'208";a="116202013"
+   d="scan'208";a="116202031"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 31 Mar 2022 00:41:37 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 31 Mar 2022 00:41:58 +0900
 Received: from localhost.localdomain (unknown [10.226.92.121])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B92FC400A6BA;
-        Thu, 31 Mar 2022 00:41:34 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5ECC3400A6B8;
+        Thu, 31 Mar 2022 00:41:57 +0900 (JST)
 From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Al Cooper <alcooperx@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 05/13] serial: 8250: Make SERIAL_8250_EM available for arm64 systems
-Date:   Wed, 30 Mar 2022 16:40:16 +0100
-Message-Id: <20220330154024.112270-6-phil.edworthy@renesas.com>
+Subject: [PATCH v2 07/13] clk: renesas: rzg2l: Set HIWORD mask for all mux and dividers
+Date:   Wed, 30 Mar 2022 16:40:18 +0100
+Message-Id: <20220330154024.112270-8-phil.edworthy@renesas.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220330154024.112270-1-phil.edworthy@renesas.com>
 References: <20220330154024.112270-1-phil.edworthy@renesas.com>
@@ -50,28 +46,89 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This is needed for the Renesas RZ/V2M (r9a09g011) SoC.
+All of the muxes and dividers that can be modified require the HIWORD
+flags, so make the macros set them. It won't affect read only muxes and
+dividers.
+This will make the clock tables a little easier to read, particularly for
+new SoCs coming.
 
 Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/renesas/r9a07g044-cpg.c | 16 +++++++---------
+ drivers/clk/renesas/rzg2l-cpg.h     |  5 +++--
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
-index cd93ea6eed65..fdb6c4188695 100644
---- a/drivers/tty/serial/8250/Kconfig
-+++ b/drivers/tty/serial/8250/Kconfig
-@@ -380,7 +380,7 @@ config SERIAL_8250_DW
- config SERIAL_8250_EM
- 	tristate "Support for Emma Mobile integrated serial port"
- 	depends on SERIAL_8250 && HAVE_CLK
--	depends on (ARM && ARCH_RENESAS) || COMPILE_TEST
-+	depends on ARCH_RENESAS || COMPILE_TEST
- 	help
- 	  Selecting this option will add support for the integrated serial
- 	  port hardware found on the Emma Mobile line of processors.
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index bdfabb992a20..b187d9ac47aa 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -121,7 +121,7 @@ static const struct {
+ 		DEF_MUX(".sel_pll3_3", CLK_SEL_PLL3_3, SEL_PLL3_3,
+ 			sel_pll3_3, ARRAY_SIZE(sel_pll3_3), 0, CLK_MUX_READ_ONLY),
+ 		DEF_DIV("divpl3c", CLK_DIV_PLL3_C, CLK_SEL_PLL3_3,
+-			DIVPL3C, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++			DIVPL3C, dtable_1_32, 0),
+ 
+ 		DEF_FIXED(".pll5_250", CLK_PLL5_250, CLK_PLL5_FOUT3, 1, 2),
+ 		DEF_FIXED(".pll6_250", CLK_PLL6_250, CLK_PLL6, 1, 2),
+@@ -129,21 +129,20 @@ static const struct {
+ 			sel_gpu2, ARRAY_SIZE(sel_gpu2), 0, CLK_MUX_READ_ONLY),
+ 
+ 		/* Core output clk */
+-		DEF_DIV("I", R9A07G044_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8,
+-			CLK_DIVIDER_HIWORD_MASK),
++		DEF_DIV("I", R9A07G044_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8, 0),
+ 		DEF_DIV("P0", R9A07G044_CLK_P0, CLK_PLL2_DIV2_8, DIVPL2A,
+-			dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++			dtable_1_32, 0),
+ 		DEF_FIXED("P0_DIV2", R9A07G044_CLK_P0_DIV2, R9A07G044_CLK_P0, 1, 2),
+ 		DEF_FIXED("TSU", R9A07G044_CLK_TSU, CLK_PLL2_DIV2_10, 1, 1),
+ 		DEF_DIV("P1", R9A07G044_CLK_P1, CLK_PLL3_DIV2_4,
+-			DIVPL3B, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++			DIVPL3B, dtable_1_32, 0),
+ 		DEF_FIXED("P1_DIV2", CLK_P1_DIV2, R9A07G044_CLK_P1, 1, 2),
+ 		DEF_DIV("P2", R9A07G044_CLK_P2, CLK_PLL3_DIV2_4_2,
+-			DIVPL3A, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++			DIVPL3A, dtable_1_32, 0),
+ 		DEF_FIXED("M0", R9A07G044_CLK_M0, CLK_PLL3_DIV2_4, 1, 1),
+ 		DEF_FIXED("ZT", R9A07G044_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
+ 		DEF_MUX("HP", R9A07G044_CLK_HP, SEL_PLL6_2,
+-			sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
++			sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, 0),
+ 		DEF_FIXED("SPI0", R9A07G044_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
+ 		DEF_FIXED("SPI1", R9A07G044_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
+ 		DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0,
+@@ -152,8 +151,7 @@ static const struct {
+ 			   sel_shdi, ARRAY_SIZE(sel_shdi)),
+ 		DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G044_CLK_SD0, 1, 4),
+ 		DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
+-		DEF_DIV("G", R9A07G044_CLK_G, CLK_SEL_GPU2, DIVGPU, dtable_1_8,
+-			CLK_DIVIDER_HIWORD_MASK),
++		DEF_DIV("G", R9A07G044_CLK_G, CLK_SEL_GPU2, DIVGPU, dtable_1_8, 0),
+ 	},
+ #ifdef CONFIG_CLK_R9A07G054
+ 	.drp = {
+diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
+index ce657beaf160..592dd9515cfc 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.h
++++ b/drivers/clk/renesas/rzg2l-cpg.h
+@@ -100,12 +100,13 @@ enum clk_types {
+ 	DEF_BASE(_name, _id, CLK_TYPE_FF, _parent, .div = _div, .mult = _mult)
+ #define DEF_DIV(_name, _id, _parent, _conf, _dtable, _flag) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_DIV, .conf = _conf, \
+-		 .parent = _parent, .dtable = _dtable, .flag = _flag)
++		 .parent = _parent, .dtable = _dtable, \
++		 .flag = CLK_DIVIDER_HIWORD_MASK | _flag)
+ #define DEF_MUX(_name, _id, _conf, _parent_names, _num_parents, _flag, \
+ 		_mux_flags) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_MUX, .conf = _conf, \
+ 		 .parent_names = _parent_names, .num_parents = _num_parents, \
+-		 .flag = _flag, .mux_flags = _mux_flags)
++		 .flag = _flag, .mux_flags = CLK_MUX_HIWORD_MASK | _mux_flags)
+ #define DEF_SD_MUX(_name, _id, _conf, _parent_names, _num_parents) \
+ 	DEF_TYPE(_name, _id, CLK_TYPE_SD_MUX, .conf = _conf, \
+ 		 .parent_names = _parent_names, .num_parents = _num_parents)
 -- 
 2.32.0
 
