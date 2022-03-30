@@ -2,46 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E3D34EC62F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 16:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC1484EC631
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 16:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346625AbiC3OK2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 10:10:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36974 "EHLO
+        id S1344299AbiC3OLA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 10:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346606AbiC3OKU (ORCPT
+        with ESMTP id S1346620AbiC3OKt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 10:10:20 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA9A19953F;
-        Wed, 30 Mar 2022 07:08:34 -0700 (PDT)
+        Wed, 30 Mar 2022 10:10:49 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3070C1AE614;
+        Wed, 30 Mar 2022 07:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648649314; x=1680185314;
+  t=1648649344; x=1680185344;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OyxRUGrwm3w4ZfG3q5TyQTuBcEpsbNY9cFD4uvra/FU=;
-  b=eZQZQp2uCCAbYaGr+99DSLzxL5lDeA9gWCyzrqUcHym3Xftvq4FpNTeX
-   zszo6Fuvj5NqRwgj4FD4XZ4tGktnVjy4rAxQFr6QRfeXDStwsTHCWSjs6
-   jB60dKx/oEAqd2/NA2ykdbqBA0MJyDtPc3gDC9rmlKNOwzakexekAqQw9
-   /0ekQfyA6lbSQ81ZSEaQmWob1AEw6VNCoBwV5KxBikPPixM7djfSUC66l
-   /NFOIG6U+eqB+F+V/l+AvPXB3H3TfJQSRVk9IfcejdkF69S6bxCHIBw36
-   Qrsdu5ty+Hn60lzj1T542Vjeeg8VF39yJdwEr4sKDlajXe+OxiWAJaKQL
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="241706119"
+  bh=ppXtG78gcagRxH0GizMycd2tyke4vj55zM9MOpyQ9bU=;
+  b=LFdkW599yrC/pB+St1t71UAgF7hjPyEWL9/ULeouLUQElPzMB3Zy6rB0
+   SmzfHaedb6kUi20bUI8Sj9iQ2H4OXBDFCQIqVO/8m/7+zLLie1lDHqMdr
+   qXrXb47YsWigy3qfgSRm+LWZze01KpeyyAyMxGtYTrIHUr8tUv5NR5nKW
+   Fep9Q81Ugug2nNm9VkF3JKYuMNl1HwXHSoTTIdJzP6kLSZwoK7jSvg4Tr
+   D1euyr6cT+nvE8QjffEsCQr4pVaYsWan2nPdCAKLS6Z0bMxMdF4NjrnAC
+   HpJFzhOfAwWMjnFt1B209jTdipA5k+UGkjlUooGBHsWW+q9YGa7Q6dB7f
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="247051071"
 X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
-   d="scan'208";a="241706119"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 07:08:34 -0700
+   d="scan'208";a="247051071"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 07:09:03 -0700
 X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
-   d="scan'208";a="719987909"
+   d="scan'208";a="649879235"
 Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 07:08:31 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 07:08:59 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nZYzN-009RTH-Us;
-        Wed, 30 Mar 2022 17:07:57 +0300
-Date:   Wed, 30 Mar 2022 17:07:57 +0300
+        id 1nZYzq-009RU8-7f;
+        Wed, 30 Mar 2022 17:08:26 +0300
+Date:   Wed, 30 Mar 2022 17:08:25 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -54,19 +54,21 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH v4 5/9] serial: 8250: dma: Allow driver operations before
- starting DMA transfers
-Message-ID: <YkRkPWPigPFjBDpc@smile.fi.intel.com>
+        Clement Leger <clement.leger@bootlin.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH v4 1/9] serial: 8250: dw: Move definitions to the shared
+ header
+Message-ID: <YkRkWQCPUMWTbOzg@smile.fi.intel.com>
 References: <20220330132038.808679-1-miquel.raynal@bootlin.com>
- <20220330132038.808679-6-miquel.raynal@bootlin.com>
+ <20220330132038.808679-2-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220330132038.808679-6-miquel.raynal@bootlin.com>
+In-Reply-To: <20220330132038.808679-2-miquel.raynal@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,81 +76,103 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 30, 2022 at 03:20:34PM +0200, Miquel Raynal wrote:
-> One situation where this could be used is when configuring the UART
-> controller to be the DMA flow controller. This is a typical case where
-> the driver might need to program a few more registers before starting a
-> DMA transfer. Provide the necessary infrastructure to support this
-> case.
+On Wed, Mar 30, 2022 at 03:20:30PM +0200, Miquel Raynal wrote:
+> From: Phil Edworthy <phil.edworthy@renesas.com>
+> 
+> Move the per-device structure and a helper out of the main .c file, into
+> a shared header as they will both be reused from another .c file.
+> 
+> There is no functional change.
 
-OK!
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> [miquel.raynal@bootlin.com: Extracted from a bigger change]
 > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 > ---
->  drivers/tty/serial/8250/8250.h     | 18 ++++++++++++++++++
->  drivers/tty/serial/8250/8250_dma.c |  4 ++++
->  2 files changed, 22 insertions(+)
+>  drivers/tty/serial/8250/8250_dw.c    | 21 ---------------------
+>  drivers/tty/serial/8250/8250_dwlib.h | 26 ++++++++++++++++++++++++++
+>  2 files changed, 26 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
-> index db784ace25d8..d19f24e4d13e 100644
-> --- a/drivers/tty/serial/8250/8250.h
-> +++ b/drivers/tty/serial/8250/8250.h
-> @@ -17,6 +17,8 @@
->  struct uart_8250_dma {
->  	int (*tx_dma)(struct uart_8250_port *p);
->  	int (*rx_dma)(struct uart_8250_port *p);
-> +	void (*prepare_tx_dma)(struct uart_8250_port *p);
-> +	void (*prepare_rx_dma)(struct uart_8250_port *p);
+> diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+> index 96a62e95726b..1666041513a5 100644
+> --- a/drivers/tty/serial/8250/8250_dw.c
+> +++ b/drivers/tty/serial/8250/8250_dw.c
+> @@ -42,27 +42,6 @@
+>  #define DW_UART_QUIRK_ARMADA_38X	BIT(1)
+>  #define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
 >  
->  	/* Filter function */
->  	dma_filter_fn		fn;
-> @@ -301,6 +303,22 @@ extern int serial8250_rx_dma(struct uart_8250_port *);
->  extern void serial8250_rx_dma_flush(struct uart_8250_port *);
->  extern int serial8250_request_dma(struct uart_8250_port *);
->  extern void serial8250_release_dma(struct uart_8250_port *);
-> +
-> +static inline void serial8250_do_prepare_tx_dma(struct uart_8250_port *p)
-> +{
-> +	struct uart_8250_dma *dma = p->dma;
-> +
-> +	if (dma->prepare_tx_dma)
-> +		dma->prepare_tx_dma(p);
-> +}
-> +
-> +static inline void serial8250_do_prepare_rx_dma(struct uart_8250_port *p)
-> +{
-> +	struct uart_8250_dma *dma = p->dma;
-> +
-> +	if (dma->prepare_rx_dma)
-> +		dma->prepare_rx_dma(p);
-> +}
->  #else
->  static inline int serial8250_tx_dma(struct uart_8250_port *p)
+> -struct dw8250_data {
+> -	struct dw8250_port_data	data;
+> -
+> -	u8			usr_reg;
+> -	int			msr_mask_on;
+> -	int			msr_mask_off;
+> -	struct clk		*clk;
+> -	struct clk		*pclk;
+> -	struct notifier_block	clk_notifier;
+> -	struct work_struct	clk_work;
+> -	struct reset_control	*rst;
+> -
+> -	unsigned int		skip_autocfg:1;
+> -	unsigned int		uart_16550_compatible:1;
+> -};
+> -
+> -static inline struct dw8250_data *to_dw8250_data(struct dw8250_port_data *data)
+> -{
+> -	return container_of(data, struct dw8250_data, data);
+> -}
+> -
+>  static inline struct dw8250_data *clk_to_dw8250_data(struct notifier_block *nb)
 >  {
-> diff --git a/drivers/tty/serial/8250/8250_dma.c b/drivers/tty/serial/8250/8250_dma.c
-> index 890fa7ddaa7f..558d3a2ac65b 100644
-> --- a/drivers/tty/serial/8250/8250_dma.c
-> +++ b/drivers/tty/serial/8250/8250_dma.c
-> @@ -77,6 +77,8 @@ int serial8250_tx_dma(struct uart_8250_port *p)
+>  	return container_of(nb, struct dw8250_data, clk_notifier);
+> diff --git a/drivers/tty/serial/8250/8250_dwlib.h b/drivers/tty/serial/8250/8250_dwlib.h
+> index 83d528e5cc21..72e7dbcccad0 100644
+> --- a/drivers/tty/serial/8250/8250_dwlib.h
+> +++ b/drivers/tty/serial/8250/8250_dwlib.h
+> @@ -1,10 +1,15 @@
+>  /* SPDX-License-Identifier: GPL-2.0+ */
+>  /* Synopsys DesignWare 8250 library header file. */
 >  
->  	dma->tx_size = CIRC_CNT_TO_END(xmit->head, xmit->tail, UART_XMIT_SIZE);
+> +#include <linux/notifier.h>
+>  #include <linux/types.h>
+> +#include <linux/workqueue.h>
 >  
-> +	serial8250_do_prepare_tx_dma(p);
+>  #include "8250.h"
+>  
+> +struct clk;
+> +struct reset_control;
 > +
->  	desc = dmaengine_prep_slave_single(dma->txchan,
->  					   dma->tx_addr + xmit->tail,
->  					   dma->tx_size, DMA_MEM_TO_DEV,
-> @@ -114,6 +116,8 @@ int serial8250_rx_dma(struct uart_8250_port *p)
->  	if (dma->rx_running)
->  		return 0;
+>  struct dw8250_port_data {
+>  	/* Port properties */
+>  	int			line;
+> @@ -16,5 +21,26 @@ struct dw8250_port_data {
+>  	u8			dlf_size;
+>  };
 >  
-> +	serial8250_do_prepare_rx_dma(p);
+> +struct dw8250_data {
+> +	struct dw8250_port_data	data;
 > +
->  	desc = dmaengine_prep_slave_single(dma->rxchan, dma->rx_addr,
->  					   dma->rx_size, DMA_DEV_TO_MEM,
->  					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+> +	u8			usr_reg;
+> +	int			msr_mask_on;
+> +	int			msr_mask_off;
+> +	struct clk		*clk;
+> +	struct clk		*pclk;
+> +	struct notifier_block	clk_notifier;
+> +	struct work_struct	clk_work;
+> +	struct reset_control	*rst;
+> +
+> +	unsigned int		skip_autocfg:1;
+> +	unsigned int		uart_16550_compatible:1;
+> +};
+> +
+>  void dw8250_do_set_termios(struct uart_port *p, struct ktermios *termios, struct ktermios *old);
+>  void dw8250_setup_port(struct uart_port *p);
+> +
+> +static inline struct dw8250_data *to_dw8250_data(struct dw8250_port_data *data)
+> +{
+> +	return container_of(data, struct dw8250_data, data);
+> +}
 > -- 
 > 2.27.0
 > 
