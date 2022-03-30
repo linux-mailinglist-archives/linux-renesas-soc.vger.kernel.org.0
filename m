@@ -2,165 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE1854EC822
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 651544EC879
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 17:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348134AbiC3PYx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 11:24:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34958 "EHLO
+        id S1348295AbiC3PmS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 11:42:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348129AbiC3PYr (ORCPT
+        with ESMTP id S240274AbiC3PmR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:24:47 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91CFF193203
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Mar 2022 08:23:00 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id w4so29758178wrg.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Mar 2022 08:23:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=035VL1akDfA3rp4LH54Rc3G/U1HwVipvz0ZmdfyEOow=;
-        b=HBNyPvECMaVw9sz7r7CfQ74AMIJrMRaExUtKfCpbiilPaQEkJtTikda78N1pZ4v9dd
-         aCkPzzdpTnoqajJbTrX4nRyNznVVCQDFWx7A+F/oP399D1YgVe4Gn3+h4tYxGnt3NfyY
-         MZbTAXyQT1I/jIWeXKdOvDqJiB9VW32bZGkm+gNe+Q/ubBEajExPVbFfV3JJuou0c+vw
-         sYEGd/wBuN/RMkssawgqG9WbQ8yiw3oTt/r0JBFdyNSd/XQJPU4QiIHS/N4aI7wdW/3i
-         Bf1gmZBSNBQGJyoHZIoy/RWTWrByfrgDPXQuEEZqtzRn7rd8oXXiAg0Zj+tPeWOUc1Sa
-         Bj5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=035VL1akDfA3rp4LH54Rc3G/U1HwVipvz0ZmdfyEOow=;
-        b=CeV5ed0OUHfSH6uEvAN0TUBMIx0FGPYEkLqlRuNG5qnTuOYWBbM2EdA4I3A6/hoTol
-         X+HAhkqazs5gBJeFuqcFwRtDwTDp+M4aUhTm1VvRDDuROcLwknw+43SKpbcqoraeIj/i
-         TGiqGpHxPNe/VZRj0wQq9z2u3GsqwlWek48KcV2/qBQDhuK4NHcADUsWdt4MBKor25P9
-         zBvvLSN3SsPyei2+hQ7sCCDRlOTsp+Jdr1NFJmmLKMb5O0zjan4b7Azvz7G6kwV95xYA
-         SmCeFmH3zzlIHWgRCmscCiYIBhMDZeTbf3Woi1wIz870n9MhLkNVFWNZTqqn8wXjUEFc
-         mMyg==
-X-Gm-Message-State: AOAM533WMbmZicccXN5q7bW4a6S0Te79A0OyT1snv4KKtZAekUOhaOUz
-        cdJHn9jtPpQyHGVstRDgEmHIQA==
-X-Google-Smtp-Source: ABdhPJwPO+9KqDC9OD9SVYuzhQrpd9w9wVAdCuyfdEX+Fx0MX21LDBTOjmjsuSvR25YetXYFuLlO1A==
-X-Received: by 2002:adf:d1cf:0:b0:204:12b6:9f5 with SMTP id b15-20020adfd1cf000000b0020412b609f5mr96496wrd.249.1648653778974;
-        Wed, 30 Mar 2022 08:22:58 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:e47f:3cdb:5811:cee8? ([2001:861:44c0:66c0:e47f:3cdb:5811:cee8])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c410700b0038c72ef3f15sm4801683wmi.38.2022.03.30.08.22.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Mar 2022 08:22:58 -0700 (PDT)
-Message-ID: <6812bb31-5d2b-4737-c2ad-8727d105847d@baylibre.com>
-Date:   Wed, 30 Mar 2022 17:22:56 +0200
+        Wed, 30 Mar 2022 11:42:17 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E5DA933E0A;
+        Wed, 30 Mar 2022 08:40:31 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,223,1643641200"; 
+   d="scan'208";a="115200171"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Mar 2022 00:40:31 +0900
+Received: from localhost.localdomain (unknown [10.226.92.121])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 031EB4009A89;
+        Thu, 31 Mar 2022 00:40:27 +0900 (JST)
+From:   Phil Edworthy <phil.edworthy@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/14] Add new Renesas RZ/V2M SoC and Renesas RZ/V2M EVK support
+Date:   Wed, 30 Mar 2022 16:40:11 +0100
+Message-Id: <20220330154024.112270-1-phil.edworthy@renesas.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 09/13] pinctrl: meson: Rename REG_* to MREG_*
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Qianggui Song <qianggui.song@amlogic.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20220329152926.50958-1-andriy.shevchenko@linux.intel.com>
- <20220329152926.50958-10-andriy.shevchenko@linux.intel.com>
- <94e888fe-d8fc-5379-302f-66d64f2ae10b@baylibre.com>
- <YkM22GwhxV+YKl8l@smile.fi.intel.com>
- <CAMuHMdWVA834tkeag=WOnHFGuhwZ93PkrgO24OV69Fye1hruLw@mail.gmail.com>
- <1b0bc704-a740-ea15-1e90-166905be27d0@baylibre.com>
- <YkQgfwUs8KbhF/b/@smile.fi.intel.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <YkQgfwUs8KbhF/b/@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/03/2022 11:18, Andy Shevchenko wrote:
-> On Wed, Mar 30, 2022 at 11:09:11AM +0200, Neil Armstrong wrote:
->> On 30/03/2022 10:54, Geert Uytterhoeven wrote:
->>> On Tue, Mar 29, 2022 at 6:47 PM Andy Shevchenko
->>> <andriy.shevchenko@linux.intel.com> wrote:
->>>> On Tue, Mar 29, 2022 at 06:13:19PM +0200, Neil Armstrong wrote:
->>>>> On 29/03/2022 17:29, Andy Shevchenko wrote:
-> 
-> ...
-> 
->>>>> What error do you hit ?
->>>>
->>>> arch/x86/include/asm/arch_hweight.h:9:17: error: expected identifier before string constant
->>>> 9 | #define REG_OUT "a"
->>>>     |                 ^~~
->>>
->>> Perhaps REG_{OUT,IN} in arch/x86/include/asm/arch_hweight.h should be
->>> renamed instead, as this is a generic header file that can be included
->>> anywhere, while the REG_{OUT,IN} definitions are only used locally,
->>> in the header file?
->>
->> Even better, those REG_OUT/REG_IN should be undefined at the end of the header since only
->> used in the headers inline functions:
->> ==============><==================================
->> diff --git a/arch/x86/include/asm/arch_hweight.h b/arch/x86/include/asm/arch_hweight.h
->> index ba88edd0d58b..139a4b0a2a14 100644
->> --- a/arch/x86/include/asm/arch_hweight.h
->> +++ b/arch/x86/include/asm/arch_hweight.h
->> @@ -52,4 +52,7 @@ static __always_inline unsigned long __arch_hweight64(__u64 w)
->>   }
->>   #endif /* CONFIG_X86_32 */
->>
->> +#undef REG_IN
->> +#undef REG_OUT
->> +
->>   #endif
->> ==============><==================================
-> 
-> Can you submit a formal patch, please?
+Hello,
 
-I'll submit it separately
+RZ/V2M has a dual-core Cortex-A53 (1.0 GHz) CPU and built-in AI
+accelerator "DRP-AI" for vision, which is Renesas' original technology.
+It also has a 32-bit LPDDR4 interface and video codec (H.264).
 
-> 
-> 
-> And I think it would be good to have my patch as well, so we do not depend on
-> the fate of the other one.
-> 
+The RZ/V2M is used with ISP firmware that runs on one of the Cortex-A53
+cores. The firmware is an integral part of the SoC such that the HW
+User's Manual documents which of the peripheral modules are used by the
+firmware.
 
-Yes sure
+Initial patches enables minimal peripherals on Renesas RZ/V2M EVK board
+and booted via nfs. Ethernet is broadly compatible with the
+etheravb-rcar-gen3 driver, but interrupts need some work so it's not
+been included in this patch set.
 
-Thanks,
-Neil
+Below blocks are enabled on Renesas RZ/V2M EVK board:
+- memory
+- External input clock
+- CPG
+- UART
+
+Links for SoC and EVK:
+[*] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-cortex-a-mpus/rzv2m-dual-cortex-a53-lpddr4x32bit-ai-accelerator-isp-4k-video-codec-4k-camera-input-fhd-display-output
+
+
+Sorry for cross posting the patches to multiple subsystems, as these are
+just the dt-binding patches included as part of initial bringup patches.
+
+v2:
+ * Removed SYS dt-bindings patch and corresponding SoC identification
+   as we only used the LSI version register. This can be dealt with
+   later on.
+ * Fixed em-uart dt-bindings.
+ * Included reviewed-by tags.
+
+Thanks
+Phil
