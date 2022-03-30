@@ -2,33 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4247B4EC566
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 15:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFAB24EC568
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 15:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344188AbiC3NWa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 09:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35446 "EHLO
+        id S1345830AbiC3NWg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 09:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245017AbiC3NW3 (ORCPT
+        with ESMTP id S245017AbiC3NWb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 09:22:29 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBFFA488AB;
-        Wed, 30 Mar 2022 06:20:43 -0700 (PDT)
+        Wed, 30 Mar 2022 09:22:31 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4F448E6C;
+        Wed, 30 Mar 2022 06:20:45 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5916B24000A;
-        Wed, 30 Mar 2022 13:20:39 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id EC70C240002;
+        Wed, 30 Mar 2022 13:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1648646441;
+        t=1648646443;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=8tgPc3SBGZRS7mw9Xf7bKDfSZM+aKVUU9tzsvmEqNeI=;
-        b=iKHH/DdXa9MUiHYPO7NqUzAeZxkBR1bYFrP8zIIjoN5hnrYIdaLZivoyGj2FB/hwJX1y0l
-        /QzbKMp9KphVQdhB0K86mjJoHbz2LM/SSAjC5EDuF9qsBbFjRZfkKb8PX3oBLN/ekT3OoO
-        pHEPvFzdVEcap/CPFcLeoVFmYLEBFLZl4pvq0TRU0Z3QY5l+oB9zv+TpzD+Tbmf5OLgjsJ
-        Ka6QdFCFxbb/B2mFnhoGvzMXGUs5BFnUYkaUqYfgpgVLBw7OR6P8vKi2HVLkGxz2CuAqKf
-        rt+fRYgSQJ8NFVfg8ETGR+zGxjI+Amap5p7L4CwYUNl/L3MOmMAw3wuG1PLKyw==
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BLHdExM09A+T20vX3rDvNlQ+wzydq9g3Zy0CHyU/0CA=;
+        b=LNVP9eXYKIRvf997Gu4a4ohunaTQ7/y5Kslg766VCJ3VvEKKEVZXj0m+q3oPRIr1pzx73B
+        DeVb6MouD/4nQljG5qde61e1N9sh1ECG2EqIl4QwoKaujW+KzA6oGd3BLub+AMxrTH4Wda
+        hfvE1TQuF7emMCFt+gSpy36/sNjV/8LsPFz1Ek4d+px5maQl77pP431HfPrPxdbPmiZALw
+        FId+m/6jaDDlX5EBJS6Az1vJ+uaYUXnFmeC+9EhwQ0wIRQf8asNOT8qZb5rEeG9O+Ckwy6
+        9lpiEkG2gbSlskbeVaXdjYa/dm2oQTQFtyPrf++HUBSzOzqhelF/6BDefYV6cQ==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -42,16 +43,20 @@ Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Subject: [PATCH v4 0/9] serial: 8250: dw: RZN1 DMA support
-Date:   Wed, 30 Mar 2022 15:20:29 +0200
-Message-Id: <20220330132038.808679-1-miquel.raynal@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: [PATCH v4 1/9] serial: 8250: dw: Move definitions to the shared header
+Date:   Wed, 30 Mar 2022 15:20:30 +0200
+Message-Id: <20220330132038.808679-2-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220330132038.808679-1-miquel.raynal@bootlin.com>
+References: <20220330132038.808679-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,83 +64,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+From: Phil Edworthy <phil.edworthy@renesas.com>
 
-Support for the RZN1 DMA engine allows us adapt a little bit the 8250 DW
-UART driver with to bring DMA support for this SoC.
+Move the per-device structure and a helper out of the main .c file, into
+a shared header as they will both be reused from another .c file.
 
-This short series applies on top of the series bringing RZN1 DMA
-support, currently on its v5, see [1]. Technically speaking, only the DT
-patch needs to be applied after [1]. The other patches can come in at
-any moment, because if no "dmas" property is provided in the DT, DMA
-support will simply be ignored.
+There is no functional change.
 
-[1] https://lore.kernel.org/dmaengine/20220315191255.221473-1-miquel.raynal@bootlin.com/T/#m0ef3323abce3eec961e142bf2fb35e95b9045fc5
+Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+[miquel.raynal@bootlin.com: Extracted from a bigger change]
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ drivers/tty/serial/8250/8250_dw.c    | 21 ---------------------
+ drivers/tty/serial/8250/8250_dwlib.h | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 21 deletions(-)
 
-Thanks,
-Miquèl
-
-Changes in v4:
-* Squashed the patch changing the quirks type with the patch introducing
-  the pdata structure. This way I don't need to go through the uintptr_t
-  step. 
-* Added a pdata stub to the DW compatible. This way "if (pdata)" checks
-  are no longer needed and we can avoid ternary operators disliked by
-  Greg.
-* Saved the pdata structure pointer inside the per-device structure to
-  avoid calling the same device property heplper over and over again. 
-* Changed the style a bit to fit Andy's requirements.
-
-Changes in v3:
-* Added Geert's Reviewed-by's.
-* Used forward declaration in dwlib.h when relevant.
-* Reordered the headers when necessary.
-* Added a patch changing the quirks type from unsigned long to unsigned
-  int as advised by Andy.
-* s/up->port.dev/p->dev/ when relevant.
-* Added a debug message in dwlib when no CPR is available.
-* Dropped the CPR_DMA_EXTRA bit addition: we assume DMA is there.
-* Changed the prefix of certain definitions.
-
-Changes in v2:
-* Rebased on top of Emil's patches. Added platform data structures
-  instead of raw quirk integers in order to provide a CPR value.
-* Added includes in dwlib.h even though it's not particularly useful, it
-  may help preventing a build error later on if we ever decide to include
-  this file from another location.
-* Dropped the call to ->tx_dma and instead implemented a callback that
-  can be called from serial8250_tx/rx_dma.
-* Used the device API instead of the of API.
-* Changed the logic about DMA capabilities to avoid breaking existing
-  designs.
-* Introduced a new quirk related to the flow-control feature of the
-  RZ/N1 version of the UART controller when used with DMA.
-* Re-arranged the entire series as advised by Andy and Geert.
-* Added several preparation patches to ease the review of various
-  functional changes.
-
-Miquel Raynal (6):
-  serial: 8250: dw: Use the device API
-  serial: 8250: dw: Create a more generic platform data structure
-  serial: 8250: dw: Allow to use a fallback CPR value if not synthesized
-  serial: 8250: dma: Allow driver operations before starting DMA
-    transfers
-  serial: 8250: dw: Introduce an rx_timeout variable in the IRQ path
-  ARM: dts: r9a06g032: Fill the UART DMA properties
-
-Phil Edworthy (3):
-  serial: 8250: dw: Move definitions to the shared header
-  serial: 8250: dw: Add support for DMA flow controlling devices
-  serial: 8250: dw: Improve RZN1 support
-
- arch/arm/boot/dts/r9a06g032.dtsi     |  15 ++++
- drivers/tty/serial/8250/8250.h       |  18 ++++
- drivers/tty/serial/8250/8250_dma.c   |   4 +
- drivers/tty/serial/8250/8250_dw.c    | 123 ++++++++++++++++++++-------
- drivers/tty/serial/8250/8250_dwlib.c |  12 ++-
- drivers/tty/serial/8250/8250_dwlib.h |  32 +++++++
- 6 files changed, 172 insertions(+), 32 deletions(-)
-
+diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+index 96a62e95726b..1666041513a5 100644
+--- a/drivers/tty/serial/8250/8250_dw.c
++++ b/drivers/tty/serial/8250/8250_dw.c
+@@ -42,27 +42,6 @@
+ #define DW_UART_QUIRK_ARMADA_38X	BIT(1)
+ #define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
+ 
+-struct dw8250_data {
+-	struct dw8250_port_data	data;
+-
+-	u8			usr_reg;
+-	int			msr_mask_on;
+-	int			msr_mask_off;
+-	struct clk		*clk;
+-	struct clk		*pclk;
+-	struct notifier_block	clk_notifier;
+-	struct work_struct	clk_work;
+-	struct reset_control	*rst;
+-
+-	unsigned int		skip_autocfg:1;
+-	unsigned int		uart_16550_compatible:1;
+-};
+-
+-static inline struct dw8250_data *to_dw8250_data(struct dw8250_port_data *data)
+-{
+-	return container_of(data, struct dw8250_data, data);
+-}
+-
+ static inline struct dw8250_data *clk_to_dw8250_data(struct notifier_block *nb)
+ {
+ 	return container_of(nb, struct dw8250_data, clk_notifier);
+diff --git a/drivers/tty/serial/8250/8250_dwlib.h b/drivers/tty/serial/8250/8250_dwlib.h
+index 83d528e5cc21..72e7dbcccad0 100644
+--- a/drivers/tty/serial/8250/8250_dwlib.h
++++ b/drivers/tty/serial/8250/8250_dwlib.h
+@@ -1,10 +1,15 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /* Synopsys DesignWare 8250 library header file. */
+ 
++#include <linux/notifier.h>
+ #include <linux/types.h>
++#include <linux/workqueue.h>
+ 
+ #include "8250.h"
+ 
++struct clk;
++struct reset_control;
++
+ struct dw8250_port_data {
+ 	/* Port properties */
+ 	int			line;
+@@ -16,5 +21,26 @@ struct dw8250_port_data {
+ 	u8			dlf_size;
+ };
+ 
++struct dw8250_data {
++	struct dw8250_port_data	data;
++
++	u8			usr_reg;
++	int			msr_mask_on;
++	int			msr_mask_off;
++	struct clk		*clk;
++	struct clk		*pclk;
++	struct notifier_block	clk_notifier;
++	struct work_struct	clk_work;
++	struct reset_control	*rst;
++
++	unsigned int		skip_autocfg:1;
++	unsigned int		uart_16550_compatible:1;
++};
++
+ void dw8250_do_set_termios(struct uart_port *p, struct ktermios *termios, struct ktermios *old);
+ void dw8250_setup_port(struct uart_port *p);
++
++static inline struct dw8250_data *to_dw8250_data(struct dw8250_port_data *data)
++{
++	return container_of(data, struct dw8250_data, data);
++}
 -- 
 2.27.0
 
