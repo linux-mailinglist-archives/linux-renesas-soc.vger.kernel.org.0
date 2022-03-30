@@ -2,229 +2,304 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35B904ECCA3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 20:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A1244ECD36
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Mar 2022 21:28:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350069AbiC3St2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Mar 2022 14:49:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34102 "EHLO
+        id S1350699AbiC3T3x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Mar 2022 15:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347401AbiC3StV (ORCPT
+        with ESMTP id S1350001AbiC3T3w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Mar 2022 14:49:21 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7BC5FEF;
-        Wed, 30 Mar 2022 11:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648666055; x=1680202055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1gyOUmznH3pZBVK2tU7XqvNJ978LLkV6wParuR9BPcg=;
-  b=WaDcXP/y5bspzWkiZYuJtON1IGsGc77J10aLLUNyTcws79Md9F13T8IE
-   5wkmQw3ecqhOp9DBx51KGEzHAxbCeguuYwbXOJKJX2XxjSO8pn+Ybpbnc
-   yVXsxZD2o6ZsSN/iN1HHRtaawdjhKs6sKcjGbvMd2IL1X0nUoELGmsrdB
-   AfBvXuefWikRTGxRsaiwikZgc1rLXqt0zXH1JbUU+7Zck7TE1K4iuR8Aa
-   2P2v+TmCqIFzrVnTCf8mmELrWM9GaWqIXkn92fQMghZDAbQRTkVHesAsS
-   dlf5DJOWOjxcStEYQ+/4/RuTpGZBs4gI68SCwRSavvafGUaj4lq5AoSBQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284530122"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="284530122"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 11:47:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="788107199"
-Received: from lkp-server02.sh.intel.com (HELO 56431612eabd) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Mar 2022 11:47:27 -0700
-Received: from kbuild by 56431612eabd with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nZdLq-0000K0-RG;
-        Wed, 30 Mar 2022 18:47:26 +0000
-Date:   Thu, 31 Mar 2022 02:46:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Qianggui Song <qianggui.song@amlogic.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Subject: Re: [PATCH v3 05/13] pinctrl: samsung: Switch to use
- for_each_gpiochip_node() helper
-Message-ID: <202203310240.Za1Wqczl-lkp@intel.com>
-References: <20220330145030.1562-6-andriy.shevchenko@linux.intel.com>
+        Wed, 30 Mar 2022 15:29:52 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E31952BB25;
+        Wed, 30 Mar 2022 12:28:06 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id r127so17516050qke.13;
+        Wed, 30 Mar 2022 12:28:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A1/ObAT5GdIXtKIBoa72KMWM6B/LTkvaVgwzmBofnkY=;
+        b=O5/yAAZnbw/umQwJO+8I0awGgavwHi3DHMKy9zDqCS5DxZyZq/NdOvfXvvvXYm4MUZ
+         edCtE52sskPHguddFXgvV+cHKbzQyFU7oKNHWLse+8n6xqNz7xsTC+sppXg/gCtTDi3+
+         ANQyVsJRQ8yReY8w8YVRkpRA0NFvey6Da0bVb4ye1JAI+ii9Gkp4P6BI6Qbs803+Shkm
+         Y40A8MXduoBIkn8mo2lAy8FeL6sbmNWV70SXU9Z21Fk1kDaCk+6LKaQpRKHsEwnTkucE
+         zJROft24zW0C0/syW6EbqqbVrHr2kUcM0Q+cot6zsFcInMsW5GGCgOR+/w8rHf6M6e2X
+         H1dA==
+X-Gm-Message-State: AOAM531r1SCrie6KPbDWJAkJOIXoPBjPjqTSWMgEHGe+pMOw9nJOlN6h
+        Jw5L6lxnjnellqLV6vEjh1oTgsZNt9EV3Q==
+X-Google-Smtp-Source: ABdhPJz3zDBxXd09eg0quCum4AtYfKzwZv1vIika6sikNdUGtYjQFgrHB4FE4U/rem/9EBzPbH9KEA==
+X-Received: by 2002:a37:acb:0:b0:67b:15f9:55b8 with SMTP id 194-20020a370acb000000b0067b15f955b8mr917129qkk.694.1648668485688;
+        Wed, 30 Mar 2022 12:28:05 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id h6-20020a379e06000000b0067b30874b90sm11301466qke.41.2022.03.30.12.28.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 12:28:05 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id y142so38461983ybe.11;
+        Wed, 30 Mar 2022 12:28:05 -0700 (PDT)
+X-Received: by 2002:a05:6902:101:b0:633:ccde:cfca with SMTP id
+ o1-20020a056902010100b00633ccdecfcamr1156684ybh.207.1648668485039; Wed, 30
+ Mar 2022 12:28:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220330145030.1562-6-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220315142644.17660-1-biju.das.jz@bp.renesas.com> <20220315142644.17660-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220315142644.17660-4-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 30 Mar 2022 21:27:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVHWvkZyjPi4i5AG2iYgMp7euS=Nf-v_rYNVS10jiW6eQ@mail.gmail.com>
+Message-ID: <CAMuHMdVHWvkZyjPi4i5AG2iYgMp7euS=Nf-v_rYNVS10jiW6eQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] dt-bindings: clock: Add R9A07G043 CPG Clock and
+ Reset Definitions
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+Hi Biju,
 
-I love your patch! Yet something to improve:
+On Tue, Mar 15, 2022 at 3:26 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Define RZ/G2UL (R9A07G043U) Clock Pulse Generator Core Clock and module
+> clock outputs, as listed in Table 7.1.4.2 ("Clock List r0.51") and also
+> add Reset definitions referring to registers CPG_RST_* in Section 7.2.3
+> ("Register configuration") of the RZ/G2UL Hardware User's Manual (Rev.
+> 0.51, Nov. 2021).
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Removed leading u/U from r9a07g043
+>  * renamed the file r9a07g043u-cpg.h->r9a07g043-cpg.h
+>  * Prepared Common Module Clock/Reset indices for RZ/G2UL and RZ/Five
+>  * Prepared RZ/G2UL specific Module Clock/Reset indices.
 
-[auto build test ERROR on a67ba3cf9551f8c92d5ec9d7eae1aadbb9127b57]
+Thanks for the update!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpiolib-Two-new-helpers-and-way-toward-fwnode/20220330-225341
-base:   a67ba3cf9551f8c92d5ec9d7eae1aadbb9127b57
-config: riscv-randconfig-r032-20220330 (https://download.01.org/0day-ci/archive/20220331/202203310240.Za1Wqczl-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/3539d23dd289ca77a85d66fe8721e4febfc50ea4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/gpiolib-Two-new-helpers-and-way-toward-fwnode/20220330-225341
-        git checkout 3539d23dd289ca77a85d66fe8721e4febfc50ea4
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/pinctrl/samsung/
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+> @@ -0,0 +1,190 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corp.
+> + */
+> +#ifndef __DT_BINDINGS_CLOCK_R9A07G043_CPG_H__
+> +#define __DT_BINDINGS_CLOCK_R9A07G043_CPG_H__
+> +
+> +#include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +
+> +/* R9A07G043 CPG Core Clocks */
+> +#define R9A07G043_CLK_I                        0
+> +#define R9A07G043_CLK_I2               1
+> +#define R9A07G043_CLK_S0               2
+> +#define R9A07G043_CLK_SPI0             3
+> +#define R9A07G043_CLK_SPI1             4
+> +#define R9A07G043_CLK_SD0              5
+> +#define R9A07G043_CLK_SD1              6
+> +#define R9A07G043_CLK_M0               7
+> +#define R9A07G043_CLK_M2               8
+> +#define R9A07G043_CLK_M3               9
+> +#define R9A07G043_CLK_HP               10
+> +#define R9A07G043_CLK_TSU              11
+> +#define R9A07G043_CLK_ZT               12
+> +#define R9A07G043_CLK_P0               13
+> +#define R9A07G043_CLK_P1               14
+> +#define R9A07G043_CLK_P2               15
+> +#define R9A07G043_CLK_AT               16
+> +#define R9A07G043_OSCCLK               17
+> +#define R9A07G043_CLK_P0_DIV2          18
+> +
+> +/* R9A07G043 Common Module Clocks */
+> +#define R9A07G043_IA55_CLK             0
+> +#define R9A07G043_IA55_PCLK            1
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+I think IA55 does not exist on RZ/Five?
 
-All errors (new ones prefixed by >>):
+> +#define R9A07G043_DMAC_ACLK            2
+> +#define R9A07G043_DMAC_PCLK            3
+> +#define R9A07G043_OSTM0_PCLK           4
+> +#define R9A07G043_OSTM1_PCLK           5
+> +#define R9A07G043_OSTM2_PCLK           6
+> +#define R9A07G043_MTU_X_MCK_MTU3       7
+> +#define R9A07G043_POE3_CLKM_POE                8
+> +#define R9A07G043_WDT0_PCLK            9
+> +#define R9A07G043_WDT0_CLK             10
+> +#define R9A07G043_SPI_CLK2             11
+> +#define R9A07G043_SPI_CLK              12
+> +#define R9A07G043_SDHI0_IMCLK          13
+> +#define R9A07G043_SDHI0_IMCLK2         14
+> +#define R9A07G043_SDHI0_CLK_HS         15
+> +#define R9A07G043_SDHI0_ACLK           16
+> +#define R9A07G043_SDHI1_IMCLK          17
+> +#define R9A07G043_SDHI1_IMCLK2         18
+> +#define R9A07G043_SDHI1_CLK_HS         19
+> +#define R9A07G043_SDHI1_ACLK           20
+> +#define R9A07G043_SSI0_PCLK2           21
+> +#define R9A07G043_SSI0_PCLK_SFR                22
+> +#define R9A07G043_SSI1_PCLK2           23
+> +#define R9A07G043_SSI1_PCLK_SFR                24
+> +#define R9A07G043_SSI2_PCLK2           25
+> +#define R9A07G043_SSI2_PCLK_SFR                26
+> +#define R9A07G043_SSI3_PCLK2           27
+> +#define R9A07G043_SSI3_PCLK_SFR                28
+> +#define R9A07G043_SRC_CLKP             29
+> +#define R9A07G043_USB_U2H0_HCLK                30
+> +#define R9A07G043_USB_U2H1_HCLK                31
+> +#define R9A07G043_USB_U2P_EXR_CPUCLK   32
+> +#define R9A07G043_USB_PCLK             33
+> +#define R9A07G043_ETH0_CLK_AXI         34
+> +#define R9A07G043_ETH0_CLK_CHI         35
+> +#define R9A07G043_ETH1_CLK_AXI         36
+> +#define R9A07G043_ETH1_CLK_CHI         37
+> +#define R9A07G043_I2C0_PCLK            38
+> +#define R9A07G043_I2C1_PCLK            39
+> +#define R9A07G043_I2C2_PCLK            40
+> +#define R9A07G043_I2C3_PCLK            41
+> +#define R9A07G043_SCIF0_CLK_PCK                42
+> +#define R9A07G043_SCIF1_CLK_PCK                43
+> +#define R9A07G043_SCIF2_CLK_PCK                44
+> +#define R9A07G043_SCIF3_CLK_PCK                45
+> +#define R9A07G043_SCIF4_CLK_PCK                46
+> +#define R9A07G043_SCI0_CLKP            47
+> +#define R9A07G043_SCI1_CLKP            48
+> +#define R9A07G043_IRDA_CLKP            49
+> +#define R9A07G043_RSPI0_CLKB           50
+> +#define R9A07G043_RSPI1_CLKB           51
+> +#define R9A07G043_RSPI2_CLKB           52
+> +#define R9A07G043_CANFD_PCLK           53
+> +#define R9A07G043_GPIO_HCLK            54
+> +#define R9A07G043_ADC_ADCLK            55
+> +#define R9A07G043_ADC_PCLK             56
+> +#define R9A07G043_TSU_PCLK             57
+> +#define R9A07G043_LAST_COMMON_CLK      (R9A07G043_TSU_PCLK)
 
->> drivers/pinctrl/samsung/pinctrl-s3c24xx.c:528:50: error: no member named 'of_node' in 'struct samsung_pin_bank'; did you mean 'fwnode'?
-                   bank->irq_domain = irq_domain_add_linear(bank->of_node,
-                                                                  ^~~~~~~
-                                                                  fwnode
-   drivers/pinctrl/samsung/pinctrl-samsung.h:168:24: note: 'fwnode' declared here
-           struct fwnode_handle *fwnode;
-                                 ^
-   1 error generated.
+Does R9A07G043_LAST_COMMON_CLK need to be part of the bindings?
+Do you actually have a use case for this definition, besides the use
+below?  If not, I would get rid of the definition, and just hardcode
+the numeric values below.
 
+Perhaps you planned to start enumerating RZ/Five-specific clocks from
+R9A07G043_LAST_COMMON_CLK + 1, too?  I don't think that's a good idea,
+as it would complicate validation of indices in the driver.
 
-vim +528 drivers/pinctrl/samsung/pinctrl-s3c24xx.c
+> +
+> +/* RZ/G2UL Specific */
+> +#define R9A07G043_CA55_SCLK            (R9A07G043_LAST_COMMON_CLK + 1)
+> +#define R9A07G043_CA55_PCLK            (R9A07G043_LAST_COMMON_CLK + 2)
+> +#define R9A07G043_CA55_ATCLK           (R9A07G043_LAST_COMMON_CLK + 3)
+> +#define R9A07G043_CA55_GICCLK          (R9A07G043_LAST_COMMON_CLK + 4)
+> +#define R9A07G043_CA55_PERICLK         (R9A07G043_LAST_COMMON_CLK + 5)
+> +#define R9A07G043_CA55_ACLK            (R9A07G043_LAST_COMMON_CLK + 6)
+> +#define R9A07G043_CA55_TSCLK           (R9A07G043_LAST_COMMON_CLK + 7)
+> +#define R9A07G043_GIC600_GICCLK                (R9A07G043_LAST_COMMON_CLK + 8)
+> +#define R9A07G043_MHU_PCLK             (R9A07G043_LAST_COMMON_CLK + 9)
+> +#define R9A07G043_SYC_CNT_CLK          (R9A07G043_LAST_COMMON_CLK + 10)
 
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  457  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  458  static int s3c24xx_eint_init(struct samsung_pinctrl_drv_data *d)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  459  {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  460  	struct device *dev = d->dev;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  461  	const struct of_device_id *match;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  462  	struct device_node *eint_np = NULL;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  463  	struct device_node *np;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  464  	struct samsung_pin_bank *bank;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  465  	struct s3c24xx_eint_data *eint_data;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  466  	const struct irq_domain_ops *ops;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  467  	unsigned int i;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  468  	bool eint0_3_parent_only;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  469  	irq_flow_handler_t *handlers;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  470  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  471  	for_each_child_of_node(dev->of_node, np) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  472  		match = of_match_node(s3c24xx_eint_irq_ids, np);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  473  		if (match) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  474  			eint_np = np;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  475  			eint0_3_parent_only = (bool)match->data;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  476  			break;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  477  		}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  478  	}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  479  	if (!eint_np)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  480  		return -ENODEV;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  481  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  482  	eint_data = devm_kzalloc(dev, sizeof(*eint_data), GFP_KERNEL);
-6fbbcb050802d6 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowski 2019-08-05  483  	if (!eint_data) {
-6fbbcb050802d6 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowski 2019-08-05  484  		of_node_put(eint_np);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  485  		return -ENOMEM;
-6fbbcb050802d6 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowski 2019-08-05  486  	}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  487  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  488  	eint_data->drvdata = d;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  489  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  490  	handlers = eint0_3_parent_only ? s3c2410_eint_handlers
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  491  				       : s3c2412_eint_handlers;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  492  	for (i = 0; i < NUM_EINT_IRQ; ++i) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  493  		unsigned int irq;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  494  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  495  		irq = irq_of_parse_and_map(eint_np, i);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  496  		if (!irq) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  497  			dev_err(dev, "failed to get wakeup EINT IRQ %d\n", i);
-6fbbcb050802d6 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowski 2019-08-05  498  			of_node_put(eint_np);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  499  			return -ENXIO;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  500  		}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  501  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  502  		eint_data->parents[i] = irq;
-0cfc45cfdf5065 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Thomas Gleixner     2015-06-21  503  		irq_set_chained_handler_and_data(irq, handlers[i], eint_data);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  504  	}
-6fbbcb050802d6 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowski 2019-08-05  505  	of_node_put(eint_np);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  506  
-1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Tomasz Figa         2014-09-23  507  	bank = d->pin_banks;
-1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Tomasz Figa         2014-09-23  508  	for (i = 0; i < d->nr_banks; ++i, ++bank) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  509  		struct s3c24xx_eint_domain_data *ddata;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  510  		unsigned int mask;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  511  		unsigned int irq;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  512  		unsigned int pin;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  513  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  514  		if (bank->eint_type != EINT_TYPE_WKUP)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  515  			continue;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  516  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  517  		ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  518  		if (!ddata)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  519  			return -ENOMEM;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  520  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  521  		ddata->bank = bank;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  522  		ddata->eint_data = eint_data;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  523  		ddata->eint0_3_parent_only = eint0_3_parent_only;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  524  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  525  		ops = (bank->eint_offset == 0) ? &s3c24xx_gpf_irq_ops
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  526  					       : &s3c24xx_gpg_irq_ops;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  527  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21 @528  		bank->irq_domain = irq_domain_add_linear(bank->of_node,
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  529  				bank->nr_pins, ops, ddata);
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  530  		if (!bank->irq_domain) {
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  531  			dev_err(dev, "wkup irq domain add failed\n");
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  532  			return -ENXIO;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  533  		}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  534  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  535  		irq = bank->eint_offset;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  536  		mask = bank->eint_mask;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  537  		for (pin = 0; mask; ++pin, mask >>= 1) {
-774e2d981f517e drivers/pinctrl/pinctrl-s3c24xx.c         Dan Carpenter       2013-08-27  538  			if (irq >= NUM_EINT)
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  539  				break;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  540  			if (!(mask & 1))
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  541  				continue;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  542  			eint_data->domains[irq] = bank->irq_domain;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  543  			++irq;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  544  		}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  545  	}
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  546  
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  547  	return 0;
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  548  }
-af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner      2013-05-21  549  
+I think SYC_CNT does exist on RZ/Five?
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+So I'm not 100% convinced it's a good idea to split the definitions in
+common, RZ/G2UL-specific, and RZ/Five-specific definitions like this.
+If we make a mistake, the end result won't look pretty.
+And we can't do compile-time validation that way anyway.
+
+So I'm in favor of listing all clocks (in the same order as on RZ/G2L),
+and adding a comment if a clock is RZ/G2UL-only.
+
+> +#define R9A07G043_WDT2_PCLK            (R9A07G043_LAST_COMMON_CLK + 11)
+> +#define R9A07G043_WDT2_CLK             (R9A07G043_LAST_COMMON_CLK + 12)
+> +#define R9A07G043_ISU_ACLK             (R9A07G043_LAST_COMMON_CLK + 13)
+> +#define R9A07G043_ISU_PCLK             (R9A07G043_LAST_COMMON_CLK + 14)
+> +#define R9A07G043_CRU_SYSCLK           (R9A07G043_LAST_COMMON_CLK + 15)
+> +#define R9A07G043_CRU_VCLK             (R9A07G043_LAST_COMMON_CLK + 16)
+> +#define R9A07G043_CRU_PCLK             (R9A07G043_LAST_COMMON_CLK + 17)
+> +#define R9A07G043_CRU_ACLK             (R9A07G043_LAST_COMMON_CLK + 18)
+> +#define R9A07G043_LCDC_CLK_A           (R9A07G043_LAST_COMMON_CLK + 19)
+> +#define R9A07G043_LCDC_CLK_P           (R9A07G043_LAST_COMMON_CLK + 20)
+> +#define R9A07G043_LCDC_CLK_D           (R9A07G043_LAST_COMMON_CLK + 21)
+> +
+> +/* R9A07G043 Common Resets */
+> +#define R9A07G043_IA55_RESETN          0
+
+All my comments above apply to resets, too.
+
+> +#define R9A07G043_DMAC_ARESETN         1
+> +#define R9A07G043_DMAC_RST_ASYNC       2
+> +#define R9A07G043_OSTM0_PRESETZ                3
+> +#define R9A07G043_OSTM1_PRESETZ                4
+> +#define R9A07G043_OSTM2_PRESETZ                5
+> +#define R9A07G043_MTU_X_PRESET_MTU3    6
+> +#define R9A07G043_POE3_RST_M_REG       7
+> +#define R9A07G043_WDT0_PRESETN         8
+> +#define R9A07G043_SPI_RST              9
+> +#define R9A07G043_SDHI0_IXRST          10
+> +#define R9A07G043_SDHI1_IXRST          11
+
+Move SSI resets here? (see below)
+
+> +#define R9A07G043_SRC_RST              12
+> +#define R9A07G043_USB_U2H0_HRESETN     13
+> +#define R9A07G043_USB_U2H1_HRESETN     14
+> +#define R9A07G043_USB_U2P_EXL_SYSRST   15
+> +#define R9A07G043_USB_PRESETN          16
+
+Move ETH resets here? (see below)
+
+> +#define R9A07G043_I2C0_MRST            17
+> +#define R9A07G043_I2C1_MRST            18
+> +#define R9A07G043_I2C2_MRST            19
+> +#define R9A07G043_I2C3_MRST            20
+
+Move SCIF resets here? (see below)
+
+> +#define R9A07G043_SCI0_RST             21
+> +#define R9A07G043_SCI1_RST             22
+> +#define R9A07G043_IRDA_RST             23
+> +#define R9A07G043_RSPI0_RST            24
+> +#define R9A07G043_RSPI1_RST            25
+> +#define R9A07G043_RSPI2_RST            26
+> +#define R9A07G043_CANFD_RSTP_N         27
+> +#define R9A07G043_CANFD_RSTC_N         28
+> +#define R9A07G043_GPIO_RSTN            29
+> +#define R9A07G043_GPIO_PORT_RESETN     30
+> +#define R9A07G043_GPIO_SPARE_RESETN    31
+> +#define R9A07G043_TSU_PRESETN          32
+> +#define R9A07G043_SSI0_RST_M2_REG      33
+> +#define R9A07G043_SSI1_RST_M2_REG      34
+> +#define R9A07G043_SSI2_RST_M2_REG      35
+> +#define R9A07G043_SSI3_RST_M2_REG      36
+> +#define R9A07G043_ETH0_RST_HW_N                37
+> +#define R9A07G043_ETH1_RST_HW_N                38
+> +#define R9A07G043_SCIF0_RST_SYSTEM_N   39
+> +#define R9A07G043_SCIF1_RST_SYSTEM_N   40
+> +#define R9A07G043_SCIF2_RST_SYSTEM_N   41
+> +#define R9A07G043_SCIF3_RST_SYSTEM_N   42
+> +#define R9A07G043_SCIF4_RST_SYSTEM_N   43
+
+Is there any specific reason the SSI, ETH, and SCIF resets are
+ordered differently than the corresponding clocks, and than the
+resets on RZ/G2L?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
