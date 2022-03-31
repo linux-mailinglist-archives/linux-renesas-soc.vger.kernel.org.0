@@ -2,61 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD704ED790
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Mar 2022 12:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3AC4ED89E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Mar 2022 13:40:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234501AbiCaKKK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Mar 2022 06:10:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58776 "EHLO
+        id S232053AbiCaLmC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Mar 2022 07:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233909AbiCaKKK (ORCPT
+        with ESMTP id S235273AbiCaLmC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Mar 2022 06:10:10 -0400
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A029202172;
-        Thu, 31 Mar 2022 03:08:23 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id j21so20987399qta.0;
-        Thu, 31 Mar 2022 03:08:23 -0700 (PDT)
+        Thu, 31 Mar 2022 07:42:02 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E3738788;
+        Thu, 31 Mar 2022 04:40:14 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id bp39so21110778qtb.6;
+        Thu, 31 Mar 2022 04:40:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qReDg0txsD6WldX0J6Ylu+w+ahL52yVCKgJRzjDfjl0=;
-        b=ykA40e4AkULLOtMJsDACfiGhIGjNODjA8VBfytPKBhE18sIxYOJmBCdFbBG67csmHD
-         9s46iq/7Nil0DNeWh3BGgiEoQFpRNHqcSTFpQVZoeAfKYjRkVqbhN9h832p8CWuB8BI2
-         1wNsqxpnpFrVoKWbOn/5et9S/K5sIsPZALGfK3WtrzDrPaqjksy2N+Fu4hc9p2Yy88nF
-         SBLx67dasHLqsV4SqxFsDSn7757Zb+PZepBB8lzo+8IT3/vYswnykhAhb57MiWPDCN66
-         bllbo3obvOOZ6VE5MmbcVe+WUlx3U4JbMeBQSQ7ymnobTQsqecEhYxi4PAk+Fl9sb/vZ
-         Q/3Q==
-X-Gm-Message-State: AOAM5332igp4CsqzADuW8W2Dm5MsrtbDBJQj8ex3k23JKNDxT2hdED4N
-        u8gbPucJ51j4ND5vnk2+uIFQUNYIBrqQuw==
-X-Google-Smtp-Source: ABdhPJxTlNHACSApXZ3kbPz7kG2OU2zuU9IxQl9XAppmmhUXyC79+RUiqrD4/STXtCbxMIbFoooMyA==
-X-Received: by 2002:a05:622a:15c7:b0:2eb:9af4:cdf4 with SMTP id d7-20020a05622a15c700b002eb9af4cdf4mr4574qty.241.1648721301876;
-        Thu, 31 Mar 2022 03:08:21 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id w17-20020ac857d1000000b002e19feda592sm19244877qta.85.2022.03.31.03.08.21
+        bh=tsmHwbJm2HnWmEEnGO1Kr5LLzGgAaLDEK9i1GDikghQ=;
+        b=5kYBxWsdXryEclKhU1a076YQ803MVdYIHmhan0nyJfXeijYIpgUW/NNuMLRwzIp5t8
+         sBosPe+VGOmazOalvDOnu3R67DohzjEDFqup0wsNfIhfBP5t6LHSVDUJ//0l3HVpc/sN
+         ebyyGakAM15aTe9plvMimhQosZthYIy8/59Tv2r39JJ2qs8boDin0fHKJWhrO7eSj3Oz
+         xTk1ies1lyLbedtChLgaC5VnXzF7mVrK626RcUWwHBzIUOV/4cQUFMXF3WipACfUnRFE
+         GmVnv9nYfB7Xr+6eINCachM84CWsbZIhnnVD9FACCnmMsgCcLiRlkoAxhjQInj5GeiQH
+         40aQ==
+X-Gm-Message-State: AOAM53083vcKuqbcw9x01PIg+J3DfFcSyeIF2eUkUqed/lca2EGdbhL5
+        C4prY/s7AjNSLB2vjhTSi17PTAfFmRi6tA==
+X-Google-Smtp-Source: ABdhPJw9SF0CR7oGBSzShFE4nxbkjbZT38PfI5oYSK0PmHdvdw5SWGyeIctr/kSCkJqt3jmZoaE5sQ==
+X-Received: by 2002:ac8:5809:0:b0:2e1:f0bc:2e88 with SMTP id g9-20020ac85809000000b002e1f0bc2e88mr3809752qtg.138.1648726813355;
+        Thu, 31 Mar 2022 04:40:13 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id w1-20020ac857c1000000b002e1e899badesm19232314qta.72.2022.03.31.04.40.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Mar 2022 03:08:21 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2e68c95e0f9so249000147b3.0;
-        Thu, 31 Mar 2022 03:08:21 -0700 (PDT)
-X-Received: by 2002:a81:b663:0:b0:2ea:da8c:d133 with SMTP id
- h35-20020a81b663000000b002eada8cd133mr4174370ywk.256.1648721300870; Thu, 31
- Mar 2022 03:08:20 -0700 (PDT)
+        Thu, 31 Mar 2022 04:40:12 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id e81so12730430ybf.13;
+        Thu, 31 Mar 2022 04:40:12 -0700 (PDT)
+X-Received: by 2002:a5b:a8f:0:b0:633:fd57:f587 with SMTP id
+ h15-20020a5b0a8f000000b00633fd57f587mr3658548ybq.506.1648726812358; Thu, 31
+ Mar 2022 04:40:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315142644.17660-1-biju.das.jz@bp.renesas.com> <20220315142644.17660-8-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220315142644.17660-8-biju.das.jz@bp.renesas.com>
+References: <20220315154649.22343-1-biju.das.jz@bp.renesas.com> <20220315154649.22343-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220315154649.22343-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 31 Mar 2022 12:08:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+dKrkOUPuemOx5yG=V_g0oqnoNHg7cdAMOcCu6C1CuQ@mail.gmail.com>
-Message-ID: <CAMuHMdU+dKrkOUPuemOx5yG=V_g0oqnoNHg7cdAMOcCu6C1CuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] arm64: dts: renesas: Add initial device tree for
- RZ/G2UL Type-1 SMARC EVK
+Date:   Thu, 31 Mar 2022 13:40:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVoMxEYs+tS4QZ9rA+QLQG_Bp719oSMM3=6H5FnjfoGHA@mail.gmail.com>
+Message-ID: <CAMuHMdVoMxEYs+tS4QZ9rA+QLQG_Bp719oSMM3=6H5FnjfoGHA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] clk: renesas: r9a07g043: Add GPIO clock and reset entries
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -72,24 +70,11 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 3:27 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add basic support for RZ/G2UL SMARC EVK (based on R9A07G043U11):
-> - memory
-> - External input clock
-> - CPG
-> - DMA
-> - SCIF
->
-> It shares the same carrier board with RZ/G2L, but the pin mapping is
-> different. Disable the device nodes which are not tested and delete the
-> corresponding pinctrl definitions.
+On Tue, Mar 15, 2022 at 4:47 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add GPIO clock and reset entries in CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
->  * Replaced CONFIG_ARCH_R9A07G043U->CONFIG_ARCH_R9A07G043
->  * Renamed SoC file r9a07g043u.dtsi->r9a07g043.dtsi
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
