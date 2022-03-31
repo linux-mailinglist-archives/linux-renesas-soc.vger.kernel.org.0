@@ -2,215 +2,254 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD314EDF34
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Mar 2022 18:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8506A4EE03F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Mar 2022 20:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240368AbiCaQ7w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Mar 2022 12:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        id S234059AbiCaSTF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Mar 2022 14:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240167AbiCaQ7v (ORCPT
+        with ESMTP id S233967AbiCaSTD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Mar 2022 12:59:51 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2100.outbound.protection.outlook.com [40.107.114.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27DE2325DB;
-        Thu, 31 Mar 2022 09:58:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AxwT6MdWE9PlVJrr5GyiQnG3imppbUAHzgfoltt8kxRkkoUW7WQ5R1Ml/D1R4fU3cuSqsG0RQlldyXLIW1VirZAHdNgwvgBipYrxBd9JSJYRjPD0+72wQkv+zCHB3BULK6hMY4BplEflyfCNcPbOR8gieYvVKnVPq0Fap7c1HBZxeiPEXK8KxavvyK3D9dn9hnIEQkq4jF5mriZVyfqXReE8uqMJ6jNu9cJfA6FOmHhV4EHXLDn2c8CbGIpHBX/1UizhaiBrG9WpGG8b7L4rhRebsSZRJanKSfrFm7nWp3DE6rnkCJRx7L5MepRFM96Ye/y8zEi5f53N3fJ4/aOJ6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yY/t1GAUR4icaAH2AU6YQwyTYzrrjVIxdMBpiutG880=;
- b=Ml00QI1fe7etkuCyzAMVD22lF12c0LD5wglMo3xuLzz7WIjswBTcTBAOZ57OK1C5nnfbks/OHFzHjGHGLMgSnpigvs3miW2bOqYeXHSwnq/DDCd9gp/FpL3Tqx6CUiuPVgAsBmAbyCI33dLxCOUkAr4ACw8v2PuehLHvrRuo78f8JSPMWvqv/R/OBTskAAT04npZM0lqaTxA3B77yVBn07qAvPotXJ+d4h/wL69G/YkEpPnVmnE1A35SfPTLkAsbz49S/LaJRwhQvgA9n+fvdNzsbQxQND/G4pp0xb7H8RChTJ8W0FkNAVUVdAQR7P2TVgPke3aMib7EFrb2I36I4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yY/t1GAUR4icaAH2AU6YQwyTYzrrjVIxdMBpiutG880=;
- b=cASQ/XhKnDW8VABQKpuYKstlOpBIwr0mj1SKBEBofXL0lMjw6OMo2VHE22UpZdKx2+bnPTxnlXypH89CLm0QsQibUJrxTZNHc7cQSacQPCOnXPdNoNKnxS1etgs7JmLTwbr9tQAVXI4eZUjVAPJZt0VgM0oP1sCRtyhMa00tTO4=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS0PR01MB5428.jpnprd01.prod.outlook.com (2603:1096:604:94::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.23; Thu, 31 Mar
- 2022 16:58:01 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::7ccd:4eb0:e2ae:fca8]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::7ccd:4eb0:e2ae:fca8%3]) with mapi id 15.20.5123.023; Thu, 31 Mar 2022
- 16:58:01 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 2/2] pinctrl: renesas: rzg2l: Add RZ/G2UL support
-Thread-Topic: [PATCH 2/2] pinctrl: renesas: rzg2l: Add RZ/G2UL support
-Thread-Index: AQHYOIEs37ZzWoaX/Uyml7s1wxIcxazZh2iAgABIRNA=
-Date:   Thu, 31 Mar 2022 16:58:01 +0000
-Message-ID: <OS0PR01MB59223E3DC62F5398343EF67D86E19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220315152717.20045-1-biju.das.jz@bp.renesas.com>
- <20220315152717.20045-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdVFb+4Gfnqdmi3ED1EC9Wj5ipZPGi7+9iY89erNNhiq-w@mail.gmail.com>
-In-Reply-To: <CAMuHMdVFb+4Gfnqdmi3ED1EC9Wj5ipZPGi7+9iY89erNNhiq-w@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4ef2da97-bb70-44ef-7ac5-08da13379da2
-x-ms-traffictypediagnostic: OS0PR01MB5428:EE_
-x-microsoft-antispam-prvs: <OS0PR01MB54281804DC0BD16094D91E6286E19@OS0PR01MB5428.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5i5TrmBg0HhycIBkUyALpio0F+wGfPdjoGgkySWUHQnJnZ+PtZmle7OdDLwDnmUKJRLiN38Fvl0xGaNp7yhso3kbaYNzcwCZBvzjIuEAm9QlLgm6xiMjLkwS5jRJIHazMyjcfT4KvsY9UL0tCSP7UFZ6bOmaIHzAFe+7dYW6j6lCcySDsmbKY8YwU1L918B5PRVvb1w9vlWRCawdtqEpIzwsaBS4MLg7tMHgFrcOjuD8pzgU3muBpKKwaCYQ+Kj+zUtk6SQec9FZRddw99lLCVOY/6vjfWh1gagrob6geGeEotHQ5knMs+vWrzAICoMMPutJH1mJorglgcM23TAFEZ/58QQowGvvRSdtHDo8TFT2IWkYdq1v2+4ZmB+ZkraZRD+q1uijp550Bcg7lvK2QA442lM5bo6g3AGqOepb8QL7shFmw/f0dSb92AiZ+bDspyglb0jApCB572aVQwpTozv06652ifLpaFwN2a7zYNvP1ERpKPxA/PGtgfYMs3mJIrPynHFoD+GKrqrjg380Tw8ZGpGzc8fMjCsywG3ZkpSuJyHNyknb/Oo7merWIu++SOfu5pem7s/NC6L+LqV50oxjIIo0OUFE9jxCekk6LHSmWNiWCnWDyo7HCaAPXAtv3hFP2MEeSBznZDXHhCXZQFaivrC8kYsLHcdHQsXPMr54YgS1vRF3tIdCYVsCM/b3K382evgXmyLDprj13D5spQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(55016003)(71200400001)(76116006)(66446008)(54906003)(66946007)(53546011)(4326008)(8676002)(64756008)(66476007)(66556008)(508600001)(33656002)(9686003)(6916009)(107886003)(86362001)(186003)(26005)(316002)(2906002)(122000001)(38100700002)(7696005)(5660300002)(38070700005)(6506007)(8936002)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OE1ZQ2VhU3kxTjZkNk9GbFpJY1pWck1ZVjgvTXVxcXJzVjB2VFREalRpeGlY?=
- =?utf-8?B?OWMxZklCWlN0WlR6c05aTU9XUitjOC95NjhoWWpSU1JVeXlMbzAvRkg5bzRm?=
- =?utf-8?B?Ly9YWXVtdjdjWDcxZFZDQU5Gb0hKVU42a3JSNFNyN3BWYjNVVFpTRXNnSzA3?=
- =?utf-8?B?N0VVWUtqWnc5MUJJSkIvUCsvdEtVK1BPS2Y4TGN2N24rTGE4cm9SUzgyMCtP?=
- =?utf-8?B?WWFYMmQwbTV1N3pBS3NhUjBhVGUySHJZS0FIdjJJdDdSQnRzM0JBVENkazFn?=
- =?utf-8?B?T0VFQTUzY3RtSFJDTno5V2NRR0xMYkNpTnRYWlM2cDk3MUFDSzJLMyt3MGZL?=
- =?utf-8?B?ckY1eDE3OTZGbzlud2dtbVRYWWZmSXNseDlWMTA0dCsrT1ByT016TmFXdmtN?=
- =?utf-8?B?bENURzlSWlFZd2lndlJidlM2NlRUT09NaHRqN0EyUEl1clN3d3Q1ZFpUYlhC?=
- =?utf-8?B?cWNYRW1LSHk2OFYrSWNDZEVkZEk1KzhrdHpxMkZGai9FSHhBL1dXcCtMOWxL?=
- =?utf-8?B?cU5Qalo0NFRDTmlrMlpzcHpxRnJ0Rk9NT2F1NElna3J3dW9GWm9qcnRCQitB?=
- =?utf-8?B?bndxL09zb0d1dUY2cC9kdnRDYjdBMFh2YkNZMlhJajNTT3lHdDRSdmRFSGQy?=
- =?utf-8?B?K2hNd2czaklWY3RBVG1uNVRsdkMzSXZTU21FY0d1R3hmdVlXMjRjYno0cGha?=
- =?utf-8?B?Q254S0pMVmIweG5UN0FQVXA1L0F1ZUYwUC9jOW51WGduR0s3dGJLeVRWYktL?=
- =?utf-8?B?aEQxbk5XRUZKV2VMN29HMURWTEY2VXFscTZaVjhhRklCQ1NNSjFBbkJwb3Y4?=
- =?utf-8?B?M2FZMktqdzgwWE5XWFZrdU9FU1FaaENCTDlPa3lFWEljRS9CTUxyS0Y5T1pF?=
- =?utf-8?B?TUdicU9ZbFIzNmZVWWtLQ2tsSDd4V1B6OE82aEVpRTQvaHJ2b3dxeTdFUGN2?=
- =?utf-8?B?L2dvOVZBVmszWld4NjV5QlRINmsvck9TTnhCMHBkT1lJdTJQUCtUL2xBUG1F?=
- =?utf-8?B?SzdaWTVybU5xMnFQa1o5Tjk4R2t5ZnpNYkVKeENtUldJcVBkS0wyWFBIWjQv?=
- =?utf-8?B?d2dZMWpNOVdjQlJSTmRDY2p5ak5YWkViZ1kxa1VFQ1p1YUh6SnZ0akRVQkor?=
- =?utf-8?B?aTJDcFRLWE5qcUI2NFlFWW80VFBGMlZ5VmxLWDJwSGlhdmRMWjJuSXlQMmtq?=
- =?utf-8?B?a1JTWGN5c01sT1NHYVkySGFrUWRYTmVmVHhXTC9uZUI5UXZqSEhXWUh0QUdP?=
- =?utf-8?B?czdjaTU4QWxvQUEwUDFaNU5McG5taGowQk1LdjZaSGRTZjB3c2JPRkVhdTZj?=
- =?utf-8?B?Z3FpY0pnQTRmclVFUGRaY1dDeUJzNFdSaHU4V1ZZMlBGd2JwelpDbTg3bGtS?=
- =?utf-8?B?czVvWjVQSFpkOVZRK1Fna3Fsc1dnS2oyV1ZRMXBDeUJ4Mk42VU5YZEZCVFVH?=
- =?utf-8?B?R1R5ZG5icDJsS2JFMGV1dFJseGhqbFoyN2RzRGxSdVJudnR6L2pheGtDZzE3?=
- =?utf-8?B?dFJNajlXWERxOHNPNVR3R0hSYXFhSzkydFVBWUxQQWgvOFllRXJUU3BpZlhu?=
- =?utf-8?B?N3NORnNNaXA3TTZ3ODRaeFIyTFMrdEYvYnBQdWN2WERQRG8wcFk3ZHVUMjdo?=
- =?utf-8?B?a0xzaXptam1UZngrSkh1UjZOUGlrejM0MVdTb1QxUVRCOWZZaWo1U1JkK2Iy?=
- =?utf-8?B?QTlVenZTTHNvMTliM3dYQ1BiaHRMRk9kRkZPMnlpaTVXRU5ZQjBieUkwZkVS?=
- =?utf-8?B?enVib1RMMnVyVlBtLzU2cmdCSHZzQnpFZ011OFFweEdCWXh0RC9lL1I3SkNa?=
- =?utf-8?B?NWVvcEdVVVNTTnc4K01FQjZ4ZHJEUVNBbVVEa0hpK3NtREhBajM2L2tINjl5?=
- =?utf-8?B?dU41cUVCWTB0UGZHYzdOOWxFMVlwM0FVTGNOeU90RFRQQ2F5YkVwYnovalVT?=
- =?utf-8?B?WGlsY2RPd1FvbTY0clFOZ1BQc0sxOWtpSjBQUml3bzVOcE0rbjl4b2tEWEl6?=
- =?utf-8?B?N0pjcDRxME1pc2JnbkxoREEwd0JjSHYwZ3ZzUmVzTU9ldHFKUTNWWHp5b1Av?=
- =?utf-8?B?ZHN4TlhCdXc0TnUyN0FlOWFTZ0t6SjNZTHA1TnFrRFVIUUlRUHBiMnZic0t1?=
- =?utf-8?B?OThGb3FKbkNjOG40MXA0bGRBYmxqcVpEM3YxYk55ckNTYlBLbWZCSnlFaVpH?=
- =?utf-8?B?VmRwU1JKRnFqQjNZSW0zTjM4bGUwZkx2MjhHUVBUL2FxRDNiSDRMMXNFVnJ5?=
- =?utf-8?B?YUxVRG14UWlFNHJIM1VGSjRWeTduSE82a01qcmQ0NUpZYy9YakdPaFlXT0ZZ?=
- =?utf-8?B?SjJub3dTbEV6dU5Fcks3WUc0aU5OM2U5akdkV1dZOEp4MzBTMWw0MUpETkVX?=
- =?utf-8?Q?/X3l0pABCc3Z2Dic=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 31 Mar 2022 14:19:03 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B6F01E5A56;
+        Thu, 31 Mar 2022 11:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648750635; x=1680286635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LyjlgspTz5M7nOVapvHG9O4t2fb4YR+n80TSxzPPRIw=;
+  b=FheW0hwsfxWbq0/50EHDLaqt7H3DiZggvJGi1h0CKjOujV6cA6p1WSFr
+   58ahTgInH8Q8oPjg3zeTgSa42CkVp7Ps1mOIegl4Ke+WEWUuBiVDkq3YM
+   GHXVE8CuCMvFFhY07droselsKZS8NoDHdt315U8KueIsi4LsrqMWu0XIg
+   DINitWQ8Gu4fkeTDWaO/hsvKpoDs1u53KABAMWBO8a3LNgnvb1Dojj1hd
+   PSslJZ3Ty4Ah2ynWkh0LJx3TSAk9PEsHBMpCYG3yWSIHvq4m+EC7kqPo6
+   52qiPycdv+eVm1OBA5/TJR7PkoWbhZTQTWS2/k63I2jrE4cITthCBANw3
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="247414563"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="247414563"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 11:17:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="606227575"
+Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 31 Mar 2022 11:17:07 -0700
+Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nZzM2-0000XQ-BO;
+        Thu, 31 Mar 2022 18:17:06 +0000
+Date:   Fri, 1 Apr 2022 02:16:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Qianggui Song <qianggui.song@amlogic.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>
+Subject: Re: [PATCH v3 05/13] pinctrl: samsung: Switch to use
+ for_each_gpiochip_node() helper
+Message-ID: <202204010248.AB6ZnOyw-lkp@intel.com>
+References: <20220330145030.1562-6-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ef2da97-bb70-44ef-7ac5-08da13379da2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2022 16:58:01.4365
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c+5grUSzBY/lAMnUDRRyEUjzSOe2596JuYDytTIYpHS2cz2foFkvuPRdP2SSxAw0iDyd1b3zb3JnTMz8ZIdS/Du4zOR72WhBRl2RecqFLuU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5428
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330145030.1562-6-andriy.shevchenko@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggMi8yXSBwaW5jdHJsOiByZW5lc2FzOiByemcybDogQWRkIFJaL0cyVUwgc3VwcG9ydA0K
-PiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFR1ZSwgTWFyIDE1LCAyMDIyIGF0IDQ6MjcgUE0gQmlq
-dSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiB3cm90ZToNCj4gPiBSWi9HMlVM
-IFNvQyBoYXMgZmV3ZXIgcGlucyBjb21wYXJlZCB0byBSWi9HMkwgYW5kIHRoZSBwb3J0IHBpbg0K
-PiA+IGRlZmluaXRpb25zIGFyZSBkaWZmZXJlbnQgY29tcGFyZWQgdG8gUlovRzJMLg0KPiA+DQo+
-ID4gVGhpcyBwYXRjaCBhZGRzIGEgbmV3IGNvbXBhdGlibGUgdG8gdGFrZSBjYXJlIG9mIHRoaXMg
-ZGlmZmVyZW5jZXMgYnkNCj4gPiBhZGRpbmcgcjlhMDdnMDQzX2RhdGEgd2l0aCByOWEwN2cwNDNf
-Z3Bpb19jb25maWdzIGFuZA0KPiA+IHJ6ZzJsX2RlZGljYXRlZF9waW5zLmNvbW1vbi4NCj4gPg0K
-PiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4N
-Cj4gPiBSZXZpZXdlZC1ieTogTGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJq
-QGJwLnJlbmVzYXMuY29tPg0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAt
-LS0gYS9kcml2ZXJzL3BpbmN0cmwvcmVuZXNhcy9waW5jdHJsLXJ6ZzJsLmMNCj4gPiArKysgYi9k
-cml2ZXJzL3BpbmN0cmwvcmVuZXNhcy9waW5jdHJsLXJ6ZzJsLmMNCj4gDQo+ID4gKyAgICAgICAg
-ICAgICAgIHsgIlFTUEkwX1NQQ0xLIiwgUlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwgMCwNCj4g
-PiArICAgICAgICAgICAgICAgIChQSU5fQ0ZHX0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQSU5fQ0ZH
-X0lPX1ZNQ19RU1BJKSkgfSwNCj4gPiArICAgICAgICAgICAgICAgeyAiUVNQSTBfSU8wIiwgUlpH
-MkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwgMSwNCj4gPiArICAgICAgICAgICAgICAgIChQSU5fQ0ZH
-X0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQSU5fQ0ZHX0lPX1ZNQ19RU1BJKSkgfSwNCj4gPiArICAg
-ICAgICAgICAgICAgeyAiUVNQSTBfSU8xIiwgUlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwgMiwN
-Cj4gPiArICAgICAgICAgICAgICAgIChQSU5fQ0ZHX0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQSU5f
-Q0ZHX0lPX1ZNQ19RU1BJKSkgfSwNCj4gPiArICAgICAgICAgICAgICAgeyAiUVNQSTBfSU8yIiwg
-UlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwgMywNCj4gPiArICAgICAgICAgICAgICAgIChQSU5f
-Q0ZHX0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQSU5fQ0ZHX0lPX1ZNQ19RU1BJKSkgfSwNCj4gPiAr
-ICAgICAgICAgICAgICAgeyAiUVNQSTBfSU8zIiwgUlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwg
-NCwNCj4gPiArICAgICAgICAgICAgICAgIChQSU5fQ0ZHX0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQ
-SU5fQ0ZHX0lPX1ZNQ19RU1BJKSkgfSwNCj4gPiArICAgICAgICAgICAgICAgeyAiUVNQSTBfU1NM
-IiwgUlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4YSwgNSwNCj4gPiArICAgICAgICAgICAgICAgIChQ
-SU5fQ0ZHX0lPTEhfQiB8IFBJTl9DRkdfU1IgfCBQSU5fQ0ZHX0lPX1ZNQ19RU1BJKSkgfSwNCj4g
-PiArICAgICAgICAgICAgICAgeyAiUVNQSV9SRVNFVCMiLCBSWkcyTF9TSU5HTEVfUElOX1BBQ0so
-MHhjLCAwLA0KPiA+ICsgICAgICAgICAgICAgICAgKFBJTl9DRkdfSU9MSF9CIHwgUElOX0NGR19T
-UiB8IFBJTl9DRkdfSU9fVk1DX1FTUEkpKSB9LA0KPiA+ICsgICAgICAgICAgICAgICB7ICJRU1BJ
-X1dQIyIsIFJaRzJMX1NJTkdMRV9QSU5fUEFDSygweGMsIDEsDQo+ID4gKyAgICAgICAgICAgICAg
-ICAoUElOX0NGR19JT0xIX0IgfCBQSU5fQ0ZHX1NSIHwgUElOX0NGR19JT19WTUNfUVNQSSkpIH0s
-DQo+ID4gKyAgICAgICAgICAgICAgIHsgIlFTUElfSU5UIyIsIFJaRzJMX1NJTkdMRV9QSU5fUEFD
-SygweGMsIDIsDQo+ID4gKyAoUElOX0NGR19TUiB8IFBJTl9DRkdfSU9fVk1DX1FTUEkpKSB9LA0K
-PiANCj4gV2hpbGUgdGhlIGRhdGFzaGVldCBzdGF0ZXMgUVNQSV9JTlQjIGhhcyB0aGUgVk1DIGNh
-cGFiaWxpdHksIGl0IGRvZXMgbm90DQo+IHN0YXRlIHRoYXQgcGluIGhhcyB0aGUgU2xldyBSYXRl
-IGNhcGFiaWxpdHkuDQo+IE1vcmVvdmVyLCB0aGUgUVNQSV9JTlQjIGZ1bmN0aW9uYWxpdHkgaXMg
-bm90IGRvY3VtZW50ZWQgYW55d2hlcmUgZWxzZSBpbg0KPiB0aGUgZGF0YXNoZWV0IChleGNlcHQg
-Zm9yIGEgKHN0YWxlPykgcmVmZXJlbmNlIGluIHRoZSBCb290IE1vZGUgY2hhcHRlciksDQo+IG5v
-ciBpbiB0aGUgcGluZnVuY3Rpb24gc3ByZWFkc2hlZXQuICBIZW5jZSBpdCBsb29rcyBsaWtlIHRo
-YXQgcGluIGRvZXMgbm90DQo+IGV4aXN0IG9uIFJaL0cyVUwsIGFuZCB0aHVzIHNob3VsZCBiZSBt
-b3ZlZCB0byByemcybF9waW5zIGJlbG93Lg0KDQpBZ3JlZWQsIFdpbGwgbW92ZSB0byBSWi9HMkwu
-DQoNCkNoZWVycywNCkJpanUNCg0KPiANCj4gPiArICAgICAgICAgICAgICAgeyAiV0RUT1ZGX1BF
-UlJPVVQjIiwgUlpHMkxfU0lOR0xFX1BJTl9QQUNLKDB4ZCwgMCwNCj4gKFBJTl9DRkdfSU9MSF9B
-IHwgUElOX0NGR19TUikpIH0sDQo+ID4gKyAgICAgICAgICAgICAgIHsgIlJJSUMwX1NEQSIsIFJa
-RzJMX1NJTkdMRV9QSU5fUEFDSygweGUsIDAsDQo+IFBJTl9DRkdfSUVOKSB9LA0KPiA+ICsgICAg
-ICAgICAgICAgICB7ICJSSUlDMF9TQ0wiLCBSWkcyTF9TSU5HTEVfUElOX1BBQ0soMHhlLCAxLA0K
-PiBQSU5fQ0ZHX0lFTikgfSwNCj4gPiArICAgICAgICAgICAgICAgeyAiUklJQzFfU0RBIiwgUlpH
-MkxfU0lOR0xFX1BJTl9QQUNLKDB4ZSwgMiwNCj4gUElOX0NGR19JRU4pIH0sDQo+ID4gKyAgICAg
-ICAgICAgICAgIHsgIlJJSUMxX1NDTCIsIFJaRzJMX1NJTkdMRV9QSU5fUEFDSygweGUsIDMsDQo+
-IFBJTl9DRkdfSUVOKSB9LA0KPiA+ICsgICAgICAgfSwNCj4gPiArICAgICAgIC5yemcybF9waW5z
-ID0gew0KPiA+ICsgICAgICAgICAgICAgICB7ICJRU1BJMV9TUENMSyIsIFJaRzJMX1NJTkdMRV9Q
-SU5fUEFDSygweGIsIDAsDQo+ID4gKyAgICAgICAgICAgICAgICAoUElOX0NGR19JT0xIX0IgfCBQ
-SU5fQ0ZHX1NSIHwgUElOX0NGR19JT19WTUNfUVNQSSkpIH0sDQo+ID4gKyAgICAgICAgICAgICAg
-IHsgIlFTUEkxX0lPMCIsIFJaRzJMX1NJTkdMRV9QSU5fUEFDSygweGIsIDEsDQo+ID4gKyAgICAg
-ICAgICAgICAgICAoUElOX0NGR19JT0xIX0IgfCBQSU5fQ0ZHX1NSIHwgUElOX0NGR19JT19WTUNf
-UVNQSSkpIH0sDQo+ID4gKyAgICAgICAgICAgICAgIHsgIlFTUEkxX0lPMSIsIFJaRzJMX1NJTkdM
-RV9QSU5fUEFDSygweGIsIDIsDQo+ID4gKyAgICAgICAgICAgICAgICAoUElOX0NGR19JT0xIX0Ig
-fCBQSU5fQ0ZHX1NSIHwgUElOX0NGR19JT19WTUNfUVNQSSkpIH0sDQo+ID4gKyAgICAgICAgICAg
-ICAgIHsgIlFTUEkxX0lPMiIsIFJaRzJMX1NJTkdMRV9QSU5fUEFDSygweGIsIDMsDQo+ID4gKyAg
-ICAgICAgICAgICAgICAoUElOX0NGR19JT0xIX0IgfCBQSU5fQ0ZHX1NSIHwgUElOX0NGR19JT19W
-TUNfUVNQSSkpIH0sDQo+ID4gKyAgICAgICAgICAgICAgIHsgIlFTUEkxX0lPMyIsIFJaRzJMX1NJ
-TkdMRV9QSU5fUEFDSygweGIsIDQsDQo+ID4gKyAgICAgICAgICAgICAgICAoUElOX0NGR19JT0xI
-X0IgfCBQSU5fQ0ZHX1NSICB8IFBJTl9DRkdfSU9fVk1DX1FTUEkpKQ0KPiB9LA0KPiA+ICsgICAg
-ICAgICAgICAgICB7ICJRU1BJMV9TU0wiLCBSWkcyTF9TSU5HTEVfUElOX1BBQ0soMHhiLCA1LA0K
-PiA+ICsgICAgICAgICAgICAgICAgKFBJTl9DRkdfSU9MSF9CIHwgUElOX0NGR19TUiB8IFBJTl9D
-RkdfSU9fVk1DX1FTUEkpKSB9LA0KPiA+ICsgICAgICAgfQ0KPiA+ICB9Ow0KPiANCj4gVGhlIHJl
-c3QgTEdUTSwgc28NCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVu
-ZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAtLQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0g
-VGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LQ0KPiBtNjhr
-Lm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9w
-bGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuDQo+IEJ1dCB3aGVuIEknbSB0YWxraW5nIHRvIGpv
-dXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZw0KPiBsaWtlIHRo
-YXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMN
-Cg==
+Hi Andy,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on a67ba3cf9551f8c92d5ec9d7eae1aadbb9127b57]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpiolib-Two-new-helpers-and-way-toward-fwnode/20220330-225341
+base:   a67ba3cf9551f8c92d5ec9d7eae1aadbb9127b57
+config: riscv-randconfig-c006-20220331 (https://download.01.org/0day-ci/archive/20220401/202204010248.AB6ZnOyw-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 881350a92d821d4f8e4fa648443ed1d17e251188)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/3539d23dd289ca77a85d66fe8721e4febfc50ea4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/gpiolib-Two-new-helpers-and-way-toward-fwnode/20220330-225341
+        git checkout 3539d23dd289ca77a85d66fe8721e4febfc50ea4
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/pinctrl/samsung/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/pinctrl/samsung/pinctrl-s3c64xx.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/pinctrl/samsung/pinctrl-s3c64xx.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/pinctrl/samsung/pinctrl-s3c64xx.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:1024:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/pinctrl/samsung/pinctrl-s3c64xx.c:474:50: error: no member named 'of_node' in 'struct samsung_pin_bank'; did you mean 'fwnode'?
+                   bank->irq_domain = irq_domain_add_linear(bank->of_node,
+                                                                  ^~~~~~~
+                                                                  fwnode
+   drivers/pinctrl/samsung/pinctrl-samsung.h:168:24: note: 'fwnode' declared here
+           struct fwnode_handle *fwnode;
+                                 ^
+   drivers/pinctrl/samsung/pinctrl-s3c64xx.c:746:50: error: no member named 'of_node' in 'struct samsung_pin_bank'; did you mean 'fwnode'?
+                   bank->irq_domain = irq_domain_add_linear(bank->of_node,
+                                                                  ^~~~~~~
+                                                                  fwnode
+   drivers/pinctrl/samsung/pinctrl-samsung.h:168:24: note: 'fwnode' declared here
+           struct fwnode_handle *fwnode;
+                                 ^
+   7 warnings and 2 errors generated.
+
+
+vim +474 drivers/pinctrl/samsung/pinctrl-s3c64xx.c
+
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  444  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  445  /**
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  446   * s3c64xx_eint_gpio_init() - setup handling of external gpio interrupts.
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  447   * @d: driver data of samsung pinctrl driver.
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  448   */
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  449  static int s3c64xx_eint_gpio_init(struct samsung_pinctrl_drv_data *d)
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  450  {
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  451  	struct s3c64xx_eint_gpio_data *data;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  452  	struct samsung_pin_bank *bank;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  453  	struct device *dev = d->dev;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  454  	unsigned int nr_domains;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  455  	unsigned int i;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  456  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  457  	if (!d->irq) {
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  458  		dev_err(dev, "irq number not available\n");
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  459  		return -EINVAL;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  460  	}
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  461  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  462  	nr_domains = 0;
+1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c64xx.c Tomasz Figa      2014-09-23  463  	bank = d->pin_banks;
+1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c64xx.c Tomasz Figa      2014-09-23  464  	for (i = 0; i < d->nr_banks; ++i, ++bank) {
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  465  		unsigned int nr_eints;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  466  		unsigned int mask;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  467  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  468  		if (bank->eint_type != EINT_TYPE_GPIO)
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  469  			continue;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  470  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  471  		mask = bank->eint_mask;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  472  		nr_eints = fls(mask);
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  473  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18 @474  		bank->irq_domain = irq_domain_add_linear(bank->of_node,
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  475  					nr_eints, &s3c64xx_gpio_irqd_ops, bank);
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  476  		if (!bank->irq_domain) {
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  477  			dev_err(dev, "gpio irq domain add failed\n");
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  478  			return -ENXIO;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  479  		}
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  480  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  481  		++nr_domains;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  482  	}
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  483  
+0ed2dd03b94b7b drivers/pinctrl/samsung/pinctrl-s3c64xx.c Kees Cook        2018-05-08  484  	data = devm_kzalloc(dev, struct_size(data, domains, nr_domains),
+0ed2dd03b94b7b drivers/pinctrl/samsung/pinctrl-s3c64xx.c Kees Cook        2018-05-08  485  			    GFP_KERNEL);
+fa5c0f46e2b9a1 drivers/pinctrl/samsung/pinctrl-s3c64xx.c Marek Szyprowski 2017-01-19  486  	if (!data)
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  487  		return -ENOMEM;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  488  	data->drvdata = d;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  489  
+1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c64xx.c Tomasz Figa      2014-09-23  490  	bank = d->pin_banks;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  491  	nr_domains = 0;
+1bf00d7a6dbff0 drivers/pinctrl/samsung/pinctrl-s3c64xx.c Tomasz Figa      2014-09-23  492  	for (i = 0; i < d->nr_banks; ++i, ++bank) {
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  493  		if (bank->eint_type != EINT_TYPE_GPIO)
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  494  			continue;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  495  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  496  		data->domains[nr_domains++] = bank->irq_domain;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  497  	}
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  498  
+623a650ebc886f drivers/pinctrl/samsung/pinctrl-s3c64xx.c Thomas Gleixner  2015-06-21  499  	irq_set_chained_handler_and_data(d->irq, s3c64xx_eint_gpio_irq, data);
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  500  
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  501  	return 0;
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  502  }
+61dd7261317770 drivers/pinctrl/pinctrl-s3c64xx.c         Tomasz Figa      2013-03-18  503  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
