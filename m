@@ -2,130 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3270E4EEDC1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 15:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA81A4EEDD0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 15:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242830AbiDANFs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 09:05:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45342 "EHLO
+        id S1346167AbiDANJA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 09:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346156AbiDANFq (ORCPT
+        with ESMTP id S234848AbiDANI7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 09:05:46 -0400
-Received: from smtpout1.mo3004.mail-out.ovh.net (smtpout1.mo3004.mail-out.ovh.net [79.137.123.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7232211C26;
-        Fri,  1 Apr 2022 06:03:44 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.108.20.220])
-        by mo3004.mail-out.ovh.net (Postfix) with ESMTPS id E28952451C7;
-        Fri,  1 Apr 2022 13:03:31 +0000 (UTC)
-Received: from [192.168.1.42] (88.125.132.78) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Apr
- 2022 15:03:30 +0200
-Message-ID: <8fb86bde-7672-87e1-28a1-e78f371bfcca@traphandler.com>
-Date:   Fri, 1 Apr 2022 15:03:29 +0200
+        Fri, 1 Apr 2022 09:08:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121E7268C26;
+        Fri,  1 Apr 2022 06:07:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B3E33B824D3;
+        Fri,  1 Apr 2022 13:07:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B93C3410F;
+        Fri,  1 Apr 2022 13:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648818427;
+        bh=NxIz7F5Ix7ujuYeTmjItcADAGgHavHcVWcqI1LZ7iuI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pHoul7yeo4S4WCdbiySBxEeao4t68t55oiq+0nBbRWnetlNqSCqMU4NxltjowIueN
+         bEsRsmnLsKoEcWCnsymRsYtudgJ7Pva9ogQhN18jwJzW35e1W3F52eurA2ae1Py+Nl
+         bWCWRy2XXIZXhmXPvGRf3kZpLkM5/UKl1UYI2+nrzfmBw0tH+klQJmW8tqKDSicNar
+         ZTd4O9cEu6iL9/dd80DAqOaDU1iTHc/dIMAOF6k8Hdz7ym4MEd6aT4JLziOoV5UFkk
+         L0zvAOEIDU156W2BXGjpMYWYfxq2W5t4bEc8HSYieJYpll8a1Bfj+Kll0UtOOmAR5y
+         FKm7vKSc2+E2g==
+Received: by mail-io1-f50.google.com with SMTP id z7so3108728iom.1;
+        Fri, 01 Apr 2022 06:07:07 -0700 (PDT)
+X-Gm-Message-State: AOAM530wmEjJCUuCSj3Mtm6Q9uvLalVseS6VUGQyzeVIgdzNaZVjdJLg
+        pnuoCkjUgZjlhlezHZSvnrrK0AYNTihydQVWjg==
+X-Google-Smtp-Source: ABdhPJxGvqOqt7HA/fYx1QugaDiqtYmr9VZyOQdG68K+8h5LGz2aCIQ064fcbTMpqrNVR/4RerP6xeeUIi8vABzQHzQ=
+X-Received: by 2002:a02:1107:0:b0:321:78dc:890d with SMTP id
+ 7-20020a021107000000b0032178dc890dmr5872819jaf.236.1648818426623; Fri, 01 Apr
+ 2022 06:07:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
-Content-Language: en-US
-To:     Tzung-Bi Shih <tzungbi@kernel.org>
-CC:     <wim@linux-watchdog.org>, <linux@roeck-us.net>,
-        <geert+renesas@glider.be>, <linux-watchdog@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-References: <20220330100829.1000679-1-jjhiblot@traphandler.com>
- <20220330100829.1000679-3-jjhiblot@traphandler.com>
- <YkVFc6Q6/6rxSw89@google.com>
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-In-Reply-To: <YkVFc6Q6/6rxSw89@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [88.125.132.78]
-X-ClientProxiedBy: DAG3EX1.emp2.local (172.16.2.21) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 17880416423138572789
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiiedgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpefhiedthedttdegueeggfdtjeegtdeileeftdegheeutdetjeeuieehtdevvdefieenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdejkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlrdgvugifohhrthhhhiesrhgvnhgvshgrshdrtghomh
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <YkYWzf7J17AfXgLl@robh.at.kernel.org> <CA+V-a8sia2YgWmry+SxJu3asD47PSD6UnND33599ygTBymPy_g@mail.gmail.com>
+In-Reply-To: <CA+V-a8sia2YgWmry+SxJu3asD47PSD6UnND33599ygTBymPy_g@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 1 Apr 2022 08:06:55 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+P6GTXcwqf8EL+vBdJWSDM+Bxxm5MPEyJPF8A3ZWaQ3A@mail.gmail.com>
+Message-ID: <CAL_Jsq+P6GTXcwqf8EL+vBdJWSDM+Bxxm5MPEyJPF8A3ZWaQ3A@mail.gmail.com>
+Subject: Re: [RFC PATCH] of/platform: Drop static setup of IRQ resource from
+ DT core
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Apr 1, 2022 at 2:42 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Rob,
+>
+> On Thu, Mar 31, 2022 at 10:02 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Wed, Mar 16, 2022 at 08:06:33PM +0000, Lad Prabhakar wrote:
+> > > Now that all the DT drivers have switched to platform_get_irq() we can now
+> > > safely drop the static setup of IRQ resource from DT core code.
+> > >
+> > > With the above change hierarchical setup of irq domains is no longer
+> > > bypassed and thus allowing hierarchical interrupt domains to describe
+> > > interrupts using "interrupts" DT property.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > Hi All,
+> > >
+> > > Sending this as RFC as couple of more drivers need to hit -rc yet with
+> > > the platform_get_irq() change while that is in progress I wanted to get
+> > > some feedback on this patch.
+> >
+> > I just applied this on top of current master and pushed to my
+> > for-kernelci branch. It should show up in kernelCI in a bit. I did this
+> > before all the fixes too and there were definitely a couple of test
+> > regressions.
+> >
+> Any chance you can share the regressions or maybe the CI script so
+> that I can reproduce it locally.
 
-On 31/03/2022 08:08, Tzung-Bi Shih wrote:
-> On Wed, Mar 30, 2022 at 12:08:29PM +0200, Jean-Jacques Hiblot wrote:
->> diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
-> [...]
->> +/*
->> + * Renesas RZ/N1 Watchdog timer.
->> + * This is a 12-bit timer driver from a (62.5/16384) MHz clock. It can't even
->> + * cope with 2 seconds.
->> + *
->> + * Copyright 2018 Renesas Electronics Europe Ltd.
-> s/2018/2022/ ?
-This driver wasn't written by me originally. So I'd rather not change 
-this line.
->
->> +#define RZN1_WDT_RETRIGGER			0x0
->> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL		0
->> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL_MASK	0xfff
->> +#define RZN1_WDT_RETRIGGER_PRESCALE		BIT(12)
->> +#define RZN1_WDT_RETRIGGER_ENABLE		BIT(13)
->> +#define RZN1_WDT_RETRIGGER_WDSI			(0x2 << 14)
-> Do RZN1_WDT_RETRIGGER_RELOAD_VAL and RZN1_WDT_RETRIGGER_WDSI get 1 more tab
-> indent intentionally?
->
->> +static const struct watchdog_device rzn1_wdt = {
->> +	.info = &rzn1_wdt_info,
->> +	.ops = &rzn1_wdt_ops,
->> +	.status = WATCHDOG_NOWAYOUT_INIT_STATUS,
->> +};
-> [...]
->> +static int rzn1_wdt_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	wdt->wdt = rzn1_wdt;
-> Does it really need to copy the memory?  For example,
->
-> 1. Use the memory in `wdt` directly and fill the `wdd`.
->
-> struct watchdog_device *wdd = &wdt->wdt;
-> wdd->info = &rzn1_wdt_info;
-> wdd->ops = &rzn1_wdt_ops;
-> ...
->
-> 2. Use drvdata instead of container_of().
->
-> Use watchdog_set_drvdata() in _probe and watchdog_get_drvdata() in the
-> watchdog ops to get struct rzn1_watchdog.
-I'll rework this. Thanks for the review
->> +static const struct of_device_id rzn1_wdt_match[] = {
->> +	{ .compatible = "renesas,rzn1-wdt" },
->> +	{},
->> +};
->> +MODULE_DEVICE_TABLE(of, rzn1_wdt_match);
-> Doesn't it need to guard by CONFIG_OF?
+It will show up here[1] as 'robh', but it still hasn't built yet which
+is strange.
 
-I don't think it has to.
+Rob
 
->
->> +static struct platform_driver rzn1_wdt_driver = {
->> +	.probe		= rzn1_wdt_probe,
->> +	.driver		= {
->> +		.name		= KBUILD_MODNAME,
->> +		.of_match_table	= rzn1_wdt_match,
-> Does it makes more sense to use of_match_ptr()?
->
->> +	},
->> +};
->> +
->> +module_platform_driver(rzn1_wdt_driver);
-> To make it look like a whole thing, I prefer to remove the extra blank line
-> in between struct platform_driver and module_platform_driver().
+[1] https://linux.kernelci.org/job/
