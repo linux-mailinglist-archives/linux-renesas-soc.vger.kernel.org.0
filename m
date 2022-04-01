@@ -2,49 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC164EF761
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 18:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E6884EF755
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 18:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345831AbiDAP4r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 11:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
+        id S234449AbiDAP40 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 11:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354623AbiDAPpd (ORCPT
+        with ESMTP id S1353711AbiDAPug (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 11:45:33 -0400
+        Fri, 1 Apr 2022 11:50:36 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E866A01F
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Apr 2022 08:20:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 118FCDF4B0
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Apr 2022 08:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=FEFxfssSSTU22YXch7aVrtelpaE7
-        WagHES7sL502rZY=; b=Ziz9m6B1gzVQe1cPSM8+XVqJcbrztrHyNP2UDvUnVShN
-        YuGTd2peo4vynJTtteFDOswuel+Y7bM4mTdxJaYN/LI2Pasebj+8s2WNjdk6fpuh
-        wUcgUUtgi7xxCveP53JS9iMpewnH6/wni9mHNKzxmVB1fvnRI4siVf6YTqbdUiw=
-Received: (qmail 784814 invoked from network); 1 Apr 2022 17:20:50 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2022 17:20:50 +0200
-X-UD-Smtp-Session: l3s3148p1@s/7hUpnbNKYgAQnoAGGbAFirbAEmXd1u
-Date:   Fri, 1 Apr 2022 17:20:49 +0200
+        :content-type:in-reply-to; s=k1; bh=VyfdU1PyrPlWhUYcuazzRtnicqZv
+        MbVTN2xYeimlwHQ=; b=ZR5WGjKzdP9Aw/MNoOapcduCWbHDVST4vJ2yzkZ0sCos
+        f5f401sMxy/0+KZjZkAym9SpS1LDTSCHlNbV713sb4Y8JiMQDlltBRKjoXl5fnbF
+        49dlJWtYsdhkmkle5XpBLhikJmtK0+ONSj0cSx95tHTud8hpodqimX3QZjapO2Y=
+Received: (qmail 785507 invoked from network); 1 Apr 2022 17:23:51 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2022 17:23:51 +0200
+X-UD-Smtp-Session: l3s3148p1@DwyiXZnbWKYgAQnoAGGbAFirbAEmXd1u
+Date:   Fri, 1 Apr 2022 17:23:50 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/6] mmc: renesas_sdhi: R-Car D3 also has no HS400
-Message-ID: <YkcYUatquGqQHynX@ninjato>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a77961: Add CAN-FD node
+Message-ID: <YkcZBiX75NT/uqH5@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20220320123016.57991-1-wsa+renesas@sang-engineering.com>
- <20220320123016.57991-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdUso+a2UqMTZByGQryj+GvT4go4GB9EOM60D1Ue9oMi_A@mail.gmail.com>
- <YkcTQCZceQcRQo5A@ninjato>
- <CAMuHMdWDPncJ7Rny6ZOxbgUMnTJPzyu6kmmYUUPkHVfuqi=7NA@mail.gmail.com>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+References: <20220319223306.60782-1-wsa+renesas@sang-engineering.com>
+ <20220319223306.60782-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUc_MUXFPmkEzHaTGG5oyJNS2QROpe-RdgTpfRcOstU6Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zRyTQKlt48aTGFvG"
+        protocol="application/pgp-signature"; boundary="JOP95n6tgijJ98yf"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWDPncJ7Rny6ZOxbgUMnTJPzyu6kmmYUUPkHVfuqi=7NA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUc_MUXFPmkEzHaTGG5oyJNS2QROpe-RdgTpfRcOstU6Q@mail.gmail.com>
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -56,40 +54,50 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---zRyTQKlt48aTGFvG
+--JOP95n6tgijJ98yf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-> BTW, SDHI0 and SDHI1 don't have the DS signal neither.
-> Does that mean we never support HS400 on these?
+> > Fixes: 92c406ed0a7f ("arm64: dts: renesas: r8a77961: Add CAN nodes")
+>=20
+> I don't think it was forgotten, and think this is not really a fix:
+> CAN and CAN-FD are two different devices, with different drivers.
 
-Yes, those don't even support eMMC.
+I thought Goda-san tested both interfaces back then, but maybe I was
+wrong. Yeah, Fixes tag may be dropped probably.
 
-> We do have SD0H and SD1H clocks.
-> Upstream DTS uses at most sd-uhs-sdr104 on SDHI[01].
+> > +                       compatible =3D "renesas,r8a77961-canfd",
+>=20
+> Can you please send a patch to augment the DT bindings?
 
-Yes, SDnH (and SCC) is also needed for SDR104.
+Sure, will do.
+
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.19, with the Fixes tag removed.
+
+Thanks!
 
 
---zRyTQKlt48aTGFvG
+--JOP95n6tgijJ98yf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJHGFEACgkQFA3kzBSg
-KbaiMhAAlPO2o/VoeXigCGmDrnKFz+QOl8rQa0+s/+yjT7mvLmEs4G5EmaYweRcv
-tiVcMjYqGvj3PPK2/B/k50akz1SxDick2KrOOShwQuUb0amAcX8VwWAWIsaQG6Eo
-cDMKsYGZqSDtRSVTzu/8A00zMzLuL3vi+4QK28XLnScJj385veRq/EP9k4qaYpmF
-sh8EJ/C2J5Weq3REDSxiBD3CYMRurxlsPtyqjOj1Ld0mFlOza/+jN0Befrafg4rS
-yoD5TmKVm/bOgxMZBUx6g9eTyyYqw94nHnePXt6iDYSp5wEDCGeVMyGQ8SBdA8bG
-MveI96dExvS6Gt8RTBbhAVyA6Qi8qtkKPP7vPzRV2X8+71TpqmyO2Q6gt8cx25km
-3ED5w9JTwqrInqteaYYO8FIA1reiWwYmr4SL7cL9WthLmcWstdLhwDjfXbk6DsCV
-Ts7+PO73oqVuGaaStmVlezDyW9N71Xy9h92qtn/qXrZOxOcoZE+dyrHXPis/Eu41
-YRUBbgJnpvFxbQ1xkAZrNrDyExbJSf1WYI7IkDsYpQnNgGyE2DEMXNOD/vmy+iUJ
-zPw90FMCKs9sL3AX9ReeHfI3zXfVUHoIYeZOtuIMxrp1LgJ7tp81d2xfkOXSrSEv
-0dz9c7aw6cYjMD+jZDD+zewIGsasYSrWY7S6EYvrOzfJIsZwN58=
-=UH/u
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJHGQYACgkQFA3kzBSg
+KbbHbw//Yy1KJje5RE1G/DTvnNWjxlbTh2e46LqvqhkoWr1iztl4u9UKSeP+47q5
+FpUMr6dTNXjv3NgGzD7RdFnVvpSJsJ1sPgbAjaRSi2CTLzyKnzSX9pLas7oaFg8H
+afhxg6cCghUORAZLJ80E7dcYxadqwDpV+yVTI6e2ek/fEbRply8BjdJUQZMVQqoe
+qpOHZwz7PkvlXtbzFyamapgtEw7u4fgSLQKddkoYKFo1S7TVFEk3eaUwdcCpW2e8
+LOng5QLH0YbDO9PxbAlQ/UM5lLiod53RBhwr6NZL1i+qSK9jeaIaAA7lLyxZE888
+UYhzSWkldzcFqAHcclUvPr49kfXH0F2pA83dzQ6aIQwRetdNx4KqD/HxtXRSQPho
+YdU90v2H7jqXMUWOxxtKtaetT4DESq1OO368sEKlQc7w3iSMKb32wfqtLX4keMgq
+od8vU0+dvxB4vCJV8u+PR1lUNXUasxFZViEiT+COsS49I6yRDZKQV54LI9P9HYdD
+/eskQrXNAX7oddkpceyphgsNDtEZTZ9XaeKarlXyKgbZwPxcOjr+egdsBifbQg/1
+oPja4dgHwB1h+VhBQtVPaN/Tf8IY2q5p9uDROfmjwqmDVy8cKIWUAR1iE0UDT8k1
+6QIXMifed9ESM+V8bp6l+wIBYnBJTnW8mWxTQhsI8VNG7bWA8XU=
+=gXh1
 -----END PGP SIGNATURE-----
 
---zRyTQKlt48aTGFvG--
+--JOP95n6tgijJ98yf--
