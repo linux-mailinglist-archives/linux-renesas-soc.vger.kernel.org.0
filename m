@@ -2,86 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED47E4EEDD9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 15:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 522D64EEEE1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 16:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344149AbiDANLD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 09:11:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34480 "EHLO
+        id S1346694AbiDAOL3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 10:11:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbiDANLC (ORCPT
+        with ESMTP id S1346679AbiDAOL2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 09:11:02 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1D635DF7;
-        Fri,  1 Apr 2022 06:09:11 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id 1so2043215qke.1;
-        Fri, 01 Apr 2022 06:09:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W9ZVeH/Lv5E7XZFkRWWD5nKiagb2/V5JMj3bkaQWPsY=;
-        b=zENtv6FbLq2DZPCT6AifQ1J/T0iEfeV0ezoOx5LfClMwDjoyFiWPD/TUffQ8x2dhjK
-         uqim/vt7lUJiyVesc30oNpU6d/OxFWKaDah8fKL2zG7oR5LrqNkOTrgNYvoFKaDyErKV
-         1q4hP6P6GytAcLJH0c+n0QWx7g9jiPsGszm+OLrpbVBK5ptqkG7J4a1mdAjTMiSkV57P
-         MAnPZy8Mp5ZymcxZeHZOeG1uyMxSyQ7yYOzmPwqiPXzUGvoOUuRkDRjGLlw+Hgqt0I8T
-         Ps7YJjvUqRG3Ko1hiIhoKM2VZwJ0m1qljBL9kTxK85lVUsdVrDjeMkhSTVSBC3o5Bk4P
-         sEtw==
-X-Gm-Message-State: AOAM532J9I3i4T1GW7rAELfB3BKO3eEt18NMwdrzoeW3CsC0JrqwmC3b
-        Zy9PMllG7Bphh4oCjSPX4E0rCeD3Hl1fdw==
-X-Google-Smtp-Source: ABdhPJzFz417HgFMQgi9T93s4sOMwhYOGDyd+F0chDRewCYhIBpDHdqSrSYpLRS1NhjSlUmmjkCL/w==
-X-Received: by 2002:a05:620a:24c7:b0:67f:9270:4b6a with SMTP id m7-20020a05620a24c700b0067f92704b6amr6336490qkn.52.1648818550050;
-        Fri, 01 Apr 2022 06:09:10 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id i18-20020ac85c12000000b002e1ce74f1a8sm1807243qti.27.2022.04.01.06.09.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 06:09:09 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id y142so4868977ybe.11;
-        Fri, 01 Apr 2022 06:09:09 -0700 (PDT)
-X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
- p9-20020a259e89000000b0063cad37a5demr8256219ybq.342.1648818549313; Fri, 01
- Apr 2022 06:09:09 -0700 (PDT)
+        Fri, 1 Apr 2022 10:11:28 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B69AA1D4197
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Apr 2022 07:09:37 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:bd2c:e90f:bea1:b124])
+        by xavier.telenet-ops.be with bizsmtp
+        id DS9b270034qGt8d01S9bYk; Fri, 01 Apr 2022 16:09:35 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1naHy2-007nLn-Mf; Fri, 01 Apr 2022 16:09:34 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1naHy2-002X9t-8d; Fri, 01 Apr 2022 16:09:34 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] mmc: renesas_sdhi: Add missing checks for the presence of quirks
+Date:   Fri,  1 Apr 2022 16:09:28 +0200
+Message-Id: <cc3178c2ff60f640f4d5a071d51f6b0b1db37656.1648822020.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220320123016.57991-1-wsa+renesas@sang-engineering.com> <20220320123016.57991-6-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220320123016.57991-6-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Apr 2022 15:08:57 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXEJGr8e5kwKT0xjcQu5F+0XV6QfVpkfAE09koe=01sNg@mail.gmail.com>
-Message-ID: <CAMuHMdXEJGr8e5kwKT0xjcQu5F+0XV6QfVpkfAE09koe=01sNg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] mmc: renesas_sdhi: make 'fixed_addr_mode' a quirk
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 8:02 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> After Shimoda-san's much appreciated refactoring of the quirk handling,
-> we can convert now the 'fixed_addr_mode' from an ugly global flag to a
-> regular quirk. This makes quirk handling more consistent and easier to
-> maintain.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+When running on an system without any quirks (e.g. R-Car V3U), the
+kernel crashes with a NULL pointer dereference:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000002
+    ...
+    Hardware name: Renesas Falcon CPU and Breakout boards based on r8a779a0 (DT)
+    Workqueue: events_freezable mmc_rescan
+    ...
+    Call trace:
+     renesas_sdhi_internal_dmac_start_dma+0x54/0x12c
+     tmio_process_mrq+0x124/0x274
 
-Gr{oetje,eeting}s,
+Fix this by adding the missing checks for the validatity of the
+priv->quirks pointer.
 
-                        Geert
+Fixes: dce2ba8b2ee8cef6 ("mmc: renesas_sdhi: make 'dmac_only_one_rx' a quirk")
+Fixes: d4bfa17a655c6de2 ("mmc: renesas_sdhi: make 'fixed_addr_mode' a quirk")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index 6dd5ade3851b2ba8..90048f74e6221add 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -374,7 +374,7 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
+ 	struct scatterlist *sg = host->sg_ptr;
+ 	u32 dtran_mode = DTRAN_MODE_BUS_WIDTH;
+ 
+-	if (!priv->quirks->fixed_addr_mode)
++	if (!(priv->quirks && priv->quirks->fixed_addr_mode))
+ 		dtran_mode |= DTRAN_MODE_ADDR_MODE;
+ 
+ 	if (!renesas_sdhi_internal_dmac_map(host, data, COOKIE_MAPPED))
+@@ -382,7 +382,7 @@ renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
+ 
+ 	if (data->flags & MMC_DATA_READ) {
+ 		dtran_mode |= DTRAN_MODE_CH_NUM_CH1;
+-		if (priv->quirks->dma_one_rx_only &&
++		if (priv->quirks && priv->quirks->dma_one_rx_only &&
+ 		    test_and_set_bit(SDHI_INTERNAL_DMAC_RX_IN_USE, &global_flags))
+ 			goto force_pio_with_unmap;
+ 	} else {
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
