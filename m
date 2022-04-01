@@ -2,176 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 694D94EE649
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 04:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 540944EE92C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 09:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244272AbiDACx0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Mar 2022 22:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
+        id S235634AbiDAHnx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 03:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242572AbiDACxZ (ORCPT
+        with ESMTP id S235607AbiDAHnw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Mar 2022 22:53:25 -0400
-X-Greylist: delayed 1482 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 31 Mar 2022 19:51:36 PDT
-Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com [192.185.184.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4078208C05
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Mar 2022 19:51:35 -0700 (PDT)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway30.websitewelcome.com (Postfix) with ESMTP id A56194B93
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 31 Mar 2022 21:26:52 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-        by cmsmtp with SMTP
-        id a700nPrZ1Rnrra700nXRuw; Thu, 31 Mar 2022 21:26:52 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=JL/R10AFXo3m+8yvx0Z1Ncw51gsFIrGlpCNnWHKID+k=; b=eDj6hmhodlrylz8YNuFxCUdKJ5
-        Abq1JxKySetWQDsQJk++hoyiq3Ct5cK1h05ym8t13TCuAR417Xu05vHoG3tx/KDUjI7zdN3QVjSyX
-        oV8CnCybZBETefM6shab9Pnp0YjimzYR2COrkXuRFZaAb2IM1/j1A4WAHDeNs2jN3EoaZ748hfdlV
-        9oTxMJM8tadTAN2U/P0oazDZhYDIOsVSUEsCIAoda4QH4/ATJC5/5pnYMNSeVYBchgp7iDChzLsWN
-        JY/8Lz1/ENJUG/LRjYktgVPipADWaT4d1XVjvdu3n6I1bnMCRDn58vTjsZOETKaKq4aVS764z3qVK
-        fQA4Qzsw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54610)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@roeck-us.net>)
-        id 1na700-0045Hw-7g; Fri, 01 Apr 2022 02:26:52 +0000
-Message-ID: <a12c8a2a-1e8a-bfee-6812-969cccc6366e@roeck-us.net>
-Date:   Thu, 31 Mar 2022 19:26:50 -0700
+        Fri, 1 Apr 2022 03:43:52 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DEB25E32B;
+        Fri,  1 Apr 2022 00:42:00 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2e592e700acso23421367b3.5;
+        Fri, 01 Apr 2022 00:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D57KhCyXWppjWMlxegqq8QrdaCvKLyGDT+/mDhkcfao=;
+        b=oEwgIAvR84Cr82p6tkGSq/QGT+3Am17w4Qxl+9/7YvSlHkGmnBuKnkeahOHeWvuDjd
+         C6bkPcTnsNEidPruyaKA4HtVqTCWDNu1LyyDfy2Uf3A8boKJojoFDFSnEA3qngUkis8L
+         uPYnrka0B3CYolh/bQ2FaRFg4jpg9XfM3tGeAB+KYCltvKOZv/WNII/p3tHEbngIix1o
+         3oVuZT3ORu4DKG6S43zeOfj3yh/RGL+GevIeCd60tUaKV+a8nH39EPW7dVRuaBCGnYWq
+         V0Fz/vSqL0gStvTBnwR5Tca8RSzmpvRXLt8J5Ce0M9lZoTiyq/81GA4y8s8Em6lbw6gr
+         rFgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D57KhCyXWppjWMlxegqq8QrdaCvKLyGDT+/mDhkcfao=;
+        b=NnF3wrqwfBzfQDqt9PFPnUjaD793+ZJhmo2d/4icp11AUlpXOB00p6v8/ozGJVvFfE
+         A81xapKr8wp7l8U4RA2XF0JJvQIYszFp3ggqFw7vMVjf7DKpMraE7bwg2lPKm0JorYGR
+         YY4JGC4D3lISAN45nVXneMLsM8eKB4d6WOn0GkN1MHb8A62TBTDG8liNAL8JqqKMkXrI
+         A7uAmjIhfaigdQ88E/UUndbNFXrkHHC/BOyhmo8uGtZGtyEwcKo7o+HqmWXDxYCFbAKu
+         D3hY0N2ZFsom/YF+yxfSj7ARscqI1vr4YTAPkfMF+bGbC4N0ukZHQdZ7HuIGAZToe3xH
+         2pwg==
+X-Gm-Message-State: AOAM530WNP69hWUVQ7O+mso2eJ8S2PX0dVp6g4GDk3vN+rKwymi/tQth
+        hmUB6DXCq24UD+h90/4DjIQ/hWGwyPd/5d+6/FuyQUPOpHUvNw==
+X-Google-Smtp-Source: ABdhPJwc9fh3Rv/jfT3zBI2wuBLJmieHUjQD1s8VKau3ct3ymn1EXNYUXDqKWn9oH8HbQHtRaQQlfEwBQEfLJq8Oxbk=
+X-Received: by 2002:a81:d0d:0:b0:2ea:61b1:181d with SMTP id
+ 13-20020a810d0d000000b002ea61b1181dmr8729677ywn.16.1648798919207; Fri, 01 Apr
+ 2022 00:41:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     Tzung-Bi Shih <tzungbi@kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     wim@linux-watchdog.org, geert+renesas@glider.be,
-        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Phil Edworthy <phil.edworthy@renesas.com>
-References: <20220330100829.1000679-1-jjhiblot@traphandler.com>
- <20220330100829.1000679-3-jjhiblot@traphandler.com>
- <YkVFc6Q6/6rxSw89@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v4 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
-In-Reply-To: <YkVFc6Q6/6rxSw89@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1na700-0045Hw-7g
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54610
-X-Source-Auth: linux@roeck-us.net
-X-Email-Count: 3
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <YkYWzf7J17AfXgLl@robh.at.kernel.org>
+In-Reply-To: <YkYWzf7J17AfXgLl@robh.at.kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 1 Apr 2022 08:41:33 +0100
+Message-ID: <CA+V-a8sia2YgWmry+SxJu3asD47PSD6UnND33599ygTBymPy_g@mail.gmail.com>
+Subject: Re: [RFC PATCH] of/platform: Drop static setup of IRQ resource from
+ DT core
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/30/22 23:08, Tzung-Bi Shih wrote:
-> On Wed, Mar 30, 2022 at 12:08:29PM +0200, Jean-Jacques Hiblot wrote:
->> diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
-> [...]
->> +/*
->> + * Renesas RZ/N1 Watchdog timer.
->> + * This is a 12-bit timer driver from a (62.5/16384) MHz clock. It can't even
->> + * cope with 2 seconds.
->> + *
->> + * Copyright 2018 Renesas Electronics Europe Ltd.
-> 
-> s/2018/2022/ ?
-> 
->> +#define RZN1_WDT_RETRIGGER			0x0
->> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL		0
->> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL_MASK	0xfff
->> +#define RZN1_WDT_RETRIGGER_PRESCALE		BIT(12)
->> +#define RZN1_WDT_RETRIGGER_ENABLE		BIT(13)
->> +#define RZN1_WDT_RETRIGGER_WDSI			(0x2 << 14)
-> 
-> Do RZN1_WDT_RETRIGGER_RELOAD_VAL and RZN1_WDT_RETRIGGER_WDSI get 1 more tab
-> indent intentionally?
-> 
+Hi Rob,
 
-That only looks like it due to the "+" at the beginning of the line.
-If you look at the actual code the alignment is ok.
+On Thu, Mar 31, 2022 at 10:02 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Mar 16, 2022 at 08:06:33PM +0000, Lad Prabhakar wrote:
+> > Now that all the DT drivers have switched to platform_get_irq() we can now
+> > safely drop the static setup of IRQ resource from DT core code.
+> >
+> > With the above change hierarchical setup of irq domains is no longer
+> > bypassed and thus allowing hierarchical interrupt domains to describe
+> > interrupts using "interrupts" DT property.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > Hi All,
+> >
+> > Sending this as RFC as couple of more drivers need to hit -rc yet with
+> > the platform_get_irq() change while that is in progress I wanted to get
+> > some feedback on this patch.
+>
+> I just applied this on top of current master and pushed to my
+> for-kernelci branch. It should show up in kernelCI in a bit. I did this
+> before all the fixes too and there were definitely a couple of test
+> regressions.
+>
+Any chance you can share the regressions or maybe the CI script so
+that I can reproduce it locally.
 
->> +static const struct watchdog_device rzn1_wdt = {
->> +	.info = &rzn1_wdt_info,
->> +	.ops = &rzn1_wdt_ops,
->> +	.status = WATCHDOG_NOWAYOUT_INIT_STATUS,
->> +};
-> [...]
->> +static int rzn1_wdt_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	wdt->wdt = rzn1_wdt;
-> 
-> Does it really need to copy the memory?  For example,
-> 
-> 1. Use the memory in `wdt` directly and fill the `wdd`.
-> 
-> struct watchdog_device *wdd = &wdt->wdt;
-> wdd->info = &rzn1_wdt_info;
-> wdd->ops = &rzn1_wdt_ops;
-> ...
-> 
-> 2. Use drvdata instead of container_of().
-> 
-> Use watchdog_set_drvdata() in _probe and watchdog_get_drvdata() in the
-> watchdog ops to get struct rzn1_watchdog.
-> 
-That would indeed be preferred. The static data structure isn't really useful.
-
->> +static const struct of_device_id rzn1_wdt_match[] = {
->> +	{ .compatible = "renesas,rzn1-wdt" },
->> +	{},
->> +};
->> +MODULE_DEVICE_TABLE(of, rzn1_wdt_match);
-> 
-> Doesn't it need to guard by CONFIG_OF?
-> 
-Only if of_match_ptr() is used below, and then I'd prefer __maybe_unused
-
->> +static struct platform_driver rzn1_wdt_driver = {
->> +	.probe		= rzn1_wdt_probe,
->> +	.driver		= {
->> +		.name		= KBUILD_MODNAME,
->> +		.of_match_table	= rzn1_wdt_match,
-> 
-> Does it makes more sense to use of_match_ptr()?
-> 
-
-Usually we leave that up to driver authors.
-
->> +	},
->> +};
->> +
->> +module_platform_driver(rzn1_wdt_driver);
-> 
-> To make it look like a whole thing, I prefer to remove the extra blank line
-> in between struct platform_driver and module_platform_driver().
-
-We usually leave that up to driver authors. Many watchdog driver leave
-an empty line, so it is ok (as long as there are no two empty lines).
-
-Thanks,
-Guenter
+Cheers,
+Prabhakar
