@@ -2,106 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A91D54EF90E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 19:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1EC74EF930
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 19:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242930AbiDARkw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 13:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56892 "EHLO
+        id S244792AbiDAR4X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 13:56:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238303AbiDARkv (ORCPT
+        with ESMTP id S235952AbiDAR4X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 13:40:51 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7520AF1B;
-        Fri,  1 Apr 2022 10:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648834741; x=1680370741;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=z0dQ1kpXFo+5ugqbz/2Q0ztwOv4jf/rgKI47VO6yM7E=;
-  b=bBj+Nbk0cQJSPNZD1HAjMDGpk5QD8+v8aPfj6e3Sbqapu49pIcrp3AJx
-   dUYYaG2TmYzyHRo0xel/bQFb1BZJGjMmSNNkYQVXRtMxQDCC8eUn/U4nE
-   5KcYJRKxIEQ60IvO1H52iqImSN+9O/mkSYdEBBUGaufJ9XjQLjCVsbzVn
-   4BMT6xy9wtBmS/2VEDt2c4h1X5Id8RJPy9aP/BPNhhgGCDKQ/NGVfVtrn
-   yqMNxqAKfV9MvI/FdAfARfA7lugjoMvZojN8sA+l540hXWZpnUMxvqT/M
-   PtgoJMxnY/rbyaW6YnD/Vs2Qk87RW1UiduZLWgjOXlFlRqupvD6bSKTr6
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="260375614"
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
-   d="scan'208";a="260375614"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 10:39:01 -0700
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
-   d="scan'208";a="504244321"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 10:38:57 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1naLE8-00AqBV-QU;
-        Fri, 01 Apr 2022 20:38:24 +0300
-Date:   Fri, 1 Apr 2022 20:38:24 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Fri, 1 Apr 2022 13:56:23 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D873F5419D;
+        Fri,  1 Apr 2022 10:54:32 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,228,1643641200"; 
+   d="scan'208";a="115449343"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Apr 2022 02:54:32 +0900
+Received: from localhost.localdomain (unknown [10.226.92.166])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4890B40C73A8;
+        Sat,  2 Apr 2022 02:54:30 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Subject: Re: [PATCH v4 7/9] serial: 8250: dw: Add support for DMA flow
- controlling devices
-Message-ID: <Ykc4kGLEnwdoUqZ6@smile.fi.intel.com>
-References: <20220330132038.808679-1-miquel.raynal@bootlin.com>
- <20220330132038.808679-8-miquel.raynal@bootlin.com>
- <24becf8-82c5-5a12-690-5b9e067ec1c@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <24becf8-82c5-5a12-690-5b9e067ec1c@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: rzg2l-smarc: Move gpios property of vccq_sdhi1 from common dtsi
+Date:   Fri,  1 Apr 2022 18:54:27 +0100
+Message-Id: <20220401175427.19078-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 01, 2022 at 01:56:49PM +0300, Ilpo Järvinen wrote:
-> On Wed, 30 Mar 2022, Miquel Raynal wrote:
+On RZ/G2{L,LC} SoM module, gpio for power selection is connected to
+P39_1 whereas on RZ/G2UL it is connected to P6_1. So move gpios property
+of vccq_sdhi1 regulator from common dtsi to soc specific dtsi.
 
-...
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch depend upon [1]
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220401145702.17954-1-biju.das.jz@bp.renesas.com/
+---
+ arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi | 1 -
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi     | 4 ++++
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi    | 4 ++++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-> > +			writel(0, p->membase + RZN1_UART_RDMACR);
-> > +			writel(1, p->membase + DW_UART_DMASA);
-> 
-> Currently there is serial_out(), dw8250_writel_ext(), and a few writel()s 
-> too for writing to registers. It would be nice to move towards more 
-> homogeneous approach rather than adding more writel()s.
-
-Actually a good catch!
-
-> I suggest dw8250_writel_ext() is moved to dwlib.h. Then it could be used 
-> here (and dw8250_readl_ext() too should be moved but IIRC there wasn't 
-> any reads added by this series).
-
-I agree that for the sake of symmetry it's good to move both.
-
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+index 8dd1c69a6749..0e61b85efb43 100644
+--- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+@@ -74,7 +74,6 @@
+ 		regulator-name = "SDHI1 VccQ";
+ 		regulator-min-microvolt = <1800000>;
+ 		regulator-max-microvolt = <3300000>;
+-		gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+ 		states = <3300000 1>, <1800000 0>;
+ 	};
+diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+index c934cd3633a4..aadc41515093 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+@@ -48,3 +48,7 @@
+ 	status = "okay";
+ };
+ #endif
++
++&vccq_sdhi1 {
++	gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
++};
+diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+index 856c949796ff..74a844ea7537 100644
+--- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+@@ -98,3 +98,7 @@
+ 	status = "disabled";
+ };
+ #endif
++
++&vccq_sdhi1 {
++	gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
++};
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
