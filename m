@@ -2,61 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B48D34EF81E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 18:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B204EF836
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 18:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349043AbiDAQlC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 12:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40988 "EHLO
+        id S1346704AbiDAQnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 12:43:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345159AbiDAQkw (ORCPT
+        with ESMTP id S1350427AbiDAQnf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 12:40:52 -0400
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5B02A4FB0;
-        Fri,  1 Apr 2022 09:21:35 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id g8so2521790qke.2;
-        Fri, 01 Apr 2022 09:21:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4OKMCak5ZQhUip8GmIsy6tfMEtN3lZbYMW2GCr1wwrY=;
-        b=Wi2pMU8HtuplgSvyVoDCeo6IcmTY5ZDRwXqH74BCTZ0orGXnqHTqtSykpYhQ+R0wSO
-         JD5HAZOxbWS4zL5FFLU1xpydb7fyGy5aeK+Uzeu3d3QlGdGRMwC/m94+qw9d0A7TJkBb
-         FFK01oHEy2PxaoEpEAP0Ywp4K81Pe1xEZQniccePSeqqBaJ8k3i16Au0nq/841fQNTZh
-         EWWqvj8p5zkzg1Hzjy9TkCFJd1gJTjYqHzB2uX7gMKa73MCznCvukaJoTnefB+ktl6yR
-         H1sdbQgIgTV03CrxszpjMn0qphmZ5ejFsb1Ztd+FA7CVBkUup8CfK9XM/bjN5r6Kc01E
-         9LMQ==
-X-Gm-Message-State: AOAM531NKtaDUNG829snhRy+cCAJb7Ghy3PF0c+bQ4OI307mTuJ6ctli
-        oKEFuiOfNaF/dIjbF1tZ2neWpIaZtnhgNw==
-X-Google-Smtp-Source: ABdhPJwTf369KgqrP10z0NBG+pLR1/Saq3CwVA+zBGr0HHot2VwWffzcsGi2zu7ysB+wRkYvzKZTvg==
-X-Received: by 2002:a05:620a:24c8:b0:67d:c9f4:8271 with SMTP id m8-20020a05620a24c800b0067dc9f48271mr7003585qkn.96.1648830094226;
-        Fri, 01 Apr 2022 09:21:34 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id 22-20020ac85756000000b002e1cabad999sm2099536qtx.89.2022.04.01.09.21.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 09:21:34 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id v35so5859270ybi.10;
-        Fri, 01 Apr 2022 09:21:33 -0700 (PDT)
-X-Received: by 2002:a25:45:0:b0:633:96e2:2179 with SMTP id 66-20020a250045000000b0063396e22179mr9690505yba.393.1648830093511;
- Fri, 01 Apr 2022 09:21:33 -0700 (PDT)
+        Fri, 1 Apr 2022 12:43:35 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF7CB14F134
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Apr 2022 09:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=AcBPC6b8Ow54uIrFRglU9gzXaSUC
+        Q4cd7DaZDtjcLyQ=; b=Tep0sd+ZQs/pV7W17OP62Su2NA/HIveSPhneZhKmB3yr
+        EFlsmnQ5J+3HzyhQ8LEt7EK1iocP9C2nrggkVq47g0R2v2ipR57zJ83uApFUonar
+        qZ9hKdd71rBIwi6WhnPuU9lacp/q/XseyT093J/wJcxudPOdGVdA1ORY6mfVvpY=
+Received: (qmail 801843 invoked from network); 1 Apr 2022 18:25:03 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2022 18:25:03 +0200
+X-UD-Smtp-Session: l3s3148p1@tUKLOJrbdqYgAQnoAGGbAFirbAEmXd1u
+Date:   Fri, 1 Apr 2022 18:25:03 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ath10k@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+        brcm80211-dev-list.pdl@broadcom.com,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        SHA-cyfmac-dev-list@infineon.com
+Subject: Re: [RFC PATCH 00/10] mmc: improve API to make clear {h|s}w_reset is
+ for cards
+Message-ID: <YkcnXxNjMNdDgEBt@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ath10k@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        brcm80211-dev-list.pdl@broadcom.com,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        SHA-cyfmac-dev-list@infineon.com
+References: <20220321115059.21803-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20220320092542.2308-1-wsa+renesas@sang-engineering.com> <20220320092542.2308-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220320092542.2308-3-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Apr 2022 18:21:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWTGsL4H_h3MRgbUaVZSAXQAFZEC5dcGMhne28SbFMRyA@mail.gmail.com>
-Message-ID: <CAMuHMdWTGsL4H_h3MRgbUaVZSAXQAFZEC5dcGMhne28SbFMRyA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] pinctrl: renesas: r8a77990: add drive-strength
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="PxhwHXhOFLOXfgmr"
+Content-Disposition: inline
+In-Reply-To: <20220321115059.21803-1-wsa+renesas@sang-engineering.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,25 +66,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 2:43 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> According to R-Car Gen3 HW documentation 2.20 onwards, drive-strength is
-> introduced to r8a77990. It is also documented for r8a774c0. Add it to
-> the pinctrl driver.
->
-> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.19.
+--PxhwHXhOFLOXfgmr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> I tested it with my Renesas boards, so far no regressions. Buildbots are
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Wishful thinking, the patches crash now when booting. Still checking
+what is the difference to when I send the patches out.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Still, looking forward to comments on the general approach.
+
+
+--PxhwHXhOFLOXfgmr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJHJ1oACgkQFA3kzBSg
+KbYPGw//YUU0c/TCXVii8TbBtVaxFJ+SFYjCQiY3RhhVPIrWlCF7+1v7BKyWdqz+
+I/ctuhs3uUutw1dE3/WI12HevWANnVdw6EI8D0+aJOrxaCfMueJpEugMYguwpk8t
+ZWB8Kh+8Lozg55uOn7i4byGA5UThrrbV9k6/IwKnfbGS+fKUVWL9uJxMKssYx0uM
+ZjgVIKF0bSg0As+UuQBiFhKqJQybnBa27DHtl1n8Co3zX79M5T//aB/SvLbeyyKM
+MhsVF3xd7LxdWDVTkXEdjQqVtApNlGAp9+2iYdb86V0dd+hz0PWO9Acp9VB2ZOEv
+OcIhc8r0iExSdFITQeSevS5LdnRhyxv8mA0K4pS2ndbIPwut0dmHSSU4PnseFcAy
+khFA8jDujq1jz83z0ucAlCsr3U/u0Yrb7CGyLA3zKTCP05RLvPsbAxyymT2EOfen
+S9+LsJhEXiQ2KstNsFqWch/PebTxMkyrVvCo+US+HhCsDTP01WvqxwtC0TkB69Zk
+cjVeDWo5QkggA1nYKPntr9OIyqeHCmowWHW+2V4zmWAgI1qodhPfQnFsUuzwbbXy
+j8cavhOoe3ZKwLeH5X1gP0mOClgbRWFEzOBEFq2W94rLvt8gMp85Md8l2Y1MMUO2
+5byHakN0xAIFBbcv+tGO6SAK9ld3vFtWIoPtyYHnDKjmKQwU1GE=
+=v18S
+-----END PGP SIGNATURE-----
+
+--PxhwHXhOFLOXfgmr--
