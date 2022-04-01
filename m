@@ -2,153 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 663264EF873
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 18:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A91D54EF90E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 19:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbiDAQ4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 12:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
+        id S242930AbiDARkw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 13:40:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349447AbiDAQvZ (ORCPT
+        with ESMTP id S238303AbiDARkv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 12:51:25 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC869255B4
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Apr 2022 09:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=W7hfSuRyn1E7HghHdP7BGcwK4daD
-        hFOObLkZu3lm/os=; b=B868RuvQjaf2XCQpap4C9lppkrSXYxoUmvTaE1bASwM3
-        nWHUV0ezLuQI+y2/50xOPs5Usu7OQ1R5z+LvDxH1r0lPa9IecJ+vYPRor3u9WVYK
-        fkRp6JWsZ18CEMTZDWbjemTKVDPpGWcWtkBUHwiHpkCA0B7juv7EtFYwMTcc/u4=
-Received: (qmail 805831 invoked from network); 1 Apr 2022 18:38:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Apr 2022 18:38:56 +0200
-X-UD-Smtp-Session: l3s3148p1@/6EwaprbfKYgAQnoAGGbAFirbAEmXd1u
-Date:   Fri, 1 Apr 2022 18:38:56 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Fri, 1 Apr 2022 13:40:51 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7520AF1B;
+        Fri,  1 Apr 2022 10:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648834741; x=1680370741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=z0dQ1kpXFo+5ugqbz/2Q0ztwOv4jf/rgKI47VO6yM7E=;
+  b=bBj+Nbk0cQJSPNZD1HAjMDGpk5QD8+v8aPfj6e3Sbqapu49pIcrp3AJx
+   dUYYaG2TmYzyHRo0xel/bQFb1BZJGjMmSNNkYQVXRtMxQDCC8eUn/U4nE
+   5KcYJRKxIEQ60IvO1H52iqImSN+9O/mkSYdEBBUGaufJ9XjQLjCVsbzVn
+   4BMT6xy9wtBmS/2VEDt2c4h1X5Id8RJPy9aP/BPNhhgGCDKQ/NGVfVtrn
+   yqMNxqAKfV9MvI/FdAfARfA7lugjoMvZojN8sA+l540hXWZpnUMxvqT/M
+   PtgoJMxnY/rbyaW6YnD/Vs2Qk87RW1UiduZLWgjOXlFlRqupvD6bSKTr6
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="260375614"
+X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
+   d="scan'208";a="260375614"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 10:39:01 -0700
+X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; 
+   d="scan'208";a="504244321"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2022 10:38:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1naLE8-00AqBV-QU;
+        Fri, 01 Apr 2022 20:38:24 +0300
+Date:   Fri, 1 Apr 2022 20:38:24 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v2] i2c: rcar: add SMBus block read support
-Message-ID: <YkcqoIMF2uw4FSZh@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-References: <20210922160649.28449-1-andrew_gabbasov@mentor.com>
- <CAMuHMdVVDpBAQR+H1TAnpf65aVbAL0Mm0km7Z9L7+1JuF6n1gQ@mail.gmail.com>
- <000001d7badd$a8512d30$f8f38790$@mentor.com>
- <20211006182314.10585-1-andrew_gabbasov@mentor.com>
- <Yg6ls0zyTDe7LQbK@kunai>
- <20220323215229.GA9403@lxhi-065>
- <YkQ31VMqj1MXqBd3@shikoro>
- <YkQ6XRITOFZ7hLXV@shikoro>
- <20220331160207.GA27757@lxhi-065>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH v4 7/9] serial: 8250: dw: Add support for DMA flow
+ controlling devices
+Message-ID: <Ykc4kGLEnwdoUqZ6@smile.fi.intel.com>
+References: <20220330132038.808679-1-miquel.raynal@bootlin.com>
+ <20220330132038.808679-8-miquel.raynal@bootlin.com>
+ <24becf8-82c5-5a12-690-5b9e067ec1c@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XyHwHtEw0BUCuLMS"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220331160207.GA27757@lxhi-065>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <24becf8-82c5-5a12-690-5b9e067ec1c@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, Apr 01, 2022 at 01:56:49PM +0300, Ilpo Järvinen wrote:
+> On Wed, 30 Mar 2022, Miquel Raynal wrote:
 
---XyHwHtEw0BUCuLMS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi Eugeniu,
+> > +			writel(0, p->membase + RZN1_UART_RDMACR);
+> > +			writel(1, p->membase + DW_UART_DMASA);
+> 
+> Currently there is serial_out(), dw8250_writel_ext(), and a few writel()s 
+> too for writing to registers. It would be nice to move towards more 
+> homogeneous approach rather than adding more writel()s.
 
-> BTW, thanks to Bhuvanesh, we've got another patch [*] which tries
-> to combine the best of both worlds:
->=20
-> * DMA support in the v1/v2 patches from Andrew/Bhuvanesh
-> * Simplicity of your proposal in https://lore.kernel.org/lkml/Yg6ls0zyTDe=
-7LQbK@kunai/
+Actually a good catch!
 
-This was nice to see. But where does it come from? I don't see it on
-this list and I also couldn't find it in the regular BSP?
+> I suggest dw8250_writel_ext() is moved to dwlib.h. Then it could be used 
+> here (and dw8250_readl_ext() too should be moved but IIRC there wasn't 
+> any reads added by this series).
 
-> Unfortunately, this patch has a dependency to the rcar_i2c_is_pio()
-> in https://github.com/renesas-rcar/linux-bsp/commit/55d2d2fb8b0=20
-> (which should be resolvable by extracting the function).
+I agree that for the sake of symmetry it's good to move both.
 
-This patch is obsolete since March 2019. It has been properly fixed with
-94e290b0e9a6 ("i2c: rcar: wait for data empty before starting DMA"). I
-am still trying to feed this information back.
-
-> Do you think we are on the right track with this new approach or do
-> you feel the implementation is still overly complicated?
-
-The approach is much better but there are still things I don't like. The
-use of 'goto next_txn' is bad. I hope it could be done better with
-refactoring the code, so DMA will be tried at one place (with two
-conditions then). Not sure yet, I am still working on refactoring the
-one-byte transfer which is broken with my patch. What we surely can use
-=66rom this patch is the -EPROTO handling because I have given up on
-converting the max read block size first. We can still remove it from
-this driver if that gets implemented somewhen.
-
-> +			if (!rcar_i2c_is_pio(priv)) {
-> +				/*
-> +				 * Still try to use DMA to receive the rest of
-> +				 * data
-> +				 */
-> +				rcar_i2c_dma(priv);
-> +				goto next_txn;
-> +			} else {
-> +				recv_len_init =3D false;
-> +			}
-
-So, I'd like to get rid of this block with refactoring.
-
->  	u32 func =3D I2C_FUNC_I2C | I2C_FUNC_SLAVE |
-> -		   (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
-> +		   (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK) |
-> +		   I2C_FUNC_SMBUS_READ_BLOCK_DATA;
-
-Still not using the new macro to include PROC_CALL, but that is easy to
-change.
-
-All the best,
-
-   Wolfram
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---XyHwHtEw0BUCuLMS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJHKqAACgkQFA3kzBSg
-KbZ3YhAAlZ6U47cxbA5tJaMYHwA65HCGZILIZvzgd46iOtDMuXPsOQ3z+kWfOZMm
-4RF2iA7j1i8bNskg13P8Y+DD89mSx/gzVoZ2Ju8W5MeeOPwKlQ6VRgLACAwcZP3W
-2T07+7uXso35K5pOLGm7iLge6JN+UxLbE1V2x8wrb9A8zqJMhYNdEnTs7HvvQJFk
-FK0v4L+SJaU/yVI9OrjQkITXnZNxtdaNxXtIdtfB+yUGlZSK58N/Ul0bwXk1hqiT
-dQg4QEA4N/WEgw6sXc9NU90y1Dqt/ZJFKjJo7fC3lyPFVp3bedFzB44FvHGpxvGs
-5dPLyo2lXl1xt7Rh5RCY0DRTsYJoO4joEqNDoPbyOUuAC8G2er84u0Y4TJrrOu7+
-v7VlWz0+5lPbpAzGoxzhs5V9WQCIh8LZ+usHiPqR+wSpxBbgp/zglyIhYxqwQJ6d
-MLLtvvsqyo9Z02qsUA9yrY40YpogzJFP3MBpB/j6uWhiKGho0H2KmsKO39dcXXMC
-5zHhID9JIfRgdWnD2JwSyn/nHqywgfoGofYctvaHwZYEjP/XiK2gNo+wvD3Ji5+R
-mfzPaiyiBJ7YBoXW3/Z/czE5yDjmW/1qgrCJdrFhbYQAclne5AYiyH80K1jjPEG0
-v7mRS+SsJ7RxekDzHGO8IzefXHYi4o+ddyzEDRSw7VZrqRih5Ps=
-=5/T5
------END PGP SIGNATURE-----
-
---XyHwHtEw0BUCuLMS--
