@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA5F4EEC5F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 13:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 291174EECA8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Apr 2022 13:57:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345510AbiDALZy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Apr 2022 07:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56724 "EHLO
+        id S245141AbiDAL7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Apr 2022 07:59:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345047AbiDALZx (ORCPT
+        with ESMTP id S243520AbiDAL7i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Apr 2022 07:25:53 -0400
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70E91959E2;
-        Fri,  1 Apr 2022 04:24:01 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id kd21so1761324qvb.6;
-        Fri, 01 Apr 2022 04:24:01 -0700 (PDT)
+        Fri, 1 Apr 2022 07:59:38 -0400
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A658A24A74B;
+        Fri,  1 Apr 2022 04:57:49 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id t2so1913805qtw.9;
+        Fri, 01 Apr 2022 04:57:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VNvUftVCEKC0bpyKbjKycTe+r8kmy0rLW5024E4vA5g=;
-        b=Lmtq4Hd3Y8yeatieUlsIonP2Yx0+u8L9lEPV4BFDtYNkXsVOoSNfOVmwpxo0tOYQlN
-         x1fKC5sopWXuFlKWXcDxLOjRZnWB8ge9Cwil08KOmOpe3E7Ml+nNYHuvbcoKklE0ivJy
-         kZiL7lBrrmwffE2632GwNX0EThtg6HWonJWRCjtbhhE75M9D9t9DkBC3/iq8mCOtf5Pl
-         aec1N1RaMur7BpYwswLIC2lOfnh6ItGX/7ZO3HuNHiwuhRkpjC0YezoPHSfxKnDSOYrp
-         hnA8TBdiFHgxqzoNuJIGXvkYnRZPaH8o5Iajw3kcZPEdaMqhHBIX5ZOXqvCcRP4ABx4a
-         TNMA==
-X-Gm-Message-State: AOAM531rnewdzN1qZrEkon2ScjulmVkBWXlqlMZZu1Or5K9OOrJeHI9P
-        nzFlYNa5GoI5sBvRBrA4l8ccFZbEgF/y/g==
-X-Google-Smtp-Source: ABdhPJyJJTOBiWvjVvpdqgRR0r8ZqufZNFHC0TIKxFJ5A2MBjT3ruQb/iS4AjyC4WON3AopyCkElBg==
-X-Received: by 2002:a05:6214:e48:b0:441:7bd1:29b9 with SMTP id o8-20020a0562140e4800b004417bd129b9mr7582539qvc.98.1648812240387;
-        Fri, 01 Apr 2022 04:24:00 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id u129-20020a376087000000b0067e401d7177sm1128855qkb.3.2022.04.01.04.23.59
+        bh=ZPDtdpNBYnbJxgBoxYuDKwthmJ39fp2VE6MBYoefo44=;
+        b=eYv2Kv7V9VJL3CDrNKKEfX5OvOj6IER3eFuJkEJJuwXVWq0eu34pgbzNJadmxorDK5
+         bazcgdzqfynpEbI7lyfX8D1kslke27pqVPLeOKOJAwhmitb+VTAvj5wJoAB5XXIY8obX
+         CE96ND9ac7LWgNUjehpeJyhoOJWujrmZtVm1oQ+t/qCK3//8FkYxPjNvm/Pos7Jsv9//
+         HllQAKOQYt2R6L2jjvsYBRHf5hVwxzy5pIG10gT5O0pinPmRVFg+a/PuEicpmQaDVKGP
+         kQdiUjRyem6Bt83Wygp+apQChHXrY671RK7kXSG7BVhlPARRxVui5tHOf+TdEvjmOqoQ
+         eiXg==
+X-Gm-Message-State: AOAM532ZJmkXOluO0QDhLHC4ysYRwJSAYwZv1nLHwFfNsX2PQ3FRQp8z
+        vnHCqaIKuQSTq6RJqKc80tNnaZ4nLG2Frg==
+X-Google-Smtp-Source: ABdhPJyecbAg1JG5Qv+o6Cis8XmQGL7LSFSw8XMzZzMDeQ/I2pKNyugj8N+9SWyCG21hLqXAvhCVEg==
+X-Received: by 2002:ac8:5a0b:0:b0:2eb:9af4:c920 with SMTP id n11-20020ac85a0b000000b002eb9af4c920mr4437943qta.221.1648814268337;
+        Fri, 01 Apr 2022 04:57:48 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id d3-20020a05622a15c300b002eb9af4c945sm1746412qty.3.2022.04.01.04.57.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 04:23:59 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2e592e700acso29019797b3.5;
-        Fri, 01 Apr 2022 04:23:59 -0700 (PDT)
-X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
- v133-20020a81618b000000b002dbd9528a39mr9546650ywb.132.1648812239496; Fri, 01
- Apr 2022 04:23:59 -0700 (PDT)
+        Fri, 01 Apr 2022 04:57:48 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id j2so4691552ybu.0;
+        Fri, 01 Apr 2022 04:57:47 -0700 (PDT)
+X-Received: by 2002:a05:6902:1146:b0:634:6b3f:4908 with SMTP id
+ p6-20020a056902114600b006346b3f4908mr8114282ybu.613.1648814267325; Fri, 01
+ Apr 2022 04:57:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315155919.23451-1-biju.das.jz@bp.renesas.com> <20220315155919.23451-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220315155919.23451-2-biju.das.jz@bp.renesas.com>
+References: <20220315155919.23451-1-biju.das.jz@bp.renesas.com> <20220315155919.23451-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220315155919.23451-7-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 Apr 2022 13:23:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWj-mgoBm1nGaBjtoO4i4dbLkxOhz5DpywB7mUhgvRFUg@mail.gmail.com>
-Message-ID: <CAMuHMdWj-mgoBm1nGaBjtoO4i4dbLkxOhz5DpywB7mUhgvRFUg@mail.gmail.com>
-Subject: Re: [PATCH 1/7] arm64: dts: renesas: r9a07g043: Fillup the pinctrl
- stub node
+Date:   Fri, 1 Apr 2022 13:57:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU_OYckvuo50o6q8qgCnLEY1qdvkRh3OUShqP6CROKdng@mail.gmail.com>
+Message-ID: <CAMuHMdU_OYckvuo50o6q8qgCnLEY1qdvkRh3OUShqP6CROKdng@mail.gmail.com>
+Subject: Re: [PATCH 6/7] arm64: dts: renesas: rzg2ul-smarc-som: Enable eMMC on
+ SMARC platform
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -63,8 +63,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,7 +73,15 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Mar 15, 2022 at 4:59 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Fillup the pinctrl(GPIO) stub node in RZ/G2UL SoC DTSI.
+> RZ/G2UL SoM has both 64GB eMMC and microSD connected to SDHI0.
+>
+> Both these interfaces are mutually exclusive and the SD0 device
+> selection is based on SW1[2] on SoM module.
+>
+> Set SW1[2] to position OFF for selecting eMMC
+> Set SW1[2] to position ON for selecting microSD
+>
+> This patch enables eMMC on RZ/G2UL SMARC platform by default.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
