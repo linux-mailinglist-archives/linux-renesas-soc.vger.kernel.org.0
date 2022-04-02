@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BB64EFFA0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Apr 2022 10:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D33C4EFF98
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Apr 2022 10:15:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344068AbiDBIPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S242346AbiDBIPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Sat, 2 Apr 2022 04:15:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352942AbiDBIPd (ORCPT
+        with ESMTP id S1344207AbiDBIPd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Sat, 2 Apr 2022 04:15:33 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F2C456744;
-        Sat,  2 Apr 2022 01:13:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 88DD61EAD1;
+        Sat,  2 Apr 2022 01:13:40 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,229,1643641200"; 
-   d="scan'208";a="115485140"
+   d="scan'208";a="115485145"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Apr 2022 17:13:37 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 02 Apr 2022 17:13:40 +0900
 Received: from localhost.localdomain (unknown [10.226.92.166])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B373141F41ED;
-        Sat,  2 Apr 2022 17:13:35 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1FC0641F41F7;
+        Sat,  2 Apr 2022 17:13:37 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/7] arm64: dts: renesas: rzg2ul-smarc: Add scif0 and audio clk pins
-Date:   Sat,  2 Apr 2022 09:13:23 +0100
-Message-Id: <20220402081328.26292-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 3/7] arm64: dts: renesas: r9a07g043: Add SDHI nodes
+Date:   Sat,  2 Apr 2022 09:13:24 +0100
+Message-Id: <20220402081328.26292-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220402081328.26292-1-biju.das.jz@bp.renesas.com>
 References: <20220402081328.26292-1-biju.das.jz@bp.renesas.com>
@@ -46,9 +46,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add scif0 and audio clk pins to soc pinctrl dtsi and drop deleting
-the pinctrl-0 and pinctrl-names properties for scif0 node so that
-we now actually make use of these properties for scif0.
+Add SDHI{0, 1} nodes to RZ/G2UL SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -57,65 +55,51 @@ Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 v1->v2:
  * Added Rb tag from Geert
 ---
- .../boot/dts/renesas/r9a07g043u11-smarc.dts   |  6 +----
- .../dts/renesas/rzg2ul-smarc-pinfunction.dtsi | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+), 5 deletions(-)
- create mode 100644 arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 26 ++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-index aaa29f83e84c..64370faf8f6d 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-@@ -8,6 +8,7 @@
- /dts-v1/;
- #include "r9a07g043.dtsi"
- #include "rzg2ul-smarc-som.dtsi"
-+#include "rzg2ul-smarc-pinfunction.dtsi"
- #include "rz-smarc-common.dtsi"
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+index ffba6007e3cc..f60186240912 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+@@ -334,13 +334,35 @@
+ 		};
  
- / {
-@@ -73,11 +74,6 @@
- 	status = "disabled";
- };
+ 		sdhi0: mmc@11c00000  {
++			compatible = "renesas,sdhi-r9a07g043",
++				     "renesas,rcar-gen3-sdhi";
+ 			reg = <0x0 0x11c00000 0 0x10000>;
+-			/* place holder */
++			interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G043_SDHI0_IMCLK>,
++				 <&cpg CPG_MOD R9A07G043_SDHI0_CLK_HS>,
++				 <&cpg CPG_MOD R9A07G043_SDHI0_IMCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SDHI0_ACLK>;
++			clock-names = "core", "clkh", "cd", "aclk";
++			resets = <&cpg R9A07G043_SDHI0_IXRST>;
++			power-domains = <&cpg>;
++			status = "disabled";
+ 		};
  
--&scif0 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--};
--
- &sdhi1 {
- 	/delete-property/ pinctrl-0;
- 	/delete-property/ pinctrl-1;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
-new file mode 100644
-index 000000000000..2db9c92cf01f
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/G2UL SMARC pincontrol parts
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corp.
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-+
-+&pinctrl {
-+	pinctrl-0 = <&sound_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	scif0_pins: scif0 {
-+		pinmux = <RZG2L_PORT_PINMUX(6, 4, 6)>, /* TxD */
-+			 <RZG2L_PORT_PINMUX(6, 3, 6)>; /* RxD */
-+	};
-+
-+	sound_clk_pins: sound_clk {
-+		pins = "AUDIO_CLK1", "AUDIO_CLK2";
-+		input-enable;
-+	};
-+};
+ 		sdhi1: mmc@11c10000 {
++			compatible = "renesas,sdhi-r9a07g043",
++				     "renesas,rcar-gen3-sdhi";
+ 			reg = <0x0 0x11c10000 0 0x10000>;
+-			/* place holder */
++			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD R9A07G043_SDHI1_IMCLK>,
++				 <&cpg CPG_MOD R9A07G043_SDHI1_CLK_HS>,
++				 <&cpg CPG_MOD R9A07G043_SDHI1_IMCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SDHI1_ACLK>;
++			clock-names = "core", "clkh", "cd", "aclk";
++			resets = <&cpg R9A07G043_SDHI1_IXRST>;
++			power-domains = <&cpg>;
++			status = "disabled";
+ 		};
+ 
+ 		phyrst: usbphy-ctrl@11c40000 {
 -- 
 2.17.1
 
