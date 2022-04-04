@@ -2,93 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C111D4F1607
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 15:37:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 583434F1615
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 15:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355041AbiDDNjt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 09:39:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
+        id S1355326AbiDDNlL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 09:41:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355040AbiDDNjr (ORCPT
+        with ESMTP id S237341AbiDDNlI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 09:39:47 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402A13DDD0;
-        Mon,  4 Apr 2022 06:37:51 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id o15so6290444qtv.8;
-        Mon, 04 Apr 2022 06:37:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M3S8rKWNusBO1bmzZNw58V6gdJEmEIoLbaxiTEXlC8o=;
-        b=q4UPJ47FFqaXEme/9uU4c/C9IAzbqYi3bFIlEyWrjslV5i3itmRCrGXgPEFdoVKcBS
-         OWmwx+sAVEyZO4gDVrCcTOwqk0Kg1LjYDdRj+gBkR5ALWsea/jwxhta7SMTCjYp3ZPfc
-         dy1wdtDk3ZOwyeJPJxKT9YGSymiRwagGr7lPkKtbPbK5behTHfydBhqtQ4PCj2qQ7Vpm
-         ttH3ee6l2JrqMUjbD6xRS5vvd6AP985uubV7FSXP5jC9DIdgT8dsVnMeYGkG959IZLim
-         c9L8kROurd63Qin5J3hq8gWTqF8LDsMtU+3VFTxqFhZv6kVEywFLwtgbieuTH5eiB+e5
-         UODw==
-X-Gm-Message-State: AOAM533WWOgWUe27pcN1Y83HCdpuBps2CJ/uNyInu0c5OK459J4kfD2w
-        KWKex4jUuRWncaQCT3IDKtTmYrbYA93O7Q==
-X-Google-Smtp-Source: ABdhPJzA2b637Z5hetIBSmVCwQ6zVb1Uh0mknDaJpOeXYNCPNCL1yorOEVGpCU0etjpUmw1fYi4O4g==
-X-Received: by 2002:ac8:57c3:0:b0:2e1:e283:ed50 with SMTP id w3-20020ac857c3000000b002e1e283ed50mr70334qta.200.1649079470038;
-        Mon, 04 Apr 2022 06:37:50 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id k2-20020a37ba02000000b0067dc1b0104asm6267661qkf.124.2022.04.04.06.37.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 06:37:49 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-2eb680211d9so29075377b3.9;
-        Mon, 04 Apr 2022 06:37:49 -0700 (PDT)
-X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
- v133-20020a81618b000000b002dbd9528a39mr22538045ywb.132.1649079469315; Mon, 04
- Apr 2022 06:37:49 -0700 (PDT)
+        Mon, 4 Apr 2022 09:41:08 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA8A5F74;
+        Mon,  4 Apr 2022 06:39:10 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7699DE0005;
+        Mon,  4 Apr 2022 13:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649079549;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=V3uxcw18GlL8h7lmt6qfUVlnCBzKjm/iZBFphEMUgVc=;
+        b=XLhsBR/xzFPY4/FIfZ2YXhbKf174OAPuJAYfQmLKHE8rHbZJh2uY75k5XkRsIWCfk5Jtp6
+        k0y3TPQ/jmlFcEnG0a/xfUuwcr6fREDfhXbaAzudOqjcSepuTed4ZK5SbyjWrmc+AChmxU
+        E3KmD4vXn6vi/4Rzuy3Yo3IfO0cEFXDlfuEwf0nEQVVIyPl9vQL0OL2eqqRNnIEz0wr26i
+        WB7HK33aYde2LPl83NN0dJNofFYtsxE8cnlzEWTfsh5PyMbiT2/TAbyyWS+X3iqR8sVgGX
+        0tvFlT6u/QX/r2vQJQwJzLPj22MRaweKszSn4tVCztSz38CbAWveAesJUpDD3Q==
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org
+Cc:     Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v6 0/8] RZN1 DMA support
+Date:   Mon,  4 Apr 2022 15:38:56 +0200
+Message-Id: <20220404133904.1296258-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220404130551.20209-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220404130551.20209-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Apr 2022 15:37:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXjomnBk38vCjLnNW75_c9pK7W5vn6fHufyOk-dZew6jg@mail.gmail.com>
-Message-ID: <CAMuHMdXjomnBk38vCjLnNW75_c9pK7W5vn6fHufyOk-dZew6jg@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: remove superfluous specific M3W entry
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hello,
 
-On Mon, Apr 4, 2022 at 3:05 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> We don't need to specify the Gen3 compatible entry for M3W because it
-> will be provided by the generic Gen3 fallback.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Here is a first series bringing DMA support to RZN1 platforms. Soon a
+second series will come with changes made to the UART controller
+driver, in order to interact with the RZN1 DMA controller.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Stephen acked the sysctrl patch (in the clk driver) but somehow I feel
+like it would be good to have this patch applied on both sides
+(dmaengine and clk) because more changes will depend on the addition of
+this helper, that are not related to DMA at all. I'll let you folks
+figure out what is best.
 
-Initially, arch/arm64/boot/dts/renesas/r8a7796.dtsi did not have
-the family-specific compatible value.  As commit e871efc9a4f48c9b
-("arm64: dts: renesas: r8a7796: Use R-Car SDHI Gen3 fallback compat
-string") is included in v4.16 and later, this change should be fine.
+Cheers,
+Miquèl
 
-Gr{oetje,eeting}s,
+Changes in v6:
+* Added Stephen's acks.
+* Fixed an extra newline added in the middle of nowhere.
+* Rebased on top of v5.18-rc1.
 
-                        Geert
+Changes in v5:
+* Used gotos in rzn1_dmamux_route_allocate().
+* Changed the prefix to "dmaengine:".
+* Dropped the partial transfers fix.
+* Added Rob's acks.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Changes in v4:
+* Freed "map" in the error path of the dmamux driver.
+* Improved a bit the style as requested by Prabhakar.
+* Dropped a __maybe_unused.
+* Reorder the includes.
+* Added a dependency on ARCH_RZN1.
+* Added Rob's Ack.
+* Added a reg property to the dmamux binding file.
+* Referenced the dmamux binding from the system controller file.
+* Called of_platform_populate from the end of the system controller
+  (clock) driver probe in order to probe the dmamux if it was
+  populated.
+* Added DMA properties to all the relevant UARTs.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Changes in v3:
+* Added Reviewed-by tags.
+* Exported the set_dmamux* symbol properly.
+* Dropped a useless check in the probe and moved the sysctrl_priv
+  assignation to the end of the probe.
+* Renamed the dmamux driver
+* Added a couple of missing MODULE_ macros in the dmamux driver.
+* Decided to use a regular platform init call instead of the
+  arch_initcall() initially proposed.
+* s/%d/%u/ in printk's when appropriate.
+* Used a hardcoded value instead of dmamux->dmac_requests when
+  appropriate.
+* Changed the variable name "master" to "dmac_idx" to be more
+  descriptive.
+* Dropped most of the of_* calls in favor of #define's.
+* Fixed a typo.
+* Exported two symbols from 8250_dma.c.
+
+Changes in v2:
+* Clarified that the 'fix' regarding non aligned reads would only apply
+  to the DEV_TO_MEM case.
+* Fix the DMA controller compatible string (copy-paste error).
+* s/syscon/sysctrl/ as advised by Geert.
+* Disabled irqs when taking the spinlock from the clocks driver.
+* Moved the DMAMUX offset inside the driver.
+* Removed extra commas.
+* Improved the style as suggested by Andy.
+* Removed a dupplicated check against the device node presence.
+* Reduced the number of lines of code by using dev_err_probe().
+* Created a Kconfig symbol for DMAMUX to fix the two robot reports
+  received and be sure there was no useless overhead with other
+  platforms.
+* Exported the serial8250_{tx,rx}_dma() symbols.
+
+Miquel Raynal (8):
+  dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
+  dt-bindings: clock: r9a06g032-sysctrl: Reference the DMAMUX subnode
+  dt-bindings: dmaengine: Introduce RZN1 DMA compatible
+  soc: renesas: rzn1-sysc: Export function to set dmamux
+  dmaengine: dw: dmamux: Introduce RZN1 DMA router support
+  dmaengine: dw: Add RZN1 compatible
+  ARM: dts: r9a06g032: Add the two DMA nodes
+  ARM: dts: r9a06g032: Describe the DMA router
+
+ .../clock/renesas,r9a06g032-sysctrl.yaml      |  11 ++
+ .../bindings/dma/renesas,rzn1-dmamux.yaml     |  51 ++++++
+ .../bindings/dma/snps,dma-spear1340.yaml      |   8 +-
+ MAINTAINERS                                   |   1 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  40 +++++
+ drivers/clk/renesas/r9a06g032-clocks.c        |  36 +++-
+ drivers/dma/dw/Kconfig                        |   9 +
+ drivers/dma/dw/Makefile                       |   2 +
+ drivers/dma/dw/platform.c                     |   1 +
+ drivers/dma/dw/rzn1-dmamux.c                  | 157 ++++++++++++++++++
+ include/linux/soc/renesas/r9a06g032-sysctrl.h |  11 ++
+ 11 files changed, 325 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+ create mode 100644 drivers/dma/dw/rzn1-dmamux.c
+ create mode 100644 include/linux/soc/renesas/r9a06g032-sysctrl.h
+
+-- 
+2.27.0
+
