@@ -2,52 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B87F94F1496
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 14:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB5564F14D8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 14:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239656AbiDDMSU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 08:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57372 "EHLO
+        id S1344817AbiDDMbd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 08:31:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245645AbiDDMSI (ORCPT
+        with ESMTP id S1344658AbiDDMbd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 08:18:08 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6B9767F
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 05:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=PwshrSy0JdZrEpoNkWjJhvN8uLlc
-        rLQ9Y28CrAByXZI=; b=qhQSMceHaa+KVYGxEBgjWBUBX0PWtmdDGhpngt+kqRdq
-        G8732mQDsdqDtAFvOxg/u88FdZMHy1XIZjDcOAsSxjdXh/Jl/odnwP/wowuCWrjU
-        Jn+oGx/CT5hqykMqx2j/AYgXRYETrB2IK5aFPvrNqrPbsmz86SidRllakFYPESI=
-Received: (qmail 1858529 invoked from network); 4 Apr 2022 14:16:09 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Apr 2022 14:16:09 +0200
-X-UD-Smtp-Session: l3s3148p1@ywfuF9PbbKUgAQnoAHNmALK3JllQBOZM
-Date:   Mon, 4 Apr 2022 14:16:09 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: special 4tap settings only apply to
- HS400
-Message-ID: <YkrhiUdx+BeWOoHA@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20220401124523.42892-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVJ7r1RXgoHAP1+RLtm11XMFzs1zht7+KQnUss=Rx4sBg@mail.gmail.com>
+        Mon, 4 Apr 2022 08:31:33 -0400
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B6425281;
+        Mon,  4 Apr 2022 05:29:37 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id kd21so7279468qvb.6;
+        Mon, 04 Apr 2022 05:29:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4WurI6RSU9s0HQnxJ90HvS6/E2XVtO8AH2Zdu3hhPXs=;
+        b=BijsgFp6zbblFd74EgOalvaZUaVJzo6jFEFSk/KMJ/qUeLVwNxqtx9VL8jGjQ049aL
+         9lgoAvwTngMqruzfCVKL6pTF+4aoNwA6n7x+edFQ0X0cf3uUFa68SftXsjyt++rKHvoP
+         bNdsP6rev9hZ3bDQ2sxulpHsOz8tzZ0lYC3XZjhxpzYgXS5nBKq71QbnDuQ+WtDC9g2t
+         eyJ/D4ZymxGE3RLeYOceqp1Yjzq1Medg6rNfjzL/xvNlNJX5By+8gpPLYBEb71Ga8er0
+         IF6sg+uFeMrRWlwq3v5Jk7E7RPx+kHcEdo3F0ch9aJ5JuTakMwAVWvz2/1WTAJO/dD72
+         ymmQ==
+X-Gm-Message-State: AOAM5334ZUSGWc218hNB8MBjG8YiiQVoPH3bCDv140vzzJeDkDD71vFD
+        UJcuzbgjhZkYITvlUTX3pSK3wmsGEEYkUw==
+X-Google-Smtp-Source: ABdhPJzKwBSTHoPYjNB/OL5/c9B2+qhJTu/ohSPqEjBpUxONprzXdsKPf61CfRnKXwz+mkrRgQZPOg==
+X-Received: by 2002:a0c:f806:0:b0:440:f78f:1f67 with SMTP id r6-20020a0cf806000000b00440f78f1f67mr17579904qvn.95.1649075376221;
+        Mon, 04 Apr 2022 05:29:36 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id g7-20020a376b07000000b006492f19ae76sm6170165qkc.27.2022.04.04.05.29.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 05:29:35 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-2eb888cf7e7so9039837b3.13;
+        Mon, 04 Apr 2022 05:29:35 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr21854469ywi.449.1649075375445; Mon, 04
+ Apr 2022 05:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Dnln/+yA5C2SF07T"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVJ7r1RXgoHAP1+RLtm11XMFzs1zht7+KQnUss=Rx4sBg@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+References: <20220402073234.24625-1-biju.das.jz@bp.renesas.com>
+ <cf7728fd-b5c8-cd3d-6074-d27f38f86545@linaro.org> <OS0PR01MB5922B49ED5DADA5DD3DDA60786E39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <d6989ea9-9e84-0022-aff0-c75b0e3203e2@linaro.org> <OS0PR01MB5922C1100BCF87341534FC6E86E39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <e3ebc5d0-d2bc-b5a8-1b19-5e0c2f3d7c41@linaro.org>
+In-Reply-To: <e3ebc5d0-d2bc-b5a8-1b19-5e0c2f3d7c41@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Apr 2022 14:29:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVTjHx8St_LxvMy1UfkRqNxZ1Dz0YYNXKMAhqouUxiW0w@mail.gmail.com>
+Message-ID: <CAMuHMdVTjHx8St_LxvMy1UfkRqNxZ1Dz0YYNXKMAhqouUxiW0w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] dt-bindings: arm: renesas: Document Renesas
+ RZ/G2UL SMARC EVK
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,45 +75,77 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Krzysztof,
 
---Dnln/+yA5C2SF07T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, Apr 2, 2022 at 10:03 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 02/04/2022 21:54, Biju Das wrote:
+> >> I understand that carrier board is the same, so the SoM differs.
+> >
+> > For R9A07G043 case, even SoM is same, only SOC differs.
+>
+> I assumed that you cannot have same SoMs with different SoCs...
+>
+> >
+> >> In your
+> >> model to figure out what type of hardware is it, your choice is to compare
+> >> two compatibles:
+> >> renesas,smarc-evk + renesas,r9a07g043u11
+> >>
+> >> If user-space compares only last compatible, it get's only SMARC, so it
+> >> does not know on what hardware it runs.
+> >
+> > But Here user-space can easily identify the H/W with existing scheme. See the logs from user-space.
+> >
+> > / # for i in machine family soc_id revision; do echo -n "$i: "; cat /sys/devices/soc0/$i;done
+> > machine: Renesas SMARC EVK based on r9a07g043u11
+> > family: RZ/G2UL
+> > soc_id: r9a07g043
+> > revision: 0
+>
+> User-space is one example. We don't limit to this. Anyway, the
+> compatible is the main way to check it. Machine is just test, not
+> compatible, not part of ABI. soc_id and revision could help, but these
+> are separate ABIs. They can be not compiled-in and then you have only
+> compatible.
+>
+> Regardless whether there is another way for user-space to figure out
+> hardware, it does not change the fact that such usage of compatibles
+> does not look correct with Devicetree spec.
+> "...They
+>  allow a device to express its compatibility with a family of similar
+> devices, potentially allowing a single
+>  device driver to match against several devices."
+>
+> The "renesas,smarc-evk" compatible is not the most specific one, because
+> different configurations have it.
 
+From the letter of the spec, this is indeed not valid.
+However, we started doing this several years ago, as the various
+variants of the Salvator-X(S) and ULCB boards are identical, and just
+differ in SoC (actually SiP) mounted.
 
-> >                 bool use_4tap =3D priv->quirks && priv->quirks->hs400_4=
-taps;
-> > -               bool need_slow_clkh =3D (host->mmc->ios.timing =3D=3D M=
-MC_TIMING_UHS_SDR104) ||
-> > -                                     (host->mmc->ios.timing =3D=3D MMC=
-_TIMING_MMC_HS400);
-> > +               bool need_slow_clkh =3D host->mmc->ios.timing =3D=3D MM=
-C_TIMING_MMC_HS400;
->=20
-> I'm wondering if we've lost the critical mass for keeping the bools?
+E.g. arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts has
+compatible = "renesas,salvator-xs", "renesas,r8a7795".
 
-Might be. I'll think about it.
+While we could add e.g. "renesas,salvator-xs-r8a7791", doing so
+would inflate the bindings a lot.
 
+> Again - you intend to use a pair or even a triple of compatibles to
+> uniquely identify type of hardware. I don't think it is correct - the
+> final, most specific compatible, uniquely identifies the hardware. All
+> other compatibles are just for fallback.
 
---Dnln/+yA5C2SF07T
-Content-Type: application/pgp-signature; name="signature.asc"
+And what to do when adding more DT overlays for expansion boards?
+This would become unmanageable soon.
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJK4YkACgkQFA3kzBSg
-KbZ2jQ/+LRBkOaA35Mlo4r6RJhUYwWE6mBqA5ND4lcUEi580Ihs0YmW7QRTmPzAn
-VfQT/QA5aRIgQnbWPnb+s7RbArpAFh4deOY4RXh9+GtEi7nLM+UIoSORTy/pGehe
-AlUiFI9XV0tEuX2LmQKmcyT1todWvAvi08tGWzxpkJj5h5k7/jlblTzyQQAT9IfX
-UDNBfFHtdjMfOi8r5Pjg4mmcJOMQA8WN4gDFwaNkiIjj6IK7vYwaI84Eb71pA3mv
-LyCh2CXRA+IsciFKCyoldQpG6HG/neu2OPpX0RjF57oqu3bpZpYTszSArXgAI2li
-bATAXyWcl/oWP6PxC33l9AC9y3Zlsq8MEUkNckxPBljco6RYMT18IMeynCz3AOUX
-6m8w2KPx3b1eGsV+ueqp5X4h2PlP+S2zN9HTBzr8DXdhrCbp8kzm/+sNgJQJ4AV2
-DRQQGITiO1sy78G+zhDf287fbdmsdTuvSVDokSJjj19QbWzzPHJs31KyTW6M4Ee4
-JUQ/izvgjFhqdS8E0vnv83MDFdfRNF4sSNLkGiBTPeAqnVB6OzNSzhd+ry090Jra
-adsJOM2n3rjtvlkbs0DlVSgCw3kW4x1ynZjSPa8aCI+kTBgpVlJ9JTmXnZMnk+ns
-qPwQduHtM1seun11/pTRkjQJOdKNz4nI8ymZiDfQO94kI7G1+R8=
-=Komk
------END PGP SIGNATURE-----
+                        Geert
 
---Dnln/+yA5C2SF07T--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
