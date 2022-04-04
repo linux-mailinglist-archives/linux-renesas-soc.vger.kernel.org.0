@@ -2,102 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2D44F1420
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 13:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E864F1446
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 14:03:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233197AbiDDLzT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 07:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
+        id S235824AbiDDMFE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 08:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232912AbiDDLzT (ORCPT
+        with ESMTP id S235725AbiDDMFD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 07:55:19 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462B43DA45
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 04:53:23 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id h7so16794679lfl.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Apr 2022 04:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/prrTENUf6pzL4WCzSMy1jrFtdQ4Xcb5kDF2mfqB7zs=;
-        b=PYFydnzxYQAlPMnClgqHFUDkvNDiEch29pfJ2qtwzNHKU6okojwI1RM1/DIWWwSMsc
-         uE+v2Hb+ee4XPmbHHnrMZpmbSVsf7BRaFl2Nk01OcbSnFuOV+ZR2xKxO0NwVTLCADhko
-         r9x262PyhrJEvkFS0R5KTdarUuGGUHaV27TtqyFYtErTn7Bz6AMGBEedb53QNgrm8/75
-         hZcpPBNpGHZHTzkBKNHxxjWIk5SnrHJK3g5Y3ehEkhDnM+YopV8WM0Sk6aU/8BTPhoZl
-         rUQwue/E9Yk4/yMb8fSZAP47k+JRHdExk/3eKHMEpKSPIf3DSf/cqoT8rDHVorN07Js2
-         VOtg==
+        Mon, 4 Apr 2022 08:05:03 -0400
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D99B35AA1;
+        Mon,  4 Apr 2022 05:03:06 -0700 (PDT)
+Received: by mail-qv1-f50.google.com with SMTP id br1so1404824qvb.4;
+        Mon, 04 Apr 2022 05:03:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/prrTENUf6pzL4WCzSMy1jrFtdQ4Xcb5kDF2mfqB7zs=;
-        b=FokAzZXR4zKhP6xpjUhYE0DDmGL29eCSn8+6dV+LYW7VxFOWa01e3vgJnPEiPQgvYh
-         0fnfgw4pNEkeCaESqUIOlqaRCNLZa5rcXhNRLmHItjh2cBowDq3352LKnvyjGKdHMRz+
-         DpsgsQKNvjeHnpQiZ7zjmKRPyXcKCZVygcnEsPGdLaUB4Ui0gS+ARF9DxP9OjzA31vC3
-         /d8KjGcmWN8cH696VXCz2fRFbUAyp+vTYsglDg3Yn9SsKA/FNiD/yx1/la7lTFyWKTT/
-         fgb8vJvQFYkBOPIJsT1nG5tAdNlegQgv/40aLbpa/CehIcVgL/qsjQ0FKMWrCuDmUzzZ
-         vjRQ==
-X-Gm-Message-State: AOAM531So986LUwOfNypU49YBORk6ZMMNylW2zBhGl6ekErmDA2KKLV/
-        RuycybAadScXahOo1Tw5nKF+zS1SjM0EdVCPLJUhOg==
-X-Google-Smtp-Source: ABdhPJzW6vSwrioMRqk+1JgnalXH4WrypHHLHS9iQphGdQYJVekyA1LtqRSxNH7DUGi0rpWrvs2hIHtqdbIU10Nxebw=
-X-Received: by 2002:a19:5012:0:b0:44a:a22d:2d49 with SMTP id
- e18-20020a195012000000b0044aa22d2d49mr22572934lfb.254.1649073201469; Mon, 04
- Apr 2022 04:53:21 -0700 (PDT)
+        bh=HBn9C74+atHxv2JGnCFTFZEwPIzG8cnL4fdmUex82pg=;
+        b=q0qHcIqvq8NLHCB8swUVFi8OBkyPe8o7EAXGeXOHNf1AHDv63UBpEUBs+8VXPU7jGW
+         gpeeZODMlKenSIww6OLM5qHbm1K4TeT1csUoyxj+PCsnJ0YnX2Mopw2n07ltVoTb08D3
+         Cx7YQ8ZdtW9chidwrdXbPgUNFdYd3XCMmReCpBRUm8YjhznCLPHIUIMKgpoqeq1/SglL
+         vtcSpnfwa63gWqwVBSf5WQff7Eut7AQ8qiNPCfpctkFp/vgoIe61Lm8Dgg1a2ghbRXnL
+         IghHCLEh4Gsk+gVy5s81E3yavTZQJd4p3INiMurqdPVP6WFk7VIuBPvWbFesaOWUKwpP
+         mCnQ==
+X-Gm-Message-State: AOAM531fz4oWvOQX4jgiiXB/CCpHsYebqdegAjcBelr5RM2qhQFUddRj
+        ir5I1IlbuLz+vzxJuvV/534HPX1P06Ot8A==
+X-Google-Smtp-Source: ABdhPJwPTOtiVXNvCX/pKqWrYha6lZQy8p7KfmyavhmlzM6+laaTyO10jq+zadGAbMUmC27l3oz6nQ==
+X-Received: by 2002:a05:6214:529e:b0:441:2c37:52e5 with SMTP id kj30-20020a056214529e00b004412c3752e5mr16852928qvb.4.1649073784957;
+        Mon, 04 Apr 2022 05:03:04 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id r7-20020ac85c87000000b002e234014a1fsm8616195qta.81.2022.04.04.05.03.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 05:03:04 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id g9so7515651ybj.9;
+        Mon, 04 Apr 2022 05:03:04 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr4305546ybp.613.1649073784139; Mon, 04
+ Apr 2022 05:03:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220404105831.5096-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220404105831.5096-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 4 Apr 2022 13:52:45 +0200
-Message-ID: <CAPDyKFrc_Rrm48Q6WM_OchTQvFX3fzGerQ5jY2HgW19uc7n+PQ@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: R-Car V3M also has no HS400
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20220401153743.77871-1-wsa+renesas@sang-engineering.com> <20220403110534.2k3ojnkkrsdjzimb@pengutronix.de>
+In-Reply-To: <20220403110534.2k3ojnkkrsdjzimb@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Apr 2022 14:02:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX2Ut9A57UkOO4f+q8Awu0K9Oek2Qhujr+TaKNTpkVU=g@mail.gmail.com>
+Message-ID: <CAMuHMdX2Ut9A57UkOO4f+q8Awu0K9Oek2Qhujr+TaKNTpkVU=g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Document r8a77961 support
+To:     mkl@blackshift.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-can@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 4 Apr 2022 at 12:58, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Further digging in the datasheets revealed that R-Car V3M also has no
-> HS400 support.
->
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Marc,
 
-Applied for next, thanks!
+On Sun, Apr 3, 2022 at 1:05 PM Marc Kleine-Budde <mkl@blackshift.org> wrote:
+> On 01.04.2022 17:37:43, Wolfram Sang wrote:
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Kind regards
-Uffe
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+> Wolfram, thanks for the patch. I think usually Geert takes the renesas
+> DT binding patches. (If it would go via the CAN and net tree, that patch
 
-> ---
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> index 9dd01c220e93..2cd81d22c3c3 100644
-> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -235,6 +235,7 @@ static const struct renesas_sdhi_of_data_with_quirks of_r8a77965_compatible = {
->
->  static const struct renesas_sdhi_of_data_with_quirks of_r8a77970_compatible = {
->         .of_data = &of_data_rcar_gen3_no_sdh_fallback,
-> +       .quirks = &sdhi_quirks_nohs400,
->  };
->
->  static const struct renesas_sdhi_of_data_with_quirks of_r8a77990_compatible = {
-> --
-> 2.30.2
->
+Usually only for Renesas core patches, unless the I/O maintainers
+are unresponsive...
+
+> should get a patch description, my upstream doesn't take patches
+> without.)
+
+The other usual suspects are the DT people, but they weren't CCed?
+
+Of course I can take it, too. Are you willing to provide an Acked-by?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
