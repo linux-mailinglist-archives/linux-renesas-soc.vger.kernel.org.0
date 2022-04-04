@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B454F138A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 12:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5624F140B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 13:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359023AbiDDLAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 07:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
+        id S1376636AbiDDLvG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 07:51:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359033AbiDDLAc (ORCPT
+        with ESMTP id S230134AbiDDLvG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 07:00:32 -0400
+        Mon, 4 Apr 2022 07:51:06 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D367313CDB
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 03:58:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2DC03D490
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 04:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=BucI8btievleKbK2kz8dVtMrhRB
-        7NH2KNT122rovt1A=; b=jffsrN2Ywa3fBCPdPFU94wpu/deYN3uHdDSNqzJOz0z
-        6x0cXLl6LYmK5HQiszjH6Nhb0/o32ezx/JoDjsvW0UgNx5/w1o8+e6JjXpqRAaMw
-        IjzjrP2EcoNkuYAwvCfwwQuDBANMjYzicEO++ML1dGzut/q/pnswx5MVGOkk0Euk
+        :content-transfer-encoding; s=k1; bh=htG0tea/faHfpXH2LGaHHamETKt
+        IwimJjRnv1t8vAco=; b=ddn/j2ig2XmJik2o7deY0/Pc1zBvRtj9uxP1HOmJmCZ
+        FSlZaQTiTKvxIt0LynsUUa4AIwH86OsB1QyvMhU8R7Htm7lTyQ55LlUIaP0yDaPX
+        wE/qtuQfE0lRzti0zt0+2CtmY9mQPr+emL7l7NO143JpY+N8Ddz8gEyxHLcNyAXQ
         =
-Received: (qmail 1831091 invoked from network); 4 Apr 2022 12:58:33 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Apr 2022 12:58:33 +0200
-X-UD-Smtp-Session: l3s3148p1@bZloAtLb5qQgAQnoAHNmALK3JllQBOZM
+Received: (qmail 1847510 invoked from network); 4 Apr 2022 13:49:04 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Apr 2022 13:49:04 +0200
+X-UD-Smtp-Session: l3s3148p1@il4Tt9Lb+KQgAQnoAHNmALK3JllQBOZM
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-mmc@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] mmc: renesas_sdhi: R-Car V3M also has no HS400
-Date:   Mon,  4 Apr 2022 12:58:31 +0200
-Message-Id: <20220404105831.5096-1-wsa+renesas@sang-engineering.com>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] mmc: renesas_sdhi: don't overwrite TAP settings when HS400 tuning is complete
+Date:   Mon,  4 Apr 2022 13:49:02 +0200
+Message-Id: <20220404114902.12175-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,27 +46,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Further digging in the datasheets revealed that R-Car V3M also has no
-HS400 support.
+When HS400 tuning is complete and HS400 is going to be activated, we
+have to keep the current number of TAPs and should not overwrite them
+with a hardcoded value. This was probably a copy&paste mistake when
+upporting HS400 support from the BSP.
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 26eb2607fa28 ("mmc: renesas_sdhi: add eMMC HS400 mode support")
+Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 9dd01c220e93..2cd81d22c3c3 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -235,6 +235,7 @@ static const struct renesas_sdhi_of_data_with_quirks of_r8a77965_compatible = {
+Lightly tested with a Renesas R-Car M3N SoC. I think I can't really test
+it because my TAPs are usually stable in my environment. The fix should
+be obvious, though. Shimoda-san, are you happy with it?
+
+ drivers/mmc/host/renesas_sdhi_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 89d21231ec5f..4404ca1f98d8 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -394,10 +394,10 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
+ 			SH_MOBILE_SDHI_SCC_TMPPORT2_HS400OSEL) |
+ 			sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT2));
  
- static const struct renesas_sdhi_of_data_with_quirks of_r8a77970_compatible = {
- 	.of_data = &of_data_rcar_gen3_no_sdh_fallback,
-+	.quirks = &sdhi_quirks_nohs400,
- };
+-	/* Set the sampling clock selection range of HS400 mode */
+ 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DTCNTL,
+ 		       SH_MOBILE_SDHI_SCC_DTCNTL_TAPEN |
+-		       0x4 << SH_MOBILE_SDHI_SCC_DTCNTL_TAPNUM_SHIFT);
++		       sd_scc_read32(host, priv,
++				     SH_MOBILE_SDHI_SCC_DTCNTL));
  
- static const struct renesas_sdhi_of_data_with_quirks of_r8a77990_compatible = {
+ 	/* Avoid bad TAP */
+ 	if (bad_taps & BIT(priv->tap_set)) {
 -- 
 2.30.2
 
