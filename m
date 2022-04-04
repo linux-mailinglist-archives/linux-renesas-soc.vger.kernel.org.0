@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F39F4F1D2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 23:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A78504F1D52
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 23:39:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380531AbiDDVaW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 17:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
+        id S1357273AbiDDVax (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 17:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379538AbiDDR0Z (ORCPT
+        with ESMTP id S1379539AbiDDR00 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 13:26:25 -0400
+        Mon, 4 Apr 2022 13:26:26 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4074D31909;
-        Mon,  4 Apr 2022 10:24:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 10BCE31909;
+        Mon,  4 Apr 2022 10:24:29 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,234,1643641200"; 
-   d="scan'208";a="116711388"
+   d="scan'208";a="116711391"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Apr 2022 02:24:27 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Apr 2022 02:24:29 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1149740B0B07;
-        Tue,  5 Apr 2022 02:24:24 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9E2D440B0B0A;
+        Tue,  5 Apr 2022 02:24:27 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
@@ -33,9 +33,9 @@ Cc:     Pavel Machek <pavel@denx.de>, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead of returning directly
-Date:   Mon,  4 Apr 2022 18:23:21 +0100
-Message-Id: <20220404172322.32578-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/2] mmc: renesas_internal_dmac: Fix typo's
+Date:   Mon,  4 Apr 2022 18:23:22 +0100
+Message-Id: <20220404172322.32578-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -48,33 +48,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Jump to error path "edisclk" instead of returning directly in case of
-devm_reset_control_get_optional_exclusive() failure.
+Fix typo's,
+* difference -> different
+* alignment -> aligned
 
-Fixes: b4d86f37eacb7 ("mmc: renesas_sdhi: do hard reset if possible")
 Reported-by: Pavel Machek <pavel@denx.de>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/mmc/host/renesas_sdhi_core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 2797a9c0f17d..cddb0185f5fb 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -1033,8 +1033,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		goto efree;
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index 1685df00863b..b468368a4539 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -310,7 +310,7 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host) {
+ }
  
- 	priv->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
--	if (IS_ERR(priv->rstc))
--		return PTR_ERR(priv->rstc);
-+	if (IS_ERR(priv->rstc)) {
-+		ret = PTR_ERR(priv->rstc);
-+		goto edisclk;
-+	}
+ /*
+- * renesas_sdhi_internal_dmac_map() will be called with two difference
++ * renesas_sdhi_internal_dmac_map() will be called with two different
+  * sg pointers in two mmc_data by .pre_req(), but tmio host can have a single
+  * sg_ptr only. So, renesas_sdhi_internal_dmac_{un}map() should use a sg
+  * pointer in a mmc_data instead of host->sg_ptr.
+@@ -344,7 +344,7 @@ renesas_sdhi_internal_dmac_map(struct tmio_mmc_host *host,
  
- 	ver = sd_ctrl_read16(host, CTL_VERSION);
- 	/* GEN2_SDR104 is first known SDHI to use 32bit block count */
+ 	data->host_cookie = cookie;
+ 
+-	/* This DMAC cannot handle if buffer is not 128-bytes alignment */
++	/* This DMAC cannot handle if buffer is not 128-bytes aligned */
+ 	if (!IS_ALIGNED(sg_dma_address(data->sg), 128)) {
+ 		renesas_sdhi_internal_dmac_unmap(host, data, cookie);
+ 		return false;
 -- 
 2.17.1
 
