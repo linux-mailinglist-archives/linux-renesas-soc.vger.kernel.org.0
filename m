@@ -2,127 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B39274F1D59
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 23:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C354F1D50
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 23:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382535AbiDDVaz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 17:30:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39518 "EHLO
+        id S1349604AbiDDVat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 17:30:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379815AbiDDSKn (ORCPT
+        with ESMTP id S1379828AbiDDSLp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 14:10:43 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3B263C8;
-        Mon,  4 Apr 2022 11:08:45 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2eb46d33db9so56222287b3.12;
-        Mon, 04 Apr 2022 11:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EOXzNn8YJXSBSPBTfEilUNoggTZ9fchh0UKh2uaYCkg=;
-        b=kAwacWRlbua9Upr4P4y0HifVnz+enwieMp9UuW7TasoWWdBMX2U1ohTaSBrWezI3J4
-         n8Y4/cnYmT1N5OVNnylsiVtO6xKHI0MRuTuJS1fgouuJ8TeX+ppvsGKAlvAyRLmkJJBg
-         ikjG+PwSNdCzzWi8FuMpWlnjrJQqZwsLh19qWQh2Xuex9MvgE4RIICVNs/JpWawpigvy
-         HLW0LKiUj7j8CdpRNQdOmvXk1DXFGpZvgZHNB7aKQxfGq643HieiLatKxO0S0EHIgK9E
-         ApgQB6v2DcSfa0DJqSPnvW8XZE/CJP/ykJcn89IfSqAMBeb0T690o7Nx9p6lUGpZM4d5
-         z81w==
+        Mon, 4 Apr 2022 14:11:45 -0400
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB7C3A5F9;
+        Mon,  4 Apr 2022 11:09:49 -0700 (PDT)
+Received: by mail-oi1-f176.google.com with SMTP id v75so10919785oie.1;
+        Mon, 04 Apr 2022 11:09:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EOXzNn8YJXSBSPBTfEilUNoggTZ9fchh0UKh2uaYCkg=;
-        b=G2C0nKfLgbw7gwcL+90Q/aVsOfWDic1DYBhmWxXd2aMKyd1GgnbQXpu4XGeMdVVsJd
-         u94gZl/6dK1EWxPHtqfvPBmzDS1cspsE34s935HSd+M72G9l4gTzPVcDWLH5KpKfsCUo
-         gLb2ndG4QtPcF/lmiJBoZLqe1rFBEBmlKfHPt7OFADKah2ykFHENbJ6rNlAVb6Wv8K6b
-         fYBIDOcsH6deBOmKmFPYfnG+9zDaBJ3f1uZJLEbBICYJnm33weHEr19YM1l0o7wLluDo
-         q49TWCY5VnhvvGnlkDnx2MCYy/+2VrbdWWIebKS0hdKSc//4FInzXEklrjGQIZjdNghd
-         6FIg==
-X-Gm-Message-State: AOAM53053lOXLSO8DoVoTvgGAWa7dUzgK7MXIt/es2BGOripESEsqVx0
-        3FgkoM0rQzPfojybpUIn+JMn/+tAsCef8I3SXXo=
-X-Google-Smtp-Source: ABdhPJwHTThe++LzZaFuJJpiBj0G7KqdzDNbWhNKwST/OCct//gzRJbyQFkNoyVVqsf/wWrhLf7CMN5kZJcG5A4F2gc=
-X-Received: by 2002:a0d:e212:0:b0:2eb:4f2b:6e91 with SMTP id
- l18-20020a0de212000000b002eb4f2b6e91mr1221175ywe.78.1649095724281; Mon, 04
- Apr 2022 11:08:44 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GrWsWifEwSB/Di8qodK8eTaSlwfNnYpeHBLpuV2qFD0=;
+        b=NgTZFNa36c/f2izIc/Ttcn8H6IiuDy+HaVk9/aW2nOavOgmmExTSQ3BoIei942S20r
+         ewFNFQg2v8Kxai7nyaKtwVyqIvffa/RtC3ceRjVBjv8NymxnB3qTRNf0mUEzW8/dHWiq
+         zfiKaUs7rcaKMA4MMSBdmu6wwFVyK/WiOCRZw1QEkdgJGH0jQhb6Pyj2Yn2LhfAdfluz
+         ZO2m5NXKlrLGkGBwdQY8b7DVfdkDIOm4OeyEzqIOIwBbcmprBKB4jj49AXeQsf1hEGi/
+         Ha7wZMae0DM2cwbnhMCvMrG0fDWnvX87ypWxX/0jpWOJwdHYOs2eRapCqVs6dquayx8Z
+         17oQ==
+X-Gm-Message-State: AOAM532xAGEFoVKi5d9PT8MY8fCFh5qKQW0qY+ahiOY096VonItqs46P
+        V5+AZKNz2WOdMuAE0Jnn8Q==
+X-Google-Smtp-Source: ABdhPJzJ8JBWLf9zowjpziQW3ouFz5h0r+qSqLu4rRuyYtgrnrt/DwlRiLul6qKVYHcAloy2KKl+AQ==
+X-Received: by 2002:a05:6808:20d:b0:2ef:88b6:28c3 with SMTP id l13-20020a056808020d00b002ef88b628c3mr180565oie.149.1649095788816;
+        Mon, 04 Apr 2022 11:09:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a17-20020a4ae931000000b0032933be7230sm3229704ooe.4.2022.04.04.11.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 11:09:48 -0700 (PDT)
+Received: (nullmailer pid 1645093 invoked by uid 1000);
+        Mon, 04 Apr 2022 18:09:47 -0000
+Date:   Mon, 4 Apr 2022 13:09:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Document R-Car
+ H3/M3/E3 support
+Message-ID: <Yks0a3s5KN5GPl4A@robh.at.kernel.org>
+References: <3784b6cb76a008fb56d6cb4ba228d78c77e710fa.1648546583.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220404172322.32578-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <OS0PR01MB5922182F6302386EFF2ED66B86E59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922182F6302386EFF2ED66B86E59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 4 Apr 2022 19:08:18 +0100
-Message-ID: <CA+V-a8tdkw8-dUfrFG9kZizok8OQdcGHitAdb4E2tsBW3Xrh-g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead of
- returning directly
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3784b6cb76a008fb56d6cb4ba228d78c77e710fa.1648546583.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Tue, 29 Mar 2022 11:38:03 +0200, Geert Uytterhoeven wrote:
+> Document support for the SPI Multi I/O Bus Controller (RPC-IF) in the
+> R-Car H3, M3-W, M3-W+, M3-N, and E3 SoCs.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../bindings/memory-controllers/renesas,rpc-if.yaml          | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-Thank you for the review.
-
-On Mon, Apr 4, 2022 at 7:02 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi Prabhakar and Pavel,
->
-> Thanks for the patch.
->
-> > Subject: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead of
-> > returning directly
-> >
-> > Jump to error path "edisclk" instead of returning directly in case of
-> > devm_reset_control_get_optional_exclusive() failure.
-> >
-> > Fixes: b4d86f37eacb7 ("mmc: renesas_sdhi: do hard reset if possible")
-> > Reported-by: Pavel Machek <pavel@denx.de>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/mmc/host/renesas_sdhi_core.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/mmc/host/renesas_sdhi_core.c
-> > b/drivers/mmc/host/renesas_sdhi_core.c
-> > index 2797a9c0f17d..cddb0185f5fb 100644
-> > --- a/drivers/mmc/host/renesas_sdhi_core.c
-> > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> > @@ -1033,8 +1033,10 @@ int renesas_sdhi_probe(struct platform_device
-> > *pdev,
-> >               goto efree;
-> >
-> >       priv->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev,
-> > NULL);
-> > -     if (IS_ERR(priv->rstc))
-> > -             return PTR_ERR(priv->rstc);
-> > +     if (IS_ERR(priv->rstc)) {
-> > +             ret = PTR_ERR(priv->rstc);
-> > +             goto edisclk;
-> > +     }
->
-> Why can't devm_reset_control_get_optional_exclusive to be moved up before devm_clk_get?
->
-In that case we will have to jump to the "efree" label Or if you don't
-want goto at all this can be moved to the very beginning of the probe.
-
-Wolfram, what is your preference on the above?
-
-Cheers,
-Prabhakar
+Acked-by: Rob Herring <robh@kernel.org>
