@@ -2,107 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 527B84F1764
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 16:43:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF834F179C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Apr 2022 16:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350751AbiDDOpb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 10:45:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
+        id S1378276AbiDDOvk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Apr 2022 10:51:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379290AbiDDOof (ORCPT
+        with ESMTP id S1378353AbiDDOvY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 10:44:35 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC7943AF8;
-        Mon,  4 Apr 2022 07:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649083199; x=1680619199;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=1gQ3++FzrayW9QOsopIIgb0F8M/Kgf9VfCcFL8iZW1k=;
-  b=BnosQoInZRr5iyjq2XpnLQjMs39GNYS0caOAD0TizgtPFRhRN1QsMaNZ
-   xBIWUbg/U48bbFMp+c37e/OaQEmKBKEuCClnwbvk+ScJfbbU7lUMrI2z3
-   7xFPWQGlulcfTaNflcM18JL4u4KwFoYUJ5Zi1DeWif+Lh3QwUgJPAIZFF
-   0fddql9e3y4DfL1EjlsBX7Pgik6B4Vm8hhh6msmFk+S5mwG5bsuA13UOQ
-   vKaAjfRYCT06QOJfGt0+WcM4KYrb21bazYJvvFhN47+JA4GoP0ge64KJM
-   RtJ6DlM1q7OQOL7L94ABCXKv1GBhVAe4vanLbBz5RmyBYTGe8dCeQXFDB
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="260225020"
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; 
-   d="scan'208";a="260225020"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2022 07:39:45 -0700
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; 
-   d="scan'208";a="569409446"
-Received: from rhamza-mobl.ger.corp.intel.com ([10.251.211.126])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2022 07:39:40 -0700
-Date:   Mon, 4 Apr 2022 17:39:38 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+        Mon, 4 Apr 2022 10:51:24 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDAB22285;
+        Mon,  4 Apr 2022 07:49:12 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id d142so7805796qkc.4;
+        Mon, 04 Apr 2022 07:49:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HPLACUw9G8R/RifzEuAaAYaQrT5woDu89AJlFDXCoc0=;
+        b=LLTe/xMSSMz7emSpjugN1HlzdCr76lqcdQZ6DI7sroXvuoSVfAQgwcMkkor8Q8VQHJ
+         yW3KuG7TCUAYO7hjLHRjF7sMOw0oqJRY2ie2NbBmEgoNeS7nOeyiHrDW4oIMoT3dUV2i
+         MJMzYjK3OxybSYbudutv5mIFIEQEfZabW0xu4Wc0eNFP1zR7EkXKwVDPWo5mFwnKSS+L
+         LjLIj1PsavjDEhmMbcxma25uaj7WXod4IxCrLR0WTDHxCpl4/fi1lLAH/S+fHxGAiAUJ
+         J1E+ic0R+WgRqnUGNNdztjvwjUozGN/aBljAoiDJK4HWVQ/WMgyUpNSl8elmeJ4fYyDJ
+         B9Xw==
+X-Gm-Message-State: AOAM530ZPHklV7elzWJrmrwCkmCqyrjx1S0ISAwl2H/TkQsvzUEH9FCW
+        a36df7c4O4MA33/8KOjndGSx3ee6xHgDsw==
+X-Google-Smtp-Source: ABdhPJzXnwykIXQAw20gg3lBmiOcThREHssWS6JwnY/E8o3etOHBrbAeMkY+xAOF5yh3NTKLtm0COA==
+X-Received: by 2002:a05:620a:2904:b0:67d:db5a:b27f with SMTP id m4-20020a05620a290400b0067ddb5ab27fmr59738qkp.529.1649083751668;
+        Mon, 04 Apr 2022 07:49:11 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id s15-20020a05620a29cf00b00680ca4b3755sm7122030qkp.119.2022.04.04.07.49.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 07:49:10 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2e64a6b20eeso102344287b3.3;
+        Mon, 04 Apr 2022 07:49:10 -0700 (PDT)
+X-Received: by 2002:a81:5c2:0:b0:2e5:e4eb:c3e7 with SMTP id
+ 185-20020a8105c2000000b002e5e4ebc3e7mr305576ywf.62.1649083750254; Mon, 04 Apr
+ 2022 07:49:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220404133904.1296258-1-miquel.raynal@bootlin.com>
+In-Reply-To: <20220404133904.1296258-1-miquel.raynal@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Apr 2022 16:48:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWS0ABggEuyqjzuX1Jp306p6FOj_uvPuHW1Z63Ov551+Q@mail.gmail.com>
+Message-ID: <CAMuHMdWS0ABggEuyqjzuX1Jp306p6FOj_uvPuHW1Z63Ov551+Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] RZN1 DMA support
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
-cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-serial <linux-serial@vger.kernel.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH v4 0/9] serial: 8250: dw: RZN1 DMA support
-In-Reply-To: <20220404162050.7831ebfe@xps13>
-Message-ID: <42b8671b-48a2-43f0-975b-3b9e98202328@linux.intel.com>
-References: <20220330132038.808679-1-miquel.raynal@bootlin.com> <YkRlfGUM/lb1fKC6@smile.fi.intel.com> <20220404162050.7831ebfe@xps13>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 4 Apr 2022, Miquel Raynal wrote:
+Hi Miquel,
 
-> Hello,
-> 
-> andriy.shevchenko@linux.intel.com wrote on Wed, 30 Mar 2022 17:13:16
-> +0300:
-> 
-> > On Wed, Mar 30, 2022 at 03:20:29PM +0200, Miquel Raynal wrote:
-> > > Hello,
-> > > 
-> > > Support for the RZN1 DMA engine allows us adapt a little bit the 8250 DW
-> > > UART driver with to bring DMA support for this SoC.
-> > > 
-> > > This short series applies on top of the series bringing RZN1 DMA
-> > > support, currently on its v5, see [1]. Technically speaking, only the DT
-> > > patch needs to be applied after [1]. The other patches can come in at
-> > > any moment, because if no "dmas" property is provided in the DT, DMA
-> > > support will simply be ignored.
-> > > 
-> > > [1] https://lore.kernel.org/dmaengine/20220315191255.221473-1-miquel.raynal@bootlin.com/T/#m0ef3323abce3eec961e142bf2fb35e95b9045fc5  
-> > 
-> > Couple of versions ago I have asked you to Cc the series to Ilpo (Cc'ed).
-> > I hope you will not forget it in v5.
-> 
-> Sorry I forgot to re-add manually Ilpo in the recipients.
-> 
-> Anyway, if Ilpo really needs to be Cc'ed, then there is something to do
-> on MAINTAINER's side.
+On Mon, Apr 4, 2022 at 3:39 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> Here is a first series bringing DMA support to RZN1 platforms. Soon a
+> second series will come with changes made to the UART controller
+> driver, in order to interact with the RZN1 DMA controller.
+>
+> Stephen acked the sysctrl patch (in the clk driver) but somehow I feel
+> like it would be good to have this patch applied on both sides
+> (dmaengine and clk) because more changes will depend on the addition of
+> this helper, that are not related to DMA at all. I'll let you folks
+> figure out what is best.
+>
+> Cheers,
+> Miquèl
+>
+> Changes in v6:
+> * Added Stephen's acks.
 
-While I'm considering doing like you suggest, I don't think it can be in 
-general said that people who you're specificially told to Cc would be ok 
-to get dropped unless they're among the listed maintainers.
+Looks like you forgot to add the ack?
 
+> * Fixed an extra newline added in the middle of nowhere.
+> * Rebased on top of v5.18-rc1.
 
--- 
- i.
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
