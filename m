@@ -2,124 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ED064F4095
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 23:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA2B4F4233
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 23:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240660AbiDEOfW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 10:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
+        id S1344351AbiDEOfS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 10:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244061AbiDENDw (ORCPT
+        with ESMTP id S1378107AbiDENNR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 09:03:52 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 723AA11D7A3
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Apr 2022 05:05:35 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id dr20so26090090ejc.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Apr 2022 05:05:35 -0700 (PDT)
+        Tue, 5 Apr 2022 09:13:17 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D229A98D
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Apr 2022 05:13:20 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id bq8so26221757ejb.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Apr 2022 05:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LUNkLUyRNupMlLWXUhgEyUjm31TUTSH8Cd6R4GiAGJ0=;
-        b=LNnX5LUYQATJAnoNid8CPzZTLGlCIr9p9VGO8eAttCWJBo/5VJGIevh2Pj9hmodZm0
-         ZvCcBzfdZPCxpItAaymntAh0uTKz94ovQ90nGEXGxYXxTIhXuyeiG6xGLvVCRsjn7y7D
-         edshDT3uBGDXNSUm0T2S327Dqer1wSUNyN9h1Mee4wgF/v2V3eHWBhkC/nIvTp0aokGi
-         b+uHjMSF36f6WMSUA7fErGz6Aj2gGlV844JeF9/tW/X8jvpaCvONJTKxDPLCdvdOvZzV
-         Ix/qWdA7AKmSAJqbaujMAJcGpJEiRzGuA7fsYtmMKMcoI7wrNpEvPIbeO6RyqxQzlkiX
-         VQDw==
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w/Z5VzjPaah7N0YUbtAhapqjSjMXfGCadaBASbAspD0=;
+        b=7dOiBFDRRvuhX8nNQguHmbWm8+QE2DPP5lE6QQD4Pd+x55V/KnhDuzAmKXTJfOARUL
+         v+TNzqGFPW3+EGqiUCPOVmiDKgZxsGTSTnC0X5ZQVtl974YDs4B5Iz5CXjBqWbou2Awp
+         yWqAzw62kex2Pk0y9GpVAT1Se8ZGHdxfLA76vbdm1RNCzc9+ANL/kg7ntkI2zIpHTr/m
+         Llp/luaTI55RpNSJ/yjFbyWKipC98B7qcWuHW98I4ksMx0B2VYan5xfJEd3fz9r65Fbo
+         yYv+658/+ggJ1eqVFoc8k39bYRCt6XFnmBAmyIWw26HtjOd8PhMgKFU8rHcLxqexneSl
+         iQZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LUNkLUyRNupMlLWXUhgEyUjm31TUTSH8Cd6R4GiAGJ0=;
-        b=cTZY1IkFCDUOA2vVWE24NCTeIjF2pcFvuI0mg8lRE0/xyYNS88mfhv51CZpwM29NLL
-         Oa3fZ1QRSpruiMmKUEdKtE2CGDrjJAfau4bzUdRAMQgBS35bKU3qeXIKfaOJz59Qd52t
-         FDSttMWOraE+SoF8t7J3DZp8X7M3ncYiZI1OjgUkQ6MNf8VwupwcA/Isg5f43FbRBKZK
-         +CSN4TyFhfnpdB3hLEerO1lCl1rY/EpeuEtpypc95/P5v83zBxVhb87bwroMnA5YBfJf
-         FzUVgosYIdAeW3QOqV1l7Dfh9HaUfgedH6jZTuhNPfGqrYY1/DS4GALYeBDKHLf51pAv
-         81Qg==
-X-Gm-Message-State: AOAM532CSXFuTd+iQGqvMYDMcOmtVS9HKev7QNIWDhB9l4nxn3qe1cJg
-        mKnNzRXn49pqqjbT5QyWkIhvCg==
-X-Google-Smtp-Source: ABdhPJyolJgteWfOXF/i6eLzkrBACK5iulqQNf8rSZe+oa1Sm461dxamaj2KU9OeBRhApSd+S+jSAg==
-X-Received: by 2002:a17:906:b155:b0:6c9:ea2d:3363 with SMTP id bt21-20020a170906b15500b006c9ea2d3363mr3133647ejb.729.1649160333459;
-        Tue, 05 Apr 2022 05:05:33 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id l11-20020a509dcb000000b0041cbaf0ce2asm4428436edk.6.2022.04.05.05.05.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Apr 2022 05:05:32 -0700 (PDT)
-Message-ID: <b71f439a-98fd-52ba-7580-dfbb8cbffebe@linaro.org>
-Date:   Tue, 5 Apr 2022 14:05:31 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w/Z5VzjPaah7N0YUbtAhapqjSjMXfGCadaBASbAspD0=;
+        b=cGyvKohshD23FkabqMmcE3KN8PZnbA4doFEf0GDbKm0CgBQnd2Ar0Vdhx2tDjv5mBv
+         y/Q64h7YAs08/V3QHIPqZsO6BzznTsNXm7zXL6l/wDOFcQvkiMXrFJCdhV2/aujco7cE
+         PproANLhUXDxixAhZ75/xy0BgUwTK13hvUT43ACu12fQIhXJSftiMirM+DboJzM9IJPB
+         8/SsFCcxuawAlTrqk9WQwrpih4Ui1SagqN486L0iD6XSou1QwcUxAYr1dSflvwnhY9kI
+         EgJhVYHLePU3ATOieOLSxIvkYipmHq6sJCAIuqGiYWS6YyP7zZvG7SQpeoWmiZcZ+j2t
+         ER5A==
+X-Gm-Message-State: AOAM532KsBmfub9m1phJOqUlDuqpeIIuiKVGqulqQq8+OSSyWaEDDVHq
+        z0bOSOL61ekKy7F9HLJ8E1hC2Ls8nhcowR6MqEsL7Q==
+X-Google-Smtp-Source: ABdhPJxVvhV5WZmApCq0DsgEovGa26+9MHznvNSVzqBc6ACt4ofBrfoHmbUA4s/kOIOSyV1hrsGZJlqKWGVuGtI+4qo=
+X-Received: by 2002:a17:906:6a1d:b0:6e8:35a:4439 with SMTP id
+ qw29-20020a1709066a1d00b006e8035a4439mr3387538ejc.734.1649160799105; Tue, 05
+ Apr 2022 05:13:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 1/5] dt-bindings: arm: renesas: Document Renesas
- RZ/G2UL SMARC EVK
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220402073234.24625-1-biju.das.jz@bp.renesas.com>
- <cf7728fd-b5c8-cd3d-6074-d27f38f86545@linaro.org>
- <OS0PR01MB5922B49ED5DADA5DD3DDA60786E39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <d6989ea9-9e84-0022-aff0-c75b0e3203e2@linaro.org>
- <OS0PR01MB5922C1100BCF87341534FC6E86E39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <e3ebc5d0-d2bc-b5a8-1b19-5e0c2f3d7c41@linaro.org>
- <CAMuHMdVTjHx8St_LxvMy1UfkRqNxZ1Dz0YYNXKMAhqouUxiW0w@mail.gmail.com>
- <a480eb35-4d27-8e40-4b34-9ed269ec6ccf@linaro.org>
- <OS0PR01MB59225118A6FC3D9C58D9A00E86E49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <OS0PR01MB59225118A6FC3D9C58D9A00E86E49@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220401103604.8705-1-andriy.shevchenko@linux.intel.com> <20220401103604.8705-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220401103604.8705-3-andriy.shevchenko@linux.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Tue, 5 Apr 2022 14:13:08 +0200
+Message-ID: <CAMRc=MeaSC6kvwfGAhX7XbeFvaw7MiozTj1p+ThZYCHZFppSzg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/13] gpiolib: Introduce gpiochip_node_count() helper
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Qianggui Song <qianggui.song@amlogic.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-amlogic@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 05/04/2022 13:47, Biju Das wrote:
->> Subject: Re: [PATCH v4 1/5] dt-bindings: arm: renesas: Document Renesas
->> RZ/G2UL SMARC EVK
->>
+On Fri, Apr 1, 2022 at 12:36 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The gpiochip_node_count() helper iterates over the device child nodes that
+> have the "gpio-controller" property set. It returns the number of such nodes
+> under a given device.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  include/linux/gpio/driver.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
+> index bfc91f122d5f..12de0b22b4ef 100644
+> --- a/include/linux/gpio/driver.h
+> +++ b/include/linux/gpio/driver.h
+> @@ -755,4 +755,15 @@ static inline void gpiochip_unlock_as_irq(struct gpio_chip *gc,
+>         device_for_each_child_node(dev, child)                                  \
+>                 if (!fwnode_property_present(child, "gpio-controller")) {} else
+>
+> +static inline unsigned int gpiochip_node_count(struct device *dev)
+> +{
+> +       struct fwnode_handle *child;
+> +       unsigned int count = 0;
+> +
+> +       for_each_gpiochip_node(dev, child)
+> +               count++;
+> +
+> +       return count;
+> +}
+> +
+>  #endif /* __LINUX_GPIO_DRIVER_H */
+> --
+> 2.35.1
+>
 
-(...)
-
->>>
->>> And what to do when adding more DT overlays for expansion boards?
->>> This would become unmanageable soon.
->>
->> There are two topics here:
->> 1. Whether we should follow DT spec. If no, why Renesas is special and for
->> other cases we follow DT spec? "Unmanageable" is not the answer here,
->> because other platforms will have the same problem.
->>
->> 2. If the answer for above is yes, we follow DT spec, then the question is
->> how to deal with overlays. In current code - I don't know. Long term,
->> maybe we need a way to append to existing compatible (to extend it)?
->> Some expansion boards do not need to change top level compatible, because
->> they only add constrained features (like Arduino shields with some
->> regulator). You just add it to DT and presence of new compatible, e.g. of
->> regulator, is enough. You do not need to change the top level compatible.
->>
-> 
-> Does the rules for compatible values (most to least descriptive) 
-> also apply to the root node?
-
-I don't see any exception in DT spec (page 26), so my answer is yes, the
-root node has same meaning of "compatible" as other nodes.
-
-Best regards,
-Krzysztof
+Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
