@@ -2,140 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A3884F2223
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 06:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662044F223B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 06:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbiDEEdY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 00:33:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
+        id S229497AbiDEEti (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 00:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230466AbiDEEdL (ORCPT
+        with ESMTP id S229647AbiDEEtL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 00:33:11 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED7419021
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 21:30:29 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id j8so9882071pll.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Apr 2022 21:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=A1iYBin1V6Q9T44bid17e3Lzo7hHkolb4mgocUt8g0E=;
-        b=n3GU59d34Emj3If8aYahZAZQQTGskQwdbeT+wGiHcPiG4fY+TknG7ysZmon4Ym+tbD
-         MZwq9q0F5LCsWQB/QFRMSGb98KEGYN/YeoEwMdkbdqspxOhGMu7kpfIZGVLwARB9z7+O
-         usUNpdevEL+xMQFdqIhrBSVbxjRVWzzZvIeN/G9MNN+Xva52oUyr+HlOvT7GMp51qmQ/
-         WTTaDPOxmXd//BEqFZRwAyV6iwxMI7jav3QDLniKtvoQzknVXzjQo6jr+GQRw95uGIaL
-         Dfe2Y9mb40AO4xmUl+diQL4dNwXsfIdh7a098CTgMi5Sik/PjMeot8ZYLnrYpG5QprTX
-         LHZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=A1iYBin1V6Q9T44bid17e3Lzo7hHkolb4mgocUt8g0E=;
-        b=O4PhDmUkkaWcE9jv6fW0FFHRbS9dkaeqi5j+Y1R9YGyE57nxgTtS4Rz5tjH3mx7PE4
-         S7T5eWuK6bX/Mc8FdDJgWlisEDrqYixhTiTxTV5zDoo6ID4ln7MVawImXx8ARJo8H3rm
-         hn6DRTo+JuZg8GNO9+Mj1CIPceVHCneXyHtorIpw5SiIeYAub+b1erRYhFpeJQTjkh6T
-         3p1SX5Gf+FvC+pOie9YzBztVJNGUhn05F8e2hjkdysVomyyERJJuyZNmxYDGtcVWP92E
-         BlSUCjrsx+Ehh66kstGunVUDq34cnMHhTkr6MO8h1nHT+QXgp9oH/0/K+Y1/LSO5YZgd
-         os0Q==
-X-Gm-Message-State: AOAM532a1CP/GJ6Ra+aWu7PIPIvfD6O76bjUwqs1O9YlT3lSGdd4Xx6U
-        IRePg8CYZrPYEmO7qHVE2/7PNtGJ5DBqLP+kZyI=
-X-Google-Smtp-Source: ABdhPJyYTNxtXYs6CRhfUJbO5exU5HPj1IzQWXOKQeGJmV4ijfNgaXWg1oDYANZOgcfBK6w9QN+CaA==
-X-Received: by 2002:a17:90a:a4c:b0:1ca:a723:aa76 with SMTP id o70-20020a17090a0a4c00b001caa723aa76mr1857193pjo.101.1649133028644;
-        Mon, 04 Apr 2022 21:30:28 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id g6-20020a056a000b8600b004faa49add69sm13651125pfj.107.2022.04.04.21.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 21:30:28 -0700 (PDT)
-Message-ID: <624bc5e4.1c69fb81.a12a7.4958@mx.google.com>
-Date:   Mon, 04 Apr 2022 21:30:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 5 Apr 2022 00:49:11 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D5B15A30
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 21:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Cbu5imkSxmYw8BD7MxQU3rR2N6h6
+        Y4uRLJS6hFCxJB0=; b=uroHnEP3KHV/eYhuNvbJOVEou/nJHePNgdHzii+CfUnW
+        DrOF4BRUlcjVXePd9soij7tZg5gwyUoyiFcVicC4pcmU4uLK7CTT4VtezkmHUB/c
+        /grlmS+lCSMPyZ1Z/K4xpVkHdRYvRCmlTGqGck35EsxI2Vv1yLMWyUJajG0+raY=
+Received: (qmail 2125024 invoked from network); 5 Apr 2022 06:45:22 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2022 06:45:22 +0200
+X-UD-Smtp-Session: l3s3148p1@Diph6eDbFNwgAQnoAHlrAKkk7l/QScWc
+Date:   Tue, 5 Apr 2022 06:45:18 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Pavel Machek <pavel@denx.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 2/2] mmc: renesas_internal_dmac: Fix typo's
+Message-ID: <YkvJXu7Y6Tc68U9e@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Pavel Machek <pavel@denx.de>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220404172322.32578-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yks3Q75ZrUkXSjwz@ninjato>
+ <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2022-04-04-v5.18-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline-nfs: 55 runs,
- 1 regressions (renesas-devel-2022-04-04-v5.18-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="XGw+3cSwhZWV2vXx"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 55 runs, 1 regressions (renesas-devel-2022-04-=
-04-v5.18-rc1)
 
-Regressions Summary
--------------------
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+--XGw+3cSwhZWV2vXx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-04-04-v5.18-rc1/plan/baseline-nfs/
+> > > -     /* This DMAC cannot handle if buffer is not 128-bytes alignment */
+> > > +     /* This DMAC cannot handle if buffer is not 128-bytes aligned */
+> >
+> > Well, as we are here now, I think this can be further improved.
+> >
+> "The internal DMAC supports 128-bytes aligned buffers only", does this
+> sound good?
 
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-04-04-v5.18-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      d2f27dc76d3d5a290f9dfcafae3047e5c9d0ba2b =
+I'd think it should be "128 byte aligned"? But I can't explain why, just
+a gut feeling.
 
-
-
-Test Regressions
----------------- =
+Otherwise good!
 
 
+--XGw+3cSwhZWV2vXx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJLyVoACgkQFA3kzBSg
+KbbStw/9FM9rKMQ30IKzCdiUkW37SCGDxC3zsb4B8ekiSgarbLM4gTKacYLVB0SE
+N8CAHx/Zc33WxgmVXx0UOWmrzN24zEBq1NtH20I0+Bvspl94UZ7XbLq3eJ53fbx+
+1d5vnZFyo0Je5lFGlUy9aKAsMfKG+Jk1lI6uAFsJR8t/D7e0s1b3i9ZUB4U5bFAl
+fHAXT/ZvTl3cnX9vLcoeH+DWZjBYqU42JI4qqof5aVdN+pbDialUOuZvqUyvKHUM
+t9FHV/mKnnGsMOycEX6Cb4hGEB9xNOJjuxXu3gw93WZHH52UQAKG80OFbtdggT/e
+78rIpPlzwDNmYd5QXc1aGECHRfH2jCu5pDitk/8uRjSxs3gKyHe6noaQ4DnYNi8c
+JKG9X6KsQlf+5M3OBgOdRM2Q9sMTv00l07av9dxfTiS52fPEBxIbRlhnoJ7XKEn8
+4NgcNN32sQ5hu2pKQyKpT+o1LQ94K/1m3UHSl26/ggtrWvr3P+ybCKG6lUpElsnm
+q6QV1lBjY+8Iq4Dgx9OSh4a5ZxfTaSjeq/SrDgzkTRiD2nyEs7NCnNrcdZwIbYWA
+q0rSBHDedP0Oqe6JpgcJfOJxTPYPF9T1PItSpp8fYIgVBFmOnzScmp7nRG/E7aPg
+DOSmkYW1svjwtJsWXLvfV7gFs+q847A3STZexo+A8BHc0JJVTVE=
+=lfpM
+-----END PGP SIGNATURE-----
 
-  Details:     https://kernelci.org/test/plan/id/624b90fcbc493acdd5ae0685
-
-  Results:     82 PASS, 6 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-nfs-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-nfs-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-220401.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
-e/id/624b90fcbc493acdd5ae06a7
-        failing since 27 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
-6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
-
-    2022-04-05T00:44:30.757448  <8>[   37.611859] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-04-05T00:44:31.802081  /lava-6021606/1/../bin/lava-test-case
-    2022-04-05T00:44:31.832985  <8>[   38.687791] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
- =20
+--XGw+3cSwhZWV2vXx--
