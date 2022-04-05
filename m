@@ -2,153 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCB5C4F21C9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 06:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C79C94F221D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 06:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230352AbiDEDzF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Apr 2022 23:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46878 "EHLO
+        id S230416AbiDEEdW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 00:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbiDEDyt (ORCPT
+        with ESMTP id S230439AbiDEEdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Apr 2022 23:54:49 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970F65C36C;
-        Mon,  4 Apr 2022 20:52:08 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2eb46d33db9so69146137b3.12;
-        Mon, 04 Apr 2022 20:52:08 -0700 (PDT)
+        Tue, 5 Apr 2022 00:33:09 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7A617E37
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 21:30:27 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id ku13-20020a17090b218d00b001ca8fcd3adeso1373429pjb.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Apr 2022 21:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JawIlW32rh9zjc4U68o5uxVUC0MZ6MDx0kaSrO8k3MM=;
-        b=HhA+4iHnu8iKgFhO4qSBoqmbVuEe60odV3/yG7URgqR8EzL/mBS+G6zi6ZL/ascG+O
-         rxA6jjxZF5w0JmC3JtK6lmEhDF67laOTmZITuaunjgqJktWe6VoMzFEt8IlNrBsD+jMh
-         mof8YKia5bTMMT30eiBvSUjMjDqxD7hTG4NoZncz2edKVD2/1OpTc67KlFCTRfR3VyIA
-         gM8ISYor3jlO412SPovMCVMGFAK4SJggLpyEhTwS9wXhwUtmPRfduZrMMToGxsbdTteO
-         kqhidbt4kaUnzc9AEAbnGnt74GCopJzc/tKPUSpasVh82cl1CBjizAjlnzAyumZePWBL
-         F9fQ==
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=X5Ib7zYup7gdfx5eqBQS7gMiPBfuiYPwBABAsY1/YhI=;
+        b=xvLNZy+TofdeD1AtYQvGojLVmOkUclxLbPeJpsed5Nb2/y6P/KFMczA7wexjtPoIEa
+         JaK29SkzbOg8P1XE5ee4ht0XxIPw0xd1XCSE/BOoZF7ptAkYd0EoFMTlwT3x03L3Lms4
+         J9AoqL8gJ4FFyXPlxsants/o2FP22jZRd1jpQszbOmvu6y1DhStx4XlmaJNSDQDYsEoX
+         DtW4AKL44GP8efCtdj8Yiak/EmOrLnV/JGNDCCE7O4hvNpnLYFH5mPiSrsC5BOBsBPDQ
+         UePDHFA596jhZBKvt9+jozbIN8lDenRV/g2vMGmqApmMPk0YMVpXQlfLrJ9w38DOg9AE
+         vBMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JawIlW32rh9zjc4U68o5uxVUC0MZ6MDx0kaSrO8k3MM=;
-        b=1nFlhy/AP3gibrADl+r7d0DvTsbth1wfqHyCvrWhAmgd+OnhAZ6hV5kUQCplU0+2Hl
-         mLLXvLMzpJ1e21d0ZvLGL11JAX7gRthkPY9A8zL0Bwvhve8WjRDCOVHSN/unZgL7xcUN
-         Gw7fyBulCTaTxvfHZeLHsGt8xloT94vh4DkQFzMB9peOb5J/f3cKU0ffCBNdItH73453
-         MBbyANABhgHNeT/UeTh9Tk7W/sTMunzMzd4/pcOioA3Ty85O2xDrbg0b7fzKr3r7IcvH
-         HhAL9cOYFr11M6keBgf2kPP55EIVr5MYze8aNrFrAr13uaacyMGEIV0HMzxU7glzu0Z0
-         x4Fg==
-X-Gm-Message-State: AOAM531mnUNw9qzvLdfn+N6xZKXzkGaJcomgwdP9n3XWMDqSciMqdCRI
-        C8mHmRHOOSNhCtwjGYEIxXSR09+D5lVK2wYBkSQ=
-X-Google-Smtp-Source: ABdhPJzfFh7ax1o5PJKAXPSkU8hUJJUw1kINiCd80hWsnubpOVfjgU5q952TYRI5Qk04Mokjs1az2Hd++l9V3MmLtJ8=
-X-Received: by 2002:a81:345:0:b0:2ea:a8fa:f323 with SMTP id
- 66-20020a810345000000b002eaa8faf323mr1139433ywd.292.1649130727820; Mon, 04
- Apr 2022 20:52:07 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=X5Ib7zYup7gdfx5eqBQS7gMiPBfuiYPwBABAsY1/YhI=;
+        b=KuOKsOvveBKnmL5feXIZsj/dKmLf/1u8o2pCgzqUFvxhllBhjVQ9l0cBvYzRmbXsvY
+         jfT/hl2u/SgY4S5STThMbyvKtQLZbymvlZawkMgceRVik/wx4mfVrWgS+Wtum1nfysI+
+         HBMI5IkecWoVrOUTZ948Y/2rTLDicDtoSKA3NzsOCvU25aZ+8z5oRWbxaNDiLhXNdJJG
+         wqx1OVGwWgxEkem216ebXD33xmmdcJzj6np2rOu9bq0ecPaul32d7tAQiZSPEvZut2uj
+         eg2DljXpEd/aBG5cbbLGva1XWd0MACMirNi20mgccofzqkwBmtEScvCU1tKNDlTVMbJM
+         PYYg==
+X-Gm-Message-State: AOAM530f33Pb9/7XeVi0sNaY1/UlIUOO+z7PAClryASK8SocYm6KdllC
+        tTANZnxiWml3Hm7T623aRooTwxWzc8I8c8ddHf8=
+X-Google-Smtp-Source: ABdhPJyGlry2D4gaF4QGoXzE1UyDqXl2x0YluDhw6B9p4Ckg71qHrz2C32EcllheiTfjISznLJ+78w==
+X-Received: by 2002:a17:90b:38c9:b0:1c7:1ffb:533b with SMTP id nn9-20020a17090b38c900b001c71ffb533bmr1956373pjb.220.1649133027092;
+        Mon, 04 Apr 2022 21:30:27 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id d5-20020a056a0010c500b004faee9887ccsm13760415pfu.64.2022.04.04.21.30.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 21:30:26 -0700 (PDT)
+Message-ID: <624bc5e2.1c69fb81.7d75d.4e64@mx.google.com>
+Date:   Mon, 04 Apr 2022 21:30:26 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220404172322.32578-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB5922182F6302386EFF2ED66B86E59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CA+V-a8tdkw8-dUfrFG9kZizok8OQdcGHitAdb4E2tsBW3Xrh-g@mail.gmail.com> <OS0PR01MB5922C35E8C5259C3DA2A951A86E59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922C35E8C5259C3DA2A951A86E59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 5 Apr 2022 04:51:41 +0100
-Message-ID: <CA+V-a8uX9=+94xvRSO3c2PQLvxzabYc912_h00Qs6kPTxxVXhg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead of
- returning directly
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2022-04-04-v5.18-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline: 161 runs,
+ 3 regressions (renesas-devel-2022-04-04-v5.18-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/master baseline: 161 runs, 3 regressions (renesas-devel-2022-04-04-=
+v5.18-rc1)
 
-On Mon, Apr 4, 2022 at 7:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi Prabhkar,
->
-> > Subject: Re: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead of
-> > returning directly
-> >
-> > Hi Biju,
-> >
-> > Thank you for the review.
-> >
-> > On Mon, Apr 4, 2022 at 7:02 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > >
-> > > Hi Prabhakar and Pavel,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > > Subject: [PATCH 1/2] mmc: renesas_sdhi: Jump to error path instead
-> > > > of returning directly
-> > > >
-> > > > Jump to error path "edisclk" instead of returning directly in case
-> > > > of
-> > > > devm_reset_control_get_optional_exclusive() failure.
-> > > >
-> > > > Fixes: b4d86f37eacb7 ("mmc: renesas_sdhi: do hard reset if
-> > > > possible")
-> > > > Reported-by: Pavel Machek <pavel@denx.de>
-> > > > Signed-off-by: Lad Prabhakar
-> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > >  drivers/mmc/host/renesas_sdhi_core.c | 6 ++++--
-> > > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/mmc/host/renesas_sdhi_core.c
-> > > > b/drivers/mmc/host/renesas_sdhi_core.c
-> > > > index 2797a9c0f17d..cddb0185f5fb 100644
-> > > > --- a/drivers/mmc/host/renesas_sdhi_core.c
-> > > > +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> > > > @@ -1033,8 +1033,10 @@ int renesas_sdhi_probe(struct platform_device
-> > > > *pdev,
-> > > >               goto efree;
-> > > >
-> > > >       priv->rstc =
-> > > > devm_reset_control_get_optional_exclusive(&pdev->dev,
-> > > > NULL);
-> > > > -     if (IS_ERR(priv->rstc))
-> > > > -             return PTR_ERR(priv->rstc);
-> > > > +     if (IS_ERR(priv->rstc)) {
-> > > > +             ret = PTR_ERR(priv->rstc);
-> > > > +             goto edisclk;
-> > > > +     }
-> > >
-> > > Why can't devm_reset_control_get_optional_exclusive to be moved up
-> > before devm_clk_get?
-> > >
-> > In that case we will have to jump to the "efree" label Or if you don't
-> > want goto at all this can be moved to the very beginning of the probe.
->
-> I guess it has to move up, first get reset handle and clock handle and return error
-> directly in case of error, Then do clk/reset ops.
->
-Fine by me.
+Regressions Summary
+-------------------
 
-Cheers,
-Prabhakar
+platform           | arch  | lab           | compiler | defconfig          =
+        | regressions
+-------------------+-------+---------------+----------+--------------------=
+--------+------------
+kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig          =
+        | 1          =
 
-> >
-> > Wolfram, what is your preference on the above?
-> >
-> > Cheers,
-> > Prabhakar
+kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig+ima      =
+        | 1          =
+
+rk3399-gru-kevin   | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chr=
+omebook | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-04-04-v5.18-rc1/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-04-04-v5.18-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      d2f27dc76d3d5a290f9dfcafae3047e5c9d0ba2b =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch  | lab           | compiler | defconfig          =
+        | regressions
+-------------------+-------+---------------+----------+--------------------=
+--------+------------
+kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig          =
+        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/624b91929ad26cd7abae06a2
+
+  Results:     51 PASS, 1 FAIL, 1 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-pit=
+x-imx8m.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-pit=
+x-imx8m.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220401.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.dwc3-usb1-probed: https://kernelci.org/test/case/id/624=
+b91929ad26cd7abae06b5
+        failing since 14 days (last pass: renesas-devel-2022-03-14-v5.17-rc=
+8, first fail: renesas-devel-2022-03-21-v5.17)
+
+    2022-04-05T00:46:58.608769  /lava-105672/1/../bin/lava-test-case
+    2022-04-05T00:46:58.609142  <8>[   13.565995] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Ddwc3-usb1-probed RESULT=3Dfail>
+    2022-04-05T00:46:58.609384  /lava-105672/1/../bin/lava-test-case
+    2022-04-05T00:46:58.609612  <8>[   13.585664] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dimx8mq-usb-phy-driver-present RESULT=3Dpass>
+    2022-04-05T00:46:58.609838  /lava-105672/1/../bin/lava-test-case
+    2022-04-05T00:46:58.610058  <8>[   13.606847] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Dimx8mq-usb-phy0-probed RESULT=3Dpass>
+    2022-04-05T00:46:58.610277  /lava-105672/1/../bin/lava-test-case   =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig          =
+        | regressions
+-------------------+-------+---------------+----------+--------------------=
+--------+------------
+kontron-pitx-imx8m | arm64 | lab-kontron   | gcc-10   | defconfig+ima      =
+        | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/624b93736bb469db0eae0698
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
+-pitx-imx8m.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig+ima/gcc-10/lab-kontron/baseline-kontron=
+-pitx-imx8m.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220401.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/624b93736bb469db0eae0=
+699
+        new failure (last pass: renesas-devel-2022-03-08-v5.17-rc7) =
+
+ =
+
+
+
+platform           | arch  | lab           | compiler | defconfig          =
+        | regressions
+-------------------+-------+---------------+----------+--------------------=
+--------+------------
+rk3399-gru-kevin   | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chr=
+omebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/624b91aa9ad26cd7abae06ec
+
+  Results:     88 PASS, 4 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20220401.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
+/624b91aa9ad26cd7abae070e
+        failing since 27 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
+6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-04-05T00:47:16.258647  /lava-6021610/1/../bin/lava-test-case
+    2022-04-05T00:47:16.269195  <8>[   33.851504] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+ =20
