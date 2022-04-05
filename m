@@ -2,111 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4B14F22C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 07:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DADAF4F23DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 09:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbiDEF7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 01:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
+        id S230254AbiDEHDG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 03:03:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbiDEF7S (ORCPT
+        with ESMTP id S230085AbiDEHDF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 01:59:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8DE69CC9;
-        Mon,  4 Apr 2022 22:57:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 482E8614F1;
-        Tue,  5 Apr 2022 05:57:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AA6C3411D;
-        Tue,  5 Apr 2022 05:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649138237;
-        bh=7pj/VsdJEt9B346xffaVvpgCX2CBQOykJf14EXzZNq0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CvL9Vo/v0oFs8BscK0R4DkbjqVqB/ijvs9Dvf/0+wSO5ndJuGDmNaZtmjdQEkbY8N
-         ub2//DjPmuykNyqCrmGIX0HV3OyALNL7Zyd5Ddgq3bZb2T4o02HAk21boncypmHAUC
-         hcgvW0BvjX344XDmIamrDYEhmDgFDtIv9J9Q3gjDWlCGAyKk8VFNZpr6/OMW3GVofy
-         Ks1TkN4vJSSeUZr+vnt7ynZixKIYRmu95sp3Q6mDB5BFFp+6C53ZSA9mb5uEowJx5/
-         1ttuVBrY9TT13sJsNg7QXe5a4DNHpQvRR0EFYHXeSDenxRq5tTSZQu7xZFELkcM+WV
-         Vh+swJGLRwQzQ==
-Date:   Tue, 5 Apr 2022 11:27:12 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        dmaengine@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH v6 5/8] dmaengine: dw: dmamux: Introduce RZN1 DMA router
- support
-Message-ID: <YkvaOKmamLF+Mp7m@matsya>
-References: <20220404133904.1296258-1-miquel.raynal@bootlin.com>
- <20220404133904.1296258-6-miquel.raynal@bootlin.com>
+        Tue, 5 Apr 2022 03:03:05 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A5411161;
+        Tue,  5 Apr 2022 00:01:07 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id d65so9604382qke.5;
+        Tue, 05 Apr 2022 00:01:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OzWpni0hfB4U8rh5IakRHfzMsXXrFTYsZJsWONlkI+g=;
+        b=nMGDi/nKfR8c8AuDDFih/q1pYmLkFOE3KhVW6i1OqBXDvKDvqXZts1kaJncQ6fL8c3
+         NNNtJAQ7LBeFGShUBMJffZpezhjzLn9DKE2hzF/urN2MryhwLwPNtAVo/aE5q3FiEBYN
+         mLqLQdTZG8F2EVQcKVKprjNlJbBCcZ/ot+swbDbrAqaqNZM9ydV+KBkCfTVJsFRZh9z9
+         Icg3Vzn9eusAlxOknqwc1JKTMKPVoQXgBS3Fyr+CyFi3Jupo565E5JWsvwzTxGl+HE7q
+         5256H2uyTaqH6qXmg+bjA6GDB9zysevBYC7xBYE7ny7w2T/pCtOQ7+32IEDAdnqfqxHW
+         bwSA==
+X-Gm-Message-State: AOAM532CVaENaBYdeFsJ8Efh3TEphA9g7PUZyX7oISRLys+IpOihM2tk
+        JziSNk02yHVEQ22LPIWKvaqbwRrqdPlC/g==
+X-Google-Smtp-Source: ABdhPJxZ9XHilEAzBKdGN91scVnqrNSbsJW11pL8Oj5104r6ualuQ3WkPsmVGi3P9qsRgPka57VJCg==
+X-Received: by 2002:a37:ef13:0:b0:680:fc96:f63a with SMTP id j19-20020a37ef13000000b00680fc96f63amr1288373qkk.248.1649142066650;
+        Tue, 05 Apr 2022 00:01:06 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 21-20020ac85715000000b002e1ce9605ffsm10793638qtw.65.2022.04.05.00.01.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Apr 2022 00:01:06 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2eb888cf7e7so37293077b3.13;
+        Tue, 05 Apr 2022 00:01:06 -0700 (PDT)
+X-Received: by 2002:a81:3d81:0:b0:2eb:8069:5132 with SMTP id
+ k123-20020a813d81000000b002eb80695132mr1471199ywa.438.1649142066072; Tue, 05
+ Apr 2022 00:01:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220404133904.1296258-6-miquel.raynal@bootlin.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220404100508.3209-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220404100508.3209-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Apr 2022 09:00:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW9CjzEN5jbrgjHY+HaPN9EJDD8cPGTOxgBf+fHrMX8Uw@mail.gmail.com>
+Message-ID: <CAMuHMdW9CjzEN5jbrgjHY+HaPN9EJDD8cPGTOxgBf+fHrMX8Uw@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: renesas_sdhi: special 4tap settings only apply to HS400
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 04-04-22, 15:39, Miquel Raynal wrote:
-> The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
-> dmamux register located in the system control area which can take up to
-> 32 requests (16 per DMA controller). Each DMA channel can be wired to
-> two different peripherals.
-> 
-> We need two additional information from the 'dmas' property: the channel
-> (bit in the dmamux register) that must be accessed and the value of the
-> mux for this channel.
-> 
-> Aside from the driver introduction, as these devices are described as
-> subnodes of the system controller, we also need the system controller
-> (clock) driver to populate its children manually. Starting from now on,
-> one child can be the dmamux.
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
->  drivers/clk/renesas/r9a06g032-clocks.c |   3 +-
+On Tue, Apr 5, 2022 at 2:26 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Previous documentation was vague, so we included SDR104 for slow SDnH
+> clock settings. It turns out now, that it is only needed for HS400.
+>
+> Fixes: bb6d3fa98a41 ("clk: renesas: rcar-gen3: Switch to new SD clock handling")
+> Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-This should be a different patch, not in this...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> +++ b/drivers/dma/dw/rzn1-dmamux.c
-> @@ -0,0 +1,157 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+Gr{oetje,eeting}s,
 
-...
+                        Geert
 
-> +
-> +MODULE_LICENSE("GPL");
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This is not consistent with the SPDX tag..
-
-> +MODULE_AUTHOR("Miquel Raynal <miquel.raynal@bootlin.com");
-> +MODULE_DESCRIPTION("Renesas RZ/N1 DMAMUX driver");
-> -- 
-> 2.27.0
-
--- 
-~Vinod
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
