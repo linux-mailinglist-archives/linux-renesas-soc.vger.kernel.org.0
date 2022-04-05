@@ -2,32 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662044F223B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 06:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94C534F227E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 07:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbiDEEti (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 00:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36432 "EHLO
+        id S229713AbiDEFPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 01:15:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbiDEEtL (ORCPT
+        with ESMTP id S229696AbiDEFPf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 00:49:11 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D5B15A30
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Apr 2022 21:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Cbu5imkSxmYw8BD7MxQU3rR2N6h6
-        Y4uRLJS6hFCxJB0=; b=uroHnEP3KHV/eYhuNvbJOVEou/nJHePNgdHzii+CfUnW
-        DrOF4BRUlcjVXePd9soij7tZg5gwyUoyiFcVicC4pcmU4uLK7CTT4VtezkmHUB/c
-        /grlmS+lCSMPyZ1Z/K4xpVkHdRYvRCmlTGqGck35EsxI2Vv1yLMWyUJajG0+raY=
-Received: (qmail 2125024 invoked from network); 5 Apr 2022 06:45:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2022 06:45:22 +0200
-X-UD-Smtp-Session: l3s3148p1@Diph6eDbFNwgAQnoAHlrAKkk7l/QScWc
-Date:   Tue, 5 Apr 2022 06:45:18 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tue, 5 Apr 2022 01:15:35 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B260494;
+        Mon,  4 Apr 2022 22:13:37 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2e68c95e0f9so124231257b3.0;
+        Mon, 04 Apr 2022 22:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=vExsGhbuGDTgRyjW6nsfnayP9D5NmT9wV3d2NDaVDlA=;
+        b=iEEMqo/gdMqZDaeJ8ngvcLvi7M/MxYHDLLBWCCDlrLQkXuvHn/p+mJdjNKyIpLwOEw
+         FgvQxrR7H8h3oyOw1gqXfbWnVogSA4UOn2y46Om0907kQq0XDRBtB5HYe7r8tTSlCXv3
+         5eB99n9v5BBw+gI8AYX6KEKmw/jTsNbBSYkQApZW+79VauduYczHhGcsqXIYPnfMI3LM
+         iH9irl55DqckLefCEkk+T8HaZk2OLu7jGFPuH3cmRm1DrOXqchJKw8iN/aVKT/5v6Mku
+         OYPro0IijdnYdP7K86XPcVDzkmN04uK+UXC8bmH09begZngQunt6FxOWsa2ARxQnaJlX
+         Sh3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=vExsGhbuGDTgRyjW6nsfnayP9D5NmT9wV3d2NDaVDlA=;
+        b=4neNX2ByxjMnOiFdvRoAfstpl09j7dyidB9oww2zGI082roLV8hBGRMaETWHDUMO1O
+         sv+LmBsO8RghFk1GdqRlHAT0zuHU29G0WsOEzK9iZ0qUcWDCdLMHGRk2v9oq9vCj4pDw
+         BfcxWU9D/Vq0D+PrirrMeDLCYL60J3gRLaACc1zGXlWWqYiflOv6+veQy/YbiSLzfeBd
+         cCOL2vhJscTuxcDhDripwTwMpCsbRCfIcIcHGt/NcOkrurgc49VquIQ6+E7JR3zPvgAX
+         BE/TR+oZfN2xk+dsc2wiXJFPvu1hyzsVdVtgzjtY32Hkkk957nEn7vicGyYvBGkHpnSX
+         91QA==
+X-Gm-Message-State: AOAM532W7x6WJIgOD+lWPVdklOemybVWPKGJWyih2tmMrxJLBwcvdsL6
+        U0DL27/YXqlvuu2A+rHGzLGIOXmhDsTPJg0Ml4O0C0SHmmnUKQ==
+X-Google-Smtp-Source: ABdhPJzkKqwaQo8Q3QAxPhyp/Mpg9znQAfCPlsdm3+WUQh6q6jkj8gyvWAI3sawXFa/tnpmEjORexlXzyqTgZx3MXDI=
+X-Received: by 2002:a81:d0d:0:b0:2ea:61b1:181d with SMTP id
+ 13-20020a810d0d000000b002ea61b1181dmr1295727ywn.16.1649135616943; Mon, 04 Apr
+ 2022 22:13:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220404172322.32578-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yks3Q75ZrUkXSjwz@ninjato> <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
+ <YkvJXu7Y6Tc68U9e@shikoro>
+In-Reply-To: <YkvJXu7Y6Tc68U9e@shikoro>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 5 Apr 2022 06:13:11 +0100
+Message-ID: <CA+V-a8uPSr6+xcyqmBXZzuPb04v8KLNRou5Y+QvC7ibuAU_2Ng@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mmc: renesas_internal_dmac: Fix typo's
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -36,75 +65,35 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 2/2] mmc: renesas_internal_dmac: Fix typo's
-Message-ID: <YkvJXu7Y6Tc68U9e@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220404172322.32578-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Yks3Q75ZrUkXSjwz@ninjato>
- <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XGw+3cSwhZWV2vXx"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Apr 5, 2022 at 5:45 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > > > -     /* This DMAC cannot handle if buffer is not 128-bytes alignment */
+> > > > +     /* This DMAC cannot handle if buffer is not 128-bytes aligned */
+> > >
+> > > Well, as we are here now, I think this can be further improved.
+> > >
+> > "The internal DMAC supports 128-bytes aligned buffers only", does this
+> > sound good?
+>
+> I'd think it should be "128 byte aligned"? But I can't explain why, just
+> a gut feeling.
+>
+Fine by me.
 
---XGw+3cSwhZWV2vXx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Let me know your thoughts on patch 1/2, I'll send a v2 with updated comment.
 
-
-> > > -     /* This DMAC cannot handle if buffer is not 128-bytes alignment */
-> > > +     /* This DMAC cannot handle if buffer is not 128-bytes aligned */
-> >
-> > Well, as we are here now, I think this can be further improved.
-> >
-> "The internal DMAC supports 128-bytes aligned buffers only", does this
-> sound good?
-
-I'd think it should be "128 byte aligned"? But I can't explain why, just
-a gut feeling.
-
-Otherwise good!
-
-
---XGw+3cSwhZWV2vXx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJLyVoACgkQFA3kzBSg
-KbbStw/9FM9rKMQ30IKzCdiUkW37SCGDxC3zsb4B8ekiSgarbLM4gTKacYLVB0SE
-N8CAHx/Zc33WxgmVXx0UOWmrzN24zEBq1NtH20I0+Bvspl94UZ7XbLq3eJ53fbx+
-1d5vnZFyo0Je5lFGlUy9aKAsMfKG+Jk1lI6uAFsJR8t/D7e0s1b3i9ZUB4U5bFAl
-fHAXT/ZvTl3cnX9vLcoeH+DWZjBYqU42JI4qqof5aVdN+pbDialUOuZvqUyvKHUM
-t9FHV/mKnnGsMOycEX6Cb4hGEB9xNOJjuxXu3gw93WZHH52UQAKG80OFbtdggT/e
-78rIpPlzwDNmYd5QXc1aGECHRfH2jCu5pDitk/8uRjSxs3gKyHe6noaQ4DnYNi8c
-JKG9X6KsQlf+5M3OBgOdRM2Q9sMTv00l07av9dxfTiS52fPEBxIbRlhnoJ7XKEn8
-4NgcNN32sQ5hu2pKQyKpT+o1LQ94K/1m3UHSl26/ggtrWvr3P+ybCKG6lUpElsnm
-q6QV1lBjY+8Iq4Dgx9OSh4a5ZxfTaSjeq/SrDgzkTRiD2nyEs7NCnNrcdZwIbYWA
-q0rSBHDedP0Oqe6JpgcJfOJxTPYPF9T1PItSpp8fYIgVBFmOnzScmp7nRG/E7aPg
-DOSmkYW1svjwtJsWXLvfV7gFs+q847A3STZexo+A8BHc0JJVTVE=
-=lfpM
------END PGP SIGNATURE-----
-
---XGw+3cSwhZWV2vXx--
+Cheers,
+Prabhakar
