@@ -2,98 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C534F227E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 07:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE4B14F22C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 07:57:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiDEFPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 01:15:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55266 "EHLO
+        id S230002AbiDEF7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 01:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiDEFPf (ORCPT
+        with ESMTP id S230008AbiDEF7S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 01:15:35 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B260494;
-        Mon,  4 Apr 2022 22:13:37 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2e68c95e0f9so124231257b3.0;
-        Mon, 04 Apr 2022 22:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=vExsGhbuGDTgRyjW6nsfnayP9D5NmT9wV3d2NDaVDlA=;
-        b=iEEMqo/gdMqZDaeJ8ngvcLvi7M/MxYHDLLBWCCDlrLQkXuvHn/p+mJdjNKyIpLwOEw
-         FgvQxrR7H8h3oyOw1gqXfbWnVogSA4UOn2y46Om0907kQq0XDRBtB5HYe7r8tTSlCXv3
-         5eB99n9v5BBw+gI8AYX6KEKmw/jTsNbBSYkQApZW+79VauduYczHhGcsqXIYPnfMI3LM
-         iH9irl55DqckLefCEkk+T8HaZk2OLu7jGFPuH3cmRm1DrOXqchJKw8iN/aVKT/5v6Mku
-         OYPro0IijdnYdP7K86XPcVDzkmN04uK+UXC8bmH09begZngQunt6FxOWsa2ARxQnaJlX
-         Sh3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=vExsGhbuGDTgRyjW6nsfnayP9D5NmT9wV3d2NDaVDlA=;
-        b=4neNX2ByxjMnOiFdvRoAfstpl09j7dyidB9oww2zGI082roLV8hBGRMaETWHDUMO1O
-         sv+LmBsO8RghFk1GdqRlHAT0zuHU29G0WsOEzK9iZ0qUcWDCdLMHGRk2v9oq9vCj4pDw
-         BfcxWU9D/Vq0D+PrirrMeDLCYL60J3gRLaACc1zGXlWWqYiflOv6+veQy/YbiSLzfeBd
-         cCOL2vhJscTuxcDhDripwTwMpCsbRCfIcIcHGt/NcOkrurgc49VquIQ6+E7JR3zPvgAX
-         BE/TR+oZfN2xk+dsc2wiXJFPvu1hyzsVdVtgzjtY32Hkkk957nEn7vicGyYvBGkHpnSX
-         91QA==
-X-Gm-Message-State: AOAM532W7x6WJIgOD+lWPVdklOemybVWPKGJWyih2tmMrxJLBwcvdsL6
-        U0DL27/YXqlvuu2A+rHGzLGIOXmhDsTPJg0Ml4O0C0SHmmnUKQ==
-X-Google-Smtp-Source: ABdhPJzkKqwaQo8Q3QAxPhyp/Mpg9znQAfCPlsdm3+WUQh6q6jkj8gyvWAI3sawXFa/tnpmEjORexlXzyqTgZx3MXDI=
-X-Received: by 2002:a81:d0d:0:b0:2ea:61b1:181d with SMTP id
- 13-20020a810d0d000000b002ea61b1181dmr1295727ywn.16.1649135616943; Mon, 04 Apr
- 2022 22:13:36 -0700 (PDT)
+        Tue, 5 Apr 2022 01:59:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8DE69CC9;
+        Mon,  4 Apr 2022 22:57:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 482E8614F1;
+        Tue,  5 Apr 2022 05:57:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AA6C3411D;
+        Tue,  5 Apr 2022 05:57:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649138237;
+        bh=7pj/VsdJEt9B346xffaVvpgCX2CBQOykJf14EXzZNq0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CvL9Vo/v0oFs8BscK0R4DkbjqVqB/ijvs9Dvf/0+wSO5ndJuGDmNaZtmjdQEkbY8N
+         ub2//DjPmuykNyqCrmGIX0HV3OyALNL7Zyd5Ddgq3bZb2T4o02HAk21boncypmHAUC
+         hcgvW0BvjX344XDmIamrDYEhmDgFDtIv9J9Q3gjDWlCGAyKk8VFNZpr6/OMW3GVofy
+         Ks1TkN4vJSSeUZr+vnt7ynZixKIYRmu95sp3Q6mDB5BFFp+6C53ZSA9mb5uEowJx5/
+         1ttuVBrY9TT13sJsNg7QXe5a4DNHpQvRR0EFYHXeSDenxRq5tTSZQu7xZFELkcM+WV
+         Vh+swJGLRwQzQ==
+Date:   Tue, 5 Apr 2022 11:27:12 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        dmaengine@vger.kernel.org,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH v6 5/8] dmaengine: dw: dmamux: Introduce RZN1 DMA router
+ support
+Message-ID: <YkvaOKmamLF+Mp7m@matsya>
+References: <20220404133904.1296258-1-miquel.raynal@bootlin.com>
+ <20220404133904.1296258-6-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220404172322.32578-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Yks3Q75ZrUkXSjwz@ninjato> <CA+V-a8skF4h6yhjSFw5PXQEbgKEQt6kMs9bEsO3OCNfE1hu46A@mail.gmail.com>
- <YkvJXu7Y6Tc68U9e@shikoro>
-In-Reply-To: <YkvJXu7Y6Tc68U9e@shikoro>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 5 Apr 2022 06:13:11 +0100
-Message-ID: <CA+V-a8uPSr6+xcyqmBXZzuPb04v8KLNRou5Y+QvC7ibuAU_2Ng@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mmc: renesas_internal_dmac: Fix typo's
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220404133904.1296258-6-miquel.raynal@bootlin.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 5:45 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > > > -     /* This DMAC cannot handle if buffer is not 128-bytes alignment */
-> > > > +     /* This DMAC cannot handle if buffer is not 128-bytes aligned */
-> > >
-> > > Well, as we are here now, I think this can be further improved.
-> > >
-> > "The internal DMAC supports 128-bytes aligned buffers only", does this
-> > sound good?
->
-> I'd think it should be "128 byte aligned"? But I can't explain why, just
-> a gut feeling.
->
-Fine by me.
+On 04-04-22, 15:39, Miquel Raynal wrote:
+> The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
+> dmamux register located in the system control area which can take up to
+> 32 requests (16 per DMA controller). Each DMA channel can be wired to
+> two different peripherals.
+> 
+> We need two additional information from the 'dmas' property: the channel
+> (bit in the dmamux register) that must be accessed and the value of the
+> mux for this channel.
+> 
+> Aside from the driver introduction, as these devices are described as
+> subnodes of the system controller, we also need the system controller
+> (clock) driver to populate its children manually. Starting from now on,
+> one child can be the dmamux.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/clk/renesas/r9a06g032-clocks.c |   3 +-
 
-Let me know your thoughts on patch 1/2, I'll send a v2 with updated comment.
+This should be a different patch, not in this...
 
-Cheers,
-Prabhakar
+> +++ b/drivers/dma/dw/rzn1-dmamux.c
+> @@ -0,0 +1,157 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+
+...
+
+> +
+> +MODULE_LICENSE("GPL");
+
+This is not consistent with the SPDX tag..
+
+> +MODULE_AUTHOR("Miquel Raynal <miquel.raynal@bootlin.com");
+> +MODULE_DESCRIPTION("Renesas RZ/N1 DMAMUX driver");
+> -- 
+> 2.27.0
+
+-- 
+~Vinod
