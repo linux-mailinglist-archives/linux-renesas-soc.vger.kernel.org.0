@@ -2,104 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF564F4589
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 00:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FEAF4F54FB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 07:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238592AbiDEULy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 16:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
+        id S245681AbiDFFXt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Apr 2022 01:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573304AbiDESth (ORCPT
+        with ESMTP id S1587752AbiDFAKQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 14:49:37 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E1AAF1F0;
-        Tue,  5 Apr 2022 11:47:35 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 908BC200006;
-        Tue,  5 Apr 2022 18:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649184454;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Xxdt0tyZWd8zeGpcOomewbA36qGbMLLM+1tWmHX19c8=;
-        b=NJFDnHyej9QXSnfYFN+Nd9Y6DySfU/M34GWjlzY/xKl5ohq8pspgXHHbCZ2VnRB6xm0mP6
-        pDB8+w8a6Ja8ftDsQQcTAX4Y9+9t2IGNZxprl72OGFuwe3M4bOKdFEM/s6tZd8DbozcxvY
-        EsyPdSEv0o2UzQhmFBdP/4mG4nhq6ySpMYMKVAWwQSnErp7mYGxQk0LiLKh2ErQ6ww2iW1
-        qUY/zR8rzya5GfuKAfkTn1wx58+DOm5aToTNEIYkhdjngk8rTw2H8j6bsK7X2OtwYYdfom
-        8TsYmWS9rROGKzFBvJKQrrB0BHzA5i13oSCo21Hi6wWlyM6cLTwSOEg4P0xU6Q==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        linux-rtc@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 7/7] ARM: dts: r9a06g032: Describe the RTC
-Date:   Tue,  5 Apr 2022 20:47:16 +0200
-Message-Id: <20220405184716.1578385-8-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
-References: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
+        Tue, 5 Apr 2022 20:10:16 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8C314FBA8
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Apr 2022 15:34:40 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id d185so577867pgc.13
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Apr 2022 15:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=7jg0Lt4RzOLdP4vva0SaQ4EORRb3nM5UhWTwYWC2jGE=;
+        b=vm8amBB7cwklyrInuiuG0wE0rMongLw8cwsqSeuPYZHdEdbt7/lH/Yyv0vBYZojDYS
+         ivgWFUBccOEipZekRDB/UBXH78AtsgES2dqu3OvcXBl1vGh2ExCUZbGV+u9YZKb+fFlo
+         bsZfOl6w3Ij/z3qnHlrA1Pcy8Z3e9T+skzC4jZDc2Cc5NndCt+RjsQdxYOAwsM9WE4Xz
+         Xfk702gE89gq6/HWg6lq+XME5lXEVQfNBsm6tPFbxg3ItIwtnTKRFsd5hBG2BqoJPR56
+         Ev+N0VAdFa+V2hE/mjh5OAGc1lntc461TibOeb89kUHQsJFYpPjq2toxpf72xjzqnT2J
+         +30Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=7jg0Lt4RzOLdP4vva0SaQ4EORRb3nM5UhWTwYWC2jGE=;
+        b=kwGtgdE6deENm6scWe1E7P90sUpLfrm8UtsXu1LqItDrPPA4fD0+jUZ6N1iLCyzhc0
+         d/jTgGUiVuqxN7hysCzFSEGsXBBTJROguokmuYY/UsnTZWBQ4teYYRXL4GUILABPUWcP
+         55w4ZjkOi8kMReCGSHiGeUD2isklRRGYQc6plIWBBS3jE2ad1Di0YCH4urtKtMGF2jPQ
+         nxvJuG09PTjU3rt7hx/pvotYQlshMtHEHU+p8d5iqTVIgLcDaE21o2amhsLTZQdn40/R
+         7yLktDtpcZjTYiLWpVz7V8KHL720aSHC3HCh3HYKYoFJnNJx91J35+/X5yhuTNgfS+r8
+         SYFQ==
+X-Gm-Message-State: AOAM5328kwjITSeA0XnuUutfBPybx7Yu7aiiVLThNbjRkU7HbeKUyf69
+        sSclY7zEq6gxYJG2TjHMT0uc6LyUbL3UP0XyG24=
+X-Google-Smtp-Source: ABdhPJyEWxY6AvqPAIrYfRg7P+okH/BSjfpPpCpBuMiGxbrtefnY+BHLc79iMNGKesMBxXfK73PwiQ==
+X-Received: by 2002:a63:cf12:0:b0:399:38a7:5063 with SMTP id j18-20020a63cf12000000b0039938a75063mr4585336pgg.311.1649198079814;
+        Tue, 05 Apr 2022 15:34:39 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id o1-20020a637e41000000b003804d0e2c9esm14094898pgn.35.2022.04.05.15.34.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 15:34:39 -0700 (PDT)
+Message-ID: <624cc3ff.1c69fb81.8d0b6.53e4@mx.google.com>
+Date:   Tue, 05 Apr 2022 15:34:39 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+X-Kernelci-Kernel: renesas-next-2022-04-04-v5.18-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline-nfs: 39 runs,
+ 1 regressions (renesas-next-2022-04-04-v5.18-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the SoC RTC which counts time and provides alarm support.
+renesas/next baseline-nfs: 39 runs, 1 regressions (renesas-next-2022-04-04-=
+v5.18-rc1)
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Regressions Summary
+-------------------
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 4288b935fcea..7d380a38c7cd 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -103,6 +103,18 @@ dmamux: dma-router@a0 {
- 			};
- 		};
- 
-+		rtc0: rtc@40006000 {
-+			compatible = "renesas,r9a06g032-rtc", "renesas,rzn1-rtc";
-+			reg = <0x40006000 0x1000>;
-+			interrupts = <GIC_SPI 66 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 67 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 68 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "alarm", "timer", "pps";
-+			clocks = <&sysctrl R9A06G032_HCLK_RTC>;
-+			clock-names = "hclk";
-+			status = "disabled";
-+		};
-+
- 		uart0: serial@40060000 {
- 			compatible = "renesas,r9a06g032-uart", "renesas,rzn1-uart", "snps,dw-apb-uart";
- 			reg = <0x40060000 0x400>;
--- 
-2.27.0
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
+
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2022-04-04-v5.18-rc1/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2022-04-04-v5.18-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      eee41de7440d0f559567f48dd5920f8155247174 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/624c8cf6557d5324a7ae068e
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/base=
+line-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
+-04-04-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/base=
+line-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220401.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/624c8cf6557d5324a7ae06b0
+        new failure (last pass: renesas-next-2022-02-25-v5.17-rc1)
+
+    2022-04-05T18:39:30.762908  /lava-6030975/1/../bin/lava-test-case
+    2022-04-05T18:39:30.799851  <8>[   37.835959] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+ =20
