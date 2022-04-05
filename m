@@ -2,105 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D60E44F3DC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 22:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11CC44F3E6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Apr 2022 22:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbiDEUMB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Apr 2022 16:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
+        id S240038AbiDEUMV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Apr 2022 16:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573189AbiDESOb (ORCPT
+        with ESMTP id S1573293AbiDEStW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Apr 2022 14:14:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C759386E3A;
-        Tue,  5 Apr 2022 11:12:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6208A618D5;
-        Tue,  5 Apr 2022 18:12:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4B6C385A8;
-        Tue,  5 Apr 2022 18:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649182351;
-        bh=RtSQnyTH2bGhJA1/9COYZ3axzbF+DTRbMhYJaQmigK4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bJXWYYG/tvvtzQ7mynkQmNmp4oWLRn5127jXucil0ZLUP2QwdSLkBd5VLlbiifoVL
-         MgsLY/BryAsTAHBk3L3Sqwke8Hs7z/Svxr1W1nPprI2+t4529BS7r4CQ986LY8AC/d
-         VpHb41kMYECay1Rhodz0/QvluhQC2I2d67+dYNNz5M3Bw5D7vYXNb7J74ah5beA2Qd
-         HJxJL8u8zj7a/ifUwE8hM3YLLOZdrQVuBi35vMjU9a+8qFX/bOR5RGWKdXyo0mvx5v
-         L9StbjsctvN910jBX2Ls6y7Yk7VsE7ZW9DZcknWApQcyYPsTfQV5pkAHKkvVzTRnc+
-         19d6NNVu+8Sjg==
-Received: by mail-il1-f180.google.com with SMTP id x9so170651ilc.3;
-        Tue, 05 Apr 2022 11:12:31 -0700 (PDT)
-X-Gm-Message-State: AOAM531rrObIDBJhGG5oxmBRGK90USUAfsY5v8di4WSmnM0rjVVxPVuG
-        GVqLF4VLPTT89asBePniNrzoC9YV6JQ9uCG42w==
-X-Google-Smtp-Source: ABdhPJxl778BPyM18iwKU9BBEuG8FWmDp6WxR6Z3mTcc8vTqYUBuaCKKMi20g9YQGtWiXGmB8EkjpVPbfq9ItDZJ7Uc=
-X-Received: by 2002:a05:6e02:2183:b0:2c7:fe42:7b07 with SMTP id
- j3-20020a056e02218300b002c7fe427b07mr2249890ila.302.1649182350732; Tue, 05
- Apr 2022 11:12:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220405081911.1349563-1-miquel.raynal@bootlin.com> <20220405081911.1349563-2-miquel.raynal@bootlin.com>
-In-Reply-To: <20220405081911.1349563-2-miquel.raynal@bootlin.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 5 Apr 2022 13:12:19 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK3VJ=5VxF5DgZh58zkmWkaAHu9TL9dYOAeTw5nry1Xrg@mail.gmail.com>
-Message-ID: <CAL_JsqK3VJ=5VxF5DgZh58zkmWkaAHu9TL9dYOAeTw5nry1Xrg@mail.gmail.com>
-Subject: Re: [PATCH v7 1/9] dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 5 Apr 2022 14:49:22 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3AB2AF1DD;
+        Tue,  5 Apr 2022 11:47:21 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 9DC36200004;
+        Tue,  5 Apr 2022 18:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649184439;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=AlS3iJ+EMBIdu3DwukTkmu3d5S17/P8BS9spNb/Ba7A=;
+        b=ovTLWGBmZBlXw85uPL5X6YZwA+kKi9xhS4WzLGT+Ktdp5ydyX1i+EiNrA6fGk2LH/8NNwH
+        k1dxdAJx6sXCstShEpnRSdnXhujo5MVJ4LtLn2hjEGZJv9SMPpd6ZuvpzzViZ90RE0lzDp
+        xA8SOqFrIEM/WJBP8/pkzO3iEJNIZcq23FifHctf0V3K5YRrV/oRmc0+034G+2D91qS3NC
+        +rOFdsAy1yVujV17FVbdPFd/IWLc4BYllOIKytXLXKU10V5O227K8HiRECHHkEmFZtD5KZ
+        LHIwXL0wFcUMk2TRUUB24mkSP+s0B3H7mfyxgJzXciQJJgNnC6Owsk4m+MBb9w==
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
         Gareth Williams <gareth.williams.jx@renesas.com>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-rtc@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 0/7] RZN1 RTC support
+Date:   Tue,  5 Apr 2022 20:47:09 +0200
+Message-Id: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 3:19 AM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
->
-> The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
-> dmamux register located in the system control area which can take up to
-> 32 requests (16 per DMA controller). Each DMA channel can be wired to
-> two different peripherals.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/dma/renesas,rzn1-dmamux.yaml     | 51 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rzn1-dmamux.yaml
+Hello,
 
-Please send to the DT list so checks run. I've already reviewed this,
-but what passes does change over time. Such as RiscV cpuidle patches
-that were picked up after 2 months on Thurs and sent to Linus on
-Fri... :(
+This small series adds support for the RZN1 RTC.
 
-Rob
+Despite its limitations, I found useful to at least have alarm and
+offset support.
+
+This depends on the previous sysctrl/dma/uart changes on the sysctrl
+side.
+
+Cheers,
+Miquèl
+
+Michel Pollet (1):
+  rtc: rzn1: Add new RTC driver
+
+Miquel Raynal (6):
+  dt-bindings: rtc: rzn1: Describe the RZN1 RTC
+  soc: renesas: rzn1-sysc: Export a function to enable/disable the RTC
+  rtc: rzn1: Add alarm support
+  rtc: rzn1: Add oscillator offset support
+  MAINTAINERS: Add myself as maintainer of the RZN1 RTC driver
+  ARM: dts: r9a06g032: Describe the RTC
+
+ .../bindings/rtc/renesas,rzn1-rtc.yaml        |  69 +++
+ MAINTAINERS                                   |   8 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  12 +
+ drivers/clk/renesas/r9a06g032-clocks.c        |  49 ++
+ drivers/rtc/Kconfig                           |   7 +
+ drivers/rtc/Makefile                          |   1 +
+ drivers/rtc/rtc-rzn1.c                        | 436 ++++++++++++++++++
+ include/linux/soc/renesas/r9a06g032-sysctrl.h |   2 +
+ 8 files changed, 584 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+ create mode 100644 drivers/rtc/rtc-rzn1.c
+
+-- 
+2.27.0
+
