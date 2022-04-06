@@ -2,40 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93D4B4F5BEA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 13:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C043E4F5BF4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 13:12:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238619AbiDFK7d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Apr 2022 06:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52748 "EHLO
+        id S1345966AbiDFLGb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Apr 2022 07:06:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236568AbiDFK6b (ORCPT
+        with ESMTP id S1355260AbiDFLFX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Apr 2022 06:58:31 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 362004F512D;
-        Wed,  6 Apr 2022 00:24:26 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,239,1643641200"; 
-   d="scan'208";a="116907861"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Apr 2022 16:24:25 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E4C9241D1F25;
-        Wed,  6 Apr 2022 16:24:23 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clocksource/drivers/renesas-ostm: Add support for RZ/V2L SoC
-Date:   Wed,  6 Apr 2022 08:24:17 +0100
-Message-Id: <20220406072417.14185-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        Wed, 6 Apr 2022 07:05:23 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B9952D903;
+        Wed,  6 Apr 2022 00:31:26 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A818910000A;
+        Wed,  6 Apr 2022 07:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649230282;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nHj5k5RzXeFddFrVB4M3iAfHYNCiMLQrlVcvkv7tNwY=;
+        b=QQ5TYeKl8nxr5lg5xsdiD7SuJg8yDXW1F3juR7fPgJYpvK08QuPE7EUW/W6PxBk35X/bkI
+        2U0fwd4SCh3wyKlp8+o3l5XiTMtU8kAtBrzRE13elbV53+4g2CzJA+kLcO9KSBQzgVqlN2
+        HKHJTi/YZPm66mEm/kY9Jz3HDTsV30BMXAa8RNcJNQVKdxgeP6v0mXxGNz7Dv16PI2PLcH
+        AGrY5R6n9401GPAOrJfN2ejcm4gL7AjqusI3PJVB7yLWrBYxCtA9pCgZcirL1dxBfN22nH
+        Ft8GXJLBCXyz8aKnfaojBfueyrreClpIfWdVsFYBTWE3eFgPq96WB/NRIFHVAg==
+Date:   Wed, 6 Apr 2022 09:31:17 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v7 1/9] dt-bindings: dmaengine: Introduce RZN1 dmamux
+ bindings
+Message-ID: <20220406093117.128bc7f1@xps13>
+In-Reply-To: <CAL_JsqK3VJ=5VxF5DgZh58zkmWkaAHu9TL9dYOAeTw5nry1Xrg@mail.gmail.com>
+References: <20220405081911.1349563-1-miquel.raynal@bootlin.com>
+        <20220405081911.1349563-2-miquel.raynal@bootlin.com>
+        <CAL_JsqK3VJ=5VxF5DgZh58zkmWkaAHu9TL9dYOAeTw5nry1Xrg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -44,31 +77,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The OSTM block is identical on Renesas RZ/G2L and RZ/V2L SoC's, so instead
-of adding dependency for each SoC's add dependency on ARCH_RZG2L. The
-ARCH_RZG2L config option is already selected by ARCH_R9A07G044 and
-ARCH_R9A07G054.
+Hi Rob,
 
-With the above change OSTM will be enabled on RZ/V2L SoC.
+robh@kernel.org wrote on Tue, 5 Apr 2022 13:12:19 -0500:
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clocksource/renesas-ostm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Tue, Apr 5, 2022 at 3:19 AM Miquel Raynal <miquel.raynal@bootlin.com> =
+wrote:
+> >
+> > The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
+> > dmamux register located in the system control area which can take up to
+> > 32 requests (16 per DMA controller). Each DMA channel can be wired to
+> > two different peripherals.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../bindings/dma/renesas,rzn1-dmamux.yaml     | 51 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 52 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/dma/renesas,rzn1-=
+dmamux.yaml =20
+>=20
+> Please send to the DT list so checks run. I've already reviewed this,
+> but what passes does change over time. Such as RiscV cpuidle patches
+> that were picked up after 2 months on Thurs and sent to Linus on
+> Fri... :(
 
-diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/renesas-ostm.c
-index 21d1392637b8..8da972dc1713 100644
---- a/drivers/clocksource/renesas-ostm.c
-+++ b/drivers/clocksource/renesas-ostm.c
-@@ -224,7 +224,7 @@ static int __init ostm_init(struct device_node *np)
- 
- TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
- 
--#ifdef CONFIG_ARCH_R9A07G044
-+#ifdef CONFIG_ARCH_RZG2L
- static int __init ostm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--- 
-2.17.1
+Oh, ok, no problem.
 
+Thanks,
+Miqu=C3=A8l
