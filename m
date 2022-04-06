@@ -2,125 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 340D64F5E23
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 14:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0AF4F5DFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 14:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbiDFM1S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Apr 2022 08:27:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35400 "EHLO
+        id S232050AbiDFMoa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Apr 2022 08:44:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232921AbiDFM1K (ORCPT
+        with ESMTP id S230324AbiDFMoE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Apr 2022 08:27:10 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB793B120E;
-        Wed,  6 Apr 2022 01:17:05 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id y38so2724931ybi.8;
-        Wed, 06 Apr 2022 01:17:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vrgQWoWyB5y62bEoUfojWKqj8rDJrUtN2w1+bXGXRNI=;
-        b=NKy9MbIr/mGh2TiFzd/eiHPj42EQXvCCaQeuYu/RvH7JJTLZdVUH0VcMDNsMMDfKfe
-         CrfWbqUshjJ1nYkUjy1oBFQESesK2xslFONY1luaUl0a6TP/oAk8Hcn//gITAXlHNHEj
-         oslvzJXMqjJgdssfKkxushn5ALO4npvXdNlMKR017hHxxyHTXjBRXuuik7ij9AAiTa9c
-         3yRx5BS8/OLXN3DOVG5/40nJhr7DMmMGXv3O4SOOfJKlKLIIvpJg1C/cjYxZpfBmzxo6
-         d6g5jCMsfKzPyDfqt0b0U12xjhh0dPmqMiNLYf3yo3F/RuqEeWmmqPev1TTtWpa963z0
-         onmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vrgQWoWyB5y62bEoUfojWKqj8rDJrUtN2w1+bXGXRNI=;
-        b=3SAQ6KKhn0mlkMaT/rzSjx9x1wGLJEvKiVXNhTMoyfw01goGEzvAA5Oeu80ecAHDHi
-         rs69YutNB6pi0vfM64GUoVzTTPQq5jbuNowAqs9gao95K52Ygl8251drisKABvJ9yaFu
-         foTzot71E8rc+LlV6714LtVf8BLa6ob/OX8YqeUhKmw06RWGEfElwSH359aqrbtvr2Hq
-         FZZ/bK/oLKWSbH8OhA8FmASf+mYHoDIg+5dLiPm+KXUnLVRtcgsHusnO+t4mL8TWvCm/
-         FNHZtN901Kx2jniLVPxNFFVfPsVK9bgl1UL+j7uUcXggQ10ZJ9+hlz/nRC2WxPxqu9Sv
-         fxFw==
-X-Gm-Message-State: AOAM530lKhZevOQvld3TyxkJTx/QHgzPx8F25ldLL2dd62MZMpI/bE/Q
-        UDD2y+crQkivpU88XmgEIHhamjJU9ldrv2EoxNY=
-X-Google-Smtp-Source: ABdhPJzIGX4X6wQ3/0KaVtUXKipS8SltQuKn2tGDJJTtWysBh46/b/bDrEbDdoAAe1895xTV1smSrAMigR3+jtt64cY=
-X-Received: by 2002:a25:e0d3:0:b0:63d:c615:afb8 with SMTP id
- x202-20020a25e0d3000000b0063dc615afb8mr5380270ybg.182.1649233024822; Wed, 06
- Apr 2022 01:17:04 -0700 (PDT)
+        Wed, 6 Apr 2022 08:44:04 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C794898A6;
+        Wed,  6 Apr 2022 01:45:44 -0700 (PDT)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 2AFF0C0380;
+        Wed,  6 Apr 2022 08:32:40 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id B5ACB4000E;
+        Wed,  6 Apr 2022 08:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649233953;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PZxxQo3dVhrsiwd8skvk945aAYTYNSp19GOHWGGNzKw=;
+        b=iLXbCHleLr0fpEmdF/teBjhd0vz4JA7GOX0jtRRTjHWBZdFABwBbIZB5+yNdAOKov3e//P
+        aAxRAdKQbIsViI0I4v59pAKI5B+wohE/Rt+h9f104Nr+W0A8WrWxRSceWBkEujAGVh14Iu
+        3TM1K+Ec0kFl82tb0qkCcZznT7BFLu/jTz5VnzdC5pb0ck/33Pa3GhriSFj61KQ1PlYNNE
+        XRSfOR/piCotExVeUuBw3OKbUT8gr280ZcsTCG6uMKL6OCH0KFD6rX34mwvKxr0ib3vltz
+        XKckXDirb/yME6NU1TYHXvhSMesIW0nhp5u4WgsFPvnBR2u/3MiyiB6JVffGKw==
+Date:   Wed, 6 Apr 2022 10:32:31 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        linux-rtc@vger.kernel.org
+Subject: Re: [PATCH 2/7] soc: renesas: rzn1-sysc: Export a function to
+ enable/disable the RTC
+Message-ID: <Yk1QH71VskeACqqm@mail.local>
+References: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
+ <20220405184716.1578385-3-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-References: <20220406072417.14185-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <6419fd7b-8213-3a51-268b-a9602c770991@linaro.org>
-In-Reply-To: <6419fd7b-8213-3a51-268b-a9602c770991@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 6 Apr 2022 09:16:38 +0100
-Message-ID: <CA+V-a8sZdrpYMy-FSbaZzbKw_F_jEhTpOExPXr8_jDXD4_pooA@mail.gmail.com>
-Subject: Re: [PATCH] clocksource/drivers/renesas-ostm: Add support for RZ/V2L SoC
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220405184716.1578385-3-miquel.raynal@bootlin.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+On 05/04/2022 20:47:11+0200, Miquel Raynal wrote:
+> There are two RTC registers located within the system controller.
+> 
+> Like with the dmamux register, let's add a new helper to enable/disable
+> the power, reset and clock of the RTC.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/clk/renesas/r9a06g032-clocks.c        | 49 +++++++++++++++++++
+>  include/linux/soc/renesas/r9a06g032-sysctrl.h |  2 +
+>  2 files changed, 51 insertions(+)
+> 
+> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+> index 1df56d7ab3e1..7e61db39a43b 100644
+> --- a/drivers/clk/renesas/r9a06g032-clocks.c
+> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
+> @@ -26,6 +26,13 @@
+>  #include <dt-bindings/clock/r9a06g032-sysctrl.h>
+>  
+>  #define R9A06G032_SYSCTRL_DMAMUX 0xA0
+> +#define R9A06G032_SYSCTRL_PWRCTRL_RTC 0x140
+> +#define   R9A06G032_SYSCTRL_PWRCTRL_RTC_CLKEN BIT(0)
+> +#define   R9A06G032_SYSCTRL_PWRCTRL_RTC_RST BIT(1)
+> +#define   R9A06G032_SYSCTRL_PWRCTRL_RTC_IDLE_REQ BIT(2)
+> +#define   R9A06G032_SYSCTRL_PWRCTRL_RTC_RSTN_FW BIT(3)
+> +#define R9A06G032_SYSCTRL_PWRSTAT_RTC 0x144
+> +#define   R9A06G032_SYSCTRL_PWRSTAT_RTC_IDLE BIT(1)
+>  
+>  struct r9a06g032_gate {
+>  	u16 gate, reset, ready, midle,
+> @@ -343,6 +350,48 @@ int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val)
+>  }
+>  EXPORT_SYMBOL_GPL(r9a06g032_sysctrl_set_dmamux);
+>  
+> +/* Exported helper to enable/disable the RTC */
+> +int r9a06g032_sysctrl_enable_rtc(bool enable)
+> +{
+> +	unsigned long flags;
+> +	u32 val;
+> +
+> +	if (!sysctrl_priv)
+> +		return -EPROBE_DEFER;
+> +
+> +	spin_lock_irqsave(&sysctrl_priv->lock, flags);
+> +
+> +	if (enable) {
+> +		val = readl(sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val &= ~R9A06G032_SYSCTRL_PWRCTRL_RTC_RST;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val |= R9A06G032_SYSCTRL_PWRCTRL_RTC_CLKEN;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val |= R9A06G032_SYSCTRL_PWRCTRL_RTC_RSTN_FW;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val &= ~R9A06G032_SYSCTRL_PWRCTRL_RTC_IDLE_REQ;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val = readl(sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRSTAT_RTC);
+> +		if (val & R9A06G032_SYSCTRL_PWRSTAT_RTC_IDLE)
+> +			return -EIO;
+> +	} else {
+> +		val = readl(sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val |= R9A06G032_SYSCTRL_PWRCTRL_RTC_IDLE_REQ;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val &= ~R9A06G032_SYSCTRL_PWRCTRL_RTC_RSTN_FW;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val &= ~R9A06G032_SYSCTRL_PWRCTRL_RTC_CLKEN;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +		val |= R9A06G032_SYSCTRL_PWRCTRL_RTC_RST;
+> +		writel(val, sysctrl_priv->reg + R9A06G032_SYSCTRL_PWRCTRL_RTC);
+> +	}
+> +
+> +	spin_unlock_irqrestore(&sysctrl_priv->lock, flags);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(r9a06g032_sysctrl_enable_rtc);
+> +
+>  /* register/bit pairs are encoded as an uint16_t */
+>  static void
+>  clk_rdesc_set(struct r9a06g032_priv *clocks,
+> diff --git a/include/linux/soc/renesas/r9a06g032-sysctrl.h b/include/linux/soc/renesas/r9a06g032-sysctrl.h
+> index 066dfb15cbdd..914c8789149c 100644
+> --- a/include/linux/soc/renesas/r9a06g032-sysctrl.h
+> +++ b/include/linux/soc/renesas/r9a06g032-sysctrl.h
+> @@ -4,8 +4,10 @@
+>  
+>  #ifdef CONFIG_CLK_R9A06G032
+>  int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val);
+> +int r9a06g032_sysctrl_enable_rtc(bool enable);
+>  #else
+>  static inline int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
+> +static inline int r9a06g032_sysctrl_enable_rtc(bool enable) { return -ENODEV; }
 
-On Wed, Apr 6, 2022 at 9:03 AM Daniel Lezcano <daniel.lezcano@linaro.org> w=
-rote:
->
-> On 06/04/2022 09:24, Lad Prabhakar wrote:
-> > The OSTM block is identical on Renesas RZ/G2L and RZ/V2L SoC's, so inst=
-ead
-> > of adding dependency for each SoC's add dependency on ARCH_RZG2L. The
-> > ARCH_RZG2L config option is already selected by ARCH_R9A07G044 and
-> > ARCH_R9A07G054.
-> >
-> > With the above change OSTM will be enabled on RZ/V2L SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >   drivers/clocksource/renesas-ostm.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/r=
-enesas-ostm.c
-> > index 21d1392637b8..8da972dc1713 100644
-> > --- a/drivers/clocksource/renesas-ostm.c
-> > +++ b/drivers/clocksource/renesas-ostm.c
-> > @@ -224,7 +224,7 @@ static int __init ostm_init(struct device_node *np)
-> >
-> >   TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
-> >
-> > -#ifdef CONFIG_ARCH_R9A07G044
-> > +#ifdef CONFIG_ARCH_RZG2L
->
-> I'm not finding this option anywhere
->
-ARCH_RZG2L config option is part of v5.18-rc1 [0]
+Couldn't that be handled using the reset subsystem to avoid leaking a
+random API in the RTC driver? (and that would remove the build
+dependency)
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/drivers/soc/renesas/Kconfig?h=3Dv5.18-rc1#n43
+>  #endif
+>  
+>  #endif /* __LINUX_SOC_RENESAS_R9A06G032_SYSCTRL_H__ */
+> -- 
+> 2.27.0
+> 
 
-Cheers,
-Prabhakar
->
-> >   static int __init ostm_probe(struct platform_device *pdev)
-> >   {
-> >       struct device *dev =3D &pdev->dev;
->
->
-> --
-> <http://www.linaro.org/> Linaro.org =E2=94=82 Open source software for AR=
-M SoCs
->
-> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-> <http://twitter.com/#!/linaroorg> Twitter |
-> <http://www.linaro.org/linaro-blog/> Blog
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
