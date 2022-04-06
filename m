@@ -2,89 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9704F65B1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 18:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59BC64F65CE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Apr 2022 18:43:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237965AbiDFQiq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Apr 2022 12:38:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41120 "EHLO
+        id S237972AbiDFQkt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Apr 2022 12:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239021AbiDFQid (ORCPT
+        with ESMTP id S238151AbiDFQkd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Apr 2022 12:38:33 -0400
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4390230F0E7;
-        Wed,  6 Apr 2022 06:57:38 -0700 (PDT)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-df22f50e0cso2977270fac.3;
-        Wed, 06 Apr 2022 06:57:38 -0700 (PDT)
+        Wed, 6 Apr 2022 12:40:33 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5E71B60FF
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Apr 2022 06:59:37 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id b21so4257676lfb.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Apr 2022 06:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=1+/9uGNU/c0SUbZVyjyQElYWMN/Sm+TEsoVZ+LA9Dwg=;
+        b=sznZSgTKnvb3REJi+cKW4bbvW2SCuFJQeNMNdl1UK7abPOiMjmtBnyzm3jiH38FVML
+         VSaVoJ5E6zEvkyXLndR+PxA6JfqZOwO6KtDnV3hez/Arx1Wtr4A25zH315UtaVoxDi5P
+         qFcS703uo8+eCkYtqLlPLafWcmeP+ifwLeVAe03BNOLF4H9lxO5ZZe/Xf4Bpls+X/DMu
+         SShkA7IapxBRcfJHuqFR9okeFEiN4BDX3egCL6iDe31BuBf0v17dtMD/P7kpjJ+Y20yR
+         kJplnuy3A6Uz2FV4BzeDv41iVYc/oyvyhoZWTayKoXIDk9gF2f/VcI5GAXVJ06lwcs26
+         fryA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IoTrH399V4w8zNS3hx92QeecL6aapQBwIZRVFzEFkyA=;
-        b=AydhoGsNhOvR4qLXcmo7wICq+phpgbjf0Q0ePxytNG8olancLb3uKb+bWozUGzKkgN
-         nRztUoqOIPks9vpQyUZMXQaUMzCJvPGV+rVpzlNGr9vlj7TJSSmNZxMRN1s72KhwtXf+
-         6qw8nl2DIsPqkp+wOhH2TEpmQ08V0IMj9xViNzdVd6GpW+EyzjYJCAPpMJcx5kyozDZc
-         CLaDnaMYcuOa5axlWCp/P2osbxAPt2BsDoAwTmZ8b4wZaEvTZi7ozfyx9mxG9LWmvFVp
-         PyW7SICCjoqU71MQNdHZ1stDFxSsmcIs00hR+A/op8HQwOn1t9hzHrl3viOUT87Sptis
-         v5rw==
-X-Gm-Message-State: AOAM5329/G1rcUEBlq5M+rP4da0YN4hXhkW9RJtlrwtP5yghDG2BXQpq
-        MkmquYTfvx4p8u3jZ6gdiA==
-X-Google-Smtp-Source: ABdhPJyVkLh7kt44PDdY781513MiisiGrnzUUrMoGmsbykheJJX4LewN7PtkNvDUojOPiN2cC9nuCg==
-X-Received: by 2002:a05:6870:51cc:b0:e1:e6ee:448f with SMTP id b12-20020a05687051cc00b000e1e6ee448fmr3880243oaj.136.1649253457860;
-        Wed, 06 Apr 2022 06:57:37 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id el17-20020a056870f69100b000de9672ac3csm6478072oab.52.2022.04.06.06.57.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 06:57:37 -0700 (PDT)
-Received: (nullmailer pid 2155527 invoked by uid 1000);
-        Wed, 06 Apr 2022 13:57:35 -0000
-Date:   Wed, 6 Apr 2022 08:57:35 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC PATCH] of/platform: Drop static setup of IRQ resource from
- DT core
-Message-ID: <Yk2cTwmYqAZf4sCz@robh.at.kernel.org>
-References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=1+/9uGNU/c0SUbZVyjyQElYWMN/Sm+TEsoVZ+LA9Dwg=;
+        b=drGGJwCu4KIAaCcp7sGoAyOl35I1shJCgp/rQ8kFeFZDHM/ccqQ7zhy5eMgimGAW9W
+         i24+A1Vm1RF7ov+VOSh1nue5mBJI4lIDvV8XV3ibH9vRcdOxemtAlGchRkPAf2fK41Ff
+         lzw4CYIlbQ9OiVfwoy45ZzL6UsPwgAbgzDwAXUmroEbK3JBBkPeUKlRlhJMi1gH0llUO
+         dWrHEk1MkXJFFct/P9HwVRqlI3GaCnrpvTSpf0ETsaNPJUgBPpY6WrnJHqolnRUwue4E
+         SshKYX+1HBmTwKAfxPrJgj3hbT0vEArq+VmXQwdOdTsr0YUP7xQiGkc5J7mc6/N5z6Io
+         0/+A==
+X-Gm-Message-State: AOAM532gFQsD7ILUKyOUpn8LVpiTFnVtfQXfLQ3kTEWtuEXTp2QVwo4x
+        S2FRJRam1eiHcuqv+/2+FLJLAJlXh25NduFb8+vQ9w==
+X-Google-Smtp-Source: ABdhPJy+0n1cWazIOvM6G43K7umQC1gfmdgukS3y10rRQbQb5twaDBgVfSuwfuLHCtMeQCgHu4RbYXGpEVOB3q64a7Q=
+X-Received: by 2002:ac2:4e98:0:b0:448:3039:d170 with SMTP id
+ o24-20020ac24e98000000b004483039d170mr6407391lfr.233.1649253576150; Wed, 06
+ Apr 2022 06:59:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20220321115059.21803-1-wsa+renesas@sang-engineering.com>
+ <20220321115059.21803-9-wsa+renesas@sang-engineering.com> <CAPDyKFqwgxhRPBabxfUTC+8UVegWrTg3F0nRn3PoToiO2DWtvQ@mail.gmail.com>
+ <Yk1JA4TWO9bTt0kb@ninjato>
+In-Reply-To: <Yk1JA4TWO9bTt0kb@ninjato>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 6 Apr 2022 15:58:59 +0200
+Message-ID: <CAPDyKFpMAE9mYXUBEsVSm-9EHAC-o5hTxgKNUjYYvo0dzqfEZg@mail.gmail.com>
+Subject: Re: [RFC PATCH 08/10] mmc: core: improve API to make clear hw_reset
+ from bus_ops is for cards
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 16, 2022 at 08:06:33PM +0000, Lad Prabhakar wrote:
-> Now that all the DT drivers have switched to platform_get_irq() we can now
-> safely drop the static setup of IRQ resource from DT core code.
-> 
-> With the above change hierarchical setup of irq domains is no longer
-> bypassed and thus allowing hierarchical interrupt domains to describe
-> interrupts using "interrupts" DT property.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Hi All,
-> 
-> Sending this as RFC as couple of more drivers need to hit -rc yet with
-> the platform_get_irq() change while that is in progress I wanted to get
-> some feedback on this patch.
+On Wed, 6 Apr 2022 at 10:02, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > > To make it unambiguous that bus_ops->hw_reset() is for cards and not for
+> > > controllers, we a) add 'card' to the function name and b) make the
+> > > function argument mmc_card instead of mmc_host. All users are converted,
+> > > too.
+> >
+> > Again b) is sufficient in my opinion. All bus_ops are for cards, while
+> > host_ops are for hosts.
+>
+> Okay, this argument I buy right away.
+>
+> > Also, there may be some corner cases where b) can't be done, like the
+> > ->remove() bus_ops for example. In that case, we either have to make
+> > more re-structuring of the code of simply live with that there may be
+> > some special cases.
+>
+> With the above argument, I could even imaging to simply drop this patch?
+> That keeps 'host' consistently as the default argument? All given that
+> 'bus_ops' are for cards anyway.
 
-I've applied this now and it is in today's linux-next. Keep an eye out 
-for any regression reports. There's one for i.MX8 in kernel-ci, but I 
-don't think it is related.
+I have no strong opinion around this.
 
-Rob
+Perhaps one simply needs to make a patch to convert them (most of
+them) to take a "card" as an in-parameter to really see if that
+improves the understanding of code.
+
+Kind regards
+Uffe
