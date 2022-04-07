@@ -2,55 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BE3C4F769D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Apr 2022 08:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D359E4F769F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Apr 2022 08:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241412AbiDGGxE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Apr 2022 02:53:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43628 "EHLO
+        id S238949AbiDGG6j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Apr 2022 02:58:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241411AbiDGGxD (ORCPT
+        with ESMTP id S231528AbiDGG6i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Apr 2022 02:53:03 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900E3E72BD;
-        Wed,  6 Apr 2022 23:51:02 -0700 (PDT)
+        Thu, 7 Apr 2022 02:58:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C6311C35
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Apr 2022 23:56:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B24A7CE26BA;
-        Thu,  7 Apr 2022 06:51:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB4FC385A4;
-        Thu,  7 Apr 2022 06:50:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AC3A361D47
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Apr 2022 06:56:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53D78C385A4;
+        Thu,  7 Apr 2022 06:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649314259;
-        bh=4oVEZkitbUyJ2WcA8xnEcAUG11WYeSMx4D4hUHxh2S4=;
+        s=k20201202; t=1649314567;
+        bh=uUFTyD2IMna9R3L5k2OJlAy92niSltT9U+MjcHCzj9s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GOaeKSSipVHnAmCCRwNQxYNcM4uIBQ3w83D4N/xxVG3waAmjLFeZ8EQdGPJ/Jl+0i
-         BecBMVzH142WkJ2PSf00+N9TY7dbxDLhp3MC16dN3sA9u2b9m3OXwf7f3bDLdXTSsd
-         dSpJ38oaJ3q3/xAvE6eEtWPcM3b2YUb6R7/EqIYBeTeALZxpdYlbKwtBlkb83yr782
-         H1/3HPbvr0q/uOWxQ/XD8vJVidjbUuEY0jymARP5+/D7oG+0yXnhhRpeBySxf13zvv
-         OeE5l+kiwjtcLAZT29vWhZ8AZSLWcXWS1mcE5u+0e4YbtqfrCNRn3PvWlMGJz1YNbt
-         5gp/pZxiQxoNA==
-Date:   Thu, 7 Apr 2022 08:50:55 +0200
+        b=rCQSifOGZe+dKELayk7hmZRP6emkB8TDppxmdpNwg4+V3aCtxom1TT1IM8/08YroW
+         0GCSxyNTcgFiTazTNdvcBpm8v6JPZKOkln3y1jKNEGabR4fedBEs7kVjMUatTQbTRF
+         1bCCIkdnNSY2PuHXGKx6AYXhjNzva5satIS2xq/iQIeuacGGYyrimiC27sEQs4E0cN
+         +3b1TTDd8rUGO67e4dErnMxeD7sTt6GV9i7Ri3gTNbwhl6dJ40qNOtpb2TASSJ58ys
+         Y07P0Qu6aGzUALlhyPkIB8vH6ZX6Qh5ZV0ZULXX3t9M/heBH0AgQPa7xtxKWqw/l1M
+         4xFUl73rI9AMw==
+Date:   Thu, 7 Apr 2022 08:56:04 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 1/2] pinctrl: renesas: r8a77990: Add RPC pins, groups,
- and functions
-Message-ID: <Yk6Jzyqegso3Iec8@ninjato>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/5] arm64: dts: renesas: draak: Add RPC HyperFlash
+ device node
+Message-ID: <Yk6LBL/pRCJEyCIU@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <cover.1648547080.git.geert+renesas@glider.be>
- <ec9735bb3468225e04ac6cb95e11a0e237b2b9ed.1648547080.git.geert+renesas@glider.be>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <cover.1648548339.git.geert+renesas@glider.be>
+ <0f3d3018ecfcdce1bce67708708a6d3a98368b10.1648548339.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="PMaWAcIGVQtKV1m9"
+        protocol="application/pgp-signature"; boundary="wYS3zUM38YAYdygi"
 Content-Disposition: inline
-In-Reply-To: <ec9735bb3468225e04ac6cb95e11a0e237b2b9ed.1648547080.git.geert+renesas@glider.be>
+In-Reply-To: <0f3d3018ecfcdce1bce67708708a6d3a98368b10.1648548339.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -62,42 +66,40 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---PMaWAcIGVQtKV1m9
+--wYS3zUM38YAYdygi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 29, 2022 at 11:48:50AM +0200, Geert Uytterhoeven wrote:
-> Add pins, groups, and functions for the SPI Multi I/O Bus Controller
-> (RPC-IF) to the R8A77990 PFC driver.  They are to be used when an
-> Octal-SPI Flash or HyperFlash is connected.
->=20
-> Redefine the QSPI[01] pin groups using the RPC DQ[0:7] pin data, to save
-> memory.
+On Tue, Mar 29, 2022 at 02:20:02PM +0200, Geert Uytterhoeven wrote:
+> Add the RPC HyperFlash device node along with its partitions to the
+> common Draak board DTS file.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I trust you with the pinctrl patches :)
+Looks good and builds fine:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---PMaWAcIGVQtKV1m9
+--wYS3zUM38YAYdygi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJOic8ACgkQFA3kzBSg
-KbYGZBAAptv6VEPXqNtyqYVQcON8va0f6eSfCnTrY10Dk5BZ7LGfsS84AioWpFYF
-ZtbXsCKIeDPPUIz5GhevVKIDZ5jj/MsZsSjBaUWZcyGiPEIG+8+tpj0q5BSsffSs
-qQ5Oz2qBudFtPUICIZX7Mp4K19J3Fyzwf166IbCzK8Oli5VwQ0P8Dbr1V3ZUtiV2
-oOpyx1OJ0wB7kQ43SPuoCGW3AWwUEF93mNT4WMVUojl0346drKhbEFKs1+QNpRdS
-y8CUiAO6Y5uPfN5yYvuzC9I/167rGmEomd8mIQYTgwCZeqilIdk+3NTy1s/b6pFt
-9b1uZpxPCtQdLS0TULQ+c02pZ0P7pL8sRfcWSMX2U/oaYWRTnxKSFHRjZ4lNBeT8
-XdSeTerM2wfzKAWYG4cCTMR9WAL1z6TOXFSDq5Hfshj/RSCOvxALJtmjLEvYwNx5
-e/Ug/xRFaOCfQti+FcwgQj8eIM+iSJHvyZMQUca4hf6hliWirzL4T23rPRHOQ1wN
-1ZLvXjCclAZ3WZjY1fpzQK74tv5o8+QkPylFVdE1BBMF3KRNdCuVY3npUCw0SwpW
-ZZ3Cw8wMIInogbyxTXRQ3E2u60UsRH4yVM475WB/cb+leix1CSEjdf7fXlk9f4m9
-1LfF2bNZnndeR7mFXOv/PPvpAhHNu/CVL5v5cFl+KDyXnx9nHlI=
-=sTd1
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJOiwQACgkQFA3kzBSg
+KbYMBw/8DO3F4HZUlMWVtGZj92IXqpWSr4JmKWScFESs6P0QFwtCWl1kIKPb1Gkf
+IGHUVQW08oa5gRyPHph/JqwvscbqHiyCUCW4icZ5MbMdnyO2S2CiIth8o90qezzo
+mhO8FfAdaDEWlb+fqVcvcVQyv5sy1JL7GXehh4WlyuiZpoX3sMnfC0r3nH9xZE7p
+kIejKxm5hCbDhCCK980meWeHP0LsCSdkee0BdTBqGc4Tdbrq9Z1zKoElp2zUaPE2
+EvB7lKUFBaXvHcxnQfOY29w2eH3SWWKVmPn5LOkxpw/B7jkCQZnFwXlo98Vz3GEg
+IxfGckW9qYIdq9P5SIq5KD6Hnl79GVLPH2cLeVCSqrjPPZ9W3cDQHB9ypFScYhOe
+vSVcv0e3uKhCBt9L+9t5Q9hACdoR4v3E6+77zijVOIapV4KjIn+cdgNTgaulDfm+
+Md74xVjzUpFSeb+c6jCk8fnnbMIfzESTYPo8nvZQPKy+1lPNDZhxyfP0F1WTTDuB
+DWDzHs5K/AkQY0Xy6fJZ8k4wX+V/sPvHwJWUh4D5JfQKPCGsxDxuknJIUYtc/z7o
+hEjzLO2Bhk9kdRJBmgP6/yoWoL7Ioj+5hVzGvsyUSAs0jNpOZLCOgb6ad/giGUvE
+UC0fo7mAgP1xYYtnAAl8kXqzpM3PvlZuPe6Inmb2hKVBNTGlIgE=
+=yZxt
 -----END PGP SIGNATURE-----
 
---PMaWAcIGVQtKV1m9--
+--wYS3zUM38YAYdygi--
