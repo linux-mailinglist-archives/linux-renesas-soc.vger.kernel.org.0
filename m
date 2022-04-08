@@ -2,139 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDA124F95EA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Apr 2022 14:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ECF54F9922
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Apr 2022 17:12:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234783AbiDHMlA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Apr 2022 08:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43146 "EHLO
+        id S237425AbiDHPOt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Apr 2022 11:14:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiDHMk7 (ORCPT
+        with ESMTP id S237421AbiDHPOr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Apr 2022 08:40:59 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87ACB3988B0;
-        Fri,  8 Apr 2022 05:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649421536; x=1680957536;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=UEhLx6Z09VkdWZ9A3LzArn5J3Xl0aoeo2P5IDtSDfrI=;
-  b=IpT18h/4e1dg7fSjaE3G1QGtjFNaM1f354fqmJNVowRF5I8sVa29M9Nv
-   qJXnmo+MkoQKhD7/7ElPNlUkk/uRw6H8K8+xGcnGQQJaYj05l3aaeGVFY
-   59aZtUMaqwnm9RVuw8DdTI3lkosYJ1ZIecEtJ15rlgl6/drWAUQxaSE5L
-   rYcPXncs53F0scBmIYy1CmwZ6Ld/F+dpwskciUiaF60pwIVM7PaxPqIoq
-   PZxgi6Qr5wLRKOMS/OkmerDITHfbKFe6Fj0JMY8TaOu5zKgZWZ1OmEOJE
-   TlvFLYDJtBzLDwnKksFRMp2dV23CpbGvEKSqasWEVf4UczsZfFj8j3ZTV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261759340"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="261759340"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 05:38:56 -0700
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="571477040"
-Received: from aecajiao-mobl.amr.corp.intel.com ([10.252.48.54])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 05:38:50 -0700
-Date:   Fri, 8 Apr 2022 15:38:48 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, dmaengine@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 5/9] dmaengine: dw: dmamux: Introduce RZN1 DMA router
- support
-In-Reply-To: <YlAgbh2AFevBktxd@smile.fi.intel.com>
-Message-ID: <8d10c313-ecfe-4460-4040-8886aa421ef@linux.intel.com>
-References: <20220406161856.1669069-1-miquel.raynal@bootlin.com> <20220406161856.1669069-6-miquel.raynal@bootlin.com> <6fbeebe2-9693-f91-78bd-451480f7a6dd@linux.intel.com> <YlAgbh2AFevBktxd@smile.fi.intel.com>
+        Fri, 8 Apr 2022 11:14:47 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E5BFC8A5
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Apr 2022 08:12:43 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id w18so10366837edi.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Apr 2022 08:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XX2KXCol/cB+F9F2M6wlzFqK3IJlqDqtRBrRFqCr29Y=;
+        b=xmZp2V8/SWQoUosFHxYo5+Zv/mSOMGKBwKZmvMSMHnsAA6Lzmak2UdaU2ffkf0qICk
+         CdtxzrJa64VXnINoRbhednGfkz1nzzejp09cDA/CuPQPIDKKjv7vQAWa4Q7WuALe+WcE
+         8p8ICxJ+91iX59qks9YZvD97YYWeOiUKFOJ0+5xDRZdLs+bQfbK29uo+UnGnTjQxdfV3
+         qoYR4R0XPvi2KM7FmnS5BAtuwYiPIEsVzGxgShawQv7p78jGuvy/dayt2hHFeHxZV3hG
+         OqC0G+BBI3ZmiAP06mS1eAI2qKgC2rFABCwbJJtedNvj16SY/cXqhVZHXXJi1sBZLmbD
+         +5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XX2KXCol/cB+F9F2M6wlzFqK3IJlqDqtRBrRFqCr29Y=;
+        b=SLk8P7OWGivLFa4g71h3vhoaDtbHPGHXPtNdNjs32eLrObnaF1Oag42EmmQYeRtBx5
+         BSGBSqcz2C5myJInFxQwPVM2UgQgr5NdpZGnLSG9xfaqOnd6x/9tPxySGNkkgjqk74Dy
+         7hrck47m8/1/LXcmd6nTCTIXvng6D/4q5lJfJ0O9W6fhmMMGtvpJr2N6nsKVNy3OFL5j
+         7G0GEomG36QrhSQoOglzf2VQcFxSzYOgjxVHKUQWT2K+AFUEz/Tn/OsIhyjQ0zIeD+xl
+         tJs+FhCqOFNl0eom4rGctUYWvbCW3qVVXod3L/UeBRs6Kpy5U1IbHDjAYrxSfZWpWZDq
+         sv/Q==
+X-Gm-Message-State: AOAM531UsuWVeJRPq/b1eomcw1uS4EuJJWx6bG2sjyLBconNgzc3+ROM
+        SvmusixBqb8OK5PyZ95NljH2+QkDiQ69VDZw
+X-Google-Smtp-Source: ABdhPJyyk6UanMuslV4A5Fs+9kw8DBweVAWH39SlZJfK/DvSvceiUMZFRxlsbK/sPjGHa4B4qMXAYg==
+X-Received: by 2002:a05:6402:3693:b0:41c:dd5a:e8ca with SMTP id ej19-20020a056402369300b0041cdd5ae8camr19645323edb.225.1649430762007;
+        Fri, 08 Apr 2022 08:12:42 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id b20-20020a1709063f9400b006e12836e07fsm8774030ejj.154.2022.04.08.08.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 08:12:41 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Document R-Car H3/M3/E3 support
+Date:   Fri,  8 Apr 2022 17:12:37 +0200
+Message-Id: <164943075366.672946.10621467910167215562.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <3784b6cb76a008fb56d6cb4ba228d78c77e710fa.1648546583.git.geert+renesas@glider.be>
+References: <3784b6cb76a008fb56d6cb4ba228d78c77e710fa.1648546583.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-898612093-1649421535=:1643"
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, 29 Mar 2022 11:38:03 +0200, Geert Uytterhoeven wrote:
+> Document support for the SPI Multi I/O Bus Controller (RPC-IF) in the
+> R-Car H3, M3-W, M3-W+, M3-N, and E3 SoCs.
+> 
+> 
 
---8323329-898612093-1649421535=:1643
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
+Applied, thanks!
 
-On Fri, 8 Apr 2022, Andy Shevchenko wrote:
+[1/1] dt-bindings: memory: renesas,rpc-if: Document R-Car H3/M3/E3 support
+      commit: 8f0e3af81711bf72b9c6138b0138bdc330d8c388
 
-> On Fri, Apr 08, 2022 at 12:55:47PM +0300, Ilpo Järvinen wrote:
-> > On Wed, 6 Apr 2022, Miquel Raynal wrote:
-> > 
-> > > The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
-> > > dmamux register located in the system control area which can take up to
-> > > 32 requests (16 per DMA controller). Each DMA channel can be wired to
-> > > two different peripherals.
-> > > 
-> > > We need two additional information from the 'dmas' property: the channel
-> > > (bit in the dmamux register) that must be accessed and the value of the
-> > > mux for this channel.
-> 
-> > > +	mask = BIT(map->req_idx);
-> > > +	mutex_lock(&dmamux->lock);
-> > > +	dmamux->used_chans |= mask;
-> > > +	ret = r9a06g032_sysctrl_set_dmamux(mask, val ? mask : 0);
-> > > +	if (ret)
-> > > +		goto release_chan_and_unlock;
-> > > +
-> > > +	mutex_unlock(&dmamux->lock);
-> > > +
-> > > +	return map;
-> > > +
-> > > +release_chan_and_unlock:
-> > > +	dmamux->used_chans &= ~mask;
-> > 
-> > Now that I check this again, I'm not sure why dmamux->used_chans |= mask; 
-> > couldn't be done after r9a06g032_sysctrl_set_dmamux() call so this 
-> > rollback of it wouldn't be necessary.
-> 
-> I would still need the mutex unlock which I believe is down path there under
-> some other label. Hence you are proposing something like
-> 
-> 	mask = BIT(map->req_idx);
-> 
-> 	mutex_lock(&dmamux->lock);
-> 	ret = r9a06g032_sysctrl_set_dmamux(mask, val ? mask : 0);
-> 	if (ret)
-> 		goto err_unlock; // or whatever label is
-> 
-> 	dmamux->used_chans |= mask;
-> 	mutex_unlock(&dmamux->lock);
-> 
-> 	return map;
-> 
-> Is that correct? If so, I don't see impediments either.
-
-Yes, and yes, the mutex still has to be unlocked on that error path.
-
-> > Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
+Best regards,
 -- 
- i.
-
---8323329-898612093-1649421535=:1643--
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
