@@ -2,312 +2,176 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD37F4F9DE1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Apr 2022 22:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ADC4FA89A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Apr 2022 15:34:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237235AbiDHUE1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Apr 2022 16:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
+        id S242189AbiDINgM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Apr 2022 09:36:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233420AbiDHUE0 (ORCPT
+        with ESMTP id S238615AbiDINgI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Apr 2022 16:04:26 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458612A24D;
-        Fri,  8 Apr 2022 13:02:20 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.109.138.25])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 07760F53D71A;
-        Fri,  8 Apr 2022 22:02:17 +0200 (CEST)
-Received: from localhost.localdomain (88.125.132.16) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 8 Apr
- 2022 22:02:16 +0200
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-To:     <linux@roeck-us.net>, <wim@linux-watchdog.org>,
-        <geert+renesas@glider.be>, <linux-watchdog@vger.kernel.org>
-CC:     <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <tzungbi@kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Subject: [PATCH v5 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
-Date:   Fri, 8 Apr 2022 22:02:05 +0200
-Message-ID: <20220408200205.2833931-3-jjhiblot@traphandler.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220408200205.2833931-1-jjhiblot@traphandler.com>
-References: <20220408200205.2833931-1-jjhiblot@traphandler.com>
+        Sat, 9 Apr 2022 09:36:08 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7642986FC
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Apr 2022 06:33:52 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id bg10so22369621ejb.4
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 09 Apr 2022 06:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=LO7mTJuUjnyguTxwzU4yCMRsr4W3KT8BOY3t4LlaHc0=;
+        b=NSPuRoYHtyOw+PcsMZMVtuInfF33reqEX80RTlsMYF96wzkfEaIKPTkf0zDLCojnUm
+         7GdAM9ck8RvQnAE0+woC+0Cz0hKM9k7ConH5cc8CM3A80Q22AF30cnY5tVI5IrRhfRiq
+         fUs2YJsfoDOLl23ee7Kfwr0FQg7iHJDavcGzo6omSFqqR7QkLBp6xvW024IMq4mk8XcH
+         aI+dI62HLCe60/HRWGhTBdhYz6pdh05BA5qgDsK/MG0ybk9Vjkb5p0YHoofix6xORs7e
+         TQjQGp1ld64FVyUXf1RkiYaMnO4jpnKDkq/gesw7lqgg3jkxwTzzbP8gH8cCxOWqkIK3
+         2lCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LO7mTJuUjnyguTxwzU4yCMRsr4W3KT8BOY3t4LlaHc0=;
+        b=gHQHGk609AbhbH/RJbvK6xBNhxZgHwHqD/ncyX9m7khkkMVf3KL9xcwUg1wW80pxdp
+         aLqFnd0q0kl4Bbg19ZS+3Z7j2UxA2fiw6Ae9aOTtweIWLp9cKkhTIhDscW02hZq+p3y0
+         oA9bdllt2zaPA09+nLaIlAAXPcWafBkdfgWyT3dOIZhBXVlsfohGTciS27aTIWhc//0A
+         oVUA0Mt90244+o8JsYQatzUup4YgCIJzZfmgZqrnbgsT2h2WbP7/pxQWc3aUjk79Cv8R
+         kBFGVPrUe0CoA4b0X+DhFmufitTPowTQBd9oHInFEVZIjaYM9PH3lIz9gHzOk6vGTpnh
+         3n7A==
+X-Gm-Message-State: AOAM5323KNkjd9XbHgd7RNJqfUbA20n6a0A+I2hAdUza/tigXYeiceqk
+        F1wK4px1oXZuaOe+T5hjAcws1w==
+X-Google-Smtp-Source: ABdhPJw7Y7cYYHPAiiiP0NIjLn5Hmp6+EKk8JZn75hkyokX3E/0ElhCjWMr9REwrEdqcx3UfkRN70w==
+X-Received: by 2002:a17:906:d204:b0:6d6:df17:835e with SMTP id w4-20020a170906d20400b006d6df17835emr22437048ejz.20.1649511231518;
+        Sat, 09 Apr 2022 06:33:51 -0700 (PDT)
+Received: from [192.168.0.188] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id q22-20020a170906771600b006cf8a37ebf5sm9774514ejm.103.2022.04.09.06.33.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Apr 2022 06:33:51 -0700 (PDT)
+Message-ID: <3b527700-444e-1f6e-fee1-5cd6ed2ef7f9@linaro.org>
+Date:   Sat, 9 Apr 2022 15:33:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [88.125.132.16]
-X-ClientProxiedBy: CAS1.emp2.local (172.16.1.1) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 10721381863852947957
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudektddgudegfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepfeeugefgieeutdfhvdegveetvdeuvefgveegleeileevveehfeejjeffgfduudeknecukfhppedtrddtrddtrddtpdekkedruddvhedrudefvddrudeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehprhhovddrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhdrvggufihorhhthhihsehrvghnvghsrghsrdgtohhm
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 05/13] pinctrl: samsung: Switch to use
+ for_each_gpiochip_node() helper
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Qianggui Song <qianggui.song@amlogic.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marc Zyngier <maz@kernel.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <20220401103604.8705-1-andriy.shevchenko@linux.intel.com>
+ <20220401103604.8705-6-andriy.shevchenko@linux.intel.com>
+ <d1f873c6-150f-5f4d-7aa8-7bb15823d991@linaro.org>
+ <YlBXSVyj88CqjGj4@smile.fi.intel.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YlBXSVyj88CqjGj4@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Phil Edworthy <phil.edworthy@renesas.com>
+On 08/04/2022 17:39, Andy Shevchenko wrote:
+> On Fri, Apr 08, 2022 at 05:22:21PM +0200, Krzysztof Kozlowski wrote:
+>> On 01/04/2022 12:35, Andy Shevchenko wrote:
+>>> Switch the code to use for_each_gpiochip_node() helper.
+> 
+> (...)
+> 
+>>>  /*
+>>>   * Iterate over all driver pin banks to find one matching the name of node,
+>>>   * skipping optional "-gpio" node suffix. When found, assign node to the bank.
+>>>   */
+>>> -static void samsung_banks_of_node_get(struct device *dev,
+>>> -				      struct samsung_pinctrl_drv_data *d,
+>>> -				      struct device_node *node)
+>>> +static void samsung_banks_node_get(struct device *dev, struct samsung_pinctrl_drv_data *d)
+>>
+>> This is worth simplification anyway, so please split it to separate patch.
+> 
+> Not sure what to do and why it worth an additional churn.
 
-This is a driver for the standard WDT on the RZ/N1 devices. This WDT has
-very limited timeout capabilities. However, it can reset the device.
-To do so, the corresponding bits in the SysCtrl RSTEN register need to
-be enabled. This is not done by this driver.
+Makes this change smaller so it's easier to review.
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
----
- drivers/watchdog/Kconfig    |   8 ++
- drivers/watchdog/Makefile   |   1 +
- drivers/watchdog/rzn1_wdt.c | 201 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 210 insertions(+)
- create mode 100644 drivers/watchdog/rzn1_wdt.c
+> 
+>>>  {
+>>>  	const char *suffix = "-gpio-bank";
+>>>  	struct samsung_pin_bank *bank;
+>>> -	struct device_node *child;
+>>> +	struct fwnode_handle *child;
+>>>  	/* Pin bank names are up to 4 characters */
+>>>  	char node_name[20];
+>>>  	unsigned int i;
+>>> @@ -1038,17 +1037,17 @@ static void samsung_banks_of_node_get(struct device *dev,
+>>>  			continue;
+>>>  		}
+>>>  
+>>> -		for_each_child_of_node(node, child) {
+>>> -			if (!of_find_property(child, "gpio-controller", NULL))
+>>> -				continue;
+>>
+>> This does not look equivalent. There are nodes without this property.
+> 
+> Not sure I understand why not. The macro checks for the property and
+> iterates over nodes that have this property.
+> 
+> Can you elaborate, please?
 
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index c8fa79da23b3..ba6e4ebef404 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -883,6 +883,14 @@ config RENESAS_RZAWDT
- 	  This driver adds watchdog support for the integrated watchdogs in the
- 	  Renesas RZ/A SoCs. These watchdogs can be used to reset a system.
- 
-+config RENESAS_RZN1WDT
-+	tristate "Renesas RZ/N1 watchdog"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select WATCHDOG_CORE
-+	help
-+	  This driver adds watchdog support for the integrated watchdogs in the
-+	  Renesas RZ/N1 SoCs. These watchdogs can be used to reset a system.
-+
- config RENESAS_RZG2LWDT
- 	tristate "Renesas RZ/G2L WDT Watchdog"
- 	depends on ARCH_RENESAS || COMPILE_TEST
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index f7da867e8782..38d38564f47b 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_LPC18XX_WATCHDOG) += lpc18xx_wdt.o
- obj-$(CONFIG_BCM7038_WDT) += bcm7038_wdt.o
- obj-$(CONFIG_RENESAS_WDT) += renesas_wdt.o
- obj-$(CONFIG_RENESAS_RZAWDT) += rza_wdt.o
-+obj-$(CONFIG_RENESAS_RZN1WDT) += rzn1_wdt.o
- obj-$(CONFIG_RENESAS_RZG2LWDT) += rzg2l_wdt.o
- obj-$(CONFIG_ASPEED_WATCHDOG) += aspeed_wdt.o
- obj-$(CONFIG_STM32_WATCHDOG) += stm32_iwdg.o
-diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
-new file mode 100644
-index 000000000000..f9b194570062
---- /dev/null
-+++ b/drivers/watchdog/rzn1_wdt.c
-@@ -0,0 +1,201 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/N1 Watchdog timer.
-+ * This is a 12-bit timer driver from a (62.5/16384) MHz clock. It can't even
-+ * cope with 2 seconds.
-+ *
-+ * Copyright 2018 Renesas Electronics Europe Ltd.
-+ *
-+ * Derived from Ralink RT288x watchdog timer.
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/platform_device.h>
-+#include <linux/reboot.h>
-+#include <linux/watchdog.h>
-+
-+#define DEFAULT_TIMEOUT		60
-+
-+#define RZN1_WDT_RETRIGGER			0x0
-+#define RZN1_WDT_RETRIGGER_RELOAD_VAL		0
-+#define RZN1_WDT_RETRIGGER_RELOAD_VAL_MASK	0xfff
-+#define RZN1_WDT_RETRIGGER_PRESCALE		BIT(12)
-+#define RZN1_WDT_RETRIGGER_ENABLE		BIT(13)
-+#define RZN1_WDT_RETRIGGER_WDSI			(0x2 << 14)
-+
-+#define RZN1_WDT_PRESCALER			16384
-+#define RZN1_WDT_MAX				4095
-+
-+struct rzn1_watchdog {
-+	struct watchdog_device		wdtdev;
-+	void __iomem			*base;
-+	unsigned long			clk_rate;
-+};
-+
-+static inline uint32_t get_max_heart_beat(unsigned long clk_rate)
-+{
-+	return (RZN1_WDT_MAX * RZN1_WDT_PRESCALER) / (clk_rate / 1000);
-+}
-+
-+static inline uint32_t compute_reload_value(uint32_t tick_ms,
-+					    unsigned long clk_rate)
-+{
-+	return (tick_ms * (clk_rate / 1000)) / RZN1_WDT_PRESCALER;
-+}
-+
-+static int rzn1_wdt_ping(struct watchdog_device *w)
-+{
-+	struct rzn1_watchdog *wdt = watchdog_get_drvdata(w);
-+
-+	/* Any value retrigggers the watchdog */
-+	writel(0, wdt->base + RZN1_WDT_RETRIGGER);
-+
-+	return 0;
-+}
-+
-+static int rzn1_wdt_start(struct watchdog_device *w)
-+{
-+	struct rzn1_watchdog *wdt = watchdog_get_drvdata(w);
-+	u32 val;
-+
-+	/*
-+	 * The hardware allows you to write to this reg only once.
-+	 * Since this includes the reload value, there is no way to change the
-+	 * timeout once started. Also note that the WDT clock is half the bus
-+	 * fabric clock rate, so if the bus fabric clock rate is changed after
-+	 * the WDT is started, the WDT interval will be wrong.
-+	 */
-+	val = RZN1_WDT_RETRIGGER_WDSI;
-+	val |= RZN1_WDT_RETRIGGER_ENABLE;
-+	val |= RZN1_WDT_RETRIGGER_PRESCALE;
-+	val |= compute_reload_value(w->max_hw_heartbeat_ms, wdt->clk_rate);
-+	writel(val, wdt->base + RZN1_WDT_RETRIGGER);
-+
-+	return 0;
-+}
-+
-+static irqreturn_t rzn1_wdt_irq(int irq, void *_wdt)
-+{
-+	pr_crit("RZN1 Watchdog. Initiating system reboot\n");
-+	emergency_restart();
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static struct watchdog_info rzn1_wdt_info = {
-+	.identity = "RZ/N1 Watchdog",
-+	.options = WDIOF_MAGICCLOSE | WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING,
-+};
-+
-+static const struct watchdog_ops rzn1_wdt_ops = {
-+	.owner = THIS_MODULE,
-+	.start = rzn1_wdt_start,
-+	.ping = rzn1_wdt_ping,
-+};
-+
-+static void rzn1_wdt_clk_disable_unprepare(void *data)
-+{
-+	clk_disable_unprepare(data);
-+}
-+
-+static int rzn1_wdt_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct rzn1_watchdog *wdt;
-+	struct device_node *np = dev->of_node;
-+	struct clk *clk;
-+	int ret;
-+	int irq;
-+
-+	wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
-+	if (!wdt)
-+		return -ENOMEM;
-+
-+	wdt->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(wdt->base))
-+		return PTR_ERR(wdt->base);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	ret = devm_request_irq(dev, irq, rzn1_wdt_irq, 0,
-+			       np->name, wdt);
-+	if (ret) {
-+		dev_err(dev, "failed to request irq %d\n", irq);
-+		return ret;
-+	}
-+
-+	clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(clk)) {
-+		dev_err(dev, "failed to get the clock\n");
-+		return PTR_ERR(clk);
-+	}
-+
-+	ret = clk_prepare_enable(clk);
-+	if (ret) {
-+		dev_err(dev, "failed to prepare/enable the clock\n");
-+		return ret;
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, rzn1_wdt_clk_disable_unprepare,
-+				       clk);
-+	if (ret) {
-+		dev_err(dev, "failed to register clock unprepare callback\n");
-+		return ret;
-+	}
-+
-+	wdt->clk_rate = clk_get_rate(clk);
-+	if (!wdt->clk_rate) {
-+		dev_err(dev, "failed to get the clock rate\n");
-+		return -EINVAL;
-+	}
-+
-+	wdt->wdtdev.info = &rzn1_wdt_info,
-+	wdt->wdtdev.ops = &rzn1_wdt_ops,
-+	wdt->wdtdev.status = WATCHDOG_NOWAYOUT_INIT_STATUS,
-+	wdt->wdtdev.parent = dev;
-+	/*
-+	 * The period of the watchdog cannot be changed once set
-+	 * and is limited to a very short period.
-+	 * Configure it for a 1s period once and for all, and
-+	 * rely on the heart-beat provided by the watchdog core
-+	 * to make this usable by the user-space.
-+	 */
-+	wdt->wdtdev.max_hw_heartbeat_ms = get_max_heart_beat(wdt->clk_rate);
-+	if (wdt->wdtdev.max_hw_heartbeat_ms > 1000)
-+		wdt->wdtdev.max_hw_heartbeat_ms = 1000;
-+
-+	wdt->wdtdev.timeout = DEFAULT_TIMEOUT;
-+	ret = watchdog_init_timeout(&wdt->wdtdev, 0, dev);
-+
-+	watchdog_set_drvdata(&wdt->wdtdev, wdt);
-+
-+	return devm_watchdog_register_device(dev, &wdt->wdtdev);
-+}
-+
-+
-+static const struct of_device_id rzn1_wdt_match[] = {
-+	{ .compatible = "renesas,rzn1-wdt" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, rzn1_wdt_match);
-+
-+static struct platform_driver rzn1_wdt_driver = {
-+	.probe		= rzn1_wdt_probe,
-+	.driver		= {
-+		.name		= KBUILD_MODNAME,
-+		.of_match_table	= rzn1_wdt_match,
-+	},
-+};
-+
-+module_platform_driver(rzn1_wdt_driver);
-+
-+MODULE_DESCRIPTION("Renesas RZ/N1 hardware watchdog");
-+MODULE_AUTHOR("Phil Edworthy <phil.edworthy@renesas.com>");
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.1
+Eh, my bad, it is equivalent.
 
+> 
+>>> -			if (of_node_name_eq(child, node_name))
+>>> +		for_each_gpiochip_node(dev, child) {
+>>> +			struct device_node *np = to_of_node(child);
+>>> +
+>>> +			if (of_node_name_eq(np, node_name))
+>>>  				break;
+>>> -			else if (of_node_name_eq(child, bank->name))
+>>> +			if (of_node_name_eq(np, bank->name))
+>>>  				break;
+>>>  		}
+>>
+>> This patch has to wait till someone provides you a tested-by. I might do
+>> it around next week.
+> 
+> Fine with me, I will drop it from my repo for now.
+
+
+Best regards,
+Krzysztof
