@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B334FBC86
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 14:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 823A74FBC93
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 14:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346241AbiDKM4G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Apr 2022 08:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33370 "EHLO
+        id S232273AbiDKM54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Apr 2022 08:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346231AbiDKM4F (ORCPT
+        with ESMTP id S1346329AbiDKM5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Apr 2022 08:56:05 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84CA33E2C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Apr 2022 05:53:50 -0700 (PDT)
+        Mon, 11 Apr 2022 08:57:48 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED02B0E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Apr 2022 05:55:34 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:b509:6862:2557:437a])
-        by laurent.telenet-ops.be with bizsmtp
-        id HQto270031G7NMJ01Qtoiv; Mon, 11 Apr 2022 14:53:49 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id HQvX2700U1G7NMJ01QvXyl; Mon, 11 Apr 2022 14:55:32 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ndtYB-000ARL-DF; Mon, 11 Apr 2022 14:53:47 +0200
+        id 1ndtZr-000ARl-6C; Mon, 11 Apr 2022 14:55:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ndtYA-009JGV-J1; Mon, 11 Apr 2022 14:53:46 +0200
+        id 1ndtZq-009JJB-OB; Mon, 11 Apr 2022 14:55:30 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
@@ -36,9 +36,9 @@ Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v4] memory: renesas-rpc-if: Fix HF/OSPI data transfer in Manual Mode
-Date:   Mon, 11 Apr 2022 14:53:45 +0200
-Message-Id: <cde9bfacf704c81865f57b15d1b48a4793da4286.1649681476.git.geert+renesas@glider.be>
+Subject: [PATCH] memory: renesas-rpc-if: Simplify single/double data register access
+Date:   Mon, 11 Apr 2022 14:55:29 +0200
+Message-Id: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,179 +52,74 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-HyperFlash devices fail to probe:
+For manual write and read, factor out the common access to the first
+data register by keeping track of the current data pointer.
 
-    rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
-
-In HyperFlash or Octal-SPI Flash mode, the Transfer Data Enable bits
-(SPIDE) in the Manual Mode Enable Setting Register (SMENR) are derived
-from half of the transfer size, cfr. the rpcif_bits_set() helper
-function.  However, rpcif_reg_{read,write}() does not take the bus size
-into account, and does not double all Manual Mode Data Register access
-sizes when communicating with a HyperFlash or Octal-SPI Flash device.
-
-Fix this, and avoid the back-and-forth conversion between transfer size
-and Transfer Data Enable bits, by explicitly storing the transfer size
-in struct rpcif, and using that value to determine access size in
-rpcif_reg_{read,write}().
-
-Enforce that the "high" Manual Mode Read/Write Data Registers
-(SM[RW]DR1) are only used for 8-byte data accesses.
-While at it, forbid writing to the Manual Mode Read Data Registers,
-as they are read-only.
-
-Fixes: fff53a551db50f5e ("memory: renesas-rpc-if: Correct QSPI data transfer in Manual mode")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> [QSPI]
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-v4:
-  - Add Reviewed-by, Tested-by,
-
-v3:
-  - Add Tested-by,
-  - Update comments to match changed code,
-  - Add explicit {read,write}l() for the 4/8 byte case, to increase
-    readability,
-  - Remove redundant break statements,
-  - Tested HyperFlash on more boards and SoCs.
-
-v2:
-  - Use rpc->xfer_size instead of SPIDE register reads and
-    rpc->bus_size.
-      Note: Alternatively, rpcif_manual_xfer() could bypass regmap and
-      use {read,write}[bwl]() directly, cfr. commit 0d37f69cacb33435
-      ("memory: renesas-rpc-if: Correct QSPI data transfer in Manual
-      mode") in the BSP.
-  - HF dirmap reads are confirmed to work on R-Car M3-W,
-  - Drop RFC.
----
- drivers/memory/renesas-rpc-if.c | 60 +++++++++++++++++++++++++--------
- include/memory/renesas-rpc-if.h |  1 +
- 2 files changed, 47 insertions(+), 14 deletions(-)
+ drivers/memory/renesas-rpc-if.c | 28 ++++++++--------------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-index 2e545f473cc68fb3..019a0822bde0e413 100644
+index 019a0822bde0e413..fb2a507ca2badc70 100644
 --- a/drivers/memory/renesas-rpc-if.c
 +++ b/drivers/memory/renesas-rpc-if.c
-@@ -164,25 +164,39 @@ static const struct regmap_access_table rpcif_volatile_table = {
+@@ -488,7 +488,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ 	case RPCIF_DATA_OUT:
+ 		while (pos < rpc->xferlen) {
+ 			u32 bytes_left = rpc->xferlen - pos;
+-			u32 nbytes, data[2];
++			u32 nbytes, data[2], *p = data;
  
+ 			smcr = rpc->smcr | RPCIF_SMCR_SPIE;
  
- /*
-- * Custom accessor functions to ensure SMRDR0 and SMWDR0 are always accessed
-- * with proper width. Requires SMENR_SPIDE to be correctly set before!
-+ * Custom accessor functions to ensure SM[RW]DR[01] are always accessed with
-+ * proper width.  Requires rpcif.xfer_size to be correctly set before!
-  */
- static int rpcif_reg_read(void *context, unsigned int reg, unsigned int *val)
- {
- 	struct rpcif *rpc = context;
- 
--	if (reg == RPCIF_SMRDR0 || reg == RPCIF_SMWDR0) {
--		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
--
--		if (spide == 0x8) {
-+	switch (reg) {
-+	case RPCIF_SMRDR0:
-+	case RPCIF_SMWDR0:
-+		switch (rpc->xfer_size) {
-+		case 1:
- 			*val = readb(rpc->base + reg);
- 			return 0;
--		} else if (spide == 0xC) {
-+
-+		case 2:
- 			*val = readw(rpc->base + reg);
- 			return 0;
--		} else if (spide != 0xF) {
-+
-+		case 4:
-+		case 8:
-+			*val = readl(rpc->base + reg);
-+			return 0;
-+
-+		default:
- 			return -EILSEQ;
- 		}
-+
-+	case RPCIF_SMRDR1:
-+	case RPCIF_SMWDR1:
-+		if (rpc->xfer_size != 8)
-+			return -EILSEQ;
-+		break;
- 	}
- 
- 	*val = readl(rpc->base + reg);
-@@ -193,18 +207,34 @@ static int rpcif_reg_write(void *context, unsigned int reg, unsigned int val)
- {
- 	struct rpcif *rpc = context;
- 
--	if (reg == RPCIF_SMRDR0 || reg == RPCIF_SMWDR0) {
--		u32 spide = readl(rpc->base + RPCIF_SMENR) & RPCIF_SMENR_SPIDE(0xF);
--
--		if (spide == 0x8) {
-+	switch (reg) {
-+	case RPCIF_SMWDR0:
-+		switch (rpc->xfer_size) {
-+		case 1:
- 			writeb(val, rpc->base + reg);
- 			return 0;
--		} else if (spide == 0xC) {
-+
-+		case 2:
- 			writew(val, rpc->base + reg);
- 			return 0;
--		} else if (spide != 0xF) {
-+
-+		case 4:
-+		case 8:
-+			writel(val, rpc->base + reg);
-+			return 0;
-+
-+		default:
- 			return -EILSEQ;
- 		}
-+
-+	case RPCIF_SMWDR1:
-+		if (rpc->xfer_size != 8)
-+			return -EILSEQ;
-+		break;
-+
-+	case RPCIF_SMRDR0:
-+	case RPCIF_SMRDR1:
-+		return -EPERM;
- 	}
- 
- 	writel(val, rpc->base + reg);
-@@ -469,6 +499,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
- 
- 			smenr |= RPCIF_SMENR_SPIDE(rpcif_bits_set(rpc, nbytes));
- 			regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
-+			rpc->xfer_size = nbytes;
+@@ -502,15 +502,9 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ 			rpc->xfer_size = nbytes;
  
  			memcpy(data, rpc->buffer + pos, nbytes);
- 			if (nbytes == 8) {
-@@ -533,6 +564,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
- 			regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
- 			regmap_write(rpc->regmap, RPCIF_SMCR,
- 				     rpc->smcr | RPCIF_SMCR_SPIE);
-+			rpc->xfer_size = nbytes;
+-			if (nbytes == 8) {
+-				regmap_write(rpc->regmap, RPCIF_SMWDR1,
+-					     data[0]);
+-				regmap_write(rpc->regmap, RPCIF_SMWDR0,
+-					     data[1]);
+-			} else {
+-				regmap_write(rpc->regmap, RPCIF_SMWDR0,
+-					     data[0]);
+-			}
++			if (nbytes == 8)
++				regmap_write(rpc->regmap, RPCIF_SMWDR1, *p++);
++			regmap_write(rpc->regmap, RPCIF_SMWDR0, *p++);
+ 
+ 			regmap_write(rpc->regmap, RPCIF_SMCR, smcr);
  			ret = wait_msg_xfer_end(rpc);
+@@ -552,7 +546,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+ 		}
+ 		while (pos < rpc->xferlen) {
+ 			u32 bytes_left = rpc->xferlen - pos;
+-			u32 nbytes, data[2];
++			u32 nbytes, data[2], *p = data;
+ 
+ 			/* nbytes may only be 1, 2, 4, or 8 */
+ 			nbytes = bytes_left >= max ? max : (1 << ilog2(bytes_left));
+@@ -569,15 +563,9 @@ int rpcif_manual_xfer(struct rpcif *rpc)
  			if (ret)
  				goto err_out;
-diff --git a/include/memory/renesas-rpc-if.h b/include/memory/renesas-rpc-if.h
-index 7c93f5177532f187..9c0ad64b8d292d49 100644
---- a/include/memory/renesas-rpc-if.h
-+++ b/include/memory/renesas-rpc-if.h
-@@ -72,6 +72,7 @@ struct rpcif {
- 	enum rpcif_type type;
- 	enum rpcif_data_dir dir;
- 	u8 bus_size;
-+	u8 xfer_size;
- 	void *buffer;
- 	u32 xferlen;
- 	u32 smcr;
+ 
+-			if (nbytes == 8) {
+-				regmap_read(rpc->regmap, RPCIF_SMRDR1,
+-					    &data[0]);
+-				regmap_read(rpc->regmap, RPCIF_SMRDR0,
+-					    &data[1]);
+-			} else {
+-				regmap_read(rpc->regmap, RPCIF_SMRDR0,
+-					    &data[0]);
+-			}
++			if (nbytes == 8)
++				regmap_read(rpc->regmap, RPCIF_SMRDR1, p++);
++			regmap_read(rpc->regmap, RPCIF_SMRDR0, p++);
+ 			memcpy(rpc->buffer + pos, data, nbytes);
+ 
+ 			pos += nbytes;
 -- 
 2.25.1
 
