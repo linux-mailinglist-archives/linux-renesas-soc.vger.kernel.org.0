@@ -2,62 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFFA54FBF63
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 16:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A422A4FBFE8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 17:10:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347369AbiDKOnS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Apr 2022 10:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S1347655AbiDKPMU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Apr 2022 11:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347485AbiDKOms (ORCPT
+        with ESMTP id S1347664AbiDKPMS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Apr 2022 10:42:48 -0400
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15DA5588;
-        Mon, 11 Apr 2022 07:40:33 -0700 (PDT)
-Received: by mail-qk1-f181.google.com with SMTP id d71so2628447qkg.12;
-        Mon, 11 Apr 2022 07:40:33 -0700 (PDT)
+        Mon, 11 Apr 2022 11:12:18 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038DF2FE5F;
+        Mon, 11 Apr 2022 08:10:02 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id z14so2298159qto.5;
+        Mon, 11 Apr 2022 08:10:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oI4f3biPLIocOopBgIpORD0bGlZYgZJ7egsxwhidPpw=;
-        b=ElKlL9nThTW7x3K4DUYqzKJrRK2cUKdFWdUai/CyPGYbMFq+gbsvXRYz52BYha2PVF
-         pze4i19liwYlcgzZGipJ0qP6ZIV9PZFIjQQNcUmpUYuFniq+kw0/1Kiu/+nR8YKyL+DF
-         3GR4MnH37a/UjP0itvogyJMJFez2vSgYB2WXeNqUn0FBxz32b4pRiV4+NliVUIxe4Uhd
-         Mug/SrFUGfZ228Q0FpqrFzzkKZibO/yUgDORlLn4cu0tiaRLwOzOMwPTtQO2ucyE/bpy
-         Br3BzSrHbxKqGPHR/NnmozpU29T7TTDZRS1U1a5YOzO8t25ukz5W+cStTX6YnucJXD0j
-         pBOg==
-X-Gm-Message-State: AOAM533MOZs+I2rXg2hx8MWYeI/n8Zs4Kh5jnAOk9mqNQNQqgCipeJyz
-        QeMwKhe/4hSUG3Z8bHRHLKBw7mO4nd+ZEA==
-X-Google-Smtp-Source: ABdhPJztOfoP6S3BOGOeO0CGa+EnwPjPs7Ri0ODxeS1MvR2L+F19meBuDNsPSc/YqMcVqQUlzIKqiw==
-X-Received: by 2002:a05:620a:424e:b0:67e:4c1b:c214 with SMTP id w14-20020a05620a424e00b0067e4c1bc214mr22103728qko.651.1649688032617;
-        Mon, 11 Apr 2022 07:40:32 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id x20-20020ac85f14000000b002e1ee1c56c3sm26020905qta.76.2022.04.11.07.40.32
+        bh=upNIJzGRSw+uwckmTerdXsmNODqFik3Po2f0Zu+5l4I=;
+        b=MbkyVl2HWGuSXX7xxFNskpZ0PRHPlDO7ePB6BzSIYsntwG54Yxhj2HzR7E92wkjq/C
+         GFksJUXgXxd43cStOBtoPIguuHhrx9e5eY/2nKOV2vmv5QAfTxzayI84NCH4NT5jtRUX
+         q3ONIs0AxaZvREYQX4jgX467eEGVzidzAE2rcUiyExnW9qaloCkJv4t2vLwrWuTJ7UqE
+         vS/fdrJ4RTB40J3qSPPp6SnU3OtikVYvtjljj1yTuaGGZhfSWmo2QFIZNXnPLJjtzoqB
+         d4iPX4mlMQlrnBDP1U6+IdFDkSyB+jpFdVbjMYu1meufDDyIv1ISQ1pMp1kh1EIz02mS
+         tAFg==
+X-Gm-Message-State: AOAM532eItcTyJs/yS7qgCU6jao28H4vBxq9/lt71GAur4IRYR7QEuii
+        K2Jv2eKIbjhcEJqdnhY+AX9spkQPzNjhFQ==
+X-Google-Smtp-Source: ABdhPJwGCcDbHF/Rl1pKqHT6ULSQw3M2eH8ZM/PZXtxZ68xg/sK+AePoOw7bCBMvNkKVAXEP5XWWpg==
+X-Received: by 2002:a05:622a:8e:b0:2e1:fee4:8ca2 with SMTP id o14-20020a05622a008e00b002e1fee48ca2mr26015011qtw.431.1649689801698;
+        Mon, 11 Apr 2022 08:10:01 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id j19-20020a05622a039300b002ecc2ebfd87sm8438929qtx.32.2022.04.11.08.10.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Apr 2022 07:40:32 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-2ebd70a4cf5so109101827b3.3;
-        Mon, 11 Apr 2022 07:40:32 -0700 (PDT)
-X-Received: by 2002:a81:4f0d:0:b0:2ec:1556:815 with SMTP id
- d13-20020a814f0d000000b002ec15560815mr5028816ywb.256.1649688032028; Mon, 11
- Apr 2022 07:40:32 -0700 (PDT)
+        Mon, 11 Apr 2022 08:10:01 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2eafabbc80aso168490327b3.11;
+        Mon, 11 Apr 2022 08:10:01 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr25978028ywi.449.1649689801114; Mon, 11
+ Apr 2022 08:10:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406070315.13862-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220410174713.1a4e013f@jic23-huawei>
-In-Reply-To: <20220410174713.1a4e013f@jic23-huawei>
+References: <20220406161856.1669069-1-miquel.raynal@bootlin.com>
+ <20220407004511.3A6D1C385A3@smtp.kernel.org> <20220407101605.7d2a17cc@xps13>
+In-Reply-To: <20220407101605.7d2a17cc@xps13>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 11 Apr 2022 16:40:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
-Message-ID: <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
-Subject: Re: [PATCH] iio: adc: Kconfig: Make RZG2L_ADC depend on ARCH_RZG2L
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Mon, 11 Apr 2022 17:09:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
+Message-ID: <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
+Subject: Re: [PATCH v8 0/9] RZN1 DMA support
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -69,43 +84,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jonathan,
+Hi Miquel,
 
-On Sun, Apr 10, 2022 at 7:52 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> On Wed,  6 Apr 2022 08:03:15 +0100
-> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> > ADC block is common on Renesas RZ/G2L and RZ/V2L SoC's, so instead of
-> > adding dependency for each SoC's add dependency on ARCH_RZG2L. The
-> > ARCH_RZG2L config option is already selected by ARCH_R9A07G044 and
-> > ARCH_R9A07G054.
+On Thu, Apr 7, 2022 at 10:16 AM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> sboyd@kernel.org wrote on Wed, 06 Apr 2022 17:45:09 -0700:
+> > Quoting Miquel Raynal (2022-04-06 09:18:47)
+> > > Here is a first series bringing DMA support to RZN1 platforms. Soon a
+> > > second series will come with changes made to the UART controller
+> > > driver, in order to interact with the RZN1 DMA controller.
+> > >
+> > > Stephen acked the sysctrl patch (in the clk driver) but somehow I feel
+> > > like it would be good to have this patch applied on both sides
+> > > (dmaengine and clk) because more changes will depend on the addition of
+> > > this helper, that are not related to DMA at all. I'll let you folks
+> > > figure out what is best.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> Sounds like a fix?
+> > Are you sending more patches in the next 7 weeks or so that will touch
+> > the same area? If so, then it sounds like I'll need to take the clk
+> > patch through clk tree. I don't know what is best because I don't have
+> > the information about what everyone plans to do in that file.
 >
-> If so, please supply a Fixes tag.
-> no need to resend, just reply with one to this email.
+> This series brings DMA support and needs to access the dmamux registers
+> that are in the sysctrl area.
+>
+> I've sent an RTC series which needs to access this area as well, but
+> it is not fully ready yet as it was advised to go for a reset
+> controller in this case. The reset controller would be registered by
+> the clock driver, so yes it would touch the same file.
+>
+> Finally, there is an USB series that is coming soon, I don't know if
+> it will be ready for merge for 5.19, but it needs to access a specific
+> register in this area as well (h2mode).
+>
+> So provided that we are able to contribute this reset driver quickly
+> enough, I would argue that it is safer to merge the clk changes in the
+> clk tree.
 
-This is not really a fix, as the original dependency was correct at
-that time.
-This is a change to add support for the RZ/V2L (r9a07g054) SoC, and
-avoiding the need to update the dependencies when support is added
-for more SoCs of the RZ/G2L family later.
-
-> > --- a/drivers/iio/adc/Kconfig
-> > +++ b/drivers/iio/adc/Kconfig
-> > @@ -910,7 +910,7 @@ config ROCKCHIP_SARADC
-> >
-> >  config RZG2L_ADC
-> >       tristate "Renesas RZ/G2L ADC driver"
-> > -     depends on ARCH_R9A07G044 || COMPILE_TEST
-> > +     depends on ARCH_RZG2L || COMPILE_TEST
-> >       help
-> >         Say yes here to build support for the ADC found in Renesas
-> >         RZ/G2L family.
+The clk tree or the renesas-clk tree? ;-)
 
 Gr{oetje,eeting}s,
 
