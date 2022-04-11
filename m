@@ -2,121 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAC4E4FB97C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 12:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 838904FBA35
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 12:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345569AbiDKK04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Apr 2022 06:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
+        id S240318AbiDKK5b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Apr 2022 06:57:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345558AbiDKK0c (ORCPT
+        with ESMTP id S1345806AbiDKK5Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Apr 2022 06:26:32 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135F443EC2;
-        Mon, 11 Apr 2022 03:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649672590; x=1681208590;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W9PBitEIG3h2GlCxu7zEfN69pBWFXH7+lRg/Bcxe/tU=;
-  b=f72pHBvbzdSnGiJbbZGOcVbarU12CQVURpB/E3Mor0lbiFUfSKpBKLCp
-   6pCwb/GQXoLFAL7pCrnqlokfyygyEjJ45Fe72MHYn3ALI1YlBr8qPigsw
-   /Civ/Z6elREx7yGDI56V7S3YB9vnFSxZh29aa22UaVzO2smO+mhftg3Py
-   rFT9PAS1cJeznNqYOn+eljY8ZhMDdy3uhRTUZ0OzbhG6J5JnTVEc98U9q
-   MYkTE5HH9G9YoiXAs5QYtk37GFIl/Epe+LbQviuH2GU6hi7UvjAEejRhG
-   bXxI9g44jgjylo+j+xQ4/0Y1PaPYGhxfbUWQGMjCHz4y6XKAFvo+pR2kV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="242018883"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="242018883"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 03:23:00 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="525460425"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 03:22:52 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ndr8Z-001B7S-AA;
-        Mon, 11 Apr 2022 13:19:11 +0300
-Date:   Mon, 11 Apr 2022 13:19:11 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Qianggui Song <qianggui.song@amlogic.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        openbmc@lists.ozlabs.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v4 09/13] pinctrl: meson: Rename REG_* to MESON_REG_*
-Message-ID: <YlQAn9+4kdB0F/4d@smile.fi.intel.com>
-References: <20220401103604.8705-1-andriy.shevchenko@linux.intel.com>
- <20220401103604.8705-10-andriy.shevchenko@linux.intel.com>
- <CAMuHMdX8zWA-3_=Je7sB_72G8Ky7-syqCH-RXGxNMazUipW-2g@mail.gmail.com>
+        Mon, 11 Apr 2022 06:57:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2DB3AA4A;
+        Mon, 11 Apr 2022 03:55:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F40B16154D;
+        Mon, 11 Apr 2022 10:55:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B519DC385A4;
+        Mon, 11 Apr 2022 10:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649674504;
+        bh=hbx/XGTbrjcsRQNZgsAlyhPIQMpDC7dZXrygkXiztaw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OBClJTLOwY1dVFIYHwAm3fVjA0YvYq/mVBBpApMC+GVkCQ5nPdgD/nWfkZ1aQEwDL
+         aJ8MKdjzhsdtFawTQ5xlCH5dBPoThFeeFk5GVcea0YKCXkiNjLOlAyW9AkjhMZQM8G
+         wKExElFoc7dJTCnvxCXoEOlpYq+c3rKkJL1dw+qVV3Z9LffszEVfHC2pRiLUM95JZT
+         ycLejppG5RhSdFcGvUaZzfIoMHKX6v65R/8nz/mvbUjUH1GWjKf6wZOUhEgF9GaGJx
+         h4OWh2s0YXSchwn2lKmNFrsAktqHe2ui2BMxXVZNCU4g6aM/tuMoQ+vO/FvcJkL6ro
+         C7VVzNjhloktg==
+Date:   Mon, 11 Apr 2022 16:25:00 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Colin Ian King <colin.king@intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        dmaengine@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dmaengine: sh: rz-dmac: Set DMA transfer parameters
+ based on the direction
+Message-ID: <YlQJBPmECe2AkpOJ@matsya>
+References: <20220409165348.46080-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdX8zWA-3_=Je7sB_72G8Ky7-syqCH-RXGxNMazUipW-2g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220409165348.46080-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 11:04:00AM +0200, Geert Uytterhoeven wrote:
-> On Fri, Apr 1, 2022 at 12:36 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > Currently compilation test fails on x86 due to name collision. The usual
-> > way to fix that is to move both conflicting parts to their own namespaces.
-> >
-> > Rename REG_* to MESON_REG_* as a prerequisite for enabling COMPILE_TEST.
-
-> >         NUM_REG,
+On 09-04-22, 17:53, Biju Das wrote:
+> Client drivers configure DMA transfer parameters based on the DMA
+> transfer direction.
 > 
-> MESON_NUM_REG?
+> This patch sets corresponding parameters in rz_dmac_config() based
+> on the DMA transfer direction.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Updated commit description
+> ---
+>  drivers/dma/sh/rz-dmac.c | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+> index ee2872e7d64c..de57ae006879 100644
+> --- a/drivers/dma/sh/rz-dmac.c
+> +++ b/drivers/dma/sh/rz-dmac.c
+> @@ -597,24 +597,24 @@ static int rz_dmac_config(struct dma_chan *chan,
+>  			  struct dma_slave_config *config)
+>  {
+>  	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
+> -	u32 val;
+> +	u32 val, data_sz;
+>  
+> -	channel->src_per_address = config->src_addr;
+> -	channel->src_word_size = config->src_addr_width;
+> -	channel->dst_per_address = config->dst_addr;
+> -	channel->dst_word_size = config->dst_addr_width;
+> -
+> -	val = rz_dmac_ds_to_val_mapping(config->dst_addr_width);
+> -	if (val == CHCFG_DS_INVALID)
+> -		return -EINVAL;
+> -
+> -	channel->chcfg |= CHCFG_FILL_DDS(val);
+> +	if (config->direction == DMA_DEV_TO_MEM) {
 
-Hmm... Only one place where it's defined and used, but I can do it, sure.
+This is a deprecated field, pls do not use this... 
 
-$ git grep -n -w NUM_REG
-drivers/pinctrl/meson/pinctrl-meson.h:72:       NUM_REG,
-drivers/pinctrl/meson/pinctrl-meson.h:105:      struct meson_reg_desc regs[NUM_REG];
+Above code is correct and then based on direction of the descriptor you
+would use either src or dstn parameters
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+~Vinod
