@@ -2,110 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A564E4FB1F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 04:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B71C74FB695
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Apr 2022 10:58:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241054AbiDKCp4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 10 Apr 2022 22:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36522 "EHLO
+        id S239156AbiDKJAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Apr 2022 05:00:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237932AbiDKCp4 (ORCPT
+        with ESMTP id S236336AbiDKJAM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 10 Apr 2022 22:45:56 -0400
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C2E3F324;
-        Sun, 10 Apr 2022 19:43:43 -0700 (PDT)
-Received: by mail-oo1-xc34.google.com with SMTP id i8-20020a4a6f48000000b00324ada4b9d9so2536068oof.11;
-        Sun, 10 Apr 2022 19:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oLgts9K7UmQuTCuGmocOEoqDhSlWF9Xa8QfC90inKE0=;
-        b=K2F+wfG9CIyclOliTMc4jVzCzPnRoDTxDUkNENWyUMMBuzIdAHfgvviRSjjY94N6Zw
-         RPx3brzZx5xwuItnvfnhJiXVnnpzeUVjdBCWrH70cq9kcd9lz6xj1ZbsJChXjLmgKNhY
-         wtXaIVkYkvg9VW430ltpi4WDyOjEAqIyzfSE6LF9w2LQs1JmVGnNfP05bVU4suB0HTrQ
-         B8dAadp2GmC8OJ987ewFL7Q3atg/ixMqTggM79XSXgcpe6oBqref8c0ibWbtm3mloSPD
-         EGWhJipUIwWFpya0v84TIBekbKhVYn1OKjzY5zvqusWqSgyg0AjWXQoxiBnamjHF7TVM
-         wFTA==
+        Mon, 11 Apr 2022 05:00:12 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33A93EBAF;
+        Mon, 11 Apr 2022 01:57:58 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id b189so10081192qkf.11;
+        Mon, 11 Apr 2022 01:57:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oLgts9K7UmQuTCuGmocOEoqDhSlWF9Xa8QfC90inKE0=;
-        b=0/KzHYVJT/6HqdjfJFmKBTJeOqkD0P0KrvxFhOIMT7YMBWRUEqNo/dGHvc1YjsCbq6
-         t0+f/dlM2mo+ZK59Ye/tp2OdHurMCfuCi3h2spXqiy+VssDCKgefnTgBdXPXiPkTZMtO
-         VvN/4geakvarMsyR0DalgFgPAA7GyZt/TtHBmXvWJ51RaAV31Co8gdRDJWrvMo47U9eb
-         WxYefHBO0BbYjrRfAiPsZsG6FszKyiINoccGfliiac2kN+yTzy9/3Cf0wy88LIij6zMB
-         omCsfnt6jEXm2MPHTOmJh7GQw2N+gTKyVA/qqazMtGJ2pMSc/RRd0r7BXdh0GEkuUybH
-         JP/g==
-X-Gm-Message-State: AOAM532lx0wXkSHxy9n5AElEcAqgUM9tEOcOYdea0pB/42R6QMMRHrHf
-        EASDxC9POhyZCgVx4L5e0eEXVkclW/c=
-X-Google-Smtp-Source: ABdhPJzIJGXWImyF68fpiDnlRuuK0sDOgGEUgb+42oDasRNYgDOUiLjmWyL/1m/8vLE5nun2zGwgCA==
-X-Received: by 2002:a05:6820:820:b0:329:9fd3:915c with SMTP id bg32-20020a056820082000b003299fd3915cmr5336332oob.0.1649645023048;
-        Sun, 10 Apr 2022 19:43:43 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p18-20020a056830131200b005ccf8ac6207sm11851381otq.80.2022.04.10.19.43.41
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UYOd5uPKUg9Pu/5HEV4rtkFPoYqAMXA0OJu/OmCqEfk=;
+        b=bwMGZXsX8lA8V8CGXrGboQjCllbR2mJDpIZdnBK9cxHUcbPtcLyNpH6gaWP5YTWrHU
+         TwHcbS12nWi1b270C+x6UOmYGBhiL18OXOtGcStTyrhTgujIrf2/EpLqPtkxajy7L+TE
+         n71vdv7HI3Pj+Zf2oob7itTf95ULLEzueHLj+S5eGa0yLobW4e714/ozga2bm7Gbj59S
+         27QGcbvnaaBabJngcvzgAYqmNeFt33EuCKNM5aduW+gwibeTvvrRbEh+iIhZRy8urKDb
+         mrvQ1kfknsDrfMmZQ7ihknwBFpzhnFJlgC+ckWkC2LYmU7ALkJbHg8ForrQDfvn6XzT9
+         IcBQ==
+X-Gm-Message-State: AOAM530hPiMa+r55cnrNW/MFoicqRnHwfH8Ml10pusi/PlIjUWgB2Thf
+        cqvEQMLzpCO8YeilfVL0OcLG+2W2hFKaXg==
+X-Google-Smtp-Source: ABdhPJzXo0/WFy33PsVqImjZ+IZ4ZLZUAE7b/xyj9aH6PPYIMHY7N+Zn5vHfKUEoTgPQZY7NVUdqkQ==
+X-Received: by 2002:a37:67c5:0:b0:69b:ed21:e345 with SMTP id b188-20020a3767c5000000b0069bed21e345mr8493441qkc.732.1649667477740;
+        Mon, 11 Apr 2022 01:57:57 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id n10-20020a05622a040a00b002e315b9f08asm26257527qtx.35.2022.04.11.01.57.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Apr 2022 19:43:42 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3d05a866-ea95-7fa3-13de-8baf54f31653@roeck-us.net>
-Date:   Sun, 10 Apr 2022 19:43:40 -0700
+        Mon, 11 Apr 2022 01:57:57 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2ebf4b91212so58692877b3.8;
+        Mon, 11 Apr 2022 01:57:57 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr24633663ywi.449.1649667477171; Mon, 11
+ Apr 2022 01:57:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
-Content-Language: en-US
-To:     Tzung-Bi Shih <tzungbi@kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     wim@linux-watchdog.org, geert+renesas@glider.be,
-        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Phil Edworthy <phil.edworthy@renesas.com>
-References: <20220408200205.2833931-1-jjhiblot@traphandler.com>
- <20220408200205.2833931-3-jjhiblot@traphandler.com>
- <YlOJVzA49rTrBDH3@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <YlOJVzA49rTrBDH3@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+References: <cover.1648546700.git.geert+renesas@glider.be> <3295013f27f1e4b8fbf3f79b950d65157ea95ef2.1648546700.git.geert+renesas@glider.be>
+ <Yk6IqweUS/INEJiC@ninjato>
+In-Reply-To: <Yk6IqweUS/INEJiC@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 11 Apr 2022 10:57:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWb3HJqE6EXtqoDOCzPohpmNrbGJ42OBZ0LrHkOFZq5og@mail.gmail.com>
+Message-ID: <CAMuHMdWb3HJqE6EXtqoDOCzPohpmNrbGJ42OBZ0LrHkOFZq5og@mail.gmail.com>
+Subject: Re: [PATCH 1/2] clk: renesas: r8a77990: Add RPC clocks
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/10/22 18:50, Tzung-Bi Shih wrote:
-> On Fri, Apr 08, 2022 at 10:02:05PM +0200, Jean-Jacques Hiblot wrote:
->> From: Phil Edworthy <phil.edworthy@renesas.com>
->>
->> This is a driver for the standard WDT on the RZ/N1 devices. This WDT has
->> very limited timeout capabilities. However, it can reset the device.
->> To do so, the corresponding bits in the SysCtrl RSTEN register need to
->> be enabled. This is not done by this driver.
->>
->> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
->> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> 
-> With a minor comment:
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> 
->> +static int rzn1_wdt_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	wdt->wdtdev.timeout = DEFAULT_TIMEOUT;
->> +	ret = watchdog_init_timeout(&wdt->wdtdev, 0, dev);
-> 
-> Could it drop the assignment if `ret` is unused?
+Hi Wolfram,
 
-Good catch. Yes, that assignment is pretty pointless.
+On Thu, Apr 7, 2022 at 8:46 AM Wolfram Sang <wsa@kernel.org> wrote:
+> On Tue, Mar 29, 2022 at 11:44:25AM +0200, Geert Uytterhoeven wrote:
+> > Describe the various clocks used by the SPI Multi I/O Bus Controller
+> > (RPC-IF) on the R-Car E3 SoC: RPCSRC internal clock, RPC{,D2} clocks
+> > derived from it, and RPC-IF module clock.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Guenter
+Thanks!
 
+> One minor question, though:
+>
+> > +     DEF_FIXED_RPCSRC_E3(".rpcsrc", CLK_RPCSRC, CLK_PLL0, CLK_PLL1),
+> > +
+> >       DEF_DIV6_RO(".r",      CLK_RINT,           CLK_EXTAL, CPG_RCKCR, 32),
+> >
+> >       DEF_RATE(".oco",       CLK_OCO,            8 * 1000 * 1000),
+> > @@ -107,6 +110,11 @@ static const struct cpg_core_clk r8a77990_core_clks[] __initconst = {
+> >       DEF_GEN3_SD("sd1",     R8A77990_CLK_SD1,   R8A77990_CLK_SD1H, 0x0078),
+> >       DEF_GEN3_SD("sd3",     R8A77990_CLK_SD3,   R8A77990_CLK_SD3H, 0x026c),
+> >
+> > +     DEF_BASE("rpc",         R8A77990_CLK_RPC, CLK_TYPE_GEN3_RPC,
+> > +              CLK_RPCSRC),
+> > +     DEF_BASE("rpcd2",       R8A77990_CLK_RPCD2, CLK_TYPE_GEN3_RPCD2,
+> > +              R8A77990_CLK_RPC),
+> > +
+>
+> Any reason the RPC clocks are not grouped together? All other SoCs I
+
+Yes :-)
+The "rpc" and "rpcd2" clocks are not internal clocks, so they do not belong
+under "/* Internal Core Clocks */", but under "/* Core Clock Outputs */"...
+
+> checked have that.
+
+... Hence soon I'll send out a patch to fix that...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
