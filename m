@@ -2,88 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C3D4FE526
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 17:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 599914FE52C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 17:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357339AbiDLPxW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 11:53:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47072 "EHLO
+        id S243106AbiDLPzX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 11:55:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351060AbiDLPw3 (ORCPT
+        with ESMTP id S235086AbiDLPzW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 11:52:29 -0400
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF7F35F4D2;
-        Tue, 12 Apr 2022 08:50:11 -0700 (PDT)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-d39f741ba0so21131981fac.13;
-        Tue, 12 Apr 2022 08:50:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZNA3RtRbTOSzp1Zg/MKQMKPcySxQIZx2q6vIr3MdFp8=;
-        b=HUzwR+BipbmqnR/Qh7F0lnutARb43uiWStV1tzQPVNEAgoUvv79BRuOf15KwJ566iL
-         ITB4vlPYSI4QIn6TBZ6wFgpw+r18Up7nZJYDH1ZlNRv4BhXJGCH7OyopXsF0BCUx1hFZ
-         jYGcmdUcipt8zYsTDWU8MEmmgQpUEHe9rT2ITu0YxlTiy1c+8MSVhn3VDf3Jqacy1qST
-         nwjZA0y98ddba/tLCEn09OWWvi05Q/po99OpBKA8mVciN6rs1rLqaKI72obgUHXtbf6N
-         gRanwzIo83LWEiAh0KVRpJ7ezjBT3A2wZmr++VicyfCNY0S0nDSgEw4MgxRc2B2cExfi
-         8nPw==
-X-Gm-Message-State: AOAM532j5BQgO2bMKqTh70WILGz64aEZ6QzxLyW5W1HIYh+ap+kPWdHP
-        +72ARi89ByaKbuz0m+4k/w==
-X-Google-Smtp-Source: ABdhPJyZgxE30bekwBpxlZpef6JiIY5gtFmQYO/TK0Q9XIlFTziESsSwi0XHzrcr6VvGhLCbnTzWeg==
-X-Received: by 2002:a05:6870:3113:b0:d3:473b:3f1d with SMTP id v19-20020a056870311300b000d3473b3f1dmr2333741oaa.116.1649778611040;
-        Tue, 12 Apr 2022 08:50:11 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s24-20020a056808209800b002da3b9bf8e0sm12333974oiw.32.2022.04.12.08.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 08:50:10 -0700 (PDT)
-Received: (nullmailer pid 348051 invoked by uid 1000);
-        Tue, 12 Apr 2022 15:50:10 -0000
-Date:   Tue, 12 Apr 2022 10:50:10 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 1/6] PCI: rcar-gen2: Add support for clocks
-Message-ID: <YlWfslEOdrf62KiP@robh.at.kernel.org>
-References: <20220412094029.287562-1-herve.codina@bootlin.com>
- <20220412094029.287562-2-herve.codina@bootlin.com>
+        Tue, 12 Apr 2022 11:55:22 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9022C5F8F3;
+        Tue, 12 Apr 2022 08:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=sdMxRKC7g2xwH9SumLE9xAEvXKx1mjNHvAlvUMvX6aA=; b=DQ5qgG7+24m/Do8CVMepiBekPz
+        YAW5X8q8NsE4IecqvxyI3a7vc0ON2TTbqShrZ696uctI7I5eF5bIJKwPz+1torsxTTT4xqAdl8IKZ
+        zkS92uPtdJnO3Pi9q0Msgo/cYg7CGuNSPRpAMMF58WFoSka7fEBi6jT05TIY/trFxkZ9u2bpF1X2l
+        TwMug4wtanFBuCyi5D01c/9MwlrEGAbl+JFsK9HijivBqWZAYwgvEYqjqNOrbsGoJnk3EKn/tWtTv
+        Zwih7L5z1/mknTF9fZwlJuu2ReSxy1m5mKwL948wrzNrE2U4ewVZ1A1AfffHcV7Rf0IIK6AXd9q5W
+        U8mLVJhQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1neIoq-00DUD2-De; Tue, 12 Apr 2022 15:52:40 +0000
+Message-ID: <4a90c2f4-2a49-5e70-2454-aca8313ab068@infradead.org>
+Date:   Tue, 12 Apr 2022 08:52:34 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412094029.287562-2-herve.codina@bootlin.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/7] treewide: scsi: ufs: Add support for Renesas R-Car
+ UFS controller
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
+        krzk+dt@kernel.org
+Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com>
+ <23baab5b-722e-bdcd-be2c-62e38b2ff6a5@linaro.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <23baab5b-722e-bdcd-be2c-62e38b2ff6a5@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 11:40:24AM +0200, Herve Codina wrote:
-> The PCI rcar-gen2 does not call any clk_prepare_enable().
-> This lead to an access failure when the driver tries to access
-> the IP (at least on a RZ/N1D platform).
+
+
+On 4/12/22 02:19, Krzysztof Kozlowski wrote:
+> On 12/04/2022 09:36, Yoshihiro Shimoda wrote:
+>> This patch series adds support Renesas R-Car S4-8 UFS controller.
+>> This controller has some restrictions so adds some quirks for it.
+>> Before using this driver, we have to initialize a clock generator
+>> on the environment board (named "Spider") by using the commands of
+>> U-Boot like below:
+>>  => i2c dev 0
+>>  => i2c mw 0x6c 0x26 0x05
+>>  => i2c olen 0x6c 2
+>>  => i2c mw 0x6c 0x26c 0x2e
+>>
+>> To use the UFS controller, we need the following patch too:
+>> https://lore.kernel.org/all/20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com/
+>>
 > 
-> Prepare and enable clocks using the bulk version of
-> clk_prepare_enable() in order to prepare and enable all clocks
-> attached to this device.
+> Thanks for the patches. Somehow I did not got entire set (bindings
+> missing) and I cannot find any of them on lore.kernel.org. Did you have
+> some bounces or sending troubles?
 
-The binding says there is only a single clock, so it needs an update if 
-there are multiple clocks. (And ideally converted to DT schema format.)
+Hi,
 
-Rob
+They are all here:
+  https://lore.kernel.org/linux-scsi/23baab5b-722e-bdcd-be2c-62e38b2ff6a5@linaro.org/T/#t
+
+-- 
+~Randy
