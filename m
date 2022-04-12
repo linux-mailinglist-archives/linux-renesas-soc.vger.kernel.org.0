@@ -2,274 +2,318 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 541464FE59B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 18:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F1AB4FE59D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 18:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357499AbiDLQPj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 12:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
+        id S1357502AbiDLQPp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 12:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354249AbiDLQPj (ORCPT
+        with ESMTP id S1354249AbiDLQPp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 12:15:39 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CB1BF496BB;
-        Tue, 12 Apr 2022 09:13:20 -0700 (PDT)
+        Tue, 12 Apr 2022 12:15:45 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D7A64C7A7;
+        Tue, 12 Apr 2022 09:13:27 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,254,1643641200"; 
-   d="scan'208";a="117740512"
+   d="scan'208";a="116667573"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Apr 2022 01:13:20 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 13 Apr 2022 01:13:23 +0900
 Received: from localhost.localdomain (unknown [10.226.92.254])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1C0CB409BAA0;
-        Wed, 13 Apr 2022 01:13:16 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BADD5409BAA0;
+        Wed, 13 Apr 2022 01:13:20 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 0/3] Add Renesas RZ/G2UL Type-1 {SoC,SMARC EVK} support
-Date:   Tue, 12 Apr 2022 17:13:11 +0100
-Message-Id: <20220412161314.13800-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v5 1/3] clk: renesas: Add support for RZ/G2UL SoC
+Date:   Tue, 12 Apr 2022 17:13:12 +0100
+Message-Id: <20220412161314.13800-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220412161314.13800-1-biju.das.jz@bp.renesas.com>
+References: <20220412161314.13800-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+The clock structure for RZ/G2UL is almost identical to RZ/G2L SoC with
+fewer IP blocks. The IP blocks such as WDT1, GPT, H264, GPU and POEG are
+not present on RZ/G2UL.
 
-RZ/G2UL Family SoC consists of Type-1 and Type-2 SoC's.
-Both these SoC's has single Core 1.0GHz CA-55 with similar
-peripheral IP's to that of RZ/G2LC and RZ/G2L.
+This patch adds minimal clock and reset entries required to boot the
+system on Renesas RZ/G2UL SMARC EVK and binds it with the RZ/G2L CPG core
+driver.
 
-The difference between Type1 and Type2 SoC's are as follows
-Function	Type1			Type2
-SCIF		5ch {0,1,2,3,4}	4ch {0,1,2,3}
-Ethernet	2ch {0,1}		1ch {0}
-SSI		4ch {0,1,2,3}		3ch {0,1,2}
-ADC		2ch {0,1}		N/A
-DU		1ch Parallel I/F	N/A
-
-RZ/G2UL Type-2 is pin compatible with RZ/G2LC, so the number of channels
-for each IP matches with RZ/G2LC.
-The table below shows the functional differences between RZ/G2LC and 
-RZ/G2UL Type-2.
-Function	RZ/G2LC		RZ/G2UL Type-2
-Cortex-A55	Dual 1.2GHz		Single 1.0GHz
-DU		1ch MIPI-DSI		N/A
-GPT		6ch {0,3,4,5,6,7}	N/A
-Mali-31	1ch			N/A
-
-This patch series aims to add support for Renesas RZ/G2UL Type-1 SoC and
-basic support for Renesas RZ/G2UL SMARC EVK (based on R9A07G043U11)
-- memory
-- External input clock
-- SCIF
-- GbEthernet
-
-It shares the same carrier board with RZ/G2L, but the pin mapping is
-different. Place holders are added in device nodes to avoid compilation
-errors for the devices which have not been enabled yet on RZ/G2UL SoC.
-
-Also disable the device nodes which is not tested and delete the
-corresponding pinctrl definitions.
-
-Test logs:-
-
-/ # for i in machine family soc_id revision; do echo -n "$i: "; cat /sys/devices/soc0/$i;done
-machine: Renesas SMARC EVK based on r9a07g043u11
-family: RZ/G2UL
-soc_id: r9a07g043
-revision: 0
-
-/ # cat /proc/cpuinfo
-processor       : 0
-BogoMIPS        : 48.00
-Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
-CPU implementer : 0x41
-CPU architecture: 8
-CPU variant     : 0x2
-CPU part        : 0xd05
-CPU revision    : 0
-
-/ # cat /proc/interrupts
-           CPU0
- 11:       1439     GICv3  27 Level     arch_timer
- 13:          0     GICv3 412 Level     1004b800.serial:rx err
- 14:         15     GICv3 414 Level     1004b800.serial:rx full
- 15:        351     GICv3 415 Level     1004b800.serial:tx empty
- 16:          0     GICv3 413 Level     1004b800.serial:break
- 17:          5     GICv3 416 Level     1004b800.serial:rx ready
- 18:          0     GICv3 173 Edge      error
- 19:          0     GICv3 157 Edge      11820000.dma-controller:0
- 20:          0     GICv3 158 Edge      11820000.dma-controller:1
- 21:          0     GICv3 159 Edge      11820000.dma-controller:2
- 22:          0     GICv3 160 Edge      11820000.dma-controller:3
- 23:          0     GICv3 161 Edge      11820000.dma-controller:4
- 24:          0     GICv3 162 Edge      11820000.dma-controller:5
- 25:          0     GICv3 163 Edge      11820000.dma-controller:6
- 26:          0     GICv3 164 Edge      11820000.dma-controller:7
- 27:          0     GICv3 165 Edge      11820000.dma-controller:8
- 28:          0     GICv3 166 Edge      11820000.dma-controller:9
- 29:          0     GICv3 167 Edge      11820000.dma-controller:10
- 30:          0     GICv3 168 Edge      11820000.dma-controller:11
- 31:          0     GICv3 169 Edge      11820000.dma-controller:12
- 32:          0     GICv3 170 Edge      11820000.dma-controller:13
- 33:          0     GICv3 171 Edge      11820000.dma-controller:14
- 34:          0     GICv3 172 Edge      11820000.dma-controller:15
-IPI0:         0       Rescheduling interrupts
-IPI1:         0       Function call interrupts
-IPI2:         0       CPU stop interrupts
-IPI3:         0       CPU stop (for crash dump) interrupts
-IPI4:         0       Timer broadcast interrupts
-IPI5:         1       IRQ work interrupts
-IPI6:         0       CPU wake-up interrupts
-Err:          0
-
-/ # cat /proc/meminfo
-MemTotal:         868744 kB
-MemFree:          820840 kB
-MemAvailable:     797676 kB
-Buffers:               0 kB
-Cached:             3948 kB
-SwapCached:            0 kB
-Active:                4 kB
-Inactive:             72 kB
-Active(anon):          4 kB
-Inactive(anon):       72 kB
-Active(file):          0 kB
-Inactive(file):        0 kB
-Unevictable:        3948 kB
-Mlocked:               0 kB
-SwapTotal:             0 kB
-SwapFree:              0 kB
-Dirty:                 0 kB
-Writeback:             0 kB
-AnonPages:           112 kB
-Mapped:             1300 kB
-Shmem:                 0 kB
-KReclaimable:      21256 kB
-Slab:              30352 kB
-SReclaimable:      21256 kB
-SUnreclaim:         9096 kB
-KernelStack:         908 kB
-PageTables:           64 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:      434372 kB
-Committed_AS:        592 kB
-VmallocTotal:   133143592960 kB
-VmallocUsed:        1188 kB
-VmallocChunk:          0 kB
-Percpu:              120 kB
-AnonHugePages:         0 kB
-ShmemHugePages:        0 kB
-ShmemPmdMapped:        0 kB
-FileHugePages:         0 kB
-FilePmdMapped:         0 kB
-CmaTotal:         131072 kB
-CmaFree:          130688 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-Hugetlb:               0 kB
-/ # mount -t debugfs none /sys/kernel/debug/
-/ # cat /sys/kernel/debug/clk/clk_summary
-                                 enable  prepare  protect                                duty  hardware
-   clock                          count    count    count        rate   accuracy phase  cycle    enable
--------------------------------------------------------------------------------------------------------
- audio_mclock                         0        0        0    11289600          0     0  50000         Y
- extal                                2        2        0    24000000          0     0  50000         Y
-    .pll6                             0        0        0   500000000          0     0  50000         Y
-    .pll5                             0        0        0  3000000000          0     0  50000         Y
-    .pll3                             1        1        0  1600000000          0     0  50000         Y
-       .pll3_div2                     1        1        0   800000000          0     0  50000         Y
-          .pll3_div2_4                1        1        0   200000000          0     0  50000         Y
-             P1                       4        4        0   200000000          0     0  50000         Y
-                dmac_aclk             2        2        0   200000000          0     0  50000         Y
-                ia55_clk              1        1        0   200000000          0     0  50000         Y
-                gic                   1        1        0   200000000          0     0  50000         Y
-                P1_DIV2               1        1        0   100000000          0     0  50000         Y
-                   dmac_pclk          1        1        0   100000000          0     0  50000         Y
-             .pll3_div2_4_2           0        0        0   100000000          0     0  50000         Y
-                P2                    0        0        0   100000000          0     0  50000         Y
-                   ia55_pclk          0        0        0   100000000          0     0  50000         N
-    .pll2                             1        1        0  1600000000          0     0  50000         Y
-       .pll2_div2                     1        1        0   800000000          0     0  50000         Y
-          .pll2_div2_8                1        1        0   100000000          0     0  50000         Y
-             P0                       1        1        0   100000000          0     0  50000         Y
-                sci1                  0        0        0   100000000          0     0  50000         N
-                sci0                  0        0        0   100000000          0     0  50000         N
-                scif4                 0        0        0   100000000          0     0  50000         N
-                scif3                 0        0        0   100000000          0     0  50000         N
-                scif2                 0        0        0   100000000          0     0  50000         N
-                scif1                 0        0        0   100000000          0     0  50000         N
-                scif0                 2        2        0   100000000          0     0  50000         Y
-    .pll1                             0        0        0  1000000000          0     0  50000         Y
-       I                              0        0        0  1000000000          0     0  50000         Y
-    .osc_div1000                      0        0        0       24000          0     0  50000         Y
-    .osc                              0        0        0    24000000          0     0  50000         Y
- can                                  0        0        0           0          0     0  50000         Y
- audio_clk2                           0        0        0    12288000          0     0  50000         Y
- audio_clk1                           0        0        0    11289600          0     0  50000         Y
-/ #
-
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 v4->v5:
- * Removed RZ/G2UL SMARC EVK and clock binding patches as it is accepted
-   for 5.19
- * Fixed underscores in node names on the SoC dtsi file.
+ * No change
 v3->v4:
- * Documented RZ/G2UL SMARC EVK
- * Removed LAST_COMMON macro from clock and reset indices.
- * Added comment for RZ/G2UL specific clocks
- * Listed all clocks and reset in the same order as RZ/G2L.
  * Added Rb tag from Geert
  * Updated num_hw_mod_clks and num_resets.
 v2->v3:
- * Changed the compatible from r9a07g043u-sysc->r9a07g043-sysc
- * Changed the compatible from r9a07g043u-cpg->r9a07g043-cpg
- * Retained Rb tag from Rob as it is trivial change.
- * Changed the config from ARCH_R9A07G043U->ARCH_R9A07G043
- * renamed the file r9a07g043u-cpg.h->r9a07g043-cpg.h
- * Prepared Common Module Clock/Reset indices for RZ/G2UL and RZ/Five
- * Prepared RZ/G2UL specific Module Clock/Reset indices.
-
-Biju Das (3):
-  clk: renesas: Add support for RZ/G2UL SoC
-  arm64: dts: renesas: Add initial DTSI for RZ/G2UL SoC
-  arm64: dts: renesas: Add initial device tree for RZ/G2UL Type-1 SMARC
-    EVK
-
- arch/arm64/boot/dts/renesas/Makefile          |   2 +
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi    | 413 ++++++++++++++++++
- .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 +++++
- .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    |  25 ++
- drivers/clk/renesas/Kconfig                   |   7 +-
- drivers/clk/renesas/Makefile                  |   1 +
- drivers/clk/renesas/r9a07g043-cpg.c           | 157 +++++++
- drivers/clk/renesas/rzg2l-cpg.c               |   6 +
- drivers/clk/renesas/rzg2l-cpg.h               |   1 +
- 9 files changed, 722 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a07g043.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
- create mode 100644 arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
+ * Replaced R9A07G043U->R9A07G043 and r9a07g043u->r9a07g043
+v1->v2:
+ * No change
+---
+ drivers/clk/renesas/Kconfig         |   7 +-
+ drivers/clk/renesas/Makefile        |   1 +
+ drivers/clk/renesas/r9a07g043-cpg.c | 157 ++++++++++++++++++++++++++++
+ drivers/clk/renesas/rzg2l-cpg.c     |   6 ++
+ drivers/clk/renesas/rzg2l-cpg.h     |   1 +
+ 5 files changed, 171 insertions(+), 1 deletion(-)
  create mode 100644 drivers/clk/renesas/r9a07g043-cpg.c
 
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index c281f3af5716..a95ed8f310da 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -33,6 +33,7 @@ config CLK_RENESAS
+ 	select CLK_R8A779A0 if ARCH_R8A779A0
+ 	select CLK_R8A779F0 if ARCH_R8A779F0
+ 	select CLK_R9A06G032 if ARCH_R9A06G032
++	select CLK_R9A07G043 if ARCH_R9A07G043
+ 	select CLK_R9A07G044 if ARCH_R9A07G044
+ 	select CLK_R9A07G054 if ARCH_R9A07G054
+ 	select CLK_SH73A0 if ARCH_SH73A0
+@@ -160,6 +161,10 @@ config CLK_R8A779F0
+ config CLK_R9A06G032
+ 	bool "RZ/N1D clock support" if COMPILE_TEST
+ 
++config CLK_R9A07G043
++	bool "RZ/G2UL clock support" if COMPILE_TEST
++	select CLK_RZG2L
++
+ config CLK_R9A07G044
+ 	bool "RZ/G2L clock support" if COMPILE_TEST
+ 	select CLK_RZG2L
+@@ -200,7 +205,7 @@ config CLK_RCAR_USB2_CLOCK_SEL
+ 	  This is a driver for R-Car USB2 clock selector
+ 
+ config CLK_RZG2L
+-	bool "Renesas RZ/{G2L,V2L} family clock support" if COMPILE_TEST
++	bool "Renesas RZ/{G2L,G2UL,V2L} family clock support" if COMPILE_TEST
+ 	select RESET_CONTROLLER
+ 
+ # Generic
+diff --git a/drivers/clk/renesas/Makefile b/drivers/clk/renesas/Makefile
+index d5e571699a30..ca3a9bbcf27a 100644
+--- a/drivers/clk/renesas/Makefile
++++ b/drivers/clk/renesas/Makefile
+@@ -30,6 +30,7 @@ obj-$(CONFIG_CLK_R8A77995)		+= r8a77995-cpg-mssr.o
+ obj-$(CONFIG_CLK_R8A779A0)		+= r8a779a0-cpg-mssr.o
+ obj-$(CONFIG_CLK_R8A779F0)		+= r8a779f0-cpg-mssr.o
+ obj-$(CONFIG_CLK_R9A06G032)		+= r9a06g032-clocks.o
++obj-$(CONFIG_CLK_R9A07G043)		+= r9a07g043-cpg.o
+ obj-$(CONFIG_CLK_R9A07G044)		+= r9a07g044-cpg.o
+ obj-$(CONFIG_CLK_R9A07G054)		+= r9a07g044-cpg.o
+ obj-$(CONFIG_CLK_SH73A0)		+= clk-sh73a0.o
+diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
+new file mode 100644
+index 000000000000..81409ff37e2e
+--- /dev/null
++++ b/drivers/clk/renesas/r9a07g043-cpg.c
+@@ -0,0 +1,157 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * RZ/G2UL CPG driver
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++#include <linux/clk-provider.h>
++#include <linux/device.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++
++#include <dt-bindings/clock/r9a07g043-cpg.h>
++
++#include "rzg2l-cpg.h"
++
++enum clk_ids {
++	/* Core Clock Outputs exported to DT */
++	LAST_DT_CORE_CLK = R9A07G043_CLK_P0_DIV2,
++
++	/* External Input Clocks */
++	CLK_EXTAL,
++
++	/* Internal Core Clocks */
++	CLK_OSC_DIV1000,
++	CLK_PLL1,
++	CLK_PLL2,
++	CLK_PLL2_DIV2,
++	CLK_PLL2_DIV2_8,
++	CLK_PLL3,
++	CLK_PLL3_DIV2,
++	CLK_PLL3_DIV2_4,
++	CLK_PLL3_DIV2_4_2,
++	CLK_PLL5,
++	CLK_PLL6,
++	CLK_P1_DIV2,
++
++	/* Module Clocks */
++	MOD_CLK_BASE,
++};
++
++/* Divider tables */
++static const struct clk_div_table dtable_1_8[] = {
++	{0, 1},
++	{1, 2},
++	{2, 4},
++	{3, 8},
++	{0, 0},
++};
++
++static const struct clk_div_table dtable_1_32[] = {
++	{0, 1},
++	{1, 2},
++	{2, 4},
++	{3, 8},
++	{4, 32},
++	{0, 0},
++};
++
++static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
++	/* External Clock Inputs */
++	DEF_INPUT("extal", CLK_EXTAL),
++
++	/* Internal Core Clocks */
++	DEF_FIXED(".osc", R9A07G043_OSCCLK, CLK_EXTAL, 1, 1),
++	DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
++	DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
++	DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
++	DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
++	DEF_FIXED(".pll2_div2_8", CLK_PLL2_DIV2_8, CLK_PLL2_DIV2, 1, 8),
++	DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
++	DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
++	DEF_FIXED(".pll3_div2_4", CLK_PLL3_DIV2_4, CLK_PLL3_DIV2, 1, 4),
++	DEF_FIXED(".pll3_div2_4_2", CLK_PLL3_DIV2_4_2, CLK_PLL3_DIV2_4, 1, 2),
++	DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
++	DEF_FIXED(".pll6", CLK_PLL6, CLK_EXTAL, 125, 6),
++
++	/* Core output clk */
++	DEF_DIV("I", R9A07G043_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8,
++		CLK_DIVIDER_HIWORD_MASK),
++	DEF_DIV("P0", R9A07G043_CLK_P0, CLK_PLL2_DIV2_8, DIVPL2A,
++		dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++	DEF_DIV("P1", R9A07G043_CLK_P1, CLK_PLL3_DIV2_4,
++		DIVPL3B, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++	DEF_FIXED("P1_DIV2", CLK_P1_DIV2, R9A07G043_CLK_P1, 1, 2),
++	DEF_DIV("P2", R9A07G043_CLK_P2, CLK_PLL3_DIV2_4_2,
++		DIVPL3A, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
++};
++
++static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
++	DEF_MOD("gic",		R9A07G043_GIC600_GICCLK, R9A07G043_CLK_P1,
++				0x514, 0),
++	DEF_MOD("ia55_pclk",	R9A07G043_IA55_PCLK, R9A07G043_CLK_P2,
++				0x518, 0),
++	DEF_MOD("ia55_clk",	R9A07G043_IA55_CLK, R9A07G043_CLK_P1,
++				0x518, 1),
++	DEF_MOD("dmac_aclk",	R9A07G043_DMAC_ACLK, R9A07G043_CLK_P1,
++				0x52c, 0),
++	DEF_MOD("dmac_pclk",	R9A07G043_DMAC_PCLK, CLK_P1_DIV2,
++				0x52c, 1),
++	DEF_MOD("scif0",	R9A07G043_SCIF0_CLK_PCK, R9A07G043_CLK_P0,
++				0x584, 0),
++	DEF_MOD("scif1",	R9A07G043_SCIF1_CLK_PCK, R9A07G043_CLK_P0,
++				0x584, 1),
++	DEF_MOD("scif2",	R9A07G043_SCIF2_CLK_PCK, R9A07G043_CLK_P0,
++				0x584, 2),
++	DEF_MOD("scif3",	R9A07G043_SCIF3_CLK_PCK, R9A07G043_CLK_P0,
++				0x584, 3),
++	DEF_MOD("scif4",	R9A07G043_SCIF4_CLK_PCK, R9A07G043_CLK_P0,
++				0x584, 4),
++	DEF_MOD("sci0",		R9A07G043_SCI0_CLKP, R9A07G043_CLK_P0,
++				0x588, 0),
++	DEF_MOD("sci1",		R9A07G043_SCI1_CLKP, R9A07G043_CLK_P0,
++				0x588, 1),
++};
++
++static struct rzg2l_reset r9a07g043_resets[] = {
++	DEF_RST(R9A07G043_GIC600_GICRESET_N, 0x814, 0),
++	DEF_RST(R9A07G043_GIC600_DBG_GICRESET_N, 0x814, 1),
++	DEF_RST(R9A07G043_IA55_RESETN, 0x818, 0),
++	DEF_RST(R9A07G043_DMAC_ARESETN, 0x82c, 0),
++	DEF_RST(R9A07G043_DMAC_RST_ASYNC, 0x82c, 1),
++	DEF_RST(R9A07G043_SCIF0_RST_SYSTEM_N, 0x884, 0),
++	DEF_RST(R9A07G043_SCIF1_RST_SYSTEM_N, 0x884, 1),
++	DEF_RST(R9A07G043_SCIF2_RST_SYSTEM_N, 0x884, 2),
++	DEF_RST(R9A07G043_SCIF3_RST_SYSTEM_N, 0x884, 3),
++	DEF_RST(R9A07G043_SCIF4_RST_SYSTEM_N, 0x884, 4),
++	DEF_RST(R9A07G043_SCI0_RST, 0x888, 0),
++	DEF_RST(R9A07G043_SCI1_RST, 0x888, 1),
++};
++
++static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
++	MOD_CLK_BASE + R9A07G043_GIC600_GICCLK,
++	MOD_CLK_BASE + R9A07G043_IA55_CLK,
++	MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
++};
++
++const struct rzg2l_cpg_info r9a07g043_cpg_info = {
++	/* Core Clocks */
++	.core_clks = r9a07g043_core_clks,
++	.num_core_clks = ARRAY_SIZE(r9a07g043_core_clks),
++	.last_dt_core_clk = LAST_DT_CORE_CLK,
++	.num_total_core_clks = MOD_CLK_BASE,
++
++	/* Critical Module Clocks */
++	.crit_mod_clks = r9a07g043_crit_mod_clks,
++	.num_crit_mod_clks = ARRAY_SIZE(r9a07g043_crit_mod_clks),
++
++	/* Module Clocks */
++	.mod_clks = r9a07g043_mod_clks,
++	.num_mod_clks = ARRAY_SIZE(r9a07g043_mod_clks),
++	.num_hw_mod_clks = R9A07G043_TSU_PCLK + 1,
++
++	/* Resets */
++	.resets = r9a07g043_resets,
++	.num_resets = R9A07G043_TSU_PRESETN + 1, /* Last reset ID + 1 */
++};
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index b3a1533970e5..41a31aae7a4b 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -945,6 +945,12 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id rzg2l_cpg_match[] = {
++#ifdef CONFIG_CLK_R9A07G043
++	{
++		.compatible = "renesas,r9a07g043-cpg",
++		.data = &r9a07g043_cpg_info,
++	},
++#endif
+ #ifdef CONFIG_CLK_R9A07G044
+ 	{
+ 		.compatible = "renesas,r9a07g044-cpg",
+diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
+index ce657beaf160..92c88f42ca7f 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.h
++++ b/drivers/clk/renesas/rzg2l-cpg.h
+@@ -202,6 +202,7 @@ struct rzg2l_cpg_info {
+ 	unsigned int num_crit_mod_clks;
+ };
+ 
++extern const struct rzg2l_cpg_info r9a07g043_cpg_info;
+ extern const struct rzg2l_cpg_info r9a07g044_cpg_info;
+ extern const struct rzg2l_cpg_info r9a07g054_cpg_info;
+ 
 -- 
 2.25.1
 
