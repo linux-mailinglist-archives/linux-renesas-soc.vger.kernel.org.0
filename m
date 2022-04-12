@@ -2,67 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EDC34FCF22
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 07:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF504FCF2F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 07:58:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231317AbiDLFyr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 01:54:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
+        id S240419AbiDLGAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 02:00:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241477AbiDLFyq (ORCPT
+        with ESMTP id S235747AbiDLGAV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 01:54:46 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9CB033E9F
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Apr 2022 22:52:29 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id k14so16265132pga.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Apr 2022 22:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=QiIZRXDglMLKg46GDx+CICa+7PnrswCzRqxWcld7Nnw=;
-        b=YTx4KbRZpZ7FCaQL039buFoqVDNPxHySx0nmsVq/4MGhlIRIFuxy2Wg14CEJpGrgCG
-         h/kIV9C2OzYQZwRvZLrfzXkE8U3J3nWGYCy9XBf9ZbY75TY5Qfo38pmSeG21AjkyY6lT
-         K+PaUgXo2LSffqRnk8XjeXTdPGAh+DAsyQ2PVf1EPKhlwer+bFzzhYA2/Q4E1blglCoD
-         zrK1Wzr3EBz+YUsu6+BPEvLXg87amJo1GbX4RuhI/hM+0frbUManuwDNV/DHRb47lN3M
-         nhawYsmt5DXuQBB/NR2oSUdDDS6NUT2vl0cxyB2sUcKxc1yV1VJccNMiroyF1n0kCI/F
-         UmZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=QiIZRXDglMLKg46GDx+CICa+7PnrswCzRqxWcld7Nnw=;
-        b=sGPQs1e/ZSoGpF8rUFjB/Ko1hGdvwVtjff3t/SO2NSy1AuiiFDI0OsGLlDraZm++ws
-         JLQkL+yXoUPYy8z2cNRcpa3kRG8SPyflR47trBNziOolQ+nZ8707RvBnnSroVt6gCokZ
-         5yr/gq/EQJc0AHM8IN2MDVGmCUAKprXI0aco08IE9rPau/DOH3Pz5MRejj0G3ZpeOibl
-         Tx5+auujqei4TrWfn3xrnazFJpXxFvEqOL1E9/bu884DUYZ6krGLC977qT0BbdJjArfc
-         +LSSlVe6Vh+fyLxEo17V5O33VjPrdIZeBadvFuwa04iQQOGVRMmxTaZ8U9aKTF48/4Tw
-         xanQ==
-X-Gm-Message-State: AOAM530hMYov7hN922UODgbZ+4lal6qN3FKfPmjNFYjfThjOx3CkMMBI
-        hMKtdZrKvKs1jIoDgQRNDpRL6KhZhi67S82Z
-X-Google-Smtp-Source: ABdhPJxPCeWnP0p9TKxZuAUHrRySott2Erb3pS1Q71ks3e+65qykGlO90k8G5u80zt4L9PURdQDE1Q==
-X-Received: by 2002:a05:6a00:238f:b0:4f7:78b1:2f6b with SMTP id f15-20020a056a00238f00b004f778b12f6bmr36481770pfc.17.1649742749012;
-        Mon, 11 Apr 2022 22:52:29 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id i2-20020a17090a138200b001cb6512b579sm1273370pja.44.2022.04.11.22.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 22:52:28 -0700 (PDT)
-Message-ID: <6255139c.1c69fb81.d8d48.48f0@mx.google.com>
-Date:   Mon, 11 Apr 2022 22:52:28 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 12 Apr 2022 02:00:21 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E8F22B19;
+        Mon, 11 Apr 2022 22:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1649743077;
+        bh=rr0cTwDe1vq8z9C294X+ZlMMl95EgN8jvthj5DoY4H4=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=CEWKapWzZz2/XVAiysEQ5YfaLui69WUpAkSquQoNEmmJaZ+JR3FMdKxD83blLMplf
+         7zrN1rRholDLVBrPQOR+8bqth0P+m9cgq7lJLEMqrhcHbIZV7xZQQawz+wxqVfmR68
+         Jp8u//TcOG3j8d9nxHtjA7F22oNMeOVBJ/ywVAQY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.135.215]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MkHMP-1oOFv340eP-00ke0g; Tue, 12
+ Apr 2022 07:57:57 +0200
+Message-ID: <28bf52e7-e0b3-19b2-a617-5783aa352db0@gmx.de>
+Date:   Tue, 12 Apr 2022 07:56:13 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] video: fbdev: sh_mobile_lcdcfb: Remove
+ sh_mobile_lcdc_check_var() declaration
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org
+References: <632d1ef6be69c93cd37b9336a133f8c5ec779c8a.1649681814.git.geert+renesas@glider.be>
+From:   Helge Deller <deller@gmx.de>
+In-Reply-To: <632d1ef6be69c93cd37b9336a133f8c5ec779c8a.1649681814.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2022-04-11-v5.18-rc2
-X-Kernelci-Report-Type: test
-Subject: renesas/master ltp-ipc: 11 runs,
- 1 regressions (renesas-devel-2022-04-11-v5.18-rc2)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+X-Provags-ID: V03:K1:MCxYGl9zg2NsAk9i/emy/b74fdIkDL4xhiCcEoQMixeAEZe/3GC
+ Ou6mn2tqXQJAz5Hp1gBg2I0NyYD1SqZCXYcYXGh5QTVoZQM2eVWuQe6UIQdAkVNlzaelXdj
+ ezlaKNVFUJRT6Je+4HLmp1coExdk/c2o4z150K4zh3M6jiGepr/Mwp9jZw9govU5PpXdRJL
+ A5ggvRHXQ9wK+A2G4+GTA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WpNuwGH0NWs=:G/VFxMIk222Z5dbaI5KNkM
+ KklJYcokwElTBfNuvo+6NOsCYzW3lvOpk9M8WufDdpx1uxsU1CiloFPo3WjWU5PDz/DykbDeg
+ 23mhPxftaF4Xr3a2cZIkBP9y5wPw7gagvp6asbhG/8C0342eghgjz5fyEX/SaMxRQOtbJRotT
+ +lV+oOkWVcLixiJd0ef+04NJJ3l4LoFfWcvRmZOyZpLSZpxFdFN4YGqZC84EHInzpgkOihsOm
+ flDOs4rIyn5y/eU3lP80aTc0D6NBsOhQhMQVrtYwmhV/YZMxt+0OAuaNDfLQiosKd5e5ccDpM
+ v0ZN5JBYllMDJAfOtvV6Ip/VDsJae0F7UkY6mAFXRgia2dqdjatGpsc77ZkaidvbqrFMtP9WI
+ cinU5Ee8dzExpsuruesHGVW7ENX03adi4/75YbIzjZC8i5Wj169eQuRILIcQLNKITPDaHa1e3
+ XtCqOPBN47AFzUP59CLPU/+Mc8ypwX2nu8ldqQQ/mrsXPBKWHcAXB9feaiugKFe0PCcbyz8ZT
+ H3JadqftZBfiCzzC+AMsLmeJjdEFNmk1TBMh9frE5YxeY1UqJ6jMIGhV9AKOhlcZoCFK/FKJC
+ BZNa78xg8Q9beEM7/9h7hQXdj/MXjzAPexlkDZN4LNTkv7/vUbopfi2i+MqtfYty/CWhQGI8N
+ rp0la2nAu5EbGj15MB+Xv1UuKaLqOFFsUnTrIU8X5FTV4HU4htMNbjGLYflLklemnR6l6zfl1
+ lT5zrqVRfc9SnOVCk6htt1Rww88DbBrQqoZ3VwKQMLZYZYieI8jwNzL+fupBtwMghGi7epCha
+ y2q9BKYbj2g4/1WJl3FEm5hVlU4uO214Mvzxic7bou2G1Iu4l/UWVZlOUZjv6Y68H5oCcTt6p
+ tzYMCrnrtmaPWj7+SQXzBwNFGZc2gURg16xcPWzUalH6fjlWKx5Lm9X10ruCVXAkUsSuYy0a5
+ Aam9OKgEIV9qd1qQ5lb5EZlj4eDbIw3Noxfq2LcI3VfK0wb0PFQOeN66uo4ND3V+8Qpc0Qro2
+ Syfyo3cKcBRvCs18ikGeKjSV8bLywgZHhC/lI9k8UvUf5rfpPJobppkdVw8uBhchvWxvkdZJO
+ ZNUmqViX04HGmQ=
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,87 +74,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master ltp-ipc: 11 runs, 1 regressions (renesas-devel-2022-04-11-v5=
-.18-rc2)
+On 4/11/22 14:58, Geert Uytterhoeven wrote:
+> As of commit 0fe66f327c464943 ("fbdev/sh_mobile: remove
+> sh_mobile_lcdc_display_notify"), there is no longer a need for a foward
+> declaration of sh_mobile_lcdc_check_var().
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Regressions Summary
--------------------
+applied.
 
-platform        | arch  | lab           | compiler | defconfig             =
-     | regressions
-----------------+-------+---------------+----------+-----------------------=
------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrome=
-book | 1          =
+Thanks!
+Helge
 
+> ---
+>  drivers/video/fbdev/sh_mobile_lcdcfb.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbde=
+v/sh_mobile_lcdcfb.c
+> index aa4ebe3192ec9735..9a4417430b4e948f 100644
+> --- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
+> +++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+> @@ -531,9 +531,6 @@ static void sh_mobile_lcdc_display_off(struct sh_mob=
+ile_lcdc_chan *ch)
+>  		ch->tx_dev->ops->display_off(ch->tx_dev);
+>  }
+>
+> -static int sh_mobile_lcdc_check_var(struct fb_var_screeninfo *var,
+> -				    struct fb_info *info);
+> -
+>  /* --------------------------------------------------------------------=
+---------
+>   * Format helpers
+>   */
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-04-11-v5.18-rc2/plan/ltp-ipc/
-
-  Test:     ltp-ipc
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-04-11-v5.18-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      ea5bee24e7143e88663f6497f6f9defd9ae0f77a
-
-  Test suite revisions:
-    ltp-tests
-      URL:  https://github.com/linux-test-project/ltp.git
-      SHA:  163cca9acb71d06492836a667a53554ceec37639 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform        | arch  | lab           | compiler | defconfig             =
-     | regressions
-----------------+-------+---------------+----------+-----------------------=
------+------------
-mt8173-elm-hana | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrome=
-book | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6254f0c4c34920bcceae06d4
-
-  Results:     8 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-11-v5.18-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/l=
-tp-ipc-mt8173-elm-hana.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-11-v5.18-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/l=
-tp-ipc-mt8173-elm-hana.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
-p/20220401.0/arm64/initrd.cpio.gz =
-
-
-
-  * ltp-ipc.pipeio_1: https://kernelci.org/test/case/id/6254f0c4c34920bccea=
-e06dd
-        new failure (last pass: renesas-devel-2022-04-04-v5.18-rc1)
-
-    2022-04-12T03:23:13.562610  / # =
-
-    2022-04-12T03:23:13.564742  =
-
-    2022-04-12T03:23:13.666105  / #export NFS_ROOTFS=3D'/var/lib/lava/dispa=
-tcher/tmp/6069398/extract-nfsrootfs-op_kt91t'
-    2022-04-12T03:23:13.668425   export NFS_ROOTFS=3D'/var/lib/lava/dispatc=
-her/tmp/6069398/extract-nfsrootfs-op_kt91t'
-    2022-04-12T03:23:13.774011  / # export NFS_SERVER_IP=3D'192.168.201.1'
-    2022-04-12T03:23:13.776042  export NFS_SERVER_IP=3D'192.168.201.1'
-    2022-04-12T03:23:13.878548  / ##
-    2022-04-12T03:23:13.881689   #
-    2022-04-12T03:23:13.984630  / # export SHELL=3D/bin/sh
-    2022-04-12T03:23:13.986986  export SHELL=3D/bin/sh =
-
-    ... (301 line(s) more)  =
-
- =20
