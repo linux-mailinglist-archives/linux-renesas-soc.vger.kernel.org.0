@@ -2,47 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2EA34FDC9C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4744E4FDCD1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353486AbiDLKgq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
+        id S244384AbiDLKmF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381423AbiDLK3T (ORCPT
+        with ESMTP id S1354646AbiDLKdm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 06:29:19 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E14A580CF
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=pXpt/O0wt40ELy2VjiVcNMr4U+X
-        Bfk5SDzhV9fM2Egk=; b=JonB2GfC1bYb3hU/Pm+B/VVayEli2jf5gVR+JuHgVI9
-        0QU1Z1rg+w/ylhmfkssV9mzymBRYToStQ9jqBqjrgUPM2KkGAqoTwbnK1plACiO9
-        nVMgRySQ10W7FikM2QDbyLs5FNnesUrNhNVnvAK8KOyXHkF1EnZXwkwM0UAObKtc
-        =
-Received: (qmail 981999 invoked from network); 12 Apr 2022 11:31:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Apr 2022 11:31:30 +0200
-X-UD-Smtp-Session: l3s3148p1@jLPGuXHcAucgAQnoAGZ4AFi7qjeMIP6q
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>, linux-sh@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] mmc: sh_mmcif: move platform_data header to proper location
-Date:   Tue, 12 Apr 2022 11:31:02 +0200
-Message-Id: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
+        Tue, 12 Apr 2022 06:33:42 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277C85BD03;
+        Tue, 12 Apr 2022 02:33:53 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id d71so5104722qkg.12;
+        Tue, 12 Apr 2022 02:33:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3nnLePtPQXcraZo9xuBzZJTepa7ubGhqT6Zw37Swgqs=;
+        b=Cnc4wr/lKqtygyZkVkW65KzNmQSNokhV+ifnFjacSOinmFqUnQWmGB9Wj8ba3MVqQB
+         cEYGnOTTsiuw99/ixOpdjo4ouPlBJ7g+GN2f7znZcFq8xYBKgTQfeb7i06gH2/8zQfDO
+         XuGuDgeYO3dQGoguWyXEecuKPlihz9grzfi4CX0GEx9RpL5MhRsj/tr90xphIT85/sL0
+         cotsvIAL+Uh3BAbJCtQGRq1XzM7rpVLtnJqns1HfHzFo8qJZH/iWSNy1VGy2+9+wSZnm
+         Jl9YqvpGOtArRxVuaMxOXzXnJtHk5UfClCUzj3SYM3Tho1NoaNI7YqS/UKs6NfmPO7An
+         WlNQ==
+X-Gm-Message-State: AOAM533sSxkvPsvucMDzY5xSyvYxLGlTspnDl31Zt66A3G1Xt+YxyGt6
+        H7hFJK/K6BXLdgLUvXljkfL2zTP6w2fkmTq3
+X-Google-Smtp-Source: ABdhPJwsQp+bUZ+kZJh9+u7xwD2SRxHnFhML+LvOxJvLF9QCdbJp0mNTBv+HZYOiSz1SqY5omQ+uPQ==
+X-Received: by 2002:a37:a554:0:b0:69b:e220:bc17 with SMTP id o81-20020a37a554000000b0069be220bc17mr2337582qke.740.1649756032053;
+        Tue, 12 Apr 2022 02:33:52 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id f15-20020a379c0f000000b0069bf3430cc4sm6794892qke.100.2022.04.12.02.33.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Apr 2022 02:33:51 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2ec42eae76bso44828487b3.10;
+        Tue, 12 Apr 2022 02:33:51 -0700 (PDT)
+X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
+ q64-20020a0de743000000b002eb31069b32mr30276252ywe.512.1649756031507; Tue, 12
+ Apr 2022 02:33:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+References: <20220401180230.19950-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220401180230.19950-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 12 Apr 2022 11:33:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXxDKKnt_L8EgruCDSZjQJvpSx30RGXysV-TMZHN94=Gw@mail.gmail.com>
+Message-ID: <CAMuHMdXxDKKnt_L8EgruCDSZjQJvpSx30RGXysV-TMZHN94=Gw@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: renesas: rzg2l: Add RZ/G2UL support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,100 +68,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-We have a dedicated directory for platform_data meanwhile, don't spoil
-the MMC directory with it.
+On Fri, Apr 1, 2022 at 8:02 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RZ/G2UL SoC has fewer pins compared to RZ/G2L and the port pin
+> definitions are different compared to RZ/G2L.
+>
+> This patch adds a new compatible to take care of this differences
+> by adding r9a07g043_data with r9a07g043_gpio_configs and
+> rzg2l_dedicated_pins.common.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1->v2:
+>  * Moved QSPI_INT# pin from common to rzg2l_pins
+>  * Added Rb tag from Geert.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Thanks for the update! Will queue in renesas-pinctrl-for-v5.19.
 
-Change since v1: fixed sorting of includes in the MMCIF driver
-		 (Thanks Geert!)
+Gr{oetje,eeting}s,
 
-I don't have the HW to test this but the buildbots are happy with this
-change. I checked that they actually tested the SH builds. To make the
-patch more readable, I used the -M (rename) feature of git-format-patch.
+                        Geert
 
- arch/sh/boards/board-sh7757lcr.c                | 2 +-
- arch/sh/boards/mach-ecovec24/setup.c            | 2 +-
- arch/sh/boot/romimage/mmcif-sh7724.c            | 2 +-
- drivers/mmc/host/sh_mmcif.c                     | 2 +-
- include/linux/{mmc => platform_data}/sh_mmcif.h | 2 --
- 5 files changed, 4 insertions(+), 6 deletions(-)
- rename include/linux/{mmc => platform_data}/sh_mmcif.h (99%)
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-diff --git a/arch/sh/boards/board-sh7757lcr.c b/arch/sh/boards/board-sh7757lcr.c
-index c32b4c6229d3..f39c8196efdf 100644
---- a/arch/sh/boards/board-sh7757lcr.c
-+++ b/arch/sh/boards/board-sh7757lcr.c
-@@ -16,7 +16,7 @@
- #include <linux/io.h>
- #include <linux/mfd/tmio.h>
- #include <linux/mmc/host.h>
--#include <linux/mmc/sh_mmcif.h>
-+#include <linux/platform_data/sh_mmcif.h>
- #include <linux/sh_eth.h>
- #include <linux/sh_intc.h>
- #include <linux/usb/renesas_usbhs.h>
-diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
-index 4c9522dd351f..674da7ebd8b7 100644
---- a/arch/sh/boards/mach-ecovec24/setup.c
-+++ b/arch/sh/boards/mach-ecovec24/setup.c
-@@ -19,7 +19,7 @@
- #include <linux/memblock.h>
- #include <linux/mfd/tmio.h>
- #include <linux/mmc/host.h>
--#include <linux/mmc/sh_mmcif.h>
-+#include <linux/platform_data/sh_mmcif.h>
- #include <linux/mtd/physmap.h>
- #include <linux/gpio.h>
- #include <linux/gpio/machine.h>
-diff --git a/arch/sh/boot/romimage/mmcif-sh7724.c b/arch/sh/boot/romimage/mmcif-sh7724.c
-index 6595b6b45bf1..d30123d859e0 100644
---- a/arch/sh/boot/romimage/mmcif-sh7724.c
-+++ b/arch/sh/boot/romimage/mmcif-sh7724.c
-@@ -8,7 +8,7 @@
-  * for more details.
-  */
- 
--#include <linux/mmc/sh_mmcif.h>
-+#include <linux/platform_data/sh_mmcif.h>
- #include <mach/romimage.h>
- 
- #define MMCIF_BASE      (void __iomem *)0xa4ca0000
-diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
-index 5f9ebf045b1c..0fd4c9d644dd 100644
---- a/drivers/mmc/host/sh_mmcif.c
-+++ b/drivers/mmc/host/sh_mmcif.c
-@@ -43,12 +43,12 @@
- #include <linux/mmc/host.h>
- #include <linux/mmc/mmc.h>
- #include <linux/mmc/sdio.h>
--#include <linux/mmc/sh_mmcif.h>
- #include <linux/mmc/slot-gpio.h>
- #include <linux/mod_devicetable.h>
- #include <linux/mutex.h>
- #include <linux/of_device.h>
- #include <linux/pagemap.h>
-+#include <linux/platform_data/sh_mmcif.h>
- #include <linux/platform_device.h>
- #include <linux/pm_qos.h>
- #include <linux/pm_runtime.h>
-diff --git a/include/linux/mmc/sh_mmcif.h b/include/linux/platform_data/sh_mmcif.h
-similarity index 99%
-rename from include/linux/mmc/sh_mmcif.h
-rename to include/linux/platform_data/sh_mmcif.h
-index e25533b95d9f..6eb914f958f9 100644
---- a/include/linux/mmc/sh_mmcif.h
-+++ b/include/linux/platform_data/sh_mmcif.h
-@@ -1,7 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * include/linux/mmc/sh_mmcif.h
-- *
-  * platform data for eMMC driver
-  *
-  * Copyright (C) 2010 Renesas Solutions Corp.
--- 
-2.30.2
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
