@@ -2,68 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D74DA4FDC6A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2EA34FDC9C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380276AbiDLK0T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:26:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59642 "EHLO
+        id S1353486AbiDLKgq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379745AbiDLKTq (ORCPT
+        with ESMTP id S1381423AbiDLK3T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 06:19:46 -0400
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD391BFA;
-        Tue, 12 Apr 2022 02:23:12 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id kl29so15674000qvb.2;
-        Tue, 12 Apr 2022 02:23:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/xFq3TalGXTAEX7MoZBabt4i2+T5YfvEcGLfK8vF3nI=;
-        b=TBKZUNXrqv9JAiDVcwDPX/PUJzYhW4I2YVWxfgblEjAGYCcTlEZOD92WbkYRPf768b
-         f1jWRjgyyn63rhibW8bhK+SJQNEF0m1Rqedx15f/+x2p6m209NPd5TA5X+U19ujiRVg9
-         Hm/9D6uPqmOI3MLnFW7QBB5RUR/gxcTAx81uIGYEL2IlwDEMf7qEFURVZGucTeaJVH4g
-         1eJJH9tZXjGYVyVn+YdeYUhgmmRT3CQ8o9g3LQNuh73tdSgFVHdkcBX3fuRdsVLwrKXE
-         +IlRhSeBKz4fAa6UQ0g/NcfYbfrfkfXDeGtNXbpsDo2M4/A0NRyhArRVvF92VqIdDilv
-         oFWA==
-X-Gm-Message-State: AOAM5333nW6DKspj8CGcDmzIIMeshgtXQD3xJSQBP13NloXWaOk3xJ8U
-        nry+SMshXXlaDFo0lUo/QgqXTGbTGoXWpPNg
-X-Google-Smtp-Source: ABdhPJxEGpTzWd13Pq3jMcVmWjsbTuPBpqfJ+vCQkkou7dvKfe3WZY5TOX58uuCbLaUG3k6cqGXHag==
-X-Received: by 2002:a0c:8d07:0:b0:443:a6be:7774 with SMTP id r7-20020a0c8d07000000b00443a6be7774mr30129715qvb.51.1649755391450;
-        Tue, 12 Apr 2022 02:23:11 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id d6-20020ac85d86000000b002f0eddf163fsm355080qtx.47.2022.04.12.02.23.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 02:23:11 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2edbd522c21so33642507b3.13;
-        Tue, 12 Apr 2022 02:23:11 -0700 (PDT)
-X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
- g16-20020a815210000000b002ef21e354ddmr2919382ywb.438.1649755390817; Tue, 12
- Apr 2022 02:23:10 -0700 (PDT)
+        Tue, 12 Apr 2022 06:29:19 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E14A580CF
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=pXpt/O0wt40ELy2VjiVcNMr4U+X
+        Bfk5SDzhV9fM2Egk=; b=JonB2GfC1bYb3hU/Pm+B/VVayEli2jf5gVR+JuHgVI9
+        0QU1Z1rg+w/ylhmfkssV9mzymBRYToStQ9jqBqjrgUPM2KkGAqoTwbnK1plACiO9
+        nVMgRySQ10W7FikM2QDbyLs5FNnesUrNhNVnvAK8KOyXHkF1EnZXwkwM0UAObKtc
+        =
+Received: (qmail 981999 invoked from network); 12 Apr 2022 11:31:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Apr 2022 11:31:30 +0200
+X-UD-Smtp-Session: l3s3148p1@jLPGuXHcAucgAQnoAGZ4AFi7qjeMIP6q
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>, linux-sh@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mmc: sh_mmcif: move platform_data header to proper location
+Date:   Tue, 12 Apr 2022 11:31:02 +0200
+Message-Id: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220401145702.17954-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220401145702.17954-1-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 12 Apr 2022 11:22:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW9cfiy-1koCUTuK40WXrikKtyEyh3qBJcAeDtP98sRRw@mail.gmail.com>
-Message-ID: <CAMuHMdW9cfiy-1koCUTuK40WXrikKtyEyh3qBJcAeDtP98sRRw@mail.gmail.com>
-Subject: Re: [PATCH v3] arm64: dts: renesas: rzg2lc-smarc: Enable RSPI1 on
- carrier board
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,29 +50,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 1, 2022 at 4:57 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> RSPI1 (SPI1) interface is available on PMOD0 connector (J1) on the
-> carrier board.  This patch adds pinmux and spi1 nodes to the carrier
-> board dtsi file and drops deleting pinctl* properties from DTS file.
->
-> RSPI1 interface is tested by setting the macro SW_RSPI_CAN to 0.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
->  * Removed redundant spi1 node, as it is already enabled in common.
+We have a dedicated directory for platform_data meanwhile, don't spoil
+the MMC directory with it.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Gr{oetje,eeting}s,
+Change since v1: fixed sorting of includes in the MMCIF driver
+		 (Thanks Geert!)
 
-                        Geert
+I don't have the HW to test this but the buildbots are happy with this
+change. I checked that they actually tested the SH builds. To make the
+patch more readable, I used the -M (rename) feature of git-format-patch.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ arch/sh/boards/board-sh7757lcr.c                | 2 +-
+ arch/sh/boards/mach-ecovec24/setup.c            | 2 +-
+ arch/sh/boot/romimage/mmcif-sh7724.c            | 2 +-
+ drivers/mmc/host/sh_mmcif.c                     | 2 +-
+ include/linux/{mmc => platform_data}/sh_mmcif.h | 2 --
+ 5 files changed, 4 insertions(+), 6 deletions(-)
+ rename include/linux/{mmc => platform_data}/sh_mmcif.h (99%)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+diff --git a/arch/sh/boards/board-sh7757lcr.c b/arch/sh/boards/board-sh7757lcr.c
+index c32b4c6229d3..f39c8196efdf 100644
+--- a/arch/sh/boards/board-sh7757lcr.c
++++ b/arch/sh/boards/board-sh7757lcr.c
+@@ -16,7 +16,7 @@
+ #include <linux/io.h>
+ #include <linux/mfd/tmio.h>
+ #include <linux/mmc/host.h>
+-#include <linux/mmc/sh_mmcif.h>
++#include <linux/platform_data/sh_mmcif.h>
+ #include <linux/sh_eth.h>
+ #include <linux/sh_intc.h>
+ #include <linux/usb/renesas_usbhs.h>
+diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
+index 4c9522dd351f..674da7ebd8b7 100644
+--- a/arch/sh/boards/mach-ecovec24/setup.c
++++ b/arch/sh/boards/mach-ecovec24/setup.c
+@@ -19,7 +19,7 @@
+ #include <linux/memblock.h>
+ #include <linux/mfd/tmio.h>
+ #include <linux/mmc/host.h>
+-#include <linux/mmc/sh_mmcif.h>
++#include <linux/platform_data/sh_mmcif.h>
+ #include <linux/mtd/physmap.h>
+ #include <linux/gpio.h>
+ #include <linux/gpio/machine.h>
+diff --git a/arch/sh/boot/romimage/mmcif-sh7724.c b/arch/sh/boot/romimage/mmcif-sh7724.c
+index 6595b6b45bf1..d30123d859e0 100644
+--- a/arch/sh/boot/romimage/mmcif-sh7724.c
++++ b/arch/sh/boot/romimage/mmcif-sh7724.c
+@@ -8,7 +8,7 @@
+  * for more details.
+  */
+ 
+-#include <linux/mmc/sh_mmcif.h>
++#include <linux/platform_data/sh_mmcif.h>
+ #include <mach/romimage.h>
+ 
+ #define MMCIF_BASE      (void __iomem *)0xa4ca0000
+diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
+index 5f9ebf045b1c..0fd4c9d644dd 100644
+--- a/drivers/mmc/host/sh_mmcif.c
++++ b/drivers/mmc/host/sh_mmcif.c
+@@ -43,12 +43,12 @@
+ #include <linux/mmc/host.h>
+ #include <linux/mmc/mmc.h>
+ #include <linux/mmc/sdio.h>
+-#include <linux/mmc/sh_mmcif.h>
+ #include <linux/mmc/slot-gpio.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/mutex.h>
+ #include <linux/of_device.h>
+ #include <linux/pagemap.h>
++#include <linux/platform_data/sh_mmcif.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_qos.h>
+ #include <linux/pm_runtime.h>
+diff --git a/include/linux/mmc/sh_mmcif.h b/include/linux/platform_data/sh_mmcif.h
+similarity index 99%
+rename from include/linux/mmc/sh_mmcif.h
+rename to include/linux/platform_data/sh_mmcif.h
+index e25533b95d9f..6eb914f958f9 100644
+--- a/include/linux/mmc/sh_mmcif.h
++++ b/include/linux/platform_data/sh_mmcif.h
+@@ -1,7 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- * include/linux/mmc/sh_mmcif.h
+- *
+  * platform data for eMMC driver
+  *
+  * Copyright (C) 2010 Renesas Solutions Corp.
+-- 
+2.30.2
+
