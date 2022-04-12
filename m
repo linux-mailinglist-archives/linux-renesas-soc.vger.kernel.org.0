@@ -2,71 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCF504FCF2F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 07:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F7374FDB84
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:57:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240419AbiDLGAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 02:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
+        id S229839AbiDLKEf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235747AbiDLGAV (ORCPT
+        with ESMTP id S1377928AbiDLHyl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 02:00:21 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E8F22B19;
-        Mon, 11 Apr 2022 22:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1649743077;
-        bh=rr0cTwDe1vq8z9C294X+ZlMMl95EgN8jvthj5DoY4H4=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=CEWKapWzZz2/XVAiysEQ5YfaLui69WUpAkSquQoNEmmJaZ+JR3FMdKxD83blLMplf
-         7zrN1rRholDLVBrPQOR+8bqth0P+m9cgq7lJLEMqrhcHbIZV7xZQQawz+wxqVfmR68
-         Jp8u//TcOG3j8d9nxHtjA7F22oNMeOVBJ/ywVAQY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.135.215]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MkHMP-1oOFv340eP-00ke0g; Tue, 12
- Apr 2022 07:57:57 +0200
-Message-ID: <28bf52e7-e0b3-19b2-a617-5783aa352db0@gmx.de>
-Date:   Tue, 12 Apr 2022 07:56:13 +0200
+        Tue, 12 Apr 2022 03:54:41 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9FF506D2;
+        Tue, 12 Apr 2022 00:32:00 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 87B521BF204;
+        Tue, 12 Apr 2022 07:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649748719;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=X35WNGkpzJuR8QwsexhB4AiDSNFg4aYG2MXJXgXQfu4=;
+        b=MftXS1qpch3u8BR/zUR5NpnKYwxy/YXxXE6EbNy5pCKENpwvf1eRA88j2ojUrqJ7NGFW+X
+        7zPncsxaft5BZNtXXU1nKt2EBbajHilEQN3dVe745BDKCbYTOenH/NKbuo+0bww6O2u3DH
+        MyaMUm+FaoEXY5ZITJQcDU+V9mv26k9BMIchkDW7RORJ/IiPssHvpAGxf3FTRT1wcwg8DC
+        RMbf+2ItuOAWmXdQeOTLgwbunN6fzeY+FKdjMVNiMFO9b+Ta3d4fhnxz46U5xabDqpQ+tu
+        QZVYxbLyHzjIw81FCtF63yQltACz2EJq7xJ/suXor6CVW6o5C8poPAVDzDXmCg==
+Date:   Tue, 12 Apr 2022 09:31:55 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v8 0/9] RZN1 DMA support
+Message-ID: <20220412093155.090de9d6@xps13>
+In-Reply-To: <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
+References: <20220406161856.1669069-1-miquel.raynal@bootlin.com>
+        <20220407004511.3A6D1C385A3@smtp.kernel.org>
+        <20220407101605.7d2a17cc@xps13>
+        <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] video: fbdev: sh_mobile_lcdcfb: Remove
- sh_mobile_lcdc_check_var() declaration
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org
-References: <632d1ef6be69c93cd37b9336a133f8c5ec779c8a.1649681814.git.geert+renesas@glider.be>
-From:   Helge Deller <deller@gmx.de>
-In-Reply-To: <632d1ef6be69c93cd37b9336a133f8c5ec779c8a.1649681814.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MCxYGl9zg2NsAk9i/emy/b74fdIkDL4xhiCcEoQMixeAEZe/3GC
- Ou6mn2tqXQJAz5Hp1gBg2I0NyYD1SqZCXYcYXGh5QTVoZQM2eVWuQe6UIQdAkVNlzaelXdj
- ezlaKNVFUJRT6Je+4HLmp1coExdk/c2o4z150K4zh3M6jiGepr/Mwp9jZw9govU5PpXdRJL
- A5ggvRHXQ9wK+A2G4+GTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WpNuwGH0NWs=:G/VFxMIk222Z5dbaI5KNkM
- KklJYcokwElTBfNuvo+6NOsCYzW3lvOpk9M8WufDdpx1uxsU1CiloFPo3WjWU5PDz/DykbDeg
- 23mhPxftaF4Xr3a2cZIkBP9y5wPw7gagvp6asbhG/8C0342eghgjz5fyEX/SaMxRQOtbJRotT
- +lV+oOkWVcLixiJd0ef+04NJJ3l4LoFfWcvRmZOyZpLSZpxFdFN4YGqZC84EHInzpgkOihsOm
- flDOs4rIyn5y/eU3lP80aTc0D6NBsOhQhMQVrtYwmhV/YZMxt+0OAuaNDfLQiosKd5e5ccDpM
- v0ZN5JBYllMDJAfOtvV6Ip/VDsJae0F7UkY6mAFXRgia2dqdjatGpsc77ZkaidvbqrFMtP9WI
- cinU5Ee8dzExpsuruesHGVW7ENX03adi4/75YbIzjZC8i5Wj169eQuRILIcQLNKITPDaHa1e3
- XtCqOPBN47AFzUP59CLPU/+Mc8ypwX2nu8ldqQQ/mrsXPBKWHcAXB9feaiugKFe0PCcbyz8ZT
- H3JadqftZBfiCzzC+AMsLmeJjdEFNmk1TBMh9frE5YxeY1UqJ6jMIGhV9AKOhlcZoCFK/FKJC
- BZNa78xg8Q9beEM7/9h7hQXdj/MXjzAPexlkDZN4LNTkv7/vUbopfi2i+MqtfYty/CWhQGI8N
- rp0la2nAu5EbGj15MB+Xv1UuKaLqOFFsUnTrIU8X5FTV4HU4htMNbjGLYflLklemnR6l6zfl1
- lT5zrqVRfc9SnOVCk6htt1Rww88DbBrQqoZ3VwKQMLZYZYieI8jwNzL+fupBtwMghGi7epCha
- y2q9BKYbj2g4/1WJl3FEm5hVlU4uO214Mvzxic7bou2G1Iu4l/UWVZlOUZjv6Y68H5oCcTt6p
- tzYMCrnrtmaPWj7+SQXzBwNFGZc2gURg16xcPWzUalH6fjlWKx5Lm9X10ruCVXAkUsSuYy0a5
- Aam9OKgEIV9qd1qQ5lb5EZlj4eDbIw3Noxfq2LcI3VfK0wb0PFQOeN66uo4ND3V+8Qpc0Qro2
- Syfyo3cKcBRvCs18ikGeKjSV8bLywgZHhC/lI9k8UvUf5rfpPJobppkdVw8uBhchvWxvkdZJO
- ZNUmqViX04HGmQ=
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,37 +75,58 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/11/22 14:58, Geert Uytterhoeven wrote:
-> As of commit 0fe66f327c464943 ("fbdev/sh_mobile: remove
-> sh_mobile_lcdc_display_notify"), there is no longer a need for a foward
-> declaration of sh_mobile_lcdc_check_var().
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Geert,
 
-applied.
+geert@linux-m68k.org wrote on Mon, 11 Apr 2022 17:09:50 +0200:
 
-Thanks!
-Helge
+> Hi Miquel,
+>=20
+> On Thu, Apr 7, 2022 at 10:16 AM Miquel Raynal <miquel.raynal@bootlin.com>=
+ wrote:
+> > sboyd@kernel.org wrote on Wed, 06 Apr 2022 17:45:09 -0700: =20
+> > > Quoting Miquel Raynal (2022-04-06 09:18:47) =20
+> > > > Here is a first series bringing DMA support to RZN1 platforms. Soon=
+ a
+> > > > second series will come with changes made to the UART controller
+> > > > driver, in order to interact with the RZN1 DMA controller.
+> > > >
+> > > > Stephen acked the sysctrl patch (in the clk driver) but somehow I f=
+eel
+> > > > like it would be good to have this patch applied on both sides
+> > > > (dmaengine and clk) because more changes will depend on the additio=
+n of
+> > > > this helper, that are not related to DMA at all. I'll let you folks
+> > > > figure out what is best. =20
+> > >
+> > > Are you sending more patches in the next 7 weeks or so that will touch
+> > > the same area? If so, then it sounds like I'll need to take the clk
+> > > patch through clk tree. I don't know what is best because I don't have
+> > > the information about what everyone plans to do in that file. =20
+> >
+> > This series brings DMA support and needs to access the dmamux registers
+> > that are in the sysctrl area.
+> >
+> > I've sent an RTC series which needs to access this area as well, but
+> > it is not fully ready yet as it was advised to go for a reset
+> > controller in this case. The reset controller would be registered by
+> > the clock driver, so yes it would touch the same file.
+> >
+> > Finally, there is an USB series that is coming soon, I don't know if
+> > it will be ready for merge for 5.19, but it needs to access a specific
+> > register in this area as well (h2mode).
+> >
+> > So provided that we are able to contribute this reset driver quickly
+> > enough, I would argue that it is safer to merge the clk changes in the
+> > clk tree. =20
+>=20
+> The clk tree or the renesas-clk tree? ;-)
 
-> ---
->  drivers/video/fbdev/sh_mobile_lcdcfb.c | 3 ---
->  1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbde=
-v/sh_mobile_lcdcfb.c
-> index aa4ebe3192ec9735..9a4417430b4e948f 100644
-> --- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> +++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> @@ -531,9 +531,6 @@ static void sh_mobile_lcdc_display_off(struct sh_mob=
-ile_lcdc_chan *ch)
->  		ch->tx_dev->ops->display_off(ch->tx_dev);
->  }
->
-> -static int sh_mobile_lcdc_check_var(struct fb_var_screeninfo *var,
-> -				    struct fb_info *info);
-> -
->  /* --------------------------------------------------------------------=
----------
->   * Format helpers
->   */
+Actually I forgot about this tree, would you mind to merge *all* the
+patches that depend on the sysctrl changes in the renesas/renesas-clk
+tree? This also stands for the UART and RTC for instance. Otherwise
+you'll need to set up immutable branches and share them with the
+dmaengine, serial and rtc trees. I'm fine either way, it's just much
+less work in the first situation IMHO.
 
+Thanks,
+Miqu=C3=A8l
