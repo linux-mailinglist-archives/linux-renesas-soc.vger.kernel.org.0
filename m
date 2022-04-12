@@ -2,103 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 395CC4FDD46
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4ABF4FDCFC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239456AbiDLLCY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 07:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45540 "EHLO
+        id S1359494AbiDLKtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240019AbiDLLAg (ORCPT
+        with ESMTP id S1356783AbiDLKpk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 07:00:36 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A52190FCF;
-        Tue, 12 Apr 2022 02:51:02 -0700 (PDT)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 9803ACE944;
-        Tue, 12 Apr 2022 09:41:49 +0000 (UTC)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id 394B14000C;
-        Tue, 12 Apr 2022 09:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649756469;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=B8CDPPUOPXF9Ae/2eM03+qKM9N1UneWOPC2xfFm8SEc=;
-        b=G1P5G7Kq8YBZ/FoftXUVyLLB1A/8NyK9XCOGbGno9tjhtntJY/26ecGVLPfCM/WucLGGPB
-        hOar6H5tHnyUt8VKOxl4hYsJBPhtEbZW0AFQQo2l9fC3UUYyIb/GApnwC9R60gbTBgGRQL
-        aNPhYjzQPGa7ZnFVdrKv/UFYfZWL+dBPVYlYYLwXqIG/3VKfmITfbAPoLznduh/lPvMFKO
-        m+Rd1QpPal7nd0sWUX2zukgyFy3CtxcqKpBy7mUcn2Cd44jIT1Vg+7RrL0fUteP8x2b95E
-        dKEz6/pV2QT5dyDAQVj6q+yjCo7EvHhLNtGNVthigCTYYwE5hylzqr1ebSo87g==
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Tue, 12 Apr 2022 06:45:40 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25FC85668
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:42:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=/gXUO03nZs5ebrOzcOsVdIdl53Fr
+        WrU9ROXrk54ZXmQ=; b=y8fK2ZqQ0qZhKrAAy0b8yau0wzvfPfhqtXNe8mTnTQlp
+        +Q4R/TpV+XThrTJMk3fWmqRRo+d8qI08xvc2HvMQoszleAmz8KC9kEXPBfCR7lwZ
+        JkwYJT+J9z2hDI7kFNQ2TqbXgXQ3EYCfAYNmRNY3VnLWfiY0YF6fUgguF5SQSow=
+Received: (qmail 985089 invoked from network); 12 Apr 2022 11:42:11 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Apr 2022 11:42:11 +0200
+X-UD-Smtp-Session: l3s3148p1@aYgJ4HHcCucgAQnoAGZ4AFi7qjeMIP6q
+Date:   Tue, 12 Apr 2022 11:42:11 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] memory: renesas-rpc-if: Simplify single/double data
+ register access
+Message-ID: <YlVJc3z1xXT2emIc@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH 6/6] ARM: dts: r9a06g032: Link the PCI USB devices to the USB PHY
-Date:   Tue, 12 Apr 2022 11:40:29 +0200
-Message-Id: <20220412094029.287562-7-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412094029.287562-1-herve.codina@bootlin.com>
-References: <20220412094029.287562-1-herve.codina@bootlin.com>
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="OELpkJhUqDCsaz5D"
+Content-Disposition: inline
+In-Reply-To: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the PCI USB devices that are behind the PCI bridge, adding
-necessary links to the USB PHY device.
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+--OELpkJhUqDCsaz5D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index c9336dc4888a..75e45fd6bedb 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -244,6 +244,18 @@ pci_usb: pci@40030000 {
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			usb@1,0 {
-+				reg = <0x800 0 0 0 0>;
-+				phys = <&usbphy 0>;
-+				phy-names = "usb";
-+			};
-+
-+			usb@2,0 {
-+				reg = <0x1000 0 0 0 0>;
-+				phys = <&usbphy 0>;
-+				phy-names = "usb";
-+			};
- 		};
- 	};
- 
--- 
-2.35.1
+On Mon, Apr 11, 2022 at 02:55:29PM +0200, Geert Uytterhoeven wrote:
+> For manual write and read, factor out the common access to the first
+> data register by keeping track of the current data pointer.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Works fine with reading/writing on a V3U, so:
+
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+I agree the code is more concise. I am not sure, though, if it is really
+more readable. But I don't mind very much, so except for a small nit:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+> +			if (nbytes =3D=3D 8)
+> +				regmap_write(rpc->regmap, RPCIF_SMWDR1, *p++);
+> +			regmap_write(rpc->regmap, RPCIF_SMWDR0, *p++);
+
+Last '++' can be omitted?
+
+
+--OELpkJhUqDCsaz5D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJVSW8ACgkQFA3kzBSg
+KbYcQw//didRmuvAcnLljb4mtQ3VPVMZBcqWDjRgDKtOO8dvvB1ikHVUDTCWDQbS
+++a0GC/UfJ9vlC+1Q7Qi6+QeRfA9UEE7BWjGpleY25NNW+BHqAidlG8vYQYQRW8v
+axaCY+ifH5k4ui1j3w0peVy2HZp4ruVROEKhOSZP06gHGIg+rTG27ZUPW1/koKd8
+4uvyZxaFkv6eqsWUOp7wy3SYBv6lwaNl111u6DdmxMRW/iSYlC220HQKmDFlIr94
+aNcHTOjFHyuP3RqNoxqPTKEilUKnaM6Brvu9f2RxThL6qt+Mks6AvkMwvbYxnzan
+7X7PWhj8NNiW0BxmoCPgqAp6GMSq0saZr4zO7cXeEa5Kxf5gyb2u+qM+V1bK+WpK
+Io4RgYLSss3zONMx8dB4EApzBHga1pk0Z7bssK23GrMHhq52w40ntbLhpg0Ep7PS
+NEQ2HhyGi43iH3/hufjAbX+tkmeRmUjrPC4xEA9QGGDyMVoVx379KmYhXQjixAar
+B6b675RYUQ7zFZ5bd3sgZaTTsOlhEq7a5tdzesC7b1w2dPTFGXnBeRg8IniSsP/R
+rsZFmvPEVb39UlvqoEoKgjDI+EJqfVVo5RhacONnCVYAuyN8oJn2ObtOoe31Y8rn
+Lg6exmSkJlMZsFnHzG1GBjOtUtXzk8cyuVSN1Vzv6SR30EfnoS8=
+=Kp1i
+-----END PGP SIGNATURE-----
+
+--OELpkJhUqDCsaz5D--
