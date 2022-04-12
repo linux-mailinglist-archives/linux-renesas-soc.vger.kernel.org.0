@@ -2,143 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9BC14FDE52
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 428444FDDC5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234207AbiDLLgm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 07:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46822 "EHLO
+        id S241693AbiDLLk4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 07:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232561AbiDLLeu (ORCPT
+        with ESMTP id S1352563AbiDLLht (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 07:34:50 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BB075E72;
-        Tue, 12 Apr 2022 03:13:00 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id B91CE60003;
-        Tue, 12 Apr 2022 10:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649758379;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=68UMe/N6Z3nFxIrYdpsovoXjPbZxFhEBEnyv/vU9mcw=;
-        b=NOJcrTnbofpEXSCB/eWW3epn5H6PfJo97VOcruxHuNItNcwXcS7y7xH+h1/m+S7Abuvs8S
-        g6pu3R3xx8XHHcL1dvAI058NzOP7A6JhLR8yly/HhrkMndi5XCzHbtSbllF74wwpW3ECuy
-        z8qy/jd3l/SkiyMTfKlvAgEIKxGFqz0y6EDRO4cGloQXok57QTYG54sHX9cq6B1yJFoChV
-        u7bijyh2cnJxFnmuIvsdeb6RnivjDDMe2wVDFjkf14iXPjAHadlQW0t4g4xfcnvz/p40gS
-        EemqwIJLg0iAOIPfRHo/Xdrcitl2JfGsgwAHWn6xgBaSe2kF9Hq2G6MJsyp7MQ==
-Date:   Tue, 12 Apr 2022 12:12:55 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
+        Tue, 12 Apr 2022 07:37:49 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CABE213
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 03:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=lvq+dp4SVUtTyznMC+oj6omSMZVw
+        vOhhf9wU8J4aQDE=; b=A6Lw9TJ9/QI4XkB6TOnlYq7CIB/RLS+HWw/twpb9Zw+v
+        FzkUG2HK4vfHcvgX1smi8GNEoR7gTXJTLpPlBaZzZV5hicYgPeDaJX0nfByEbyqY
+        peYG2jDxm/N4AJT5+RJddfXMkzENJGbChSi3wic7NVKLEue0Y7bbV7/XtPLgXRc=
+Received: (qmail 995989 invoked from network); 12 Apr 2022 12:17:39 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Apr 2022 12:17:39 +0200
+X-UD-Smtp-Session: l3s3148p1@TKDcXnLczOcgAQnoAGZ4AFi7qjeMIP6q
+Date:   Tue, 12 Apr 2022 12:17:39 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Simplify single/double data
+ register access
+Message-ID: <YlVRw4ypp3+0Miz3@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, dmaengine@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 5/9] dmaengine: dw: dmamux: Introduce RZN1 DMA router
- support
-Message-ID: <20220412121255.63ebe280@xps13>
-In-Reply-To: <8d10c313-ecfe-4460-4040-8886aa421ef@linux.intel.com>
-References: <20220406161856.1669069-1-miquel.raynal@bootlin.com>
-        <20220406161856.1669069-6-miquel.raynal@bootlin.com>
-        <6fbeebe2-9693-f91-78bd-451480f7a6dd@linux.intel.com>
-        <YlAgbh2AFevBktxd@smile.fi.intel.com>
-        <8d10c313-ecfe-4460-4040-8886aa421ef@linux.intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Duc Nguyen <duc.nguyen.ub@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
+ <YlVJc3z1xXT2emIc@ninjato>
+ <CAMuHMdUGkba3hiRJPEw26oBdc6_MK_eBO==Z9QeinaoeZv8Qbw@mail.gmail.com>
+ <YlVLEnRaARVmWZnZ@ninjato>
+ <CAMuHMdWAQ08K6NCdBGrY+-vBrsTQHi6UHaER4eCON1t9JEG1RA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+PJSAI9U9iARmGKo"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWAQ08K6NCdBGrY+-vBrsTQHi6UHaER4eCON1t9JEG1RA@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ilpo, Andy,
 
-ilpo.jarvinen@linux.intel.com wrote on Fri, 8 Apr 2022 15:38:48 +0300
-(EEST):
+--+PJSAI9U9iARmGKo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On Fri, 8 Apr 2022, Andy Shevchenko wrote:
->=20
-> > On Fri, Apr 08, 2022 at 12:55:47PM +0300, Ilpo J=C3=A4rvinen wrote: =20
-> > > On Wed, 6 Apr 2022, Miquel Raynal wrote:
-> > >  =20
-> > > > The Renesas RZN1 DMA IP is based on a DW core, with eg. an addition=
-al
-> > > > dmamux register located in the system control area which can take u=
-p to
-> > > > 32 requests (16 per DMA controller). Each DMA channel can be wired =
-to
-> > > > two different peripherals.
-> > > >=20
-> > > > We need two additional information from the 'dmas' property: the ch=
-annel
-> > > > (bit in the dmamux register) that must be accessed and the value of=
- the
-> > > > mux for this channel. =20
-> >  =20
-> > > > +	mask =3D BIT(map->req_idx);
-> > > > +	mutex_lock(&dmamux->lock);
-> > > > +	dmamux->used_chans |=3D mask;
-> > > > +	ret =3D r9a06g032_sysctrl_set_dmamux(mask, val ? mask : 0);
-> > > > +	if (ret)
-> > > > +		goto release_chan_and_unlock;
-> > > > +
-> > > > +	mutex_unlock(&dmamux->lock);
-> > > > +
-> > > > +	return map;
-> > > > +
-> > > > +release_chan_and_unlock:
-> > > > +	dmamux->used_chans &=3D ~mask; =20
-> > >=20
-> > > Now that I check this again, I'm not sure why dmamux->used_chans |=3D=
- mask;=20
-> > > couldn't be done after r9a06g032_sysctrl_set_dmamux() call so this=20
-> > > rollback of it wouldn't be necessary. =20
-> >=20
-> > I would still need the mutex unlock which I believe is down path there =
-under
-> > some other label. Hence you are proposing something like
-> >=20
-> > 	mask =3D BIT(map->req_idx);
-> >=20
-> > 	mutex_lock(&dmamux->lock);
-> > 	ret =3D r9a06g032_sysctrl_set_dmamux(mask, val ? mask : 0);
-> > 	if (ret)
-> > 		goto err_unlock; // or whatever label is
-> >=20
-> > 	dmamux->used_chans |=3D mask;
-> > 	mutex_unlock(&dmamux->lock);
-> >=20
-> > 	return map;
-> >=20
-> > Is that correct? If so, I don't see impediments either. =20
->=20
-> Yes, and yes, the mutex still has to be unlocked on that error path.
->=20
-> > > Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> =20
 
-I've done the modification, thanks for your feedback.
+> But that's not what happened. I even compared the assembler output of
+> various solutions.
 
-Thanks,
-Miqu=C3=A8l
+I am sure you did. I just said "it looks like..." to state a reason why
+I don't think it looks prettier. But this turns to bike-shedding for me,
+just keep it if everyone else is happy.
+
+
+--+PJSAI9U9iARmGKo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJVUb8ACgkQFA3kzBSg
+KbYFtxAAnMVfoYwfPBsJgmeGyalXpEG+cLcE1gOTw7oMGiHPxT6foxFB9GZBW7m0
+ZnqughRm+tMhzFvb/sHwI/W9m1dP1g4+U7OZQYiVFCGo5Dqgl2QADwU1kVZAgTl4
+tXz3W4VdX80rOI4bhLPopQ72Z/GmTlxedu6HpjPz57LF2YRDioL7DO9j9V1O9QSz
+knPl1Jz9+rPxBXtJ+CW5/WfJ7hL6U8LA4D6BCFHfEI+xH9AjWEOCIFRSHiV2QDHY
+mV9AuEDbto6Fw3iSSebi4SgkzYE3h0/jNTbHE8jYuZiZ03U5f+d9q5ixldnC5Ljq
+ec9MVbB8VAoPAjN8XV1pP5c+n07xMQjNRchEzKem4b1jNkSWAZnMpUuaJCJnxk1e
+MkZgFSDM6EuGlYGuV+A9JrkidHzdUzwsq8o4JwjEN3st+Tj5yOFL1M+iiFjxCzMo
+hngWeRHxhI2gJf6RrLJYIudbN6koKPH9QzNikyaIYkz3hAdGHgPDHiUw1tTfFovO
+0wWCJbBLVJ5Z1RWiPdRDwl/KPWr9/pWrlNQngPX8NHLCAwUzCicCt4ChJduPDcMt
+YLd0v6VG/5TBRfHSuSfjOk0b3ItOZ4QjleYBhbQQ5VAAyEKHuZzXUqFGYCVhPT5M
+DT67uH1tS9STOUFxUT6af4DGGzz5oTRI+mvXFqIOtzdDR2+azj8=
+=ALuo
+-----END PGP SIGNATURE-----
+
+--+PJSAI9U9iARmGKo--
