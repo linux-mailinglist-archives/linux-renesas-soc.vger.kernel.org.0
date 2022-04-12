@@ -2,145 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC2F64FDB87
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 074D44FDB6A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:57:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235114AbiDLKEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50888 "EHLO
+        id S1344141AbiDLKDa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385668AbiDLIw2 (ORCPT
+        with ESMTP id S1387732AbiDLJJJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 04:52:28 -0400
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7176764710;
-        Tue, 12 Apr 2022 01:12:55 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id d71so4989105qkg.12;
-        Tue, 12 Apr 2022 01:12:55 -0700 (PDT)
+        Tue, 12 Apr 2022 05:09:09 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A43CEB
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 01:22:28 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id 2so17751417pjw.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 01:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=EoPQEWTnvTGdLJD5EA090gGEZDaz3E4D+PKNG3xuv/o=;
+        b=Y7jpuusyQvmczsHY0bJm5P6HQwQFrbXdRnIzVLnlqIpe8aknk7dDhlZ13pNIzDgpCn
+         6fRV6c1vhkSyKY8n7mYbuuTSZy4jSOlKZLsHbUAbiNcJz663lW8NFFy/i/7pVGvt2xdJ
+         IDjAvZstl732PsREaAhOu08nRN3q1hpiZwWmnsuyGzjZwL+F8N3r+HYno5fDBHDPd/X1
+         drbAi7q16SgaHOMw4bhkxm9W4l6XDVdtesg6OSgaPCbwvt+xgR8qZijr0U+BBabcDDmO
+         Ar2/UuUZ1HijFvuGgaJd9K+HjB5r8ZYFfPdIlXt4utAHw2mtx//KfmGrGW4G//d5P7Rl
+         wCpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZnqEEZ1zFWnMJmtyNXblrY5MQvtZ5RBg/IUnGVTe7nE=;
-        b=FaAqLTPeR8zQW28ZYZCMsxHJuewq63COHX12yxCzeSPASMWiVkxApRM3Q3N9L+L4gq
-         SwzrLNp28g8Fza8b7iA+Bn806a+TLVhbGXjg3G3nFx1qgsUVaLdyMT962s8VxEpvMgpV
-         SuX5jB4EGecuEgxRLSVOjIgbzaO85PELkhf9gx8d9We0r15ZopzQxn6RpcipRcYZggek
-         sFr+ZYnsgu9W2jkkBhPYaasyV4a/6H7uRSt1oza4W4q+LHlDE0JDLuT67NtRSeiRT6KT
-         AN1qgmi9qBQfCayw1HNgK08q+k+nq+lJ72v8TAvVFM4DghVj8v3GOssu3pxP4uijJwjz
-         ZuSA==
-X-Gm-Message-State: AOAM5311HGp/B+P25j7ipmDN3k7bSZL578NQ/EmMqkJpotTwPBbMD+YF
-        e/jtqM4spaOz2upd1PUWuLR4vffv/g8R4hXt
-X-Google-Smtp-Source: ABdhPJyRBsmcscwkqiImLbeE05pXeu7rnAt4FYsRfXBmLtITfkTGWrMy+PSIdz+V0vv2MKO7WXgsJQ==
-X-Received: by 2002:a37:a897:0:b0:69c:329:2310 with SMTP id r145-20020a37a897000000b0069c03292310mr2241446qke.349.1649751174055;
-        Tue, 12 Apr 2022 01:12:54 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id e15-20020ac8670f000000b002e22d9c756dsm23923536qtp.30.2022.04.12.01.12.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 01:12:53 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id p65so13523245ybp.9;
-        Tue, 12 Apr 2022 01:12:53 -0700 (PDT)
-X-Received: by 2002:a25:2c89:0:b0:641:2884:b52e with SMTP id
- s131-20020a252c89000000b006412884b52emr9459376ybs.506.1649751173092; Tue, 12
- Apr 2022 01:12:53 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=EoPQEWTnvTGdLJD5EA090gGEZDaz3E4D+PKNG3xuv/o=;
+        b=MMyiXpxX6y+peJK3o1QWk/TcVtt9QP42J6VndbPE5nqjn5AKy0/1iurEVFn2frAkHK
+         t2289gZTvW69vwSK5Dh4fazRGVsrE4PWsKMpS7ESUeitVmr5RrF80/J1YHBOrSUICQWz
+         Lex1W2YJIVd/32fW8G3Nu8aj0Uk0UkcduVqja70qhf8cTK37QqB2fM/bpUpPZCc30Z74
+         AdrF9mrrH0XYjE+8gdebcK4uVgKgIWl16A1lbTDNcJ1QNN6fcUVvGmD+ZS+DXR7kmcEP
+         ehgp5bL1mH8HbnNI7iDz3PfljAUyywrXdawewRICpoIPC9fQisAnCSn14TocqocUzccg
+         /aMA==
+X-Gm-Message-State: AOAM532kWS4ATbvZX0qMef1nFKj1NBcuj3FO2dDeGr2yI96lL3Ya5kn4
+        +OUVkDttz0m7gLJnUO/BonQp6AWerLjkc4Zr
+X-Google-Smtp-Source: ABdhPJxtOf1S8W0GKp2K26zPIR9RhqdbVf5pS56fH1ef5JpHvLj+XUk6OxSathHU8KH1oAhW87zxrw==
+X-Received: by 2002:a17:90a:8b91:b0:1be:db25:eecd with SMTP id z17-20020a17090a8b9100b001bedb25eecdmr3702104pjn.10.1649751747716;
+        Tue, 12 Apr 2022 01:22:27 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x123-20020a623181000000b004fdf99d25f6sm29954306pfx.80.2022.04.12.01.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 01:22:27 -0700 (PDT)
+Message-ID: <625536c3.1c69fb81.435d2.fc24@mx.google.com>
+Date:   Tue, 12 Apr 2022 01:22:27 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220406161856.1669069-1-miquel.raynal@bootlin.com>
- <20220407004511.3A6D1C385A3@smtp.kernel.org> <20220407101605.7d2a17cc@xps13>
- <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
- <20220412093155.090de9d6@xps13> <CAMuHMdVpfHuJi1+bm2jvsz8ZpMn8u=5bNYqHBRv7DYykyrC-XQ@mail.gmail.com>
- <20220412094338.382e8754@xps13> <CAMuHMdVaWskmiqUEyGyz7HKUjgzFhx+5hAJxd5od7Hp4hFD1KA@mail.gmail.com>
- <20220412100301.03ccece8@xps13>
-In-Reply-To: <20220412100301.03ccece8@xps13>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 12 Apr 2022 10:12:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXPRb0SiCtYcqAy5YJEGp3U30FaXcmjMpgc=szXUnShpA@mail.gmail.com>
-Message-ID: <CAMuHMdXPRb0SiCtYcqAy5YJEGp3U30FaXcmjMpgc=szXUnShpA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/9] RZN1 DMA support
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2022-04-11-v5.18-rc2
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline-nfs: 55 runs,
+ 3 regressions (renesas-devel-2022-04-11-v5.18-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+renesas/master baseline-nfs: 55 runs, 3 regressions (renesas-devel-2022-04-=
+11-v5.18-rc2)
 
-On Tue, Apr 12, 2022 at 10:03 AM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> geert@linux-m68k.org wrote on Tue, 12 Apr 2022 09:52:25 +0200:
-> > On Tue, Apr 12, 2022 at 9:43 AM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> > > geert@linux-m68k.org wrote on Tue, 12 Apr 2022 09:37:22 +0200:
-> > > > So far I've been rather terse in giving feedback on these series,
-> > > > as I'm in wait-and-see mode w.r.t. what else you've planned for the
-> > > > sysctrl DT node[1] and clock/sys controller code...
-> > > >
-> > > > [1] Did I say I'm not that fond of child nodes? But for the dmamux,
-> > > >     it looks like a good solution to handle this.
-> > >
-> > > O:-)
-> > >
-> > > I plan in the coming days to write a proper reset controller driver
-> > > that will be queried by the rtc driver (as proposed by Alexandre).
-> >
-> > OK.
-> >
-> > > Which means I'll have to declare this reset controller as a child of
-> > > the systrl node. If you disagree with it, you may jump-in, see this
-> > > thread :
-> > >
-> > >         Subject: Re: [PATCH 2/7] soc: renesas: rzn1-sysc: Export a
-> > >                  function to  enable/disable the RTC
-> > >         Date: Wed, 6 Apr 2022 10:32:31 +0200
-> >
-> > But do you need a child node for that? All(most all) other Renesas
-> > clock drivers provide reset functionality, and none of them use a
-> > child node for that.
->
-> How do you "request" the reset handle from the consumer driver if it's
-> not described in the DT? Do you have examples to share?
+Regressions Summary
+-------------------
 
-I didn't say it does not need to be described in DT ;-)
+platform            | arch  | lab           | compiler | defconfig         =
+           | regressions
+--------------------+-------+---------------+----------+-------------------=
+-----------+------------
+r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
+IZE_BASE=3Dy | 1          =
 
-Just add "#reset-cells = <1>" to the sysctrl node, and nodes can
-start referring to it using "resets = <&sysctrl N>".
-Currently, the sysctrl node is already a clock and power-domain provider.
+r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+ima     =
+           | 1          =
 
-Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-shows an R-Car CPG/MSSR node providing clock, power-domain, and
-reset functionalities.
+rk3399-gru-kevin    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-ch=
+romebook   | 1          =
 
-Gr{oetje,eeting}s,
 
-                        Geert
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-04-11-v5.18-rc2/plan/baseline-nfs/
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-04-11-v5.18-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      ea5bee24e7143e88663f6497f6f9defd9ae0f77a =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+
+Test Regressions
+---------------- =
+
+
+
+platform            | arch  | lab           | compiler | defconfig         =
+           | regressions
+--------------------+-------+---------------+----------+-------------------=
+-----------+------------
+r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+CON...OM=
+IZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6254f6d747369b2a24ae067f
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
+ylibre/baseline-nfs-r8a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
+ylibre/baseline-nfs-r8a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220401.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6254f6d747369b2a2=
+4ae0680
+        new failure (last pass: renesas-devel-2022-04-04-v5.18-rc1) =
+
+ =
+
+
+
+platform            | arch  | lab           | compiler | defconfig         =
+           | regressions
+--------------------+-------+---------------+----------+-------------------=
+-----------+------------
+r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig+ima     =
+           | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6254fb373dab65aa64ae0696
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+ima
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+ima/gcc-10/lab-baylibre/baseline-nfs-r8=
+a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220401.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6254fb373dab65aa6=
+4ae0697
+        new failure (last pass: renesas-devel-2022-04-04-v5.18-rc1) =
+
+ =
+
+
+
+platform            | arch  | lab           | compiler | defconfig         =
+           | regressions
+--------------------+-------+---------------+----------+-------------------=
+-----------+------------
+rk3399-gru-kevin    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-ch=
+romebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6254f096065a0c7fd1ae06a5
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-11-v5.18-rc2/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220401.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/6254f096065a0c7fd1ae06c7
+        failing since 34 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
+6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-04-12T03:22:45.567026  /lava-6069403/1/../bin/lava-test-case   =
+
+ =20
