@@ -2,131 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B66654FDB8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F9F44FDC6D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235416AbiDLKEu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:04:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        id S1379653AbiDLK0X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:26:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377823AbiDLJ7U (ORCPT
+        with ESMTP id S1358401AbiDLKKI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 05:59:20 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0646B13DF7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:04:17 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id t11so9001336eju.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0zbxI/ib4mJ1wAKwasv9a8XEMpxsdHx9KOUkKJeNjyc=;
-        b=iPDESGSdefhx3WHl3UInb7oISwRqS0QoJI2JHspUFFmMnYInKpmWBT1ex2UHs5TdnG
-         vDnp1pUIwYXF7FOqyOQz2S/bhv9gALNLTuE34KYk0rBLkgToOt7CfoFNK7C/LhhKGQ/+
-         GaAeH/nwhmBElKJkqVEYLJ0g6T+55I2wO+I9ZXWTOlwms7cWGmpGJloZ9rfhM9vjsysZ
-         3XjRuC4Vj8Zx1KozHvau8sM83o/XTnFI+ow0APLWuTfFKWFIE2VC3Qo4I+KIqjlUKNNT
-         f9Ax1hsfsQ82nJWH+kvdYb2ccs8x9exbynejbcUODNU7ibhMcq8Mcl+h+MkTPTu04TLx
-         /zPg==
+        Tue, 12 Apr 2022 06:10:08 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73B972E10;
+        Tue, 12 Apr 2022 02:12:51 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id s6so4087412qta.1;
+        Tue, 12 Apr 2022 02:12:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=0zbxI/ib4mJ1wAKwasv9a8XEMpxsdHx9KOUkKJeNjyc=;
-        b=mvgBnOUQEtH+AWFXnyikqyPbkuSyKx2yxPHzV9quhlCUwBU1Tjf4NrMI7Z1xqrSioQ
-         OIrPFhLisWJINBt17IkppITeeIwME1ttz/e5Wi/FoDIlnSrc49KWgYJyZ4nKyx9Zb+En
-         MMkbPktPlIdbk/i2dF1cca6xEtSKJmx3nIHHxHzbKIutA+v0az5YExJtZ3624/mkQQRy
-         1CtJfuFk3k3AaimrIP1GdYjt/vWwYtUWZQxTtDJ864yMfNagRbDGpIeRHvOuqo4uAMAG
-         6J0xTKfeLkUHdsl8msl7MXW6rnDC8UAgTH3WkQF7LjxKZG3vcJ3ueCxE302UYjl5FVTp
-         KpIQ==
-X-Gm-Message-State: AOAM531XBJX3Lg7NrVcsj3HyZKvaEPtAQqHjrTdC8/5B3isYMzNilC2e
-        aX6mEKw73vKpfHra1TMOh2aokw==
-X-Google-Smtp-Source: ABdhPJyErGvhOFNiJ61usdXAps8FK2Vg+GNwV0o4wtQnbyq0kE0lJzdjV4sPTfJL9Hy/4xhDaVt/yQ==
-X-Received: by 2002:a17:906:730c:b0:6e6:c512:49c8 with SMTP id di12-20020a170906730c00b006e6c51249c8mr33870825ejc.405.1649754255559;
-        Tue, 12 Apr 2022 02:04:15 -0700 (PDT)
-Received: from [192.168.0.194] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id bj13-20020a170906b04d00b006e742719b9fsm11004863ejb.7.2022.04.12.02.04.14
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AkECA0wcXPkNVP5UUzbpxuKdY10vBfhtx3lvTK3ip6U=;
+        b=Z/iymKhNeD2J2v2XHjIE0ytcg1BA+GIQuwJpHfoMh4pCwaNJeXvhAaNc6hejSkc3m3
+         jRkbdIQ1lUs9955JdaaMKjT4x8KHIwXQ8qdrZXTr+79XEI6bxaz0XNb/ERaZWNNcgqUi
+         qKlu/s7ydSGccPiwIBuz/gNMZ0O6N7emGxq1SAJDGbbjK5cutc880O90q6R3L55cST9m
+         TY1tRzwumEj2siJM3hd/rDqIFxiZqVVoS9iyi2yssr8y3xEoQlWq/cMiOYU4DozBKjhf
+         Vt1Uz9bWqCy+fiowGEl8GJ39RTksQDjUk4Xgtr9hQpeXFwvUj5oQBUA60JY4zZ8ijkJZ
+         JdJA==
+X-Gm-Message-State: AOAM533si6dTyjKmg/T/utuAUSrtAHK7pWXEtK0oqP29dI3wrYsIaWW4
+        IJuxxbKSpLzkhdTiA2dNt7Tgh2vX/21Ynvo9
+X-Google-Smtp-Source: ABdhPJyD/i/77zfWNKW+mEm/kTnlXvC0xn4ydoYn5kZhOF5U/BxUtQTXMf7vAzoiaIcusIJleFrmsA==
+X-Received: by 2002:ac8:5893:0:b0:2e1:c7f6:9992 with SMTP id t19-20020ac85893000000b002e1c7f69992mr2480536qta.23.1649754770846;
+        Tue, 12 Apr 2022 02:12:50 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id v67-20020a379346000000b0069bdb3bb132sm7949931qkd.37.2022.04.12.02.12.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 02:04:15 -0700 (PDT)
-Message-ID: <b189e6fc-98b5-9668-d22c-1144d5741071@linaro.org>
-Date:   Tue, 12 Apr 2022 11:04:14 +0200
+        Tue, 12 Apr 2022 02:12:50 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id m132so2744592ybm.4;
+        Tue, 12 Apr 2022 02:12:50 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr24406484ybp.613.1649754770194; Tue, 12
+ Apr 2022 02:12:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 6/7] arm64: dts: renesas: r8a779f0: Add UFS node
-Content-Language: en-US
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
-        krzk+dt@kernel.org
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
-        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com>
- <20220412073647.3808493-7-yoshihiro.shimoda.uh@renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220412073647.3808493-7-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220411173115.6619-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220411173115.6619-1-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 12 Apr 2022 11:12:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWifFd1P941mNdvmvRTYCG0Fg0XagwPTkdVts27664t6w@mail.gmail.com>
+Message-ID: <CAMuHMdWifFd1P941mNdvmvRTYCG0Fg0XagwPTkdVts27664t6w@mail.gmail.com>
+Subject: Re: [PATCH] spi: spi-rspi: Remove setting {src,dst}_{addr,addr_width}
+ based on DMA direction
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/04/2022 09:36, Yoshihiro Shimoda wrote:
-> Add UFS node for R-Car S4-8 (r8a779f0).
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git
+On Mon, Apr 11, 2022 at 7:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The direction field in the DMA config is deprecated. The rspi driver
+> sets {src,dst}_{addr,addr_width} based on the DMA direction and
+> it results in dmaengine_slave_config() failure as RZ DMAC driver
+> validates {src,dst}_addr_width values independent of DMA direction.
+>
+> This patch fixes the issue by passing both {src,dst}_{addr,addr_width}
+> values independent of DMA direction.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Suggested-by: Vinod Koul <vkoul@kernel.org>
 
-Thank you for your patch. There is something to discuss/improve.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+(QSPI on Koelsch)
 
- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> index b0241aa29fc8..8bf418a4232f 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> @@ -40,6 +40,13 @@ extalr_clk: extalr {
->  		clock-frequency = <0>;
->  	};
->  
-> +	ufs30_clk: ufs30_refclk_v {
+Gr{oetje,eeting}s,
 
-No underscores in node names. Node names should be generic, so if you
-insist on prefix, it could be "ufs30-clk".
+                        Geert
 
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		/* This value must be overridden by the board */
-> +		clock-frequency = <0>;
-> +	};
-> +
->  	pmu_a55 {
->  		compatible = "arm,cortex-a55-pmu";
->  		interrupts-extended = <&gic GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
-> @@ -258,6 +265,18 @@ i2c5: i2c@e66e0000 {
->  			status = "disabled";
->  		};
->  
-> +		ufs: scsi@e6860000 {
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Node name: ufs (it is not a SCSI device, AFAIK).
-
-> +			compatible = "renesas,r8a779f0-ufs";
-> +			reg = <0 0xe6860000 0 0x100>;
-> +			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1514>, <&ufs30_clk>;
-> +			clock-names = "fck", "ref_clk";
-
-
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
