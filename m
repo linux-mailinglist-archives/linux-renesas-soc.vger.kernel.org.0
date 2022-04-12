@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0C9B4FDB8C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B93A4FDB81
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 12:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236161AbiDLKEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
+        id S231588AbiDLKEZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:04:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355056AbiDLIGz (ORCPT
+        with ESMTP id S1355061AbiDLIGz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 12 Apr 2022 04:06:55 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9F6D4A93B;
-        Tue, 12 Apr 2022 00:37:09 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9DB54A934;
+        Tue, 12 Apr 2022 00:37:10 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,253,1643641200"; 
-   d="scan'208";a="116447076"
+   d="scan'208";a="117519937"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Apr 2022 16:37:07 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 12 Apr 2022 16:37:07 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 00F10400F501;
-        Tue, 12 Apr 2022 16:37:06 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 254A2400F4F6;
+        Tue, 12 Apr 2022 16:37:07 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
         krzk+dt@kernel.org
@@ -29,9 +29,9 @@ Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/7] ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
-Date:   Tue, 12 Apr 2022 16:36:42 +0900
-Message-Id: <20220412073647.3808493-3-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 3/7] ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
+Date:   Tue, 12 Apr 2022 16:36:43 +0900
+Message-Id: <20220412073647.3808493-4-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com>
 References: <20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com>
@@ -46,43 +46,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS for a broken host controller
-of the 64-bit addressing supported capability.
+Add UFSHCD_QUIRK_HIBERN_FASTAUTO for a broken host controller of
+the auto-hibernate capability but it's FASTAUTO only.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/scsi/ufs/ufshcd.c | 3 ++-
+ drivers/scsi/ufs/ufshcd.c | 9 +++++++--
  drivers/scsi/ufs/ufshcd.h | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/scsi/ufs/ufshcd.c b/drivers/scsi/ufs/ufshcd.c
-index 3f9caafa91bf..a7bb3945c7c6 100644
+index a7bb3945c7c6..adc059a86e1e 100644
 --- a/drivers/scsi/ufs/ufshcd.c
 +++ b/drivers/scsi/ufs/ufshcd.c
-@@ -9513,7 +9513,8 @@ EXPORT_SYMBOL_GPL(ufshcd_dealloc_host);
-  */
- static int ufshcd_set_dma_mask(struct ufs_hba *hba)
- {
--	if (hba->capabilities & MASK_64_ADDRESSING_SUPPORT) {
-+	if (!(hba->quirks & UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS) &&
-+	    hba->capabilities & MASK_64_ADDRESSING_SUPPORT) {
- 		if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
- 			return 0;
- 	}
+@@ -4247,8 +4247,13 @@ static int ufshcd_get_max_pwr_mode(struct ufs_hba *hba)
+ 	if (hba->max_pwr_info.is_valid)
+ 		return 0;
+ 
+-	pwr_info->pwr_tx = FAST_MODE;
+-	pwr_info->pwr_rx = FAST_MODE;
++	if (hba->quirks & UFSHCD_QUIRK_HIBERN_FASTAUTO) {
++		pwr_info->pwr_tx = FASTAUTO_MODE;
++		pwr_info->pwr_rx = FASTAUTO_MODE;
++	} else {
++		pwr_info->pwr_tx = FAST_MODE;
++		pwr_info->pwr_rx = FAST_MODE;
++	}
+ 	pwr_info->hs_rate = PA_HS_MODE_B;
+ 
+ 	/* Get the connected lane count */
 diff --git a/drivers/scsi/ufs/ufshcd.h b/drivers/scsi/ufs/ufshcd.h
-index 94f545be183a..1745144eb904 100644
+index 1745144eb904..d14cc48226ce 100644
 --- a/drivers/scsi/ufs/ufshcd.h
 +++ b/drivers/scsi/ufs/ufshcd.h
-@@ -602,6 +602,12 @@ enum ufshcd_quirks {
- 	 * support physical host configuration.
+@@ -608,6 +608,12 @@ enum ufshcd_quirks {
+ 	 * 64-bit addressing supported capability but it doesn't work.
  	 */
- 	UFSHCD_QUIRK_SKIP_PH_CONFIGURATION		= 1 << 16,
+ 	UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS		= 1 << 17,
 +
 +	/*
 +	 * This quirk needs to be enabled if the host controller has
-+	 * 64-bit addressing supported capability but it doesn't work.
++	 * auto-hibernate capability but it's FASTAUTO only.
 +	 */
-+	UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS		= 1 << 17,
++	UFSHCD_QUIRK_HIBERN_FASTAUTO			= 1 << 18,
  };
  
  enum ufshcd_caps {
