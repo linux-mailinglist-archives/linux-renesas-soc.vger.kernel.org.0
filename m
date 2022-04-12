@@ -2,100 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4FB4FDE11
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60BD14FDDC1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346860AbiDLLTZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 07:19:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S244319AbiDLLZi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 07:25:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354351AbiDLLS5 (ORCPT
+        with ESMTP id S1345938AbiDLLZZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 07:18:57 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF4515FC6;
-        Tue, 12 Apr 2022 03:04:19 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id d71so5149367qkg.12;
-        Tue, 12 Apr 2022 03:04:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UkkpP++oa/oLxNyX5NfWKhI/0x3q2YFDCI0qRMj71FY=;
-        b=QobhyaSYu8asIPsXGQfqnBtxZDJTNUM14VuQe56uC9bC9akvysSk+AGAV9YFr1P2Sl
-         CMi7WuTKe/tXcV0OuNDZbtM9UZpPo92lKGYMioVtP3Pa2+F5GBi2uRtadfiJR19uKRNQ
-         4awt9QAr/YYLRxt4ypMr7p7yHfSt6tQDmKhQwj7N8YWd7VnpbpfxERnD1pxHl1q2xpJQ
-         LbCwxc3YcgEgi9S1nK2VnL7E23jY0JVv2d25EhhOLnlwVfLaLGQeef1DcHLZ6uVniXJh
-         fx99pi/0qC/wF//eTLG/660aPA8GrW40cJjq30IG+L81JlLV58awJm6QtqmFdmjzCeCt
-         4AAA==
-X-Gm-Message-State: AOAM533jwyEv+otVrOdynIRBAFYjlghuVTjWvSF7av7/SAFbqQ9eWSw1
-        9JpsYeJetpCdcySQTrgzCLA+P2SJVr0TpQ==
-X-Google-Smtp-Source: ABdhPJxakEtECcG/hYmXx8kxQF1oL/PFdfus54OlZAW5ND0QImFXK7kFFtLlBVqzVeJo5hH8hzpVFw==
-X-Received: by 2002:a05:620a:998:b0:69c:1bb0:68c7 with SMTP id x24-20020a05620a099800b0069c1bb068c7mr2419641qkx.279.1649757858467;
-        Tue, 12 Apr 2022 03:04:18 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id 14-20020a37090e000000b0069bfe98662csm5641398qkj.17.2022.04.12.03.04.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 03:04:18 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id f38so32206064ybi.3;
-        Tue, 12 Apr 2022 03:04:17 -0700 (PDT)
-X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
- c4-20020a5b0984000000b0063f8c38676cmr15315650ybq.393.1649757857406; Tue, 12
- Apr 2022 03:04:17 -0700 (PDT)
+        Tue, 12 Apr 2022 07:25:25 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8729F382;
+        Tue, 12 Apr 2022 03:05:40 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4BB8E100013;
+        Tue, 12 Apr 2022 10:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649757939;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HLXv+fctRgNNYYJJTbwIOlWDeyNd2mLv72FQ+bxrQ8Y=;
+        b=msmCUWmcxRHbBvMkFgaVIxOulrCXc4kL/L0NiWA6A7nCdvKmhEWDWMUYrEwbDidGOTXdaJ
+        DmKQ+MDh+3oA8D96K2UQs0nJRDKxE2d8aQ2OmAba78hqz4f67hNT6tHJg2BAS8Fw3T7/o5
+        CZCjdZHdMpRuR5GHd0pbaWL+q+Z4Jjg81j1LP7tTqLRCC6PTB/kTo7QnzwLHyxJxr9q4/c
+        S3fCEvy9dtKpu+2V+2OuBC25oYF7mbXi7i+3aEA2lruvMoay5hSwqnnmGuzSZhvrT1yPEz
+        vkLKCGqD/nyVXD/9XLw2jc6Cscm+scTEsBDSXz3WEjQE+pUMp3Gk52VNozhZtg==
+Date:   Tue, 12 Apr 2022 12:05:35 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>
+Subject: Re: [PATCH 3/6] PCI: rcar-gen2: Add R9A06G032 support
+Message-ID: <20220412120535.4bf77ab1@xps13>
+In-Reply-To: <20220412094029.287562-4-herve.codina@bootlin.com>
+References: <20220412094029.287562-1-herve.codina@bootlin.com>
+        <20220412094029.287562-4-herve.codina@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
- <YlVJc3z1xXT2emIc@ninjato> <CAMuHMdUGkba3hiRJPEw26oBdc6_MK_eBO==Z9QeinaoeZv8Qbw@mail.gmail.com>
- <YlVLEnRaARVmWZnZ@ninjato>
-In-Reply-To: <YlVLEnRaARVmWZnZ@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 12 Apr 2022 12:04:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWAQ08K6NCdBGrY+-vBrsTQHi6UHaER4eCON1t9JEG1RA@mail.gmail.com>
-Message-ID: <CAMuHMdWAQ08K6NCdBGrY+-vBrsTQHi6UHaER4eCON1t9JEG1RA@mail.gmail.com>
-Subject: Re: [PATCH] memory: renesas-rpc-if: Simplify single/double data
- register access
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Herve,
 
-On Tue, Apr 12, 2022 at 11:49 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > > > +                     regmap_write(rpc->regmap, RPCIF_SMWDR0, *p++);
-> > >
-> > > Last '++' can be omitted?
-> >
-> > I know. But I think it looks nicer this way ;-)
->
-> I have to admit it looks a little like "I copy&pasted without thinking"
-> to me :)
+herve.codina@bootlin.com wrote on Tue, 12 Apr 2022 11:40:26 +0200:
 
-But that's not what happened. I even compared the assembler output of
-various solutions.
+> Add Renesas R9A06G032 SoC support to the Renesas R-Car gen2 PCI
+> bridge driver.
+> The Renesas RZ/N1D (R9A06G032) internal PCI bridge is compatible
+> with the one available in the R-Car Gen2 family.
+>=20
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  drivers/pci/controller/pci-rcar-gen2.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/control=
+ler/pci-rcar-gen2.c
+> index 528bc3780e01..586e4785a57f 100644
+> --- a/drivers/pci/controller/pci-rcar-gen2.c
+> +++ b/drivers/pci/controller/pci-rcar-gen2.c
+> @@ -352,6 +352,8 @@ static const struct of_device_id rcar_pci_of_match[] =
+=3D {
+>  	{ .compatible =3D "renesas,pci-r8a7791", },
+>  	{ .compatible =3D "renesas,pci-r8a7794", },
+>  	{ .compatible =3D "renesas,pci-rcar-gen2", },
+> +	{ .compatible =3D "renesas,pci-r9a06g032", },
+> +	{ .compatible =3D "renesas,pci-rzn1", },
 
-Gr{oetje,eeting}s,
+I don't think you don't yet need to match against the two, matching
+against pci-rzn1 is enough for now, until we discover that something is
+specific in the r9a06g032 family and we need to handle something else
+of course.
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Miqu=C3=A8l
