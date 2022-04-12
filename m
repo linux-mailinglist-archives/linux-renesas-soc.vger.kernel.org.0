@@ -2,59 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4ABF4FDCFC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCCB54FDD03
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Apr 2022 13:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359494AbiDLKtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Apr 2022 06:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48080 "EHLO
+        id S1359627AbiDLKtR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Apr 2022 06:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356783AbiDLKpk (ORCPT
+        with ESMTP id S1357244AbiDLKpy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Apr 2022 06:45:40 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25FC85668
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Apr 2022 02:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=/gXUO03nZs5ebrOzcOsVdIdl53Fr
-        WrU9ROXrk54ZXmQ=; b=y8fK2ZqQ0qZhKrAAy0b8yau0wzvfPfhqtXNe8mTnTQlp
-        +Q4R/TpV+XThrTJMk3fWmqRRo+d8qI08xvc2HvMQoszleAmz8KC9kEXPBfCR7lwZ
-        JkwYJT+J9z2hDI7kFNQ2TqbXgXQ3EYCfAYNmRNY3VnLWfiY0YF6fUgguF5SQSow=
-Received: (qmail 985089 invoked from network); 12 Apr 2022 11:42:11 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Apr 2022 11:42:11 +0200
-X-UD-Smtp-Session: l3s3148p1@aYgJ4HHcCucgAQnoAGZ4AFi7qjeMIP6q
-Date:   Tue, 12 Apr 2022 11:42:11 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        Tue, 12 Apr 2022 06:45:54 -0400
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E591D30D;
+        Tue, 12 Apr 2022 02:45:35 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id t207so11857674qke.2;
+        Tue, 12 Apr 2022 02:45:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BYcXejDmOeWgzk9C0JmypYS2H5WpNhj4UivpuQIYqc4=;
+        b=d4eOTFp51DIfqhTHlxOmfjcwv0VEn7gZTCsPFVSS7IQMgE+T8a6FDei4ViYYdw1l/T
+         FIyPSotgcjms2YqL/0iUlGGmLfp6CPtbFie4OFyKa1bTE6cAPD04Qmvc/quYSgrA1Q+/
+         e60dho0gQACixgHXLcDhPrC7PfaAgloV8+L3yzIr4v7mh3bbydwdh57UKWZJBAFj63Jp
+         ljM9FPTtsFFk87jW7yp4USRwW1Dg2wCvs2eb3lF4L514PeymPV/MuLmwBkOnpM6IMEtz
+         UDIw9nICdaGezvcM6LpHC0rScA72DnFvTmfcUpZMDM2fyG9GUa7xaKlwBM4sHc2ddYUj
+         F5EQ==
+X-Gm-Message-State: AOAM5335JihLD5OsNSa27bq8jHXQKuR94vapfo1r8SgbIdlfB9tTgIF9
+        H1n9SsRUTm07WeWKa/xzrneT3VCVG4NBXYge
+X-Google-Smtp-Source: ABdhPJyh/kxuKP9aiGd5zIdnjH3WHW9owun8i+czaXo3e8poYojnb8H01DyA5vVA+3LWZd8FdVSy+Q==
+X-Received: by 2002:a05:620a:171e:b0:69c:2480:cfea with SMTP id az30-20020a05620a171e00b0069c2480cfeamr2450685qkb.247.1649756734450;
+        Tue, 12 Apr 2022 02:45:34 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id w17-20020ac857d1000000b002e19feda592sm27070116qta.85.2022.04.12.02.45.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Apr 2022 02:45:34 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2ebf3746f87so100072127b3.6;
+        Tue, 12 Apr 2022 02:45:33 -0700 (PDT)
+X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
+ g16-20020a815210000000b002ef21e354ddmr2967434ywb.438.1649756733392; Tue, 12
+ Apr 2022 02:45:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
+ <YlVJc3z1xXT2emIc@ninjato>
+In-Reply-To: <YlVJc3z1xXT2emIc@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 12 Apr 2022 11:45:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGkba3hiRJPEw26oBdc6_MK_eBO==Z9QeinaoeZv8Qbw@mail.gmail.com>
+Message-ID: <CAMuHMdUGkba3hiRJPEw26oBdc6_MK_eBO==Z9QeinaoeZv8Qbw@mail.gmail.com>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Simplify single/double data
+ register access
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
         Sergey Shtylyov <s.shtylyov@omp.ru>,
         Duc Nguyen <duc.nguyen.ub@renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] memory: renesas-rpc-if: Simplify single/double data
- register access
-Message-ID: <YlVJc3z1xXT2emIc@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OELpkJhUqDCsaz5D"
-Content-Disposition: inline
-In-Reply-To: <19358863deae03b1b26f473e878305a1c6e40d19.1649681638.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,52 +72,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---OELpkJhUqDCsaz5D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 12, 2022 at 11:42 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> On Mon, Apr 11, 2022 at 02:55:29PM +0200, Geert Uytterhoeven wrote:
+> > For manual write and read, factor out the common access to the first
+> > data register by keeping track of the current data pointer.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Works fine with reading/writing on a V3U, so:
+>
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> I agree the code is more concise. I am not sure, though, if it is really
+> more readable. But I don't mind very much, so except for a small nit:
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Mon, Apr 11, 2022 at 02:55:29PM +0200, Geert Uytterhoeven wrote:
-> For manual write and read, factor out the common access to the first
-> data register by keeping track of the current data pointer.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks!
 
-Works fine with reading/writing on a V3U, so:
+> > +                     if (nbytes == 8)
+> > +                             regmap_write(rpc->regmap, RPCIF_SMWDR1, *p++);
+> > +                     regmap_write(rpc->regmap, RPCIF_SMWDR0, *p++);
+>
+> Last '++' can be omitted?
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I know. But I think it looks nicer this way ;-)
+The compiler doesn't care anyway.
 
-I agree the code is more concise. I am not sure, though, if it is really
-more readable. But I don't mind very much, so except for a small nit:
+Gr{oetje,eeting}s,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+                        Geert
 
-> +			if (nbytes =3D=3D 8)
-> +				regmap_write(rpc->regmap, RPCIF_SMWDR1, *p++);
-> +			regmap_write(rpc->regmap, RPCIF_SMWDR0, *p++);
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Last '++' can be omitted?
-
-
---OELpkJhUqDCsaz5D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJVSW8ACgkQFA3kzBSg
-KbYcQw//didRmuvAcnLljb4mtQ3VPVMZBcqWDjRgDKtOO8dvvB1ikHVUDTCWDQbS
-++a0GC/UfJ9vlC+1Q7Qi6+QeRfA9UEE7BWjGpleY25NNW+BHqAidlG8vYQYQRW8v
-axaCY+ifH5k4ui1j3w0peVy2HZp4ruVROEKhOSZP06gHGIg+rTG27ZUPW1/koKd8
-4uvyZxaFkv6eqsWUOp7wy3SYBv6lwaNl111u6DdmxMRW/iSYlC220HQKmDFlIr94
-aNcHTOjFHyuP3RqNoxqPTKEilUKnaM6Brvu9f2RxThL6qt+Mks6AvkMwvbYxnzan
-7X7PWhj8NNiW0BxmoCPgqAp6GMSq0saZr4zO7cXeEa5Kxf5gyb2u+qM+V1bK+WpK
-Io4RgYLSss3zONMx8dB4EApzBHga1pk0Z7bssK23GrMHhq52w40ntbLhpg0Ep7PS
-NEQ2HhyGi43iH3/hufjAbX+tkmeRmUjrPC4xEA9QGGDyMVoVx379KmYhXQjixAar
-B6b675RYUQ7zFZ5bd3sgZaTTsOlhEq7a5tdzesC7b1w2dPTFGXnBeRg8IniSsP/R
-rsZFmvPEVb39UlvqoEoKgjDI+EJqfVVo5RhacONnCVYAuyN8oJn2ObtOoe31Y8rn
-Lg6exmSkJlMZsFnHzG1GBjOtUtXzk8cyuVSN1Vzv6SR30EfnoS8=
-=Kp1i
------END PGP SIGNATURE-----
-
---OELpkJhUqDCsaz5D--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
