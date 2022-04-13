@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 116254FF0EB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 09:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 562BB4FF0F0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 09:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233514AbiDMHy2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 03:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46198 "EHLO
+        id S233543AbiDMHyf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 03:54:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233523AbiDMHyX (ORCPT
+        with ESMTP id S233491AbiDMHyZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 03:54:23 -0400
+        Wed, 13 Apr 2022 03:54:25 -0400
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F482B24B;
-        Wed, 13 Apr 2022 00:52:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B78B2AE2C;
+        Wed, 13 Apr 2022 00:52:04 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 58714FF80A;
-        Wed, 13 Apr 2022 07:52:00 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 10782FF810;
+        Wed, 13 Apr 2022 07:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649836321;
+        t=1649836323;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TXqXnTic6cbbCVSdTgkEfuK3zR186Y8H8a/AYZ3ACOQ=;
-        b=BQ/TippxmWDVK9UyIVKLA0sxQrCzdjqkYYIJ0waEcUpJbU8I93mNS3htd2/5ATgcl5H1a3
-        5t20o6/jriHp/Vg+fpTTZFAEwvxHQIVazIiL+vqcQ0iKIJUdKY59nydxh6a6U6eRzX55SJ
-        Xsz2AeEQeEGyTnq9Io3Qg8WvH7ilAIvU/hXYK2YEauJ7XAp8jf2Wp5L+LYsdlxQ6EIn/5D
-        7iHJuaiUUpSLHi+pCzWJ+HsK5RLuMwxBT1D4wJJGExRkHuV5BagkLRQvyuLdQswBTlEF+y
-        GJTf0kfwZhzsx+dmrDdkeg17Cfa1At3EJRjWf/Kv9mDLvwbMl89TbuOrEI9q6Q==
+        bh=ztyJne0y0/TSy9v0FjT+fUaJtw1cqvrXX9p35RiGCYo=;
+        b=VeOjEjQH9ot6v49H2REcBEl9xmHBbVoYPnsZqGvRouMMm+6giFano1gTlPfrqQnP5GBF/G
+        ZRwDC+8PS5vJiAxto/j4YfF65r7lQYnEpuPvGt8PqlsJNcHv5ET5XxPS/O3+8jSjyqdB9G
+        XFhYorCHwgIwq0ecJv+3WuMRaBLgzcOOWJMafONYuTsSK7DiWZym1tfQVx5oq6BnQMTMYg
+        /0OYiR3F5Dg4qO+2CUiBTQEDmeXCbBDttGYixWinVpn1A11FPyXnnx4NueZO0XoK8pS8zd
+        m0simKkmyQE6pIlHyJGtzvum6g8N2jzsX68zI8JFO7saFJ1D9dzk8dCgI0mAiA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -46,9 +46,9 @@ Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
         Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
         Phil Edworthy <phil.edworthy@renesas.com>
-Subject: [PATCH v5 09/11] serial: 8250: dw: Add support for DMA flow controlling devices
-Date:   Wed, 13 Apr 2022 09:51:39 +0200
-Message-Id: <20220413075141.72777-10-miquel.raynal@bootlin.com>
+Subject: [PATCH v5 10/11] serial: 8250: dw: Improve RZN1 support
+Date:   Wed, 13 Apr 2022 09:51:40 +0200
+Message-Id: <20220413075141.72777-11-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220413075141.72777-1-miquel.raynal@bootlin.com>
 References: <20220413075141.72777-1-miquel.raynal@bootlin.com>
@@ -67,140 +67,35 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Phil Edworthy <phil.edworthy@renesas.com>
 
-DW based controllers like the one on Renesas RZ/N1 must be programmed as
-flow controllers when using DMA.
+Renesas RZ/N1 SoC features a slightly modified DW UART.
 
-* Table 11.45 of the system manual, "Flow Control Combinations", states
-  that using UART with DMA requires setting the DMA in the peripheral
-  flow controller mode regardless of the direction.
-
-* Chapter 11.6.1.3 of the system manual, "Basic Interface Definitions",
-  explains that the burst size in the above case must be configured in
-  the peripheral's register DEST/SRC_BURST_SIZE.
-
-Experiments shown that upon Rx timeout, the DMA transaction needed to be
-manually cleared as well.
+On this SoC, the CPR register value is known but not synthetized in
+hardware. We hence need to provide a CPR value in the platform
+data. This version of the controller also relies on acting as flow
+controller when using DMA, so we need to provide the
+"is dma flow controller" quirk.
 
 Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/8250_dw.c | 64 +++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ drivers/tty/serial/8250/8250_dw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 238bcdf1bab0..f8e762e3ef0f 100644
+index f8e762e3ef0f..a4f46456677c 100644
 --- a/drivers/tty/serial/8250/8250_dw.c
 +++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -34,16 +34,28 @@
+@@ -761,6 +761,8 @@ static const struct dw8250_platform_data dw8250_armada_38x_data = {
  
- /* Offsets for the DesignWare specific registers */
- #define DW_UART_USR	0x1f /* UART Status Register */
-+#define DW_UART_DMASA	0xa8 /* DMA Software Ack */
-+
-+#define RZN1_UART_TDMACR 0x10c /* DMA Control Register Transmit Mode */
-+#define RZN1_UART_RDMACR 0x110 /* DMA Control Register Receive Mode */
+ static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
+ 	.usr_reg = DW_UART_USR,
++	.quirks = DW_UART_QUIRK_IS_DMA_FC,
++	.cpr = 0x00012f32,
+ };
  
- #define OCTEON_UART_USR	0x27 /* UART Status Register */
- 
- /* DesignWare specific register fields */
- #define DW_UART_MCR_SIRE		BIT(6)
- 
-+/* Renesas specific register fields */
-+#define RZN1_UART_xDMACR_DMA_EN		BIT(0)
-+#define RZN1_UART_xDMACR_1_WORD_BURST	(0 << 1)
-+#define RZN1_UART_xDMACR_4_WORD_BURST	(1 << 1)
-+#define RZN1_UART_xDMACR_8_WORD_BURST	(3 << 1)
-+#define RZN1_UART_xDMACR_BLK_SZ(x)	((x) << 3)
-+
- /* Quirks */
- #define DW_UART_QUIRK_OCTEON		BIT(0)
- #define DW_UART_QUIRK_ARMADA_38X	BIT(1)
- #define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
-+#define DW_UART_QUIRK_IS_DMA_FC		BIT(3)
- 
- static inline struct dw8250_data *clk_to_dw8250_data(struct notifier_block *nb)
- {
-@@ -226,6 +238,7 @@ static int dw8250_handle_irq(struct uart_port *p)
- 	struct dw8250_data *d = to_dw8250_data(p->private_data);
- 	unsigned int iir = p->serial_in(p, UART_IIR);
- 	bool rx_timeout = (iir & 0x3f) == UART_IIR_RX_TIMEOUT;
-+	unsigned int quirks = d->pdata->quirks;
- 	unsigned int status;
- 	unsigned long flags;
- 
-@@ -249,6 +262,15 @@ static int dw8250_handle_irq(struct uart_port *p)
- 		spin_unlock_irqrestore(&p->lock, flags);
- 	}
- 
-+	/* Manually stop the Rx DMA transfer when acting as flow controller */
-+	if (quirks & DW_UART_QUIRK_IS_DMA_FC && up->dma && up->dma->rx_running && rx_timeout) {
-+		status = p->serial_in(p, UART_LSR);
-+		if (status & (UART_LSR_DR | UART_LSR_BI)) {
-+			dw8250_writel_ext(p, RZN1_UART_RDMACR, 0);
-+			dw8250_writel_ext(p, DW_UART_DMASA, 1);
-+		}
-+	}
-+
- 	if (serial8250_handle_irq(p, iir))
- 		return 1;
- 
-@@ -372,6 +394,42 @@ static bool dw8250_idma_filter(struct dma_chan *chan, void *param)
- 	return param == chan->device->dev;
- }
- 
-+static u32 dw8250_rzn1_get_dmacr_burst(int max_burst)
-+{
-+	if (max_burst >= 8)
-+		return RZN1_UART_xDMACR_8_WORD_BURST;
-+	else if (max_burst >= 4)
-+		return RZN1_UART_xDMACR_4_WORD_BURST;
-+	else
-+		return RZN1_UART_xDMACR_1_WORD_BURST;
-+}
-+
-+static void dw8250_prepare_tx_dma(struct uart_8250_port *p)
-+{
-+	struct uart_port *up = &p->port;
-+	struct uart_8250_dma *dma = p->dma;
-+	u32 val;
-+
-+	dw8250_writel_ext(up, RZN1_UART_TDMACR, 0);
-+	val = dw8250_rzn1_get_dmacr_burst(dma->txconf.dst_maxburst) |
-+	      RZN1_UART_xDMACR_BLK_SZ(dma->tx_size) |
-+	      RZN1_UART_xDMACR_DMA_EN;
-+	dw8250_writel_ext(up, RZN1_UART_TDMACR, val);
-+}
-+
-+static void dw8250_prepare_rx_dma(struct uart_8250_port *p)
-+{
-+	struct uart_port *up = &p->port;
-+	struct uart_8250_dma *dma = p->dma;
-+	u32 val;
-+
-+	dw8250_writel_ext(up, RZN1_UART_RDMACR, 0);
-+	val = dw8250_rzn1_get_dmacr_burst(dma->rxconf.src_maxburst) |
-+	      RZN1_UART_xDMACR_BLK_SZ(dma->rx_size) |
-+	      RZN1_UART_xDMACR_DMA_EN;
-+	dw8250_writel_ext(up, RZN1_UART_RDMACR, val);
-+}
-+
- static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- {
- 	struct device_node *np = p->dev->of_node;
-@@ -404,6 +462,12 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 			p->serial_out = dw8250_serial_out38x;
- 		if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
- 			p->set_termios = dw8250_do_set_termios;
-+		if (quirks & DW_UART_QUIRK_IS_DMA_FC) {
-+			data->data.dma.txconf.device_fc = 1;
-+			data->data.dma.rxconf.device_fc = 1;
-+			data->data.dma.prepare_tx_dma = dw8250_prepare_tx_dma;
-+			data->data.dma.prepare_rx_dma = dw8250_prepare_rx_dma;
-+		}
- 
- 	} else if (acpi_dev_present("APMC0D08", NULL, -1)) {
- 		p->iotype = UPIO_MEM32;
+ static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
 -- 
 2.27.0
 
