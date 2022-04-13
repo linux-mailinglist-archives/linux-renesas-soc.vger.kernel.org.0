@@ -2,116 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD9974FF430
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 11:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A344FF4FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 12:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231625AbiDMJzo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 05:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39098 "EHLO
+        id S234588AbiDMKm0 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 06:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbiDMJzm (ORCPT
+        with ESMTP id S229866AbiDMKm0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 05:55:42 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005144ECEF
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 02:53:21 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id ks6so2855826ejb.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 02:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vp9K+8Hl4/NfsYzNXBDKIhozV5SgmyerqnOmyR+rh00=;
-        b=e8xdp0/auxVF/syVgSVHQFmbTch2hhK5Xh9aaDtS6tDhKPK1XilTbW3hqYJFYQliOO
-         sKqX23UAyha4hpBGY2LpsYt+HlAfRDDLaGpsP6epuDOtpeORPHO8IrS2iV5JhpJhpFFK
-         6G2th66uz61Sv8h9MyeJF9ckVpHz1fzEquPa4BKlGenQQh8GEANtGBhsnpCo0bQYAMHt
-         6qVWQbINvpuyUsPBq/Z4djh8JSGr2TFLgExlElb98KmPW35VckG/DBRSI+r/5Bnu3jvP
-         d3iFwroziSyK1YquB0ypHxGtY17bKByqdcurS9oScVEowfimZJz+9ji2Qqph0qSvv1K7
-         dB0g==
+        Wed, 13 Apr 2022 06:42:26 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5935F532F0;
+        Wed, 13 Apr 2022 03:40:05 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id ay4so1013122qtb.11;
+        Wed, 13 Apr 2022 03:40:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vp9K+8Hl4/NfsYzNXBDKIhozV5SgmyerqnOmyR+rh00=;
-        b=LMbpkf5M5V/02vK7hrL/zgSFgdJsjr5+IkHhb65iEbUqHOvMR5EbekhMytfuKLwVmf
-         KYw0Hp9N4YqzSbz7tnwFJPKy1Q1NOHLxghVuFwkk52RWos3Fhgd1DwxLZ4828XnfTp+W
-         RsaLSqTikyn2JN0cXRRbOEUcdFqukn/ac/cotI6rjWipAfUQCkzmuC8sQ3OBA073CiyN
-         7/K0obDcniC/VUNHy2WJOp7BTfz6g9ikXnIPVWWnJiGToBeX3G3P7it1KXCJIr68HrNv
-         FdFupL2f1tza4s1Png7DwNtOA1PCdiEItm9JTDmXysuZ7fgxrkQGl/ea2dkQFmOoo7fw
-         b96A==
-X-Gm-Message-State: AOAM530dIBuhJG3XqxPQQST0rv7kBNXBC60vlYy+4wGnWASFynS5vJ1x
-        UGnP0CKXdPjcq0wlhQcSDy6j2g==
-X-Google-Smtp-Source: ABdhPJybwN+GXtG5z+gqsAv8zWtLVN850stkyxlqVGXwWhY95IkEqpMLUEB90jUjvfeLJXDp3vJKmg==
-X-Received: by 2002:a17:907:3f25:b0:6b0:5e9a:83 with SMTP id hq37-20020a1709073f2500b006b05e9a0083mr40143493ejc.659.1649843600618;
-        Wed, 13 Apr 2022 02:53:20 -0700 (PDT)
-Received: from [192.168.0.203] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id kv22-20020a17090778d600b006e8a072fb1dsm2539456ejc.172.2022.04.13.02.53.19
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ylLDxaJE5bKp2Ipxy025DYGxQ1jbgF00xKv8pZHsTdY=;
+        b=oz3fr6RZJToVCHHEOSV+FDoSpSVpzuTIeEprD6AL3ex7sZNTzpgBV3+KN7pn88Vm+I
+         MmtKFaup9QRd+Ywh/9Ik8TxVnZ5MiXHKxt2AluI9GCGZh0A5c+vMqatvCqOrAstZjM33
+         04aHApUOwZ6JIwEyFDotYjrYLuZkn8ut9UtnYfcsMhbkCs68CtCCJwVQYFyecw3qgko4
+         ImNPqZNJcbF8TjoZZlX+Z4XB0o4IR4rZN0znVTBfTzgXCNS6ehbbd5pNXjMOzrcOFvlK
+         Rs4PnvH7zj/LxZnR9k65WATjvtdBgAJdBipek1FIUZfzl/HtQSkP0PNRwCtkBMEkPXS2
+         MXvw==
+X-Gm-Message-State: AOAM530Y5xrMPiXVVK2J0ev9ezhBgz8iMPN2gY7BogP7Co6gZbcoFi/6
+        ym0HoI0RLvXM7IZS0Ycf0oj1p+iP3XbQng==
+X-Google-Smtp-Source: ABdhPJxlBHQoxHZD+N1yJYgP31YtHLyWImF4n3aA4oaKWznUkwgku3IFHnm0aXxg9rHYifEaMkL/qA==
+X-Received: by 2002:a05:622a:1447:b0:2e1:c405:b05b with SMTP id v7-20020a05622a144700b002e1c405b05bmr6688814qtx.626.1649846404071;
+        Wed, 13 Apr 2022 03:40:04 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id i137-20020a379f8f000000b0069befb1e28fsm8559784qke.97.2022.04.13.03.40.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 02:53:19 -0700 (PDT)
-Message-ID: <5691451b-a2a7-9ac7-abf4-06e4ed804db9@linaro.org>
-Date:   Wed, 13 Apr 2022 11:53:18 +0200
+        Wed, 13 Apr 2022 03:40:03 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id f38so2952916ybi.3;
+        Wed, 13 Apr 2022 03:40:03 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr28271889ybp.613.1649846403436; Wed, 13
+ Apr 2022 03:40:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4] memory: renesas-rpc-if: Fix HF/OSPI data transfer in
- Manual Mode
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Duc Nguyen <duc.nguyen.ub@renesas.com>
-References: <cde9bfacf704c81865f57b15d1b48a4793da4286.1649681476.git.geert+renesas@glider.be>
- <164984328891.36085.9849925261305937604.b4-ty@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <164984328891.36085.9849925261305937604.b4-ty@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <1649837953-10984-1-git-send-email-baihaowen@meizu.com>
+ <CAMuHMdXcNBq5e6K6YUorLCF0hiFsp6VVKrUcy5E4mdAQAbH7Sg@mail.gmail.com> <05f14aa0-4001-d08d-610e-12749437ec9a@meizu.com>
+In-Reply-To: <05f14aa0-4001-d08d-610e-12749437ec9a@meizu.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 13 Apr 2022 12:39:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWa6fhG3Bmfeqo+FLbapqXAb+kYsXrM9wq5OAfBTrkbGg@mail.gmail.com>
+Message-ID: <CAMuHMdWa6fhG3Bmfeqo+FLbapqXAb+kYsXrM9wq5OAfBTrkbGg@mail.gmail.com>
+Subject: Re: [PATCH V2] clk: renesas: Fix memory leak of 'cpg'
+To:     baihaowen <baihaowen@meizu.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 13/04/2022 11:48, Krzysztof Kozlowski wrote:
-> On Mon, 11 Apr 2022 14:53:45 +0200, Geert Uytterhoeven wrote:
->> HyperFlash devices fail to probe:
->>
->>     rpc-if-hyperflash rpc-if-hyperflash: probing of hyperbus device failed
->>
->> In HyperFlash or Octal-SPI Flash mode, the Transfer Data Enable bits
->> (SPIDE) in the Manual Mode Enable Setting Register (SMENR) are derived
->> from half of the transfer size, cfr. the rpcif_bits_set() helper
->> function.  However, rpcif_reg_{read,write}() does not take the bus size
->> into account, and does not double all Manual Mode Data Register access
->> sizes when communicating with a HyperFlash or Octal-SPI Flash device.
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [1/1] memory: renesas-rpc-if: Fix HF/OSPI data transfer in Manual Mode
->       commit: 953d7e7cedb49fec97807166be6fa1ecec1cf0c4
-> 
+Hi Haowen,
 
+On Wed, Apr 13, 2022 at 11:24 AM baihaowen <baihaowen@meizu.com> wrote:
+> 在 4/13/22 4:41 PM, Geert Uytterhoeven 写道:
+> > On Wed, Apr 13, 2022 at 10:30 AM Haowen Bai <baihaowen@meizu.com> wrote:
+> >> Fix this issue by freeing the cpg when exiting the function in the
+> >> error/normal path.
+> >>
+> >> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> > Thanks for your patch!
+> >
+> >> --- a/drivers/clk/renesas/clk-r8a73a4.c
+> >> +++ b/drivers/clk/renesas/clk-r8a73a4.c
+> >> @@ -215,7 +215,7 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
+> >>
+> >>         cpg->reg = of_iomap(np, 0);
+> >>         if (WARN_ON(cpg->reg == NULL))
+> >> -               return;
+> >> +               goto out_free_cpg;
+> > Note that this is a fatal error, i.e. no chance the system will survive this,
+> > so cleaning up is moot.
+> >
+> >>         for (i = 0; i < num_clks; ++i) {
+> >>                 const char *name;
+> >> @@ -233,6 +233,9 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
+> >>         }
+> >>
+> >>         of_clk_add_provider(np, of_clk_src_onecell_get, &cpg->data);
+> >> +out_free_cpg:
+> >> +       kfree(cpg);
+> >> +       kfree(clks);
+> > Both cpg and clks are still used after returning from this function,
+> > through the registered clocks and clock provider.
+> >
+> >>  }
+> >>  CLK_OF_DECLARE(r8a73a4_cpg_clks, "renesas,r8a73a4-cpg-clocks",
+> >>                r8a73a4_cpg_clocks_init);
+> > NAKed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Amended. This is not a proper tag:
+> Could you show me how and when cpg & clks free ?
 
-WARNING: Unexpected content after email: 'Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> [QSPI]', should be: 'Lad
-Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> (QSPI)'
-#30:
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> [QSPI]
+They are never freed, as they stay in-use for the lifetime of the system.
 
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
