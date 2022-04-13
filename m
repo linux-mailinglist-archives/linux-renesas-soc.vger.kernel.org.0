@@ -2,43 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE454FF119
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 09:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF044FF12B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 10:01:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbiDMH7f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 03:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52136 "EHLO
+        id S233279AbiDMIDe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 04:03:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233616AbiDMH7e (ORCPT
+        with ESMTP id S233692AbiDMICy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 03:59:34 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4014BFCD;
-        Wed, 13 Apr 2022 00:57:11 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 13 Apr
- 2022 15:57:05 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 13 Apr
- 2022 15:57:04 +0800
-From:   Haowen Bai <baihaowen@meizu.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wed, 13 Apr 2022 04:02:54 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9461E3C8;
+        Wed, 13 Apr 2022 01:00:32 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 75ED01C0014;
+        Wed, 13 Apr 2022 08:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649836831;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fqBnj4E/IArS778TbFuQ/LXdhPkqCVHeLCS/sR1tXo8=;
+        b=bG4D7mAptj9IoSxJDX73pRGt2qJyJ6MhlJzmHqx4amX7xWZJm1qu7Sqa9uAf5BjVmOQ+n1
+        eQOk+Z5lAp9DL/AqgxiHaxckOcuNH6ZoVXUJKlMSD9bvvVeEGZE3AZkRbXEseZJ6DD6JhC
+        IXlPYM/hmzpPEiTfbLAtLYIMIvTDgpGl7N0gi0h0pimcZ8JL4M3lvPIxtkZh4CMXcvcZlv
+        nHQv0fqfW3xApEpSvRalk9lOx4oKbdsMPxbqJPWVjW1TYDf+FUM36obalcd06t496V77C6
+        k7wU9AuGnbCamtYJ3IGPqxQmZ+QnkmKIVpzhsQirtKrej+Bisik8tovOyua9iA==
+Date:   Wed, 13 Apr 2022 10:00:26 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     Haowen Bai <baihaowen@meizu.com>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] clk: renesas: Fix memory leak of 'cpg'
-Date:   Wed, 13 Apr 2022 15:57:02 +0800
-Message-ID: <1649836623-6444-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v10 5/9] dmaengine: dw: dmamux: Introduce RZN1 DMA
+ router support
+Message-ID: <20220413100026.73e11004@xps13>
+In-Reply-To: <CAMuHMdV_KWuDRWtNaL2n8+1y4GbOSSosesd3RPK60i6zYkQPDA@mail.gmail.com>
+References: <20220412193936.63355-1-miquel.raynal@bootlin.com>
+        <20220412193936.63355-6-miquel.raynal@bootlin.com>
+        <CAMuHMdV_KWuDRWtNaL2n8+1y4GbOSSosesd3RPK60i6zYkQPDA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -47,36 +76,80 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix this issue by freeing the cpg when exiting the function in the
-error/normal path.
+Hi Geert,
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- drivers/clk/renesas/clk-r8a7778.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+geert@linux-m68k.org wrote on Wed, 13 Apr 2022 09:53:09 +0200:
 
-diff --git a/drivers/clk/renesas/clk-r8a7778.c b/drivers/clk/renesas/clk-r8a7778.c
-index 3ccc53685bdd..ad2c080402c1 100644
---- a/drivers/clk/renesas/clk-r8a7778.c
-+++ b/drivers/clk/renesas/clk-r8a7778.c
-@@ -116,7 +116,7 @@ static void __init r8a7778_cpg_clocks_init(struct device_node *np)
- 
- 	cpg->reg = of_iomap(np, 0);
- 	if (WARN_ON(cpg->reg == NULL))
--		return;
-+		goto out_free_cpg;
- 
- 	for (i = 0; i < num_clks; ++i) {
- 		const char *name;
-@@ -136,6 +136,8 @@ static void __init r8a7778_cpg_clocks_init(struct device_node *np)
- 	of_clk_add_provider(np, of_clk_src_onecell_get, &cpg->data);
- 
- 	cpg_mstp_add_clk_domain(np);
-+out_free_cpg:
-+	kfree(cpg);
- }
- 
- CLK_OF_DECLARE(r8a7778_cpg_clks, "renesas,r8a7778-cpg-clocks",
--- 
-2.7.4
+> Hi Miquel,
+>=20
+> On Tue, Apr 12, 2022 at 9:39 PM Miquel Raynal <miquel.raynal@bootlin.com>=
+ wrote:
+> > The Renesas RZN1 DMA IP is based on a DW core, with eg. an additional
+> > dmamux register located in the system control area which can take up to
+> > 32 requests (16 per DMA controller). Each DMA channel can be wired to
+> > two different peripherals.
+> >
+> > We need two additional information from the 'dmas' property: the channel
+> > (bit in the dmamux register) that must be accessed and the value of the
+> > mux for this channel.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com> =20
+>=20
+> Thanks for your patch!
+>=20
+> > --- /dev/null
+> > +++ b/drivers/dma/dw/rzn1-dmamux.c
+> > @@ -0,0 +1,160 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (C) 2022 Schneider-Electric
+> > + * Author: Miquel Raynal <miquel.raynal@bootlin.com
+> > + * Based on TI crossbar driver written by Peter Ujfalusi <peter.ujfalu=
+si@ti.com>
+> > + */
+> > +#include <linux/bitops.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/of_dma.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/soc/renesas/r9a06g032-sysctrl.h>
+> > +#include <linux/types.h>
+> > +
+> > +#define RNZ1_DMAMUX_NCELLS 6
+> > +#define RZN1_DMAMUX_LINES 64
+> > +#define RZN1_DMAMUX_MAX_LINES 16
+> > +
+> > +struct rzn1_dmamux_data {
+> > +       struct dma_router dmarouter;
+> > +       unsigned long *used_chans; =20
+>=20
+> Why a pointer?
+>=20
+> > +static int rzn1_dmamux_probe(struct platform_device *pdev)
+> > +{
+> > +       struct device_node *mux_node =3D pdev->dev.of_node;
+> > +       const struct of_device_id *match;
+> > +       struct device_node *dmac_node;
+> > +       struct rzn1_dmamux_data *dmamux;
+> > +
+> > +       dmamux =3D devm_kzalloc(&pdev->dev, sizeof(*dmamux), GFP_KERNEL=
+);
+> > +       if (!dmamux)
+> > +               return -ENOMEM;
+> > +
+> > +       dmamux->used_chans =3D devm_bitmap_zalloc(&pdev->dev, 2 * RZN1_=
+DMAMUX_MAX_LINES,
+> > +                                               GFP_KERNEL); =20
+>=20
+> ... Oh, you want to allocate the bitmap separately, although you
+> know it's just a single long.
+>=20
+> You might as well declare it in rzn1_dmamux_data as:
+>=20
+>     unsigned long used_chans[BITS_TO_LONGS(2 * RZN1_DMAMUX_MAX_LINES)];
 
+I've done that in versions v1..v8 and it was explicitly requested by
+Ilpo that I used something more specific like a bitmap (or an idr, but
+I don't think it fits well here). So now I'm using a bitmap...
+
+Thanks,
+Miqu=C3=A8l
