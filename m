@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E18EC4FF15E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 10:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74BBB4FF197
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 10:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbiDMIId (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 04:08:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59224 "EHLO
+        id S232154AbiDMISi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 04:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbiDMIIc (ORCPT
+        with ESMTP id S233713AbiDMISh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:08:32 -0400
+        Wed, 13 Apr 2022 04:18:37 -0400
 Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4677122B30;
-        Wed, 13 Apr 2022 01:06:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7A74AE27;
+        Wed, 13 Apr 2022 01:16:16 -0700 (PDT)
 Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
  (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 13 Apr
- 2022 16:06:10 +0800
+ 2022 16:16:15 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 13 Apr
- 2022 16:06:09 +0800
+ 2022 16:16:14 +0800
 From:   Haowen Bai <baihaowen@meizu.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -29,9 +29,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 CC:     Haowen Bai <baihaowen@meizu.com>,
         <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH] clk: renesas: Fix memory leak of 'cpg'
-Date:   Wed, 13 Apr 2022 16:06:07 +0800
-Message-ID: <1649837168-3005-1-git-send-email-baihaowen@meizu.com>
+Subject: [PATCH V2] clk: renesas: Fix memory leak of 'cpg'
+Date:   Wed, 13 Apr 2022 16:16:12 +0800
+Message-ID: <1649837773-3501-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -52,23 +52,34 @@ error/normal path.
 
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
- drivers/clk/renesas/clk-r8a7779.c | 3 +++
- 1 file changed, 3 insertions(+)
+V1->V2: free both cpg&clks
 
-diff --git a/drivers/clk/renesas/clk-r8a7779.c b/drivers/clk/renesas/clk-r8a7779.c
-index 9f3b5522eef5..dd7c67f522fd 100644
---- a/drivers/clk/renesas/clk-r8a7779.c
-+++ b/drivers/clk/renesas/clk-r8a7779.c
-@@ -170,6 +170,9 @@ static void __init r8a7779_cpg_clocks_init(struct device_node *np)
- 	of_clk_add_provider(np, of_clk_src_onecell_get, &cpg->data);
+ drivers/clk/renesas/clk-r8a73a4.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/clk-r8a73a4.c b/drivers/clk/renesas/clk-r8a73a4.c
+index cfed11c659d9..5a8d976f49e0 100644
+--- a/drivers/clk/renesas/clk-r8a73a4.c
++++ b/drivers/clk/renesas/clk-r8a73a4.c
+@@ -215,7 +215,7 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
  
- 	cpg_mstp_add_clk_domain(np);
-+	
+ 	cpg->reg = of_iomap(np, 0);
+ 	if (WARN_ON(cpg->reg == NULL))
+-		return;
++		goto out_free_cpg;
+ 
+ 	for (i = 0; i < num_clks; ++i) {
+ 		const char *name;
+@@ -233,6 +233,9 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
+ 	}
+ 
+ 	of_clk_add_provider(np, of_clk_src_onecell_get, &cpg->data);
++out_free_cpg:
 +	kfree(cpg);
 +	kfree(clks);
  }
- CLK_OF_DECLARE(r8a7779_cpg_clks, "renesas,r8a7779-cpg-clocks",
- 	       r8a7779_cpg_clocks_init);
+ CLK_OF_DECLARE(r8a73a4_cpg_clks, "renesas,r8a73a4-cpg-clocks",
+ 	       r8a73a4_cpg_clocks_init);
 -- 
 2.7.4
 
