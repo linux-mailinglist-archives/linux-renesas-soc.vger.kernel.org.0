@@ -2,69 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E25D4FFAA3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 17:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 957854FFAB4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 17:53:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235984AbiDMPvN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 11:51:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S234492AbiDMP4N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 11:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234659AbiDMPvL (ORCPT
+        with ESMTP id S229707AbiDMP4M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 11:51:11 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C6666226;
-        Wed, 13 Apr 2022 08:48:48 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7A0C360009;
-        Wed, 13 Apr 2022 15:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649864927;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dUc7DZ0s5s8q5Hp7V4kZQSzl4aTwEKtCJGqudHda2mY=;
-        b=H5l4NFNlJQsdB8Ss/FBLauC8vGBummdq9D+Bu9irYpQvpIHYhwDhp6meFOyLbsXThZaW4v
-        fV7L6Op+QXiMZ+PQNQ6TfJfUFc4/jgHmR/5u2B+2PS1tt+IwahSk92gK2sS4xqQg0mIawT
-        W2/3saE14UCRF2nEBq0bM04IkeoeI9rd/M2q9QW0ry7Bt6QJZQ2VXvPGJwRU9hIjPdq1Cj
-        OT2uvWFrOy1sluYR/EcQpnAFhUAmxb2D4XZvJKYFdJau5v5lAQm5qv89696DpRZng0Du25
-        KDnmT0UkW3lTnCNk86jgxjjeKpIyVUAYONe5IS/+XHg+zrWDr3tKykMmIisgJg==
-Date:   Wed, 13 Apr 2022 17:48:45 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        linux-rtc@vger.kernel.org,
-        Michel Pollet <michel.pollet@bp.renesas.com>
-Subject: Re: [PATCH 3/7] rtc: rzn1: Add new RTC driver
-Message-ID: <Ylbw3bEc+QK4m9hX@mail.local>
-References: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
- <20220405184716.1578385-4-miquel.raynal@bootlin.com>
- <Yk1UXjTk32Vc9+/k@mail.local>
- <20220413172327.73d1fcc1@xps13>
+        Wed, 13 Apr 2022 11:56:12 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886206622F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 08:53:48 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c9b8:20d3:ee2b:1cda])
+        by xavier.telenet-ops.be with bizsmtp
+        id JFtl270092t8Arn01Ftlsi; Wed, 13 Apr 2022 17:53:46 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nefJR-000TJl-CT; Wed, 13 Apr 2022 17:53:45 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nefJQ-00Dero-UL; Wed, 13 Apr 2022 17:53:44 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: renesas: checker: Fix for drive reg field increase
+Date:   Wed, 13 Apr 2022 17:53:43 +0200
+Message-Id: <e44426a99b20e5f5681ede894d08e36870bcb47f.1649865163.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220413172327.73d1fcc1@xps13>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,54 +46,85 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquèl,
+With CONFIG_DEBUG_PINCTRL=y:
 
-On 13/04/2022 17:23:27+0200, Miquel Raynal wrote:
-> > > +static int rzn1_rtc_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct rzn1_rtc *rtc;
-> > > +	int ret;
-> > > +
-> > > +	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-> > > +	if (!rtc)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	platform_set_drvdata(pdev, rtc);
-> > > +
-> > > +	rtc->clk = devm_clk_get(&pdev->dev, "hclk");
-> > > +	if (IS_ERR(rtc->clk))
-> > > +		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->clk), "Missing hclk\n");
-> > > +
-> > > +	rtc->base = devm_platform_ioremap_resource(pdev, 0);
-> > > +	if (IS_ERR(rtc->base))
-> > > +		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
-> > > +
-> > > +	rtc->rtcdev = devm_rtc_allocate_device(&pdev->dev);
-> > > +	if (IS_ERR(rtc->rtcdev))
-> > > +		return PTR_ERR(rtc);
-> > > +
-> > > +	rtc->rtcdev->range_max = 3178591199UL; /* 100 years */  
-> > 
-> > I'm not sure how you came to this value, this is 2070-09-22T05:59:59.
-> > I'm pretty sure the RTC will not fail at that time. Also, the comment
-> > seems fishy.
-> 
-> The RTC itself as no "starting point", but just a counter that can
-> count up to 100. So the max range is start-year + 100 years. But at
-> this point I don't yet have access to the start-year value. What's
-> your advise?
+    r8a774c0_pfc: pin GP_4_3: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs
+    r8a774c0_pfc: pin GP_4_4: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs
+    ...
+    r8a77990_pfc: pin GP_4_3: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs
+    r8a77990_pfc: pin GP_4_4: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs
 
-The question is why is this limited to 100 years? My guess is that it
-doesn't handle leap years properly if this is the case, there is only
-one range that works, this is 2000-01-01 to 2099-12-31 like many other
-RTCs.
+This happens because the checker still uses the old number of fields.
 
-You can run rtc-range from rtc-tools after removing range_max to find
-out.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be folded into commit d5c9688095d29a6c ("pinctrl: renesas: Allow up
+to 10 fields for drive_regs") in renesas-pinctrl-for-v5.19.
 
-Cheers
+Ideally, some iterator or index helper should be introduced.
+---
+ drivers/pinctrl/renesas/core.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index d0d4714731c14cf5..dae2201a62dc8f8b 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -1076,17 +1076,17 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ 			if (!drive_regs) {
+ 				sh_pfc_err_once(drive, "SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but drive_regs missing\n");
+ 			} else {
+-				for (j = 0; drive_regs[j / 8].reg; j++) {
+-					if (!drive_regs[j / 8].fields[j % 8].pin &&
+-					    !drive_regs[j / 8].fields[j % 8].offset &&
+-					    !drive_regs[j / 8].fields[j % 8].size)
++				for (j = 0; drive_regs[j / 10].reg; j++) {
++					if (!drive_regs[j / 10].fields[j % 10].pin &&
++					    !drive_regs[j / 10].fields[j % 10].offset &&
++					    !drive_regs[j / 10].fields[j % 10].size)
+ 						continue;
+ 
+-					if (drive_regs[j / 8].fields[j % 8].pin == pin->pin)
++					if (drive_regs[j / 10].fields[j % 10].pin == pin->pin)
+ 						break;
+ 				}
+ 
+-				if (!drive_regs[j / 8].reg)
++				if (!drive_regs[j / 10].reg)
+ 					sh_pfc_err("pin %s: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs\n",
+ 						   pin->name);
+ 			}
+@@ -1164,20 +1164,20 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ 	for (i = 0; drive_regs && drive_regs[i].reg; i++)
+ 		sh_pfc_check_drive_reg(info, &drive_regs[i]);
+ 
+-	for (i = 0; drive_regs && drive_regs[i / 8].reg; i++) {
+-		if (!drive_regs[i / 8].fields[i % 8].pin &&
+-		    !drive_regs[i / 8].fields[i % 8].offset &&
+-		    !drive_regs[i / 8].fields[i % 8].size)
++	for (i = 0; drive_regs && drive_regs[i / 10].reg; i++) {
++		if (!drive_regs[i / 10].fields[i % 10].pin &&
++		    !drive_regs[i / 10].fields[i % 10].offset &&
++		    !drive_regs[i / 10].fields[i % 10].size)
+ 			continue;
+ 
+ 		for (j = 0; j < i; j++) {
+-			if (drive_regs[i / 8].fields[i % 8].pin ==
+-			    drive_regs[j / 8].fields[j % 8].pin &&
+-			    drive_regs[j / 8].fields[j % 8].offset &&
+-			    drive_regs[j / 8].fields[j % 8].size) {
++			if (drive_regs[i / 10].fields[i % 10].pin ==
++			    drive_regs[j / 10].fields[j % 10].pin &&
++			    drive_regs[j / 10].fields[j % 10].offset &&
++			    drive_regs[j / 10].fields[j % 10].size) {
+ 				sh_pfc_err("drive_reg 0x%x:%u/0x%x:%u: pin conflict\n",
+-					   drive_regs[i / 8].reg, i % 8,
+-					   drive_regs[j / 8].reg, j % 8);
++					   drive_regs[i / 10].reg, i % 10,
++					   drive_regs[j / 10].reg, j % 10);
+ 			}
+ 		}
+ 	}
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
