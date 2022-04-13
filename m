@@ -2,82 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2432A4FF1B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 10:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE924FF1C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Apr 2022 10:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233735AbiDMIYm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 04:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
+        id S233757AbiDMI2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 04:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233729AbiDMIYl (ORCPT
+        with ESMTP id S233750AbiDMI2A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:24:41 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7549C340CE;
-        Wed, 13 Apr 2022 01:22:19 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 13 Apr
- 2022 16:22:18 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 13 Apr
- 2022 16:22:17 +0800
-From:   Haowen Bai <baihaowen@meizu.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     Haowen Bai <baihaowen@meizu.com>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] clk: renesas: Fix memory leak of 'cpg'
-Date:   Wed, 13 Apr 2022 16:22:16 +0800
-Message-ID: <1649838136-19851-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 13 Apr 2022 04:28:00 -0400
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319E4344F8;
+        Wed, 13 Apr 2022 01:25:39 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.108.1.157])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id F171EF63521E;
+        Wed, 13 Apr 2022 10:25:36 +0200 (CEST)
+Received: from localhost.localdomain (88.125.132.16) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 13 Apr
+ 2022 10:25:35 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <wim@linux-watchdog.org>, <geert+renesas@glider.be>,
+        <tzungbi@kernel.org>, <linux-watchdog@vger.kernel.org>
+CC:     <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v6 0/2] ARM: r9a06g032: add support for the watchdogs
+Date:   Wed, 13 Apr 2022 10:25:25 +0200
+Message-ID: <20220413082527.155740-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.125.132.16]
+X-ClientProxiedBy: DAG8EX1.emp2.local (172.16.2.81) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 9872171861315238363
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudeltddgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjedugfffleelheehveevuedtjeffgfejkedukeekudfguedtfeefuefhueevheeinecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkeekrdduvdehrddufedvrdduieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix this issue by freeing the cpg when exiting the function in the
-error/normal path.
+Hi all,
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- drivers/clk/renesas/clk-r8a73a4.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This series adds support for the watchdog timers of the RZ/N1.
+The watchdog driver (rzn1-wdt.c) is derived from the driver available at
+https://github.com/renesas-rz/rzn1_linux.git with a few modifications
 
-diff --git a/drivers/clk/renesas/clk-r8a73a4.c b/drivers/clk/renesas/clk-r8a73a4.c
-index cfed11c659d9..5a8d976f49e0 100644
---- a/drivers/clk/renesas/clk-r8a73a4.c
-+++ b/drivers/clk/renesas/clk-r8a73a4.c
-@@ -215,7 +215,7 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
+In order to be able to reset the board when a watchdog timer expires,
+the RSTEN register must be configured. it is the responsability of the
+bootloader to set those bits (or not, depending on the chosen policy).
+
+If the watchdog reset source is not enabled, an interrupt is triggered
+when the watchdog expires. The interrupt handler will trigger an
+emergency restart.
+
+Changes v5 -> v6:
+* check the value returned by watchdog_init_timeout()
+* fix checkpatch warning about the LICENSE identifier ("GPL v2" -> "GPL")
+
+Changes v4 -> v5:
+* use watchdog_get/set_drvdata() instead of container_of()
+* In probe(), initialize each member of struct watchdog_device separately
+  instead of copying the whole struct from a template.
+
+Changes v3 -> v4:
+ * dts: removed the patches that modify the device tree (already taken in
+   the renesas dt tree)
+ * driver: Call emergency_restart() in the interrupt handler.
  
- 	cpg->reg = of_iomap(np, 0);
- 	if (WARN_ON(cpg->reg == NULL))
--		return;
-+		goto out_free_cpg;
- 
- 	for (i = 0; i < num_clks; ++i) {
- 		const char *name;
-@@ -233,6 +233,9 @@ static void __init r8a73a4_cpg_clocks_init(struct device_node *np)
- 	}
- 
- 	of_clk_add_provider(np, of_clk_src_onecell_get, &cpg->data);
-+out_free_cpg:
-+	kfree(cpg);
-+	kfree(clks);
- }
- CLK_OF_DECLARE(r8a73a4_cpg_clks, "renesas,r8a73a4-cpg-clocks",
- 	       r8a73a4_cpg_clocks_init);
+Changes v2 -> v3:
+* dts: changed compatible strings to include "renesas,r9a06g032-wdt" and
+  "renesas,rzn1-wdt".
+* driver: removed the SOC-specific "renesas,r9a06g032-wdt".
+* removed all the changes in the clock driver: the watchdog reset source
+  are not disabled anymore when the machine is halted.
+* fixed the clock rate type in the computations.
+* removed unnecessary printout and call to clk_disable_unprepare() in the
+  driver probe().
+    
+Changes v1 -> v2:
+* Modified the clock driver to not enable the watchdog reset sources.
+  On other renesas platforms, those bits are by the bootloader. The
+  watchdog reset sources are still disabled when the platform is halted
+  to prevent a watchdog reset.
+* Added a SOC-specific compatible "renesas,r9a06g032-wdt"
+* reordered the dts/i entries
+* default timeout is 60 seconds
+* reworked the probe function of the wdt driver to better error cases
+* removed the set_timeout() and use a fixed period computed in probe().
+  This removes the confusion and makes it clear that the period defined
+  by the user space in indeed handled by the watchdog core
+
+
+Jean-Jacques Hiblot (1):
+  dt-bindings: watchdog: renesas,wdt: Add support for RZ/N1
+
+Phil Edworthy (1):
+  watchdog: Add Renesas RZ/N1 Watchdog driver
+
+ .../bindings/watchdog/renesas,wdt.yaml        |   6 +
+ drivers/watchdog/Kconfig                      |   8 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/rzn1_wdt.c                   | 203 ++++++++++++++++++
+ 4 files changed, 218 insertions(+)
+ create mode 100644 drivers/watchdog/rzn1_wdt.c
+
 -- 
-2.7.4
+2.25.1
 
