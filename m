@@ -2,46 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1589A500371
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 03:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A163950038C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 03:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239357AbiDNBJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Apr 2022 21:09:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41206 "EHLO
+        id S239389AbiDNBWr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Apr 2022 21:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239348AbiDNBJk (ORCPT
+        with ESMTP id S239386AbiDNBWq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Apr 2022 21:09:40 -0400
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE7651E51;
-        Wed, 13 Apr 2022 18:07:17 -0700 (PDT)
-Received: by mail-oi1-f175.google.com with SMTP id z8so3901987oix.3;
-        Wed, 13 Apr 2022 18:07:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=R82RD8v5prr4Rd3tq2uqvwCSz+WljHxj6XlBXJR4q0I=;
-        b=q0sj9WYj1RcX3fH2xYq70ju0+/eZJEgNaSjDgZtDtGTSUN8gQPElAZktoKGSnY6CYA
-         d6wp/pA2wMDXEC27LERtDkg5FpoBMcHKe0mL9fk3s1xXvKe8V5mKL2jeSyD+/fvAWdtt
-         JA/dlMqRQxmb4frk4DRYAydQmnajSGOlfhXaXZmK/TJzJmrzMVtcfMiD7oaES14KOxBq
-         fkHnATrpP51tWWIwtCJxg2xJvE9cURvCNVTCmLf9pg2Yh7x93JeRusjHgPrcRGM3zksR
-         818/s9D1ieQzYoTgqneQ7xXwNcMFLdqMs0qgxFFS0r/qjGHfik3fAE2+74dhPPpMvIZL
-         XtXA==
-X-Gm-Message-State: AOAM533J2mE+ZqRMV302DuSRUUd2gCAlLmMSLMx47iJl0vnmuxEestdh
-        lgg727erMS1cCHXikppBHhv5lZGUvA==
-X-Google-Smtp-Source: ABdhPJxJC8sVa21CHJYMxU6uS+2mJLyhydv3zxPuOBKBwslWEpFW7sJZO3uLi4b1xaUDCrYgK54RBQ==
-X-Received: by 2002:a05:6808:1827:b0:2da:5085:2e78 with SMTP id bh39-20020a056808182700b002da50852e78mr661056oib.172.1649898437146;
-        Wed, 13 Apr 2022 18:07:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id r10-20020a056830448a00b005c9344dac06sm252742otv.19.2022.04.13.18.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 18:07:16 -0700 (PDT)
-Received: (nullmailer pid 113330 invoked by uid 1000);
-        Thu, 14 Apr 2022 01:07:15 -0000
-Date:   Wed, 13 Apr 2022 20:07:15 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>
+        Wed, 13 Apr 2022 21:22:46 -0400
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5544DE89
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 18:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1649899223; x=1681435223;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=NVFAzDnsQ354GyXuIYltrailhp4dGLh0c+RSUtV89r4=;
+  b=k+xrhR6o+MTdjEBG1pql5DUdU1IbXkvMPQATYN30zLvH1DebjFsiDkxU
+   kP8i6sH6j3GLKULipRD0UcqlUHb67HaqkuyeRb5XpW+70pH/aoYSvTRgU
+   rEMyalUGcyixUcShIv2fYXlcK46l/jUIngVNIewJRsjt18EqU/kZRXp4z
+   bECWuQUG6ZH1B4kl4D+saK7Hjl2NPcmgRtffAldZPhO3EFEfpHjHcniXE
+   0h9lhoPFWxARth/CLDePaVBoBa6ftNUErn/waEogtXbcOz7FNuZ9AUGNX
+   ujWlJwzKTE9iIG9EfbcNb1AdS50dpDGor4IRY6UMdhLiWPozCIkAr0T/k
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.90,258,1643644800"; 
+   d="scan'208";a="309830317"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 14 Apr 2022 09:20:22 +0800
+IronPort-SDR: Bcfza9uHbUYvozFgRcdHknqsjAjoRAWqE708nxWwDOBiaRGeh8zjw9NLwrvl3drxQJkjQ9P8SG
+ +V+/lb2pyJaAREiqE0pxCvOjwPIDTA6TjYlsWJscD/mt3I3GliXzo/zVz+A3hHv113x9HW/ErE
+ JFZTdtcjqyPCAEhPgaOuy26Cu05T+KVxLa95gCVkdmBbpXfyrdAhnuJmAWsV7DYcO2IHuD5NBA
+ BjFssVMDDx1FExqTVHvVC2aTiVejLYe/sNRFsd/fAK/llzKYCTGMDHaBZtYVRVB9GRA8M3oo8k
+ OptZwWmqLDzYe5dAXsHaKbM1
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Apr 2022 17:51:35 -0700
+IronPort-SDR: f30/ZtIChHKN/q7e6muboYe3lnsCCWok3n9TJ7PMXo8QNiO86nfHCylxruyF+k5RNqqSR0zDUk
+ gA+T6r2N/IKChpLWAmSk2uyt/srg+iaFRY6GfdfhzY4Lqey1MynwU07dt5I32QQwRKdlAz0ImT
+ IHT8BrOyUotWAvnb+rq5CzHDL2JSPFFYiFUWYuQBcLX1WbrGBMGmLBImxpvyLLnRkOkzv+Numa
+ Q183BRGPAIE7EJHp1GeeTisLkzuMDN26+ciKy/hXkHTw6YJHr5ZEhJG16p0I9ExBeUoPwFJj00
+ kq8=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Apr 2022 18:20:22 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Kf1q94j1hz1SVnx
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 18:20:21 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1649899220; x=1652491221; bh=NVFAzDnsQ354GyXuIYltrailhp4dGLh0c+R
+        SUtV89r4=; b=QR0L4tUNj/fPH0QWrHgWs5PvNLZOlWcAJblSDDgryZgy40/w7jv
+        I3siQwzB0M/U9kw/WeHrz/xB87pRBJLR05SpUmCo+hkfdI4FLmbzy1AgdxtD7BK5
+        355CzD/siJ4isBCNJDPJ85NlKdP8TB1BEsbIM2stPEEj2aWuH/Ljg3fj7nkATDLS
+        xZ9Sii95lwbJpTu2DU0WIz6TkSQISFLUhUNm0p3xRjQwNB03rBSK7eUiTWWht3ZW
+        hCT1K3cS0M8SnT/08/9URXqtTIvfmIH1+lfdTXMS3xT7txtIE2SdDfTLT7jJyqXx
+        o1H7RRW4SxhaAzmz6SmUCWvyXbMOafLFmNw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id LWiqk00yN6GA for <linux-renesas-soc@vger.kernel.org>;
+        Wed, 13 Apr 2022 18:20:20 -0700 (PDT)
+Received: from [10.225.163.9] (unknown [10.225.163.9])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Kf1q70qcxz1Rvlx;
+        Wed, 13 Apr 2022 18:20:18 -0700 (PDT)
+Message-ID: <c7f6dba6-e721-b907-0597-27f636d25a32@opensource.wdc.com>
+Date:   Thu, 14 Apr 2022 10:20:17 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [WARNING: UNSCANNABLE EXTRACTION FAILED][PATCH v2] dt-bindings:
+ ata: renesas,rcar-sata: Add r8a774e1 support
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Sergey Shtylyov <s.shtylyov@omp.ru>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -50,19 +89,17 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Marian-Cristian Rotariu 
         <marian-cristian.rotariu.rb@bp.renesas.com>
-Subject: Re: [WARNING: UNSCANNABLE EXTRACTION FAILED][PATCH v2] dt-bindings:
- ata: renesas,rcar-sata: Add r8a774e1 support
-Message-ID: <Yldzw63tIdKhhtA1@robh.at.kernel.org>
 References: <5861565a79a2bdadc07ae84e23e6d96dbb764823.1649680949.git.geert+renesas@glider.be>
  <4716ac8b-acee-da06-5fa1-34eed07ba4d0@opensource.wdc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4716ac8b-acee-da06-5fa1-34eed07ba4d0@opensource.wdc.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+ <Yldzw63tIdKhhtA1@robh.at.kernel.org>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <Yldzw63tIdKhhtA1@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,42 +107,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 08:05:42AM +0900, Damien Le Moal wrote:
-> On 4/11/22 21:43, Geert Uytterhoeven wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > 
-> > Document SATA support for the RZ/G2H SoC, no driver change required.
-> > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > Acked-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> > ---
-> > v2:
-> >   - Add Acked-by.
-> > ---
-> >  Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
-> > index c060c7914cae6573..c4e4a9eab658056d 100644
-> > --- a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
-> > +++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
-> > @@ -26,6 +26,7 @@ properties:
-> >        - items:
-> >            - enum:
-> >                - renesas,sata-r8a774b1     # RZ/G2N
-> > +              - renesas,sata-r8a774e1     # RZ/G2H
-> >                - renesas,sata-r8a7795      # R-Car H3
-> >                - renesas,sata-r8a77965     # R-Car M3-N
-> >            - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
+On 4/14/22 10:07, Rob Herring wrote:
+> On Tue, Apr 12, 2022 at 08:05:42AM +0900, Damien Le Moal wrote:
+>> On 4/11/22 21:43, Geert Uytterhoeven wrote:
+>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>
+>>> Document SATA support for the RZ/G2H SoC, no driver change required.
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>>> Acked-by: Rob Herring <robh@kernel.org>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+>>> ---
+>>> v2:
+>>>   - Add Acked-by.
+>>> ---
+>>>  Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+>>> index c060c7914cae6573..c4e4a9eab658056d 100644
+>>> --- a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+>>> +++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+>>> @@ -26,6 +26,7 @@ properties:
+>>>        - items:
+>>>            - enum:
+>>>                - renesas,sata-r8a774b1     # RZ/G2N
+>>> +              - renesas,sata-r8a774e1     # RZ/G2H
+>>>                - renesas,sata-r8a7795      # R-Car H3
+>>>                - renesas,sata-r8a77965     # R-Car M3-N
+>>>            - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
+>>
+>> Rob,
+>>
+>> Will you take this patch or do you want me to queue it ?
 > 
-> Rob,
-> 
-> Will you take this patch or do you want me to queue it ?
+> Please take it. If I've acked or reviewed it, I'm expecting others to 
+> take.
 
-Please take it. If I've acked or reviewed it, I'm expecting others to 
-take.
+OK. No problem. Thanks !
 
-Rob
+-- 
+Damien Le Moal
+Western Digital Research
