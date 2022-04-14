@@ -2,60 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27EBD500315
+	by mail.lfdr.de (Postfix) with ESMTP id 8FB35500316
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 02:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233185AbiDNAkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S232879AbiDNAkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 13 Apr 2022 20:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41502 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbiDNAkb (ORCPT
+        with ESMTP id S233185AbiDNAkb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 13 Apr 2022 20:40:31 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD4C1CB1B
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A49C71C911
         for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Apr 2022 17:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1649896688; x=1681432688;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=GfNcnl3/rDk4xGcVXFzDwpQw1CMR8h6PGlaGWkAueKk=;
-  b=jmMg12rvxe9dIMVEZVvdrT7kDcz4H78984MBkNxGm3fARtvgQJhv3/Ud
-   FYO//OOHX1dRQqgfWxbV2gxQMtjicvSi3BfkmYtLGCLtBFoC8CzpDs61Z
-   mSr31jk1621e1Qlca+9M//YsjGf1/l2WuGvUiIZYnSptxUkMA0nrAGH91
-   M+zMmiyPG1im0w319DkKM3RtVprSlpzhqe/H0qbDjM+0+apIw63vxeePa
-   rACEr3uojGGyWrJaTg33Ihll3zTSvI/wZCt1KoUky7xNN1whpliPKvP6Y
-   sPJt4sudSmN+Rlxu1HeU2SJ6zyeYdCeqFEGuRm8t4t9CNxsx+7aXMskQw
+  bh=sb0SpLxFHTrzjCQoUkvtMoZwh6V05rrDkAjChijRqwY=;
+  b=V76BaSNfEcnEhJJH+3hw0tEKloQt6YIvOu2sKATKcj47AN2OdgIc/b71
+   UYw/W3E8asMRHGHPnFjzjTSo5wCMr+QE0cdxodMjULI/SOzyUmlOWuIyp
+   MDN/Pni7knOa8CMrL5oq9qK8VQ7i6d81UypqqlaJvkAKHFPPnT3gJbsPw
+   BgGDaPWNU+SQXHgzjoWJioNX+xXK5hrAVDVyZTXQxaaPyetbJ3GS2wd3y
+   TCnWbwDk5FO338svDGfrU7dTpkPVnpfpFkq7fKRN1myGyBkgr5BMKllJW
+   7LoL7cvdzbiUW0wBAj2hbD2lC10C/iyL7jT/8tmED6ZF4FGzcXw1K+tSs
    g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="349248978"
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="323256818"
 X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="349248978"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 17:38:08 -0700
+   d="scan'208";a="323256818"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 17:38:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="527166597"
+   d="scan'208";a="559965232"
 Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 Apr 2022 17:38:06 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Apr 2022 17:38:06 -0700
 Received: from kbuild by 3abc53900bec with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1nenUs-0000jR-4t;
+        id 1nenUs-0000jd-7u;
         Thu, 14 Apr 2022 00:38:06 +0000
-Date:   Thu, 14 Apr 2022 08:37:10 +0800
+Date:   Thu, 14 Apr 2022 08:37:29 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.19] BUILD SUCCESS
- d508ba2d0e57b894bbcbf5130ad096016f990792
-Message-ID: <62576cb6.bDvIU9lLRl1dLS2F%lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ a868de20e8c0b389498edad18108aa42815e79ee
+Message-ID: <62576cc9.S9OIirE+hkOwqCSZ%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,10 +63,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.19
-branch HEAD: d508ba2d0e57b894bbcbf5130ad096016f990792  pinctrl: renesas: Remove unneeded #include <linux/init.h>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: a868de20e8c0b389498edad18108aa42815e79ee  Merge branches 'renesas-arm-dt-for-v5.19' and 'renesas-dt-bindings-for-v5.19' into renesas-next
 
-elapsed time: 725m
+elapsed time: 726m
 
 configs tested: 88
 configs skipped: 3
