@@ -2,78 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6902500C1C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 13:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4234500C2D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 13:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242748AbiDNL1x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 07:27:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        id S242702AbiDNLcQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 07:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238980AbiDNL12 (ORCPT
+        with ESMTP id S242700AbiDNLcP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 07:27:28 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 517243AA4D;
-        Thu, 14 Apr 2022 04:25:02 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BC95B20003;
-        Thu, 14 Apr 2022 11:24:57 +0000 (UTC)
+        Thu, 14 Apr 2022 07:32:15 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46DD637A94;
+        Thu, 14 Apr 2022 04:29:45 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id E669440008;
+        Thu, 14 Apr 2022 11:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649935500;
+        t=1649935784;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CpXnu283Y9BImJWjRcqDTNSCLv7O9zSkjtgobyNWNkk=;
-        b=VFAvo1HKcbMfgjPRb2K9JOxVgtxYM2fmACdTAMdXP0BC1ewA06cPBHbL2LVnWCi+C5Cg26
-        mEYbILpM2nuTEikkL+qgf+6KRGYPdcSqYhjZz7Ow5ldkr4qodvIFf9Wo9J4XEzxA6L4FEz
-        4tGL+eHeZKNwe+wyHPqHnHzOSdLYm223GjiKHhl8wLIYojFKrptNVWdqLnmwISxS9H6GwL
-        D/xaoxNPH0hOPaZFrdL+YeGYJ/5b5nWllgRj3/exsblpTuSJ5xtCto2d+iCqdz1tILV7Aa
-        Z+PzrYk9/Yp37RTga3x2OLYx10YZjkWyhV5QM3KscvlE0Yp1h7Sos+XiDcGChA==
-Date:   Thu, 14 Apr 2022 13:24:56 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
+        bh=qRrX/8Jotzsy6iQLV5tj4FOuDifcieScWpPwj2D0dac=;
+        b=Ezoe77V7SQHGJDbVcnEt0HG8gxn+9iEz6lNCCthfy5D53f0EFtzsqwJd6xaEKLw9QePM/S
+        +/dkqi+0dtSzYL9yuYR0m/sUTqofMra1AxS+tSt5xu+yswTI47FnjzE2XkdZ6FMupgyWbO
+        5aHhklzsz6+jRFFnuWj4+H303C8WBiwiT70X6vwy+nBKZpNl1fNDP/Al97g0CHkfpw/9Du
+        fbupqg8hO7QjWBQOm3Z+Uvr+iN6oWiqeUwKSTy5sKv7hukSRRGOvXQIZ+3JxeJzzvtYCyw
+        nER4JqUUWhAdfgTbUfs1nwTMXyNLrf7JxbuORGjRKIlnDMqZPsyl7GmO+7d8qA==
+Date:   Thu, 14 Apr 2022 13:29:34 +0200
+From:   Herve Codina <herve.codina@bootlin.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
         Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v8 0/9] RZN1 DMA support
-Message-ID: <20220414132456.30b19306@xps13>
-In-Reply-To: <CAMuHMdXPRb0SiCtYcqAy5YJEGp3U30FaXcmjMpgc=szXUnShpA@mail.gmail.com>
-References: <20220406161856.1669069-1-miquel.raynal@bootlin.com>
-        <20220407004511.3A6D1C385A3@smtp.kernel.org>
-        <20220407101605.7d2a17cc@xps13>
-        <CAMuHMdUZFTm+0NFLUFoXT7ujtxDot_Y+gya9ETK1FOai2MXfvA@mail.gmail.com>
-        <20220412093155.090de9d6@xps13>
-        <CAMuHMdVpfHuJi1+bm2jvsz8ZpMn8u=5bNYqHBRv7DYykyrC-XQ@mail.gmail.com>
-        <20220412094338.382e8754@xps13>
-        <CAMuHMdVaWskmiqUEyGyz7HKUjgzFhx+5hAJxd5od7Hp4hFD1KA@mail.gmail.com>
-        <20220412100301.03ccece8@xps13>
-        <CAMuHMdXPRb0SiCtYcqAy5YJEGp3U30FaXcmjMpgc=szXUnShpA@mail.gmail.com>
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 1/8] PCI: rcar-gen2: Add support for clocks
+Message-ID: <20220414132534.35467781@bootlin.com>
+In-Reply-To: <CAMuHMdW8q5AjDtTE83yVPfmgnQy02UgLSns33z06WMFBUULWEw@mail.gmail.com>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+        <20220414074011.500533-2-herve.codina@bootlin.com>
+        <CAMuHMdW8q5AjDtTE83yVPfmgnQy02UgLSns33z06WMFBUULWEw@mail.gmail.com>
 Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,65 +75,79 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-geert@linux-m68k.org wrote on Tue, 12 Apr 2022 10:12:41 +0200:
+On Thu, 14 Apr 2022 10:45:54 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> Hi Miquel,
+> Hi Herv=C3=A9,
 >=20
-> On Tue, Apr 12, 2022 at 10:03 AM Miquel Raynal
-> <miquel.raynal@bootlin.com> wrote:
-> > geert@linux-m68k.org wrote on Tue, 12 Apr 2022 09:52:25 +0200: =20
-> > > On Tue, Apr 12, 2022 at 9:43 AM Miquel Raynal <miquel.raynal@bootlin.=
-com> wrote: =20
-> > > > geert@linux-m68k.org wrote on Tue, 12 Apr 2022 09:37:22 +0200: =20
-> > > > > So far I've been rather terse in giving feedback on these series,
-> > > > > as I'm in wait-and-see mode w.r.t. what else you've planned for t=
-he
-> > > > > sysctrl DT node[1] and clock/sys controller code...
-> > > > >
-> > > > > [1] Did I say I'm not that fond of child nodes? But for the dmamu=
-x,
-> > > > >     it looks like a good solution to handle this. =20
-> > > >
-> > > > O:-)
-> > > >
-> > > > I plan in the coming days to write a proper reset controller driver
-> > > > that will be queried by the rtc driver (as proposed by Alexandre). =
-=20
-> > >
-> > > OK.
-> > > =20
-> > > > Which means I'll have to declare this reset controller as a child of
-> > > > the systrl node. If you disagree with it, you may jump-in, see this
-> > > > thread :
-> > > >
-> > > >         Subject: Re: [PATCH 2/7] soc: renesas: rzn1-sysc: Export a
-> > > >                  function to  enable/disable the RTC
-> > > >         Date: Wed, 6 Apr 2022 10:32:31 +0200 =20
-> > >
-> > > But do you need a child node for that? All(most all) other Renesas
-> > > clock drivers provide reset functionality, and none of them use a
-> > > child node for that. =20
-> >
-> > How do you "request" the reset handle from the consumer driver if it's
-> > not described in the DT? Do you have examples to share? =20
+> Thanks for your patch!
 >=20
-> I didn't say it does not need to be described in DT ;-)
+> On Thu, Apr 14, 2022 at 9:40 AM Herve Codina <herve.codina@bootlin.com> w=
+rote:
+> > The PCI rcar-gen2 does not call any clk_prepare_enable(). =20
 >=20
-> Just add "#reset-cells =3D <1>" to the sysctrl node, and nodes can
-> start referring to it using "resets =3D <&sysctrl N>".
-> Currently, the sysctrl node is already a clock and power-domain provider.
+> Correct, this driver manages the clocks indirectly through Runtime PM.
 >=20
-> Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-> shows an R-Car CPG/MSSR node providing clock, power-domain, and
-> reset functionalities.
+> > This lead to an access failure when the driver tries to access
+> > the IP (at least on a RZ/N1D platform). =20
+>=20
+> I expect adding
+>=20
+>     power-domans =3D <&sysctrl>;
+>=20
+> to the pci_usb node makes this patch redundant.
 
-While working on implementing a reset controller driver, I realized
-that almost all the clocks had a reset, which was already managed by the
-driver as part of a number of additional possible signals (gate
-reset, gate master idle, gate ready...). So I actually figured out
-that my issue originated from an incomplete description of the RTC clock
-gate, which I fulfilled. Now it works without the need for an additional
-exported symbol.
+Seems not enough.
+I tried what you suggest :
+ - Added 'power-domains =3D <&systrl>;' to the pci_usb node
+ - Added missing '#power-domain-cells =3D <0>;' to sysctrl node
+ - Reverted my patch.
 
-Thanks,
-Miqu=C3=A8l
+The system crashed at boot:
+--- 8< ---
+...
+[    0.705309] loop: module loaded
+[    0.709597] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    0.716804] ehci-pci: EHCI PCI platform driver
+[    0.721716] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    0.728522] ohci-pci: OHCI PCI platform driver
+[    0.733581] usbcore: registered new interface driver usb-storage
+[    0.740458] ThumbEE CPU extension supported.
+[    0.745093] Registering SWP/SWPB emulation handler
+[    0.797518] rzn1-pinctrl 40067000.pinctrl: probed
+[    0.803311] pci-rcar-gen2 40030000.pci: host bridge /soc/pci@40030000 ra=
+nges:
+[    0.811255] pci-rcar-gen2 40030000.pci:      MEM 0x0040020000..0x004002f=
+fff -> 0x0040020000
+[    0.820373] pci-rcar-gen2 40030000.pci:   IB MEM 0x0080000000..0x00bffff=
+fff -> 0x0080000000
+[    0.829609] 8<--- cut here ---
+[    0.832958] Unhandled fault: external abort on non-linefetch (0x1008) at=
+ 0x90b5f848
+[    0.841259] [90b5f848] *pgd=3D82149811, *pte=3D40030653, *ppte=3D40030453
+[    0.848093] Internal error: : 1008 [#1] SMP ARM
+[    0.853024] Modules linked in:
+[    0.856398] CPU: 0 PID: 31 Comm: kworker/u4:1 Not tainted 5.18.0-rc2-000=
+09-g803ee9fd9fa5-dirty #5
+[    0.865998] Hardware name: Generic DT based system
+[    0.871176] Workqueue: events_unbound deferred_probe_work_func
+[    0.877539] PC is at rcar_pci_probe+0x15c/0x2f8
+[    0.882454] LR is at _raw_spin_unlock_irqrestore+0x24/0x2c
+[    0.888434] pc : [<803ea428>]    lr : [<804dc9b0>]    psr: 60000013
+[    0.895193] sp : 90aa5e40  ip : 8217c4e0  fp : 00000000
+[    0.900857] r10: 80e7bd30  r9 : 80000000  r8 : 40000000
+[    0.906532] r7 : 80000000  r6 : 8217c410  r5 : 821d3400  r4 : 90b5f000
+[    0.913580] r3 : 00000009  r2 : 5c120fb6  r1 : 60000013  r0 : 00000000
+[    0.920646] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment=
+ none
+[    0.928365] Control: 10c5387d  Table: 8000406a  DAC: 00000051
+...
+--- 8< ---
+
+I also added a trace printk in r9a06g032-clocks.c and
+r9a06g032_attach_dev() was never called.
+
+Did I miss to set something ?
+
+Regards,
+Herv=C3=A9
