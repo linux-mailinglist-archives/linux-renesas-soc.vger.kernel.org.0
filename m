@@ -2,77 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B6A500C60
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 13:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F14B9500CDC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 14:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235603AbiDNLvE convert rfc822-to-8bit (ORCPT
+        id S231342AbiDNMSj convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 07:51:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56800 "EHLO
+        Thu, 14 Apr 2022 08:18:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbiDNLvB (ORCPT
+        with ESMTP id S230491AbiDNMSi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 07:51:01 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9125B6E55C;
-        Thu, 14 Apr 2022 04:48:36 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id s6so3339571qta.1;
-        Thu, 14 Apr 2022 04:48:36 -0700 (PDT)
+        Thu, 14 Apr 2022 08:18:38 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFF65549C;
+        Thu, 14 Apr 2022 05:16:14 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id o18so3358134qtk.7;
+        Thu, 14 Apr 2022 05:16:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=u1n9GOW0yI2Xuk8uj5WutPFnUGPTBI0EWcn0eDo3zKI=;
-        b=4cWtk7WDrXtMx1JyYIuu65cF0EAkHh5dnddCcaJo7Z5A0YQb0QZVY91yABedymVPfk
-         nFhRuK882Lp7iWDQ31IRxMZl9lPk8zfNxgjBnW1tfi+RYO9WNHVHFKkGYrb6bKUcpJpB
-         PPi9tw+6i0O4PU3PW6Dzz7e0Fm6X9IbpI2sDaHhgF4wIQDORQKE8O0OK3LKHg20Weccb
-         qDNJ08TXCfQUFzk3dYMmCO/aUgEGTupIrJ5KRmIqwlHORhczTZ0ay+1GPmGJuYY8AeVQ
-         EC8jMbuED89XdiwCMtczJLNc6iRcW/W84haHYlZa+6DVnfZtxBKYmJdonjpUxC2iIzEu
-         E6KA==
-X-Gm-Message-State: AOAM5330TzT5VpFbivc96Pl2yCOCNPbtm/oQSIxEiryU/x9J2qiCjk/I
-        XucmtqykbUwUlkgL+pJGREnsVS+PSBn6iA==
-X-Google-Smtp-Source: ABdhPJz3kQMm7DHNw3fwdn/MIQDSdanb61P6+K6dJ3Cwlw1ivA1XR7XRtjhjiqre+jDKUCZ09pbg9A==
-X-Received: by 2002:a05:622a:1f8c:b0:2ef:9ec3:e176 with SMTP id cb12-20020a05622a1f8c00b002ef9ec3e176mr1345650qtb.39.1649936915392;
-        Thu, 14 Apr 2022 04:48:35 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id 64-20020a370743000000b0069a0cb6e4d5sm849676qkh.81.2022.04.14.04.48.34
+        bh=C59spLPxwzH4gGgHuafvnNS0cSDR8MdvsbhPT9uuuXo=;
+        b=wPKoqPkfypjZVkTQw33dmno+BH/iFki/Ddq0lgP9OXXoNxUs2YEYw8i8UHq0Im/CMP
+         4Mk2i7+iLyXCV7Qu6qPRk8P4xNxBcv6wS3F2mCWm0IOEyZtMAbetFd1vkO6ZXWrfrzUo
+         PO2Z3cVLCRPoExWXaU0qBoy2ONxuulN1ZnOsjhLt0IDEuX5q7wH54dU8bwhpED0vGq1Y
+         4VIcWLM6l/QxZmmcjlNDiUxvMfIcRgOlfp4Z1A2L5DP5J3dBq4KPu74Od7/Kdu5QPL6h
+         6q7Mf4UcmxWscv2LK/on683LRn9G+xxtNYv/QY1cSM+zQAbA6oZhaT1VuTOeUTa+Xu8X
+         gdCw==
+X-Gm-Message-State: AOAM533Hm1dmhx2+yKDdnLDjgLgFUrNgG3dGCJ7p38Vgz/vYHpdIXkTh
+        XdlMB52Jw2fzVUPvF80DBT2i4ZYAogo2qA==
+X-Google-Smtp-Source: ABdhPJx00E7KM6k52HtD+q0NXxFL0geQJQOGIP6Lr/oRdP8i8dUrFFNQwBuenGW/o3slBvaZ2mPyIA==
+X-Received: by 2002:ac8:5a16:0:b0:2e1:ea00:b4e1 with SMTP id n22-20020ac85a16000000b002e1ea00b4e1mr1439699qta.329.1649938573266;
+        Thu, 14 Apr 2022 05:16:13 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id v3-20020a05622a188300b002ec90a0ecc7sm996693qtc.59.2022.04.14.05.16.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 04:48:34 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ebebe631ccso52425077b3.4;
-        Thu, 14 Apr 2022 04:48:34 -0700 (PDT)
-X-Received: by 2002:a81:413:0:b0:2ec:31d7:7e60 with SMTP id
- 19-20020a810413000000b002ec31d77e60mr1650211ywe.62.1649936914141; Thu, 14 Apr
- 2022 04:48:34 -0700 (PDT)
+        Thu, 14 Apr 2022 05:16:13 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id h8so9002517ybj.11;
+        Thu, 14 Apr 2022 05:16:12 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr1379637ybp.613.1649938572676; Thu, 14
+ Apr 2022 05:16:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220414074011.500533-1-herve.codina@bootlin.com>
- <20220414074011.500533-2-herve.codina@bootlin.com> <CAMuHMdW8q5AjDtTE83yVPfmgnQy02UgLSns33z06WMFBUULWEw@mail.gmail.com>
- <20220414132534.35467781@bootlin.com>
-In-Reply-To: <20220414132534.35467781@bootlin.com>
+References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de>
+ <20220413085050.61144-3-u.kleine-koenig@pengutronix.de> <CAMuHMdUsmjjKWBWNWr9DCmbWM8CJzXxDbcpjzystYhT3tgFtjg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUsmjjKWBWNWr9DCmbWM8CJzXxDbcpjzystYhT3tgFtjg@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Apr 2022 13:48:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
-Message-ID: <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] PCI: rcar-gen2: Add support for clocks
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Thu, 14 Apr 2022 14:16:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVzyZMdTciqscW8r8+9qpyFUJkKs10O8fsOa++tvc3LxA@mail.gmail.com>
+Message-ID: <CAMuHMdVzyZMdTciqscW8r8+9qpyFUJkKs10O8fsOa++tvc3LxA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] pwm: renesas-tpu: Implement .apply() callback
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
+        Sascha Hauer <kernel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -86,46 +75,63 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hervé,
+Hi Uwe,
 
-On Thu, Apr 14, 2022 at 1:29 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> On Thu, 14 Apr 2022 10:45:54 +0200
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Apr 14, 2022 at 9:40 AM Herve Codina <herve.codina@bootlin.com> wrote:
-> > > The PCI rcar-gen2 does not call any clk_prepare_enable().
+On Thu, Apr 14, 2022 at 11:18 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-König
+> <u.kleine-koenig@pengutronix.de> wrote:
 > >
-> > Correct, this driver manages the clocks indirectly through Runtime PM.
+> > To eventually get rid of all legacy drivers convert this driver to the
+> > modern world implementing .apply().
 > >
-> > > This lead to an access failure when the driver tries to access
-> > > the IP (at least on a RZ/N1D platform).
+> > As pwm->state might not be updated in tpu_pwm_apply() before calling
+> > tpu_pwm_config(), an additional parameter is needed for tpu_pwm_config()
+> > to not change the implemented logic.
 > >
-> > I expect adding
-> >
-> >     power-domans = <&sysctrl>;
-> >
-> > to the pci_usb node makes this patch redundant.
+> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 >
-> Seems not enough.
-> I tried what you suggest :
->  - Added 'power-domains = <&systrl>;' to the pci_usb node
->  - Added missing '#power-domain-cells = <0>;' to sysctrl node
->  - Reverted my patch.
+> LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> The system crashed at boot:
+> The display backlight still works fine on r8a7740/armadillo, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> [    0.832958] Unhandled fault: external abort on non-linefetch (0x1008) at 0x90b5f848
+Oops, I spoke too soon...
 
-That's indeed a typical symptom of accessing a module's registers
-while the module's clock is disabled.
+> > @@ -366,13 +366,45 @@ static void tpu_pwm_disable(struct pwm_chip *chip, struct pwm_device *_pwm)
+> >         tpu_pwm_timer_stop(pwm);
+> >  }
+> >
+> > +static int tpu_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> > +                        const struct pwm_state *state)
+> > +{
+> > +       int err;
+> > +       bool enabled = pwm->state.enabled;
+> > +
+> > +       if (state->polarity != pwm->state.polarity) {
+> > +               if (enabled) {
+> > +                       tpu_pwm_disable(chip, pwm);
+> > +                       enabled = false;
+> > +               }
+> > +
+> > +               err = tpu_pwm_set_polarity(chip, pwm, state->polarity);
+> > +               if (err)
+> > +                       return err;
+> > +       }
+> > +
+> > +       if (!state->enabled) {
+> > +               if (enabled)
+> > +                       chip->ops->disable(chip, pwm);
 
-> I also added a trace printk in r9a06g032-clocks.c and
-> r9a06g032_attach_dev() was never called.
->
-> Did I miss to set something ?
+tpu_pwm_disable
 
-Do you have CONFIG_PM and CONFIG_PM_GENERIC_DOMAINS
-enabled?
-Apparently ARCH_RZN1 does not select these options yet.
+else it crashes with a NULL-pointer dereference (e.g. during system
+shutdown).
+
+> > +
+> > +               return 0;
+> > +       }
 
 Gr{oetje,eeting}s,
 
