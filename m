@@ -2,212 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D76D500B11
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 12:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CB84500C04
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 13:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241813AbiDNKaG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 06:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
+        id S242234AbiDNLWN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 07:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240915AbiDNKaF (ORCPT
+        with ESMTP id S242599AbiDNLWJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 06:30:05 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE0576E00;
-        Thu, 14 Apr 2022 03:27:41 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id 141so3520211qkf.3;
-        Thu, 14 Apr 2022 03:27:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rRWJsUx4tY2eJ+CQFmf/dGdB1lbcB/+o9akE6lQgMvc=;
-        b=NBjXSjJxEAm1jgjJ7uUibFmV95BB3Unn5/tUWlwU+vAFzy9m2NNpqloZYrRfknmECK
-         cbiFzoX7m1UszdKsOj/iIJkNRTCNcnahIz8LIoHRRslQKgvUWm1rQZHgpXyWRMGHPuiu
-         O0PstqoFtJqRcfeDPh1M/qdCpzR4sPt6r1fQj/P6IF/8bsGdCRpSQB687X8PYHGG7mz3
-         iQtUF2awIEIDidCQZBjiHTVx7mULAdu0ANgWOexti8ukaTrlmT3BhHLLUkBlh4MRhP19
-         08OZkRBfu7L5g1AWlT56oHJg/0oe9scGzzfm/vJGjK2RfHypGIA5cCDhsodO7CFuaQj1
-         gkjg==
-X-Gm-Message-State: AOAM530nTlYeGI98EH5VMhUQ6lVsIcsbklOR1t4uGyBuwNvIjuoTntBt
-        8dfmHpc6gyrJZ+H+uWUzd270FvURVF6CzA==
-X-Google-Smtp-Source: ABdhPJxT3Px5hO97No3KO36nFkrqq75j650U7jzv7hHtdRXZW43dN7H/AcwFaES01le/UWjUZjBX9Q==
-X-Received: by 2002:a05:620a:17a9:b0:69c:832b:d1b2 with SMTP id ay41-20020a05620a17a900b0069c832bd1b2mr279525qkb.736.1649932060271;
-        Thu, 14 Apr 2022 03:27:40 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id z64-20020a37b043000000b0069c0a57f42fsm797211qke.24.2022.04.14.03.27.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 03:27:39 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2ef4a241cc5so43422457b3.2;
-        Thu, 14 Apr 2022 03:27:39 -0700 (PDT)
-X-Received: by 2002:a81:4f0d:0:b0:2ec:1556:815 with SMTP id
- d13-20020a814f0d000000b002ec15560815mr1411713ywb.256.1649932059417; Thu, 14
- Apr 2022 03:27:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de> <20220413085050.61144-6-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20220413085050.61144-6-u.kleine-koenig@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Apr 2022 12:27:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX7Kic2WG+f6hAdjz7SGSjWfi-UTdOrxtmV6D4zE3zh1Q@mail.gmail.com>
-Message-ID: <CAMuHMdX7Kic2WG+f6hAdjz7SGSjWfi-UTdOrxtmV6D4zE3zh1Q@mail.gmail.com>
-Subject: Re: [PATCH 6/6] pwm: renesas-tpu: Improve precision of period and
- duty_cycle calculation
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
+        Thu, 14 Apr 2022 07:22:09 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D4A1EC6F;
+        Thu, 14 Apr 2022 04:19:39 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 38EF8240002;
+        Thu, 14 Apr 2022 11:19:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649935177;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZXu+LLMNfkUfWr3T7CXhJ1D/5v2k50j/CT0WpseHv5E=;
+        b=GX1HCgY+ayJUwFdp5ht4sKpJN8GAVyXJ8Qr37WNL14jWfOSKoRPTXPcgeB115Q+tRIzp7o
+        61e8s1FfJbEg0Zdsa6zhLCVOQx6nvfFRKo4TM49Cr+qSkNTiimx+D6uVNxhriG1EuxoXLP
+        MzpOxKIgnFB7vVKycvuQxsoVJTkfPzTR0qn4XQg5JfZu50Mzg7WpTM6p8aeHrtzwBakVQD
+        iOb/5ebsjHceMBSPFdhKZq66equNp/gxywTEU9V1APU20UQ0hZ3iDn27kTZZZ8qtyidEd9
+        UuK3818tlpALWD+uyCLiWpM9tHF/S4kpO6mt5FHeimTxfBwkv60g1p5xDKTA9g==
+Date:   Thu, 14 Apr 2022 13:19:32 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        linux-rtc@vger.kernel.org,
+        Michel Pollet <michel.pollet@bp.renesas.com>
+Subject: Re: [PATCH 3/7] rtc: rzn1: Add new RTC driver
+Message-ID: <20220414131932.5f5285d4@xps13>
+In-Reply-To: <Ylbw3bEc+QK4m9hX@mail.local>
+References: <20220405184716.1578385-1-miquel.raynal@bootlin.com>
+        <20220405184716.1578385-4-miquel.raynal@bootlin.com>
+        <Yk1UXjTk32Vc9+/k@mail.local>
+        <20220413172327.73d1fcc1@xps13>
+        <Ylbw3bEc+QK4m9hX@mail.local>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+Hi Alex,
 
-On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> Dividing by the result of a division looses precision. Consider for example
-> clk_rate = 33000000 and period_ns = 500001. Then
->
->         clk_rate / (NSEC_PER_SEC / period_ns)
->
-> has the exact value 16500.033, but in C this evaluates to 16508. It gets
-> worse for even bigger values of period_ns, so with period_ns = 500000001,
-> the exact result is 16500000.033 while in C we get 33000000.
->
-> For that reason use
->
->         clk_rate * period_ns / NSEC_PER_SEC
->
-> instead which doesn't suffer from this problem. To ensure this doesn't
-> overflow add a safeguard check for clk_rate.
->
-> Incidentally this fixes a division by zero if period_ns > NSEC_PER_SEC.
-> Another side effect is that values bigger than INT_MAX for period and
-> duty_cyle are not wrongly discarded any more.
+alexandre.belloni@bootlin.com wrote on Wed, 13 Apr 2022 17:48:45 +0200:
 
-You forgot to mention that pwm_state.period is no longer truncated to u32.
+> Hi Miqu=C3=A8l,
+>=20
+> On 13/04/2022 17:23:27+0200, Miquel Raynal wrote:
+> > > > +static int rzn1_rtc_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct rzn1_rtc *rtc;
+> > > > +	int ret;
+> > > > +
+> > > > +	rtc =3D devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+> > > > +	if (!rtc)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	platform_set_drvdata(pdev, rtc);
+> > > > +
+> > > > +	rtc->clk =3D devm_clk_get(&pdev->dev, "hclk");
+> > > > +	if (IS_ERR(rtc->clk))
+> > > > +		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->clk), "Missing hcl=
+k\n");
+> > > > +
+> > > > +	rtc->base =3D devm_platform_ioremap_resource(pdev, 0);
+> > > > +	if (IS_ERR(rtc->base))
+> > > > +		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing re=
+g\n");
+> > > > +
+> > > > +	rtc->rtcdev =3D devm_rtc_allocate_device(&pdev->dev);
+> > > > +	if (IS_ERR(rtc->rtcdev))
+> > > > +		return PTR_ERR(rtc);
+> > > > +
+> > > > +	rtc->rtcdev->range_max =3D 3178591199UL; /* 100 years */   =20
+> > >=20
+> > > I'm not sure how you came to this value, this is 2070-09-22T05:59:59.
+> > > I'm pretty sure the RTC will not fail at that time. Also, the comment
+> > > seems fishy. =20
+> >=20
+> > The RTC itself as no "starting point", but just a counter that can
+> > count up to 100. So the max range is start-year + 100 years. But at
+> > this point I don't yet have access to the start-year value. What's
+> > your advise? =20
+>=20
+> The question is why is this limited to 100 years? My guess is that it
+> doesn't handle leap years properly if this is the case, there is only
+> one range that works, this is 2000-01-01 to 2099-12-31 like many other
+> RTCs.
 
->
-> Fixes: 99b82abb0a35 ("pwm: Add Renesas TPU PWM driver")
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/pwm/pwm-renesas-tpu.c | 34 ++++++++++++++++++++++------------
->  1 file changed, 22 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-> index fce7df418d62..c8c7a896fc55 100644
-> --- a/drivers/pwm/pwm-renesas-tpu.c
-> +++ b/drivers/pwm/pwm-renesas-tpu.c
-> @@ -242,42 +242,52 @@ static void tpu_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
->  }
->
->  static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-> -                         int duty_ns, int period_ns, bool enabled)
-> +                         u64 duty_ns, u64 period_ns, bool enabled)
->  {
->         struct tpu_pwm_device *tpd = pwm_get_chip_data(pwm);
->         struct tpu_device *tpu = to_tpu_device(chip);
->         unsigned int prescaler;
->         bool duty_only = false;
->         u32 clk_rate;
-> -       u32 period;
-> +       u64 period;
->         u32 duty;
->         int ret;
->
->         clk_rate = clk_get_rate(tpu->clk);
+I don't know the real reason, actually there is just written that the
+"year" register counts up from 00 to 99 (in bcd).
 
-As clk_get_rate() returns unsigned long, I think you should change
-clk_rate from u32 to unsigned long, too.
+> You can run rtc-range from rtc-tools after removing range_max to find
+> out.
 
-> +       if (unlikely(clk_rate > 1000000000UL)) {
+Here is the result. It fails at 2069, which I believe means "100 years"
+from 1970. So what do you conclude with this? Shall I use
+rtc_time64_to_tm(2069-12-31 23:59:59) as the range_max value?
 
-s/1000000000UL/NSEC_PER_SEC/
+# rtc-range=20
 
-> +               /*
-> +                * This won't happen in the nearer future, so this is only a
-> +                * safeguard to prevent the following calculation from
-> +                * overflowing. With this clk_rate * period_ns / NSEC_PER_SEC is
-> +                * not greater than period_ns and so fits into an u64.
-> +                */
-> +               return -EINVAL;
-> +       }
->
-> -       period = clk_rate / (NSEC_PER_SEC / period_ns);
-> +       period = mul_u64_u64_div_u64(clk_rate, period_ns, NSEC_PER_SEC);
->         if (period >= 64 * 0x10000 || period == 0)
->                 return -EINVAL;
+Testing 2000-02-28 23:59:59.
+OK
 
-Perhaps use "u64 period64" above, and
+Testing 2038-01-19 03:14:07.
+OK
 
-    /* We know period to fit into an u32 */
-    period = (u32)period64;
+Testing 2069-12-31 23:59:59.
+KO RTC_RD_TIME returned 22 (line 124)
 
-to avoid introducing all casts below.
-
->
->         if (period < 0x10000)
->                 prescaler = 0;
->         else
-> -               prescaler = ilog2(period / 0x10000) / 2 + 1;
-> +               /*
-> +                * We know period to fit into an u32, so cast accordingly to
-> +                * make the division a bit cheaper
-> +                */
-> +               prescaler = ilog2((u32)period / 0x10000) / 2 + 1;
-
-Using a loop would avoid the need for a division...
-
->
->         period >>= 2 * prescaler;
->
-> -       if (duty_ns) {
-> -               duty = (clk_rate >> 2 * prescaler)
-> -                    / (NSEC_PER_SEC / duty_ns);
-> -               if (duty > period)
-> -                       return -EINVAL;
-> -       } else {
-> +       if (duty_ns)
-> +               duty = mul_u64_u64_div_u64(clk_rate, duty_ns,
-> +                                          (u64)NSEC_PER_SEC << (2 * prescaler));
-> +       else
->                 duty = 0;
-> -       }
->
->         dev_dbg(&tpu->pdev->dev,
->                 "rate %u, prescaler %u, period %u, duty %u\n",
-> -               clk_rate, 1 << (2 * prescaler), period, duty);
-> +               clk_rate, 1 << (2 * prescaler), (u32)period, duty);
->
->         if (tpd->prescaler == prescaler && tpd->period == period)
->                 duty_only = true;
-
-With some (or all ;-) suggestions above taken into account:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-The display backlight still works fine on r8a7740/armadillo, so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Miqu=C3=A8l
