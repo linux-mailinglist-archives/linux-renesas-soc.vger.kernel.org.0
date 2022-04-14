@@ -2,137 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 552255013BD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 17:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 102D75015DC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 17:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343905AbiDNOYD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 10:24:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
+        id S1343973AbiDNOYE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 10:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345131AbiDNNpL (ORCPT
+        with ESMTP id S1343613AbiDNNuU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:45:11 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502D8140DE;
-        Thu, 14 Apr 2022 06:42:45 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 047581BF20C;
-        Thu, 14 Apr 2022 13:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649943763;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uf/NUgWHuhWSypo4uHHoAgWnaBAtZS72tioBfXir5rw=;
-        b=RH9+J969PE/jWaLdsCV+Jg1ttNMgnWmL2DqDCmlGulbszBjD9NE52I2J8RVKtHvaLsECs9
-        S8j67gnG0CdrH/urV5Uw8cdGR4XfehozZgFSA6Eg7ukBmemeWcBtEsm45Q6wloI5KV7rbX
-        Fy1xTIHQyDpWpZ7/AthMJAEHBuy4ptwTA4uoeVdplikQzQx5jG5FeLj+uPWcStSohLc28N
-        KAAWjoFcxPN+HmjvfAAD+dE+5eo8GyyKzsL/4WqsfD4BjmhB6//KozDJPHWWWcoYawa3FI
-        wwZPzGot1uDZ4YL894ldPzkehTWSGlL7VU3yYbmpYpXogF/aXiFowNMKUC6JKQ==
-Date:   Thu, 14 Apr 2022 15:42:32 +0200
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Thu, 14 Apr 2022 09:50:20 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B574A6E30;
+        Thu, 14 Apr 2022 06:44:11 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id v4so6418729edl.7;
+        Thu, 14 Apr 2022 06:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=5coa3OBWaIiXyJ1TJsvTvbGW8ucgi9WcCkL0M7ii1Ac=;
+        b=nrNu1svoISX1APZ50+JiEAl8u9jDBuz8d9Cxyz6EuUVB/sY5Ykf1r7CgRiowPFTY7b
+         Le13noEzoOmLbca8xuw39YtKrgs0gf7eyF8i9mrtfw9PfEVfNzNGnWZWLLCi7Uyu1S/R
+         dkY13N/1vInqBApx9uuZC8/NyKPQnhECC1m92z8HhjLbrRs8IXLm/2ILivrKpx2n7cLZ
+         +SRLPDxhRyaCwRTV3DHRoJbFxLdqC77dEBsT6JLzRN5a30di6rb3TcTuaGL80D5+ZMUr
+         rfa9qUZc4fdOfvWdibJ5h82FWUEhD1TPBSUCg6qzSlS1F/dP3TLhd2LyxItRws/6H+NE
+         pXvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=5coa3OBWaIiXyJ1TJsvTvbGW8ucgi9WcCkL0M7ii1Ac=;
+        b=FXATKJ5mMijKM6wWHzdFqlCK4ndW2L/hDWuCB88nqbhtgOAYhoJ15azNbZJlDJgZgw
+         FP51ynXGtbakXVvs4fVzDSiY/luKb4nkUMBX3mMKCA+QsIygADWwLskyOCLoNTG5cGCJ
+         8l3q8D0rd9wmRIosNeSKYoUHEIsgMwL18ThJSV2cOPdt2FCSoCTer7YHAHPhb8zwTnig
+         pUQ0cpJGHRlT6yfP015E1IBj6qhXDFLxeY6EvnhkrTi585DkrDmJyClY4NP9dYCgRd3x
+         Tg4RdqoMmvRKFQ01XYw6oYsFDztACsSZrqBXO0zDp2BJ+0mtfHIoMALZJyz6bFOkDx6F
+         qgjQ==
+X-Gm-Message-State: AOAM530DOHgC9fv09MUkdGDS+xM1PJ3fJvpvwHTTf4noVVnRXaUp2mTp
+        SvU48P2TRcdutRufO0gpVZw=
+X-Google-Smtp-Source: ABdhPJzkQUDBsDWQTu01bvGCEc2uVQV5houVOM1xZHAxz4SHp+vELS6VLTdLSUAfysTUbV9b6QBWNA==
+X-Received: by 2002:a05:6402:5c9:b0:420:aac6:257b with SMTP id n9-20020a05640205c900b00420aac6257bmr3086166edx.128.1649943849435;
+        Thu, 14 Apr 2022 06:44:09 -0700 (PDT)
+Received: from skbuf ([188.26.57.45])
+        by smtp.gmail.com with ESMTPSA id k14-20020a50e18e000000b0041b6f23f7f6sm1039363edl.22.2022.04.14.06.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 06:44:09 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 16:44:06 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 1/8] PCI: rcar-gen2: Add support for clocks
-Message-ID: <20220414154232.098a4451@bootlin.com>
-In-Reply-To: <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
-References: <20220414074011.500533-1-herve.codina@bootlin.com>
-        <20220414074011.500533-2-herve.codina@bootlin.com>
-        <CAMuHMdW8q5AjDtTE83yVPfmgnQy02UgLSns33z06WMFBUULWEw@mail.gmail.com>
-        <20220414132534.35467781@bootlin.com>
-        <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Herve Codina <herve.codina@bootlin.com>,
+        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 01/12] net: dsa: add support for Renesas RZ/N1
+ A5PSW switch tag code
+Message-ID: <20220414134406.qk6zxlmsqwaamg4c@skbuf>
+References: <20220414122250.158113-1-clement.leger@bootlin.com>
+ <20220414122250.158113-2-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220414122250.158113-2-clement.leger@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, Apr 14, 2022 at 02:22:39PM +0200, Clément Léger wrote:
+> Add DSA tag code for Renesas RZ/N1 Advanced 5 port switch. This switch
+> uses a special VLAN type followed by 6 bytes which contains other
+> useful information (port, timestamp, etc).
+> 
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> ---
 
-On Thu, 14 Apr 2022 13:48:22 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Please squash this with the next patch.
 
-> Hi Herv=C3=A9,
->=20
-> On Thu, Apr 14, 2022 at 1:29 PM Herve Codina <herve.codina@bootlin.com> w=
-rote:
-> > On Thu, 14 Apr 2022 10:45:54 +0200
-> > Geert Uytterhoeven <geert@linux-m68k.org> wrote: =20
-> > > On Thu, Apr 14, 2022 at 9:40 AM Herve Codina <herve.codina@bootlin.co=
-m> wrote: =20
-> > > > The PCI rcar-gen2 does not call any clk_prepare_enable(). =20
-> > >
-> > > Correct, this driver manages the clocks indirectly through Runtime PM.
-> > > =20
-> > > > This lead to an access failure when the driver tries to access
-> > > > the IP (at least on a RZ/N1D platform). =20
-> > >
-> > > I expect adding
-> > >
-> > >     power-domans =3D <&sysctrl>;
-> > >
-> > > to the pci_usb node makes this patch redundant. =20
-> >
-> > Seems not enough.
-> > I tried what you suggest :
-> >  - Added 'power-domains =3D <&systrl>;' to the pci_usb node
-> >  - Added missing '#power-domain-cells =3D <0>;' to sysctrl node
-> >  - Reverted my patch.
-> >
-> > The system crashed at boot: =20
->=20
-> > [    0.832958] Unhandled fault: external abort on non-linefetch (0x1008=
-) at 0x90b5f848 =20
->=20
-> That's indeed a typical symptom of accessing a module's registers
-> while the module's clock is disabled.
->=20
-> > I also added a trace printk in r9a06g032-clocks.c and
-> > r9a06g032_attach_dev() was never called.
-> >
-> > Did I miss to set something ? =20
->=20
-> Do you have CONFIG_PM and CONFIG_PM_GENERIC_DOMAINS
-> enabled?
-> Apparently ARCH_RZN1 does not select these options yet.
->=20
-
-Thanks a lot for pointing this.
-
-I added select CONFIG_PM and CONFIG_PM_GENERIC_DOMAINS
-in ARCH_RZN1 and it works.
-
-I will remove my patch calling clk_bulk_prepare_enable() and
-add some new patches to enable power domains in the v3 series.
-
-Regards,
-Herv=C3=A9
-
+>  include/net/dsa.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/net/dsa.h b/include/net/dsa.h
+> index 934958fda962..2aa8eaae4eb9 100644
+> --- a/include/net/dsa.h
+> +++ b/include/net/dsa.h
+> @@ -53,6 +53,7 @@ struct phylink_link_state;
+>  #define DSA_TAG_PROTO_SJA1110_VALUE		23
+>  #define DSA_TAG_PROTO_RTL8_4_VALUE		24
+>  #define DSA_TAG_PROTO_RTL8_4T_VALUE		25
+> +#define DSA_TAG_PROTO_RZN1_A5PSW_VALUE		26
+>  
+>  enum dsa_tag_protocol {
+>  	DSA_TAG_PROTO_NONE		= DSA_TAG_PROTO_NONE_VALUE,
+> @@ -81,6 +82,7 @@ enum dsa_tag_protocol {
+>  	DSA_TAG_PROTO_SJA1110		= DSA_TAG_PROTO_SJA1110_VALUE,
+>  	DSA_TAG_PROTO_RTL8_4		= DSA_TAG_PROTO_RTL8_4_VALUE,
+>  	DSA_TAG_PROTO_RTL8_4T		= DSA_TAG_PROTO_RTL8_4T_VALUE,
+> +	DSA_TAG_PROTO_RZN1_A5PSW	= DSA_TAG_PROTO_RZN1_A5PSW_VALUE,
+>  };
+>  
+>  struct dsa_switch;
+> -- 
+> 2.34.1
+> 
