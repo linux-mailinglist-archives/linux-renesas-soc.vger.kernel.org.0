@@ -2,238 +2,281 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9530950063C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 08:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA3AE5006BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 09:13:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236671AbiDNGlT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 02:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
+        id S240273AbiDNHPq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 03:15:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234478AbiDNGlS (ORCPT
+        with ESMTP id S237098AbiDNHPp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 02:41:18 -0400
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA2F31DFB;
-        Wed, 13 Apr 2022 23:38:52 -0700 (PDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220414063850euoutp013d3a81c830570d4e44c36506643ddb5e~lr-rAXsDP0823308233euoutp01a;
-        Thu, 14 Apr 2022 06:38:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220414063850euoutp013d3a81c830570d4e44c36506643ddb5e~lr-rAXsDP0823308233euoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1649918330;
-        bh=iZJ0s+Xj2eet3xX8TAKGb2899dU+i00esTWn1QUmUaE=;
-        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-        b=swaPJwNZ/dok3lpu7CKnLpFvMNK66+bsViY0NWvnGzO+i3Cx4SIh+69lzQr7kPluQ
-         WkXXWLFmS4+SS65FURorJUHhid6/2/Pq0bG6fb3BkREkY6gcKzwO+HLKX0H4YpJafb
-         oJfgPJwWyNflwR107wF/yAHK00ENO85PcPDV2yZI=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20220414063849eucas1p2edb867a5d82f16c3ecd193c3c5253ca1~lr-quG01i2885528855eucas1p2J;
-        Thu, 14 Apr 2022 06:38:49 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 27.72.09887.971C7526; Thu, 14
-        Apr 2022 07:38:49 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20220414063849eucas1p126e41b53ff0d342f5c48408994b704e9~lr-qSAv_c3094930949eucas1p1_;
-        Thu, 14 Apr 2022 06:38:49 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220414063849eusmtrp1feb8830483e8f0c8cc09abb606d918bc~lr-qQt94F1095910959eusmtrp1f;
-        Thu, 14 Apr 2022 06:38:49 +0000 (GMT)
-X-AuditID: cbfec7f4-45bff7000000269f-36-6257c1797257
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 19.B3.09404.971C7526; Thu, 14
-        Apr 2022 07:38:49 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220414063847eusmtip12bd90501637cb3e6303ce2fd8295e5d3~lr-oxFH-51804918049eusmtip1m;
-        Thu, 14 Apr 2022 06:38:47 +0000 (GMT)
-Message-ID: <3a24ef01-3231-1bee-7429-dce5680c5682@samsung.com>
-Date:   Thu, 14 Apr 2022 08:38:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-        Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH v4 11/13] pinctrl: meson: Replace custom code by
- gpiochip_node_count() call
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Qianggui Song <qianggui.song@amlogic.com>,
+        Thu, 14 Apr 2022 03:15:45 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2137.outbound.protection.outlook.com [40.107.114.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB810AE51;
+        Thu, 14 Apr 2022 00:13:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BT+WdA/a0w6DKFL19RR3iH5VDPThwTPtL5u7OkyL7d/RdP6JfDsGAi3EXDMQz+3qVvqtkSUJnJiShDz/hWjPFzxk6ZFVkvIofBSE8EtSspAKw7/UCnCsFnp1vu/7/yzkTNbbzalJGy5W8SIUfnLD+fDpORUe3auLTkfS5l+DUuBG7gByvFh6dI/Pzm3YhA9hoMwSLVbXya9so14ejogF5hhKwfFtXtuILiaBBn3jAKMxnJGxvoUKobVSkJsLBBLKPZrZoRXFtQbfASLEeqQBDdq9x0NcEjdFT3KlIZQp2mk6Gj1EowTIQa9lGAvd3QU1xxibRdeLHeo18h67DcijIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=perhVsqWBRyTIQEGAbeKyszuRRchJjkt9kKFDUT88JM=;
+ b=hrzTsqwTHTIHv+Y9qo401pK/WXZFzIPK+GrTgMBEOyUnEp2kuMqsJeDY7x6zETiwcjCSyLafc6j3eKwi4iLPdSIqoe4aMyOGnV1QUSUabqjTVaNqCiIAduC9DAE0NwiD6EpzH8tuXfIQz+7F3GnYRmIydf2fx1oGiKVKRVemRCUJ8v0CPA6GOm76wf+Mx4Qg0BeZUIiGMt3Bao4L36L9Lr65W26tq61wBkSrrnM62y8s1obnayiV1TGPchKxLNnfeQbHx9WRAI5qFzl9Z1xpTxuieNDpRHq+Frq+mGY1PHWTyNmfF4caTCToIFm13x9Zh/82eM9LnzGc9PbG2TyNYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=perhVsqWBRyTIQEGAbeKyszuRRchJjkt9kKFDUT88JM=;
+ b=ECZlMAjKESXW5eKFELgE4CorJ5TsV7XXwqJVVTGn1dSvlKFVOVrzTnL48KhZ2BudUP812qKmvI7EhvPnIIEkdznyKUpjulmsg+XciOR+sVOW90MAG2Y2TemHx0xESqkDlKE3+ld5ifwJTJWC1hLyrEJT6P+z4qe9EikXADgvY/g=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB9601.jpnprd01.prod.outlook.com (2603:1096:400:192::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Thu, 14 Apr
+ 2022 07:13:18 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5144.030; Thu, 14 Apr 2022
+ 07:13:18 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220401103604.8705-12-andriy.shevchenko@linux.intel.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfVCTdRy/3/M8e56xbvrwUvykDBtpV54ggne/3hQ6iCf/iouLkg7b3HNs
-        8nqbM3ERyiEYhw5RYYw5Xsx4iUq28bLlCJCck3JFB6Ix4oqlEAScWm4n0MaDxX+f7+f7/Xy+
-        L/fl40E3yTC+POcgq8gRZ4lIAdF51XNjW35fqmR7Y0ME8kxVATRh6CSR09WPo5NF1RjyVJ/C
-        kNY2gSPrhC/xR4+GROdrKwHSN+ejmd8GcOQpNWPI6bxEobOPmjBUX/sEMv4+wkOmukcA/WzV
-        k6hj6i+fh7MHQ2Ujkzx0tdFBIIvewUOGxS95qP9UGrpefJdArvFrBLJ5fZZXZkp5aM4Tj6y9
-        xyjkNU8D1Gr1udl62wlU4v2cjItgBtq+AMzc6HGKuTDyC48xtKkZt6aDYk7/sI2x6FwUU29U
-        Me6KMxRjbP2UZMZGLpOMwZHMmD4rZJzaBsBYuu9hjGZx+9vBewWvSdks+SFWEbXrQ4FsvmuZ
-        ypt/6vBwXdhRYAsqAwF8SMfCJacNlAEBP4huBvDa5XMEF9wH8ErfAM4F9wC82ViMPZac/mZp
-        NdEE4HDXhVXJAoDOi2Okv0pI74Kdy+WUHxP0Zmi+O4dzfCB01EwSfvwkLYHne8ZX+GBaDIsm
-        ZlZ4nA6FtyfrML9pCP09AYvsxyh/gNNOEs4Pcx1IOhqWzZat4AA6CXqNOopTh8OuWf3KfJCe
-        EcCWKi3BDZ4A62YvkhwOhtN2M8XhZ+DgmXJfDd+Hc+GiNoajD8ORP9twDr8Kx254SX8JTr8I
-        v7ZGcXQ8HNLVkJxyHRydDeQmWAcrO6txjhbCEyWrt94Cdfav/uvZ9+MQXgFEujVX0a3ZXrdm
-        F93/fesB0QpCWZUyO4NV7shhP4pUirOVqpyMyP252Ubg+/3BJfv9btA0vRDZDzA+6AeQj4tC
-        hLc0qZIgoVScf4RV5O5TqLJYZT94mk+IQoX75ZfEQXSG+CCbybJ5rOJxFuMHhB3FykffKc2v
-        fPfWwORguOMhDLmzszfh7z17LUndTa3rqQQoO2dIkbRo3HBo0+5wd7q8QntWujF4Uzxb+lPK
-        cnPlBvMHjslBvalkxx55mv2tcY09/OVl12JlS7r6nxfEb2SrEjOj1d9GifriTMkD+u6tSYZD
-        cQdqAtUWSrevIeZN03cF6Ynlue89V6vfYNKeTMQjyY8pT2ceMot7xqSCSE2yUf5r1WY13+O2
-        SAseeHdmbixP6b0jWaiJ6IiZKnq++sC4tb3koWXaeCKK9r7vEu6ueEU2lXa9ME8EjhTLFh3t
-        D3i1z1bdrm2J3aLtWv86CmAlqbGuAuknsoythXVLx3NEhFImjn4JVyjF/wJe+8E9agQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsVy+t/xu7qVB8OTDHZuYrP4+XIao8WDedvY
-        LM7fPcRs0ds0ncni5/Q+JosZex8wW+x6AJR4tq+fzWLu7EmMFnNWVFq8eXSE2eJn+xYmi/Pn
-        N7BbTPmznMliwWxui02Pr7FabJ7/h9Hi8q45bBZbX74DmnF+H5NF17UnrBbHFp1ksdg55ySr
-        xby/a1ktDvVFW5xqecFicffeCRaLvb+ARh5+085q8f6no8WuA43sFr+2vGK0WLULaNreAxtZ
-        LNp+LWNzUPY4smY1o8f7G63sHouv3Wb1mLem2uNp/1Z2j4lndT12zrrL7rFgU6nH0wmT2T02
-        repk87hzbQ+bx7yTgR6bl9R7nJ+xkNFj547PTB79fw0ChKP0bIryS0tSFTLyi0tslaINLYz0
-        DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mj5s/89e8EGs4up8qQbGvUJdjJwcEgIm
-        EhN3/2PuYuTiEBJYyihx70sHK0RCRuLktAYoW1jiz7UuNoii94wSF7qOs4EkeAXsJLb972EH
-        sVkEVCW2vHjPDBEXlDg58wkLiC0qkCTxYttzRhBbWCBRounBG7A4s4C4xK0n85lAhooInGOR
-        uHCulxXEYRa4yCYxedcKqJuaGCX2PnwFNpZNwFCi620X2GpOAXeJX5tmsUOMMpPo2trFCGHL
-        S2x/O4d5AqPQLCSXzEKycRaSlllIWhYwsqxiFEktLc5Nzy020itOzC0uzUvXS87P3cQITHbb
-        jv3csoNx5auPeocYmTgYDzFKcDArifDe7A9PEuJNSaysSi3Kjy8qzUktPsRoCgyOicxSosn5
-        wHSbVxJvaGZgamhiZmlgamlmrCTO61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXA5HZNZmJ915EU
-        zk8a4k5mYjuWb77+1mpFYYPKuqenVt8Pdv4hMt/blndi0WtHpcZbbWqPnSZHxyV/q16pWrV5
-        bVL59uOrj1et19XQmfqO779z9arVR/f0v9asaNV5cie09O1n8cqzG+S/tFe7bNn1/djKraIV
-        5VNYw96oBZ1q4zPyZOzaXWb7bYWbjoqH65EI/mcNfAUbPzxgOfPEJjLWP/ZCyHn1/rSTjFdu
-        7eqfuN98mtBDeVblbb8Oyi9WcZgWo3NaZntotPTyttnl1zqeX53Uf27u2TTnB8Jr1h+R9KlT
-        6rP70Ld2Vm7EjHl1Fk4HGppLOT7kneFOeF+8YFXMNO1NS221OSsSNWdP4Us6qcRSnJFoqMVc
-        VJwIAKE4crP/AwAA
-X-CMS-MailID: 20220414063849eucas1p126e41b53ff0d342f5c48408994b704e9
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220414063849eucas1p126e41b53ff0d342f5c48408994b704e9
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220414063849eucas1p126e41b53ff0d342f5c48408994b704e9
-References: <20220401103604.8705-1-andriy.shevchenko@linux.intel.com>
-        <20220401103604.8705-12-andriy.shevchenko@linux.intel.com>
-        <CGME20220414063849eucas1p126e41b53ff0d342f5c48408994b704e9@eucas1p1.samsung.com>
-X-Spam-Status: No, score=-8.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v2 0/7] Add RZ/G2L Display support
+Thread-Topic: [PATCH v2 0/7] Add RZ/G2L Display support
+Thread-Index: AQHYOTdMes34AyJXZke2fdKSEJXJZazvK6Dg
+Date:   Thu, 14 Apr 2022 07:13:18 +0000
+Message-ID: <OS0PR01MB5922F835EA2DE122DAABAD8586EF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8b9028d5-e7fe-4e94-27c4-08da1de64035
+x-ms-traffictypediagnostic: TYCPR01MB9601:EE_
+x-microsoft-antispam-prvs: <TYCPR01MB9601DCB4A039AF4899A9C2B886EF9@TYCPR01MB9601.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Tu4lszYD1L3mSNDakGS2w4wLpHQZEa3iHp+etGBM1RA0gxw/hQWMBXKxC/YG64VDKt3Fczxl1J8N93SWb7/XI2Z2uCU5k+VEQ8y89QT55pR2IVHd6wqADny4/6XNZuMiSWGFHsFwHQuuxSAZoUG0BMsHu73ACeVNpY97A2tC8lTlVBNILwKinJnTjRg9tFUlLLQrBroPC3CAt/n2OnJqURNS9lFx5uZlNhO5jZB1Uz0WsUOcbf4x7woep4wibXoN+3PPPqw2N4TAFgHJ1yTv8pcbVlWvHxk71oHDdXrHLTLFc/+ko5NOGE8tSxGs8FA4pSyKZxrt/LUY0UhR+Tfgbov865ougliciCxcRsxEZWGQiKBiZxvrDhNIN91r2+NKOufIxv27/v/wNylyA7IxNpQW/ngcZvc6DBBv7yjHTCmUB9qscH0drAa6tu4zEubrDG97d521Zxqa9rT8mz0c4aa+QA88CHOMR9Op5fZ8ft2hjWeaRGh3HYmtxmY04cX+bXHIyrZf0kFtCRdC+ipHMmncMfrz8sPqri73j7D7PuClO35vrEM2RLY7F4B/3zVMVcvEIFxhiK2uOO/W4xT2N6JqHENQ9NuEZqq+p3XT34jTigPaHhafBYCCFDFwXiDavUJDTGYYugVs/Iz3cJ9YRWmr33LWaIGwxaYFjHqbCytjTaAiTdS2rILKVbJwh92HgSFyi1cvtQZmhhPY0D9rH8qV98w7g46wkCoEqXavfaJykVu3c7FPPEluY+IzrloOw7FV3KK131cBm3pDC+9TZj3DXj8KOqmuCf9hBnfVsVU=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(26005)(71200400001)(107886003)(316002)(186003)(86362001)(4326008)(52536014)(38100700002)(8936002)(8676002)(38070700005)(6506007)(9686003)(7696005)(83380400001)(5660300002)(122000001)(66446008)(55016003)(66946007)(2906002)(64756008)(66476007)(66556008)(54906003)(110136005)(76116006)(45080400002)(508600001)(33656002)(966005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NpV9S1NGri9/o6G9ZWwL9ixGoqeXtVzMFh70EfFhYz2y+2vfwjoc7s00R6wX?=
+ =?us-ascii?Q?u+I0yHMq+eAnm9gscYQMUnAT3xUmIclnJODVRzpL9fkTGUb8PgkVEnyaZpfS?=
+ =?us-ascii?Q?5mLF58b/rL07jJ5KHLvetENCA6pMWSgzD34MIDwLwsfZjfF560TPp4fh3Riu?=
+ =?us-ascii?Q?PH9/Y1oChGf+wsomFPFcaPt2usRWyBFhfWVcUT5rp5948yO/SDbOzQS05DKR?=
+ =?us-ascii?Q?KZ8mY2myImDg8vWQeYpJzwL2/GClHhTsaFi5v5+CybaIS50dvQP4ifxDpdpw?=
+ =?us-ascii?Q?XxQp3BHi39ZlRZUWCN3YSuRkUC6/OqwNrwR6zthl+IDUt7cw7AWv3X7d0k8R?=
+ =?us-ascii?Q?fBm9rew63frVha57pD7PkORC45nEpBIt/mZzMghe3kiFYwp72iCCypLPj+Iy?=
+ =?us-ascii?Q?hXw10KrPUliq+isodsgtvzNCey52VM62+IBwfHnk4p0TY8iNyuFMIczpB6zQ?=
+ =?us-ascii?Q?H6MS21tscQ6ARW78oyT9Vc3kw69N7VsVNlBfHVqS4QMVEMSLM4gfa90FKWPL?=
+ =?us-ascii?Q?Up1CdanXgPTXFwsYecnvFEYX2e9kdB6+T+SKywQ74Cc5/wz/kGzmzkYRXROL?=
+ =?us-ascii?Q?EoiKuCUBWq6ccTAEEl0kvHoFIr23Ym4MTFsIa4uM6W/Pgi0l6oiqpou6eT4h?=
+ =?us-ascii?Q?/4tZWddc5v5W/dZOfISF0v1L4v2Y5Te4qykn9osfAnOUrLfQeblrf1gTWVgl?=
+ =?us-ascii?Q?RATwT/E1YZDnufHhV+39adnsJ26+fZ2SH4R5HmXCwL2DsS9tTwuyg7WPa3cL?=
+ =?us-ascii?Q?gnU1bpwrSZh/O7wrJx8m62izswm37ffHb0ds8O57irxabkoIJlPpAJwUAAMA?=
+ =?us-ascii?Q?6mK4bfqsxJR2fwZvZITKdBSWNN81KErYeEOyKyBjSJcsCrhOVDmcE4+D7aad?=
+ =?us-ascii?Q?dD57vGq8lB35u5t+9OilwR7pSrscEVZ5y71kudwa/HGSNsOwCq9zEavshqIa?=
+ =?us-ascii?Q?jH+dDk+deuH9UBlLdJI6zBnpYRaK/lgCUcfdv2ubZXWZjT9h3c1FyVuE8xI2?=
+ =?us-ascii?Q?64W2SY4wFvjoQZnkiTT6GmvRn7vvicnQg5AAK+Am1Fs45Uv1iQaY9QyrVMyY?=
+ =?us-ascii?Q?mjEmeQUbRXnu3L8D1sPUWWk9sCwNlBkuqjQOWy4Pim4qM8HI2T1g0HECclwu?=
+ =?us-ascii?Q?E5lakGSASF+QAqVcXxxtqeungqpIBirBaDcb5mfVu3kekkiijmhe/+cwmXEj?=
+ =?us-ascii?Q?QAcRL7DWDHG8O6chTj88Kxtq+pmhr/3o6RXcbX94kKaWagnqT/lYaijuEK71?=
+ =?us-ascii?Q?B/YRNjHtJBft5pcXmJqtymPSS4XlobOQfTL/9Nm6olKYI1DSc1ObwBH32zsa?=
+ =?us-ascii?Q?GBjfExdI2K7/Kb2ZJWDzM/KfnEDbpCxJaEED54UjQoPYYeJwvpxVUkG4kEll?=
+ =?us-ascii?Q?AnsHRtwoSu57HZTSdcxCWDxP9bUmppnjjmivPC7Z8y9POQbPac8bLWHGV1yp?=
+ =?us-ascii?Q?xK605RgGDpJ8XO9q25c+4zjoIQidzaO39KQ4XjU7YEgK0hftVhFKXsTU59gD?=
+ =?us-ascii?Q?Mh0xUckvfTZ6nOJwHsEeUxMrhvif1KwK/sC/+X9o5xwp8zTV0Ih02yBjCjfG?=
+ =?us-ascii?Q?RCC9TCArq723C0Uvd6P3fgwS5EpYxSLrBQXQ/F7jbXZZRjOtOjtgyPpbaS3C?=
+ =?us-ascii?Q?d81c7CPCdI1plJQJrbYt596Xe3lOhHZgjg+gZMk8mJC2aXiUmkxrYbPY1iTA?=
+ =?us-ascii?Q?aN84VflXhzywwJwwX6Th0F1+tg+WTbwaf8b1nD6b3DACaVM17e8o3PcUUaWb?=
+ =?us-ascii?Q?rDxunuHhUy0QJ3akIe63eJLiEfEYtsI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b9028d5-e7fe-4e94-27c4-08da1de64035
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 07:13:18.2318
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Bhzni2c/eI0zvbwpIKuA2KUSFA5RTo3eV3epyMj+YyaCzJcH9arqHdGzGndaFVvRikeoBuAWBLuUL19WfBRLWZNgmCUGEzqpQ+CKVquREcU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9601
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi
+Hi All,
 
-On 01.04.2022 12:36, Andy Shevchenko wrote:
-> Since we have generic function to count GPIO controller nodes
-> under a given device, there is no need to open code it. Replace
-> custom code by gpiochip_node_count() call.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Gentle ping, Are we happy with this patch series?
 
-This patch landed in linux next-20220413 as commit 88834c75cae5 
-("pinctrl: meson: Replace custom code by gpiochip_node_count() call"). 
-Unfortunately it breaks booting of all my Amlogic-based test boards 
-(Odroid C4, N2, Khadas VIM3, VIM3l). MMC driver is no longer probed and 
-boards are unable to mount rootfs. Reverting this patch on top of 
-linux-next fixes the issue.
+Cheers,
+Biju
 
-> ---
->   drivers/pinctrl/meson/pinctrl-meson.c | 28 ++++++++++++---------------
->   1 file changed, 12 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/pinctrl/meson/pinctrl-meson.c b/drivers/pinctrl/meson/pinctrl-meson.c
-> index 5b46a0979db7..1b078da81523 100644
-> --- a/drivers/pinctrl/meson/pinctrl-meson.c
-> +++ b/drivers/pinctrl/meson/pinctrl-meson.c
-> @@ -49,6 +49,7 @@
->   #include <linux/pinctrl/pinctrl.h>
->   #include <linux/pinctrl/pinmux.h>
->   #include <linux/platform_device.h>
-> +#include <linux/property.h>
->   #include <linux/regmap.h>
->   #include <linux/seq_file.h>
->   
-> @@ -662,27 +663,22 @@ static struct regmap *meson_map_resource(struct meson_pinctrl *pc,
->   	return devm_regmap_init_mmio(pc->dev, base, &meson_regmap_config);
->   }
->   
-> -static int meson_pinctrl_parse_dt(struct meson_pinctrl *pc,
-> -				  struct device_node *node)
-> +static int meson_pinctrl_parse_dt(struct meson_pinctrl *pc)
->   {
-> -	struct device_node *np, *gpio_np = NULL;
-> +	struct device_node *gpio_np;
-> +	unsigned int chips;
->   
-> -	for_each_child_of_node(node, np) {
-> -		if (!of_find_property(np, "gpio-controller", NULL))
-> -			continue;
-> -		if (gpio_np) {
-> -			dev_err(pc->dev, "multiple gpio nodes\n");
-> -			of_node_put(np);
-> -			return -EINVAL;
-> -		}
-> -		gpio_np = np;
-> -	}
-> -
-> -	if (!gpio_np) {
-> +	chips = gpiochip_node_count(pc->dev);
-> +	if (!chips) {
->   		dev_err(pc->dev, "no gpio node found\n");
->   		return -EINVAL;
->   	}
-> +	if (chips > 1) {
-> +		dev_err(pc->dev, "multiple gpio nodes\n");
-> +		return -EINVAL;
-> +	}
->   
-> +	gpio_np = to_of_node(device_get_named_child_node(pc->dev, "gpio-controller"));
->   	pc->of_node = gpio_np;
->   
->   	pc->reg_mux = meson_map_resource(pc, gpio_np, "mux");
-> @@ -751,7 +747,7 @@ int meson_pinctrl_probe(struct platform_device *pdev)
->   	pc->dev = dev;
->   	pc->data = (struct meson_pinctrl_data *) of_device_get_match_data(dev);
->   
-> -	ret = meson_pinctrl_parse_dt(pc, dev->of_node);
-> +	ret = meson_pinctrl_parse_dt(pc);
->   	if (ret)
->   		return ret;
->   
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+> Subject: [PATCH v2 0/7] Add RZ/G2L Display support
+>=20
+> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
+> connected to Display parallel interface and MIPI link video interface.
+>=20
+> This patch series aims to add basic display support on RZ/G2L SMARC EVK
+> platform. The output from DSI is connected to ADV7535.
+>=20
+> The DU controller is similar to R-Car as it is connected to VSPD, so
+> reusing most of R-Car code with new CRTC driver specific to RZ/G2L
+>=20
+> v1->v2:
+>  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+>  * Updated commit description for bindings
+>  * Removed LCDC references from bindings
+>  * Changed clock name from du.0->aclk from bindings
+>  * Changed reset name from du.0->du from bindings
+>  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+>  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+>  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+>  * Added forward declaration for struct reset_control
+>=20
+> [1]
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220312084205.31462=
+-
+> 2-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3D3zlHOf=
+dKJ
+> XLmDLGaMbbw%2BDUxQreKIEtvGUHNSuukDmg%3D&amp;reserved=3D0
+>=20
+> RFC->v1:
+>  * Changed  minItems->maxItems for renesas,vsps.
+>  * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+>    most of RCar DU code
+>  * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+> RFC:
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 18-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DSXadiM=
+Rg%
+> 2Fw%2Fnt3R6K02Zke67CSFqIQtt34si2RCqyH0%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 12-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DuRkp8h=
+imf
+> 53knLtbWBxfRa4HGY3SxmyLT5FBrpmFtqg%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 13-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DMQAEyp=
+28C
+> rxHTvdHtarXlO6j0CkpCXZuqVHcbNWkXYI%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 19-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3D1y%2Bd=
+5Yb
+> UoXnMZL97%2F4LTcG8IDtze%2FW%2BwzHRXBEbUgSw%3D&amp;reserved=3D0
+>=20
+> Biju Das (7):
+>   dt-bindings: display: renesas,du: Document r9a07g044l bindings
+>   drm: rcar-du: Add num_rpf to struct rcar_du_device_info
+>   drm: rcar-du: Add max_width and max_height to struct
+>     rcar_du_device_info
+>   drm: rcar-du: Move rcar_du_output_name() to rcar_du_common.c
+>   drm: rcar-du: Factorise rcar_du_{atomic_check,modeset_init}
+>   drm: rcar-du: Factorise
+>     rcar_du_vsp{complete,enable,plane_atomic_check}
+>   drm: rcar-du: Add RZ/G2L DU Support
+>=20
+>  .../bindings/display/renesas,du.yaml          |  54 ++
+>  drivers/gpu/drm/rcar-du/Kconfig               |  18 +-
+>  drivers/gpu/drm/rcar-du/Makefile              |  13 +
+>  drivers/gpu/drm/rcar-du/rcar_du_common.c      |  30 +
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   8 +
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 100 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h         |  31 +
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  23 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.h       |  12 +
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  18 +-
+>  drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c       | 705 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_drv.c        | 221 ++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_plane.c      |  82 ++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_regs.h       |  64 ++
+>  14 files changed, 1334 insertions(+), 45 deletions(-)  create mode 10064=
+4
+> drivers/gpu/drm/rcar-du/rcar_du_common.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_plane.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_regs.h
+>=20
+> --
+> 2.17.1
 
