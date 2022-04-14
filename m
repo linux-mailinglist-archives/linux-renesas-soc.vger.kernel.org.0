@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC68F500D8E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 14:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9D7500D92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 14:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238975AbiDNMdR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 08:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
+        id S240407AbiDNMdV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 08:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243279AbiDNMdN (ORCPT
+        with ESMTP id S243316AbiDNMdN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 14 Apr 2022 08:33:13 -0400
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7648C286F7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6772527FE2
         for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 05:30:48 -0700 (PDT)
 Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id D6D8FCF235
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 12:25:02 +0000 (UTC)
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 2CF5DCF237
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 12:25:04 +0000 (UTC)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 37F4A40012;
-        Thu, 14 Apr 2022 12:24:55 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id F1E1B40013;
+        Thu, 14 Apr 2022 12:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1649939096;
+        t=1649939098;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LvyGZlJTusHjC+6cCCIqRpU/42tp9G7ZAYkwBVky9go=;
-        b=GfGFZlgr9FzycVFAky/ByRitXjy+YGeUNyCd/YSu5hXmaHr5V2ZF3InpXsS/tz9tf1C6OB
-        JtAv0ERemUIuRnsUUr3+FTalOdHvShv76MxPYxKvgi6GDcg6QqtMF7dJD5FFD63jSSekJ8
-        zL1MK+hd3FUp8M7N0phYiYsK98YSiQqGakuqmF9acJDj7x/VRsxxPtDyY2boAKRIzi3SsZ
-        kP3RNmtjhOyOlbW0vUfFlYI0SzPEtQBYtkwZmiTm08kRK0rBoW1NtIiaExMCypjs/AGJYM
-        AZkhyXGzRacRH3Z7D+AEMMKXknqgY1KwPSDk1k9iTSb9voF6ogwTwMtJDJE8Uw==
+        bh=A5SPoF/jrN+0EvMd0R5U2Op+xdUtT8y+vbFNqEsgVU4=;
+        b=INY4UfA0JSPgTf2g0XHJCOzX3dPW6/wkWHqnvjGaGSRgg1jOl6qQGCBNMvQYMnC8Q0WGvz
+        g2BelnL3uPcoBgxLNiV6NqUzrK98VYTbvR4LXJDvq6TQOmhf48sICLLuxI9h3Q5h/DhS9W
+        ucF2M+2KdzdxbN+2GGdPv43VzGvEnUbS1lcZJ8HlEIs4YI4WJjYs7E2UaKAxLrdUpAPR8G
+        CLeIA6su/ED0hI/axufOkNgFu/WlZHn4VQ2x5uQAwovotU+VYv9fP73E9S5l0yry/wgKaD
+        /55yHGTXNahO4DefJmcqKkROSO+/nc0yCMHTCt/yMgLtt6D91Mc8e95kcdgIaA==
 From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
@@ -55,9 +55,9 @@ Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH net-next 09/12] ARM: dts: r9a06g032: describe MII converter
-Date:   Thu, 14 Apr 2022 14:22:47 +0200
-Message-Id: <20220414122250.158113-10-clement.leger@bootlin.com>
+Subject: [PATCH net-next 10/12] ARM: dts: r9a06g032: describe GMAC2
+Date:   Thu, 14 Apr 2022 14:22:48 +0200
+Message-Id: <20220414122250.158113-11-clement.leger@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220414122250.158113-1-clement.leger@bootlin.com>
 References: <20220414122250.158113-1-clement.leger@bootlin.com>
@@ -74,58 +74,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the MII converter node which describes the MII converter that is
-present on the RZ/N1 SoC.
+RZ/N1 SoC includes two MAC named GMACx that are compatible with the
+"snps,dwmac" driver. GMAC1 is connected directly to the MII converter
+port 1. GMAC2 however can be used as the MAC for the switch CPU
+management port or can be muxed to be connected directly to the MII
+converter port 2. This commit add description for the GMAC2 which will
+be used by the switch description.
 
 Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 ---
- arch/arm/boot/dts/r9a06g032.dtsi | 33 ++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ arch/arm/boot/dts/r9a06g032.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 636a6ab31c58..fd174df268e8 100644
+index fd174df268e8..9be55957b8e5 100644
 --- a/arch/arm/boot/dts/r9a06g032.dtsi
 +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -200,6 +200,39 @@ nand_controller: nand-controller@40102000 {
+@@ -200,6 +200,23 @@ nand_controller: nand-controller@40102000 {
  			status = "disabled";
  		};
  
-+		eth_miic: eth-miic@44030000 {
-+			compatible = "renesas,rzn1-miic";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0x44030000 0x10000>;
-+			clocks = <&sysctrl R9A06G032_CLK_MII_REF>,
-+				 <&sysctrl R9A06G032_CLK_RGMII_REF>,
-+				 <&sysctrl R9A06G032_CLK_RMII_REF>,
-+				 <&sysctrl R9A06G032_HCLK_SWITCH_RG>;
-+			clock-names = "mii_ref", "rgmii_ref", "rmii_ref", "hclk_switch_rg";
++		gmac2: ethernet@44002000 {
++			compatible = "snps,dwmac-3.72a", "snps,dwmac";
++			reg = <0x44002000 0x2000>;
++			interrupt-parent = <&gic>;
++			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "macirq", "eth_lpi", "eth_wake_irq";
++			clock-names = "stmmaceth";
++			clocks = <&sysctrl R9A06G032_HCLK_GMAC1>;
++			snps,multicast-filter-bins = <256>;
++			snps,perfect-filter-entries = <128>;
++			tx-fifo-depth = <2048>;
++			rx-fifo-depth = <4096>;
 +			status = "disabled";
-+
-+			mii_conv0: mii-conv@0 {
-+				reg = <0>;
-+			};
-+
-+			mii_conv1: mii-conv@1 {
-+				reg = <1>;
-+			};
-+
-+			mii_conv2: mii-conv@2 {
-+				reg = <2>;
-+			};
-+
-+			mii_conv3: mii-conv@3 {
-+				reg = <3>;
-+			};
-+
-+			mii_conv4: mii-conv@4 {
-+				reg = <4>;
-+			};
 +		};
 +
- 		gic: interrupt-controller@44101000 {
- 			compatible = "arm,gic-400", "arm,cortex-a7-gic";
- 			interrupt-controller;
+ 		eth_miic: eth-miic@44030000 {
+ 			compatible = "renesas,rzn1-miic";
+ 			#address-cells = <1>;
 -- 
 2.34.1
 
