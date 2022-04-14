@@ -2,117 +2,339 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 847AD501A98
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 19:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ADB501ADD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 20:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239198AbiDNR6b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 13:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52314 "EHLO
+        id S235734AbiDNSSA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 14:18:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242987AbiDNR6a (ORCPT
+        with ESMTP id S229487AbiDNSR6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 13:58:30 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C6EEBAE9;
-        Thu, 14 Apr 2022 10:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=aQRTF3v6WmLQmOeCEhYv0QQbxEyOXWbbjzXVmNY/wkY=; b=llHpHdqzvNcD5E/zBlEkbGwDwZ
-        awyXGRCalKzGpXgpJTKnZ1Rx/jFaigc2ycwIal82CfULTfB8c8gFABKUaog+NQp4WzZii1IHVQvcW
-        btE28fS7pwXTvi6nR1tRlX5C1gea8womMd8aK4vhZJrp6RJfTyCNZuCT5xsWLxk1EoBw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nf3hD-00FrML-U9; Thu, 14 Apr 2022 19:55:55 +0200
-Date:   Thu, 14 Apr 2022 19:55:55 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Thu, 14 Apr 2022 14:17:58 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B55D95D9;
+        Thu, 14 Apr 2022 11:15:33 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id bj24so805194oib.11;
+        Thu, 14 Apr 2022 11:15:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8IGy2IPPiGVJ0iwPRDCGgP5nDQj4cUSLORIxYG1au4Y=;
+        b=LJrTB0YqeKfSn/b6dy6EyD7BG0dt8j9oIcJ+XlWvorg+fEGSKmJD4wkPw2RsVJXZ+F
+         3evmr6XTOn17/NuLTtb0LQcuoe22WjLs+HWLSBAq39qrOQtLrOY+72J0Ta8vBIeVY3P8
+         UYFkErq63+ejZsLM9z4Ml91a3PTvULdQoxgck6zWAw763FaPTxTUFaW3HlGJbooUl5yn
+         542eQGk/gWs3T1mRxV7Pc9Bst7S3FT36BJbVfyb6CFHES4u1+IC1ggd4Hkrk5TRfpndR
+         KAq2HMzEpZ8VMmT0PMcqBUtepYbBX37ecCORLZry1K6QI0dLk+vBv+/LAAQScbndtvfM
+         +uLQ==
+X-Gm-Message-State: AOAM532GQkH7DjzVbiXC6kv0EkK/FFO7rDflkftSEWwZEjltYyjdJw/g
+        nVQMDs6MvrJfn2e3zBqzRA==
+X-Google-Smtp-Source: ABdhPJyLnT6zmtbo0o+gX8RTdsDeKCamije0iQ51DVc1rlXrhVys0qS9uVgFk+s3Kb/PdacAKPB4NA==
+X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id bb17-20020a056808169100b002f94bd7581emr2113465oib.144.1649960132358;
+        Thu, 14 Apr 2022 11:15:32 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r6-20020a0568301ac600b005cdbc6e62a9sm281322otc.39.2022.04.14.11.15.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 11:15:31 -0700 (PDT)
+Received: (nullmailer pid 2380275 invoked by uid 1000);
+        Thu, 14 Apr 2022 18:15:30 -0000
+Date:   Thu, 14 Apr 2022 13:15:30 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        Laurent Gonzales <laurent.gonzales@non.se.com>,
-        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Subject: Re: [PATCH net-next 06/12] net: dsa: rzn1-a5psw: add Renesas RZ/N1
- advanced 5 port switch driver
-Message-ID: <YlhgK3sTKHU3CNUM@lunn.ch>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
- <20220414122250.158113-7-clement.leger@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/8] dt-bindings: PCI: renesas-pci-usb: Convert
+ bindings to json-schema
+Message-ID: <YlhkwvGdcf4ozTzG@robh.at.kernel.org>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+ <20220414074011.500533-3-herve.codina@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220414122250.158113-7-clement.leger@bootlin.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220414074011.500533-3-herve.codina@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- +static int a5psw_mdio_reset(struct mii_bus *bus)
-> +{
-> +	struct a5psw *a5psw = bus->priv;
-> +	unsigned long rate;
-> +	unsigned long div;
-> +	u32 cfgstatus;
-> +
-> +	rate = clk_get_rate(a5psw->hclk);
-> +	div = ((rate / a5psw->mdio_freq) / 2);
-> +	if (div >= 511 || div <= 5) {
-> +		dev_err(a5psw->dev, "MDIO clock div %ld out of range\n", div);
-> +		return -ERANGE;
-> +	}
-> +
-> +	cfgstatus = FIELD_PREP(A5PSW_MDIO_CFG_STATUS_CLKDIV, div);
-> +
-> +	a5psw_reg_writel(a5psw, A5PSW_MDIO_CFG_STATUS, cfgstatus);
+On Thu, Apr 14, 2022 at 09:40:05AM +0200, Herve Codina wrote:
+> Convert Renesas PCI bridge bindings documentation to json-schema.
+> Also name it 'renesas,pci-usb' as it is specifically used to
+> connect the PCI USB controllers to AHB bus.
 
-I don't see anything here which does an actual reset. So i think this
-function has the wrong name. Please also pass the frequency as a
-parameter, because at a quick glance it was not easy to see where it
-was used. There does not seem to be any need to store it in a5psw.
+Please name it based on compatible strings. renesas,pci-rcar-gen2.yaml
 
-> +static int a5psw_probe_mdio(struct a5psw *a5psw)
-> +{
-> +	struct device *dev = a5psw->dev;
-> +	struct device_node *mdio_node;
-> +	struct mii_bus *bus;
-> +	int err;
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  .../devicetree/bindings/pci/pci-rcar-gen2.txt |  84 -----------
+>  .../bindings/pci/renesas,pci-usb.yaml         | 134 ++++++++++++++++++
+>  2 files changed, 134 insertions(+), 84 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+>  create mode 100644 Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt b/Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+> deleted file mode 100644
+> index aeba38f0a387..000000000000
+> --- a/Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+> +++ /dev/null
+> @@ -1,84 +0,0 @@
+> -Renesas AHB to PCI bridge
+> --------------------------
+> -
+> -This is the bridge used internally to connect the USB controllers to the
+> -AHB. There is one bridge instance per USB port connected to the internal
+> -OHCI and EHCI controllers.
+> -
+> -Required properties:
+> -- compatible: "renesas,pci-r8a7742" for the R8A7742 SoC;
+> -	      "renesas,pci-r8a7743" for the R8A7743 SoC;
+> -	      "renesas,pci-r8a7744" for the R8A7744 SoC;
+> -	      "renesas,pci-r8a7745" for the R8A7745 SoC;
+> -	      "renesas,pci-r8a7790" for the R8A7790 SoC;
+> -	      "renesas,pci-r8a7791" for the R8A7791 SoC;
+> -	      "renesas,pci-r8a7793" for the R8A7793 SoC;
+> -	      "renesas,pci-r8a7794" for the R8A7794 SoC;
+> -	      "renesas,pci-rcar-gen2" for a generic R-Car Gen2 or
+> -				      RZ/G1 compatible device.
+> -
+> -
+> -	      When compatible with the generic version, nodes must list the
+> -	      SoC-specific version corresponding to the platform first
+> -	      followed by the generic version.
+> -
+> -- reg:	A list of physical regions to access the device: the first is
+> -	the operational registers for the OHCI/EHCI controllers and the
+> -	second is for the bridge configuration and control registers.
+> -- interrupts: interrupt for the device.
+> -- clocks: The reference to the device clock.
+> -- bus-range: The PCI bus number range; as this is a single bus, the range
+> -	     should be specified as the same value twice.
+> -- #address-cells: must be 3.
+> -- #size-cells: must be 2.
+> -- #interrupt-cells: must be 1.
+> -- interrupt-map: standard property used to define the mapping of the PCI
+> -  interrupts to the GIC interrupts.
+> -- interrupt-map-mask: standard property that helps to define the interrupt
+> -  mapping.
+> -
+> -Optional properties:
+> -- dma-ranges: a single range for the inbound memory region. If not supplied,
+> -  defaults to 1GiB at 0x40000000. Note there are hardware restrictions on the
+> -  allowed combinations of address and size.
+> -
+> -Example SoC configuration:
+> -
+> -	pci0: pci@ee090000  {
+> -		compatible = "renesas,pci-r8a7790", "renesas,pci-rcar-gen2";
+> -		clocks = <&mstp7_clks R8A7790_CLK_EHCI>;
+> -		reg = <0x0 0xee090000 0x0 0xc00>,
+> -		      <0x0 0xee080000 0x0 0x1100>;
+> -		interrupts = <0 108 IRQ_TYPE_LEVEL_HIGH>;
+> -		status = "disabled";
+> -
+> -		bus-range = <0 0>;
+> -		#address-cells = <3>;
+> -		#size-cells = <2>;
+> -		#interrupt-cells = <1>;
+> -		dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
+> -		interrupt-map-mask = <0xff00 0 0 0x7>;
+> -		interrupt-map = <0x0000 0 0 1 &gic 0 108 IRQ_TYPE_LEVEL_HIGH
+> -				 0x0800 0 0 1 &gic 0 108 IRQ_TYPE_LEVEL_HIGH
+> -				 0x1000 0 0 2 &gic 0 108 IRQ_TYPE_LEVEL_HIGH>;
+> -
+> -		usb@1,0 {
+> -			reg = <0x800 0 0 0 0>;
+> -			phys = <&usb0 0>;
+> -			phy-names = "usb";
+> -		};
+> -
+> -		usb@2,0 {
+> -			reg = <0x1000 0 0 0 0>;
+> -			phys = <&usb0 0>;
+> -			phy-names = "usb";
+> -		};
+> -	};
+> -
+> -Example board setup:
+> -
+> -&pci0 {
+> -	status = "okay";
+> -	pinctrl-0 = <&usb0_pins>;
+> -	pinctrl-names = "default";
+> -};
+> diff --git a/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml b/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> new file mode 100644
+> index 000000000000..3f8d79b746c7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> @@ -0,0 +1,134 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pci/renesas,pci-usb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	if (of_property_read_u32(dev->of_node, "clock-frequency",
-> +				 &a5psw->mdio_freq))
-> +		a5psw->mdio_freq = A5PSW_MDIO_DEF_FREQ;
+> +title: Renesas AHB to PCI bridge
 > +
-> +	bus = devm_mdiobus_alloc(dev);
-> +	if (!bus)
-> +		return -ENOMEM;
+> +maintainers:
+> +  - Marek Vasut <marek.vasut+renesas@gmail.com>
+> +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > +
-> +	bus->name = "a5psw_mdio";
-> +	bus->read = a5psw_mdio_read;
-> +	bus->write = a5psw_mdio_write;
-> +	bus->reset = a5psw_mdio_reset;
+> +description: |
+> +  This is the bridge used internally to connect the USB controllers to the
+> +  AHB. There is one bridge instance per USB port connected to the internal
+> +  OHCI and EHCI controllers.
+> +
+> +allOf:
+> +  - $ref: /schemas/pci/pci-bus.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,pci-r8a7742      # RZ/G1H
+> +              - renesas,pci-r8a7743      # RZ/G1M
+> +              - renesas,pci-r8a7744      # RZ/G1N
+> +              - renesas,pci-r8a7745      # RZ/G1E
+> +              - renesas,pci-r8a7790      # R-Car H2
+> +              - renesas,pci-r8a7791      # R-Car M2-W
+> +              - renesas,pci-r8a7793      # R-Car M2-N
+> +              - renesas,pci-r8a7794      # R-Car E2
+> +          - const: renesas,pci-rcar-gen2 # R-Car Gen2 and RZ/G1
+> +
+> +  reg:
+> +    description: |
+> +      A list of physical regions to access the device. The first is
+> +      the operational registers for the OHCI/EHCI controllers and the
+> +      second is for the bridge configuration and control registers.
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    description: Interrupt for the device.
+> +
+> +  interrupt-map:
+> +    description: |
+> +      Standard property used to define the mapping of the PCI interrupts
+> +      to the GIC interrupts.
+> +
+> +  interrupt-map-mask:
+> +    description:
+> +      Standard property that helps to define the interrupt mapping.
+> +
+> +  clocks:
+> +    description: The reference to the device clock.
+> +
+> +  bus-range:
+> +    description: |
+> +      The PCI bus number range; as this is a single bus, the range
+> +      should be specified as the same value twice.
 
-As far as i can see, the read and write functions don't support
-C45. Please return -EOPNOTSUPP if they are passed C45 addresses.
+items:
+  const: 0
 
-     Andrew
+> +
+> +  "#address-cells":
+> +    const: 3
+> +
+> +  "#size-cells":
+> +    const: 2
+> +
+> +  "#interrupt-cells":
+> +    const: 1
+
+All these are defined by pci-bus.yaml
+
+> +
+> +  dma-ranges:
+> +    description: |
+> +      A single range for the inbound memory region. If not supplied,
+> +      defaults to 1GiB at 0x40000000. Note there are hardware restrictions on
+> +      the allowed combinations of address and size.
+
+'a single range' == 'maxItems: 1'
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-map
+> +  - interrupt-map-mask
+> +  - clocks
+> +  - bus-range
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - "#interrupt-cells"
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> +
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        pci0: pci@ee090000  {
+> +            compatible = "renesas,pci-r8a7790", "renesas,pci-rcar-gen2";
+> +            device_type = "pci";
+> +            clocks = <&cpg CPG_MOD 703>;
+> +            reg = <0 0xee090000 0 0xc00>,
+> +                  <0 0xee080000 0 0x1100>;
+> +            interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+> +            status = "disabled";
+
+Don't disable your example.
+
+> +
+> +            bus-range = <0 0>;
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            #interrupt-cells = <1>;
+> +            ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+> +            dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x40000000>;
+> +            interrupt-map-mask = <0xf800 0 0 0x7>;
+> +            interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
+> +                            <0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
+> +                            <0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +            usb@1,0 {
+> +                reg = <0x800 0 0 0 0>;
+> +                phys = <&usb0 0>;
+> +                phy-names = "usb";
+> +            };
+> +            
+> +            usb@2,0 {
+> +                reg = <0x1000 0 0 0 0>;
+> +                phys = <&usb0 0>;
+> +                phy-names = "usb";
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.35.1
+> 
+> 
