@@ -2,153 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE892501B76
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 21:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77865501EB7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 00:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232067AbiDNTD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 15:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36516 "EHLO
+        id S1347317AbiDNWxJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 18:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240550AbiDNTCR (ORCPT
+        with ESMTP id S1347490AbiDNWw7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 15:02:17 -0400
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF10A35DD1;
-        Thu, 14 Apr 2022 11:59:50 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-df22f50e0cso6189323fac.3;
-        Thu, 14 Apr 2022 11:59:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=sGXGJsA6ojsv1bZR7pNAd+jEQyhK/dZz4WuojRJvdPo=;
-        b=OAnhA4GUJ/NSZaI1OetcGpHAjz/Q7L0YjujNsg4Ug5GM5YytL7qboTlhzJHhhIR0ve
-         WY4Fr46XA2yft08aouPKUbLOFkP5cgfW8SLYueEwSUAViAehrPoj1kUXRm9zdEJURb6p
-         NaRXQx0jxC6d4d2d1Pp465c1+ISpMaqCgvM2MRUelW8XRJZvibXNAwn6TctRYmt4wPUP
-         9H++Bt4H22P+WWSbKbpGB3uRksPkqIUIU/lmXoB5fYQPEab5PeHNwq/ENT8aZzdwAzn/
-         aHZ2alqMJyv8liwTHkMwyRuMxImppMO1xqZj7oma5wls5lp4vsJA5fzNZz4xNdSCGeSJ
-         tvyg==
-X-Gm-Message-State: AOAM5326Hz0RJM11AkdLxV3MbILiTm12xX40zGwpxkoUU22mF7QTozm0
-        007o7VBMxFL3sp+AykLnUg==
-X-Google-Smtp-Source: ABdhPJzl2G7/Jj7Yz2M4LJif3HpLB1RIFVYTsN5iMog0zkACwjqqeuSpXmtLg6UZNKYv/jBw5JCGrA==
-X-Received: by 2002:a05:6870:d392:b0:e2:aa54:9601 with SMTP id k18-20020a056870d39200b000e2aa549601mr16586oag.184.1649962789989;
-        Thu, 14 Apr 2022 11:59:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 1-20020a05687011c100b000de98359b43sm998780oav.1.2022.04.14.11.59.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 11:59:49 -0700 (PDT)
-Received: (nullmailer pid 2441854 invoked by uid 1000);
-        Thu, 14 Apr 2022 18:59:45 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?b?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
+        Thu, 14 Apr 2022 18:52:59 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0E85BD33;
+        Thu, 14 Apr 2022 15:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=6Rbdl/1BonGg6Rc4KgsdKY/Z1yZFlNKpLtWwel+nVE4=; b=AP
+        2xGpMMVu42umyMUQIbZIdJu+w2JxWsMwMjVrFqkLFFwfBuoyQf+mVzjVXPFBYdt4hCnX1FlCT1iUA
+        zwaOGGAcPHIl5AhHBuza57GqpAQeOj1jWd2/iP1mRsY0NitXQIqKoIb9cvkqCubVwTj2u8IXwnVde
+        LYBhot/4qoDjA2w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nf8I3-00FswS-9t; Fri, 15 Apr 2022 00:50:15 +0200
+Date:   Fri, 15 Apr 2022 00:50:15 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Herve Codina <herve.codina@bootlin.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        =?utf-8?q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        devicetree@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-In-Reply-To: <20220414122250.158113-6-clement.leger@bootlin.com>
-References: <20220414122250.158113-1-clement.leger@bootlin.com> <20220414122250.158113-6-clement.leger@bootlin.com>
-Subject: Re: [PATCH net-next 05/12] dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port switch
-Date:   Thu, 14 Apr 2022 13:59:45 -0500
-Message-Id: <1649962785.217704.2441853.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,PP_MIME_FAKE_ASCII_TEXT,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 02/12] net: dsa: add Renesas RZ/N1 switch tag
+ driver
+Message-ID: <YlilJ8Do4LIBAEXb@lunn.ch>
+References: <20220414122250.158113-1-clement.leger@bootlin.com>
+ <20220414122250.158113-3-clement.leger@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220414122250.158113-3-clement.leger@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 14 Apr 2022 14:22:43 +0200, ClÃ©ment LÃ©ger wrote:
-> Add bindings for Renesas RZ/N1 Advanced 5 port switch. This switch is
-> present on Renesas RZ/N1 SoC and was probably provided by MoreThanIP.
-> This company does not exists anymore and has been bought by Synopsys.
-> Since this IP can't be find anymore in the Synospsy portfolio, lets use
-> Renesas as the vendor compatible for this IP.
+On Thu, Apr 14, 2022 at 02:22:40PM +0200, Clément Léger wrote:
+> The switch that is present on the Renesas RZ/N1 SoC uses a specific
+> VLAN value followed by 6 bytes which contains forwarding configuration.
 > 
-> Signed-off-by: ClÃ©ment LÃ©ger <clement.leger@bootlin.com>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 > ---
->  .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  | 128 ++++++++++++++++++
->  1 file changed, 128 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+>  net/dsa/Kconfig          |   8 +++
+>  net/dsa/Makefile         |   1 +
+>  net/dsa/tag_rzn1_a5psw.c | 112 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 121 insertions(+)
+>  create mode 100644 net/dsa/tag_rzn1_a5psw.c
 > 
+> diff --git a/net/dsa/Kconfig b/net/dsa/Kconfig
+> index 8cb87b5067ee..e5b17108fa22 100644
+> --- a/net/dsa/Kconfig
+> +++ b/net/dsa/Kconfig
+> @@ -132,6 +132,13 @@ config NET_DSA_TAG_RTL8_4
+>  	  Say Y or M if you want to enable support for tagging frames for Realtek
+>  	  switches with 8 byte protocol 4 tags, such as the Realtek RTL8365MB-VC.
+>  
+> +config NET_DSA_TAG_RZN1_A5PSW
+> +	tristate "Tag driver for Renesas RZ/N1 A5PSW switch"
+> +	help
+> +	  Say Y or M if you want to enable support for tagging frames for
+> +	  Renesas RZ/N1 embedded switch that uses a 8 byte tag located after
+> +	  destination MAC address.
+> +
+>  config NET_DSA_TAG_LAN9303
+>  	tristate "Tag driver for SMSC/Microchip LAN9303 family of switches"
+>  	help
+> @@ -159,4 +166,5 @@ config NET_DSA_TAG_XRS700X
+>  	  Say Y or M if you want to enable support for tagging frames for
+>  	  Arrow SpeedChips XRS700x switches that use a single byte tag trailer.
+>  
+> +
+>  endif
+> diff --git a/net/dsa/Makefile b/net/dsa/Makefile
+> index 9f75820e7c98..af28c24ead18 100644
+> --- a/net/dsa/Makefile
+> +++ b/net/dsa/Makefile
+> @@ -17,6 +17,7 @@ obj-$(CONFIG_NET_DSA_TAG_OCELOT_8021Q) += tag_ocelot_8021q.o
+>  obj-$(CONFIG_NET_DSA_TAG_QCA) += tag_qca.o
+>  obj-$(CONFIG_NET_DSA_TAG_RTL4_A) += tag_rtl4_a.o
+>  obj-$(CONFIG_NET_DSA_TAG_RTL8_4) += tag_rtl8_4.o
+> +obj-$(CONFIG_NET_DSA_TAG_RZN1_A5PSW) += tag_rzn1_a5psw.o
+>  obj-$(CONFIG_NET_DSA_TAG_SJA1105) += tag_sja1105.o
+>  obj-$(CONFIG_NET_DSA_TAG_TRAILER) += tag_trailer.o
+>  obj-$(CONFIG_NET_DSA_TAG_XRS700X) += tag_xrs700x.o
+> diff --git a/net/dsa/tag_rzn1_a5psw.c b/net/dsa/tag_rzn1_a5psw.c
+> new file mode 100644
+> index 000000000000..7818c1c0fca2
+> --- /dev/null
+> +++ b/net/dsa/tag_rzn1_a5psw.c
+> @@ -0,0 +1,112 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2022 Schneider Electric
+> + *
+> + * Clément Léger <clement.leger@bootlin.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/etherdevice.h>
+> +#include <net/dsa.h>
+> +
+> +#include "dsa_priv.h"
+> +
+> +/* To define the outgoing port and to discover the incoming port a TAG is
+> + * inserted after Src MAC :
+> + *
+> + *       Dest MAC       Src MAC           TAG         Type
+> + * ...| 1 2 3 4 5 6 | 1 2 3 4 5 6 | 1 2 3 4 5 6 7 8 | 1 2 |...
+> + *                                |<--------------->|
+> + *
+> + * See struct a5psw_tag for layout
+> + */
+> +
+> +#define A5PSW_TAG_VALUE			0xE001
+> +#define A5PSW_TAG_LEN			8
+> +#define A5PSW_CTRL_DATA_FORCE_FORWARD	BIT(0)
+> +/* This is both used for xmit tag and rcv tagging */
+> +#define A5PSW_CTRL_DATA_PORT		GENMASK(3, 0)
+> +
+> +struct a5psw_tag {
+> +	u16 ctrl_tag;
+> +	u16 ctrl_data;
+> +	u32 ctrl_data2;
+> +};
+> +
+> +static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct net_device *dev)
+> +{
+> +	struct a5psw_tag *ptag, tag = {0};
+> +	struct dsa_port *dp = dsa_slave_to_port(dev);
+> +	u32 data2_val;
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+It might be worth adding a BUILD_BUG_ON(sizeof(tag) != A5PSW_TAG_LEN);
 
-yamllint warnings/errors:
+That does not cost anything at runtime, and avoids hard to find bugs
+when the compiler does not do what you expect in terms of packing.
 
-dtschema/dtc warnings/errors:
-schemas/net/dsa/mdio.yaml: ignoring, error parsing file
-schemas/net/dsa/mdio.yaml: ignoring, error parsing file
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-validate", line 176, in <module>
-    sg.check_trees(filename, testtree)
-  File "/usr/local/bin/dt-validate", line 123, in check_trees
-    self.check_subtree(dt, subtree, False, "/", "/", filename)
-  File "/usr/local/bin/dt-validate", line 112, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-  File "/usr/local/bin/dt-validate", line 112, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-  File "/usr/local/bin/dt-validate", line 107, in check_subtree
-    self.check_node(tree, subtree, disabled, nodename, fullname, filename)
-  File "/usr/local/bin/dt-validate", line 51, in check_node
-    errors = sorted(dtschema.DTValidator(schema).iter_errors(node), key=lambda e: e.linecol)
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 1027, in iter_errors
-    for error in super().iter_errors(instance, _schema):
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 229, in iter_errors
-    for error in errors:
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/_validators.py", line 332, in properties
-    yield from validator.descend(
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 245, in descend
-    for error in self.evolve(schema=schema).iter_errors(instance):
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 1027, in iter_errors
-    for error in super().iter_errors(instance, _schema):
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 229, in iter_errors
-    for error in errors:
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/_validators.py", line 298, in ref
-    yield from validator.descend(instance, resolved)
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 245, in descend
-    for error in self.evolve(schema=schema).iter_errors(instance):
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 1027, in iter_errors
-    for error in super().iter_errors(instance, _schema):
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 219, in iter_errors
-    scope = id_of(_schema)
-  File "/usr/local/lib/python3.8/dist-packages/jsonschema/validators.py", line 96, in _id_of
-    return schema.get("$id", "")
-AttributeError: 'NoneType' object has no attribute 'get'
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+     Andrew
