@@ -2,144 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F14B9500CDC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 14:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAE99500D72
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 14:31:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbiDNMSj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 08:18:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
+        id S243299AbiDNMdM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 08:33:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230491AbiDNMSi (ORCPT
+        with ESMTP id S243263AbiDNMdK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 08:18:38 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFF65549C;
-        Thu, 14 Apr 2022 05:16:14 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id o18so3358134qtk.7;
-        Thu, 14 Apr 2022 05:16:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=C59spLPxwzH4gGgHuafvnNS0cSDR8MdvsbhPT9uuuXo=;
-        b=wPKoqPkfypjZVkTQw33dmno+BH/iFki/Ddq0lgP9OXXoNxUs2YEYw8i8UHq0Im/CMP
-         4Mk2i7+iLyXCV7Qu6qPRk8P4xNxBcv6wS3F2mCWm0IOEyZtMAbetFd1vkO6ZXWrfrzUo
-         PO2Z3cVLCRPoExWXaU0qBoy2ONxuulN1ZnOsjhLt0IDEuX5q7wH54dU8bwhpED0vGq1Y
-         4VIcWLM6l/QxZmmcjlNDiUxvMfIcRgOlfp4Z1A2L5DP5J3dBq4KPu74Od7/Kdu5QPL6h
-         6q7Mf4UcmxWscv2LK/on683LRn9G+xxtNYv/QY1cSM+zQAbA6oZhaT1VuTOeUTa+Xu8X
-         gdCw==
-X-Gm-Message-State: AOAM533Hm1dmhx2+yKDdnLDjgLgFUrNgG3dGCJ7p38Vgz/vYHpdIXkTh
-        XdlMB52Jw2fzVUPvF80DBT2i4ZYAogo2qA==
-X-Google-Smtp-Source: ABdhPJx00E7KM6k52HtD+q0NXxFL0geQJQOGIP6Lr/oRdP8i8dUrFFNQwBuenGW/o3slBvaZ2mPyIA==
-X-Received: by 2002:ac8:5a16:0:b0:2e1:ea00:b4e1 with SMTP id n22-20020ac85a16000000b002e1ea00b4e1mr1439699qta.329.1649938573266;
-        Thu, 14 Apr 2022 05:16:13 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id v3-20020a05622a188300b002ec90a0ecc7sm996693qtc.59.2022.04.14.05.16.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 05:16:13 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id h8so9002517ybj.11;
-        Thu, 14 Apr 2022 05:16:12 -0700 (PDT)
-X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
- g14-20020a5b024e000000b0063dcba03d55mr1379637ybp.613.1649938572676; Thu, 14
- Apr 2022 05:16:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de>
- <20220413085050.61144-3-u.kleine-koenig@pengutronix.de> <CAMuHMdUsmjjKWBWNWr9DCmbWM8CJzXxDbcpjzystYhT3tgFtjg@mail.gmail.com>
-In-Reply-To: <CAMuHMdUsmjjKWBWNWr9DCmbWM8CJzXxDbcpjzystYhT3tgFtjg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Apr 2022 14:16:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVzyZMdTciqscW8r8+9qpyFUJkKs10O8fsOa++tvc3LxA@mail.gmail.com>
-Message-ID: <CAMuHMdVzyZMdTciqscW8r8+9qpyFUJkKs10O8fsOa++tvc3LxA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] pwm: renesas-tpu: Implement .apply() callback
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
+        Thu, 14 Apr 2022 08:33:10 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF5227FE2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 05:30:45 -0700 (PDT)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id C8C00CF229
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 12:24:46 +0000 (UTC)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 633314000B;
+        Thu, 14 Apr 2022 12:24:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649939080;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=7k9dMmdJiLhZNju+anqVUQR32MWAhgfsVNste3l027c=;
+        b=BjqvxE/y28Wr6BqT9pd92vY991wLbZtgrA7PATKWjhEJoUg0JwxbZW/sQtwU8dkadR4iD9
+        WDyOrLBHrcONjIsn+Pijy9yct4PCsCQpUeCXDBF6kHkyRk6qAP23Z4r6RnYfp2u8utmHZJ
+        hEYxPVgqJ0PFsZgavX0388irzhUdLtzP3b2qLbAi1rVgPuBmttr6e0DHcfk+ZVOj/RLnmO
+        LgnVO7qhT9KN3guLXrfDBHXJaFwPxI7K92BVMdt6Pj3QR0q2LGnrbP4VAKQF2YJEzewR6u
+        cgsjEE4Ogq/6J6GtnE1ZuqhbEqZy/cl//xxCE2ofgJJWsU3axQ4fSDgDew2Z1g==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net-next 00/12] add support for Renesas RZ/N1 ethernet subsystem devices
+Date:   Thu, 14 Apr 2022 14:22:38 +0200
+Message-Id: <20220414122250.158113-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
+The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+(most notably) a switch, two GMACs, and a MII converter [1]. This
+series adds support for the switch and the MII converter.
 
-On Thu, Apr 14, 2022 at 11:18 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > To eventually get rid of all legacy drivers convert this driver to the
-> > modern world implementing .apply().
-> >
-> > As pwm->state might not be updated in tpu_pwm_apply() before calling
-> > tpu_pwm_config(), an additional parameter is needed for tpu_pwm_config()
-> > to not change the implemented logic.
-> >
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
->
-> LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> The display backlight still works fine on r8a7740/armadillo, so
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The MII converter present on this SoC has been represented as a PCS
+which sit between the MACs and the PHY. This PCS driver is probed from
+the device-tree since it requires to be configured. Indeed the MII
+converter also contains the registers that are handling the muxing of
+ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
 
-Oops, I spoke too soon...
+The switch driver is based on DSA and exposes 4 ports + 1 CPU
+management port. It include basic bridging support as well as FDB and
+statistics support.
 
-> > @@ -366,13 +366,45 @@ static void tpu_pwm_disable(struct pwm_chip *chip, struct pwm_device *_pwm)
-> >         tpu_pwm_timer_stop(pwm);
-> >  }
-> >
-> > +static int tpu_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > +                        const struct pwm_state *state)
-> > +{
-> > +       int err;
-> > +       bool enabled = pwm->state.enabled;
-> > +
-> > +       if (state->polarity != pwm->state.polarity) {
-> > +               if (enabled) {
-> > +                       tpu_pwm_disable(chip, pwm);
-> > +                       enabled = false;
-> > +               }
-> > +
-> > +               err = tpu_pwm_set_polarity(chip, pwm, state->polarity);
-> > +               if (err)
-> > +                       return err;
-> > +       }
-> > +
-> > +       if (!state->enabled) {
-> > +               if (enabled)
-> > +                       chip->ops->disable(chip, pwm);
+Link: [1] https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals
 
-tpu_pwm_disable
+Clément Léger (12):
+  net: dsa: add support for Renesas RZ/N1 A5PSW switch tag code
+  net: dsa: add Renesas RZ/N1 switch tag driver
+  dt-bindings: net: pcs: add bindings for Renesas RZ/N1 MII converter
+  net: pcs: add Renesas MII converter driver
+  dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port
+    switch
+  net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver
+  net: dsa: rzn1-a5psw: add statistics support
+  net: dsa: rzn1-a5psw: add FDB support
+  ARM: dts: r9a06g032: describe MII converter
+  ARM: dts: r9a06g032: describe GMAC2
+  ARM: dts: r9a06g032: describe switch
+  MAINTAINERS: add Renesas RZ/N1 switch related driver entry
 
-else it crashes with a NULL-pointer dereference (e.g. during system
-shutdown).
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  | 128 +++
+ .../bindings/net/pcs/renesas,rzn1-miic.yaml   |  95 ++
+ MAINTAINERS                                   |  11 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  61 ++
+ drivers/net/dsa/Kconfig                       |   9 +
+ drivers/net/dsa/Makefile                      |   2 +
+ drivers/net/dsa/rzn1_a5psw.c                  | 940 ++++++++++++++++++
+ drivers/net/dsa/rzn1_a5psw.h                  | 214 ++++
+ drivers/net/pcs/Kconfig                       |   7 +
+ drivers/net/pcs/Makefile                      |   1 +
+ drivers/net/pcs/pcs-rzn1-miic.c               | 350 +++++++
+ include/dt-bindings/net/pcs-rzn1-miic.h       |  19 +
+ include/linux/pcs-rzn1-miic.h                 |  18 +
+ include/net/dsa.h                             |   2 +
+ net/dsa/Kconfig                               |   8 +
+ net/dsa/Makefile                              |   1 +
+ net/dsa/tag_rzn1_a5psw.c                      | 112 +++
+ 17 files changed, 1978 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.c
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.h
+ create mode 100644 drivers/net/pcs/pcs-rzn1-miic.c
+ create mode 100644 include/dt-bindings/net/pcs-rzn1-miic.h
+ create mode 100644 include/linux/pcs-rzn1-miic.h
+ create mode 100644 net/dsa/tag_rzn1_a5psw.c
 
-> > +
-> > +               return 0;
-> > +       }
+-- 
+2.34.1
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
