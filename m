@@ -2,50 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA1805016BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 17:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB975016C2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 17:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241346AbiDNPLW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 11:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46474 "EHLO
+        id S242920AbiDNPLa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 11:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353742AbiDNOzA (ORCPT
+        with ESMTP id S238430AbiDNO7W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 10:55:00 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A90DAFEA;
-        Thu, 14 Apr 2022 07:42:46 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (153.162-64-87.adsl-dyn.isp.belgacom.be [87.64.162.153])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EC3E59D;
-        Thu, 14 Apr 2022 16:42:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1649947364;
-        bh=2HTJtgZFHz7qhqQGcwPHayxgTCCdTNEwjpY0dhNY0pI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rM1/iM5zfbUfnobr4zSL+h+LIC5dzgitSmYmASipbWuwb7XOsmQxNq7dIRjPfckZI
-         ArZA6EHBM/4bVbY3UtKoEEARxuwytrfgwY1dUur+mO0cAkOGULszzzYTAEyYPqhFLP
-         uWam46M1ga5Hs4jFlzmANJjv50RoW54Cv9NchA5k=
-Date:   Thu, 14 Apr 2022 17:42:43 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
+        Thu, 14 Apr 2022 10:59:22 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188C22AEE
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 07:44:11 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7915:bbfe:555b:5456])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Jek92700S4TB7ht01ek9kJ; Thu, 14 Apr 2022 16:44:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nf0hc-000cG8-Vh; Thu, 14 Apr 2022 16:44:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nf0hc-00E9xB-GG; Thu, 14 Apr 2022 16:44:08 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH 2/6] media: cadence: cdns-csi2tx: Use mipi-csi2.h
-Message-ID: <Ylgy45ND2r+L41f0@pendragon.ideasonboard.com>
-References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220123160857.24161-3-laurent.pinchart+renesas@ideasonboard.com>
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v5.18-rc1
+Date:   Thu, 14 Apr 2022 16:44:07 +0200
+Message-Id: <922ba60d81a71acfae5d88c1991d8c96bb2b3527.1649947421.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220123160857.24161-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,50 +46,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Refresh the defconfig for Renesas ARM systems:
+  - Move CONFIG_V4L_MEM2MEM_DRIVERS (moved in commit 256bf685691d8646
+    ("media: platform: move platform menu dependencies to drivers")),
+  - Move CONFIG_DEBUG_FS (moved in commit f9b3cd24578401e7
+    ("Kconfig.debug: make DEBUG_INFO selectable from a choice")).
 
-Ping on this patch in case someone wants to review it. I'll send a pull
-request shortly for the part of this series that hasn't been merged yet,
-and this is the last one missing a reviewed-by tag.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.19.
+---
+ arch/arm/configs/shmobile_defconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Sun, Jan 23, 2022 at 06:08:53PM +0200, Laurent Pinchart wrote:
-> Replace the hardcoded MIPI CSI-2 data types with macros from
-> mipi-csi2.h.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/cadence/cdns-csi2tx.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2tx.c b/drivers/media/platform/cadence/cdns-csi2tx.c
-> index 8f8c36056354..58e405b69f67 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2tx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2tx.c
-> @@ -15,6 +15,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -121,12 +122,12 @@ static const struct csi2tx_fmt csi2tx_formats[] = {
->  	{
->  		.mbus	= MEDIA_BUS_FMT_UYVY8_1X16,
->  		.bpp	= 2,
-> -		.dt	= 0x1e,
-> +		.dt	= MIPI_CSI2_DT_YUV422_8B,
->  	},
->  	{
->  		.mbus	= MEDIA_BUS_FMT_RGB888_1X24,
->  		.bpp	= 3,
-> -		.dt	= 0x24,
-> +		.dt	= MIPI_CSI2_DT_RGB888,
->  	},
->  };
->  
-
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index db8df8a3a7b12d13..362643cbeffdc539 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -119,9 +119,9 @@ CONFIG_MEDIA_SUPPORT=y
+ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
++CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_VIDEO_RENESAS_CEU=y
+ CONFIG_VIDEO_RCAR_VIN=y
+-CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_VIDEO_RENESAS_FDP1=y
+ CONFIG_VIDEO_RENESAS_JPU=y
+ CONFIG_VIDEO_RENESAS_VSP1=y
+@@ -224,5 +224,5 @@ CONFIG_NLS_ISO8859_1=y
+ CONFIG_DMA_CMA=y
+ CONFIG_CMA_SIZE_MBYTES=64
+ CONFIG_PRINTK_TIME=y
+-CONFIG_DEBUG_FS=y
+ CONFIG_DEBUG_KERNEL=y
++CONFIG_DEBUG_FS=y
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
