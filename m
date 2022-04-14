@@ -2,64 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17FB9500772
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 09:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B2950077E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 09:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240684AbiDNHqN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 03:46:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59864 "EHLO
+        id S239417AbiDNHtP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 03:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240691AbiDNHqE (ORCPT
+        with ESMTP id S241412AbiDNHsR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 03:46:04 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A475AA64;
-        Thu, 14 Apr 2022 00:41:50 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id a186so555589qkc.10;
-        Thu, 14 Apr 2022 00:41:50 -0700 (PDT)
+        Thu, 14 Apr 2022 03:48:17 -0400
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B83D5E747;
+        Thu, 14 Apr 2022 00:45:25 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id b17so3448192qvp.6;
+        Thu, 14 Apr 2022 00:45:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UHi37QgFrguKoFdX0YvnqEc8jgtMaeE9jDv0V4psTXQ=;
-        b=JoxCyLPQxJLMOiUotTkdDR4LzJfQnyaQj3hek83UBnbg33Qdc40hac/L2dX1NQ2rox
-         9Cp6R/mhqcJn983X31lpcW/uh46DocZUVJGNVcTqEEqxzhdrj5hLqWgsyPcSXvh3NxNo
-         h/jd0derrLAiGYZ848OaUjQlcYlw/FRl59mZxoLnj09gLOMVXzdqubagfiazhEDSiFWE
-         JB5bXcfUNdTFaF8sL1nmaH++RH0t4SFOZoF7eOtfX2bsh+EuL3PTZxJnqYRBVRZ5guAS
-         EI+HJm8RXt2DwpPW/q43GFvTp+Bw0h5pUYg7D8udEsKuUG/VNTqKRyltxf9CpMwhiSAV
-         PrMA==
-X-Gm-Message-State: AOAM532PNbsapo5AzkcdE9eQYHeTE1nmrGWTvIn40KVzFQj/7T2CJ575
-        pgOep+DvsrXDyYVKth65RVngiVtscnkvQQ==
-X-Google-Smtp-Source: ABdhPJzfV3/8nBgzPcSrjas9v446LDH/ixJM+RQtS/tXFZzxIn2qWJdnKNOeyaTjhm7T8MyhHnfrjg==
-X-Received: by 2002:ae9:de47:0:b0:69c:7e33:e343 with SMTP id s68-20020ae9de47000000b0069c7e33e343mr306435qkf.228.1649922109498;
-        Thu, 14 Apr 2022 00:41:49 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id o10-20020ac85a4a000000b002ed143903a9sm818942qta.45.2022.04.14.00.41.49
+        bh=33XiQJpPXpQ4UXAsE/8HG8mnWkmeJLCo8tle8iDLH6E=;
+        b=EFpANksrW1VbvO7aMoUIS6ITKTb1VX1rgZGPyT51VSSSdy32r66kdAiHk7coRFgilA
+         bIiwJ6XWIzTCRUxw9Rd2Bzh3os5fKUl3eeoRpFQ5otrjITPupuakNVFQZvT9Ejup7sfl
+         sn8NoSUu/dP0ohHFFMRMSxqGF5NPFSmEML9xU+J26mZVtHnBmfgAmFf1vo6ab06QFH/B
+         3heO/iwpSrrd7Acjuq+sbq6z7MzQzPJSWa0qJLAbN4jesG3Kwj9ncFq1P+Aro4T8Diik
+         bRHhVKTfp+6suypOB6xbXPdsnXbkBXzm66JndmnNMT/sq3miWf/ZPuuGjQlbxfMfg3l5
+         PtOA==
+X-Gm-Message-State: AOAM531kvUwTn9vOsl0G4n9PnH+HsVSY/pnZCRLf5iSdQnphJyX2tzf+
+        WKB2ri3O9696NRvSa5+1FxUlgZ/tJAHNiw==
+X-Google-Smtp-Source: ABdhPJze7sAfMZlfYoPURb3BaJRsqXK9C2HRxARDtgEfgHDldAFu/OqANhyCMaHpsvyyVQW/x2G9mA==
+X-Received: by 2002:a05:6214:11a9:b0:444:3f30:8ae7 with SMTP id u9-20020a05621411a900b004443f308ae7mr2152815qvv.79.1649922324447;
+        Thu, 14 Apr 2022 00:45:24 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id q123-20020a378e81000000b0067eb3d6f605sm629654qkd.0.2022.04.14.00.45.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 00:41:49 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id z33so7961906ybh.5;
-        Thu, 14 Apr 2022 00:41:49 -0700 (PDT)
-X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
- p9-20020a259e89000000b0063cad37a5demr857786ybq.342.1649922108771; Thu, 14 Apr
- 2022 00:41:48 -0700 (PDT)
+        Thu, 14 Apr 2022 00:45:24 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2ef4a241cc5so39838017b3.2;
+        Thu, 14 Apr 2022 00:45:24 -0700 (PDT)
+X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
+ q64-20020a0de743000000b002eb31069b32mr1030313ywe.512.1649922323841; Thu, 14
+ Apr 2022 00:45:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <c3b2a8d1a69f1b1e8d1a460148406cfb83e52eb4.1649857740.git.geert+renesas@glider.be>
- <50714f3e-7561-37fd-7a05-222fd6185c47@linaro.org>
-In-Reply-To: <50714f3e-7561-37fd-7a05-222fd6185c47@linaro.org>
+References: <5861565a79a2bdadc07ae84e23e6d96dbb764823.1649680949.git.geert+renesas@glider.be>
+ <95580a26-8595-1fa1-5e3d-112ceb767ae6@opensource.wdc.com>
+In-Reply-To: <95580a26-8595-1fa1-5e3d-112ceb767ae6@opensource.wdc.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Apr 2022 09:41:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWQjJYhtQ9k0ZhoOS0htvr+nM5+Z_SG=WNsg64ZHuytFw@mail.gmail.com>
-Message-ID: <CAMuHMdWQjJYhtQ9k0ZhoOS0htvr+nM5+Z_SG=WNsg64ZHuytFw@mail.gmail.com>
-Subject: Re: [PATCH v2] memory: renesas-rpc-if: Simplify single/double data
- register access
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+Date:   Thu, 14 Apr 2022 09:45:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVwnwGdbZQ37U0zPm9ORQ7jaF=e7xas=1nhbFn+_MW6Bw@mail.gmail.com>
+Message-ID: <CAMuHMdVwnwGdbZQ37U0zPm9ORQ7jaF=e7xas=1nhbFn+_MW6Bw@mail.gmail.com>
+Subject: Re: [WARNING: UNSCANNABLE EXTRACTION FAILED][PATCH v2] dt-bindings:
+ ata: renesas,rcar-sata: Add r8a774e1 support
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        linux-ide@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>,
+        Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -71,31 +75,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+Hi Damien,
 
-On Thu, Apr 14, 2022 at 9:28 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 13/04/2022 15:49, Geert Uytterhoeven wrote:
-> > For manual write and read, factor out the common access to the first
-> > data register by keeping track of the current data pointer.
+On Thu, Apr 14, 2022 at 3:23 AM Damien Le Moal
+<damien.lemoal@opensource.wdc.com> wrote:
+> On 4/11/22 21:43, Geert Uytterhoeven wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
+> > Document SATA support for the RZ/G2H SoC, no driver change required.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > Acked-by: Rob Herring <robh@kernel.org>
 > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 >
-> This does not apply on a next branch. Maybe because I put "memory:
-> renesas-rpc-if: Fix HF/OSPI data transfer in Manual Mode" for fixes?
-> Does this patch depend on that fix?
+> I queued this is for-5.19. Does it need to go as a 5.18 fix ?
 
-There is no functional dependency, but a slight contextual one.
-It should apply with some fuzz:
-
-$ git am --show-current-patch | patch -p1
-patching file drivers/memory/renesas-rpc-if.c
-Hunk #1 succeeded at 458 (offset -30 lines).
-Hunk #2 succeeded at 471 with fuzz 1 (offset -31 lines).
-Hunk #3 succeeded at 515 (offset -31 lines).
-Hunk #4 succeeded at 531 (offset -32 lines).
+Thank you!
+No need to queue it as a fix, silencing "make dtbs_check" is a multi-year
+project ;-)
 
 Gr{oetje,eeting}s,
 
