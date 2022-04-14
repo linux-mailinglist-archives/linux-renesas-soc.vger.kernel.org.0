@@ -2,95 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B5F5006DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 09:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AAF500728
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 09:40:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232431AbiDNHau (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 03:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
+        id S240546AbiDNHnI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 03:43:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232125AbiDNHau (ORCPT
+        with ESMTP id S240541AbiDNHmr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 03:30:50 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488531D30C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 00:28:26 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id c64so5200292edf.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Apr 2022 00:28:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=R74GtmZ8/eMYWWCWuYgOVriNQWIHf2AARvZd2OkuZF0=;
-        b=eBxM/YwxID4Ni/TPXYUXJJ73zHPnp4UTyYhQ3sCYniBpv6uNurbjPclVftWHUzSbf9
-         UZ3u0jmE6WZMizp4tddKCCDhc0e0frrhiaULiyDULyM1QDXtPdsFcYCDX0lFc8729v33
-         pVMoUGWX+uzs9MId0hz5dhuhORSQVEWxsj2uY1FrXW4HwTYgCMzvfC1JL3x4LoUb4B4s
-         GWpfLnULMNeIrGIbDe2xqBW7vUgHVMGH/qsOmxIPoGK2gORcH78c4P1lSLXX1yqintcS
-         2asDRRIa8CLlBishtBlGoXb2KMgD2ZM+CM3zKlxlt55tX62+db8+PIJ4yVCLBoDRsUpz
-         3DKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=R74GtmZ8/eMYWWCWuYgOVriNQWIHf2AARvZd2OkuZF0=;
-        b=pDQEWkyjnqJfNAH5LZi6w+oLzbwPVSf5OJsJtKj9bYjDH4CQJiKrs3NkeAW769Aehf
-         +HVNVjlcpXokaZBS2GJAzSJBfgBj7UuCJCZcvInhOZgr0jhr94R1KB5NCq+TcJ5HW3QC
-         3W/LIlqcVQHM429E4I7Qm7TsY18dYuX2TsJOvD5E7zlIvbtdolYzpwn78aQTVokBOeiP
-         DW6YwwxVismAnjkgXRRM4PTr7fJd5c/brhM4KWglI9/AKvYkWIrO6GtepzVgPdKGywxY
-         6VMwswxN43JH3npHzhySzNEwBm5YBn/IZETPICKn0M/FxZ07Pmky77hpP7wKAfwakX3k
-         TTJg==
-X-Gm-Message-State: AOAM533GZwO9LgaqD5TIZakzGSZ6EGbVWloeJZKMwXvS/o0ttNRDE7V7
-        MvUdglKfRtylf3to2Mdzmn/+wA==
-X-Google-Smtp-Source: ABdhPJyj2kyU0EJnWAQ1cHHp1KDTEzl7iVeNPJETiPaZWyg/RnuYYBxLn6zDHCUMhls1PW0pZNwA+Q==
-X-Received: by 2002:a50:c014:0:b0:41d:5ee9:f354 with SMTP id r20-20020a50c014000000b0041d5ee9f354mr1514653edb.257.1649921304926;
-        Thu, 14 Apr 2022 00:28:24 -0700 (PDT)
-Received: from [192.168.0.209] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id n16-20020a05640204d000b0042062f9f0e1sm636450edw.15.2022.04.14.00.28.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 00:28:24 -0700 (PDT)
-Message-ID: <50714f3e-7561-37fd-7a05-222fd6185c47@linaro.org>
-Date:   Thu, 14 Apr 2022 09:28:23 +0200
+        Thu, 14 Apr 2022 03:42:47 -0400
+X-Greylist: delayed 60624 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Apr 2022 00:40:23 PDT
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA0B840931;
+        Thu, 14 Apr 2022 00:40:22 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPA id 538A91C0005;
+        Thu, 14 Apr 2022 07:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649922021;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Rq+ltxRhp3LsK2RX5rxuOzGtedDWpOrBc28SFp5i+i8=;
+        b=arTbcMZiBsjtNMjJGQQQJpwzV9vLsoSnNN8re9d33XbbwOjOmkNoxL/QYcVkZURGAq9URo
+        Ye4bZxAj9Aj/Iga+wCvi7vKED4twsZ3YtaeME3Sxk7u2fhX3n7RGxiH5fRbSA/CGipN2Lx
+        cvptcxz5wRrsULGIsffsBw4yoOKXwHjKB9Q2uKV2eLQseg6EirqdibK7DvD76Ldx7deIL2
+        HrqykM5KMQ31E54EmAG6vj0ob4wzZ6S0fn1qdyp6wppgSoEZRR0mOWaF1JmdeVWZ9XL0Ys
+        K9y//3XUNuMwAx5mekMrmyTXy8ix9RFVUkPVXwvoLpu0lyJtd+Zv5I/ZtW/Mbw==
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v2 0/8] RZN1 USB Host support
+Date:   Thu, 14 Apr 2022 09:40:03 +0200
+Message-Id: <20220414074011.500533-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] memory: renesas-rpc-if: Simplify single/double data
- register access
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <c3b2a8d1a69f1b1e8d1a460148406cfb83e52eb4.1649857740.git.geert+renesas@glider.be>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <c3b2a8d1a69f1b1e8d1a460148406cfb83e52eb4.1649857740.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 13/04/2022 15:49, Geert Uytterhoeven wrote:
-> For manual write and read, factor out the common access to the first
-> data register by keeping track of the current data pointer.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi,
 
-This does not apply on a next branch. Maybe because I put "memory:
-renesas-rpc-if: Fix HF/OSPI data transfer in Manual Mode" for fixes?
-Does this patch depend on that fix?
+This series add support for the USB Host controllers available on
+RZN1 (r9a06g032) SOC.
 
+These USB Host controllers are PCI OHCI/EHCI controllers located
+behind a bridge.
 
-Best regards,
-Krzysztof
+Regards,
+Herve
+
+Changes v2:
+- Convert bindings to json-schema
+- Update clocks description
+- Remove unneeded '.compatible = "renesas,pci-r9a06g032"'
+
+Herve Codina (8):
+  PCI: rcar-gen2: Add support for clocks
+  dt-bindings: PCI: renesas-pci-usb: Convert bindings to json-schema
+  dt-bindings: PCI: renesas-pci-usb: Allow multiple clocks
+  dt-bindings: PCI: renesas-pci-usb: Add device tree support for
+    r9a06g032
+  PCI: rcar-gen2: Add R9A06G032 support
+  ARM: dts: r9a06g032: Add internal PCI bridge node
+  ARM: dts: r9a06g032: Add USB PHY DT support
+  ARM: dts: r9a06g032: Link the PCI USB devices to the USB PHY
+
+ .../devicetree/bindings/pci/pci-rcar-gen2.txt |  84 -----------
+ .../bindings/pci/renesas,pci-usb.yaml         | 139 ++++++++++++++++++
+ arch/arm/boot/dts/r9a06g032.dtsi              |  46 ++++++
+ drivers/pci/controller/pci-rcar-gen2.c        |  29 +++-
+ 4 files changed, 212 insertions(+), 86 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+
+-- 
+2.35.1
+
