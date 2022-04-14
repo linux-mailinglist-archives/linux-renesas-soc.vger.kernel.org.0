@@ -2,134 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C28C500E4A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 15:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552255013BD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 17:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240664AbiDNNEv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 09:04:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58478 "EHLO
+        id S1343905AbiDNOYD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 10:24:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232078AbiDNNEu (ORCPT
+        with ESMTP id S1345131AbiDNNpL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:04:50 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2075F8EB67;
-        Thu, 14 Apr 2022 06:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=se7TDjKdD4lTbs4/EAs3EJoTc89hcEiop1DKf6IJ6Ts=; b=O24dwONDjdolTVYJL/Mivk0Css
-        Nam3xqr0eUKo8jnldPTeolq4WDbIxlwcwk2ZvbLTynj3gOn8SRkPyuY2xpVFiHkisvZqLR6e96TpZ
-        iROwj/LKQwBHC+aUkXGrfIYm2lRQ1wWUaWwIv6ZKyGAxPzDmVgqgNjupkad6z4uXeYQ+RsbNqcIIm
-        h1guXKEYNI1lRPmhu/Z0AWZDKKi6Ky88Hddzh0K6yR2quLxW5i3GKNrTf3tCc/TuH9ngsHT9zhOZS
-        vCdRX3d6WVkPGIi1Zd3sAHCMe6ZCla7x6BJrtBvNBOijo3EeHFWRnOOun6b/wu+WU2f1XxP8ZASRL
-        FDEipquA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58262)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1nez70-0004Zy-SF; Thu, 14 Apr 2022 14:02:14 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1nez6w-0004KB-Vf; Thu, 14 Apr 2022 14:02:10 +0100
-Date:   Thu, 14 Apr 2022 14:02:10 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Thu, 14 Apr 2022 09:45:11 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502D8140DE;
+        Thu, 14 Apr 2022 06:42:45 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 047581BF20C;
+        Thu, 14 Apr 2022 13:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1649943763;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uf/NUgWHuhWSypo4uHHoAgWnaBAtZS72tioBfXir5rw=;
+        b=RH9+J969PE/jWaLdsCV+Jg1ttNMgnWmL2DqDCmlGulbszBjD9NE52I2J8RVKtHvaLsECs9
+        S8j67gnG0CdrH/urV5Uw8cdGR4XfehozZgFSA6Eg7ukBmemeWcBtEsm45Q6wloI5KV7rbX
+        Fy1xTIHQyDpWpZ7/AthMJAEHBuy4ptwTA4uoeVdplikQzQx5jG5FeLj+uPWcStSohLc28N
+        KAAWjoFcxPN+HmjvfAAD+dE+5eo8GyyKzsL/4WqsfD4BjmhB6//KozDJPHWWWcoYawa3FI
+        wwZPzGot1uDZ4YL894ldPzkehTWSGlL7VU3yYbmpYpXogF/aXiFowNMKUC6JKQ==
+Date:   Thu, 14 Apr 2022 15:42:32 +0200
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        Laurent Gonzales <laurent.gonzales@non.se.com>,
-        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Subject: Re: [PATCH net-next 06/12] net: dsa: rzn1-a5psw: add Renesas RZ/N1
- advanced 5 port switch driver
-Message-ID: <YlgbUiXzHa0UNRK+@shell.armlinux.org.uk>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
- <20220414122250.158113-7-clement.leger@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 1/8] PCI: rcar-gen2: Add support for clocks
+Message-ID: <20220414154232.098a4451@bootlin.com>
+In-Reply-To: <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+        <20220414074011.500533-2-herve.codina@bootlin.com>
+        <CAMuHMdW8q5AjDtTE83yVPfmgnQy02UgLSns33z06WMFBUULWEw@mail.gmail.com>
+        <20220414132534.35467781@bootlin.com>
+        <CAMuHMdUCvJ6rAwnV=w9iFqnm=c0U_BpGiYEw109shsrWAeUJCA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220414122250.158113-7-clement.leger@bootlin.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 02:22:44PM +0200, Clément Léger wrote:
-> Add Renesas RZ/N1 advanced 5 port switch driver. This switch handles 5
-> ports including 1 CPU management port. A MDIO bus is also exposed by
-> this switch and allows to communicate with PHYs connected to the ports.
-> Each switch port (except for the CPU management ports) are connected to
-> the MII converter.
-> 
-> This driver include basic bridging support, more support will be added
-> later (vlan, etc).
+Hi Geert,
 
-This patch looks to me like it needs to be updated...
+On Thu, 14 Apr 2022 13:48:22 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> +static void a5psw_phylink_validate(struct dsa_switch *ds, int port,
-> +				   unsigned long *supported,
-> +				   struct phylink_link_state *state)
-> +{
-> +	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = { 0 };
-> +
-> +	phylink_set_port_modes(mask);
-> +
-> +	phylink_set(mask, Autoneg);
-> +	phylink_set(mask, Pause);
-> +	phylink_set(mask, Asym_Pause);
-> +
-> +	phylink_set(mask, 1000baseT_Full);
-> +	if (!dsa_is_cpu_port(ds, port)) {
-> +		phylink_set(mask, 10baseT_Half);
-> +		phylink_set(mask, 10baseT_Full);
-> +		phylink_set(mask, 100baseT_Half);
-> +		phylink_set(mask, 100baseT_Full);
-> +	}
+> Hi Herv=C3=A9,
+>=20
+> On Thu, Apr 14, 2022 at 1:29 PM Herve Codina <herve.codina@bootlin.com> w=
+rote:
+> > On Thu, 14 Apr 2022 10:45:54 +0200
+> > Geert Uytterhoeven <geert@linux-m68k.org> wrote: =20
+> > > On Thu, Apr 14, 2022 at 9:40 AM Herve Codina <herve.codina@bootlin.co=
+m> wrote: =20
+> > > > The PCI rcar-gen2 does not call any clk_prepare_enable(). =20
+> > >
+> > > Correct, this driver manages the clocks indirectly through Runtime PM.
+> > > =20
+> > > > This lead to an access failure when the driver tries to access
+> > > > the IP (at least on a RZ/N1D platform). =20
+> > >
+> > > I expect adding
+> > >
+> > >     power-domans =3D <&sysctrl>;
+> > >
+> > > to the pci_usb node makes this patch redundant. =20
+> >
+> > Seems not enough.
+> > I tried what you suggest :
+> >  - Added 'power-domains =3D <&systrl>;' to the pci_usb node
+> >  - Added missing '#power-domain-cells =3D <0>;' to sysctrl node
+> >  - Reverted my patch.
+> >
+> > The system crashed at boot: =20
+>=20
+> > [    0.832958] Unhandled fault: external abort on non-linefetch (0x1008=
+) at 0x90b5f848 =20
+>=20
+> That's indeed a typical symptom of accessing a module's registers
+> while the module's clock is disabled.
+>=20
+> > I also added a trace printk in r9a06g032-clocks.c and
+> > r9a06g032_attach_dev() was never called.
+> >
+> > Did I miss to set something ? =20
+>=20
+> Do you have CONFIG_PM and CONFIG_PM_GENERIC_DOMAINS
+> enabled?
+> Apparently ARCH_RZN1 does not select these options yet.
+>=20
 
-If the port supports e.g. RGMII (as it does via the media converter)
-then it also supports 1000baseX modes as well - because a PHY attached
-to the RGMII port can convert to 1000baseX.
+Thanks a lot for pointing this.
 
-> +
-> +	linkmode_and(supported, supported, mask);
-> +	linkmode_and(state->advertising, state->advertising, mask);
-> +}
+I added select CONFIG_PM and CONFIG_PM_GENERIC_DOMAINS
+in ARCH_RZN1 and it works.
 
-This basically means "I support every phy_interface_t mode that has ever
-been implemented" which surely is not what you want. I doubt from the
-above that you support 10GBASE-KR for example.
+I will remove my patch calling clk_bulk_prepare_enable() and
+add some new patches to enable power domains in the v3 series.
 
-Please instead implement the .phylink_get_caps DSA switch interface, and
-fill in the config->supported_interfaces for all interface modes that
-the port supports (that including the media converter as well) and the
-config->mac_capabilities members.
+Regards,
+Herv=C3=A9
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
