@@ -2,91 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC4B5009F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 11:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D8B500AC8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Apr 2022 12:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241828AbiDNJff (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Apr 2022 05:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
+        id S241590AbiDNKMn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Apr 2022 06:12:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241821AbiDNJfd (ORCPT
+        with ESMTP id S241618AbiDNKMl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:35:33 -0400
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A81B70CFE;
-        Thu, 14 Apr 2022 02:33:09 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id x20so3561396qvl.10;
-        Thu, 14 Apr 2022 02:33:09 -0700 (PDT)
+        Thu, 14 Apr 2022 06:12:41 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 761A1240B9;
+        Thu, 14 Apr 2022 03:10:16 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id t2so1240352qta.5;
+        Thu, 14 Apr 2022 03:10:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wT+WD+e2d8eELH39rVnQiOaRvZ4T5k/ulSuMocFHoO0=;
-        b=WCb9CrYNMnvknLjmJwx8d833KEzkGJe4PnAHE7TCjTDSf0aCHRfms6+riyfWTZ9IkR
-         W7RjgrAfJb4s0g/8aFg9owovC6epCc5kWjxfMxyP+HXlx6sDS8T+PmNojmA0Y6vlKmxQ
-         Q+Oe89ItNITf0JTsUV2eUuWQ1eCmzK6mfzR7KBWOuya072kjp1L9RrBp0Ol0h57YgmwK
-         m6HFX8bgOWCHhnBMa9MO6mU/ZIcYMSpGaLe4yc6yOy/UI1mB0idMewg+A5i8DhyeSrmW
-         aIvXc7IFfmXEjSDxNn8efhH5PUFf5lHpTlVCMgjyeAWlRsqI9y1gKkQPlJiasL0PXAJh
-         YYNA==
-X-Gm-Message-State: AOAM533IotIdoaij04ZjaeS+PXsoAJjhc74td0kuQAJbdMPUCQnmJ0kl
-        w8YfLu9VFDmyJEkBprqP+42wL1+o13L26g==
-X-Google-Smtp-Source: ABdhPJw5tZPsLUiQ2CSgHvWEiXMmwLaJ/6vrs6oVMrssBXG/3CdZRSW6P5v8eqcYZuNQfypJ0J5qLQ==
-X-Received: by 2002:a05:6214:20e9:b0:441:527f:dffa with SMTP id 9-20020a05621420e900b00441527fdffamr2507246qvk.34.1649928787542;
-        Thu, 14 Apr 2022 02:33:07 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id 193-20020a3703ca000000b0069bf950dd20sm740384qkd.43.2022.04.14.02.33.06
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/Y5f59RIyVrrmTqEzX+r9Z7m0Vm2tYpNuFpxt9TfdIo=;
+        b=icYEw3YqNfPQ21rligHTIr3FMDRW4wD0Vn+50sJE2MDkXpaut5QJ6mNImdPCWT6IlF
+         li3kJfDPvEc6A13oBuOitNM9t6KxWW5LAjOXIpnZ0FORKNAiiv90OsfHFrBzxMhkFo3O
+         4KIU9dJiSzMI9DjUspYdzOtZTqvOTAtmE0mPKRkePeze1P1EDJRNqgNF6HqbdowUsla/
+         qa7CnB50BNY5L8O5229eWIXR1uqH39RcqNNdjKabf5h73z3HlD12MntmnRuqy0JuZ+//
+         Ow6YzyEKJQXP8ceNzRN+pr78A9VjSo9cvzLlxMYhAP0f1NZDmKMj4H8KkvxJTG3QKTd8
+         de3A==
+X-Gm-Message-State: AOAM533OUd60ymEYvvrtYMC7a7hz8nvsX6Ymg0OkRIUn0x28b/y/YJmk
+        WoQt2PlMKkBZCNqvtgsEVwrh7MZgYSjBhQ==
+X-Google-Smtp-Source: ABdhPJzUyBD9bOfUGHuVo2+tgSczZB93eQI45GRiSY2AdBhlWL1MteOzd0pKVt4JuhmX7L2TVhbTMg==
+X-Received: by 2002:a05:622a:229e:b0:2f1:d077:52b3 with SMTP id ay30-20020a05622a229e00b002f1d07752b3mr1090081qtb.127.1649931015106;
+        Thu, 14 Apr 2022 03:10:15 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id z15-20020a05622a060f00b002e2070bf899sm889873qta.90.2022.04.14.03.10.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 02:33:07 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2ebebe631ccso49265497b3.4;
-        Thu, 14 Apr 2022 02:33:06 -0700 (PDT)
-X-Received: by 2002:a81:4782:0:b0:2eb:1cb1:5441 with SMTP id
- u124-20020a814782000000b002eb1cb15441mr1147758ywa.479.1649928786553; Thu, 14
- Apr 2022 02:33:06 -0700 (PDT)
+        Thu, 14 Apr 2022 03:10:14 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id v77so8466033ybi.12;
+        Thu, 14 Apr 2022 03:10:14 -0700 (PDT)
+X-Received: by 2002:a25:23c9:0:b0:641:d94c:8bf1 with SMTP id
+ j192-20020a2523c9000000b00641d94c8bf1mr1206692ybj.546.1649931014457; Thu, 14
+ Apr 2022 03:10:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <1649837953-10984-1-git-send-email-baihaowen@meizu.com> <2ed01eb3-ff46-425c-75dc-81729a5c30a8@omp.ru>
-In-Reply-To: <2ed01eb3-ff46-425c-75dc-81729a5c30a8@omp.ru>
+References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de> <20220413085050.61144-5-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220413085050.61144-5-u.kleine-koenig@pengutronix.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 Apr 2022 11:32:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVCRRbhYEnk4bjvPugrosw4mNQCcHQqsNrx0RhFL+dJDQ@mail.gmail.com>
-Message-ID: <CAMuHMdVCRRbhYEnk4bjvPugrosw4mNQCcHQqsNrx0RhFL+dJDQ@mail.gmail.com>
-Subject: Re: [PATCH V2] clk: renesas: Fix memory leak of 'cpg'
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Haowen Bai <baihaowen@meizu.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Date:   Thu, 14 Apr 2022 12:10:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW6u3xrnZrxsx8h6-zfZ=6sH=ehnQ6KCthB5QNFU5rexQ@mail.gmail.com>
+Message-ID: <CAMuHMdW6u3xrnZrxsx8h6-zfZ=6sH=ehnQ6KCthB5QNFU5rexQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] pwm: renesas-tpu: Improve maths to compute register settings
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Sascha Hauer <kernel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Uwe,
 
-On Thu, Apr 14, 2022 at 11:29 AM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
-> On 4/13/22 11:19 AM, Haowen Bai wrote:
-> > Fix this issue by freeing the cpg when exiting the function in the
-> > error/normal path.
-> >
-> > Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> > ---
-> > V1->V2: free both cpg&clks.
-> >
-> >  drivers/clk/renesas/clk-r8a73a4.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
+Thanks for your patch!
+
+On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> The newly computed register values are intended to exactly match the
+> previously computed values. The main improvement is that the prescaler
+> is computed directly instead of with a loop. This uses the fact, that
+> prescalers[i] = 1 << (2 * i).
 >
->    2 patches with the same name won't do -- you always need to include the chip name
-> part of the file name in the subject (in this case r8a73a4).
+> Assuming a moderately smart compiler, the needed number of divisions for
+> the case where the requested period is too big, is reduced from 5 to 2.
 
-Oh, they were for multiple drivers?
-I hadn't even noticed , as Gmail collapsed them all into the same thread...
+I'm not worried about the divisions, but about the ilog2(), which
+uses fls().  The TPU block also exists on SuperH SoCs (although
+currently no SH Linux code has it enabled), and SH uses the fls()
+implementation from asm-generic.
+
+> --- a/drivers/pwm/pwm-renesas-tpu.c
+> +++ b/drivers/pwm/pwm-renesas-tpu.c
+> @@ -244,7 +244,6 @@ static void tpu_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>  static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>                           int duty_ns, int period_ns, bool enabled)
+>  {
+> -       static const unsigned int prescalers[] = { 1, 4, 16, 64 };
+>         struct tpu_pwm_device *tpd = pwm_get_chip_data(pwm);
+>         struct tpu_device *tpu = to_tpu_device(chip);
+>         unsigned int prescaler;
+> @@ -254,26 +253,21 @@ static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>         u32 duty;
+>         int ret;
+>
+> -       /*
+> -        * Pick a prescaler to avoid overflowing the counter.
+> -        * TODO: Pick the highest acceptable prescaler.
+> -        */
+>         clk_rate = clk_get_rate(tpu->clk);
+>
+> -       for (prescaler = 0; prescaler < ARRAY_SIZE(prescalers); ++prescaler) {
+> -               period = clk_rate / prescalers[prescaler]
+> -                      / (NSEC_PER_SEC / period_ns);
+> -               if (period <= 0xffff)
+> -                       break;
+> -       }
+> +       period = clk_rate / (NSEC_PER_SEC / period_ns);
+> +       if (period >= 64 * 0x10000 || period == 0)
+> +               return -EINVAL;
+>
+> -       if (prescaler == ARRAY_SIZE(prescalers) || period == 0) {
+> -               dev_err(&tpu->pdev->dev, "clock rate mismatch\n");
+> -               return -ENOTSUPP;
+> -       }
+> +       if (period < 0x10000)
+> +               prescaler = 0;
+> +       else
+> +               prescaler = ilog2(period / 0x10000) / 2 + 1;
+> +
+> +       period >>= 2 * prescaler;
+
+Although the above is correct, I find it hard to read.
+Hence I'd keep a loop, like:
+
+    unsigned int prescaler = 0;
+    ...
+    while (period > 0x10000) {
+            period >>= 2;
+            prescalar++;
+    }
+
+This would even save 2 lines of code ;-)
+
+>
+>         if (duty_ns) {
+> -               duty = clk_rate / prescalers[prescaler]
+> +               duty = (clk_rate >> 2 * prescaler)
+>                      / (NSEC_PER_SEC / duty_ns);
+>                 if (duty > period)
+>                         return -EINVAL;
+
+Anyway:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+The display backlight still works fine on r8a7740/armadillo, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
