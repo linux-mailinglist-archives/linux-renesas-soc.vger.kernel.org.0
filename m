@@ -2,79 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CC2A50271E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 10:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F0D350275A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 11:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239844AbiDOIzZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Apr 2022 04:55:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
+        id S1351737AbiDOJ3y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Apr 2022 05:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbiDOIzZ (ORCPT
+        with ESMTP id S233670AbiDOJ3x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Apr 2022 04:55:25 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8814B644D;
-        Fri, 15 Apr 2022 01:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6RJ/VwGJTUKSN4pEDxbLWHdkQvJ3lWAEWFoDyQeUEzY=; b=0h+2I4Mp2CKd9ThVYlQmFspKuM
-        EhcO/UJG+h5+jVA8X7gRiiqEibxwSptVfDVrf8sZb4wt5xLVfB42duZd8yFG0yMFHBmoU0W5cmJWB
-        yjA2uW9YarvyUuf8ZREIT4pb50/oZFJ70XqI8r+DsmO5i80cTCwzEP/IQhCKmmQXI3dDSnRvB1O5P
-        K4+DluIrkyWN0VURAQvURZaHO8ak3Omw/tIhkP1bzLs+3TdWw3n6uVOpJSgRbTgDHXooqGLLD7g3p
-        kDGU9IN7/s5RHSRWkEzHFoF7q1JeAPX1XJNLNCqI8dNMZJEuvZybbyHaXS4xJ4DHR39X1588Sbb6n
-        cDrYiZ5g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58272)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1nfHh1-0005SZ-66; Fri, 15 Apr 2022 09:52:38 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1nfHgx-00057u-IP; Fri, 15 Apr 2022 09:52:35 +0100
-Date:   Fri, 15 Apr 2022 09:52:35 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Fri, 15 Apr 2022 05:29:53 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702CC972FE;
+        Fri, 15 Apr 2022 02:27:25 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-76-76-50-nat.elisa-mobile.fi [85.76.76.50])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C213F482;
+        Fri, 15 Apr 2022 11:27:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650014843;
+        bh=FERb410MU83drs6NWItFvjP95AeAE85LLwTKuUwSjp4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HS+9PjAza/Dmr5xY9+Ry+MFHZ2e/8nbNdQWWAss9MeHjhSEKWFd0y/ML3qOYjfnPc
+         RrGmlPsQrHm+xYGNEZabDxY72V0HKCfoX/3KnNjRA4VO2BOLP+DYCos0BLb2jEIE3m
+         ZLXwAyCOkQwwKP1DGP2HlOaMd+ESWHyfPPEAayaw=
+Date:   Fri, 15 Apr 2022 12:27:18 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        Laurent Gonzales <laurent.gonzales@non.se.com>,
-        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Subject: Re: [PATCH net-next 06/12] net: dsa: rzn1-a5psw: add Renesas RZ/N1
- advanced 5 port switch driver
-Message-ID: <YlkyU7jRAi5037up@shell.armlinux.org.uk>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
- <20220414122250.158113-7-clement.leger@bootlin.com>
- <YlgbUiXzHa0UNRK+@shell.armlinux.org.uk>
- <20220415104029.5e52080b@fixe.home>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Subject: Re: [PATCH v7 1/3] media: dt-bindings: media: renesas,vsp1: Document
+ RZ/{G2L,V2L} VSPD bindings To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Message-ID: <Ylk6dp6TiuwbJqkn@pendragon.ideasonboard.com>
+References: <20220414142605.26235-1-biju.das.jz@bp.renesas.com>
+ <20220414142605.26235-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220415104029.5e52080b@fixe.home>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20220414142605.26235-2-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,33 +55,134 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 10:40:29AM +0200, Clément Léger wrote:
-> Le Thu, 14 Apr 2022 14:02:10 +0100,
-> "Russell King (Oracle)" <linux@armlinux.org.uk> a écrit :
-> 
-> > On Thu, Apr 14, 2022 at 02:22:44PM +0200, Clément Léger wrote:
-> > > Add Renesas RZ/N1 advanced 5 port switch driver. This switch handles 5
-> > > ports including 1 CPU management port. A MDIO bus is also exposed by
-> > > this switch and allows to communicate with PHYs connected to the ports.
-> > > Each switch port (except for the CPU management ports) are connected to
-> > > the MII converter.
-> > > 
-> > > This driver include basic bridging support, more support will be added
-> > > later (vlan, etc).  
-> > 
-> > This patch looks to me like it needs to be updated...
-> 
-> Hi Russell,
-> 
-> When you say so, do you expect the VLAN support to be included ?
+Hi Biju,
 
-I was referring to the use of .phylink_validate rather than
-.phylink_get_caps - all but one DSA driver have been recently updated
-to use the latter, and the former should now only be used in
-exceptional circumstances.
+Thank you for the patch.
 
-Thanks.
+On Thu, Apr 14, 2022 at 03:26:03PM +0100, Biju Das wrote:
+> Document VSPD found in RZ/G2L and RZ/V2L family SoC's. VSPD block is
+> similar to VSP2-D found on R-Car SoC's, but it does not have a version
+> register and it has 3 clocks compared to 1 clock on vsp1 and vsp2.
+> 
+> This patch introduces a new compatible 'renesas,rzg2l-vsp2' to handle
+> these differences.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * Removed LCDC reference clock description
+>  * Changed the clock name from du.0->aclk
+> v4->v5:
+>  * No change
+> v3->v4:
+>  * No change
+> v2->v3:
+>  * Added Rb tag from Krzysztof.
+> v1->v2:
+>  * Changed compatible from vsp2-rzg2l->rzg2l-vsp2
+> RFC->v1:
+>  * Updated commit description
+>  * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
+>  * Defined the clocks
+>  * Clock max Items is based on SoC Compatible string
+> RFC:
+>  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
+> ---
+>  .../bindings/media/renesas,vsp1.yaml          | 52 ++++++++++++++-----
+>  1 file changed, 39 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> index 990e9c1dbc43..a236b266fa4b 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> @@ -19,6 +19,7 @@ properties:
+>      enum:
+>        - renesas,vsp1 # R-Car Gen2 and RZ/G1
+>        - renesas,vsp2 # R-Car Gen3 and RZ/G2
+> +      - renesas,rzg2l-vsp2 # RZ/G2L and RZ/V2L
+>  
+>    reg:
+>      maxItems: 1
+> @@ -26,8 +27,8 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> -  clocks:
+> -    maxItems: 1
+> +  clocks: true
+> +  clock-names: true
+
+clock-names shouldn't be true here, as it should only be set on
+rzg2l-vsp2. I think you can actually drop both clocks and clock-names
+here.
+
+With this addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -50,17 +51,42 @@ required:
+>  
+>  additionalProperties: false
+>  
+> -if:
+> -  properties:
+> -    compatible:
+> -      items:
+> -        - const: renesas,vsp1
+> -then:
+> -  properties:
+> -    renesas,fcp: false
+> -else:
+> -  required:
+> -    - renesas,fcp
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,vsp1
+> +    then:
+> +      properties:
+> +        renesas,fcp: false
+> +    else:
+> +      required:
+> +        - renesas,fcp
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,rzg2l-vsp2
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Main clock
+> +            - description: Register access clock
+> +            - description: Video clock
+> +        clock-names:
+> +          items:
+> +            - const: aclk
+> +            - const: pclk
+> +            - const: vclk
+> +      required:
+> +        - clock-names
+> +    else:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+>  
+>  examples:
+>    # R8A7790 (R-Car H2) VSP1-S
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Regards,
+
+Laurent Pinchart
