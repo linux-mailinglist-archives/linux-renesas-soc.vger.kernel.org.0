@@ -2,122 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AB1E50265F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 09:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A13E95026A1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 10:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242674AbiDOHu5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Apr 2022 03:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34856 "EHLO
+        id S1351368AbiDOI2w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Apr 2022 04:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244611AbiDOHux (ORCPT
+        with ESMTP id S230490AbiDOI2v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Apr 2022 03:50:53 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 591D1A1459
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Apr 2022 00:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=QIfUpEx/NR3GITE4jqqRFUXMz0f8
-        bXyhKB0/xUDUdsY=; b=oWZ2rc3R371o/2fcW/gjzqiDD9+Pm/Bi/F1wDgr+d3jo
-        O7lcJ0H5bIrwzn4UAsFE6o9PP8bm1SU8h2wgiVONSYrSvFRZSYk3QIzj7Jzm4rBI
-        DUL5aM3q2HeFOjWp9cA+qSvei4gYAypgXJz2OsE0BQo9bH7ijDWTucWuBYd6+qU=
-Received: (qmail 2142296 invoked from network); 15 Apr 2022 09:48:20 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Apr 2022 09:48:20 +0200
-X-UD-Smtp-Session: l3s3148p1@IIhZoqzciNQgAwDtxwyoAOfJPDZkSTZ/
-Date:   Fri, 15 Apr 2022 09:48:19 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] pinctrl: renesas: checker: Rework drive and bias pin
- iteration
-Message-ID: <YlkjQ2+O0h8jDTqq@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Fri, 15 Apr 2022 04:28:51 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E004AFB35;
+        Fri, 15 Apr 2022 01:26:23 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 787FB1BF211;
+        Fri, 15 Apr 2022 08:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1650011181;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kKojKZULnPE/wWjIpye1ilTyE1X2MJhejc5l4csXybI=;
+        b=eyakLyHQLwnmDg3QFRsBeVWxdYLaiRMfBgkqSYNyJ8w18zYfQe/rzoYSew7hsuaxFbbh3t
+        D3ANnDwMXwuBDdry+VBoxXei0xbk2gIqOIEUt4fnRmdCMYTAc1IK9wF4ZTKGxE1SZCA3ci
+        lNoTkfyU912659amNnzGFgRAx1Tdr3oDrAE5DIG06FsVTELhC2uzNdEyN8DxYgoFabwGz9
+        fIRDG5T+ngpImU8lhDgvP0UuA42Fe/+6IiKB84vp9GsZvnuDVopyQaS3I4FYaYHVnbW9YO
+        BvjQh/R8VvNSDzKTwvGfYMzJXp0u/W8HKsLllI2HxiqBVhLE+Gxbvhzh8ui9Ag==
+Date:   Fri, 15 Apr 2022 10:24:53 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <1848e56e6496b8d5ed50fd6adc8ef2078b454ce4.1649944305.git.geert+renesas@glider.be>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 09/12] ARM: dts: r9a06g032: describe MII
+ converter
+Message-ID: <20220415102453.1b5b3f77@fixe.home>
+In-Reply-To: <YlismVi8y3Vf6PZ0@lunn.ch>
+References: <20220414122250.158113-1-clement.leger@bootlin.com>
+        <20220414122250.158113-10-clement.leger@bootlin.com>
+        <YlismVi8y3Vf6PZ0@lunn.ch>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lbu41cTPydjuH3oP"
-Content-Disposition: inline
-In-Reply-To: <1848e56e6496b8d5ed50fd6adc8ef2078b454ce4.1649944305.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Le Fri, 15 Apr 2022 01:22:01 +0200,
+Andrew Lunn <andrew@lunn.ch> a =C3=A9crit :
 
---lbu41cTPydjuH3oP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 14, 2022 at 03:57:36PM +0200, Geert Uytterhoeven wrote:
-> The checker code to iterate over all drive strength and bias register
-> description items is cumbersome, due to the repeated calculation of
-> indices, and the use of hardcoded array sizes.  The latter was done
-> under the assumption they would never need to be changed, which turned
-> out to be false.
+> On Thu, Apr 14, 2022 at 02:22:47PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Add the MII converter node which describes the MII converter that is
+> > present on the RZ/N1 SoC. =20
 >=20
-> Increase readability by introducing helper macros to access drive
-> strength and bias register description items.
-> Increase maintainability by replacing hardcoded numbers by array sizes
-> calculated at compile-time.
+> Do you have a board which actually uses this? I just noticed that
+> renesas,miic-cfg-mode is missing, it is a required property, but maybe
+> the board .dts file provides it?
 >=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>     Andrew
 
-Cool, this makes the code much more readable!
+Hi Andrew, yes, I have a board that defines and use that. The
+renesas,miic-cfg-mode actually configures the muxes that are present on
+the SoC. They allows to mux the various ethernet components (Sercos
+Controller, HSR Controller, Ethercat, GMAC1, RTOS-GMAC).
+All these muxes are actually controller by a single register
+CONVCTRL_MODE. You can actually see the muxes that are present in the
+manual [1] at Section 8 and the CONVCTRL_MODE possible values are listed
+on page 180.
 
-In general, I am fine with it, maybe one tiny addition to make it even
-more readable?
+This seems to be something that is board dependent because the muxing
+controls the MII converter outputs which depends on the board layout.
 
-> +#define drive_nfields	ARRAY_SIZE(drive_regs->fields)
+I'm open to any modification for this setup which does not really fit
+any abstraction that I may have seen.
 
-Let's have here:
+[1]
+https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-gr=
+oup-users-manual-system-introduction-multiplexing-electrical-and
 
-#define drive_ofs(i) drive_regs[(i) / drive_nfields]
-
-> +#define drive_reg(i)	drive_regs[(i) / drive_nfields].reg
-
-and here
-
-#define drive_reg(i) drive_ofs(i).reg
-
-> +#define drive_bit(i)	((i) % drive_nfields)
-> +#define drive_field(i)	drive_regs[(i) / drive_nfields].fields[drive_bit(=
-i)]
-
-and here
-
-drive_field(i) drv_ofs(i).fields[drive_bit(i)]
-
-?
-
-
---lbu41cTPydjuH3oP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJZI0MACgkQFA3kzBSg
-KbZG0A//fcEETh+AGhpx/ij8luvlCzwCej6crI7fNHGTEHyAO5bN708GsqqojeJQ
-0DB2KxxMbadRi/Wg02/3aKaJDYUdwPfkmfkCd0rtRPDUWSSqvEw/eYB80lPbw/x+
-ZoiAHd6B15U+ZpXH8Vqh33gu+XuWXjJQu6j3BZtDGsnb5BVWgqZDPAZQ0+AO+JWw
-SlwPgpYqZD2i4UjXaV/utC80MNmfsrdwcLMjMCC7onPYSeB+o5SAlpvukYHHd8gZ
-npLuhG4He4jbfIoUhv/J9PIYCrQhRbtUUy0jsWntSOSIJxiu4LbcVgBnhL44YaTc
-3fykVgcQTU1VWSG97QYjZf3wbcCnmMyu7FcbF+YqqrvaFmVr27XtHZ8F1EiMmBm7
-u/2C8TIFXu6mysCwc8/gPZNeNpxcSzKiit9AlhMhhAwVg8Hnx31TnfraIzjOZ4j2
-t4xuGxa88yPlFZMPNZj1UbAwGyhT9kxO2wYbS2slVox1WMCXCa9BH8DR7OGmau9s
-WPnuXrFGej6ioGkV4CTUQK09yDVoemPLOmq+EOcmXmV/BLRZ+YuNYmvN9uwX+NCm
-/SaADnpWD1sVn/3RZVbHcOaUbfwGhQR0o+ZetyvwVLUPfM8YxL5UGEFJuND0Dh4p
-feSlLsILiMpb+ZrkE6APubqTsDBA20FEdol0z9d1/y747YXcDcs=
-=xos/
------END PGP SIGNATURE-----
-
---lbu41cTPydjuH3oP--
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
