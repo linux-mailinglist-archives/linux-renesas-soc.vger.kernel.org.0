@@ -2,37 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1E75026F4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 10:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC2A50271E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Apr 2022 10:53:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351561AbiDOIpZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Apr 2022 04:45:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
+        id S239844AbiDOIzZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Apr 2022 04:55:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351609AbiDOIpC (ORCPT
+        with ESMTP id S229460AbiDOIzZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Apr 2022 04:45:02 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9EF3BABB5;
-        Fri, 15 Apr 2022 01:42:01 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E444A240007;
-        Fri, 15 Apr 2022 08:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650012120;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YS+pRs7LHr6e9EuekGh2X2vs14X+J67Z7alkSxxSDok=;
-        b=ktD02ECZx7kx3kFU32mZ8y5MqdVj5y9g9zDmajeZLWYT0+97CRn6TOpV9elACOFPk/Df4o
-        d+353r3H7Rh8mjl1F+QSic91f+PVkIVIznkWev7FSlDzX5Wd5jKalkj/EuTfDjQYs7Y0wR
-        +rz9yb+6uMJNke5C0JTXWIvGyZVGPpsfB+AT1YpeJM0KlAeKY8VXLrbkGYpRcfPAZuJA/0
-        EcBBMBZvxZYzlVgedtWwx3SWlBnabgIowz28CF3S31hy5ZbF+reO8nsmMXoFBSAUPSajev
-        DvdooxFwCagqrMJw3DZAg6uu6BU11TXuBhH5QwqrYo3hbims22/3vq3TJ+iD8g==
-Date:   Fri, 15 Apr 2022 10:40:29 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+        Fri, 15 Apr 2022 04:55:25 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8814B644D;
+        Fri, 15 Apr 2022 01:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=6RJ/VwGJTUKSN4pEDxbLWHdkQvJ3lWAEWFoDyQeUEzY=; b=0h+2I4Mp2CKd9ThVYlQmFspKuM
+        EhcO/UJG+h5+jVA8X7gRiiqEibxwSptVfDVrf8sZb4wt5xLVfB42duZd8yFG0yMFHBmoU0W5cmJWB
+        yjA2uW9YarvyUuf8ZREIT4pb50/oZFJ70XqI8r+DsmO5i80cTCwzEP/IQhCKmmQXI3dDSnRvB1O5P
+        K4+DluIrkyWN0VURAQvURZaHO8ak3Omw/tIhkP1bzLs+3TdWw3n6uVOpJSgRbTgDHXooqGLLD7g3p
+        kDGU9IN7/s5RHSRWkEzHFoF7q1JeAPX1XJNLNCqI8dNMZJEuvZybbyHaXS4xJ4DHR39X1588Sbb6n
+        cDrYiZ5g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58272)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1nfHh1-0005SZ-66; Fri, 15 Apr 2022 09:52:38 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1nfHgx-00057u-IP; Fri, 15 Apr 2022 09:52:35 +0100
+Date:   Fri, 15 Apr 2022 09:52:35 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -47,7 +52,7 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
@@ -57,19 +62,19 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Phil Edworthy <phil.edworthy@renesas.com>
 Subject: Re: [PATCH net-next 06/12] net: dsa: rzn1-a5psw: add Renesas RZ/N1
  advanced 5 port switch driver
-Message-ID: <20220415104029.5e52080b@fixe.home>
-In-Reply-To: <YlgbUiXzHa0UNRK+@shell.armlinux.org.uk>
+Message-ID: <YlkyU7jRAi5037up@shell.armlinux.org.uk>
 References: <20220414122250.158113-1-clement.leger@bootlin.com>
-        <20220414122250.158113-7-clement.leger@bootlin.com>
-        <YlgbUiXzHa0UNRK+@shell.armlinux.org.uk>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+ <20220414122250.158113-7-clement.leger@bootlin.com>
+ <YlgbUiXzHa0UNRK+@shell.armlinux.org.uk>
+ <20220415104029.5e52080b@fixe.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220415104029.5e52080b@fixe.home>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,71 +82,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Thu, 14 Apr 2022 14:02:10 +0100,
-"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
+On Fri, Apr 15, 2022 at 10:40:29AM +0200, Clément Léger wrote:
+> Le Thu, 14 Apr 2022 14:02:10 +0100,
+> "Russell King (Oracle)" <linux@armlinux.org.uk> a écrit :
+> 
+> > On Thu, Apr 14, 2022 at 02:22:44PM +0200, Clément Léger wrote:
+> > > Add Renesas RZ/N1 advanced 5 port switch driver. This switch handles 5
+> > > ports including 1 CPU management port. A MDIO bus is also exposed by
+> > > this switch and allows to communicate with PHYs connected to the ports.
+> > > Each switch port (except for the CPU management ports) are connected to
+> > > the MII converter.
+> > > 
+> > > This driver include basic bridging support, more support will be added
+> > > later (vlan, etc).  
+> > 
+> > This patch looks to me like it needs to be updated...
+> 
+> Hi Russell,
+> 
+> When you say so, do you expect the VLAN support to be included ?
 
-> On Thu, Apr 14, 2022 at 02:22:44PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add Renesas RZ/N1 advanced 5 port switch driver. This switch handles 5
-> > ports including 1 CPU management port. A MDIO bus is also exposed by
-> > this switch and allows to communicate with PHYs connected to the ports.
-> > Each switch port (except for the CPU management ports) are connected to
-> > the MII converter.
-> >=20
-> > This driver include basic bridging support, more support will be added
-> > later (vlan, etc). =20
->=20
-> This patch looks to me like it needs to be updated...
+I was referring to the use of .phylink_validate rather than
+.phylink_get_caps - all but one DSA driver have been recently updated
+to use the latter, and the former should now only be used in
+exceptional circumstances.
 
-Hi Russell,
+Thanks.
 
-When you say so, do you expect the VLAN support to be included ?
-
->=20
-> > +static void a5psw_phylink_validate(struct dsa_switch *ds, int port,
-> > +				   unsigned long *supported,
-> > +				   struct phylink_link_state *state)
-> > +{
-> > +	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) =3D { 0 };
-> > +
-> > +	phylink_set_port_modes(mask);
-> > +
-> > +	phylink_set(mask, Autoneg);
-> > +	phylink_set(mask, Pause);
-> > +	phylink_set(mask, Asym_Pause);
-> > +
-> > +	phylink_set(mask, 1000baseT_Full);
-> > +	if (!dsa_is_cpu_port(ds, port)) {
-> > +		phylink_set(mask, 10baseT_Half);
-> > +		phylink_set(mask, 10baseT_Full);
-> > +		phylink_set(mask, 100baseT_Half);
-> > +		phylink_set(mask, 100baseT_Full);
-> > +	} =20
->=20
-> If the port supports e.g. RGMII (as it does via the media converter)
-> then it also supports 1000baseX modes as well - because a PHY attached
-> to the RGMII port can convert to 1000baseX.
->=20
-> > +
-> > +	linkmode_and(supported, supported, mask);
-> > +	linkmode_and(state->advertising, state->advertising, mask);
-> > +} =20
->=20
-> This basically means "I support every phy_interface_t mode that has ever
-> been implemented" which surely is not what you want. I doubt from the
-> above that you support 10GBASE-KR for example.
-
-Hmmm yes indeed, that's not what I meant *at all*.
-
->=20
-> Please instead implement the .phylink_get_caps DSA switch interface, and
-> fill in the config->supported_interfaces for all interface modes that
-> the port supports (that including the media converter as well) and the
-> config->mac_capabilities members.
->=20
-
-Ok, looks indeed more fitted and easier to understand.
-
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
