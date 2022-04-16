@@ -2,94 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24BB7503063
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 01:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7037E5034EB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 09:51:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356118AbiDOVjL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Apr 2022 17:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
+        id S230215AbiDPHw7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Apr 2022 03:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356119AbiDOVjF (ORCPT
+        with ESMTP id S230282AbiDPHw3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Apr 2022 17:39:05 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539BC3CFC5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Apr 2022 14:36:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=KcELiUq4UXkjbcAbGj+sesWF2rJC
-        rUIBupy8gzNtfbU=; b=ubFGBk2TPg6e9D+xvl4vLucv3Fo5xV6Zojj1Zboa09Gq
-        /qCx1WsqXPlEnog9q4IbbCvSvzI2I+Etb/4x7xrKeV9S4rLNPozj29lQqCOQtWzy
-        zhfC0cPO+K9V2w4o39wb5VtlCFBRtPYSNPMMxrU3aQrE6juArOETszvoZANYMPw=
-Received: (qmail 2350265 invoked from network); 15 Apr 2022 23:36:31 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Apr 2022 23:36:31 +0200
-X-UD-Smtp-Session: l3s3148p1@a500NLjcurIgAwDtxwyoAOfJPDZkSTZ/
-Date:   Fri, 15 Apr 2022 23:36:31 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Subject: Re: [PATCH v4] i2c: rcar: add support for I2C_M_RECV_LEN
-Message-ID: <YlnlXwHTqFR7yRs+@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>
-References: <20220405100756.42920-1-wsa+renesas@sang-engineering.com>
+        Sat, 16 Apr 2022 03:52:29 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36A85FC2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Apr 2022 00:49:39 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id k62so4011472pgd.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Apr 2022 00:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
+         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
+         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
+         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
+         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
+         XtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=0THNgQVAfOB8r+Mk9NR4V7h8VDbl7EkXWXfpVL3hSW46LJwmMO2kNhENenXq6AziFW
+         DfaURmTf8j6331yTCRohMpUJTNdugUSdLMZiIuB5mYlPItKkYVXMCpw6OCRVIV0Hc7R9
+         cvJzeTLhpG0PNc+NGJd/ksrDT927btHsHTmGCz70DcdPDbslQDnsVSYTU6lEyYuiuQ2q
+         EgIZiCPjuUUOXFrCKm9K7aMWxzpLo4PEvZVoUIxpyPSraRCRdf4j4eJRrhM5oBBn8zrT
+         e24+OYPn5vrsW/bhVIUo3E9oT5moc74GCOlouMBh+lo9e8MLLHikgs6/bW6NzyKeoZdP
+         c5xg==
+X-Gm-Message-State: AOAM5317JcDApYoqlmCZUPNFC88DdxPRVHsi2d1b+nwpLWCZwxppMZtg
+        iGKSk8KR4bw+pB2GoJfsBcksSzCQXjM04519bOaa2/7P+cs=
+X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
+X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
+ q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
+ Apr 2022 00:49:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VzUhE8JpOvSImoqk"
-Content-Disposition: inline
-In-Reply-To: <20220405100756.42920-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
+ -0700 (PDT)
+Reply-To: daniel.seyba@yahoo.com
+From:   Seyba Daniel <royhalton13@gmail.com>
+Date:   Sat, 16 Apr 2022 09:49:26 +0200
+Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:541 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [royhalton13[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [royhalton13[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello,
 
---VzUhE8JpOvSImoqk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am so sorry contacting you in this means especially when we have never
+met before. I urgently seek your service to represent me in investing in
+your region / country and you will be rewarded for your service without
+affecting your present job with very little time invested in it.
 
-On Tue, Apr 05, 2022 at 12:07:56PM +0200, Wolfram Sang wrote:
-> With this feature added, SMBus Block reads and Proc calls are now
-> supported. This patch is the best of two independent developments by
-> Wolfram and Bhuvanesh + Andrew, refactored again by Wolfram.
->=20
-> Signed-off-by: Bhuvanesh Surachari <bhuvanesh_surachari@mentor.com>
-> Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+My interest is in buying real estate, private schools or companies with
+potentials for rapid growth in long terms.
 
-Applied to for-next, thanks!
+So please confirm interest by responding back.
 
+My dearest regards
 
---VzUhE8JpOvSImoqk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJZ5V8ACgkQFA3kzBSg
-KbY5bw/9HolaQiOxvC5o9RMyWkwnUjCjG5ltNOHIXF5JCj76/SubNH0YoVSEH7Bh
-BiwTJDuV/O9Db0SUUzmD/RKpZcyC7QS/iiWqdnwP0xYlBxWi3pgXYmD/+rBLlefP
-PGD8+igxJV5guKHzz2RQhZIAjBcbX8LQRLzJOKRD6ydD3uYMuGvGiXJWfehjlH9+
-b3IsYolXsS2nDBjql2mu6/helqrlJQnmhjME4tijKz3cUrx6/CvWXflE7aAHn4KF
-gHHwif/QT1VqZuCpkc2sjElmjt6pbbu4vo6iDZz/luXUoOq27aC4LaHENXoDvOyi
-iwZR6x0evOH0AmuucL0Pv3B0Bc5ERaUNWHfp1bfGwpGwMGIhfxuORh66RMgUKsDo
-qwX+S0YvO9gnjVgBZYYvrphMGaTRsvtDdvoSgyXFebD1uSDLmZ/iGkVoaj1U359O
-BaHR2PYBg0n+qXuKnw1fwkJFeNW3jti/li64fhJXSFxM46jiXNV6gVQSUgmNIGF3
-Gf9GwgTz1xGIxreJyk3wmvNGyGFreIZNW9xUre2gq5lnCmHawcqRx+ZQ1JQYd8WO
-rX0ppWNkjdEpUK5omxXEsRKoSRJMU4M9Ie/EKWkmlHN01su2qnMDGIfqctTXemF8
-OOofkyZb0mO1xyZ6ctcGBOiRrEC26HolF4QxlXPSfG5VA0r/ts4=
-=rVkV
------END PGP SIGNATURE-----
-
---VzUhE8JpOvSImoqk--
+Seyba Daniel
