@@ -2,119 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1544250364D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 13:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 719735036DA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 15:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231730AbiDPLR6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Apr 2022 07:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38514 "EHLO
+        id S230388AbiDPNvs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Apr 2022 09:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231733AbiDPLR5 (ORCPT
+        with ESMTP id S230055AbiDPNvs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Apr 2022 07:17:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF9A6377FD;
-        Sat, 16 Apr 2022 04:15:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BA4B60E99;
-        Sat, 16 Apr 2022 11:15:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A895DC385A5;
-        Sat, 16 Apr 2022 11:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650107724;
-        bh=nqtzCAVG0UydeJj9805KTNz5rLFTdeSKGY2+Q6Dlv4k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=K+2dJ9pFOvsCgPHvg2S0S3x366hrjxBuSmjcsqUiS9p72g3EW0juNGCqpdL86ne4T
-         MjOu7YszoKpmLWSUOMXdSfzXKBX594H9cwF4evc/r9gSO6xo3+JGt2/0l8g1HWIk4F
-         n0n1QlN4xII1Yao19ZLH7czyqaFwIhgOdwwVRrv8BUQgMQlFUg0jImftfoVuBKMqeE
-         q3LdFkVbxgXu3/S5T7WPHZfpksGMxZ5KldpcQq+JPqXTX1E3uQ1rmgrroMZClUGoP9
-         iVWbwtWMYgHtQim1ovjFVL3d9OVlDDhRcfmRh5F0W47w6JMFBNuXHOeSSzxAVasYt/
-         Ey49IWzqDZNeQ==
-Date:   Sat, 16 Apr 2022 12:23:22 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] iio: adc: Kconfig: Make RZG2L_ADC depend on ARCH_RZG2L
-Message-ID: <20220416122322.7aa14706@jic23-huawei>
-In-Reply-To: <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
-References: <20220406070315.13862-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220410174713.1a4e013f@jic23-huawei>
-        <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Sat, 16 Apr 2022 09:51:48 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF433C704;
+        Sat, 16 Apr 2022 06:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=fQFaKMW6gm7npdxtIFfE0RrlCeY4gGTbCdpIyvFb5xM=; b=jp
+        VmvmVOHSw88NPCp4V/2PxuyNxwbsmzPNyOev4P3KCRmN6I8plSNrqHM4cciCmJvvbRBzVC/tM5abN
+        y9/SQDNy5Cd/gw5iTSvh5vi+J/WIJLJBSdJKaqtKpKbZfJ67xAH7+kb1b05dnGWI1e5wOnDS4pxeq
+        ezm+UTmZ0fmeuqw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nfinD-00G6bB-T1; Sat, 16 Apr 2022 15:48:51 +0200
+Date:   Sat, 16 Apr 2022 15:48:51 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 09/12] ARM: dts: r9a06g032: describe MII
+ converter
+Message-ID: <YlrJQ47tkmQdhtMu@lunn.ch>
+References: <20220414122250.158113-1-clement.leger@bootlin.com>
+ <20220414122250.158113-10-clement.leger@bootlin.com>
+ <YlismVi8y3Vf6PZ0@lunn.ch>
+ <20220415102453.1b5b3f77@fixe.home>
+ <Yll+Tpnwo5410B9H@lunn.ch>
+ <20220415163853.683c0b6d@fixe.home>
+ <YlmLWv4Hsm2uk8pa@lunn.ch>
+ <20220415172954.64e53086@fixe.home>
+ <YlmbIjoIZ8Xb4Kh/@lunn.ch>
+ <20220415184541.0a6928f5@fixe.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220415184541.0a6928f5@fixe.home>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 11 Apr 2022 16:40:20 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Apr 15, 2022 at 06:45:41PM +0200, Clément Léger wrote:
+> Le Fri, 15 Apr 2022 18:19:46 +0200,
+> Andrew Lunn <andrew@lunn.ch> a écrit :
+> 
+> > > I think it would be good to modify it like this:
+> > > 
+> > > eth-miic@44030000 {
+> > >     ...
+> > >   converters {
+> > >     mii_conv0: mii-conv@0 {
+> > >       // Even if useless, maybe keeping it for the sake of coherency
+> > >       renesas,miic-input = <MIIC_GMAC1>;
+> > >       reg = <0>;
+> > >     };  
+> > 
+> > This is not a 'bus', so using reg, and @0, etc is i think wrong.  You
+> > just have a collection of properties.
+> 
+> Agreed, but this is the same thing that is done for DSA ports (at least
+> I think). It uses reg which describe the port number, this is not a
+> real bus per se, it only refer to port indices.
 
-> Hi Jonathan,
-> 
-> On Sun, Apr 10, 2022 at 7:52 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> > On Wed,  6 Apr 2022 08:03:15 +0100
-> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >  
-> > > ADC block is common on Renesas RZ/G2L and RZ/V2L SoC's, so instead of
-> > > adding dependency for each SoC's add dependency on ARCH_RZG2L. The
-> > > ARCH_RZG2L config option is already selected by ARCH_R9A07G044 and
-> > > ARCH_R9A07G054.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>  
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Applied. Thanks,
+True. That is an old binding, before a lot of good practices were
+enforced. I'm not sure it would be accepted today.
 
-Jonathan
+I suggest you make a proposal and see what the DT Maintainers say.
 
-> 
-> > Sounds like a fix?
-> >
-> > If so, please supply a Fixes tag.
-> > no need to resend, just reply with one to this email.  
-> 
-> This is not really a fix, as the original dependency was correct at
-> that time.
-> This is a change to add support for the RZ/V2L (r9a07g054) SoC, and
-> avoiding the need to update the dependencies when support is added
-> for more SoCs of the RZ/G2L family later.
-> 
-> > > --- a/drivers/iio/adc/Kconfig
-> > > +++ b/drivers/iio/adc/Kconfig
-> > > @@ -910,7 +910,7 @@ config ROCKCHIP_SARADC
-> > >
-> > >  config RZG2L_ADC
-> > >       tristate "Renesas RZ/G2L ADC driver"
-> > > -     depends on ARCH_R9A07G044 || COMPILE_TEST
-> > > +     depends on ARCH_RZG2L || COMPILE_TEST
-> > >       help
-> > >         Say yes here to build support for the ADC found in Renesas
-> > >         RZ/G2L family.  
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> But if you think this should not be done like this, what do you
+> propose then ? These nodes are also reference from "pcs-handle"
+> properties in switch to retrieve the PCS.
+
+This i was not thinking about. Make this clear in the binding
+documentation for what you propose.
+
+Humm, this last point just gave me an idea. How are you representing
+the PCS in DT? Are they memory mapped? So you have a nodes something
+like:
+
+eth-pcs-conv1@44040100 {
+	compatible = "acm-inc,pcs"
+}
+
+eth-pcs-conv2@44040200 {
+	compatible = "acm-inc,pcs"
+}
+
+The MAC node than has a pcs-handle pointing to one of these nodes?
+
+You implicitly have the information you need to configure the MII
+muxes here. The information is a lot more distributed, but it is
+there. As each MAC probes, it can ask the MII MUX driver to connect
+its MAC to the converter pointed to by its pcs-handle.
+
+	Andrew
 
