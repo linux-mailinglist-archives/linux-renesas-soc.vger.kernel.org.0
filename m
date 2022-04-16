@@ -2,107 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7037E5034EB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 09:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1544250364D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 13:15:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbiDPHw7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Apr 2022 03:52:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
+        id S231730AbiDPLR6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Apr 2022 07:17:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbiDPHw3 (ORCPT
+        with ESMTP id S231733AbiDPLR5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Apr 2022 03:52:29 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36A85FC2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Apr 2022 00:49:39 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id k62so4011472pgd.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Apr 2022 00:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
-         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
-         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
-         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
-         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
-         XtNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=0THNgQVAfOB8r+Mk9NR4V7h8VDbl7EkXWXfpVL3hSW46LJwmMO2kNhENenXq6AziFW
-         DfaURmTf8j6331yTCRohMpUJTNdugUSdLMZiIuB5mYlPItKkYVXMCpw6OCRVIV0Hc7R9
-         cvJzeTLhpG0PNc+NGJd/ksrDT927btHsHTmGCz70DcdPDbslQDnsVSYTU6lEyYuiuQ2q
-         EgIZiCPjuUUOXFrCKm9K7aMWxzpLo4PEvZVoUIxpyPSraRCRdf4j4eJRrhM5oBBn8zrT
-         e24+OYPn5vrsW/bhVIUo3E9oT5moc74GCOlouMBh+lo9e8MLLHikgs6/bW6NzyKeoZdP
-         c5xg==
-X-Gm-Message-State: AOAM5317JcDApYoqlmCZUPNFC88DdxPRVHsi2d1b+nwpLWCZwxppMZtg
-        iGKSk8KR4bw+pB2GoJfsBcksSzCQXjM04519bOaa2/7P+cs=
-X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
-X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
- q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
- Apr 2022 00:49:26 -0700 (PDT)
+        Sat, 16 Apr 2022 07:17:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF9A6377FD;
+        Sat, 16 Apr 2022 04:15:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BA4B60E99;
+        Sat, 16 Apr 2022 11:15:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A895DC385A5;
+        Sat, 16 Apr 2022 11:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650107724;
+        bh=nqtzCAVG0UydeJj9805KTNz5rLFTdeSKGY2+Q6Dlv4k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=K+2dJ9pFOvsCgPHvg2S0S3x366hrjxBuSmjcsqUiS9p72g3EW0juNGCqpdL86ne4T
+         MjOu7YszoKpmLWSUOMXdSfzXKBX594H9cwF4evc/r9gSO6xo3+JGt2/0l8g1HWIk4F
+         n0n1QlN4xII1Yao19ZLH7czyqaFwIhgOdwwVRrv8BUQgMQlFUg0jImftfoVuBKMqeE
+         q3LdFkVbxgXu3/S5T7WPHZfpksGMxZ5KldpcQq+JPqXTX1E3uQ1rmgrroMZClUGoP9
+         iVWbwtWMYgHtQim1ovjFVL3d9OVlDDhRcfmRh5F0W47w6JMFBNuXHOeSSzxAVasYt/
+         Ey49IWzqDZNeQ==
+Date:   Sat, 16 Apr 2022 12:23:22 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] iio: adc: Kconfig: Make RZG2L_ADC depend on ARCH_RZG2L
+Message-ID: <20220416122322.7aa14706@jic23-huawei>
+In-Reply-To: <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
+References: <20220406070315.13862-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20220410174713.1a4e013f@jic23-huawei>
+        <CAMuHMdViXg2ZpKG+fJJyMjA_uY-7Tu2E1WwWed97OX5LOMq4tQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
- -0700 (PDT)
-Reply-To: daniel.seyba@yahoo.com
-From:   Seyba Daniel <royhalton13@gmail.com>
-Date:   Sat, 16 Apr 2022 09:49:26 +0200
-Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:541 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [royhalton13[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [royhalton13[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+On Mon, 11 Apr 2022 16:40:20 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-I am so sorry contacting you in this means especially when we have never
-met before. I urgently seek your service to represent me in investing in
-your region / country and you will be rewarded for your service without
-affecting your present job with very little time invested in it.
+> Hi Jonathan,
+> 
+> On Sun, Apr 10, 2022 at 7:52 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> > On Wed,  6 Apr 2022 08:03:15 +0100
+> > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >  
+> > > ADC block is common on Renesas RZ/G2L and RZ/V2L SoC's, so instead of
+> > > adding dependency for each SoC's add dependency on ARCH_RZG2L. The
+> > > ARCH_RZG2L config option is already selected by ARCH_R9A07G044 and
+> > > ARCH_R9A07G054.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>  
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Applied. Thanks,
 
-My interest is in buying real estate, private schools or companies with
-potentials for rapid growth in long terms.
+Jonathan
 
-So please confirm interest by responding back.
+> 
+> > Sounds like a fix?
+> >
+> > If so, please supply a Fixes tag.
+> > no need to resend, just reply with one to this email.  
+> 
+> This is not really a fix, as the original dependency was correct at
+> that time.
+> This is a change to add support for the RZ/V2L (r9a07g054) SoC, and
+> avoiding the need to update the dependencies when support is added
+> for more SoCs of the RZ/G2L family later.
+> 
+> > > --- a/drivers/iio/adc/Kconfig
+> > > +++ b/drivers/iio/adc/Kconfig
+> > > @@ -910,7 +910,7 @@ config ROCKCHIP_SARADC
+> > >
+> > >  config RZG2L_ADC
+> > >       tristate "Renesas RZ/G2L ADC driver"
+> > > -     depends on ARCH_R9A07G044 || COMPILE_TEST
+> > > +     depends on ARCH_RZG2L || COMPILE_TEST
+> > >       help
+> > >         Say yes here to build support for the ADC found in Renesas
+> > >         RZ/G2L family.  
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-My dearest regards
-
-Seyba Daniel
