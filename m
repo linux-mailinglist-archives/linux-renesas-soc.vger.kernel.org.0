@@ -2,132 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 719735036DA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Apr 2022 15:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B2C5504E1C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Apr 2022 11:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbiDPNvs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Apr 2022 09:51:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55372 "EHLO
+        id S234836AbiDRJFm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Apr 2022 05:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230055AbiDPNvs (ORCPT
+        with ESMTP id S237379AbiDRJFi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Apr 2022 09:51:48 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF433C704;
-        Sat, 16 Apr 2022 06:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=fQFaKMW6gm7npdxtIFfE0RrlCeY4gGTbCdpIyvFb5xM=; b=jp
-        VmvmVOHSw88NPCp4V/2PxuyNxwbsmzPNyOev4P3KCRmN6I8plSNrqHM4cciCmJvvbRBzVC/tM5abN
-        y9/SQDNy5Cd/gw5iTSvh5vi+J/WIJLJBSdJKaqtKpKbZfJ67xAH7+kb1b05dnGWI1e5wOnDS4pxeq
-        ezm+UTmZ0fmeuqw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nfinD-00G6bB-T1; Sat, 16 Apr 2022 15:48:51 +0200
-Date:   Sat, 16 Apr 2022 15:48:51 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Mon, 18 Apr 2022 05:05:38 -0400
+Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939521169;
+        Mon, 18 Apr 2022 02:02:57 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 7631120CBF69
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH v2 6/8] ARM: dts: r9a06g032: Add internal PCI bridge node
+To:     Herve Codina <herve.codina@bootlin.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 09/12] ARM: dts: r9a06g032: describe MII
- converter
-Message-ID: <YlrJQ47tkmQdhtMu@lunn.ch>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
- <20220414122250.158113-10-clement.leger@bootlin.com>
- <YlismVi8y3Vf6PZ0@lunn.ch>
- <20220415102453.1b5b3f77@fixe.home>
- <Yll+Tpnwo5410B9H@lunn.ch>
- <20220415163853.683c0b6d@fixe.home>
- <YlmLWv4Hsm2uk8pa@lunn.ch>
- <20220415172954.64e53086@fixe.home>
- <YlmbIjoIZ8Xb4Kh/@lunn.ch>
- <20220415184541.0a6928f5@fixe.home>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>
+CC:     Rob Herring <robh@kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+ <20220414074011.500533-7-herve.codina@bootlin.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <05c96b4d-313b-1aad-0ee5-61e54672765e@omp.ru>
+Date:   Mon, 18 Apr 2022 12:02:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220415184541.0a6928f5@fixe.home>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220414074011.500533-7-herve.codina@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 06:45:41PM +0200, Clément Léger wrote:
-> Le Fri, 15 Apr 2022 18:19:46 +0200,
-> Andrew Lunn <andrew@lunn.ch> a écrit :
+Hello!
+
+On 4/14/22 10:40 AM, Herve Codina wrote:
+
+> Add the device node for the r9a06g032 internal PCI bridge device.
 > 
-> > > I think it would be good to modify it like this:
-> > > 
-> > > eth-miic@44030000 {
-> > >     ...
-> > >   converters {
-> > >     mii_conv0: mii-conv@0 {
-> > >       // Even if useless, maybe keeping it for the sake of coherency
-> > >       renesas,miic-input = <MIIC_GMAC1>;
-> > >       reg = <0>;
-> > >     };  
-> > 
-> > This is not a 'bus', so using reg, and @0, etc is i think wrong.  You
-> > just have a collection of properties.
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  arch/arm/boot/dts/r9a06g032.dtsi | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 > 
-> Agreed, but this is the same thing that is done for DSA ports (at least
-> I think). It uses reg which describe the port number, this is not a
-> real bus per se, it only refer to port indices.
+> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+> index 636a6ab31c58..848dc034bb8c 100644
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -211,6 +211,34 @@ gic: interrupt-controller@44101000 {
+>  			interrupts =
+>  				<GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
+>  		};
+> +
+> +		pci_usb: pci@40030000 {
+> +			compatible = "renesas,pci-r9a06g032", "renesas,pci-rzn1";
+> +			device_type = "pci";
+> +			clocks = <&sysctrl R9A06G032_HCLK_USBH>,
+> +				 <&sysctrl R9A06G032_HCLK_USBPM>,
+> +				 <&sysctrl R9A06G032_CLK_PCI_USB>;
+> +			clock-names = "hclk_usbh", "hclk_usbpm", "clk_pci_usb";
+> +			reg = <0x40030000 0xc00>,
+> +			      <0x40020000 0x1100>;
+> +			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
+> +			status = "disabled";
+> +
+> +			bus-range = <0 0>;
+> +			#address-cells = <3>;
+> +			#size-cells = <2>;
+> +			#interrupt-cells = <1>;
 
-True. That is an old binding, before a lot of good practices were
-enforced. I'm not sure it would be accepted today.
+   Really? I don't think this PCI bridge is also an interrupt controller...
 
-I suggest you make a proposal and see what the DT Maintainers say.
+> +			ranges = <0x02000000 0 0x40020000 0x40020000 0 0x00010000>;
+> +			/* Should map all possible DDR as inbound ranges, but
+> +			 * the IP only supports a 256MB, 512MB, or 1GB window.
+> +			 * flags, PCI addr (64-bit), CPU addr, PCI size (64-bit)
+> +			 */
+> +			dma-ranges = <0x42000000 0 0x80000000 0x80000000 0 0x40000000>;
+> +			interrupt-map-mask = <0xf800 0 0 0x7>;
+> +			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
+> +					 0x0800 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
+> +					 0x1000 0 0 2 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
+> +		};
+>  	};
+>  
+>  	timer {
 
-> But if you think this should not be done like this, what do you
-> propose then ? These nodes are also reference from "pcs-handle"
-> properties in switch to retrieve the PCS.
-
-This i was not thinking about. Make this clear in the binding
-documentation for what you propose.
-
-Humm, this last point just gave me an idea. How are you representing
-the PCS in DT? Are they memory mapped? So you have a nodes something
-like:
-
-eth-pcs-conv1@44040100 {
-	compatible = "acm-inc,pcs"
-}
-
-eth-pcs-conv2@44040200 {
-	compatible = "acm-inc,pcs"
-}
-
-The MAC node than has a pcs-handle pointing to one of these nodes?
-
-You implicitly have the information you need to configure the MII
-muxes here. The information is a lot more distributed, but it is
-there. As each MAC probes, it can ask the MII MUX driver to connect
-its MAC to the converter pointed to by its pcs-handle.
-
-	Andrew
-
+MBR, Sergey
