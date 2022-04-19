@@ -2,175 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C91C5068CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 12:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A08506BC4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 14:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235938AbiDSKdi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 06:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36994 "EHLO
+        id S1352109AbiDSMKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 08:10:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232153AbiDSKdh (ORCPT
+        with ESMTP id S1352025AbiDSMIR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 06:33:37 -0400
-X-Greylist: delayed 512 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 19 Apr 2022 03:30:54 PDT
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2A329CB2;
-        Tue, 19 Apr 2022 03:30:54 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 1AAF63C001F;
-        Tue, 19 Apr 2022 12:22:20 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Tue, 19 Apr
- 2022 12:22:19 +0200
-Date:   Tue, 19 Apr 2022 12:22:15 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l: vsp1: Fix offset calculation for plane
- cropping
-Message-ID: <20220419102215.GA46023@vmlxhi-121.adit-jv.com>
-References: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
- <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
+        Tue, 19 Apr 2022 08:08:17 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5191C55B4;
+        Tue, 19 Apr 2022 05:03:55 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,272,1643641200"; 
+   d="scan'208";a="118449892"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Apr 2022 21:03:54 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 304C8427EAC9;
+        Tue, 19 Apr 2022 21:03:54 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
+        krzk+dt@kernel.org
+Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 0/7] treewide: scsi: ufs: Add support for Renesas R-Car UFS controller
+Date:   Tue, 19 Apr 2022 21:03:09 +0900
+Message-Id: <20220419120316.209151-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+This patch series adds support Renesas R-Car S4-8 UFS controller.
+This controller has some restrictions so adds some quirks for it.
+Before using this driver, we have to initialize a clock generator
+on the environment board (named "Spider") by using the commands of
+U-Boot like below:
+ => i2c dev 0
+ => i2c mw 0x6c 0x26 0x05
+ => i2c olen 0x6c 2
+ => i2c mw 0x6c 0x26c 0x2e
 
-On Thu, Apr 14, 2022 at 05:20:14PM +0300, Laurent Pinchart wrote:
-> Hi Michael,
-> 
-> Your previous mail slipped through the cracks, sorry about that.
-> 
-> On Wed, Mar 02, 2022 at 12:00:12PM +0100, Michael Rodin wrote:
-> > Hi Laurent,
-> > 
-> > thank you for your work!
-> > 
-> > On Mon, Feb 28, 2022 at 02:00:58PM +0200, Laurent Pinchart wrote:
-> > > From: Michael Rodin <mrodin@de.adit-jv.com>
-> > > 
-> > > The vertical subsampling factor is currently not considered in the
-> > > offset calculation for plane cropping done in rpf_configure_partition.
-> > > This causes a distortion (shift of the color plane) when formats with
-> > > the vsub factor larger than 1 are used (e.g. NV12, see
-> > > vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
-> > > for all planes except plane 0 (luminance).
-> > > 
-> > > Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
-> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > Signed-off-by: LUU HOAI <https://urldefense.proofpoint.com/v2/url?u=http-3A__hoai.luu.ub-40renesas.com&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=l9CsK_BwOB0w3jdi3p2OFRTiGdlxWl2EHtxac3eVSTU&e=>
-> > > 
-> > > Drop generalization of the offset calculation to reduce the binary size.
-> > 
-> > Dropping generalization which I have done in my initial patch [1] is ok as
-> > long as this will not cause any troubles. I am not aware of any case where
-> > bytesperline and bpp could be different between the chroma planes, so
-> > probably it's fine.
-> > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > index 85587c1b6a37..75083cb234fe 100644
-> > > --- a/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > @@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> > >  		     + crop.left * fmtinfo->bpp[0] / 8;
-> > >  
-> > >  	if (format->num_planes > 1) {
-> > > +		unsigned int bpl = format->plane_fmt[1].bytesperline;
-> > >  		unsigned int offset;
-> > >  
-> > > -		offset = crop.top * format->plane_fmt[1].bytesperline
-> > > -		       + crop.left / fmtinfo->hsub
-> > > -		       * fmtinfo->bpp[1] / 8;
-> > > +		offset = crop.top / fmtinfo->vsub * bpl
-> > > +		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> > 
-> > Probably it makes sense to do the division after all multiplications are
-> > done in order to avoid rounding errors? Consider the case when left = 3,
-> > hsub = 2, bpp = 32. Then we would get for the second part of the offset:
-> >   3 / 2 * 32 / 8 = 1 * 32 / 8 = 4
-> > and if we do division as the last operation:
-> >   (3 * 32) / (8 * 2) = 96 / 16 = 6
-> 
-> This was actually done on purpose :-) If the horizontal subsampling
-> factor is equal to 2, for instance for the NV12 chroma plane, the
-> horizontal offset must effectively be a multiple of 2. Otherwise you'll
-> swap the Cr and Cb components.
-> 
-> Taking your above example with a NV12 format (left=3, hsub=2, but
-> bpp=16), with the rounding in this patch,
-> 
-> 	offset = crop.top / fmtinfo->vsub * bpl
-> 	       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> 	       = [vertical offset]
-> 	       + 3 / 2 * 16 / 8;
-> 	       = [vertical offset]
-> 	       + 2;
-> 
-> Byte: 0  1  2  3  4  5
->       Cr Cb Cr Cb Cr Cb ...
->             ^
->             offset
-> 
-> With your rounding proposal,
-> 
-> 	offset = crop.top / fmtinfo->vsub * bpl
-> 	       + (crop.left * fmtinfo->bpp[1]) / (fmtinfo->hsub * 8);
-> 	       = [vertical offset]
-> 	       + (3 * 16) / (2 * 8);
-> 	       = [vertical offset]
-> 	       + 3;
-> 
-> Byte: 0  1  2  3  4  5
->       Cr Cb Cr Cb Cr Cb ...
->                ^
->                offset
+To use the UFS controller, we need the following patch too:
+https://lore.kernel.org/all/20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com/
 
-Thank you very much for the clarification, I have missed this point!
-Now the patch looks fine to me.
+Changes from v2:
+ - Add Reviewed-by in patch [1/7]. (Krzysztof, thanks!)
+ - Use WARN_ON() instead of BUG_ON in patch [4/7].
+https://lore.kernel.org/all/20220414023115.4190736-1-yoshihiro.shimoda.uh@renesas.com/
 
-Reviewed-by: Michael Rodin <mrodin@de.adit-jv.com>
+Changes from v1:
+ - Fix dt-binding doc in patch [1/7].
+ - Add __maybe_unused for compile test on other platforms in patch [4/7].
+ - Fix node names in patch [5/7].
+https://lore.kernel.org/all/20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com/
 
-> > The first part of the offset can probably also cause the same rounding
-> > issue.
-> > 
-> > >  		mem.addr[1] += offset;
-> > >  		mem.addr[2] += offset;
-> > >  	}
-> > > 
-> > 
-> > [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_all_1637679566-2D76975-2D1-2Dgit-2Dsend-2Demail-2Dmrodin-40de.adit-2Djv.com_T_&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=zwktftJ_aVV0iA0D8dcfCy1_rRg5PSdi5OXfTZBs648&e=
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Yoshihiro Shimoda (7):
+  dt-bindings: ufs: Document Renesas R-Car UFS host controller
+  ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
+  ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
+  scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
+  scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
+  arm64: dts: renesas: r8a779f0: Add UFS node
+  arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
+
+ .../devicetree/bindings/ufs/renesas,ufs.yaml  |  61 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |  19 +
+ drivers/scsi/ufs/Kconfig                      |  12 +
+ drivers/scsi/ufs/Makefile                     |   1 +
+ drivers/scsi/ufs/ufs-renesas.c                | 418 ++++++++++++++++++
+ drivers/scsi/ufs/ufshcd.c                     |  12 +-
+ drivers/scsi/ufs/ufshcd.h                     |  12 +
+ 9 files changed, 547 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+ create mode 100644 drivers/scsi/ufs/ufs-renesas.c
 
 -- 
-Best Regards,
-Michael
+2.25.1
+
