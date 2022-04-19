@@ -2,162 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02DB850676A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 11:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D40EA506797
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 11:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350275AbiDSJHq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 05:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
+        id S1348057AbiDSJXW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 05:23:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350295AbiDSJHg (ORCPT
+        with ESMTP id S1345298AbiDSJXU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 05:07:36 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD332BD7;
-        Tue, 19 Apr 2022 02:04:52 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E1D9E240004;
-        Tue, 19 Apr 2022 09:04:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650359091;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P15AbQJC6wP8LbZh3j3wNlnBCOzTtvLQULPM3JHRUlI=;
-        b=LH9njdcpi5vlimjDAwr6c6Kf0oFhSQihIOw9dBXIKcXl8rlF4XhOX3GfCzxbNZ8zLUwnvH
-        ujfEcWUQNGf3f3kh3znt+WSRQJq7zkD3uw9BeGowlEenheqqtpW8oU9DslBl5n74Vjz/pH
-        y4bmqxkpsVJbPlSkPJLwJ+fVoD7EdL/D5biHn7XDDA7RdU4G02Gh7X4cBj/2SjMDkyg5rp
-        a8yF33774x7EUcUQy6f10onHXTEKtLR1n9WCgSmPiodRQyl6gm7lwVxUAHEMIwFswJeqCZ
-        qxHqKHa+1Hc0xx8jR8vxa3jeIG5yjtXq6LUS/msP7tuq/+KWPug8gNI3cq6z7w==
-Date:   Tue, 19 Apr 2022 11:03:28 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 09/12] ARM: dts: r9a06g032: describe MII
- converter
-Message-ID: <20220419110328.0241fb1f@fixe.home>
-In-Reply-To: <YlrJQ47tkmQdhtMu@lunn.ch>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
-        <20220414122250.158113-10-clement.leger@bootlin.com>
-        <YlismVi8y3Vf6PZ0@lunn.ch>
-        <20220415102453.1b5b3f77@fixe.home>
-        <Yll+Tpnwo5410B9H@lunn.ch>
-        <20220415163853.683c0b6d@fixe.home>
-        <YlmLWv4Hsm2uk8pa@lunn.ch>
-        <20220415172954.64e53086@fixe.home>
-        <YlmbIjoIZ8Xb4Kh/@lunn.ch>
-        <20220415184541.0a6928f5@fixe.home>
-        <YlrJQ47tkmQdhtMu@lunn.ch>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+        Tue, 19 Apr 2022 05:23:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F291EED0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 02:20:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15587B815A2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 994B8C385A5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650360034;
+        bh=+vUZG5xsCCWy+k25hXPrWH99xWTbNhq5HNbgT7s/0c8=;
+        h=Subject:From:Date:To:From;
+        b=c056wNc1VDqtNi1AJLA6YU7apAs+sscY0Gpm4xBCTQzLbPDJsG5F+yN8kX+q8j+mm
+         OqhyvBV3AKEuSQ0iEgGvQ9mot5ATq68R0p7qXHWy33cdBEWU9zfgDy9ZQ4yNNi26Y/
+         gX7b1PT0je/I0Xnfe0AKTnD5Ut/DaW21F9EjAMBinmDLxxN3pmmQzL4FScQG3ae0mG
+         5GWn2PZ8YiaycNpGr54qgyCiB1kEqm9eTKkdunccA9oMCsp8YznnM3tqdRFy38BEfn
+         65YZ3XJcU7Sy5NJkcZMB9OWvfXxeYBTU4WKNmqljABFNgzRBLcCJanzJGsP09vML+W
+         bbrcmXXmybg0A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 733F2E8DBDA
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165036003442.20561.9939852318584940858.git-patchwork-summary@kernel.org>
+Date:   Tue, 19 Apr 2022 09:20:34 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Sat, 16 Apr 2022 15:48:51 +0200,
-Andrew Lunn <andrew@lunn.ch> a =C3=A9crit :
+Hello:
 
-> On Fri, Apr 15, 2022 at 06:45:41PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Le Fri, 15 Apr 2022 18:19:46 +0200,
-> > Andrew Lunn <andrew@lunn.ch> a =C3=A9crit :
-> >  =20
-> > > > I think it would be good to modify it like this:
-> > > >=20
-> > > > eth-miic@44030000 {
-> > > >     ...
-> > > >   converters {
-> > > >     mii_conv0: mii-conv@0 {
-> > > >       // Even if useless, maybe keeping it for the sake of coherency
-> > > >       renesas,miic-input =3D <MIIC_GMAC1>;
-> > > >       reg =3D <0>;
-> > > >     };   =20
-> > >=20
-> > > This is not a 'bus', so using reg, and @0, etc is i think wrong.  You
-> > > just have a collection of properties. =20
-> >=20
-> > Agreed, but this is the same thing that is done for DSA ports (at least
-> > I think). It uses reg which describe the port number, this is not a
-> > real bus per se, it only refer to port indices. =20
->=20
-> True. That is an old binding, before a lot of good practices were
-> enforced. I'm not sure it would be accepted today.
->=20
-> I suggest you make a proposal and see what the DT Maintainers say.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Acked.
+Patch: dt-bindings: gpu: mali-bifrost: Document RZ/V2L SoC
+  Submitter: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Committer: Rob Herring <robh@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=621673
+  Lore link: https://lore.kernel.org/r/20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 
->=20
-> > But if you think this should not be done like this, what do you
-> > propose then ? These nodes are also reference from "pcs-handle"
-> > properties in switch to retrieve the PCS. =20
->=20
-> This i was not thinking about. Make this clear in the binding
-> documentation for what you propose.
->=20
-> Humm, this last point just gave me an idea. How are you representing
-> the PCS in DT? Are they memory mapped? So you have a nodes something
-> like:
->=20
-> eth-pcs-conv1@44040100 {
-> 	compatible =3D "acm-inc,pcs"
-> }
->=20
-> eth-pcs-conv2@44040200 {
-> 	compatible =3D "acm-inc,pcs"
-> }
+Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v5.18-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632341
+  Lore link: https://lore.kernel.org/r/2ca6b74c5a4e954319625281b8e35a16d992ba8f.1649947562.git.geert+renesas@glider.be
 
-That is a good idea since the converter are indeed (partly) memory
-mapped, but the hardware guys decided that it was a good idea to share
-some registers. Amongst shared registers, we have the reset for each
-converter and the muxing control which as stated before is contained in
-a single register.
+Patch: ARM: shmobile: defconfig: Refresh for v5.18-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632334
+  Lore link: https://lore.kernel.org/r/922ba60d81a71acfae5d88c1991d8c96bb2b3527.1649947421.git.geert+renesas@glider.be
 
->=20
-> The MAC node than has a pcs-handle pointing to one of these nodes?
->=20
-> You implicitly have the information you need to configure the MII
-> muxes here. The information is a lot more distributed, but it is
-> there. As each MAC probes, it can ask the MII MUX driver to connect
-> its MAC to the converter pointed to by its pcs-handle.
+Patch: ARM: dts: r9a06g032: Drop "arm,cortex-a7-timer" from timer node
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=631058
+  Lore link: https://lore.kernel.org/r/a8e0cf00a983b4c539cdb1cfad5cc6b10b423c5b.1649680220.git.geert+renesas@glider.be
 
-Hum, that could be done but since only some values/combinations are
-allowed, it would potentially require to validate the setting at each
-request, leading to potential non working devices due to invalid MUX
-configuration required. I think the fact that we could have everything
-in one single node allows to validate it at probe time.
+Patch: arm64: defconfig: Enable Maxim MAX96712 Quad GMSL2 Deserializer support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632332
+  Lore link: https://lore.kernel.org/r/7b5ea7eaabc1da79fd974f9d9845a5a527f2fb14.1649947458.git.geert+renesas@glider.be
 
-Anyway, I'll make a proposal an we'll see ! Thanks again for your
-feedback.
+Patch: [v2] arm64: dts: renesas: r8a779f0: Add GPIO nodes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=628825
+  Lore link: https://lore.kernel.org/r/7fb68561026fa8bb5d9baf0596560c5c719a38cc.1649086225.git.geert+renesas@glider.be
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+
+Total patches: 6
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
