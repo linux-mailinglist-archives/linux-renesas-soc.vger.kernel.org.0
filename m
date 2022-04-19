@@ -2,202 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1740A507C44
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 23:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD03A507D36
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 01:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240938AbiDSWBY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 18:01:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49950 "EHLO
+        id S1344706AbiDSXnb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 19:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243088AbiDSWBX (ORCPT
+        with ESMTP id S238985AbiDSXna (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 18:01:23 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A986240E5A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 14:58:39 -0700 (PDT)
+        Tue, 19 Apr 2022 19:43:30 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B6281FCC8;
+        Tue, 19 Apr 2022 16:40:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650405519; x=1681941519;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cEHKZa0JMC2PdOogA4GfHFU77dYIBqgtcbPTVOXMyoE=;
-  b=krQKmXkwC6hfcQ9dutLi8ewd8EPzh5lzqx9xdK63kFRcK4er5d4pjBHb
-   t2wkNHoZofjp9LT6KQCOqadWdmbRnAED8oGZwqB+d9iVwYSSu/YKLvZ1J
-   8YXXCye6SMsvp1XkZmER9vkdXjiHzAM3pY3lmClQ4SwAOUlvIcwk+6PzW
-   71CUxUviZmBBu4nocUlWXMgdC+6s2PUqGVFREwwZSh0cOhu3Cchi6r3x/
-   FspQR+FnB2HUFlYVkDjjiQRe+PWJ2luul1bcbHqjYoGCY9AZ8+GFI9Gwo
-   f8Hf0KKqwamY+ubQYWWo+prjPXw/fxMJPZFXqOsME+CTYBu0X6mTU2FV7
+  t=1650411646; x=1681947646;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t4emDxanzGVvr52RH7coPRv08JQEzi0lhFYTHZLgntI=;
+  b=JmTGDHjLNNbzJdhcCL0+R9gua9OvSCGUBWjSOjv0s4lQ7a51HiXTIkTg
+   CClat2FTcOl+5Qt6kthkxG2ZEHriZnubiKM9xi/7DFYtvtc1i27U7r030
+   s6KMGQ/GNII9FueYP7sokvZu/SpqkIYEyvX/D+T7vTURC4PVPOOtxoBhs
+   IB2pBndx1vWfo/2aI0N+ea/ApKCpoPSL1eyW1NDn+3+iEtrtsrllZI6r+
+   mT/koXgsQz+BQueUQCZGShLvUHKQbnYwJM1ZwN/RgKZBBE0TuFgW4D8tL
+   VRQkAW0pkmCcSe53vztdhq6o15X50t44gvJb/fmWcOdl4xnb5QjmiUfdC
    A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="350331319"
-X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
-   d="scan'208";a="350331319"
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="262755535"
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; 
+   d="scan'208";a="262755535"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 14:58:39 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 16:40:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
-   d="scan'208";a="647422263"
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; 
+   d="scan'208";a="647450802"
 Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2022 14:58:38 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2022 16:40:43 -0700
 Received: from kbuild by 3abc53900bec with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1ngvrp-0006E2-F3;
-        Tue, 19 Apr 2022 21:58:37 +0000
-Date:   Wed, 20 Apr 2022 05:57:55 +0800
+        id 1ngxSc-0006Kg-No;
+        Tue, 19 Apr 2022 23:40:42 +0000
+Date:   Wed, 20 Apr 2022 07:40:18 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- fc84df8749fa09bc9407dfbf3c9a67a204a31eb5
-Message-ID: <625f3063.QO2/kIyTGxN63GZq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
+        krzk+dt@kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, jejb@linux.ibm.com,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v3 4/7] scsi: ufs-renesas: Add support for Renesas R-Car
+ UFS controller
+Message-ID: <202204200731.hTb71eG4-lkp@intel.com>
+References: <20220419120316.209151-5-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <20220419120316.209151-5-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: fc84df8749fa09bc9407dfbf3c9a67a204a31eb5  Merge branches 'renesas-arm-defconfig-for-v5.19' and 'renesas-arm-dt-for-v5.19' into renesas-next
+Hi Yoshihiro,
 
-elapsed time: 723m
+I love your patch! Perhaps something to improve:
 
-configs tested: 119
-configs skipped: 4
+[auto build test WARNING on geert-renesas-devel/next]
+[also build test WARNING on v5.18-rc3 next-20220419]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/treewide-scsi-ufs-Add-support-for-Renesas-R-Car-UFS-controller/20220419-201020
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220420/202204200731.hTb71eG4-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c1c49a356162b22554088d269f7689bdb044a9f1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3dca0de1a5ecda3be36402f3261cf286ce9dce64
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yoshihiro-Shimoda/treewide-scsi-ufs-Add-support-for-Renesas-R-Car-UFS-controller/20220419-201020
+        git checkout 3dca0de1a5ecda3be36402f3261cf286ce9dce64
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/scsi/ufs/
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-ia64                         bigsur_defconfig
-arm                             rpc_defconfig
-powerpc                       eiger_defconfig
-nios2                         10m50_defconfig
-arm                          pxa910_defconfig
-sh                               alldefconfig
-xtensa                generic_kc705_defconfig
-sh                        sh7785lcr_defconfig
-sh                        edosk7705_defconfig
-sh                           se7724_defconfig
-ia64                        generic_defconfig
-mips                       capcella_defconfig
-powerpc                      pcm030_defconfig
-ia64                             alldefconfig
-powerpc                     redwood_defconfig
-sh                           se7343_defconfig
-mips                     decstation_defconfig
-powerpc64                        alldefconfig
-sh                           se7721_defconfig
-m68k                        m5307c3_defconfig
-h8300                               defconfig
-powerpc                 mpc8540_ads_defconfig
-m68k                        stmark2_defconfig
-arm                          badge4_defconfig
-um                           x86_64_defconfig
-sh                            titan_defconfig
-csky                                defconfig
-sh                             shx3_defconfig
-sh                        sh7757lcr_defconfig
-arm                        mvebu_v7_defconfig
-arm                         axm55xx_defconfig
-s390                          debug_defconfig
-powerpc                       holly_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220419
-ia64                             allmodconfig
-ia64                             allyesconfig
-ia64                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                randconfig-r042-20220419
-arc                  randconfig-r043-20220419
-s390                 randconfig-r044-20220419
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-clang tested configs:
-x86_64                        randconfig-c007
-powerpc              randconfig-c003-20220419
-arm                  randconfig-c002-20220419
-i386                          randconfig-c001
-riscv                randconfig-c006-20220419
-mips                 randconfig-c004-20220419
-s390                 randconfig-c005-20220419
-powerpc                     tqm5200_defconfig
-powerpc                     kilauea_defconfig
-arm                           spitz_defconfig
-powerpc                     taishan_defconfig
-powerpc                         ps3_defconfig
-mips                         tb0226_defconfig
-powerpc                    klondike_defconfig
-powerpc                      ppc64e_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
+All warnings (new ones prefixed by >>):
+
+>> drivers/scsi/ufs/ufs-renesas.c:304:15: warning: variable 'val' is uninitialized when used here [-Wuninitialized]
+                            p->index, val);
+                                      ^~~
+   include/linux/printk.h:570:26: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+                                   ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:163:22: note: expanded from macro 'dynamic_pr_debug'
+                              pr_fmt(fmt), ##__VA_ARGS__)
+                                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:152:56: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+                                                                 ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:134:15: note: expanded from macro '__dynamic_func_call'
+                   func(&id, ##__VA_ARGS__);               \
+                               ^~~~~~~~~~~
+   drivers/scsi/ufs/ufs-renesas.c:285:9: note: initialize the variable 'val' to silence this warning
+           u32 val;
+                  ^
+                   = 0
+   1 warning generated.
+
+
+vim +/val +304 drivers/scsi/ufs/ufs-renesas.c
+
+   279	
+   280	static void ufs_renesas_reg_control(struct ufs_hba *hba,
+   281					    const struct ufs_renesas_init_param *p)
+   282	{
+   283		static u32 save[MAX_INDEX];
+   284		int ret;
+   285		u32 val;
+   286	
+   287		pr_debug("%s: %d %04x %08x, %08x, %d\n", __func__, p->mode, p->reg,
+   288			 p->u.val, p->mask, p->index);
+   289	
+   290		WARN_ON(p->index >= MAX_INDEX);
+   291	
+   292		switch (p->mode) {
+   293		case MODE_RESTORE:
+   294			ufshcd_writel(hba, save[p->index], p->reg);
+   295			break;
+   296		case MODE_SET:
+   297			pr_debug("%s: %d %x %x\n", __func__, p->index, save[p->index],
+   298				 p->u.set);
+   299			save[p->index] |= p->u.set;
+   300			break;
+   301		case MODE_SAVE:
+   302			save[p->index] = ufshcd_readl(hba, p->reg) & p->mask;
+   303			pr_debug("%s: index = %d, val = %08x\n", __func__,
+ > 304				 p->index, val);
+   305			break;
+   306		case MODE_POLL:
+   307			ret = readl_poll_timeout_atomic(hba->mmio_base + p->reg,
+   308							val,
+   309							(val & p->mask) == p->u.expected,
+   310							10, 1000);
+   311			if (ret)
+   312				pr_err("%s: poll failed %d (%08x, %08x, %08x)\n",
+   313				       __func__, ret, val, p->mask, p->u.expected);
+   314			break;
+   315		case MODE_WAIT:
+   316			if (p->u.delay_us > 1000)
+   317				mdelay(p->u.delay_us / 1000);
+   318			else
+   319				udelay(p->u.delay_us);
+   320			break;
+   321		case MODE_WRITE:
+   322			ufshcd_writel(hba, p->u.val, p->reg);
+   323			break;
+   324		default:
+   325			break;
+   326		}
+   327	}
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
