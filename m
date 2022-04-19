@@ -2,50 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D40EA506797
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 11:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C91C5068CA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 12:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348057AbiDSJXW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 05:23:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52218 "EHLO
+        id S235938AbiDSKdi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 06:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345298AbiDSJXU (ORCPT
+        with ESMTP id S232153AbiDSKdh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 05:23:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F291EED0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 02:20:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Tue, 19 Apr 2022 06:33:37 -0400
+X-Greylist: delayed 512 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 19 Apr 2022 03:30:54 PDT
+Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2A329CB2;
+        Tue, 19 Apr 2022 03:30:54 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 15587B815A2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 994B8C385A5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650360034;
-        bh=+vUZG5xsCCWy+k25hXPrWH99xWTbNhq5HNbgT7s/0c8=;
-        h=Subject:From:Date:To:From;
-        b=c056wNc1VDqtNi1AJLA6YU7apAs+sscY0Gpm4xBCTQzLbPDJsG5F+yN8kX+q8j+mm
-         OqhyvBV3AKEuSQ0iEgGvQ9mot5ATq68R0p7qXHWy33cdBEWU9zfgDy9ZQ4yNNi26Y/
-         gX7b1PT0je/I0Xnfe0AKTnD5Ut/DaW21F9EjAMBinmDLxxN3pmmQzL4FScQG3ae0mG
-         5GWn2PZ8YiaycNpGr54qgyCiB1kEqm9eTKkdunccA9oMCsp8YznnM3tqdRFy38BEfn
-         65YZ3XJcU7Sy5NJkcZMB9OWvfXxeYBTU4WKNmqljABFNgzRBLcCJanzJGsP09vML+W
-         bbrcmXXmybg0A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 733F2E8DBDA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 09:20:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 1AAF63C001F;
+        Tue, 19 Apr 2022 12:22:20 +0200 (CEST)
+Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Tue, 19 Apr
+ 2022 12:22:19 +0200
+Date:   Tue, 19 Apr 2022 12:22:15 +0200
+From:   Michael Rodin <mrodin@de.adit-jv.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        LUU HOAI <hoai.luu.ub@renesas.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] media: v4l: vsp1: Fix offset calculation for plane
+ cropping
+Message-ID: <20220419102215.GA46023@vmlxhi-121.adit-jv.com>
+References: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
+ <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <165036003442.20561.9939852318584940858.git-patchwork-summary@kernel.org>
-Date:   Tue, 19 Apr 2022 09:20:34 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.92.132]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,52 +55,122 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Laurent,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+On Thu, Apr 14, 2022 at 05:20:14PM +0300, Laurent Pinchart wrote:
+> Hi Michael,
+> 
+> Your previous mail slipped through the cracks, sorry about that.
+> 
+> On Wed, Mar 02, 2022 at 12:00:12PM +0100, Michael Rodin wrote:
+> > Hi Laurent,
+> > 
+> > thank you for your work!
+> > 
+> > On Mon, Feb 28, 2022 at 02:00:58PM +0200, Laurent Pinchart wrote:
+> > > From: Michael Rodin <mrodin@de.adit-jv.com>
+> > > 
+> > > The vertical subsampling factor is currently not considered in the
+> > > offset calculation for plane cropping done in rpf_configure_partition.
+> > > This causes a distortion (shift of the color plane) when formats with
+> > > the vsub factor larger than 1 are used (e.g. NV12, see
+> > > vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
+> > > for all planes except plane 0 (luminance).
+> > > 
+> > > Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
+> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> > > Signed-off-by: LUU HOAI <https://urldefense.proofpoint.com/v2/url?u=http-3A__hoai.luu.ub-40renesas.com&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=l9CsK_BwOB0w3jdi3p2OFRTiGdlxWl2EHtxac3eVSTU&e=>
+> > > 
+> > > Drop generalization of the offset calculation to reduce the binary size.
+> > 
+> > Dropping generalization which I have done in my initial patch [1] is ok as
+> > long as this will not cause any troubles. I am not aware of any case where
+> > bytesperline and bpp could be different between the chroma planes, so
+> > probably it's fine.
+> > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > ---
+> > >  drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
+> > > index 85587c1b6a37..75083cb234fe 100644
+> > > --- a/drivers/media/platform/vsp1/vsp1_rpf.c
+> > > +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
+> > > @@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+> > >  		     + crop.left * fmtinfo->bpp[0] / 8;
+> > >  
+> > >  	if (format->num_planes > 1) {
+> > > +		unsigned int bpl = format->plane_fmt[1].bytesperline;
+> > >  		unsigned int offset;
+> > >  
+> > > -		offset = crop.top * format->plane_fmt[1].bytesperline
+> > > -		       + crop.left / fmtinfo->hsub
+> > > -		       * fmtinfo->bpp[1] / 8;
+> > > +		offset = crop.top / fmtinfo->vsub * bpl
+> > > +		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
+> > 
+> > Probably it makes sense to do the division after all multiplications are
+> > done in order to avoid rounding errors? Consider the case when left = 3,
+> > hsub = 2, bpp = 32. Then we would get for the second part of the offset:
+> >   3 / 2 * 32 / 8 = 1 * 32 / 8 = 4
+> > and if we do division as the last operation:
+> >   (3 * 32) / (8 * 2) = 96 / 16 = 6
+> 
+> This was actually done on purpose :-) If the horizontal subsampling
+> factor is equal to 2, for instance for the NV12 chroma plane, the
+> horizontal offset must effectively be a multiple of 2. Otherwise you'll
+> swap the Cr and Cb components.
+> 
+> Taking your above example with a NV12 format (left=3, hsub=2, but
+> bpp=16), with the rounding in this patch,
+> 
+> 	offset = crop.top / fmtinfo->vsub * bpl
+> 	       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
+> 	       = [vertical offset]
+> 	       + 3 / 2 * 16 / 8;
+> 	       = [vertical offset]
+> 	       + 2;
+> 
+> Byte: 0  1  2  3  4  5
+>       Cr Cb Cr Cb Cr Cb ...
+>             ^
+>             offset
+> 
+> With your rounding proposal,
+> 
+> 	offset = crop.top / fmtinfo->vsub * bpl
+> 	       + (crop.left * fmtinfo->bpp[1]) / (fmtinfo->hsub * 8);
+> 	       = [vertical offset]
+> 	       + (3 * 16) / (2 * 8);
+> 	       = [vertical offset]
+> 	       + 3;
+> 
+> Byte: 0  1  2  3  4  5
+>       Cr Cb Cr Cb Cr Cb ...
+>                ^
+>                offset
 
-Patch: dt-bindings: gpu: mali-bifrost: Document RZ/V2L SoC
-  Submitter: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Committer: Rob Herring <robh@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=621673
-  Lore link: https://lore.kernel.org/r/20220308211543.3081-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+Thank you very much for the clarification, I have missed this point!
+Now the patch looks fine to me.
 
-Patch: [PATCH/LOCAL] arm64: renesas: defconfig: Refresh for v5.18-rc1
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632341
-  Lore link: https://lore.kernel.org/r/2ca6b74c5a4e954319625281b8e35a16d992ba8f.1649947562.git.geert+renesas@glider.be
+Reviewed-by: Michael Rodin <mrodin@de.adit-jv.com>
 
-Patch: ARM: shmobile: defconfig: Refresh for v5.18-rc1
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632334
-  Lore link: https://lore.kernel.org/r/922ba60d81a71acfae5d88c1991d8c96bb2b3527.1649947421.git.geert+renesas@glider.be
-
-Patch: ARM: dts: r9a06g032: Drop "arm,cortex-a7-timer" from timer node
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=631058
-  Lore link: https://lore.kernel.org/r/a8e0cf00a983b4c539cdb1cfad5cc6b10b423c5b.1649680220.git.geert+renesas@glider.be
-
-Patch: arm64: defconfig: Enable Maxim MAX96712 Quad GMSL2 Deserializer support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=632332
-  Lore link: https://lore.kernel.org/r/7b5ea7eaabc1da79fd974f9d9845a5a527f2fb14.1649947458.git.geert+renesas@glider.be
-
-Patch: [v2] arm64: dts: renesas: r8a779f0: Add GPIO nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=628825
-  Lore link: https://lore.kernel.org/r/7fb68561026fa8bb5d9baf0596560c5c719a38cc.1649086225.git.geert+renesas@glider.be
-
-
-Total patches: 6
+> > The first part of the offset can probably also cause the same rounding
+> > issue.
+> > 
+> > >  		mem.addr[1] += offset;
+> > >  		mem.addr[2] += offset;
+> > >  	}
+> > > 
+> > 
+> > [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_all_1637679566-2D76975-2D1-2Dgit-2Dsend-2Demail-2Dmrodin-40de.adit-2Djv.com_T_&d=DwICaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=sWsgk3pKkv5GeIDM2RZlPY8TjNFU2D0oBeOj6QNBadE&m=XAmHpGpli5fGaRsYAxJsReuojH4FFIzGmp2Njkwt8ko&s=zwktftJ_aVV0iA0D8dcfCy1_rRg5PSdi5OXfTZBs648&e=
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Best Regards,
+Michael
