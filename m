@@ -2,156 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C12507958
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 20:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A099D507A51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 21:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353933AbiDSSrA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 14:47:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
+        id S1343912AbiDSTg7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 15:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353993AbiDSSq7 (ORCPT
+        with ESMTP id S234894AbiDSTg6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 14:46:59 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FE03E5F0;
-        Tue, 19 Apr 2022 11:44:15 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id bb21so4034906qtb.3;
-        Tue, 19 Apr 2022 11:44:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ci/7IqIwUm6bsFwKUgyhvCmAUTg6oVfUdrqG5mxHzkM=;
-        b=QicDOzC56DQx1Ko5ZW3EYB0Nd1O/btrWXme/YC2ROJp8DpRY83nryVlJ38sVy7xOcA
-         S2DzWepSJiM/8/b0uD/7cEt/qH18qCTwX68T0TxDFjg1gPkWxH/Y+BV/mlv3EjUTaFFB
-         SR/AWOZmq/RJcWB3j713ln7+/KwX0UlqlnJRalMMSSpzfBFohXoo6lL8HsJOLKVsed16
-         Vk45lJ+G3uxDfzAzqOoTr3nwhM7p6M7bw3vYra2JQHmfB+ETLBaQ80Vt287S0OiOKwfY
-         q2UaT7+jWscYOTdFBlCWhYrH5apexflqxouCkIBtgEB+CJAUxYUgwqFslTXlrJzfBeC2
-         V5OQ==
-X-Gm-Message-State: AOAM531XmWko2CTIFVs3QIVgtnWyLmyZyJeMMuE+o+8skvUCv+z51r6v
-        U9qkb3+HcTgbvSL5aIJsIDiWi934yKgz3A==
-X-Google-Smtp-Source: ABdhPJwdnvh7m6Kqi8ArY0YWoGZsuYnQIhNhwHCAzpeMLMs4rfWyu8+RGN6F6ThO5cyfh+KHqMVPxQ==
-X-Received: by 2002:a05:622a:1649:b0:2f2:418:8627 with SMTP id y9-20020a05622a164900b002f204188627mr5949958qtj.688.1650393853887;
-        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id bl14-20020a05620a1a8e00b0069e622e593esm402445qkb.95.2022.04.19.11.44.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id d19so4284602ybc.5;
-        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
-X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
- p9-20020a259e89000000b0063cad37a5demr16404838ybq.342.1650393853241; Tue, 19
- Apr 2022 11:44:13 -0700 (PDT)
+        Tue, 19 Apr 2022 15:36:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CF73B2AC
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 12:34:15 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9188F25B;
+        Tue, 19 Apr 2022 21:34:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650396852;
+        bh=LCGrXtaW0w6WZPepYNtxm5kzk8jV96rIVGLdX2wU83Q=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=QVJCzEkTcngbIIDhFihYEm6mfXUQknbfh6paj7eBA0rnQcbXj3m/9ULzTtlC8zZH8
+         c64g6wZQeOcQXNE+57UPrVZshhbkKxOBgyrPenE76L2jS2QpS9iOINRQXduX9zjQMi
+         1tvZTfAftz8Zw/JvSSSvMhoBrZvNMUeHiv1cqITY=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <5051ae56a1388ccf2d283dfc9624de2991cce914.1650355619.git.geert+renesas@glider.be>
-In-Reply-To: <5051ae56a1388ccf2d283dfc9624de2991cce914.1650355619.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Apr 2022 20:44:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUt8iB3dQEppAjSkKpCxLUofbfH+=teJB1E0arKz2WkOA@mail.gmail.com>
-Message-ID: <CAMuHMdUt8iB3dQEppAjSkKpCxLUofbfH+=teJB1E0arKz2WkOA@mail.gmail.com>
-Subject: Re: [PATCH v3] pinctrl: renesas: checker: Rework drive and bias pin iteration
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        kbuild-all@lists.01.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220419142453.48839-1-biju.das.jz@bp.renesas.com>
+References: <20220419142453.48839-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] drm: bridge: adv7511: Enable DRM_BRIDGE_OP_HPD based on HPD interrupt
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        dri-devel@lists.freedesktop.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+To:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 19 Apr 2022 20:34:10 +0100
+Message-ID: <165039685035.2572957.11698995076786964955@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 10:08 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> The checker code to iterate over all drive strength and bias register
-> description items is cumbersome, due to the repeated calculation of
-> indices, and the use of hardcoded array sizes.  The latter was done
-> under the assumption they would never need to be changed, which turned
-> out to be false.
->
-> Increase readability by introducing helper macros to access drive
-> strength and bias register description items.
-> Increase maintainability by replacing hardcoded numbers by array sizes
-> calculated at compile-time.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Quoting Biju Das (2022-04-19 15:24:53)
+> Connector detection using poll method won't work in case of bridge
+> attached to the encoder with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR, as
+> the code defaults to HPD.
+>=20
+> Enable DRM_BRIDGE_OP_HPD based on HPD interrupt availability, so that
+> it will fall back to polling, if HPD is not available.
+
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v3:
->   - Add and use drive_ofs() and bias_ofs() helpers, as suggested by
->     Wolfram,
-
-> --- a/drivers/pinctrl/renesas/core.c
-> +++ b/drivers/pinctrl/renesas/core.c
-> @@ -1007,7 +1007,18 @@ static void __init sh_pfc_compare_groups(const char *drvname,
->  static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
->  {
->         const struct pinmux_drive_reg *drive_regs = info->drive_regs;
-> +#define drive_nfields  ARRAY_SIZE(drive_regs->fields)
-> +#define drive_ofs(i)   drive_regs[(i) / drive_nfields]
-> +#define drive_reg(i)   drive_ofs(i).reg
-> +#define drive_bit(i)   ((i) % drive_nfields)
-> +#define drive_field(i) drive_ofs(i).fields[drive_bit(i)]
->         const struct pinmux_bias_reg *bias_regs = info->bias_regs;
-> +#define bias_npins     ARRAY_SIZE(bias_regs->pins)
-> +#define bias_ofs(i)    bias_regs[(i) / bias_npins]
-> +#define bias_puen(i)   bias_ofs(i).puen
-> +#define bias_pud(i)    bias_ofs(i).pud
-> +#define bias_bit(i)    ((i) % bias_npins)
-> +#define bias_pin(i)    bias_ofs(i).pins[bias_bit(i)]
->         const char *drvname = info->name;
->         unsigned int *refcnts;
->         unsigned int i, j, k;
-
-> @@ -1164,20 +1175,17 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
->         for (i = 0; drive_regs && drive_regs[i].reg; i++)
->                 sh_pfc_check_drive_reg(info, &drive_regs[i]);
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 668dcefbae17..b3f10c54e064 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1292,8 +1292,10 @@ static int adv7511_probe(struct i2c_client *i2c, c=
+onst struct i2c_device_id *id)
+>                 goto err_unregister_cec;
+> =20
+>         adv7511->bridge.funcs =3D &adv7511_bridge_funcs;
+> -       adv7511->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+> -                           | DRM_BRIDGE_OP_HPD;
+> +       adv7511->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+> +       if (adv7511->i2c_main->irq)
+> +               adv7511->bridge.ops |=3D DRM_BRIDGE_OP_HPD;
+> +
+>         adv7511->bridge.of_node =3D dev->of_node;
+>         adv7511->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+> =20
+> --=20
+> 2.25.1
 >
-> -       for (i = 0; drive_regs && drive_regs[i / 8].reg; i++) {
-> -               if (!drive_regs[i / 8].fields[i % 8].pin &&
-> -                   !drive_regs[i / 8].fields[i % 8].offset &&
-> -                   !drive_regs[i / 8].fields[i % 8].size)
-> +       for (i = 0; drive_regs && drive_reg(i); i++) {
-> +               if (!drive_field(i).pin && !drive_field(i).offset &&
-> +                   !drive_field(i).size)
->                         continue;
->
->                 for (j = 0; j < i; j++) {
-> -                       if (drive_regs[i / 8].fields[i % 8].pin ==
-> -                           drive_regs[j / 8].fields[j % 8].pin &&
-> -                           drive_regs[j / 8].fields[j % 8].offset &&
-> -                           drive_regs[j / 8].fields[j % 8].size) {
-> +                       if (drive_field(i).pin == drive_field(j).pin &&
-> +                           drive_field(j).offset && drive_field(j).size) {
->                                 sh_pfc_err("drive_reg 0x%x:%u/0x%x:%u: pin conflict\n",
-                                                             ^^      ^^
-> -                                          drive_regs[i / 8].reg, i % 8,
-> -                                          drive_regs[j / 8].reg, j % 8);
-> +                                          drive_reg(i), drive_bit(i),
-> +                                          drive_reg(j), drive_bit(j));
-
-Whoops, as reported by kernel test robot for 64-bit builds, drive_bit()
-is no longer unsigned int, but size_t[*], hence "%zu" should be used
-for printing.  The same is true for bias_bit().
-
-Will fix up tomorrow...
-
-[*] A bit counter-intuitive from the mathematical point of view,
-    but as "size_t" is either "unsigned int" or "unsigned long",
-    "unsigned int % size_t" is ... "size_t"!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
