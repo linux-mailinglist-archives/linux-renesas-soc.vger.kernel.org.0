@@ -2,91 +2,274 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47007507071
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 16:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 703415070D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 16:41:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349086AbiDSO2V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 10:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42914 "EHLO
+        id S242267AbiDSOn4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 10:43:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353343AbiDSO1r (ORCPT
+        with ESMTP id S233365AbiDSOnz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 10:27:47 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6ABAE389C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 07:25:03 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,272,1643641200"; 
-   d="scan'208";a="118458035"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Apr 2022 23:25:02 +0900
-Received: from localhost.localdomain (unknown [10.226.92.37])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0D0EE40078C5;
-        Tue, 19 Apr 2022 23:24:56 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        dri-devel@lists.freedesktop.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] drm: bridge: adv7511: Enable DRM_BRIDGE_OP_HPD based on HPD interrupt
-Date:   Tue, 19 Apr 2022 15:24:53 +0100
-Message-Id: <20220419142453.48839-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 19 Apr 2022 10:43:55 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE6721828;
+        Tue, 19 Apr 2022 07:41:10 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8137D24000E;
+        Tue, 19 Apr 2022 14:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1650379268;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9u41AmvPYzaP5UxEoTmolh4l0tPcqavKOqVOLJJD3S4=;
+        b=ifnn0HaliB65Zi+kAJRPXi5a+jTdBu3WK28oWc6C177sY+9wmTGu2+9paSFyuEFrjwqb2I
+        EWmhc7RgywHsmIZBb9pI0Ued52Cd7GVuNZsmVt63Tc26FASbndA/TAKJYDc96j5pQyNOdu
+        fcYp1bnmDUwby5nsy3gnxN8NLoUnopiyswW2W7ktfnfeSQIXr4ulP7eyL+VtjVqYUL8PMj
+        f7zQx6OMXad5pt3DJZpF8QdOa5WCux7Pu4/l4/lIq2tIi3X+a0BoN0+vRum89II7OH1qCS
+        nbZrSCLzmE1NsrQeo7w8Btcm2ARDea8dHqdlyVBFfqroKGJjfWQumv3Lab1qbQ==
+Date:   Tue, 19 Apr 2022 16:41:05 +0200
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/8] dt-bindings: PCI: renesas-pci-usb: Convert
+ bindings to json-schema
+Message-ID: <20220419164105.14bf82cf@bootlin.com>
+In-Reply-To: <CAMuHMdUhr7emtsxoxGP5EH2EzNK=PM_7+-32cesecjQjoW1ryQ@mail.gmail.com>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+ <20220414074011.500533-3-herve.codina@bootlin.com>
+ <CAMuHMdUhr7emtsxoxGP5EH2EzNK=PM_7+-32cesecjQjoW1ryQ@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Connector detection using poll method won't work in case of bridge
-attached to the encoder with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR, as
-the code defaults to HPD.
+Hi Geert,
 
-Enable DRM_BRIDGE_OP_HPD based on HPD interrupt availability, so that
-it will fall back to polling, if HPD is not available.
+On Thu, 14 Apr 2022 10:28:47 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> Hi Herv=C3=A9,
+>=20
+> On Thu, Apr 14, 2022 at 9:40 AM Herve Codina <herve.codina@bootlin.com> w=
+rote:
+> > Convert Renesas PCI bridge bindings documentation to json-schema.
+> > Also name it 'renesas,pci-usb' as it is specifically used to
+> > connect the PCI USB controllers to AHB bus.
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
+>=20
+> Thanks a lot for tackling this DT binding file!
+>=20
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> > @@ -0,0 +1,134 @@
+> > +# SPDX-License-Identifier: GPL-2.0 =20
+>=20
+> scripts/checkpatch.pl says:
+> WARNING: DT binding documents should be licensed (GPL-2.0-only OR BSD-2-C=
+lause)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 668dcefbae17..b3f10c54e064 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1292,8 +1292,10 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 		goto err_unregister_cec;
- 
- 	adv7511->bridge.funcs = &adv7511_bridge_funcs;
--	adv7511->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
--			    | DRM_BRIDGE_OP_HPD;
-+	adv7511->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
-+	if (adv7511->i2c_main->irq)
-+		adv7511->bridge.ops |= DRM_BRIDGE_OP_HPD;
-+
- 	adv7511->bridge.of_node = dev->of_node;
- 	adv7511->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
--- 
-2.25.1
+Right, changed to "GPL-2.0-only OR BSD-2-Clause"
 
+>=20
+> > +  reg:
+> > +    description: |
+> > +      A list of physical regions to access the device. The first is
+> > +      the operational registers for the OHCI/EHCI controllers and the
+> > +      second is for the bridge configuration and control registers.
+> > +    minItems: 2
+> > +    maxItems: 2 =20
+>=20
+> reg:
+>   items:
+>     - description: Operational registers for the OHCI/EHCI controllers.
+>     - description: Bridge configuration and control registers.
+
+Ok, changed.
+
+>=20
+> > +
+> > +  interrupts:
+> > +    description: Interrupt for the device. =20
+>=20
+> maxItems: 1
+>=20
+> The description is not needed.
+
+Ok, changed.
+
+>=20
+> > +
+> > +  interrupt-map:
+> > +    description: |
+> > +      Standard property used to define the mapping of the PCI interrup=
+ts
+> > +      to the GIC interrupts.
+> > +
+> > +  interrupt-map-mask:
+> > +    description:
+> > +      Standard property that helps to define the interrupt mapping.
+> > +
+> > +  clocks:
+> > +    description: The reference to the device clock. =20
+>=20
+> maxItems: 1
+>=20
+> The description is not needed.
+
+Ok, changed
+
+>=20
+> Missing "resets" and "power-domains" properties.
+>=20
+> Missing description of the child nodes.
+
+"resets", "power-domains" dans child nodes added
+
+>=20
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-map
+> > +  - interrupt-map-mask
+> > +  - clocks =20
+>=20
+> Missing "resets" and "power-domains".
+
+Added
+
+>=20
+> > +  - bus-range
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - "#interrupt-cells"
+> > +
+> > +unevaluatedProperties: false =20
+>=20
+> Why doesn't "make dtbs_check" complain about the presence of
+> e.g. "resets" in the actual DTS files?
+>=20
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> > +
+> > +    bus {
+> > +        #address-cells =3D <2>;
+> > +        #size-cells =3D <2>; =20
+>=20
+> I think you should drop this (and the corresponding high addresses
+> below).
+>=20
+
+Ok
+
+> > +
+> > +        pci0: pci@ee090000  {
+> > +            compatible =3D "renesas,pci-r8a7790", "renesas,pci-rcar-ge=
+n2";
+> > +            device_type =3D "pci";
+> > +            clocks =3D <&cpg CPG_MOD 703>;
+> > +            reg =3D <0 0xee090000 0 0xc00>,
+> > +                  <0 0xee080000 0 0x1100>;
+> > +            interrupts =3D <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>; =20
+>=20
+>                         power-domains =3D <&sysc R8A7790_PD_ALWAYS_ON>;
+>                         resets =3D <&cpg 703>;
+
+Ok
+
+>=20
+> > +            status =3D "disabled";
+> > +
+> > +            bus-range =3D <0 0>;
+> > +            #address-cells =3D <3>;
+> > +            #size-cells =3D <2>;
+> > +            #interrupt-cells =3D <1>;
+> > +            ranges =3D <0x02000000 0 0xee080000 0 0xee080000 0 0x00010=
+000>;
+> > +            dma-ranges =3D <0x42000000 0 0x40000000 0 0x40000000 0 0x4=
+0000000>;
+> > +            interrupt-map-mask =3D <0xf800 0 0 0x7>;
+> > +            interrupt-map =3D <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_=
+LEVEL_HIGH>,
+> > +                            <0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LE=
+VEL_HIGH>,
+> > +                            <0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LE=
+VEL_HIGH>;
+> > +
+> > +            usb@1,0 {
+> > +                reg =3D <0x800 0 0 0 0>;
+> > +                phys =3D <&usb0 0>;
+> > +                phy-names =3D "usb";
+> > +            };
+> > + =20
+>=20
+> ERROR: trailing whitespace
+> #249: FILE: Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml:12=
+7:
+> +            $
+
+Ok
+
+>=20
+> > +            usb@2,0 {
+> > +                reg =3D <0x1000 0 0 0 0>;
+> > +                phys =3D <&usb0 0>;
+> > +                phy-names =3D "usb";
+> > +            };
+> > +        };
+> > +    }; =20
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+
+Thanks for the review,
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
