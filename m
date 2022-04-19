@@ -2,198 +2,189 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34BDD506644
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 09:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2865E506685
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 10:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349582AbiDSHvg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 03:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41636 "EHLO
+        id S1344648AbiDSILU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 04:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349583AbiDSHvc (ORCPT
+        with ESMTP id S235921AbiDSILT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 03:51:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8238F2E9D2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 00:48:50 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ngibP-0008KA-Eg; Tue, 19 Apr 2022 09:48:47 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ngibO-003vZG-GD; Tue, 19 Apr 2022 09:48:45 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ngibL-004Dn6-Vu; Tue, 19 Apr 2022 09:48:43 +0200
-Date:   Tue, 19 Apr 2022 09:48:40 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux PWM List <linux-pwm@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 6/6] pwm: renesas-tpu: Improve precision of period and
- duty_cycle calculation
-Message-ID: <20220419074840.yrvuxz3bgh6zc3oc@pengutronix.de>
-References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de>
- <20220413085050.61144-6-u.kleine-koenig@pengutronix.de>
- <CAMuHMdX7Kic2WG+f6hAdjz7SGSjWfi-UTdOrxtmV6D4zE3zh1Q@mail.gmail.com>
+        Tue, 19 Apr 2022 04:11:19 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38022715E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 01:08:36 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:4e4:402f:1025:9028])
+        by laurent.telenet-ops.be with bizsmtp
+        id LY8a2700G14lGwr01Y8akJ; Tue, 19 Apr 2022 10:08:35 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ngiuY-001Gnj-EZ; Tue, 19 Apr 2022 10:08:34 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ngiuX-0038mI-Po; Tue, 19 Apr 2022 10:08:33 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3] pinctrl: renesas: checker: Rework drive and bias pin iteration
+Date:   Tue, 19 Apr 2022 10:08:32 +0200
+Message-Id: <5051ae56a1388ccf2d283dfc9624de2991cce914.1650355619.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4776lsr6oeb2v4wm"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX7Kic2WG+f6hAdjz7SGSjWfi-UTdOrxtmV6D4zE3zh1Q@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The checker code to iterate over all drive strength and bias register
+description items is cumbersome, due to the repeated calculation of
+indices, and the use of hardcoded array sizes.  The latter was done
+under the assumption they would never need to be changed, which turned
+out to be false.
 
---4776lsr6oeb2v4wm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Increase readability by introducing helper macros to access drive
+strength and bias register description items.
+Increase maintainability by replacing hardcoded numbers by array sizes
+calculated at compile-time.
 
-Hello Geert,
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v3:
+  - Add and use drive_ofs() and bias_ofs() helpers, as suggested by
+    Wolfram,
 
-first of all thanks for your review and testing. It's great to get some
-feedback (even though it means some work for me :-)
+v2:
+  - Replace "pinctrl: renesas: checker: Fix for drive reg field
+    increase" by independent proper solution.
 
-On Thu, Apr 14, 2022 at 12:27:28PM +0200, Geert Uytterhoeven wrote:
-> On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-K=F6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> > Fixes: 99b82abb0a35 ("pwm: Add Renesas TPU PWM driver")
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> >  drivers/pwm/pwm-renesas-tpu.c | 34 ++++++++++++++++++++++------------
-> >  1 file changed, 22 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tp=
-u.c
-> > index fce7df418d62..c8c7a896fc55 100644
-> > --- a/drivers/pwm/pwm-renesas-tpu.c
-> > +++ b/drivers/pwm/pwm-renesas-tpu.c
-> > @@ -242,42 +242,52 @@ static void tpu_pwm_free(struct pwm_chip *chip, s=
-truct pwm_device *pwm)
-> >  }
-> >
-> >  static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pw=
-m,
-> > -                         int duty_ns, int period_ns, bool enabled)
-> > +                         u64 duty_ns, u64 period_ns, bool enabled)
-> >  {
-> >         struct tpu_pwm_device *tpd =3D pwm_get_chip_data(pwm);
-> >         struct tpu_device *tpu =3D to_tpu_device(chip);
-> >         unsigned int prescaler;
-> >         bool duty_only =3D false;
-> >         u32 clk_rate;
-> > -       u32 period;
-> > +       u64 period;
-> >         u32 duty;
-> >         int ret;
-> >
-> >         clk_rate =3D clk_get_rate(tpu->clk);
->=20
-> As clk_get_rate() returns unsigned long, I think you should change
-> clk_rate from u32 to unsigned long, too.
+To be inserted into renesas-pinctrl-for-v5.19 before commit
+d5c9688095d29a6c ("pinctrl: renesas: Allow up to 10 fields for
+drive_regs") in renesas-pinctrl-for-v5.19.
+---
+ drivers/pinctrl/renesas/core.c | 61 ++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 28 deletions(-)
 
-Yeah, could do that. I guess I didn't because in my bubble a long is 32
-bits wide :-) IMHO fixing that is worth a separate patch.
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index d0d4714731c14cf5..d3515d09a0818422 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -1007,7 +1007,18 @@ static void __init sh_pfc_compare_groups(const char *drvname,
+ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ {
+ 	const struct pinmux_drive_reg *drive_regs = info->drive_regs;
++#define drive_nfields	ARRAY_SIZE(drive_regs->fields)
++#define drive_ofs(i)	drive_regs[(i) / drive_nfields]
++#define drive_reg(i)	drive_ofs(i).reg
++#define drive_bit(i)	((i) % drive_nfields)
++#define drive_field(i)	drive_ofs(i).fields[drive_bit(i)]
+ 	const struct pinmux_bias_reg *bias_regs = info->bias_regs;
++#define bias_npins	ARRAY_SIZE(bias_regs->pins)
++#define bias_ofs(i)	bias_regs[(i) / bias_npins]
++#define bias_puen(i)	bias_ofs(i).puen
++#define bias_pud(i)	bias_ofs(i).pud
++#define bias_bit(i)	((i) % bias_npins)
++#define bias_pin(i)	bias_ofs(i).pins[bias_bit(i)]
+ 	const char *drvname = info->name;
+ 	unsigned int *refcnts;
+ 	unsigned int i, j, k;
+@@ -1076,17 +1087,17 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ 			if (!drive_regs) {
+ 				sh_pfc_err_once(drive, "SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but drive_regs missing\n");
+ 			} else {
+-				for (j = 0; drive_regs[j / 8].reg; j++) {
+-					if (!drive_regs[j / 8].fields[j % 8].pin &&
+-					    !drive_regs[j / 8].fields[j % 8].offset &&
+-					    !drive_regs[j / 8].fields[j % 8].size)
++				for (j = 0; drive_reg(j); j++) {
++					if (!drive_field(j).pin &&
++					    !drive_field(j).offset &&
++					    !drive_field(j).size)
+ 						continue;
+ 
+-					if (drive_regs[j / 8].fields[j % 8].pin == pin->pin)
++					if (drive_field(j).pin == pin->pin)
+ 						break;
+ 				}
+ 
+-				if (!drive_regs[j / 8].reg)
++				if (!drive_reg(j))
+ 					sh_pfc_err("pin %s: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set but not in drive_regs\n",
+ 						   pin->name);
+ 			}
+@@ -1164,20 +1175,17 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ 	for (i = 0; drive_regs && drive_regs[i].reg; i++)
+ 		sh_pfc_check_drive_reg(info, &drive_regs[i]);
+ 
+-	for (i = 0; drive_regs && drive_regs[i / 8].reg; i++) {
+-		if (!drive_regs[i / 8].fields[i % 8].pin &&
+-		    !drive_regs[i / 8].fields[i % 8].offset &&
+-		    !drive_regs[i / 8].fields[i % 8].size)
++	for (i = 0; drive_regs && drive_reg(i); i++) {
++		if (!drive_field(i).pin && !drive_field(i).offset &&
++		    !drive_field(i).size)
+ 			continue;
+ 
+ 		for (j = 0; j < i; j++) {
+-			if (drive_regs[i / 8].fields[i % 8].pin ==
+-			    drive_regs[j / 8].fields[j % 8].pin &&
+-			    drive_regs[j / 8].fields[j % 8].offset &&
+-			    drive_regs[j / 8].fields[j % 8].size) {
++			if (drive_field(i).pin == drive_field(j).pin &&
++			    drive_field(j).offset && drive_field(j).size) {
+ 				sh_pfc_err("drive_reg 0x%x:%u/0x%x:%u: pin conflict\n",
+-					   drive_regs[i / 8].reg, i % 8,
+-					   drive_regs[j / 8].reg, j % 8);
++					   drive_reg(i), drive_bit(i),
++					   drive_reg(j), drive_bit(j));
+ 			}
+ 		}
+ 	}
+@@ -1186,26 +1194,23 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+ 	for (i = 0; bias_regs && (bias_regs[i].puen || bias_regs[i].pud); i++)
+ 		sh_pfc_check_bias_reg(info, &bias_regs[i]);
+ 
+-	for (i = 0; bias_regs &&
+-		    (bias_regs[i / 32].puen || bias_regs[i / 32].pud); i++) {
+-		if (bias_regs[i / 32].pins[i % 32] == SH_PFC_PIN_NONE)
++	for (i = 0; bias_regs && (bias_puen(i) || bias_pud(i)); i++) {
++		if (bias_pin(i) == SH_PFC_PIN_NONE)
+ 			continue;
+ 
+ 		for (j = 0; j < i; j++) {
+-			if (bias_regs[i / 32].pins[i % 32] !=
+-			    bias_regs[j / 32].pins[j % 32])
++			if (bias_pin(i) != bias_pin(j))
+ 				continue;
+ 
+-			if (bias_regs[i / 32].puen && bias_regs[j / 32].puen)
++			if (bias_puen(i) && bias_puen(j))
+ 				sh_pfc_err("bias_reg 0x%x:%u/0x%x:%u: pin conflict\n",
+-					   bias_regs[i / 32].puen, i % 32,
+-					   bias_regs[j / 32].puen, j % 32);
+-			if (bias_regs[i / 32].pud && bias_regs[j / 32].pud)
++					   bias_puen(i), bias_bit(i),
++					   bias_puen(j), bias_bit(j));
++			if (bias_pud(i) && bias_pud(j))
+ 				sh_pfc_err("bias_reg 0x%x:%u/0x%x:%u: pin conflict\n",
+-					   bias_regs[i / 32].pud, i % 32,
+-					   bias_regs[j / 32].pud, j % 32);
++					   bias_pud(i), bias_bit(i),
++					   bias_pud(j), bias_bit(j));
+ 		}
+-
+ 	}
+ 
+ 	/* Check ioctrl registers */
+-- 
+2.25.1
 
-> > +       if (unlikely(clk_rate > 1000000000UL)) {
->=20
-> s/1000000000UL/NSEC_PER_SEC/
-
-ok
-
-> > +               /*
-> > +                * This won't happen in the nearer future, so this is o=
-nly a
-> > +                * safeguard to prevent the following calculation from
-> > +                * overflowing. With this clk_rate * period_ns / NSEC_P=
-ER_SEC is
-> > +                * not greater than period_ns and so fits into an u64.
-> > +                */
-> > +               return -EINVAL;
-> > +       }
-> >
-> > -       period =3D clk_rate / (NSEC_PER_SEC / period_ns);
-> > +       period =3D mul_u64_u64_div_u64(clk_rate, period_ns, NSEC_PER_SE=
-C);
-> >         if (period >=3D 64 * 0x10000 || period =3D=3D 0)
-> >                 return -EINVAL;
->=20
-> Perhaps use "u64 period64" above, and
->=20
->     /* We know period to fit into an u32 */
->     period =3D (u32)period64;
->=20
-> to avoid introducing all casts below.
-
-I first had it that way, but didn't like it. Yeah, it makes the patch a
-bit smaller, but IMHO it adds some burden to understand the code flow
-because for a reader having two variables for the same (semantic) value
-is harder to understand.
-
->=20
-> >
-> >         if (period < 0x10000)
-> >                 prescaler =3D 0;
-> >         else
-> > -               prescaler =3D ilog2(period / 0x10000) / 2 + 1;
-> > +               /*
-> > +                * We know period to fit into an u32, so cast according=
-ly to
-> > +                * make the division a bit cheaper
-> > +                */
-> > +               prescaler =3D ilog2((u32)period / 0x10000) / 2 + 1;
->=20
-> Using a loop would avoid the need for a division...
-
-I would "fix" this differently, there isn't really a division; at least
-I would expect (but didn't check) that the compiler uses a cheap shift
-to implement "/ 0x10000" and "/ 2". ilog2 might become a bit cheaper for
-a 32 bit value. So I would replace that by:
-
-	/*
-	 * ilog2 might be a bit cheaper for u32 than u64 and we know
-	 * period to fit into a u32, so cast accordingly.
-	 */
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---4776lsr6oeb2v4wm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJeaVUACgkQwfwUeK3K
-7AmdmQf9H9UJMFkbh+vYi+U2FWekO0vPXwr1EpJ0oAN6CObDt7E4cEX/L3TbzheN
-OMi6zkN8jtP6p324/HG3xJzeknSHfCRwQ7SWCMQQVGCkpDUcyz5YXxiexYy6eraq
-1KAzETomcBxkjVQVcNyuhQzdle49Yi/kqAvXMxbuBL6a39BQu0/A4gHTu4lfpVad
-FV4MdUrog3x41P3EziUQnfs5trdgCL5Mx3MC0XSKq4r1khulqFVj0Xujsi4tujh9
-vutB+tAogqNPOb4i8WLYxsM1dCxB4KpC1/8SqU8g52wdCponjGUWUnBByhZjuKej
-dqDGnp+Xj9NS/7XC29K1FhVW3iExAw==
-=jH8k
------END PGP SIGNATURE-----
-
---4776lsr6oeb2v4wm--
