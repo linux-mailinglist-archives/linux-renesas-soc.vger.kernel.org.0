@@ -2,74 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CA1507C43
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 23:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1740A507C44
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 23:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345523AbiDSWBX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 18:01:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49948 "EHLO
+        id S240938AbiDSWBY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 18:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240938AbiDSWBX (ORCPT
+        with ESMTP id S243088AbiDSWBX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 19 Apr 2022 18:01:23 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C29040A35
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A986240E5A
         for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Apr 2022 14:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1650405519; x=1681941519;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=xLV0S6YtAigq8OFpm2EzpUJhgvBlChxETXrDEWzonUw=;
-  b=fkXiEpXNjasCZ7990DPFITSjnED7nPec9m7oSTCH9ld9/ow0agztPRxq
-   EIB9gnZfmUuusBIyCC++O7PKMg7zS1R2IYRhvltPvJrC7tWrN3h4/zthV
-   IrkxktGXljCA9Wh3R08busplwRNvng53im8BT6SQmWMj40KFNd1VnR2P+
-   sb8cbvENZJwq+zJZADLyYcbAeY5uADGk2zgwejhYU8Fb+ZNEq4nAOvKWH
-   +1jyyJwMaog5zi0lPuPbU9ol3h5G8x0vAftED1BCrdMifk1dAKPRR6wvK
-   7t9zEr2oCjftjES5TDQBOIEkLyNhCs1rExP2zJHVah2pB92uhFoSvAkb0
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="245774106"
+  bh=cEHKZa0JMC2PdOogA4GfHFU77dYIBqgtcbPTVOXMyoE=;
+  b=krQKmXkwC6hfcQ9dutLi8ewd8EPzh5lzqx9xdK63kFRcK4er5d4pjBHb
+   t2wkNHoZofjp9LT6KQCOqadWdmbRnAED8oGZwqB+d9iVwYSSu/YKLvZ1J
+   8YXXCye6SMsvp1XkZmER9vkdXjiHzAM3pY3lmClQ4SwAOUlvIcwk+6PzW
+   71CUxUviZmBBu4nocUlWXMgdC+6s2PUqGVFREwwZSh0cOhu3Cchi6r3x/
+   FspQR+FnB2HUFlYVkDjjiQRe+PWJ2luul1bcbHqjYoGCY9AZ8+GFI9Gwo
+   f8Hf0KKqwamY+ubQYWWo+prjPXw/fxMJPZFXqOsME+CTYBu0X6mTU2FV7
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="350331319"
 X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
-   d="scan'208";a="245774106"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 14:58:39 -0700
+   d="scan'208";a="350331319"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 14:58:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
-   d="scan'208";a="576295662"
+   d="scan'208";a="647422263"
 Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Apr 2022 14:58:38 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2022 14:58:38 -0700
 Received: from kbuild by 3abc53900bec with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1ngvrp-0006EA-ID;
+        id 1ngvrp-0006E2-F3;
         Tue, 19 Apr 2022 21:58:37 +0000
-Date:   Wed, 20 Apr 2022 05:57:37 +0800
+Date:   Wed, 20 Apr 2022 05:57:55 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-defconfig-for-v5.19] BUILD
- SUCCESS dcc1449554ba8e49880507c7b761559022363bdd
-Message-ID: <625f3051.S8P14oc5n//w9YwK%lkp@intel.com>
+Subject: [geert-renesas-devel:next] BUILD SUCCESS
+ fc84df8749fa09bc9407dfbf3c9a67a204a31eb5
+Message-ID: <625f3063.QO2/kIyTGxN63GZq%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-defconfig-for-v5.19
-branch HEAD: dcc1449554ba8e49880507c7b761559022363bdd  ARM: shmobile: defconfig: Refresh for v5.18-rc1
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+branch HEAD: fc84df8749fa09bc9407dfbf3c9a67a204a31eb5  Merge branches 'renesas-arm-defconfig-for-v5.19' and 'renesas-arm-dt-for-v5.19' into renesas-next
 
 elapsed time: 723m
 
-configs tested: 121
-configs skipped: 97
+configs tested: 119
+configs skipped: 4
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -81,7 +81,6 @@ arm                              allmodconfig
 arm                                 defconfig
 arm                              allyesconfig
 i386                          randconfig-c001
-mips                 randconfig-c004-20220419
 ia64                         bigsur_defconfig
 arm                             rpc_defconfig
 powerpc                       eiger_defconfig
@@ -185,7 +184,6 @@ i386                          randconfig-c001
 riscv                randconfig-c006-20220419
 mips                 randconfig-c004-20220419
 s390                 randconfig-c005-20220419
-riscv                            alldefconfig
 powerpc                     tqm5200_defconfig
 powerpc                     kilauea_defconfig
 arm                           spitz_defconfig
@@ -194,7 +192,6 @@ powerpc                         ps3_defconfig
 mips                         tb0226_defconfig
 powerpc                    klondike_defconfig
 powerpc                      ppc64e_defconfig
-arm                        mvebu_v5_defconfig
 i386                          randconfig-a002
 i386                          randconfig-a006
 i386                          randconfig-a004
