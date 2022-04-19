@@ -2,173 +2,460 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C5D5071D9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 17:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A923950724E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 17:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352780AbiDSPeh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 11:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
+        id S1354095AbiDSP62 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 11:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235154AbiDSPeg (ORCPT
+        with ESMTP id S1351558AbiDSP60 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 11:34:36 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2104.outbound.protection.outlook.com [40.107.114.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D503017E25;
-        Tue, 19 Apr 2022 08:31:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hv0mZ2VEEbSgsGlQkNPPR635gHpDobewIXvKrP+LWV383nKsbAxkpZ7OrqFAIyfN+HVQheQsTUFv0LESNQk3ehDh/HIGrpnncRQv1vuB6YRmLTAP2EQEC33DNJGd73fjzz1DUQhBZfi1LcL8hUjC/DAJMnYAHP0HEXR4kPkzqjFg7Ff35DFhlrtnF/Y1JxZyUPDKcow5mjjV2GzhKfHIgXYhy69QFTam6+PZBEkZPS3vGZYeVHh+a/gcvuqGJ1y389cJP9uFIH9IRL/vd2XyaH3mcPXPaY35RC8WZCkEjBH4KAmffQ/rpU3GZi6JZFkrXEgIvdXOITLWiUJ+Secu0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8XdgZpzleoyQQZgb3s8ZfOGl7IA73hIPpcH/agqJlRw=;
- b=i0WA6mLG85tKbs8OFarp5m6jsgbkXGSy689OQHhyb4wQjPd6M0gMMaP1lDXuLh99CFtpumZLjPiE4g9O9Qgua4aLLbHWL8+3dBaviJUfdYk7Pf5dhrtcjHzFM3B0WDlX+emW08AsD1tC8HL/ff3O1222G5yvkbAyef3Q9vrZiy1T2sFKg5Gy78lLQ53cJHGxV9rphLonKt7SGwRVAD5d9rmDZA5o7OxR0P4lbmXwRRYWHDh28RtRGBC2Jvd4UKcDsCvGHe6FYX63d3e9FrMcvGqeuhclqg+OlDw//dR1bebK5Fk2XJXbSlHANDDirZmZekpzYDAojy0/qVJZFlXobg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8XdgZpzleoyQQZgb3s8ZfOGl7IA73hIPpcH/agqJlRw=;
- b=gsWBoS8FqD9DkdX5llkd0291Y/iBXEKM7d16ICj3fQq+dSrql91ERhgWgmsZd1BXvangBOj8OantffgDjKyLiG2ijfgsITgu9Z4UMMoVcVySHHlzN5RTbqpVRvCUXpjOyC1WpRAnpFOgkGJMhNqcdjKzwAWn6o/UQGRFsmHi+IQ=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB7503.jpnprd01.prod.outlook.com (2603:1096:604:14e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 15:31:50 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5164.025; Tue, 19 Apr 2022
- 15:31:50 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Tue, 19 Apr 2022 11:58:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E6A22BEF;
+        Tue, 19 Apr 2022 08:55:42 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-76-6-68-nat.elisa-mobile.fi [85.76.6.68])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61EEC25B;
+        Tue, 19 Apr 2022 17:55:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650383740;
+        bh=La0FEpdR7N0qJzfxw6OvtA8CicCic6LnoI8ZOAYYD8c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vFOEDWSwY0xwH/8ygRECC/eEGnto6L2Ri1tbeFipWTE5AT07kJGqvLkaayL0KMrYs
+         B0seryqAAIQrdrzSbut1pFOM1694KML6yUidAOBXVox9ElqvyRL/qGCUBB+EzKIo/z
+         8bQur4xQNSbO4X5N8fa30YZimd2Ed706hm2SYYlo=
+Date:   Tue, 19 Apr 2022 18:55:37 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-media@" <vger.kernel.orglinux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: RE: [PATCH v7 1/3] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Thread-Topic: [PATCH v7 1/3] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Thread-Index: AQHYUAubtCG5Dt2t90GJ+fB9Qxz61az3XdOAgAAG1uA=
-Date:   Tue, 19 Apr 2022 15:31:50 +0000
-Message-ID: <OS0PR01MB592223E96DC0021EF20498B886F29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220414142605.26235-1-biju.das.jz@bp.renesas.com>
- <20220414142605.26235-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdVR4ONpLwPc59erG1adGQAn0iU4y_vH+4nYob-712pneQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVR4ONpLwPc59erG1adGQAn0iU4y_vH+4nYob-712pneQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a920913b-b620-4dd3-22e0-08da2219b958
-x-ms-traffictypediagnostic: OS3PR01MB7503:EE_
-x-microsoft-antispam-prvs: <OS3PR01MB7503DCC43BD934D156CB4CEE86F29@OS3PR01MB7503.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WQ1n2pLbpdRGvmIKBQqu9yO582kI0MaPIQYTMQcmYE1/hWd2Ia6tvk0CoxtrGmVsJYZ53yRdmADOr7zS2XmHmHQVPDVqIaUudn2fKpVfDMvX5MboZs9deVWzDYwEM4vmk6QlS1A0Fp+zujq0F9rAA7b9w1q1VzrCGW/z28YDMBhPW1xeAyzrBK+TBvTxTvXaEqR20DMXIE2AixWpBF0r2KJZtcRbxlMRyt0B/15WzlvMPeAvbOVgRsl9duZymP+7F8ZMOADqB3Ta177TlumwIR+hle+kNrcr0AE5za0a1KLrGHhsO4HAY1Cp8271dMhS14Z1IiPrnM4D2o2MWe58Xq8JxzvN5YbaTyywn5yihtzxG+MmoPyEhWj4GJllA1Hf0IZBUbtBh2D3oBf7XRLZnlf/EgCLGGkd4HcCgqYFGCLvjstwrEGszNhSMQsBsANijYQjBdQuTQ8R7afBOlG4BkgZk0oLgIIdqWCXksmEYuD8jPkKYOIAtCtTFglq9TEYWV8w04B8FRj6P0WHr3MdFF+/H460E4LpgmffvkO8H5VlXzjW8qCQTnwsPucamTGKBxcT3Q3r6aI29iB40MKRDy0+tjoHlX0ScyUE6wYzWX/LnD07GTp5bKkuL48IM/HuYibp87ppme8GXa0xgisvu757LsiAbD8KfiStT4oZ90yxfKXSQXCM63v0EyTdg0KVgh/TyG6qxbEv4cbp8ktOiA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(53546011)(26005)(9686003)(186003)(5660300002)(83380400001)(122000001)(38100700002)(8676002)(66946007)(55016003)(33656002)(54906003)(7696005)(71200400001)(2906002)(52536014)(6506007)(8936002)(66476007)(76116006)(508600001)(4326008)(316002)(38070700005)(86362001)(66446008)(64756008)(66556008)(6916009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZHRZemo4UGI3WTRuRy9PcGJMYkEwNmR5dWQxRVZWSFB2eERnY0oyRnFZTVln?=
- =?utf-8?B?K1Blc0VWUkU3cVpkREJmSHBGL2xyUDBkd0xhMWVKaWkreXdNdTIyYzZDWDk3?=
- =?utf-8?B?MzU5UVMzM0UzM3gvNE9QRG5mQzc0eVExbVdzR0hsa2dNdlRZY1ZuV2lua04x?=
- =?utf-8?B?bzVmZVVaeXIwdWpNNm9JWkV6SkhSbGxyQURjLzNEZXliZ2wvOWxyV25Xejdu?=
- =?utf-8?B?Ylc3TzZ3aVRqR1JUWlRDMFMvWm1xWDlwNldaKy9oeUVwQy9raFVjeWlmalc1?=
- =?utf-8?B?aVQ2c0tSMjh1R0lMVTRaeFJkSzJxYVpSa2dKY3laa2hpTVcxUmQzYWZOMTVy?=
- =?utf-8?B?SXZrVGkvNm4vV05xbXY2ZnhPb0xFZnpVeG9sckRMM0xaK3NNZ1pUMUswYkov?=
- =?utf-8?B?dFBMOWwvTis1a0k4bjUrcEEwNGNubCtZdTlQL2paUXdvTTBzdnFCOWR4SFV6?=
- =?utf-8?B?NUNRUnV5L0RJdzZQZ1Q0MGM5NTFOdjR3d3VNNERsdS9lT3MvZjFKQlJzNExT?=
- =?utf-8?B?SGlrV3FRVE5teS9TOXYveldUNWdZZUE0R2dJNkhHaW9NQnUyaThDUU1vZWt5?=
- =?utf-8?B?ME5JZUVMQXJ1ZEpHVTRzblpUMTFERmRaYVR6MEc4WldlU1ZpWXo5QkxnWUlq?=
- =?utf-8?B?ZTFuQnhGTG5PeHVOd0NJaytoZ1RHdmgwUkY5ZlFuVlZyZlpmWE5PV24vTVJh?=
- =?utf-8?B?THNJd1VYNWh0Z3puOXJ2c1lJYjFrcWxPclFQMkxjTjFjRXV3eVpnbHRxd0Rk?=
- =?utf-8?B?Y3ZobXZJYzV1SW5ZR3NkL1NrM0oxb01vL05BNUhvRWYvTzV1aThMdHVHdjZN?=
- =?utf-8?B?RVduQkgrTlBTdk5OZWplejUvTnBUUTlDT0c4VjdKejNRZC81R1hIcVJwVC9P?=
- =?utf-8?B?UlF0MVZ6Zktwamt5SGh0VHcwZm52eTlKWHhRZlphYWdxUkFBZEgwOGpMSHhH?=
- =?utf-8?B?SHYrY2VHTWt5QXlmdDMwL2xnUTBMcDNFOXdWODk1bElsWTJtUThhV2xxeTZ2?=
- =?utf-8?B?WGErZ1Vma3FhdU5aajVmZmtKOU4vYTY3QW95KzU4K0xQVU5FWm9kZ1Q4WllR?=
- =?utf-8?B?WnhwVWNwd0RFd05WV0hYS0NJM0g1cS9leGtybk8vYVB5TWNueVV6UUZBaUxO?=
- =?utf-8?B?RXcwUUFRWWlmOXZ2Um5YMUdGVCsvcDZvMlR0ZC9WeDVBU1Y5QnN2SGY3U3My?=
- =?utf-8?B?Z0xCaEU2L3A3K2d2QTBnejMzSUY4dFBXN3VWT1U1MW5hWjA1TWNsR3ArR0po?=
- =?utf-8?B?NVV2UVBhWWNHQm94Ym1jYmZYQ3dvdXlPNVJLK0RPMU1seXBkek9jeUhpaWJu?=
- =?utf-8?B?ay9NU29hZ1RZZjN0YkNvYnBzbWcvUWtaTERmUVV5MHRXSEord0MvL2RYSDdY?=
- =?utf-8?B?Q1dKSXhETXJrZm5RUUJyZmk1cDBBMkxicDRFZnRIdll4VC9lV3NveGdkaTdu?=
- =?utf-8?B?UUQ1OXAvVWVXVVdsVmxacXo5Y0o1RE5oRlNmdVNJeUJ6SFJIejQrUFZyWExs?=
- =?utf-8?B?OHZCU3FhRnFIa0drRWpLcjZXSFFFM0krNzhRTExSelNGalRpRmF5R1pzMGRz?=
- =?utf-8?B?NmhsQmtZVnlMZTFvd1FacnBnZHJkMmc1aVZqUzdWRUdrVGZjSmlrVVliVG9X?=
- =?utf-8?B?RmE0WlhXRFdzaUE3UDFLQkEvWFFzcGdTVlprYm9YT0tnTDBST1hOMjBtRFF3?=
- =?utf-8?B?ZWFKU3J0QzJ3S1RWL2d5bHMybTl4K3JFQkduOE1hcGdpRjdab09CaWk5ekhv?=
- =?utf-8?B?VGdETHZFNTBkbFM1NmFnU0p3a1dKSEhQN3F1QkFEeWhuWG4xZ1RiSXdVbWlr?=
- =?utf-8?B?UVh1S01iMWxnblZMUDdRbkxaUGFvcWVwSnJ6UnNydWJTQ003ci9BT2UrSjV0?=
- =?utf-8?B?bFNpMk5HazIxYjAvbWdTUVgzUHRwenR0V3R4MlZxMysrc0F2QThkOVdNdVdT?=
- =?utf-8?B?bk9NaXBHSUxDQ1NWVlJFQ0dwak5nVnExeExCUlVDY09sVkdxTjBudzArZk1l?=
- =?utf-8?B?YUVMa1lBL0l0TUI3ck9kb3owUHhQUU9ac0tUT1ZvV3hBVU8zbG41M05EaWZP?=
- =?utf-8?B?ZUtzR1d4dGhxYmxTN0x6T3ViekNoQ1JqOHkram5NdXJ4dXQvOEhhcFlMNzJC?=
- =?utf-8?B?OUpLNkN5SGJnaTJZa2RBbm14NFFnYmJGSFJDcy8yTnFUaVlEUmlHMmdHcWlS?=
- =?utf-8?B?OE50ajZQY1cvL1pwWUsxam1pd2trMzJCc1ExV0RuVWtjYmprVXVEWU8rdUtE?=
- =?utf-8?B?ZFVpL0N3cVJ5UEJBU1FpS0NEdHF5L0ZHQlpVa2lXbUlhRXdBaWxDdFJ1TUZl?=
- =?utf-8?B?MDhraGczdnVjeUpNMHBuUDZJbXphaXhsczVxaVI3ekMwbXZRRWUzTFg4UXI5?=
- =?utf-8?Q?kzHKWvr3+HepIkEc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v6 3/3] media: renesas: vsp1: Add support for RZ/G2L VSPD
+Message-ID: <Yl7beXCaRCj/xJbq@pendragon.ideasonboard.com>
+References: <20220316115551.29222-1-biju.das.jz@bp.renesas.com>
+ <20220316115551.29222-4-biju.das.jz@bp.renesas.com>
+ <164992556078.22830.1913645020940169619@Monstersaurus>
+ <OS0PR01MB592209477F5EBBBA902DDDC086EF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <164996310425.22830.2992726762723537347@Monstersaurus>
+ <OS0PR01MB59226E537BB85C234DC87CBD86EF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <165037712258.2548121.489298521958356607@Monstersaurus>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a920913b-b620-4dd3-22e0-08da2219b958
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2022 15:31:50.4652
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iawV3G9prn+DPCZo2/PakXYE2aPpMI3oi5+/I9SAESGJInEtXubLiJK2+IyGNxbQBUmjxqY2qbjYTZNqYvDfIq/GdLo7HUEPYlNYYClf+pI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7503
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <165037712258.2548121.489298521958356607@Monstersaurus>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjcgMS8zXSBtZWRpYTogZHQtYmluZGluZ3M6IG1lZGlhOiByZW5lc2FzLHZzcDE6DQo+
-IERvY3VtZW50IFJaL3tHMkwsVjJMfSBWU1BEIGJpbmRpbmdzIFRvOiBNYXVybyBDYXJ2YWxobyBD
-aGVoYWINCj4gPG1jaGVoYWJAa2VybmVsLm9yZz4sIFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5l
-bC5vcmc+LCBLcnp5c3p0b2YgS296bG93c2tpDQo+IDxrcnprK2R0QGtlcm5lbC5vcmc+DQo+IA0K
-PiBIaSBCaWp1LA0KPiANCj4gT24gVGh1LCBBcHIgMTQsIDIwMjIgYXQgNDoyNiBQTSBCaWp1IERh
-cyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+IERvY3VtZW50IFZT
-UEQgZm91bmQgaW4gUlovRzJMIGFuZCBSWi9WMkwgZmFtaWx5IFNvQydzLiBWU1BEIGJsb2NrIGlz
-DQo+ID4gc2ltaWxhciB0byBWU1AyLUQgZm91bmQgb24gUi1DYXIgU29DJ3MsIGJ1dCBpdCBkb2Vz
-IG5vdCBoYXZlIGEgdmVyc2lvbg0KPiA+IHJlZ2lzdGVyIGFuZCBpdCBoYXMgMyBjbG9ja3MgY29t
-cGFyZWQgdG8gMSBjbG9jayBvbiB2c3AxIGFuZCB2c3AyLg0KPiA+DQo+ID4gVGhpcyBwYXRjaCBp
-bnRyb2R1Y2VzIGEgbmV3IGNvbXBhdGlibGUgJ3JlbmVzYXMscnpnMmwtdnNwMicgdG8gaGFuZGxl
-DQo+ID4gdGhlc2UgZGlmZmVyZW5jZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERh
-cyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IExhZCBQcmFi
-aGFrYXIgPHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiBSZXZp
-ZXdlZC1ieTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBjYW5vbmlj
-YWwuY29tPg0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyx2c3AxLnlhbWwNCj4g
-PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyx2
-c3AxLnlhbWwNCj4gPiBAQCAtMTksNiArMTksNyBAQCBwcm9wZXJ0aWVzOg0KPiA+ICAgICAgZW51
-bToNCj4gPiAgICAgICAgLSByZW5lc2FzLHZzcDEgIyBSLUNhciBHZW4yIGFuZCBSWi9HMQ0KPiA+
-ICAgICAgICAtIHJlbmVzYXMsdnNwMiAjIFItQ2FyIEdlbjMgYW5kIFJaL0cyDQo+ID4gKyAgICAg
-IC0gcmVuZXNhcyxyemcybC12c3AyICMgUlovRzJMIGFuZCBSWi9WMkwNCj4gDQo+IEdpdmVuIHRo
-ZXJlIGlzIG5vIHZlcnNpb24gcmVnaXN0ZXIsIHByb2JhYmx5IHlvdSB3YW50IHRvIGRlZmluZSBT
-b0MtDQo+IHNwZWNpZmljIGNvbXBhdGlibGUgdmFsdWVzLg0KDQpZZXMsIHRoYXQgaXMgdGhlIHBs
-YW4gd2hpY2ggaXMgaW4gbGluZSB3aXRoIEtpZXJhbidzIHN1Z2dlc3Rpb24uDQoNCkNoZWVycywN
-CkJpanUNCg==
+On Tue, Apr 19, 2022 at 03:05:22PM +0100, Kieran Bingham wrote:
+> Quoting Biju Das (2022-04-14 22:37:37)
+> > > Subject: RE: [PATCH v6 3/3] media: renesas: vsp1: Add support for RZ/G2L
+> > > VSPD
+> > > 
+> > > Quoting Biju Das (2022-04-14 12:34:53)
+> > > > > Subject: Re: [PATCH v6 3/3] media: renesas: vsp1: Add support for
+> > > > > RZ/G2L VSPD
+> > > > >
+> > > > > Quoting Biju Das (2022-03-16 11:55:51)
+> > > > > > The RZ/G2L VSPD provides a single VSPD instance. It has the
+> > > > > > following sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+> > > > > >
+> > > > > > The VSPD block on RZ/G2L does not have a version register, so
+> > > > > > added a new compatible string "renesas,rzg2l-vsp2" with a data
+> > > > > > pointer containing the info structure. Also the reset line is
+> > > > > > shared with the DU module.
+> > > > > >
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > ---
+> > > > > > v5->v6:
+> > > > > >  * Rebased to media_staging and updated commit header
+> > > > > >  * Removed the extra tab from rzg2l_vsp2_device_info
+> > > > > >  * Changed the function vsp1_lookup->vsp1_lookup_info and
+> > > > > >    all info match related code moved here.
+> > > > > >  * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
+> > > > > >    distinguish HW & SW IP_VSP_Version.
+> > > > > >  * Used 0x80 for RZG2L VSPD model and SoC identification
+> > > > > >  * Updated Switch() for LIF0 buffer attribute handling.
+> > > > > > v4->v5:
+> > > > > >  * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
+> > > > > >  * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
+> > > > > >    for RZ/G2L SoC's.
+> > > > > > v3->v4:
+> > > > > >  * Added Rb tag from Geert
+> > > > > >  * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
+> > > > > > v2->v3:
+> > > > > >  * Fixed version comparison in vsp1_lookup()
+> > > > > > v1->v2:
+> > > > > >  * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+> > > > > >  * Added standalone device info for rzg2l-vsp2.
+> > > > > >  * Added vsp1_lookup helper function.
+> > > > > >  * Updated comments for LIF0 buffer attribute register
+> > > > > >  * Used last ID for rzg2l-vsp2.
+> > > > > > RFC->v1:
+> > > > > >  * Used data pointer containing info structure to retrieve version information
+> > > > > > RFC:
+> > > > > > ---
+> > > > > >  .../media/platform/renesas/vsp1/vsp1_drv.c    | 56 ++++++++++++++--
+> > > ---
+> > > > > >  .../media/platform/renesas/vsp1/vsp1_lif.c    | 18 ++++--
+> > > > > >  .../media/platform/renesas/vsp1/vsp1_regs.h   |  8 +++
+> > > > > >  3 files changed, 62 insertions(+), 20 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> > > > > > b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> > > > > > index 159b68fa0829..f1f52c0c1c59 100644
+> > > > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> > > > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> > > > > > @@ -812,11 +812,47 @@ static const struct vsp1_device_info
+> > > > > vsp1_device_infos[] = {
+> > > > > >         },
+> > > > > >  };
+> > > > > >
+> > > > > > +static const struct vsp1_device_info rzg2l_vsp2_device_info = {
+> > > > > > +       .version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
+> > > > > > +       .model = "VSP2-D",
+> > > > > > +       .gen = 3,
+> > > > > > +       .features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
+> > > > > > +       .lif_count = 1,
+> > > > > > +       .rpf_count = 2,
+> > > > > > +       .wpf_count = 1,
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const struct vsp1_device_info *vsp1_lookup_info(struct
+> > > > > > +vsp1_device *vsp1) {
+> > > > > > +       const struct vsp1_device_info *info;
+> > > > > > +       unsigned int i;
+> > > > > > +
+> > > > > > +       /*
+> > > > > > +        * Try the info stored in match data first for devices that don't have
+> > > > > > +        * a version register.
+> > > > > > +        */
+> > > > > > +       info = of_device_get_match_data(vsp1->dev);
+> > > > > > +       if (info)
+> > > > >
+> > > > > Presumably - as this will not call vsp1_read(vsp1, VI6_IP_VERSION),
+> > > > > we could/should always set vsp1->version here, or'ing in the _SW
+> > > > > flag with the derived version and SoC identifiers from the info
+> > > > > structure.
+> > > >
+> > > > OK, I have prototyped as per your suggestion, and it looks good.
+> > > >
+> > > > Here it is
+> > > >
+> > > >       if (info) {
+> > > >               vsp1->quirks = LIF_BUF_ATTR_QUIRKS;
+> > > 
+> > > No - quirks are device specific - they (/it) shouldn't be here.  I think
+> > > it should be something that is set in the vsp1_device_info like the
+> > > features flags.
+> > 
+> > If we want to add it in vsp1_sevice_info, then the list grows as
+> > Currently both V3M and V3H SoC's have single info structure and the info->version
+> > for both V3M and V3H is "VI6_IP_VERSION_MODEL_VSPD_V3" 
+> > 
+> > OK, I will expand this to separate info structure for V3M and V3H.
+> 
+> I think that's reasonable. I see some more discussion with Laurent in v7
+> already - so perhaps best to re-review on a v8 anyway.
+> 
+> > > Then a helper would come with it just like the vsp1_feature()
+> > > 
+> > > 
+> > >       #define vsp1_quirk(vsp1, f) ((vsp1)->info->quirks & (f))
+> > > 
+> > > so that code reliant upon a device specific quirk would read:
+> > > 
+> > >       if (vsp1_quirk(vsp1, VSP1_QUIRK_LIF_BUF_ATTR)
+> > >               .... do thing ...
+> > > 
+> > > But it should still keep the comments explaining why the quirk is there
+> > > and what it's doing of course.
+> > 
+> > OK.
+> > 
+> > > >               vsp1->version = VI6_IP_VERSION_VSP_SW | info->version |
+> > > >                               VI6_IP_VERSION_SOC_RZG2L;
+> > > 
+> > > I think vsp1_device_info should be extended with a .soc to set
+> > > VI6_IP_VERSION_SOC_RZG2L in rzg2l_vsp2_device_info, because (planning
+> > > ahead to when you add a second or third of these) the SOC could be
+> > > different.
+> > 
+> > The IP is identical for all RZ/G2L alike SoC's (for eg:- RZ/V2L, RZ/G2{L,LC} and RZ/G2UL)
+> > The same generic VSPD quirk change works on all these SoC's. For me, it is just unnecessary wastage
+> > of memory for adding separate vsp1_device_info for all RZ/G2L alike SoC's.
+> 
+> But what happens for RZG3L?
+> 
+> To me - adding a new platform support should be adding a new
+> vsp1_device_info either in vsp1_device_infos, or directly matched with a
+> compatible string as you have implemented here.
+> 
+> But this means /all/ devices added by compatible string are
+> VI6_IP_VERSION_SOC_RZG2L which likely isn't true in the future.
+> 
+> Put differently, Having a vsp1_device_infos passed by matching the
+> compatible string does not mean the device is an RZG2L, which is what
+> this code is defining.
+> 
+> > On V3M case we need to separate as V3H doesn't need quirk where as V3M it need, 
+> > here it is not the case all SoC's need quirks.
+> > 
+> > If it all need to be extended, we can start with 0x80 for VI6_IP_VERSION_SOC_RZG2L, 0x81 for
+> > VI6_IP_VERSION_SOC_RZV2L etc.. I don't think it is required unless I am missing something.
+> > 
+> > Please let me know your thoughts on this.
+> > 
+> > > > > > +               return info;
+> > > > > > +
+> > > > > > +       vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> > > > > > +
+> > > > > > +       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> > > > > > +               info = &vsp1_device_infos[i];
+> > > > > > +
+> > > > > > +               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
+> > > >
+> > > > Here it is
+> > > >               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version) {
+> > > >                        if ((vsp1->version & VI6_IP_VERSION_MASK) ==
+> > > >                          (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
+> > > >                                vsp1->quirks = LIF_BUF_ATTR_QUIRKS;
+> > > >
+> > > 
+> > > As above - I think that should be stored per vsp1_device_info.
+> > 
+> > Ok, will add separate info for V3M and V3H.
+> 
+> i think that's best, I hope Laurent agrees, I'm not sure he's seen the
+> comments on this thread as he replied to v7.
+
+That's fine with me, but I'm curious to see how it will look like, as
+the device info structure is currently matched based on the model only,
+not the SoC. I don't want to duplicate all instances of device info
+per-SoC when they don't differ.
+
+> > > > > > +                       return info;
+> > > > > > +       }
+> > > > > > +
+> > > > > > +       dev_err(vsp1->dev, "unsupported IP version 0x%08x\n",
+> > > > > > + vsp1->version);
+> > > > > > +
+> > > > > > +       return NULL;
+> > > > > > +}
+> > > > > > +
+> > > > > >  static int vsp1_probe(struct platform_device *pdev)  {
+> > > > > >         struct vsp1_device *vsp1;
+> > > > > >         struct device_node *fcp_node;
+> > > > > > -       unsigned int i;
+> > > > > >         int ret;
+> > > > > >         int irq;
+> > > > > >
+> > > > > > @@ -872,25 +908,16 @@ static int vsp1_probe(struct platform_device*pdev)
+> > > > > >         if (ret < 0)
+> > > > > >                 goto done;
+> > > > > >
+> > > > > > -       vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> > > > > > -
+> > > > > > -       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> > > > > > -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> > > > > > -                   vsp1_device_infos[i].version) {
+> > > > > > -                       vsp1->info = &vsp1_device_infos[i];
+> > > > > > -                       break;
+> > > > > > -               }
+> > > > > > -       }
+> > > > > > -
+> > > > > > +       vsp1->info = vsp1_lookup_info(vsp1);
+> > > > > >         if (!vsp1->info) {
+> > > > > > -               dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+> > > > > > -                       vsp1->version);
+> > > > > >                 vsp1_device_put(vsp1);
+> > > > > >                 ret = -ENXIO;
+> > > > > >                 goto done;
+> > > > > >         }
+> > > > > >
+> > > > > > -       dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
+> > > > > > +       if ((vsp1->version & VI6_IP_VERSION_VSP_MASK) != VI6_IP_VERSION_VSP)
+> > > > > > +               vsp1->version = VI6_IP_VERSION_VSP_SW | vsp1->info->version |
+> > > > > > +                               VI6_IP_VERSION_SOC_RZG2L;
+> > > > >
+> > > > > It seems odd to have this specific version assignment here.
+> > > > > Shouldn't that be set during vsp1_lookup_info() in the case that
+> > > > > there is a match from of_device_get_match_data()? That way it would
+> > > > > be extendable by adding just a new vsp1_device_info structure for
+> > > > > the next platform that has this issue. This implies that they will
+> > > > > 'always' be RZG2L but that information should live in the
+> > > vsp1_device_info structure I think.
+> > > > >
+> > > >
+> > > > We can remove this assignment from here and move vsp1_lookup_info.
+> > > >
+> > > > > Could be handled when/if we get a new device added I guess, but I
+> > > > > think that VI6_IP_VERSION_SOC_RZG2L should be something that is
+> > > > > retrieved from the vsp1_device_info structure.
+> > > > >
+> > > > > Re-reading the vsp1_lookup_info() function - it does seem like
+> > > > > something suited to there, as the vsp1->version is never read from
+> > > > > hardware in the new case.
+> > > >
+> > > > Ok, Agreed.
+> > > >
+> > > > > >
+> > > > > >         /*
+> > > > > >          * Previous use of the hardware (e.g. by the bootloader) could leave
+> > > > > > @@ -941,6 +968,7 @@ static int vsp1_remove(struct platform_device *pdev)
+> > > > > >  static const struct of_device_id vsp1_of_match[] = {
+> > > > > >         { .compatible = "renesas,vsp1" },
+> > > > > >         { .compatible = "renesas,vsp2" },
+> > > > > > +       { .compatible = "renesas,rzg2l-vsp2", .data =
+> > > > > > + &rzg2l_vsp2_device_info },
+> > > > > >         { },
+> > > > > >  };
+> > > > > >  MODULE_DEVICE_TABLE(of, vsp1_of_match); diff= --git
+> > > > > > a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> > > > > > b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> > > > > > index 6a6857ac9327..e36ed2d2b22b 100644
+> > > > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> > > > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> > > > > > @@ -107,6 +107,7 @@ static void lif_configure_stream(struct
+> > > > > > vsp1_entity *entity,
+> > > > > >
+> > > > > >         case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
+> > > > > >         case VI6_IP_VERSION_MODEL_VSPD_V3:
+> > > > > > +       case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
+> > > > > >                 hbth = 0;
+> > > > > >                 obth = 1500;
+> > > > > >                 lbth = 0;
+> > > > > > @@ -130,16 +131,21 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+> > > > > >                         VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
+> > > > > >
+> > > > > >         /*
+> > > > > > -        * On R-Car V3M the LIF0 buffer attribute register has to be set to a
+> > > > > > -        * non-default value to guarantee proper operation (otherwise artifacts
+> > > > > > -        * may appear on the output). The value required by the manual is not
+> > > > > > -        * explained but is likely a buffer size or threshold.
+> > > > > > +        * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
+> > > > > > +        * set to a non-default value to guarantee proper operation (otherwise
+> > > > > > +        * artifacts may appear on the output). The value required by the
+> > > > > > +        * manual is not explained but is likely a buffer size or threshold.
+> > > > > >          */
+> > > > > > -       if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
+> > > > > > -           (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
+> > > > > > +       switch (entity->vsp1->version) {
+> > > > > > +       case (VI6_IP_VERSION_VSP | VI6_IP_VERSION_MODEL_VSPD_V3 |
+> > > > > > +             VI6_IP_VERSION_SOC_V3M):
+> > > > > > +       case (VI6_IP_VERSION_VSP_SW | VI6_IP_VERSION_MODEL_VSPD_RZG2L |
+> > > > > > +             VI6_IP_VERSION_SOC_RZG2L):
+> > > > >
+> > > > > If this is going to grow - I would think it would be better served
+> > > > > with a feature flag - although this isn't so much of a feature, and
+> > > > > more of a quirk, so I wonder if that would push us closer to getting a
+> > > > > quirks flag.
+> > > > >
+> > > > > I'm weary that this may not scale otherwise, but ... for now this
+> > > > > works, but I think it means we have multiple ways of handling
+> > > > > platform specific code already.
+> > > >
+> > > > Here it is
+> > > >
+> > > > if (lif->quirks)
+> > > >           vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
+> > > >                            VI6_LIF_LBA_LBA0 |
+> > > >                             (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+> > > 
+> > > I think
+> > > 
+> > >       if (vsp1_quirk(vsp1, VSP1_QUIRK_LIF_BUF_ATTR)
+> > >               vsp1_lif_write(lif, dlb, VI6_LIF_LBA, |
+> > >                              (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+> > > 
+> > > and keeping the block comment above would be better. There's a risk of the
+> > > platfoms defining the quirk, and the comment describing the platforms
+> > > affected getting out of sync but I think that's going to be cleaner than
+> > > extending this with a growing set of unreadable model and soc masks.
+> > > 
+> > > 
+> > > > And the below change in vsp1_lif_create
+> > > >
+> > > >   lif->quirks = vsp1->quirks & LIF_BUF_ATTR_QUIRKS;
+> > > 
+> > > I don't think the lif needs a quirk flag storage. It can come from the
+> > > vsp1->info (Through a helper)/
+> > 
+> > OK. Agreed.
+> > 
+> > > > > >                 vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
+> > > > > >                                VI6_LIF_LBA_LBA0 |
+> > > > > >                                (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+> > > > > > +               break;
+> > > > > > +       }
+> > > > > >  }
+> > > > > >
+> > > > > >  static const struct vsp1_entity_operations lif_entity_ops = {
+> > > > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> > > > > > b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> > > > > > index fae7286eb01e..e66553c42e50 100644
+> > > > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> > > > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> > > > > > @@ -767,6 +767,8 @@
+> > > > > >  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3        (0x19 << 8)
+> > > > > >  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3        (0x1a << 8)
+> > > > > >  #define VI6_IP_VERSION_MODEL_VSPD_V3U  (0x1c << 8)
+> > > > > > +/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
+> > > > > > +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L        (0x80 << 8)
+> > > > > >
+> > > > > >  #define VI6_IP_VERSION_SOC_MASK                (0xff << 0)
+> > > > > >  #define VI6_IP_VERSION_SOC_H2          (0x01 << 0)
+> > > > > > @@ -780,6 +782,12 @@
+> > > > > >  #define VI6_IP_VERSION_SOC_M3N         (0x04 << 0)
+> > > > > >  #define VI6_IP_VERSION_SOC_E3          (0x04 << 0)
+> > > > > >  #define VI6_IP_VERSION_SOC_V3U         (0x05 << 0)
+> > > > > > +/* RZ/G2L SoC's have no version register, So use 0x80 for SoC Identification */
+> > > > > > +#define VI6_IP_VERSION_SOC_RZG2L       (0x80 << 0)
+> > > > > > +
+> > > > > > +#define VI6_IP_VERSION_VSP_MASK                (0xffff << 16)
+> > > > > > +#define VI6_IP_VERSION_VSP             (0x0101 << 16) /* HW VSP version */
+> > > > >
+> > > > > Is this constant on all supported platforms? both Gen2 and Gen3? (Is
+> > > > > there a gen1?). Does it need to be specified to the generation?
+> > > >
+> > > > I have checked Gen1 and Gen2 HW manual I don't find this info. So I
+> > > > would like to remove this macro as it is unused after quirk changes.
+> > > >
+> > > 
+> > > If it's unused, then yes - I think it can be removed.
+> > > 
+> > > > I am planning to send V7 with these changes, please let me know if you
+> > > > have any feedback.
+> > > 
+> > > I think I'm too late ... but comments above.
+> > > 
+> > > > > There's nothing specifically complex there or blocking I don't think
+> > > > > - so with comments considered as required:
+> > > > >
+> > > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > > >
+> > > > > > +#define VI6_IP_VERSION_VSP_SW          (0xfffe << 16) /* SW VSP version
+> > > > > */
+> > > > > >
+> > > > > >  /* -----------------------------------------------------------------------------
+> > > > > >   * RPF CLUT Registers
+
+-- 
+Regards,
+
+Laurent Pinchart
