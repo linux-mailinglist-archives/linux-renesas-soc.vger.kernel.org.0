@@ -2,46 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1C350780C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 20:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C12507958
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Apr 2022 20:45:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357186AbiDSS0L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Apr 2022 14:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        id S1353933AbiDSSrA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Apr 2022 14:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356748AbiDSSYg (ORCPT
+        with ESMTP id S1353993AbiDSSq7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Apr 2022 14:24:36 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 368D447AE3;
-        Tue, 19 Apr 2022 11:18:24 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,273,1643641200"; 
-   d="scan'208";a="118471414"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Apr 2022 03:18:23 +0900
-Received: from localhost.localdomain (unknown [10.226.92.15])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 75A8040031CE;
-        Wed, 20 Apr 2022 03:18:20 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Tue, 19 Apr 2022 19:17:57 +0100
-Message-Id: <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220419181757.63346-1-biju.das.jz@bp.renesas.com>
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com>
+        Tue, 19 Apr 2022 14:46:59 -0400
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FE03E5F0;
+        Tue, 19 Apr 2022 11:44:15 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id bb21so4034906qtb.3;
+        Tue, 19 Apr 2022 11:44:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ci/7IqIwUm6bsFwKUgyhvCmAUTg6oVfUdrqG5mxHzkM=;
+        b=QicDOzC56DQx1Ko5ZW3EYB0Nd1O/btrWXme/YC2ROJp8DpRY83nryVlJ38sVy7xOcA
+         S2DzWepSJiM/8/b0uD/7cEt/qH18qCTwX68T0TxDFjg1gPkWxH/Y+BV/mlv3EjUTaFFB
+         SR/AWOZmq/RJcWB3j713ln7+/KwX0UlqlnJRalMMSSpzfBFohXoo6lL8HsJOLKVsed16
+         Vk45lJ+G3uxDfzAzqOoTr3nwhM7p6M7bw3vYra2JQHmfB+ETLBaQ80Vt287S0OiOKwfY
+         q2UaT7+jWscYOTdFBlCWhYrH5apexflqxouCkIBtgEB+CJAUxYUgwqFslTXlrJzfBeC2
+         V5OQ==
+X-Gm-Message-State: AOAM531XmWko2CTIFVs3QIVgtnWyLmyZyJeMMuE+o+8skvUCv+z51r6v
+        U9qkb3+HcTgbvSL5aIJsIDiWi934yKgz3A==
+X-Google-Smtp-Source: ABdhPJwdnvh7m6Kqi8ArY0YWoGZsuYnQIhNhwHCAzpeMLMs4rfWyu8+RGN6F6ThO5cyfh+KHqMVPxQ==
+X-Received: by 2002:a05:622a:1649:b0:2f2:418:8627 with SMTP id y9-20020a05622a164900b002f204188627mr5949958qtj.688.1650393853887;
+        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id bl14-20020a05620a1a8e00b0069e622e593esm402445qkb.95.2022.04.19.11.44.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id d19so4284602ybc.5;
+        Tue, 19 Apr 2022 11:44:13 -0700 (PDT)
+X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
+ p9-20020a259e89000000b0063cad37a5demr16404838ybq.342.1650393853241; Tue, 19
+ Apr 2022 11:44:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+References: <5051ae56a1388ccf2d283dfc9624de2991cce914.1650355619.git.geert+renesas@glider.be>
+In-Reply-To: <5051ae56a1388ccf2d283dfc9624de2991cce914.1650355619.git.geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 19 Apr 2022 20:44:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUt8iB3dQEppAjSkKpCxLUofbfH+=teJB1E0arKz2WkOA@mail.gmail.com>
+Message-ID: <CAMuHMdUt8iB3dQEppAjSkKpCxLUofbfH+=teJB1E0arKz2WkOA@mail.gmail.com>
+Subject: Re: [PATCH v3] pinctrl: renesas: checker: Rework drive and bias pin iteration
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        kbuild-all@lists.01.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,143 +67,91 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On Tue, Apr 19, 2022 at 10:08 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> The checker code to iterate over all drive strength and bias register
+> description items is cumbersome, due to the repeated calculation of
+> indices, and the use of hardcoded array sizes.  The latter was done
+> under the assumption they would never need to be changed, which turned
+> out to be false.
+>
+> Increase readability by introducing helper macros to access drive
+> strength and bias register description items.
+> Increase maintainability by replacing hardcoded numbers by array sizes
+> calculated at compile-time.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3:
+>   - Add and use drive_ofs() and bias_ofs() helpers, as suggested by
+>     Wolfram,
 
-The VSPD block on RZ/G2L does not have a version register, so added a
-new compatible string "renesas,r9a07g044-vsp2" with a data pointer
-containingthe info structure. Also the reset line is shared with the
-DU module.
+> --- a/drivers/pinctrl/renesas/core.c
+> +++ b/drivers/pinctrl/renesas/core.c
+> @@ -1007,7 +1007,18 @@ static void __init sh_pfc_compare_groups(const char *drvname,
+>  static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+>  {
+>         const struct pinmux_drive_reg *drive_regs = info->drive_regs;
+> +#define drive_nfields  ARRAY_SIZE(drive_regs->fields)
+> +#define drive_ofs(i)   drive_regs[(i) / drive_nfields]
+> +#define drive_reg(i)   drive_ofs(i).reg
+> +#define drive_bit(i)   ((i) % drive_nfields)
+> +#define drive_field(i) drive_ofs(i).fields[drive_bit(i)]
+>         const struct pinmux_bias_reg *bias_regs = info->bias_regs;
+> +#define bias_npins     ARRAY_SIZE(bias_regs->pins)
+> +#define bias_ofs(i)    bias_regs[(i) / bias_npins]
+> +#define bias_puen(i)   bias_ofs(i).puen
+> +#define bias_pud(i)    bias_ofs(i).pud
+> +#define bias_bit(i)    ((i) % bias_npins)
+> +#define bias_pin(i)    bias_ofs(i).pins[bias_bit(i)]
+>         const char *drvname = info->name;
+>         unsigned int *refcnts;
+>         unsigned int i, j, k;
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
+> @@ -1164,20 +1175,17 @@ static void __init sh_pfc_check_info(const struct sh_pfc_soc_info *info)
+>         for (i = 0; drive_regs && drive_regs[i].reg; i++)
+>                 sh_pfc_check_drive_reg(info, &drive_regs[i]);
+>
+> -       for (i = 0; drive_regs && drive_regs[i / 8].reg; i++) {
+> -               if (!drive_regs[i / 8].fields[i % 8].pin &&
+> -                   !drive_regs[i / 8].fields[i % 8].offset &&
+> -                   !drive_regs[i / 8].fields[i % 8].size)
+> +       for (i = 0; drive_regs && drive_reg(i); i++) {
+> +               if (!drive_field(i).pin && !drive_field(i).offset &&
+> +                   !drive_field(i).size)
+>                         continue;
+>
+>                 for (j = 0; j < i; j++) {
+> -                       if (drive_regs[i / 8].fields[i % 8].pin ==
+> -                           drive_regs[j / 8].fields[j % 8].pin &&
+> -                           drive_regs[j / 8].fields[j % 8].offset &&
+> -                           drive_regs[j / 8].fields[j % 8].size) {
+> +                       if (drive_field(i).pin == drive_field(j).pin &&
+> +                           drive_field(j).offset && drive_field(j).size) {
+>                                 sh_pfc_err("drive_reg 0x%x:%u/0x%x:%u: pin conflict\n",
+                                                             ^^      ^^
+> -                                          drive_regs[i / 8].reg, i % 8,
+> -                                          drive_regs[j / 8].reg, j % 8);
+> +                                          drive_reg(i), drive_bit(i),
+> +                                          drive_reg(j), drive_bit(j));
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 181f2ed8604b..2a5122e0bc52 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -824,6 +824,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -978,6 +990,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..599db4a20b7f 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoC have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
+Whoops, as reported by kernel test robot for 64-bit builds, drive_bit()
+is no longer unsigned int, but size_t[*], hence "%zu" should be used
+for printing.  The same is true for bias_bit().
 
+Will fix up tomorrow...
+
+[*] A bit counter-intuitive from the mathematical point of view,
+    but as "size_t" is either "unsigned int" or "unsigned long",
+    "unsigned int % size_t" is ... "size_t"!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
