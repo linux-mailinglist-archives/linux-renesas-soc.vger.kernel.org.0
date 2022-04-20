@@ -2,115 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81CB6508B4C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 16:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 076AA508BBE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 17:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379841AbiDTO73 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 10:59:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
+        id S1380061AbiDTPNV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 11:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236824AbiDTO72 (ORCPT
+        with ESMTP id S1380167AbiDTPNI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 10:59:28 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC723BFA4;
-        Wed, 20 Apr 2022 07:56:40 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 696F940003;
-        Wed, 20 Apr 2022 14:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650466599;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2t76+K9/ufuuUqXnbJnz0ta26ZIOGtfR+N8Pj3Hoeqw=;
-        b=E2gnkhahRyJW3qrFkTmcybpsRxoiG1YSyg+T6tCRXOshC8me6CX1EG9Hric3dInxtpVJQ9
-        GBhRPYEl731GNFiN/tJvvBUQBn7kQ7kFjPqkT3aA87mNK16MuCwp51A+RIwC37j/ifuCG/
-        yU3Fu33ln/dbixooeK7JdSaxkAxRdkWTyvJcqFv1N//d1yWqopb8HFIYwd1097T3uivvT3
-        up2ZjgGrIChICjjsZmSJfvh3WBX7a5jVXNTWTse/HvdrqucPdQt60UfPoUbmSLRRTI4H9C
-        vJuXFN5luZdSR36zXJCqlH49wvigIxYlTgNRcWpHqRCvcAm0924lij7xAPyvYg==
-Date:   Wed, 20 Apr 2022 16:56:35 +0200
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 3/8] dt-bindings: PCI: renesas-pci-usb: Allow
- multiple clocks
-Message-ID: <20220420165635.0d221ee6@bootlin.com>
-In-Reply-To: <CAMuHMdWqVDwdyNuB3tBrWNGt7tuNOXQwqB_Un9sZYCS-6P99bA@mail.gmail.com>
-References: <20220414074011.500533-1-herve.codina@bootlin.com>
-        <20220414074011.500533-4-herve.codina@bootlin.com>
-        <CAMuHMdWZyuNQJhxkhzs5H8+8DFGDS95nvptrO-s9RC4QL5kibA@mail.gmail.com>
-        <20220420150759.713fcd02@bootlin.com>
-        <CAMuHMdWqVDwdyNuB3tBrWNGt7tuNOXQwqB_Un9sZYCS-6P99bA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Wed, 20 Apr 2022 11:13:08 -0400
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B25AC3EA8F;
+        Wed, 20 Apr 2022 08:10:22 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id d14so1161278qtw.5;
+        Wed, 20 Apr 2022 08:10:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l+RWWBZOVEKfmV/oGt1L+poKBhUz7tLCiXooyBi48K4=;
+        b=udbD8gwY2EoU78amG3MPfSDMg4GXkosBmk3jK3w5yrdy+JUNihK8A3VnGoxmnlZjcr
+         NV8UYaE0cD0BLekxy/kGfvNvg30Pxy/xdX4noScPQSDciEMzOruyySIsPjTGRPqv3xNI
+         52r2HaQsDUdGIhCGj7nQfdokew0iWU1Ot/sGF8UZ0/OCGMmM1IhxtzCTZmOLmkrbN8si
+         teWliRDj2p14iIlf/E4+Jz9cB/fPSTPcCLgz6eqz3BddxVNwRMM92fJkEDWocOJWtqtz
+         Xin45YVxAi7SkMQ13vwNCD8E5B567mW5DukVdohs29gwNeKCkt+FSwi6UNLejAKX75Mo
+         nGjQ==
+X-Gm-Message-State: AOAM530QyMl8lVMvOfqN9WzTF2k98LgcPITq2qk7QnHwScihC+be087L
+        AuHSbmYjT3B6XFRlogfFo6qfZieiMC7fUw==
+X-Google-Smtp-Source: ABdhPJzNK74rkFuSs90yl5EniJQrBBa+bdsbJA2aQ4f6XiRICTEH+IWl31wjalGgDe2UzKWBCFMI1w==
+X-Received: by 2002:a05:622a:15cc:b0:2f1:fe0b:b3c2 with SMTP id d12-20020a05622a15cc00b002f1fe0bb3c2mr10496753qty.83.1650467421543;
+        Wed, 20 Apr 2022 08:10:21 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id a63-20020ae9e842000000b0069e6722632bsm1671234qkg.39.2022.04.20.08.10.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 08:10:21 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id g14so68448ybj.12;
+        Wed, 20 Apr 2022 08:10:21 -0700 (PDT)
+X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
+ c4-20020a5b0984000000b0063f8c38676cmr20864015ybq.393.1650467421064; Wed, 20
+ Apr 2022 08:10:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Apr 2022 17:10:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW-dP80qOhioeq1NkMzeMTCRfxj1J+CuCuKoiC=+6fCfQ@mail.gmail.com>
+Message-ID: <CAMuHMdW-dP80qOhioeq1NkMzeMTCRfxj1J+CuCuKoiC=+6fCfQ@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r8a779f0: Add UFS clock
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Mon, Apr 11, 2022 at 2:49 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add the module clock used by the UFS host controller on the Renesas
+> R-Car S4-8 (R8A779F0) SoC.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-On Wed, 20 Apr 2022 15:32:27 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.19.
 
-> Hi Herv=C3=A9,
->=20
-> On Wed, Apr 20, 2022 at 3:08 PM Herve Codina <herve.codina@bootlin.com> w=
-rote:
-> > Is there a way to have the clocks description depending on the compatib=
-le value. =20
->=20
-> Rob already replied.
-> For an example, check out the various bindings for RZ/G2L devices,
-> e.g. Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+Gr{oetje,eeting}s,
 
-Yes, thanks.
+                        Geert
 
->=20
-> > I mean something like:
-> > --- 8< ---
-> > properties:
-> >   clocks:
-> >     maxItems: 1
-> >
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - renesas,pci-r9a06g032
-> >           - renesas,pci-rzn1 =20
->=20
-> Checking only for the second compatible value should be sufficient.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Ok, changed.
-
-Regards,
-Herv=C3=A9
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
