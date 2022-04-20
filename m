@@ -2,122 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 481AE50920E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 23:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 267E4509223
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 23:38:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355041AbiDTV31 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 17:29:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
+        id S1382557AbiDTVku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 17:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345541AbiDTV31 (ORCPT
+        with ESMTP id S1356105AbiDTVks (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 17:29:27 -0400
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1BF54091F;
-        Wed, 20 Apr 2022 14:26:39 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id d19so2261481qko.3;
-        Wed, 20 Apr 2022 14:26:39 -0700 (PDT)
+        Wed, 20 Apr 2022 17:40:48 -0400
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232C1369F6;
+        Wed, 20 Apr 2022 14:38:01 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id w127so3540322oig.10;
+        Wed, 20 Apr 2022 14:38:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=67nV4gYgeYp7zHEQCPKbVLqOBEjZ5hlguO4lzvnVvxk=;
-        b=00E6DmLYkUVqer3UxAKtwNNJZE/p+azhWuZx3oO92KHY+DdbNKK5xvKsee5CUoKW4z
-         zs7MrXIjPPRpF6FnhD0sMN2D0yBlQ8L5FXyH6ty7HkaILSSR3jPKrXQCtJQ0Jh86QL4H
-         9lwDqc9PySA0X3R4i0xSJ0L5oGYSI2lsHV+lmkTxp+ZqAkMZ6LLwyyrQda5NDYPZdKLi
-         bum4CiPYZQRV9a5UYEMnHtpOFCcRtw7RmQ+26/ceWzDnNLs/5A1uuZdPUq7v4uinMWEu
-         BwG7eimM/owP69IK19ZrA79VC6j+289+UAaOCfjzASgXTtBtWODqHIFYRiBtshCFSCRr
-         Dyog==
-X-Gm-Message-State: AOAM530jVqsbz1Z7kBtolvrQ7JogUAojVDYaPKUikt2+cJv1IWofmh9F
-        8syDO5ZyL/UqgrzLwlqOqmZpOkUBhb9qnAvN
-X-Google-Smtp-Source: ABdhPJyFLYC9SL2qTm+vkq2sxvNCaPUeNiDvnzIF1KHE1cT/RMma1DFX3Wz7apceWWGHgZGMhyDY8g==
-X-Received: by 2002:a37:de03:0:b0:67e:4c75:9a07 with SMTP id h3-20020a37de03000000b0067e4c759a07mr14270680qkj.121.1650489998639;
-        Wed, 20 Apr 2022 14:26:38 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id y85-20020a376458000000b0069e64801b7dsm2044393qkb.62.2022.04.20.14.26.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 14:26:38 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2eba37104a2so32987507b3.0;
-        Wed, 20 Apr 2022 14:26:37 -0700 (PDT)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr22892623ywi.449.1650489997556; Wed, 20
- Apr 2022 14:26:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220330154024.112270-1-phil.edworthy@renesas.com> <20220330154024.112270-3-phil.edworthy@renesas.com>
-In-Reply-To: <20220330154024.112270-3-phil.edworthy@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Apr 2022 23:26:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWaiAZNWmU5itJWJy3fEMmR1hQc7QRWpe6mi3AYkSewgw@mail.gmail.com>
-Message-ID: <CAMuHMdWaiAZNWmU5itJWJy3fEMmR1hQc7QRWpe6mi3AYkSewgw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] dt-bindings: serial: renesas,em-uart: Document
- r9a09g011 bindings
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=t4s+i9BdWcasHydBitg8Y8XSjODVgS+jeiuoMRAUa0g=;
+        b=Q6k7shlhp11hY+lXT6vDvUtN4tcjqTfDKWNs1bAu/5i48KFTKWr/+uQv7eXsBgrKfs
+         jJCprKnQfkZsycyFjUGtV0/wtNhL9+5VqesXQXq0DsJEpDhYBtbrAHdjkjPEPUfyiXL+
+         qvAHgXSV7q7IuLVEpC9JUow9zw3U+8NcUjvsONytud22BNh5c3JaB5L0IgGFPq+TmuGn
+         ft7+lvXgPc6T1wcxYHRf5cueGqRSBLLXJ4OQbCEdUOGXXhWluSPDCX43E9pM72e30uSM
+         uaonzreKzahU8AU/u9Q3Wh6mq0hL74l15xphWdFPXfeeuRiGRogQMlBIPvdwsNqv5aHg
+         O9tw==
+X-Gm-Message-State: AOAM5329Fw9flsZH7xMsBCa1NW4vl8uC7AYeSSmbGCtLNFRwRHdILD8r
+        rqrxODaMonTEGmhFBRzIfg==
+X-Google-Smtp-Source: ABdhPJxVOoBwy2hZdiybdxAptzC2ZHhSsuWp1DtHCc7pFAEQv+x1o8WiqDQYCy1SRNIi+q/nwY7P+g==
+X-Received: by 2002:a05:6808:23c1:b0:322:7334:e447 with SMTP id bq1-20020a05680823c100b003227334e447mr2626853oib.288.1650490680412;
+        Wed, 20 Apr 2022 14:38:00 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bk35-20020a0568081a2300b003226178fe7bsm5205483oib.33.2022.04.20.14.37.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 14:37:59 -0700 (PDT)
+Received: (nullmailer pid 1894112 invoked by uid 1000);
+        Wed, 20 Apr 2022 21:37:59 -0000
+Date:   Wed, 20 Apr 2022 16:37:59 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/8] dt-bindings: PCI: renesas-pci-usb: Convert
+ bindings to json-schema
+Message-ID: <YmB9NxyFdxWAvlPr@robh.at.kernel.org>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+ <20220414074011.500533-3-herve.codina@bootlin.com>
+ <YlhkwvGdcf4ozTzG@robh.at.kernel.org>
+ <20220420144411.2d369b49@bootlin.com>
+ <YmAIOt1vAEzHGvBP@robh.at.kernel.org>
+ <20220420154611.7dd34c24@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220420154611.7dd34c24@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+On Wed, Apr 20, 2022 at 03:46:11PM +0200, Herve Codina wrote:
+> Hi Rob,
+> 
+> On Wed, 20 Apr 2022 08:18:50 -0500
+> Rob Herring <robh@kernel.org> wrote:
+> 
+> ...
+> 
+> > > > > +  bus-range:
+> > > > > +    description: |
+> > > > > +      The PCI bus number range; as this is a single bus, the range
+> > > > > +      should be specified as the same value twice.    
+> > > > 
+> > > > items:
+> > > >   const: 0  
+> > > 
+> > > Well, some other values are present in some dtsi files such as
+> > > 'bus_range = <1 1>;' or 'bus_range = <2 2>;' in r8a7742.dtsi.
+> > > 
+> > > The constraint is to have the same value twice. Is there a way
+> > > to specify this constraint ?  
+> > 
+> > Yes, but probably not worthwhile. Just drop it as pci-bus.yaml already 
+> > defines it.
+> 
+> Instead of fully dropping the property, don't you think that keeping
+> the given description here can be a way to express that the same value
+> is needed twice ?
 
-On Wed, Mar 30, 2022 at 5:41 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> The Renesas RZ/V2M (r9a09g011) SoC uses a uart that is compatible with the
-> EMMA Mobile SoC.
->
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2: Fix dtbs_check by adding missing alternative binding
+Yeah, that's fine.
 
-Thanks for your patch, which is now commit 7bb301812b628099
-("dt-bindings: serial: renesas,em-uart: Document r9a09g011
-bindings") in tty/tty-next.
 
-> --- a/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
-> @@ -14,7 +14,14 @@ allOf:
->
->  properties:
->    compatible:
-> -    const: renesas,em-uart
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a09g011-uart    # RZ/V2M
-> +          - const: renesas,em-uart        # generic EMMA Mobile compatible UART
-> +
-> +      - items:
-> +          - const: renesas,em-uart        # generic EMMA Mobile compatible UART
+> > > > > +  "#address-cells":
+> > > > > +    const: 3
+> > > > > +
+> > > > > +  "#size-cells":
+> > > > > +    const: 2
+> > > > > +
+> > > > > +  "#interrupt-cells":
+> > > > > +    const: 1    
+> > > > 
+> > > > All these are defined by pci-bus.yaml  
+> > > 
+> > > Right.
+> > > Replaced by:
+> > > 
+> > > "#address-cells": true
+> > > "#size-cells": true
+> > > "#interrupt-cells": true
+> > > 
+> > > Is that correct ?  
+> > 
+> > You can just drop them completely.
+> 
+> Ok for #address-cells and #size-cells but not for #interrupt-cells.
+> 
+> Dropping #interrupt-cells makes 'make dtbindings_check' unhappy:
+> --- 8< ---
+> $ make dt_binding_check DT_SCHEMA_FILES=renesas,pci-rcar-gen2.yaml
+>   LINT    Documentation/devicetree/bindings
+>   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+> /home/hcodina/xxx/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml: properties: '#interrupt-cells' is a dependency of 'interrupt-map'
+> 	from schema $id: http://devicetree.org/meta-schemas/interrupts.yaml#
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> /home/hcodina/xxx/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml: ignoring, error in schema: properties
+>   DTEX    Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dts
+>   DTC     Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dtb
+>   CHECK   Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dtb
+> $ 
+> --- 8< ---
+> 
+> So I keep 
+> "#interrupt-cells": true
 
-The above looks good to me.
+You should also drop 'interrupt-map' and 'interrupt-map-mask'.
 
->
->    reg:
->      maxItems: 1
-
-However, unlike EMEV2, RZ/V2M defines two clocks: pclk and sclk.
-Hence please update the clocks section to reflect that.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
