@@ -2,161 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8805085B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 12:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA615085DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 12:27:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377595AbiDTKX1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 06:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54166 "EHLO
+        id S241048AbiDTKaU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 06:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377530AbiDTKX0 (ORCPT
+        with ESMTP id S234821AbiDTKaT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 06:23:26 -0400
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB3D20F5B;
-        Wed, 20 Apr 2022 03:20:41 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id i14so953635qvk.13;
-        Wed, 20 Apr 2022 03:20:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f0NnpsPLCg2iui7O5h5I1HyO+jn7EEmNeJX5s7EqFIs=;
-        b=sAHcdY6CaHJ8xnV/2s+53fWRlJldgRb+8jpk2qwevj7Vj1wDOYVHVbMpU5ePVGnraF
-         h5nDiGqbwqkcZwXj1vykjvt1EsZ62aM/M3S5g7buVkHzlcVYILBCDr0KdM5Y46s8qow/
-         I9zf2Qw95x0dA/Q1DYimF9AISueJnCSqKLay7RnhqALoZzfhNJZ1EH8jWILK1hBKF1jp
-         E7y5C5PBeISqOnGfFpTfRpUM7zHLxHVdQMnWXL11/SAjZa2U0cF7f4kpW+LGaXk3Z1+c
-         wKrcEwYPmA3vEkpHKYi+u9TXUfxd8f7Iqpp+OrRAzzQuBHSyk9t6xlrQfr8zISEr4ZaW
-         xAlA==
-X-Gm-Message-State: AOAM530fkvXAwDCGR4eBj2TCBxhQEh+XQNSEz+EIq1DBgov23FJGRx1A
-        4OXZScT8CHQLyLGZCcgOuqOQ+ZeUBDbmCA==
-X-Google-Smtp-Source: ABdhPJx7gHeDrhgkH7LU2C53/lj/J+nJhh8Mpcas+Oi2HKyrOG25SR5cs66Wqim/49BE1y3dHfTrAg==
-X-Received: by 2002:a05:6214:3006:b0:444:2fa9:9849 with SMTP id ke6-20020a056214300600b004442fa99849mr14871653qvb.101.1650450039989;
-        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id w3-20020a376203000000b0069e9a4568f9sm1325949qkb.125.2022.04.20.03.20.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2ef4a241cc5so12900337b3.2;
-        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
-X-Received: by 2002:a81:6ccb:0:b0:2f1:68f1:d90e with SMTP id
- h194-20020a816ccb000000b002f168f1d90emr17834467ywc.62.1650450039480; Wed, 20
- Apr 2022 03:20:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220419181757.63346-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Apr 2022 12:20:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXAgJf89ZS_SnF0UMU9tUhROqDxP5N_mAeNj9N6oQBAUw@mail.gmail.com>
-Message-ID: <CAMuHMdXAgJf89ZS_SnF0UMU9tUhROqDxP5N_mAeNj9N6oQBAUw@mail.gmail.com>
-Subject: Re: [PATCH v8 1/5] media: dt-bindings: media: renesas,vsp1: Document
- RZ/G2L VSPD bindings
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Wed, 20 Apr 2022 06:30:19 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457443F338
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Apr 2022 03:27:33 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nh7YY-0006Hd-5R; Wed, 20 Apr 2022 12:27:30 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nh7YW-00493i-NM; Wed, 20 Apr 2022 12:27:27 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nh7YU-004SgR-7b; Wed, 20 Apr 2022 12:27:26 +0200
+Date:   Wed, 20 Apr 2022 12:27:26 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux PWM List <linux-pwm@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 5/6] pwm: renesas-tpu: Improve maths to compute register
+ settings
+Message-ID: <20220420102726.hjj5eh5qjlyklzfw@pengutronix.de>
+References: <20220413085050.61144-1-u.kleine-koenig@pengutronix.de>
+ <20220413085050.61144-5-u.kleine-koenig@pengutronix.de>
+ <CAMuHMdW6u3xrnZrxsx8h6-zfZ=6sH=ehnQ6KCthB5QNFU5rexQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rxxc7zsmbx3lfz5x"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW6u3xrnZrxsx8h6-zfZ=6sH=ehnQ6KCthB5QNFU5rexQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
 
-On Tue, Apr 19, 2022 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document VSPD found in RZ/G2L SoC. VSPD block is similar to VSP2-D
-> found on R-Car SoC's, but it does not have a version register and
-> it has 3 clocks compared to 1 clock on vsp1 and vsp2.
->
-> This patch introduces a new compatible 'renesas,r9a07g044-vsp2' to
-> handle these differences.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v7->v8:
+--rxxc7zsmbx3lfz5x
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the update!
+Hello Geert,
 
->  * Added Clock-names to false for Non RZ/G2L SoC's
->  * Replaced compatble 'renesas,rzg2l-vsp2'->'renesas,r9a07g044-vsp2'
+On Thu, Apr 14, 2022 at 12:10:02PM +0200, Geert Uytterhoeven wrote:
+> On Wed, Apr 13, 2022 at 10:51 AM Uwe Kleine-K=F6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > The newly computed register values are intended to exactly match the
+> > previously computed values. The main improvement is that the prescaler
+> > is computed directly instead of with a loop. This uses the fact, that
+> > prescalers[i] =3D 1 << (2 * i).
+> >
+> > Assuming a moderately smart compiler, the needed number of divisions for
+> > the case where the requested period is too big, is reduced from 5 to 2.
+>=20
+> I'm not worried about the divisions, but about the ilog2(), which
+> uses fls().  The TPU block also exists on SuperH SoCs (although
+> currently no SH Linux code has it enabled), and SH uses the fls()
+> implementation from asm-generic.
+>=20
+> > --- a/drivers/pwm/pwm-renesas-tpu.c
+> > +++ b/drivers/pwm/pwm-renesas-tpu.c
+> > @@ -244,7 +244,6 @@ static void tpu_pwm_free(struct pwm_chip *chip, str=
+uct pwm_device *pwm)
+> >  static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pw=
+m,
+> >                           int duty_ns, int period_ns, bool enabled)
+> >  {
+> > -       static const unsigned int prescalers[] =3D { 1, 4, 16, 64 };
+> >         struct tpu_pwm_device *tpd =3D pwm_get_chip_data(pwm);
+> >         struct tpu_device *tpu =3D to_tpu_device(chip);
+> >         unsigned int prescaler;
+> > @@ -254,26 +253,21 @@ static int tpu_pwm_config(struct pwm_chip *chip, =
+struct pwm_device *pwm,
+> >         u32 duty;
+> >         int ret;
+> >
+> > -       /*
+> > -        * Pick a prescaler to avoid overflowing the counter.
+> > -        * TODO: Pick the highest acceptable prescaler.
+> > -        */
+> >         clk_rate =3D clk_get_rate(tpu->clk);
+> >
+> > -       for (prescaler =3D 0; prescaler < ARRAY_SIZE(prescalers); ++pre=
+scaler) {
+> > -               period =3D clk_rate / prescalers[prescaler]
+> > -                      / (NSEC_PER_SEC / period_ns);
+> > -               if (period <=3D 0xffff)
+> > -                       break;
+> > -       }
+> > +       period =3D clk_rate / (NSEC_PER_SEC / period_ns);
+> > +       if (period >=3D 64 * 0x10000 || period =3D=3D 0)
+> > +               return -EINVAL;
+> >
+> > -       if (prescaler =3D=3D ARRAY_SIZE(prescalers) || period =3D=3D 0)=
+ {
+> > -               dev_err(&tpu->pdev->dev, "clock rate mismatch\n");
+> > -               return -ENOTSUPP;
+> > -       }
+> > +       if (period < 0x10000)
+> > +               prescaler =3D 0;
+> > +       else
+> > +               prescaler =3D ilog2(period / 0x10000) / 2 + 1;
+> > +
+> > +       period >>=3D 2 * prescaler;
+>=20
+> Although the above is correct, I find it hard to read.
+> Hence I'd keep a loop, like:
+>=20
+>     unsigned int prescaler =3D 0;
+>     ...
+>     while (period > 0x10000) {
+>             period >>=3D 2;
+>             prescalar++;
+>     }
+>=20
+> This would even save 2 lines of code ;-)
 
-Don't you want to keep "renesas,rzg2l-vsp2" as a fallback...
+The "hard to read" part is subjective, I understand it just fine. (But I
+admit I wouldn't be surprised if I'm the exception here as I do much
+math.) I suggest to judge this by looking at the generated code. I'm not
+an expert here (no sh toolchain here, no sh asm foo), but my expectation
+is that the compiler notices that 1 <=3D period / 0x10000 < 64 and then
+the inlined fls code should be simplified such that
 
-> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> @@ -17,6 +17,7 @@ description:
->  properties:
->    compatible:
->      enum:
-> +      - renesas,r9a07g044-vsp2 # RZ/G2L
->        - renesas,vsp1 # R-Car Gen2 and RZ/G1
->        - renesas,vsp2 # R-Car Gen3 and RZ/G2
->
+	ilog2(period / 0x10000) / 2 + 1
 
-> @@ -50,17 +51,43 @@ required:
->
->  additionalProperties: false
->
-> -if:
-> -  properties:
-> -    compatible:
-> -      items:
-> -        - const: renesas,vsp1
-> -then:
-> -  properties:
-> -    renesas,fcp: false
-> -else:
-> -  required:
-> -    - renesas,fcp
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,vsp1
-> +    then:
-> +      properties:
-> +        renesas,fcp: false
-> +    else:
-> +      required:
-> +        - renesas,fcp
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g044-vsp2
+simplifies to something like:
 
-... so you can check for  "renesas,rzg2l-vsp2" here (and in the driver),
-and don't have to update this check (and the driver) when adding support
-for RZ/V2L later?
+	x =3D period >> 16
+	prescaler =3D 4
+	if (!(x & 0xf0u)) {
+		x <<=3D 4;
+		prescaler -=3D 2;
+	}
+	if (!(x & 0xc0u)) {
+		x <<=3D 2;
+		prescaler -=3D 1;
+	}
 
-Gr{oetje,eeting}s,
+which I expect to be more efficient than the loop you suggested.
 
-                        Geert
+Best regards
+Uwe
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--rxxc7zsmbx3lfz5x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJf4AoACgkQwfwUeK3K
+7Akxegf9FVKpyeDvfLOgPQva52ItsksegQgHiavhXmb6HBGweFrusK6jNxJ8Ctbl
+i1XkmQ23BWY9dqvOOyWNjkVKECOgr5WWJW+w8liw8d8+YZHBaMeVOqJcjvqL2f5K
+fMtApPvpkz2dLJ8HAGwmR2HjmN5+2Ot04gTqu0ef2KCkOdUf1xTe6g8ppaljIzm2
+DIs8xmsSgD3c7CwWx1G7d138oKdRuyr3/aazpJQ2fodqKYca4rn8JwnVeVfy7485
+iOrGGzBxKjkQuATdEjgk3ug5jZ5kBl4aXUOhgUBCD5Cny9nk5VayFpzpY33qHgni
+kzjAJqWiCUfpWmeRVAekMfBH34YScQ==
+=g5L8
+-----END PGP SIGNATURE-----
+
+--rxxc7zsmbx3lfz5x--
