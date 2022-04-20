@@ -2,80 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4093C508CDA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 18:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44886508F0B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 20:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380395AbiDTQMZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 12:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49244 "EHLO
+        id S230469AbiDTSLA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 14:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240259AbiDTQMZ (ORCPT
+        with ESMTP id S1381398AbiDTSK7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 12:12:25 -0400
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B56731DEC;
-        Wed, 20 Apr 2022 09:09:39 -0700 (PDT)
-Received: by mail-oi1-f169.google.com with SMTP id 12so2533418oix.12;
-        Wed, 20 Apr 2022 09:09:39 -0700 (PDT)
+        Wed, 20 Apr 2022 14:10:59 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C8941638;
+        Wed, 20 Apr 2022 11:08:12 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d14so1570674qtw.5;
+        Wed, 20 Apr 2022 11:08:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OhCnw5qnNGBr1bA+KL7V/0FvwpAO5JS/JOmi7r/yJss=;
-        b=x5sawBezj4U56kZiv6e1jl1Cu6MLDzUOUsQUWaICfmDUhWmJPubUoUOubr65qhpeyY
-         R8z3+3hUCqkrP8zX+SHxaQNlAgjWP4L/L0p5yD6tnEsHYBnRaXXr+TOCrSFNWqQbu4pw
-         06GqGoXl4CgaFBGRNzm6jtXSRzvr0eoqiDL8bsielnL05AIrFbvtiemItG3M0w2lTgpS
-         v+pvw18jJ6U3sOt1zNnL0EH5gR64jR2pdGRerQBs+zuNVBYULGxGZrFrZPPEBF3REQmE
-         Nx57zZJ0uKOIhouukXqAn8eYToJtwdQg++uDNFxLCSizyTysSuDopLQiEUoszhPzLk06
-         4eaA==
-X-Gm-Message-State: AOAM531vSyM9UIytu+rnXjaj4ti1uILbT9eVqPBZDKmOO5OaEdfKqQJn
-        4rdJ7fQZSE7LOXAojKP3Uw==
-X-Google-Smtp-Source: ABdhPJwdjzSx+B4IQhiW20q34pYPOPjx5/ed3l0Rl5JWfORxHRIysuIdOLr6VVCpYhxFUbsmgezb2Q==
-X-Received: by 2002:a05:6808:1704:b0:2f9:bb17:21f6 with SMTP id bc4-20020a056808170400b002f9bb1721f6mr2027420oib.23.1650470978728;
-        Wed, 20 Apr 2022 09:09:38 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z3-20020a056870d68300b000e2a0a74f9fsm141550oap.37.2022.04.20.09.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 09:09:38 -0700 (PDT)
-Received: (nullmailer pid 1397324 invoked by uid 1000);
-        Wed, 20 Apr 2022 16:09:37 -0000
-Date:   Wed, 20 Apr 2022 11:09:37 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     martin.petersen@oracle.com, alim.akhtar@samsung.com,
-        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
-        avri.altman@wdc.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-scsi@vger.kernel.org, jejb@linux.ibm.com,
-        devicetree@vger.kernel.org, krzk+dt@kernel.org
-Subject: Re: [PATCH v4 1/7] dt-bindings: ufs: Document Renesas R-Car UFS host
- controller
-Message-ID: <YmAwQU6mutk/oyC7@robh.at.kernel.org>
-References: <20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com>
- <20220420025450.289578-2-yoshihiro.shimoda.uh@renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rJ5KdKb2Ihk3sdqTny8ustRpCF/DOHozaFbfN088QOY=;
+        b=cI80pB+XC7yGZHepf3czsQKtw0qTNhr/7V2Tqm1ZDbvTayZi96vOnqSmr2c+lQ44yw
+         zaTHbD+AJVOskTGVNo8Uph2YlLsgAmt5AzjbGiIjox5BhJrq4UXnnaZjWTWfvMQGWEo9
+         8J+pR3wE0Sw8P8MbOM9D6tqE0Chpud+yzgTweNVbZV3jweP4ELKp4T71DEKKTqnS4a/j
+         ffBWribEN9UQPC5DRQ7XAxstnGzp+jENZhFaBYW0KnhyKcTxMJyk/PjVCBo1d3rwNeKL
+         VKxV8R6dQu1FBE29NB+ndt2UXSVGpLLowFkNkwPM959WT62XXgkqPb0bXbLu117zrxU9
+         nWkA==
+X-Gm-Message-State: AOAM530Rz/fa/S0/DwyOX9bB12p5RI6FggxChsBU+n+wKFmNRRXt13en
+        GMSPUKOBq47olcmuujMiWw6aie1IIYRaMAEk
+X-Google-Smtp-Source: ABdhPJy5Ny2ZC0qbdMFz/bkLUNl4Hk90YFLxu+hGz7bc/dZPgbdB1LcppTwg1wEbA/AlVz9V0/BWxg==
+X-Received: by 2002:ac8:5a16:0:b0:2e1:ea00:b4e1 with SMTP id n22-20020ac85a16000000b002e1ea00b4e1mr14670584qta.329.1650478091700;
+        Wed, 20 Apr 2022 11:08:11 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 15-20020ac8594f000000b002f200ea2518sm2230517qtz.59.2022.04.20.11.08.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 11:08:11 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2ec05db3dfbso27061727b3.7;
+        Wed, 20 Apr 2022 11:08:11 -0700 (PDT)
+X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
+ g16-20020a815210000000b002ef21e354ddmr22467703ywb.438.1650478091017; Wed, 20
+ Apr 2022 11:08:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420025450.289578-2-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20220420121240.67781-1-u.kleine-koenig@pengutronix.de> <20220420121240.67781-4-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220420121240.67781-4-u.kleine-koenig@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Apr 2022 20:07:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW-qKUqG+nyq4YBHHLW2dKUPvttG3RqNU7W0js4Bp8n4Q@mail.gmail.com>
+Message-ID: <CAMuHMdW-qKUqG+nyq4YBHHLW2dKUPvttG3RqNU7W0js4Bp8n4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] pwm: renesas-tpu: Implement .apply() callback
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Sascha Hauer <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 20 Apr 2022 11:54:44 +0900, Yoshihiro Shimoda wrote:
-> Document Renesas R-Car UFS host controller for R-Car S4-8 (r8a779f0).
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/ufs/renesas,ufs.yaml  | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
-> 
+On Wed, Apr 20, 2022 at 2:12 PM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> To eventually get rid of all legacy drivers convert this driver to the
+> modern world implementing .apply().
+>
+> As pwm->state might not be updated in tpu_pwm_apply() before calling
+> tpu_pwm_config(), an additional parameter is needed for tpu_pwm_config()
+> to not change the implemented logic.
+>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
