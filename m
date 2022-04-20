@@ -2,157 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 267E4509223
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 23:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24CDB509321
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 00:45:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382557AbiDTVku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 17:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
+        id S245190AbiDTWsl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 18:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356105AbiDTVks (ORCPT
+        with ESMTP id S1382964AbiDTWsl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 17:40:48 -0400
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232C1369F6;
-        Wed, 20 Apr 2022 14:38:01 -0700 (PDT)
-Received: by mail-oi1-f178.google.com with SMTP id w127so3540322oig.10;
-        Wed, 20 Apr 2022 14:38:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=t4s+i9BdWcasHydBitg8Y8XSjODVgS+jeiuoMRAUa0g=;
-        b=Q6k7shlhp11hY+lXT6vDvUtN4tcjqTfDKWNs1bAu/5i48KFTKWr/+uQv7eXsBgrKfs
-         jJCprKnQfkZsycyFjUGtV0/wtNhL9+5VqesXQXq0DsJEpDhYBtbrAHdjkjPEPUfyiXL+
-         qvAHgXSV7q7IuLVEpC9JUow9zw3U+8NcUjvsONytud22BNh5c3JaB5L0IgGFPq+TmuGn
-         ft7+lvXgPc6T1wcxYHRf5cueGqRSBLLXJ4OQbCEdUOGXXhWluSPDCX43E9pM72e30uSM
-         uaonzreKzahU8AU/u9Q3Wh6mq0hL74l15xphWdFPXfeeuRiGRogQMlBIPvdwsNqv5aHg
-         O9tw==
-X-Gm-Message-State: AOAM5329Fw9flsZH7xMsBCa1NW4vl8uC7AYeSSmbGCtLNFRwRHdILD8r
-        rqrxODaMonTEGmhFBRzIfg==
-X-Google-Smtp-Source: ABdhPJxVOoBwy2hZdiybdxAptzC2ZHhSsuWp1DtHCc7pFAEQv+x1o8WiqDQYCy1SRNIi+q/nwY7P+g==
-X-Received: by 2002:a05:6808:23c1:b0:322:7334:e447 with SMTP id bq1-20020a05680823c100b003227334e447mr2626853oib.288.1650490680412;
-        Wed, 20 Apr 2022 14:38:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bk35-20020a0568081a2300b003226178fe7bsm5205483oib.33.2022.04.20.14.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 14:37:59 -0700 (PDT)
-Received: (nullmailer pid 1894112 invoked by uid 1000);
-        Wed, 20 Apr 2022 21:37:59 -0000
-Date:   Wed, 20 Apr 2022 16:37:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 2/8] dt-bindings: PCI: renesas-pci-usb: Convert
- bindings to json-schema
-Message-ID: <YmB9NxyFdxWAvlPr@robh.at.kernel.org>
-References: <20220414074011.500533-1-herve.codina@bootlin.com>
- <20220414074011.500533-3-herve.codina@bootlin.com>
- <YlhkwvGdcf4ozTzG@robh.at.kernel.org>
- <20220420144411.2d369b49@bootlin.com>
- <YmAIOt1vAEzHGvBP@robh.at.kernel.org>
- <20220420154611.7dd34c24@bootlin.com>
+        Wed, 20 Apr 2022 18:48:41 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8744E27FC9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Apr 2022 15:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650494753; x=1682030753;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=K2V6V2sz7wJKgREua1JV6Zwv0H2tM6IEPDMrOxcvmU0=;
+  b=dMpJvLna27f9xtP47rCvaerlpZoWaLu+RNmGLbZA/ImRAri0QbF6Wux0
+   Q1OWcpAleMsY8KF24JxssATupTQ5VcybNujWTgi7/XOSi4WP3DXCdrqY2
+   g5ajb8//xLDpk1EQpLNiLXBfBIj6tqfFrQcULc1fVENgZJaRYOfMaYM8X
+   xu/lnPN8JMme3mfHjv2Gr3CBWitP1TPON7/UAV8puh7ntx1luA94MHEyj
+   PudfE3YVLthWgXWinQnnhnGixCcKZV3/h/h886IqJxSHsII9zeH4eeA/B
+   3Ubgqqsnvq/RMiEVMFJ+/17SNfpreYNLUha/V8o1SpPEvvf2WG3hI1sKB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="350619545"
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; 
+   d="scan'208";a="350619545"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 15:45:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; 
+   d="scan'208";a="702827521"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 20 Apr 2022 15:45:52 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nhJ55-0007WI-IC;
+        Wed, 20 Apr 2022 22:45:51 +0000
+Date:   Thu, 21 Apr 2022 06:44:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v5.19] BUILD SUCCESS
+ f7bc5f52d2354b41d5a111942be7ee01e5560c78
+Message-ID: <62608ceb.bB388utg3B3oK1hl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420154611.7dd34c24@bootlin.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 03:46:11PM +0200, Herve Codina wrote:
-> Hi Rob,
-> 
-> On Wed, 20 Apr 2022 08:18:50 -0500
-> Rob Herring <robh@kernel.org> wrote:
-> 
-> ...
-> 
-> > > > > +  bus-range:
-> > > > > +    description: |
-> > > > > +      The PCI bus number range; as this is a single bus, the range
-> > > > > +      should be specified as the same value twice.    
-> > > > 
-> > > > items:
-> > > >   const: 0  
-> > > 
-> > > Well, some other values are present in some dtsi files such as
-> > > 'bus_range = <1 1>;' or 'bus_range = <2 2>;' in r8a7742.dtsi.
-> > > 
-> > > The constraint is to have the same value twice. Is there a way
-> > > to specify this constraint ?  
-> > 
-> > Yes, but probably not worthwhile. Just drop it as pci-bus.yaml already 
-> > defines it.
-> 
-> Instead of fully dropping the property, don't you think that keeping
-> the given description here can be a way to express that the same value
-> is needed twice ?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v5.19
+branch HEAD: f7bc5f52d2354b41d5a111942be7ee01e5560c78  pinctrl: renesas: rzg2l: Restore pin config order
 
-Yeah, that's fine.
+elapsed time: 730m
 
+configs tested: 121
+configs skipped: 3
 
-> > > > > +  "#address-cells":
-> > > > > +    const: 3
-> > > > > +
-> > > > > +  "#size-cells":
-> > > > > +    const: 2
-> > > > > +
-> > > > > +  "#interrupt-cells":
-> > > > > +    const: 1    
-> > > > 
-> > > > All these are defined by pci-bus.yaml  
-> > > 
-> > > Right.
-> > > Replaced by:
-> > > 
-> > > "#address-cells": true
-> > > "#size-cells": true
-> > > "#interrupt-cells": true
-> > > 
-> > > Is that correct ?  
-> > 
-> > You can just drop them completely.
-> 
-> Ok for #address-cells and #size-cells but not for #interrupt-cells.
-> 
-> Dropping #interrupt-cells makes 'make dtbindings_check' unhappy:
-> --- 8< ---
-> $ make dt_binding_check DT_SCHEMA_FILES=renesas,pci-rcar-gen2.yaml
->   LINT    Documentation/devicetree/bindings
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
-> /home/hcodina/xxx/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml: properties: '#interrupt-cells' is a dependency of 'interrupt-map'
-> 	from schema $id: http://devicetree.org/meta-schemas/interrupts.yaml#
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-> /home/hcodina/xxx/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml: ignoring, error in schema: properties
->   DTEX    Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dts
->   DTC     Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dtb
->   CHECK   Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.example.dtb
-> $ 
-> --- 8< ---
-> 
-> So I keep 
-> "#interrupt-cells": true
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-You should also drop 'interrupt-map' and 'interrupt-map-mask'.
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+nios2                         3c120_defconfig
+mips                        vocore2_defconfig
+xtensa                         virt_defconfig
+powerpc                      chrp32_defconfig
+ia64                      gensparse_defconfig
+arm                          simpad_defconfig
+riscv                               defconfig
+sh                        apsh4ad0a_defconfig
+mips                         cobalt_defconfig
+arm                            qcom_defconfig
+arm                          pxa3xx_defconfig
+sparc                       sparc32_defconfig
+sh                          sdk7780_defconfig
+powerpc                      pcm030_defconfig
+xtensa                    smp_lx200_defconfig
+sh                   secureedge5410_defconfig
+powerpc                       ppc64_defconfig
+arm64                            alldefconfig
+sh                          polaris_defconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220420
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220420
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                         rhel-8.3-kunit
+x86_64                               rhel-8.3
 
-Rob
+clang tested configs:
+riscv                randconfig-c006-20220420
+mips                 randconfig-c004-20220420
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+arm                  randconfig-c002-20220420
+powerpc              randconfig-c003-20220420
+mips                        bcm63xx_defconfig
+arm                         orion5x_defconfig
+hexagon                          alldefconfig
+mips                           ip22_defconfig
+arm                         palmz72_defconfig
+powerpc                   microwatt_defconfig
+powerpc                      walnut_defconfig
+arm                        vexpress_defconfig
+arm                    vt8500_v6_v7_defconfig
+arm                         socfpga_defconfig
+arm                           omap1_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                     pseries_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+hexagon              randconfig-r041-20220420
+riscv                randconfig-r042-20220420
+hexagon              randconfig-r045-20220420
+s390                 randconfig-r044-20220420
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
