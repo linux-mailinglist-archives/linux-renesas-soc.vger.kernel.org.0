@@ -2,98 +2,263 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15E66508810
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 14:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA70508866
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Apr 2022 14:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343983AbiDTM2I convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Apr 2022 08:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40354 "EHLO
+        id S1353449AbiDTMrG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Apr 2022 08:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244115AbiDTM2F (ORCPT
+        with ESMTP id S1353371AbiDTMrE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Apr 2022 08:28:05 -0400
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A6F1C91D;
-        Wed, 20 Apr 2022 05:25:19 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id d9so781480qty.12;
-        Wed, 20 Apr 2022 05:25:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HJ0UgcnIkbA6AHJznojilX0imBhr1YXT1/wXEX6agp8=;
-        b=ERcgKjTmfByXW50/gpFaNTWx7PR0nre43oGaE87nYkGF1fEHKSPQgXp5UYSmkLysEq
-         A0P5Al7qr2nK23lulNKiqEYxrJo7kWixJCMUtoAv/P+Akk4L8ZboxbHSe5bMQs6Aisxw
-         M69j9tQT6EuSiFUs0JA2rKxW6ejil/SC0BWeMnzFihpohaPFDTjT5FFaovmZxBNKJsiP
-         xuV3WROwTBQqwq0IgGCrPd/UZgXhQxv+C2PZE30XA/daVmDCSuONtNIXzCSt/yuGf4y6
-         IQfVj9WLX8s52M+mgs4juriL9G0Cy0PF+FB4ZEQz2uecdENwEw6eHHZGr8tM0id3aCr1
-         GZoQ==
-X-Gm-Message-State: AOAM531JBd8YIe+mb+UHFu2L8fwGH0K1Z7Z/+tfq8Cy5NsbzJW+TiUQG
-        QYy7suafhnuZDdUc53iQmrCqatszqxC66Q==
-X-Google-Smtp-Source: ABdhPJz7YvsmU6e5Mnn8UBcVu4TIsQAuOA0HX2HrsBFef5VslNevWSY7L5M6CAM4YIHWVXL2ZkZDfg==
-X-Received: by 2002:ac8:5c42:0:b0:2f1:e7f8:3e62 with SMTP id j2-20020ac85c42000000b002f1e7f83e62mr13669785qtj.41.1650457518149;
-        Wed, 20 Apr 2022 05:25:18 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id v65-20020a376144000000b0069e7842f2f5sm1385235qkb.52.2022.04.20.05.25.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 05:25:17 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2ec05db3dfbso15966597b3.7;
-        Wed, 20 Apr 2022 05:25:17 -0700 (PDT)
-X-Received: by 2002:a81:6ccb:0:b0:2f1:68f1:d90e with SMTP id
- h194-20020a816ccb000000b002f168f1d90emr18381119ywc.62.1650457516831; Wed, 20
- Apr 2022 05:25:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220420121240.67781-1-u.kleine-koenig@pengutronix.de> <20220420121240.67781-5-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20220420121240.67781-5-u.kleine-koenig@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Apr 2022 14:25:05 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV90BHjyjfU=MLkG2yPa1oFFF7ADrpKsEAp9s83DGBkow@mail.gmail.com>
-Message-ID: <CAMuHMdV90BHjyjfU=MLkG2yPa1oFFF7ADrpKsEAp9s83DGBkow@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] pwm: renesas-tpu: Rename variables to match the
- usual naming
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
+        Wed, 20 Apr 2022 08:47:04 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC5E6205C2;
+        Wed, 20 Apr 2022 05:44:16 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id DA22924000F;
+        Wed, 20 Apr 2022 12:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1650458653;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oSLULjswgGSEpCqqpKaDV5ExgTNekfcIrTBoL1UaO/s=;
+        b=FvJ4uNqwtnvVXETbu6CpsxfD/rs02ip9UOIUEZm2QOqMfCoLn1so+E9L3YE8uAscgy3jCc
+        E8csaPktYtHLJUBf745e5DGWMj/+SfdxwOYAsFKo02YEhYfWVacuP8zj51xYTwCeCoW2qP
+        9jPwOlEiyuIbBeo84G+pm8e6xuPlIowKudnkoMow1mo/7b+AqOLG7KVUTgrgIFLbkcTV9L
+        FUITsB9lusIZzdXnyTWKmHSD9N0yEhMxLtgYwDQYrOVXnYHy3UH5j+ubZtd7kmX1h/s8iL
+        wXckS3VD9sIPJoLqcoO0zhGpPcg+sbLgXYLKsWMEMcXSGunnrftntFn/S2ltBg==
+Date:   Wed, 20 Apr 2022 14:44:11 +0200
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?UTF-8?B?V2lsY3p5xYRz?= =?UTF-8?B?a2k=?= 
+        <kw@linux.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/8] dt-bindings: PCI: renesas-pci-usb: Convert
+ bindings to json-schema
+Message-ID: <20220420144411.2d369b49@bootlin.com>
+In-Reply-To: <YlhkwvGdcf4ozTzG@robh.at.kernel.org>
+References: <20220414074011.500533-1-herve.codina@bootlin.com>
+        <20220414074011.500533-3-herve.codina@bootlin.com>
+        <YlhkwvGdcf4ozTzG@robh.at.kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 2:12 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> The driver used "pwm" for struct tpu_pwm_device pointers. This name is
-> usually only used for struct pwm_device pointers which this driver calls
-> "_pwm". So rename to the driver data pointers to "tpd" which then allows
-> to drop the underscore from "_pwm".
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Hi Rob,
 
-This patch didn't change (compared to v1), so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, 14 Apr 2022 13:15:30 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-Gr{oetje,eeting}s,
+> On Thu, Apr 14, 2022 at 09:40:05AM +0200, Herve Codina wrote:
+> > Convert Renesas PCI bridge bindings documentation to json-schema.
+> > Also name it 'renesas,pci-usb' as it is specifically used to
+> > connect the PCI USB controllers to AHB bus. =20
+>=20
+> Please name it based on compatible strings. renesas,pci-rcar-gen2.yaml
 
-                        Geert
+Ok, renamed.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>=20
+> >=20
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> > ---
+> >  .../devicetree/bindings/pci/pci-rcar-gen2.txt |  84 -----------
+> >  .../bindings/pci/renesas,pci-usb.yaml         | 134 ++++++++++++++++++
+> >  2 files changed, 134 insertions(+), 84 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/pci/pci-rcar-gen2=
+.txt
+> >  create mode 100644 Documentation/devicetree/bindings/pci/renesas,pci-u=
+sb.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt b/=
+Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+> > deleted file mode 100644
+...
+> > diff --git a/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml=
+ b/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> > new file mode 100644
+...
+> > index 000000000000..3f8d79b746c7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pci/renesas,pci-usb.yaml
+> > @@ -0,0 +1,134 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/pci/renesas,pci-usb.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas AHB to PCI bridge
+> > +
+> > +maintainers:
+> > +  - Marek Vasut <marek.vasut+renesas@gmail.com>
+> > +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > +
+> > +description: |
+> > +  This is the bridge used internally to connect the USB controllers to=
+ the
+> > +  AHB. There is one bridge instance per USB port connected to the inte=
+rnal
+> > +  OHCI and EHCI controllers.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/pci/pci-bus.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,pci-r8a7742      # RZ/G1H
+> > +              - renesas,pci-r8a7743      # RZ/G1M
+> > +              - renesas,pci-r8a7744      # RZ/G1N
+> > +              - renesas,pci-r8a7745      # RZ/G1E
+> > +              - renesas,pci-r8a7790      # R-Car H2
+> > +              - renesas,pci-r8a7791      # R-Car M2-W
+> > +              - renesas,pci-r8a7793      # R-Car M2-N
+> > +              - renesas,pci-r8a7794      # R-Car E2
+> > +          - const: renesas,pci-rcar-gen2 # R-Car Gen2 and RZ/G1
+> > +
+> > +  reg:
+> > +    description: |
+> > +      A list of physical regions to access the device. The first is
+> > +      the operational registers for the OHCI/EHCI controllers and the
+> > +      second is for the bridge configuration and control registers.
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +
+> > +  interrupts:
+> > +    description: Interrupt for the device.
+> > +
+> > +  interrupt-map:
+> > +    description: |
+> > +      Standard property used to define the mapping of the PCI interrup=
+ts
+> > +      to the GIC interrupts.
+> > +
+> > +  interrupt-map-mask:
+> > +    description:
+> > +      Standard property that helps to define the interrupt mapping.
+> > +
+> > +  clocks:
+> > +    description: The reference to the device clock.
+> > +
+> > +  bus-range:
+> > +    description: |
+> > +      The PCI bus number range; as this is a single bus, the range
+> > +      should be specified as the same value twice. =20
+>=20
+> items:
+>   const: 0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Well, some other values are present in some dtsi files such as
+'bus_range =3D <1 1>;' or 'bus_range =3D <2 2>;' in r8a7742.dtsi.
+
+The constraint is to have the same value twice. Is there a way
+to specify this constraint ?
+
+>=20
+> > +
+> > +  "#address-cells":
+> > +    const: 3
+> > +
+> > +  "#size-cells":
+> > +    const: 2
+> > +
+> > +  "#interrupt-cells":
+> > +    const: 1 =20
+>=20
+> All these are defined by pci-bus.yaml
+
+Right.
+Replaced by:
+
+"#address-cells": true
+"#size-cells": true
+"#interrupt-cells": true
+
+Is that correct ?
+
+>=20
+> > +
+> > +  dma-ranges:
+> > +    description: |
+> > +      A single range for the inbound memory region. If not supplied,
+> > +      defaults to 1GiB at 0x40000000. Note there are hardware restrict=
+ions on
+> > +      the allowed combinations of address and size. =20
+>=20
+> 'a single range' =3D=3D 'maxItems: 1'
+
+Ok, maxItems added.
+
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-map
+> > +  - interrupt-map-mask
+> > +  - clocks
+> > +  - bus-range
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - "#interrupt-cells"
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> > +
+> > +    bus {
+> > +        #address-cells =3D <2>;
+> > +        #size-cells =3D <2>;
+> > +
+> > +        pci0: pci@ee090000  {
+> > +            compatible =3D "renesas,pci-r8a7790", "renesas,pci-rcar-ge=
+n2";
+> > +            device_type =3D "pci";
+> > +            clocks =3D <&cpg CPG_MOD 703>;
+> > +            reg =3D <0 0xee090000 0 0xc00>,
+> > +                  <0 0xee080000 0 0x1100>;
+> > +            interrupts =3D <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+> > +            status =3D "disabled"; =20
+>=20
+> Don't disable your example.
+
+Ok, done
+
+
+Thanks for the review.
+Herv=C3=A9
+
+--=20
+Herv=C3=A9 Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
