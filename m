@@ -2,90 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 388D150A12F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 15:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8FF50A148
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 15:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382513AbiDUNwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 09:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60780 "EHLO
+        id S1388178AbiDUN6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 09:58:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387757AbiDUNwr (ORCPT
+        with ESMTP id S1388033AbiDUN5y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 09:52:47 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FAE325C3;
-        Thu, 21 Apr 2022 06:49:57 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id q75so3552997qke.6;
-        Thu, 21 Apr 2022 06:49:57 -0700 (PDT)
+        Thu, 21 Apr 2022 09:57:54 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387AA2BB2E
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 06:55:03 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id bj36so5833065ljb.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 06:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9I2sv/w+bVoJVhgEON4k5i7vtxgov/Cr9H4jEyKQU44=;
+        b=uPd35zp+t9AoSNs4r+Vp3gerI9BRNYp+bGV9SmMC4t1Di8G5JwPLrsrJ8vas36Vmu9
+         J+PZO8qisz7ZoEOxYN8xOzv5ys4koF/bY+LyCGQ9LrE23WgtogSIRfeP1Oh2D09cEbt6
+         OO2k80qci6e56m43qzH2mW7Z/XDz9GmXTZXpOQn+Gv9DcYFMV+sqqPY19Osf2oRYWAMz
+         3zakafPxoqFkyEH8aNpwbBHlveLn+8xSW736SnqrjQ6wKh3E/6qIQRQM7WVV5PzpG8FY
+         to1aEdA0c91W/Lvb+xUcGDufj8GB7wkM6T9QrwzVDVAOrWGjLz0rkWCc5V7Lqpn4npMj
+         u1CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+RTM2g9K+NfcBARExv9XGKoPWLbGoVIG1b/e3dPaYl0=;
-        b=simpCtpQ1XEXU1Zr3AyGrmaNfbBrRO5BHzmvjGs7/uXMXu1EjyvaNg39OFaKbiTGBw
-         AiBr19SPw26Ff+X487ZPhTui8ZMlBZArKTBaOyNUOXrFP4QnCtVDnJvSz6pALDCRxGOa
-         Z9kN4vxd+Mxmz9JIivjEx4CSUYNYw1hXw7trtjsleE7w5WC4PmsYtqe8FdjoKye+9jmn
-         3hvTyR4OVrsj4CBUEWKyj0MSezNIfMWO0k4nK043yKxrZWRxD3ETEWlE+Rw8F7SvKQzf
-         tP9lc/BTFUoDxtvs4QCCKZi2r0otS+NSHCmov+7+RC83+8oh7dX+myAOEgji+pu+QZ8W
-         GjjQ==
-X-Gm-Message-State: AOAM530gtXQ6H7OOJg7LD2SmJiXe2v2dA2BdU0vTJ25+q2XH6mc7xARh
-        Ux8eUoUd2uE93imQfV8Qmzn24ATcxDBbuUaq
-X-Google-Smtp-Source: ABdhPJzbCgP8OHSyksaotVwS3s8Wga9jGm9hwAWHZf68WduNptfwUtaXrRR2cGw8QRBnpKmhuOG04Q==
-X-Received: by 2002:a05:620a:139a:b0:69e:d0c4:38ee with SMTP id k26-20020a05620a139a00b0069ed0c438eemr6530602qki.380.1650548996161;
-        Thu, 21 Apr 2022 06:49:56 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id o10-20020ac85a4a000000b002f23c9f8cf0sm3811190qta.10.2022.04.21.06.49.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Apr 2022 06:49:55 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id t67so8863740ybi.2;
-        Thu, 21 Apr 2022 06:49:55 -0700 (PDT)
-X-Received: by 2002:a05:6902:724:b0:644:c37b:4e21 with SMTP id
- l4-20020a056902072400b00644c37b4e21mr25002822ybt.6.1650548995512; Thu, 21 Apr
- 2022 06:49:55 -0700 (PDT)
+        bh=9I2sv/w+bVoJVhgEON4k5i7vtxgov/Cr9H4jEyKQU44=;
+        b=ovP88qlprKhFoLhzIo94mLQ1wfeMRuSxdA/ZhQeRKfiYhRFpEJzLmnN0bPDoEWv3Te
+         BxVxH01Q66GFbvJw0H2/GYQaPKxw9GDOu5UCdgN4G9h9b7B/h4WZPlVEbAl7sOomH4a8
+         8hBrTPOw+XxCTm5JupSZ4+VWOnvcEMAlIGdRhfBml7JKMbzxdG/UO5YtYfPPE59EgIwM
+         4yEzLnbluwNUUVNoQVCHFjGs5p/V2qnfzywni/CckDOOCV41zDav1yjXlfXZ2dk0cAKA
+         M0C04sizddLaIONj7pDWJ6kEKTXkQIhNNDq2p+CqpspYwhfjFlSae7FbEPNj6FZCogM7
+         +FzQ==
+X-Gm-Message-State: AOAM5336jeU18eA4lSFj8oYWD5tZcXO277/18yFZcylI0XxYHOcBsItU
+        zXvauMCRUb6YNoh/7VTSQ+2Ukpl42DSOqhA9R2glkg==
+X-Google-Smtp-Source: ABdhPJxQ8zojrK8xdolxDcQ8zrSMsAOsNwi85QHOAAX4QMpz2jZNq6/IIYky8NRkIbD1nX8JR7qkOxUpHzF/JMNvZPU=
+X-Received: by 2002:a05:651c:1783:b0:249:43a8:b6f9 with SMTP id
+ bn3-20020a05651c178300b0024943a8b6f9mr16093756ljb.273.1650549301441; Thu, 21
+ Apr 2022 06:55:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com> <20220420084255.375700-12-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220420084255.375700-12-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Apr 2022 15:49:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUu40FwqF=xu5Pk6QpcXHa4qVHhEZMarx9PfYMv1z2Kpw@mail.gmail.com>
-Message-ID: <CAMuHMdUu40FwqF=xu5Pk6QpcXHa4qVHhEZMarx9PfYMv1z2Kpw@mail.gmail.com>
-Subject: Re: [PATCH 11/15] soc: renesas: rcar-rst: Add support for R-Car V4H
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+References: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 21 Apr 2022 15:54:25 +0200
+Message-ID: <CAPDyKFofCmWC4PDQBzw-wJweOy5brD5dJ1RM2n2vM1gOTQ8peQ@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: sh_mmcif: move platform_data header to proper location
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 10:43 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for R-Car V4H (R8A779G0) to the R-Car RST driver.
+On Tue, 12 Apr 2022 at 11:31, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> We have a dedicated directory for platform_data meanwhile, don't spoil
+> the MMC directory with it.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+As this is a trivial change, I have applied it for next, thanks!
 
-Gr{oetje,eeting}s,
+Sato-san, Rich, please tell me if you see any problems with this - or
+if you want me to add your acks.
 
-                        Geert
+Kind regards
+Uffe
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>
+> Change since v1: fixed sorting of includes in the MMCIF driver
+>                  (Thanks Geert!)
+>
+> I don't have the HW to test this but the buildbots are happy with this
+> change. I checked that they actually tested the SH builds. To make the
+> patch more readable, I used the -M (rename) feature of git-format-patch.
+>
+>  arch/sh/boards/board-sh7757lcr.c                | 2 +-
+>  arch/sh/boards/mach-ecovec24/setup.c            | 2 +-
+>  arch/sh/boot/romimage/mmcif-sh7724.c            | 2 +-
+>  drivers/mmc/host/sh_mmcif.c                     | 2 +-
+>  include/linux/{mmc => platform_data}/sh_mmcif.h | 2 --
+>  5 files changed, 4 insertions(+), 6 deletions(-)
+>  rename include/linux/{mmc => platform_data}/sh_mmcif.h (99%)
+>
+> diff --git a/arch/sh/boards/board-sh7757lcr.c b/arch/sh/boards/board-sh7757lcr.c
+> index c32b4c6229d3..f39c8196efdf 100644
+> --- a/arch/sh/boards/board-sh7757lcr.c
+> +++ b/arch/sh/boards/board-sh7757lcr.c
+> @@ -16,7 +16,7 @@
+>  #include <linux/io.h>
+>  #include <linux/mfd/tmio.h>
+>  #include <linux/mmc/host.h>
+> -#include <linux/mmc/sh_mmcif.h>
+> +#include <linux/platform_data/sh_mmcif.h>
+>  #include <linux/sh_eth.h>
+>  #include <linux/sh_intc.h>
+>  #include <linux/usb/renesas_usbhs.h>
+> diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
+> index 4c9522dd351f..674da7ebd8b7 100644
+> --- a/arch/sh/boards/mach-ecovec24/setup.c
+> +++ b/arch/sh/boards/mach-ecovec24/setup.c
+> @@ -19,7 +19,7 @@
+>  #include <linux/memblock.h>
+>  #include <linux/mfd/tmio.h>
+>  #include <linux/mmc/host.h>
+> -#include <linux/mmc/sh_mmcif.h>
+> +#include <linux/platform_data/sh_mmcif.h>
+>  #include <linux/mtd/physmap.h>
+>  #include <linux/gpio.h>
+>  #include <linux/gpio/machine.h>
+> diff --git a/arch/sh/boot/romimage/mmcif-sh7724.c b/arch/sh/boot/romimage/mmcif-sh7724.c
+> index 6595b6b45bf1..d30123d859e0 100644
+> --- a/arch/sh/boot/romimage/mmcif-sh7724.c
+> +++ b/arch/sh/boot/romimage/mmcif-sh7724.c
+> @@ -8,7 +8,7 @@
+>   * for more details.
+>   */
+>
+> -#include <linux/mmc/sh_mmcif.h>
+> +#include <linux/platform_data/sh_mmcif.h>
+>  #include <mach/romimage.h>
+>
+>  #define MMCIF_BASE      (void __iomem *)0xa4ca0000
+> diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
+> index 5f9ebf045b1c..0fd4c9d644dd 100644
+> --- a/drivers/mmc/host/sh_mmcif.c
+> +++ b/drivers/mmc/host/sh_mmcif.c
+> @@ -43,12 +43,12 @@
+>  #include <linux/mmc/host.h>
+>  #include <linux/mmc/mmc.h>
+>  #include <linux/mmc/sdio.h>
+> -#include <linux/mmc/sh_mmcif.h>
+>  #include <linux/mmc/slot-gpio.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of_device.h>
+>  #include <linux/pagemap.h>
+> +#include <linux/platform_data/sh_mmcif.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_qos.h>
+>  #include <linux/pm_runtime.h>
+> diff --git a/include/linux/mmc/sh_mmcif.h b/include/linux/platform_data/sh_mmcif.h
+> similarity index 99%
+> rename from include/linux/mmc/sh_mmcif.h
+> rename to include/linux/platform_data/sh_mmcif.h
+> index e25533b95d9f..6eb914f958f9 100644
+> --- a/include/linux/mmc/sh_mmcif.h
+> +++ b/include/linux/platform_data/sh_mmcif.h
+> @@ -1,7 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * include/linux/mmc/sh_mmcif.h
+> - *
+>   * platform data for eMMC driver
+>   *
+>   * Copyright (C) 2010 Renesas Solutions Corp.
+> --
+> 2.30.2
+>
