@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B609650A08E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 15:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA7E50A124
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 15:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231423AbiDUNTt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 09:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
+        id S237031AbiDUNum (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 09:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231420AbiDUNTt (ORCPT
+        with ESMTP id S1387375AbiDUNul (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 09:19:49 -0400
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BD3AE68;
-        Thu, 21 Apr 2022 06:16:59 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id x20so3615342qvl.10;
-        Thu, 21 Apr 2022 06:16:59 -0700 (PDT)
+        Thu, 21 Apr 2022 09:50:41 -0400
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340E937ABA;
+        Thu, 21 Apr 2022 06:47:51 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id i14so3658639qvk.13;
+        Thu, 21 Apr 2022 06:47:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LdrpbIr4ixaOqxSs9jtnnn2sf4I8o4aZzI3XC684CAw=;
-        b=COlR8byjH39Q5LSt6OMrvwPtq5olSRAXChEHh6kb+ItFjKi9QDHbnveKxu+aIZvhcM
-         0kA/3wcrK3gd0z45G7lseCR/borcduys0bYiar7jXTkVhWFYsqir2xQdSGJ7/S2hy1/P
-         WfbCDBgpkpin6Piirrh92aMrOtdWxAKEyfiZiZw8RlwBp4b0HjC3BoHSFf5rIWQNUlC+
-         tr9Yvj763eGSPqQpyQAzyQqqfYmIQ+veOi4zoh24DZt360F8bdpGgOJaKlndgZi7dZ6o
-         5eMA3mvSyZwscJFXRX+n+4TBKK0cqUDsCtMouc8XdNbJgEh3XoRXp9u05B//nYmK+LGg
-         EDhQ==
-X-Gm-Message-State: AOAM532H00MnW8c++N4JOBbmMnh23rJWFeZQK/h8UNHPKx6xzJpgP0+b
-        BzaTfTTGKOgdfKuCpC7rgTYwx/ibd6Tk2KAI
-X-Google-Smtp-Source: ABdhPJySxaTlVvMAOi0y5iiVOGnOfFkrGAKbIE1V8EpPDSyW9joZkmn7viRyTlY9G1UIc1hkFUYkUA==
-X-Received: by 2002:ad4:5aa2:0:b0:446:4a8a:3fd9 with SMTP id u2-20020ad45aa2000000b004464a8a3fd9mr17903895qvg.97.1650547018479;
-        Thu, 21 Apr 2022 06:16:58 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id 9-20020a370909000000b0069ea2d5bfc2sm2834774qkj.134.2022.04.21.06.16.58
+        bh=uNX2H4vVMesbWb6WdnhP5kqTGvyi12cdMiTUkT65UuM=;
+        b=TupRcL0jeX/oqtU98K+J2ueHAsHHkBsJXrjaj1v8Sf7TNNK9DAKuEm5BLmU9XUxcv3
+         RlWssGM5ugQSXr54MuOxv63aSc3RQa+llvaq1sXlWR4UCdbaExtY4BpIUImnH5kdYdrU
+         GCQ2TFaR4q+gdvlLLP3ujtf08R5hn/J616ZAQ58+swJD9+W3f8ojI+xMexaSU/L/kqmR
+         dds5zN+/lG2WTEs1xTG5J2YiI71aRehEH9m1TLV1u3jrxm5Z1klfshfR1FxVich707v4
+         30vYL2GvW0nuBTpqvp7H3tsJCkwKR3/lNPb7AdOUjEu7Jj5jwxEgkLJHGVqudpDio883
+         suYg==
+X-Gm-Message-State: AOAM533Gwma++6rNz4MopQ05FQ4U2RmrS4zcyvJObXCwDyAOo1rLUYGz
+        N6Rmdcy16KCALufVAQR6PC0ZEQWojdOYf6f3
+X-Google-Smtp-Source: ABdhPJy+k5aEtoN9Et21KJsrUEI9q6HZIqk8Uhubt9viUQgzZrXgUCDXMAe/bmO+wOf/+eNFEl83Iw==
+X-Received: by 2002:a0c:fa43:0:b0:444:5137:44b0 with SMTP id k3-20020a0cfa43000000b00444513744b0mr19174862qvo.29.1650548870057;
+        Thu, 21 Apr 2022 06:47:50 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id u13-20020a05622a010d00b002f34d93cc5esm833915qtw.0.2022.04.21.06.47.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Apr 2022 06:16:58 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2f18982c255so51754617b3.1;
-        Thu, 21 Apr 2022 06:16:58 -0700 (PDT)
-X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
- g16-20020a815210000000b002ef21e354ddmr26153395ywb.438.1650547017921; Thu, 21
- Apr 2022 06:16:57 -0700 (PDT)
+        Thu, 21 Apr 2022 06:47:49 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id x9so1728141ybe.11;
+        Thu, 21 Apr 2022 06:47:49 -0700 (PDT)
+X-Received: by 2002:a25:8087:0:b0:641:dd06:577d with SMTP id
+ n7-20020a258087000000b00641dd06577dmr24517952ybk.207.1650548869002; Thu, 21
+ Apr 2022 06:47:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com> <20220420084255.375700-11-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220420084255.375700-11-yoshihiro.shimoda.uh@renesas.com>
+References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com> <20220420084255.375700-13-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220420084255.375700-13-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 21 Apr 2022 15:16:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUsO_UPPBumad2-=F7fdPSfCFirE8nNePfXahYAHL83rg@mail.gmail.com>
-Message-ID: <CAMuHMdUsO_UPPBumad2-=F7fdPSfCFirE8nNePfXahYAHL83rg@mail.gmail.com>
-Subject: Re: [PATCH 10/15] soc: renesas: Identify R-Car V4H
+Date:   Thu, 21 Apr 2022 15:47:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXdgvcf0w06GaaSZSqdEwytKi+tNXpsUb29vXmKrB=gYA@mail.gmail.com>
+Message-ID: <CAMuHMdXdgvcf0w06GaaSZSqdEwytKi+tNXpsUb29vXmKrB=gYA@mail.gmail.com>
+Subject: Re: [PATCH 12/15] clk: renesas: rcar-gen4: Add CLK_TYPE_GEN4_PLL4
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -74,35 +74,29 @@ Hi Shimoda-san,
 
 On Wed, Apr 20, 2022 at 10:43 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for identifying the R-Car V4H (R8A779G0) SoC.
+> R-Car V4H (r8a779g0) has PLL4 so that add CLK_TYPE_GEN4_PLL4.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Thanks for your patch!
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -247,6 +247,13 @@ config ARCH_R8A779F0
->         help
->           This enables support for the Renesas R-Car S4-8 SoC.
->
-> +config ARCH_R8A779G0
-> +       bool "ARM64 Platform support for R-Car V4H"
-> +       select ARCH_RCAR_GEN3
-> +       select SYSC_R8A779G0
-> +       help
-> +         This enables support for the Renesas R-Car V4H SoC.
-> +
+> ---
+>  drivers/clk/renesas/r8a779f0-cpg-mssr.c | 18 +++++++++---------
+>  drivers/clk/renesas/rcar-gen4-cpg.c     |  5 +++++
+>  drivers/clk/renesas/rcar-gen4-cpg.h     |  3 +++
+>  3 files changed, 17 insertions(+), 9 deletions(-)
 
-Please insert below ARCH_R8A779A0, to preserve alphabetical
-order (by description).
+You forgot to update drivers/clk/renesas/r8a779a0-cpg-mssr.c.
+Hence all clocks derived from PLL5 have a zero rate, causing the
+SDHI driver to enter an infinite loop in renesas_sdhi_set_clock()
+(clock = 0):
 
->  config ARCH_R8A77980
->         bool "ARM64 Platform support for R-Car V3H"
->         select ARCH_RCAR_GEN3
+        for (clk = 0x80000080; new_clock >= (clock << 1); clk >>= 1)
+                clock <<= 1;
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19, with the above fixed.
+Adding the missing PLL4 mul/div columns fixes that.
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
