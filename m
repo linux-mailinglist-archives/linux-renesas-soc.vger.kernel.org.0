@@ -2,180 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D8FF50A148
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 15:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FFED50A545
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 18:24:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388178AbiDUN6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 09:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34464 "EHLO
+        id S230313AbiDUQ1f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 12:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388033AbiDUN5y (ORCPT
+        with ESMTP id S229521AbiDUQP5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 09:57:54 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387AA2BB2E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 06:55:03 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id bj36so5833065ljb.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 06:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9I2sv/w+bVoJVhgEON4k5i7vtxgov/Cr9H4jEyKQU44=;
-        b=uPd35zp+t9AoSNs4r+Vp3gerI9BRNYp+bGV9SmMC4t1Di8G5JwPLrsrJ8vas36Vmu9
-         J+PZO8qisz7ZoEOxYN8xOzv5ys4koF/bY+LyCGQ9LrE23WgtogSIRfeP1Oh2D09cEbt6
-         OO2k80qci6e56m43qzH2mW7Z/XDz9GmXTZXpOQn+Gv9DcYFMV+sqqPY19Osf2oRYWAMz
-         3zakafPxoqFkyEH8aNpwbBHlveLn+8xSW736SnqrjQ6wKh3E/6qIQRQM7WVV5PzpG8FY
-         to1aEdA0c91W/Lvb+xUcGDufj8GB7wkM6T9QrwzVDVAOrWGjLz0rkWCc5V7Lqpn4npMj
-         u1CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9I2sv/w+bVoJVhgEON4k5i7vtxgov/Cr9H4jEyKQU44=;
-        b=ovP88qlprKhFoLhzIo94mLQ1wfeMRuSxdA/ZhQeRKfiYhRFpEJzLmnN0bPDoEWv3Te
-         BxVxH01Q66GFbvJw0H2/GYQaPKxw9GDOu5UCdgN4G9h9b7B/h4WZPlVEbAl7sOomH4a8
-         8hBrTPOw+XxCTm5JupSZ4+VWOnvcEMAlIGdRhfBml7JKMbzxdG/UO5YtYfPPE59EgIwM
-         4yEzLnbluwNUUVNoQVCHFjGs5p/V2qnfzywni/CckDOOCV41zDav1yjXlfXZ2dk0cAKA
-         M0C04sizddLaIONj7pDWJ6kEKTXkQIhNNDq2p+CqpspYwhfjFlSae7FbEPNj6FZCogM7
-         +FzQ==
-X-Gm-Message-State: AOAM5336jeU18eA4lSFj8oYWD5tZcXO277/18yFZcylI0XxYHOcBsItU
-        zXvauMCRUb6YNoh/7VTSQ+2Ukpl42DSOqhA9R2glkg==
-X-Google-Smtp-Source: ABdhPJxQ8zojrK8xdolxDcQ8zrSMsAOsNwi85QHOAAX4QMpz2jZNq6/IIYky8NRkIbD1nX8JR7qkOxUpHzF/JMNvZPU=
-X-Received: by 2002:a05:651c:1783:b0:249:43a8:b6f9 with SMTP id
- bn3-20020a05651c178300b0024943a8b6f9mr16093756ljb.273.1650549301441; Thu, 21
- Apr 2022 06:55:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220412093102.3428-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 21 Apr 2022 15:54:25 +0200
-Message-ID: <CAPDyKFofCmWC4PDQBzw-wJweOy5brD5dJ1RM2n2vM1gOTQ8peQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: sh_mmcif: move platform_data header to proper location
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Thu, 21 Apr 2022 12:15:57 -0400
+Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2442B241
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 09:13:06 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 9F9F43C001F;
+        Thu, 21 Apr 2022 18:13:04 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.3) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Thu, 21 Apr
+ 2022 18:13:04 +0200
+Date:   Thu, 21 Apr 2022 18:12:59 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        <laurent.pinchart@ideasonboard.com>,
+        <linux-renesas-soc@vger.kernel.org>
+CC:     <geert@linux-m68k.org>, <kuninori.morimoto.gx@renesas.com>,
+        <dri-devel@lists.freedesktop.org>, <architt@codeaurora.org>,
+        <vz@mleia.com>, <koji.matsuoka.xm@renesas.com>,
+        Takashi Saito <takashi.saitou.ry@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC 14/21] v4l: vsp1: Change VSP1 LIF linebuffer FIFO
+Message-ID: <20220421161259.GA2660@lxhi-065>
+References: <1464624020-27709-1-git-send-email-ulrich.hecht+renesas@gmail.com>
+ <1464624020-27709-15-git-send-email-ulrich.hecht+renesas@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1464624020-27709-15-git-send-email-ulrich.hecht+renesas@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.3]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 12 Apr 2022 at 11:31, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> We have a dedicated directory for platform_data meanwhile, don't spoil
-> the MMC directory with it.
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Dear Uli,
+Dear Laurent,
+Dear Renesas community,
 
-As this is a trivial change, I have applied it for next, thanks!
-
-Sato-san, Rich, please tell me if you see any problems with this - or
-if you want me to add your acks.
-
-Kind regards
-Uffe
-
-
+On Mo, Mai 30, 2016 at 06:00:13 +0200, Ulrich Hecht wrote:
+> This patch changes to VSPD hardware recommended value.
+> Purpose is highest pixel clock without underruns.
+> In the default R-Car Linux BSP config this value is
+> wrong and therefore there are many underruns.
+> 
+> Signed-off-by: Takashi Saito <takashi.saitou.ry@renesas.com>
+> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> Signed-off-by: Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->
-> Change since v1: fixed sorting of includes in the MMCIF driver
->                  (Thanks Geert!)
->
-> I don't have the HW to test this but the buildbots are happy with this
-> change. I checked that they actually tested the SH builds. To make the
-> patch more readable, I used the -M (rename) feature of git-format-patch.
->
->  arch/sh/boards/board-sh7757lcr.c                | 2 +-
->  arch/sh/boards/mach-ecovec24/setup.c            | 2 +-
->  arch/sh/boot/romimage/mmcif-sh7724.c            | 2 +-
->  drivers/mmc/host/sh_mmcif.c                     | 2 +-
->  include/linux/{mmc => platform_data}/sh_mmcif.h | 2 --
->  5 files changed, 4 insertions(+), 6 deletions(-)
->  rename include/linux/{mmc => platform_data}/sh_mmcif.h (99%)
->
-> diff --git a/arch/sh/boards/board-sh7757lcr.c b/arch/sh/boards/board-sh7757lcr.c
-> index c32b4c6229d3..f39c8196efdf 100644
-> --- a/arch/sh/boards/board-sh7757lcr.c
-> +++ b/arch/sh/boards/board-sh7757lcr.c
-> @@ -16,7 +16,7 @@
->  #include <linux/io.h>
->  #include <linux/mfd/tmio.h>
->  #include <linux/mmc/host.h>
-> -#include <linux/mmc/sh_mmcif.h>
-> +#include <linux/platform_data/sh_mmcif.h>
->  #include <linux/sh_eth.h>
->  #include <linux/sh_intc.h>
->  #include <linux/usb/renesas_usbhs.h>
-> diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
-> index 4c9522dd351f..674da7ebd8b7 100644
-> --- a/arch/sh/boards/mach-ecovec24/setup.c
-> +++ b/arch/sh/boards/mach-ecovec24/setup.c
-> @@ -19,7 +19,7 @@
->  #include <linux/memblock.h>
->  #include <linux/mfd/tmio.h>
->  #include <linux/mmc/host.h>
-> -#include <linux/mmc/sh_mmcif.h>
-> +#include <linux/platform_data/sh_mmcif.h>
->  #include <linux/mtd/physmap.h>
->  #include <linux/gpio.h>
->  #include <linux/gpio/machine.h>
-> diff --git a/arch/sh/boot/romimage/mmcif-sh7724.c b/arch/sh/boot/romimage/mmcif-sh7724.c
-> index 6595b6b45bf1..d30123d859e0 100644
-> --- a/arch/sh/boot/romimage/mmcif-sh7724.c
-> +++ b/arch/sh/boot/romimage/mmcif-sh7724.c
-> @@ -8,7 +8,7 @@
->   * for more details.
->   */
->
-> -#include <linux/mmc/sh_mmcif.h>
-> +#include <linux/platform_data/sh_mmcif.h>
->  #include <mach/romimage.h>
->
->  #define MMCIF_BASE      (void __iomem *)0xa4ca0000
-> diff --git a/drivers/mmc/host/sh_mmcif.c b/drivers/mmc/host/sh_mmcif.c
-> index 5f9ebf045b1c..0fd4c9d644dd 100644
-> --- a/drivers/mmc/host/sh_mmcif.c
-> +++ b/drivers/mmc/host/sh_mmcif.c
-> @@ -43,12 +43,12 @@
->  #include <linux/mmc/host.h>
->  #include <linux/mmc/mmc.h>
->  #include <linux/mmc/sdio.h>
-> -#include <linux/mmc/sh_mmcif.h>
->  #include <linux/mmc/slot-gpio.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/mutex.h>
->  #include <linux/of_device.h>
->  #include <linux/pagemap.h>
-> +#include <linux/platform_data/sh_mmcif.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_qos.h>
->  #include <linux/pm_runtime.h>
-> diff --git a/include/linux/mmc/sh_mmcif.h b/include/linux/platform_data/sh_mmcif.h
-> similarity index 99%
-> rename from include/linux/mmc/sh_mmcif.h
-> rename to include/linux/platform_data/sh_mmcif.h
-> index e25533b95d9f..6eb914f958f9 100644
-> --- a/include/linux/mmc/sh_mmcif.h
-> +++ b/include/linux/platform_data/sh_mmcif.h
-> @@ -1,7 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0-only */
->  /*
-> - * include/linux/mmc/sh_mmcif.h
-> - *
->   * platform data for eMMC driver
->   *
->   * Copyright (C) 2010 Renesas Solutions Corp.
-> --
-> 2.30.2
->
+>  drivers/media/platform/vsp1/vsp1_lif.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+
+Apologize for reviving this very old thread.
+
+We've been struggling with very rare and difficult to reproduce
+display flickering occurrences and, after significant amount of
+troubleshooting and debugging, with some support from Renesas,
+we've been able to identify that those flicker issues are caused
+by VSPD underruns.
+
+What we've also learned is that one possible root-cause for seeing
+VSPD underruns is having wrong QoS settings in DBSC (set in ATF).
+
+What was particularly helpful in identifying the underruns themselves
+is Renesas BSP commit [1], whose discussions we were unable to track
+on linux-renesas-soc LKML.
+
+My question is very simple. Since the meat of the Renesas patch [1]
+is basically a printk in the interrupt context and an array storing
+the total number of underruns occurred since startup, would you be
+willing to review the refactored version of this patch on LKML?
+
+In that case, we'll definitely invest some time to upstream it.
+
+Thank you for your attention and feedback.
+
+[1] https://github.com/renesas-rcar/linux-bsp/commit/12ea79975a10f
+    ("v4l: vsp1: Add underrun debug messege option")
+
+Best regards,
+Eugeniu
