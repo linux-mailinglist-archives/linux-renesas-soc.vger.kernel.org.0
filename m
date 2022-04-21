@@ -2,60 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AAA0509B2E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 10:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6DE509BB0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 11:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386995AbiDUIyb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 04:54:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35682 "EHLO
+        id S1387215AbiDUJD3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 05:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386992AbiDUIyb (ORCPT
+        with ESMTP id S1387185AbiDUJDZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 04:54:31 -0400
+        Thu, 21 Apr 2022 05:03:25 -0400
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3F01DA68;
-        Thu, 21 Apr 2022 01:51:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F25AB1D0C2;
+        Thu, 21 Apr 2022 02:00:20 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id C26FC60009;
-        Thu, 21 Apr 2022 08:51:37 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id C835560011;
+        Thu, 21 Apr 2022 09:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650531100;
+        t=1650531619;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gDMgEYZK2TXVp0tig+qscRTbrixY++njrNcYKAKseyE=;
-        b=VvXM4GyXA9oNq6vStm5eW97MjVxU6wHfXIL3BaIteHnrp2ppjgyO0BYLWc88Xb1/zpPXUH
-        F4G5WkoxCw7KXWLefi6Y169fl/TyG4gYB5nfFgDUsfpDMsMtopR7ixIYnv/lVr99q6giOp
-        kE1q3NM+YGXbYIV4uKwGUHhjjd17RmAKhVF4WaZ/NiaMpqPyKGJ27SaYnYnsF+i7remOoe
-        q2nJFY3tpuEfwg3mdqAzit1Fv08s95VMzOAKIuOuDniUb4E3+65o6jpSgw2f/RnsYRVfQ4
-        bAHOKYVHB6kAJCDeZijdCOkEIT056G8GULj3ImhGmOixcNyz/yO3QRGL/v5vwg==
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qXWNtp/Z3Mw+KK/AtkZmzuXfaNAB/G/qAlAtA92kuRU=;
+        b=jQ4aCqfquTxU9jUbq8mtpcWlCe5fHe2dBc+aUo/eshTwnsX7dXNtGMMX3OkKMfYdDKSy4W
+        Qq7i9QhSpymgkBc0gBh3e/AfCZvIY2Bvk8EvfbaYCkmFDNgMteyZXedCWBBwtX+36os2h3
+        NQK+yoFHcBbTxz9WpM1ywbcJ9DXBUkN44rad+2YhDiMs4BnaaY+i3OgZwiGaSonaKQomDU
+        hJCtzbjkICQZ0QLVT1WuLpT1P0c5JlN4K8N+T5kMY7c+o1qd2Hgv41+KG1oo7/YeArS/24
+        1ATsejCX6YzqbXB/WfDLFyQqskXqVwDIe3/MzAuhIZrjlJbieMg07/1+7o07NA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vinod Koul <vkoul@kernel.org>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-renesas-soc@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH v11 9/9] ARM: dts: r9a06g032: Describe the DMA router
-Date:   Thu, 21 Apr 2022 10:51:12 +0200
-Message-Id: <20220421085112.78858-10-miquel.raynal@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>
+Subject: [PATCH v2 0/7] RZN1 RTC support
+Date:   Thu, 21 Apr 2022 11:00:09 +0200
+Message-Id: <20220421090016.79517-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220421085112.78858-1-miquel.raynal@bootlin.com>
-References: <20220421085112.78858-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -69,35 +65,63 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a dmamux on this SoC which allows picking two different sources
-for a single DMA request.
+Hello,
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+This small series adds support for the RZN1 RTC.
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 839580ec21ee..c854aa4cfa77 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -91,6 +91,16 @@ sysctrl: system-controller@4000c000 {
- 			clocks = <&ext_mclk>, <&ext_rtc_clk>,
- 					<&ext_jtag_clk>, <&ext_rgmii_ref>;
- 			clock-names = "mclk", "rtc", "jtag", "rgmii_ref_ext";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			dmamux: dma-router@a0 {
-+				compatible = "renesas,rzn1-dmamux";
-+				reg = <0xa0 4>;
-+				#dma-cells = <6>;
-+				dma-requests = <32>;
-+				dma-masters = <&dma0 &dma1>;
-+			};
- 		};
- 
- 		uart0: serial@40060000 {
+Despite its limitations, I found useful to at least have alarm and
+offset support.
+
+As the RTC clock issue was addressed by filling the RTC clock
+description in the clock driver, we no longer depend on other series.
+
+Cheers,
+Miquèl
+
+Changes in v2:
+* Fixed the error path in the clk driver, where I missed to release a
+  spin_lock.
+* Collected tags.
+* Moved the rtc subnode in the dt to keep the nodes ordered by unit
+  address.
+* Dropped the useless "oneOf" statement in the bindings (compatible
+  property).
+* Dropped the start-year property in the bindings (already defined).
+* Avoided rollover calculations that could be more easily handled (and
+  reviewed) with a time64_t conversion.
+* Returned ERANGE instead of EOPNOTSUPP when the alarm date is not
+  valid.
+* Cleared RTC_FEATURE_UPDATE_INTERRUPT to avoid warning from the tools.
+* Dropped the sysctl patch adding the reset helper, instead fulfilled
+  the description of the RTC clock so that when requesting this clock to
+  be enabled, the idle bit is released.
+* Avoided rollover calculations that could be more easily handled
+  (and reviewed) with a time64_t conversion.
+* Fixed the max_range value, after a rtc-range test and looking at other
+  implementations.
+
+Michel Pollet (1):
+  rtc: rzn1: Add new RTC driver
+
+Miquel Raynal (6):
+  dt-bindings: rtc: rzn1: Describe the RZN1 RTC
+  soc: renesas: rzn1-sysc: Fix the RTC hclock description
+  rtc: rzn1: Add alarm support
+  rtc: rzn1: Add oscillator offset support
+  MAINTAINERS: Add myself as maintainer of the RZN1 RTC driver
+  ARM: dts: r9a06g032: Describe the RTC
+
+ .../bindings/rtc/renesas,rzn1-rtc.yaml        |  65 +++
+ MAINTAINERS                                   |   8 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |  12 +
+ drivers/clk/renesas/r9a06g032-clocks.c        |   2 +-
+ drivers/rtc/Kconfig                           |   7 +
+ drivers/rtc/Makefile                          |   1 +
+ drivers/rtc/rtc-rzn1.c                        | 427 ++++++++++++++++++
+ 7 files changed, 521 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
+ create mode 100644 drivers/rtc/rtc-rzn1.c
+
 -- 
 2.27.0
 
