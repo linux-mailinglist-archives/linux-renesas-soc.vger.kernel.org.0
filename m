@@ -2,113 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D45195099A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 09:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2823750999C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 09:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385935AbiDUHm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 03:42:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33470 "EHLO
+        id S1386081AbiDUHoO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 03:44:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386067AbiDUHmV (ORCPT
+        with ESMTP id S234668AbiDUHoM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 03:42:21 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183DD1B78B;
-        Thu, 21 Apr 2022 00:39:28 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 8C43DC0006;
-        Thu, 21 Apr 2022 07:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650526767;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qYEuMKcRPLE7kv8cT5u0HPUdYyTsqKBj+98EErK/TJ0=;
-        b=cB4C5DPCEOYqaVr9TDlENrzgBO5YhoarBWOEZgIWnUCbvvjTlFrP03L1s5ToSBdMOUPO8m
-        dnq1jUaH8UIPO3XlNQhX1uCuKQI6QAill+P6dq5dTL5b5u9DFOOUg0b6ju7dUtPNY5+kLy
-        ohRTLazqOvlRjrQCy0V/ZTsCl2HZcvcbwFlDCui7i9IegCqRbHDt87bmhylkc7MVKEBn4w
-        UL80gxiE8d2mxED8UxMeuQtrpINohimKy2k5T5ddfmU2AgUkgcpEL66Kydzt28aowuN7ay
-        RabEWJWw9osi10CVeYQD+jyv4aYzANUS8n0jOOw2PCuNxCqLj9c7VHTQXyFIHg==
-Date:   Thu, 21 Apr 2022 09:38:03 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 08/12] net: dsa: rzn1-a5psw: add FDB support
-Message-ID: <20220421093803.64ad7cc8@fixe.home>
-In-Reply-To: <20220420195214.dnekbfhha53trbke@skbuf>
-References: <20220414122250.158113-1-clement.leger@bootlin.com>
-        <20220414122250.158113-9-clement.leger@bootlin.com>
-        <20220414175140.p2vyy7f7yk6vlomi@skbuf>
-        <20220420101648.7aa973b2@fixe.home>
-        <20220420195214.dnekbfhha53trbke@skbuf>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+        Thu, 21 Apr 2022 03:44:12 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8E213E11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 00:41:23 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id p18so207947edr.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Apr 2022 00:41:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Uv7cPKaUArzIITMcA4aXXtgjHbTkK+doRZ3K15+Bmlo=;
+        b=hEOdozmXH3eaNDgD/oRHrc2xyadazXOIopE1mPkGfP/inUNms8Ac/2w3hzc+Hm2+Gb
+         UW1MyqxUquuMBdVIvhOlWnWkIO1GEM8aq3Ga9z8Xva98irEa8LF3oyHdOG96CZSuPyXB
+         KrMO/j/R6XMDFH928uvnZcUeQmmrKqXEaUzSy1QpC1dkdbP7YyiDNB6zmFr7klSD8Nw8
+         fjY17XZ8Bo05L5vz2b5OTZM1xm/j9djH7SNudYUvYhq5k3ULBC4CQA3H6fhMW12HLe82
+         llX7Kq4oQ76RO9rJGwAVydNvDSpPtR+RKWV71petPg314S6+d1qFLn+eNE/fTttsBzAX
+         iz2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Uv7cPKaUArzIITMcA4aXXtgjHbTkK+doRZ3K15+Bmlo=;
+        b=BllrSX4DVjRx+SU78kOk/YEu2ZH4AeGYrGTEhC9AeIP55zxd7eZ+rmxL3qrtNOq4wv
+         1S6bPzp6+sWEqLxFpDuR392ag5ZF5wIPj6KQF2a9CMfYWXvZpdFjenrx1lON2ohxN5OF
+         W9pgTBo1Iu24emqOoUdxRyROSB1JDqLPkMilvjqHnug6k8Zw8Sz0+h203d1rtz2hu6Rl
+         VklyErMYHZESQ6E2RFdrVDNX3aMvv/z8WEFf+ubIZwMZ6xBU5g5hZqqsGQ5CfWWozzhi
+         kIhIIrspNsfYOj5Jy4Jt8NyXJW097gekpXa8yU/C3Ixu8pw86fxZ3hjwYNEuVZjvmGzH
+         hLxw==
+X-Gm-Message-State: AOAM5328/ygZ9gxVo0dE9S4rD0AlqHcv654SRPvsqI+VmCBr4dvRQSmL
+        Ft+xnzajkzCZ1lD9vxtcLQ5Z6A==
+X-Google-Smtp-Source: ABdhPJyDSIJPWtDreUktJgwGwA4rnrToJQn+4WMfPlbwKSwdvhGWyc6rjslk3+RKyhdEolriw4H+lw==
+X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id g8-20020a056402114800b0041311e01f58mr27030007edw.113.1650526882501;
+        Thu, 21 Apr 2022 00:41:22 -0700 (PDT)
+Received: from [192.168.0.226] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id q2-20020a056402032200b00423d4516387sm7633157edw.75.2022.04.21.00.41.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Apr 2022 00:41:21 -0700 (PDT)
+Message-ID: <e5dabb07-eb0f-539d-12da-784ef0096e34@linaro.org>
+Date:   Thu, 21 Apr 2022 09:41:21 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 02/15] dt-bindings: arm: renesas: Document Renesas White
+ Hawk boards
+Content-Language: en-US
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-serial@vger.kernel.org
+References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220420084255.375700-3-yoshihiro.shimoda.uh@renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220420084255.375700-3-yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Wed, 20 Apr 2022 22:52:14 +0300,
-Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
+On 20/04/2022 10:42, Yoshihiro Shimoda wrote:
+> Add device tree bindings documentation for Renesas R-Car V4H
+> White Hawk CPU and BreakOut boards.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-> > >=20
-> > > Shouldn't this contain something along the lines of a VID, FID, somet=
-hing? =20
-> >=20
-> > This is extracted directly from the datasheet [1]. The switch FDB table
-> > does not seems to store the VID with the entries (See page 300).
-> >=20
-> > [1]
-> > https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1=
-l-group-users-manual-r-engine-and-ethernet-peripherals =20
->=20
-> Thanks for the link. I see that the switch has a non-partitionable
-> lookup table, not even by VLAN. A shame.
->=20
-> This is also in contrast with the software bridge driver, where FDB and
-> MDB entries can have independent destinations per VID.
->=20
-> So there's nothing you can do beyond limiting to a single offloaded
-> bridge and hoping for the best w.r.t. per-VLAN forwarding destinations.
->=20
-> Note that if you limit to a single bridge does not mean that you can
-> declare ds->fdb_isolation =3D true. Declaring that would opt you into
-> unicast and multicast filtering towards the CPU, i.o.w. a method for
-> software to only receive the addresses it has expressed an interest in,
-> rather than all packets received on standalone ports. The way that is
-> implemented in DSA is by adding FDB and MDB entries on the management
-> port, and it would break a lot of things without a partitioning scheme
-> for the lookup table.
+Squash it with your previous patch, please. Documenting just SoC and
+immediately later the board compatibles is too big split.
 
-Thanks Vladimir, it confirms what I thought.
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+Best regards,
+Krzysztof
