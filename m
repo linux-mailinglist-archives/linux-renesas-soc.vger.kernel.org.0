@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D364509CC8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 11:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A2AD509CD1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 11:55:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383566AbiDUJ4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 05:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57078 "EHLO
+        id S1387931AbiDUJ4Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 05:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383735AbiDUJ4W (ORCPT
+        with ESMTP id S1387928AbiDUJ4X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:56:22 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB0C25593;
-        Thu, 21 Apr 2022 02:53:32 -0700 (PDT)
+        Thu, 21 Apr 2022 05:56:23 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126E325C47;
+        Thu, 21 Apr 2022 02:53:33 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1F4181BF217;
-        Thu, 21 Apr 2022 09:53:29 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 21CC91BF216;
+        Thu, 21 Apr 2022 09:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650534810;
+        t=1650534812;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fH8vPkT4dWPPGb/8XoLObFxHw6R65IrJ2LRqxUIBB1A=;
-        b=jQAVCmtmSsMdiF2mg10x1jOb9WtnnLtXaK9eYbhNSfKrfyMgR1mMpKOW/pPXraZReKvINv
-        ePxeZQOnWoEGeWGazDeezKqkyXncqQusEaN23wvVE1ea+BV9cWmP8dbo28aWDy1jzBAQYS
-        dVX23YVtAFuXrdJumN133qWYZKZXYz/9Mn1vSOhD+sjs4SIvByNZBmbT7rWzApgcCYnJ66
-        HUiK1GDxf5qMQOTDAt9Xx1NoIkyVhIS4C8HSUfKLiVwY/sszw0YVTjsq+AW6QdyBd6CwYN
-        mWd86cerovW5yXoq1lfGxTcdbQEYG5anQRKiZ9PM5VdW5sEfXT9ef+CrgBGAXg==
+        bh=6PKwEIeql6uYeuItC4CotOv1F8iaZ9GjXTTYBwTsneM=;
+        b=cWgHbR72rvm/djd6IA5H2htj1na/3eS7eGV7dbQjvGoDjlRuPnuuihVWLHxe0rCv82S4Dt
+        u+zSdQ8fWT9kBPh8cRFBl7kXvBy+hSiCrXTWhO15lMvj2J4j4biFasDCNkqQS3+rPr/47s
+        /OY8cetFITUuyLpg7NkaCmfssMuO6RJk5wf+mNXBanrOYeDCR6InfjVRdDI5hqb6IsD90X
+        8FCfbx5B5tfLBsu/F2NGrkEje22ZklfnqitykV9RIxGhZxwWwS/UwV54RK20HKzmOsHdBD
+        FHq/17imbX9tQctarF+wQ/ZYtPOS8CVuTXq6C99x+jtapI/Zj3jkvQrNcfAsdA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -44,160 +44,124 @@ Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Emil Renner Berthing <kernel@esmil.dk>
-Subject: [PATCH v6 02/12] serial: 8250: dw: Create a generic platform data structure
-Date:   Thu, 21 Apr 2022 11:53:13 +0200
-Message-Id: <20220421095323.101811-3-miquel.raynal@bootlin.com>
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v6 03/12] serial: 8250: dw: Move the USR register to pdata
+Date:   Thu, 21 Apr 2022 11:53:14 +0200
+Message-Id: <20220421095323.101811-4-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220421095323.101811-1-miquel.raynal@bootlin.com>
 References: <20220421095323.101811-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Emil Renner Berthing <kernel@esmil.dk>
+This offset is a good candidate to pdata's because it changes depending
+on the vendor implementation. Let's move the usr_reg entry from regular
+to pdata. This way we can drop initializing it at run time.
 
-Use device tree match data rather than multiple calls to
-of_device_is_compatible() by introducing a platform data structure and
-adding a quirks mask.
+Let's also use a define for it instead of defining only the default
+value.
 
-Provide a stub to the compatibles without quirks to simplify the
-handling of the upcoming changes.
-
-Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
-[<miquel.raynal@bootlin.com: Minor changes + creation of a real pdata structure]
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/8250_dw.c    | 42 ++++++++++++++++++++++------
- drivers/tty/serial/8250/8250_dwlib.h |  5 ++++
- 2 files changed, 39 insertions(+), 8 deletions(-)
+ drivers/tty/serial/8250/8250_dw.c    | 11 ++++++++---
+ drivers/tty/serial/8250/8250_dwlib.h |  2 +-
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index dcbe54ccd16b..7fdb2683f534 100644
+index 7fdb2683f534..b34edc88af3d 100644
 --- a/drivers/tty/serial/8250/8250_dw.c
 +++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -19,6 +19,7 @@
- #include <linux/of_irq.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/workqueue.h>
- #include <linux/notifier.h>
- #include <linux/slab.h>
-@@ -37,6 +38,11 @@
+@@ -35,6 +35,8 @@
+ /* Offsets for the DesignWare specific registers */
+ #define DW_UART_USR	0x1f /* UART Status Register */
+ 
++#define OCTEON_UART_USR	0x27 /* UART Status Register */
++
  /* DesignWare specific register fields */
  #define DW_UART_MCR_SIRE		BIT(6)
  
-+/* Quirks */
-+#define DW_UART_QUIRK_OCTEON		BIT(0)
-+#define DW_UART_QUIRK_ARMADA_38X	BIT(1)
-+#define DW_UART_QUIRK_SKIP_SET_RATE	BIT(2)
-+
- static inline struct dw8250_data *clk_to_dw8250_data(struct notifier_block *nb)
- {
- 	return container_of(nb, struct dw8250_data, clk_notifier);
-@@ -366,6 +372,7 @@ static bool dw8250_idma_filter(struct dma_chan *chan, void *param)
- static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- {
- 	struct device_node *np = p->dev->of_node;
-+	unsigned int quirks = data->pdata->quirks;
+@@ -251,7 +253,7 @@ static int dw8250_handle_irq(struct uart_port *p)
  
- 	if (np) {
- 		int id;
-@@ -375,7 +382,7 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 		if (id >= 0)
- 			p->line = id;
- #ifdef CONFIG_64BIT
--		if (of_device_is_compatible(np, "cavium,octeon-3860-uart")) {
-+		if (quirks & DW_UART_QUIRK_OCTEON) {
- 			p->serial_in = dw8250_serial_inq;
+ 	if ((iir & UART_IIR_BUSY) == UART_IIR_BUSY) {
+ 		/* Clear the USR */
+-		(void)p->serial_in(p, d->usr_reg);
++		(void)p->serial_in(p, d->pdata->usr_reg);
+ 
+ 		return 1;
+ 	}
+@@ -387,7 +389,6 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
  			p->serial_out = dw8250_serial_outq;
  			p->flags = UPF_SKIP_TEST | UPF_SHARE_IRQ | UPF_FIXED_TYPE;
-@@ -391,9 +398,9 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 			p->serial_out = dw8250_serial_out32be;
+ 			p->type = PORT_OCTEON;
+-			data->usr_reg = 0x27;
+ 			data->skip_autocfg = true;
  		}
- 
--		if (of_device_is_compatible(np, "marvell,armada-38x-uart"))
-+		if (quirks & DW_UART_QUIRK_ARMADA_38X)
- 			p->serial_out = dw8250_serial_out38x;
--		if (of_device_is_compatible(np, "starfive,jh7100-uart"))
-+		if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
- 			p->set_termios = dw8250_do_set_termios;
- 
- 	} else if (acpi_dev_present("APMC0D08", NULL, -1)) {
-@@ -456,6 +463,7 @@ static int dw8250_probe(struct platform_device *pdev)
+ #endif
+@@ -462,7 +463,6 @@ static int dw8250_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
  
  	data->data.dma.fn = dw8250_fallback_dma_filter;
- 	data->usr_reg = DW_UART_USR;
-+	data->pdata = device_get_match_data(p->dev);
+-	data->usr_reg = DW_UART_USR;
+ 	data->pdata = device_get_match_data(p->dev);
  	p->private_data = &data->data;
  
- 	data->uart_16550_compatible = device_property_read_bool(dev,
-@@ -672,12 +680,30 @@ static const struct dev_pm_ops dw8250_pm_ops = {
- 	SET_RUNTIME_PM_OPS(dw8250_runtime_suspend, dw8250_runtime_resume, NULL)
+@@ -681,20 +681,25 @@ static const struct dev_pm_ops dw8250_pm_ops = {
  };
  
-+static const struct dw8250_platform_data dw8250_dw_apb = {
-+};
-+
-+static const struct dw8250_platform_data dw8250_octeon_3860_data = {
-+	.quirks = DW_UART_QUIRK_OCTEON,
-+};
-+
-+static const struct dw8250_platform_data dw8250_armada_38x_data = {
-+	.quirks = DW_UART_QUIRK_ARMADA_38X,
-+};
-+
-+static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
-+};
-+
-+static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
-+	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
-+};
-+
- static const struct of_device_id dw8250_of_match[] = {
--	{ .compatible = "snps,dw-apb-uart" },
--	{ .compatible = "cavium,octeon-3860-uart" },
--	{ .compatible = "marvell,armada-38x-uart" },
--	{ .compatible = "renesas,rzn1-uart" },
--	{ .compatible = "starfive,jh7100-uart" },
-+	{ .compatible = "snps,dw-apb-uart", .data = &dw8250_dw_apb },
-+	{ .compatible = "cavium,octeon-3860-uart", .data = &dw8250_octeon_3860_data },
-+	{ .compatible = "marvell,armada-38x-uart", .data = &dw8250_armada_38x_data },
-+	{ .compatible = "renesas,rzn1-uart", .data = &dw8250_renesas_rzn1_data },
-+	{ .compatible = "starfive,jh7100-uart", .data = &dw8250_starfive_jh7100_data },
- 	{ /* Sentinel */ }
+ static const struct dw8250_platform_data dw8250_dw_apb = {
++	.usr_reg = DW_UART_USR,
  };
- MODULE_DEVICE_TABLE(of, dw8250_of_match);
+ 
+ static const struct dw8250_platform_data dw8250_octeon_3860_data = {
++	.usr_reg = OCTEON_UART_USR,
+ 	.quirks = DW_UART_QUIRK_OCTEON,
+ };
+ 
+ static const struct dw8250_platform_data dw8250_armada_38x_data = {
++	.usr_reg = DW_UART_USR,
+ 	.quirks = DW_UART_QUIRK_ARMADA_38X,
+ };
+ 
+ static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
++	.usr_reg = DW_UART_USR,
+ };
+ 
+ static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
++	.usr_reg = DW_UART_USR,
+ 	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
+ };
+ 
 diff --git a/drivers/tty/serial/8250/8250_dwlib.h b/drivers/tty/serial/8250/8250_dwlib.h
-index 72e7dbcccad0..68bb81bee660 100644
+index 68bb81bee660..0df6baa6eaee 100644
 --- a/drivers/tty/serial/8250/8250_dwlib.h
 +++ b/drivers/tty/serial/8250/8250_dwlib.h
-@@ -21,8 +21,13 @@ struct dw8250_port_data {
- 	u8			dlf_size;
+@@ -22,6 +22,7 @@ struct dw8250_port_data {
  };
  
-+struct dw8250_platform_data {
-+	unsigned int quirks;
-+};
-+
- struct dw8250_data {
- 	struct dw8250_port_data	data;
-+	const struct dw8250_platform_data *pdata;
+ struct dw8250_platform_data {
++	u8 usr_reg;
+ 	unsigned int quirks;
+ };
  
- 	u8			usr_reg;
+@@ -29,7 +30,6 @@ struct dw8250_data {
+ 	struct dw8250_port_data	data;
+ 	const struct dw8250_platform_data *pdata;
+ 
+-	u8			usr_reg;
  	int			msr_mask_on;
+ 	int			msr_mask_off;
+ 	struct clk		*clk;
 -- 
 2.27.0
 
