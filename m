@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A2AD509CD1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 11:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86BD3509CDD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Apr 2022 11:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387931AbiDUJ4Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Apr 2022 05:56:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
+        id S1387932AbiDUJ42 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 Apr 2022 05:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387928AbiDUJ4X (ORCPT
+        with ESMTP id S1387930AbiDUJ4Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:56:23 -0400
+        Thu, 21 Apr 2022 05:56:25 -0400
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126E325C47;
-        Thu, 21 Apr 2022 02:53:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD30125581;
+        Thu, 21 Apr 2022 02:53:35 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 21CC91BF216;
-        Thu, 21 Apr 2022 09:53:31 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id DAB1C1BF219;
+        Thu, 21 Apr 2022 09:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650534812;
+        t=1650534814;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=6PKwEIeql6uYeuItC4CotOv1F8iaZ9GjXTTYBwTsneM=;
-        b=cWgHbR72rvm/djd6IA5H2htj1na/3eS7eGV7dbQjvGoDjlRuPnuuihVWLHxe0rCv82S4Dt
-        u+zSdQ8fWT9kBPh8cRFBl7kXvBy+hSiCrXTWhO15lMvj2J4j4biFasDCNkqQS3+rPr/47s
-        /OY8cetFITUuyLpg7NkaCmfssMuO6RJk5wf+mNXBanrOYeDCR6InfjVRdDI5hqb6IsD90X
-        8FCfbx5B5tfLBsu/F2NGrkEje22ZklfnqitykV9RIxGhZxwWwS/UwV54RK20HKzmOsHdBD
-        FHq/17imbX9tQctarF+wQ/ZYtPOS8CVuTXq6C99x+jtapI/Zj3jkvQrNcfAsdA==
+        bh=GW04PeL3gt042YVBAD6j+Utxak9HjtBATEu5WEj2ZLE=;
+        b=VQguWJjSv/xFavkJKy5G87rKbxdVXG7RuMEGSR911rHwAFniAL8MSFcHYubvA3Ns0lCFzT
+        A0a1WEDjOMd2Jo6d0CPPf/i15wAb7yjHZlvgrKzajbN93t4s0c1NRsQ+DApdzqLQoONGRq
+        N+EBcCb0PLyXiwG/Qkt3zjnsDzIckYXPPjZ584SjITi/0N912kZkuU3k/nzBGshvlKdYO5
+        dsERmMWkYK12uGcupXkWKNX5+9dlb/nUiFzWNaAzB42QFLpYr3jLL0r1feNZgnT22qMt8G
+        LnkLogs2WF5JdfWC7r3sT0Cy9Yggj/JZxhwcrp3/pRKxeF2xACcMZrv4Nk634g==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -44,10 +44,11 @@ Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v6 03/12] serial: 8250: dw: Move the USR register to pdata
-Date:   Thu, 21 Apr 2022 11:53:14 +0200
-Message-Id: <20220421095323.101811-4-miquel.raynal@bootlin.com>
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: [PATCH v6 04/12] serial: 8250: dw: Allow to use a fallback CPR value if not synthesized
+Date:   Thu, 21 Apr 2022 11:53:15 +0200
+Message-Id: <20220421095323.101811-5-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220421095323.101811-1-miquel.raynal@bootlin.com>
 References: <20220421095323.101811-1-miquel.raynal@bootlin.com>
@@ -63,105 +64,63 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This offset is a good candidate to pdata's because it changes depending
-on the vendor implementation. Let's move the usr_reg entry from regular
-to pdata. This way we can drop initializing it at run time.
+DW UART controllers can be synthesized without the CPR register.
+In this case, allow to the platform information to provide a CPR value.
 
-Let's also use a define for it instead of defining only the default
-value.
-
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Co-developed-by: Phil Edworthy <phil.edworthy@renesas.com>
+Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/8250_dw.c    | 11 ++++++++---
- drivers/tty/serial/8250/8250_dwlib.h |  2 +-
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/tty/serial/8250/8250_dwlib.c | 10 +++++++---
+ drivers/tty/serial/8250/8250_dwlib.h |  1 +
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 7fdb2683f534..b34edc88af3d 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -35,6 +35,8 @@
- /* Offsets for the DesignWare specific registers */
- #define DW_UART_USR	0x1f /* UART Status Register */
+diff --git a/drivers/tty/serial/8250/8250_dwlib.c b/drivers/tty/serial/8250/8250_dwlib.c
+index 622d3b0d89e7..f1fb20353612 100644
+--- a/drivers/tty/serial/8250/8250_dwlib.c
++++ b/drivers/tty/serial/8250/8250_dwlib.c
+@@ -89,6 +89,8 @@ EXPORT_SYMBOL_GPL(dw8250_do_set_termios);
  
-+#define OCTEON_UART_USR	0x27 /* UART Status Register */
-+
- /* DesignWare specific register fields */
- #define DW_UART_MCR_SIRE		BIT(6)
+ void dw8250_setup_port(struct uart_port *p)
+ {
++	struct dw8250_port_data *pd = p->private_data;
++	struct dw8250_data *data = to_dw8250_data(pd);
+ 	struct uart_8250_port *up = up_to_u8250p(p);
+ 	u32 reg;
  
-@@ -251,7 +253,7 @@ static int dw8250_handle_irq(struct uart_port *p)
+@@ -108,14 +110,16 @@ void dw8250_setup_port(struct uart_port *p)
+ 	dw8250_writel_ext(p, DW_UART_DLF, 0);
  
- 	if ((iir & UART_IIR_BUSY) == UART_IIR_BUSY) {
- 		/* Clear the USR */
--		(void)p->serial_in(p, d->usr_reg);
-+		(void)p->serial_in(p, d->pdata->usr_reg);
- 
- 		return 1;
+ 	if (reg) {
+-		struct dw8250_port_data *d = p->private_data;
+-
+-		d->dlf_size = fls(reg);
++		pd->dlf_size = fls(reg);
+ 		p->get_divisor = dw8250_get_divisor;
+ 		p->set_divisor = dw8250_set_divisor;
  	}
-@@ -387,7 +389,6 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 			p->serial_out = dw8250_serial_outq;
- 			p->flags = UPF_SKIP_TEST | UPF_SHARE_IRQ | UPF_FIXED_TYPE;
- 			p->type = PORT_OCTEON;
--			data->usr_reg = 0x27;
- 			data->skip_autocfg = true;
- 		}
- #endif
-@@ -462,7 +463,6 @@ static int dw8250_probe(struct platform_device *pdev)
- 		return -ENOMEM;
  
- 	data->data.dma.fn = dw8250_fallback_dma_filter;
--	data->usr_reg = DW_UART_USR;
- 	data->pdata = device_get_match_data(p->dev);
- 	p->private_data = &data->data;
- 
-@@ -681,20 +681,25 @@ static const struct dev_pm_ops dw8250_pm_ops = {
- };
- 
- static const struct dw8250_platform_data dw8250_dw_apb = {
-+	.usr_reg = DW_UART_USR,
- };
- 
- static const struct dw8250_platform_data dw8250_octeon_3860_data = {
-+	.usr_reg = OCTEON_UART_USR,
- 	.quirks = DW_UART_QUIRK_OCTEON,
- };
- 
- static const struct dw8250_platform_data dw8250_armada_38x_data = {
-+	.usr_reg = DW_UART_USR,
- 	.quirks = DW_UART_QUIRK_ARMADA_38X,
- };
- 
- static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
-+	.usr_reg = DW_UART_USR,
- };
- 
- static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
-+	.usr_reg = DW_UART_USR,
- 	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
- };
+ 	reg = dw8250_readl_ext(p, DW_UART_CPR);
++	if (!reg) {
++		reg = data->pdata->cpr_val;
++		dev_dbg(p->dev, "CPR is not available, using 0x%08x instead\n", reg);
++	}
+ 	if (!reg)
+ 		return;
  
 diff --git a/drivers/tty/serial/8250/8250_dwlib.h b/drivers/tty/serial/8250/8250_dwlib.h
-index 68bb81bee660..0df6baa6eaee 100644
+index 0df6baa6eaee..36a839ef5d9a 100644
 --- a/drivers/tty/serial/8250/8250_dwlib.h
 +++ b/drivers/tty/serial/8250/8250_dwlib.h
-@@ -22,6 +22,7 @@ struct dw8250_port_data {
- };
+@@ -23,6 +23,7 @@ struct dw8250_port_data {
  
  struct dw8250_platform_data {
-+	u8 usr_reg;
+ 	u8 usr_reg;
++	u32 cpr_val;
  	unsigned int quirks;
  };
  
-@@ -29,7 +30,6 @@ struct dw8250_data {
- 	struct dw8250_port_data	data;
- 	const struct dw8250_platform_data *pdata;
- 
--	u8			usr_reg;
- 	int			msr_mask_on;
- 	int			msr_mask_off;
- 	struct clk		*clk;
 -- 
 2.27.0
 
