@@ -2,66 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4210B50B32A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 10:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F7DD50B32F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 10:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1445588AbiDVIsS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 04:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44784 "EHLO
+        id S1445583AbiDVItu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 04:49:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1445586AbiDVIsR (ORCPT
+        with ESMTP id S1445608AbiDVItt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 04:48:17 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A4D532E3;
-        Fri, 22 Apr 2022 01:45:25 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id ay11so5051298qtb.4;
-        Fri, 22 Apr 2022 01:45:24 -0700 (PDT)
+        Fri, 22 Apr 2022 04:49:49 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5614E532F4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 01:46:57 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id hh4so5039076qtb.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 01:46:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HS3rglQn5IUB1o9Kb2rduCxfFmwJ/BkBcO6WgXZcAzk=;
-        b=zIYOT2c0GJt9q1O5ZvwioeL1FNlxaCbrwjLcB44k3CqB2hx8w5MBD9r51ZtPS7X7WG
-         rsIwfeIPA10GfLNIvc/F5FtD4JSQ3bju8I47Y3a3r6b0dxt8NE+2Y0F/qpS1rtvCMrg9
-         vrk7qm0stF3hxUNRLOajBkysjZN+HwUh72fPQuc0keL3z9xdNKEJJVRqOHoqtqu9WAsy
-         RFEMgtPy5+JTTEKf7L0mcr4ntiTJkivCkgwwm8zeYot+ExGacUziNKH2txutCEocstoQ
-         oybAxvoQx2p7Aqmgq89qhYPx5g+n086T2KLD7W1BPG4CJyIhGcxk4ITMoMm7PVJbkztJ
-         +SRw==
-X-Gm-Message-State: AOAM531KKiA57Rm68fDjz+wirmwyaHSZ+Fk+kqee0cv5Kc8zVaF8yv6f
-        uGUi+6C6mJVuDhEdUdlzHWmOMnLEs5Qt/Q==
-X-Google-Smtp-Source: ABdhPJwY8Yt49jW7ACtLx5t+9GX7exeQM4X0n67Sy5EAKjQHu8RDAreH32I01LmJIhQMkNz3X85T/A==
-X-Received: by 2002:ac8:5e54:0:b0:2f1:f60d:2b3c with SMTP id i20-20020ac85e54000000b002f1f60d2b3cmr2318002qtx.667.1650617123746;
-        Fri, 22 Apr 2022 01:45:23 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id q27-20020a05620a039b00b0069c8307d9c4sm643172qkm.18.2022.04.22.01.45.23
+        bh=uxqEisi3EFgZNuKu/pNszsfri4ZDMq5dlFw0H485MCw=;
+        b=wwvhRH7xn9XWvIDjE1Hc5pESM9FbORhgCWIQjoG40VCjzf387SEbh5tnFft5TgGCVI
+         mMr1u0z1KEPsD8Fk1e3hlHdhvJaiE2kNicJsNVqROK7pzBAhIyB8k9RgCBNSSvfRVCkR
+         L3SzO+FNu7kWX6vlUBTbccTH1eGKnb6emvOXIP6QERuv9kfvF1lcX/l767KpfwE+nTmr
+         HlyKLDxIZn+lKxyLrFISF4d7uTFnwhdssxRXcW+inJPr2N2L74uGvSNKF5dVvviVRGpd
+         Ek1VEt2i1sl6aIge8aggOtej5/dZMdtJmE0xfszUkXzcrqV2+8G8bJTdzp7fMMDDkrFJ
+         TPEw==
+X-Gm-Message-State: AOAM533rQs8H3Mz3ozmf5vAgMPP5axY+FGveUumLR0ZKMzFH8Ul3N8eN
+        JP9vDSltE30BDRP2xtz+rXJbftRNVn0Riw==
+X-Google-Smtp-Source: ABdhPJzed82Ke/MPIXd8w+zBd+iNYH0HzlAvjCYhEy0/8BKwCOYrZAnkIqMza/oBfHaeRlnp5YbMaQ==
+X-Received: by 2002:a05:622a:303:b0:2f1:fd57:25f5 with SMTP id q3-20020a05622a030300b002f1fd5725f5mr2355434qtw.182.1650617216295;
+        Fri, 22 Apr 2022 01:46:56 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id p66-20020a374245000000b0069c387c5449sm678427qka.9.2022.04.22.01.46.55
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 01:45:23 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id r189so13263597ybr.6;
-        Fri, 22 Apr 2022 01:45:23 -0700 (PDT)
-X-Received: by 2002:a25:8087:0:b0:641:dd06:577d with SMTP id
- n7-20020a258087000000b00641dd06577dmr3290291ybk.207.1650617123088; Fri, 22
- Apr 2022 01:45:23 -0700 (PDT)
+        Fri, 22 Apr 2022 01:46:55 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id f38so13282904ybi.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 01:46:55 -0700 (PDT)
+X-Received: by 2002:a25:32cd:0:b0:645:81ae:bb78 with SMTP id
+ y196-20020a2532cd000000b0064581aebb78mr3373655yby.506.1650617215207; Fri, 22
+ Apr 2022 01:46:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220330154024.112270-1-phil.edworthy@renesas.com>
- <20220330154024.112270-3-phil.edworthy@renesas.com> <CAMuHMdWaiAZNWmU5itJWJy3fEMmR1hQc7QRWpe6mi3AYkSewgw@mail.gmail.com>
- <TYYPR01MB7086BD705F91E855F0D3FD45F5F79@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYYPR01MB7086BD705F91E855F0D3FD45F5F79@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com> <20220421163128.101520-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220421163128.101520-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Apr 2022 10:45:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWtLxdXztfLxSvb57WOO46qTW6c+fD=P0O5qicop=b+3g@mail.gmail.com>
-Message-ID: <CAMuHMdWtLxdXztfLxSvb57WOO46qTW6c+fD=P0O5qicop=b+3g@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] dt-bindings: serial: renesas,em-uart: Document
- r9a09g011 bindings
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+Date:   Fri, 22 Apr 2022 10:46:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
+Message-ID: <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm: rcar-du: Fix typo
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -73,80 +72,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+Hi Biju,
 
-On Fri, Apr 22, 2022 at 10:28 AM Phil Edworthy
-<phil.edworthy@renesas.com> wrote:
-> On 20 April 2022 22:26 Geert Uytterhoeven wrote:
-> > On Wed, Mar 30, 2022 at 5:41 PM Phil Edworthy <phil.edworthy@renesas.com>
-> > wrote:
-> > > The Renesas RZ/V2M (r9a09g011) SoC uses a uart that is compatible with
-> > the
-> > > EMMA Mobile SoC.
-> > >
-> > > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v2: Fix dtbs_check by adding missing alternative binding
-> >
-> > Thanks for your patch, which is now commit 7bb301812b628099
-> > ("dt-bindings: serial: renesas,em-uart: Document r9a09g011
-> > bindings") in tty/tty-next.
-> >
-> > > --- a/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
-> > > +++ b/Documentation/devicetree/bindings/serial/renesas,em-uart.yaml
-> > > @@ -14,7 +14,14 @@ allOf:
-> > >
-> > >  properties:
-> > >    compatible:
-> > > -    const: renesas,em-uart
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,r9a09g011-uart    # RZ/V2M
-> > > +          - const: renesas,em-uart        # generic EMMA Mobile
-> > compatible UART
-> > > +
-> > > +      - items:
-> > > +          - const: renesas,em-uart        # generic EMMA Mobile
-> > compatible UART
-> >
-> > The above looks good to me.
-> >
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> >
-> > However, unlike EMEV2, RZ/V2M defines two clocks: pclk and sclk.
-> > Hence please update the clocks section to reflect that.
-> You are right that the uart has two clocks.
+On Thu, Apr 21, 2022 at 6:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Fix typo rcar_du_vsp.h->rcar_du_vsp.c
 >
-> Note though that pclk is shared by both uarts. The HW manual says:
-> "ch. 1 is for use with the ISP support package, so do not
-> use registers related to this channel.". Due to this, section
-> 48.5.2.50 Clock ON/OFF Control Register 15 (CPG_CLK_ON15) says
-> that bit 20, CLK4_ONWEN (enable for URT_PCLK) should be written
-> as 0.
->
-> I took this to mean that the URT_PCLK is enabled by the ISP firmware
-> and software must not touch it. I am not sure if the DT bindings
-> should document a clock that is specified as do not touch in the
-> HW manual. This is a bit of a grey area.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-"DT describes hardware, not software policy".
+Thanks for your patch!
 
-But I agree this is a grey area.
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
+> + * rcar_du_vsp.c  --  R-Car Display Unit VSP-Based Compositor
 
-One option would be to mark URT_PCLK critical, so it won't be disabled.
-But that would still mean it's enabled by Linux, i.e. Linux would set
-CLK4_ONWEN to 1 while enabling the clock.
+Perhaps drop the file name completely instead?
 
-Another option would be to create URT_PCLK as a non-gateable clock,
-so Linux won't ever touch the register bits.
-
-Or just ignore URT_PCLK and do nothing, like you did ;-)
-Would it be possible for a user to not use the ISP firmware at all,
-and go full Linux, hence using both UART channels and URT_PCLK?
+>   *
+>   * Copyright (C) 2015 Renesas Electronics Corporation
+>   *
 
 Gr{oetje,eeting}s,
 
