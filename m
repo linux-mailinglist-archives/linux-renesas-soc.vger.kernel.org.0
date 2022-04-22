@@ -2,99 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7BB50BF92
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 20:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD89D50C2A3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 01:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbiDVSN0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 14:13:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44802 "EHLO
+        id S232127AbiDVWPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 18:15:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234779AbiDVSKE (ORCPT
+        with ESMTP id S232118AbiDVWPZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 14:10:04 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC3815B46C;
-        Fri, 22 Apr 2022 11:07:10 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id C5A51100008;
-        Fri, 22 Apr 2022 18:06:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650650796;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=InYlcnp2sDm4ChkUXG4xyc4b9OP+smT4t/tQR4FHwzw=;
-        b=krxB/j1VLxHYflaeOYpxgSRpNiHJQuzzRMPvW9G3vmAIXiI/kFL0esitjydF+WMV4EzJye
-        fyCRh+hiS47pns/xwZHQ9tzsSOMZrsbfmyTa0uCVuDfYQWR6VO3OH5b1WNrnjOIZrpYC7C
-        fHazs+P2lwCwiMnAZMngU4qLGVMAfI5nPRlQQ2CQPEKY9loQWmWUJDWkRBSlsKl1eBTTgw
-        0Rs/3HlgUZX08hhoW8hQp3yn+ls097RcRGt9KhQoosEZ15eVrNT0TTvGDdoJQej0fwHrSu
-        ZSD7Ryh7x2KmZ7t0lfX3MNWfPD890BisxRSj0+LHqhyAH5IqORdG4h6xkpJ32g==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Subject: [PATCH v7 9/9] serial: 8250: dw: Improve RZN1 support
-Date:   Fri, 22 Apr 2022 20:06:15 +0200
-Message-Id: <20220422180615.9098-10-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220422180615.9098-1-miquel.raynal@bootlin.com>
-References: <20220422180615.9098-1-miquel.raynal@bootlin.com>
+        Fri, 22 Apr 2022 18:15:25 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D91F243340
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 14:05:46 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id f17so16629471ybj.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 14:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KnPyabG9pOxh8qzjo3GHxlP7qD0ZYp0TVCp6JnkWkhg=;
+        b=rumSCGY3OftqFYEShtWIG/w2M+t8QkSzOAJXSGtX2CHX2irFE2VPMHSOpJkt8ZQaFH
+         57B37rusFOHExaTz59ZP9VZYsEq/4ZPv5idTXn1FgT28jHv5wGG1sPRH6OwwX/Q8CrXM
+         ZQBjkMD8ZEQ2iVz0noypoNsZwrFkLppphR/DuYVqp9NSWmQwyqv5Pce32Ra2PDksdZL4
+         lRC+6HjK7uYuBCjpmMWFz8ePfWhP2we1K/PqzXyyw8GBBJPhKHNpp2d5/flDoPiG5xxb
+         r+sgtPeu39Sx+m8uX6WJmM/9bK96sFfh6o91GBeAxVb/Icew5yvkCmjRQsbo5Qv8U61J
+         2lvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KnPyabG9pOxh8qzjo3GHxlP7qD0ZYp0TVCp6JnkWkhg=;
+        b=WKZar2BpiiWS3U/CEijEeNKNPjDn8m827P//u+W6A3tlpcwWf4M9oAEWlRtN/NWPw/
+         /JHuny718rasI+jjGGJDBEGur+bBKqo0UFjFqIcd2a+wbEe5mK3zyx/RQN9McZ0WaOfY
+         eV2jQ03Bm4Y+ZN5UusvdLZyzyZqE4Eu654zbMLTUGz2y4UzGna+N7qLJPivuUkGkN/21
+         hh6ZEgrFmOHkY+KHHrkURdhMeDLSSZMy2WYdrdHZRTdaAVOwzcC0tvxLrXG0pQMHsKry
+         6dgpwwbCsUZjYPdDZvcnHKUrPSzC6i2u/D2ZORpOz9DJe/K4FZTYIgVM9X5AxfDliMfZ
+         4WMw==
+X-Gm-Message-State: AOAM532qHijjGuq4L+Xs2TzN127q52fGd5DpIsszDDwqH4l1mLSspueu
+        9Z59P1zZTBWNlYygJ7rV65dPwSlIzf/MLv+w24MTzRlA2gY=
+X-Google-Smtp-Source: ABdhPJzPVTezAdZ+Jr0d3h8Qm6Ovc094t90vwEkbZlWbsLUFVVYMcdlha24zBLWFvznvY1/XZnOh2r90Wvl6S0MtNXY=
+X-Received: by 2002:a25:4e82:0:b0:633:68d7:b864 with SMTP id
+ c124-20020a254e82000000b0063368d7b864mr6702096ybb.514.1650661545453; Fri, 22
+ Apr 2022 14:05:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1650638951.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1650638951.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 22 Apr 2022 23:05:34 +0200
+Message-ID: <CACRpkdZK9Y19bWpRcH3QgDSQRnpfyvf1zA8YO0RD7SdWiUpdBw@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.19
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Phil Edworthy <phil.edworthy@renesas.com>
+On Fri, Apr 22, 2022 at 4:55 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Renesas RZ/N1 SoC features a slightly modified DW UART.
+> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+>
+>   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.19-tag1
 
-On this SoC, the CPR register value is known but not synthetized in
-hardware. We hence need to provide a CPR value in the platform
-data. This version of the controller also relies on acting as flow
-controller when using DMA, so we need to provide the
-"is dma flow controller" quirk.
+Pulled in, thanks!
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/tty/serial/8250/8250_dw.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 90e64c8bd4bf..0cf1a99dc124 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -761,6 +761,8 @@ static const struct dw8250_platform_data dw8250_armada_38x_data = {
- 
- static const struct dw8250_platform_data dw8250_renesas_rzn1_data = {
- 	.usr_reg = DW_UART_USR,
-+	.cpr_val = 0x00012f32,
-+	.quirks = DW_UART_QUIRK_IS_DMA_FC,
- };
- 
- static const struct dw8250_platform_data dw8250_starfive_jh7100_data = {
--- 
-2.27.0
-
+Yours,
+Linus Walleij
