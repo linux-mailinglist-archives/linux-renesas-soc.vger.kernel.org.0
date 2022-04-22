@@ -2,138 +2,340 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD0F50B143
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 09:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F0350B197
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 09:30:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444730AbiDVHTy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 03:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40676 "EHLO
+        id S1444848AbiDVHdD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 03:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444651AbiDVHTx (ORCPT
+        with ESMTP id S1444858AbiDVHcb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 03:19:53 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34099506CA
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 00:17:01 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id r13so14604044ejd.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 00:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kKzqFYULcaKbgHWS4pm8RBaixFS7n+6/vYUvELbma6o=;
-        b=X5T5yN3xfhW0CQder3imIIGFrrjcK3Y6Es7wJHGpMRRQGT64qmbLdN+s473tScuOYX
-         fVPPQk5NgCUd/BXhYOPXohHkApEDuDbazZopyQDl/kxEQkf0U9uQi+wa0O9GUBSeait5
-         XOMSJtS3nprM5punmsUKhNqVprhZ0ucMAEwBFHzOJPEeT/6MrjmP2eegOfYEVjXIwlnf
-         r/QoOA8HZk8NDayqV06u5zphUw2ycosjHFRYFDbjPgjetXJAbLE1S1q/LHJpUhzUqrzA
-         Zxos7gpgYeibbTZrsYi1/yVwdgdlhNO8JHiN3FwqYF2+uo2vLjwDUPHFfYhTipkwwCJM
-         IJaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=kKzqFYULcaKbgHWS4pm8RBaixFS7n+6/vYUvELbma6o=;
-        b=RgE20Onfi/3GPOTzFGwbfTtqLF5sjGcNEidF6OKiUV+4AhO9fO2jbjABcprN4ZDTHc
-         U+H3UUnrnsGlou091IlnUojMMvlf6gBCUzuRoGb4aYp3uCaEKTopvoxZdl/rOo5++Ypj
-         /QFCEJFA/hSb6u74wHrE4wE/5BUj0ECOyk8n1kRRZMH14+t4OlfEi8cabzBmfw+aw7wH
-         N3DEfMO+7sPGSpclE9kuJAsGaAiovaju+LVNG1POVMigQY/t0ZTaLkiI01OHZSSZpRHn
-         ldnFP5xXJD1K5HJzR2KhmTdilKbyBCh8xwjCkdKD7LiDVPGGegC0j1HfuBdeF/zzL/Kj
-         qKqg==
-X-Gm-Message-State: AOAM531Wwkhq3RIKEArXBlb30J0Ejuwl7IjDK/5Ugsf3dZXXz5cPfodd
-        50bPB/+nEc9SCjFbV2C3ph7kdw==
-X-Google-Smtp-Source: ABdhPJyaQK+LejRxdXC/EaYZE+04lv8g6ZxZaowwRLuHiGG3jXNYNdbPSmsEhAr8bx6Sdg9uV5VEPA==
-X-Received: by 2002:a17:906:a08b:b0:6cf:65bc:e7de with SMTP id q11-20020a170906a08b00b006cf65bce7demr2978338ejy.220.1650611819709;
-        Fri, 22 Apr 2022 00:16:59 -0700 (PDT)
-Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id x12-20020a170906710c00b006ef8f9ee226sm456452ejj.115.2022.04.22.00.16.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 00:16:59 -0700 (PDT)
-Message-ID: <d953b4e8-4e0a-8a6d-16cf-1ea4e4bd0190@linaro.org>
-Date:   Fri, 22 Apr 2022 09:16:58 +0200
+        Fri, 22 Apr 2022 03:32:31 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12E351588
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 00:29:37 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:2928:9f72:c4af:fbd9])
+        by laurent.telenet-ops.be with bizsmtp
+        id MjVa270072Ah9RF01jVafY; Fri, 22 Apr 2022 09:29:34 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nhnjR-001acD-Mg; Fri, 22 Apr 2022 09:29:33 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nhnjR-00CIuS-4i; Fri, 22 Apr 2022 09:29:33 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] pinctrl: renesas: rcar-gen4: Fix GPIO function on I2C-capable pins
+Date:   Fri, 22 Apr 2022 09:29:29 +0200
+Message-Id: <cover.1650610471.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 07/15] dt-bindings: clock: Add r8a779g0 CPG Core Clock
- Definitions
-Content-Language: en-US
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
-References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com>
- <20220420084255.375700-8-yoshihiro.shimoda.uh@renesas.com>
- <c86f78ac-ccf5-30ad-5de4-33211ca8b351@linaro.org>
- <TYBPR01MB5341D2CAB8DD77E95C14AF8CD8F79@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <TYBPR01MB5341D2CAB8DD77E95C14AF8CD8F79@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/04/2022 07:32, Yoshihiro Shimoda wrote:
-> Hello Krzysztof,
-> 
->> From: Krzysztof Kozlowski, Sent: Thursday, April 21, 2022 4:49 PM
->>
->> On 20/04/2022 10:42, Yoshihiro Shimoda wrote:
->>> Add all Clock Pulse Generator Core Clock Outputs for the Renesas
->>> R-Car V4H (R8A779G0) SoC.
->>>
->>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->>> ---
->>>  include/dt-bindings/clock/r8a779g0-cpg-mssr.h | 87 +++++++++++++++++++
->>>  1 file changed, 87 insertions(+)
->>>  create mode 100644 include/dt-bindings/clock/r8a779g0-cpg-mssr.h
->>>
->>> diff --git a/include/dt-bindings/clock/r8a779g0-cpg-mssr.h b/include/dt-bindings/clock/r8a779g0-cpg-mssr.h
->>> new file mode 100644
->>> index 000000000000..07a94cf45581
->>> --- /dev/null
->>> +++ b/include/dt-bindings/clock/r8a779g0-cpg-mssr.h
->>> @@ -0,0 +1,87 @@
->>> +/* SPDX-License-Identifier: (GPL-2.0 or MIT) */
->>
->> Any reason why not licensing it the same as bindings document
->> (GPL-2.0-only OR BSD-2-Clause)? The same applies to patch 5.
->>
->> MIT and BSD-2-clause are almost the same, AFAIR, so let's stick to one
->> (BSD-2-clause) for consistency?
-> 
-> Since r8a779g0.dtsi (which uses this) is under (GPL-2.0 or MIT), I use it here.
-> Also, r8a779g0.dtsi includes dt-bindings/interrupt-controller/arm-gic.h and
-> the arm-gic.h is under (GPL-2.0 or MIT). So, using it is better, IIUC.
+	Hi all,
 
-This would mean we want to license the bindings the same as we license
-the DTS. It's not the case. For the bindings we have the strong
-preference - GPL-2.0 or BSD-2-clause. For the DTS - not that much, just
-recommendation, I think.
+Configuring I2C-capable pins for GPIO may not work on R-Car V3U and
+S4-8, as R-Car Gen4 SoCs need additional configuration in a Module
+Select Register (MODSELn) register, which is currently missing from the
+pin control subdrivers.
 
-> In other words, r8a779g0.dtsi doesn't include any the bindings document
-> so that there is not needed to use the same license, I think.
-> # I'm not a lawyer though...
+Hence when using i2c-gpio instead of i2c-rcar using the commented-out
+patch below, I2C
+  - fails on the Spider development board (with R-Car S4-8), as the
+    firmware/bootloader has configured the corresponding MODSEL bits for
+    I2C,
+  - still works on the Falcon development board (with R-Car V3U), as the
+    firmware/bootloader has configured the corresponding MODSEL bits for
+    GPIO.
+    It can be made to fail by changing the MODSEL bits from U-Boot,
+    before booting Linux:
+      1. Write ffff0000 to e6050800 (unlock PMMR using inverted value),
+      2. Write 0000ffff to e6050900 (enable I2C functions in MODSEL).
 
-If you would like to follow your recommendation, you should license also
-schema as MIT, because your DTS uses it as well (as a derivative work).
+This patch series adds the missing configuration, by temporarily
+overriding the GP_*_FN function enums to expand to two enums: the
+original GP_*_FN enum to configure the GSPR register bits, and the
+missing FN_SEL_I2Cn_0 enum to configure the MODSEL register bits.
 
-Anyway MIT and BSD-2-c are very similar, so there is no much difference
-here.
+I picked this solution as it is simpler than the alternative, which
+would be:
+  1. Add a copy of the CPU_ALL_GP() macro to describe all GPIO pins that
+     are not I2C-capable,
+  2. Add a copy of the PINMUX_DATA_GP_ALL() macro to emit mark/function
+     enums in pinmux_data[] for GPIO pins that are not I2C-capable,
+  3. Add a copy of the _GP_DATA() macro to emit mark/function 
+     enums in pinmux_data[] for an I2C-capable GPIO pin,
+  4. Invoke the macro above for all I2C-capable GPIO pins.
 
+I intend to queue this in renesas-pinctrl-for-v5.19.
 
-Best regards,
-Krzysztof
+Thanks for your comments!
+
+Geert Uytterhoeven (2):
+  pinctrl: renesas: r8a779a0: Fix GPIO function on I2C-capable pins
+  pinctrl: renesas: r8a779f0: Fix GPIO function on I2C-capable pins
+
+ drivers/pinctrl/renesas/pfc-r8a779a0.c | 29 ++++++++++++++++++++++++++
+ drivers/pinctrl/renesas/pfc-r8a779f0.c | 21 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+
+-- 
+2.25.1
+
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+# index ee81c715eb865d0e..d4fb3f122b709d2f 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+# +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
+# @@ -170,8 +170,10 @@ &extalr_clk {
+#  };
+#  
+#  &i2c0 {
+# +#ifndef I2C_GPIO
+#  	pinctrl-0 = <&i2c0_pins>;
+#  	pinctrl-names = "default";
+# +#endif
+#  
+#  	status = "okay";
+#  	clock-frequency = <400000>;
+# @@ -185,8 +187,10 @@ eeprom@50 {
+#  };
+#  
+#  &i2c1 {
+# +#ifndef I2C_GPIO
+#  	pinctrl-0 = <&i2c1_pins>;
+#  	pinctrl-names = "default";
+# +#endif
+#  
+#  	status = "okay";
+#  	clock-frequency = <400000>;
+# @@ -231,8 +235,10 @@ sn65dsi86_out: endpoint {
+#  };
+#  
+#  &i2c6 {
+# +#ifndef I2C_GPIO
+#  	pinctrl-0 = <&i2c6_pins>;
+#  	pinctrl-names = "default";
+# +#endif
+#  
+#  	status = "okay";
+#  	clock-frequency = <400000>;
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+# index fb10bb3626694227..12b433c2f30dd60d 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+# +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+# @@ -5,6 +5,7 @@
+#   * Copyright (C) 2020 Renesas Electronics Corp.
+#   */
+#  
+# +#define I2C_GPIO
+#  /dts-v1/;
+#  #include "r8a779a0-falcon-cpu.dtsi"
+#  #include "r8a779a0-falcon-csi-dsi.dtsi"
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+# index c251fdca18ab808b..dc2bbe2aa82878a4 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+# +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+# @@ -8,6 +8,7 @@
+#  #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+#  #include <dt-bindings/interrupt-controller/arm-gic.h>
+#  #include <dt-bindings/power/r8a779a0-sysc.h>
+# +#include <dt-bindings/gpio/gpio.h>
+#  
+#  / {
+#  	compatible = "renesas,r8a779a0";
+# @@ -438,6 +439,25 @@ tmu4: timer@ffc00000 {
+#  			status = "disabled";
+#  		};
+#  
+# +#ifdef I2C_GPIO
+# +		i2c0: i2c0 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio2 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio2 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c1: i2c1 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio2 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio2 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +#else
+#  		i2c0: i2c@e6500000 {
+#  			compatible = "renesas,i2c-r8a779a0",
+#  				     "renesas,rcar-gen4-i2c";
+# @@ -469,6 +489,7 @@ i2c1: i2c@e6508000 {
+#  			#size-cells = <0>;
+#  			status = "disabled";
+#  		};
+# +#endif
+#  
+#  		i2c2: i2c@e6510000 {
+#  			compatible = "renesas,i2c-r8a779a0",
+# @@ -534,6 +555,17 @@ i2c5: i2c@e66e0000 {
+#  			status = "disabled";
+#  		};
+#  
+# +#ifdef I2C_GPIO
+# +		i2c6: i2c6 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio2 14 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio2 15 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +#else
+#  		i2c6: i2c@e66e8000 {
+#  			compatible = "renesas,i2c-r8a779a0",
+#  				     "renesas,rcar-gen4-i2c";
+# @@ -549,6 +581,7 @@ i2c6: i2c@e66e8000 {
+#  			#size-cells = <0>;
+#  			status = "disabled";
+#  		};
+# +#endif
+#  
+#  		hscif0: serial@e6540000 {
+#  			compatible = "renesas,hscif-r8a779a0",
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+# index 999c823719bc0bf5..18b8da87f2b2d251 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+# +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+# @@ -32,8 +32,10 @@ &extalr_clk {
+#  };
+#  
+#  &i2c4 {
+# +#ifndef I2C_GPIO
+#  	pinctrl-0 = <&i2c4_pins>;
+#  	pinctrl-names = "default";
+# +#endif
+#  
+#  	status = "okay";
+#  	clock-frequency = <400000>;
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+# index 2e3b719cc749492d..c12045cc8b106f6b 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+# +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+# @@ -5,6 +5,7 @@
+#   * Copyright (C) 2021 Renesas Electronics Corp.
+#   */
+#  
+# +#define I2C_GPIO
+#  /dts-v1/;
+#  #include "r8a779f0-spider-cpu.dtsi"
+#  #include "r8a779f0-spider-ethernet.dtsi"
+# diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+# index 155a7ee8dae43454..d56e17f714f353b1 100644
+# --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+# +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+# @@ -8,6 +8,7 @@
+#  #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
+#  #include <dt-bindings/interrupt-controller/arm-gic.h>
+#  #include <dt-bindings/power/r8a779f0-sysc.h>
+# +#include <dt-bindings/gpio/gpio.h>
+#  
+#  / {
+#  	compatible = "renesas,r8a779f0";
+# @@ -164,6 +165,61 @@ sysc: system-controller@e6180000 {
+#  			#power-domain-cells = <1>;
+#  		};
+#  
+# +#ifdef I2C_GPIO
+# +		i2c0: i2c0 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 1 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c1: i2c1 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c2: i2c2 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c3: i2c3 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c4: i2c4 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 8 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 9 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +
+# +		i2c5: i2c5 {
+# +			#address-cells = <1>;
+# +			#size-cells = <0>;
+# +			compatible = "i2c-gpio";
+# +			scl-gpios = <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			sda-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+# +			i2c-gpio,delay-us = <5>;
+# +		};
+# +#else
+#  		i2c0: i2c@e6500000 {
+#  			compatible = "renesas,i2c-r8a779f0",
+#  				     "renesas,rcar-gen4-i2c";
+# @@ -265,6 +321,7 @@ i2c5: i2c@e66e0000 {
+#  			#size-cells = <0>;
+#  			status = "disabled";
+#  		};
+# +#endif
+#  
+#  		ufs: ufs@e6860000 {
+#  			compatible = "renesas,r8a779f0-ufs";
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
