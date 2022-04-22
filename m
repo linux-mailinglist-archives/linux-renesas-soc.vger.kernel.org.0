@@ -2,217 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D08550B0E8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 08:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BD0F50B143
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 09:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357741AbiDVGzJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 02:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53980 "EHLO
+        id S1444730AbiDVHTy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 03:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232504AbiDVGzI (ORCPT
+        with ESMTP id S1444651AbiDVHTx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 02:55:08 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2136.outbound.protection.outlook.com [40.107.114.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6453450E23;
-        Thu, 21 Apr 2022 23:52:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NnyNWUsncmwKtNnnBP0YfBWNn2oM9pH4hkexBb/i9nBjzpw99Sx4tVUFV36CIX90XVDdUjA8WmDWomcKTxPE3Pzi2HdqdJ2R2tV7AegzCO15EiBOehZuWkUap+9n7s6q9uXDzXR+0Gi9ncCLcdRCfvS8y7yzeHSGSH8fPMqXIUvC0MfkAbtjbkLjXf4SIWef+MDoWiM0ftbqk3mc+oL6XShdFdG5yDI2fsF0DrFiWFwXLPmDb5M+qcM1+CQoiMSx0/E5/A/sFleLbRHd6718CND/xQjq6In0dTGR9qfv6FfgF9+V4Ye6zTh/s1S6fwgAtONzeWvUkQtV4q+sbSTgzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dKEftI0wCIBXMygOpQGDNzjeTQaJCjziuqcRyrSSHcQ=;
- b=fRtrwqyFDx89NeVJT7ZuxsARDiKxcUe2SU4hFlhuMEZHTmKXimDoJ0bf0i2IFLSfQM9DwBXk2C7lE0SrJ/OezMK/7v90BmxYo7vz/Vu/yVCkfwoXYkW21ow33wl596aBT/ItTWoBUgZ2wdfcex0efn/9hHCKcH7GTkhRWVXQfhfBCFp+G7kYQMhEqVtW/18po06Y3RrYLInf9085L+SYqBRFCyjTslUa59Waf5bmGJ3viZ0WHFr1L8bSIoB3VlkILc9TrRpAtJ2MAYh0fHXSB5j503gyX2MWSvY8TxL30faeCK4HrAzE4Xs0SvdNCBwZjqrs/AAbDPYVdOO7tiiyGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKEftI0wCIBXMygOpQGDNzjeTQaJCjziuqcRyrSSHcQ=;
- b=kFUTtETOVo/+wUchvGWxxmPZ8ChuQK5WfPjdNuNHNu7PFMlf8dZVFO/6oX4VCmlLu19bKen7XgGJ80IcM2s3k/CIlkCd9iQnW3XGSAEsRL9JfqAnR4ygBEyRNtLbzvFyRfPH7vVXWpi5CDCafRfPqvtmWU/ch8ljykOj58okuIo=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB5991.jpnprd01.prod.outlook.com (2603:1096:604:d0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Fri, 22 Apr
- 2022 06:52:14 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5186.014; Fri, 22 Apr 2022
- 06:52:13 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-CC:     Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Pavel Machek <pavel@denx.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 3/3] ASoC: sh: rz-ssi: Add a devres action to release the
- DMA channels
-Thread-Topic: [PATCH 3/3] ASoC: sh: rz-ssi: Add a devres action to release the
- DMA channels
-Thread-Index: AQHYVb9/WJebVmtRxEmme8RS6rMi36z7fKpQ
-Date:   Fri, 22 Apr 2022 06:52:13 +0000
-Message-ID: <OS0PR01MB5922C8287D7EEAB3F9DB60C386F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220421203555.29011-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220421203555.29011-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e789b3bf-a5f6-4bf8-e38f-08da242ca1b0
-x-ms-traffictypediagnostic: OS3PR01MB5991:EE_
-x-microsoft-antispam-prvs: <OS3PR01MB59910BE1F6D76FD7E58CE72886F79@OS3PR01MB5991.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uPE8096/jrDd51gHpNWnTmhzTMZOkaX9KhoYQH1j4t/9H66RtnqPt6aR/iXerU8AN9CumRb4L/Z95UL0z5aYwO1fAJV3jdcRusVrjwXu/b7jsTZqC6xc7/nTeiHBJVug0CdiJZcPTU4OXAk2GuygFq+wWCu0Xj6p2N4O7A6L21oIiRV1EugP6TpKeD4VQE5MaKnUYyt2Vb105BUGMzCD8vqf5jZ6Cteu6ej/+fXMZIlcxjn/tNqzMJemO3+SxnjakdHk/fRkZ48v9jZcxzhMpL/fg6pvv3NHknEP35HGsObTx8f1YBiotZwdrBJQojOPi47S5dUstUiIrXQzRSBjzZaySjVYKRgyE8W/Ffc9wGKJ6qsjIcC67AR2W2t+GE7Goc4WkGKmxomB/f/Crkz60bP+Gr2AXpKEOaBO+BKNpHsz04EoI+/40md4EihTT8/k15HF5kC9nHq7N47FOQ+o6jOpLe2ve3TwM9UyNZSKLgefH9VHCh0RJGfv4Jpf8c5F7XbJ7UuUJNy4iQLgqMHjqrKxGzWSAULaYFU+5A5SzNtTIOMIdYS1p4iSbmzvfDCXXhBGSJ/Y09eAez2UVWt8wM0JglggbyEsQ+oD8KhHjDtYhbeFbrGMoujTBKaUgtH2SvvH1BcMj6Ut2KxQ6/RY3cnFSBpmeBtXw3vsBqbncXBqkls/W13EXQIsyD4RILnSoBUYmmti/6AHRVcpg1pcYQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(26005)(9686003)(508600001)(4326008)(6506007)(66446008)(8676002)(66556008)(76116006)(66476007)(64756008)(66946007)(7696005)(107886003)(86362001)(38100700002)(5660300002)(8936002)(38070700005)(186003)(55016003)(2906002)(7416002)(33656002)(316002)(122000001)(110136005)(54906003)(71200400001)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TqTtiC5u/9ESGcYBdCMb3RnvSqDWg8HI45WoYiwbuhCne4lgBq5lTLvB1dw7?=
- =?us-ascii?Q?rDGgbo0eZzrYJAj+GFnmrk5YXaFAAjgYMgyZbMPiP1BHAxQe5XAe2HstB3+b?=
- =?us-ascii?Q?oblYwK83sS9wi4JT2MpRNK5BCf0Q0RABPZcBHrynkgQiXgBf0vEE/ek62nXf?=
- =?us-ascii?Q?s9CsnZBSNgon3NTpW61jsfd4tG5h9KmXWUeFg2inR9ObKh/b7LulT21KAGvw?=
- =?us-ascii?Q?TW62jet4F5j89N1qB+M8n7wVgSQ10FVQor/R58UxAVmaqHUl6EfKYbsWfPpM?=
- =?us-ascii?Q?Sungp5OSo7X7xHiKkUTUz6+SWy7WOZMEl/q61Y0I5OGlHI7ASIils0sqHay4?=
- =?us-ascii?Q?8wM7Dgluk5wtT4VDxkIGrB//yDRwZfDZk+IcSeaVE0e47SBphvhOaNNWWnA5?=
- =?us-ascii?Q?OCDuZI9pV3DUTP536nT/baydfpho8Rw5jTWDIPjiJ5ZbpFXYjR3Low0m0get?=
- =?us-ascii?Q?sYbtAbPib059cB81W52ehB85WvhMb1LJVoEHO12FcajJNV2O1cqohEjpkoap?=
- =?us-ascii?Q?gGFc7rpjQArQ2GHMPu5DUd7J23mwBoylXl8FDAn9RU3yTspci7kW++KMp3zq?=
- =?us-ascii?Q?GWnLshFYbR+2KrXhQfVARBCsXaFuXLE4ke60F3z2Q06s1wrppcM3ObXWB4Oi?=
- =?us-ascii?Q?UWqTMP9/kPRCrwVcpVEK7j2Op4ZNhJH5np7C6ArItVZGY8/2kQkZi/62oCOA?=
- =?us-ascii?Q?BjyMCimDBEq0s93KyOwa/hDI/hc2lyINZgx7Abmo+CJzP8K1sQDAQhR7JGbb?=
- =?us-ascii?Q?ZHDVqVO8/+ZljWAWUblfj7Ny2h8HCNI2QECtyRaHto5OIKflla5XBEBCdLFR?=
- =?us-ascii?Q?/LcXtgIYRMY0t97tS8wrDcB3DAwbgwjyvbZOvcBxyB5UWRoUx37BDeG89FDF?=
- =?us-ascii?Q?NhPDOeRdY289wL/fgcZ5o6KXUq/7SkdcGgClGl5RG2QXCjP4MD3xEH0rDkYN?=
- =?us-ascii?Q?sditvRgIehUipMjF/Ng64ffQx0ndvXtkiq2iiUybzVznuCvfdiEgekAIlqlK?=
- =?us-ascii?Q?x3HWG+Y0eUGawOEU3BqIIqtH1KcW0yTq2pxU6BQLLrkXq/bHBNBIQuRNEqNv?=
- =?us-ascii?Q?R21CeSVtliphpDxkZssH5DLgK0v5JX5ncvBb9uilDZsil/BUI7CDWf46olYL?=
- =?us-ascii?Q?zCnynlpI+MGLTNLzSeJgfUmVDQj4F72RCv6lHO+p50/VvJn7Y0bv3DMJQQPE?=
- =?us-ascii?Q?paUyISmDDA7/+luSzffAWJQJqxHUfNoOF96j8dLsaQxRwILicxzFawA+uT0g?=
- =?us-ascii?Q?UlrJNQkSszzswdbBXpQOVSYFmzBhZMNkpdPxdfDwe0ZiEpjw3rzeF/oY7uft?=
- =?us-ascii?Q?0e/prDrkmEM9CZe/ltNFlqsRIPT4mQvzrJqq2GWmhqNTk+acVEGtSg/m7b75?=
- =?us-ascii?Q?4FLglS4A2qGc+L/nFd6y94FAzkCOKKdyPmyRVkTWdi9gR8JVVaTkAshjzAJy?=
- =?us-ascii?Q?ugXc0HtYNMJ25PGa7qFwH7u66OGjDXLk27mcfd96iBl4oShBeEfPoIbmgVoR?=
- =?us-ascii?Q?mTydPowhqSPNM26w0RZ+F8w9iYuB0QwHKMIDqZW64zNkgOJhent8HZfAVXJ1?=
- =?us-ascii?Q?8WlFm+8odgHSDrzdpI93gBxUjLYa+A/eJS/ilZOuzcc59mvZKflus8szpPxW?=
- =?us-ascii?Q?7636v9avB4ail6+m70MPmGTr1PpsDRe1LBdOWHlY2SeHLwXFkNBTCsJgYXaf?=
- =?us-ascii?Q?GZn4s/6pSCj/uQ6Cs7gkmyi2lNlM8ChLWmmZNafQemz4hWZq3gJdgd4yDcdq?=
- =?us-ascii?Q?AzqJ5wIP1AxCiEEIsyl7y1gsqUkGYUg=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 22 Apr 2022 03:19:53 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34099506CA
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 00:17:01 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id r13so14604044ejd.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 00:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kKzqFYULcaKbgHWS4pm8RBaixFS7n+6/vYUvELbma6o=;
+        b=X5T5yN3xfhW0CQder3imIIGFrrjcK3Y6Es7wJHGpMRRQGT64qmbLdN+s473tScuOYX
+         fVPPQk5NgCUd/BXhYOPXohHkApEDuDbazZopyQDl/kxEQkf0U9uQi+wa0O9GUBSeait5
+         XOMSJtS3nprM5punmsUKhNqVprhZ0ucMAEwBFHzOJPEeT/6MrjmP2eegOfYEVjXIwlnf
+         r/QoOA8HZk8NDayqV06u5zphUw2ycosjHFRYFDbjPgjetXJAbLE1S1q/LHJpUhzUqrzA
+         Zxos7gpgYeibbTZrsYi1/yVwdgdlhNO8JHiN3FwqYF2+uo2vLjwDUPHFfYhTipkwwCJM
+         IJaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kKzqFYULcaKbgHWS4pm8RBaixFS7n+6/vYUvELbma6o=;
+        b=RgE20Onfi/3GPOTzFGwbfTtqLF5sjGcNEidF6OKiUV+4AhO9fO2jbjABcprN4ZDTHc
+         U+H3UUnrnsGlou091IlnUojMMvlf6gBCUzuRoGb4aYp3uCaEKTopvoxZdl/rOo5++Ypj
+         /QFCEJFA/hSb6u74wHrE4wE/5BUj0ECOyk8n1kRRZMH14+t4OlfEi8cabzBmfw+aw7wH
+         N3DEfMO+7sPGSpclE9kuJAsGaAiovaju+LVNG1POVMigQY/t0ZTaLkiI01OHZSSZpRHn
+         ldnFP5xXJD1K5HJzR2KhmTdilKbyBCh8xwjCkdKD7LiDVPGGegC0j1HfuBdeF/zzL/Kj
+         qKqg==
+X-Gm-Message-State: AOAM531Wwkhq3RIKEArXBlb30J0Ejuwl7IjDK/5Ugsf3dZXXz5cPfodd
+        50bPB/+nEc9SCjFbV2C3ph7kdw==
+X-Google-Smtp-Source: ABdhPJyaQK+LejRxdXC/EaYZE+04lv8g6ZxZaowwRLuHiGG3jXNYNdbPSmsEhAr8bx6Sdg9uV5VEPA==
+X-Received: by 2002:a17:906:a08b:b0:6cf:65bc:e7de with SMTP id q11-20020a170906a08b00b006cf65bce7demr2978338ejy.220.1650611819709;
+        Fri, 22 Apr 2022 00:16:59 -0700 (PDT)
+Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id x12-20020a170906710c00b006ef8f9ee226sm456452ejj.115.2022.04.22.00.16.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Apr 2022 00:16:59 -0700 (PDT)
+Message-ID: <d953b4e8-4e0a-8a6d-16cf-1ea4e4bd0190@linaro.org>
+Date:   Fri, 22 Apr 2022 09:16:58 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e789b3bf-a5f6-4bf8-e38f-08da242ca1b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2022 06:52:13.6075
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W/98houYFjoEWnqyMdo+c+QbSmnkNvgwwef3gVxmQXVhdGEwjQKuQzFDE8yV51aMHtxFV3jTjGTNJnuYaswdECKJJCzhtCfVqPV1XQJVxDI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5991
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 07/15] dt-bindings: clock: Add r8a779g0 CPG Core Clock
+ Definitions
+Content-Language: en-US
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>
+References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220420084255.375700-8-yoshihiro.shimoda.uh@renesas.com>
+ <c86f78ac-ccf5-30ad-5de4-33211ca8b351@linaro.org>
+ <TYBPR01MB5341D2CAB8DD77E95C14AF8CD8F79@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYBPR01MB5341D2CAB8DD77E95C14AF8CD8F79@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad Prabhakar,
+On 22/04/2022 07:32, Yoshihiro Shimoda wrote:
+> Hello Krzysztof,
+> 
+>> From: Krzysztof Kozlowski, Sent: Thursday, April 21, 2022 4:49 PM
+>>
+>> On 20/04/2022 10:42, Yoshihiro Shimoda wrote:
+>>> Add all Clock Pulse Generator Core Clock Outputs for the Renesas
+>>> R-Car V4H (R8A779G0) SoC.
+>>>
+>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>> ---
+>>>  include/dt-bindings/clock/r8a779g0-cpg-mssr.h | 87 +++++++++++++++++++
+>>>  1 file changed, 87 insertions(+)
+>>>  create mode 100644 include/dt-bindings/clock/r8a779g0-cpg-mssr.h
+>>>
+>>> diff --git a/include/dt-bindings/clock/r8a779g0-cpg-mssr.h b/include/dt-bindings/clock/r8a779g0-cpg-mssr.h
+>>> new file mode 100644
+>>> index 000000000000..07a94cf45581
+>>> --- /dev/null
+>>> +++ b/include/dt-bindings/clock/r8a779g0-cpg-mssr.h
+>>> @@ -0,0 +1,87 @@
+>>> +/* SPDX-License-Identifier: (GPL-2.0 or MIT) */
+>>
+>> Any reason why not licensing it the same as bindings document
+>> (GPL-2.0-only OR BSD-2-Clause)? The same applies to patch 5.
+>>
+>> MIT and BSD-2-clause are almost the same, AFAIR, so let's stick to one
+>> (BSD-2-clause) for consistency?
+> 
+> Since r8a779g0.dtsi (which uses this) is under (GPL-2.0 or MIT), I use it here.
+> Also, r8a779g0.dtsi includes dt-bindings/interrupt-controller/arm-gic.h and
+> the arm-gic.h is under (GPL-2.0 or MIT). So, using it is better, IIUC.
 
-Thanks for the patch.
+This would mean we want to license the bindings the same as we license
+the DTS. It's not the case. For the bindings we have the strong
+preference - GPL-2.0 or BSD-2-clause. For the DTS - not that much, just
+recommendation, I think.
 
-> Subject: [PATCH 3/3] ASoC: sh: rz-ssi: Add a devres action to release the
-> DMA channels
->=20
-> DMA channels requested by rz_ssi_dma_request() in rz_ssi_probe() were nev=
-er
-> released in the error path apart from one place. This patch fixes this
-> issue by adding a devres action to release the DMA channels and dropping
-> the single rz_ssi_release_dma_channels() call which was placed in the err=
-or
-> path in case devm_snd_soc_register_component() failed.
->=20
-> Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  sound/soc/sh/rz-ssi.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c index
-> d9a684e71ec3..f04da1bf5680 100644
-> --- a/sound/soc/sh/rz-ssi.c
-> +++ b/sound/soc/sh/rz-ssi.c
-> @@ -912,6 +912,11 @@ static const struct snd_soc_component_driver
-> rz_ssi_soc_component =3D {
->  	.pcm_construct	=3D rz_ssi_pcm_new,
->  };
->=20
-> +static void rz_ssi_release_dma_channels_action(void *data) {
-> +	rz_ssi_release_dma_channels(data);
-> +}
-> +
->  static int rz_ssi_probe(struct platform_device *pdev)  {
->  	struct rz_ssi_priv *ssi;
-> @@ -966,6 +971,11 @@ static int rz_ssi_probe(struct platform_device *pdev=
-)
->  		dev_info(&pdev->dev, "DMA enabled");
->  		ssi->playback.transfer =3D rz_ssi_dma_transfer;
->  		ssi->capture.transfer =3D rz_ssi_dma_transfer;
-> +
-> +		ret =3D devm_add_action_or_reset(&pdev->dev,
-> +					       rz_ssi_release_dma_channels_action,
-> ssi);
-> +		if (ret)
-> +			return ret;
->  	}
->=20
->  	ssi->playback.priv =3D ssi;
-> @@ -1027,8 +1037,6 @@ static int rz_ssi_probe(struct platform_device *pde=
-v)
->  					      rz_ssi_soc_dai,
->  					      ARRAY_SIZE(rz_ssi_soc_dai));
->  	if (ret < 0) {
-> -		rz_ssi_release_dma_channels(ssi);
-> -
+> In other words, r8a779g0.dtsi doesn't include any the bindings document
+> so that there is not needed to use the same license, I think.
+> # I'm not a lawyer though...
 
-Maybe we need to keep this as it is, otherwise DMA channel release will hap=
-pen
-after CLK disable and Reset assert. Ideally release the channel, disable th=
-e clock and assert
-the reset.
+If you would like to follow your recommendation, you should license also
+schema as MIT, because your DTS uses it as well (as a derivative work).
 
-Similarly, you may want to add "rz_ssi_release_dma_channels(ssi)" for error=
- path related to
-Pm_runtime_resume_get.
+Anyway MIT and BSD-2-c are very similar, so there is no much difference
+here.
 
 
-Also with this change there is unbalanced release_dma_channels() one from d=
-evres and other from remove.
-
-Regards,
-Biju
-
-
-
->  		pm_runtime_put(ssi->dev);
->  		pm_runtime_disable(ssi->dev);
->  		reset_control_assert(ssi->rstc);
-> --
-> 2.17.1
-
+Best regards,
+Krzysztof
