@@ -2,61 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD89D50C2A3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 01:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C112450C507
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 01:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbiDVWPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 18:15:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56440 "EHLO
+        id S230352AbiDVXd7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 19:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232118AbiDVWPZ (ORCPT
+        with ESMTP id S230355AbiDVXdq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 18:15:25 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D91F243340
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 14:05:46 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id f17so16629471ybj.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 Apr 2022 14:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KnPyabG9pOxh8qzjo3GHxlP7qD0ZYp0TVCp6JnkWkhg=;
-        b=rumSCGY3OftqFYEShtWIG/w2M+t8QkSzOAJXSGtX2CHX2irFE2VPMHSOpJkt8ZQaFH
-         57B37rusFOHExaTz59ZP9VZYsEq/4ZPv5idTXn1FgT28jHv5wGG1sPRH6OwwX/Q8CrXM
-         ZQBjkMD8ZEQ2iVz0noypoNsZwrFkLppphR/DuYVqp9NSWmQwyqv5Pce32Ra2PDksdZL4
-         lRC+6HjK7uYuBCjpmMWFz8ePfWhP2we1K/PqzXyyw8GBBJPhKHNpp2d5/flDoPiG5xxb
-         r+sgtPeu39Sx+m8uX6WJmM/9bK96sFfh6o91GBeAxVb/Icew5yvkCmjRQsbo5Qv8U61J
-         2lvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KnPyabG9pOxh8qzjo3GHxlP7qD0ZYp0TVCp6JnkWkhg=;
-        b=WKZar2BpiiWS3U/CEijEeNKNPjDn8m827P//u+W6A3tlpcwWf4M9oAEWlRtN/NWPw/
-         /JHuny718rasI+jjGGJDBEGur+bBKqo0UFjFqIcd2a+wbEe5mK3zyx/RQN9McZ0WaOfY
-         eV2jQ03Bm4Y+ZN5UusvdLZyzyZqE4Eu654zbMLTUGz2y4UzGna+N7qLJPivuUkGkN/21
-         hh6ZEgrFmOHkY+KHHrkURdhMeDLSSZMy2WYdrdHZRTdaAVOwzcC0tvxLrXG0pQMHsKry
-         6dgpwwbCsUZjYPdDZvcnHKUrPSzC6i2u/D2ZORpOz9DJe/K4FZTYIgVM9X5AxfDliMfZ
-         4WMw==
-X-Gm-Message-State: AOAM532qHijjGuq4L+Xs2TzN127q52fGd5DpIsszDDwqH4l1mLSspueu
-        9Z59P1zZTBWNlYygJ7rV65dPwSlIzf/MLv+w24MTzRlA2gY=
-X-Google-Smtp-Source: ABdhPJzPVTezAdZ+Jr0d3h8Qm6Ovc094t90vwEkbZlWbsLUFVVYMcdlha24zBLWFvznvY1/XZnOh2r90Wvl6S0MtNXY=
-X-Received: by 2002:a25:4e82:0:b0:633:68d7:b864 with SMTP id
- c124-20020a254e82000000b0063368d7b864mr6702096ybb.514.1650661545453; Fri, 22
- Apr 2022 14:05:45 -0700 (PDT)
+        Fri, 22 Apr 2022 19:33:46 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BC4162268;
+        Fri, 22 Apr 2022 16:16:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D6E78B832E0;
+        Fri, 22 Apr 2022 23:16:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75EA1C385A4;
+        Fri, 22 Apr 2022 23:16:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650669370;
+        bh=/CjtjtNSZGyZ1red00IH8RKEAl2lNuDUSISS7dZCoVg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=sFmsdo+0culF8zTTfFSx8AAGcag3IH5KrLGTit8chcZLj+YrtdLBRk1yNPaPeudBV
+         g37q5X/iUevuBn4Ex+3LevzdnsbvcKYinyVtaeOr0mYXStgwRp+jxDbtkCAIvt6NF9
+         ektlkJQJXSe5UUREWQvEbveBVXbQ/AT1WXqMKpWwS1VFELN3KXYBB7Fw+658uyztPx
+         HhbTfdFx7L3d4hJKSF0SDGBp2fK9NmjS9GTSHW+z4qpjgEIxuzbc/s53aGPBntd1VA
+         0gJVAJ9/UOQfgwqrav09Us34YSMrF47OtJPA0O9IpoMVFkPFHALNIJpnhVhaSxm/IQ
+         S6CfAFXeE+Agg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <cover.1650638951.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1650638951.git.geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 22 Apr 2022 23:05:34 +0200
-Message-ID: <CACRpkdZK9Y19bWpRcH3QgDSQRnpfyvf1zA8YO0RD7SdWiUpdBw@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v5.19
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220421090016.79517-3-miquel.raynal@bootlin.com>
+References: <20220421090016.79517-1-miquel.raynal@bootlin.com> <20220421090016.79517-3-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 2/7] soc: renesas: rzn1-sysc: Fix the RTC hclock description
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 22 Apr 2022 16:16:08 -0700
+User-Agent: alot/0.10
+Message-Id: <20220422231610.75EA1C385A4@smtp.kernel.org>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,18 +69,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 4:55 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+The subject should start with clk:, not soc:
 
-> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
->
->   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.19-tag1
+Quoting Miquel Raynal (2022-04-21 02:00:11)
+> It needs to be un-gated, but also a reset must be released and an idle
+> flag should also be disabled.
+>=20
+> The driver already supports all these operations, so update the
+> description of the RTC hclock to fit these requirements.
+>=20
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/clk/renesas/r9a06g032-clocks.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
 
-Pulled in, thanks!
+Otherwise
 
-Yours,
-Linus Walleij
+Acked-by: Stephen Boyd <sboyd@kernel.org>
