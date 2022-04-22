@@ -2,101 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F189A50B779
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 14:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45AD650B978
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Apr 2022 16:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447562AbiDVMjf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 08:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
+        id S1448091AbiDVOH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Apr 2022 10:07:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbiDVMje (ORCPT
+        with ESMTP id S1448336AbiDVOHg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 08:39:34 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F6454BD0;
-        Fri, 22 Apr 2022 05:36:40 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id ay11so5362592qtb.4;
-        Fri, 22 Apr 2022 05:36:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OHokQYBB6SCI+kKoO+fMUFkaY6B9YAlfyCGrAvKI5Eo=;
-        b=Ics9q8X8GFsWrmH5m9LlJ45km8L/Se8yHco3Ob6TvtLxJBuVjQTxR/kDwUrzs3jcmY
-         ZISKJC6FZlQgUMFYQcDdo1xpzF7UKvUDvkoWI9I9NYkR2CpFOVd0RTfok+E6UbhekaD1
-         MA4niBavfqikWynw3WiRr86mXT+SdQbS6Rj5xLYHlLuwVCc8N+qAuHu/Rh2m+sbXOQ/7
-         xMvZKPQ01LCjqtepSdjX+imPDRRLUQUp2wvfRn5Zip8mgR3hOVzGHOHekx3tRlgkvsiv
-         G7FUGJm8ggjduv7bOt1Kbvf0eKXSQR6JnumGaD9hgn33LqWx2V02pjOx/VQ52dHBtefS
-         JFjA==
-X-Gm-Message-State: AOAM532Ca9QjeNnR5Y5mAlleaJE7zm6AG3wIEDHIrjPVuGxMQmlrNgHh
-        U2oNGCMmfnJ6W10FGC6LNgscGH59+dNnGg==
-X-Google-Smtp-Source: ABdhPJwwtZ3rfCjzO4PiVqGGJrerfYHUu3DQEdwiCGuRUOvAl6fXBTlyU8xoRhYphAF0oipC68I6VA==
-X-Received: by 2002:ac8:4e8d:0:b0:2f3:5d11:c5d3 with SMTP id 13-20020ac84e8d000000b002f35d11c5d3mr627775qtp.213.1650630999856;
-        Fri, 22 Apr 2022 05:36:39 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id i68-20020a375447000000b006809e0adfffsm863527qkb.25.2022.04.22.05.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 05:36:39 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2f7bb893309so3838187b3.12;
-        Fri, 22 Apr 2022 05:36:39 -0700 (PDT)
-X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
- c204-20020a811cd5000000b002f4c3fc2174mr4621902ywc.512.1650630998807; Fri, 22
- Apr 2022 05:36:38 -0700 (PDT)
+        Fri, 22 Apr 2022 10:07:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E4A5A164;
+        Fri, 22 Apr 2022 07:04:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 62719B82DEB;
+        Fri, 22 Apr 2022 14:04:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81815C385A4;
+        Fri, 22 Apr 2022 14:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1650636279;
+        bh=iNiTjY8tqQiZjM+4jn/Umkb2svH+aw2wxOSfsL3npZA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=v+FgCT66ActzZVXxId/XfSe4ug8qTpyHSO6GsG3K7+Gw7rvzn78j13R7EDEpiWlRU
+         k/FNgfY3mgJKNImDdKcU+sJnJg1MWP2HFHpg24jWIIrAWMKrz5u6XkriiVgQfQ3u5t
+         cNj21t/oR6SfrlF65NdnP679W7GQgAHkdLq81cw0=
+Date:   Fri, 22 Apr 2022 16:04:36 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH v6 11/12] bestla: Enable DMA, UART3 and UART4
+Message-ID: <YmK19DPzjJxBZHHm@kroah.com>
+References: <20220421095323.101811-1-miquel.raynal@bootlin.com>
+ <20220421095323.101811-12-miquel.raynal@bootlin.com>
+ <20220421122143.7526d676@xps13>
 MIME-Version: 1.0
-References: <20220420084255.375700-1-yoshihiro.shimoda.uh@renesas.com>
- <20220420084255.375700-9-yoshihiro.shimoda.uh@renesas.com> <CAMuHMdUjhdvsNFqJU+9p=BEq_Jnek=MT5RKu0Dg89nMB2gpMgw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUjhdvsNFqJU+9p=BEq_Jnek=MT5RKu0Dg89nMB2gpMgw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 22 Apr 2022 14:36:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUZGhPrJuHHJVNKufRH0G_S1v_eHV8qaWqsMq_cwvtL1A@mail.gmail.com>
-Message-ID: <CAMuHMdUZGhPrJuHHJVNKufRH0G_S1v_eHV8qaWqsMq_cwvtL1A@mail.gmail.com>
-Subject: Re: [PATCH 08/15] dt-bindings: serial: renesas,hscif: Document
- r8a779g0 bindings
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220421122143.7526d676@xps13>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+On Thu, Apr 21, 2022 at 12:21:43PM +0200, Miquel Raynal wrote:
+> Hello,
+> 
+> miquel.raynal@bootlin.com wrote on Thu, 21 Apr 2022 11:53:22 +0200:
+> 
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> 
+> Please ignore these two dts patches, they were meant for testing
+> purposes only, sorry for the noise.
 
-On Thu, Apr 21, 2022 at 11:45 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Wed, Apr 20, 2022 at 10:43 AM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > R-Car V4H (R8A779G0) SoC has the R-Car Gen4 compatible HSCIF ports,
-> > so document the SoC specific bindings.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I can't do that, please resend a new version of the series as our tools
+take all of the patches in a series.
 
-Sorry, I spoke too soon.
+thanks,
 
-"renesas,rcar-gen4-hscif" should be added to the conditional
-section making "resets" a required property.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+greg k-h
