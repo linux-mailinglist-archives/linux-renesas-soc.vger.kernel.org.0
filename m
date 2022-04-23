@@ -2,98 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4395550CB12
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 16:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5F5750CC5C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 18:43:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235287AbiDWOKQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Apr 2022 10:10:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
+        id S236487AbiDWQoh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Apr 2022 12:44:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235161AbiDWOKF (ORCPT
+        with ESMTP id S236465AbiDWQoR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Apr 2022 10:10:05 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE7EBDF1;
-        Sat, 23 Apr 2022 07:07:07 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,284,1643641200"; 
-   d="scan'208";a="118907817"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 23 Apr 2022 23:07:07 +0900
-Received: from localhost.localdomain (unknown [10.226.92.16])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 06BF34000689;
-        Sat, 23 Apr 2022 23:07:03 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sat, 23 Apr 2022 12:44:17 -0400
+Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3660347AD3;
+        Sat, 23 Apr 2022 09:41:14 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru ADB9123081DB
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH v3 7/8] ARM: dts: r9a06g032: Add USB PHY DT support
+To:     Herve Codina <herve.codina@bootlin.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a07g054: Fix external clk node names
-Date:   Sat, 23 Apr 2022 15:06:58 +0100
-Message-Id: <20220423140658.145000-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220423140658.145000-1-biju.das.jz@bp.renesas.com>
-References: <20220423140658.145000-1-biju.das.jz@bp.renesas.com>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>
+CC:     Rob Herring <robh@kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20220422120850.769480-1-herve.codina@bootlin.com>
+ <20220422120850.769480-8-herve.codina@bootlin.com>
+ <ed432ba2-6081-4d82-bdc9-cd88cb52ca1f@omp.ru>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <f7e76000-11ec-42d1-5767-7f270a3b025d@omp.ru>
+Date:   Sat, 23 Apr 2022 19:41:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ed432ba2-6081-4d82-bdc9-cd88cb52ca1f@omp.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix audio clk node names with "_" -> "-" and add suffix '-clk' for can and
-extal clks.
+On 4/23/22 12:09 PM, Sergey Shtylyov wrote:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+[...]
+>> Define the r9a06g032 generic part of the USB PHY device node.
+>>
+>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+>> ---
+>>  arch/arm/boot/dts/r9a06g032.dtsi | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
+>> index 33581f0c55c4..58af07eb75c9 100644
+>> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+>> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+>> @@ -59,6 +59,12 @@ ext_rtc_clk: extrtcclk {
+>>  		clock-frequency = <0>;
+>>  	};
+>>  
+>> +	usbphy: usbphy {
+> 
+>    I think the node name should be "usb-phy"...
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index f35aa0311e9c..4313b9e3abed 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -13,14 +13,14 @@ / {
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
--	audio_clk1: audio_clk1 {
-+	audio_clk1: audio-clk1 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		/* This value must be overridden by boards that provide it */
- 		clock-frequency = <0>;
- 	};
- 
--	audio_clk2: audio_clk2 {
-+	audio_clk2: audio-clk2 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		/* This value must be overridden by boards that provide it */
-@@ -28,14 +28,14 @@ audio_clk2: audio_clk2 {
- 	};
- 
- 	/* External CAN clock - to be overridden by boards that provide it */
--	can_clk: can {
-+	can_clk: can-clk {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		clock-frequency = <0>;
- 	};
- 
- 	/* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
--	extal_clk: extal {
-+	extal_clk: extal-clk {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		/* This value must be overridden by the board */
--- 
-2.25.1
+   It's not my thinking alone, the DT spec documents "usb-phy" in section 2.2.2. :-)
 
+> [...]
+
+MBR, Sergey
