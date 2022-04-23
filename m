@@ -2,74 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D415150CD10
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 20:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4746450CD13
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 20:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236821AbiDWTA2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Apr 2022 15:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55114 "EHLO
+        id S236823AbiDWTAp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Apr 2022 15:00:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236814AbiDWTA0 (ORCPT
+        with ESMTP id S236818AbiDWTAo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Apr 2022 15:00:26 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11FF734B8E
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 11:57:29 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id i27so22221946ejd.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 11:57:28 -0700 (PDT)
+        Sat, 23 Apr 2022 15:00:44 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2891C65EE
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 11:57:46 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id i27so22222751ejd.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 11:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0/I1Lqd6FAD3duZ+xmmPKJycik6MTwR4HUFPeaOkIwM=;
-        b=QshAl1jLuzly+O5WdWGcR6Djz8uNukbP8CvWoJ1UxBL7toCaSYk0xjT2Ud9s75+5DG
-         7P6s9BkMLHlTFRPHXBulJHi4AdSLusk8bDg9kZzrCOuzZuwbrN+Mjm3W7GH3u4qK3bMV
-         l9OJ0kQeDuyMFzEtY68sgmTFMKCFzGJSprN7j7UZ3i++gxxgPkbGhuXTS9RxZ7ib2dQp
-         6w5J98a2xXAjheiwqD0tZvyNflOZ7YCX/zHuGNlATwhpfGukPHC4vZ2DgXlVVGIIMqUE
-         wlNvKEvKe7GahYnij7PALc0D69eIgWPog/5TcmDM1A2FFaJ2hX8XsKSNhKtGHfGJ8BEp
-         pUhw==
+        bh=PZYZo4riuAASrgNYiBnvXj2fNHSGkngTmMftoxnKnxw=;
+        b=S99uY+KgXY67ufTlCYtEQPsZsiZ7a7vlBE3DAb0FD3v0RBR/yokzgKtQjAIpzjjDT1
+         Q0LN16pQ0xVe0KyOph982meSjp8BtRoTgVC2DGFAWD+zKev1g4ZL/HA+VbwZxhMTT8R1
+         F0EMdytvzkupg9J+f2A7mRXhu4/LqvM6nICpukdsx8Hf2AOcG6H4NG8ghnNk4cyNEZTH
+         UXt4Pav/LF89DbfIROk4zoLnWmvlrgshaR25g3/sbuze5/8RxKV1mxBmOAAEEjE6Ud/G
+         J5I2x3AeZiJSHEzkvAzqywQZwy9MDJwaVYEDvi97GhkfOrKtKfPuAsVk/CMnZuxtPkbt
+         LSBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=0/I1Lqd6FAD3duZ+xmmPKJycik6MTwR4HUFPeaOkIwM=;
-        b=btr4OfuRIETd69AirD3QLlkSWoCLTTOO3GHLo+9+9J6oUodXutxJa2/ivkjfJA03zQ
-         Mr6CYC3Wa4dl4aiGhovIuhhbbi3NbOFKbMQGyMriM2matq9Nz/ycfibzlOg3a72z/dw3
-         bNivsBLZxCWSD2DbFuHjvI3a+HbmGw0FRYbSdwefhwuAx0TvWBQxdkiTRGM9A8UKz6R5
-         ScZJy5VYEuGVOBkM+2hAKtxS+5k/xTnnQIebnZOepOML+qDWdLRRpb85hHsFN5ICK/z7
-         xb9msJTm3d98Jznau4iWgveiCrbkddpPdXMd9eusuzUd6BE0HcFc2iMBH5r7TuIPwfrL
-         bLOA==
-X-Gm-Message-State: AOAM5314laGfzMUrEm+KeJw0j1hsnkBhzOW0SI1UfA/uSPSf/Wqz3RLW
-        Pxl/PF2RMZKmDDxgaZn9mVxBMg==
-X-Google-Smtp-Source: ABdhPJxv2VSufWS3KnWj8fOA1UatMkaO4h6P6PeGuzoylZ/Rnpo+u6tOONQ76ewNinXUigLhzSODiQ==
-X-Received: by 2002:a17:907:1b09:b0:6d8:faa8:4a06 with SMTP id mp9-20020a1709071b0900b006d8faa84a06mr9303922ejc.701.1650740247702;
-        Sat, 23 Apr 2022 11:57:27 -0700 (PDT)
+        bh=PZYZo4riuAASrgNYiBnvXj2fNHSGkngTmMftoxnKnxw=;
+        b=Nzj1ErAJ27uxhlPEEeUpVznqEkWDcDWSzibNP0QA81R3Ll6E9qAYDW9YLuN4VZsZCy
+         YBGNMfH+rV+M+K1kNfp4Eb84tTBE3eBvoiHeRsAkc0Hqr7a2h3Sc3aUBBJOAuykYgodu
+         z+ZJvcwhHkI1DkxbwlyDonZZ/FpQ/QnoIvc6HtCOgck8CBS9Op1zpMC6skbRARVeL4t1
+         6A9kFmP59TYg2yKUnQZ4tKLcM0J4K5UD3mc+3o7RJWsWXVTmupw8D2Xd7iaPeQbZ5sSV
+         1jkhTpBvhwdzoDXrPkFMHNwFoF02FwrL7hp8UN6dI/zFK/YP4lqbaBPVPyL6qZOsTiki
+         1KQw==
+X-Gm-Message-State: AOAM532YsbOwNPgnuC/ag2q5JBWWT9FYTHFVfnq1v6wUDq2swOPCQI6L
+        D7jB6A75s/ZXQxV5EN8Xa+Xvjw==
+X-Google-Smtp-Source: ABdhPJz2nWyRKZg1zq6pTJKVo9fEAxz7J/WZFcUk2197nRcFLmsa6ZBUp2Uv9560LFLVvyWESQ3dDQ==
+X-Received: by 2002:a17:907:6d17:b0:6ef:f06c:89 with SMTP id sa23-20020a1709076d1700b006eff06c0089mr9807501ejc.649.1650740264867;
+        Sat, 23 Apr 2022 11:57:44 -0700 (PDT)
 Received: from [192.168.0.234] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id l6-20020aa7d946000000b00420bd71e06bsm2481959eds.79.2022.04.23.11.57.26
+        by smtp.gmail.com with ESMTPSA id p12-20020a50c94c000000b00425c48132bfsm1831124edh.55.2022.04.23.11.57.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Apr 2022 11:57:27 -0700 (PDT)
-Message-ID: <164bbdf7-e74d-7f30-6657-6c80d2f91a97@linaro.org>
-Date:   Sat, 23 Apr 2022 20:57:26 +0200
+        Sat, 23 Apr 2022 11:57:44 -0700 (PDT)
+Message-ID: <a5ed1592-630a-0c42-151e-6271989f07d9@linaro.org>
+Date:   Sat, 23 Apr 2022 20:57:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] dt-bindings: iio: adc: Document Renesas RZ/V2L ADC
+Subject: Re: [PATCH] dt-bindings: i2c: renesas,riic: Document RZ/G2UL SoC
 Content-Language: en-US
 To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Jonathan Cameron <jic23@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
         devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-References: <20220423131654.131390-1-biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220423132043.139672-1-biju.das.jz@bp.renesas.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220423131654.131390-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220423132043.139672-1-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -82,12 +82,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/04/2022 15:16, Biju Das wrote:
-> Document renesas RZ/V2L ADC bindings. RZ/V2L ADC is identical to RZ/G2L
-> with same number of channels.
+On 23/04/2022 15:20, Biju Das wrote:
+> Document RZ/G2UL I2C bindings. RZ/G2UL I2C is identical to one found on
+> the RZ/G2L SoC. No driver changes are required as RZ/G2L compatible
+> string "renesas,riic-rz" will be used as a fallback.
 > 
-> While at it remove RZ/G2LC SoC from binding documentation as it does not
-> support ADC.
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
