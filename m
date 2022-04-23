@@ -2,77 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D099B50C6AF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 04:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD7750C80C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 09:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232159AbiDWCnk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Apr 2022 22:43:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32864 "EHLO
+        id S234003AbiDWHkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Apr 2022 03:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231970AbiDWCnj (ORCPT
+        with ESMTP id S231812AbiDWHkc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Apr 2022 22:43:39 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671AC14EC54;
-        Fri, 22 Apr 2022 19:40:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0CE04B8335C;
-        Sat, 23 Apr 2022 02:40:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC928C385A4;
-        Sat, 23 Apr 2022 02:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650681640;
-        bh=IdCFcgvm/zKae6TiKI2zjh09ofMsIgLxzcaNuyCmHiQ=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=CTmzRzmmh3Mw/xh2EsRf2TDOnNH7aiE+fxjXesKyFXSoKBDHZyrsQ7PHJf/7EGCqB
-         RzcgUHtbhGnpA5FXudw4OSPjZv9rfavP6Qb349Nv56uajErL42/UG4HwD8hh6D4QD2
-         Y7ER6Ix7fu3u31FP8MeDNfA1cDLPRPfBLdGPUveyY2UScsyxH+NIeLEw5pQPeRmYa0
-         3nusJuqZn3Xj0UcbaWOD3J+Hean6ouWPLYLLe/0GE5rrIiM1huSK/Hce9xE520sln3
-         Il0RgeWe4vjYDp/4o7XcNuzdcWrR740SavFqfxdewuPsYg429Q9+AAw/EIQpzLT5mP
-         rC3zc+MGrCB9g==
-Content-Type: text/plain; charset="utf-8"
+        Sat, 23 Apr 2022 03:40:32 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C16C9B1A95
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 00:37:35 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,284,1643641200"; 
+   d="scan'208";a="118891575"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Apr 2022 16:37:34 +0900
+Received: from localhost.localdomain (unknown [10.226.92.16])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AD4E14008C4E;
+        Sat, 23 Apr 2022 16:37:30 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     LUU HOAI <hoai.luu.ub@renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH] drm: rcar-du: Add setting to PnALPHAR register on Gen3
+Date:   Sat, 23 Apr 2022 08:37:28 +0100
+Message-Id: <20220423073728.111808-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cover.1650638810.git.geert+renesas@glider.be>
-References: <cover.1650638810.git.geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v5.19
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Fri, 22 Apr 2022 19:40:37 -0700
-User-Agent: alot/0.10
-Message-Id: <20220423024040.BC928C385A4@smtp.kernel.org>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2022-04-22 07:55:05)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc=
-17:
->=20
->   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v5.19-tag1
->=20
-> for you to fetch changes up to 59086e4193f4fc920a23d2045a473f62450b4269:
->=20
->   clk: renesas: r9a07g043: Add SDHI clock and reset entries (2022-04-13 1=
-2:30:19 +0200)
->=20
-> ----------------------------------------------------------------
+From: LUU HOAI <hoai.luu.ub@renesas.com>
 
-Thanks. Pulled into clk-next
+In Gen3, when Alpha blend is enabled in the PnMR register,
+depending on the initial value of the PnALPHAR register,
+either channel of DU might be black screen.
+Therefore, this patch prevents the black screen by setting
+the PnALPHAR register to all 0.
+
+In addition, PnALPHAR register will be released in
+the R-Car Gen3 Hardware Manual Rev 2.4 (Sep. 2021).
+
+Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch is based on [1]
+[1] https://github.com/renesas-rcar/linux-bsp/commit/fcb34fe338cbde0a64919430733541035f20a784
+
+Not sure this patches has to go with Fixes tag for stable??
+
+Tested the changes on RZ/G2M board
+
+root@hihope-rzg2m:/cip-test-scripts#  modetest -M rcar-du -w 54:alpha:55555
+root@hihope-rzg2m:/cip-test-scripts# modetest -M rcar-du -s "93@90:1024x768@AR24" -d -P "54@90:400x300+200+200@XR24"
+setting mode 1024x768-75Hz@AR24 on connectors 93, crtc 90
+testing 400x300@XR24 overlay plane 54
+---
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+index 5c1c7bb04f3f..aff39b9253f8 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+@@ -510,6 +510,12 @@ static void rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
+ 
+ 	rcar_du_plane_write(rgrp, index, PnDDCR4,
+ 			    state->format->edf | PnDDCR4_CODE);
++
++	/* In Gen3, PnALPHAR register need to be set to 0
++	 * to avoid black screen issue when alpha blend is enable
++	 * on DU module
++	 */
++	rcar_du_plane_write(rgrp, index, PnALPHAR, 0x00000000);
+ }
+ 
+ static void rcar_du_plane_setup_format(struct rcar_du_group *rgrp,
+-- 
+2.25.1
+
