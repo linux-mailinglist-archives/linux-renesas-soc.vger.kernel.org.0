@@ -2,91 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5F5750CC5C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 18:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2281450CC66
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Apr 2022 18:45:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236487AbiDWQoh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 Apr 2022 12:44:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
+        id S231400AbiDWQrv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 Apr 2022 12:47:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236465AbiDWQoR (ORCPT
+        with ESMTP id S236220AbiDWQrs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 Apr 2022 12:44:17 -0400
-Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3660347AD3;
-        Sat, 23 Apr 2022 09:41:14 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru ADB9123081DB
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH v3 7/8] ARM: dts: r9a06g032: Add USB PHY DT support
-To:     Herve Codina <herve.codina@bootlin.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>
-CC:     Rob Herring <robh@kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-References: <20220422120850.769480-1-herve.codina@bootlin.com>
- <20220422120850.769480-8-herve.codina@bootlin.com>
- <ed432ba2-6081-4d82-bdc9-cd88cb52ca1f@omp.ru>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <f7e76000-11ec-42d1-5767-7f270a3b025d@omp.ru>
-Date:   Sat, 23 Apr 2022 19:41:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 23 Apr 2022 12:47:48 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8B1D6CD65C
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 23 Apr 2022 09:44:50 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,284,1643641200"; 
+   d="scan'208";a="118915064"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Apr 2022 01:44:49 +0900
+Received: from localhost.localdomain (unknown [10.226.92.16])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 96AAE40071E4;
+        Sun, 24 Apr 2022 01:44:46 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        alsa-devel@alsa-project.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] ASoC: sh: Make SND_SOC_RZ depend on ARCH_RZG2L
+Date:   Sat, 23 Apr 2022 17:44:43 +0100
+Message-Id: <20220423164443.146299-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <ed432ba2-6081-4d82-bdc9-cd88cb52ca1f@omp.ru>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/23/22 12:09 PM, Sergey Shtylyov wrote:
+The SSI block is identical on Renesas RZ/G2L, RZ/G2UL and RZ/V2L SoC's, so
+instead of adding dependency for each SoC's add dependency on ARCH_RZG2L.
+The ARCH_RZG2L config option is already selected by ARCH_R9A07G043,
+ARCH_R9A07G044 and ARCH_R9A07G054.
 
-[...]
->> Define the r9a06g032 generic part of the USB PHY device node.
->>
->> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
->> ---
->>  arch/arm/boot/dts/r9a06g032.dtsi | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
->> index 33581f0c55c4..58af07eb75c9 100644
->> --- a/arch/arm/boot/dts/r9a06g032.dtsi
->> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
->> @@ -59,6 +59,12 @@ ext_rtc_clk: extrtcclk {
->>  		clock-frequency = <0>;
->>  	};
->>  
->> +	usbphy: usbphy {
-> 
->    I think the node name should be "usb-phy"...
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ sound/soc/sh/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   It's not my thinking alone, the DT spec documents "usb-phy" in section 2.2.2. :-)
+diff --git a/sound/soc/sh/Kconfig b/sound/soc/sh/Kconfig
+index ae46f187cc2a..97916e3ca9dd 100644
+--- a/sound/soc/sh/Kconfig
++++ b/sound/soc/sh/Kconfig
+@@ -47,7 +47,7 @@ config SND_SOC_RCAR
+ 
+ config SND_SOC_RZ
+ 	tristate "RZ/G2L series SSIF-2 support"
+-	depends on ARCH_R9A07G044 || COMPILE_TEST
++	depends on ARCH_RZG2L || COMPILE_TEST
+ 	help
+ 	  This option enables RZ/G2L SSIF-2 sound support.
+ 
+-- 
+2.25.1
 
-> [...]
-
-MBR, Sergey
