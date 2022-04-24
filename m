@@ -2,41 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33F7250D553
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Apr 2022 23:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D513A50D5F1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 01:25:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236728AbiDXVtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 24 Apr 2022 17:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S233206AbiDXX2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 24 Apr 2022 19:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235710AbiDXVtD (ORCPT
+        with ESMTP id S233081AbiDXX2M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 24 Apr 2022 17:49:03 -0400
+        Sun, 24 Apr 2022 19:28:12 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF411644DF
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Apr 2022 14:46:00 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B328D3E4;
-        Sun, 24 Apr 2022 23:45:57 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A9C5DA70
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Apr 2022 16:25:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02FD087F;
+        Mon, 25 Apr 2022 01:25:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650836758;
-        bh=HP/4VVMe7mFL/ZoeHnc2effDXGYBRTFy5xqZKO3Noxk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=CZ+Bq3srTB9S76kFFjiLp6aHP4izfMAuHI/ZfwFk3OgwBkpfG3K+jcK6IEuZuiOr/
-         DQCSvSDV1L5Z55QkNeyiz9a6KwulX994s+TwG4OdBdoJCAjQ/OYf9tt3B0DOIFGwy+
-         HXyZronuaVwR6OZ8jqNi/zKx20rv2Df5RTDjumIU=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH] drm: rcar-du: Drop file name from comment header blocks
-Date:   Mon, 25 Apr 2022 00:45:50 +0300
-Message-Id: <20220424214550.19463-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
+        s=mail; t=1650842706;
+        bh=WCK7oALgNpq3WZEwxsfolQhOfp3stRL6FCzjXT/aVgY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wjNbFFvu9xEAqDesUzyOzdwyyQFjdpotvqzGfrazi4EHWK/HWx86XZP3FI5dod52O
+         uqDwVvnFu+X9/aEp0xdFNWz41Mxgi+ZxGQXNUyLThUi/R82poy2kZtKSPry1ydSFMk
+         8VsYNqHVP7oC8KYaD4EGUHGn8w8Hu5F2aTv7b59c=
+Date:   Mon, 25 Apr 2022 02:25:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Hoai Luu <hoai.luu.ub@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] drm: rcar-du: Add setting to PnALPHAR register on Gen3
+Message-ID: <YmXcUe0/ip43XloB@pendragon.ideasonboard.com>
+References: <20220423073728.111808-1-biju.das.jz@bp.renesas.com>
+ <YmVtRlI0+IfuXujL@pendragon.ideasonboard.com>
+ <OS0PR01MB59229B70A7C183B82882BFDC86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59229B70A7C183B82882BFDC86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -46,331 +56,114 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The comment blocks at the beginning of each file have a one-line
-summary description of the file that includes the file name. While the
-description is useful, the file name only creates opportunities for
-mistakes (as seen in rcar_du_vsp.c) without any added value. Drop it.
+Hi Biju,
 
-Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_cmm.c           | 2 +-
- drivers/gpu/drm/rcar-du/rcar_cmm.h           | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c       | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h       | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.h        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c    | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_encoder.h    | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_group.c      | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_group.h      | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_kms.h        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_plane.c      | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_plane.h      | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_regs.h       | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.h        | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_writeback.c  | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_writeback.h  | 2 +-
- drivers/gpu/drm/rcar-du/rcar_lvds.c          | 2 +-
- drivers/gpu/drm/rcar-du/rcar_lvds.h          | 2 +-
- drivers/gpu/drm/rcar-du/rcar_lvds_regs.h     | 2 +-
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 2 +-
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h | 2 +-
- 24 files changed, 24 insertions(+), 24 deletions(-)
+On Sun, Apr 24, 2022 at 04:12:08PM +0000, Biju Das wrote:
+> > Subject: Re: [PATCH] drm: rcar-du: Add setting to PnALPHAR register on Gen3
+> > On Sat, Apr 23, 2022 at 08:37:28AM +0100, Biju Das wrote:
+> > > From: LUU HOAI <hoai.luu.ub@renesas.com>
+> > >
+> > > In Gen3, when Alpha blend is enabled in the PnMR register, depending
+> > > on the initial value of the PnALPHAR register, either channel of DU
+> > > might be black screen.
+> > > Therefore, this patch prevents the black screen by setting the
+> > > PnALPHAR register to all 0.
+> > >
+> > > In addition, PnALPHAR register will be released in the R-Car Gen3
+> > > Hardware Manual Rev 2.4 (Sep. 2021).
+> > >
+> > > Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > This patch is based on [1]
+> > > [1]
+> > >
+> > > Not sure this patches has to go with Fixes tag for stable??
+> > >
+> > > Tested the changes on RZ/G2M board
+> > >
+> > > root@hihope-rzg2m:/cip-test-scripts#  modetest -M rcar-du -w
+> > > 54:alpha:55555 root@hihope-rzg2m:/cip-test-scripts# modetest -M rcar-du
+> > -s "93@90:1024x768@AR24" -d -P "54@90:400x300+200+200@XR24"
+> > > setting mode 1024x768-75Hz@AR24 on connectors 93, crtc 90 testing
+> > > 400x300@XR24 overlay plane 54
+> > > ---
+> > >  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > > b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > > index 5c1c7bb04f3f..aff39b9253f8 100644
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > > @@ -510,6 +510,12 @@ static void
+> > > rcar_du_plane_setup_format_gen3(struct rcar_du_group *rgrp,
+> > >
+> > >  	rcar_du_plane_write(rgrp, index, PnDDCR4,
+> > >  			    state->format->edf | PnDDCR4_CODE);
+> > > +
+> > > +	/* In Gen3, PnALPHAR register need to be set to 0
+> > > +	 * to avoid black screen issue when alpha blend is enable
+> > > +	 * on DU module
+> > > +	 */
+> > 
+> > Comments should start with /* on a line of its own, and you can also
+> > reflow the text to 80 columns:
+> 
+> OK.
+> 
+> > 	/*
+> > 	 * In Gen3, PnALPHAR register need to be set to 0 to avoid black screen
+> > 	 * issue when alpha blend is enable on DU module.
+> > 	 */
+> > 
+> > It would however be nicer to document the exact behaviour, but the latest
+> > version of the documentation I have access to is rev 2.3 and it lists
+> > PnALPHAR as not available on Gen3.
+> 
+> I don't have access to rev 2.4, but I got access to 
+> "R-Car-Gen3_Common_OPC_Customer_Notifications_V30.1.pdf" 
+> where it is mentioned about this issue and solution for fix
+> which is inline with the patch from R-Car BSP.
+> 
+> "The reason is that a register is not initialized by reset.
+> This could lead to output wrong image data of other plane or 
+> wrong color set from BPOR (Background plane output register)."
+> 
+> > Furthermore, is this really the right fix, shouldn't we instead avoid
+> > enabling alpha-blending in PnMR on Gen3 ?
+> 
+> Avoid enabling alpha-blending in PnMR on Gen3, will it help here?
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-index 382d53f8a22e..e2a67dda4658 100644
---- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
+It's hard to tell without knowing the exact cause of the issue. Clearing
+PnALPHAR probably makes sense on Gen3 if the register exists,
+independently from disabling alpha blending in PnMR. It would be nice if
+the commit messsage could reference the issue described in
+R-Car-Gen3_Common_OPC_Customer_Notifications_V30.1.pdf. I would also
+expand the comment a little bit:
+
  /*
-- * rcar_cmm.c -- R-Car Display Unit Color Management Module
-+ * R-Car Display Unit Color Management Module
-  *
-  * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+  * On Gen3, some DU channels have two planes, each being wired to a separate
+  * VSPD instance. The DU can then blend two two planes. While this feature
+  * isn't used by the driver, issues related to alpha blending (such as
+  * incorrect colors or planes being invisible) may still occur if the PnALPHAR
+  * register has a stale value. Set the register to 0 to avoid this.
   */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-index b5f7ec6db04a..628072acc98b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_cmm.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_cmm.h -- R-Car Display Unit Color Management Module
-+ * R-Car Display Unit Color Management Module
-  *
-  * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-  */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 23e1aedf8dc0..621bbccb95d4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_crtc.c  --  R-Car Display Unit CRTCs
-+ * R-Car Display Unit CRTCs
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-index 66e8839db708..d0f38a8b3561 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_crtc.h  --  R-Car Display Unit CRTCs
-+ * R-Car Display Unit CRTCs
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 1bc7325aa356..70d85610d720 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_drv.c  --  R-Car Display Unit DRM driver
-+ * R-Car Display Unit DRM driver
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 83530721e373..bfad7775d9a1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_drv.h  --  R-Car Display Unit DRM driver
-+ * R-Car Display Unit DRM driver
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 3977aaa1ab5a..bf76a60776bd 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_encoder.c  --  R-Car Display Unit Encoder
-+ * R-Car Display Unit Encoder
-  *
-  * Copyright (C) 2013-2014 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-index 73560563fb31..e5ec8fbb3979 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_encoder.h  --  R-Car Display Unit Encoder
-+ * R-Car Display Unit Encoder
-  *
-  * Copyright (C) 2013-2014 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-index 8665a1dd2186..1fe8581577ed 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_group.c  --  R-Car Display Unit Channels Pair
-+ * R-Car Display Unit Channels Pair
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-index e9906609c635..55649ad86a10 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_group.c  --  R-Car Display Unit Planes and CRTCs Group
-+ * R-Car Display Unit Planes and CRTCs Group
-  *
-  * Copyright (C) 2013-2014 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 190dbb7f15dd..166b2346d8c6 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_kms.c  --  R-Car Display Unit Mode Setting
-+ * R-Car Display Unit Mode Setting
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-index 789154e19535..f31afeeee05a 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_kms.h  --  R-Car Display Unit Mode Setting
-+ * R-Car Display Unit Mode Setting
-  *
-  * Copyright (C) 2013-2014 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 5c1c7bb04f3f..f214a8b6cfd3 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_plane.c  --  R-Car Display Unit Planes
-+ * R-Car Display Unit Planes
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-index 81bbf207ad0e..f9893d7d6dfc 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_plane.h  --  R-Car Display Unit Planes
-+ * R-Car Display Unit Planes
-  *
-  * Copyright (C) 2013-2014 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-index 1cdaa51eb9ac..c1bcb0e8b5b4 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * rcar_du_regs.h  --  R-Car Display Unit Registers Definitions
-+ * R-Car Display Unit Registers Definitions
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 4a3e710eb684..6b535abd799a 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
-+ * R-Car Display Unit VSP-Based Compositor
-  *
-  * Copyright (C) 2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-index 9b4724159378..67630f0b6599 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
-+ * R-Car Display Unit VSP-Based Compositor
-  *
-  * Copyright (C) 2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-index c79d1259e49b..2f5f3557bd90 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * rcar_du_writeback.c  --  R-Car Display Unit Writeback Support
-+ * R-Car Display Unit Writeback Support
-  *
-  * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-  */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h b/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-index fa87ebf8d21f..a71c9c08cafa 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * rcar_du_writeback.h  --  R-Car Display Unit Writeback Support
-+ * R-Car Display Unit Writeback Support
-  *
-  * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-  */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 8dbfbbd3cad1..8d22ade69df1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * rcar_lvds.c  --  R-Car LVDS Encoder
-+ * R-Car LVDS Encoder
-  *
-  * Copyright (C) 2013-2018 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-index eb7c6ef03b00..3097bf749bec 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * rcar_lvds.h  --  R-Car LVDS Encoder
-+ * R-Car LVDS Encoder
-  *
-  * Copyright (C) 2013-2018 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h b/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-index 87149f2f8056..ab0406a27d33 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * rcar_lvds_regs.h  --  R-Car LVDS Interface Registers Definitions
-+ * R-Car LVDS Interface Registers Definitions
-  *
-  * Copyright (C) 2013-2015 Renesas Electronics Corporation
-  *
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 891bb956fd61..0e62dd14bf97 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * rcar_mipi_dsi.c  --  R-Car MIPI DSI Encoder
-+ * R-Car MIPI DSI Encoder
-  *
-  * Copyright (C) 2020 Renesas Electronics Corporation
-  */
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-index 0e7a9274749f..2eaca54636f3 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * rcar_mipi_dsi_regs.h  --  R-Car MIPI DSI Interface Registers Definitions
-+ * R-Car MIPI DSI Interface Registers Definitions
-  *
-  * Copyright (C) 2020 Renesas Electronics Corporation
-  */
+
+> Here the issue they mentioned as "register is not initialized by reset"
+> 
+> > > +	rcar_du_plane_write(rgrp, index, PnALPHAR, 0x00000000);
+
+I'd write 0 instead of 0x00000000 to match the rest of the driver.
+
+Would you mind sending a v2 with these changed and an expanded commit
+message ?
+
+> > >  }
+> > >
+> > >  static void rcar_du_plane_setup_format(struct rcar_du_group *rgrp,
+
 -- 
 Regards,
 
 Laurent Pinchart
-
