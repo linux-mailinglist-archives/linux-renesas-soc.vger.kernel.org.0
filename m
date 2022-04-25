@@ -2,66 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F02C450E0B3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 14:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905BF50E0D2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 14:53:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbiDYMwr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 08:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40642 "EHLO
+        id S236755AbiDYM4G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 08:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233926AbiDYMwa (ORCPT
+        with ESMTP id S234293AbiDYM4F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 08:52:30 -0400
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29E2BC0F;
-        Mon, 25 Apr 2022 05:49:26 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id e128so10631075qkd.7;
-        Mon, 25 Apr 2022 05:49:26 -0700 (PDT)
+        Mon, 25 Apr 2022 08:56:05 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ECD22B1AC;
+        Mon, 25 Apr 2022 05:53:01 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id s4so10686683qkh.0;
+        Mon, 25 Apr 2022 05:53:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NPorSfLzynlTTFLcIqwhfwbS6R4JDxHEiU+bfxItonI=;
-        b=ew61U+SbG4M6uq31+iG2W40+tE5/fOOF3O9jude92R40tV4JFekVTqOI6qs/F21GW7
-         736WZq8TEwrxI3XD4Aw678MJBuIsUNZx2KfFCkEuVGqcqvU6ZGR7RIG6x81Nejn1FImr
-         Hf5sxDKFbyxJsn6BtlfNO+Xeso8XzVkDWJUiutYAE0CzllknoPCfCq3jYcyscHSfYBx/
-         hKBnANTxpV0DBF9hm3f12ZAFvVmpVbDH4hpwq29LZQxFCeaXBrR0HGtuYD1gvcIpq5sf
-         7ErLtz17MvvxRc5o/y2xJTPe+8zdQfDR89+JQGiDBDBxqyziIo5so6JEvLtG2TGk0GQC
-         NZ3g==
-X-Gm-Message-State: AOAM532icnQOw2P/vpCEeSRxqttIv8NKJ+3FwIwTfGD0xpewvRloeoiX
-        vRvXogZfaYohNZgHcpLgn0D5N7tDJxzxcA==
-X-Google-Smtp-Source: ABdhPJyVoVZ4MbalF6jLAYP3M1LzuKx0Wmp8oF0R6/sNDgSq3hwkPqMCV26FFEsOJGMcc8fxNp460g==
-X-Received: by 2002:a05:620a:7eb:b0:69c:7933:b405 with SMTP id k11-20020a05620a07eb00b0069c7933b405mr9828582qkk.602.1650890965493;
-        Mon, 25 Apr 2022 05:49:25 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id x24-20020ac87318000000b002f1fc5fcaedsm5774780qto.68.2022.04.25.05.49.24
+        bh=uKBLvzpEGSIBr54zoQtzf0+gxoJzKeZeIIlQHCf6yKo=;
+        b=La3ufGSzfOO6drUj42uT4E8bM8Ik6K7zYq3Vpf/za9DK4mz78SoQmfpeTSCXJT2PUX
+         mnJgUne3994smRr1beaE15iU2Hg+ruBkJIxzxZHTBo7lVM83tMpNpd9TXcL2O7JJsXA6
+         wySm2tI/4XBY8wrik4ebA+8mnC/P0gem+nQSLI05CPkECgUELJ+kbR73WhwkhqPygkks
+         PNilfD0WtdzsgWTG/Kcr+ImMwLsS4BVIhCxfvWHKZx9Eec0P5tUVNCF/oVTEieq8TdAf
+         Qy4dBF3zMDXus4LbLelocb2eUpovNV63oheIJzr/C0Eok0gWI6WeypIUpxFxsHu9dTbi
+         vy8A==
+X-Gm-Message-State: AOAM531GqExwH21sDhke3bcYWXNhPcasDlwoT/zpH379KZiUFEU0V3PM
+        wgmqZbpxe0FGEm6VD10vXwJvshr5tul/3w==
+X-Google-Smtp-Source: ABdhPJx3YxKjRtX65g8uolxdlpRkrEqFMhgebNdysIWIoDOhXLJfra8whjxJ/kA3tkbTPv0joLUmXA==
+X-Received: by 2002:a05:620a:40d6:b0:69f:2d4b:4236 with SMTP id g22-20020a05620a40d600b0069f2d4b4236mr6472595qko.197.1650891180657;
+        Mon, 25 Apr 2022 05:53:00 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id j12-20020ae9c20c000000b0067ec380b320sm5016132qkg.64.2022.04.25.05.53.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 05:49:24 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id v59so13909280ybi.12;
-        Mon, 25 Apr 2022 05:49:24 -0700 (PDT)
-X-Received: by 2002:a25:8087:0:b0:641:dd06:577d with SMTP id
- n7-20020a258087000000b00641dd06577dmr15589591ybk.207.1650890964362; Mon, 25
- Apr 2022 05:49:24 -0700 (PDT)
+        Mon, 25 Apr 2022 05:53:00 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2f7d19cac0bso40025577b3.13;
+        Mon, 25 Apr 2022 05:53:00 -0700 (PDT)
+X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
+ c204-20020a811cd5000000b002f4c3fc2174mr16882015ywc.512.1650891180048; Mon, 25
+ Apr 2022 05:53:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220423131654.131390-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220423131654.131390-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Apr 2022 14:49:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
-Message-ID: <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: sh: rz-ssi: Drop unused macros
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Pavel Machek <pavel@denx.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Mon, 25 Apr 2022 14:52:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXSTjXqQ2GQh6HPyUSJ-ZMiUPS8PDXsk1ZhGV=y2zzJ+w@mail.gmail.com>
+Message-ID: <CAMuHMdXSTjXqQ2GQh6HPyUSJ-ZMiUPS8PDXsk1ZhGV=y2zzJ+w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: iio: adc: Document Renesas RZ/V2L ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -73,33 +73,18 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Biju,
 
-On Fri, Apr 22, 2022 at 7:32 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Drop unused macros SSIFSR_TDC and SSIFSR_RDC.
+On Sat, Apr 23, 2022 at 3:17 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document renesas RZ/V2L ADC bindings. RZ/V2L ADC is identical to RZ/G2L
+> with same number of channels.
 >
-> Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-What does this fix?
-Is the real issue that there are 32 FIFO entries, and the TDC and RDC
-fields are 6 bits wide, while the mask uses 0x1f instead of 0x3f?
-
-> --- a/sound/soc/sh/rz-ssi.c
-> +++ b/sound/soc/sh/rz-ssi.c
-> @@ -59,9 +59,7 @@
->  #define SSIFSR_RDC_MASK                0x3f
->  #define SSIFSR_RDC_SHIFT       8
+> While at it remove RZ/G2LC SoC from binding documentation as it does not
+> support ADC.
 >
-> -#define SSIFSR_TDC(x)          (((x) & 0x1f) << 24)
->  #define SSIFSR_TDE             BIT(16)
-> -#define SSIFSR_RDC(x)          (((x) & 0x1f) << 8)
->  #define SSIFSR_RDF             BIT(0)
->
->  #define SSIOFR_LRCONT          BIT(8)
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
