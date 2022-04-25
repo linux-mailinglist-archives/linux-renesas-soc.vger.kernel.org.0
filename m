@@ -2,129 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F22850E536
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 18:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C847650E53A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 18:10:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243186AbiDYQND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 12:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
+        id S243232AbiDYQNf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 12:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243301AbiDYQMy (ORCPT
+        with ESMTP id S240524AbiDYQNd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 12:12:54 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71FD3D4A7;
-        Mon, 25 Apr 2022 09:09:50 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-2f16645872fso153580947b3.4;
-        Mon, 25 Apr 2022 09:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T+YGyyvxmVQsjoghQqTNW1wKDQoME3+KpFRO6Pk4ojM=;
-        b=UOw5xEgrezVMySsWbd7cQD1CpEjNyLxCCoI6oPAr8GLZz1AK7woJPeLzkysiCJ/fCH
-         jg5VdERY072dJgMScLn/8Wyu9cpQKldbZJIRfucUcyZB+jXaf67NiAstomWuMxemFa6a
-         pmkVOpohdd5uXCGYNPB4kGih9e6VNKbEe0KwlStq6nsqlelDF+AIox9Zq+cqv0T4Dlg8
-         Hkghu0N6XX90phMspeEOuMWq6PA+/upYOZb1m3PNQsMckH0Ueyvxg/R1Gs/0fIwUpFbK
-         XuTVWiE5a5yjSrA0k9SyLSoYFSzYX4W+fehemBKMukB8elacGxIjjVkmrvwCjrc0rxK0
-         y7SQ==
+        Mon, 25 Apr 2022 12:13:33 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E14941F8F;
+        Mon, 25 Apr 2022 09:10:28 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id t186so115460qke.10;
+        Mon, 25 Apr 2022 09:10:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T+YGyyvxmVQsjoghQqTNW1wKDQoME3+KpFRO6Pk4ojM=;
-        b=gP513mPHtRlpDdYrXhuLVY7zS5pVkU6JGSfp3ah6G7gugNrvKAmgoZSNZH6cA62a5q
-         WCwU7AaFjcVznabsjzTBaLDPl/UsE0lCPNgoa4Q4rHKgdfNUXzj4TVAEXo+OBcRkA4Xs
-         CcLPw3KZ/nS0GZoOIsW4u+rd0d9v1Ho/n8FRP49FnVw9eC8bxjVtnNYHprX/vLqhjdCP
-         6zRa3+YMFbSQO2GlQeA/S9SViMtYfHFtdvFr0Ln43zyKsO3soososPVzQX1NbODcLnrj
-         k87IzmCKr+Fd1Uz22uqnhenLigPIRHfxwYKKrAhqiBuVTM8tpKnjc2J6NnhJhsIAEiDj
-         /P1A==
-X-Gm-Message-State: AOAM532/MF/JkCGvX1pWURTSNT0HNRf/LPZwy+cxWUcFCCKay5CeS9dJ
-        PhcI3UYj53jp7wBmMazll/GIhhI96cjBHy4Iv24=
-X-Google-Smtp-Source: ABdhPJwSk+XEHjpr8/LhP/EKsZTQ6fi7CuJfqMiakpJg7HM+CpmMFudO8mcVoBL6s1KoWOeKBCr8MKF+xn9qMETzjn8=
-X-Received: by 2002:a81:9210:0:b0:2f4:d8f7:98e9 with SMTP id
- j16-20020a819210000000b002f4d8f798e9mr17613086ywg.265.1650902989991; Mon, 25
- Apr 2022 09:09:49 -0700 (PDT)
+        bh=y7QIeyoBv/NN5w3ex6p2Av6+P6QG1isXV6ZS4mt/fi8=;
+        b=8CXUlIg2bnfmZM8kh3f4fkokKuG2Ysm8VPtProTR18du9L6aoKabDhHLJtRPoeAQGe
+         PQROx2wDE9dwvzovRGFVtvYW1fJPzlTC2lh0GTYzOAbg3jF2vCoEgfl2GKhT+ITub2e+
+         CbLl0iaY/vtwJQ1n9PrRHxcEvvhQheDXuqfue/Auvx6PrSLSO/e2Evhwd8v3X51dAVT6
+         6NeV5TgWYBcZjET7j0x5qx5IdgR3ZU7cdLMTRTwrFExOCGQ+d5qq7c2e19AwYY9yS99l
+         CvATPg5z3vdSLrb4dTT+qo2p0sxen5a717inxjQe23LzpreBvbsaeZiSIY/8nzJky9uT
+         ksLw==
+X-Gm-Message-State: AOAM533/Akus5a7rLxcetV8E5azhJhvIw+hYVLkkVqLBYGz2+IvR22e1
+        nEucK3ba4/w/LA7ubAyo4vohqJuj9FSYoA==
+X-Google-Smtp-Source: ABdhPJzQXKoj5b73K6xL/vB3tk6/AIypnw6rV4nLQd10yvYVXQhIUHgMTxJQA3Xpexh54Rgzt7oXQA==
+X-Received: by 2002:a37:55c2:0:b0:479:8293:d7d0 with SMTP id j185-20020a3755c2000000b004798293d7d0mr10651271qkb.182.1650903026746;
+        Mon, 25 Apr 2022 09:10:26 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id d13-20020a37c40d000000b0069ebc29ddc1sm5032374qki.136.2022.04.25.09.10.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Apr 2022 09:10:26 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id w187so18527915ybe.2;
+        Mon, 25 Apr 2022 09:10:26 -0700 (PDT)
+X-Received: by 2002:a25:d84c:0:b0:648:7d5e:e2d4 with SMTP id
+ p73-20020a25d84c000000b006487d5ee2d4mr3001137ybg.6.1650903025972; Mon, 25 Apr
+ 2022 09:10:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
-In-Reply-To: <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 25 Apr 2022 17:09:23 +0100
-Message-ID: <CA+V-a8uJM0etygB-v+rs0+EKY6_tz90wH_ZOVH8Zbc8dQPmQGw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: sh: rz-ssi: Drop unused macros
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Pavel Machek <pavel@denx.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+References: <20220421085112.78858-1-miquel.raynal@bootlin.com> <20220421085112.78858-5-miquel.raynal@bootlin.com>
+In-Reply-To: <20220421085112.78858-5-miquel.raynal@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 25 Apr 2022 18:10:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVVP6_8ejyJ8v0-L2cG=vhncw9EZGgAfzemAp4BO-FF3Q@mail.gmail.com>
+Message-ID: <CAMuHMdVVP6_8ejyJ8v0-L2cG=vhncw9EZGgAfzemAp4BO-FF3Q@mail.gmail.com>
+Subject: Re: [PATCH v11 4/9] soc: renesas: rzn1-sysc: Export function to set dmamux
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, Apr 21, 2022 at 10:51 AM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+> The dmamux register is located within the system controller.
+>
+> Without syscon, we need an extra helper in order to give write access to
+> this register to a dmamux driver.
+>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 
-Thank you for the review.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Mon, Apr 25, 2022 at 1:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Apr 22, 2022 at 7:32 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Drop unused macros SSIFSR_TDC and SSIFSR_RDC.
-> >
-> > Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> What does this fix?
-> Is the real issue that there are 32 FIFO entries, and the TDC and RDC
-> fields are 6 bits wide, while the mask uses 0x1f instead of 0x3f?
->
-I was in two minds here as you have already spotted the masks are
-incorrect, instead of fixing the masks I choose to drop the macros
-itself as they were not used. Let me know what are your thoughts on
-this.
+Gr{oetje,eeting}s,
 
-Cheers,
-Prabhakar
+                        Geert
 
-> > --- a/sound/soc/sh/rz-ssi.c
-> > +++ b/sound/soc/sh/rz-ssi.c
-> > @@ -59,9 +59,7 @@
-> >  #define SSIFSR_RDC_MASK                0x3f
-> >  #define SSIFSR_RDC_SHIFT       8
-> >
-> > -#define SSIFSR_TDC(x)          (((x) & 0x1f) << 24)
-> >  #define SSIFSR_TDE             BIT(16)
-> > -#define SSIFSR_RDC(x)          (((x) & 0x1f) << 8)
-> >  #define SSIFSR_RDF             BIT(0)
-> >
-> >  #define SSIOFR_LRCONT          BIT(8)
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
