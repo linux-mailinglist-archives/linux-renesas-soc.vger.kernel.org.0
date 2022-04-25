@@ -2,106 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E6F50E477
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 17:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68E6F50E4C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 17:51:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242809AbiDYPfr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 11:35:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60340 "EHLO
+        id S242711AbiDYPxs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 11:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233191AbiDYPfq (ORCPT
+        with ESMTP id S243038AbiDYPxp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 11:35:46 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3E121E10;
-        Mon, 25 Apr 2022 08:32:41 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id v2so3867724qto.6;
-        Mon, 25 Apr 2022 08:32:41 -0700 (PDT)
+        Mon, 25 Apr 2022 11:53:45 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE703A72E
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 08:50:40 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id p18so13789302edr.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 08:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PYLQycevSzi4tL2WdwyMagoUb8rFgRrz33radZLcMd0=;
+        b=ZgjvAM+ZqtHsmn6SjoPSWIUopXkarEsFiH0XHaPnkKcAZ5Jn+7TTcIwrFtbJOoNOWY
+         gmxale4xvy5QIO6ESP1HvOkzrn5igeOYKiRPYGjLrVVe6HbjGIU68ZHT8e26dYp8g0zC
+         vnchqUHtFqX3AQmPXwRqvZgarrzbvKGVMQRQRs6ehlblH8NgQ+rhstLXkG1ylXjq8JUz
+         h4CRw4GtENQRfdOxLH0iy9w7q8slzmp26CaUxtRUnA153mP8HHcKXtc08/QSm6PfU9LW
+         93Ibq/9YOMZLtQHZNdYZMt2U+i2XZXVzGWnnYEtzE8PPVmFqbb+B2OfRtxIZCC21Gf40
+         OLAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g+loJLq4BQKFZyMUOov9xeSvRnoM3sJ2gpEra5Io5aY=;
-        b=gRbqWdtuuBXT/isFKeGKzqvktWk+g0W9f9W+jX068J6jbtmx66crXu5uHQ4qrnnSFd
-         1llw6W+k7X+Z/0v8oQb9fPppwoOLrWgXbX1P2T/JBL7CUY+yJNV4kKTl0/6aNOdsEKj9
-         9CVDEcJf0QO2xpgpGCYkIGQOUSGLb5GGNBmCBcE1FQDaWWR3tAbcV8211hfCWcfWpj1a
-         QKqCqT5aHqwr3rzYKFlIK87CZMYS8ewGaw9pLgned0dV2y7iRem4vRtrhqdsnWt1Ywy2
-         NJfOvFXjggK6QWCg4guDh0enCMU5q06oel8k2IBCXm/q7KsMDz70zqboyiWdKnfjZwKW
-         IB0g==
-X-Gm-Message-State: AOAM530ShjMAwo2+udc7PeiKQe0d4nSM7xqYcrCc0Cgf/rmF03BW62LM
-        sLV51mS+x2o1vC/SacahpxW0ibtCUhtsFg==
-X-Google-Smtp-Source: ABdhPJxcuHW2akzDXi+4yDYmFM6Ge1UFoZI2+3tmFlpwyAKvfrZ+RfHRnOYPgbhQ3X5iRLwp/RV3/g==
-X-Received: by 2002:ac8:5a84:0:b0:2f1:f687:df63 with SMTP id c4-20020ac85a84000000b002f1f687df63mr12080476qtc.307.1650900760371;
-        Mon, 25 Apr 2022 08:32:40 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id b126-20020a37b284000000b0069a11927e57sm5072449qkf.101.2022.04.25.08.32.40
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PYLQycevSzi4tL2WdwyMagoUb8rFgRrz33radZLcMd0=;
+        b=ydsNA3AVkNcAmtzFQ9nOXss8isTCnPcnbtq/aDceUPc3Slw3J2TT+Vvps8tqAeP7mH
+         nfJbquO7IoEQsxy+fqj3xPqb0SfxdnF92wjUGJU5oUlZKFGcVjXw8bjcsHSD0xFS8pdi
+         xcek23FwXwKLde3H7viXiqqqvHR0lKMv7anA5J9UhURlzE3atw4/tdrQFwpNSsNYkqRB
+         9nY3WtNrIim3Si7irYJYGfNLOEAIVy2IK7nKQg13u3GwY23lad/eOi9rhwy14G6DgBRI
+         XzjEaIIXvcu7VFJQuSrlye5g+xQ+aKMluPfZtislYJbeKN1qVSozGxMLIsKWV51GO1QS
+         x8uA==
+X-Gm-Message-State: AOAM530aZYdGxGv16CHmw9m8DHJKSUG6jdJJnuqAbkHW0UlQnVWH+kpT
+        4ML4QpdN3i33RmdSY8NClTqOjQ==
+X-Google-Smtp-Source: ABdhPJzzizUnNNmbYcKKYRk3MT2+N6aSaIwnrYS/1gK8XUgwi9cO4Xc0VfcTeqLygekgq9cD2GUxTw==
+X-Received: by 2002:aa7:c946:0:b0:416:226f:f8a6 with SMTP id h6-20020aa7c946000000b00416226ff8a6mr19656971edt.360.1650901839436;
+        Mon, 25 Apr 2022 08:50:39 -0700 (PDT)
+Received: from [192.168.0.243] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id s11-20020a170906284b00b006e108693850sm3701064ejc.28.2022.04.25.08.50.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 08:32:40 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id r189so27725508ybr.6;
-        Mon, 25 Apr 2022 08:32:40 -0700 (PDT)
-X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
- p9-20020a259e89000000b0063cad37a5demr16461851ybq.342.1650900759836; Mon, 25
- Apr 2022 08:32:39 -0700 (PDT)
+        Mon, 25 Apr 2022 08:50:38 -0700 (PDT)
+Message-ID: <886fda10-fad9-83c4-10f1-1ae36cf0a6b0@linaro.org>
+Date:   Mon, 25 Apr 2022 17:50:38 +0200
 MIME-Version: 1.0
-References: <20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Apr 2022 17:32:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWRQYLK49pMKJ6b-SVK91brrEJvD52cyyLWTwAT0z3Cmg@mail.gmail.com>
-Message-ID: <CAMuHMdWRQYLK49pMKJ6b-SVK91brrEJvD52cyyLWTwAT0z3Cmg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] treewide: scsi: ufs: Add support for Renesas R-Car
- UFS controller
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>, avri.altman@wdc.com,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Fix external clk node
+ names
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        scsi <linux-scsi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220423140658.145000-1-biju.das.jz@bp.renesas.com>
+ <f9c6e5e2-c819-d309-0c11-b87deb772858@linaro.org>
+ <OS0PR01MB5922CFACC8FEC6D67E6BFC4986F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59220968EBDF76A16F7E63A386F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <7bd2ae6d-c55f-4ab7-0c98-72da0d5d4050@linaro.org>
+ <OS0PR01MB5922619EE8816DA1676BAB4D86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ddf78c65-7cac-04cf-9f8d-e19335815473@linaro.org>
+ <OS0PR01MB59222BF5C0D4749C8AAFC57F86F89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB59222BF5C0D4749C8AAFC57F86F89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+On 25/04/2022 17:28, Biju Das wrote:
+>>>> My suggestion was to move the [12] part into the first part, so the
+>>>> suffix "clk" stays consistent:
+>>>> audio1-clk
+>>>> audio2-clk
+>>>
+>>> From HW perspective,  there are 2 audio clocks, audio clock1(multiple
+>>> and sub multiple of 44.1 Khz) and audio clk 2(Multiple and submultiple
+>> of 48Khz) connected to a single audio Codec.
+>>>
+>>> Based on the sampling rate, through clock generator driver we can
+>>> switch the clock source for audio mclock along with audio clock for
+>>> SSI and we can support both these rates
+>>>
+>>> Since there is a single audio codec, I am not sure, audio1-clk and
+>> audio2-clk is a good choise.
+>>
+>> The name of the clock is not "audio clock" but "audio", because you do not
+>> call a car "Ford Mustang car", but just "Ford Mustang". Therefore "clock"
+>> is not part of the name, but just description of a type.
+> 
+> The hardware mention the name as AUDIO_CLK1 and AUDIO_CLK2.
 
-On Wed, Apr 20, 2022 at 8:17 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> This patch series adds support Renesas R-Car S4-8 UFS controller.
+The hardware document might call it "AUDIO_CLK_REAL_CLK_CLK" and it
+won't be an argument to call device node that way in DTS.
 
-Thanks for your series!
+> There are 2 Clock availables for audio interface.
+> In that case if you term it as audio1-clk and audio-clk2,
+> But as you said clk-1-audio and clk-2-audio will be correct?
 
-> This controller has some restrictions so adds some quirks for it.
-> Before using this driver, we have to initialize a clock generator
-> on the environment board (named "Spider") by using the commands of
-> U-Boot like below:
->  => i2c dev 0
->  => i2c mw 0x6c 0x26 0x05
->  => i2c olen 0x6c 2
->  => i2c mw 0x6c 0x26c 0x2e
+If you change all other clocks to follow same principle - generic name
+followed by specific suffix - then yes. Then you should have
+"clk-extal", "clk-can" etc.
 
-You mean we need a driver for the RC21212 clock generator? ;-)
+> 
+>>
+>>>
+>>> What about like
+>>>
+>>> audio_clk1: audio-clk-1 ?
+>>> audio_clk2: audio-clk-2 ?
+>>>
+>>> Which is consistent with naming used for cpu and opp-tables?
+>>
+>>
+>> It's not consistent with clk naming. Nodes should have generic names, so
+>> the generic part is "clk". You add specific audio/audio-X prefix or suffix
+>> - it's fine, but not both.
+>>
+>> This is exactly the trouble when you start using specific names and
+>> Devicetree spec explicitly asks for generic names. So maybe go with the
+>> spec and call of these "clk-[0-9]" and problem is gone.
+> 
+> Ok Will change like
+> 
+> "audio_clk1: clk-1-audio"
+> 
 
-Or the boot loader should program the clock generator, like is done
-on other R-Car boards for e.g. the PCIe clock (BTW, RC21212 also
-generates the PCIe clock on Spider)?
+What do you mean "ok"? I said "clk-[0-9]", so "clk-0", "clk-1", "clk-2"
+and so on. No specific prefix.
 
-Gr{oetje,eeting}s,
+> Label name matches with hardware manual and node names as per Device tree spec.
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
