@@ -2,86 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7D5750DD4A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 11:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B3450DD70
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 12:01:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231976AbiDYJ4f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 05:56:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49004 "EHLO
+        id S239297AbiDYKEE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 06:04:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240551AbiDYJ43 (ORCPT
+        with ESMTP id S241535AbiDYKDg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 05:56:29 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 65E151A05D;
-        Mon, 25 Apr 2022 02:53:10 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,287,1643641200"; 
-   d="scan'208";a="117911466"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Apr 2022 18:53:10 +0900
-Received: from localhost.localdomain (unknown [10.226.93.95])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3FF9C41D0C94;
-        Mon, 25 Apr 2022 18:53:06 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 6/6] clk: renesas: r9a07g043: Add WDT clock and reset entries
-Date:   Mon, 25 Apr 2022 10:52:44 +0100
-Message-Id: <20220425095244.156720-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220425095244.156720-1-biju.das.jz@bp.renesas.com>
-References: <20220425095244.156720-1-biju.das.jz@bp.renesas.com>
+        Mon, 25 Apr 2022 06:03:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2676A25F2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 03:00:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CC55BB8121F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 75574C385AE
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650880827;
+        bh=gUTqmZrD0AmMgOLFeQ6NDOH62Cw/Zp9PuB1BWH+V2MA=;
+        h=Subject:From:Date:To:From;
+        b=PVmHXRMsA81PsnET3XLeneSdj5JhK3xid+NiA+ZY0Wsge5ChdDwEN3T6KNQ0u5nZP
+         EuYycuGKoI+mTSSf4dNrYLp/rJEiIQrpl1mEwAh60V6CtDDV42+uZiunuDVQa3sKYb
+         PpxsYm8b73q8nwXcowND1SLXNGCIFkY6Vbom6vIGrLEEpdgi/a01paQ8y8qgUWoc07
+         M6WU+SWuvlRbCvjDvYLrNu8YpPY7LgFTbWnj+uF6tK23KP7K+xNXmGsgZcFqESOL4D
+         MMZRQ6xPBqtHEk4b9+E43BkN0/ncRH1lDEFj9J8v2170sFHJoKAsFkvX82U74Jskkb
+         Qtu9PnZw8Ey2w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5A9B5E6D402
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:27 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165088082730.17962.4323654245628715394.git-patchwork-summary@kernel.org>
+Date:   Mon, 25 Apr 2022 10:00:27 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add WDT{0,2} clock and reset entries to CPG driver.
+Hello:
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g043-cpg.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index ac2b361efbb6..c7e5efc17965 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -135,6 +135,14 @@ static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
- 				0x534, 1),
- 	DEF_MOD("ostm2",	R9A07G043_OSTM2_PCLK, R9A07G043_CLK_P0,
- 				0x534, 2),
-+	DEF_MOD("wdt0_pclk",	R9A07G043_WDT0_PCLK, R9A07G043_CLK_P0,
-+				0x548, 0),
-+	DEF_MOD("wdt0_clk",	R9A07G043_WDT0_CLK, R9A07G043_OSCCLK,
-+				0x548, 1),
-+	DEF_MOD("wdt2_pclk",	R9A07G043_WDT2_PCLK, R9A07G043_CLK_P0,
-+				0x548, 4),
-+	DEF_MOD("wdt2_clk",	R9A07G043_WDT2_CLK, R9A07G043_OSCCLK,
-+				0x548, 5),
- 	DEF_MOD("sdhi0_imclk",	R9A07G043_SDHI0_IMCLK, CLK_SD0_DIV4,
- 				0x554, 0),
- 	DEF_MOD("sdhi0_imclk2",	R9A07G043_SDHI0_IMCLK2, CLK_SD0_DIV4,
-@@ -220,6 +228,8 @@ static struct rzg2l_reset r9a07g043_resets[] = {
- 	DEF_RST(R9A07G043_OSTM0_PRESETZ, 0x834, 0),
- 	DEF_RST(R9A07G043_OSTM1_PRESETZ, 0x834, 1),
- 	DEF_RST(R9A07G043_OSTM2_PRESETZ, 0x834, 2),
-+	DEF_RST(R9A07G043_WDT0_PRESETN, 0x848, 0),
-+	DEF_RST(R9A07G043_WDT2_PRESETN, 0x848, 2),
- 	DEF_RST(R9A07G043_SDHI0_IXRST, 0x854, 0),
- 	DEF_RST(R9A07G043_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A07G043_SSI0_RST_M2_REG, 0x870, 0),
+Series: treewide: Initial support for R-Car V4H
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=635181
+  Lore link: https://lore.kernel.org/r/20220425064201.459633-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [v2,1/7] dt-bindings: power: Add r8a779g0 SYSC power domain definitions
+             [v2,2/7] dt-bindings: clock: Add r8a779g0 CPG Core Clock Definitions
+
+
+Total patches: 2
+
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
