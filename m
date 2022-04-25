@@ -2,74 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96B3450DD70
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 12:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F02C450E0B3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 14:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239297AbiDYKEE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 06:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
+        id S230087AbiDYMwr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 08:52:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241535AbiDYKDg (ORCPT
+        with ESMTP id S233926AbiDYMwa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 06:03:36 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2676A25F2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 03:00:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CC55BB8121F
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 75574C385AE
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650880827;
-        bh=gUTqmZrD0AmMgOLFeQ6NDOH62Cw/Zp9PuB1BWH+V2MA=;
-        h=Subject:From:Date:To:From;
-        b=PVmHXRMsA81PsnET3XLeneSdj5JhK3xid+NiA+ZY0Wsge5ChdDwEN3T6KNQ0u5nZP
-         EuYycuGKoI+mTSSf4dNrYLp/rJEiIQrpl1mEwAh60V6CtDDV42+uZiunuDVQa3sKYb
-         PpxsYm8b73q8nwXcowND1SLXNGCIFkY6Vbom6vIGrLEEpdgi/a01paQ8y8qgUWoc07
-         M6WU+SWuvlRbCvjDvYLrNu8YpPY7LgFTbWnj+uF6tK23KP7K+xNXmGsgZcFqESOL4D
-         MMZRQ6xPBqtHEk4b9+E43BkN0/ncRH1lDEFj9J8v2170sFHJoKAsFkvX82U74Jskkb
-         Qtu9PnZw8Ey2w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5A9B5E6D402
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 10:00:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 25 Apr 2022 08:52:30 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29E2BC0F;
+        Mon, 25 Apr 2022 05:49:26 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id e128so10631075qkd.7;
+        Mon, 25 Apr 2022 05:49:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NPorSfLzynlTTFLcIqwhfwbS6R4JDxHEiU+bfxItonI=;
+        b=ew61U+SbG4M6uq31+iG2W40+tE5/fOOF3O9jude92R40tV4JFekVTqOI6qs/F21GW7
+         736WZq8TEwrxI3XD4Aw678MJBuIsUNZx2KfFCkEuVGqcqvU6ZGR7RIG6x81Nejn1FImr
+         Hf5sxDKFbyxJsn6BtlfNO+Xeso8XzVkDWJUiutYAE0CzllknoPCfCq3jYcyscHSfYBx/
+         hKBnANTxpV0DBF9hm3f12ZAFvVmpVbDH4hpwq29LZQxFCeaXBrR0HGtuYD1gvcIpq5sf
+         7ErLtz17MvvxRc5o/y2xJTPe+8zdQfDR89+JQGiDBDBxqyziIo5so6JEvLtG2TGk0GQC
+         NZ3g==
+X-Gm-Message-State: AOAM532icnQOw2P/vpCEeSRxqttIv8NKJ+3FwIwTfGD0xpewvRloeoiX
+        vRvXogZfaYohNZgHcpLgn0D5N7tDJxzxcA==
+X-Google-Smtp-Source: ABdhPJyVoVZ4MbalF6jLAYP3M1LzuKx0Wmp8oF0R6/sNDgSq3hwkPqMCV26FFEsOJGMcc8fxNp460g==
+X-Received: by 2002:a05:620a:7eb:b0:69c:7933:b405 with SMTP id k11-20020a05620a07eb00b0069c7933b405mr9828582qkk.602.1650890965493;
+        Mon, 25 Apr 2022 05:49:25 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id x24-20020ac87318000000b002f1fc5fcaedsm5774780qto.68.2022.04.25.05.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Apr 2022 05:49:24 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id v59so13909280ybi.12;
+        Mon, 25 Apr 2022 05:49:24 -0700 (PDT)
+X-Received: by 2002:a25:8087:0:b0:641:dd06:577d with SMTP id
+ n7-20020a258087000000b00641dd06577dmr15589591ybk.207.1650890964362; Mon, 25
+ Apr 2022 05:49:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <165088082730.17962.4323654245628715394.git-patchwork-summary@kernel.org>
-Date:   Mon, 25 Apr 2022 10:00:27 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 25 Apr 2022 14:49:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
+Message-ID: <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ASoC: sh: rz-ssi: Drop unused macros
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Pavel Machek <pavel@denx.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Prabhakar,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+On Fri, Apr 22, 2022 at 7:32 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Drop unused macros SSIFSR_TDC and SSIFSR_RDC.
+>
+> Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Series: treewide: Initial support for R-Car V4H
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=635181
-  Lore link: https://lore.kernel.org/r/20220425064201.459633-1-yoshihiro.shimoda.uh@renesas.com
-    Patches: [v2,1/7] dt-bindings: power: Add r8a779g0 SYSC power domain definitions
-             [v2,2/7] dt-bindings: clock: Add r8a779g0 CPG Core Clock Definitions
+Thanks for your patch!
 
+What does this fix?
+Is the real issue that there are 32 FIFO entries, and the TDC and RDC
+fields are 6 bits wide, while the mask uses 0x1f instead of 0x3f?
 
-Total patches: 2
+> --- a/sound/soc/sh/rz-ssi.c
+> +++ b/sound/soc/sh/rz-ssi.c
+> @@ -59,9 +59,7 @@
+>  #define SSIFSR_RDC_MASK                0x3f
+>  #define SSIFSR_RDC_SHIFT       8
+>
+> -#define SSIFSR_TDC(x)          (((x) & 0x1f) << 24)
+>  #define SSIFSR_TDE             BIT(16)
+> -#define SSIFSR_RDC(x)          (((x) & 0x1f) << 8)
+>  #define SSIFSR_RDF             BIT(0)
+>
+>  #define SSIOFR_LRCONT          BIT(8)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Gr{oetje,eeting}s,
 
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
