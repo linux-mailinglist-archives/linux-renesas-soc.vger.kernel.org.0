@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 585A450E66A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 19:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F10350E66D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 19:05:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243716AbiDYRIt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 13:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
+        id S243712AbiDYRIu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 13:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242850AbiDYRIp (ORCPT
+        with ESMTP id S243715AbiDYRIt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 13:08:45 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99B1626AF7;
-        Mon, 25 Apr 2022 10:05:40 -0700 (PDT)
+        Mon, 25 Apr 2022 13:08:49 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 03E722714C;
+        Mon, 25 Apr 2022 10:05:43 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,288,1643641200"; 
-   d="scan'208";a="117938206"
+   d="scan'208";a="119104475"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Apr 2022 02:05:40 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Apr 2022 02:05:43 +0900
 Received: from localhost.localdomain (unknown [10.226.93.95])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 09675400B9E1;
-        Tue, 26 Apr 2022 02:05:36 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A172B4004D06;
+        Tue, 26 Apr 2022 02:05:40 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 01/13] arm64: dts: renesas: r9a07g043: Add I2C2 node and fillup the I2C{0,1,3} stub nodes
-Date:   Mon, 25 Apr 2022 18:05:18 +0100
-Message-Id: <20220425170530.200921-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 02/13] arm64: dts: renesas: r9a07g043: Add SSI{1,2,3} nodes and fillup the SSI0 stub node
+Date:   Mon, 25 Apr 2022 18:05:19 +0100
+Message-Id: <20220425170530.200921-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220425170530.200921-1-biju.das.jz@bp.renesas.com>
 References: <20220425170530.200921-1-biju.das.jz@bp.renesas.com>
@@ -48,112 +48,108 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add I2C2 node and fillup the I2C{0,1,3} stub nodes in RZ/G2UL
+Add SSI{1,2,3} nodes and fillup the SSI0 stub node in RZ/G2UL
 (R9A07G043) SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 73 +++++++++++++++++++++-
- 1 file changed, 70 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 80 +++++++++++++++++++++-
+ 1 file changed, 79 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index c8aadbe55278..2025224d71ab 100644
+index 2025224d71ab..ef8550a2de09 100644
 --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -220,22 +220,89 @@ canfd: can@10050000 {
- 		i2c0: i2c@10058000 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g043", "renesas,riic-rz";
- 			reg = <0 0x10058000 0 0x400>;
--			/* place holder */
-+			interrupts = <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 348 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 349 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tei", "ri", "ti", "spi", "sti",
-+					  "naki", "ali", "tmoi";
-+			clocks = <&cpg CPG_MOD R9A07G043_I2C0_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G043_I2C0_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
- 		};
+@@ -75,9 +75,87 @@ soc: soc {
+ 		ranges;
  
- 		i2c1: i2c@10058400 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g043", "renesas,riic-rz";
- 			reg = <0 0x10058400 0 0x400>;
--			/* place holder */
-+			interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 356 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 357 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tei", "ri", "ti", "spi", "sti",
-+					  "naki", "ali", "tmoi";
-+			clocks = <&cpg CPG_MOD R9A07G043_I2C1_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G043_I2C1_MRST>;
+ 		ssi0: ssi@10049c00 {
++			compatible = "renesas,r9a07g043-ssi",
++				     "renesas,rz-ssi";
+ 			reg = <0 0x10049c00 0 0x400>;
++			interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 327 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 328 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 329 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
++			clocks = <&cpg CPG_MOD R9A07G043_SSI0_PCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SSI0_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A07G043_SSI0_RST_M2_REG>;
++			dmas = <&dmac 0x2655>, <&dmac 0x2656>;
++			dma-names = "tx", "rx";
 +			power-domains = <&cpg>;
+ 			#sound-dai-cells = <0>;
+-			/* place holder */
 +			status = "disabled";
 +		};
 +
-+		i2c2: i2c@10058800 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g043", "renesas,riic-rz";
-+			reg = <0 0x10058800 0 0x400>;
-+			interrupts = <GIC_SPI 366 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tei", "ri", "ti", "spi", "sti",
-+					  "naki", "ali", "tmoi";
-+			clocks = <&cpg CPG_MOD R9A07G043_I2C2_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G043_I2C2_MRST>;
++		ssi1: ssi@1004a000 {
++			compatible = "renesas,r9a07g043-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x1004a000 0 0x400>;
++			interrupts = <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 331 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 332 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 333 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
++			clocks = <&cpg CPG_MOD R9A07G043_SSI1_PCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SSI1_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A07G043_SSI1_RST_M2_REG>;
++			dmas = <&dmac 0x2659>, <&dmac 0x265a>;
++			dma-names = "tx", "rx";
 +			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
++		ssi2: ssi@1004a400 {
++			compatible = "renesas,r9a07g043-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x1004a400 0 0x400>;
++			interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 335 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 336 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 337 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
++			clocks = <&cpg CPG_MOD R9A07G043_SSI2_PCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SSI2_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A07G043_SSI2_RST_M2_REG>;
++			dmas = <&dmac 0x265f>;
++			dma-names = "rt";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
++		ssi3: ssi@1004a800 {
++			compatible = "renesas,r9a07g043-ssi",
++				     "renesas,rz-ssi";
++			reg = <0 0x1004a800 0 0x400>;
++			interrupts = <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 339 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 340 IRQ_TYPE_EDGE_RISING>,
++				     <GIC_SPI 341 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "int_req", "dma_rx", "dma_tx", "dma_rt";
++			clocks = <&cpg CPG_MOD R9A07G043_SSI3_PCLK2>,
++				 <&cpg CPG_MOD R9A07G043_SSI3_PCLK_SFR>,
++				 <&audio_clk1>, <&audio_clk2>;
++			clock-names = "ssi", "ssi_sfr", "audio_clk1", "audio_clk2";
++			resets = <&cpg R9A07G043_SSI3_RST_M2_REG>;
++			dmas = <&dmac 0x2661>, <&dmac 0x2662>;
++			dma-names = "tx", "rx";
++			power-domains = <&cpg>;
++			#sound-dai-cells = <0>;
 +			status = "disabled";
  		};
  
- 		i2c3: i2c@10058c00 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+			compatible = "renesas,riic-r9a07g043", "renesas,riic-rz";
- 			reg = <0 0x10058c00 0 0x400>;
--			/* place holder */
-+			interrupts = <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 372 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 373 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tei", "ri", "ti", "spi", "sti",
-+					  "naki", "ali", "tmoi";
-+			clocks = <&cpg CPG_MOD R9A07G043_I2C3_PCLK>;
-+			clock-frequency = <100000>;
-+			resets = <&cpg R9A07G043_I2C3_MRST>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
- 		};
- 
- 		adc: adc@10059000 {
+ 		spi1: spi@1004b000 {
 -- 
 2.25.1
 
