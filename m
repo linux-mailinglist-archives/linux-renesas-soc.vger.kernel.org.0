@@ -2,140 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A148E50EA01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 22:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF49350EA04
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 22:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245173AbiDYUWA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 16:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
+        id S245185AbiDYUYE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 16:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245175AbiDYUV6 (ORCPT
+        with ESMTP id S245175AbiDYUYC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 16:21:58 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8566F47550
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 13:18:52 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 2so6655679pjw.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 13:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=qapyQJXPOocliP6lXZfJUOgzSrOPOVWwudM5eUPOBmE=;
-        b=R2x7BHYanoECVmTJbWh9D5xy3vXQec1X6ymViOz5s3NcjC8omQU92vvufUidaCdFxf
-         dRM1IqgC3elODOcbn+mIkyOoXKEWJXGqjICSBp6m6GFLkbZu4lo3RP6FHANjfMVDM6w5
-         6rxF4W9OPy3Wt0EBt45qTTRQcgU6GkPaeo8JWmmf8L8eXSBlDstC+UDWS/mkJ+Ik0akF
-         NCVKgMJuo2yZ/SeYK8oHRZ2XxT6EUiuQt5YZ7SFxn29w+VBVdY72fxVtRGZOWA4OYoam
-         Orm3yU/iF/fpJHmvkiK4ZxgCKHnOdw0CznQGzykSfxORQbPINp4Aybq7LH4joWMbWAIw
-         ltdA==
+        Mon, 25 Apr 2022 16:24:02 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89DE3B8239;
+        Mon, 25 Apr 2022 13:20:57 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id a10so18415825oif.9;
+        Mon, 25 Apr 2022 13:20:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=qapyQJXPOocliP6lXZfJUOgzSrOPOVWwudM5eUPOBmE=;
-        b=V/h7ulYkRBTK201fOJytopVRTknUeUggpWNH9lGLkmzSPzLOfCZFBTKawPTjySZDcE
-         nElMkkX7yfbXYxC7n+Ulg0bUyK/yfLvOQOJD3Wb+ytgrtBdq2DNSPJa45H6hWR7Aq3iM
-         5ibCuV7gOhZN6Ft6fU3/uMD/murg+KlMaN9zz5d8JCJNqB4u6ESObpMTA7AXIyQ9uBCa
-         kOtmzqpotkaaceSZfTlzyVlw/GYqHQpc0IuvjsmWf/xpAhEtdIp0Sc86rjy+OCMZjrmK
-         jKbp4pU9Csul9zuozF403w3iIBbuLXQzvynPDwij7jXu8X/elzd/Zq1gMQ/yTZ78gXUJ
-         GIfQ==
-X-Gm-Message-State: AOAM533fm3q0GlNqmeU4SZezG6KldVZqM/nGGbp+2TeIkZqNGqGpst75
-        JinZaFgFMzWorHcGVFgRL/98dRwz6N901j0gOk0=
-X-Google-Smtp-Source: ABdhPJxG6nFYTLhRt+S+kclfW9vmEuSBWavbArWui1p8s7E49FwuD/opcdbchVJ4qqMluIs3fzW2Cw==
-X-Received: by 2002:a17:902:788e:b0:158:f90a:b580 with SMTP id q14-20020a170902788e00b00158f90ab580mr19191749pll.12.1650917931670;
-        Mon, 25 Apr 2022 13:18:51 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id l13-20020a056a00140d00b004e13da93eaasm12857782pfu.62.2022.04.25.13.18.51
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UYl3ObxUa/9hCeHQvInTEkQcuPIci9FGY8v4Ht1FoWE=;
+        b=zkuOokXLExIuiaS0e+Murh+5MyrK+DUf6j0IgY+rr+IclSHQLFipB/0YPWX10QNGsH
+         fMNAEx1kXC3VGOJoohi6IBDu7xR39fyyu1hmTQeX8pnrPv6e0aSonE5Eflthgk8/u66P
+         bE2EmrlZGkZW9u7DlsGiA3ig6csw8YQhWMt5giJG3B0HxrbsKt73QVAfhxOUolPHiQ61
+         hFq7QsjOEI21RXq75RB71OGU0Q5FOUlqCRfWbz9kjuBt8xteI9TloF4kJ+61Acd6ATH8
+         b4zX0IJ3ZtY4p8D+0T95ngC4FRY+8IIfUIJGxzeGXRA4mOWV3sesEB8QuQk7xsVH52St
+         YGqg==
+X-Gm-Message-State: AOAM5329GnMk7HsAEXK8+J8tfgofHPiAKOpizNpLamDfi0vgzEJO+RQU
+        CODpxKq/4cuQRpyWgCVeFg==
+X-Google-Smtp-Source: ABdhPJxsTlIu73Fj0yj3q/bfw/wS9Og8lsPiGy3ZLKu+7xWkQKarNY1lHbTfOUL9QIgAkSN3ScMzMA==
+X-Received: by 2002:aca:3587:0:b0:2ec:a23c:e197 with SMTP id c129-20020aca3587000000b002eca23ce197mr8995317oia.47.1650918056772;
+        Mon, 25 Apr 2022 13:20:56 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a37-20020a9d2628000000b0060563c52952sm4179146otb.8.2022.04.25.13.20.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 13:18:51 -0700 (PDT)
-Message-ID: <6267022b.1c69fb81.7341f.e096@mx.google.com>
-Date:   Mon, 25 Apr 2022 13:18:51 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 25 Apr 2022 13:20:56 -0700 (PDT)
+Received: (nullmailer pid 203303 invoked by uid 1000);
+        Mon, 25 Apr 2022 20:20:55 -0000
+Date:   Mon, 25 Apr 2022 15:20:55 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: i2c: renesas,riic: Document RZ/G2UL SoC
+Message-ID: <YmcCp2b73bw4AYe/@robh.at.kernel.org>
+References: <20220425133152.176949-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-next-2022-04-25-v5.18-rc1
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: next
-Subject: renesas/next baseline: 334 runs,
- 1 regressions (renesas-next-2022-04-25-v5.18-rc1)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220425133152.176949-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/next baseline: 334 runs, 1 regressions (renesas-next-2022-04-25-v5.=
-18-rc1)
+On Mon, 25 Apr 2022 14:31:52 +0100, Biju Das wrote:
+> Document RZ/G2UL I2C bindings. RZ/G2UL I2C is identical to one found on
+> the RZ/G2L SoC. No driver changes are required as RZ/G2L compatible
+> string "renesas,riic-rz" will be used as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1->v2:
+>  * Added Reset property required on RZ/G2UL SoC
+>  * Added Ack from Krzysztof Kozlowski
+>  * Added Rb tag from Geert
+> ---
+>  Documentation/devicetree/bindings/i2c/renesas,riic.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Regressions Summary
--------------------
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2022-04-25-v5.18-rc1/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2022-04-25-v5.18-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      36f093d12e3c242cf7d9ef8358c73e2eca6c313d =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6266cd2117af353b1fff945e
-
-  Results:     88 PASS, 4 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2022=
--04-25-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/base=
-line-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2022=
--04-25-v5.18-rc1/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/base=
-line-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220422.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/6266cd2117af353b1fff9484
-        failing since 19 days (last pass: renesas-next-2022-02-25-v5.17-rc1=
-, first fail: renesas-next-2022-04-04-v5.18-rc1)
-
-    2022-04-25T16:32:24.903708  <8>[   32.556136] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-04-25T16:32:25.923951  /lava-6172952/1/../bin/lava-test-case
-    2022-04-25T16:32:25.934509  <8>[   33.587069] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
- =20
+Applied, thanks!
