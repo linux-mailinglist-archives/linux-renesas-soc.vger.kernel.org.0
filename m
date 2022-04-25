@@ -2,133 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B350650E5D7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 18:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAF6F50E5DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 18:30:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243376AbiDYQdU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 12:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        id S241924AbiDYQdM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 12:33:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243382AbiDYQdR (ORCPT
+        with ESMTP id S234388AbiDYQdL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 12:33:17 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035FC1D33B;
-        Mon, 25 Apr 2022 09:30:12 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id x21so1230908qtr.12;
-        Mon, 25 Apr 2022 09:30:11 -0700 (PDT)
+        Mon, 25 Apr 2022 12:33:11 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF2E637B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 09:30:07 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id kq17so7543631ejb.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 09:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=EU4QiPP93gBlWOe2hApZIvBdZh/GzN6+GSAbqnd1hoQ=;
+        b=k5UcG9yzd5C+t8pNBeRZNZogRTEGnCU1O8cr+kn04NtswKGSVst089clW2lDdh3uv5
+         GvcwBnd4xXtZF8qs7sMp+8fI7hYbSZLvrtqd1zSajKS1Iw9rYRbCFrl9kRJNyZqS80Ff
+         BvElCMS8mnpGNoXYmURPCLc3ZuD2ZGZ0Qpmf1YHkr0m/316f1QrUnETqHSDbrzlYY4Sj
+         PncIvjdhTbqZ8ZrIngf8ZXLXQl4jJobTLzG57bpwuy22JVp50H0g1NBzHacHcfqBDErc
+         CWMsGuQp1TwyskeXq/j29vtBgEbX+/Mnsgu9+zGWb4X9dRqfAMXp48Oj0rPPwxtKpYJz
+         gA6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HkzV/+2M9zHmKkv5bNxhza8d87qIgaSeR4/CvCviOfQ=;
-        b=2Kk6rDeuTgB4OrDnSqGU3Za1myqVwD/dWhfhnv3Qky8mZkdwIvDQwy9/abzn5TAT77
-         wLgTHFGVaOosAYmBKywI1xQ4CKfx3jpPYx/wMPbSE1hLJCl/bSK/pvraNtllSWCbdTBq
-         bA73ckq3//sLcUslOBIhS+1GEF6xreoE5Djao/RWj2Rug29jMepyXCqhFu5VqaX0c5/b
-         apd8qDi7HfoglCtxayg7DyRvrEjjkApyQdZEHnGOvMZBsapmv7sPfTOcWv8yuZv48kt0
-         vEt4q0rHmfoGk/61Xq0YkNd+Gl+Zm7FcibX0ekHNh+wh/HwP9CH6M9xd6O57U+F5c4v0
-         LgaQ==
-X-Gm-Message-State: AOAM533o/2gSDGeXjqyfL2b8sZABIYgffHYTHAAww7XEmwYVZxZiuzhT
-        /Ezqbb+bxltfwtIvdpqEIK4SC/9AvgH5ZQ==
-X-Google-Smtp-Source: ABdhPJx5eEvGk96GMcwbmzSBKCM3cv3JYfyXrnImWf2JSreFhhCPWgoj92dYFLtMxcA+AqLl8Th7wg==
-X-Received: by 2002:ac8:1191:0:b0:2ed:bb6:ab07 with SMTP id d17-20020ac81191000000b002ed0bb6ab07mr12525257qtj.418.1650904210793;
-        Mon, 25 Apr 2022 09:30:10 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id f39-20020a05622a1a2700b002f367d7a7a5sm2265190qtb.23.2022.04.25.09.30.09
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EU4QiPP93gBlWOe2hApZIvBdZh/GzN6+GSAbqnd1hoQ=;
+        b=YbF8iHZCfqhUFdKctP26hcczZcBcKfmzTI94xGLJl5X5dyBikODz4V454UtamrcJZ5
+         /m6oNFPnIiPV1Wc3ylf2S4Stkh6cuIh/RuZhsbzUjPnKuRucaX6VoGf6Efx/es9h2tJR
+         0nArxBs2jz6DRSGEYdi2cFU7dQYw92kMZ15tWVTYR44v23l/58V+w0wpLNx7z6DHAce0
+         5s8u9j4ubaubV6laoYT80dQbwUkp2ck4siOqQBKurspPszZM4BoSAwXOn+BvKH2PHczw
+         BnZMJ3pArTw/Bxq8lxyXy6fj7L7bm9Ql4jgbthMR1zc+twdoq8Mem4wHbvA/2PVzqMqI
+         jggg==
+X-Gm-Message-State: AOAM530jlEMxeaWV9XmNB0/GP/0cPCcmmQfuZY3lPVkscxQGtUQatsv8
+        PIUIoixDrI1JRKjXQkBo3g69Kw==
+X-Google-Smtp-Source: ABdhPJyb7RSeWvgIu/XMZI6hViaDXKdRVhUABAMdlPkExjnMZkDVSCxU0agCcrztfH45qOGSOqpnBg==
+X-Received: by 2002:a17:906:730c:b0:6f0:f69:b2e with SMTP id di12-20020a170906730c00b006f00f690b2emr16867495ejc.276.1650904205504;
+        Mon, 25 Apr 2022 09:30:05 -0700 (PDT)
+Received: from [192.168.0.244] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id s27-20020a50ab1b000000b00425e8a3a7a0sm1589979edc.10.2022.04.25.09.30.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 09:30:10 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-2ef5380669cso154297037b3.9;
-        Mon, 25 Apr 2022 09:30:09 -0700 (PDT)
-X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
- c204-20020a811cd5000000b002f4c3fc2174mr17984532ywc.512.1650904209650; Mon, 25
- Apr 2022 09:30:09 -0700 (PDT)
+        Mon, 25 Apr 2022 09:30:05 -0700 (PDT)
+Message-ID: <d3fbb3cf-19e2-a2ad-1976-f9687150a866@linaro.org>
+Date:   Mon, 25 Apr 2022 18:30:04 +0200
 MIME-Version: 1.0
-References: <20220421085112.78858-1-miquel.raynal@bootlin.com> <20220421085112.78858-9-miquel.raynal@bootlin.com>
-In-Reply-To: <20220421085112.78858-9-miquel.raynal@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Apr 2022 18:29:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXkrdjETcgN9yruL_J_mL3q7OEMj2DbY36ppwg1eDU5SA@mail.gmail.com>
-Message-ID: <CAMuHMdXkrdjETcgN9yruL_J_mL3q7OEMj2DbY36ppwg1eDU5SA@mail.gmail.com>
-Subject: Re: [PATCH v11 8/9] ARM: dts: r9a06g032: Add the two DMA nodes
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a07g044: Fix external clk node
+ names
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220423140658.145000-1-biju.das.jz@bp.renesas.com>
+ <f9c6e5e2-c819-d309-0c11-b87deb772858@linaro.org>
+ <OS0PR01MB5922CFACC8FEC6D67E6BFC4986F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59220968EBDF76A16F7E63A386F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <7bd2ae6d-c55f-4ab7-0c98-72da0d5d4050@linaro.org>
+ <OS0PR01MB5922619EE8816DA1676BAB4D86F99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ddf78c65-7cac-04cf-9f8d-e19335815473@linaro.org>
+ <OS0PR01MB59222BF5C0D4749C8AAFC57F86F89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <886fda10-fad9-83c4-10f1-1ae36cf0a6b0@linaro.org>
+ <OS0PR01MB5922AB6D16AB716FECAA140786F89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB5922AB6D16AB716FECAA140786F89@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+On 25/04/2022 18:26, Biju Das wrote:
+>>
+>> What do you mean "ok"? I said "clk-[0-9]", so "clk-0", "clk-1", "clk-2"
+>> and so on. No specific prefix.
+> 
+> Ah ok.
+> 
+> As you mentioned above "generic part is "clk". You add specific audio/audio-X prefix
+> or suffix"
+> 
+> So based on that, I thought "clk" is generic part and "-1-audio" as suffix, "clk-1-audio" 
+> should be acceptable.
+> 
+> For eg:- If I plan to match the label name with the hardware manual(audio_clk1),
 
-On Thu, Apr 21, 2022 at 10:51 AM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> Describe the two DMA controllers available on this SoC.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Labels are not restricted (except using [a-z0-9_], no dashes), so it is
+perfectly fine.
 
-Still, a few comments below, valid for both instances...
+> 
+> then, as per the discussion we have, the node names should be
+> 
+> either
+> 
+> "audio_clk1: clk-0"
+> 
+> or 
+> 
+> "audio_clk1: clk-1"
+> 
+> Or
+> 
+> "audio_clk1: audio1-clk"
+> 
+> Correct?
 
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -200,6 +200,36 @@ nand_controller: nand-controller@40102000 {
->                         status = "disabled";
->                 };
->
-> +               dma0: dma-controller@40104000 {
-> +                       compatible = "renesas,r9a06g032-dma", "renesas,rzn1-dma";
-> +                       reg = <0x40104000 0x1000>;
-> +                       interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clock-names = "hclk";
-> +                       clocks = <&sysctrl R9A06G032_HCLK_DMA0>;
-> +                       dma-channels = <8>;
-> +                       dma-requests = <16>;
-> +                       dma-masters = <1>;
-> +                       #dma-cells = <3>;
-> +                       block_size = <0xfff>;
-> +                       data_width = <3>;
+Yes, correct.
 
-This property is deprecated, in favor of "dma-width".
-
-> +                       status = "disabled";
-
-Why not keep it enabled?
-
-> +               };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
