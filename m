@@ -2,411 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B35350E2F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 16:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EF0F50E39E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 16:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234864AbiDYOZt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 10:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44530 "EHLO
+        id S242312AbiDYOv2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 10:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232374AbiDYOZt (ORCPT
+        with ESMTP id S242577AbiDYOv2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 10:25:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712E3222B8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Apr 2022 07:22:43 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DD3230B;
-        Mon, 25 Apr 2022 16:22:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650896560;
-        bh=WD+JklrBqe4Xy3wh4z99dRd1JIxNs7FUZ4gAikCcfTU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=e+0If5XNp5ZddlQ+H4qbYXOZIIbDuVNbcdZfkGB81W2eHx8x5PFQ2sn8lAWEODHP0
-         jDfWQeiRB2JLNbiYqqi2ITyZRhEymDdVZ6EZixFvqMhCV5LIEbIexMGBfH+/JzuwwR
-         +ZEorHV9SoX0SiSZ31YN/4cKhYFGeBUPkd5z1Ko4=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 25 Apr 2022 10:51:28 -0400
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F62632A;
+        Mon, 25 Apr 2022 07:48:23 -0700 (PDT)
+Received: by mail-qv1-f50.google.com with SMTP id a5so11941847qvx.1;
+        Mon, 25 Apr 2022 07:48:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cL0OzkNmMd5lpyFR5webtZzlGdlaWuUfSR3/9hEqF7I=;
+        b=8IM9zz9VXxwC36KrWQEJVO1mmMFGFWXJatARaiol2UK6SgwvbfjN6KjlMzWUbULY2Q
+         HMHkNETPPCJLWoeVxGSEgotuDwtGOFtaU5BQhK2XLEDMPi1dNrOBnHJnBPqNCPLOQ923
+         8u0zZN9I0aTxsm8ecjdEaZosQvK+hcpQaJbXL6mSi+3wAS+YJq7CfzxHLYLbokvrzv0c
+         D47DILsp35FXGipaQY080gDIl9DUns3KxbwEyfABEa2F5qPiQYK2NwtxymyTljq2q6b5
+         2+P1lJo6dLSWgnnnAnpU64s0Xu51dqyzzrd5vgWwwaCtJfcU3EG59OOw18xDKD8ABycX
+         tRWw==
+X-Gm-Message-State: AOAM532/tHyqySBPJCyaSHHX7ZcRaNT44iGkAq0bQZukk7aa1gr3bVAW
+        nfBfrIq1LlM76F8EPLnvdnAj06hcTwBPtA==
+X-Google-Smtp-Source: ABdhPJyInjIprmN64xQeb1ZT/+ed3Tf6MxM52HFKMG1nZPLQfZwLheBMhcPZJkjBeuI2wQPNbnm6Ig==
+X-Received: by 2002:a05:6214:3006:b0:443:cf1e:58d7 with SMTP id ke6-20020a056214300600b00443cf1e58d7mr13157159qvb.53.1650898102894;
+        Mon, 25 Apr 2022 07:48:22 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id b4-20020a05622a020400b002f36ff97ae5sm615927qtx.70.2022.04.25.07.48.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Apr 2022 07:48:22 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2f7d19cac0bso44036167b3.13;
+        Mon, 25 Apr 2022 07:48:22 -0700 (PDT)
+X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
+ c204-20020a811cd5000000b002f4c3fc2174mr17463670ywc.512.1650898102106; Mon, 25
+ Apr 2022 07:48:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220424214550.19463-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220424214550.19463-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: Drop file name from comment header blocks
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Date:   Mon, 25 Apr 2022 15:22:38 +0100
-Message-ID: <165089655816.3782398.8726324577066014339@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220425064201.459633-1-yoshihiro.shimoda.uh@renesas.com> <20220425064201.459633-5-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220425064201.459633-5-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 25 Apr 2022 16:48:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUbr9vzSHxxT1CU_Oi0pTQyAuR3Qk5Cfwg0f4Hm8LcW8Q@mail.gmail.com>
+Message-ID: <CAMuHMdUbr9vzSHxxT1CU_Oi0pTQyAuR3Qk5Cfwg0f4Hm8LcW8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] clk: renesas: rcar-gen4: Add CLK_TYPE_GEN4_PLL4
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-04-24 22:45:50)
-> The comment blocks at the beginning of each file have a one-line
-> summary description of the file that includes the file name. While the
-> description is useful, the file name only creates opportunities for
-> mistakes (as seen in rcar_du_vsp.c) without any added value. Drop it.
->=20
-> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+Hi Shimoda-san,
 
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_cmm.c           | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_cmm.h           | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c       | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h       | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c    | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.h    | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_group.c      | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_group.h      | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_kms.h        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c      | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_plane.h      | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h       | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.h        | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_writeback.c  | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_du_writeback.h  | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c          | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds.h          | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds_regs.h     | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h | 2 +-
->  24 files changed, 24 insertions(+), 24 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du=
-/rcar_cmm.c
-> index 382d53f8a22e..e2a67dda4658 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_cmm.c -- R-Car Display Unit Color Management Module
-> + * R-Car Display Unit Color Management Module
->   *
->   * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du=
-/rcar_cmm.h
-> index b5f7ec6db04a..628072acc98b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_cmm.h -- R-Car Display Unit Color Management Module
-> + * R-Car Display Unit Color Management Module
->   *
->   * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rca=
-r-du/rcar_du_crtc.c
-> index 23e1aedf8dc0..621bbccb95d4 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_crtc.c  --  R-Car Display Unit CRTCs
-> + * R-Car Display Unit CRTCs
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rca=
-r-du/rcar_du_crtc.h
-> index 66e8839db708..d0f38a8b3561 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_crtc.h  --  R-Car Display Unit CRTCs
-> + * R-Car Display Unit CRTCs
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.c
-> index 1bc7325aa356..70d85610d720 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_drv.c  --  R-Car Display Unit DRM driver
-> + * R-Car Display Unit DRM driver
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.h
-> index 83530721e373..bfad7775d9a1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_drv.h  --  R-Car Display Unit DRM driver
-> + * R-Car Display Unit DRM driver
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/=
-rcar-du/rcar_du_encoder.c
-> index 3977aaa1ab5a..bf76a60776bd 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_encoder.c  --  R-Car Display Unit Encoder
-> + * R-Car Display Unit Encoder
->   *
->   * Copyright (C) 2013-2014 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/=
-rcar-du/rcar_du_encoder.h
-> index 73560563fb31..e5ec8fbb3979 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_encoder.h  --  R-Car Display Unit Encoder
-> + * R-Car Display Unit Encoder
->   *
->   * Copyright (C) 2013-2014 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rc=
-ar-du/rcar_du_group.c
-> index 8665a1dd2186..1fe8581577ed 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_group.c  --  R-Car Display Unit Channels Pair
-> + * R-Car Display Unit Channels Pair
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rc=
-ar-du/rcar_du_group.h
-> index e9906609c635..55649ad86a10 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_group.c  --  R-Car Display Unit Planes and CRTCs Group
-> + * R-Car Display Unit Planes and CRTCs Group
->   *
->   * Copyright (C) 2013-2014 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar=
--du/rcar_du_kms.c
-> index 190dbb7f15dd..166b2346d8c6 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_kms.c  --  R-Car Display Unit Mode Setting
-> + * R-Car Display Unit Mode Setting
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar=
--du/rcar_du_kms.h
-> index 789154e19535..f31afeeee05a 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_kms.h  --  R-Car Display Unit Mode Setting
-> + * R-Car Display Unit Mode Setting
->   *
->   * Copyright (C) 2013-2014 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rc=
-ar-du/rcar_du_plane.c
-> index 5c1c7bb04f3f..f214a8b6cfd3 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_plane.c  --  R-Car Display Unit Planes
-> + * R-Car Display Unit Planes
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/rc=
-ar-du/rcar_du_plane.h
-> index 81bbf207ad0e..f9893d7d6dfc 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_plane.h  --  R-Car Display Unit Planes
-> + * R-Car Display Unit Planes
->   *
->   * Copyright (C) 2013-2014 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rca=
-r-du/rcar_du_regs.h
-> index 1cdaa51eb9ac..c1bcb0e8b5b4 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  /*
-> - * rcar_du_regs.h  --  R-Car Display Unit Registers Definitions
-> + * R-Car Display Unit Registers Definitions
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar=
--du/rcar_du_vsp.c
-> index 4a3e710eb684..6b535abd799a 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
-> + * R-Car Display Unit VSP-Based Compositor
->   *
->   * Copyright (C) 2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar=
--du/rcar_du_vsp.h
-> index 9b4724159378..67630f0b6599 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
-> + * R-Car Display Unit VSP-Based Compositor
->   *
->   * Copyright (C) 2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/dr=
-m/rcar-du/rcar_du_writeback.c
-> index c79d1259e49b..2f5f3557bd90 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * rcar_du_writeback.c  --  R-Car Display Unit Writeback Support
-> + * R-Car Display Unit Writeback Support
->   *
->   * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.co=
-m>
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h b/drivers/gpu/dr=
-m/rcar-du/rcar_du_writeback.h
-> index fa87ebf8d21f..a71c9c08cafa 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  /*
-> - * rcar_du_writeback.h  --  R-Car Display Unit Writeback Support
-> + * R-Car Display Unit Writeback Support
->   *
->   * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.co=
-m>
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-d=
-u/rcar_lvds.c
-> index 8dbfbbd3cad1..8d22ade69df1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * rcar_lvds.c  --  R-Car LVDS Encoder
-> + * R-Car LVDS Encoder
->   *
->   * Copyright (C) 2013-2018 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-d=
-u/rcar_lvds.h
-> index eb7c6ef03b00..3097bf749bec 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  /*
-> - * rcar_lvds.h  --  R-Car LVDS Encoder
-> + * R-Car LVDS Encoder
->   *
->   * Copyright (C) 2013-2018 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h b/drivers/gpu/drm/r=
-car-du/rcar_lvds_regs.h
-> index 87149f2f8056..ab0406a27d33 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  /*
-> - * rcar_lvds_regs.h  --  R-Car LVDS Interface Registers Definitions
-> + * R-Car LVDS Interface Registers Definitions
->   *
->   * Copyright (C) 2013-2015 Renesas Electronics Corporation
->   *
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rc=
-ar-du/rcar_mipi_dsi.c
-> index 891bb956fd61..0e62dd14bf97 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * rcar_mipi_dsi.c  --  R-Car MIPI DSI Encoder
-> + * R-Car MIPI DSI Encoder
->   *
->   * Copyright (C) 2020 Renesas Electronics Corporation
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/d=
-rm/rcar-du/rcar_mipi_dsi_regs.h
-> index 0e7a9274749f..2eaca54636f3 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
->  /*
-> - * rcar_mipi_dsi_regs.h  --  R-Car MIPI DSI Interface Registers Definiti=
-ons
-> + * R-Car MIPI DSI Interface Registers Definitions
->   *
->   * Copyright (C) 2020 Renesas Electronics Corporation
->   */
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+On Mon, Apr 25, 2022 at 8:42 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> R-Car V4H (r8a779g0) has PLL4 so that add CLK_TYPE_GEN4_PLL4.
 >
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> @@ -253,11 +253,11 @@ static const unsigned int r8a779a0_crit_mod_clks[] __initconst = {
+>  #define CPG_PLL_CONFIG_INDEX(md)       ((((md) & BIT(14)) >> 13) | \
+>                                          (((md) & BIT(13)) >> 13))
+>  static const struct rcar_gen4_cpg_pll_config cpg_pll_configs[4] = {
+> -       /* EXTAL div    PLL1 mult/div   PLL2 mult/div   PLL3 mult/div   PLL5 mult/div   PLL6 mult/div   OSC prediv */
+> -       { 1,            128,    1,      0,      0,      0,      0,      192,    1,      0,      0,      16,     },
+> -       { 1,            106,    1,      0,      0,      0,      0,      160,    1,      0,      0,      19,     },
+> -       { 0,            0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      },
+> -       { 2,            128,    1,      0,      0,      0,      0,      192,    1,      0,      0,      32,     },
+> +       /* EXTAL div    PLL1 mult/div   PLL2 mult/div   PLL3 mult/div   PLL4 mult/div   PLL5 mult/div   PLL6 mult/div   OSC prediv */
+> +       { 1,            128,    1,      0,      0,      0,      0,      144,    1,      192,    1,      0,      0,      16,     },
+> +       { 1,            106,    1,      0,      0,      0,      0,      120,    1,      160,    1,      0,      0,      19,     },
+> +       { 0,            0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      0,      },
+> +       { 2,            128,    1,      0,      0,      0,      0,      128,    1,      192,    1,      0,      0,      32,     },
+
+                                                                          144?
+
+With that fixed (I can fix that while applying)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
