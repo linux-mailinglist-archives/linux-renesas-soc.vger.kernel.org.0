@@ -2,64 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B6CE50E145
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 15:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 118D650E14E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 15:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237980AbiDYNPT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 09:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51894 "EHLO
+        id S239016AbiDYNQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 09:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239324AbiDYNPG (ORCPT
+        with ESMTP id S238398AbiDYNQc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 09:15:06 -0400
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD7936337;
-        Mon, 25 Apr 2022 06:11:54 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id t11so3311532qto.11;
-        Mon, 25 Apr 2022 06:11:54 -0700 (PDT)
+        Mon, 25 Apr 2022 09:16:32 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C446236335;
+        Mon, 25 Apr 2022 06:13:26 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id s70so10677042qke.8;
+        Mon, 25 Apr 2022 06:13:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EUjS5W9rwWbrvFONcfo0a44zA9TrVxWL80YbarPa1Hw=;
-        b=VbmTmyE9WXdZ94BVLAcjRfcw1SLpsd7crYCxFfd+vAl/LaJME36O3xG/H/zxb7fhIN
-         1GT6etcWOZcRdCb9XngcGfAZQzJmTeHL7p/NSXmM2UYd6SnakHf1zCjHlnSgZblv8bXc
-         4UmTVX5O1dfd2ms2TEnf+G9sGyfXPOUbQY7pfFJCYwlMyBIMawxuEdTqyHnwvNW/2k7N
-         Cbyip5CPXDb4RopWgEgyGVhyBUgyAuKgC0CbLwkQ1C1CgOz5NIJRS1MTByVe2nj0xgjm
-         rmuc9zwOaV5JPjMc630zfZbY55SiZdiBSiXVtvxo74ek4p1xVak5fRT+SJI6E+QQfS8P
-         NQjg==
-X-Gm-Message-State: AOAM530u++Zy/e1G6/+jiZaNpl+oE0YaAwjOtSKFMtWaiE/PeAUoX2WH
-        PF4plihjOcnNHQk+KF7wR4sm1pwLMAk3cA==
-X-Google-Smtp-Source: ABdhPJwQMK3+S8UZxy9uctBZ6OO5kzMujFWREZdo1hZvEPlUrVl6j8OEBcoCPtP+4bM1SMSuqSz0kg==
-X-Received: by 2002:ac8:58d1:0:b0:2f2:5a6:2ff0 with SMTP id u17-20020ac858d1000000b002f205a62ff0mr11591810qta.39.1650892313628;
-        Mon, 25 Apr 2022 06:11:53 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id h11-20020ac8584b000000b002f3586f0efcsm6068264qth.88.2022.04.25.06.11.52
+        bh=cPhFN097SNSAA6DApz7uxkKT4+Ug0TC0TFUbciBcqio=;
+        b=RcVFzM+PgY35TvuPWyU9md2nKiDYZ6Yeqg0IZNBdDlY7oileZ+yTVX1ki3/ky/Emsa
+         GrbI9EzJSR0KbQ30mdUaDxXqBYSu8fZLEQJy0bZsDT1Ph5NihchvvCQqOjWNwCmeEoMj
+         eiUWaA7haJ4nKoJ+7IO0jCW7ajIomznzaVMOmJL0Tsh4KB7qD5myw4iM3ugF0SvQcivo
+         s/s0IJpcX59WTVg4bCJawzIk/Fymn6gh8pYJ9XXEPgbYRSEKnIrZBaBRK1p+N7RmhCTZ
+         NHkmHwjm4N3T0kfGei5BxzqCynddikQyPYdqSsqe9VVmaKKho40TlkfK2jfHn8RCe0Fc
+         im/A==
+X-Gm-Message-State: AOAM5326fgMrIRY5Kt0s0DbbcBwALwm1bi2yq2oY//4ibcgHbYUOT5bw
+        aURahL8/9ncDsn1XTWufh2LKEWkQWOpb3g==
+X-Google-Smtp-Source: ABdhPJxjm8HwrsN+ej9xtD7iiCVgTgJXNxElR0/KNCJRoIE6R0g+ud1P+cpIwAlHL+zjg7A8m5Ff8g==
+X-Received: by 2002:a05:620a:2886:b0:699:bab7:ae78 with SMTP id j6-20020a05620a288600b00699bab7ae78mr9784372qkp.618.1650892405698;
+        Mon, 25 Apr 2022 06:13:25 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id w15-20020ac857cf000000b002f36e26504asm671483qta.26.2022.04.25.06.13.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 06:11:53 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id v59so14026521ybi.12;
-        Mon, 25 Apr 2022 06:11:52 -0700 (PDT)
-X-Received: by 2002:a25:d393:0:b0:648:4871:3b91 with SMTP id
- e141-20020a25d393000000b0064848713b91mr7039896ybf.506.1650892312730; Mon, 25
- Apr 2022 06:11:52 -0700 (PDT)
+        Mon, 25 Apr 2022 06:13:25 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2f7c57ee6feso52765917b3.2;
+        Mon, 25 Apr 2022 06:13:25 -0700 (PDT)
+X-Received: by 2002:a81:8489:0:b0:2f7:edff:239f with SMTP id
+ u131-20020a818489000000b002f7edff239fmr4050001ywf.256.1650892404998; Mon, 25
+ Apr 2022 06:13:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220423130743.123198-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220423130743.123198-1-biju.das.jz@bp.renesas.com>
+References: <20220423134752.143090-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220423134752.143090-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Apr 2022 15:11:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWGs6E4CVz_hVrWaBRDBQERWOt5Gs5y-Rk6Ffs5-q+d=A@mail.gmail.com>
-Message-ID: <CAMuHMdWGs6E4CVz_hVrWaBRDBQERWOt5Gs5y-Rk6Ffs5-q+d=A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL support
+Date:   Mon, 25 Apr 2022 15:13:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW9tG7oV9bf_zrsQ5Y8_UWNJ9w4SKf+YANxGL2ytBRZ5A@mail.gmail.com>
+Message-ID: <CAMuHMdW9tG7oV9bf_zrsQ5Y8_UWNJ9w4SKf+YANxGL2ytBRZ5A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: phy: renesas,usb2-phy: Document RZ/G2UL phy bindings
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -69,16 +66,18 @@ Cc:     Wolfgang Grandegger <wg@grandegger.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Apr 23, 2022 at 3:07 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add CANFD binding documentation for Renesas R9A07G043 (RZ/G2UL) SoC.
+On Sat, Apr 23, 2022 at 3:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document USB phy bindings for RZ/G2UL SoC. RZ/G2UL USB phy is identical to
+> one found on the RZ/G2L SoC. No driver changes are required as generic
+> compatible string "renesas,rzg2l-usb2-phy" will be used as a fallback.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
