@@ -2,128 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E73250E64D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 18:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0103C50E668
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Apr 2022 19:05:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243662AbiDYQ72 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 Apr 2022 12:59:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45300 "EHLO
+        id S243705AbiDYRIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 Apr 2022 13:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243665AbiDYQ71 (ORCPT
+        with ESMTP id S240496AbiDYRIn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 Apr 2022 12:59:27 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC30238DA6;
-        Mon, 25 Apr 2022 09:56:22 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id g28so8798767ybj.10;
-        Mon, 25 Apr 2022 09:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3nHqpeRMqi5ydu/1+qACR0gpSXJ+684PjSvA8TxDFDQ=;
-        b=TNxzFJ8skf6JzWlQLq0qfcPcp7scN5ongV1p4rF70j/cQMSIwM3xmHdr80cGpfnQ8t
-         bwU+6TOYcj9nf/oQV2ZDfEAdjpln2UkrxwU/0EGj0iOaLrsX4/cm/hZEEALcXe5VrY6/
-         epw0T6c0XF4XjmANfKc5Ro97ve1Wni1Yb4QjwuoQ0ic9X4aaAhzZ3QkwzFRrCGZEw+9F
-         4DxdR8elStD1ojHmhL/sxWsFJ1pSQ3sm5tHtwLFQtbLxEz9Au5fk5Y/8i2DZIhaNnmNy
-         Lnr3yoHg7X4I2WDsUGxjIcgC/MW+iUyyipAXDluVM+TRG+++tnVEarotaTD+ex+NJAu4
-         gtaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3nHqpeRMqi5ydu/1+qACR0gpSXJ+684PjSvA8TxDFDQ=;
-        b=M4WARQ91y+4nbqa7G+njd7DlU/p2qi33X9j2v9cuwsidtrlNdyVZPfnWW1rmzfeBzx
-         oslWWwe1eulQkgZZixoJQnbhhGrD2Vk99Mo0M7B5JoVyVNdajFJ3nUGg9j8qHYyC/N1A
-         jq4LHi2vQto3nZqMr1XMSCB2Tqt4VXrDxodvoP3811NBF0BJd48+Ho1cHbjOiAm7sR+e
-         e3nweB4HIOe2nMmMVEHx3hrFS8wr8GMa1YDCp8CWugVgNRzIK0AUFBA/RPrTYjTX4MG/
-         1ydv/NnDDwmd3CfFX/q4/R9dW5cu5SlNEktnEE/XFlGibcgXdfPb1cX1MW9u4uV/AE33
-         gF7Q==
-X-Gm-Message-State: AOAM532P+gHh1KhkPSlewkx5R/ko2Ue1kADw8FI/B18+zV5POaUxeGuC
-        2imYEw1gB12VKbS5hnxPTtMYVkVRS+05t19q6yM=
-X-Google-Smtp-Source: ABdhPJyWZiXKSCBdfFrt30g49h5Yv7uJinQN6d/QX58gjVXXpGO8EFW+Kr8l2GgSAyg0gVQdgXt/gqLoy+hS947pohI=
-X-Received: by 2002:a25:42cd:0:b0:645:d805:4fcb with SMTP id
- p196-20020a2542cd000000b00645d8054fcbmr13531376yba.182.1650905782127; Mon, 25
- Apr 2022 09:56:22 -0700 (PDT)
+        Mon, 25 Apr 2022 13:08:43 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDF8C26AF7;
+        Mon, 25 Apr 2022 10:05:37 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,288,1643641200"; 
+   d="scan'208";a="119104469"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 26 Apr 2022 02:05:36 +0900
+Received: from localhost.localdomain (unknown [10.226.93.95])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 377814004D06;
+        Tue, 26 Apr 2022 02:05:32 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 00/13] Add CAN, Audio, USB, WDT and Timer support
+Date:   Mon, 25 Apr 2022 18:05:17 +0100
+Message-Id: <20220425170530.200921-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220421203555.29011-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX4_PKsGGRj6yGhDGfaRD-6PqiJeCnKq0yUicfMutOP4g@mail.gmail.com>
- <CA+V-a8uJM0etygB-v+rs0+EKY6_tz90wH_ZOVH8Zbc8dQPmQGw@mail.gmail.com> <CAMuHMdXHqn5_segVMhn_biEXnOSyaLpPfv4jkFp2uxv-=bfqew@mail.gmail.com>
-In-Reply-To: <CAMuHMdXHqn5_segVMhn_biEXnOSyaLpPfv4jkFp2uxv-=bfqew@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 25 Apr 2022 17:55:55 +0100
-Message-ID: <CA+V-a8sYWv+K8_QRFFzEupWMD3i4Y9MCta-FfM2_Qv37dHNsAg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: sh: rz-ssi: Drop unused macros
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Pavel Machek <pavel@denx.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+This patch series aims to add support for CAN, Audio, USB, WDT and Timer
+on RZ/G2UL SMARC EVK.
 
-On Mon, Apr 25, 2022 at 5:14 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Apr 25, 2022 at 6:09 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, Apr 25, 2022 at 1:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Fri, Apr 22, 2022 at 7:32 PM Lad Prabhakar
-> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > Drop unused macros SSIFSR_TDC and SSIFSR_RDC.
-> > > >
-> > > > Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Thanks for your patch!
-> > >
-> > > What does this fix?
-> > > Is the real issue that there are 32 FIFO entries, and the TDC and RDC
-> > > fields are 6 bits wide, while the mask uses 0x1f instead of 0x3f?
-> > >
-> > I was in two minds here as you have already spotted the masks are
-> > incorrect, instead of fixing the masks I choose to drop the macros
-> > itself as they were not used. Let me know what are your thoughts on
-> > this.
->
-> IC.
->
-> I don't have a preference.
-> So please either remove them, and make it clear they were wrong,
-> so no one is tempted to just revert the removal to start using the
-> definitions, or either keep them, and fix the definitions.
->
-I'll go with dropping them and make it clear they were wrong.
+This patch series depend upon [1]
+[1] https://lore.kernel.org/linux-renesas-soc/20220425095244.156720-1-biju.das.jz@bp.renesas.com/T/#t
 
-Cheers,
-Prabhakar
+Biju Das (13):
+  arm64: dts: renesas: r9a07g043: Add I2C2 node and fillup the
+    I2C{0,1,3} stub nodes
+  arm64: dts: renesas: r9a07g043: Add SSI{1,2,3} nodes and fillup the
+    SSI0 stub node
+  arm64: dts: renesas: r9a07g043: Add USB2.0 support
+  arm64: dts: renesas: r9a07g043: Fillup the CANFD stub node
+  arm64: dts: renesas: r9a07g043: Fillup the OSTM{0,1,2} stub nodes
+  arm64: dts: renesas: r9a07g043: Fillup the WDT{0,2} stub nodes
+  arm64: dts: renesas: rzg2ul-smarc: Enable i2c{0,1} and wm8978
+  arm64: dts: renesas: rzg2l-smarc: Move ssi0 and cpu sound_dai nodes
+    from common dtsi
+  arm64: dts: renesas: rzg2ul-smarc: Enable Audio
+  arm64: dts: renesas: rzg2ul-smarc: Enable USB2.0 support
+  arm64: dts: renesas: rzg2ul-smarc: Enable CANFD
+  arm64: dts: renesas: rzg2ul-smarc-som: Enable OSTM
+  arm64: dts: renesas: rzg2ul-smarc-som: Enable watchdog
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    | 322 +++++++++++++++++-
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   |  76 -----
+ .../boot/dts/renesas/rz-smarc-common.dtsi     |   8 -
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  13 +
+ arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi |  13 +
+ .../dts/renesas/rzg2ul-smarc-pinfunction.dtsi |  56 +++
+ .../boot/dts/renesas/rzg2ul-smarc-som.dtsi    |  18 +
+ arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi |  41 +++
+ 8 files changed, 445 insertions(+), 102 deletions(-)
+
+-- 
+2.25.1
+
