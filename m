@@ -2,120 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 146A550F286
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 09:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A9250F2FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 09:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239227AbiDZHfv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Apr 2022 03:35:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33686 "EHLO
+        id S243164AbiDZHw6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Apr 2022 03:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344028AbiDZHft (ORCPT
+        with ESMTP id S233912AbiDZHw4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Apr 2022 03:35:49 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900E9F8E70;
-        Tue, 26 Apr 2022 00:32:38 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 78C7324000B;
-        Tue, 26 Apr 2022 07:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1650958356;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xKTZnsZsqmXZVFHnJzXGzABByJosRfbnUL/DTMhMw7w=;
-        b=Ws1WNfBRgV6efObectf5Wi/XBQWi92pIPZwEEsYSAcFP+yC4UgmVjxUA95jETo0mW8Uy7y
-        AE2F5ssPhKibSBdiKtU3oUq2I5yGneK0UIaHF7Q7a742FlXOtKyn8kviG9mmSJStV2l91M
-        vockGRJiiS6XMrptQBRod6sSrLPpsx4juFt2hJRqCXpiOjNaLmq8SWVzV1CTVTglJIv+cU
-        ny/3cfW3Tss6IVioRz+ol/djjTIlZXWKJ4CKQrnxFaUAKm83Yup6OFNyTw4RkkaOUn5hZq
-        PNxfIAf0FBJzj+dB4WLcQ5AwuZ99V2MoL+brwHRZbQLW/Hk4ZVxYtEIcDco+yA==
-Date:   Tue, 26 Apr 2022 09:32:32 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v11 0/9] RZN1 DMA support
-Message-ID: <20220426093232.350ed9f4@xps13>
-In-Reply-To: <CAMuHMdU6Mb9k_g7yBCknmL9DMjUSzk=W_5wiMNDMsTN6RpkcLg@mail.gmail.com>
-References: <20220421085112.78858-1-miquel.raynal@bootlin.com>
-        <CAMuHMdU6Mb9k_g7yBCknmL9DMjUSzk=W_5wiMNDMsTN6RpkcLg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 26 Apr 2022 03:52:56 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E7A41A3A1;
+        Tue, 26 Apr 2022 00:49:49 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,290,1643641200"; 
+   d="scan'208";a="119189518"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 26 Apr 2022 16:49:48 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DB0624248B14;
+        Tue, 26 Apr 2022 16:49:44 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Pavel Machek <pavel@denx.de>, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] ASoC: sh: rz-ssi: Trivial fixes
+Date:   Tue, 26 Apr 2022 08:49:19 +0100
+Message-Id: <20220426074922.13319-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi All,
 
-geert@linux-m68k.org wrote on Mon, 25 Apr 2022 18:05:34 +0200:
+This patch series aims to fix trivial issues found in rz-ssi driver.
 
-> Hi Miquel,
->=20
-> On Thu, Apr 21, 2022 at 10:51 AM Miquel Raynal
-> <miquel.raynal@bootlin.com> wrote:
-> > This is the series bringing DMA support to RZN1 platforms.
-> > Other series follow with eg. UART and RTC support as well. =20
->=20
-> Thanks for your series!
->=20
-> > There is no other conflicting dependency with the other series, so this
-> > series can now entirely be merged in the dmaengine tree I believe.
-> >
-> > Changes in v11:
-> > * Renamed two defines.
-> > * Changed the way the bitmap is declared.
-> > * Updated the cover letter: this series can now go in through the
-> >   dmaengine tree. =20
->=20
-> /me confused
->=20
-> > Miquel Raynal (9):
-> >   dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
-> >   dt-bindings: clock: r9a06g032-sysctrl: Reference the DMAMUX subnode
-> >   dt-bindings: dmaengine: Introduce RZN1 DMA compatible
-> >   soc: renesas: rzn1-sysc: Export function to set dmamux
-> >   dmaengine: dw: dmamux: Introduce RZN1 DMA router support
-> >   clk: renesas: r9a06g032: Probe possible children
-> >   dmaengine: dw: Add RZN1 compatible
-> >   ARM: dts: r9a06g032: Add the two DMA nodes
-> >   ARM: dts: r9a06g032: Describe the DMA router =20
->=20
-> The last two DTS parts have to go in through the renesas-arm-dt and
-> soc trees.
+Cheers,
+Prabhakar
 
-Yes, DT usually never go in through subsystem trees anyway, of
-course they should be taken in through the Renesas tree. For the other
-patches I think its simpler if everything goes through the dmaengine
-tree, but I'm fine either way, I'll let you discuss this with the DMA
-folks if you disagree.
+v1->v2:
+* Updated patch description for patch 1/3
+* Patch 2/3 unchanged
+* For patch 3/3 dropped devers action and instead called
+  rz_ssi_release_dma_channels() in the error path.
 
-Thanks,
-Miqu=C3=A8l
+v1:
+https://patchwork.kernel.org/project/linux-renesas-soc/cover/
+20220421203555.29011-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Lad Prabhakar (3):
+  ASoC: sh: rz-ssi: Drop SSIFSR_TDC and SSIFSR_RDC macros
+  ASoC: sh: rz-ssi: Propagate error codes returned from
+    platform_get_irq_byname()
+  ASoC: sh: rz-ssi: Release the DMA channels in rz_ssi_probe() error
+    path
+
+ sound/soc/sh/rz-ssi.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+-- 
+2.25.1
+
