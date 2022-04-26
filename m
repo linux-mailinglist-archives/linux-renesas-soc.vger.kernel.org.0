@@ -2,59 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAEBE50FAC3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 12:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC3FA50FEA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 15:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244932AbiDZKgO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Apr 2022 06:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
+        id S1349814AbiDZNQR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Apr 2022 09:16:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349175AbiDZKgH (ORCPT
+        with ESMTP id S239300AbiDZNQQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Apr 2022 06:36:07 -0400
-Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEE613CF2;
-        Tue, 26 Apr 2022 03:17:21 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 8F9C620C0892
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH v2 2/3] ASoC: sh: rz-ssi: Propagate error codes returned
- from platform_get_irq_byname()
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Brown <broonie@kernel.org>,
+        Tue, 26 Apr 2022 09:16:16 -0400
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B638166FA2;
+        Tue, 26 Apr 2022 06:13:07 -0700 (PDT)
+Received: by mail-qv1-f54.google.com with SMTP id kj18so2498836qvb.6;
+        Tue, 26 Apr 2022 06:13:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kAxWWuUjNDhLgbFiNEhS4lFEmjQmipfMjJSwxa6hGCU=;
+        b=VN75hqkXweoO1/VzAbOZHPX5Dks/XO/Im1i4C9umpgxMliy2nL/NPiKwwFQRvNclF5
+         0qfTEOyDXJSW7pbk5BPWXou7us49XqVKgTiB9KptweVQ0GHbf43zSTIfZElQPkrEy167
+         OwcYy4ebCF7NYYHhhzK4ziQxyNdf/21e9xmWyuELO8Yfjs5oZ93Mo4ZpmfYg11/20rZt
+         2uY4mEIEXOMWxssJ5PuAZXJ+9/LInYweko1HzPFFwwLDFLUxKs7d6ouoh+sMJieIUmIQ
+         CwdacccA4U6D/oqPC9n07X3Fli1xCVhDV7RJHuEgb+AwRWA2lu8flXJruByeOuy6EeK4
+         z1mw==
+X-Gm-Message-State: AOAM530U4E4AdSAPVNpwyi5FAMWW41qoPYzp9w7oM4uEciQ4eqOdLRm2
+        ZqolGy6S4qooZwlcugEn542u1T2zna9Gjg==
+X-Google-Smtp-Source: ABdhPJznDM24QZGT41uRbQ8XpKYSFHclcMwlhwU4B/312LJ/ANRgvLlvBN8fydNM2dfmAJI9n26HtQ==
+X-Received: by 2002:a05:6214:5009:b0:456:3bd6:f367 with SMTP id jo9-20020a056214500900b004563bd6f367mr5325651qvb.13.1650978786682;
+        Tue, 26 Apr 2022 06:13:06 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id bp37-20020a05622a1ba500b002f1f9a0d79asm7622129qtb.11.2022.04.26.06.13.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Apr 2022 06:13:06 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f7c424c66cso89810397b3.1;
+        Tue, 26 Apr 2022 06:13:06 -0700 (PDT)
+X-Received: by 2002:a81:e10d:0:b0:2f7:bb2a:6529 with SMTP id
+ w13-20020a81e10d000000b002f7bb2a6529mr18317969ywh.62.1650978785952; Tue, 26
+ Apr 2022 06:13:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220426074922.13319-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220426074922.13319-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220426074922.13319-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 26 Apr 2022 15:12:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV6WbAt6rNedz2ex31BW7gk1qtW5U1c-uQDEm1Tcd9fdQ@mail.gmail.com>
+Message-ID: <CAMuHMdV6WbAt6rNedz2ex31BW7gk1qtW5U1c-uQDEm1Tcd9fdQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ASoC: sh: rz-ssi: Drop SSIFSR_TDC and SSIFSR_RDC macros
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
         Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
         Pavel Machek <pavel@denx.de>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220426074922.13319-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220426074922.13319-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <5bb82736-50bc-eafd-7d68-df1ed966d572@omp.ru>
- <CA+V-a8s=7nDHEE=kcdqcyM5SurY9KwteNwnc7PZ4xiqGQFvY=g@mail.gmail.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <fb6b6a4c-d184-8c26-ac25-4afbacf3d534@omp.ru>
-Date:   Tue, 26 Apr 2022 13:17:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <CA+V-a8s=7nDHEE=kcdqcyM5SurY9KwteNwnc7PZ4xiqGQFvY=g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,53 +73,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/26/22 12:55 PM, Lad, Prabhakar wrote:
+On Tue, Apr 26, 2022 at 9:49 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> The mask values of SSIFSR_TDC and SSIFSR_RDC macros are incorrect and
+> they are unused in the file so just drop them.
+>
+> Reported-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2
+> * Updated commit message
 
-[...]
->>> Propagate error codes returned from platform_get_irq_byname() instead of
->>> returning -ENODEV. platform_get_irq_byname() may return -EPROBE_DEFER, to
->>> handle such cases propagate the error codes.
->>>
->>> While at it drop the dev_err_probe() messages as platform_get_irq_byname()
->>> already does this for us in case of error.
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> ---
->>> v1->v2
->>> * No change
->>> ---
->>>  sound/soc/sh/rz-ssi.c | 9 +++------
->>>  1 file changed, 3 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
->>> index cec458b8c507..d9a684e71ec3 100644
->>> --- a/sound/soc/sh/rz-ssi.c
->>> +++ b/sound/soc/sh/rz-ssi.c
->>> @@ -977,8 +977,7 @@ static int rz_ssi_probe(struct platform_device *pdev)
->>>       /* Error Interrupt */
->>>       ssi->irq_int = platform_get_irq_byname(pdev, "int_req");
->>>       if (ssi->irq_int < 0)
->>> -             return dev_err_probe(&pdev->dev, -ENODEV,
->>> -                                  "Unable to get SSI int_req IRQ\n");
->>> +             return ssi->irq_int;
->>
->>    Why not:
->>
->>                 return dev_err_probe(&pdev->dev, ssi->irq_int,
->>                                      "Unable to get SSI int_req IRQ\n");
->>
-> That is because platform_get_irq_byname() already does this for us [0]
-> (also mentioned in the commit message). In case I keep the
-> dev_err_probe() I'll get two prints for each error.
-> 
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/platform.c?h=v5.18-rc4#n471
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   Ah! Sorry, didn't read your commit log... :-/
-   More shame on me as it was me who added dev_err_probe() call there! :-) 
+Gr{oetje,eeting}s,
 
-> Cheers,
-> Prabhakar
+                        Geert
 
-[...]
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-MBR, Sergey
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
