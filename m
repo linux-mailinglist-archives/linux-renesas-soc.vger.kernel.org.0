@@ -2,106 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F6D50F13A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 08:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 146A550F286
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Apr 2022 09:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245409AbiDZGnX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 Apr 2022 02:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46946 "EHLO
+        id S239227AbiDZHfv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 Apr 2022 03:35:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241728AbiDZGnT (ORCPT
+        with ESMTP id S1344028AbiDZHft (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 Apr 2022 02:43:19 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5E6526260;
-        Mon, 25 Apr 2022 23:40:12 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,290,1643641200"; 
-   d="scan'208";a="119179064"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Apr 2022 15:40:12 +0900
-Received: from localhost.localdomain (unknown [10.226.92.117])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C8FAD400C4FD;
-        Tue, 26 Apr 2022 15:40:08 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 2/2] arm64: dts: renesas: r9a07g054: Fix external clk node names
-Date:   Tue, 26 Apr 2022 07:40:02 +0100
-Message-Id: <20220426064002.9411-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220426064002.9411-1-biju.das.jz@bp.renesas.com>
-References: <20220426064002.9411-1-biju.das.jz@bp.renesas.com>
+        Tue, 26 Apr 2022 03:35:49 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900E9F8E70;
+        Tue, 26 Apr 2022 00:32:38 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 78C7324000B;
+        Tue, 26 Apr 2022 07:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1650958356;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xKTZnsZsqmXZVFHnJzXGzABByJosRfbnUL/DTMhMw7w=;
+        b=Ws1WNfBRgV6efObectf5Wi/XBQWi92pIPZwEEsYSAcFP+yC4UgmVjxUA95jETo0mW8Uy7y
+        AE2F5ssPhKibSBdiKtU3oUq2I5yGneK0UIaHF7Q7a742FlXOtKyn8kviG9mmSJStV2l91M
+        vockGRJiiS6XMrptQBRod6sSrLPpsx4juFt2hJRqCXpiOjNaLmq8SWVzV1CTVTglJIv+cU
+        ny/3cfW3Tss6IVioRz+ol/djjTIlZXWKJ4CKQrnxFaUAKm83Yup6OFNyTw4RkkaOUn5hZq
+        PNxfIAf0FBJzj+dB4WLcQ5AwuZ99V2MoL+brwHRZbQLW/Hk4ZVxYtEIcDco+yA==
+Date:   Tue, 26 Apr 2022 09:32:32 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v11 0/9] RZN1 DMA support
+Message-ID: <20220426093232.350ed9f4@xps13>
+In-Reply-To: <CAMuHMdU6Mb9k_g7yBCknmL9DMjUSzk=W_5wiMNDMsTN6RpkcLg@mail.gmail.com>
+References: <20220421085112.78858-1-miquel.raynal@bootlin.com>
+        <CAMuHMdU6Mb9k_g7yBCknmL9DMjUSzk=W_5wiMNDMsTN6RpkcLg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add suffix '-clk' for can and extal clk node names and replace the
-clk node names audio_clk{1,2} with clk-{1,2} as per the device
-tree specification.
+Hi Geert,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * Sorted clk node-names alphabetically
-v1->v2:
- * Replaced clk node names audio_clk{1,2} with clk-{1,2}.
----
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+geert@linux-m68k.org wrote on Mon, 25 Apr 2022 18:05:34 +0200:
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index f35aa0311e9c..8bc164d7b61e 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -13,29 +13,29 @@ / {
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
--	audio_clk1: audio_clk1 {
-+	/* External CAN clock - to be overridden by boards that provide it */
-+	can_clk: can-clk {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
--		/* This value must be overridden by boards that provide it */
- 		clock-frequency = <0>;
- 	};
- 
--	audio_clk2: audio_clk2 {
-+	audio_clk1: clk-1 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		/* This value must be overridden by boards that provide it */
- 		clock-frequency = <0>;
- 	};
- 
--	/* External CAN clock - to be overridden by boards that provide it */
--	can_clk: can {
-+	audio_clk2: clk-2 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
-+		/* This value must be overridden by boards that provide it */
- 		clock-frequency = <0>;
- 	};
- 
- 	/* clock can be either from exclk or crystal oscillator (XIN/XOUT) */
--	extal_clk: extal {
-+	extal_clk: extal-clk {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		/* This value must be overridden by the board */
--- 
-2.25.1
+> Hi Miquel,
+>=20
+> On Thu, Apr 21, 2022 at 10:51 AM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > This is the series bringing DMA support to RZN1 platforms.
+> > Other series follow with eg. UART and RTC support as well. =20
+>=20
+> Thanks for your series!
+>=20
+> > There is no other conflicting dependency with the other series, so this
+> > series can now entirely be merged in the dmaengine tree I believe.
+> >
+> > Changes in v11:
+> > * Renamed two defines.
+> > * Changed the way the bitmap is declared.
+> > * Updated the cover letter: this series can now go in through the
+> >   dmaengine tree. =20
+>=20
+> /me confused
+>=20
+> > Miquel Raynal (9):
+> >   dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
+> >   dt-bindings: clock: r9a06g032-sysctrl: Reference the DMAMUX subnode
+> >   dt-bindings: dmaengine: Introduce RZN1 DMA compatible
+> >   soc: renesas: rzn1-sysc: Export function to set dmamux
+> >   dmaengine: dw: dmamux: Introduce RZN1 DMA router support
+> >   clk: renesas: r9a06g032: Probe possible children
+> >   dmaengine: dw: Add RZN1 compatible
+> >   ARM: dts: r9a06g032: Add the two DMA nodes
+> >   ARM: dts: r9a06g032: Describe the DMA router =20
+>=20
+> The last two DTS parts have to go in through the renesas-arm-dt and
+> soc trees.
 
+Yes, DT usually never go in through subsystem trees anyway, of
+course they should be taken in through the Renesas tree. For the other
+patches I think its simpler if everything goes through the dmaengine
+tree, but I'm fine either way, I'll let you discuss this with the DMA
+folks if you disagree.
+
+Thanks,
+Miqu=C3=A8l
