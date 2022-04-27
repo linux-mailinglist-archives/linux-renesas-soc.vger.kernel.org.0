@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 533695114B6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 12:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1A825114B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 12:10:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbiD0KAb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 06:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47386 "EHLO
+        id S229912AbiD0J7x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 05:59:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiD0KAa (ORCPT
+        with ESMTP id S229697AbiD0J7w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 06:00:30 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AF58422286;
-        Wed, 27 Apr 2022 02:53:47 -0700 (PDT)
+        Wed, 27 Apr 2022 05:59:52 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 04D093FE7E7;
+        Wed, 27 Apr 2022 02:53:12 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.90,292,1643641200"; 
-   d="scan'208";a="119361595"
+   d="scan'208";a="118179427"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Apr 2022 18:48:50 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 27 Apr 2022 18:48:57 +0900
 Received: from localhost.localdomain (unknown [10.226.93.29])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8565B4265649;
-        Wed, 27 Apr 2022 18:48:47 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 53E3D4264DAF;
+        Wed, 27 Apr 2022 18:48:54 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 6/9] clk: renesas: r9a07g044: Add M3 Clock support
-Date:   Wed, 27 Apr 2022 10:48:20 +0100
-Message-Id: <20220427094823.3319-7-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 8/9] clk: renesas: r9a07g044: Add LCDC clock and reset entries
+Date:   Wed, 27 Apr 2022 10:48:22 +0100
+Message-Id: <20220427094823.3319-9-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220427094823.3319-1-biju.das.jz@bp.renesas.com>
 References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com>
@@ -47,8 +47,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for M3 clock which is sourced from DSI divider connected
-to PLL5_4 mux.
+Add LCDC clock and reset entries to CPG driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
@@ -58,39 +57,43 @@ V1->V2:
 RFC->V1:
  * Added Rb tag from Geert
 ---
- drivers/clk/renesas/r9a07g044-cpg.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/clk/renesas/r9a07g044-cpg.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index d350d6dce4b1..cee552bdf3cc 100644
+index 66608696d2e2..b5ddc5058670 100644
 --- a/drivers/clk/renesas/r9a07g044-cpg.c
 +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -56,6 +56,7 @@ enum clk_ids {
- 	CLK_SD1_DIV4,
- 	CLK_SEL_GPU2,
- 	CLK_SEL_PLL5_4,
-+	CLK_DSI_DIV,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -87,7 +88,7 @@ static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
- static const char * const sel_gpu2[] = { ".pll6", ".pll3_div2_2" };
+@@ -194,7 +194,7 @@ static const struct {
+ };
  
  static const struct {
--	struct cpg_core_clk common[50];
-+	struct cpg_core_clk common[52];
+-	struct rzg2l_mod_clk common[62];
++	struct rzg2l_mod_clk common[65];
  #ifdef CONFIG_CLK_R9A07G054
- 	struct cpg_core_clk drp[0];
+ 	struct rzg2l_mod_clk drp[0];
  #endif
-@@ -166,6 +167,8 @@ static const struct {
- 		DEF_FIXED("M1", R9A07G044_CLK_M1, CLK_PLL5_FOUTPOSTDIV, 1, 1),
- 		DEF_FIXED("M2", R9A07G044_CLK_M2, CLK_PLL3_533, 1, 2),
- 		DEF_FIXED("M2_DIV2", CLK_M2_DIV2, R9A07G044_CLK_M2, 1, 2),
-+		DEF_DSI_DIV("DSI_DIV", CLK_DSI_DIV, CLK_SEL_PLL5_4, CLK_SET_RATE_PARENT),
-+		DEF_FIXED("M3", R9A07G044_CLK_M3, CLK_DSI_DIV, 1, 1),
- 	},
- #ifdef CONFIG_CLK_R9A07G054
- 	.drp = {
+@@ -254,6 +254,12 @@ static const struct {
+ 					0x558, 1),
+ 		DEF_MOD("gpu_ace_clk",	R9A07G044_GPU_ACE_CLK, R9A07G044_CLK_P1,
+ 					0x558, 2),
++		DEF_COUPLED("lcdc_a",	R9A07G044_LCDC_CLK_A, R9A07G044_CLK_M0,
++					0x56c, 0),
++		DEF_COUPLED("lcdc_p",	R9A07G044_LCDC_CLK_P, R9A07G044_CLK_ZT,
++					0x56c, 0),
++		DEF_MOD("lcdc_clk_d",	R9A07G044_LCDC_CLK_D, R9A07G044_CLK_M3,
++					0x56c, 1),
+ 		DEF_MOD("ssi0_pclk",	R9A07G044_SSI0_PCLK2, R9A07G044_CLK_P0,
+ 					0x570, 0),
+ 		DEF_MOD("ssi0_sfr",	R9A07G044_SSI0_PCLK_SFR, R9A07G044_CLK_P0,
+@@ -349,6 +355,7 @@ static struct rzg2l_reset r9a07g044_resets[] = {
+ 	DEF_RST(R9A07G044_GPU_RESETN, 0x858, 0),
+ 	DEF_RST(R9A07G044_GPU_AXI_RESETN, 0x858, 1),
+ 	DEF_RST(R9A07G044_GPU_ACE_RESETN, 0x858, 2),
++	DEF_RST(R9A07G044_LCDC_RESET_N, 0x86c, 0),
+ 	DEF_RST(R9A07G044_SSI0_RST_M2_REG, 0x870, 0),
+ 	DEF_RST(R9A07G044_SSI1_RST_M2_REG, 0x870, 1),
+ 	DEF_RST(R9A07G044_SSI2_RST_M2_REG, 0x870, 2),
 -- 
 2.25.1
 
