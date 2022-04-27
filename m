@@ -2,124 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53041511638
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 13:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662C95116EF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:45:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiD0K70 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 06:59:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34104 "EHLO
+        id S234045AbiD0MX6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 08:23:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231658AbiD0K7L (ORCPT
+        with ESMTP id S234001AbiD0MX5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 06:59:11 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C5B71DAA
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Apr 2022 03:50:00 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id i27so2555286ejd.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Apr 2022 03:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=zMOUZA5eKdARsIOCnmVX/V2N+7HoLGRigXyC9Vya5Lo=;
-        b=hfzKpaY0djQY+KdfgoBbORTgnmZpPtykmoilsBG0KL//SeXjoIY/tyiXrsTI8kmU2W
-         TP/TXKkAwG1XOORbeERfcbSJu9FrX2rVIUk8CkL7+kY7Fr8k0cRfrI/dgRTJoTpwyO+G
-         C6VzV7xntU+4ROWOilvIKiLW13+CVFgs/bs6sMBFp2BRqZoV4tROUDojGLaRpuRTfuE6
-         tlL/MQuD+dsVzwg2cRkX4o//nyV5LhD1ZTJhZSpiPA3W9fc8DHA8MHE48g8NJtyOZi/a
-         PbcfqqDY/zP1bcqDk/xXRTbyKg3lJVpe/KEb8DVse/oG0Yaf5BY9Fr3aHq55Fb6rKhIp
-         eR2w==
+        Wed, 27 Apr 2022 08:23:57 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBDA3A5DE;
+        Wed, 27 Apr 2022 05:20:46 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id a5so915896qvx.1;
+        Wed, 27 Apr 2022 05:20:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zMOUZA5eKdARsIOCnmVX/V2N+7HoLGRigXyC9Vya5Lo=;
-        b=2+D7ZvCrzob/IlJpkHwKL6vWax78CiQMvLB41zWI4fc7Bnnt4UMtv/5UiKvkH+EbkT
-         PuAq0bmY9ldX4IcanbOR2rosquNOOkJ1Fn9hmWid8DJCJ6JeOGQ26Yp0lIdIdGCdqPq+
-         7Y5GBbCMrqcras37WNg1PPtfnLEn3gsqRwNGN1InZ2k4WZqI/aSz8XD3IXDkRRCa8tDY
-         6ElLb8tj4SEYepsd3TphsbPZI4rn28OwrHJHY2QHXGcMZ9bw8Tkz3UOMJ/RgxkfVcCFM
-         h/lCL4cLflczaHI1ieNvxjq272Qe2YSx7t7KVIqZ7H/edIxmQhBh/8IOVl3v7eJp/55f
-         Wn6w==
-X-Gm-Message-State: AOAM533v2cOmvKQsr7q9lkyQeEHpap7RA/k/asGBqacqkC78c0h62jHU
-        /tXa0jLX0NIw8RY4Av7GewexGVaM34dZTA==
-X-Google-Smtp-Source: ABdhPJx3K1lV0/cbEk+9/nhiGXr+v+OKrLJa90ju80K9a7upK/7bX+lOK10ihD1xhAXbJ433IqdLJQ==
-X-Received: by 2002:a17:907:9702:b0:6e8:be82:f43d with SMTP id jg2-20020a170907970200b006e8be82f43dmr25980664ejc.67.1651056599413;
-        Wed, 27 Apr 2022 03:49:59 -0700 (PDT)
-Received: from [192.168.0.254] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id s11-20020a170906284b00b006e108693850sm6422409ejc.28.2022.04.27.03.49.58
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7IblRXw+IlRsIpma65z+vY+J/pcL54rFKRWppWIp02E=;
+        b=O3CdkQv4cYeQR75NZsj42LjUgccfGNp/y6NotezEn4kTtTka21SMi7uwxsFiN09zpC
+         uahxVZs73d7B2rXBfV1kfzM1A15v1buMS9JMTcUydE8IosadZCvEPiNp3xdC3Zj9PQpn
+         eBrShPkKOaM83wt1IpBSm2N3/XHin+c4nVGdO+jwe/R2nh0oPwpEytjX69GEiByNaZxO
+         Y1qnBPwq8aYIxcKl092guD+Yh5phHs6pkyJ1a0B0EmLy6g5rkxKsSquTUIlLfj0hsBqn
+         teFqNSaGFT80uCa1tpEUpXXMuH/WcSRep726ZKztZScEwAPl1RNmGDnQx4uXLlNENjcf
+         1W+Q==
+X-Gm-Message-State: AOAM533+3++Fou2ASMFTSOIZBBfoeNnsFfoVD3C3IYD7u8ujmwUoHf4Y
+        RGUGdGYXQrES84nr6FdegFjjdTPMClD0yQ==
+X-Google-Smtp-Source: ABdhPJyVQRDiG1YrApjp41wD1Jo0ktqu1HzK4hDe/+jDGHwfNgHMPIkn1Yz+S6jPqiZ9B4gA8gf7IQ==
+X-Received: by 2002:a05:6214:2aa7:b0:446:2f18:d005 with SMTP id js7-20020a0562142aa700b004462f18d005mr19705064qvb.33.1651062045462;
+        Wed, 27 Apr 2022 05:20:45 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id v12-20020a05620a0a8c00b0069eabadd6dasm7711882qkg.41.2022.04.27.05.20.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 03:49:58 -0700 (PDT)
-Message-ID: <8d8ff44a-7ae9-1b8a-3d91-d046f8363f9d@linaro.org>
-Date:   Wed, 27 Apr 2022 12:49:57 +0200
+        Wed, 27 Apr 2022 05:20:44 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id w17so2993689ybh.9;
+        Wed, 27 Apr 2022 05:20:44 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr24895863ybp.613.1651062044076; Wed, 27
+ Apr 2022 05:20:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] memory: renesas-rpc-if: Fix missing setting address
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Zhengxun <zhengxunli.mxic@gmail.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
+References: <20220414122250.158113-1-clement.leger@bootlin.com> <20220414122250.158113-6-clement.leger@bootlin.com>
+In-Reply-To: <20220414122250.158113-6-clement.leger@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 Apr 2022 14:20:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU+kosUPavthyPcWVAC_WhdwXiFKt61oSmgdV6Qxk_0xg@mail.gmail.com>
+Message-ID: <CAMuHMdU+kosUPavthyPcWVAC_WhdwXiFKt61oSmgdV6Qxk_0xg@mail.gmail.com>
+Subject: Re: [PATCH net-next 05/12] dt-bindings: net: dsa: add bindings for
+ Renesas RZ/N1 Advanced 5 port switch
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        zhengxunli <zhengxunli@mxic.com.tw>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20210818165604.22127-1-zhengxunli.mxic@gmail.com>
- <CAMuHMdWUVVnZXc4iXrkpyLFpr9w5X-EzuwvvFGQYAp+0=ZJbqw@mail.gmail.com>
- <CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        netdev <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 27/04/2022 12:26, Geert Uytterhoeven wrote:
-> On Mon, Aug 23, 2021 at 1:59 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> CC sergey's new address
->>
->> On Wed, Aug 18, 2021 at 10:57 AM Zhengxun <zhengxunli.mxic@gmail.com> wrote:
->>> In the RPC manual mode, if the data direction is not set
->>> (such as the flash erase command), the address misses the
->>> setting.
->>>
->>> Signed-off-by: Zhengxun <zhengxunli.mxic@gmail.com>
->>> ---
->>>  drivers/memory/renesas-rpc-if.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
->>> index 45eed659b0c6..9dd27c6307f7 100644
->>> --- a/drivers/memory/renesas-rpc-if.c
->>> +++ b/drivers/memory/renesas-rpc-if.c
->>> @@ -482,6 +482,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
->>>                 }
->>>                 break;
->>>         default:
->>> +               regmap_write(rpc->regmap, RPCIF_SMADR, rpc->smadr);
->>>                 regmap_write(rpc->regmap, RPCIF_SMENR, rpc->enable);
->>>                 regmap_write(rpc->regmap, RPCIF_SMCR,
->>>                              rpc->smcr | RPCIF_SMCR_SPIE);
-> 
-> This patch never received review comments.
-> As of commit fff53a551db50f5e ("memory: renesas-rpc-if: Correct QSPI
-> data transfer in Manual mode") in v5.16-rc1, RPCIF_SMADR is written
-> before the switch() statement, hence this patch can be ignored.
+Hi Clément,
 
-Thanks Geert. The patch was not sent to proper folks and mailing lists
-(only linux-renesas-soc@vger.kernel.org seams reasonable) so there is
-little way it would be ever reviewed.
+On Thu, Apr 14, 2022 at 2:24 PM Clément Léger <clement.leger@bootlin.com> wrote:
+> Add bindings for Renesas RZ/N1 Advanced 5 port switch. This switch is
+> present on Renesas RZ/N1 SoC and was probably provided by MoreThanIP.
+> This company does not exists anymore and has been bought by Synopsys.
+> Since this IP can't be find anymore in the Synospsy portfolio, lets use
+> Renesas as the vendor compatible for this IP.
+>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 
-Zhengxun,
-Please use scripts/get_maintainer.pl to get the list of people and lists
-to CC/address.
+Thanks for your patch!
 
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/N1 Advanced 5 ports ethernet switch
+> +
+> +maintainers:
+> +  - Clément Léger <clement.leger@bootlin.com>
+> +
+> +description: |
+> +  The advanced 5 ports switch is present on the Renesas RZ/N1 SoC family and
+> +  handles 4 ports + 1 CPU management port.
+> +
+> +allOf:
+> +  - $ref: dsa.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,rzn1-a5psw
 
-Best regards,
-Krzysztof
+Please document an SoC-specific compatible value
+"renesas,r9a06g032-a5psw", too, so we can easily handle differences
+between members within the RZ/N1 family, if ever needed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
