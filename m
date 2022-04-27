@@ -2,457 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1D251191F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 16:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB715119B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 16:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233911AbiD0NNp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 09:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38768 "EHLO
+        id S235923AbiD0NRu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 09:17:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiD0NNo (ORCPT
+        with ESMTP id S235806AbiD0NRU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 09:13:44 -0400
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0DA3898D9;
-        Wed, 27 Apr 2022 06:10:31 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id hf18so1075228qtb.0;
-        Wed, 27 Apr 2022 06:10:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r/ssOtiNsqa5EWnUNFE/Qav7i9mLXfcPE14X9cxwoYo=;
-        b=fM1P4fUusm/I6yu/BTE39bjTk0jEi6gSw7ADItNHR23VjoPeqK89x+fuidCcMkwmdO
-         NS3d8l14TabPW2AYf2p++1+kI0q8mjSzx7LRShNhwMqzdrWASnon15ze8ZQqOheRPCzg
-         /eeHxeHJ9KQzJfaLNMj0YYi2laZAq/OjvAan28EDDMKkFJoUS9PpgwNLPefPhjcGbO98
-         aCQkP9AFIPG4suCglPCWKQEtctZX17S7nQH1HPEX2GAjrHHXVx4wTwSIGZpZt5wSHiVb
-         wRNYLcGAwyI+Skqep1UO2bCAnaN7ESNWXoGUM1FRs3v5J+JxyZB8VR6hrZ9TZFDBzrCl
-         YUUA==
-X-Gm-Message-State: AOAM531a3AleQAN2+wean01zWfsultBD6ibhvLrlfccmmysh+ZFNRkyF
-        Avn4Bi4nPtHaMdHU7SJezOtxQr+8PA7CWw==
-X-Google-Smtp-Source: ABdhPJzbtPosCGiepB9sC041KNflSiHkvDs10m/0PEbWB0/l9B0HA2VVh1NjhssgMRB/nFSj7yG7Sg==
-X-Received: by 2002:a05:622a:651:b0:2f2:600:d146 with SMTP id a17-20020a05622a065100b002f20600d146mr18997963qtb.88.1651065029992;
-        Wed, 27 Apr 2022 06:10:29 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id c145-20020ae9ed97000000b0069f97fea9absm289784qkg.26.2022.04.27.06.10.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 06:10:29 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2ef5380669cso17785547b3.9;
-        Wed, 27 Apr 2022 06:10:29 -0700 (PDT)
-X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
- v133-20020a81618b000000b002dbd9528a39mr27060501ywb.132.1651065029390; Wed, 27
- Apr 2022 06:10:29 -0700 (PDT)
+        Wed, 27 Apr 2022 09:17:20 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2139.outbound.protection.outlook.com [40.107.114.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64711A433B;
+        Wed, 27 Apr 2022 06:13:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S6nqdMmj/bLBmzcKrdaw2Pamvv3svlpY3SNB8ogic7pD8fpypJy3MRXKGZ/0mqRtTJomdOKJvRGE1EL/AsgI7jFcY5IusioP0rSpWMJlfXu7DUO+o1iCRbt24Qnosk6glm1oJ2jSO/VHDOhaWnRSCAfGGjIrekzrVxzSsgfx6/v+hsZjkEMaCSObRqSr12MuKdmBKu+aqgDqCnZeR11lOTnsykaoPwCeSx9NmVnZecyO4vxS7H1XFgKyn/hJiEyj54cJxspwfUwCaqeMomGflQX2TL1yOn1ZQzznZbvsoXIVyRo01g0lRE4PZJP+/12Kzlpu+g/iYa7TyCHHcdO8/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nVTZEylGgQOpBU0TMwkEL5Mmbkuk6W72jTHDZv89Z18=;
+ b=eR53SKFcwTr3qE+5npWP968ZozslQFyszZnIaYA8qhBqh6TMcQDL6uFjO0edcXE5pGx3w/8oJnvIO7E1HBxRdplIPLsSZvUE96ucmclIvyCPV6wGxnko+wDcoMl0BjvSZzdp6XZA/DlD6dRNgM4S77ivoP5/9Sn82dLx7A8O6R9/u7tXEQzElUIP+ipx+H6YOroehSekQeOD70hJYcUpB7A+pVQcPYA7kljHhYBbDtKamDewJ8nl47quvJHZOy465gUEzvmQGMF2IxkZS1zmFhORigcda916EfGn1vXXFvWKi/eaNVje5dt0HC+kEg2ZWiojHhT3Hbn5YReqqrHfZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nVTZEylGgQOpBU0TMwkEL5Mmbkuk6W72jTHDZv89Z18=;
+ b=pxmfwnWP47YKPnD2OS5OaCE74ve9OjBfPFjCK6m3K+S4IYlOOp1Tr1P6b+TZBnOBV2lusGFKaZfKRmE9euP294DICt7zTm5ZRnVCiLy8eA5ZnryR4Mn8bsdGYiZxaRF2G52yer6R/ap8swk5Oz5lBxyjmmReN1UIpbEuYzhKJh0=
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
+ by OSAPR01MB4116.jpnprd01.prod.outlook.com (2603:1096:604:32::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
+ 2022 13:13:35 +0000
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::541f:37c5:2149:bbb4]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::541f:37c5:2149:bbb4%9]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
+ 13:13:35 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v8 3/5] media: renesas: vsp1: Add support for VSP software
+ version
+Thread-Topic: [PATCH v8 3/5] media: renesas: vsp1: Add support for VSP
+ software version
+Thread-Index: AQHYVBnYEHBJIAFT1UGp+0xFuCPWLa0Dv8MAgAAIcRA=
+Date:   Wed, 27 Apr 2022 13:13:35 +0000
+Message-ID: <TYCPR01MB5933049EDC3D9FA185F3672D86FA9@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com>
+ <20220419181757.63346-4-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUXVrZNqeegRXXU-rVgyGMe2AdS_z-jstNapeLCOGpzEQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUXVrZNqeegRXXU-rVgyGMe2AdS_z-jstNapeLCOGpzEQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 640d13ab-7725-428b-ed7e-08da284fbc96
+x-ms-traffictypediagnostic: OSAPR01MB4116:EE_
+x-microsoft-antispam-prvs: <OSAPR01MB411631F51252721A864DD7D486FA9@OSAPR01MB4116.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Slh8w4q/ow4d//ASGCp5IUENcFWBGmJ73yF1GWcCes0icd1ZC/gA9Odru28UKfrjxhoW6pBv3XjrMKja4TMo6a1tVNhZN7/Lg6Hp2IamNR5HaX3dKsCAWu2jfnCTszhb/WVP0RfQc/LnoxfI3lLGwC0+c/46Hty/ARaVg7HsJHlfsiKKX9PJQNht30VbDsUrhOelHlYyoC3OxS+DgrLbPJHFmNSRNFok4K50fagR2UolasOi7OkoIzwcySNAbiNCux/p+l1YVQGLL7Yx6NfbDXF1UF6FgH9rzetUPDMrZ4vtRK5HciTu2LWB1tpnQJJ7lS3Wnd5hZH+Lej+K6j8RXcYVG4RtWF59PDyatlI3eMftOovdouZn3r3YBpLlmhYnmGUciVbCvcNmUwVyfdFsNtcLOybHIVhzZ63EXkV7oWtpFtGlRtkgzYqE6Dz731r7f4UwSlmD+/8WmDjhvHaQsGMPe4/PfVcY+1LLG3SJcMFlVNcnK1cJCVm30VaGyCgR5apvaG1swDrH1L88mE0JRzK4UDaykaZDD7lxoW38ptAYJjd17iBskLUuwo5XtiTNpLFwYMQa3cty3ShHJYr2IV+SzQwivaRby8SCzVvdbAeMzCHxvCbntHCQU9LgZQ6iocbMdtVH4qojfU/MyYNiJHJZbYLwddgwKLp4gGEi46A5aDmaAU1XSuWtt7PIwG4TyS2LteYxmw8K+1r58tT/yQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(107886003)(66446008)(54906003)(38100700002)(122000001)(5660300002)(38070700005)(55016003)(316002)(33656002)(6916009)(7696005)(8676002)(66476007)(76116006)(4326008)(66556008)(66946007)(86362001)(186003)(26005)(64756008)(83380400001)(53546011)(52536014)(9686003)(508600001)(71200400001)(8936002)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TlVGdTFVN3JJMWtRbGIyNCtRQmRHc3dON0F5cnZjVFdIQmZqdTVRZ2hQMnd5?=
+ =?utf-8?B?blZTK1FpQ1BaVS95aFNMS3hxZ2FoUjdyd3JqaDhVZG1vQkxFaUwvdGRTeDcw?=
+ =?utf-8?B?OWxlVkVqTW1YTnZzNXhZWjVYejdLVjFNUENsdHRDZ1FFNHMzNVVHYnQ0U3F2?=
+ =?utf-8?B?V2N0L0ZudjhnTi9KbUl2OUNydnd5b09iMVZpZy91QXVBNHZvN3pYdWFxM1Fj?=
+ =?utf-8?B?SGlTUlBVcVQzZllYby9yZHJERmFKcjhwVjFuZkNzbVpGZDU0czgwOGRFMXRl?=
+ =?utf-8?B?VUpVQ3BiRHk2ekt0TitCcEhpa0JmQnhJdG9oSm53c2xpanBTckc5c2R1NGto?=
+ =?utf-8?B?dmFwa0VMVzJ2bkRFZ3RZSUJKWk1IYWdid3BCZFlZMDBZbTQxYlNoSitDNTFm?=
+ =?utf-8?B?dytwOCsvbkZSdGYzSVdBbllIdVJTM0FIM2ZXQVR5WExIR3BsckxwTmlzUzFP?=
+ =?utf-8?B?SzZYZnNINUlWZnJjZnNQK0hqOGdoNThYUloveC9vdGh1dnB4QjZWRkpleFZa?=
+ =?utf-8?B?S2RrTVZ3Z0k3ZDdpT01jLzJYSkIwR3k5S0huVGtEOVBnVHZTZ2RQZTMxTkU2?=
+ =?utf-8?B?K0tkQVBWZWUxeHBtZU5NK09sSDhmcjc0bk42clZUU1cwNFRwQ2Q3ODN3NHVR?=
+ =?utf-8?B?SzduVVBzVjJzM2p6RUgwQWNPdkZqbUtHSGZBY3hsVlBmQk1zSjhaWXNyS1U3?=
+ =?utf-8?B?WE9WSnFoZTRScWcwNm1Jb1JSY2VEa2VBZUhZV1c0UGVtQzRGY0JZK0VnK0lU?=
+ =?utf-8?B?OWpLMk13dklQODJzUSthbWtERldLRlZnTi9SbXNEUEoxd0k3SWlmcTQySjYy?=
+ =?utf-8?B?TlZCSEo1WHBreUxzQnNNL1Rac01KUmxXbVBlZ0VLZ0FMRmt5Rk5lRzV3d0s4?=
+ =?utf-8?B?Q2tGQklDVVdSOE9RM2RSSEVBZ3pwT1U0eTZVazNQd1hEQnE0dUhuN3QyL0FD?=
+ =?utf-8?B?d1Fnek5XVDlsQzBmTUhWQ0liRnJkSmR4NG9JdUxRWnh4bGd6M1BzVlFPNHNP?=
+ =?utf-8?B?cXdqdWFZandJY01kT3p0bk9rbjBwNmkyL3RMMHpma1d1aUZ6d3EvampXMWdB?=
+ =?utf-8?B?SGdGWndTU2tvSUxJdXB1NG50clNDYTJLUmI0ei8vZ0h4NlFTNlpiemxTWlZj?=
+ =?utf-8?B?aXFYQUR1bTA0VVhIekpXeDdTbVNkOWVHMVhBSHV5UVExZTBONlJPTWtpZGhv?=
+ =?utf-8?B?MUhURjRxdVl5YnZiN0l1Q0VKRGhtdDBnWm5neGhGc0FGRGxxNVIwTTBrTlpN?=
+ =?utf-8?B?Ty9oTGt3aDljSjFsak5uZmEycXhQWGR5UTNJeUpXbDh5aUE1WittWm9FdlBK?=
+ =?utf-8?B?bHU2Y0MxdVRiUFo0cW5xdFRDVTJOUzZSZkpNa1pOUXNOalVndXBLZ1lhZ3JY?=
+ =?utf-8?B?Vi81WDdpQk1tbEU4K3o0NVRaSG5SSUtXOStmajBDTzVnRDdkbnZmd2FRT1J0?=
+ =?utf-8?B?N2Ixc2g3TzBXNWdMdDdSQ3pwZHFONTlOZW1QZ2JRVkUySWxIYktkMkpXcFpv?=
+ =?utf-8?B?ekxEQy9ubzg2S3BGcU9iZUZmODMxU2JDTG0vMVh6dHVtbmp6RTgxaXZTaEpR?=
+ =?utf-8?B?OElEekVIUjJxeklwTjFBY1RpQUVkWFEzSlZBV1c5clZCNGVvWjBFN0k0bkVT?=
+ =?utf-8?B?VnN2K1A0WXZLMDRJN3Rod1Q4WUFKSmUvUXgzSmpVbHREZytMSDZkQXFmWHhz?=
+ =?utf-8?B?U2JFV05JV1pRcW5zV1V0T0tNdVdiQ3BnSG12bW9nUjBobWl2YlIxMEk4MDRm?=
+ =?utf-8?B?dXdycUJaQjRyNHBYV3owZnplYWhNV2FJeDNGOUJnWDhJV1ZvYmpzcHFRTEtE?=
+ =?utf-8?B?ejI5aEI2SlhHRDlNSW5LVTB3aFpCdDF4d3l5S25sczNVRTUzUXFjRjFwZTlY?=
+ =?utf-8?B?VVQ1aWtPbyttcVFOMGlEdTJaclVXUnpvd1oxQXJ0ZnpPYXA0M3lRUnZjREtZ?=
+ =?utf-8?B?dEZpOHJ6K3RuRzl2eEVxOXpiWUlxWnowbE5XV3FzUDNPRGFTWFh6cmlSRXRO?=
+ =?utf-8?B?YmNTd2FPRzVqd0JlbXdKR2VNeDZjVytkM29VeTBuZ3NScGJ5czNCSDE4QXNL?=
+ =?utf-8?B?NlJ1czBWMWNxWTZyQkdVbkZUWmhYY05VSXd2NEs2aU15Wkt0cm9qRklPUXB0?=
+ =?utf-8?B?K2o0bjhDT2J5TzdlNHRiUHljY2FZVjhjRzZLblcwbTBhMTJlaDM3ZXNsV3N0?=
+ =?utf-8?B?MWphTUhFSXVMMlR3Vm9wOTFjdzBiWnhqd0FrVzZpT0M3eDhXa0c0MTdjVmhy?=
+ =?utf-8?B?YWFFN3pQSXd0SXpkZFBZVGc3elRZSjgrdkFBMTJRSWVsN3gyVGorNUd3T3Rz?=
+ =?utf-8?B?aENwNGd2RXFtVGJ4NUlKYm9ldmxVVVQ2aEg3ZkNIWVA1T0dIaU1XWXN4bHB1?=
+ =?utf-8?Q?pyDrNxJDMS9fDWno=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com> <20220420025450.289578-5-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220420025450.289578-5-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 15:10:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXn=qm_gutcq64y+XCa=CchKPqPnZqoc7jMMjcw-G0vmA@mail.gmail.com>
-Message-ID: <CAMuHMdXn=qm_gutcq64y+XCa=CchKPqPnZqoc7jMMjcw-G0vmA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] scsi: ufs-renesas: Add support for Renesas R-Car
- UFS controller
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>, avri.altman@wdc.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        scsi <linux-scsi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 640d13ab-7725-428b-ed7e-08da284fbc96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2022 13:13:35.7569
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7yLgvK4/gw4fFjHSOFMTT4ho/hz9X7QyN9XWI1h3fRUmwXFUc6G8okpZW24st0ITUSxMX/+qgTXZzKkb1DLUs1mAz/HyE/xAvsnx3zCdbKA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4116
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Wed, Apr 20, 2022 at 11:39 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for Renesas R-Car UFS controller which needs vender specific
-> initialization.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/scsi/ufs/ufs-renesas.c
-> @@ -0,0 +1,418 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/*
-> + * Renesas UFS host controller driver
-> + *
-> + * Copyright (C) 2022 Renesas Electronics Corporation
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "ufshcd.h"
-> +#include "ufshcd-pltfrm.h"
-> +
-> +struct ufs_renesas_priv {
-> +       bool initialized;       /* The hardware needs initialization once */
-> +};
-> +
-> +enum {
-> +       SET_PHY_INDEX_LO = 0,
-> +       SET_PHY_INDEX_HI,
-> +       TIMER_INDEX,
-> +       MAX_INDEX
-> +};
-> +
-> +enum ufs_renesas_init_param_mode {
-> +       MODE_RESTORE,
-> +       MODE_SET,
-> +       MODE_SAVE,
-> +       MODE_POLL,
-> +       MODE_WAIT,
-> +       MODE_WRITE,
-> +};
-> +
-> +#define PARAM_RESTORE(_reg, _index) \
-> +               { .mode = MODE_RESTORE, .reg = _reg, .index = _index }
-> +#define PARAM_SET(_index, _set) \
-> +               { .mode = MODE_SET, .index = _index, .u.set = _set }
-> +#define PARAM_SAVE(_reg, _mask, _index) \
-> +               { .mode = MODE_SAVE, .reg = _reg, .mask = (u32)(_mask), \
-> +                 .index = _index }
-> +#define PARAM_POLL(_reg, _expected, _mask) \
-> +               { .mode = MODE_POLL, .reg = _reg, .u.expected = _expected, \
-> +                 .mask = (u32)(_mask) }
-> +#define PARAM_WAIT(_delay_us) \
-> +               { .mode = MODE_WAIT, .u.delay_us = _delay_us }
-> +
-> +#define PARAM_WRITE(_reg, _val) \
-> +               { .mode = MODE_WRITE, .reg = _reg, .u.val = _val }
-> +
-> +#define PARAM_WRITE_D0_D4(_d0, _d4) \
-> +               PARAM_WRITE(0xd0, _d0), PARAM_WRITE(0xd4, _d4)
-> +
-> +#define PARAM_WRITE_800_80C_POLL(_addr, _data_800)             \
-> +               PARAM_WRITE_D0_D4(0x0000080c, 0x00000100),      \
-> +               PARAM_WRITE_D0_D4(0x00000800, ((_data_800) << 16) | BIT(8) | (_addr)), \
-> +               PARAM_WRITE(0xd0, 0x0000080c),                  \
-> +               PARAM_POLL(0xd4, BIT(8), BIT(8))
-> +
-> +#define PARAM_RESTORE_800_80C_POLL(_index)                     \
-> +               PARAM_WRITE_D0_D4(0x0000080c, 0x00000100),      \
-> +               PARAM_WRITE(0xd0, 0x00000800),                  \
-> +               PARAM_RESTORE(0xd4, _index),                    \
-> +               PARAM_WRITE(0xd0, 0x0000080c),                  \
-> +               PARAM_POLL(0xd4, BIT(8), BIT(8))
-> +
-> +#define PARAM_WRITE_804_80C_POLL(_addr, _data_804)             \
-> +               PARAM_WRITE_D0_D4(0x0000080c, 0x00000100),      \
-> +               PARAM_WRITE_D0_D4(0x00000804, ((_data_804) << 16) | BIT(8) | (_addr)), \
-> +               PARAM_WRITE(0xd0, 0x0000080c),                  \
-> +               PARAM_POLL(0xd4, BIT(8), BIT(8))
-> +
-> +#define PARAM_WRITE_828_82C_POLL(_data_828)                    \
-> +               PARAM_WRITE_D0_D4(0x0000082c, 0x0f000000),      \
-> +               PARAM_WRITE_D0_D4(0x00000828, _data_828),       \
-> +               PARAM_WRITE(0xd0, 0x0000082c),                  \
-> +               PARAM_POLL(0xd4, _data_828, _data_828)
-> +
-> +#define PARAM_WRITE_PHY(_addr16, _data16)                      \
-> +               PARAM_WRITE(0xf0, 1),                           \
-> +               PARAM_WRITE_800_80C_POLL(0x16, (_addr16) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x17, ((_addr16) >> 8) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x18, (_data16) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x19, ((_data16) >> 8) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x1c, 0x01),           \
-> +               PARAM_WRITE_828_82C_POLL(0x0f000000),           \
-> +               PARAM_WRITE(0xf0, 0)
-> +
-> +#define PARAM_SET_PHY(_addr16, _data16)                                \
-> +               PARAM_WRITE(0xf0, 1),                           \
-> +               PARAM_WRITE_800_80C_POLL(0x16, (_addr16) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x17, ((_addr16) >> 8) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x1c, 0x01),           \
-> +               PARAM_WRITE_828_82C_POLL(0x0f000000),           \
-> +               PARAM_WRITE_804_80C_POLL(0x1a, 0),              \
-> +               PARAM_WRITE(0xd0, 0x00000808),                  \
-> +               PARAM_SAVE(0xd4, 0xff, SET_PHY_INDEX_LO),       \
-> +               PARAM_WRITE_804_80C_POLL(0x1b, 0),              \
-> +               PARAM_WRITE(0xd0, 0x00000808),                  \
-> +               PARAM_SAVE(0xd4, 0xff, SET_PHY_INDEX_HI),       \
-> +               PARAM_WRITE_828_82C_POLL(0x0f000000),           \
-> +               PARAM_WRITE(0xf0, 0),                           \
-> +               PARAM_WRITE(0xf0, 1),                           \
-> +               PARAM_WRITE_800_80C_POLL(0x16, (_addr16) & 0xff), \
-> +               PARAM_WRITE_800_80C_POLL(0x17, ((_addr16) >> 8) & 0xff), \
-> +               PARAM_SET(SET_PHY_INDEX_LO, ((_data16 & 0xff) << 16) | BIT(8) | 0x18), \
-> +               PARAM_RESTORE_800_80C_POLL(SET_PHY_INDEX_LO),   \
-> +               PARAM_SET(SET_PHY_INDEX_HI, (((_data16 >> 8) & 0xff) << 16) | BIT(8) | 0x19), \
-> +               PARAM_RESTORE_800_80C_POLL(SET_PHY_INDEX_HI),   \
-> +               PARAM_WRITE_800_80C_POLL(0x1c, 0x01),           \
-> +               PARAM_WRITE_828_82C_POLL(0x0f000000),           \
-> +               PARAM_WRITE(0xf0, 0)
-> +
-> +#define PARAM_INDIRECT_WRITE(_gpio, _addr, _data_800)          \
-> +               PARAM_WRITE(0xf0, _gpio),                       \
-> +               PARAM_WRITE_800_80C_POLL(_addr, _data_800),     \
-> +               PARAM_WRITE_828_82C_POLL(0x0f000000),           \
-> +               PARAM_WRITE(0xf0, 0)
-> +
-> +#define PARAM_INDIRECT_POLL(_gpio, _addr, _expected, _mask)    \
-> +               PARAM_WRITE(0xf0, _gpio),                       \
-> +               PARAM_WRITE_800_80C_POLL(_addr, 0),             \
-> +               PARAM_WRITE(0xd0, 0x00000808),                  \
-> +               PARAM_POLL(0xd4, _expected, _mask),             \
-> +               PARAM_WRITE(0xf0, 0)
-> +
-> +struct ufs_renesas_init_param {
-> +       enum ufs_renesas_init_param_mode mode;
-> +       u32 reg;
-> +       union {
-> +               u32 expected;
-> +               u32 delay_us;
-> +               u32 set;
-> +               u32 val;
-> +       } u;
-> +       u32 mask;
-> +       u32 index;
-> +};
-> +
-> +/* This setting is for SERIES B */
-> +static const struct ufs_renesas_init_param ufs_param[] = {
-> +       PARAM_WRITE(0xc0, 0x49425308),
-> +       PARAM_WRITE_D0_D4(0x00000104, 0x00000002),
-> +       PARAM_WAIT(1),
-> +       PARAM_WRITE_D0_D4(0x00000828, 0x00000200),
-> +       PARAM_WAIT(1),
-> +       PARAM_WRITE_D0_D4(0x00000828, 0x00000000),
-> +       PARAM_WRITE_D0_D4(0x00000104, 0x00000001),
-> +       PARAM_WRITE_D0_D4(0x00000940, 0x00000001),
-> +       PARAM_WAIT(1),
-> +       PARAM_WRITE_D0_D4(0x00000940, 0x00000000),
-> +
-> +       PARAM_WRITE(0xc0, 0x49425308),
-> +       PARAM_WRITE(0xc0, 0x41584901),
-> +
-> +       PARAM_WRITE_D0_D4(0x0000080c, 0x00000100),
-> +       PARAM_WRITE_D0_D4(0x00000804, 0x00000000),
-> +       PARAM_WRITE(0xd0, 0x0000080c),
-> +       PARAM_POLL(0xd4, BIT(8), BIT(8)),
-> +
-> +       PARAM_WRITE(REG_CONTROLLER_ENABLE, 0x00000001),
-> +
-> +       PARAM_WRITE(0xd0, 0x00000804),
-> +       PARAM_POLL(0xd4, BIT(8) | BIT(6) | BIT(0), BIT(8) | BIT(6) | BIT(0)),
-> +
-> +       PARAM_WRITE(0xd0, 0x00000d00),
-> +       PARAM_SAVE(0xd4, 0x0000ffff, TIMER_INDEX),
-> +       PARAM_WRITE(0xd4, 0x00000000),
-> +       PARAM_WRITE_D0_D4(0x0000082c, 0x0f000000),
-> +       PARAM_WRITE_D0_D4(0x00000828, 0x08000000),
-> +       PARAM_WRITE(0xd0, 0x0000082c),
-> +       PARAM_POLL(0xd4, BIT(27), BIT(27)),
-> +       PARAM_WRITE(0xd0, 0x00000d2c),
-> +       PARAM_POLL(0xd4, BIT(0), BIT(0)),
-> +
-> +       /* phy setup */
-> +       PARAM_INDIRECT_WRITE(1, 0x01, 0x001f),
-> +       PARAM_INDIRECT_WRITE(7, 0x5d, 0x0014),
-> +       PARAM_INDIRECT_WRITE(7, 0x5e, 0x0014),
-> +       PARAM_INDIRECT_WRITE(7, 0x0d, 0x0003),
-> +       PARAM_INDIRECT_WRITE(7, 0x0e, 0x0007),
-> +       PARAM_INDIRECT_WRITE(7, 0x5f, 0x0003),
-> +       PARAM_INDIRECT_WRITE(7, 0x60, 0x0003),
-> +       PARAM_INDIRECT_WRITE(7, 0x5b, 0x00a6),
-> +       PARAM_INDIRECT_WRITE(7, 0x5c, 0x0003),
-> +
-> +       PARAM_INDIRECT_POLL(7, 0x3c, 0, BIT(7)),
-> +       PARAM_INDIRECT_POLL(7, 0x4c, 0, BIT(4)),
-> +
-> +       PARAM_INDIRECT_WRITE(1, 0x32, 0x0080),
-> +       PARAM_INDIRECT_WRITE(1, 0x1f, 0x0001),
-> +       PARAM_INDIRECT_WRITE(0, 0x2c, 0x0001),
-> +       PARAM_INDIRECT_WRITE(0, 0x32, 0x0087),
-> +
-> +       PARAM_INDIRECT_WRITE(1, 0x4d, 0x0061),
-> +       PARAM_INDIRECT_WRITE(4, 0x9b, 0x0009),
-> +       PARAM_INDIRECT_WRITE(4, 0xa6, 0x0005),
-> +       PARAM_INDIRECT_WRITE(4, 0xa5, 0x0058),
-> +       PARAM_INDIRECT_WRITE(1, 0x39, 0x0027),
-> +       PARAM_INDIRECT_WRITE(1, 0x47, 0x004c),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x0d, 0x0002),
-> +       PARAM_INDIRECT_WRITE(7, 0x0e, 0x0007),
-> +
-> +       PARAM_WRITE_PHY(0x0028, 0x0061),
-> +       PARAM_WRITE_PHY(0x4014, 0x0061),
-> +       PARAM_SET_PHY(0x401c, BIT(2)),
-> +       PARAM_WRITE_PHY(0x4000, 0x0000),
-> +       PARAM_WRITE_PHY(0x4001, 0x0000),
-> +
-> +       PARAM_WRITE_PHY(0x10ae, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ad, 0x0000),
-> +       PARAM_WRITE_PHY(0x10af, 0x0001),
-> +       PARAM_WRITE_PHY(0x10b6, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ae, 0x0000),
-> +
-> +       PARAM_WRITE_PHY(0x10ae, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ad, 0x0000),
-> +       PARAM_WRITE_PHY(0x10af, 0x0002),
-> +       PARAM_WRITE_PHY(0x10b6, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ae, 0x0000),
-> +
-> +       PARAM_WRITE_PHY(0x10ae, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ad, 0x0080),
-> +       PARAM_WRITE_PHY(0x10af, 0x0000),
-> +       PARAM_WRITE_PHY(0x10b6, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ae, 0x0000),
-> +
-> +       PARAM_WRITE_PHY(0x10ae, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ad, 0x0080),
-> +       PARAM_WRITE_PHY(0x10af, 0x001a),
-> +       PARAM_WRITE_PHY(0x10b6, 0x0001),
-> +       PARAM_WRITE_PHY(0x10ae, 0x0000),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x70, 0x0016),
-> +       PARAM_INDIRECT_WRITE(7, 0x71, 0x0016),
-> +       PARAM_INDIRECT_WRITE(7, 0x72, 0x0014),
-> +       PARAM_INDIRECT_WRITE(7, 0x73, 0x0014),
-> +       PARAM_INDIRECT_WRITE(7, 0x74, 0x0000),
-> +       PARAM_INDIRECT_WRITE(7, 0x75, 0x0000),
-> +       PARAM_INDIRECT_WRITE(7, 0x76, 0x0010),
-> +       PARAM_INDIRECT_WRITE(7, 0x77, 0x0010),
-> +       PARAM_INDIRECT_WRITE(7, 0x78, 0x00ff),
-> +       PARAM_INDIRECT_WRITE(7, 0x79, 0x0000),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x19, 0x0007),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x1a, 0x0007),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x24, 0x000c),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x25, 0x000c),
-> +
-> +       PARAM_INDIRECT_WRITE(7, 0x62, 0x0000),
-> +       PARAM_INDIRECT_WRITE(7, 0x63, 0x0000),
-> +       PARAM_INDIRECT_WRITE(7, 0x5d, 0x0014),
-> +       PARAM_INDIRECT_WRITE(7, 0x5e, 0x0017),
-> +       PARAM_INDIRECT_WRITE(7, 0x5d, 0x0004),
-> +       PARAM_INDIRECT_WRITE(7, 0x5e, 0x0017),
-> +       PARAM_INDIRECT_POLL(7, 0x55, 0, BIT(6)),
-> +       PARAM_INDIRECT_POLL(7, 0x41, 0, BIT(7)),
-> +       /* end of phy setup */
-> +
-> +       PARAM_WRITE(0xf0, 0),
-> +       PARAM_WRITE(0xd0, 0x00000d00),
-> +       PARAM_RESTORE(0xd4, TIMER_INDEX),
-> +};
-> +
-> +static void ufs_renesas_dbg_register_dump(struct ufs_hba *hba)
-> +{
-> +       ufshcd_dump_regs(hba, 0xc0, 0x40, "regs: 0xc0 + ");
-> +}
-> +
-> +static void ufs_renesas_reg_control(struct ufs_hba *hba,
-> +                                   const struct ufs_renesas_init_param *p)
-> +{
-> +       static u32 save[MAX_INDEX];
-> +       int ret;
-> +       u32 val;
-> +
-> +       pr_debug("%s: %d %04x %08x, %08x, %d\n", __func__, p->mode, p->reg,
-> +                p->u.val, p->mask, p->index);
-
-Do you need this?
-If yes, perhaps dev_dbg(hba->dev, ...)?
-
-> +
-> +       WARN_ON(p->index >= MAX_INDEX);
-> +
-> +       switch (p->mode) {
-> +       case MODE_RESTORE:
-> +               ufshcd_writel(hba, save[p->index], p->reg);
-> +               break;
-> +       case MODE_SET:
-> +               pr_debug("%s: %d %x %x\n", __func__, p->index, save[p->index],
-> +                        p->u.set);
-
-Likewise.
-
-> +               save[p->index] |= p->u.set;
-> +               break;
-> +       case MODE_SAVE:
-> +               save[p->index] = ufshcd_readl(hba, p->reg) & p->mask;
-> +               pr_debug("%s: index = %d, save = %08x\n", __func__,
-> +                        p->index, save[p->index]);
-
-Likewise.
-
-> +               break;
-> +       case MODE_POLL:
-> +               ret = readl_poll_timeout_atomic(hba->mmio_base + p->reg,
-> +                                               val,
-> +                                               (val & p->mask) == p->u.expected,
-> +                                               10, 1000);
-> +               if (ret)
-> +                       pr_err("%s: poll failed %d (%08x, %08x, %08x)\n",
-> +                              __func__, ret, val, p->mask, p->u.expected);
-> +               break;
-> +       case MODE_WAIT:
-> +               if (p->u.delay_us > 1000)
-> +                       mdelay(p->u.delay_us / 1000);
-
-mdelay(DIV_ROUND_UP(p->u.delay_us, 1000));
-(cfr. include/linux/delay.h:ndelay())
-
-
-> +               else
-> +                       udelay(p->u.delay_us);
-> +               break;
-> +       case MODE_WRITE:
-> +               ufshcd_writel(hba, p->u.val, p->reg);
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +}
-> +
-> +static void ufs_renesas_pre_init(struct ufs_hba *hba)
-> +{
-> +       const struct ufs_renesas_init_param *p = ufs_param;
-> +       int i;
-
-unsigned int i
-
-> +
-> +       for (i = 0; i < ARRAY_SIZE(ufs_param); i++)
-> +               ufs_renesas_reg_control(hba, &p[i]);
-> +}
-
-> +static const struct of_device_id __maybe_unused ufs_renesas_of_match[] = {
-> +       { .compatible = "renesas,r8a779f0-ufs" },
-
-As pointed out by the kernel test robot, this lack a sentinel.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
+UEFUQ0ggdjggMy81XSBtZWRpYTogcmVuZXNhczogdnNwMTogQWRkIHN1cHBvcnQgZm9yIFZTUA0K
+PiBzb2Z0d2FyZSB2ZXJzaW9uDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gVHVlLCBBcHIgMTks
+IDIwMjIgYXQgODoxOCBQTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+
+IHdyb3RlOg0KPiA+IFRoZSBWU1BEIGJsb2NrIG9uIFJaL0cyTCBkb2VzIG5vdCBoYXZlIGEgdmVy
+c2lvbiByZWdpc3Rlci4NCg0KV2lsbCB1cGRhdGUgUlovRzJMLT5SWi9HMkwgU29Dcw0KDQo+ID4N
+Cj4gPiBUaGlzIHBhdGNoIGFkZHMgc3VwcG9ydCBmb3IgYWRkaW5nIFZTUCBzb2Z0d2FyZSB2ZXJz
+aW9uIGJhc2VkIG9uDQo+ID4gZGV2aWNlIG1hdGNoLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTog
+QmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+IHY4Og0K
+PiA+ICAqIE5ldyBwYXRjaA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAt
+LS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JlbmVzYXMvdnNwMS92c3AxX2Rydi5jDQo+ID4g
+KysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yZW5lc2FzL3ZzcDEvdnNwMV9kcnYuYw0KPiA+
+IEBAIC04MTIsMTEgKzgxMiw0MyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHZzcDFfZGV2aWNlX2lu
+Zm8NCj4gdnNwMV9kZXZpY2VfaW5mb3NbXSA9IHsNCj4gPiAgICAgICAgIH0sDQo+ID4gIH07DQo+
+ID4NCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCB2c3AxX2RldmljZV9pbmZvICp2c3AxX2xvb2t1
+cF9pbmZvKHN0cnVjdA0KPiA+ICt2c3AxX2RldmljZSAqdnNwMSkgew0KPiA+ICsgICAgICAgY29u
+c3Qgc3RydWN0IHZzcDFfZGV2aWNlX2luZm8gKmluZm87DQo+ID4gKyAgICAgICB1bnNpZ25lZCBp
+bnQgaTsNCj4gPiArDQo+ID4gKyAgICAgICAvKg0KPiA+ICsgICAgICAgICogVHJ5IHRoZSBpbmZv
+IHN0b3JlZCBpbiBtYXRjaCBkYXRhIGZpcnN0IGZvciBkZXZpY2VzIHRoYXQNCj4gZG9uJ3QgaGF2
+ZQ0KPiA+ICsgICAgICAgICogYSB2ZXJzaW9uIHJlZ2lzdGVyLg0KPiA+ICsgICAgICAgICovDQo+
+ID4gKyAgICAgICBpbmZvID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKHZzcDEtPmRldik7DQo+
+ID4gKyAgICAgICBpZiAoaW5mbykgew0KPiA+ICsgICAgICAgICAgICAgICB2c3AxLT52ZXJzaW9u
+ID0gVkk2X0lQX1ZFUlNJT05fVlNQX1NXIHwgaW5mby0+dmVyc2lvbiB8DQo+IGluZm8tPnNvYzsN
+Cj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIGluZm87DQo+ID4gKyAgICAgICB9DQo+ID4gKw0K
+PiA+ICsgICAgICAgdnNwMS0+dmVyc2lvbiA9IHZzcDFfcmVhZCh2c3AxLCBWSTZfSVBfVkVSU0lP
+Tik7DQo+ID4gKw0KPiA+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUodnNwMV9k
+ZXZpY2VfaW5mb3MpOyArK2kpIHsNCj4gPiArICAgICAgICAgICAgICAgaW5mbyA9ICZ2c3AxX2Rl
+dmljZV9pbmZvc1tpXTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIGlmICgodnNwMS0+dmVy
+c2lvbiAmIFZJNl9JUF9WRVJTSU9OX01PREVMX01BU0spID09IGluZm8tDQo+ID52ZXJzaW9uKQ0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiANCj4gcmV0dXJuIGluZm8/IC4u
+Lg0KDQpPSy4NCg0KPiANCj4gPiArICAgICAgIH0NCj4gPiArDQo+ID4gKyAgICAgICBpZiAoaSA9
+PSBBUlJBWV9TSVpFKHZzcDFfZGV2aWNlX2luZm9zKSkgew0KPiANCj4gLi4uIHNvIHRoaXMgY2hl
+Y2sgaXMgbm8gbG9uZ2VyIG5lZWRlZC4NCg0KT0suIFdpbGwgZml4IHRoaXMgaW4gbmV4dCB2ZXJz
+aW9uLg0KDQpDaGVlcnMsDQpCaWp1DQo+IA0KPiA+ICsgICAgICAgICAgICAgICBkZXZfZXJyKHZz
+cDEtPmRldiwgInVuc3VwcG9ydGVkIElQIHZlcnNpb24gMHglMDh4XG4iLA0KPiA+ICsgICAgICAg
+ICAgICAgICAgICAgICAgIHZzcDEtPnZlcnNpb24pOw0KPiA+ICsgICAgICAgICAgICAgICByZXR1
+cm4gTlVMTDsNCj4gPiArICAgICAgIH0NCj4gPiArDQo+ID4gKyAgICAgICByZXR1cm4gaW5mbzsN
+Cj4gPiArfQ0KPiANCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVu
+ZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAg
+ICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAtLQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0g
+VGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LQ0KPiBtNjhr
+Lm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9w
+bGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuDQo+IEJ1dCB3aGVuIEknbSB0YWxraW5nIHRvIGpv
+dXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZw0KPiBsaWtlIHRo
+YXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMN
+Cg==
