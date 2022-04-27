@@ -2,106 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1784511518
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 12:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15326511575
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 13:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbiD0Khw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 06:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
+        id S229964AbiD0Kvg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 06:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiD0Khv (ORCPT
+        with ESMTP id S230286AbiD0Kve (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 06:37:51 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E11BC438EE0;
-        Wed, 27 Apr 2022 03:16:06 -0700 (PDT)
-Received: from relay12.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::232])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 5C7B3CC51C;
-        Wed, 27 Apr 2022 09:57:57 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 13C56200019;
-        Wed, 27 Apr 2022 09:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651053437;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UxzMEOqhe0N5yp6GmaQi9cglbTWdIMVSkvcspvfYAsA=;
-        b=WtY8Rp/wzqRTZj3Sfbvox6ilJE6pxreJnw4mczmp6V6fZzYr+mZifk+JPUSh4WW+bkGIvx
-        yxeSLhqTZu1k7+Ab52/DGhPZ+EclGHG5pZvOhiuMeo6zFy59ducknxROc/PB5vdzlAApKR
-        uH6RUAYTaZBgy91RDHgGmYM5X/xYSftk9LT0e8HNDG7iQpYyO5mXYSJCUAMFea4S5KUj69
-        C7iHIKlbt5xZOWaoFr9wM8yxAGr6auzqOqlTJBT0vVvRahuaBulRsl30KgXhtGky0LZcuE
-        EO5Pwm/5JDl7A20zghrZPymdSjNuh7UKtQcMR6EwGZXOUXI4YRtGrgJN+AH81A==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-renesas-soc@vger.kernel.org, dmaengine@vger.kernel.org,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v12 9/9] ARM: dts: r9a06g032: Describe the DMA router
-Date:   Wed, 27 Apr 2022 11:56:53 +0200
-Message-Id: <20220427095653.91804-10-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220427095653.91804-1-miquel.raynal@bootlin.com>
-References: <20220427095653.91804-1-miquel.raynal@bootlin.com>
+        Wed, 27 Apr 2022 06:51:34 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19CAA3AB7CF;
+        Wed, 27 Apr 2022 03:22:57 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id ke5so733441qvb.5;
+        Wed, 27 Apr 2022 03:22:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DFvDs4UX2zax4adbziwn0RYfIrK/tqgpmI5wyJl9xWk=;
+        b=txl9N971Mitb19L/rporh9pX+gSFiofYsUEsWQqmAP8yoWcvMfaiKi0HoyXVykX9YZ
+         +BVFExqw44qOaaUGTGPFgGsoZAAXlnhsT5fnc8/c3iMQJjWJ1gcKbNW5isoK/0ed9a1b
+         mwZFgZW4D/xhp6dg6tRjHzCNE0fvbrW0PVeReKZ86PIzkjJ62+uQDDjd13yID1y7rgh0
+         jh2EvZt07FXfG5Ifg0KIiw0NjqR5xgMV05b08n6HiwsVYmmC2NEeqmxF2inFogQrb/k6
+         3lepXM4uGARxFNsaXcicxgi49dphhOZZPDSvttlPoIZYo7AzgPgLL26ZxY4aQDlUykCy
+         abHA==
+X-Gm-Message-State: AOAM530unhwEdaKc69mkv3lc8vhloUsAkN+WoZkhGEIadOmoln2zpnhq
+        qFdW2V/89CK7ahJkCjNVzhtZt5Xkje/Fag==
+X-Google-Smtp-Source: ABdhPJz6UTZZL4BURTn67KGPUyleLdhEDIehR5hbmEP7UX3/qw0Fi0yopLbmmzlkt/pHta1qP3CD8w==
+X-Received: by 2002:a05:6214:248c:b0:441:2a61:659d with SMTP id gi12-20020a056214248c00b004412a61659dmr19331590qvb.59.1651054976735;
+        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id q17-20020a05622a031100b002f1d478c218sm10090861qtw.62.2022.04.27.03.22.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2f7bb893309so12858617b3.12;
+        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
+X-Received: by 2002:a81:8489:0:b0:2f7:edff:239f with SMTP id
+ u131-20020a818489000000b002f7edff239fmr14119456ywf.256.1651054976217; Wed, 27
+ Apr 2022 03:22:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 Apr 2022 12:22:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWJZM=-Py=W+qKUfCQU=Y5=G6qdp9uubNv56o+5JztaGA@mail.gmail.com>
+Message-ID: <CAMuHMdWJZM=-Py=W+qKUfCQU=Y5=G6qdp9uubNv56o+5JztaGA@mail.gmail.com>
+Subject: Re: [RFC PATCH] memory: renesas-rpc-if: Correct QSPI data transfer in
+ Manual mode
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There is a dmamux on this SoC which allows picking two different sources
-for a single DMA request.
+Hi Wolfram,
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm/boot/dts/r9a06g032.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On Wed, Sep 22, 2021 at 11:10 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> This patch fixes 2 problems:
+> [1] The output warning logs and data loss when performing
+> mount/umount then remount the device with jffs2 format.
+> [2] The access width of SMWDR[0:1]/SMRDR[0:1] register is wrong.
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 1e90bfc76417..37c2eb7bbb7f 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -91,6 +91,16 @@ sysctrl: system-controller@4000c000 {
- 			clocks = <&ext_mclk>, <&ext_rtc_clk>,
- 					<&ext_jtag_clk>, <&ext_rgmii_ref>;
- 			clock-names = "mclk", "rtc", "jtag", "rgmii_ref_ext";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			dmamux: dma-router@a0 {
-+				compatible = "renesas,rzn1-dmamux";
-+				reg = <0xa0 4>;
-+				#dma-cells = <6>;
-+				dma-requests = <32>;
-+				dma-masters = <&dma0 &dma1>;
-+			};
- 		};
- 
- 		uart0: serial@40060000 {
--- 
-2.27.0
+Revisiting commit fff53a551db50f5e ("memory: renesas-rpc-if: Correct
+QSPI data transfer in Manual mode") in  v5.16-rc1...
 
+> --- a/drivers/memory/renesas-rpc-if.c
+> +++ b/drivers/memory/renesas-rpc-if.c
+
+>  int rpcif_manual_xfer(struct rpcif *rpc)
+>  {
+> -       u32 smenr, smcr, pos = 0, max = 4;
+> +       u32 smenr, smcr, pos = 0, max = rpc->bus_size == 2 ? 8 : 4;
+>         int ret = 0;
+>
+> -       if (rpc->bus_size == 2)
+> -               max = 8;
+> -
+>         pm_runtime_get_sync(rpc->dev);
+>
+>         regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
+> @@ -378,37 +424,36 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+>         regmap_write(rpc->regmap, RPCIF_SMOPR, rpc->option);
+>         regmap_write(rpc->regmap, RPCIF_SMDMCR, rpc->dummy);
+>         regmap_write(rpc->regmap, RPCIF_SMDRENR, rpc->ddr);
+> +       regmap_write(rpc->regmap, RPCIF_SMADR, rpc->smadr);
+>         smenr = rpc->enable;
+>
+>         switch (rpc->dir) {
+>         case RPCIF_DATA_OUT:
+>                 while (pos < rpc->xferlen) {
+> -                       u32 nbytes = rpc->xferlen - pos;
+> -                       u32 data[2];
+> +                       u32 bytes_left = rpc->xferlen - pos;
+> +                       u32 nbytes, data[2];
+>
+>                         smcr = rpc->smcr | RPCIF_SMCR_SPIE;
+> -                       if (nbytes > max) {
+> -                               nbytes = max;
+> +
+> +                       /* nbytes may only be 1, 2, 4, or 8 */
+> +                       nbytes = bytes_left >= max ? max : (1 << ilog2(bytes_left));
+> +                       if (bytes_left > nbytes)
+>                                 smcr |= RPCIF_SMCR_SSLKP;
+> -                       }
+> +
+> +                       smenr |= RPCIF_SMENR_SPIDE(rpcif_bits_set(rpc, nbytes));
+> +                       regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
+>
+>                         memcpy(data, rpc->buffer + pos, nbytes);
+> -                       if (nbytes > 4) {
+> +                       if (nbytes == 8) {
+>                                 regmap_write(rpc->regmap, RPCIF_SMWDR1,
+>                                              data[0]);
+>                                 regmap_write(rpc->regmap, RPCIF_SMWDR0,
+>                                              data[1]);
+> -                       } else if (nbytes > 2) {
+> +                       } else {
+>                                 regmap_write(rpc->regmap, RPCIF_SMWDR0,
+>                                              data[0]);
+> -                       } else  {
+> -                               regmap_write(rpc->regmap, RPCIF_SMWDR0,
+> -                                            data[0] << 16);
+>                         }
+>
+> -                       regmap_write(rpc->regmap, RPCIF_SMADR,
+> -                                    rpc->smadr + pos);
+
+Removing this implies SMADR is auto-incrementing for writes...
+
+> -                       regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
+>                         regmap_write(rpc->regmap, RPCIF_SMCR, smcr);
+>                         ret = wait_msg_xfer_end(rpc);
+>                         if (ret)
+> @@ -448,14 +493,16 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+>                         break;
+>                 }
+>                 while (pos < rpc->xferlen) {
+> -                       u32 nbytes = rpc->xferlen - pos;
+> -                       u32 data[2];
+> +                       u32 bytes_left = rpc->xferlen - pos;
+> +                       u32 nbytes, data[2];
+>
+> -                       if (nbytes > max)
+> -                               nbytes = max;
+> +                       /* nbytes may only be 1, 2, 4, or 8 */
+> +                       nbytes = bytes_left >= max ? max : (1 << ilog2(bytes_left));
+>
+>                         regmap_write(rpc->regmap, RPCIF_SMADR,
+>                                      rpc->smadr + pos);
+
+... while keeping this assumes SMADR is not auto-incrementing for
+reads?
+
+Figure 62.17 "Example of Data Transfer Setting Flow in Manual Operating
+Mode" does show writing SMADR in each loop iteration.
+I cannot find anything about auto-incrementing in the documentation,
+except for Figure 62.28 "Write Buffer Usage Sequence", which does
+not apply as Linux does not support the write buffer yet.
+
+Given you tested this, and the BSP commit 0d37f69cacb33435 ("memory:
+renesas-rpc-if: Correct QSPI data transfer in Manual mode") does the
+same, I assume it's working fine?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
