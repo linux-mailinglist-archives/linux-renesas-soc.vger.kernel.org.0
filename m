@@ -2,63 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F22835117FA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C631A51197D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 16:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234623AbiD0Mty (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 08:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
+        id S234910AbiD0MvC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 08:51:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234583AbiD0Mtx (ORCPT
+        with ESMTP id S234905AbiD0Mu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 08:49:53 -0400
+        Wed, 27 Apr 2022 08:50:59 -0400
 Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38576262;
-        Wed, 27 Apr 2022 05:46:43 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id i2so1135874qke.12;
-        Wed, 27 Apr 2022 05:46:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E409726C846;
+        Wed, 27 Apr 2022 05:47:47 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id z126so1171854qkb.2;
+        Wed, 27 Apr 2022 05:47:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IFGnZv7frqpXTuKMalYO9Z5uZwjv041x51qY8b3NphI=;
-        b=RttUE8xBdn6tD6VntTpuimKWQnQhzRW8bdXEAvMrWJmFYqya46mJx1YHNWE7nW033b
-         l/u23iQxRjKNUSTIoA5KuUi6X1g+/IK5Noj5Ui4wAcHqTluUNCuE4P+OCRUBiaKOpkyr
-         HGKUwN+1vF+y+9IZ4gpzAL94pPQP40c0Dfxff023G+JAuD5rL06ctKNdFZe16beHvaQ2
-         GgyI/LNGde/ueNaxh/YxBBPQjqCR5xD1QXbE0S/AcNzhT6D0TQGDxPMw/T2nZicCXjGX
-         5FzTaCtLCEME2WFiGBpP0SNYLO928guK4v7AYKgDXD2PPosJ0HxJ3wpiI2ODKzGGzQNw
-         ZREg==
-X-Gm-Message-State: AOAM531CBPJtkmhrVw9OmLBsGXsf7jjyquChoqCXdNYOcOPnTUJsK7iq
-        +Jbgg8aIMkdoMUCOo8pKh7bpYZtQVbBxCA==
-X-Google-Smtp-Source: ABdhPJxoZktaHABy+Qy5rc/iXCz1UH9OXiveohQDGjE26LbAqj6pzZ9viRAqeVpEEvq9iLy3QBjn/Q==
-X-Received: by 2002:a05:620a:25d1:b0:47e:b90:bf6c with SMTP id y17-20020a05620a25d100b0047e0b90bf6cmr15660877qko.538.1651063602172;
-        Wed, 27 Apr 2022 05:46:42 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id j128-20020a37a086000000b0069f7c7d6517sm2110949qke.13.2022.04.27.05.46.41
+        bh=TMmGS6c32HL6vZEYBwhI0fq95j7k7//2c1xWGzdtpbM=;
+        b=H7q7vn3dsjrd57W/MJdUWX5gCFUekcXixX7qSzdILsAyraHNoeR4TJsKdvF5ScLqOk
+         3Hknm3FZpIrwpnSGnyEniQqhwef/UYgvSVDfPD8IiRGxge3sDxAQM+sLvlDu9KM9bCbW
+         gonPdRYn+1t29TJDGWb9tjmRWiUZeJbe4OlOX8d61WpqlEcXsdkmZgYGn7RkiWo17NNg
+         E2NSkp8aK8cN8/gWJD0Oj++HImEVoCsJALwZYLCXWAu8fVREMfO3vn0yOPcRC8QseCnB
+         +yrRaOVdZp7HQG6QSrptY1SsXW2E2YeH3a9jsh3YzUsHidsaNQGiBowVr23eZNNvwGbt
+         plhA==
+X-Gm-Message-State: AOAM532BK1ulZZfTfJ0Bh4j7ZWDf9sYfXKAcmieMUoyaMoNw4+C3B23t
+        nuaIaec4OD/QNtYWtfBD1SJ9DxaUEtv/XA==
+X-Google-Smtp-Source: ABdhPJzLwqZ0sa7Lrg2FzGercxa52XKA2EsYGkiDjWVk3jDd8LQvJeBkSqYe2ybgvOMwmL7sjocQAQ==
+X-Received: by 2002:a05:620a:d87:b0:67b:311c:ecbd with SMTP id q7-20020a05620a0d8700b0067b311cecbdmr16158763qkl.146.1651063666816;
+        Wed, 27 Apr 2022 05:47:46 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id 2-20020ac84e82000000b002f1f95ce5fbsm9968117qtp.3.2022.04.27.05.47.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 05:46:41 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id y76so3181923ybe.1;
-        Wed, 27 Apr 2022 05:46:41 -0700 (PDT)
-X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
- g14-20020a5b024e000000b0063dcba03d55mr25002206ybp.613.1651063601487; Wed, 27
- Apr 2022 05:46:41 -0700 (PDT)
+        Wed, 27 Apr 2022 05:47:46 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2ef5380669cso17045617b3.9;
+        Wed, 27 Apr 2022 05:47:46 -0700 (PDT)
+X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
+ v133-20020a81618b000000b002dbd9528a39mr26953403ywb.132.1651063666063; Wed, 27
+ Apr 2022 05:47:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
+References: <20220427095653.91804-1-miquel.raynal@bootlin.com> <20220427095653.91804-7-miquel.raynal@bootlin.com>
+In-Reply-To: <20220427095653.91804-7-miquel.raynal@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 14:46:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWnfZytmpMNSV4iNEAN+1ajkfE3f6=qoOM-kGbm3+rojA@mail.gmail.com>
-Message-ID: <CAMuHMdWnfZytmpMNSV4iNEAN+1ajkfE3f6=qoOM-kGbm3+rojA@mail.gmail.com>
-Subject: Re: [PATCH v8 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Wed, 27 Apr 2022 14:47:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXTHxrFHXbFRKQx-dX4z+0OLSZkV+BFGTBVPB_yCTVm-Q@mail.gmail.com>
+Message-ID: <CAMuHMdXTHxrFHXbFRKQx-dX4z+0OLSZkV+BFGTBVPB_yCTVm-Q@mail.gmail.com>
+Subject: Re: [PATCH v12 6/9] clk: renesas: r9a06g032: Probe possible children
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -70,55 +83,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
-
-On Tue, Apr 19, 2022 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The RZ/G2L VSPD provides a single VSPD instance. It has the following
-> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+On Wed, Apr 27, 2022 at 11:57 AM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+> The clock controller device on r9a06g032 takes all the memory range that
+> is described as being a system controller. This range contains many
+> different (unrelated?) registers besides the ones belonging to the clock
+> controller, that can necessitate to be accessed from other peripherals.
 >
-> The VSPD block on RZ/G2L does not have a version register, so added a
-> new compatible string "renesas,r9a07g044-vsp2" with a data pointer
-> containingthe info structure. Also the reset line is shared with the
-> DU module.
+> For instance, the dmamux registers are there. The dmamux "device" will
+> be described as a child node of the clock/system controller node, which
+> means we need the top device driver (the clock controller driver in this
+> case) to populate its children manually. In case of error when
+> populating the children, we do not fail the probe on purpose to keep the
+> clk driver up and running.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> v7->v8:
->  * Split the patch for adding s/w version, feature bit and RZ/G2L support
->  * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
->  * Added .soc for RZ/G2L
->  * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 
-Thanks for the update!
-
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> @@ -767,6 +767,8 @@
->  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3        (0x19 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3        (0x1a << 8)
->  #define VI6_IP_VERSION_MODEL_VSPD_V3U  (0x1c << 8)
-> +/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
-
-RZ/G2L SoCs
-
-> +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L        (0x80 << 8)
->
->  #define VI6_IP_VERSION_SOC_MASK                (0xff << 0)
->  #define VI6_IP_VERSION_SOC_H2          (0x01 << 0)
-> @@ -780,6 +782,8 @@
->  #define VI6_IP_VERSION_SOC_M3N         (0x04 << 0)
->  #define VI6_IP_VERSION_SOC_E3          (0x04 << 0)
->  #define VI6_IP_VERSION_SOC_V3U         (0x05 << 0)
-> +/* RZ/G2L SoC have no version register, So use 0x80 for SoC Identification */
-
-RZ/G2L SoCs
-
-> +#define VI6_IP_VERSION_SOC_RZG2L       (0x80 << 0)
->
->  #define VI6_IP_VERSION_VSP_SW          (0xfffe << 16) /* SW VSP version */
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
