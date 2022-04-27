@@ -2,153 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC53D5117DF
+	by mail.lfdr.de (Postfix) with ESMTP id 74FB15117DE
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234067AbiD0Mfm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 08:35:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
+        id S234361AbiD0Mk1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 08:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233982AbiD0Mfl (ORCPT
+        with ESMTP id S234274AbiD0Mk0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 08:35:41 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296C04C42C;
-        Wed, 27 Apr 2022 05:32:29 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id hf18so1000591qtb.0;
-        Wed, 27 Apr 2022 05:32:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wctzDfDylFmLP2RkMiHxbhLA3WY20vXxkJqi8oigFwE=;
-        b=DIa18UYBpi7afZ9y32eMycTmAj7LpAs0ADmQV4lIt6i+8F+XcWYBriZhTxxkNJm9bx
-         pUt6q06/5z8PciFHjdD/ujhbGct4L4is+yDeZh74btgliUJ0qeLX3LZuN/d6zQbXGzVT
-         y91KVGp9MGLhR4voViM4hK74qnvrr5qhL5a40N3LJB3VQ+c4o+lNv6/3a1YpBYN0gF74
-         SoZ/xp8/dnVxS9NJzQmWP2y+tK1kdYVWAUVPQrmbcfBZtEP6l6lhHKE+iuqmxLwUh5FZ
-         y5zDo6BrLJ4tnCMWpoNKkMFVLS3DFyRi35iV1E6WT/QdZUMcUg62Y+zlL7obElQ/Gz2a
-         6vbQ==
-X-Gm-Message-State: AOAM533Chzzz/scVLGY6b38T2WKpIr7q0IYVLdKkrYim3zLiBGcx+Uxs
-        shGvW9opo0IZxagXLebZDA6nQKqwA7aGJg==
-X-Google-Smtp-Source: ABdhPJxkn6pOj+SI3AIPM2hdprWq5NY/NU8IpVTLl2apJuPjeGdQNoTpaAf8CdJtY7nWfJ+gY6R1vg==
-X-Received: by 2002:a05:622a:589:b0:2f3:5971:80c with SMTP id c9-20020a05622a058900b002f35971080cmr17410085qtb.270.1651062748186;
-        Wed, 27 Apr 2022 05:32:28 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id bq37-20020a05620a46a500b0069f67110f37sm3997353qkb.117.2022.04.27.05.32.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 05:32:28 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id j2so3162567ybu.0;
-        Wed, 27 Apr 2022 05:32:27 -0700 (PDT)
-X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
- c4-20020a5b0984000000b0063f8c38676cmr26233812ybq.393.1651062747550; Wed, 27
- Apr 2022 05:32:27 -0700 (PDT)
+        Wed, 27 Apr 2022 08:40:26 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B96B53A4B;
+        Wed, 27 Apr 2022 05:37:15 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,292,1643641200"; 
+   d="scan'208";a="118193610"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 27 Apr 2022 21:37:14 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B326435BBF9;
+        Wed, 27 Apr 2022 21:37:14 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
+        krzk+dt@kernel.org
+Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v5 0/7] treewide: scsi: ufs: Add support for Renesas R-Car UFS controller
+Date:   Wed, 27 Apr 2022 21:36:59 +0900
+Message-Id: <20220427123706.555166-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220413082527.155740-1-jjhiblot@traphandler.com> <20220413082527.155740-3-jjhiblot@traphandler.com>
-In-Reply-To: <20220413082527.155740-3-jjhiblot@traphandler.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 14:32:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXLpuoTiOn7yDwTTnjkqWJ4PXuhdCLiLcOP2uyzyV6==A@mail.gmail.com>
-Message-ID: <CAMuHMdXLpuoTiOn7yDwTTnjkqWJ4PXuhdCLiLcOP2uyzyV6==A@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        tzungbi@kernel.org,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jean-Jacques,
+This patch series adds support Renesas R-Car S4-8 UFS controller.
+This controller has some restrictions so adds some quirks for it.
+Before using this driver, we have to initialize a clock generator
+on the environment board (named "Spider") by using the commands of
+U-Boot like below:
+ => i2c dev 0
+ => i2c mw 0x6c 0x26 0x05
+ => i2c olen 0x6c 2
+ => i2c mw 0x6c 0x26c 0x2e
 
-On Wed, Apr 13, 2022 at 10:25 AM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
-> From: Phil Edworthy <phil.edworthy@renesas.com>
->
-> This is a driver for the standard WDT on the RZ/N1 devices. This WDT has
-> very limited timeout capabilities. However, it can reset the device.
-> To do so, the corresponding bits in the SysCtrl RSTEN register need to
-> be enabled. This is not done by this driver.
->
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+To use the UFS controller, we need the following patch too:
+https://lore.kernel.org/all/20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com/
 
-Thanks for your patch!
+Changes from v4:
+ - Fix ufs_renesas_of_match was not terminated in patch [4/7].
+   (from kernel test robot, thanks!)
+https://lore.kernel.org/all/20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com/
 
-> --- /dev/null
-> +++ b/drivers/watchdog/rzn1_wdt.c
+Changes from v3:
+ - Fix build warning by clang in patch [4/7].
+https://lore.kernel.org/all/20220419120316.209151-1-yoshihiro.shimoda.uh@renesas.com/
 
-> +static int rzn1_wdt_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct rzn1_watchdog *wdt;
-> +       struct device_node *np = dev->of_node;
-> +       struct clk *clk;
-> +       int ret;
-> +       int irq;
-> +
-> +       wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
-> +       if (!wdt)
-> +               return -ENOMEM;
-> +
-> +       wdt->base = devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(wdt->base))
-> +               return PTR_ERR(wdt->base);
-> +
-> +       irq = platform_get_irq(pdev, 0);
-> +       if (irq < 0)
-> +               return irq;
-> +
-> +       ret = devm_request_irq(dev, irq, rzn1_wdt_irq, 0,
-> +                              np->name, wdt);
-> +       if (ret) {
-> +               dev_err(dev, "failed to request irq %d\n", irq);
-> +               return ret;
-> +       }
-> +
-> +       clk = devm_clk_get(dev, NULL);
-> +       if (IS_ERR(clk)) {
-> +               dev_err(dev, "failed to get the clock\n");
-> +               return PTR_ERR(clk);
-> +       }
-> +
-> +       ret = clk_prepare_enable(clk);
-> +       if (ret) {
-> +               dev_err(dev, "failed to prepare/enable the clock\n");
-> +               return ret;
-> +       }
-> +
-> +       ret = devm_add_action_or_reset(dev, rzn1_wdt_clk_disable_unprepare,
-> +                                      clk);
-> +       if (ret) {
-> +               dev_err(dev, "failed to register clock unprepare callback\n");
+Changes from v2:
+ - Add Reviewed-by in patch [1/7]. (Krzysztof, thanks!)
+ - Use WARN_ON() instead of BUG_ON in patch [4/7].
+https://lore.kernel.org/all/20220414023115.4190736-1-yoshihiro.shimoda.uh@renesas.com/
 
-Please remove this error message.
-devm_add_action_or_reset() only fails when running out of memory,
-in which case the memory allocation core has already printed an
-error message.
+Changes from v1:
+ - Fix dt-binding doc in patch [1/7].
+ - Add __maybe_unused for compile test on other platforms in patch [4/7].
+ - Fix node names in patch [5/7].
+https://lore.kernel.org/all/20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com/
 
-> +               return ret;
-> +       }
 
-Gr{oetje,eeting}s,
+*** BLURB HERE ***
 
-                        Geert
+Yoshihiro Shimoda (7):
+  dt-bindings: ufs: Document Renesas R-Car UFS host controller
+  ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
+  ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
+  scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
+  scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
+  arm64: dts: renesas: r8a779f0: Add UFS node
+  arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ .../devicetree/bindings/ufs/renesas,ufs.yaml  |  61 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |  19 +
+ drivers/scsi/ufs/Kconfig                      |  12 +
+ drivers/scsi/ufs/Makefile                     |   1 +
+ drivers/scsi/ufs/ufs-renesas.c                | 419 ++++++++++++++++++
+ drivers/scsi/ufs/ufshcd.c                     |  12 +-
+ drivers/scsi/ufs/ufshcd.h                     |  12 +
+ 9 files changed, 548 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+ create mode 100644 drivers/scsi/ufs/ufs-renesas.c
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+2.25.1
+
