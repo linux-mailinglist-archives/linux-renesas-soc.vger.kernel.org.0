@@ -2,25 +2,25 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74FB15117DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 265F1511713
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:46:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234361AbiD0Mk1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 08:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
+        id S234389AbiD0Mk2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 08:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbiD0Mk0 (ORCPT
+        with ESMTP id S234295AbiD0Mk1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 08:40:26 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B96B53A4B;
+        Wed, 27 Apr 2022 08:40:27 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 87DFE53E1B;
         Wed, 27 Apr 2022 05:37:15 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,292,1643641200"; 
-   d="scan'208";a="118193610"
+X-IronPort-AV: E=Sophos;i="5.90,293,1643641200"; 
+   d="scan'208";a="119377000"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Apr 2022 21:37:14 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 Apr 2022 21:37:14 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B326435BBF9;
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 95F32435BBF5;
         Wed, 27 Apr 2022 21:37:14 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
@@ -28,81 +28,102 @@ To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
 Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v5 0/7] treewide: scsi: ufs: Add support for Renesas R-Car UFS controller
-Date:   Wed, 27 Apr 2022 21:36:59 +0900
-Message-Id: <20220427123706.555166-1-yoshihiro.shimoda.uh@renesas.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 1/7] dt-bindings: ufs: Document Renesas R-Car UFS host controller
+Date:   Wed, 27 Apr 2022 21:37:00 +0900
+Message-Id: <20220427123706.555166-2-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220427123706.555166-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20220427123706.555166-1-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        KHOP_HELO_FCRDNS,SPF_HELO_NONE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series adds support Renesas R-Car S4-8 UFS controller.
-This controller has some restrictions so adds some quirks for it.
-Before using this driver, we have to initialize a clock generator
-on the environment board (named "Spider") by using the commands of
-U-Boot like below:
- => i2c dev 0
- => i2c mw 0x6c 0x26 0x05
- => i2c olen 0x6c 2
- => i2c mw 0x6c 0x26c 0x2e
+Document Renesas R-Car UFS host controller for R-Car S4-8 (r8a779f0).
 
-To use the UFS controller, we need the following patch too:
-https://lore.kernel.org/all/20220411124932.3765571-1-yoshihiro.shimoda.uh@renesas.com/
-
-Changes from v4:
- - Fix ufs_renesas_of_match was not terminated in patch [4/7].
-   (from kernel test robot, thanks!)
-https://lore.kernel.org/all/20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com/
-
-Changes from v3:
- - Fix build warning by clang in patch [4/7].
-https://lore.kernel.org/all/20220419120316.209151-1-yoshihiro.shimoda.uh@renesas.com/
-
-Changes from v2:
- - Add Reviewed-by in patch [1/7]. (Krzysztof, thanks!)
- - Use WARN_ON() instead of BUG_ON in patch [4/7].
-https://lore.kernel.org/all/20220414023115.4190736-1-yoshihiro.shimoda.uh@renesas.com/
-
-Changes from v1:
- - Fix dt-binding doc in patch [1/7].
- - Add __maybe_unused for compile test on other platforms in patch [4/7].
- - Fix node names in patch [5/7].
-https://lore.kernel.org/all/20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com/
-
-
-*** BLURB HERE ***
-
-Yoshihiro Shimoda (7):
-  dt-bindings: ufs: Document Renesas R-Car UFS host controller
-  ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
-  ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
-  scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
-  scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
-  arm64: dts: renesas: r8a779f0: Add UFS node
-  arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
-
- .../devicetree/bindings/ufs/renesas,ufs.yaml  |  61 +++
- MAINTAINERS                                   |   7 +
- .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |   8 +
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |  19 +
- drivers/scsi/ufs/Kconfig                      |  12 +
- drivers/scsi/ufs/Makefile                     |   1 +
- drivers/scsi/ufs/ufs-renesas.c                | 419 ++++++++++++++++++
- drivers/scsi/ufs/ufshcd.c                     |  12 +-
- drivers/scsi/ufs/ufshcd.h                     |  12 +
- 9 files changed, 548 insertions(+), 3 deletions(-)
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/ufs/renesas,ufs.yaml  | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
- create mode 100644 drivers/scsi/ufs/ufs-renesas.c
 
+diff --git a/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml b/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+new file mode 100644
+index 000000000000..f04f9f61fa9f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/ufs/renesas,ufs.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car UFS Host Controller
++
++maintainers:
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++allOf:
++  - $ref: ufs-common.yaml
++
++properties:
++  compatible:
++    const: renesas,r8a779f0-ufs
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: fck
++      - const: ref_clk
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - resets
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779f0-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a779f0-sysc.h>
++
++    ufs: ufs@e686000 {
++            compatible = "renesas,r8a779f0-ufs";
++            reg = <0xe6860000 0x100>;
++            interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 1514>, <&ufs30_clk>;
++            clock-names = "fck", "ref_clk";
++            freq-table-hz = <200000000 200000000>, <38400000 38400000>;
++            power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
++            resets = <&cpg 1514>;
++    };
 -- 
 2.25.1
 
