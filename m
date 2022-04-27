@@ -2,136 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC072511480
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 11:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C298B511596
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 13:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbiD0J6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 05:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39824 "EHLO
+        id S231915AbiD0LHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 07:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiD0J6i (ORCPT
+        with ESMTP id S232117AbiD0LHF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 05:58:38 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 050023FE7C1;
-        Wed, 27 Apr 2022 02:53:08 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,292,1643641200"; 
-   d="scan'208";a="118179418"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Apr 2022 18:48:53 +0900
-Received: from localhost.localdomain (unknown [10.226.93.29])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E6AC84264DAF;
-        Wed, 27 Apr 2022 18:48:50 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 7/9] clk: renesas: r9a07g044: Add M4 Clock support
-Date:   Wed, 27 Apr 2022 10:48:21 +0100
-Message-Id: <20220427094823.3319-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220427094823.3319-1-biju.das.jz@bp.renesas.com>
-References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com>
+        Wed, 27 Apr 2022 07:07:05 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178633C9D7F;
+        Wed, 27 Apr 2022 03:58:56 -0700 (PDT)
+Received: from relay12.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::232])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id D1355C896E;
+        Wed, 27 Apr 2022 09:15:32 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2CBDF200006;
+        Wed, 27 Apr 2022 09:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1651050892;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EF8d+JX3EYB+I0ayIkuUN92XzLSdkI83EhToeObeC3M=;
+        b=LCSXuEipxkS0lJn503o46UXDhki98dwWKBsNGdNECJktwiS05x4fqayWHWzBB9OLRcyrEQ
+        o4LBp03pKI0qumyoTQ18f1U2MQ2YvN0QSuZIfl//ltZJ0ogZlsQEQdJetMzRDTIbI0pRUl
+        D6SJaxADdyTX6+dXmhUhhQLBz7lMpG1KtEp901MDnJduXcJzS93JUtlRMqPgqgLolYxwkS
+        v+sDrgXFBUAlclqJCih2oDzycmr5YH6as7V4kPbF0FdUK2RP6I3WcwJqAA8eqdlhFn+zhn
+        rJoI8dN5O7spFelPcvuyvZUJNXPC0v+nfqJN9n8bdPbZVT37W/mAR4ZMXrgVWw==
+Date:   Wed, 27 Apr 2022 11:14:49 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v11 8/9] ARM: dts: r9a06g032: Add the two DMA nodes
+Message-ID: <20220427111449.338d9579@xps13>
+In-Reply-To: <CAMuHMdXkrdjETcgN9yruL_J_mL3q7OEMj2DbY36ppwg1eDU5SA@mail.gmail.com>
+References: <20220421085112.78858-1-miquel.raynal@bootlin.com>
+        <20220421085112.78858-9-miquel.raynal@bootlin.com>
+        <CAMuHMdXkrdjETcgN9yruL_J_mL3q7OEMj2DbY36ppwg1eDU5SA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for M4 clock which is sourced from pll2_533_div2.
+Hi Geert,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-V1->V2:
- * No Change
-RFC->V1:
- * Added Rb tag from Geert
----
- drivers/clk/renesas/r9a07g044-cpg.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+geert@linux-m68k.org wrote on Mon, 25 Apr 2022 18:29:58 +0200:
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index cee552bdf3cc..66608696d2e2 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -57,6 +57,9 @@ enum clk_ids {
- 	CLK_SEL_GPU2,
- 	CLK_SEL_PLL5_4,
- 	CLK_DSI_DIV,
-+	CLK_PLL2_533,
-+	CLK_PLL2_533_DIV2,
-+	CLK_DIV_DSI_LPCLK,
- 
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -80,6 +83,14 @@ static const struct clk_div_table dtable_1_32[] = {
- 	{0, 0},
- };
- 
-+static const struct clk_div_table dtable_16_128[] = {
-+	{0, 16},
-+	{1, 32},
-+	{2, 64},
-+	{3, 128},
-+	{0, 0},
-+};
-+
- /* Mux clock tables */
- static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
- static const char * const sel_pll5_4[] = { ".pll5_foutpostdiv", ".pll5_fout1ph0" };
-@@ -88,7 +99,7 @@ static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
- static const char * const sel_gpu2[] = { ".pll6", ".pll3_div2_2" };
- 
- static const struct {
--	struct cpg_core_clk common[52];
-+	struct cpg_core_clk common[56];
- #ifdef CONFIG_CLK_R9A07G054
- 	struct cpg_core_clk drp[0];
- #endif
-@@ -102,6 +113,7 @@ static const struct {
- 		DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
- 		DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
- 		DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
-+		DEF_FIXED(".pll2_533", CLK_PLL2_533, CLK_PLL2, 1, 3),
- 		DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
- 		DEF_FIXED(".pll3_400", CLK_PLL3_400, CLK_PLL3, 1, 4),
- 		DEF_FIXED(".pll3_533", CLK_PLL3_533, CLK_PLL3, 1, 3),
-@@ -120,6 +132,8 @@ static const struct {
- 		DEF_FIXED(".pll2_div2_8", CLK_PLL2_DIV2_8, CLK_PLL2_DIV2, 1, 8),
- 		DEF_FIXED(".pll2_div2_10", CLK_PLL2_DIV2_10, CLK_PLL2_DIV2, 1, 10),
- 
-+		DEF_FIXED(".pll2_533_div2", CLK_PLL2_533_DIV2, CLK_PLL2_533, 1, 2),
-+
- 		DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
- 		DEF_FIXED(".pll3_div2_2", CLK_PLL3_DIV2_2, CLK_PLL3_DIV2, 1, 2),
- 		DEF_FIXED(".pll3_div2_4", CLK_PLL3_DIV2_4, CLK_PLL3_DIV2, 1, 4),
-@@ -137,6 +151,8 @@ static const struct {
- 		DEF_FIXED(".pll5_fout1ph0", CLK_PLL5_FOUT1PH0, CLK_PLL5_FOUTPOSTDIV, 1, 2),
- 		DEF_PLL5_4_MUX(".sel_pll5_4", CLK_SEL_PLL5_4, SEL_PLL5_4,
- 			       sel_pll5_4, ARRAY_SIZE(sel_pll5_4)),
-+		DEF_DIV(".div_dsi_lpclk", CLK_DIV_DSI_LPCLK, CLK_PLL2_533_DIV2,
-+			DIVDSILPCLK, dtable_16_128, CLK_DIVIDER_HIWORD_MASK),
- 
- 		/* Core output clk */
- 		DEF_DIV("I", R9A07G044_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8,
-@@ -169,6 +185,7 @@ static const struct {
- 		DEF_FIXED("M2_DIV2", CLK_M2_DIV2, R9A07G044_CLK_M2, 1, 2),
- 		DEF_DSI_DIV("DSI_DIV", CLK_DSI_DIV, CLK_SEL_PLL5_4, CLK_SET_RATE_PARENT),
- 		DEF_FIXED("M3", R9A07G044_CLK_M3, CLK_DSI_DIV, 1, 1),
-+		DEF_FIXED("M4", R9A07G044_CLK_M4, CLK_DIV_DSI_LPCLK, 1, 1),
- 	},
- #ifdef CONFIG_CLK_R9A07G054
- 	.drp = {
--- 
-2.25.1
+> Hi Miquel,
+>=20
+> On Thu, Apr 21, 2022 at 10:51 AM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > Describe the two DMA controllers available on this SoC.
+> >
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> =20
+>=20
+> Still, a few comments below, valid for both instances...
+>=20
+> > --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> > +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> > @@ -200,6 +200,36 @@ nand_controller: nand-controller@40102000 {
+> >                         status =3D "disabled";
+> >                 };
+> >
+> > +               dma0: dma-controller@40104000 {
+> > +                       compatible =3D "renesas,r9a06g032-dma", "renesa=
+s,rzn1-dma";
+> > +                       reg =3D <0x40104000 0x1000>;
+> > +                       interrupts =3D <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clock-names =3D "hclk";
+> > +                       clocks =3D <&sysctrl R9A06G032_HCLK_DMA0>;
+> > +                       dma-channels =3D <8>;
+> > +                       dma-requests =3D <16>;
+> > +                       dma-masters =3D <1>;
+> > +                       #dma-cells =3D <3>;
+> > +                       block_size =3D <0xfff>;
+> > +                       data_width =3D <3>; =20
+>=20
+> This property is deprecated, in favor of "dma-width".
 
+Indeed,
+	data_width =3D <3>;
+is deprecated.
+
+However, dma-width does not seem to be described anywhere. Do you mean:
+	data-width =3D <8>;
+instead?
+
+>=20
+> > +                       status =3D "disabled"; =20
+>=20
+> Why not keep it enabled?
+
+I'm used to always disable all the nodes from the SoC descriptions,
+but it's true that for a DMA controller it might make sense to keep
+it enabled.
+
+Would dropping the status property be enough or do you prefer a proper
+	status =3D "okay";
+instead?
+
+Thanks a lot,
+Miqu=C3=A8l
