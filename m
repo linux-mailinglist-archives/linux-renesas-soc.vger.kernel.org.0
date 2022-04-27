@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6405120D5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 20:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8C51511EC2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 20:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238888AbiD0PIc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 11:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59714 "EHLO
+        id S240065AbiD0PTW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 11:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236491AbiD0PIc (ORCPT
+        with ESMTP id S239531AbiD0PSp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 11:08:32 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE93CE0F0;
-        Wed, 27 Apr 2022 08:05:20 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id f14so1328515qtq.1;
-        Wed, 27 Apr 2022 08:05:20 -0700 (PDT)
+        Wed, 27 Apr 2022 11:18:45 -0400
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B30E5839E;
+        Wed, 27 Apr 2022 08:15:29 -0700 (PDT)
+Received: by mail-qv1-f50.google.com with SMTP id kc16so352647qvb.7;
+        Wed, 27 Apr 2022 08:15:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=agafgRIcyKU96KX9arNKc39rksJmBWgsdHHVPeJSabE=;
-        b=uG55K86Ebxit2/XpbwBAahXZpgZX4byNpCDUtn6K1R6w/2u+Mt8neOoF+sS3+zEciS
-         syGPDX2KrABwtmFUlSmBYT8cQ0WGkby6uQTedBW33y5cee6GSx4y2CY0CVnlszwbfagb
-         jfWPGwz/fCb6otop9yBxXnmS8H071Vc0Zv9U0JXwv/SuVbvgciFcRHNJrMXWX24v4L6U
-         pVAVm+b6Ic/VTh4bgRnPn7JVky8LzAL3ytbsWIWVzBO7Hf7xXm6cc6UwbfRNW9o5ncoG
-         8HC6vbH7K5GnjnJHIvscKxdEbqR9rxSqzL34f0Z4glvfrblQ9d8U8HwxZLPmE3pPt8Mx
-         jG7g==
-X-Gm-Message-State: AOAM531yFzOhinldpEXF54TCxgOVe+LWG1zVyHQ3/huiDeqbUrb5wYNl
-        FFE53VoVCL+Iq4Rg15y8PiNsjIy71E8f1w==
-X-Google-Smtp-Source: ABdhPJywoYYJlCD0rNO39LCYyn49J4PvQ/tUMmDdSANKZwOSr0eX0hJwhsA9rtF9qxOVJrum/ZwF8Q==
-X-Received: by 2002:a05:622a:608c:b0:2f1:e3fa:b603 with SMTP id hf12-20020a05622a608c00b002f1e3fab603mr19200084qtb.48.1651071919469;
-        Wed, 27 Apr 2022 08:05:19 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id r83-20020a37a856000000b0069ed4436a49sm8194957qke.87.2022.04.27.08.05.18
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7+G8Cf9crq/FmkHAa1hmIN8g6GY3mjT1aMgwO4UslU4=;
+        b=b0OW7JAkegRE3wuNJmjgUNjmYa2T/JOjrT9Es9/UJaOFRkSjzVJVy3FIl8zNDWwTpm
+         rUDcvQohwfebUgaj4QXQCZQS+ttDU5ppMLed/h+2mAj8bm03/daj4rgnvL99S5J2oumT
+         vfmzhOP7Rr8L5LXJEgizeatZwQatn9qUwZ/fmKaQX86/7/LTuLoebJuYv9GdWQAETiC2
+         i3jaZxgsUQWxDgdOtAV5JaMqZAVsX8sjjL07nfg1gnt8ij/5vn+C/GDDzhiLnCZBcRAS
+         U3evsAP+JHTM7+WVRAQaOurFcT4jf6QMSXChZ0Jbsw5JuLkWyJgh4gi2xilqvihnFvaB
+         7r7Q==
+X-Gm-Message-State: AOAM530CRuJzMO1K+YNbs0SuCV0sCb9NZarAfdk6TbdWZf0I0WehIyb3
+        H+x7iv94FR4vCQ9GCUWIRWbaA3cywhB9pQ==
+X-Google-Smtp-Source: ABdhPJwejfgEkKFhJu6j1wrVsqZANMB8i6Kt9hkHG9474jg0usCHPWjYuZWKGELEiSA3LcqVssHKMQ==
+X-Received: by 2002:a05:6214:252b:b0:456:3c2b:c910 with SMTP id gg11-20020a056214252b00b004563c2bc910mr9361804qvb.85.1651072528222;
+        Wed, 27 Apr 2022 08:15:28 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id m190-20020a378ac7000000b0069f8d810f16sm890605qkd.85.2022.04.27.08.15.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 08:05:19 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id d12so3917920ybc.4;
-        Wed, 27 Apr 2022 08:05:18 -0700 (PDT)
-X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
- c4-20020a5b0984000000b0063f8c38676cmr26972135ybq.393.1651071918482; Wed, 27
- Apr 2022 08:05:18 -0700 (PDT)
+        Wed, 27 Apr 2022 08:15:27 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id e12so3920309ybc.11;
+        Wed, 27 Apr 2022 08:15:27 -0700 (PDT)
+X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
+ p9-20020a259e89000000b0063cad37a5demr26199241ybq.342.1651072527257; Wed, 27
+ Apr 2022 08:15:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422120850.769480-1-herve.codina@bootlin.com> <20220422120850.769480-2-herve.codina@bootlin.com>
-In-Reply-To: <20220422120850.769480-2-herve.codina@bootlin.com>
+References: <20220422120850.769480-1-herve.codina@bootlin.com> <20220422120850.769480-3-herve.codina@bootlin.com>
+In-Reply-To: <20220422120850.769480-3-herve.codina@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 17:05:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVk-UkFqqFEeUn+ZqrdSy7u+S6Mz2GeDmx=mr33khzO6A@mail.gmail.com>
-Message-ID: <CAMuHMdVk-UkFqqFEeUn+ZqrdSy7u+S6Mz2GeDmx=mr33khzO6A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] dt-bindings: PCI: pci-rcar-gen2: Convert bindings
- to json-schema
+Date:   Wed, 27 Apr 2022 17:15:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVB2-Sv1AWFr43erOioui0me5A4TfvazKHp9hTF3gJCwg@mail.gmail.com>
+Message-ID: <CAMuHMdVB2-Sv1AWFr43erOioui0me5A4TfvazKHp9hTF3gJCwg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
+ device tree support for r9a06g032
 To:     Herve Codina <herve.codina@bootlin.com>
 Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -71,22 +72,61 @@ Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
         Clement Leger <clement.leger@bootlin.com>,
         Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Hervé,
+
 On Fri, Apr 22, 2022 at 2:09 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> Convert Renesas PCI bridge bindings documentation to json-schema.
+> Add internal PCI bridge support for the r9a06g032 SOC. The Renesas
+> RZ/N1D (R9A06G032) internal PCI bridge is compatible with the one
+> present in the R-Car Gen2 family.
+> Compared to the R-Car Gen2 family, it needs three clocks instead of
+> one.
 >
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+> +++ b/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+> @@ -113,6 +113,37 @@ required:
+>    - "#size-cells"
+>    - "#interrupt-cells"
+>
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - renesas,pci-rzn1
+> +
+> +then:
+> +  properties:
+> +    clocks:
+> +      items:
+> +        - description: Internal bus clock (AHB) for HOST
+> +        - description: Internal bus clock (AHB) Power Management
+> +        - description: PCI clock for USB subsystem
+> +    clock-names:
+> +      items:
+> +        - const: hclk_usbh
+> +        - const: hclk_usbpm
+> +        - const: clk_pci_usb
+
+These are the provider names.
+I think they should use the consumer names: usb_hclkh, usb_hclkpm,
+and usb_pciclk.
+
+The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
