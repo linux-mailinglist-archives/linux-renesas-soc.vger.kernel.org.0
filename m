@@ -2,179 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15326511575
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 13:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E5C9511587
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 13:33:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiD0Kvg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 06:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
+        id S230302AbiD0Kyz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 06:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbiD0Kve (ORCPT
+        with ESMTP id S230383AbiD0Kyz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 06:51:34 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19CAA3AB7CF;
-        Wed, 27 Apr 2022 03:22:57 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id ke5so733441qvb.5;
-        Wed, 27 Apr 2022 03:22:57 -0700 (PDT)
+        Wed, 27 Apr 2022 06:54:55 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6593049FF92;
+        Wed, 27 Apr 2022 03:27:05 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id z126so947906qkb.2;
+        Wed, 27 Apr 2022 03:27:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DFvDs4UX2zax4adbziwn0RYfIrK/tqgpmI5wyJl9xWk=;
-        b=txl9N971Mitb19L/rporh9pX+gSFiofYsUEsWQqmAP8yoWcvMfaiKi0HoyXVykX9YZ
-         +BVFExqw44qOaaUGTGPFgGsoZAAXlnhsT5fnc8/c3iMQJjWJ1gcKbNW5isoK/0ed9a1b
-         mwZFgZW4D/xhp6dg6tRjHzCNE0fvbrW0PVeReKZ86PIzkjJ62+uQDDjd13yID1y7rgh0
-         jh2EvZt07FXfG5Ifg0KIiw0NjqR5xgMV05b08n6HiwsVYmmC2NEeqmxF2inFogQrb/k6
-         3lepXM4uGARxFNsaXcicxgi49dphhOZZPDSvttlPoIZYo7AzgPgLL26ZxY4aQDlUykCy
-         abHA==
-X-Gm-Message-State: AOAM530unhwEdaKc69mkv3lc8vhloUsAkN+WoZkhGEIadOmoln2zpnhq
-        qFdW2V/89CK7ahJkCjNVzhtZt5Xkje/Fag==
-X-Google-Smtp-Source: ABdhPJz6UTZZL4BURTn67KGPUyleLdhEDIehR5hbmEP7UX3/qw0Fi0yopLbmmzlkt/pHta1qP3CD8w==
-X-Received: by 2002:a05:6214:248c:b0:441:2a61:659d with SMTP id gi12-20020a056214248c00b004412a61659dmr19331590qvb.59.1651054976735;
-        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id q17-20020a05622a031100b002f1d478c218sm10090861qtw.62.2022.04.27.03.22.56
+        bh=Q8fheWnmjASQpGr52DX1eSSjcY85tX/RgUM6t+KFdYg=;
+        b=5k3DUvWH28hQhA8ypY4LIMyNr807u1rLbm6h2GrQaujvl7mgQR9at+w18rs7EQDYE+
+         qzkU/MrV+TRQVUJBxH++DlmTOgD1IZmjcJUcspVBi/USj4LF2S/aKmhLitiBil06OQt3
+         dV7I1uIkLIaC/3lMlJS66cFTFu2s/sKZXM9Xa3HJP8WWPQEbaissrG4ZhsrnYObOY+7b
+         HJYJAHRjQKtC57M+j6doHJCbt3q470+3hR0zOIhKBXTDWZJCpoFUBHG4r9/k6FbORzQF
+         9xbZ/VR4ihFC3jAOs6pfG/DDXIqtMVwlM+hCKrQH1L8U8dp4d9mP8k5GsVF63GsaFWKK
+         uU6A==
+X-Gm-Message-State: AOAM532GwStY2zGK0QyAebHKguTsAu+HcXqX86+ndwupbkZVkYJwh+C8
+        i4OLp6HWNb1+doAGcYYBt5ptSi4Y7Z0hkw==
+X-Google-Smtp-Source: ABdhPJw/Ld8AKlAAL0z9/PLZ3Y5dLWyB+9MXvxUmkIcGlCvzjsXWaqLg6DlUtEcFSS4/BqjCN+39qA==
+X-Received: by 2002:a37:b442:0:b0:69a:fc75:ca52 with SMTP id d63-20020a37b442000000b0069afc75ca52mr15594682qkf.730.1651055224355;
+        Wed, 27 Apr 2022 03:27:04 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id r12-20020ac85e8c000000b002f36944423bsm4851726qtx.87.2022.04.27.03.27.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2f7bb893309so12858617b3.12;
-        Wed, 27 Apr 2022 03:22:56 -0700 (PDT)
-X-Received: by 2002:a81:8489:0:b0:2f7:edff:239f with SMTP id
- u131-20020a818489000000b002f7edff239fmr14119456ywf.256.1651054976217; Wed, 27
- Apr 2022 03:22:56 -0700 (PDT)
+        Wed, 27 Apr 2022 03:27:04 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id w187so2541095ybe.2;
+        Wed, 27 Apr 2022 03:27:03 -0700 (PDT)
+X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
+ p9-20020a259e89000000b0063cad37a5demr24921293ybq.342.1651055223642; Wed, 27
+ Apr 2022 03:27:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20210922091007.5516-1-wsa+renesas@sang-engineering.com>
+References: <20210818165604.22127-1-zhengxunli.mxic@gmail.com> <CAMuHMdWUVVnZXc4iXrkpyLFpr9w5X-EzuwvvFGQYAp+0=ZJbqw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWUVVnZXc4iXrkpyLFpr9w5X-EzuwvvFGQYAp+0=ZJbqw@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 12:22:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJZM=-Py=W+qKUfCQU=Y5=G6qdp9uubNv56o+5JztaGA@mail.gmail.com>
-Message-ID: <CAMuHMdWJZM=-Py=W+qKUfCQU=Y5=G6qdp9uubNv56o+5JztaGA@mail.gmail.com>
-Subject: Re: [RFC PATCH] memory: renesas-rpc-if: Correct QSPI data transfer in
- Manual mode
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Wed, 27 Apr 2022 12:26:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com>
+Message-ID: <CAMuHMdWpvuC2Cm41jCQm+rT8MZB5GN+Z0bPz941QzsHX17Ux-g@mail.gmail.com>
+Subject: Re: [PATCH] memory: renesas-rpc-if: Fix missing setting address
+To:     Zhengxun <zhengxunli.mxic@gmail.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+        zhengxunli <zhengxunli@mxic.com.tw>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Wed, Sep 22, 2021 at 11:10 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> This patch fixes 2 problems:
-> [1] The output warning logs and data loss when performing
-> mount/umount then remount the device with jffs2 format.
-> [2] The access width of SMWDR[0:1]/SMRDR[0:1] register is wrong.
-
-Revisiting commit fff53a551db50f5e ("memory: renesas-rpc-if: Correct
-QSPI data transfer in Manual mode") in  v5.16-rc1...
-
-> --- a/drivers/memory/renesas-rpc-if.c
-> +++ b/drivers/memory/renesas-rpc-if.c
-
->  int rpcif_manual_xfer(struct rpcif *rpc)
->  {
-> -       u32 smenr, smcr, pos = 0, max = 4;
-> +       u32 smenr, smcr, pos = 0, max = rpc->bus_size == 2 ? 8 : 4;
->         int ret = 0;
+On Mon, Aug 23, 2021 at 1:59 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> CC sergey's new address
 >
-> -       if (rpc->bus_size == 2)
-> -               max = 8;
-> -
->         pm_runtime_get_sync(rpc->dev);
->
->         regmap_update_bits(rpc->regmap, RPCIF_PHYCNT,
-> @@ -378,37 +424,36 @@ int rpcif_manual_xfer(struct rpcif *rpc)
->         regmap_write(rpc->regmap, RPCIF_SMOPR, rpc->option);
->         regmap_write(rpc->regmap, RPCIF_SMDMCR, rpc->dummy);
->         regmap_write(rpc->regmap, RPCIF_SMDRENR, rpc->ddr);
-> +       regmap_write(rpc->regmap, RPCIF_SMADR, rpc->smadr);
->         smenr = rpc->enable;
->
->         switch (rpc->dir) {
->         case RPCIF_DATA_OUT:
->                 while (pos < rpc->xferlen) {
-> -                       u32 nbytes = rpc->xferlen - pos;
-> -                       u32 data[2];
-> +                       u32 bytes_left = rpc->xferlen - pos;
-> +                       u32 nbytes, data[2];
->
->                         smcr = rpc->smcr | RPCIF_SMCR_SPIE;
-> -                       if (nbytes > max) {
-> -                               nbytes = max;
-> +
-> +                       /* nbytes may only be 1, 2, 4, or 8 */
-> +                       nbytes = bytes_left >= max ? max : (1 << ilog2(bytes_left));
-> +                       if (bytes_left > nbytes)
->                                 smcr |= RPCIF_SMCR_SSLKP;
-> -                       }
-> +
-> +                       smenr |= RPCIF_SMENR_SPIDE(rpcif_bits_set(rpc, nbytes));
-> +                       regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
->
->                         memcpy(data, rpc->buffer + pos, nbytes);
-> -                       if (nbytes > 4) {
-> +                       if (nbytes == 8) {
->                                 regmap_write(rpc->regmap, RPCIF_SMWDR1,
->                                              data[0]);
->                                 regmap_write(rpc->regmap, RPCIF_SMWDR0,
->                                              data[1]);
-> -                       } else if (nbytes > 2) {
-> +                       } else {
->                                 regmap_write(rpc->regmap, RPCIF_SMWDR0,
->                                              data[0]);
-> -                       } else  {
-> -                               regmap_write(rpc->regmap, RPCIF_SMWDR0,
-> -                                            data[0] << 16);
->                         }
->
-> -                       regmap_write(rpc->regmap, RPCIF_SMADR,
-> -                                    rpc->smadr + pos);
+> On Wed, Aug 18, 2021 at 10:57 AM Zhengxun <zhengxunli.mxic@gmail.com> wrote:
+> > In the RPC manual mode, if the data direction is not set
+> > (such as the flash erase command), the address misses the
+> > setting.
+> >
+> > Signed-off-by: Zhengxun <zhengxunli.mxic@gmail.com>
+> > ---
+> >  drivers/memory/renesas-rpc-if.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+> > index 45eed659b0c6..9dd27c6307f7 100644
+> > --- a/drivers/memory/renesas-rpc-if.c
+> > +++ b/drivers/memory/renesas-rpc-if.c
+> > @@ -482,6 +482,7 @@ int rpcif_manual_xfer(struct rpcif *rpc)
+> >                 }
+> >                 break;
+> >         default:
+> > +               regmap_write(rpc->regmap, RPCIF_SMADR, rpc->smadr);
+> >                 regmap_write(rpc->regmap, RPCIF_SMENR, rpc->enable);
+> >                 regmap_write(rpc->regmap, RPCIF_SMCR,
+> >                              rpc->smcr | RPCIF_SMCR_SPIE);
 
-Removing this implies SMADR is auto-incrementing for writes...
-
-> -                       regmap_write(rpc->regmap, RPCIF_SMENR, smenr);
->                         regmap_write(rpc->regmap, RPCIF_SMCR, smcr);
->                         ret = wait_msg_xfer_end(rpc);
->                         if (ret)
-> @@ -448,14 +493,16 @@ int rpcif_manual_xfer(struct rpcif *rpc)
->                         break;
->                 }
->                 while (pos < rpc->xferlen) {
-> -                       u32 nbytes = rpc->xferlen - pos;
-> -                       u32 data[2];
-> +                       u32 bytes_left = rpc->xferlen - pos;
-> +                       u32 nbytes, data[2];
->
-> -                       if (nbytes > max)
-> -                               nbytes = max;
-> +                       /* nbytes may only be 1, 2, 4, or 8 */
-> +                       nbytes = bytes_left >= max ? max : (1 << ilog2(bytes_left));
->
->                         regmap_write(rpc->regmap, RPCIF_SMADR,
->                                      rpc->smadr + pos);
-
-... while keeping this assumes SMADR is not auto-incrementing for
-reads?
-
-Figure 62.17 "Example of Data Transfer Setting Flow in Manual Operating
-Mode" does show writing SMADR in each loop iteration.
-I cannot find anything about auto-incrementing in the documentation,
-except for Figure 62.28 "Write Buffer Usage Sequence", which does
-not apply as Linux does not support the write buffer yet.
-
-Given you tested this, and the BSP commit 0d37f69cacb33435 ("memory:
-renesas-rpc-if: Correct QSPI data transfer in Manual mode") does the
-same, I assume it's working fine?
+This patch never received review comments.
+As of commit fff53a551db50f5e ("memory: renesas-rpc-if: Correct QSPI
+data transfer in Manual mode") in v5.16-rc1, RPCIF_SMADR is written
+before the switch() statement, hence this patch can be ignored.
 
 Gr{oetje,eeting}s,
 
