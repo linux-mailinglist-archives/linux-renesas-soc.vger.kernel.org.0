@@ -2,69 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 589DD511A50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 16:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E39B511B1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 16:57:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235243AbiD0NFZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 09:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37924 "EHLO
+        id S235236AbiD0NGg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 09:06:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235236AbiD0NFX (ORCPT
+        with ESMTP id S235214AbiD0NGf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 09:05:23 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9FB31CFD1;
-        Wed, 27 Apr 2022 06:02:10 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id ke5so977460qvb.5;
-        Wed, 27 Apr 2022 06:02:10 -0700 (PDT)
+        Wed, 27 Apr 2022 09:06:35 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 492B7DCB;
+        Wed, 27 Apr 2022 06:03:24 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id r14-20020a9d750e000000b00605446d683eso1013679otk.10;
+        Wed, 27 Apr 2022 06:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=41yunm+lS0x9OKFTJJaFvpJWxmfNu7cbQFvxht2PQ0Y=;
+        b=Djs7ebC36uO25LOxqBbY11JXMOwr462SGowSqkea/WVq2ncQmC+Y88YodCIDDpFAk5
+         y4wbbdSPYwgpfbPDS/uRTUMa0KsU5ok6ZEmTPhT/DN9/HQFsNUn7fTZZqaPfrV4zxeZr
+         tLzfdtQPtJNTUEC/kD6eOqWaaSTEGUfgH0XC1818mgFKPjlhGA3tzxlT+0vVBs1+IMzY
+         lVER6qxEdpXCRh9bPRlvtm2YdiMAAXvudlefNzBZdCd2cxqhDxeojLwFLtcTJD9j6yTX
+         AOTfo1uwOtQT2v+nTD4KDZbcZvzNWAJuL4bf23Pj6rjXOi8gmA/+Wp8hQH6NEkSszi8/
+         WtCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mmxxwu2hv4yDhUBhV6wvYa5ilUKbOwj8YpY73vElIL4=;
-        b=rE1r4FY0GQMCvpcTRMM8da4MLmf+Hb7o6DR5pqPS05+SsTiueYgz9Q2eE8iVAcWyZ9
-         rE3EFXzeZo7ylnRp9Rk3uw590z3A/m+RT7BmaOgd74nOX6wkEAqy7XDLX/T5i29N2N6W
-         c/QuKTcoVKS7PfNCDQhkQEc+nWgkb1NVrAmbQEz8DXjicq748BJv3yhZortSW3yyAJ6R
-         P5G5xI1wm3To9D+gkmRK6P3AICcZxXtkghU6Hzt06TUnMTUrviJZsNofJGM4rS/lDYGU
-         C48pnAyYqkhH9HuZT0szHNhVu8pORWeN9Xp+V7kEOZRMYnEuDfskmoTX5zhh6ywKUMTh
-         ifXA==
-X-Gm-Message-State: AOAM533qK9i+LCM8iV21yotDJL6JsTvdM+elD6GHe9Sgi58rL8qtSe+m
-        Ixe1KttN/bxyh7NpV2hlvhx89qxnnq4oJw==
-X-Google-Smtp-Source: ABdhPJyV9o9o+0PUWnnTXktTDa6038+ifVqZzyyBUVzN7RyoUgGBouFFYUKRLfJhmCPZ9GzJuU3sZA==
-X-Received: by 2002:a05:6214:ace:b0:446:4c74:749b with SMTP id g14-20020a0562140ace00b004464c74749bmr19607967qvi.3.1651064528079;
-        Wed, 27 Apr 2022 06:02:08 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id c125-20020a37b383000000b0069f96112563sm354751qkf.16.2022.04.27.06.02.07
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=41yunm+lS0x9OKFTJJaFvpJWxmfNu7cbQFvxht2PQ0Y=;
+        b=DfMo2tLlKC9+azDYnVBcoCTF2i84j2KTShAX9d+WN02JJe20fZlGeQ8HhVSrNsmf4M
+         ffbVCukk+XGs1YoNQm3f5C1q4bg24ABk9U0idE4vo8uTLlP9ane7PKRmLIXkoyj8+PGA
+         FodJ2JNanR8SmxN8b8JOARTKAQ4esw0ZTGY3KrBSyMMRegpDNamEFaHOhAaquwZhFvt5
+         s+fSMQEzhTz8YvOeUXEj9RIH4jUxPxxy6ojoX+EenUW7nzEMiD+/TTNMsx12ItSvykKq
+         2gIJ6diepqDo5uBlgnfJZ7p5sDzBDsQosPmnwf4XGDyOld99mcy2tX1XAOJ+kqgE59Jn
+         YOrw==
+X-Gm-Message-State: AOAM530ulemjMg7w+keEYWca9hbx/dtlQMLOh8Akjea+hIs2jidQiVxS
+        bGGZu6xGrBnYTrAKtzSaCIg=
+X-Google-Smtp-Source: ABdhPJzZ0A0wIhQcTXEyYsVLqDGs+FuofT63neIX1W17xL9xJt5oqD/OgzGqWOyz9LH0d3V7yezjTA==
+X-Received: by 2002:a9d:57c9:0:b0:605:4ba7:d01f with SMTP id q9-20020a9d57c9000000b006054ba7d01fmr9814358oti.106.1651064603580;
+        Wed, 27 Apr 2022 06:03:23 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a4-20020a4a80c4000000b0035e62548577sm3974341oog.7.2022.04.27.06.03.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 06:02:07 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id y2so3214504ybi.7;
-        Wed, 27 Apr 2022 06:02:07 -0700 (PDT)
-X-Received: by 2002:a25:3492:0:b0:645:6f78:b3b4 with SMTP id
- b140-20020a253492000000b006456f78b3b4mr26709791yba.546.1651064527024; Wed, 27
- Apr 2022 06:02:07 -0700 (PDT)
+        Wed, 27 Apr 2022 06:03:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <79a5ec82-da71-57c3-d7bb-11607cb71bb4@roeck-us.net>
+Date:   Wed, 27 Apr 2022 06:03:19 -0700
 MIME-Version: 1.0
-References: <20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com> <20220420025450.289578-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220420025450.289578-2-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 15:01:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVGbfaNXvy-0ArsE8VDC6ju-6KTeKcz9rziY9ReBGRkyg@mail.gmail.com>
-Message-ID: <CAMuHMdVGbfaNXvy-0ArsE8VDC6ju-6KTeKcz9rziY9ReBGRkyg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/7] dt-bindings: ufs: Document Renesas R-Car UFS host controller
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>, avri.altman@wdc.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        scsi <linux-scsi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
+Content-Language: en-US
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+        wim@linux-watchdog.org, geert+renesas@glider.be,
+        tzungbi@kernel.org, linux-watchdog@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Phil Edworthy <phil.edworthy@renesas.com>
+References: <20220413082527.155740-1-jjhiblot@traphandler.com>
+ <20220413082527.155740-3-jjhiblot@traphandler.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220413082527.155740-3-jjhiblot@traphandler.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,47 +80,100 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Wed, Apr 20, 2022 at 3:11 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Document Renesas R-Car UFS host controller for R-Car S4-8 (r8a779f0).
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Thanks for your patch!
-
+On 4/13/22 01:25, Jean-Jacques Hiblot wrote:
+> From: Phil Edworthy <phil.edworthy@renesas.com>
+> 
+> This is a driver for the standard WDT on the RZ/N1 devices. This WDT has
+> very limited timeout capabilities. However, it can reset the device.
+> To do so, the corresponding bits in the SysCtrl RSTEN register need to
+> be enabled. This is not done by this driver.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>   drivers/watchdog/Kconfig    |   8 ++
+>   drivers/watchdog/Makefile   |   1 +
+>   drivers/watchdog/rzn1_wdt.c | 203 ++++++++++++++++++++++++++++++++++++
+>   3 files changed, 212 insertions(+)
+>   create mode 100644 drivers/watchdog/rzn1_wdt.c
+> 
+> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> index c4e82a8d863f..4d5e503c8950 100644
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -883,6 +883,14 @@ config RENESAS_RZAWDT
+>   	  This driver adds watchdog support for the integrated watchdogs in the
+>   	  Renesas RZ/A SoCs. These watchdogs can be used to reset a system.
+>   
+> +config RENESAS_RZN1WDT
+> +	tristate "Renesas RZ/N1 watchdog"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	select WATCHDOG_CORE
+> +	help
+> +	  This driver adds watchdog support for the integrated watchdogs in the
+> +	  Renesas RZ/N1 SoCs. These watchdogs can be used to reset a system.
+> +
+>   config RENESAS_RZG2LWDT
+>   	tristate "Renesas RZ/G2L WDT Watchdog"
+>   	depends on ARCH_RENESAS || COMPILE_TEST
+> diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+> index f7da867e8782..38d38564f47b 100644
+> --- a/drivers/watchdog/Makefile
+> +++ b/drivers/watchdog/Makefile
+> @@ -84,6 +84,7 @@ obj-$(CONFIG_LPC18XX_WATCHDOG) += lpc18xx_wdt.o
+>   obj-$(CONFIG_BCM7038_WDT) += bcm7038_wdt.o
+>   obj-$(CONFIG_RENESAS_WDT) += renesas_wdt.o
+>   obj-$(CONFIG_RENESAS_RZAWDT) += rza_wdt.o
+> +obj-$(CONFIG_RENESAS_RZN1WDT) += rzn1_wdt.o
+>   obj-$(CONFIG_RENESAS_RZG2LWDT) += rzg2l_wdt.o
+>   obj-$(CONFIG_ASPEED_WATCHDOG) += aspeed_wdt.o
+>   obj-$(CONFIG_STM32_WATCHDOG) += stm32_iwdg.o
+> diff --git a/drivers/watchdog/rzn1_wdt.c b/drivers/watchdog/rzn1_wdt.c
+> new file mode 100644
+> index 000000000000..fa32716727b7
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/ufs/renesas,ufs.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/watchdog/rzn1_wdt.c
+> @@ -0,0 +1,203 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/N1 Watchdog timer.
+> + * This is a 12-bit timer driver from a (62.5/16384) MHz clock. It can't even
+> + * cope with 2 seconds.
+> + *
+> + * Copyright 2018 Renesas Electronics Europe Ltd.
+> + *
+> + * Derived from Ralink RT288x watchdog timer.
+> + */
 > +
-> +title: Renesas R-Car UFS Host Controller
+> +#include <linux/clk.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reboot.h>
+> +#include <linux/watchdog.h>
 > +
-> +maintainers:
-> +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> +#define DEFAULT_TIMEOUT		60
 > +
-> +allOf:
-> +  - $ref: ufs-common.yaml
+> +#define RZN1_WDT_RETRIGGER			0x0
+> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL		0
+> +#define RZN1_WDT_RETRIGGER_RELOAD_VAL_MASK	0xfff
+> +#define RZN1_WDT_RETRIGGER_PRESCALE		BIT(12)
+> +#define RZN1_WDT_RETRIGGER_ENABLE		BIT(13)
+> +#define RZN1_WDT_RETRIGGER_WDSI			(0x2 << 14)
+> +
+> +#define RZN1_WDT_PRESCALER			16384
+> +#define RZN1_WDT_MAX				4095
+> +
+> +struct rzn1_watchdog {
+> +	struct watchdog_device		wdtdev;
+> +	void __iomem			*base;
+> +	unsigned long			clk_rate;
 
-ufs-common.yaml says just one interrupt, while Renesas UFS has
-two interrupts?
+Nit: Whenever clk_rate is used, it is divided by 1000.
+It might be better to store and use clk_rate_khz instead.
 
-The rest LGTM, so with the above resolved:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Guenter
