@@ -2,132 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662C95116EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC53D5117DF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Apr 2022 14:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234045AbiD0MX6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Apr 2022 08:23:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
+        id S234067AbiD0Mfm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Apr 2022 08:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234001AbiD0MX5 (ORCPT
+        with ESMTP id S233982AbiD0Mfl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Apr 2022 08:23:57 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBDA3A5DE;
-        Wed, 27 Apr 2022 05:20:46 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id a5so915896qvx.1;
-        Wed, 27 Apr 2022 05:20:46 -0700 (PDT)
+        Wed, 27 Apr 2022 08:35:41 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296C04C42C;
+        Wed, 27 Apr 2022 05:32:29 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id hf18so1000591qtb.0;
+        Wed, 27 Apr 2022 05:32:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7IblRXw+IlRsIpma65z+vY+J/pcL54rFKRWppWIp02E=;
-        b=O3CdkQv4cYeQR75NZsj42LjUgccfGNp/y6NotezEn4kTtTka21SMi7uwxsFiN09zpC
-         uahxVZs73d7B2rXBfV1kfzM1A15v1buMS9JMTcUydE8IosadZCvEPiNp3xdC3Zj9PQpn
-         eBrShPkKOaM83wt1IpBSm2N3/XHin+c4nVGdO+jwe/R2nh0oPwpEytjX69GEiByNaZxO
-         Y1qnBPwq8aYIxcKl092guD+Yh5phHs6pkyJ1a0B0EmLy6g5rkxKsSquTUIlLfj0hsBqn
-         teFqNSaGFT80uCa1tpEUpXXMuH/WcSRep726ZKztZScEwAPl1RNmGDnQx4uXLlNENjcf
-         1W+Q==
-X-Gm-Message-State: AOAM533+3++Fou2ASMFTSOIZBBfoeNnsFfoVD3C3IYD7u8ujmwUoHf4Y
-        RGUGdGYXQrES84nr6FdegFjjdTPMClD0yQ==
-X-Google-Smtp-Source: ABdhPJyVQRDiG1YrApjp41wD1Jo0ktqu1HzK4hDe/+jDGHwfNgHMPIkn1Yz+S6jPqiZ9B4gA8gf7IQ==
-X-Received: by 2002:a05:6214:2aa7:b0:446:2f18:d005 with SMTP id js7-20020a0562142aa700b004462f18d005mr19705064qvb.33.1651062045462;
-        Wed, 27 Apr 2022 05:20:45 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=wctzDfDylFmLP2RkMiHxbhLA3WY20vXxkJqi8oigFwE=;
+        b=DIa18UYBpi7afZ9y32eMycTmAj7LpAs0ADmQV4lIt6i+8F+XcWYBriZhTxxkNJm9bx
+         pUt6q06/5z8PciFHjdD/ujhbGct4L4is+yDeZh74btgliUJ0qeLX3LZuN/d6zQbXGzVT
+         y91KVGp9MGLhR4voViM4hK74qnvrr5qhL5a40N3LJB3VQ+c4o+lNv6/3a1YpBYN0gF74
+         SoZ/xp8/dnVxS9NJzQmWP2y+tK1kdYVWAUVPQrmbcfBZtEP6l6lhHKE+iuqmxLwUh5FZ
+         y5zDo6BrLJ4tnCMWpoNKkMFVLS3DFyRi35iV1E6WT/QdZUMcUg62Y+zlL7obElQ/Gz2a
+         6vbQ==
+X-Gm-Message-State: AOAM533Chzzz/scVLGY6b38T2WKpIr7q0IYVLdKkrYim3zLiBGcx+Uxs
+        shGvW9opo0IZxagXLebZDA6nQKqwA7aGJg==
+X-Google-Smtp-Source: ABdhPJxkn6pOj+SI3AIPM2hdprWq5NY/NU8IpVTLl2apJuPjeGdQNoTpaAf8CdJtY7nWfJ+gY6R1vg==
+X-Received: by 2002:a05:622a:589:b0:2f3:5971:80c with SMTP id c9-20020a05622a058900b002f35971080cmr17410085qtb.270.1651062748186;
+        Wed, 27 Apr 2022 05:32:28 -0700 (PDT)
 Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id v12-20020a05620a0a8c00b0069eabadd6dasm7711882qkg.41.2022.04.27.05.20.44
+        by smtp.gmail.com with ESMTPSA id bq37-20020a05620a46a500b0069f67110f37sm3997353qkb.117.2022.04.27.05.32.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 05:20:44 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id w17so2993689ybh.9;
-        Wed, 27 Apr 2022 05:20:44 -0700 (PDT)
-X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
- g14-20020a5b024e000000b0063dcba03d55mr24895863ybp.613.1651062044076; Wed, 27
- Apr 2022 05:20:44 -0700 (PDT)
+        Wed, 27 Apr 2022 05:32:28 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id j2so3162567ybu.0;
+        Wed, 27 Apr 2022 05:32:27 -0700 (PDT)
+X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
+ c4-20020a5b0984000000b0063f8c38676cmr26233812ybq.393.1651062747550; Wed, 27
+ Apr 2022 05:32:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220414122250.158113-1-clement.leger@bootlin.com> <20220414122250.158113-6-clement.leger@bootlin.com>
-In-Reply-To: <20220414122250.158113-6-clement.leger@bootlin.com>
+References: <20220413082527.155740-1-jjhiblot@traphandler.com> <20220413082527.155740-3-jjhiblot@traphandler.com>
+In-Reply-To: <20220413082527.155740-3-jjhiblot@traphandler.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 14:20:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+kosUPavthyPcWVAC_WhdwXiFKt61oSmgdV6Qxk_0xg@mail.gmail.com>
-Message-ID: <CAMuHMdU+kosUPavthyPcWVAC_WhdwXiFKt61oSmgdV6Qxk_0xg@mail.gmail.com>
-Subject: Re: [PATCH net-next 05/12] dt-bindings: net: dsa: add bindings for
- Renesas RZ/N1 Advanced 5 port switch
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Wed, 27 Apr 2022 14:32:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXLpuoTiOn7yDwTTnjkqWJ4PXuhdCLiLcOP2uyzyV6==A@mail.gmail.com>
+Message-ID: <CAMuHMdXLpuoTiOn7yDwTTnjkqWJ4PXuhdCLiLcOP2uyzyV6==A@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] watchdog: Add Renesas RZ/N1 Watchdog driver
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        tzungbi@kernel.org,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Hi Jean-Jacques,
 
-On Thu, Apr 14, 2022 at 2:24 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> Add bindings for Renesas RZ/N1 Advanced 5 port switch. This switch is
-> present on Renesas RZ/N1 SoC and was probably provided by MoreThanIP.
-> This company does not exists anymore and has been bought by Synopsys.
-> Since this IP can't be find anymore in the Synospsy portfolio, lets use
-> Renesas as the vendor compatible for this IP.
+On Wed, Apr 13, 2022 at 10:25 AM Jean-Jacques Hiblot
+<jjhiblot@traphandler.com> wrote:
+> From: Phil Edworthy <phil.edworthy@renesas.com>
 >
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> This is a driver for the standard WDT on the RZ/N1 devices. This WDT has
+> very limited timeout capabilities. However, it can reset the device.
+> To do so, the corresponding bits in the SysCtrl RSTEN register need to
+> be enabled. This is not done by this driver.
+>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
 Thanks for your patch!
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/N1 Advanced 5 ports ethernet switch
-> +
-> +maintainers:
-> +  - Clément Léger <clement.leger@bootlin.com>
-> +
-> +description: |
-> +  The advanced 5 ports switch is present on the Renesas RZ/N1 SoC family and
-> +  handles 4 ports + 1 CPU management port.
-> +
-> +allOf:
-> +  - $ref: dsa.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,rzn1-a5psw
+> +++ b/drivers/watchdog/rzn1_wdt.c
 
-Please document an SoC-specific compatible value
-"renesas,r9a06g032-a5psw", too, so we can easily handle differences
-between members within the RZ/N1 family, if ever needed.
+> +static int rzn1_wdt_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       struct rzn1_watchdog *wdt;
+> +       struct device_node *np = dev->of_node;
+> +       struct clk *clk;
+> +       int ret;
+> +       int irq;
+> +
+> +       wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
+> +       if (!wdt)
+> +               return -ENOMEM;
+> +
+> +       wdt->base = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(wdt->base))
+> +               return PTR_ERR(wdt->base);
+> +
+> +       irq = platform_get_irq(pdev, 0);
+> +       if (irq < 0)
+> +               return irq;
+> +
+> +       ret = devm_request_irq(dev, irq, rzn1_wdt_irq, 0,
+> +                              np->name, wdt);
+> +       if (ret) {
+> +               dev_err(dev, "failed to request irq %d\n", irq);
+> +               return ret;
+> +       }
+> +
+> +       clk = devm_clk_get(dev, NULL);
+> +       if (IS_ERR(clk)) {
+> +               dev_err(dev, "failed to get the clock\n");
+> +               return PTR_ERR(clk);
+> +       }
+> +
+> +       ret = clk_prepare_enable(clk);
+> +       if (ret) {
+> +               dev_err(dev, "failed to prepare/enable the clock\n");
+> +               return ret;
+> +       }
+> +
+> +       ret = devm_add_action_or_reset(dev, rzn1_wdt_clk_disable_unprepare,
+> +                                      clk);
+> +       if (ret) {
+> +               dev_err(dev, "failed to register clock unprepare callback\n");
+
+Please remove this error message.
+devm_add_action_or_reset() only fails when running out of memory,
+in which case the memory allocation core has already printed an
+error message.
+
+> +               return ret;
+> +       }
 
 Gr{oetje,eeting}s,
 
