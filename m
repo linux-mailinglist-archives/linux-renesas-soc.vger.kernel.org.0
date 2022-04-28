@@ -2,70 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32495512F4C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 11:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7762512FE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 11:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238306AbiD1JMT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Apr 2022 05:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50508 "EHLO
+        id S229625AbiD1JRO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Apr 2022 05:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbiD1JLh (ORCPT
+        with ESMTP id S1345056AbiD1JMl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Apr 2022 05:11:37 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DB453E19;
-        Thu, 28 Apr 2022 02:08:21 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BD0C824000C;
-        Thu, 28 Apr 2022 09:08:17 +0000 (UTC)
+        Thu, 28 Apr 2022 05:12:41 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C125E155;
+        Thu, 28 Apr 2022 02:09:23 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id B55D4FF805;
+        Thu, 28 Apr 2022 09:09:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651136900;
+        t=1651136961;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=3ZaVxd+2WjygVQXWswdisAkNx+oA7fl9OUz2pidyb4k=;
-        b=M9NQEgqxVS+N0oyyjs4W4Whgk+JUc7I5Mfy1xvbtI9cZ6obYaEXP6mqwwDvcbuwULXvquQ
-        7mwoiCOmTjWbeoYn8PQKndMWvWDBVUdlb+5ezUH26//GxEhuBCZn5VswA09Kw0xhGNxA4J
-        9jCKV/zOSETAqDJQbqmEFBnRm9YcdSjqhbU6ozCZzBRWz6vEuIB2B8qMWmvt4jug2XL2c3
-        mUNTarLAOxOATtEo/qk6AuwGbrelDf5RhXS1awQqX4wo0H/IW3jwucBaXR9TeWztDdDkfv
-        8f/W7ARWVQR+kx9IjVZsNw/xHaL5Cdjzx5xZ24Sz3MdlaZ57cmswJxjmhoHgBg==
-Date:   Thu, 28 Apr 2022 11:08:17 +0200
-From:   Herve Codina <herve.codina@bootlin.com>
+        bh=Cyjk/rYZ5RbPgXHXClEZBRH80ut/XSY3BS5BdGb88a8=;
+        b=MpFCGfDt1NXLuUbjX/3/cWVgWOMWIeQAdGZOW9ufWTR4sgbVscriQ1y91tyhm3X9n4VmHM
+        Sa5dQbjK1qhQWXx613BBTD2MyQx08MXoJ3U2Z6UpS5QAi3SXqduI9FJ8lWAl0QcooatqJX
+        JMs/8M/ri/e6pXv+SDvifFju9kCezV2MLHiVNEzczchJr35I5M7gckrwINYKbPiWEQPkfj
+        y9lCJenSedXBQUAejC7cl/C5thpgyitXB2q/+m9niAWPOP/trg2IZ9BhL0jTF/EtGBN2A/
+        h3chtUgQjIIhWxSpif/q3qQ7igeoRMdNHnfAMMUJf2Ogt384lRstmyCw3QM5VQ==
+Date:   Thu, 28 Apr 2022 11:09:17 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-rtc@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v3 2/8] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
- device tree support for r9a06g032
-Message-ID: <20220428110817.07ce92a6@bootlin.com>
-In-Reply-To: <CAMuHMdVB2-Sv1AWFr43erOioui0me5A4TfvazKHp9hTF3gJCwg@mail.gmail.com>
-References: <20220422120850.769480-1-herve.codina@bootlin.com>
-        <20220422120850.769480-3-herve.codina@bootlin.com>
-        <CAMuHMdVB2-Sv1AWFr43erOioui0me5A4TfvazKHp9hTF3gJCwg@mail.gmail.com>
+        Michel Pollet <michel.pollet@bp.renesas.com>
+Subject: Re: [PATCH v2 3/7] rtc: rzn1: Add new RTC driver
+Message-ID: <20220428110917.6b1a19ce@xps13>
+In-Reply-To: <CAMuHMdVBxeH=G8Dj0d=vS80c356Z+D2fsxRr6n+bzMxXX=D9+Q@mail.gmail.com>
+References: <20220421090016.79517-1-miquel.raynal@bootlin.com>
+        <20220421090016.79517-4-miquel.raynal@bootlin.com>
+        <CAMuHMdVBxeH=G8Dj0d=vS80c356Z+D2fsxRr6n+bzMxXX=D9+Q@mail.gmail.com>
 Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,66 +75,91 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-On Wed, 27 Apr 2022 17:15:15 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+geert@linux-m68k.org wrote on Thu, 28 Apr 2022 10:58:03 +0200:
 
-> Hi Herv=C3=A9,
+> Hi Miquel,
 >=20
-> On Fri, Apr 22, 2022 at 2:09 PM Herve Codina <herve.codina@bootlin.com> w=
-rote:
-> > Add internal PCI bridge support for the r9a06g032 SOC. The Renesas
-> > RZ/N1D (R9A06G032) internal PCI bridge is compatible with the one
-> > present in the R-Car Gen2 family.
-> > Compared to the R-Car Gen2 family, it needs three clocks instead of
-> > one.
+> On Thu, Apr 21, 2022 at 11:00 AM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > From: Michel Pollet <michel.pollet@bp.renesas.com>
 > >
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com> =20
+> > Add a basic RTC driver for the RZ/N1.
+> >
+> > Signed-off-by: Michel Pollet <michel.pollet@bp.renesas.com>
+> > Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com> =20
 >=20
 > Thanks for your patch!
 >=20
-> > --- a/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
-> > +++ b/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
-> > @@ -113,6 +113,37 @@ required:
-> >    - "#size-cells"
-> >    - "#interrupt-cells"
+> > --- a/drivers/rtc/Kconfig
+> > +++ b/drivers/rtc/Kconfig
+> > @@ -1548,6 +1548,13 @@ config RTC_DRV_RS5C313
+> >         help
+> >           If you say yes here you get support for the Ricoh RS5C313 RTC=
+ chips.
 > >
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        enum:
-> > +          - renesas,pci-rzn1
+> > +config RTC_DRV_RZN1
+> > +       tristate "Renesas RZN1 RTC" =20
+>=20
+> RZ/N1
+>=20
+> > +       depends on ARCH_RZN1 || COMPILE_TEST
+> > +       depends on OF && HAS_IOMEM
+> > +       help
+> > +         If you say yes here you get support for the Renesas RZ/N1 RTC.
 > > +
-> > +then:
-> > +  properties:
-> > +    clocks:
-> > +      items:
-> > +        - description: Internal bus clock (AHB) for HOST
-> > +        - description: Internal bus clock (AHB) Power Management
-> > +        - description: PCI clock for USB subsystem
-> > +    clock-names:
-> > +      items:
-> > +        - const: hclk_usbh
-> > +        - const: hclk_usbpm
-> > +        - const: clk_pci_usb =20
+> >  config RTC_DRV_GENERIC
+> >         tristate "Generic RTC support"
+> >         # Please consider writing a new RTC driver instead of using the=
+ generic =20
 >=20
-> These are the provider names.
-> I think they should use the consumer names: usb_hclkh, usb_hclkpm,
-> and usb_pciclk.
-
-Yes, it makes sense.
-I will changed in v4.
-
+> > --- /dev/null
+> > +++ b/drivers/rtc/rtc-rzn1.c =20
 >=20
-> The rest looks good to me.
+> > +static int rzn1_rtc_probe(struct platform_device *pdev)
+> > +{
+> > +       struct rzn1_rtc *rtc;
+> > +       int ret;
+> > +
+> > +       rtc =3D devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+> > +       if (!rtc)
+> > +               return -ENOMEM;
+> > +
+> > +       platform_set_drvdata(pdev, rtc);
+> > +
+> > +       rtc->clk =3D devm_clk_get(&pdev->dev, "hclk");
+> > +       if (IS_ERR(rtc->clk))
+> > +               return dev_err_probe(&pdev->dev, PTR_ERR(rtc->clk), "Mi=
+ssing hclk\n"); =20
+>=20
+> As you don't care about the clock rate, only about enabling/disabling
+> the clock, I recommend using Runtime PM instead of explicit clock
+> handling.
 
-Perfect.
+That's right.
 
-Thanks for the review,
-Herv=C3=A9
+> That does depend on:
+> [PATCH v3 4/8] soc: renesas: rzn1: Select PM and PM_GENERIC_DOMAINS confi=
+gs[1]
+> [PATCH v3 5/8] ARM: dts: r9a06g032: Add missing '#power-domain-cells'[2]
 
+There should not be any dependency with the RTC tree so that should not
+be too complex to handle.
 
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> and on documenting the power-domains property to the RTC DT bindings,
+> and on adding a proper power-domains property to the RTC node in DTS.
+
+Right.
+
+Do we need to define these properties in the UART, DMA and NAND
+controller nodes as well? I seem to remember that you mentioned it but
+I don't recall for which one and I was too focused (lazy?) on other
+features so I forgot about it.
+
+> [1] https://lore.kernel.org/linux-renesas-soc/20220422120850.769480-5-her=
+ve.codina@bootlin.com
+> [2] https://lore.kernel.org/linux-renesas-soc/20220422120850.769480-6-her=
+ve.codina@bootlin.com
+
+Thanks,
+Miqu=C3=A8l
