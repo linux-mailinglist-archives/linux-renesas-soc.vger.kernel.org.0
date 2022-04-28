@@ -2,55 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3D73513460
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E22351347F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346708AbiD1NHQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Apr 2022 09:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54236 "EHLO
+        id S233876AbiD1NJC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Apr 2022 09:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346629AbiD1NHP (ORCPT
+        with ESMTP id S1346826AbiD1NJB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Apr 2022 09:07:15 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F9584ECE;
-        Thu, 28 Apr 2022 06:04:01 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id t11so3328453qto.11;
-        Thu, 28 Apr 2022 06:04:01 -0700 (PDT)
+        Thu, 28 Apr 2022 09:09:01 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC89AFB10;
+        Thu, 28 Apr 2022 06:05:47 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id j6so3490486qkp.9;
+        Thu, 28 Apr 2022 06:05:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0lvBJdjSvNUYgcTFiszj2H9e/jo/EQ1g9OpmlufkMWk=;
-        b=jFYuVaExSsDL+HKoQXPoYC186bu2CN4IWwVNmcN02lKOJUj+gzyhmOd5rHspwhkvNe
-         1VlXLTM8GlMkn4Z7nSrxvyv6jnlCCkZsaL6wyXMDYcxanmxnWirUoVBeXGFFCZeT2Tfa
-         lBjvSVI3Cj6xAsrQUYZeCAyh/m+3kaS8a2HlAkhlyka8/RSdK/U8S5lwc7GpppQD+Lcv
-         6+lPVaSFZktdC5y3x7/tuHpn/7G9rgZVc+WfzDTT3VU74ykQGdSYIKpUQcggG8PO4j97
-         oZnP7K0/e0TeyxlbRR3t61Ityb769+2CaTizMZu9DG9pAjs75RDT9tOcq6ZTlyjKkfBN
-         oSEg==
-X-Gm-Message-State: AOAM532MeCi30LOLZ9KsZtCg/GdDxu9cOfNqo9pq5vObcOFyZf782M1e
-        I6LEmx2MlOjbcua3j1/wLk2M/nfYLeb/Vw==
-X-Google-Smtp-Source: ABdhPJzOkco5eZVTDVi0GtHnzNqlCHuUwST9orasLXRwB6BO5dZ/2e9z4ckwqSWgm8KZukm9mG0YTg==
-X-Received: by 2002:a05:622a:594:b0:2e1:d59e:68ed with SMTP id c20-20020a05622a059400b002e1d59e68edmr23283067qtb.204.1651151040486;
-        Thu, 28 Apr 2022 06:04:00 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id v126-20020a37dc84000000b0069f9c375519sm1637882qki.46.2022.04.28.06.03.59
+        bh=ttH1Nv2HCHZpt36lRw9MzlWk+TJVjhDzKAszglhsEwQ=;
+        b=HXbyToE7L/gZCnegJslrwwonMylR+4+901jXq7Y/YYG5+uOzkHPfqJngxQhF0Q1q4g
+         YFhlVbG33aAWXG8lIjTQ/m93es/7h1wQXTiUw/pB7JQdI+GIcs/H9E6kpOLaF8HIVrEI
+         yYIedlMY1l9bKBiHUNNkSdNJeJd00GOXe2Vou/bOSAhDAetWhKT0TroOUsMUWRl73cBO
+         Oj7GYJ2d9uTgtEEZOvThv9Gg1VCj1OeN+IOqb0T2NISKW2hAASJWIBd7mJuMPreZhlzT
+         QqIlM/ol340zh3vUEq2815YqUx2DgZbkfgOWWPVpcbj+g/U0XlXsO9C4Y8Igk3fQIyBo
+         lRsg==
+X-Gm-Message-State: AOAM533k2r2C5ITe9IJDe12pMpMGEP0OmPtSfsk78T7ZM2fQQv8OiKVn
+        u/LCtLH0iwXvIWZWQj+bVQSOQYUORQhS9w==
+X-Google-Smtp-Source: ABdhPJxKw3IOQHrqrqYIMctsNfYES+mG4PF43SQ+tc+tLARs1ICkljhcOulOuORNSFoSfe1ZKf7ziA==
+X-Received: by 2002:a37:9bce:0:b0:69f:9578:8ca9 with SMTP id d197-20020a379bce000000b0069f95788ca9mr4253076qke.170.1651151145982;
+        Thu, 28 Apr 2022 06:05:45 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id o189-20020a375ac6000000b0069f73d3b544sm4427391qkb.43.2022.04.28.06.05.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 06:03:59 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id w187so8909494ybe.2;
-        Thu, 28 Apr 2022 06:03:59 -0700 (PDT)
-X-Received: by 2002:a5b:984:0:b0:63f:8c38:676c with SMTP id
- c4-20020a5b0984000000b0063f8c38676cmr31523906ybq.393.1651151039519; Thu, 28
- Apr 2022 06:03:59 -0700 (PDT)
+        Thu, 28 Apr 2022 06:05:45 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-2f7c424c66cso52443107b3.1;
+        Thu, 28 Apr 2022 06:05:45 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr32121651ywi.449.1651151144901; Thu, 28
+ Apr 2022 06:05:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220425170530.200921-1-biju.das.jz@bp.renesas.com> <20220425170530.200921-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220425170530.200921-7-biju.das.jz@bp.renesas.com>
+References: <20220426064002.9411-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdX5k5nsczGBPrO8HTio_8yONyLbs6JYBDBBLGrv0nzvMw@mail.gmail.com> <OS0PR01MB5922AB2A88DF1BA3751F2A8086FD9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922AB2A88DF1BA3751F2A8086FD9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 Apr 2022 15:03:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVHo3tPw7=2iAnMFqX0GY+yjymJuTF32N+KXbWGeoVAbw@mail.gmail.com>
-Message-ID: <CAMuHMdVHo3tPw7=2iAnMFqX0GY+yjymJuTF32N+KXbWGeoVAbw@mail.gmail.com>
-Subject: Re: [PATCH 06/13] arm64: dts: renesas: r9a07g043: Fillup the WDT{0,2}
- stub nodes
+Date:   Thu, 28 Apr 2022 15:05:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU1qY2=KjiWYtOdrVNM0pMsJe=qEdk2QGbvd9qaDe4d+w@mail.gmail.com>
+Message-ID: <CAMuHMdU1qY2=KjiWYtOdrVNM0pMsJe=qEdk2QGbvd9qaDe4d+w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] arm64: dts: renesas: r9a07g044: Fix external clk
+ node names
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -64,22 +65,46 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 7:05 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Fillup the WDT{0,2} stub nodes in RZ/G2UL (R9A07G043) SoC DTSI.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+On Thu, Apr 28, 2022 at 3:03 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH v3 1/2] arm64: dts: renesas: r9a07g044: Fix external
+> > clk node names
+> > On Tue, Apr 26, 2022 at 8:40 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > Add suffix '-clk' for can and extal clk node names and replace the clk
+> > > node names audio_clk{1,2} with clk-{1,2} as per the device tree
+> > > specification.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+> > >                 compatible = "fixed-clock";
+> > >                 #clock-cells = <0>;
+> > >                 /* This value must be overridden by boards that provide
+> > it */
+> > >                 clock-frequency = <0>;
+> > >         };
+> > >
+> > > -       /* External CAN clock - to be overridden by boards that provide
+> > it */
+> > > -       can_clk: can {
+> > > +       audio_clk2: clk-2 {
+> >
+> > audio_clk2: audio-2clk?
+>
+> OK, you mean like audio_clk1, "audio_clk2: audio2-clk"
+> as "2clk" is not generic name for clk?
+
+Oops, indeed.
+Sorry, my review fingers are becoming overloaded ;-)
 
 Gr{oetje,eeting}s,
 
