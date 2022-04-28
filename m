@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5FF51356A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D8FF5135A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347507AbiD1Nnz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Apr 2022 09:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53594 "EHLO
+        id S1347687AbiD1Nw1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Apr 2022 09:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347500AbiD1Nnx (ORCPT
+        with ESMTP id S1344676AbiD1Nw0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Apr 2022 09:43:53 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D805C4D61D;
-        Thu, 28 Apr 2022 06:40:33 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id y6so1424525qke.10;
-        Thu, 28 Apr 2022 06:40:33 -0700 (PDT)
+        Thu, 28 Apr 2022 09:52:26 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F370B3695;
+        Thu, 28 Apr 2022 06:49:09 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id 126so2620977qkm.4;
+        Thu, 28 Apr 2022 06:49:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WQVEW6hHabsKiVjgv0AyFA73xfhc/Jr7I3cTgYDmmq4=;
-        b=rg2ucvmfVkmD054Ym5hWbdO4n+Lt7F2zgWeTBS9WGEhHISdA1htRXdcBJkynqhpnJ3
-         kIVWFnuQF0Sz1SMwc+tikTC9XRl8jjoCtWrffAeNvx5W/26MLBGqjA+7pvmDgwL22Zog
-         byte4kvmTGD+Z4mUAPRfxb4O1HCYhxmlVS2fN462hslN8KBBF9nqQw2txZkRMqATCLPG
-         Y10EZilunAjT/WDxT9rl/twNyBU4YWRvAoduGLjQ0E+q6cRSVM+fxhNYpTLXZ8IXS3kL
-         lyuxmAzGOVFSgkXNgPt4jSI7ClEZIcVZeVPFX83GcItvTuHw8T3vOHc36XMwMzlPBQhq
-         FuSg==
-X-Gm-Message-State: AOAM530gQzDFb+WLtHJJAJzb+98yZEAn+TJukGSwxVAWY2Mg/K7D5RoI
-        mPj8eLQLpglob+g5VJVyVWK3+G+rn44oMw==
-X-Google-Smtp-Source: ABdhPJy4ca5CHU5ITofgvQ10F7amB/AgH0bjVoSV5XJoqHdb3zPChZB84MjtPwmncdYZ1W09kE7ePw==
-X-Received: by 2002:a37:ba06:0:b0:69c:114f:6f24 with SMTP id k6-20020a37ba06000000b0069c114f6f24mr19780484qkf.595.1651153231983;
-        Thu, 28 Apr 2022 06:40:31 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id u18-20020a05622a011200b002f38843e32asm10048qtw.35.2022.04.28.06.40.31
+        bh=GtXTuyetOQXEPvEx9pdxnHQcYoTGIjHvr+XboJiHeys=;
+        b=Q9JjcrireY3sP57lqc3RCFt1wieNyASBn3cBGTPOVujFzn06OhXRIjJKoAq0omvw58
+         EKhgSEGUFvYavcwJ9bk4c+DL8GPujRRSSKHjztFuRlu8WkLIK9mlEg36PEj1arpMTgQA
+         zRhqjR80zalfiUomBN33HCnJlLoXkpAwb7k+bVHqiRkTTWF2xfJPfgpFY9rOUZTpk7pq
+         D47kDO3DcSGOqtPfUYgYsYIR21A8QhVV2S8oSDaEgS0Ccka5TQHuf51D/ttnHj0xYYCx
+         UkJj3b4nYPI2jNWvhvYXHqunj8xbdtmuAfmyJSZ7Dk4PhXCRg6Xriyy5jF5sknmoCk58
+         6cEg==
+X-Gm-Message-State: AOAM533i8bTeiLs9s1VRfnvVWrQGj8AoWNC1AWrYn0OMYBKZkyz6EulW
+        6AlsBaKc6nwpQ4/n/YPukcWjO3fALZc1aA==
+X-Google-Smtp-Source: ABdhPJz4N4GqGUhUI31Uw+yCV/tY+3qs2d2NNnao+tGExmWK5IScIsnTGVLYz3Fl6HaT59q7HGbvWw==
+X-Received: by 2002:a05:620a:40d3:b0:69f:4050:7307 with SMTP id g19-20020a05620a40d300b0069f40507307mr14255632qko.80.1651153747937;
+        Thu, 28 Apr 2022 06:49:07 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id p14-20020a05622a13ce00b002f20a695972sm33172qtk.14.2022.04.28.06.49.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 06:40:31 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id y2so9069194ybi.7;
-        Thu, 28 Apr 2022 06:40:31 -0700 (PDT)
-X-Received: by 2002:a25:8087:0:b0:641:dd06:577d with SMTP id
- n7-20020a258087000000b00641dd06577dmr30516611ybk.207.1651153231323; Thu, 28
- Apr 2022 06:40:31 -0700 (PDT)
+        Thu, 28 Apr 2022 06:49:07 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id d12so9124702ybc.4;
+        Thu, 28 Apr 2022 06:49:07 -0700 (PDT)
+X-Received: by 2002:a25:d84c:0:b0:648:7d5e:e2d4 with SMTP id
+ p73-20020a25d84c000000b006487d5ee2d4mr17797233ybg.6.1651153747119; Thu, 28
+ Apr 2022 06:49:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220425170530.200921-1-biju.das.jz@bp.renesas.com> <20220425170530.200921-8-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220425170530.200921-8-biju.das.jz@bp.renesas.com>
+References: <20220425170530.200921-1-biju.das.jz@bp.renesas.com> <20220425170530.200921-9-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220425170530.200921-9-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 Apr 2022 15:40:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6yU9_BNugGb6Zumtv4r-9+S35Q6inFJKTYn6GA+t63Q@mail.gmail.com>
-Message-ID: <CAMuHMdX6yU9_BNugGb6Zumtv4r-9+S35Q6inFJKTYn6GA+t63Q@mail.gmail.com>
-Subject: Re: [PATCH 07/13] arm64: dts: renesas: rzg2ul-smarc: Enable i2c{0,1}
- and wm8978
+Date:   Thu, 28 Apr 2022 15:48:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUC+iBEri0eg-eR2DEFBFiX_dmbsKnHp-NF6WoymO76Nw@mail.gmail.com>
+Message-ID: <CAMuHMdUC+iBEri0eg-eR2DEFBFiX_dmbsKnHp-NF6WoymO76Nw@mail.gmail.com>
+Subject: Re: [PATCH 08/13] arm64: dts: renesas: rzg2l-smarc: Move ssi0 and cpu
+ sound_dai nodes from common dtsi
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -72,16 +72,87 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 7:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable i2c{0,1} on RZ/G2LC SMARC EVK by deleting respective
-> entries from board dts and adding pincontrol entries to the
-> soc-pinctrl dtsi. Also enable wm8978 audio codec.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+Thanks for your patch!
+
+On Mon, Apr 25, 2022 at 7:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> On RZ/G2{L,LC} SoM module, ssi0 is connected to wm8978 audio codec whereas
+> on RZ/G2UL it is connected to ssi1. So move ssi0 and cpu sound_dai nodes
+> from common dtsi to soc specific dtsi.
+
+The first sentence reads a bit odd. Perhaps:
+
+    On RZ/G2{L,LC} SoM module, the wm8978 audio codec is connected
+    to ssi0, whereas on RZ/G2UL it is connected to ssi1.
+
+?
+
+> --- a/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rz-smarc-common.dtsi
+> @@ -52,7 +52,6 @@ snd_rzg2l: sound {
+>                             "Mic Bias", "Microphone Jack";
+>
+>                 cpu_dai: simple-audio-card,cpu {
+> -                       sound-dai = <&ssi0>;
+>                 };
+>
+>                 codec_dai: simple-audio-card,codec {
+
+> --- a/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi
+> @@ -49,6 +49,19 @@ &scif2 {
+>  };
+>  #endif
+>
+> +&snd_rzg2l {
+> +       cpu_dai: simple-audio-card,cpu {
+
+Why not refer to &cpu_dai instead?
+
+> +               sound-dai = <&ssi0>;
+> +       };
+> +};
+> +
+> +&ssi0 {
+> +       pinctrl-0 = <&ssi0_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +};
+> +
+>  &vccq_sdhi1 {
+>         gpios = <&pinctrl RZG2L_GPIO(39, 1) GPIO_ACTIVE_HIGH>;
+>  };
+> diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> index 74a844ea7537..522cfab69db6 100644
+> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -91,6 +91,19 @@ &scif1 {
+>  };
+>  #endif
+>
+> +&snd_rzg2l {
+> +       cpu_dai: simple-audio-card,cpu {
+
+&cpu_dai?
+
+> +               sound-dai = <&ssi0>;
+> +       };
+> +};
+> +
+> +&ssi0 {
+> +       pinctrl-0 = <&ssi0_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +};
+> +
+>  #if (SW_RSPI_CAN)
+>  &spi1 {
+>         /delete-property/ pinctrl-0;
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
