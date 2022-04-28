@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1BC851352A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A475C51352C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Apr 2022 15:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347134AbiD1NfT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 Apr 2022 09:35:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60088 "EHLO
+        id S1347203AbiD1NfU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 Apr 2022 09:35:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346139AbiD1NfS (ORCPT
+        with ESMTP id S1346139AbiD1NfU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 Apr 2022 09:35:18 -0400
+        Thu, 28 Apr 2022 09:35:20 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A568E1EC5D;
-        Thu, 28 Apr 2022 06:32:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7AB5ADF73;
+        Thu, 28 Apr 2022 06:32:05 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,295,1647270000"; 
-   d="scan'208";a="118327326"
+   d="scan'208";a="118327332"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Apr 2022 22:32:01 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Apr 2022 22:32:05 +0900
 Received: from localhost.localdomain (unknown [10.226.92.196])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8059542DDD04;
-        Thu, 28 Apr 2022 22:31:58 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2793042DDD0C;
+        Thu, 28 Apr 2022 22:32:01 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,15 +32,16 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 1/2] arm64: dts: renesas: r9a07g044: Fix external clk node names
-Date:   Thu, 28 Apr 2022 14:31:55 +0100
-Message-Id: <20220428133156.18080-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v4 2/2] arm64: dts: renesas: r9a07g054: Fix external clk node names
+Date:   Thu, 28 Apr 2022 14:31:56 +0100
+Message-Id: <20220428133156.18080-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220428133156.18080-1-biju.das.jz@bp.renesas.com>
+References: <20220428133156.18080-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -60,13 +61,13 @@ v2->v3:
 v1->v2:
  * Replaced clk node names audio_clk{1,2} with clk-{1,2}.
 ---
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 8 ++++----
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 19287cccb1f0..3652e511160f 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index f35aa0311e9c..4d6b9d7684c9 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
 @@ -13,14 +13,14 @@ / {
  	#address-cells = <2>;
  	#size-cells = <2>;
