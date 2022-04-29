@@ -2,166 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B4E3514588
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 11:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 766DA514599
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 11:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356661AbiD2JmS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 05:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47558 "EHLO
+        id S1356703AbiD2JrK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 05:47:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356615AbiD2JmP (ORCPT
+        with ESMTP id S244541AbiD2JrJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 05:42:15 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D46CBCB64;
-        Fri, 29 Apr 2022 02:38:58 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id kc16so4061656qvb.7;
-        Fri, 29 Apr 2022 02:38:58 -0700 (PDT)
+        Fri, 29 Apr 2022 05:47:09 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A70E4BE9F1;
+        Fri, 29 Apr 2022 02:43:48 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-2ef5380669cso79408227b3.9;
+        Fri, 29 Apr 2022 02:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Kg3hGg7aSQtOExCKtXSFZRSUP75e6nI3Aslv19Y7vA=;
+        b=TZF6d1SWhW6T1e7EkSodGQRYWm/8NaFP8evsK09WZzyAdjhiFi3leY8CW5P+6jJryI
+         j4zxovudMYqZPPzH8LLnKztlVEwxwVGfeks9injDB80fcmwjvwipeAjbCJSV0QzLQHkh
+         /gdK3nQ9svbNJdEOOCq2Igc83rASG+dciYrOu+IIwfH4iuobI3dbh33Uur7VEIol8YYB
+         4ThkbHnT8gLtnzS+Vk5mDTOcGHqb4oBzBHw+ajZOj0WYtE6CTKSxJFobJm/WneFC6Q/L
+         FkyTeoCSXiJy9Q90dJOQilWD7mJiQ0sDMD7JeNBiMB+Ohbz2ZvUGFic8NkdArAn/is/t
+         cgjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nudFKhXjhEig6BzP6/5oc0q5ZOTrxAigg1sCcPr3Rtk=;
-        b=nNqe7a2WgxN9D7wlwR55Ny+aDKW4SS6fLWmyPPpIYiDvFY0lN1xvcwT8ZPBGI6gNER
-         DTwVV10FHlbA+i+vZkwucrgD4scjBQN7vhD5Dgk9hoW+O39ULY4aj7eMscYxtiZc7QGq
-         TpXvTF8NWuzJaDRn0Opi715hEi2ES0DtBndjpPBEwpp9ps5rC91AqlZWgiSDIO8s06He
-         KYsfEWEG/WNvyb/IRO2SDUwyVtgBslDnmLckrLMAS9Ruikf4RN5/8LRNNSTcCqjmday/
-         rZ3U5bItVZvuZjAwV1eVeg0rv11lDNDR/47DKje4ewYdtzSihIFa4GKHcFMAN0RXCQs3
-         PBrg==
-X-Gm-Message-State: AOAM532P6VxCK7ZSfaWnZnYkNmwEHY+NfA46er7rBxEGIuPZjFdiGib+
-        TPQFaHx9czYNa0cOncLZkvGT4LfveYYF2qDv
-X-Google-Smtp-Source: ABdhPJyo7cb2SFLEFDTogUbH9v0ddrTmoMs4fH0Y4Y2ehAz0QxNzADM2/8Ijaw96hOf+FO73Xte3Mw==
-X-Received: by 2002:a0c:fc4a:0:b0:456:3d44:9771 with SMTP id w10-20020a0cfc4a000000b004563d449771mr15812298qvp.53.1651225137635;
-        Fri, 29 Apr 2022 02:38:57 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id 9-20020a05620a070900b0069e60da45aasm1185328qkc.60.2022.04.29.02.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 02:38:57 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f16645872fso79364457b3.4;
-        Fri, 29 Apr 2022 02:38:56 -0700 (PDT)
-X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
- c204-20020a811cd5000000b002f4c3fc2174mr37706998ywc.512.1651225136357; Fri, 29
- Apr 2022 02:38:56 -0700 (PDT)
+        bh=4Kg3hGg7aSQtOExCKtXSFZRSUP75e6nI3Aslv19Y7vA=;
+        b=Irvbuu/WqS5S8yDKcHSUDQCiuDdx16TB0Bu2CAcqaVW6sj/8utcWimrJLLWAk+XPLg
+         Os6bjBEM43J73mywG+Fq3kDcCdO2kLLRzUgok7F21ufJWcXG9V7gF5reLncdf4pvOMwf
+         Y4LmrnU3Hvnl88OJ5+/FzAei+Fc0e9wzqinhwJyGku+o1bWOkEZiVa744hher0W7Wnv8
+         pUfkP/VLRYordBmAtEdGosj86BFLanCfId8vKmWcDSG2O/HtrpxnuvnnPxGhXeLtEUss
+         56/MaNcByUSgqEl0a7wthVmqe/kDt3U87vBaFsM3EagLlRMQG8Vhw5a8mRaunY39Dh+w
+         dFLQ==
+X-Gm-Message-State: AOAM5323pIFxQnDCXxPhgZAsMlRBD5zkhz7t+XuEndtF2tskRNwR0agU
+        l3xzZbMifIT/Jdum5MIycKJ7ygwaX2RMc20v8Ow=
+X-Google-Smtp-Source: ABdhPJx1hDX7pnjETYTkdntFjdt5Nq6fxhad4iQ13SDXFdm2nMnRkoJufGnLbvDiVVAaEHweo2vkFXH2I0QzR4maH4Y=
+X-Received: by 2002:a81:6a46:0:b0:2f4:dc3f:e8f8 with SMTP id
+ f67-20020a816a46000000b002f4dc3fe8f8mr38317183ywc.292.1651225427891; Fri, 29
+ Apr 2022 02:43:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com> <20220427094823.3319-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220427094823.3319-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Apr 2022 11:38:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUo6J7_hfsoDYprMc7Tk79D4FxQiXJ7hFH8s_6nzptsUw@mail.gmail.com>
-Message-ID: <CAMuHMdUo6J7_hfsoDYprMc7Tk79D4FxQiXJ7hFH8s_6nzptsUw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/9] clk: renesas: rzg2l: Add DSI divider clk support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+References: <20220421221159.31729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220421221159.31729-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVqk1ryzzK9-BZCMDPeyjfF1-8hMpzUoEPCcg8pJ2-ang@mail.gmail.com>
+In-Reply-To: <CAMuHMdVqk1ryzzK9-BZCMDPeyjfF1-8hMpzUoEPCcg8pJ2-ang@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 29 Apr 2022 10:43:21 +0100
+Message-ID: <CA+V-a8tosEeNqzPZsdX=VCKTrkQfAhpMRWQDwva+fpQGc8x+jA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Geert,
 
-On Wed, Apr 27, 2022 at 11:48 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> M3 clock is sourced from DSI Divider (DSIDIVA * DSIDIVB)
+Thank you for the review.
+
+On Thu, Apr 28, 2022 at 10:42 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> This patch add support for DSI divider clk by combining
-> DSIDIVA and DSIDIVB .
+> Hi Prabhakar,
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> V1->V2:
->  * Replaced round_rate with determine_rate
->  * Update rate variable during set_rate
->  * Added get_vclk_parent_rate helper function
->  * Replaced pll5_params with mux_dsi_div_params for dsi div values.
+> On Fri, Apr 22, 2022 at 12:12 AM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add a driver for the Renesas RZ/G2L Interrupt Controller.
+> >
+> > This supports external pins being used as interrupts. It supports
+> > one line for NMI, 8 external pins and 32 GPIO pins (out of 123)
+> > to be used as IRQ lines.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- /dev/null
+> > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> > @@ -0,0 +1,447 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Renesas RZ/G2L IRQC Driver
+> > + *
+> > + * Copyright (C) 2022 Renesas Electronics Corporation.
+> > + *
+> > + * Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > + */
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/err.h>
+> > +#include <linux/io.h>
+> > +#include <linux/irqchip.h>
+> > +#include <linux/irqdomain.h>
+> > +#include <linux/of_address.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +#define IRQC_IRQ_START                 1
+> > +#define IRQC_IRQ_COUNT                 8
+> > +#define IRQC_TINT_START                        9
+>
+> = IRQC_IRQ_START + IRQC_IRQ_COUNT
+>
+OK
 
-Thanks for the update!
+> > +#define IRQC_TINT_COUNT                        32
+> > +#define IRQC_NUM_IRQ                   41
+>
+> = IRQC_TINT_START + IRQC_TINT_COUNT
+>
+OK.
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> Should these be in a DT binding header file?
+>
+> Combining all types into a single linear number space makes it hard
+> to extend the range, when reusing for an SoC that supports more
+> interrupt sources.
+>
+Or  DT data maybe?
 
-> +static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
-> +                                                   unsigned long rate)
-> +{
-> +       unsigned long parent_rate;
+> > +static void rzg2l_irq_eoi(struct irq_data *d)
+> > +{
+> > +       struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> > +       unsigned int hw_irq = irqd_to_hwirq(d) - IRQC_IRQ_START;
+> > +       u16 bit = BIT(hw_irq);
+>
+> I guess you can just use u32?
+>
+OK, will do
 
-Please drop the blank line.
+> > +       u32 reg;
+> > +
+> > +       reg = readl_relaxed(priv->base + ISCR);
+> > +       if (reg & bit)
+> > +               writel_relaxed(GENMASK(IRQC_IRQ_COUNT - 1, 0) & ~bit,
+>
+> As writes to the unused upper bits are ignored, you can drop the
+> masking with GENMASK(IRQC_IRQ_COUNT - 1, 0), and be prepared for more
+> interrupt sources.
+>
+Agreed.
 
-> +
-> +       struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
-> +       struct rzg2l_cpg_priv *priv = dsi_div->priv;
-> +       struct rzg2l_pll5_param params;
+> > +                              priv->base + ISCR);
+> > +}
+> > +
+> > +static void rzg2l_tint_eoi(struct irq_data *d)
+> > +{
+> > +       struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> > +       unsigned int hw_irq = irqd_to_hwirq(d);
+>
+> "irqd_to_hwirq(d) - IRQC_TINT_START", for symmetry with
+> rzg2l_irq_eoi()?
+>
+OK.
 
-Reverse Xmas tree order?
+> > +       u32 bit = BIT(hw_irq - IRQC_TINT_START);
+> > +       u32 reg;
+> > +
+> > +       reg = readl_relaxed(priv->base + TSCR);
+> > +       if (reg & bit)
+> > +               writel_relaxed(GENMASK(IRQC_TINT_COUNT - 1, 0) & ~bit,
+>
+> Drop the masking with all-ones?
+>
+You mean instead of a mask just use the reg instead?
 
-> +
-> +       parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
-> +
-> +       if (priv->mux_dsi_div_params.clksrc)
-> +               parent_rate /= 2;
-> +
-> +       return parent_rate;
-> +}
-> +
-> +static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
-> +                                           struct clk_rate_request *req)
-> +{
-> +       req->best_parent_rate = rzg2l_cpg_get_vclk_parent_rate(hw, req->rate);
-> +
-> +       return 0;
+Cheers,
+Prabhakar
 
-So any value of req->rate passed is supported, and req->rate never
-needs to be updated?
-
-> +}
-> +
-> +static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
-> +                                     unsigned long rate,
-> +                                     unsigned long parent_rate)
-> +{
-> +       struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
-> +       struct rzg2l_cpg_priv *priv = dsi_div->priv;
-> +
-> +       /*
-> +        * MUX -->DIV_DSI_{A,B} -->M3 -->VCLK
-> +        *
-> +        * Based on the dot clock, the DSI divider clock sets the divider value,
-> +        * calculates the pll parameters for generating FOUTPOSTDIV and the clk
-> +        * source for the MUX and propagates that info to the parents.
-> +        */
-> +
-> +       if (!rate)
-> +               return -EINVAL;
-> +
-> +       dsi_div->rate = rate;
-
-So any non-zero value of rate is supported?
-
-> +       writel(CPG_PL5_SDIV_DIV_DSI_A_WEN | CPG_PL5_SDIV_DIV_DSI_B_WEN |
-> +              (priv->mux_dsi_div_params.dsi_div_a << 0) |
-> +              (priv->mux_dsi_div_params.dsi_div_b << 8),
-> +              priv->base + CPG_PL5_SDIV);
-> +
-> +       return 0;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > +                              priv->base + TSCR);
+> > +}
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
