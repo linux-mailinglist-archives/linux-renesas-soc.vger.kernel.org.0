@@ -2,35 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA3D514D9B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 16:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBEA6514DD3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 16:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377589AbiD2Olp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 10:41:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33200 "EHLO
+        id S1377180AbiD2OsE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 10:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377751AbiD2Okb (ORCPT
+        with ESMTP id S1377257AbiD2OsD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 10:40:31 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D4431DDC;
-        Fri, 29 Apr 2022 07:36:54 -0700 (PDT)
+        Fri, 29 Apr 2022 10:48:03 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF59787212;
+        Fri, 29 Apr 2022 07:44:43 -0700 (PDT)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6F5984001B;
-        Fri, 29 Apr 2022 14:36:51 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 66EB240006;
+        Fri, 29 Apr 2022 14:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651243013;
+        t=1651243482;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5xaIwQ5hDv0qxSJacdWpuQ9JgL0/eZQcSImQIJecyes=;
-        b=hE1SgDO49OBizdDU/7aSAnXQPCIYTDst8rggAfrdBafRJpv/Zbk3/PaOkyolpSeYs+QvT0
-        Btj1iynFWkAVnWV6FTVzDmZ2st0+lNOy4JSVIhuCF0+m9gnQSExYPpnhBEbpOlebXN7AHW
-        7mF639GVh8K+w3pnsuqamkgFrzXnb/MNj0GAD4N4ExH9BBy6tfSD8Kt0rrt9+M4ZtuXIEG
-        HFGNjtPpFNgm6JodyI25TiqyPZeLrslax8HNP/myyQQ94K63DB+SsXFl5Vs8lRsjEPB6/V
-        OJMc6Eyd/zfnhQ38D1Of06gK7gxj1prcO4e26pX6w22anp3I0XfaJyvKTN+lAw==
-From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+        bh=6VZp545cL1tkFy7Ufnki1RQqtXzhp7N0eLBFHK/NFwQ=;
+        b=Jn07hk8vRLFNfuylZda/8CXThhdBxH2nk8vdeQK3qdjSvA67vX8dTZVbEGnoBS3sCx9bFB
+        mLFGVf8Xd0EwSIzSMbTYcXzBb28FT+URogjj8ucrOt6c1+L1tziEzxlpqxSY5x6SFFE5kx
+        m6K25lC1yiSoZPeBI7LqnS22SYbwq2LOKTd3MyMr0no8VWxsNlqzBTyiVb2JIGwargLMPS
+        D9bnUcl0X7F8n4d7cvHLfU2QET85EtLw2g8QTk8MGhyqRsUUs/YGTU3csHlT5WFxx7PPzb
+        wyj2/5KGuWA2YuQvvmfD0ZXN331NP/bXmLcSBvgt9dxfmF8VbwnLZro3smfIOA==
+Date:   Fri, 29 Apr 2022 16:43:22 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -45,64 +46,72 @@ To:     Andrew Lunn <andrew@lunn.ch>,
         Magnus Damm <magnus.damm@gmail.com>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>
-Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [net-next v2 12/12] MAINTAINERS: add Renesas RZ/N1 switch related driver entry
-Date:   Fri, 29 Apr 2022 16:35:05 +0200
-Message-Id: <20220429143505.88208-13-clement.leger@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220429143505.88208-1-clement.leger@bootlin.com>
+Subject: Re: [net-next v2 04/12] net: pcs: add Renesas MII converter driver
+Message-ID: <20220429164322.3f5cedd2@fixe.home>
+In-Reply-To: <20220429143505.88208-5-clement.leger@bootlin.com>
 References: <20220429143505.88208-1-clement.leger@bootlin.com>
+        <20220429143505.88208-5-clement.leger@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After contributing the drivers, volunteer for maintenance and add
-myself as the maintainer for Renesas RZ/N1 switch related drivers.
+Le Fri, 29 Apr 2022 16:34:57 +0200,
+Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> a =C3=A9crit :
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+> +
+> +static struct miic_port *phylink_pcs_to_miic_port(struct phylink_pcs *pc=
+s)
+> +{
+> +	return container_of(pcs, struct miic_port, pcs);
+> +}
+> +
+> +static void miic_reg_writel(struct miic *miic, int offset, u32 value)
+> +{
+> +	writel(value, miic->base + offset);
+> +
+> +	pr_err("Udpdating MIIC register %d with val %x\n", offset, value);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b5f2a647e2cb..8af5888a7040 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16866,6 +16866,17 @@ S:	Supported
- F:	Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
- F:	drivers/iio/adc/rzg2l_adc.c
- 
-+RENESAS RZ/N1 A5PSW SWITCH DRIVER
-+M:	Clément Léger <clement.leger@bootlin.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-+F:	Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
-+F:	drivers/net/dsa/rzn1_a5psw*
-+F:	drivers/net/pcs/pcs-rzn1-miic.c
-+F:	include/dt-bindings/net/pcs-rzn1-miic.h
-+F:	include/linux/pcs-rzn1-miic.h
-+F:	net/dsa/tag_rzn1_a5psw.c
-+
- RENESAS R-CAR GEN3 & RZ/N1 NAND CONTROLLER DRIVER
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- L:	linux-mtd@lists.infradead.org
--- 
-2.34.1
+Spurious error message.
 
+> +
+> +static void miic_link_up(struct phylink_pcs *pcs, unsigned int mode,
+> +			 phy_interface_t interface, int speed, int duplex)
+> +{
+> +	struct miic_port *miic_port =3D phylink_pcs_to_miic_port(pcs);
+> +	struct miic *miic =3D miic_port->miic;
+> +	int port =3D miic_port->port;
+> +	u32 conv_speed =3D 0, val =3D 0;
+
+Missing reverse christmas tree declaration.
+> +
+> +static void miic_dump_conf(struct device *dev,
+> +			   s8 conf[MIIC_MODCTRL_CONF_CONV_NUM])
+> +{
+> +	int i;
+> +	const char *conf_name;
+
+Ditto.
+
+
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
