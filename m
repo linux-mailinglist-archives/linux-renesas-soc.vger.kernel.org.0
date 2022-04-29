@@ -2,177 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 643135144BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D77E51457A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 11:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356050AbiD2IsI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 04:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
+        id S1356648AbiD2JhR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 05:37:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351140AbiD2IsD (ORCPT
+        with ESMTP id S233639AbiD2JhR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 04:48:03 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AAF6C4021;
-        Fri, 29 Apr 2022 01:44:46 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id i2so5357437qke.12;
-        Fri, 29 Apr 2022 01:44:46 -0700 (PDT)
+        Fri, 29 Apr 2022 05:37:17 -0400
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB8EC614D;
+        Fri, 29 Apr 2022 02:34:00 -0700 (PDT)
+Received: by mail-qv1-f42.google.com with SMTP id k12so4968976qvc.4;
+        Fri, 29 Apr 2022 02:34:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CVvsKUh93mtPsnlNQathxAWXpj+Qll6q8xdLe3dz68k=;
-        b=V1d/GbuzmefHVg4Vw4w0+jpC8UFkaebrCA42UDzcU5r+YsUmd8MflGluv4zrm7OALv
-         4zj/jD3oV9RqUQXVfBDZNfsMTeuQBKuqKtlR4ueYL1AkdF+hmHJa7SErcwZr5j9IJp/a
-         FdIB/+FsX/6/mYVriTGXIfZl/Ho8B8jJh0cCuRmTmt5NSMmQoDn0SHEomfdByVCqbq2f
-         kVLc3AcFr4fXS8SMiGFBfXZ0nYZOEvZdviWoWUOlJHBU59lADjRijKmOiGyarWWNz8cF
-         w9ZS0HZ6yEX44g3SiaaJpgKmklLsxAuhKbBSTAsVdv8onUYUNNktYVShRLDjMxHYwIhh
-         VjHw==
-X-Gm-Message-State: AOAM532rlFYrpYRhLVHDTn7izZYiU9LzdvNbzDyRL01MBxDyvGJBELNo
-        wYlHQx8I542bmGxSLFPH3IExrJQI60byQonK
-X-Google-Smtp-Source: ABdhPJzEENvNw0JGVOca8hJMOQ3+oYlU5FsiVAyw+Fg1YSZVYdb7G8vV0E/FMOnFwqQlGZxqPO2+Zw==
-X-Received: by 2002:a05:620a:29cc:b0:69f:402e:ac38 with SMTP id s12-20020a05620a29cc00b0069f402eac38mr17004080qkp.131.1651221884944;
-        Fri, 29 Apr 2022 01:44:44 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id a12-20020ac84d8c000000b002f38c14f35esm1319429qtw.81.2022.04.29.01.44.44
+        bh=3vYycVsMAe0/HR0CEP7IprUoCw5GMN7bRQ0xQrk6Dj8=;
+        b=uBaYC6i5ADFmJ4jdZbJpMvcYIJ1azLcpGtjKo6ZFWfb7gqwA9pfEp5EM1PleB+yuHp
+         pxT3SknbswAyOormYIprwXkQ6cTmMJTr2VgE8E4BFF+RHQhR2PY/mSBfssLfAPtmpXIV
+         zjmQE/u1nhUxG/L6GQhol4GrzpgSPlkWSwzuUHc0Ci/rT1oyBcT07ciJ9F0jwYi2/pen
+         S/fziyQn0NftY+YHyZQGZFocztGwsG2znmF0cGAYFA1LbzopISSrQIl7zzBBGcaSaZfz
+         IAO68A4sX1NJwT1t5axee7mdvslOqTxVC14DLUZOk9YO/ZuJhVjOm12ayBkeewkGghVy
+         185g==
+X-Gm-Message-State: AOAM533SSYie8cgKwOmuDUZ1iR87wP7tBotsx3QGQp+h1kyXTzwCu7Pn
+        2vN3Cd2loedm4bP8DziaXNwnWi8nmTEkhEzl
+X-Google-Smtp-Source: ABdhPJxllNtYW4BayefniBr8Nmm0Oq+dqQnraZfSajVFCJYa3UjDxB4WapKTE2QuyETI7slyogJoiQ==
+X-Received: by 2002:a05:6214:2aaf:b0:446:70be:8377 with SMTP id js15-20020a0562142aaf00b0044670be8377mr27559922qvb.105.1651224838827;
+        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id s18-20020a05622a1a9200b002f36470c4f1sm1404438qtc.56.2022.04.29.02.33.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 01:44:44 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id s30so13284742ybi.8;
-        Fri, 29 Apr 2022 01:44:44 -0700 (PDT)
-X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
- g14-20020a5b024e000000b0063dcba03d55mr33655714ybp.613.1651221884000; Fri, 29
- Apr 2022 01:44:44 -0700 (PDT)
+        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2ef5380669cso79188657b3.9;
+        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
+X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
+ g16-20020a815210000000b002ef21e354ddmr37141026ywb.438.1651224838018; Fri, 29
+ Apr 2022 02:33:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421221159.31729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220421221159.31729-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVrcT5iHUZUiCYmD12sS4F66BETBih36G7BzLTLuoQ9eQ@mail.gmail.com> <CA+V-a8sLeQZOX-cTipWotphHFcmY4jUY3errhpBkpr7Q0s4BEQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8sLeQZOX-cTipWotphHFcmY4jUY3errhpBkpr7Q0s4BEQ@mail.gmail.com>
+References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com> <20220427094823.3319-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220427094823.3319-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Apr 2022 10:44:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVARiVpch12HOMy8WR5pMnvVK-Mys8ZRnNK2u+y+qozJg@mail.gmail.com>
-Message-ID: <CAMuHMdVARiVpch12HOMy8WR5pMnvVK-Mys8ZRnNK2u+y+qozJg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller: Add Renesas RZ/G2L
- Interrupt Controller
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Fri, 29 Apr 2022 11:33:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW2iU06+3O6TZWZrC6-4v2TkfyYo6bXP8D5=Z9FK0F4Aw@mail.gmail.com>
+Message-ID: <CAMuHMdW2iU06+3O6TZWZrC6-4v2TkfyYo6bXP8D5=Z9FK0F4Aw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] clk: renesas: rzg2l: Add FOUTPOSTDIV clk support
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Biju,
 
-On Fri, Apr 29, 2022 at 10:38 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Apr 28, 2022 at 10:32 AM Geert Uytterhoeven
-> > On Fri, Apr 22, 2022 at 12:12 AM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> > > @@ -0,0 +1,131 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas RZ/G2L (and alike SoC's) Interrupt Controller (IA55)
-> > > +
-> > > +maintainers:
-> > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > +
-> > > +description: |
-> > > +  IA55 performs various interrupt controls including synchronization for the external
-> > > +  interrupts of NMI, IRQ, and GPIOINT and the interrupts of the built-in peripheral
-> > > +  interrupts output by each IP. And it notifies the interrupt to the GIC
-> > > +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> > > +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts
-> > > +    - NMI edge select (NMI is not treated as NMI exception and supports fall edge and
-> > > +      stand-up edge detection interrupts)
-> > > +
-> > > +allOf:
-> > > +  - $ref: /schemas/interrupt-controller.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - renesas,r9a07g044-irqc    # RZ/G2L
-> > > +      - const: renesas,rzg2l-irqc
-> > > +
-> > > +  '#interrupt-cells':
-> > > +    const: 2
-> >
-> > What is the meaning of the cells? IRQ number + flags, I assume?
-> IRQ number and the type.
+On Wed, Apr 27, 2022 at 11:48 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> PLL5 generates FOUTPOSTDIV clk and is sourced by LCDC/DSI modules.
+> The FOUTPOSTDIV is connected to PLL5_4 MUX. Video clock is sourced
+> from DSI divider which is connected to PLL5_4 MUX.
 >
-> > How are the numbers mapped, do you need a DT bindings header?
-> No, just plain numbers are used (driver handles the validation of the
-> interrupt numbering), for example like below,
+> This patch adds support for generating FOUTPOSTDIV clk.
 >
-> &eth0 {
->    ...
->    status = "okay";
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> V1->V2:
+>  * Added Rb tag from Geert
+>  * Added Code comments related to clk handling
+>  * Split struct rzg2l_pll5_param and added struct
+>    rzg2l_pll5_mux_dsi_div_param for priv.
+>  * Added {get_foutpostdiv_rate, get_vclk_rate} helper function
+>  * used div_u64 to avoid overflow on 32 bit systems
+>  * Added CPG_SIPLL5_STBY_DOWNSPREAD_WEN macro
+>  * Added pl5_spread and updated CPG_SIPLL5_CLK5 setting.
+
+Thanks for the update!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/clk/renesas/rzg2l-cpg.h
+> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+
+> @@ -49,6 +65,8 @@
+>  #define SEL_SDHI0      DDIV_PACK(CPG_PL2SDHI_DSEL, 0, 2)
+>  #define SEL_SDHI1      DDIV_PACK(CPG_PL2SDHI_DSEL, 4, 2)
 >
->    phy0: ethernet-phy@7 {
->      compatible = "ethernet-phy-id0022.1640",
->                            "ethernet-phy-ieee802.3-c22";
->      reg = <7>;
->      interrupt-parent = <&irqc>;
->      interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+> +#define EXTAL_FREQ_IN_MEGA_HZ  (24)
 
-OK, so the number must be an external interrupt number (0..7).
-
->     ...
->   };
-> };
->
-> And for the GPIO:
->
-> key-1 {
->       gpios = <&pinctrl RZG2L_GPIO(43, 0) GPIO_ACTIVE_HIGH>;
->       linux,code = <KEY_1>;
->       linux,input-type = <EV_KEY>;
->       wakeup-source;
->       label = "SW1";
-> };
-
-OK, so in this case the interrupt number is obtained implicitly, and
-no interrupts property is used.
-
-> > Perhaps it would make sense to increase to 3 cells, so you can use
-> > one cell for the type (cfr. e.g. GIC_SPI), and the second for the
-> > plain index within the type?
-> >
-> Could you please elaborate on this. Are you referring to the type here
-> as the type to be set up in the GIC?
-
-Please ignore, you don't need the type, as it's always an external
-interrupt number, right?
+Ideally, we'd obtain this from DT.  But given all RZ/G2L-alike SoCs
+support only 24 MHz clock inputs, I guess this is OK.
 
 Gr{oetje,eeting}s,
 
