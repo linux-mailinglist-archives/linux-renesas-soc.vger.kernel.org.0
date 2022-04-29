@@ -2,105 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B10A51549C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 21:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7069515637
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 22:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380317AbiD2TgC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 15:36:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52456 "EHLO
+        id S1381116AbiD2VBd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 17:01:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380314AbiD2Tf6 (ORCPT
+        with ESMTP id S235476AbiD2VBc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 15:35:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F26E5EBF5;
-        Fri, 29 Apr 2022 12:32:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A841D62456;
-        Fri, 29 Apr 2022 19:32:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFD4C385A7;
-        Fri, 29 Apr 2022 19:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651260758;
-        bh=Ag7BpgOds0uINJVlgHiuuJlnALHlbLEYKL2UBUqEfOQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Jc9oQuMM8H3jgbPeBouKqVPN8LT1iPUrsBKYhZJrDIwvnZZl93bDI5L78OrAkQg0U
-         Z6ejTumSNetWN4LIhT3iDGapGiqqQTrEmdGjFQAlznNdo9wUAzBXecZIBQZIofFaLe
-         nCFjnzp5sCgVAGR6VwDQcfl2fY/ftPbtDUIllNUG/u1PuYtRmC6cnsJNtLVzAygOAO
-         zc8qoqogrPdB+2P8pUFelWTsFycai6sgONwLZ696HT1XjFqBwXQNpyxnovizDIWE58
-         4oBQv3tt6OZBSYiP9y7Dj0pu2dM7H64FLsHje8HM8LMUekv3uPg4JQNuw2TYKUAZwC
-         ik1eQpOiSuqoA==
-Date:   Fri, 29 Apr 2022 12:32:35 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [net-next v2 00/12] add support for Renesas RZ/N1 ethernet
- subsystem devices
-Message-ID: <20220429123235.3098ed12@kernel.org>
-In-Reply-To: <20220429143505.88208-1-clement.leger@bootlin.com>
-References: <20220429143505.88208-1-clement.leger@bootlin.com>
+        Fri, 29 Apr 2022 17:01:32 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31755D39BC
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 13:58:13 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id i62so7372908pgd.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 13:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=Hq1Z1P1amcMx1f66FwKRPciOcR9PatM0l3lbjEsWXE8=;
+        b=T0RrTRktX3yocU61AmLbtNC1TP5kCYUm2+RUwx4McnRQSAffJhc4iJgm+485t3tvHw
+         NkewNI21bGmp2DlHT0oh9779/hoOds+dvIn0w0QPBbnK82LkKjZAicwdCOD0jDEVj2rv
+         0na7fHzX4k44Td0fvZ8SGArfg44uBUXSU4p97t04jmW6tP3kaeWhnLWt6wDfMayM/kpa
+         qDlJbcrWWFBltjKdOzFAQvMg8EzpdgBcAYwNbmSAeqj6zJWv2/Xoxz6fmzWA/TsVNwPW
+         1dvQngdTcVnENWCmxijaSe+/qVwW9cKkE+RoxcaaNBdv35J3HUcwcRUfqkmYnUWvW6Pd
+         9xlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=Hq1Z1P1amcMx1f66FwKRPciOcR9PatM0l3lbjEsWXE8=;
+        b=q+kawNEKjYb+8AltbKxQR5UWhlLjHdqMIbCNWMZ11z3aCkQHG9GHL9P659Pt/ecbBh
+         8pT4WCsN3w25gj4eWnTt0vhIGRu/87OA/ktug/4H9bu15itZdjx3icqeKGz9hbhMqPP/
+         Vv+3RDgk3DPI/IYJNi/+ykrmoKe3IR9a9msKMuG2G3C0MkwoBzGjsKOdQkWgq2EdlfRa
+         O3RoiNgZreL1+8Ep0N6QwpMUp27fh2HpL2pHJ/UQsGOc67AhCZNobreSbgMDmibvw6Fu
+         NWv0ER1MqF1nZzQ4DydP/07mHx67+AE9BYwgk+alk9gV+IZVIh/Z9Id6kQSDAhvpMAvI
+         89Cw==
+X-Gm-Message-State: AOAM530oNX8Dqw2mKr2rulQsJ4n+WdQU0DKmF7akEwcZm7QJmi0TVk8Z
+        rXR2apgsdy89XowQnmPubGUVgJXIX6s+mOTimeE=
+X-Google-Smtp-Source: ABdhPJx0JKwvc6oPsN52T3m2IsSlhMwBixTmDTgs4hC/6TWs2LW4AzGEIDU2eQXHJozezE+E8k27mw==
+X-Received: by 2002:a62:1a0d:0:b0:50a:cf43:d757 with SMTP id a13-20020a621a0d000000b0050acf43d757mr680354pfa.5.1651265892507;
+        Fri, 29 Apr 2022 13:58:12 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id e25-20020a656899000000b003c14af5062csm6828290pgt.68.2022.04.29.13.58.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 13:58:12 -0700 (PDT)
+Message-ID: <626c5164.1c69fb81.bbc6d.0b22@mx.google.com>
+Date:   Fri, 29 Apr 2022 13:58:12 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2022-04-29-v5.18-rc4
+X-Kernelci-Report-Type: test
+Subject: renesas/master igt-kms-rockchip: 2 runs,
+ 1 regressions (renesas-devel-2022-04-29-v5.18-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 29 Apr 2022 16:34:53 +0200 Cl=C3=A9ment L=C3=A9ger wrote:
-> The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
-> (most notably) a switch, two GMACs, and a MII converter [1]. This
-> series adds support for the switch and the MII converter.
->=20
-> The MII converter present on this SoC has been represented as a PCS
-> which sit between the MACs and the PHY. This PCS driver is probed from
-> the device-tree since it requires to be configured. Indeed the MII
-> converter also contains the registers that are handling the muxing of
-> ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
->=20
-> The switch driver is based on DSA and exposes 4 ports + 1 CPU
-> management port. It include basic bridging support as well as FDB and
-> statistics support.
+renesas/master igt-kms-rockchip: 2 runs, 1 regressions (renesas-devel-2022-=
+04-29-v5.18-rc4)
 
-Build's not happy (W=3D1 C=3D1):
+Regressions Summary
+-------------------
 
-drivers/net/dsa/rzn1_a5psw.c:574:29: warning: symbol 'a5psw_switch_ops' was=
- not declared. Should it be static?
-In file included from ../drivers/net/dsa/rzn1_a5psw.c:17:
-drivers/net/dsa/rzn1_a5psw.h:221:1: note: offset of packed bit-field =E2=80=
-=98port_mask=E2=80=99 has changed in GCC 4.4
-  221 | } __packed;
-      | ^
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
-drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member 'hc=
-lk' not described in 'a5psw'
-drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member 'cl=
-k' not described in 'a5psw'
 
-Not sure how many of these are added by you but I think 2 at least.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-04-29-v5.18-rc4/plan/igt-kms-rockchip/
+
+  Test:     igt-kms-rockchip
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-04-29-v5.18-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      32b87add13fcbd8b384a969924720c0f2b30893a
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  d95b12e7e3ed6a22f284afbc5d2356365b820ea8
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  44db0d842c30b59dd88ea1ebcd7106504303eccb =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/626c414500aea3cf14bf6063
+
+  Results:     74 PASS, 15 FAIL, 148 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-29-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/i=
+gt-kms-rockchip-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-29-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/i=
+gt-kms-rockchip-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
+t/20220422.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-kms-rockchip.kms_setmode.basic: https://kernelci.org/test/case/id/6=
+26c414600aea3cf14bf6109
+        new failure (last pass: renesas-devel-2022-04-28-v5.18-rc4)
+
+    2022-04-29T19:46:51.304338  <8>[   45.351971] <LAVA_SIGNAL_TESTSET STOP>
+    2022-04-29T19:46:51.340507  <8>[   45.386959] <LAVA_SIGNAL_TESTSET STAR=
+T kms_setmode>
+    2022-04-29T19:46:51.374016  <6>[   45.419931] Console: switching to col=
+our dummy device 80x25
+    2022-04-29T19:46:51.379412  <14>[   45.426598] [IGT] kms_setmode: execu=
+ting
+    2022-04-29T19:46:51.391688  IGT-Version: 1.26-g44db0d8 (aarch64) (Linux=
+: 5.18.0-rc4 aarch64)<14>[   45.432231] [IGT] kms_setmode: starting subtest=
+ basic
+    2022-04-29T19:46:51.392782  =
+
+    2022-04-29T19:46:51.394642  Starting subtest: basic
+    2022-04-29T19:46:51.398588  Testing: basic 1 connector combinations
+    2022-04-29T19:46:51.508628  <14>[   45.553502] [IGT] kms_setmode: start=
+ing dynamic subtest pipe-A-eDP-1
+    2022-04-29T19:46:51.513015  Starting dynamic subtest: pipe-A-eDP-1 =
+
+    ... (141 line(s) more)  =
+
+ =20
