@@ -2,187 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E63C851445E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3F551446D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:41:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355811AbiD2IlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 04:41:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55334 "EHLO
+        id S235473AbiD2IoN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 04:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345609AbiD2IlR (ORCPT
+        with ESMTP id S1351519AbiD2IoM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 04:41:17 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5950A777E;
-        Fri, 29 Apr 2022 01:37:59 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2f16645872fso78040517b3.4;
-        Fri, 29 Apr 2022 01:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D6qRYm+Ib4Q8QvdUp1AU9pbvruVKrsaqkx7tzhZ86bU=;
-        b=HPIZWoiFQFnFUvdMG0PKtiyhWdmrQWYrRT8RCRPeznhNnUr/oIA85qkmBrT3hxLtF0
-         UwU0btOYQp6Das/VNndbE+JR0YtwlmU+hwPejuFhFZarQhkXEjSaft7+L6eb06PRKmEV
-         S9sa9VXXwx2yhHtk8pAwG1VV/CDiNt7g52dC9W9p6pzLt5MnMshoJq7NhxffRveSeGRS
-         Jzpg/eM6enY7xJtdRAIvxbNGPHmFh2LckEeTAiJiFWRsQF5gi9eFwqrzGvcwwoaX2nAg
-         tCN/PyxqVt4lZxDu7qUyWJJxhPkyicvoW0iPxXdALCgJ8HKj0CE9jaEYjUAYr/1GkQPL
-         ZhzA==
+        Fri, 29 Apr 2022 04:44:12 -0400
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D71413D3A;
+        Fri, 29 Apr 2022 01:40:54 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id iy15so4887731qvb.9;
+        Fri, 29 Apr 2022 01:40:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D6qRYm+Ib4Q8QvdUp1AU9pbvruVKrsaqkx7tzhZ86bU=;
-        b=mtUtqcx86LPuKCTOCrLg9noc6sklcjFk5RjLuZwBrTaG3ib3RIY2jxR9Ydracs96XE
-         RRFDLHCNmprRzONgOWXGpL7HhO6Pd6H29TRWgTpZPwFjeOy8ld78pd6IVMK4esEXu8Gh
-         +WKY2Y1arPGUTGfx8YgGb9F7/MWAe/LObLolSjPVMejwryQnUvG+cZyWzBXSWP1awVLQ
-         Qil6HVq5KdDQVpOkIcCxVvHMHB8Fg9bJaJFqlIhD7PdQsxVeJ+xwTciknqg4HDPeEpDE
-         rIrKXC1PS45O8HAoGVAsY7lJvtSNOhR3r+f7BMExdhfMjnAo4WYC4vYyxU48q0Iw9QKL
-         ll/g==
-X-Gm-Message-State: AOAM533pInCjmdqI+D9F4qs9DkSu8VnM54rLlICfwacfORNBW8g17/jZ
-        UxCyDwGrZ+7JcRSqzX4VRdQGB10+JCEsNNfxMEg3En5KWFs6kMey
-X-Google-Smtp-Source: ABdhPJyZDSsUEwE153j/H6GniK/JDy5XTWsH7iMUNMk4kFfkeM+1kqzP19ospK1kr9KrtzxjWEX/wlxQLPjJ6u4wQI0=
-X-Received: by 2002:a81:6a46:0:b0:2f4:dc3f:e8f8 with SMTP id
- f67-20020a816a46000000b002f4dc3fe8f8mr38124305ywc.292.1651221479003; Fri, 29
- Apr 2022 01:37:59 -0700 (PDT)
+        bh=+PU2E/5Le16HvKvo3vnDhr9+ZWyGs78k0Vi+3+IQcDE=;
+        b=eaAUtLUjPFE2STKx7ZhLb6/eS1097oBNSPl4MXmE1V2wZuhXneJteToOY7GbfgQfPg
+         qYUL4iOdoicrNbSRvf5qlJYl0tzbHdAeEfKfFLWrZ9WB+R59jZQbKZCfEn5h+x8llvIS
+         O1/XUBBTppS5kgCV0IG5K5Qwx7GIqBoomNPTpOFTZTmI52o14gSyIWCw24kSdsuOErzK
+         ehJKOBnK/xUxVQpDXGX34tfu4fD2ljqW+oWmHH0bYZFoveKoIO8vJLmby0l18BJPQ33M
+         0HnLeCsguohAtyi4QaNTOufAGvC9H6BEaYCYdxGUqdJgA6j1+k4oupeJELmKBaa9EbsH
+         GkdQ==
+X-Gm-Message-State: AOAM530VpEtMIGf5wt1XH5CceRIpT/8/QI9TUVbbxZuEitNruty1iK54
+        n5KxWIz5E+t+SWpFvhyH9183Ujh7v2YwDyvn
+X-Google-Smtp-Source: ABdhPJxu5qZhhLiXLa2ceKikCxhKfKd2hqL/bD9x0Zr40/7nCCOn1BCmPNQifyuAfu/0/IZVTPLhIw==
+X-Received: by 2002:a05:6214:5187:b0:456:4067:409c with SMTP id kl7-20020a056214518700b004564067409cmr15102334qvb.121.1651221653058;
+        Fri, 29 Apr 2022 01:40:53 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id y189-20020a37afc6000000b0069ede17247csm1151010qke.86.2022.04.29.01.40.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 01:40:51 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id j2so13360554ybu.0;
+        Fri, 29 Apr 2022 01:40:51 -0700 (PDT)
+X-Received: by 2002:a25:3492:0:b0:645:6f78:b3b4 with SMTP id
+ b140-20020a253492000000b006456f78b3b4mr36206142yba.546.1651221651100; Fri, 29
+ Apr 2022 01:40:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421221159.31729-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220421221159.31729-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVrcT5iHUZUiCYmD12sS4F66BETBih36G7BzLTLuoQ9eQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVrcT5iHUZUiCYmD12sS4F66BETBih36G7BzLTLuoQ9eQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 29 Apr 2022 09:37:32 +0100
-Message-ID: <CA+V-a8sLeQZOX-cTipWotphHFcmY4jUY3errhpBkpr7Q0s4BEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller: Add Renesas RZ/G2L
- Interrupt Controller
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+References: <20220428151630.586009-1-herve.codina@bootlin.com> <20220428151630.586009-5-herve.codina@bootlin.com>
+In-Reply-To: <20220428151630.586009-5-herve.codina@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 29 Apr 2022 10:40:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVHxyQHc3SnXxqQ1WDcJ-6q_ccA4xAVKjAJ=amXk14UeA@mail.gmail.com>
+Message-ID: <CAMuHMdVHxyQHc3SnXxqQ1WDcJ-6q_ccA4xAVKjAJ=amXk14UeA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] ARM: dts: r9a06g032: Add internal PCI bridge node
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thank you for the review.
-
-On Thu, Apr 28, 2022 at 10:32 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
+On Thu, Apr 28, 2022 at 5:16 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> Add the device node for the r9a06g032 internal PCI bridge device.
 >
-> Hi Prabhakar,
->
-> On Fri, Apr 22, 2022 at 12:12 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> > @@ -0,0 +1,131 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G2L (and alike SoC's) Interrupt Controller (IA55)
-> > +
-> > +maintainers:
-> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > +
-> > +description: |
-> > +  IA55 performs various interrupt controls including synchronization for the external
-> > +  interrupts of NMI, IRQ, and GPIOINT and the interrupts of the built-in peripheral
-> > +  interrupts output by each IP. And it notifies the interrupt to the GIC
-> > +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> > +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts
-> > +    - NMI edge select (NMI is not treated as NMI exception and supports fall edge and
-> > +      stand-up edge detection interrupts)
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/interrupt-controller.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,r9a07g044-irqc    # RZ/G2L
-> > +      - const: renesas,rzg2l-irqc
-> > +
-> > +  '#interrupt-cells':
-> > +    const: 2
->
-> What is the meaning of the cells? IRQ number + flags, I assume?
-IRQ number and the type.
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-> How are the numbers mapped, do you need a DT bindings header?
-No, just plain numbers are used (driver handles the validation of the
-interrupt numbering), for example like below,
-
-&eth0 {
-   ...
-   status = "okay";
-
-   phy0: ethernet-phy@7 {
-     compatible = "ethernet-phy-id0022.1640",
-                           "ethernet-phy-ieee802.3-c22";
-     reg = <7>;
-     interrupt-parent = <&irqc>;
-     interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-    ...
-  };
-};
-
-And for the GPIO:
-
-key-1 {
-      gpios = <&pinctrl RZG2L_GPIO(43, 0) GPIO_ACTIVE_HIGH>;
-      linux,code = <KEY_1>;
-      linux,input-type = <EV_KEY>;
-      wakeup-source;
-      label = "SW1";
-};
-
-> Perhaps it would make sense to increase to 3 cells, so you can use
-> one cell for the type (cfr. e.g. GIC_SPI), and the second for the
-> plain index within the type?
+> --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> @@ -93,6 +93,35 @@ sysctrl: system-controller@4000c000 {
+>                         clock-names = "mclk", "rtc", "jtag", "rgmii_ref_ext";
+>                 };
 >
-Could you please elaborate on this. Are you referring to the type here
-as the type to be set up in the GIC?
+> +               pci_usb: pci@40030000 {
+> +                       compatible = "renesas,pci-r9a06g032", "renesas,pci-rzn1";
+> +                       device_type = "pci";
+> +                       clocks = <&sysctrl R9A06G032_HCLK_USBH>,
+> +                                <&sysctrl R9A06G032_HCLK_USBPM>,
+> +                                <&sysctrl R9A06G032_CLK_PCI_USB>;
+> +                       clock-names = "usb_hclkh", "usb_hclkpm", "usb_pciclk";
 
-Cheers,
-Prabhakar
+With the "usb_" prefixes removed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> The rest LGTM, but I'm not an interrupt expert, so I'm curious in
-> hearing Marc's opinion.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
