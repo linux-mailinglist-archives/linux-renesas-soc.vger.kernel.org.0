@@ -2,209 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C8F514796
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 12:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57E951479E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 12:55:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239075AbiD2K4J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 06:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59384 "EHLO
+        id S239024AbiD2K6q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 06:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239106AbiD2Kz5 (ORCPT
+        with ESMTP id S239078AbiD2K6o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 06:55:57 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CDC4F9CB;
-        Fri, 29 Apr 2022 03:52:38 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 363E9FF803;
-        Fri, 29 Apr 2022 10:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651229557;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ML7MMPbxJNuIHkREMTzbbN7ra3s9xRQtUGdWLtPRKW0=;
-        b=C7lV+/AnLUxigu+17nAMHMaBP7dAw4Hmbt+hAAomQoa2AxGHau3sAxQc03EWqeVDjQylel
-        0v1eIjEK5+kipYLfly1JMghPwnkWsQIuoXQkCgqo0W1CeUl1sS/WdNB5I11nSkllAFke4u
-        pt2lxO/iJUj0UU11/dy1N1q4U0VsizK2YfO3yjoIMLpToQUKexthzzG+YlKbg3dkgVUUbm
-        3kFctz5/MIGOsUrpCHIaNfdsgdcSjhaIowRoQT1OgAzbG6r4CQ1RTnAlw3u4ECpXb+rekz
-        fm2nLDGYzutpAk82LXawLG6/QzF2uFQUqbgLIg02Gs/Ms/70sSWOSGFUrLfDCw==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        <linux-mtd@lists.infradead.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH 3/3] mtd: rawnand: renesas: Use runtime PM instead of the raw clock API
-Date:   Fri, 29 Apr 2022 12:52:29 +0200
-Message-Id: <20220429105229.368728-4-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220429105229.368728-1-miquel.raynal@bootlin.com>
-References: <20220429105229.368728-1-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
+        Fri, 29 Apr 2022 06:58:44 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D263193E9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 03:55:26 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id t13so6633926pfg.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 03:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=HYcHI6QLaRQw6R7l9TIVLN2frcmSdkOTpZvjk+IDjzI=;
+        b=OqFclAIAoCaID0bxn8a6QUkSObBHfgIy9wYxj5sAIAj6ibynACraltPYvn+bCOG1p/
+         ZqD8phf0JQOLCKN/SCcn52ZAOpHoVjMkutOAcH/y79o+Qis61BRHn6GNeqeEKuQ2flS1
+         AL87pl6N1AV9WpFuWra25ORhAfh5gKT4R/d1BUFP0pYkZdyLyqAZurCHvUrxf61gODNL
+         KEuQK2y1+QjuEQHdEh/C/aUveqcTP8I9xsz/i5FQD35LK5AcTzYI9Ws9pswpPHVbewSz
+         b5eSMEQSHve6d7ztFKrrjQMGjVlsN5kQ2UNfKNfbrSIxkyH4+SEzwa/iRKKyt0Bc7Vm5
+         aJSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=HYcHI6QLaRQw6R7l9TIVLN2frcmSdkOTpZvjk+IDjzI=;
+        b=rC9TVYdxghlrfZUvzp7q2hTnNxBn+y/1yDeP/6vv3QwuuEdc2DzIpkW82zwIREkjJl
+         Vwgq25iXm1xm9+9tAGFYKwMi69kseGtJ6yDpQPTKmqs/LeUciobW452LLe4ZVTsHsav0
+         e1uuDMxEuc1dGd/Jpl5GZKh6g4XW6KLhndFjEt4TjFgqfjPzrSFGHHqWLKQm87pXxiMN
+         brXc7Ea4tv+sN4YjGIt78u8sKb6WzDnZcBIlENjZwqjM5fEawzamzBqlXYAEcB70g624
+         NMjz2D6AehAfenr5sTEFUfnIw6lcRwwkyoDoHqXVKEY+hQETAHSlOW/FlKCubpajrcv6
+         Bbew==
+X-Gm-Message-State: AOAM532BRsGbZTAaYvgOtWR41IMNiENNv3Pujw0GnJZ1+ubFTyQeBo4C
+        tam8BbV/K+NyThWwq3RdzzSn+XGIWNu29k8zd6Y=
+X-Google-Smtp-Source: ABdhPJzqQgVLTlbiPnT6j8pWZbjoEq8E9CzTxnNHr5vkaM9e7YN2VBHoGoEg+GyCDlGaN+H/Q+ESKA==
+X-Received: by 2002:a05:6a00:1814:b0:50d:3ccc:653f with SMTP id y20-20020a056a00181400b0050d3ccc653fmr26351532pfa.70.1651229725497;
+        Fri, 29 Apr 2022 03:55:25 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id y2-20020a056a00190200b004fa865d1fd3sm2896508pfi.86.2022.04.29.03.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 03:55:25 -0700 (PDT)
+Message-ID: <626bc41d.1c69fb81.d2825.708e@mx.google.com>
+Date:   Fri, 29 Apr 2022 03:55:25 -0700 (PDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-04-28-v5.18-rc4
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+Subject: renesas/master baseline-nfs: 46 runs,
+ 1 regressions (renesas-devel-2022-04-28-v5.18-rc4)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This NAND controller is part of a well defined power domain handled by
-the runtime PM core. Let's keep the harmony with the other RZ/N1 drivers
-and exclusively use the runtime PM API to enable/disable the clocks.
+renesas/master baseline-nfs: 46 runs, 1 regressions (renesas-devel-2022-04-=
+28-v5.18-rc4)
 
-We still need to retrieve the external clock rate in order to derive the
-NAND timings, but that is not a big deal, we can still do that in the
-probe and just save this value to reuse it later.
+Regressions Summary
+-------------------
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- .../mtd/nand/raw/renesas-nand-controller.c    | 58 +++++++++----------
- 1 file changed, 26 insertions(+), 32 deletions(-)
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
 
-diff --git a/drivers/mtd/nand/raw/renesas-nand-controller.c b/drivers/mtd/nand/raw/renesas-nand-controller.c
-index 6db063b230a9..72dfbc7fd424 100644
---- a/drivers/mtd/nand/raw/renesas-nand-controller.c
-+++ b/drivers/mtd/nand/raw/renesas-nand-controller.c
-@@ -16,6 +16,7 @@
- #include <linux/mtd/rawnand.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/slab.h>
- 
- #define COMMAND_REG 0x00
-@@ -216,8 +217,7 @@ struct rnandc {
- 	struct nand_controller controller;
- 	struct device *dev;
- 	void __iomem *regs;
--	struct clk *hclk;
--	struct clk *eclk;
-+	unsigned long ext_clk_rate;
- 	unsigned long assigned_cs;
- 	struct list_head chips;
- 	struct nand_chip *selected_chip;
-@@ -891,7 +891,7 @@ static int rnandc_setup_interface(struct nand_chip *chip, int chipnr,
- {
- 	struct rnand_chip *rnand = to_rnand(chip);
- 	struct rnandc *rnandc = to_rnandc(chip->controller);
--	unsigned int period_ns = 1000000000 / clk_get_rate(rnandc->eclk);
-+	unsigned int period_ns = 1000000000 / rnandc->ext_clk_rate;
- 	const struct nand_sdr_timings *sdr;
- 	unsigned int cyc, cle, ale, bef_dly, ca_to_data;
- 
-@@ -1319,6 +1319,7 @@ static int rnandc_chips_init(struct rnandc *rnandc)
- static int rnandc_probe(struct platform_device *pdev)
- {
- 	struct rnandc *rnandc;
-+	struct clk *eclk;
- 	int irq, ret;
- 
- 	rnandc = devm_kzalloc(&pdev->dev, sizeof(*rnandc), GFP_KERNEL);
-@@ -1335,29 +1336,10 @@ static int rnandc_probe(struct platform_device *pdev)
- 	if (IS_ERR(rnandc->regs))
- 		return PTR_ERR(rnandc->regs);
- 
--	/* APB clock */
--	rnandc->hclk = devm_clk_get(&pdev->dev, "hclk");
--	if (IS_ERR(rnandc->hclk))
--		return PTR_ERR(rnandc->hclk);
--
--	/* External NAND bus clock */
--	rnandc->eclk = devm_clk_get(&pdev->dev, "eclk");
--	if (IS_ERR(rnandc->eclk))
--		return PTR_ERR(rnandc->eclk);
--
--	ret = clk_prepare_enable(rnandc->hclk);
--	if (ret)
--		return ret;
--
--	ret = clk_prepare_enable(rnandc->eclk);
--	if (ret)
--		goto disable_hclk;
--
- 	rnandc_dis_interrupts(rnandc);
- 	irq = platform_get_irq_optional(pdev, 0);
- 	if (irq == -EPROBE_DEFER) {
--		ret = irq;
--		goto disable_eclk;
-+		return irq;
- 	} else if (irq < 0) {
- 		dev_info(&pdev->dev, "No IRQ found, fallback to polling\n");
- 		rnandc->use_polling = true;
-@@ -1365,12 +1347,25 @@ static int rnandc_probe(struct platform_device *pdev)
- 		ret = devm_request_irq(&pdev->dev, irq, rnandc_irq_handler, 0,
- 				       "renesas-nand-controller", rnandc);
- 		if (ret < 0)
--			goto disable_eclk;
-+			return ret;
- 	}
- 
- 	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret)
--		goto disable_eclk;
-+		return ret;
-+
-+	pm_runtime_enable(&pdev->dev);
-+	pm_runtime_get_sync(&pdev->dev);
-+
-+	/* The external NAND bus clock rate is needed for computing timings */
-+	eclk = clk_get(&pdev->dev, "eclk");
-+	if (IS_ERR(eclk)) {
-+		ret = PTR_ERR(eclk);
-+		goto dis_runtime_pm;
-+	}
-+
-+	rnandc->ext_clk_rate = clk_get_rate(eclk);
-+	clk_put(eclk);
- 
- 	rnandc_clear_fifo(rnandc);
- 
-@@ -1378,14 +1373,13 @@ static int rnandc_probe(struct platform_device *pdev)
- 
- 	ret = rnandc_chips_init(rnandc);
- 	if (ret)
--		goto disable_eclk;
-+		goto dis_runtime_pm;
- 
- 	return 0;
- 
--disable_eclk:
--	clk_disable_unprepare(rnandc->eclk);
--disable_hclk:
--	clk_disable_unprepare(rnandc->hclk);
-+dis_runtime_pm:
-+	pm_runtime_put_sync(&pdev->dev);
-+	pm_runtime_disable(&pdev->dev);
- 
- 	return ret;
- }
-@@ -1396,8 +1390,8 @@ static int rnandc_remove(struct platform_device *pdev)
- 
- 	rnandc_chips_cleanup(rnandc);
- 
--	clk_disable_unprepare(rnandc->eclk);
--	clk_disable_unprepare(rnandc->hclk);
-+	pm_runtime_put_sync(&pdev->dev);
-+	pm_runtime_disable(&pdev->dev);
- 
- 	return 0;
- }
--- 
-2.27.0
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-04-28-v5.18-rc4/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-04-28-v5.18-rc4
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      d9db556ad00ccf278daa20b573c5a0da6800aee6 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch  | lab           | compiler | defconfig            =
+      | regressions
+-----------------+-------+---------------+----------+----------------------=
+------+------------
+rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
+ebook | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/626b8e257d5eea07fcff947f
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-28-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-04-28-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220422.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/626b8e257d5eea07fcff94a1
+        failing since 51 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
+6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-04-29T07:04:49.560846  /lava-6207077/1/../bin/lava-test-case   =
+
+ =20
