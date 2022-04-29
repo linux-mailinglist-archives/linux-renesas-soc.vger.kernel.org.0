@@ -2,138 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB3F51479F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 12:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F50514ACB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 15:41:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239033AbiD2K6q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 06:58:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34856 "EHLO
+        id S1351242AbiD2NpJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 09:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239106AbiD2K6p (ORCPT
+        with ESMTP id S236729AbiD2NpJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 06:58:45 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDFA1A814
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 03:55:27 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id q8so6826263plx.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 03:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=FQzogZuCNJhCq2vHQ/piWCK8bvsMr5l3E7zdHjtvOYw=;
-        b=cjh9/ngB3h0UkebVd+SgbqlVAGIb/WYQmJWyKQPw3jcvmWO3CpfZw9GFFr8hIsLZyt
-         eK4j+BJJ5H7Roildw//ylRFtmc8Yi2zHfkAM/3N/heEjPdS+Zk1mQ+wIQB03dVJmxzcg
-         kCmMkcWMIefmUJWyQqqAMtkwgYZsX3vgjRBGpsm+ZfMB97rY02IBD3mbOXz9OEI/wsgW
-         9ikCYW/urzJPnRvZrR39DIKFZ9N9/T4HvsjS+uRAEoNFDmuEmjsDEutvFgi4iMUbyA7f
-         CtgUdEmEA4onCn2Q+GYY6pIvVOi8eOV/ZaoSJf8w0dJ/O+ijhnMNJ3SJ1viVmEGjKGSX
-         XTPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=FQzogZuCNJhCq2vHQ/piWCK8bvsMr5l3E7zdHjtvOYw=;
-        b=6N7zNfgBavUtt0pSc3iGQvLCWYE0katxzm2YLlP9QLLMnwZ0n8EcJ5XvhEDq3yk6Tw
-         mthZ9DvOhLZ1BUCDpEdObzFp1RQugGMmqQ2aVXWrCAclhhkMdLHYLbjiECVjPONRayRU
-         CtqC5+m48IRIlSyFwn5sV/MKubcPf436o1JqxrNlGf8n1LNYuFs0/gKV9afssYYy9k0o
-         O10EIaEUBfayUklkMPP7DBmzMhA9EAeAMiV8/VOcaKvGTaDROmA+fbOUvdXeBJG1M/fN
-         3dnWDq2Df4clC0w6/elrFTKA7u/gEj//fnTwwyQqnkQiY8uOmUw7qwcgBIJp4Kon+Sma
-         l0kA==
-X-Gm-Message-State: AOAM533itJKsNsWKuECNe4XPTdtxAvns6f3T7IgurBAnfMjuEpQ7cbXO
-        JCt0B+yDwyv5WjChoW+ttMdXixmkkxExobBxTes=
-X-Google-Smtp-Source: ABdhPJxEbxzp9dZNzk0iCrGvS/CmLgvTPEs0a+0v4bniD/+emJ9BIVQcaHY9ttYtL7pZB2QKWDoYWQ==
-X-Received: by 2002:a17:90b:1a8a:b0:1db:f264:c03c with SMTP id ng10-20020a17090b1a8a00b001dbf264c03cmr3247270pjb.151.1651229727108;
-        Fri, 29 Apr 2022 03:55:27 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id t4-20020a628104000000b0050d3ccc653dsm2807058pfd.116.2022.04.29.03.55.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 03:55:26 -0700 (PDT)
-Message-ID: <626bc41e.1c69fb81.cabd5.6c88@mx.google.com>
-Date:   Fri, 29 Apr 2022 03:55:26 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 29 Apr 2022 09:45:09 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2DFC8BD9;
+        Fri, 29 Apr 2022 06:41:50 -0700 (PDT)
+Received: (Authenticated sender: herve.codina@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPA id CF7581BF20D;
+        Fri, 29 Apr 2022 13:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1651239709;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=gDnDcKW8Xd1x45ET4ZAmwfvhffariZ4uKWPW/9uCw84=;
+        b=aOn6dmhqDzFGukbOL4KWOinf8tSpn+jtKr1DDoiVQe0g/EYFqjMJQky4SD8qA6K87fNDhM
+        L25IRmIjsU4WspSZkssvsTkqLL9+eyW+2qpgkscon8h/7Y3+HpWbQbg4Ascr+KbORkMvyx
+        fUCnzNGubCnaNoLSnkPDXNWRw9hYXckW78VMdYosJ9k9QVb3S/fpLe7JRD8o5e15jeJ0IP
+        EDLHKSFFVLkyn9JScclKAghiBZu0TtHO+9QVYEZUR1T7SkDigdx2i4XeWCG/T4YM498nKT
+        OkxwFDAXGJiiwzGY98PDu72ODK3pB97QxAz7iOrbmakAWFOwK7zhzESVKdQvYg==
+From:   Herve Codina <herve.codina@bootlin.com>
+To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v5 0/6] RZN1 USB Host support
+Date:   Fri, 29 Apr 2022 15:41:36 +0200
+Message-Id: <20220429134143.628428-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2022-04-28-v5.18-rc4
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-Subject: renesas/master baseline: 241 runs,
- 1 regressions (renesas-devel-2022-04-28-v5.18-rc4)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 241 runs, 1 regressions (renesas-devel-2022-04-28-=
-v5.18-rc4)
+Hi,
 
-Regressions Summary
--------------------
+This series add support for the USB Host controllers available on
+RZN1 (r9a06g032) SOC.
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
+These USB Host controllers are PCI OHCI/EHCI controllers located
+behind a bridge.
 
+Regards,
+Herve
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-04-28-v5.18-rc4/plan/baseline/
+Changes v2:
+- Convert bindings to json-schema
+- Update clocks description
+- Remove unneeded '.compatible = "renesas,pci-r9a06g032"'
 
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-04-28-v5.18-rc4
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      d9db556ad00ccf278daa20b573c5a0da6800aee6 =
+Changes v3:
+- Remove the unneeded patch that calls clk_bulk_prepare_enable()
+- Rework the device tree binding (conversion from .txt and RZ/N1 support)
+- Use the RZ/N1 SOCs family only in the driver match compatible string.
+- Enable PM and PM_GENERIC_DOMAIN for RZ/N1 and add the missing
+  '#power-domain-cells' in sysctrl node.
 
+Changes v4:
+- Remove patches related to PM enable and #pwower-domain-cells as they
+  will be handle out of this series.
+- Add Bob's reviewed-by on patch 1
+- Add Geert's reviewed by on patch 1 and 6
+- Rename clocks and make the 'resets' property optional on RZ/N1 family
+- Reword some commit logs and titles
+- Fix dst node location (sort by node names or unit addresses)
+- Fix the USB PHY node name
 
+Changes v5:
+- Rename clocks ("usb_" prefix removed)
+- Add Geert's reviewed-by on patch 2, 3, 4 and 5
 
-Test Regressions
----------------- =
+Herve Codina (6):
+  dt-bindings: PCI: pci-rcar-gen2: Convert bindings to json-schema
+  dt-bindings: PCI: renesas,pci-rcar-gen2: Add device tree support for
+    r9a06g032
+  PCI: rcar-gen2: Add RZ/N1 SOCs family compatible string
+  ARM: dts: r9a06g032: Add internal PCI bridge node
+  ARM: dts: r9a06g032: Add USB PHY DT support
+  ARM: dts: r9a06g032: Link the PCI USB devices to the USB PHY
 
+ .../devicetree/bindings/pci/pci-rcar-gen2.txt |  84 --------
+ .../bindings/pci/renesas,pci-rcar-gen2.yaml   | 188 ++++++++++++++++++
+ arch/arm/boot/dts/r9a06g032.dtsi              |  47 +++++
+ drivers/pci/controller/pci-rcar-gen2.c        |   1 +
+ 4 files changed, 236 insertions(+), 84 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
 
+-- 
+2.35.1
 
-platform         | arch  | lab           | compiler | defconfig            =
-      | regressions
------------------+-------+---------------+----------+----------------------=
-------+------------
-rk3399-gru-kevin | arm64 | lab-collabora | gcc-10   | defconfig+arm64-chrom=
-ebook | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/626b8e029b051d131eff946a
-
-  Results:     88 PASS, 4 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-28-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-04-28-v5.18-rc4/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220422.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/626b8e029b051d131eff948c
-        failing since 51 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
-6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
-
-    2022-04-29T07:04:10.561948  /lava-6207070/1/../bin/lava-test-case
-    2022-04-29T07:04:10.572881  <8>[   35.247561] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
- =20
