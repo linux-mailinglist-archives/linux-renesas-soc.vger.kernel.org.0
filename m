@@ -2,146 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8BFB51433E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 09:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D319051435B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 09:39:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355147AbiD2H1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 03:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58602 "EHLO
+        id S238511AbiD2Hm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 03:42:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355119AbiD2H1f (ORCPT
+        with ESMTP id S1354963AbiD2Hm4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 03:27:35 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C29F1C0D1B;
-        Fri, 29 Apr 2022 00:24:17 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,297,1647270000"; 
-   d="scan'208";a="118389359"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Apr 2022 16:24:17 +0900
-Received: from localhost.localdomain (unknown [10.226.92.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id EFBBD40065C2;
-        Fri, 29 Apr 2022 16:24:13 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 3/3] arm64: dts: renesas: rzg2ul-smarc: Enable USB2.0 support
-Date:   Fri, 29 Apr 2022 08:24:00 +0100
-Message-Id: <20220429072400.23729-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220429072400.23729-1-biju.das.jz@bp.renesas.com>
-References: <20220429072400.23729-1-biju.das.jz@bp.renesas.com>
+        Fri, 29 Apr 2022 03:42:56 -0400
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2E5A66DB
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 00:39:38 -0700 (PDT)
+Received: by mail-qt1-f173.google.com with SMTP id p4so4600179qtq.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 00:39:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bQLHDC/gWnPXjG1esqXZgkFSaVmA2LstmfBCN2+RfWI=;
+        b=oaGj5MxnHHCogDgneJ7AoQuqcyjTcPbmnyy17xq8UxYSN2yGTlCiJW4yB7xuSjT8r2
+         OiH5PllAQZhhG8ZYpoVqfgg4mNKpNZ6KjJO3DDliWLXA83Qe4Se7KdHM/NL4oqR8JxtJ
+         Fs/SF64NSRtVrUE3/gY5SRGcGNgws4bJMB7eptGq0IHdfUAm8pNYjPz16qJyd5G+EEEp
+         mvOkC9gSYRxO7IGhyL8WmaI5vHlAcGt2QKGFv9p1/pho8dCJjHdMEred8GISvnQayUs0
+         qe7zMn84usMoDj8MYl3SuBLlaf+Lt0GNEpHeN+XDDydlZ3H+poRQLO7yibBbHk6aob8Y
+         3X4g==
+X-Gm-Message-State: AOAM530hpJQd06XPMy+smbJNsVqCrGo/MCzRMMB8T9yOfDQqeT4kajND
+        9Jy67FTQBzXHMhqPP8OzGoCFlwFgXIsv6j/C
+X-Google-Smtp-Source: ABdhPJxaDhtHTzkaZekkxUDVBEgch5u1jWbsdwXENLlBEeKHkwd9o/tScE4IDdWzVTbQexcqtBWB7g==
+X-Received: by 2002:ac8:4e4f:0:b0:2f3:8c74:b227 with SMTP id e15-20020ac84e4f000000b002f38c74b227mr4401700qtw.423.1651217977725;
+        Fri, 29 Apr 2022 00:39:37 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id k66-20020a37ba45000000b0069c5adb2f2fsm1146333qkf.6.2022.04.29.00.39.37
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 00:39:37 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2f7c424c66cso77117257b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Apr 2022 00:39:37 -0700 (PDT)
+X-Received: by 2002:a81:4782:0:b0:2eb:1cb1:5441 with SMTP id
+ u124-20020a814782000000b002eb1cb15441mr34596003ywa.479.1651217976904; Fri, 29
+ Apr 2022 00:39:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220428135058.597586-1-yoshihiro.shimoda.uh@renesas.com> <20220428135058.597586-2-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220428135058.597586-2-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 29 Apr 2022 09:39:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWBWP_jhYCuFfVyTKUBxTGgB_hHtmLheNFLiHuK-zyP1Q@mail.gmail.com>
+Message-ID: <CAMuHMdWBWP_jhYCuFfVyTKUBxTGgB_hHtmLheNFLiHuK-zyP1Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] clk: renesas: cpg-mssr: Add support for R-Car V4H
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable USB2.0 Host/Device support on RZ/G2UL SMARC EVK by
-adding usb{0,1} pincontrol entries to the soc-pinctrl dtsi
-and deleting the nodes which disabled it.
+On Thu, Apr 28, 2022 at 3:51 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Initial CPG support for R-Car V4H (r8a779g0).
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-V2->v3:
- * Fixed typo in commit description RZ/G2L->RZ/G2UL.
-v1->v2:
- * Fixed the code comment related to USB1 OVC and VBUS.
----
- .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 46 -------------------
- .../dts/renesas/rzg2ul-smarc-pinfunction.dtsi | 11 +++++
- 2 files changed, 11 insertions(+), 46 deletions(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v5.19.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-index 52ee1640c3c1..2d740bd420ca 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-@@ -14,54 +14,8 @@ / {
- 	compatible = "renesas,smarc-evk", "renesas,r9a07g043u11", "renesas,r9a07g043";
- };
- 
--&ehci0 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&ehci1 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&hsusb {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&ohci0 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&ohci1 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&phyrst {
--	status = "disabled";
--};
--
- &spi1 {
- 	/delete-property/ pinctrl-0;
- 	/delete-property/ pinctrl-names;
- 	status = "disabled";
- };
--
--&usb2_phy0 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
--
--&usb2_phy1 {
--	/delete-property/ pinctrl-0;
--	/delete-property/ pinctrl-names;
--	status = "disabled";
--};
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
-index 201b70150e01..bd8bc858c28c 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-pinfunction.dtsi
-@@ -105,4 +105,15 @@ ssi1_pins: ssi1 {
- 			 <RZG2L_PORT_PINMUX(3, 2, 2)>, /* TXD */
- 			 <RZG2L_PORT_PINMUX(3, 3, 2)>; /* RXD */
- 	};
-+
-+	usb0_pins: usb0 {
-+		pinmux = <RZG2L_PORT_PINMUX(5, 0, 1)>, /* VBUS */
-+			 <RZG2L_PORT_PINMUX(5, 2, 1)>, /* OVC */
-+			 <RZG2L_PORT_PINMUX(5, 3, 1)>; /* OTG_ID */
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZG2L_PORT_PINMUX(5, 4, 5)>, /* OVC */
-+			 <RZG2L_PORT_PINMUX(6, 0, 1)>; /* VBUS */
-+	};
- };
--- 
-2.25.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
