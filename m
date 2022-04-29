@@ -2,131 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E30005150AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 18:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B10A51549C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 21:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378604AbiD2QZq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 12:25:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
+        id S1380317AbiD2TgC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 15:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233809AbiD2QZp (ORCPT
+        with ESMTP id S1380314AbiD2Tf6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 12:25:45 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0857D115C;
-        Fri, 29 Apr 2022 09:22:24 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id y14so7316209pfe.10;
-        Fri, 29 Apr 2022 09:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XSTCE5w7yy68SjWNVsRpb2HvHJSUSz9+mARNoZLyTIk=;
-        b=kb2lbNEfSrq3tTDDVvzTWGuOQynzrkRx0M4SsbyOx4vGhPukRPzOQmeEFEFRCBPtbw
-         jRYUOA6gkBxvJNJ0wdMYEi5KeLjUqEnY+kQDjTuNOoCeoFb2LTzU3hjUCWAuHaJnUAM5
-         +laHoLS39VrFcVzE3X4qkG6KT2X+hfQeXkY+SRRCXPW3F+neYlQcg+I5XQvVeA6mk6pw
-         kO8bIMQetGLUL7VWVnUcN9H7woupG1O3SXRVZbLbidv+l3gQFmrkPgfFD5h0SxUdHznz
-         5s2n0G31vU0UO7Nz5ZIwE0selfJuLDPfEbkjZ8EBjpISm1DhvyyU9yCy+EFGIT1lzKjU
-         JOkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XSTCE5w7yy68SjWNVsRpb2HvHJSUSz9+mARNoZLyTIk=;
-        b=LGF9v2QSurzm8Jatf7sQ+vACC2Cs9TDPWocM7arxah0uCHDZrMFp7OLFeK+RYL+5Gf
-         /IWJiOR4bWFo4rDaDHxgWEWNI7x+cljVVIqXQ1gMj3d4cMbQPY6FJh1AVqbNkeCJVoaW
-         Z+AbioHl5U3SB8mbAX2yf78/ShUVAyr8n1QDn62WtPOWxEmv0jhBt8JPjHZvK7HUjpUo
-         LQy4VevgDqtX+KPZOZdMh8XNEVdGaiA+RHsL2wdWPPs2txQmjvDpVsDqQdUKRZqwHOUI
-         MJE7FDdMu0lpd71vW4t/SNNL6ROy2toSqoEburH1VU8IwZqC2U3mmEXNlJjYiLYH35It
-         JpbQ==
-X-Gm-Message-State: AOAM531Bh0untWg5anysTvkhYkGTJdZsMNEDdhfFPJmaeQSNld9jyGK9
-        OkXzwDZZQRdCBN1PdCICjbc=
-X-Google-Smtp-Source: ABdhPJx294dO5ebgBnVWibhDdFXl85WArQeiLA5m9XKR2VzCmbwy/SZgK9FpWiGMTr2Eiub3lTVJDw==
-X-Received: by 2002:aa7:96c2:0:b0:50d:90da:f8f with SMTP id h2-20020aa796c2000000b0050d90da0f8fmr199495pfq.52.1651249344360;
-        Fri, 29 Apr 2022 09:22:24 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id y9-20020a17090a1f4900b001cd498dc153sm14109289pjy.3.2022.04.29.09.22.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 09:22:23 -0700 (PDT)
-Message-ID: <baec3c8d-72f1-b1b5-f472-ee73be1047d6@gmail.com>
-Date:   Fri, 29 Apr 2022 09:22:21 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [net-next v2 02/12] net: dsa: add Renesas RZ/N1 switch tag driver
-Content-Language: en-US
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        Fri, 29 Apr 2022 15:35:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F26E5EBF5;
+        Fri, 29 Apr 2022 12:32:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A841D62456;
+        Fri, 29 Apr 2022 19:32:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFD4C385A7;
+        Fri, 29 Apr 2022 19:32:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651260758;
+        bh=Ag7BpgOds0uINJVlgHiuuJlnALHlbLEYKL2UBUqEfOQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Jc9oQuMM8H3jgbPeBouKqVPN8LT1iPUrsBKYhZJrDIwvnZZl93bDI5L78OrAkQg0U
+         Z6ejTumSNetWN4LIhT3iDGapGiqqQTrEmdGjFQAlznNdo9wUAzBXecZIBQZIofFaLe
+         nCFjnzp5sCgVAGR6VwDQcfl2fY/ftPbtDUIllNUG/u1PuYtRmC6cnsJNtLVzAygOAO
+         zc8qoqogrPdB+2P8pUFelWTsFycai6sgONwLZ696HT1XjFqBwXQNpyxnovizDIWE58
+         4oBQv3tt6OZBSYiP9y7Dj0pu2dM7H64FLsHje8HM8LMUekv3uPg4JQNuw2TYKUAZwC
+         ik1eQpOiSuqoA==
+Date:   Fri, 29 Apr 2022 12:32:35 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [net-next v2 00/12] add support for Renesas RZ/N1 ethernet
+ subsystem devices
+Message-ID: <20220429123235.3098ed12@kernel.org>
+In-Reply-To: <20220429143505.88208-1-clement.leger@bootlin.com>
 References: <20220429143505.88208-1-clement.leger@bootlin.com>
- <20220429143505.88208-3-clement.leger@bootlin.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20220429143505.88208-3-clement.leger@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/29/22 07:34, Clément Léger wrote:
-> The switch that is present on the Renesas RZ/N1 SoC uses a specific
-> VLAN value followed by 6 bytes which contains forwarding configuration.
-> 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
+On Fri, 29 Apr 2022 16:34:53 +0200 Cl=C3=A9ment L=C3=A9ger wrote:
+> The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+> (most notably) a switch, two GMACs, and a MII converter [1]. This
+> series adds support for the switch and the MII converter.
+>=20
+> The MII converter present on this SoC has been represented as a PCS
+> which sit between the MACs and the PHY. This PCS driver is probed from
+> the device-tree since it requires to be configured. Indeed the MII
+> converter also contains the registers that are handling the muxing of
+> ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
+>=20
+> The switch driver is based on DSA and exposes 4 ports + 1 CPU
+> management port. It include basic bridging support as well as FDB and
+> statistics support.
 
-[snip]
+Build's not happy (W=3D1 C=3D1):
 
-> +struct a5psw_tag {
-> +	__be16 ctrl_tag;
-> +	__be16 ctrl_data;
-> +	__be16 ctrl_data2_hi;
-> +	__be16 ctrl_data2_lo;
-> +} __packed;
+drivers/net/dsa/rzn1_a5psw.c:574:29: warning: symbol 'a5psw_switch_ops' was=
+ not declared. Should it be static?
+In file included from ../drivers/net/dsa/rzn1_a5psw.c:17:
+drivers/net/dsa/rzn1_a5psw.h:221:1: note: offset of packed bit-field =E2=80=
+=98port_mask=E2=80=99 has changed in GCC 4.4
+  221 | } __packed;
+      | ^
 
-The structure should already be naturally aligned.
+drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member 'hc=
+lk' not described in 'a5psw'
+drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member 'cl=
+k' not described in 'a5psw'
 
-> +
-> +static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct net_device *dev)
-> +{
-> +	struct dsa_port *dp = dsa_slave_to_port(dev);
-> +	struct a5psw_tag *ptag;
-> +	u32 data2_val;
-> +
-> +	BUILD_BUG_ON(sizeof(*ptag) != A5PSW_TAG_LEN);
-> +
-> +	/* The Ethernet switch we are interfaced with needs packets to be at
-> +	 * least 64 bytes (including FCS) otherwise they will be discarded when
-> +	 * they enter the switch port logic. When tagging is enabled, we need
-> +	 * to make sure that packets are at least 68 bytes (including FCS and
-> +	 * tag).
-
-Did you mean 70 bytes since your tag is 6, and not 4 bytes?
--- 
-Florian
+Not sure how many of these are added by you but I think 2 at least.
