@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D77E51457A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 11:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B4E3514588
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 11:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356648AbiD2JhR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 05:37:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39098 "EHLO
+        id S1356661AbiD2JmS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 05:42:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233639AbiD2JhR (ORCPT
+        with ESMTP id S1356615AbiD2JmP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 05:37:17 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB8EC614D;
-        Fri, 29 Apr 2022 02:34:00 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id k12so4968976qvc.4;
-        Fri, 29 Apr 2022 02:34:00 -0700 (PDT)
+        Fri, 29 Apr 2022 05:42:15 -0400
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D46CBCB64;
+        Fri, 29 Apr 2022 02:38:58 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id kc16so4061656qvb.7;
+        Fri, 29 Apr 2022 02:38:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3vYycVsMAe0/HR0CEP7IprUoCw5GMN7bRQ0xQrk6Dj8=;
-        b=uBaYC6i5ADFmJ4jdZbJpMvcYIJ1azLcpGtjKo6ZFWfb7gqwA9pfEp5EM1PleB+yuHp
-         pxT3SknbswAyOormYIprwXkQ6cTmMJTr2VgE8E4BFF+RHQhR2PY/mSBfssLfAPtmpXIV
-         zjmQE/u1nhUxG/L6GQhol4GrzpgSPlkWSwzuUHc0Ci/rT1oyBcT07ciJ9F0jwYi2/pen
-         S/fziyQn0NftY+YHyZQGZFocztGwsG2znmF0cGAYFA1LbzopISSrQIl7zzBBGcaSaZfz
-         IAO68A4sX1NJwT1t5axee7mdvslOqTxVC14DLUZOk9YO/ZuJhVjOm12ayBkeewkGghVy
-         185g==
-X-Gm-Message-State: AOAM533SSYie8cgKwOmuDUZ1iR87wP7tBotsx3QGQp+h1kyXTzwCu7Pn
-        2vN3Cd2loedm4bP8DziaXNwnWi8nmTEkhEzl
-X-Google-Smtp-Source: ABdhPJxllNtYW4BayefniBr8Nmm0Oq+dqQnraZfSajVFCJYa3UjDxB4WapKTE2QuyETI7slyogJoiQ==
-X-Received: by 2002:a05:6214:2aaf:b0:446:70be:8377 with SMTP id js15-20020a0562142aaf00b0044670be8377mr27559922qvb.105.1651224838827;
-        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id s18-20020a05622a1a9200b002f36470c4f1sm1404438qtc.56.2022.04.29.02.33.58
+        bh=nudFKhXjhEig6BzP6/5oc0q5ZOTrxAigg1sCcPr3Rtk=;
+        b=nNqe7a2WgxN9D7wlwR55Ny+aDKW4SS6fLWmyPPpIYiDvFY0lN1xvcwT8ZPBGI6gNER
+         DTwVV10FHlbA+i+vZkwucrgD4scjBQN7vhD5Dgk9hoW+O39ULY4aj7eMscYxtiZc7QGq
+         TpXvTF8NWuzJaDRn0Opi715hEi2ES0DtBndjpPBEwpp9ps5rC91AqlZWgiSDIO8s06He
+         KYsfEWEG/WNvyb/IRO2SDUwyVtgBslDnmLckrLMAS9Ruikf4RN5/8LRNNSTcCqjmday/
+         rZ3U5bItVZvuZjAwV1eVeg0rv11lDNDR/47DKje4ewYdtzSihIFa4GKHcFMAN0RXCQs3
+         PBrg==
+X-Gm-Message-State: AOAM532P6VxCK7ZSfaWnZnYkNmwEHY+NfA46er7rBxEGIuPZjFdiGib+
+        TPQFaHx9czYNa0cOncLZkvGT4LfveYYF2qDv
+X-Google-Smtp-Source: ABdhPJyo7cb2SFLEFDTogUbH9v0ddrTmoMs4fH0Y4Y2ehAz0QxNzADM2/8Ijaw96hOf+FO73Xte3Mw==
+X-Received: by 2002:a0c:fc4a:0:b0:456:3d44:9771 with SMTP id w10-20020a0cfc4a000000b004563d449771mr15812298qvp.53.1651225137635;
+        Fri, 29 Apr 2022 02:38:57 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 9-20020a05620a070900b0069e60da45aasm1185328qkc.60.2022.04.29.02.38.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2ef5380669cso79188657b3.9;
-        Fri, 29 Apr 2022 02:33:58 -0700 (PDT)
-X-Received: by 2002:a81:5210:0:b0:2ef:21e3:54dd with SMTP id
- g16-20020a815210000000b002ef21e354ddmr37141026ywb.438.1651224838018; Fri, 29
- Apr 2022 02:33:58 -0700 (PDT)
+        Fri, 29 Apr 2022 02:38:57 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f16645872fso79364457b3.4;
+        Fri, 29 Apr 2022 02:38:56 -0700 (PDT)
+X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
+ c204-20020a811cd5000000b002f4c3fc2174mr37706998ywc.512.1651225136357; Fri, 29
+ Apr 2022 02:38:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com> <20220427094823.3319-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220427094823.3319-2-biju.das.jz@bp.renesas.com>
+References: <20220427094823.3319-1-biju.das.jz@bp.renesas.com> <20220427094823.3319-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220427094823.3319-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Apr 2022 11:33:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW2iU06+3O6TZWZrC6-4v2TkfyYo6bXP8D5=Z9FK0F4Aw@mail.gmail.com>
-Message-ID: <CAMuHMdW2iU06+3O6TZWZrC6-4v2TkfyYo6bXP8D5=Z9FK0F4Aw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] clk: renesas: rzg2l: Add FOUTPOSTDIV clk support
+Date:   Fri, 29 Apr 2022 11:38:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUo6J7_hfsoDYprMc7Tk79D4FxQiXJ7hFH8s_6nzptsUw@mail.gmail.com>
+Message-ID: <CAMuHMdUo6J7_hfsoDYprMc7Tk79D4FxQiXJ7hFH8s_6nzptsUw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] clk: renesas: rzg2l: Add DSI divider clk support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -61,8 +61,8 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,40 +72,88 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Wed, Apr 27, 2022 at 11:48 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> PLL5 generates FOUTPOSTDIV clk and is sourced by LCDC/DSI modules.
-> The FOUTPOSTDIV is connected to PLL5_4 MUX. Video clock is sourced
-> from DSI divider which is connected to PLL5_4 MUX.
+> M3 clock is sourced from DSI Divider (DSIDIVA * DSIDIVB)
 >
-> This patch adds support for generating FOUTPOSTDIV clk.
+> This patch add support for DSI divider clk by combining
+> DSIDIVA and DSIDIVB .
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > V1->V2:
->  * Added Rb tag from Geert
->  * Added Code comments related to clk handling
->  * Split struct rzg2l_pll5_param and added struct
->    rzg2l_pll5_mux_dsi_div_param for priv.
->  * Added {get_foutpostdiv_rate, get_vclk_rate} helper function
->  * used div_u64 to avoid overflow on 32 bit systems
->  * Added CPG_SIPLL5_STBY_DOWNSPREAD_WEN macro
->  * Added pl5_spread and updated CPG_SIPLL5_CLK5 setting.
+>  * Replaced round_rate with determine_rate
+>  * Update rate variable during set_rate
+>  * Added get_vclk_parent_rate helper function
+>  * Replaced pll5_params with mux_dsi_div_params for dsi div values.
 
 Thanks for the update!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
 
-> --- a/drivers/clk/renesas/rzg2l-cpg.h
-> +++ b/drivers/clk/renesas/rzg2l-cpg.h
+> +static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+> +                                                   unsigned long rate)
+> +{
+> +       unsigned long parent_rate;
 
-> @@ -49,6 +65,8 @@
->  #define SEL_SDHI0      DDIV_PACK(CPG_PL2SDHI_DSEL, 0, 2)
->  #define SEL_SDHI1      DDIV_PACK(CPG_PL2SDHI_DSEL, 4, 2)
->
-> +#define EXTAL_FREQ_IN_MEGA_HZ  (24)
+Please drop the blank line.
 
-Ideally, we'd obtain this from DT.  But given all RZ/G2L-alike SoCs
-support only 24 MHz clock inputs, I guess this is OK.
+> +
+> +       struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
+> +       struct rzg2l_cpg_priv *priv = dsi_div->priv;
+> +       struct rzg2l_pll5_param params;
+
+Reverse Xmas tree order?
+
+> +
+> +       parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +
+> +       if (priv->mux_dsi_div_params.clksrc)
+> +               parent_rate /= 2;
+> +
+> +       return parent_rate;
+> +}
+> +
+> +static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+> +                                           struct clk_rate_request *req)
+> +{
+> +       req->best_parent_rate = rzg2l_cpg_get_vclk_parent_rate(hw, req->rate);
+> +
+> +       return 0;
+
+So any value of req->rate passed is supported, and req->rate never
+needs to be updated?
+
+> +}
+> +
+> +static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+> +                                     unsigned long rate,
+> +                                     unsigned long parent_rate)
+> +{
+> +       struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
+> +       struct rzg2l_cpg_priv *priv = dsi_div->priv;
+> +
+> +       /*
+> +        * MUX -->DIV_DSI_{A,B} -->M3 -->VCLK
+> +        *
+> +        * Based on the dot clock, the DSI divider clock sets the divider value,
+> +        * calculates the pll parameters for generating FOUTPOSTDIV and the clk
+> +        * source for the MUX and propagates that info to the parents.
+> +        */
+> +
+> +       if (!rate)
+> +               return -EINVAL;
+> +
+> +       dsi_div->rate = rate;
+
+So any non-zero value of rate is supported?
+
+> +       writel(CPG_PL5_SDIV_DIV_DSI_A_WEN | CPG_PL5_SDIV_DIV_DSI_B_WEN |
+> +              (priv->mux_dsi_div_params.dsi_div_a << 0) |
+> +              (priv->mux_dsi_div_params.dsi_div_b << 8),
+> +              priv->base + CPG_PL5_SDIV);
+> +
+> +       return 0;
+> +}
 
 Gr{oetje,eeting}s,
 
