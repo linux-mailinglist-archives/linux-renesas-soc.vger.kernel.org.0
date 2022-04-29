@@ -2,91 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B7D5143C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E0651444C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355360AbiD2ITA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 04:19:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
+        id S1355669AbiD2Igf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 04:36:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355551AbiD2ISX (ORCPT
+        with ESMTP id S1355570AbiD2Ige (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 04:18:23 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B9DC3E0E;
-        Fri, 29 Apr 2022 01:14:55 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KqQHS6JzgzfbJv;
-        Fri, 29 Apr 2022 16:13:56 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 29 Apr 2022 16:14:50 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Apr
- 2022 16:14:49 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     <linus.walleij@linaro.org>, <geert+renesas@glider.be>
-Subject: [PATCH 2/2] pinctrl: renesas: rzn1: fix possible null-ptr-deref in sh_pfc_map_resources()
-Date:   Fri, 29 Apr 2022 16:26:37 +0800
-Message-ID: <20220429082637.1308182-2-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220429082637.1308182-1-yangyingliang@huawei.com>
-References: <20220429082637.1308182-1-yangyingliang@huawei.com>
+        Fri, 29 Apr 2022 04:36:34 -0400
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E897EC1C99;
+        Fri, 29 Apr 2022 01:33:16 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id kc16so3986134qvb.7;
+        Fri, 29 Apr 2022 01:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1Dc2myncEovGHzMMO5/mLeAdO9IgxIKYmIXSZAmgtDQ=;
+        b=NgHHD5WGPQkWz7DDzltjqhJnRStiup6ungM2oUBbUdGf6Z3oZ7lqbpAxVcc5XPzeNf
+         7dVlxIxoOvc1VJKiIoBTJKSWkenvxREmWcnOrYo532UaT+QvnwhTsq/Teyr3ex9NeKjo
+         Lum9Ewm7f55/L66vMCPmiYzD72WKbBsMETTeXYc852H32RoDayJwKLgEIQ/VaZJJl9aE
+         SVWpCY88wZuh8B53+Si9/PGRKmVinzUOt7w15wSPpqSDfmEm2nBM4dkNzg3Gr1t8UrRN
+         Kux9wi7CoRbKiEZgjR/SzIsW1VSyODPDhxR/9H3fFffTyVELlwJNhypCBcjaHSoRe2BH
+         /Ifg==
+X-Gm-Message-State: AOAM530mP/PWJn41/1V+4fuBWktAkudxishKYdIE1hE3d0NHd0MuJhQB
+        zSGkOcVzWiv/0o5yTxbyRlO/MNE7MbxSjktO
+X-Google-Smtp-Source: ABdhPJzrfrdr+zAZSP5veltfmgQA6G6dJMQRPYHdGMwzd/dt821Vn95p+C1VWWAqT2LYbjPsSUpTig==
+X-Received: by 2002:ad4:5c4c:0:b0:456:4d9e:db91 with SMTP id a12-20020ad45c4c000000b004564d9edb91mr10673217qva.37.1651221195797;
+        Fri, 29 Apr 2022 01:33:15 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id y126-20020a379684000000b0069f908724b1sm1112016qkd.55.2022.04.29.01.33.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 01:33:14 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2f7d19cac0bso77680017b3.13;
+        Fri, 29 Apr 2022 01:33:14 -0700 (PDT)
+X-Received: by 2002:a81:8489:0:b0:2f7:edff:239f with SMTP id
+ u131-20020a818489000000b002f7edff239fmr24542183ywf.256.1651221194308; Fri, 29
+ Apr 2022 01:33:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220428151630.586009-1-herve.codina@bootlin.com> <20220428151630.586009-3-herve.codina@bootlin.com>
+In-Reply-To: <20220428151630.586009-3-herve.codina@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 29 Apr 2022 10:33:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVHHGv02Lo=STRnbWAyi+bT2mE8igOSZPA6sG7L8uaBAQ@mail.gmail.com>
+Message-ID: <CAMuHMdVHHGv02Lo=STRnbWAyi+bT2mE8igOSZPA6sG7L8uaBAQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
+ device tree support for r9a06g032
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-It will cause null-ptr-deref when using 'res', if platform_get_resource()
-returns NULL, so move using 'res' after devm_ioremap_resource() that
-will check it to avoid null-ptr-deref.
-And use devm_platform_get_and_ioremap_resource() to simplify code.
+Hi Hervé,
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/pinctrl/renesas/pinctrl-rzn1.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+On Thu, Apr 28, 2022 at 5:16 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> Add internal PCI bridge support for the r9a06g032 SOC. The Renesas
+> RZ/N1D (R9A06G032) internal PCI bridge is compatible with the one
+> present in the R-Car Gen2 family.
+> Compared to the R-Car Gen2 family, it needs three clocks instead of
+> one.
+>
+> The 'resets' property for the RZ/N1 family is not required since
+> there is no reset-controller support yet for the RZ/N1 family.
+>
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzn1.c b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-index ef5fb25b6016..cddb7804e9e0 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-@@ -865,17 +865,15 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
- 	ipctl->mdio_func[0] = -1;
- 	ipctl->mdio_func[1] = -1;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	ipctl->lev1_protect_phys = (u32)res->start + 0x400;
--	ipctl->lev1 = devm_ioremap_resource(&pdev->dev, res);
-+	ipctl->lev1 = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(ipctl->lev1))
- 		return PTR_ERR(ipctl->lev1);
-+	ipctl->lev1_protect_phys = (u32)res->start + 0x400;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	ipctl->lev2_protect_phys = (u32)res->start + 0x400;
--	ipctl->lev2 = devm_ioremap_resource(&pdev->dev, res);
-+	ipctl->lev2 = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(ipctl->lev2))
- 		return PTR_ERR(ipctl->lev2);
-+	ipctl->lev2_protect_phys = (u32)res->start + 0x400;
- 
- 	ipctl->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(ipctl->clk))
--- 
-2.25.1
+Thanks for your patch!
 
+> --- a/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+> +++ b/Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - renesas,pci-rzn1
+> +
+> +then:
+> +  properties:
+> +    clocks:
+> +      items:
+> +        - description: Internal bus clock (AHB) for HOST
+> +        - description: Internal bus clock (AHB) Power Management
+> +        - description: PCI clock for USB subsystem
+> +    clock-names:
+> +      items:
+> +        - const: usb_hclkh
+> +        - const: usb_hclkpm
+> +        - const: usb_pciclk
+
+Please drop the "usb_" prefixes.
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
