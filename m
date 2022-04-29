@@ -2,97 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3743514389
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 09:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C3635143C6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 10:16:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355323AbiD2H7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 03:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50580 "EHLO
+        id S1355592AbiD2ISb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 04:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355298AbiD2H7i (ORCPT
+        with ESMTP id S1355527AbiD2ISS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 03:59:38 -0400
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688B0C0E5C;
-        Fri, 29 Apr 2022 00:56:20 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id x77so4545840qkb.3;
-        Fri, 29 Apr 2022 00:56:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZCPd5tGHywaf/P7fbXCZZA0ZZWI7I9IZK3JccWegatE=;
-        b=LTO6/7KzU5AszOZGCkyDNHZ9vYJQKV/S+HnLiPlFHJ8qiRMrwJHlcsrwaf+sOxQeDj
-         cCD070RYbaemLQwu0xVFHgntI4jP28MjQVHX3y3aCXMaIHjWejnYfYuNGpnhhKIm2DDc
-         WtrNhpfi+aj/3E9tM4NCEelGa+wFrNGiPVFanKxK2BtvVbIMobl1wjEu6Z9ZnZy5OmkL
-         qI+Hq5qo5m8orQXTaJjqjTrKkWtbV+hatHKK289sNqjI82hhu6RGnYHnVtCDQ+MVt2yi
-         mAT6FotUn2eLcRZ3NCGHpKCPyI4Zm4I1s1jlXdiGOc5/XpPZw+xSFozzV7G7ZamInXOI
-         ay3w==
-X-Gm-Message-State: AOAM532VVi2buJqATDRmcjnFaFxIm1ANxP56qDtpHmL/ITTjOJs10KRB
-        BE8ycnxWCc+7B4J8NsYXtUMtfU7htSeiUZMV
-X-Google-Smtp-Source: ABdhPJz/gm3mzNXetQAZkGv+3LKHROCYfgexkSVvt1GPlQ094+QPMuVOoWFlzS03+wMmWTs1lnps/w==
-X-Received: by 2002:a05:620a:170f:b0:69e:b917:b8c4 with SMTP id az15-20020a05620a170f00b0069eb917b8c4mr21724814qkb.593.1651218979364;
-        Fri, 29 Apr 2022 00:56:19 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id x24-20020ac87318000000b002f1fc5fcaedsm1254702qto.68.2022.04.29.00.56.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 00:56:18 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2f7bb893309so76881577b3.12;
-        Fri, 29 Apr 2022 00:56:18 -0700 (PDT)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr36207138ywi.449.1651218977916; Fri, 29
- Apr 2022 00:56:17 -0700 (PDT)
+        Fri, 29 Apr 2022 04:18:18 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3E6C1C9C;
+        Fri, 29 Apr 2022 01:14:52 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KqQHQ3NmtzfbHJ;
+        Fri, 29 Apr 2022 16:13:54 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 29 Apr 2022 16:14:49 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Apr
+ 2022 16:14:49 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+CC:     <linus.walleij@linaro.org>, <geert+renesas@glider.be>
+Subject: [PATCH 1/2] pinctrl: renesas: fix possible null-ptr-deref in sh_pfc_map_resources()
+Date:   Fri, 29 Apr 2022 16:26:36 +0800
+Message-ID: <20220429082637.1308182-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220429072400.23729-1-biju.das.jz@bp.renesas.com> <20220429072400.23729-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220429072400.23729-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Apr 2022 09:56:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX6bTw6vg0h3s0iXwDBA-7KFMNaiz4jB_A_K=CA7p50RA@mail.gmail.com>
-Message-ID: <CAMuHMdX6bTw6vg0h3s0iXwDBA-7KFMNaiz4jB_A_K=CA7p50RA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] arm64: dts: renesas: rzg2ul-smarc: Enable USB2.0 support
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 9:24 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable USB2.0 Host/Device support on RZ/G2UL SMARC EVK by
-> adding usb{0,1} pincontrol entries to the soc-pinctrl dtsi
-> and deleting the nodes which disabled it.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> V2->v3:
->  * Fixed typo in commit description RZ/G2L->RZ/G2UL.
-> v1->v2:
->  * Fixed the code comment related to USB1 OVC and VBUS.
+It will cause null-ptr-deref when using 'res', if platform_get_resource()
+returns NULL, so move using 'res' after devm_ioremap_resource() that
+will check it to avoid null-ptr-deref.
+And use devm_platform_get_and_ioremap_resource() to simplify code.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+Fixes: c7977ec4a336 ("pinctrl: sh-pfc: Convert to platform_get_*()")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/pinctrl/renesas/core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index d0d4714731c1..3d8bf521c3e7 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -71,12 +71,11 @@ static int sh_pfc_map_resources(struct sh_pfc *pfc,
+ 
+ 	/* Fill them. */
+ 	for (i = 0; i < num_windows; i++) {
+-		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+-		windows->phys = res->start;
+-		windows->size = resource_size(res);
+-		windows->virt = devm_ioremap_resource(pfc->dev, res);
++		windows->virt = devm_platform_get_and_ioremap_resource(pdev, i, &res);
+ 		if (IS_ERR(windows->virt))
+ 			return -ENOMEM;
++		windows->phys = res->start;
++		windows->size = resource_size(res);
+ 		windows++;
+ 	}
+ 	for (i = 0; i < num_irqs; i++)
+-- 
+2.25.1
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
