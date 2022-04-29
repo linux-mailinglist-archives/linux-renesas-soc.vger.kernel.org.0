@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD82351438C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 09:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3743514389
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Apr 2022 09:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355282AbiD2H7E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Apr 2022 03:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47266 "EHLO
+        id S1355323AbiD2H7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Apr 2022 03:59:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355338AbiD2H65 (ORCPT
+        with ESMTP id S1355298AbiD2H7i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Apr 2022 03:58:57 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D103A190;
-        Fri, 29 Apr 2022 00:55:38 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id hf18so5202665qtb.0;
-        Fri, 29 Apr 2022 00:55:38 -0700 (PDT)
+        Fri, 29 Apr 2022 03:59:38 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688B0C0E5C;
+        Fri, 29 Apr 2022 00:56:20 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id x77so4545840qkb.3;
+        Fri, 29 Apr 2022 00:56:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lA8dt8K4XESePaOrApGUsDJ4BrwKRBZs1Hg5uv5lGNc=;
-        b=umt0hXwzeprIrTWC+pqZy6BI/bzeLoUdKnpkDyJae9uBHq34c7v+ti6Uw/0rzIb+0X
-         Hw2q/mNvprZSXqZWa73O6MfeODBC/lVaRjkBiSW+9mCHlZ215c+wyV1ik3zheHJXKPlc
-         igiush50Y6XkwHz//+CHQGSGgk09hfEbhKRP5H1NDV4gx4znCwNM3CmapFcQm0ThJ5Vl
-         TQ0V2zXaof1t77mZwlodFtaxVW3etmIEH0f5Ftr5f7VHhOeGjSBJlpntaT8VjQisxE8M
-         pwNz9ZUTrDjTHblwOIPnF5ajXricE2HLZFlvBA/G54ZFvvy+1XdDLUwd2CdJOSw+deJg
-         f55g==
-X-Gm-Message-State: AOAM533BXCvhEaWwc+JausWxPaamdaQYin98CuTNaE9wQFvw8ksVTNbo
-        q10SBTfUQkvc7kwS7DIEUhAB0/Vne3cYX+Lq
-X-Google-Smtp-Source: ABdhPJzPfwKTO0ralOlUxwS9TArqooEJ/p2aXbzkBNGUWv8APkL34C/yYC/8MF0wyNrNyC/vGjZoKg==
-X-Received: by 2002:a05:622a:1a81:b0:2f3:647c:6f14 with SMTP id s1-20020a05622a1a8100b002f3647c6f14mr18965985qtc.269.1651218937757;
-        Fri, 29 Apr 2022 00:55:37 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id 21-20020a370915000000b0069f93242808sm1097743qkj.62.2022.04.29.00.55.36
+        bh=ZCPd5tGHywaf/P7fbXCZZA0ZZWI7I9IZK3JccWegatE=;
+        b=LTO6/7KzU5AszOZGCkyDNHZ9vYJQKV/S+HnLiPlFHJ8qiRMrwJHlcsrwaf+sOxQeDj
+         cCD070RYbaemLQwu0xVFHgntI4jP28MjQVHX3y3aCXMaIHjWejnYfYuNGpnhhKIm2DDc
+         WtrNhpfi+aj/3E9tM4NCEelGa+wFrNGiPVFanKxK2BtvVbIMobl1wjEu6Z9ZnZy5OmkL
+         qI+Hq5qo5m8orQXTaJjqjTrKkWtbV+hatHKK289sNqjI82hhu6RGnYHnVtCDQ+MVt2yi
+         mAT6FotUn2eLcRZ3NCGHpKCPyI4Zm4I1s1jlXdiGOc5/XpPZw+xSFozzV7G7ZamInXOI
+         ay3w==
+X-Gm-Message-State: AOAM532VVi2buJqATDRmcjnFaFxIm1ANxP56qDtpHmL/ITTjOJs10KRB
+        BE8ycnxWCc+7B4J8NsYXtUMtfU7htSeiUZMV
+X-Google-Smtp-Source: ABdhPJz/gm3mzNXetQAZkGv+3LKHROCYfgexkSVvt1GPlQ094+QPMuVOoWFlzS03+wMmWTs1lnps/w==
+X-Received: by 2002:a05:620a:170f:b0:69e:b917:b8c4 with SMTP id az15-20020a05620a170f00b0069eb917b8c4mr21724814qkb.593.1651218979364;
+        Fri, 29 Apr 2022 00:56:19 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id x24-20020ac87318000000b002f1fc5fcaedsm1254702qto.68.2022.04.29.00.56.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 00:55:36 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ec42eae76bso77040847b3.10;
-        Fri, 29 Apr 2022 00:55:36 -0700 (PDT)
-X-Received: by 2002:a81:1cd5:0:b0:2f4:c3fc:2174 with SMTP id
- c204-20020a811cd5000000b002f4c3fc2174mr37421699ywc.512.1651218936331; Fri, 29
- Apr 2022 00:55:36 -0700 (PDT)
+        Fri, 29 Apr 2022 00:56:18 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2f7bb893309so76881577b3.12;
+        Fri, 29 Apr 2022 00:56:18 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr36207138ywi.449.1651218977916; Fri, 29
+ Apr 2022 00:56:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429072400.23729-1-biju.das.jz@bp.renesas.com> <20220429072400.23729-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220429072400.23729-3-biju.das.jz@bp.renesas.com>
+References: <20220429072400.23729-1-biju.das.jz@bp.renesas.com> <20220429072400.23729-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220429072400.23729-4-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 Apr 2022 09:55:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUTCGXe05g+Ea9F6KD0MMO_Yb+OVOWS6ZuoVDm+PcUDNg@mail.gmail.com>
-Message-ID: <CAMuHMdUTCGXe05g+Ea9F6KD0MMO_Yb+OVOWS6ZuoVDm+PcUDNg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] arm64: dts: renesas: rzg2ul-smarc: Enable Audio
+Date:   Fri, 29 Apr 2022 09:56:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX6bTw6vg0h3s0iXwDBA-7KFMNaiz4jB_A_K=CA7p50RA@mail.gmail.com>
+Message-ID: <CAMuHMdX6bTw6vg0h3s0iXwDBA-7KFMNaiz4jB_A_K=CA7p50RA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] arm64: dts: renesas: rzg2ul-smarc: Enable USB2.0 support
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -63,8 +63,8 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,19 +72,16 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Apr 29, 2022 at 9:24 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable Audio on RZ/G2UL SMARC EVK by adding ssi1 pincontrol entries
-> to the soc-pinctrl dtsi and ssi1 and cpu sound_dai nodes to the board
-> dtsi.
+> Enable USB2.0 Host/Device support on RZ/G2UL SMARC EVK by
+> adding usb{0,1} pincontrol entries to the soc-pinctrl dtsi
+> and deleting the nodes which disabled it.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> v2->v3:
->  * Fixed typo in commit description RZ/G2LC->RZ/G2UL
->  * Removed the guard for cpu_dai node.
+> V2->v3:
+>  * Fixed typo in commit description RZ/G2L->RZ/G2UL.
 > v1->v2:
->  * started using cpu_dai node instead of snd_rzg2l in board dtsi.
->  * Added rb tag from Geert.
+>  * Fixed the code comment related to USB1 OVC and VBUS.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.19.
