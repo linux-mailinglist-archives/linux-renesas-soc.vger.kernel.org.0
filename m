@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CC8515C79
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 30 Apr 2022 13:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29652515C7A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 30 Apr 2022 13:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237347AbiD3Lpg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 30 Apr 2022 07:45:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
+        id S237632AbiD3Lpj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 30 Apr 2022 07:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237218AbiD3Lpf (ORCPT
+        with ESMTP id S237218AbiD3Lpi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 30 Apr 2022 07:45:35 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 89B545DBED;
-        Sat, 30 Apr 2022 04:42:13 -0700 (PDT)
+        Sat, 30 Apr 2022 07:45:38 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 37CEB5DBF3;
+        Sat, 30 Apr 2022 04:42:17 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,187,1647270000"; 
-   d="scan'208";a="119661311"
+   d="scan'208";a="118460243"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Apr 2022 20:42:12 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 30 Apr 2022 20:42:16 +0900
 Received: from localhost.localdomain (unknown [10.226.92.1])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 03AA542327C3;
-        Sat, 30 Apr 2022 20:42:09 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7422C42325D8;
+        Sat, 30 Apr 2022 20:42:13 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 3/9] clk: renesas: rzg2l: Add DSI divider clk support
-Date:   Sat, 30 Apr 2022 12:41:50 +0100
-Message-Id: <20220430114156.6260-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 4/9] clk: renesas: r9a07g044: Add M1 clock support
+Date:   Sat, 30 Apr 2022 12:41:51 +0100
+Message-Id: <20220430114156.6260-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220430114156.6260-1-biju.das.jz@bp.renesas.com>
 References: <20220430114156.6260-1-biju.das.jz@bp.renesas.com>
@@ -47,230 +47,76 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-M3 clock is sourced from DSI Divider (DSIDIVA * DSIDIVB)
-
-This patch add support for DSI divider clk by combining
-DSIDIVA and DSIDIVB.
+Add support for M1 clock which is sourced from FOUTPOSTDIV.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2->v3:
- * Dropped the blank line abd defined variables in
-   reverse Xmas tree order in get_vclk_parent_rate()
- * Added macro MAX_VCLK_FREQ and rate is checked against
-   this macro in determine_rate and set_rate
+V2->V3:
+ * No change
 V1->V2:
- * Replaced round_rate with determine_rate
- * Update rate variable during set_rate
- * Added get_vclk_parent_rate helper function
- * Replaced pll5_params with mux_dsi_div_params for dsi div values.
-RFC->V1
- * Removed LUT and added an equation for computing VCLK
+ * No change
+RFC->V1:
+ * Added Rb tag from Geert
 ---
- drivers/clk/renesas/rzg2l-cpg.c | 125 ++++++++++++++++++++++++++++++++
- drivers/clk/renesas/rzg2l-cpg.h |  11 +++
- 2 files changed, 136 insertions(+)
+ drivers/clk/renesas/r9a07g044-cpg.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 0120f239c94d..15412cc58337 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -57,6 +57,8 @@
- #define GET_REG_SAMPLL_CLK1(val)	((val >> 22) & 0xfff)
- #define GET_REG_SAMPLL_CLK2(val)	((val >> 12) & 0xfff)
+diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
+index bdfabb992a20..0c9fa1f705af 100644
+--- a/drivers/clk/renesas/r9a07g044-cpg.c
++++ b/drivers/clk/renesas/r9a07g044-cpg.c
+@@ -40,6 +40,8 @@ enum clk_ids {
+ 	CLK_DIV_PLL3_C,
+ 	CLK_PLL4,
+ 	CLK_PLL5,
++	CLK_PLL5_FOUTPOSTDIV,
++	CLK_PLL5_FOUT1PH0,
+ 	CLK_PLL5_FOUT3,
+ 	CLK_PLL5_250,
+ 	CLK_PLL6,
+@@ -52,6 +54,7 @@ enum clk_ids {
+ 	CLK_SD0_DIV4,
+ 	CLK_SD1_DIV4,
+ 	CLK_SEL_GPU2,
++	CLK_SEL_PLL5_4,
  
-+#define MAX_VCLK_FREQ		(148500000)
-+
- struct sd_hw_data {
- 	struct clk_hw hw;
- 	u32 conf;
-@@ -304,6 +306,126 @@ rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
- 	return foutpostdiv_rate;
- }
+ 	/* Module Clocks */
+ 	MOD_CLK_BASE,
+@@ -77,12 +80,13 @@ static const struct clk_div_table dtable_1_32[] = {
  
-+struct dsi_div_hw_data {
-+	struct clk_hw hw;
-+	u32 conf;
-+	unsigned long rate;
-+	struct rzg2l_cpg_priv *priv;
-+};
-+
-+#define to_dsi_div_hw_data(_hw)	container_of(_hw, struct dsi_div_hw_data, hw)
-+
-+static unsigned long rzg2l_cpg_dsi_div_recalc_rate(struct clk_hw *hw,
-+						   unsigned long parent_rate)
-+{
-+	struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
-+	unsigned long rate = dsi_div->rate;
-+
-+	if (!rate)
-+		rate = parent_rate;
-+
-+	return rate;
-+}
-+
-+static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
-+						    unsigned long rate)
-+{
-+	struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
-+	struct rzg2l_cpg_priv *priv = dsi_div->priv;
-+	struct rzg2l_pll5_param params;
-+	unsigned long parent_rate;
-+
-+	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
-+
-+	if (priv->mux_dsi_div_params.clksrc)
-+		parent_rate /= 2;
-+
-+	return parent_rate;
-+}
-+
-+static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
-+					    struct clk_rate_request *req)
-+{
-+	if (req->rate > MAX_VCLK_FREQ)
-+		req->rate = MAX_VCLK_FREQ;
-+
-+	req->best_parent_rate = rzg2l_cpg_get_vclk_parent_rate(hw, req->rate);
-+
-+	return 0;
-+}
-+
-+static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
-+				      unsigned long rate,
-+				      unsigned long parent_rate)
-+{
-+	struct dsi_div_hw_data *dsi_div = to_dsi_div_hw_data(hw);
-+	struct rzg2l_cpg_priv *priv = dsi_div->priv;
-+
-+	/*
-+	 * MUX -->DIV_DSI_{A,B} -->M3 -->VCLK
-+	 *
-+	 * Based on the dot clock, the DSI divider clock sets the divider value,
-+	 * calculates the pll parameters for generating FOUTPOSTDIV and the clk
-+	 * source for the MUX and propagates that info to the parents.
-+	 */
-+
-+	if (!rate || rate > MAX_VCLK_FREQ)
-+		return -EINVAL;
-+
-+	dsi_div->rate = rate;
-+	writel(CPG_PL5_SDIV_DIV_DSI_A_WEN | CPG_PL5_SDIV_DIV_DSI_B_WEN |
-+	       (priv->mux_dsi_div_params.dsi_div_a << 0) |
-+	       (priv->mux_dsi_div_params.dsi_div_b << 8),
-+	       priv->base + CPG_PL5_SDIV);
-+
-+	return 0;
-+}
-+
-+static const struct clk_ops rzg2l_cpg_dsi_div_ops = {
-+	.recalc_rate = rzg2l_cpg_dsi_div_recalc_rate,
-+	.determine_rate = rzg2l_cpg_dsi_div_determine_rate,
-+	.set_rate = rzg2l_cpg_dsi_div_set_rate,
-+};
-+
-+static struct clk * __init
-+rzg2l_cpg_dsi_div_clk_register(const struct cpg_core_clk *core,
-+			       struct clk **clks,
-+			       struct rzg2l_cpg_priv *priv)
-+{
-+	struct dsi_div_hw_data *clk_hw_data;
-+	const struct clk *parent;
-+	const char *parent_name;
-+	struct clk_init_data init;
-+	struct clk_hw *clk_hw;
-+	int ret;
-+
-+	parent = clks[core->parent & 0xffff];
-+	if (IS_ERR(parent))
-+		return ERR_CAST(parent);
-+
-+	clk_hw_data = devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP_KERNEL);
-+	if (!clk_hw_data)
-+		return ERR_PTR(-ENOMEM);
-+
-+	clk_hw_data->priv = priv;
-+
-+	parent_name = __clk_get_name(parent);
-+	init.name = core->name;
-+	init.ops = &rzg2l_cpg_dsi_div_ops;
-+	init.flags = CLK_SET_RATE_PARENT;
-+	init.parent_names = &parent_name;
-+	init.num_parents = 1;
-+
-+	clk_hw = &clk_hw_data->hw;
-+	clk_hw->init = &init;
-+
-+	ret = devm_clk_hw_register(priv->dev, clk_hw);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return clk_hw->clk;
-+}
-+
- struct pll5_mux_hw_data {
- 	struct clk_hw hw;
- 	u32 conf;
-@@ -733,6 +855,9 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
- 	case CLK_TYPE_PLL5_4_MUX:
- 		clk = rzg2l_cpg_pll5_4_mux_clk_register(core, priv);
- 		break;
-+	case CLK_TYPE_DSI_DIV:
-+		clk = rzg2l_cpg_dsi_div_clk_register(core, priv->clks, priv);
-+		break;
- 	default:
- 		goto fail;
- 	}
-diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
-index 2503251cb18f..1be29cec0cb2 100644
---- a/drivers/clk/renesas/rzg2l-cpg.h
-+++ b/drivers/clk/renesas/rzg2l-cpg.h
-@@ -24,6 +24,7 @@
- #define CPG_PL3_SSEL		(0x408)
- #define CPG_PL6_SSEL		(0x414)
- #define CPG_PL6_ETH_SSEL	(0x418)
-+#define CPG_PL5_SDIV		(0x420)
- #define CPG_OTHERFUNC1_REG	(0xBE8)
+ /* Mux clock tables */
+ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
++static const char * const sel_pll5_4[] = { ".pll5_foutpostdiv", ".pll5_fout1ph0" };
+ static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
+ static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
+ static const char * const sel_gpu2[] = { ".pll6", ".pll3_div2_2" };
  
- #define CPG_SIPLL5_STBY_RESETB		BIT(0)
-@@ -38,6 +39,9 @@
+ static const struct {
+-	struct cpg_core_clk common[44];
++	struct cpg_core_clk common[48];
+ #ifdef CONFIG_CLK_R9A07G054
+ 	struct cpg_core_clk drp[0];
+ #endif
+@@ -127,6 +131,10 @@ static const struct {
+ 		DEF_FIXED(".pll6_250", CLK_PLL6_250, CLK_PLL6, 1, 2),
+ 		DEF_MUX(".sel_gpu2", CLK_SEL_GPU2, SEL_GPU2,
+ 			sel_gpu2, ARRAY_SIZE(sel_gpu2), 0, CLK_MUX_READ_ONLY),
++		DEF_PLL5_FOUTPOSTDIV(".pll5_foutpostdiv", CLK_PLL5_FOUTPOSTDIV, CLK_EXTAL),
++		DEF_FIXED(".pll5_fout1ph0", CLK_PLL5_FOUT1PH0, CLK_PLL5_FOUTPOSTDIV, 1, 2),
++		DEF_PLL5_4_MUX(".sel_pll5_4", CLK_SEL_PLL5_4, SEL_PLL5_4,
++			       sel_pll5_4, ARRAY_SIZE(sel_pll5_4)),
  
- #define CPG_OTHERFUNC1_REG_RES0_ON_WEN	BIT(16)
- 
-+#define CPG_PL5_SDIV_DIV_DSI_A_WEN	BIT(16)
-+#define CPG_PL5_SDIV_DIV_DSI_B_WEN	BIT(24)
-+
- #define CPG_CLKSTATUS_SELSDHI0_STS	BIT(28)
- #define CPG_CLKSTATUS_SELSDHI1_STS	BIT(29)
- 
-@@ -53,6 +57,7 @@
- 		(((offset) << 20) | ((bitpos) << 12) | ((size) << 8))
- #define DIVPL1A		DDIV_PACK(CPG_PL1_DDIV, 0, 2)
- #define DIVPL2A		DDIV_PACK(CPG_PL2_DDIV, 0, 3)
-+#define DIVDSILPCLK	DDIV_PACK(CPG_PL2_DDIV, 12, 2)
- #define DIVPL3A		DDIV_PACK(CPG_PL3A_DDIV, 0, 3)
- #define DIVPL3B		DDIV_PACK(CPG_PL3A_DDIV, 4, 3)
- #define DIVPL3C		DDIV_PACK(CPG_PL3A_DDIV, 8, 3)
-@@ -114,6 +119,10 @@ enum clk_types {
- 
- 	/* Clock for PLL5_4 clock source selector */
- 	CLK_TYPE_PLL5_4_MUX,
-+
-+	/* Clock for DSI divider */
-+	CLK_TYPE_DSI_DIV,
-+
- };
- 
- #define DEF_TYPE(_name, _id, _type...) \
-@@ -142,6 +151,8 @@ enum clk_types {
- #define DEF_PLL5_4_MUX(_name, _id, _conf, _parent_names, _num_parents) \
- 	DEF_TYPE(_name, _id, CLK_TYPE_PLL5_4_MUX, .conf = _conf, \
- 		 .parent_names = _parent_names, .num_parents = _num_parents)
-+#define DEF_DSI_DIV(_name, _id, _parent, _flag) \
-+	DEF_TYPE(_name, _id, CLK_TYPE_DSI_DIV, .parent = _parent, .flag = _flag)
- 
- /**
-  * struct rzg2l_mod_clk - Module Clocks definitions
+ 		/* Core output clk */
+ 		DEF_DIV("I", R9A07G044_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8,
+@@ -154,6 +162,7 @@ static const struct {
+ 		DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
+ 		DEF_DIV("G", R9A07G044_CLK_G, CLK_SEL_GPU2, DIVGPU, dtable_1_8,
+ 			CLK_DIVIDER_HIWORD_MASK),
++		DEF_FIXED("M1", R9A07G044_CLK_M1, CLK_PLL5_FOUTPOSTDIV, 1, 1),
+ 	},
+ #ifdef CONFIG_CLK_R9A07G054
+ 	.drp = {
 -- 
 2.25.1
 
