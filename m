@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EF55516423
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 13:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB60516425
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 13:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346284AbiEALdD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 1 May 2022 07:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
+        id S235899AbiEALdG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 1 May 2022 07:33:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346328AbiEALdC (ORCPT
+        with ESMTP id S1344739AbiEALdF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 1 May 2022 07:33:02 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50CA06D38C;
-        Sun,  1 May 2022 04:29:36 -0700 (PDT)
+        Sun, 1 May 2022 07:33:05 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F1A206D38C;
+        Sun,  1 May 2022 04:29:39 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,189,1647270000"; 
-   d="scan'208";a="118512284"
+   d="scan'208";a="119719484"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 01 May 2022 20:29:35 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 01 May 2022 20:29:39 +0900
 Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id AB6CE4229240;
-        Sun,  1 May 2022 20:29:32 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 526E8422925E;
+        Sun,  1 May 2022 20:29:36 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/6] arm64: dts: renesas: r9a07g043: Add SPI Multi I/O Bus controller node
-Date:   Sun,  1 May 2022 12:29:21 +0100
-Message-Id: <20220501112926.47024-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/6] arm64: dts: renesas: r9a07g043: Add RSPI{0,1,2} nodes
+Date:   Sun,  1 May 2022 12:29:22 +0100
+Message-Id: <20220501112926.47024-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220501112926.47024-1-biju.das.jz@bp.renesas.com>
 References: <20220501112926.47024-1-biju.das.jz@bp.renesas.com>
@@ -49,39 +49,71 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add SPI Multi I/O Bus controller node to R9A07G043 (RZ/G2UL) SoC DTSI.
+Add RSPI{0,1,2} nodes to R9A07G043 (RZ/G2UL) SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 43 +++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index 15335e9ca06b..55bf4b72304f 100644
+index 55bf4b72304f..4d17c8814a8d 100644
 --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -418,12 +418,20 @@ adc: adc@10059000 {
+@@ -158,11 +158,52 @@ ssi3: ssi@1004a800 {
+ 			status = "disabled";
  		};
  
- 		sbc: spi@10060000 {
-+			compatible = "renesas,r9a07g043-rpc-if",
-+				     "renesas,rzg2l-rpc-if";
- 			reg = <0 0x10060000 0 0x10000>,
- 			      <0 0x20000000 0 0x10000000>,
- 			      <0 0x10070000 0 0x10000>;
-+			reg-names = "regs", "dirmap", "wbuf";
-+			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD R9A07G043_SPI_CLK2>,
-+				 <&cpg CPG_MOD R9A07G043_SPI_CLK>;
-+			resets = <&cpg R9A07G043_SPI_RST>;
++		spi0: spi@1004ac00 {
++			compatible = "renesas,r9a07g043-rspi", "renesas,rspi-rz";
++			reg = <0 0x1004ac00 0 0x400>;
++			interrupts = <GIC_SPI 415 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 413 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 414 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "error", "rx", "tx";
++			clocks = <&cpg CPG_MOD R9A07G043_RSPI0_CLKB>;
++			resets = <&cpg R9A07G043_RSPI0_RST>;
 +			power-domains = <&cpg>;
++			num-cs = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
+ 		spi1: spi@1004b000 {
++			compatible = "renesas,r9a07g043-rspi", "renesas,rspi-rz";
+ 			reg = <0 0x1004b000 0 0x400>;
++			interrupts = <GIC_SPI 418 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 416 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 417 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "error", "rx", "tx";
++			clocks = <&cpg CPG_MOD R9A07G043_RSPI1_CLKB>;
++			resets = <&cpg R9A07G043_RSPI1_RST>;
++			power-domains = <&cpg>;
++			num-cs = <1>;
  			#address-cells = <1>;
  			#size-cells = <0>;
 -			/* place holder */
 +			status = "disabled";
++		};
++
++		spi2: spi@1004b400 {
++			compatible = "renesas,r9a07g043-rspi", "renesas,rspi-rz";
++			reg = <0 0x1004b400 0 0x400>;
++			interrupts = <GIC_SPI 421 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 420 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "error", "rx", "tx";
++			clocks = <&cpg CPG_MOD R9A07G043_RSPI2_CLKB>;
++			resets = <&cpg R9A07G043_RSPI2_RST>;
++			power-domains = <&cpg>;
++			num-cs = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
  		};
  
- 		cpg: clock-controller@11010000 {
+ 		scif0: serial@1004b800 {
 -- 
 2.25.1
 
