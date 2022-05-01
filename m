@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 286955162CB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 10:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2C4D5162CD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 10:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244749AbiEAIiY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 1 May 2022 04:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
+        id S245461AbiEAIi1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 1 May 2022 04:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238320AbiEAIiY (ORCPT
+        with ESMTP id S245078AbiEAIi0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 1 May 2022 04:38:24 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 841DD1AF1C;
-        Sun,  1 May 2022 01:34:59 -0700 (PDT)
+        Sun, 1 May 2022 04:38:26 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DC351BE99;
+        Sun,  1 May 2022 01:35:02 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,189,1647270000"; 
-   d="scan'208";a="119713748"
+   d="scan'208";a="118507036"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 01 May 2022 17:34:58 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 May 2022 17:35:02 +0900
 Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1005D4006CCF;
-        Sun,  1 May 2022 17:34:55 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 64E5F4006CD0;
+        Sun,  1 May 2022 17:34:59 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/4] clk: renesas: r9a07g043: Add clock and reset entries for SPI Multi I/O Bus Controller
-Date:   Sun,  1 May 2022 09:34:47 +0100
-Message-Id: <20220501083450.26541-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 2/4] clk: renesas: r9a07g043: Add RSPI clock and reset entries
+Date:   Sun,  1 May 2022 09:34:48 +0100
+Message-Id: <20220501083450.26541-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220501083450.26541-1-biju.das.jz@bp.renesas.com>
 References: <20220501083450.26541-1-biju.das.jz@bp.renesas.com>
@@ -48,80 +48,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add clock and reset entries for SPI Multi I/O Bus Controller.
+Add RSPI{0,1,2} clock and reset entries to CPG driver.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g043-cpg.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/clk/renesas/r9a07g043-cpg.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index 3f3c5d1b7fec..57b9eb9e0d2b 100644
+index 57b9eb9e0d2b..21cf82ad7de3 100644
 --- a/drivers/clk/renesas/r9a07g043-cpg.c
 +++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -28,9 +28,13 @@ enum clk_ids {
- 	CLK_PLL2_DIV2,
- 	CLK_PLL2_DIV2_8,
- 	CLK_PLL3,
-+	CLK_PLL3_400,
-+	CLK_PLL3_533,
- 	CLK_PLL3_DIV2,
- 	CLK_PLL3_DIV2_4,
- 	CLK_PLL3_DIV2_4_2,
-+	CLK_SEL_PLL3_3,
-+	CLK_DIV_PLL3_C,
- 	CLK_PLL5,
- 	CLK_PLL5_500,
- 	CLK_PLL5_250,
-@@ -67,6 +71,7 @@ static const struct clk_div_table dtable_1_32[] = {
- };
- 
- /* Mux clock tables */
-+static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
- static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
- static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
- 
-@@ -89,6 +94,12 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
- 	DEF_FIXED(".pll3_div2_4", CLK_PLL3_DIV2_4, CLK_PLL3_DIV2, 1, 4),
- 	DEF_FIXED(".pll3_div2_4_2", CLK_PLL3_DIV2_4_2, CLK_PLL3_DIV2_4, 1, 2),
-+	DEF_FIXED(".pll3_400", CLK_PLL3_400, CLK_PLL3, 1, 4),
-+	DEF_FIXED(".pll3_533", CLK_PLL3_533, CLK_PLL3, 1, 3),
-+	DEF_MUX(".sel_pll3_3", CLK_SEL_PLL3_3, SEL_PLL3_3,
-+		sel_pll3_3, ARRAY_SIZE(sel_pll3_3), 0, CLK_MUX_READ_ONLY),
-+	DEF_DIV("divpl3c", CLK_DIV_PLL3_C, CLK_SEL_PLL3_3,
-+		DIVPL3C, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
- 	DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
- 	DEF_FIXED(".pll5_500", CLK_PLL5_500, CLK_PLL5, 1, 6),
- 	DEF_FIXED(".pll5_250", CLK_PLL5_250, CLK_PLL5_500, 1, 2),
-@@ -110,6 +121,8 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
- 	DEF_FIXED("ZT", R9A07G043_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
- 	DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2,
- 		sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
-+	DEF_FIXED("SPI0", R9A07G043_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
-+	DEF_FIXED("SPI1", R9A07G043_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
- 	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0,
- 		   sel_shdi, ARRAY_SIZE(sel_shdi)),
- 	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1,
-@@ -143,6 +156,10 @@ static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
- 				0x548, 4),
- 	DEF_MOD("wdt2_clk",	R9A07G043_WDT2_CLK, R9A07G043_OSCCLK,
- 				0x548, 5),
-+	DEF_MOD("spi_clk2",	R9A07G043_SPI_CLK2, R9A07G043_CLK_SPI1,
-+				0x550, 0),
-+	DEF_MOD("spi_clk",	R9A07G043_SPI_CLK, R9A07G043_CLK_SPI0,
-+				0x550, 1),
- 	DEF_MOD("sdhi0_imclk",	R9A07G043_SDHI0_IMCLK, CLK_SD0_DIV4,
- 				0x554, 0),
- 	DEF_MOD("sdhi0_imclk2",	R9A07G043_SDHI0_IMCLK2, CLK_SD0_DIV4,
-@@ -230,6 +247,7 @@ static struct rzg2l_reset r9a07g043_resets[] = {
- 	DEF_RST(R9A07G043_OSTM2_PRESETZ, 0x834, 2),
- 	DEF_RST(R9A07G043_WDT0_PRESETN, 0x848, 0),
- 	DEF_RST(R9A07G043_WDT2_PRESETN, 0x848, 2),
-+	DEF_RST(R9A07G043_SPI_RST, 0x850, 0),
- 	DEF_RST(R9A07G043_SDHI0_IXRST, 0x854, 0),
- 	DEF_RST(R9A07G043_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A07G043_SSI0_RST_M2_REG, 0x870, 0),
+@@ -230,6 +230,12 @@ static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
+ 				0x588, 0),
+ 	DEF_MOD("sci1",		R9A07G043_SCI1_CLKP, R9A07G043_CLK_P0,
+ 				0x588, 1),
++	DEF_MOD("rspi0",	R9A07G043_RSPI0_CLKB, R9A07G043_CLK_P0,
++				0x590, 0),
++	DEF_MOD("rspi1",	R9A07G043_RSPI1_CLKB, R9A07G043_CLK_P0,
++				0x590, 1),
++	DEF_MOD("rspi2",	R9A07G043_RSPI2_CLKB, R9A07G043_CLK_P0,
++				0x590, 2),
+ 	DEF_MOD("canfd",	R9A07G043_CANFD_PCLK, R9A07G043_CLK_P0,
+ 				0x594, 0),
+ 	DEF_MOD("gpio",		R9A07G043_GPIO_HCLK, R9A07G043_OSCCLK,
+@@ -271,6 +277,9 @@ static struct rzg2l_reset r9a07g043_resets[] = {
+ 	DEF_RST(R9A07G043_SCIF4_RST_SYSTEM_N, 0x884, 4),
+ 	DEF_RST(R9A07G043_SCI0_RST, 0x888, 0),
+ 	DEF_RST(R9A07G043_SCI1_RST, 0x888, 1),
++	DEF_RST(R9A07G043_RSPI0_RST, 0x890, 0),
++	DEF_RST(R9A07G043_RSPI1_RST, 0x890, 1),
++	DEF_RST(R9A07G043_RSPI2_RST, 0x890, 2),
+ 	DEF_RST(R9A07G043_CANFD_RSTP_N, 0x894, 0),
+ 	DEF_RST(R9A07G043_CANFD_RSTC_N, 0x894, 1),
+ 	DEF_RST(R9A07G043_GPIO_RSTN, 0x898, 0),
 -- 
 2.25.1
 
