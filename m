@@ -2,96 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4603751642D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 13:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7718F516469
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 14:32:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344739AbiEALdU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 1 May 2022 07:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S1347174AbiEAMgD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 1 May 2022 08:36:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346371AbiEALdT (ORCPT
+        with ESMTP id S240202AbiEAMgC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 1 May 2022 07:33:19 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B152E6D39F;
-        Sun,  1 May 2022 04:29:54 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,189,1647270000"; 
-   d="scan'208";a="119719510"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 May 2022 20:29:54 +0900
-Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E508A422925E;
-        Sun,  1 May 2022 20:29:50 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 6/6] arm64: dts: renesas: r9a07g043: Add ADC node
-Date:   Sun,  1 May 2022 12:29:26 +0100
-Message-Id: <20220501112926.47024-7-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220501112926.47024-1-biju.das.jz@bp.renesas.com>
-References: <20220501112926.47024-1-biju.das.jz@bp.renesas.com>
+        Sun, 1 May 2022 08:36:02 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D361F5E762
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  1 May 2022 05:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651408357; x=1682944357;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3lc5R9+rdDl/JxM0Zwvr3vdUuI/qER/na+zfFvovR1I=;
+  b=OOH9IPw8b+59v2TbrocMK+Suym/5mfe/wOS+G1axlmbzoDYO/YRoozYX
+   OAAIkoFqh4qUbpyAknzBE8JHvao8yG4XcQMBT2kZBYucxgUP1ms4C060o
+   9AhwqqAGwPw7HyboClucbzFwXRort9tHAuO1U7vmT0PS2BdW0VuSV/K/H
+   MsPugPx7yo54M1xZMs7TtrWZ4RkIha/13FyGPUVkCpRV158pr/1lcvM96
+   eSdZ9HwwXpien/Gu7EFpOk4BeDtsdS3J0yqJRLfyKLDf9+lx2BrsjMFHb
+   sVPR8CaOlK+wUtTRUO12WbjRPrpQnJC9VIGiZYLlE4BIEbl6SWLgJIroF
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10333"; a="266867344"
+X-IronPort-AV: E=Sophos;i="5.91,189,1647327600"; 
+   d="scan'208";a="266867344"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2022 05:32:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; 
+   d="scan'208";a="566809882"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 01 May 2022 05:32:36 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nl8kd-0008kd-JY;
+        Sun, 01 May 2022 12:32:35 +0000
+Date:   Sun, 01 May 2022 20:32:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ 46bde326fc339f3bdb06b5fa3f44d27329eebfdf
+Message-ID: <626e7dda.CZEAsOYlidoEREFd%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add ADC node to R9A07G043 (RZ/G2UL) SoC DTSI.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 46bde326fc339f3bdb06b5fa3f44d27329eebfdf  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch depend upon[1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220501081523.22479-1-biju.das.jz@bp.renesas.com/
----
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+elapsed time: 17118m
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index 55081071293f..15086f5945a2 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -483,8 +483,27 @@ i2c3: i2c@10058c00 {
- 		};
- 
- 		adc: adc@10059000 {
-+			compatible = "renesas,r9a07g043-adc";
- 			reg = <0 0x10059000 0 0x400>;
--			/* place holder */
-+			interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&cpg CPG_MOD R9A07G043_ADC_ADCLK>,
-+				 <&cpg CPG_MOD R9A07G043_ADC_PCLK>;
-+			clock-names = "adclk", "pclk";
-+			resets = <&cpg R9A07G043_ADC_PRESETN>,
-+				 <&cpg R9A07G043_ADC_ADRST_N>;
-+			reset-names = "presetn", "adrst-n";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			channel@0 {
-+				reg = <0>;
-+			};
-+			channel@1 {
-+				reg = <1>;
-+			};
- 		};
- 
- 		tsu: thermal@10059400 {
+configs tested: 22
+configs skipped: 37
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                                  kexec
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
