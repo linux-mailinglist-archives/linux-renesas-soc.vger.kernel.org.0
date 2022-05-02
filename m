@@ -2,113 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D59451770A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 21:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3D0351770F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 21:02:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347732AbiEBTD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 15:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
+        id S1387010AbiEBTFc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 15:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiEBTD0 (ORCPT
+        with ESMTP id S1387003AbiEBTFb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 15:03:26 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EE4654C
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 11:59:57 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1nlbGg-0002Y4-To; Mon, 02 May 2022 20:59:34 +0200
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id C6DE8736FE;
-        Mon,  2 May 2022 18:59:30 +0000 (UTC)
-Date:   Mon, 2 May 2022 20:59:29 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
-        Wolfgang Grandegger <wg@grandegger.com>,
+        Mon, 2 May 2022 15:05:31 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1E536656C;
+        Mon,  2 May 2022 12:02:01 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,192,1647270000"; 
+   d="scan'208";a="118594725"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 03 May 2022 04:02:01 +0900
+Received: from localhost.localdomain (unknown [10.226.92.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 418E84006DF9;
+        Tue,  3 May 2022 04:01:57 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-can@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL
- support
-Message-ID: <20220502185929.hgjuitw4mnu4ye3c@pengutronix.de>
-References: <20220423130743.123198-1-biju.das.jz@bp.renesas.com>
- <YnAlVQr1A6UU0tB3@robh.at.kernel.org>
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] arm64: dts: renesas: r9a07g043: Add SPI Multi I/O Bus controller node
+Date:   Mon,  2 May 2022 20:01:55 +0100
+Message-Id: <20220502190155.84496-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vz3iylc7uzhlbnhj"
-Content-Disposition: inline
-In-Reply-To: <YnAlVQr1A6UU0tB3@robh.at.kernel.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Add SPI Multi I/O Bus controller node to R9A07G043 (RZ/G2UL) SoC DTSI.
 
---vz3iylc7uzhlbnhj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+V1->v2:
+ * Removed interrupts property as interrupt is not supported on RZ/G2UL.
+---
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-On 02.05.2022 13:39:17, Rob Herring wrote:
-> On Sat, 23 Apr 2022 14:07:43 +0100, Biju Das wrote:
-> > Add CANFD binding documentation for Renesas R9A07G043 (RZ/G2UL) SoC.
-> >=20
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/net/can/renesas,rcar-canfd.yaml          | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
->=20
-> Applied, thanks!
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+index 9048edb5e2b1..b31fb713ae4d 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+@@ -498,12 +498,19 @@ tsu: thermal@10059400 {
+ 		};
+ 
+ 		sbc: spi@10060000 {
++			compatible = "renesas,r9a07g043-rpc-if",
++				     "renesas,rzg2l-rpc-if";
+ 			reg = <0 0x10060000 0 0x10000>,
+ 			      <0 0x20000000 0 0x10000000>,
+ 			      <0 0x10070000 0 0x10000>;
++			reg-names = "regs", "dirmap", "wbuf";
++			clocks = <&cpg CPG_MOD R9A07G043_SPI_CLK2>,
++				 <&cpg CPG_MOD R9A07G043_SPI_CLK>;
++			resets = <&cpg R9A07G043_SPI_RST>;
++			power-domains = <&cpg>;
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+-			/* place holder */
++			status = "disabled";
+ 		};
+ 
+ 		cpg: clock-controller@11010000 {
+-- 
+2.25.1
 
-That just got into net-next/master as
-| 35a78bf20033 dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL suppo=
-rt
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---vz3iylc7uzhlbnhj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmJwKg8ACgkQrX5LkNig
-012yfwf+Id2UNwmrDlurQlemVLbxIRUY+mkcOs73m7ATG33wKOTEqlEVX39qip4O
-vTKXP649wTWkWVSomhy01bziXcB9ut3VEsEYIVK9qR1gMctUYdJfyG/D3rk/NFKN
-5dc1JkS6UJu6KKuFY2sB+5/uDYOD24cWPSqoe9OvQ+tysQSfTcNaU0ft/QckBjbz
-aX7M7TeLb/lywnXhTcptKw6a5Qz+zIbM3qQPfbM9ABCnrpT+kWAE6eiFAX0VhKbt
-yXtzkK4/gmmEH8gQqsly0O3s3Tfx6P+lZ1KmYmK4vFsAzNIZEZ2y+DuAlIji/uXA
-Gd8Z++lW9XP8/t2NDNWq9dwX1woD0g==
-=nF1c
------END PGP SIGNATURE-----
-
---vz3iylc7uzhlbnhj--
