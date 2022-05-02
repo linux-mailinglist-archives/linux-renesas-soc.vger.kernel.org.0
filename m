@@ -2,54 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF895173DE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 18:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D225173F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 18:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242185AbiEBQO3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 12:14:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
+        id S1385269AbiEBQRu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 12:17:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386305AbiEBQOC (ORCPT
+        with ESMTP id S1357459AbiEBQRr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 12:14:02 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC06A60F9;
-        Mon,  2 May 2022 09:10:32 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id z126so11712957qkb.2;
-        Mon, 02 May 2022 09:10:32 -0700 (PDT)
+        Mon, 2 May 2022 12:17:47 -0400
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E57B1DF15;
+        Mon,  2 May 2022 09:14:17 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id o18so11431843qtk.7;
+        Mon, 02 May 2022 09:14:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wBmg3CyvSKwI958YNQCGcgh1Hij/CJA22lQwb8ggsrE=;
-        b=Y69DGDtEn5VQSMtAWxOqXWeK7DQbZYu8ii24OpgX93FX91akSfM4vyYxBd6Rc/IK+P
-         K39Ulz8KF8isupCJZa/6g9HhGCbslp+Y5rxWg/k420fSD05GIYGeklXprMYL8hUVnD80
-         hIS994QcQeHbP6XuQ7eJDrEZzYTITosoPUSh0pAWjd6gzVMwYrX8Up8AHwokBMUqaGfX
-         Z1g41ib6mUR/78+hGz5ezfAPcb2fQ5P3uYn+3TL/CO73qeQxL7rQCfPrwZeKUu7ytQfE
-         qy/y8LdxjZYFuRW21zK0iwSkYuY/IKg+rSGH2mIKNJnphg8xzpDPpyZrvUBedprl74+J
-         pr4g==
-X-Gm-Message-State: AOAM532LQWOlA8j9G88mlKswRfdHtd3FgUvRiBPasLfMr0JTDPtdrxUB
-        cKcQuQWRcnyeQvhrjUOc48ubfsxe4VfzUQ==
-X-Google-Smtp-Source: ABdhPJxAJ4kw/RCWvFPnKhSndLf2sY3dDKOXZ80Grz2F+qr84om24bCpUt18zxKw3vBoQ549B5kmaw==
-X-Received: by 2002:a05:620a:45aa:b0:69f:d228:6a71 with SMTP id bp42-20020a05620a45aa00b0069fd2286a71mr5335057qkb.590.1651507831551;
-        Mon, 02 May 2022 09:10:31 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id g23-20020ac84817000000b002f39b99f693sm4303861qtq.45.2022.05.02.09.10.31
+        bh=0hqgqEu5aJRzgUMQaVoNip5QQc2c2ZvmWoCn1B6VpAY=;
+        b=d6LjphT/YzeC1I+HVytlakLXPCv1THSH206yEEEAiuX2+K0bMBxkMCdffDdNCSeQVB
+         cS4ph3cJngJ2P0lqu0qhNADUHA1bH1FedOdXpEQwKbTFPG0/nkXL0HwO/vF6iwK6rW3F
+         7z0FoQli3tvlbB7ehM6Sb2q1zRCBIYh4e6JkWKNaPpPTswi2t+9pOeaZbuaaBYxyPwzc
+         FpQRyct7zUBDfE7IdlQ0ULTIml4tD6pyLg+kWri97aIMKMGxFs2j4xIHqQrlNBeACP4c
+         ZbMeKy5Ooy1hTNSitExZpk/vlkr03J1rIpCFep+ix2QD1ZsxmadZ3kgKa3voCXVctV07
+         i7VA==
+X-Gm-Message-State: AOAM532a0bLCKmcJBs29XlH89Qp2Rm4YgT0YjYiv239Y5NY3PGyi3fmW
+        8PAqn8/PxZRIN+v7KcHk45CnPEMO6KbCfA==
+X-Google-Smtp-Source: ABdhPJzgdvSdDZFl+lCu0pCk/vob5EsY3oOIFR7nioEJcoiQxqdoF7kOoGemWehLjRNHMfgt1gbQZA==
+X-Received: by 2002:ac8:598a:0:b0:2f3:637b:e4a with SMTP id e10-20020ac8598a000000b002f3637b0e4amr10814805qte.389.1651508056937;
+        Mon, 02 May 2022 09:14:16 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id b20-20020ac84f14000000b002f39b99f6bfsm4280166qte.89.2022.05.02.09.14.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 09:10:31 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id f38so26884604ybi.3;
-        Mon, 02 May 2022 09:10:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:82:b0:649:d5a0:9edd with SMTP id
- h2-20020a056902008200b00649d5a09eddmr544832ybs.202.1651507830921; Mon, 02 May
- 2022 09:10:30 -0700 (PDT)
+        Mon, 02 May 2022 09:14:16 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-2f7b815ac06so153268087b3.3;
+        Mon, 02 May 2022 09:14:16 -0700 (PDT)
+X-Received: by 2002:a0d:d953:0:b0:2f7:d5ce:f204 with SMTP id
+ b80-20020a0dd953000000b002f7d5cef204mr11551364ywe.502.1651508056101; Mon, 02
+ May 2022 09:14:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501112926.47024-1-biju.das.jz@bp.renesas.com> <20220501112926.47024-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220501112926.47024-5-biju.das.jz@bp.renesas.com>
+References: <20220501112926.47024-1-biju.das.jz@bp.renesas.com> <20220501112926.47024-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220501112926.47024-6-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 May 2022 18:10:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVJtbx6yURj7ag65NqKTTy8JJbEpwgyiPAQYtcUmL6pEw@mail.gmail.com>
-Message-ID: <CAMuHMdVJtbx6yURj7ag65NqKTTy8JJbEpwgyiPAQYtcUmL6pEw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] arm64: dts: renesas: r9a07g043: Add TSU node
+Date:   Mon, 2 May 2022 18:14:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXhiREfd2VUNAbLUdHz7aRz2LuuXwUdh6HK7Lu=GtS7jw@mail.gmail.com>
+Message-ID: <CAMuHMdXhiREfd2VUNAbLUdHz7aRz2LuuXwUdh6HK7Lu=GtS7jw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Create thermal zone
+ to support IPA
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -72,10 +73,16 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Sun, May 1, 2022 at 1:29 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add TSU node to RZ/G2UL SoC DTSI.
+> Setup a thermal zone driven by SoC temperature sensor.
+> Create passive trip points and bind them to CPUFreq cooling
+> device that supports power extension.
+>
+> Based on the work done by Dien Pham <dien.pham.ry@renesas.com>
+> and others for r8a77990 SoC.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
+LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.19.
 
