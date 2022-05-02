@@ -2,123 +2,323 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7155B516D36
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 11:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5026E516E33
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 12:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380690AbiEBJXF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 05:23:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48284 "EHLO
+        id S1384573AbiEBKjH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 06:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384150AbiEBJXE (ORCPT
+        with ESMTP id S1384695AbiEBKjD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 05:23:04 -0400
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85B83BBC1;
-        Mon,  2 May 2022 02:19:32 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id y6so8805587qke.10;
-        Mon, 02 May 2022 02:19:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aCJ3sid/SWrVSgupTxU+z71M9FpZSZiTUy8F3hojyaY=;
-        b=3Ck8rmY/Pb/AYcIvsnkhstcjePHBY7PII7AU4evK8N8YeJmTryy+LNLVBwUN4WIgJj
-         CNEfJ0FCdNsLIdFE3BATtzZVcD2K/h+icW827rVR/vDfnc2YWnqY9SO76a59BHOHoxEh
-         h65zzk/EPpLDl9vsU6/09hoy+/fabhCnBokCQB5YKIq/nSx+18LnhzzEXZz3RDfIXqve
-         2lojXasRMkoZtfmHz99+7yo7E5vVLMALmX0dUsgcW1S6mQeGbWD0Kihb+LlVSBffrwSf
-         z180zAj7MyJ2YqezGgmAtmI11XpMBTkyMAiucR/ZzxjcfqQzqKMYOQWWHMICXrGF/3tR
-         PuAQ==
-X-Gm-Message-State: AOAM5301zFCkPIxO5YuPxEIwXcd6ILH/84AE60LyT0TW5BJRor8OkRnm
-        IJQsnn6k/0ZFAN4taQEu7Mxmf/CAmRE2+w==
-X-Google-Smtp-Source: ABdhPJxSC5E+jgB5wmlDGA9l4zmSGZakUMqn/HwDG/Y8K4eYus5uhqzT58zORHu4Kg7nKmw50+iffg==
-X-Received: by 2002:a05:620a:240c:b0:69f:c9aa:201b with SMTP id d12-20020a05620a240c00b0069fc9aa201bmr5831022qkn.196.1651483171833;
-        Mon, 02 May 2022 02:19:31 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id l26-20020ac848da000000b002f39b99f6b7sm3705079qtr.81.2022.05.02.02.19.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 02:19:31 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id i38so24957121ybj.13;
-        Mon, 02 May 2022 02:19:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:352:b0:63e:94c:883c with SMTP id
- e18-20020a056902035200b0063e094c883cmr9190493ybs.365.1651483170866; Mon, 02
- May 2022 02:19:30 -0700 (PDT)
+        Mon, 2 May 2022 06:39:03 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD512BFA;
+        Mon,  2 May 2022 03:35:33 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id CD1991F896;
+        Mon,  2 May 2022 10:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1651487731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dn9XSHCKolq6/lQSxksAI1EWQRJzfzUctxGyNj4FIbc=;
+        b=H4Pm0Q0yA3s++FBy4JhcAn+VXsuwbz8Fxq1+g7xdI//6lmgPdtYrk9qwl89iFjgY0q+v9A
+        vFfgslZCIPHnKronaXZ/xRH87DKgxyVR8/JSXQlT/q/Pwr5ghzvKTpZcu2JAFb64XOum3g
+        5KuwBjjGXfL0jKv0D9JkVIZKHfgyH5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1651487731;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Dn9XSHCKolq6/lQSxksAI1EWQRJzfzUctxGyNj4FIbc=;
+        b=ganiifpaAbCaoGrzd9cDb8HCGMIpNTyU2n6eScpJ0CJfhXLvFgc8nPVsZ6QrNcNCjCSg1R
+        3/CwDrQVFXtGwPAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DFCC133E5;
+        Mon,  2 May 2022 10:35:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id dugIEvKzb2IfRQAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 02 May 2022 10:35:30 +0000
+Message-ID: <c120e1c4-ac5c-afd5-8dd1-b4b51e0dcca9@suse.de>
+Date:   Mon, 2 May 2022 12:35:29 +0200
 MIME-Version: 1.0
-References: <20220429134143.628428-1-herve.codina@bootlin.com>
- <20220429134143.628428-4-herve.codina@bootlin.com> <29ba3db6-e5c7-06d3-29d9-918ee5b34555@linaro.org>
-In-Reply-To: <29ba3db6-e5c7-06d3-29d9-918ee5b34555@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 May 2022 11:19:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWN_ni_V+e3QipWH2qKXeNPkEcVpHpb5iBYw1YQSAnCDA@mail.gmail.com>
-Message-ID: <CAMuHMdWN_ni_V+e3QipWH2qKXeNPkEcVpHpb5iBYw1YQSAnCDA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
- device tree support for r9a06g032
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Herve Codina <herve.codina@bootlin.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 0/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+Content-Language: en-US
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Alain Volmat <alain.volmat@foss.st.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>, Chia-I Wu <olvaffe@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+        Evan Quan <evan.quan@amd.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Joel Stanley <joel@jms.id.au>,
+        John Stultz <john.stultz@linaro.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Vasut <marex@denx.de>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Solomon Chiu <solomon.chiu@amd.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Yong Wu <yong.wu@mediatek.com>, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, spice-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org
+References: <20220502084830.285639-1-javierm@redhat.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220502084830.285639-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bZs9O7gVydbPyh0mFowmyKkQ"
+X-Spam-Status: No, score=-6.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bZs9O7gVydbPyh0mFowmyKkQ
+Content-Type: multipart/mixed; boundary="------------JAaQiYXsw1Wg2huPZuTUbFwL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Alain Volmat <alain.volmat@foss.st.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Alison Wang <alison.wang@nxp.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Brian Starkey <brian.starkey@arm.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Chen-Yu Tsai <wens@csie.org>, Chia-I Wu <olvaffe@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+ Evan Quan <evan.quan@amd.com>, Fabio Estevam <festevam@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Hao Fang <fanghao11@huawei.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Joel Stanley <joel@jms.id.au>,
+ John Stultz <john.stultz@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Vasut <marex@denx.de>, Mario Limonciello <mario.limonciello@amd.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nirmoy Das <nirmoy.das@amd.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Solomon Chiu <solomon.chiu@amd.com>, Stefan Agner <stefan@agner.ch>,
+ Tian Tao <tiantao6@hisilicon.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Yong Wu <yong.wu@mediatek.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <c120e1c4-ac5c-afd5-8dd1-b4b51e0dcca9@suse.de>
+Subject: Re: [PATCH 0/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+References: <20220502084830.285639-1-javierm@redhat.com>
+In-Reply-To: <20220502084830.285639-1-javierm@redhat.com>
 
-On Sun, May 1, 2022 at 10:51 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 29/04/2022 15:41, Herve Codina wrote:
-> > Add internal PCI bridge support for the r9a06g032 SOC. The Renesas
-> > RZ/N1D (R9A06G032) internal PCI bridge is compatible with the one
-> > present in the R-Car Gen2 family.
-> > Compared to the R-Car Gen2 family, it needs three clocks instead of
-> > one.
-> >
-> > The 'resets' property for the RZ/N1 family is not required since
-> > there is no reset-controller support yet for the RZ/N1 family.
->
-> This should not be a reason why a property is or is not required. Either
-> this is required for device operation or not. If it is required, should
-> be in the bindings. Otherwise what are you going to do in the future?
-> Add a required property breaking the ABI?
+--------------JAaQiYXsw1Wg2huPZuTUbFwL
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The problem is that there are no bindings for the reset controller
-(actually the reset controller feature of the system-controller) yet.
-Yeah, we can just add #reset-cells = <1> to the system-controller
-device node, but we cannot add the actual resets properties to the
-consumers, until the actual cell values are defined.
+SGkgSmF2aWVyDQoNCkFtIDAyLjA1LjIyIHVtIDEwOjQ4IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBIZWxsbywNCj4gDQo+IFRoaXMgc2VyaWVzIGNvbnRhaW4gcGF0
+Y2hlcyBzdWdnZXN0ZWQgYnkgVGhvbWFzIFppbW1lcm1hbm5hcyBhIGZlZWRiYWNrIGZvcg0K
+PiAiW1JGQyBQQVRDSCB2NCAwMC8xMV0gRml4IHNvbWUgcmFjZSBiZXR3ZWVuIHN5c2ZiIGRl
+dmljZSByZWdpc3RyYXRpb24gYW5kDQo+IGRyaXZlcnMgcHJvYmUiIFswXS4NCj4gDQo+IFNp
+bmNlIG90aGVyIGNoYW5nZXMgaW4gWzBdIHdlcmUgbW9yZSBjb250cm92ZXJzaWFsLCBJIGRl
+Y2lkZWQgdG8ganVzdCBzcGxpdA0KPiB0aGlzIHBhcnQgaW4gYSBuZXcgcGF0Y2gtc2V0IGFu
+ZCByZXZpc2l0IHRoZSByZXN0IG9mIHRoZSBwYXRjaGVzIGxhdGVyLg0KPiANCj4gUGF0Y2gg
+IzEgaXMganVzdCBhIGNsZWFudXAgc2luY2Ugd2hlbiB3b3JraW5nIG9uIHRoaXMgbm90aWNl
+ZCB0aGF0IHNvbWUgRFJNDQo+IGRyaXZlcnMgd2VyZSBwYXNzaW5nIGFzIHByZWZlcnJlZCBi
+aXRzIHBlciBwaXhlbCB0byBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpDQo+IHRoZSB2YWx1
+ZSB0aGF0IGlzIHRoZSBkZWZhdWx0IGFueXdheXMuDQo+IA0KPiBQYXRjaCAjMiByZW5hbWVz
+IHRoZSAncHJlZmVycmVkX2JwcCcgZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoKSBwYXJhbWV0
+ZXIgdG8NCj4gJ29wdGlvbnMnLCBhbmQgbWFrZSB0aGlzIGEgbXVsdGkgZmllbGQgcGFyYW1l
+dGVyIHNvIHRoYXQgaXQgY2FuIGJlIGV4dGVuZGVkDQo+IGxhdGVyIHRvIHBhc3Mgb3RoZXIg
+b3B0aW9ucyBhcyB3ZWxsLg0KPiANCj4gUGF0Y2ggIzMgZmluYWxseSBhZGRzIHRoZSBuZXcg
+RFJNX0ZCX0ZXIG9wdGlvbiBhbmQgbWFrZXMgc2ltcGxlZHJtIHRvIHVzZSBpdA0KPiBzbyB0
+aGF0IHRoZSByZWdpc3RlcmVkIGZyYW1lYnVmZmVyIGRldmljZSBpcyBhbHNvIG1hcmtlZCBh
+cyBmaXJtd2FyZSBwcm92aWRlZC4NCg0KRm9yIHRoZSB3aG9sZSBwYXRjaHNldDoNCg0KUmV2
+aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpU
+aGFua3MgYSBsb3QhDQoNCj4gDQo+IFswXTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGtt
+bC8yMDIyMDQyOTA4NDI1My4xMDg1OTExLTEtamF2aWVybUByZWRoYXQuY29tLw0KPiANCj4g
+DQo+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyAoMyk6DQo+ICAgIGRybTogUmVtb3ZlIHN1
+cGVyZmx1b3VzIGFyZyB3aGVuIGNhbGxpbmcgdG8gZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAo
+KQ0KPiAgICBkcm0vZmItaGVscGVyOiBSZW5hbWUgcHJlZmVycmVkX2JwcCBkcm1fZmJkZXZf
+Z2VuZXJpY19zZXR1cCgpDQo+ICAgICAgcGFyYW1ldGVyDQo+ICAgIGRybTogQWxsb3cgc2lt
+cGxlZHJtIHRvIHNldHVwIGl0cyBlbXVsYXRlZCBGQiBhcyBmaXJtd2FyZSBwcm92aWRlZA0K
+PiANCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgICAgICAg
+fCAgNiArKystLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgICAgICAg
+ICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMg
+ICAgICAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVl
+ZF9nZnhfZHJ2LmMgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X2Rydi5jICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2F0
+bWVsLWhsY2RjL2F0bWVsX2hsY2RjX2RjLmMgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZmJfaGVscGVyLmMgICAgICAgICAgICAgICB8IDI1ICsrKysrKysrKysr
+KysrKystLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9kcnYu
+YyAgICAgfCAgMiArLQ0KPiAgIC4uLi9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19k
+cm1fZHJ2LmMgICB8ICAyICstDQo+ICAgLi4uL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tp
+cmluX2RybV9kcnYuYyAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3Mv
+ZGNzcy1rbXMuYyAgICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pbXgv
+aW14LWRybS1jb3JlLmMgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJt
+L2luZ2VuaWMvaW5nZW5pYy1kcm0tZHJ2LmMgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vbWNkZS9tY2RlX2Rydi5jICAgICAgICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICAgICAgICB8ICAyICstDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5jICAgICAgICAgICAgIHwgIDIgKy0N
+Cj4gICBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMgICAgICAgICAgICAgfCAg
+MiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kcnYuYyAgICAgICAgICAg
+ICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmMgICAgICAgICAg
+ICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2Ry
+di5jICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2Rydi5j
+ICAgICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3N0bS9kcnYu
+YyAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vc3Vu
+NGkvc3VuNGlfZHJ2LmMgICAgICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS90aWRzcy90aWRzc19kcnYuYyAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9n
+cHUvZHJtL3RpbGNkYy90aWxjZGNfZHJ2LmMgICAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vdGlueS9hcmNwZ3UuYyAgICAgICAgICAgICAgICAgfCAgMiArLQ0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS90aW55L2JvY2hzLmMgICAgICAgICAgICAgICAgICB8ICAyICst
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMgICAgICAgICAgICAgICAgIHwg
+IDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyAgICAgICAgICAg
+ICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Rydi5jICAg
+ICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Ry
+di5jICAgICAgICAgIHwgIDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9kcnYu
+YyAgICAgICAgICAgICAgICAgfCAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8v
+dmlydGdwdV9kcnYuYyAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3hs
+bngvenlucW1wX2Rwc3ViLmMgICAgICAgICAgIHwgIDIgKy0NCj4gICBpbmNsdWRlL2RybS9k
+cm1fZmJfaGVscGVyLmggICAgICAgICAgICAgICAgICAgfCAyMiArKysrKysrKysrKysrKysr
+DQo+ICAgMzYgZmlsZXMgY2hhbmdlZCwgODAgaW5zZXJ0aW9ucygrKSwgMzkgZGVsZXRpb25z
+KC0pDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--------------JAaQiYXsw1Wg2huPZuTUbFwL--
 
-Gr{oetje,eeting}s,
+--------------bZs9O7gVydbPyh0mFowmyKkQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJvs/EFAwAAAAAACgkQlh/E3EQov+Bv
+yxAAyojQIwyTt0AkQrH8ujHQ2z3VZLLTBfvwuS0Xf7dxJnvpnddrmMLeQjx/dJgIsu5Kpoq+cC89
+JF4cEgYrs1G9WTVDlxCJ6aMAA8EV3lRH6ECyFZrbc8MNiebvArPucqStj6VQiaLNYDS/TMGBTBdO
+/rxHsubsTAALLJkWsuEoSJMATSrWyqdxzVwj0DUmMZCc2p3zF7+PakvAE8OHpzNOQYg++vORApLq
+4qHowqHrVSPpbACr+XhYpOMuzo4dWJDx98HuVrzXDNOBtcll5tTGTOuJv2tJw+aotRhGuV71ALNd
+yKPP2+GV+kCwNOVcr8OEnfCQa26DsIzooE2SlHwcnIRksqxoKiheTT9YCL+LA7cY0K+h2ybmjqaS
+awZ5pzqRq9egCdFc1KGCctvRxm+BVVnXHGJ4nsGtQp8Z34tClsjquHGR1BFfNw1NEG/jOh7iFY/j
+kvo5qlUcKW28ooufV/c7fZ/u0M++S9nJSgAO3XnXwG2DhZ0FtKz95EsfKAQZLY/fFv/m05mdr/KZ
+OIZ/OcBWfPLwNcR9MVHSArO1VYFUqQSsi8IJUhYZKKhpYmAXrF/h0YeUOLlLRvfB4OtuuOyZQ+zt
+Y2UtHrTmNm7pHfj2IOCPJDvnLfbMUsQQvYxpBWIF5lslFkzCrnECTSy/8Ue36oRlan7yclndRQvm
+h0A=
+=gWxx
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--------------bZs9O7gVydbPyh0mFowmyKkQ--
