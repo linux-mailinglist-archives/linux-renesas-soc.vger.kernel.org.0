@@ -2,218 +2,218 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8EE5516738
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 May 2022 20:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9799A5169B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 06:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242069AbiEAS6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 1 May 2022 14:58:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44606 "EHLO
+        id S233529AbiEBEJ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 00:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234076AbiEAS6r (ORCPT
+        with ESMTP id S229849AbiEBEJ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 1 May 2022 14:58:47 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B036213CF9
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  1 May 2022 11:55:19 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,190,1647270000"; 
-   d="scan'208";a="118526525"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 May 2022 03:55:19 +0900
-Received: from localhost.localdomain (unknown [10.226.92.14])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2ED124006181;
-        Mon,  2 May 2022 03:55:14 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Walle <michael@walle.cc>,
-        linux-mtd@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [RFC] mtd: spi-nor: Add Renesas AT25QL128A serial nor flash
-Date:   Sun,  1 May 2022 19:55:12 +0100
-Message-Id: <20220501185512.51158-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 2 May 2022 00:09:28 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9138A1B3
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  1 May 2022 21:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651464359; x=1683000359;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jLCYo1FsMr/m/W1YlUgNmKJW7MUQtZVP4zgenpd5BIg=;
+  b=oE1DsFQ2WTNBPlFz8/3OjYDalTj/0EeMCL+rOUBMiOxHYWIjixiibsVZ
+   wbjicNqsmYvRmghwc0amU8o8tGME4R7nJJwW9NRb8OJT4sGJn8ciqCgsm
+   0kBPkrI5Fq+72lwQYbuBmEsvkC8eux7qb+p3+ySUepYeBQNxq4AotGd/o
+   sCaNC7Cr/+4pwuabx2rOY26KXkcdG0YRuCmgwWe0PK1pPkMxTfPHlV1j3
+   V1Yozok2wcEjqNPI1wYlcZdRNOmAuvX1xBkLUYSVuaHAOnLp2gXyeqhrZ
+   ykBjy+uBBw4V+NbdnM2sqT28mFi03TxJTPX2hTiC0NezXEiIm7ijCbIUE
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10334"; a="330097192"
+X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; 
+   d="scan'208";a="330097192"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2022 21:05:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; 
+   d="scan'208";a="630928312"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 01 May 2022 21:05:57 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nlNJs-0009H3-Mf;
+        Mon, 02 May 2022 04:05:56 +0000
+Date:   Mon, 02 May 2022 12:05:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 32b87add13fcbd8b384a969924720c0f2b30893a
+Message-ID: <626f589a.NR8/XN/bO73m3YVf%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for Renesas AT25QL128A serial nor flash.
-Details of flash chip can be found here [1]
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 32b87add13fcbd8b384a969924720c0f2b30893a  Merge branch 'renesas-next' into renesas-devel
 
-[1] https://www.dialog-semiconductor.com/sites/default/files/2022-04/DS-AT25QL128A-129F-022022.pdf
+elapsed time: 3813m
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-Hi All,
- AT25QL128A serial nor flash is connected to RZ/G2UL SMARC EVK.
-But with the current mtd support in mainline, I get the below error
-[    3.928906] spi-nor spi1.0: unrecognized JEDEC id bytes: 1f 42 18 1f 42 18
-[    3.937312] spi-nor: probe of spi1.0 failed with error -2
+configs tested: 132
+configs skipped: 5
 
-Then, I created a patch and the issue gone, It can detect the flash
-[    3.937168] spi-nor spi1.0: at25ql128a (16384 Kbytes)
-[    3.942902] 2 fixed-partitions partitions found on MTD device spi1.0
-[    3.949459] Creating 2 MTD partitions on "spi1.0":
-[    3.957540] 0x000000000000-0x000000200000 : "boot"
-[    3.973740] 0x000000200000-0x000001000000 : "user"
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+arm                        mini2440_defconfig
+sh                          landisk_defconfig
+parisc                generic-32bit_defconfig
+sh                     magicpanelr2_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                         cm_x300_defconfig
+powerpc                 mpc834x_itx_defconfig
+arm                          lpd270_defconfig
+arm                            lart_defconfig
+powerpc                         ps3_defconfig
+sh                          r7785rp_defconfig
+powerpc                 mpc8540_ads_defconfig
+alpha                               defconfig
+m68k                           sun3_defconfig
+mips                             allmodconfig
+s390                       zfcpdump_defconfig
+mips                           jazz_defconfig
+mips                        bcm47xx_defconfig
+arc                              alldefconfig
+powerpc                      makalu_defconfig
+arm                       imx_v6_v7_defconfig
+sh                           se7206_defconfig
+arm                      integrator_defconfig
+um                               alldefconfig
+m68k                          sun3x_defconfig
+sh                          rsk7201_defconfig
+arm                        oxnas_v6_defconfig
+arc                        nsim_700_defconfig
+mips                       capcella_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                    amigaone_defconfig
+sh                           se7721_defconfig
+powerpc                   currituck_defconfig
+powerpc                      cm5200_defconfig
+powerpc                           allnoconfig
+powerpc                      chrp32_defconfig
+sh                ecovec24-romimage_defconfig
+sh                          kfr2r09_defconfig
+openrisc                    or1ksim_defconfig
+x86_64                        randconfig-c001
+arm                  randconfig-c002-20220428
+arm                  randconfig-c002-20220429
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220428
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                               rhel-8.3
 
-Able to do read/write/format the partition with this patch.
-So please provide your feedback on this patch.
+clang tested configs:
+riscv                randconfig-c006-20220428
+mips                 randconfig-c004-20220428
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+arm                  randconfig-c002-20220428
+powerpc              randconfig-c003-20220428
+mips                   sb1250_swarm_defconfig
+arm                        magician_defconfig
+riscv                             allnoconfig
+powerpc                 mpc836x_rdk_defconfig
+arm                        mvebu_v5_defconfig
+arm                        vexpress_defconfig
+arm                         palmz72_defconfig
+arm                       cns3420vb_defconfig
+powerpc                    mvme5100_defconfig
+powerpc                      ppc44x_defconfig
+arm                                 defconfig
+powerpc                     pseries_defconfig
+arm                    vt8500_v6_v7_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+hexagon              randconfig-r041-20220428
+riscv                randconfig-r042-20220428
+hexagon              randconfig-r045-20220428
 
-&sbc {
-	pinctrl-0 = <&qspi0_pins>;
-	pinctrl-names = "default";
-	status = "okay";
-
-	flash@0 {
-		compatible = "jedec,spi-nor";
-		reg = <0>;
-		spi-max-frequency = <50000000>;
-		spi-tx-bus-width = <1>;
-		spi-rx-bus-width = <4>;
-
-		spi-cpol;
-		spi-cpha;
-		m25p,fast-read;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			boot@0 {
-				reg = <0x00000000 0x200000>;
-				read-only;
-			};
-			user@200000 {
-				reg = <0x200000 0xE00000>;
-			};
-		};
-	};
-};
----
- drivers/mtd/spi-nor/Makefile  |  1 +
- drivers/mtd/spi-nor/core.c    |  1 +
- drivers/mtd/spi-nor/core.h    |  1 +
- drivers/mtd/spi-nor/renesas.c | 57 +++++++++++++++++++++++++++++++++++
- 4 files changed, 60 insertions(+)
- create mode 100644 drivers/mtd/spi-nor/renesas.c
-
-diff --git a/drivers/mtd/spi-nor/Makefile b/drivers/mtd/spi-nor/Makefile
-index 6b904e439372..2c2fce8e6132 100644
---- a/drivers/mtd/spi-nor/Makefile
-+++ b/drivers/mtd/spi-nor/Makefile
-@@ -12,6 +12,7 @@ spi-nor-objs			+= intel.o
- spi-nor-objs			+= issi.o
- spi-nor-objs			+= macronix.o
- spi-nor-objs			+= micron-st.o
-+spi-nor-objs			+= renesas.o
- spi-nor-objs			+= spansion.o
- spi-nor-objs			+= sst.o
- spi-nor-objs			+= winbond.o
-diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
-index b4f141ad9c9c..ba9f222da00b 100644
---- a/drivers/mtd/spi-nor/core.c
-+++ b/drivers/mtd/spi-nor/core.c
-@@ -1621,6 +1621,7 @@ static const struct spi_nor_manufacturer *manufacturers[] = {
- 	&spi_nor_issi,
- 	&spi_nor_macronix,
- 	&spi_nor_micron,
-+	&spi_nor_renesas,
- 	&spi_nor_st,
- 	&spi_nor_spansion,
- 	&spi_nor_sst,
-diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
-index b7fd760e3b47..3d2e39329079 100644
---- a/drivers/mtd/spi-nor/core.h
-+++ b/drivers/mtd/spi-nor/core.h
-@@ -511,6 +511,7 @@ extern const struct spi_nor_manufacturer spi_nor_intel;
- extern const struct spi_nor_manufacturer spi_nor_issi;
- extern const struct spi_nor_manufacturer spi_nor_macronix;
- extern const struct spi_nor_manufacturer spi_nor_micron;
-+extern const struct spi_nor_manufacturer spi_nor_renesas;
- extern const struct spi_nor_manufacturer spi_nor_st;
- extern const struct spi_nor_manufacturer spi_nor_spansion;
- extern const struct spi_nor_manufacturer spi_nor_sst;
-diff --git a/drivers/mtd/spi-nor/renesas.c b/drivers/mtd/spi-nor/renesas.c
-new file mode 100644
-index 000000000000..091542c8c088
---- /dev/null
-+++ b/drivers/mtd/spi-nor/renesas.c
-@@ -0,0 +1,57 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2005, Intec Automation Inc.
-+ * Copyright (C) 2014, Freescale Semiconductor, Inc.
-+ */
-+
-+#include <linux/mtd/spi-nor.h>
-+
-+#include "core.h"
-+
-+static const struct flash_info renesas_nor_parts[] = {
-+	{ "at25ql128a", INFO(0x1f4218, 0, 64 * 1024, 256)
-+		NO_SFDP_FLAGS(SECT_4K | SPI_NOR_QUAD_READ) },
-+};
-+
-+/**
-+ * renesas_nor_set_4byte_addr_mode() - Set 4-byte address mode for Renesas
-+ * flashes.
-+ * @nor:	pointer to 'struct spi_nor'.
-+ * @enable:	true to enter the 4-byte address mode, false to exit the 4-byte
-+ *		address mode.
-+ *
-+ * Return: 0 on success, -errno otherwise.
-+ */
-+static int renesas_nor_set_4byte_addr_mode(struct spi_nor *nor, bool enable)
-+{
-+	int ret;
-+
-+	ret = spi_nor_write_enable(nor);
-+	if (ret)
-+		return ret;
-+
-+	ret = spi_nor_set_4byte_addr_mode(nor, enable);
-+	if (ret)
-+		return ret;
-+
-+	return spi_nor_write_disable(nor);
-+}
-+
-+static void renesas_nor_default_init(struct spi_nor *nor)
-+{
-+	nor->flags |= SNOR_F_HAS_LOCK;
-+	nor->flags &= ~SNOR_F_HAS_16BIT_SR;
-+	nor->params->quad_enable = NULL;
-+	nor->params->set_4byte_addr_mode = renesas_nor_set_4byte_addr_mode;
-+}
-+
-+static const struct spi_nor_fixups renesas_nor_fixups = {
-+	.default_init = renesas_nor_default_init,
-+};
-+
-+const struct spi_nor_manufacturer spi_nor_renesas = {
-+	.name = "renesas",
-+	.parts = renesas_nor_parts,
-+	.nparts = ARRAY_SIZE(renesas_nor_parts),
-+	.fixups = &renesas_nor_fixups,
-+};
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
