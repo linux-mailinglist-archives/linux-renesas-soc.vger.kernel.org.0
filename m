@@ -2,139 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F6F51754D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 19:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8BBE5175E6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 19:34:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386420AbiEBRHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 13:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46676 "EHLO
+        id S1386702AbiEBRhe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 13:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352051AbiEBRHf (ORCPT
+        with ESMTP id S1386692AbiEBRhd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 13:07:35 -0400
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BFBB2654;
-        Mon,  2 May 2022 10:04:05 -0700 (PDT)
-Received: by mail-oi1-f169.google.com with SMTP id m25so1883963oih.2;
-        Mon, 02 May 2022 10:04:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RyfKQzlGnJ7L77OWzUvhlKYmJuTKqGy4tAr4aSelX70=;
-        b=2RJZKOykACz5yd1R7zHldasf+0uDb/zy4u/AwcxfB97B/sv7bGKbRo2mDO4YyUirYF
-         ddbsqigf817AQ0G/+4s5qyaSjfyoeRr79sl9Mg8b5YcwV55RxiWQNR3PNLtIQaOWAJN7
-         a7EzFA6wj1qAcmQjL8437Im/lEcyAK1jgyDRLMKZ7AKICPjfQ1E9M7MHg+/NBrpByB59
-         jriMwpjbX7RPAnoqTL1AL+XeTkU+QVs7bYz4RUXIAJMfdrJFOavkwstDmFfZ01jactbi
-         rTK3+yxYv/AMvUud3Z4Xrt0gtAAc9lBnZ+4vGMWi+IMlmnI1vVzePFwRctCEhoWQU9J2
-         aEgA==
-X-Gm-Message-State: AOAM530qc/5jCwSLdy8g9l0WM5dT/UtIZX2nysehjiwoznuXjn2cxrZC
-        Q/+FF5L5xTJZZjancv8uURtOXflEJg==
-X-Google-Smtp-Source: ABdhPJwsCVRyhmjElfIJbu5IkPnmejWA+Bqc6NzMmf7NBIR1FWGQ1HhayD7q08/7M2fTop7B86o/YA==
-X-Received: by 2002:a05:6808:d50:b0:322:fb1d:319d with SMTP id w16-20020a0568080d5000b00322fb1d319dmr60252oik.174.1651511044301;
-        Mon, 02 May 2022 10:04:04 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w5-20020a9d3605000000b005b2353c5f4fsm3056541otb.0.2022.05.02.10.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 10:04:03 -0700 (PDT)
-Received: (nullmailer pid 1338080 invoked by uid 1000);
-        Mon, 02 May 2022 17:04:03 -0000
-Date:   Mon, 2 May 2022 12:04:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mon, 2 May 2022 13:37:33 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398D963C1
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 10:34:02 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:cd2b:85eb:bdf:a9c3])
+        by laurent.telenet-ops.be with bizsmtp
+        id RtZv2700N3SeZYW01tZvkK; Mon, 02 May 2022 19:34:00 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nlZvn-002nnJ-0Z; Mon, 02 May 2022 19:33:55 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nlZvm-0038dD-De; Mon, 02 May 2022 19:33:54 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
-Message-ID: <YnAPA9flIrt6qtfB@robh.at.kernel.org>
-References: <20220501111952.45872-1-biju.das.jz@bp.renesas.com>
- <20220501191705.19860b69@jic23-huawei>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] dt-bindings: can: renesas,rcar-canfd: Make interrupt-names required
+Date:   Mon,  2 May 2022 19:33:51 +0200
+Message-Id: <cover.1651512451.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220501191705.19860b69@jic23-huawei>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, May 01, 2022 at 07:17:05PM +0100, Jonathan Cameron wrote:
-> On Sun,  1 May 2022 12:19:52 +0100
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> 
-> > ADC found on RZ/G2UL SoC is almost identical to RZ/G2L SoC, but RZ/G2UL
-> > has 2 analog input channels compared to 8 channels on RZ/G2L. Therefore,
-> > added a new compatible to handle this difference.
-> > 
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v1->v2:
-> >  * Removed Items and used const for RZ/G2UL compatible
-> >  * Add allOf:if:then restricting available channels per SoC variant.
-> > ---
-> >  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 34 ++++++++++++++-----
-> >  1 file changed, 25 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > index d66c24cae1e1..d76c5ba3d625 100644
-> > --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> > @@ -17,11 +17,13 @@ description: |
-> >  
-> >  properties:
-> >    compatible:
-> > -    items:
-> > -      - enum:
-> > -          - renesas,r9a07g044-adc   # RZ/G2L
-> > -          - renesas,r9a07g054-adc   # RZ/V2L
-> > -      - const: renesas,rzg2l-adc
-> > +    oneOf:
-> > +      - const: renesas,renesas,r9a07g043-adc  # RZ/G2UL
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,r9a07g044-adc   # RZ/G2L
-> > +              - renesas,r9a07g054-adc   # RZ/V2L
-> > +          - const: renesas,rzg2l-adc
-> >  
-> >    reg:
-> >      maxItems: 1
-> > @@ -76,10 +78,24 @@ patternProperties:
-> >      properties:
-> >        reg:
-> >          description: |
-> > -          The channel number. It can have up to 8 channels numbered from 0 to 7.
-> > -        items:
-> > -          - minimum: 0
-> > -            maximum: 7
-> > +          The channel number. It can have up to 8 channels numbered from 0 to 7
-> > +          for RZ/{G2L,V2L} SoCs or 2 channels numbered from 0 to 1 for RZ/G2UL
-> > +          SoC.
-> > +      allOf:
-> > +        if:
->            - if:
->                properties:
-> etc
-> 
-> Otherwise I think you can only have one in your allOf: which rather
-> removes the point of having one.
-> 
-> I was surprised this passed the checks, so added another if to verify my
-> reasoning...
+	Hi all,
 
-It didn't apply, so checks didn't run. But it should fail not for the 
-reason you correctly identified, but because 'allOf' is a DT property 
-here not json-schema vocabulary. 
+The Renesas R-Car CAN FD Controller always uses two or more interrupts.
+Hence it makes sense to make the interrupt-names property a required
+property, to make it easier to identify the individual interrupts, and
+validate the mapping.
 
-Rob
+  - The first patch updates the various R-Car Gen3 and RZ/G2 DTS files
+    to add interrupt-names properties, and is intended for the
+    renesas-devel tree,
+  - The second patch updates the CAN-FD DT bindings to mark the
+    interrupt-names property required, and is intended for the DT or net
+    tree.
+
+Thanks!
+
+Geert Uytterhoeven (2):
+  arm64: dts: renesas: Add interrupt-names to CANFD nodes
+  dt-bindings: can: renesas,rcar-canfd: Make interrupt-names required
+
+ .../devicetree/bindings/net/can/renesas,rcar-canfd.yaml        | 3 ++-
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77970.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi                      | 1 +
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi                      | 1 +
+ 13 files changed, 14 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
