@@ -2,115 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F1A5170E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 15:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7445517191
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 16:29:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352494AbiEBNvO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 09:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57860 "EHLO
+        id S1385463AbiEBOco (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 10:32:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236253AbiEBNvN (ORCPT
+        with ESMTP id S1385496AbiEBOcn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 09:51:13 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FF12614;
-        Mon,  2 May 2022 06:47:45 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id 126so10397348qkm.4;
-        Mon, 02 May 2022 06:47:45 -0700 (PDT)
+        Mon, 2 May 2022 10:32:43 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D37910FF4;
+        Mon,  2 May 2022 07:29:14 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id hh4so11186698qtb.10;
+        Mon, 02 May 2022 07:29:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=j/+kzehg8+AuhUalbNIV16MEKlCByp59eS7FqcnCua4=;
-        b=5vT6R1e8flJFVCejqgRf9J3AX55ppuE+4PwQbsFT16G8GS7k+RBmtjQoGA9ga8nr/8
-         UDebDixnB51OJHa/7gZO6DDqHCaKdSH1Ms9OinH3nB4LgGEkarbLgWVtwpR1zkiyi/tg
-         mUMQcND8AdHndL/P87z4kQ/UOy9vnzMPpnWs6uhomw+HoAKvpJphWXHxl+FG/R8352Uw
-         e5EIUewJ2OqIYIWRIFndVK06W7vbktWNHltmZDSg47+NInseskktBOHhTA0HF/5ek4li
-         jXdPXl55huINoQtBEvA+Q3b+RMIx+7XJ/05Jqq/ywulne9uIs7f+cHryO1IUnHyyRnOe
-         cNkw==
-X-Gm-Message-State: AOAM530+Qgipi/nhLIV7aH3wXqrajDGhJ9yEZ6sOyZpKJER7wp8vrUQw
-        hgtVyRb+KMkVy+mzGMAyD2xovnrpg9l6+g==
-X-Google-Smtp-Source: ABdhPJwe+ny0iS5qFzk9wGl0VpU+0aljTlKGYiXEUeVXPJLipIeTSolL3xTZEGVFS4kembEVAknVYg==
-X-Received: by 2002:a05:620a:56b:b0:69f:e877:86b5 with SMTP id p11-20020a05620a056b00b0069fe87786b5mr2429916qkp.319.1651499264054;
-        Mon, 02 May 2022 06:47:44 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id i12-20020a05620a150c00b0069fc13ce21esm4412890qkk.79.2022.05.02.06.47.43
+        bh=4HNuvqLkw5GUbk+NYgaaNUf5vWaZBRKwBR44lb5mJzw=;
+        b=B4wo5DGeorz7C8+vsHFmrLnP26IYcTApyH6WB9nyePyEHcQmDjld/uVw6eCYbrds/7
+         AkvMKdda+rBin0R21FotYnVa+UkKtuONF6h4uxzJptu6EnME8OChV0JA5c5GwOOMaRde
+         NjF3MnIH853sRe3KfaiNWN+szgoDJnJeJg56Z8R1youoZK8BfG1f/tomt3NH8A7yLItd
+         EINBnjJ6uWJ4tq4hZGG1hk/vXcZPWpwrTNcQHhM9qyutVtTDLIarYMtl9evgvyKooaqu
+         TleCocUzl6o1yxhZ1FSWuUhCWAZA7IydFXje7QuwwPWZZ69rxGsQyFd0c5TPbFCfO4xN
+         n1Qg==
+X-Gm-Message-State: AOAM532Q+OftOZbFiUeA/3MIIjZkpQagu3yRrqxrwiWiJvdRqSs38A21
+        acUZbXMPjsSH9ThgpJozcRO5rfd1UJMfCw==
+X-Google-Smtp-Source: ABdhPJzl66vhnCret54B1u8lt4Oan1b1hm2TVAMg1FP7eTA8YMv7XevM9Y6Fb9A/GHaaMvVeZvlNJQ==
+X-Received: by 2002:ac8:7d08:0:b0:2f1:e349:adb7 with SMTP id g8-20020ac87d08000000b002f1e349adb7mr10317535qtb.616.1651501753661;
+        Mon, 02 May 2022 07:29:13 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id m2-20020a37a302000000b0069ff51425a2sm603071qke.120.2022.05.02.07.29.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 06:47:43 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id f38so26151885ybi.3;
-        Mon, 02 May 2022 06:47:43 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr10544664ybu.604.1651499263513; Mon, 02
- May 2022 06:47:43 -0700 (PDT)
+        Mon, 02 May 2022 07:29:13 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2f16645872fso149533907b3.4;
+        Mon, 02 May 2022 07:29:13 -0700 (PDT)
+X-Received: by 2002:a81:234b:0:b0:2f8:4082:bbd3 with SMTP id
+ j72-20020a81234b000000b002f84082bbd3mr11241893ywj.47.1651501752992; Mon, 02
+ May 2022 07:29:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429082637.1308182-1-yangyingliang@huawei.com> <20220429082637.1308182-2-yangyingliang@huawei.com>
-In-Reply-To: <20220429082637.1308182-2-yangyingliang@huawei.com>
+References: <20220501081523.22479-1-biju.das.jz@bp.renesas.com>
+ <OSZPR01MB7019299D00A457C964CC403DAAC19@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922CCDFA8C3648F49A10EB186C19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922CCDFA8C3648F49A10EB186C19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 May 2022 15:47:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWsMougnbmZxCs-CwJw8=LcL6L-pVrdm00H3cfq5wg4Mg@mail.gmail.com>
-Message-ID: <CAMuHMdWsMougnbmZxCs-CwJw8=LcL6L-pVrdm00H3cfq5wg4Mg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: renesas: rzn1: fix possible null-ptr-deref
- in sh_pfc_map_resources()
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+Date:   Mon, 2 May 2022 16:29:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWHemJn2KUBzYA8oVYgtG4sX2H=4-AdRuF0uZ2EgQEk6w@mail.gmail.com>
+Message-ID: <CAMuHMdWHemJn2KUBzYA8oVYgtG4sX2H=4-AdRuF0uZ2EgQEk6w@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yang,
+Hi Biju,
 
-On Fri, Apr 29, 2022 at 1:22 PM Yang Yingliang <yangyingliang@huawei.com> wrote:
-> It will cause null-ptr-deref when using 'res', if platform_get_resource()
-> returns NULL, so move using 'res' after devm_ioremap_resource() that
-> will check it to avoid null-ptr-deref.
-> And use devm_platform_get_and_ioremap_resource() to simplify code.
+On Mon, May 2, 2022 at 8:18 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: RE: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+> > > Subject: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+> > >
+> > > ADC found on RZ/G2UL SoC is almost identical to RZ/G2L SoC, but
+> > > RZ/G2UL has 2 analog input channels compared to 8 channels on RZ/G2L.
+> > > Therefore, added a new compatible to handle this difference.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  drivers/iio/adc/rzg2l_adc.c | 18 +++++++++++++-----
+> > >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > >
+> > I wonder if this changes is really required. RZ/G2UL can still use the
+> > "renesas,rzg2l-adc". As the driver populates the channels depending the
+> > number of elements in the array passed in the DTS and not always 8
+> > channels. For example on Renesas SMARC EVK only four channels are
+> > populated.
 >
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-
-Thanks for your patch!
-
-> --- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> +++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
-> @@ -865,17 +865,15 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
->         ipctl->mdio_func[0] = -1;
->         ipctl->mdio_func[1] = -1;
+> For me that restriction is coming from board design, as SoC is capable of handling 8 channels,
+> But board design allows only 4.
 >
-> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       ipctl->lev1_protect_phys = (u32)res->start + 0x400;
-> -       ipctl->lev1 = devm_ioremap_resource(&pdev->dev, res);
-> +       ipctl->lev1 = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->         if (IS_ERR(ipctl->lev1))
->                 return PTR_ERR(ipctl->lev1);
-> +       ipctl->lev1_protect_phys = (u32)res->start + 0x400;
+> But on RZ/G2UL SoC, it is capable of handling only 2 channels. Other channels are invalid for RZ/G2UL SoC.
 >
-> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> -       ipctl->lev2_protect_phys = (u32)res->start + 0x400;
-> -       ipctl->lev2 = devm_ioremap_resource(&pdev->dev, res);
-> +       ipctl->lev2 = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-
-..., 1, ...
-
->         if (IS_ERR(ipctl->lev2))
->                 return PTR_ERR(ipctl->lev2);
-> +       ipctl->lev2_protect_phys = (u32)res->start + 0x400;
+> That is the difference.
 >
->         ipctl->clk = devm_clk_get(&pdev->dev, NULL);
->         if (IS_ERR(ipctl->clk))
+> > With this we don't have to differentiate RZ/G2UL SoC if just add two
+> > channel entries in the SoC DTSI and the driver will just create two
+> > channels.
+>
+> > @Geert - your thoughts on this.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.19, with the above fixed
-(no need to resend).
+It depends on the meaning of the channel subnodes: do they indicate
+(a) the number of channels present on the SoC, or (b) the number of
+channels used on the board?  The DT bindings are not clear about that.
+
+arch/arm64/boot/dts/renesas/r9a07g044.dtsi lists all channels and
+doesn't keep any disabled, which suggests (a).
+arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi does remove unused
+channels, which suggests (b).
+
+Is there any (perhaps performance?) reason we can't just use the number
+of channels present in DT? "make dtbs_check" can still validate this
+against the SoC-specific compatible value.
+
+Do we need to know at runtime both the number of channels physically
+present and the number of channels used?  If yes, we either need to
+use the SoC-specific compatible value, or add a num-channels property.
 
 Gr{oetje,eeting}s,
 
