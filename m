@@ -2,70 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2EC85171DC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 16:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D71DF5171E2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 16:47:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385587AbiEBOtm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 10:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S1383872AbiEBOuj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 10:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385654AbiEBOtI (ORCPT
+        with ESMTP id S1377253AbiEBOui (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 10:49:08 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47270A193;
-        Mon,  2 May 2022 07:45:37 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id kl21so1867787qvb.9;
-        Mon, 02 May 2022 07:45:37 -0700 (PDT)
+        Mon, 2 May 2022 10:50:38 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E94767D;
+        Mon,  2 May 2022 07:47:10 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id t11so11201482qto.11;
+        Mon, 02 May 2022 07:47:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D0SY7wmYyA7yL5OraG4CcPIBeXo9vTXrM08vsIyhv4o=;
-        b=s0lxLYEc3XfTmvX4JKKk8eOoDoz7LMLC8GarkiNCF6R1wT7LewGQ/ZwE/cESKkIK+O
-         rYv8RsKYvRmavYvJ3xiRflf8Y8Tu3kN93micow9p+0WWOjOn52BpZHg5tS+gf1HrOdv+
-         TTEifvcx2c5Z/MxFPIh+3yMOheL/3wFPjhiG3uA3EMF7e8OWu//59MvcxSC60tuHwM7k
-         7sfVkDcEE0/GluMKO0pYeRsIp5FABvbAFosJJCzd7pyg1Y1XdXlCvS28nL86AY+OlSYV
-         9KtnsfqeeFtQ3BZeqZ8oTevyNVBP0udhtP0auOfiAnTo/WQaN9opwhi9QZBUIEmXHn5s
-         Yz5Q==
-X-Gm-Message-State: AOAM530X2MxeW9DviFjr/CVtEj47EabCVBOmXzhcO5619LD/glNUSiVR
-        PSQGP8S+Cskdz2ZOy7xcdJxbMKWWEuLCHg==
-X-Google-Smtp-Source: ABdhPJwiVbuKhdLBqobPuhbBubqqQA0cBtzc5/OPdVwqJr64gYP/66k/GXoyvdc/z3ppLH3RPAUtIg==
-X-Received: by 2002:a05:6214:c2d:b0:456:3af7:5ce1 with SMTP id a13-20020a0562140c2d00b004563af75ce1mr9970124qvd.25.1651502736263;
-        Mon, 02 May 2022 07:45:36 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id b197-20020a3767ce000000b0069fc13ce1e9sm4549598qkc.26.2022.05.02.07.45.35
+        bh=0HUcSw8jego8R/dUhSvUXBNvHBL51wNAgnKctgcWREg=;
+        b=j0MTNK0RPAp4ssPZjamtld13OGjj1TcA1lyYAQzvJlQ3x6RFMUs3UdAUSP7RB6IAEV
+         3w69iD+EcV7xWcjWIRDLJCsd8PNQ9eL6Dmf57nP/8bTBlyciHImZdob9EotnItNFd2hS
+         YIG2YB2ORjLEBsRowQvRiD9yYT0472qRghYdO0PT4FqfcIm56tRhHWeEm5i5mQgRztVw
+         KPwLOFxLqknSmWpI/DabOR2WIabS7fmfuu7XNOl/dKZXrvllg++gduSek63Gmb5E7V53
+         Qska1VDpVJhyTChSoa7mLeBEDLy9dMhMu7hoWxMBcwKvbBNhVhj6Covj3zPvC2TFezn4
+         l75Q==
+X-Gm-Message-State: AOAM531SaS3/JLiuQXa5+/w/4OuJnlThRr08PGoCA+aNgAatMoSqtxm3
+        ncivlDtdA8B+GhW9AzB+nFwS8jbDVZy1GA==
+X-Google-Smtp-Source: ABdhPJwFR0BYd8MT/TIjF51a1lEN0yGSy4fMsuB+Ds2qx9Rwgvi1F1Aj3QJfPL+ULAoUbB5GYB0gmQ==
+X-Received: by 2002:ac8:5754:0:b0:2e1:eee8:be0b with SMTP id 20-20020ac85754000000b002e1eee8be0bmr10534126qtx.349.1651502828923;
+        Mon, 02 May 2022 07:47:08 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id g23-20020a05620a13d700b0069fc13ce1d4sm4414711qkl.5.2022.05.02.07.47.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 07:45:36 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2ebf4b91212so150222217b3.8;
-        Mon, 02 May 2022 07:45:35 -0700 (PDT)
-X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
- s12-20020a819b0c000000b002f4c5227d3cmr11313594ywg.316.1651502735635; Mon, 02
- May 2022 07:45:35 -0700 (PDT)
+        Mon, 02 May 2022 07:47:07 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2f7b815ac06so150382527b3.3;
+        Mon, 02 May 2022 07:47:07 -0700 (PDT)
+X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
+ z130-20020a816588000000b002f8b75e1e1amr11689177ywb.358.1651502827327; Mon, 02
+ May 2022 07:47:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429104602.368055-1-miquel.raynal@bootlin.com> <20220429104602.368055-4-miquel.raynal@bootlin.com>
-In-Reply-To: <20220429104602.368055-4-miquel.raynal@bootlin.com>
+References: <20220429105229.368728-1-miquel.raynal@bootlin.com> <20220429105229.368728-2-miquel.raynal@bootlin.com>
+In-Reply-To: <20220429105229.368728-2-miquel.raynal@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 May 2022 16:45:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV8kqfRJFwJt34wi-FGkVTJ4uYb4RwBcRcYcs7XhcNuGA@mail.gmail.com>
-Message-ID: <CAMuHMdV8kqfRJFwJt34wi-FGkVTJ4uYb4RwBcRcYcs7XhcNuGA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] rtc: rzn1: Add alarm support
+Date:   Mon, 2 May 2022 16:46:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWWLy-RUoJG2pcoFqwds_f6HZWrwro17hUEE-3q_5fdGA@mail.gmail.com>
+Message-ID: <CAMuHMdWWLy-RUoJG2pcoFqwds_f6HZWrwro17hUEE-3q_5fdGA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: mtd: renesas: Fix the NAND controller description
 To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+Cc:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -77,30 +77,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
-
-On Fri, Apr 29, 2022 at 12:46 PM Miquel Raynal
+On Fri, Apr 29, 2022 at 12:52 PM Miquel Raynal
 <miquel.raynal@bootlin.com> wrote:
-> The RZN1 RTC can trigger an interrupt when reaching a particular date up
-> to 7 days ahead. Bring support for this alarm.
+> Add the missing power-domain property which is needed on all the
+> RZ/N1 SoC IPs.
 >
-> One drawback though, the granularity is about a minute.
->
+> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Thanks for your patch!
-
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -179,6 +272,10 @@ static int rzn1_rtc_probe(struct platform_device *pdev)
->         if (IS_ERR(rtc->base))
->                 return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Missing reg\n");
->
-> +       alarm_irq = platform_get_irq(pdev, 0);
-> +       if (alarm_irq < 0)
-> +               return dev_err_probe(&pdev->dev, alarm_irq, "Missing timer IRQ\n");
-
-No need to print a message, platform_get_irq() already does that.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
