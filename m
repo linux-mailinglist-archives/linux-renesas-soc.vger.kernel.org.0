@@ -2,40 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5DE516F9F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 14:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4625516FB2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 14:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384851AbiEBMik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 08:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34594 "EHLO
+        id S233954AbiEBMod (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 08:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350018AbiEBMij (ORCPT
+        with ESMTP id S1384839AbiEBMoc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 08:38:39 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C4212A9C
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 05:35:08 -0700 (PDT)
+        Mon, 2 May 2022 08:44:32 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF34313E14
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 05:41:03 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:194e:5782:c420:7f87])
-        by albert.telenet-ops.be with bizsmtp
-        id Rob52700H28fWK506ob5an; Mon, 02 May 2022 14:35:06 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id Roh02700U28fWK501oh0CL; Mon, 02 May 2022 14:41:01 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nlVGb-002mfz-22; Mon, 02 May 2022 14:35:05 +0200
+        id 1nlVMK-002mij-Bi; Mon, 02 May 2022 14:41:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nlVGa-002hgV-2G; Mon, 02 May 2022 14:35:04 +0200
+        id 1nlVMJ-002hs5-9R; Mon, 02 May 2022 14:40:59 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r9a07g044: Fix OSTM1 module clock name.
-Date:   Mon,  2 May 2022 14:35:02 +0200
-Message-Id: <e0eff1f57378ec29d0d3f1a7bdd7e380583f736b.1651494871.git.geert+renesas@glider.be>
+Subject: [PATCH 1/2] dt-bindings: soc: renesas: Move renesas,prr from arm to soc
+Date:   Mon,  2 May 2022 14:40:57 +0200
+Message-Id: <5f124fc332b4b866f5238ada7ac000f4639c88c3.1651495078.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,30 +50,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix a typo in the name of the "ostm1_pclk" clock.
-This change has no run-time impact.
+The Renesas Product Register DT binding is not a top-level DT binding,
+hence it does not belong under Documentation/devicetree/bindings/arm/.
+Move it to Documentation/devicetree/bindings/soc/renesas/.
 
-Fixes: 161450134ae9bab3 ("clk: renesas: r9a07g044: Add OSTM clock and reset entries")
+While at it, change the license from GPL-2.0 (only) to GPL-2.0-only OR
+BSD-2-Clause, to match comment practises.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-clk for v5.19.
----
- drivers/clk/renesas/r9a07g044-cpg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To be queued in renesas-devel for v5.19.
 
-diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index bdfabb992a20782d..df9d5d91e065fdb8 100644
---- a/drivers/clk/renesas/r9a07g044-cpg.c
-+++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -180,7 +180,7 @@ static const struct {
- 					0x52c, 1),
- 		DEF_MOD("ostm0_pclk",	R9A07G044_OSTM0_PCLK, R9A07G044_CLK_P0,
- 					0x534, 0),
--		DEF_MOD("ostm1_clk",	R9A07G044_OSTM1_PCLK, R9A07G044_CLK_P0,
-+		DEF_MOD("ostm1_pclk",	R9A07G044_OSTM1_PCLK, R9A07G044_CLK_P0,
- 					0x534, 1),
- 		DEF_MOD("ostm2_pclk",	R9A07G044_OSTM2_PCLK, R9A07G044_CLK_P0,
- 					0x534, 2),
+ .../devicetree/bindings/{arm => soc/renesas}/renesas,prr.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename Documentation/devicetree/bindings/{arm => soc/renesas}/renesas,prr.yaml (85%)
+
+diff --git a/Documentation/devicetree/bindings/arm/renesas,prr.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
+similarity index 85%
+rename from Documentation/devicetree/bindings/arm/renesas,prr.yaml
+rename to Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
+index 1f80767da38ba77a..654c96638e754276 100644
+--- a/Documentation/devicetree/bindings/arm/renesas,prr.yaml
++++ b/Documentation/devicetree/bindings/soc/renesas/renesas,prr.yaml
+@@ -1,7 +1,7 @@
+-# SPDX-License-Identifier: GPL-2.0
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/arm/renesas,prr.yaml#
++$id: http://devicetree.org/schemas/soc/renesas/renesas,prr.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Renesas Product Register
 -- 
 2.25.1
 
