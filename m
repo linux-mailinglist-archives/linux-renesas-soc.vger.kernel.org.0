@@ -2,136 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D89516AFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 08:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2070A516C6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 10:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343598AbiEBGzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 02:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46616 "EHLO
+        id S1377818AbiEBIwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 04:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244222AbiEBGzy (ORCPT
+        with ESMTP id S244543AbiEBIwb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 02:55:54 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA35935270;
-        Sun,  1 May 2022 23:52:24 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5498140003;
-        Mon,  2 May 2022 06:52:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651474342;
+        Mon, 2 May 2022 04:52:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0FF772B18B
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 01:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651481342;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CRnuH9NmDN7PIjjb0xMDNRrIFcSL+3W+2vUxFvjNLKo=;
-        b=GHdJ3TT4SITL2nwOkmdIRURaN/xuQC5jufmrAZumYAEe4lZtwnW6aQXQN/YT10EFNdhjP2
-        iOU/QR9OcQwgUPcY2J9vtH/Ck6X24V8L9szzdgkGqYuE7WTORx81kA2addlo1LG7/gFK6b
-        5v0h05tFajTYdl+oUq0lermRU+f96HuaN90dD2Z5cGHp8lWWfbkHbE4/C1Ecnqscb9Q/wz
-        MqxwSSUaWbWnqE1zw3isHiX3CkZXDMSVyqXCcKwvpHd0XM70yegrcq7vYFrxrVl7Epq/rZ
-        u1VSqNFGOmK/liT99vSNmD7zsaz6Muly8EeV3fBvIKtzAVkGAeB2UP+57ZN2Kg==
-Date:   Mon, 2 May 2022 08:51:03 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [net-next v2 00/12] add support for Renesas RZ/N1 ethernet
- subsystem devices
-Message-ID: <20220502085103.19b4f47b@fixe.home>
-In-Reply-To: <20220429123235.3098ed12@kernel.org>
-References: <20220429143505.88208-1-clement.leger@bootlin.com>
-        <20220429123235.3098ed12@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=g1EGMUSX4uhdpumN1AqArSCJZUMcx2qk+SIJN7jkMXI=;
+        b=R200hlisoA5GgcTQu43l+PIwa36cGpcqSHJpA8hWYupIDl55WTqiRBahErCJjjgvBrqZvz
+        aYiRElhf6dZhG6kZrEQM4f6Migga5+TeZ4DjZjDgk/EUmGsLpgX/lcC85tumb7z09Lq8k8
+        dk+wOUrNNdlrbH1jkBCB27k6oR5l0ls=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-kX8CrvNWNYaCwhmQKLZDuA-1; Mon, 02 May 2022 04:49:01 -0400
+X-MC-Unique: kX8CrvNWNYaCwhmQKLZDuA-1
+Received: by mail-wm1-f69.google.com with SMTP id g3-20020a7bc4c3000000b0039409519611so4276961wmk.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 May 2022 01:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g1EGMUSX4uhdpumN1AqArSCJZUMcx2qk+SIJN7jkMXI=;
+        b=1ZkiDnc7GlMeZG3TL0UxrpGA5p7uYuRXo2WJdf/1/JuydP26rSgVRT/LNbMrTrAy7e
+         2vQJDzgv+GUDoCwSD+rJD63AxYNBwuruXHvg2YKhSHZTzIlRWlJrHZbSSomxkSRJdUqu
+         cB1TAi0aeS6su0NRv+b9uqa0SOSfl+pqKglJEUsG43eReN1zLhjQmqDpsa+x6N9f+IGi
+         FQxZh7k50V4PjSyTM0Dx246J0tqHhBVPpxnvQqCbcbJdNm1I1lgj77WuGOnAwQ6wmRty
+         OVqxpCCloMvGa9jw3RNlu2vJgFv10Sg4JDTdnEnHBjBeH+ijHTrQ0M8dmBvQ3YRLrEV7
+         IrWQ==
+X-Gm-Message-State: AOAM5316N8Pj0z+Sq415ynbhSTajBuJk0TGoqtghkjiKQN/o3HMatOcv
+        XWYwpDiOf0ADTQHca70XIpVgzVQ41d4RmJPDm/9lrDNXvBe/HLd04CZCIwtECcpElBaAPzOgFY6
+        MWTSRDUkS9b/sbOcI+1gha/q1JnUXsZQ=
+X-Received: by 2002:a1c:7512:0:b0:394:16ee:ab9b with SMTP id o18-20020a1c7512000000b0039416eeab9bmr9917247wmc.176.1651481339935;
+        Mon, 02 May 2022 01:48:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1HDOH0L0J59jWzQqe8OCc8OrGCpxEDekTc2b0ViBR9lVxUT3tRNZw5Yfr7Gkyc9Gu0hnOLg==
+X-Received: by 2002:a1c:7512:0:b0:394:16ee:ab9b with SMTP id o18-20020a1c7512000000b0039416eeab9bmr9917168wmc.176.1651481339590;
+        Mon, 02 May 2022 01:48:59 -0700 (PDT)
+Received: from minerva.. ([90.167.94.74])
+        by smtp.gmail.com with ESMTPSA id i14-20020adfa50e000000b0020c5253d8c6sm8032307wrb.18.2022.05.02.01.48.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 01:48:59 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Chen-Yu Tsai <wens@csie.org>, Chia-I Wu <olvaffe@gmail.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+        Evan Quan <evan.quan@amd.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Joel Stanley <joel@jms.id.au>,
+        John Stultz <john.stultz@linaro.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Vasut <marex@denx.de>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Solomon Chiu <solomon.chiu@amd.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Yong Wu <yong.wu@mediatek.com>, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, spice-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH 0/3] drm: Allow simpledrm to setup its emulated FB as firmware provided
+Date:   Mon,  2 May 2022 10:48:27 +0200
+Message-Id: <20220502084830.285639-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Fri, 29 Apr 2022 12:32:35 -0700,
-Jakub Kicinski <kuba@kernel.org> a =C3=A9crit :
+Hello,
 
-> On Fri, 29 Apr 2022 16:34:53 +0200 Cl=C3=A9ment L=C3=A9ger wrote:
-> > The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
-> > (most notably) a switch, two GMACs, and a MII converter [1]. This
-> > series adds support for the switch and the MII converter.
-> >=20
-> > The MII converter present on this SoC has been represented as a PCS
-> > which sit between the MACs and the PHY. This PCS driver is probed from
-> > the device-tree since it requires to be configured. Indeed the MII
-> > converter also contains the registers that are handling the muxing of
-> > ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
-> >=20
-> > The switch driver is based on DSA and exposes 4 ports + 1 CPU
-> > management port. It include basic bridging support as well as FDB and
-> > statistics support. =20
->=20
-> Build's not happy (W=3D1 C=3D1):
->=20
-> drivers/net/dsa/rzn1_a5psw.c:574:29: warning: symbol 'a5psw_switch_ops' w=
-as not declared. Should it be static?
-> In file included from ../drivers/net/dsa/rzn1_a5psw.c:17:
-> drivers/net/dsa/rzn1_a5psw.h:221:1: note: offset of packed bit-field =E2=
-=80=98port_mask=E2=80=99 has changed in GCC 4.4
->   221 | } __packed;
->       | ^
->=20
+This series contain patches suggested by Thomas Zimmermannas a feedback for
+"[RFC PATCH v4 00/11] Fix some race between sysfb device registration and
+drivers probe" [0].
 
-Hi Jakub, I only had this one (due to the lack of W=3D1 C=3D1 I guess) which
-I thought (wrongly) that it was due to my GCC version:
+Since other changes in [0] were more controversial, I decided to just split
+this part in a new patch-set and revisit the rest of the patches later.
 
-  CC      net/dsa/switch.o
-  CC      net/dsa/tag_8021q.o
-In file included from ../drivers/net/dsa/rzn1_a5psw.c:17:
-../drivers/net/dsa/rzn1_a5psw.h:221:1: note: offset of packed bit-field
-  =E2=80=98port_mask=E2=80=99 has changed in GCC 4.4 221 | } __packed;
-      | ^
-  CC      kernel/module.o
-  CC      drivers/net/ethernet/stmicro/stmmac/dwmac1000_core.o
-  CC      drivers/net/ethernet/stmicro/stmmac/dwmac100_core.o
+Patch #1 is just a cleanup since when working on this noticed that some DRM
+drivers were passing as preferred bits per pixel to drm_fbdev_generic_setup()
+the value that is the default anyways.
 
-I'll fix the other errors which are more trivial, however, I did not
-found a way to fix the packed bit-field warning.
+Patch #2 renames the 'preferred_bpp' drm_fbdev_generic_setup() parameter to
+'options', and make this a multi field parameter so that it can be extended
+later to pass other options as well.
 
-Thanks
+Patch #3 finally adds the new DRM_FB_FW option and makes simpledrm to use it
+so that the registered framebuffer device is also marked as firmware provided.
 
-> drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member '=
-hclk' not described in 'a5psw'
-> drivers/net/dsa/rzn1_a5psw.h:200: warning: Function parameter or member '=
-clk' not described in 'a5psw'
->=20
-> Not sure how many of these are added by you but I think 2 at least.
+[0]: https://lore.kernel.org/lkml/20220429084253.1085911-1-javierm@redhat.com/
 
 
+Javier Martinez Canillas (3):
+  drm: Remove superfluous arg when calling to drm_fbdev_generic_setup()
+  drm/fb-helper: Rename preferred_bpp drm_fbdev_generic_setup()
+    parameter
+  drm: Allow simpledrm to setup its emulated FB as firmware provided
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 +++--
+ drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |  2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
+ drivers/gpu/drm/drm_drv.c                     |  2 +-
+ drivers/gpu/drm/drm_fb_helper.c               | 25 ++++++++++++++++---
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  2 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |  2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
+ drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  2 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
+ drivers/gpu/drm/stm/drv.c                     |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ drivers/gpu/drm/tiny/bochs.c                  |  2 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |  2 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |  2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |  2 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  2 +-
+ include/drm/drm_fb_helper.h                   | 22 ++++++++++++++++
+ 36 files changed, 80 insertions(+), 39 deletions(-)
+
+-- 
+2.35.1
+
