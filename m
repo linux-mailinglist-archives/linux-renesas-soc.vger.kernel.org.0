@@ -2,59 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD67517283
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 17:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 205F2517286
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 17:29:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377682AbiEBPcd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 11:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36792 "EHLO
+        id S1385754AbiEBPc7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 11:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239467AbiEBPcd (ORCPT
+        with ESMTP id S1357710AbiEBPc6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 11:32:33 -0400
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8625F5F;
-        Mon,  2 May 2022 08:29:04 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id e17so10409546qvj.11;
-        Mon, 02 May 2022 08:29:04 -0700 (PDT)
+        Mon, 2 May 2022 11:32:58 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5AD12AA4;
+        Mon,  2 May 2022 08:29:29 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id t16so11307470qtr.9;
+        Mon, 02 May 2022 08:29:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zWArnVQeFAr+HIdl/HHIHZVeIFDGQXmxNfCa+51obnw=;
-        b=0AmTeVVo92eqZnHBBD1QQonV4hocsaCwq6lmcTk0Ei0YKEz9t9XmOpqU1vCLPS6uLO
-         oyThztb67gTEzsxqWDYz/tiDi14g4awfNYzOwM4Bstu1oAk/iIEClDAf8pAJvZIIjsSS
-         umsDy8FwbR/7sW3RqGlIlNCRev3m4WWd12rpu92oyIOVeiY7osD8Hf60kJfUS6zUsO7r
-         lcqyFE6Jgb/B5j7wMiIqrP1NxC8i2E/UNlIroHUxFzMQq9m+LWCl8t7ZWu5p/h9lhYXS
-         cDXnh2TSP2EFH8PfoR9p9G5N2/+KhhLzClXgvHI7DZyJBtFNyk9Ejbtvew0njWRUlFbc
-         Jc+Q==
-X-Gm-Message-State: AOAM530XNH8to7rgcjgJJBovlfOm/fZBFCE1aj35JEpEUDjceRNCvXp8
-        V02GhePiI9ga2cZrLWAYNS6W4wyzgCYqlw==
-X-Google-Smtp-Source: ABdhPJx45MP70L6GZYNp6wMOqxGoygA4lf0CDn82bK2jFtvBM2qxNRSB9MHx3uDfRhgDX2cGIHaJrw==
-X-Received: by 2002:a0c:d6ce:0:b0:443:f22e:6dd with SMTP id l14-20020a0cd6ce000000b00443f22e06ddmr10011393qvi.111.1651505343152;
-        Mon, 02 May 2022 08:29:03 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id r6-20020ac87946000000b002f39b99f691sm4359753qtt.43.2022.05.02.08.29.02
+        bh=a2BEqHJFNSz8tuAr+Kogbbg37BiUYdiTL990+3SjW7U=;
+        b=TMwuNV7UDTUQhVXCB6nipKiUWNS+htxsPkrUhkgVXToaJxbrbCJJQLcC2Ol6EOwAc4
+         gxuDRxXKjJVJd7d1S5HlJp7Yl0Za/BIzt3WqHtCl5S/hObhjoEkSlshVCz4RE81VwZjQ
+         +iaW+dqawpQgcflJnV9dICJzFw7YaT/1l12ZZoPLMekAboyowAwKsygnfx+RDx4cpIwm
+         o9tnlFCSe8h/bFEutUtX0uG6Z80M4bRzrP0JS4Rwa8OfAoxP/ICHCq4+bwv6eIBndaIL
+         DQBFvVOHTJeUO5goFPdtpmmWG5tiZk4Id4Kx6NAUxdol1xm36sbvv8lNx9mbtpbWmcl5
+         nSEQ==
+X-Gm-Message-State: AOAM530K0UIA3JO57PHvjdHfPi/tbN+K+gzJzd8v7dErdD0lFctwedRY
+        poYT+Wker0/txVThqqf3mUrxBZaHx+V1ng==
+X-Google-Smtp-Source: ABdhPJxeWwRANfP9zlRFEQmTmpWXCDp0JcOqIS3KqAvYuIPQYH6Qiu+dMcUUZ0ApwOTW0+o6Kl8doA==
+X-Received: by 2002:a05:622a:1316:b0:2f3:64cf:2b3d with SMTP id v22-20020a05622a131600b002f364cf2b3dmr10990747qtk.205.1651505368197;
+        Mon, 02 May 2022 08:29:28 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id c14-20020ac853ce000000b002f39b99f67fsm4330592qtq.25.2022.05.02.08.29.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 08:29:02 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id w187so26647217ybe.2;
-        Mon, 02 May 2022 08:29:02 -0700 (PDT)
-X-Received: by 2002:a25:4506:0:b0:648:cfc2:301d with SMTP id
- s6-20020a254506000000b00648cfc2301dmr10602910yba.380.1651505342164; Mon, 02
- May 2022 08:29:02 -0700 (PDT)
+        Mon, 02 May 2022 08:29:28 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2f7b815ac06so151819577b3.3;
+        Mon, 02 May 2022 08:29:27 -0700 (PDT)
+X-Received: by 2002:a81:547:0:b0:2f8:6e8:19d7 with SMTP id 68-20020a810547000000b002f806e819d7mr11585504ywf.383.1651505367551;
+ Mon, 02 May 2022 08:29:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501083450.26541-1-biju.das.jz@bp.renesas.com> <20220501083450.26541-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220501083450.26541-2-biju.das.jz@bp.renesas.com>
+References: <20220501083450.26541-1-biju.das.jz@bp.renesas.com> <20220501083450.26541-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220501083450.26541-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 May 2022 17:28:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVDh_0RJux7QimzwE0df7R-5Y9PPKR_G58+p2rpfgFp=w@mail.gmail.com>
-Message-ID: <CAMuHMdVDh_0RJux7QimzwE0df7R-5Y9PPKR_G58+p2rpfgFp=w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] clk: renesas: r9a07g043: Add clock and reset entries
- for SPI Multi I/O Bus Controller
+Date:   Mon, 2 May 2022 17:29:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVLr+hHyM75xe-7Q+wHmvU8L0e6rCA4MSXyGCm1oMiANw@mail.gmail.com>
+Message-ID: <CAMuHMdVLr+hHyM75xe-7Q+wHmvU8L0e6rCA4MSXyGCm1oMiANw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] clk: renesas: r9a07g043: Add RSPI clock and reset entries
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         linux-clk <linux-clk@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -63,8 +60,9 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,7 +70,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Sun, May 1, 2022 at 10:35 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add clock and reset entries for SPI Multi I/O Bus Controller.
+> Add RSPI{0,1,2} clock and reset entries to CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
