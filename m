@@ -2,205 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF8AB51704D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 15:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C290517070
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 15:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385269AbiEBNcD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 09:32:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34108 "EHLO
+        id S1385442AbiEBNjB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 09:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385270AbiEBNcC (ORCPT
+        with ESMTP id S1385364AbiEBNiw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 09:32:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53DD213F94
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 06:28:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651498112;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2zV+k9kqlgz67AfOxcNykb0h39cTNVnn0WXnNEGgjk4=;
-        b=M/bOdoL2S3N0JICWRmvfdoNBvP4iNrDAP1wSgx/MeZZQL2CSowHRGcH3mF5Gt1s8xHPhCN
-        SX7OFMMemNWaKzv/qjEmY3I630B0PmkjWeVJZ+08PF/1KgZ0hh5grd8LMv9v5B3qjzJc7d
-        UaFePn/FknHIegcRpdvjKAe8qaTrvR4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-Uiir2iITNU6GhJneweABxQ-1; Mon, 02 May 2022 09:28:31 -0400
-X-MC-Unique: Uiir2iITNU6GhJneweABxQ-1
-Received: by mail-wm1-f69.google.com with SMTP id g3-20020a7bc4c3000000b0039409519611so4475477wmk.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 May 2022 06:28:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2zV+k9kqlgz67AfOxcNykb0h39cTNVnn0WXnNEGgjk4=;
-        b=XB34UNBwRtmHl/GKItC5HFeyODLmncHwbI303pJxaKmEqHG+zpONAfdVz34oG0JGop
-         aHbzLN8JZ/aWg6n/toM+P3kQTVkkxXFpyMPiD1DEykGe2Sn6zYKpmpODS5z0AEFP3vvN
-         ITRgIgmFZE+hfyliFRM178bODarS95gRhjL+wQYuxz1HtthwDcNs2jcI+DVmAZFGk0YI
-         rpX09AT//D4d508/zzFWfxeEx/bOhrjbV2UGBu2so6VVsDVJBuzwT5In9j99s9njjHw5
-         nj3s+n96nZQKc3bvXsGep7drL/F0U7rvq7pBE5i0z4VXQ6aJyqff5D52ezQMWNrI070l
-         fvSQ==
-X-Gm-Message-State: AOAM533xJDsyfNrWfQgGaD6B8Ty6Wvchq5zFnPPAYohRfsKNmS9ysgxC
-        iWyhNWPZvs+OA06+Wl6tiaUwVd6nmyU2uAcfkJ9+JwjNX6bRAMuf8j/1zy/ehc5T/vUojUJLhzt
-        +Y9u30PiUJ6dsbsUOFCzaUPqEu1g72Sk=
-X-Received: by 2002:a05:600c:1c20:b0:394:25cb:1404 with SMTP id j32-20020a05600c1c2000b0039425cb1404mr12244362wms.52.1651498109804;
-        Mon, 02 May 2022 06:28:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzu2jM2LG+DX+dIVzq45o/V1TxQWIpFsCwnWfT+RmC19xyv+UYhuI/wi7PI/5TDnuN7eFlQ9w==
-X-Received: by 2002:a05:600c:1c20:b0:394:25cb:1404 with SMTP id j32-20020a05600c1c2000b0039425cb1404mr12244330wms.52.1651498109516;
-        Mon, 02 May 2022 06:28:29 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l3-20020adfa383000000b0020c5253d8bcsm6985850wrb.8.2022.05.02.06.28.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 06:28:29 -0700 (PDT)
-Message-ID: <c0703a8c-3263-6dde-07e4-9f03680c6726@redhat.com>
-Date:   Mon, 2 May 2022 15:28:25 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/3] drm/fb-helper: Rename preferred_bpp
- drm_fbdev_generic_setup() parameter
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Emma Anholt <emma@anholt.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Marek Vasut <marex@denx.de>, Hao Fang <fanghao11@huawei.com>,
-        linux-aspeed@lists.ozlabs.org,
-        Samuel Holland <samuel@sholland.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
-        Dave Airlie <airlied@redhat.com>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-        virtualization@lists.linux-foundation.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Alison Wang <alison.wang@nxp.com>, linux-mips@vger.kernel.org,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-mediatek@lists.infradead.org,
-        dri-devel@lists.freedesktop.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-amlogic@lists.infradead.org,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Evan Quan <evan.quan@amd.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Yong Wu <yong.wu@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-sunxi@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
+        Mon, 2 May 2022 09:38:52 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F9E565F3
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 06:35:20 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:194e:5782:c420:7f87])
+        by albert.telenet-ops.be with bizsmtp
+        id Rpb52700A28fWK506pb5V9; Mon, 02 May 2022 15:35:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nlWCe-002mrd-PI; Mon, 02 May 2022 15:35:04 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nlWCd-002vA0-Ss; Mon, 02 May 2022 15:35:03 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Solomon Chiu <solomon.chiu@amd.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        spice-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220502084830.285639-1-javierm@redhat.com>
- <20220502084830.285639-3-javierm@redhat.com>
- <Ym/BtOM3OlPoE+nr@pendragon.ideasonboard.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <Ym/BtOM3OlPoE+nr@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/7] dt-bindings: renesas: R-Car V3U is R-Car Gen4
+Date:   Mon,  2 May 2022 15:34:52 +0200
+Message-Id: <cover.1651497024.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Laurent,
+	Hi all,
 
-On 5/2/22 13:34, Laurent Pinchart wrote:
-> Hi Javier,
-> 
-> Thank you for the patch.
-> 
+Despite the name, R-Car V3U is the first member of the R-Car Gen4
+family[1].
 
-Thanks a lot for your feedback.
+Hence this patch series updates various DT binding documents to move
+compatible values for R-Car V3U devices to R-Car Gen4 sections, in
+bindings where the latter already exist.  Other DT binding documents
+will be updated progressively, after adding support for more SoCs in the
+R-Car Gen4 family.
 
-[snip]
+These patches are intended to be taken by DT or subsystem maintainers.
+Separate patches to update the DTS file[2] and SoC identication code[3]
+are in-flight.
 
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -2501,8 +2501,16 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
->>  /**
->>   * drm_fbdev_generic_setup() - Setup generic fbdev emulation
->>   * @dev: DRM device
->> - * @preferred_bpp: Preferred bits per pixel for the device.
->> - *                 @dev->mode_config.preferred_depth is used if this is zero.
->> + * @options: options for the registered framebuffer.
->> + *
->> + * The @options parameter is a multi-field parameter that can contain
->> + * different options for the emulated framebuffer device registered.
->> + *
->> + * The options must be set using DRM_FB_SET_OPTION() and obtained using
->> + * DRM_FB_GET_OPTION(). The options field are the following:
->> + *
->> + * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
->> + *               @dev->mode_config.preferred_depth is used instead.
-> 
-> Do I assume correctly that a driver that would need to set multiple
-> options would do something like
-> 
-> 	drm_fbdev_generic_setup(dev, DRM_FB_SET_OPTION(DRM_FB_BPP, 32) |
-> 				DRM_FB_SET_OPTION(DRM_FB_FW, 1));
->
+Thanks for your comments!
 
-That's correct, yes.
- 
-> ? If so, I would rename DRM_FB_SET_OPTION() to DRM_FB_OPTION() as it's
-> computing the value of the option bitfield, it doesn't actually set it.
-> Apart from that,
->
+[1] https://www.renesas.com/eu/en/products/automotive-products/automotive-system-chips-socs/r-car-v3u-best-class-r-car-v3u-asil-d-system-chip-automated-driving
+[2] [PATCH] arm64: dts: renesas: r8a779a0: Update to R-Car Gen4 compatible values
+    https://lore.kernel.org/73cea9d5e1a6639422c67e4df4285042e31c9fd5.1651497071.git.geert+renesas@glider.be
+[3] [PATCH] soc: renesas: R-Car V3U is R-Car Gen4
+    https://lore.kernel.org/2bbecad7b6c24c0d5c1797b3f7f0733d5ba33842.1651497066.git.geert+renesas@glider.be
 
-Right. I'll rename it.
- 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
+Geert Uytterhoeven (7):
+  dt-bindings: gpio: renesas,rcar-gpio: R-Car V3U is R-Car Gen4
+  dt-bindings: i2c: renesas,rcar-i2c: R-Car V3U is R-Car Gen4
+  dt-bindings: iommu: renesas,ipmmu-vmsa: R-Car V3U is R-Car Gen4
+  dt-bindings: renesas,rcar-dmac: R-Car V3U is R-Car Gen4
+  dt-bindings: serial: renesas,hscif: R-Car V3U is R-Car Gen4
+  dt-bindings: serial: renesas,scif: R-Car V3U is R-Car Gen4
+  dt-bindings: watchdog: renesas,wdt: R-Car V3U is R-Car Gen4
 
-Thanks!
+ .../devicetree/bindings/dma/renesas,rcar-dmac.yaml     | 10 ++++------
+ .../devicetree/bindings/gpio/renesas,rcar-gpio.yaml    |  4 +---
+ .../devicetree/bindings/i2c/renesas,rcar-i2c.yaml      |  2 +-
+ .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml  |  4 ++--
+ .../devicetree/bindings/serial/renesas,hscif.yaml      |  2 +-
+ .../devicetree/bindings/serial/renesas,scif.yaml       |  2 +-
+ .../devicetree/bindings/watchdog/renesas,wdt.yaml      |  2 +-
+ 7 files changed, 11 insertions(+), 15 deletions(-)
 
 -- 
-Best regards,
+2.25.1
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
