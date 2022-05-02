@@ -2,196 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C4F5176FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 20:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D59451770A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 21:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbiEBS7w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 14:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35650 "EHLO
+        id S1347732AbiEBTD1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 15:03:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiEBS7w (ORCPT
+        with ESMTP id S229819AbiEBTD0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 14:59:52 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B14EF6467
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 11:56:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,192,1647270000"; 
-   d="scan'208";a="119809059"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 May 2022 03:56:21 +0900
-Received: from localhost.localdomain (unknown [10.226.92.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E0A940CB0B7;
-        Tue,  3 May 2022 03:56:15 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Michael Walle <michael@walle.cc>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        linux-mtd@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
+        Mon, 2 May 2022 15:03:26 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EE4654C
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  2 May 2022 11:59:57 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1nlbGg-0002Y4-To; Mon, 02 May 2022 20:59:34 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id C6DE8736FE;
+        Mon,  2 May 2022 18:59:30 +0000 (UTC)
+Date:   Mon, 2 May 2022 20:59:29 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
+        Wolfgang Grandegger <wg@grandegger.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-can@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] mtd: spi-nor: Add Renesas AT25QL128A serial nor flash
-Date:   Mon,  2 May 2022 19:56:13 +0100
-Message-Id: <20220502185613.83483-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL
+ support
+Message-ID: <20220502185929.hgjuitw4mnu4ye3c@pengutronix.de>
+References: <20220423130743.123198-1-biju.das.jz@bp.renesas.com>
+ <YnAlVQr1A6UU0tB3@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vz3iylc7uzhlbnhj"
+Content-Disposition: inline
+In-Reply-To: <YnAlVQr1A6UU0tB3@robh.at.kernel.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for Renesas AT25QL128A serial nor flash.
-Details of flash chip can be found here [1]
 
-[1] https://www.dialog-semiconductor.com/sites/default/files/2022-04/DS-AT25QL128A-129F-022022.pdf
+--vz3iylc7uzhlbnhj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-$  xxd -p sfdp 
-53464450060101ff00060110300000ff1f00010280000001ffffffffffff
-ffffffffffffffffffffffffffffffffffffe520f1ffffffff0744eb086b
-083b80bbfeffffffffff00ffffff42eb0c200f5210d800ff3362d5008429
-01ceeca1073d7a757a75f7a2d55c19f61cffe810c080ffffffffffffffff
-ffffffffffffffff501650190000ffff
+On 02.05.2022 13:39:17, Rob Herring wrote:
+> On Sat, 23 Apr 2022 14:07:43 +0100, Biju Das wrote:
+> > Add CANFD binding documentation for Renesas R9A07G043 (RZ/G2UL) SoC.
+> >=20
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  .../devicetree/bindings/net/can/renesas,rcar-canfd.yaml          | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+>=20
+> Applied, thanks!
 
-:~# md5sum /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/sfdp
-23e3ec56b5b8f986d0488ba4727239dd
+That just got into net-next/master as
+| 35a78bf20033 dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL suppo=
+rt
 
-~# cat /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/jedec_id
-1f4218
+Marc
 
-~# cat /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/partname
-at25ql128a
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
-~# cat /sys/devices/platform/soc/10060000.spi/rpc-if-spi/spi_master/spi1/spi1.0/spi-nor/manufacturer
-renesas
+--vz3iylc7uzhlbnhj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-RFC->v1:
- * Moved the flash definitions to atmel.c
- * Remove macro related to locking as it is untested.
- * Replaced INFO macro with SNOR_ID3
- 
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220501185512.51158-1-biju.das.jz@bp.renesas.com/
----
- drivers/mtd/spi-nor/atmel.c | 55 +++++++++++++++++++++++++++++++++++++
- drivers/mtd/spi-nor/core.c  |  1 +
- drivers/mtd/spi-nor/core.h  |  1 +
- 3 files changed, 57 insertions(+)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/mtd/spi-nor/atmel.c b/drivers/mtd/spi-nor/atmel.c
-index 656dd80a0be7..61cff6de7db2 100644
---- a/drivers/mtd/spi-nor/atmel.c
-+++ b/drivers/mtd/spi-nor/atmel.c
-@@ -10,6 +10,15 @@
- 
- #define ATMEL_SR_GLOBAL_PROTECT_MASK GENMASK(5, 2)
- 
-+#define SNOR_ID3(_jedec_id) \
-+	.id = { \
-+		((_jedec_id) >> 16) & 0xff, \
-+		((_jedec_id) >> 8) & 0xff, \
-+		(_jedec_id) & 0xff, \
-+	}, \
-+	.id_len = 3, \
-+	.parse_sfdp = true
-+
- /*
-  * The Atmel AT25FS010/AT25FS040 parts have some weird configuration for the
-  * block protection bits. We don't support them. But legacy behavior in linux
-@@ -204,6 +213,52 @@ static const struct flash_info atmel_nor_parts[] = {
- 		NO_SFDP_FLAGS(SECT_4K) },
- };
- 
-+static const struct flash_info renesas_nor_parts[] = {
-+	{ "at25ql128a", SNOR_ID3(0x1f4218) },
-+};
-+
-+/**
-+ * renesas_nor_set_4byte_addr_mode() - Set 4-byte address mode for Renesas
-+ * flashes.
-+ * @nor:	pointer to 'struct spi_nor'.
-+ * @enable:	true to enter the 4-byte address mode, false to exit the 4-byte
-+ *		address mode.
-+ *
-+ * Return: 0 on success, -errno otherwise.
-+ */
-+static int renesas_nor_set_4byte_addr_mode(struct spi_nor *nor, bool enable)
-+{
-+	int ret;
-+
-+	ret = spi_nor_write_enable(nor);
-+	if (ret)
-+		return ret;
-+
-+	ret = spi_nor_set_4byte_addr_mode(nor, enable);
-+	if (ret)
-+		return ret;
-+
-+	return spi_nor_write_disable(nor);
-+}
-+
-+static void renesas_nor_default_init(struct spi_nor *nor)
-+{
-+	nor->flags &= ~SNOR_F_HAS_16BIT_SR;
-+	nor->params->quad_enable = NULL;
-+	nor->params->set_4byte_addr_mode = renesas_nor_set_4byte_addr_mode;
-+}
-+
-+static const struct spi_nor_fixups renesas_nor_fixups = {
-+	.default_init = renesas_nor_default_init,
-+};
-+
-+const struct spi_nor_manufacturer spi_nor_renesas = {
-+	.name = "renesas",
-+	.parts = renesas_nor_parts,
-+	.nparts = ARRAY_SIZE(renesas_nor_parts),
-+	.fixups = &renesas_nor_fixups,
-+};
-+
- const struct spi_nor_manufacturer spi_nor_atmel = {
- 	.name = "atmel",
- 	.parts = atmel_nor_parts,
-diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
-index b4f141ad9c9c..ba9f222da00b 100644
---- a/drivers/mtd/spi-nor/core.c
-+++ b/drivers/mtd/spi-nor/core.c
-@@ -1621,6 +1621,7 @@ static const struct spi_nor_manufacturer *manufacturers[] = {
- 	&spi_nor_issi,
- 	&spi_nor_macronix,
- 	&spi_nor_micron,
-+	&spi_nor_renesas,
- 	&spi_nor_st,
- 	&spi_nor_spansion,
- 	&spi_nor_sst,
-diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
-index b7fd760e3b47..3d2e39329079 100644
---- a/drivers/mtd/spi-nor/core.h
-+++ b/drivers/mtd/spi-nor/core.h
-@@ -511,6 +511,7 @@ extern const struct spi_nor_manufacturer spi_nor_intel;
- extern const struct spi_nor_manufacturer spi_nor_issi;
- extern const struct spi_nor_manufacturer spi_nor_macronix;
- extern const struct spi_nor_manufacturer spi_nor_micron;
-+extern const struct spi_nor_manufacturer spi_nor_renesas;
- extern const struct spi_nor_manufacturer spi_nor_st;
- extern const struct spi_nor_manufacturer spi_nor_spansion;
- extern const struct spi_nor_manufacturer spi_nor_sst;
--- 
-2.25.1
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmJwKg8ACgkQrX5LkNig
+012yfwf+Id2UNwmrDlurQlemVLbxIRUY+mkcOs73m7ATG33wKOTEqlEVX39qip4O
+vTKXP649wTWkWVSomhy01bziXcB9ut3VEsEYIVK9qR1gMctUYdJfyG/D3rk/NFKN
+5dc1JkS6UJu6KKuFY2sB+5/uDYOD24cWPSqoe9OvQ+tysQSfTcNaU0ft/QckBjbz
+aX7M7TeLb/lywnXhTcptKw6a5Qz+zIbM3qQPfbM9ABCnrpT+kWAE6eiFAX0VhKbt
+yXtzkK4/gmmEH8gQqsly0O3s3Tfx6P+lZ1KmYmK4vFsAzNIZEZ2y+DuAlIji/uXA
+Gd8Z++lW9XP8/t2NDNWq9dwX1woD0g==
+=nF1c
+-----END PGP SIGNATURE-----
 
+--vz3iylc7uzhlbnhj--
