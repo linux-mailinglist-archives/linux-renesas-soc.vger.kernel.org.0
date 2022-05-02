@@ -2,73 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B54415170CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 15:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E585170DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 May 2022 15:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379884AbiEBNrP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 May 2022 09:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52718 "EHLO
+        id S1385433AbiEBNtx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 May 2022 09:49:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242565AbiEBNrO (ORCPT
+        with ESMTP id S1352494AbiEBNtp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 May 2022 09:47:14 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63BA288;
-        Mon,  2 May 2022 06:43:43 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 35F31C000D;
-        Mon,  2 May 2022 13:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651499022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rTNTBDxgKfkBKLVRJS6UhHxHs1szeuwpqo0QEGwYx7Q=;
-        b=UkiAgflMq3OoaHbggQd0NS0/zduGzlUMCyALI3kHiXg7gWA2J/uDsAVmLsICsMkgPkzJd+
-        XMEDtKiURDChQVwwbPFRvGa4G7VVupAEYSXuHzxavduYZ7J949sEJ2hCUsxVU6GwX5nNB3
-        qIhZW3o/2h4A045/2QcjuQCiBhcdLClcxgja55wM4fRjExUngPwMK9xAd5ZgeHDVA6f6EH
-        XVlQIiZkJyf1WkXxtOu+kI7crbWM6ZP8e2vEff4dXDNFeNVGpzx4r4YdB1HlMpFpRhM/Ce
-        sbHgQRxwVxxcots4dufruojEKQYZZaR9IXQCqw6H/T3NIQDjUCPpRpDJCBGIbw==
-Date:   Mon, 2 May 2022 15:43:38 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [net-next v2 02/12] net: dsa: add Renesas RZ/N1 switch tag
- driver
-Message-ID: <20220502154338.201a7416@xps-bootlin>
-In-Reply-To: <baec3c8d-72f1-b1b5-f472-ee73be1047d6@gmail.com>
-References: <20220429143505.88208-1-clement.leger@bootlin.com>
-        <20220429143505.88208-3-clement.leger@bootlin.com>
-        <baec3c8d-72f1-b1b5-f472-ee73be1047d6@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
+        Mon, 2 May 2022 09:49:45 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97DFC1260F;
+        Mon,  2 May 2022 06:46:16 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id x22so5973403qto.2;
+        Mon, 02 May 2022 06:46:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aTBaCHq+ZPp/83sC9QEFQMvZBDoFtqtvGEyIKWXC9I0=;
+        b=pQ0P7mdf3UfBoup1qMUmHoQwKcTRRGn38eIKFi87irzAHAkTP7Eu5jXNGMJGKDbVti
+         L+x1yV1Cb14Cyy9xBgqmVbuSFK1MweBcOcHFw8xV3KA0QlmD4vI+XF7pECmw8Yv2Ni5V
+         vATM0y6LUAphA3jSfgBQ2ZmsnUa07bDmjwN08335wXwC6bUXAghkZNoRyWnrxGMNUMsS
+         IJTERPbjbIidIRoKRQcW12SL8QAknVBXSMPIRzGUMon9VskWApqBxsTu7Lvu1e2coXg2
+         K+uMquDSk3R4jCJMCwzBukrflB4ogqmJT/HmD9Kk/B3QUq9adH2uZ2MRUhRgNTwCQYZP
+         Xs0g==
+X-Gm-Message-State: AOAM532Ch/q2zwC0ISwdZrGP3M4sr/I8BQ0dXNXUBw9tOSuVV0DR1XXh
+        0ExQdYMwZR2Uw9yEi6kqtSCkn0/wZzs4ow==
+X-Google-Smtp-Source: ABdhPJxTmoL7T7I9Bkm5J8hYQjUv66Agz4bGolXwY6cMH+wJofMkI7y1cP/Da2V20fn5iJ80vXN8AQ==
+X-Received: by 2002:ac8:5896:0:b0:2f3:a7b1:a2cb with SMTP id t22-20020ac85896000000b002f3a7b1a2cbmr2515932qta.476.1651499175408;
+        Mon, 02 May 2022 06:46:15 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id s126-20020a37a984000000b0069fca79fa3asm3538092qke.62.2022.05.02.06.46.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 May 2022 06:46:15 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id g28so26067571ybj.10;
+        Mon, 02 May 2022 06:46:15 -0700 (PDT)
+X-Received: by 2002:a25:4506:0:b0:648:cfc2:301d with SMTP id
+ s6-20020a254506000000b00648cfc2301dmr10228415yba.380.1651499174794; Mon, 02
+ May 2022 06:46:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+References: <20220429082637.1308182-1-yangyingliang@huawei.com>
+In-Reply-To: <20220429082637.1308182-1-yangyingliang@huawei.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 2 May 2022 15:46:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUUiXB3ouxM57Dy+puY-WfV4jpgnRwB8THSQqbhgvkk+g@mail.gmail.com>
+Message-ID: <CAMuHMdUUiXB3ouxM57Dy+puY-WfV4jpgnRwB8THSQqbhgvkk+g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] pinctrl: renesas: fix possible null-ptr-deref in sh_pfc_map_resources()
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,53 +67,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Fri, 29 Apr 2022 09:22:21 -0700,
-Florian Fainelli <f.fainelli@gmail.com> a =C3=A9crit :
+On Fri, Apr 29, 2022 at 4:30 PM Yang Yingliang <yangyingliang@huawei.com> wrote:
+> It will cause null-ptr-deref when using 'res', if platform_get_resource()
+> returns NULL, so move using 'res' after devm_ioremap_resource() that
+> will check it to avoid null-ptr-deref.
+> And use devm_platform_get_and_ioremap_resource() to simplify code.
+>
+> Fixes: c7977ec4a336 ("pinctrl: sh-pfc: Convert to platform_get_*()")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 
-> On 4/29/22 07:34, Cl=C3=A9ment L=C3=A9ger wrote:
-> > The switch that is present on the Renesas RZ/N1 SoC uses a specific
-> > VLAN value followed by 6 bytes which contains forwarding
-> > configuration.
-> >=20
-> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > --- =20
->=20
-> [snip]
->=20
-> > +struct a5psw_tag {
-> > +	__be16 ctrl_tag;
-> > +	__be16 ctrl_data;
-> > +	__be16 ctrl_data2_hi;
-> > +	__be16 ctrl_data2_lo;
-> > +} __packed; =20
->=20
-> The structure should already be naturally aligned.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v5.19.
 
-Indeed, I'll remove this packed attribute.
+Gr{oetje,eeting}s,
 
->=20
-> > +
-> > +static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct
-> > net_device *dev) +{
-> > +	struct dsa_port *dp =3D dsa_slave_to_port(dev);
-> > +	struct a5psw_tag *ptag;
-> > +	u32 data2_val;
-> > +
-> > +	BUILD_BUG_ON(sizeof(*ptag) !=3D A5PSW_TAG_LEN);
-> > +
-> > +	/* The Ethernet switch we are interfaced with needs
-> > packets to be at
-> > +	 * least 64 bytes (including FCS) otherwise they will be
-> > discarded when
-> > +	 * they enter the switch port logic. When tagging is
-> > enabled, we need
-> > +	 * to make sure that packets are at least 68 bytes
-> > (including FCS and
-> > +	 * tag). =20
->=20
-> Did you mean 70 bytes since your tag is 6, and not 4 bytes?
+                        Geert
 
-Yes you are right, this should be 70 bytes. Additionnaly, I forgot to
-add the FCS len to the number of byte to be padded below.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
