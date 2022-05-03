@@ -2,106 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5402517F93
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 10:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DB2C517FAD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 10:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232031AbiECITe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 04:19:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56944 "EHLO
+        id S232714AbiECI2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 04:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232556AbiECITd (ORCPT
+        with ESMTP id S230266AbiECI2B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 04:19:33 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2EB21E06
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 01:16:02 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1nlnhC-0002lE-Tg; Tue, 03 May 2022 10:15:46 +0200
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 51A54749F4;
-        Tue,  3 May 2022 08:15:44 +0000 (UTC)
-Date:   Tue, 3 May 2022 10:15:42 +0200
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: can: renesas,rcar-canfd: Make
- interrupt-names required
-Message-ID: <878rrjf2vv.fsf@hardanger.blackshift.org>
-References: <cover.1651512451.git.geert+renesas@glider.be>
- <a68e65955e0df4db60233d468f348203c2e7b940.1651512451.git.geert+renesas@glider.be>
+        Tue, 3 May 2022 04:28:01 -0400
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1329C29800;
+        Tue,  3 May 2022 01:24:29 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id fu47so12840636qtb.5;
+        Tue, 03 May 2022 01:24:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9YnP6vfJr9TbfGLMjvmqv2bLcwhcFhdlsyuTJheg4pQ=;
+        b=ZO2B810hT/H8jtfDkKGQluG7GIu/w1M0S5mHu2mabH8BTYLEjMTO/LbY9aZNti8Rpw
+         ndIAFfFjLXK04LAJa982sIN7xa1033MU406pGDYyM/CFOFMnKEYnzHyDaCA75RaphPhz
+         i8RrgNSyGmUksv2W7HZ1486NjV7CVA/A5Vw/zyDG7jOfA7qySXNK/pY5wRCwUHMwY4m9
+         VqgKrkKqFiKtnFIoiR6iERr4xPKtVMqV93YK9TqIuRx+Sh06ftkXWI+KvSEM3E/2pBE4
+         elMk1zmtZtfi9MT9+kOSdjT8pyiVe6N2KvQLxHDOH6ghV4hYgCPe/MNstUJkINqMedgK
+         hs2Q==
+X-Gm-Message-State: AOAM531eHyxMwtWgVDn9tNlZB/tr7WXs2M5V4/pCq7UmsMQDJnA2VgC9
+        //RHPmZgMA+45387HxlzGTcv40VJMONi5A==
+X-Google-Smtp-Source: ABdhPJxLhZB+BFv6U4nRiTaAorrPo4ao71BBtJis8n9ErltZ/vgZ/bZCaolRhEIfS4NAbB5cRlE5Eg==
+X-Received: by 2002:a05:622a:64f:b0:2e0:6a11:7b0d with SMTP id a15-20020a05622a064f00b002e06a117b0dmr13556043qtb.9.1651566268059;
+        Tue, 03 May 2022 01:24:28 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id c15-20020a05620a268f00b0069ff48599c5sm1743511qkp.107.2022.05.03.01.24.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 01:24:27 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id r11so7026209ybg.6;
+        Tue, 03 May 2022 01:24:27 -0700 (PDT)
+X-Received: by 2002:a05:6902:82:b0:649:d5a0:9edd with SMTP id
+ h2-20020a056902008200b00649d5a09eddmr2751350ybs.202.1651566266746; Tue, 03
+ May 2022 01:24:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sfgxuhwvddqugxs5"
-Content-Disposition: inline
-In-Reply-To: <a68e65955e0df4db60233d468f348203c2e7b940.1651512451.git.geert+renesas@glider.be>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220501081523.22479-1-biju.das.jz@bp.renesas.com>
+ <OSZPR01MB7019299D00A457C964CC403DAAC19@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922CCDFA8C3648F49A10EB186C19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdWHemJn2KUBzYA8oVYgtG4sX2H=4-AdRuF0uZ2EgQEk6w@mail.gmail.com>
+ <OSZPR01MB701947B40187981ACE6A271DAAC09@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59222A7FAB923579C21D6B6286C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdV5F9RMyKbqV=zUAhH2UZuRCoc5Y+WC_GNvG5JioMnFGA@mail.gmail.com>
+ <OS0PR01MB5922BCC070E328A9B5AA6AA486C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdWy9-68EUdjZOVDU-DTAYgijeUZ1u+_nGE0pVBZSX=e1w@mail.gmail.com> <OS0PR01MB5922EE8A730DB8A97C9CEF5086C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922EE8A730DB8A97C9CEF5086C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 May 2022 10:24:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVj9bshjPHeoamKE2oLmctJxNA6wnUsqr7gAVLj9xLEEQ@mail.gmail.com>
+Message-ID: <CAMuHMdVj9bshjPHeoamKE2oLmctJxNA6wnUsqr7gAVLj9xLEEQ@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Biju,
 
---sfgxuhwvddqugxs5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 3, 2022 at 10:05 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+> > On Tue, May 3, 2022 at 9:47 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL
+> > > >ADC  On Tue, May 3, 2022 at 8:54 AM Biju Das
+> > > > These can be dropped, as dtbs_check should take care of that.
+> > >
+> > > OK, Will remove this.
+> >
+> > Actually it's OK to keep them, as they are the upper limits supported by
+> > the hardware block.
+>
+> You mean use upper limit of 2 for RZ/G2UL and 8 for RZ/G2L, right?
 
-On 02.05.2022 19:33:53, Geert Uytterhoeven wrote:
-> The Renesas R-Car CAN FD Controller always uses two or more interrupts.
-> Make the interrupt-names properties a required property, to make it
-> easier to identify the individual interrupts.
->=20
-> Update the example accordingly.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+No, I did mean RZG2L_ADC_MAX_CHANNELS, which is the upper limit of
+the hardware block.
 
-Applied to linux-can-next/testing.
+> For eg:-
+>  If we use, Channel0 and channel 2 :- this will be caught in dtbs as
+>
+> /home/biju/rzg2l-linux/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.example.dtb: adc@10059000: channel@2:reg:0:0: 2 is greater than the maximum of 1
+>
+> But for run time, we don't want to this to happen for RZ/G2UL??
 
-regards,
-Marc
+It will be caught at "make dtbs_check" time.
+And at test time, as it won't work anyway --- do not post un-tested
+patches ;-)
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+Gr{oetje,eeting}s,
 
---sfgxuhwvddqugxs5
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmJw5KwACgkQrX5LkNig
-010SDAgAmjLWcB7Oaw7BaFNiAZCrFvSztk4Cdz5YLEkvckGfldZ3/pMuCe42t9sf
-oVJF8+89iexDgYCV/8VLOvtfeHnOBV/A1TLO3FUEXEMeVsjnpEXM8SKveWbQ1/sW
-Eav3u40j/oaoiKNoT5CYRzu2n+6qFmPBsfmj4QkONfKhDvxTB+ILZPhcth7urR6J
-muEHawO6nWkX7l8G52BEWMgi7CDvfudTzSywaJ/qQ1berzwpJYIMs64RBhdWonOk
-wA5Qr2iTjW7WGfg4NR00w416PhfFLrwc+f8pG7t20WZ74mkdODYzoFlWlgxrM55m
-F5mLvO7aP6tf/N7Zzw7Z+CDXsK7Lkw==
-=FNo9
------END PGP SIGNATURE-----
-
---sfgxuhwvddqugxs5--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
