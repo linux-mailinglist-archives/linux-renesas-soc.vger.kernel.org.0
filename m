@@ -2,87 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F222517EDC
+	by mail.lfdr.de (Postfix) with ESMTP id 5846B517EDD
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 09:26:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbiECH2Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 03:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        id S232140AbiECH3f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 03:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231779AbiECH2P (ORCPT
+        with ESMTP id S232467AbiECH3c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 03:28:15 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2850C25FF;
-        Tue,  3 May 2022 00:24:44 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id o18so12780762qtk.7;
-        Tue, 03 May 2022 00:24:44 -0700 (PDT)
+        Tue, 3 May 2022 03:29:32 -0400
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA7C23632E;
+        Tue,  3 May 2022 00:26:00 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id kk28so3785946qvb.3;
+        Tue, 03 May 2022 00:26:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RQYOprqPZiG5gHI59nVhQvUNNhejNv4Flqvp6b5JG/0=;
-        b=tyIsYpDJSdK6CD8ms0Y5wvwPcVa9E/g23UmjCmwmvv3Gbzr6hixWkjTuLS7PHzemFZ
-         HDe1EAaUkbc/FCKglGNGl1DfxiLf/h3X+Sp8zp4cncsdovuur2T8BeDMgFI8mfAjs2qN
-         MibvKoTWjROI6GRmqwNmhfxCgJd8SERhdhyW43SxnIfjHMR3B+hw3dwiX0AfkVPKxdE9
-         tauqj6OeW07qA3JqGgFydhlHuHorCa0ToBGixBqJWI0OAVp9nxdzhG0cRMxqcRf1HDig
-         BB4Woe/++e+uaifEYBgQBPFnu5Jsbp9Gtmis4CXe7be175X4tGLVcfKmPhEEPNPryxQm
-         GDKA==
-X-Gm-Message-State: AOAM532T8I2MzqRpyVY89HnxklR01oKEYjDi1TZ7y9FtbExp/eS7Aep9
-        HmelboATrnDbdtKGdKsTvUN2uh7Bpd6/Qw==
-X-Google-Smtp-Source: ABdhPJy7Ua+8zbQlQXlWgx+4Gwp0wVlEPmbOTEk47WUrbnZqs78allE89ddaVATDj5DylSsKQJ7TTA==
-X-Received: by 2002:a05:622a:1a21:b0:2f1:f29e:40a with SMTP id f33-20020a05622a1a2100b002f1f29e040amr13329667qtb.235.1651562683186;
-        Tue, 03 May 2022 00:24:43 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id c5-20020ac86605000000b002f39b99f6a0sm5440327qtp.58.2022.05.03.00.24.42
+        bh=YD6pDX7MFiRlZPMrxCGiAGzBVQ9fcEPaJDRhBoAH8Fc=;
+        b=pEkuhgof2k32QKTeaSAifwjGDQ3vYUtsjULG5eJ0nkg/dUGyOR/GObS3sRuHANd8kg
+         mtFHqiSdYnrthcwIWgFtjU3kfRrPEpQri2wPaZtjdEpEvNd0O78nHE/tn15lvUSzJJrg
+         0xdR9CaeosEmgfjH3dFeD/QVvOdkHIk91vrYwQMWgbVdFE3tugQNTzNoK7BXF7TFG7mx
+         u/NDRO0l3fV7XWM3pb1mEdaCpjaUUbBcMlDf7SyP18grWkmHT54RV7YlmnAk5Mzo7x/6
+         3NqIWsYSk7jOe+thy1stgv/3oo28tnxEHxaWPL2xtw/qiifB3ZYRTENHPAhJK0KSyLaM
+         kj+A==
+X-Gm-Message-State: AOAM533F8o7CR0pxJzkSdZhBUwPMg2ZBk9/k6U4esY28obvM2KtCxu51
+        YSazU4I8E4Sw/T9etOSYiEzMXb3DkUBELg==
+X-Google-Smtp-Source: ABdhPJzHz/1e6pmqFoxFOzhmK5czzvn6gCa51ixXmfxBjpqonZ17LbaghbbVcbe0exXafb+pDtBQNw==
+X-Received: by 2002:a05:6214:f6f:b0:45a:8bcf:8274 with SMTP id iy15-20020a0562140f6f00b0045a8bcf8274mr6915729qvb.14.1651562759726;
+        Tue, 03 May 2022 00:25:59 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id v185-20020a372fc2000000b0069fc13ce252sm5663840qkh.131.2022.05.03.00.25.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 00:24:42 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2f7d621d1caso170530497b3.11;
-        Tue, 03 May 2022 00:24:42 -0700 (PDT)
-X-Received: by 2002:a05:690c:84:b0:2f1:9caa:e4f7 with SMTP id
- be4-20020a05690c008400b002f19caae4f7mr15024691ywb.384.1651562682071; Tue, 03
- May 2022 00:24:42 -0700 (PDT)
+        Tue, 03 May 2022 00:25:58 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id w187so29739158ybe.2;
+        Tue, 03 May 2022 00:25:57 -0700 (PDT)
+X-Received: by 2002:a05:6902:352:b0:63e:94c:883c with SMTP id
+ e18-20020a056902035200b0063e094c883cmr12355814ybs.365.1651562757393; Tue, 03
+ May 2022 00:25:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220502190155.84496-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220502190155.84496-1-biju.das.jz@bp.renesas.com>
+References: <cover.1651512451.git.geert+renesas@glider.be> <20220502182635.2ntwjifykmyzbjgx@pengutronix.de>
+In-Reply-To: <20220502182635.2ntwjifykmyzbjgx@pengutronix.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 May 2022 09:24:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1WWFh1ckh-aEKqcRsGjQCQ=EsjomjLtQVWMOcwG=ZUg@mail.gmail.com>
-Message-ID: <CAMuHMdV1WWFh1ckh-aEKqcRsGjQCQ=EsjomjLtQVWMOcwG=ZUg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r9a07g043: Add SPI Multi I/O Bus
- controller node
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+Date:   Tue, 3 May 2022 09:25:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2RfBUO7SVJ8N2dUVqzvgptLX61UJY5Wdiyobj=rQgJw@mail.gmail.com>
+Message-ID: <CAMuHMdU2RfBUO7SVJ8N2dUVqzvgptLX61UJY5Wdiyobj=rQgJw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] dt-bindings: can: renesas,rcar-canfd: Make
+ interrupt-names required
+To:     Marc Kleine-Budde <mkl@pengutronix.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 2, 2022 at 9:02 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add SPI Multi I/O Bus controller node to R9A07G043 (RZ/G2UL) SoC DTSI.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> V1->v2:
->  * Removed interrupts property as interrupt is not supported on RZ/G2UL.
+Hi Marc,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.19.
+On Mon, May 2, 2022 at 8:27 PM Marc Kleine-Budde <mkl@pengutronix.de> wrote:
+> On 02.05.2022 19:33:51, Geert Uytterhoeven wrote:
+> > The Renesas R-Car CAN FD Controller always uses two or more interrupts.
+> > Hence it makes sense to make the interrupt-names property a required
+> > property, to make it easier to identify the individual interrupts, and
+> > validate the mapping.
+> >
+> >   - The first patch updates the various R-Car Gen3 and RZ/G2 DTS files
+> >     to add interrupt-names properties, and is intended for the
+> >     renesas-devel tree,
+> >   - The second patch updates the CAN-FD DT bindings to mark the
+> >     interrupt-names property required, and is intended for the DT or net
+> >     tree.
+> >
+> > Thanks!
+>
+> LGTM. Who takes this series?
+
+I'll take the first patch.
+
+The second patch is up to you and the DT maintainers.
 
 Gr{oetje,eeting}s,
 
