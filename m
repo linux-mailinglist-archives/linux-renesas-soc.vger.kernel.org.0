@@ -2,164 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B9D1518926
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 17:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79831518930
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 17:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238725AbiECP5K convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 11:57:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
+        id S239023AbiECQA0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 12:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238925AbiECP5J (ORCPT
+        with ESMTP id S233041AbiECQAZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 11:57:09 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715553B56C;
-        Tue,  3 May 2022 08:53:36 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id ke5so12466255qvb.5;
-        Tue, 03 May 2022 08:53:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xvR8faQDJaeveOR0Qcn9d2ECF2rJcFcyUs3ADmoPK9I=;
-        b=56vogaJcR0Wkt8tOvJtqtL7jNep1Xf2b8nHgyRXDMYi9MeCBxJFSa6a3kFmZ/scm2T
-         mr9+9T7O5QmRvP6H1XZPSXk16ZHQDD65KOnOQtgDy1l8oZE3/OtpDrNAEeUq5ixvI3fb
-         hVTYKdSit3J6cCm4/gZCCAWOej60Vq7lRMo4sqd1DSHDffU6pte7aMK6KJ2VlwR/4t+f
-         /rta7aa4Y1Y0oGiwwiJLf+YTySHgvvX6+f1wFgRxfE2i+53uFlDbGnvDZR7lSviwY3vN
-         obeB6n5MJt8JRhkuiIt5Ze9rvWpbx5e9HkS09PZkW3sVsh04ispqccdYpkPZvEh1/6KT
-         Rc9w==
-X-Gm-Message-State: AOAM531RFV6c3GoEseuScyNbC/yVNtbmt05hKVOXLv6ZwdyCc3kl2MJs
-        d4NkLYrOmr0Mav/s0M9HAO8YoAPphAHBrQ==
-X-Google-Smtp-Source: ABdhPJw9kdkPNOIfzgKxpe2Cjg7Kc/swj7gKKtIAzrGkm63aCDaCwag8sYqB7aYd0GnVN90s+mrTfA==
-X-Received: by 2002:a0c:fd8d:0:b0:456:3481:603c with SMTP id p13-20020a0cfd8d000000b004563481603cmr14175646qvr.69.1651593215274;
-        Tue, 03 May 2022 08:53:35 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id b13-20020a05620a088d00b0069fd2a10ef7sm4325466qka.100.2022.05.03.08.53.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 08:53:34 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2f863469afbso160412567b3.0;
-        Tue, 03 May 2022 08:53:34 -0700 (PDT)
-X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
- z130-20020a816588000000b002f8b75e1e1amr16162028ywb.358.1651593214307; Tue, 03
- May 2022 08:53:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220429143505.88208-1-clement.leger@bootlin.com> <20220429143505.88208-5-clement.leger@bootlin.com>
-In-Reply-To: <20220429143505.88208-5-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 May 2022 17:53:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1anDky+_hyCnsptuDnCN=eaY6RrsTVU36jujkFr+DqQ@mail.gmail.com>
-Message-ID: <CAMuHMdV1anDky+_hyCnsptuDnCN=eaY6RrsTVU36jujkFr+DqQ@mail.gmail.com>
-Subject: Re: [net-next v2 04/12] net: pcs: add Renesas MII converter driver
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Tue, 3 May 2022 12:00:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE45421E3A;
+        Tue,  3 May 2022 08:56:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 79589B81EB8;
+        Tue,  3 May 2022 15:56:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3029CC385A4;
+        Tue,  3 May 2022 15:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651593410;
+        bh=yLgv+wqjkaIZgbsKQ6TfodDHyXt26mq0elWPo6njigU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dhgSF+zjy5Ffe5isKT2GTwYJS7C5JXBW7EmkeDwDcQJu94mQBg0A2QVhw/ltHzJnK
+         CfBc90HR0sW71FhhfPMf3wVqAOa2H5hDdwCiASqaFTaOHiq3d6FR9bTs+TpH0Pt+EV
+         ldpoa3/CiAjsgQj8DT4IavwWMx2xedrO9h5fh5885C23D1yCGcT/XJhDa8bbhkeeLT
+         +7qUTq853OWvh7wEe8nNDmsEBSsR44GLRebUsArj4PNXQuUp4Py8ceaX/CU0ELygqe
+         SCPKD5ffk+zAvHcyqHHQV/SAbZRB0CpfyGokom51VfS1fL3qmVm3KVqUTXSJnc2CdY
+         kgdRmDhVs9w+A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nlutL-008gpO-J5; Tue, 03 May 2022 16:56:47 +0100
+Date:   Tue, 03 May 2022 16:56:47 +0100
+Message-ID: <87bkwe8v9c.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add optional clock and reset
+In-Reply-To: <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
+References: <20220503115557.53370-1-phil.edworthy@renesas.com>
+        <20220503115557.53370-5-phil.edworthy@renesas.com>
+        <6fb57bcc87e091d6e88217d2b82af9da@kernel.org>
+        <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: geert@linux-m68k.org, phil.edworthy@renesas.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, biju.das.jz@bp.renesas.com, daniel.lezcano@linaro.org, tglx@linutronix.de, mark.rutland@arm.com, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Geert,
 
-On Fri, Apr 29, 2022 at 4:36 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> Add a PCS driver for the MII converter that is present on the Renesas
-> RZ/N1 SoC. This MII converter is reponsible for converting MII to
-> RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
-> reuse it in both the switch driver and the stmmac driver. Currently,
-> this driver only allows the PCS to be used by the dual Cortex-A7
-> subsystem since the register locking system is not used.
->
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+On Tue, 03 May 2022 15:22:35 +0100,
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> Hi Marc,
+> 
+> On Tue, May 3, 2022 at 3:12 PM Marc Zyngier <maz@kernel.org> wrote:
+> > On 2022-05-03 12:55, Phil Edworthy wrote:
+> > > Some SoCs use a gated clock for the timer and the means to reset the
+> > > timer.
+> > > Hence add these as optional.
+> >
+> > The architecture is crystal clear on the subject: the counter
+> > is in an always-on domain. Why should this be visible to SW?
+> > Also, reseting the counter breaks the guaranteed monotonicity
+> > we rely on.
+> 
+> The DT bindings do state:
+> 
+>   always-on:
+>     type: boolean
+>     description: If present, the timer is powered through an always-on power
+>       domain, therefore it never loses context.
+> 
+> and (surprisingly?) the absence of this property seems to be the
+> norm...
 
-> --- a/drivers/net/pcs/Kconfig
-> +++ b/drivers/net/pcs/Kconfig
-> @@ -18,4 +18,11 @@ config PCS_LYNX
->           This module provides helpers to phylink for managing the Lynx PCS
->           which is part of the Layerscape and QorIQ Ethernet SERDES.
->
-> +config PCS_RZN1_MIIC
-> +       tristate "Renesas RZ/N1 MII converter"
+*timer* is the key word. And counter != timer. What your HW has is a
+gate on the *counter* which is illegal if observable from NS SW.
 
-depends on ARCH_RZN1 || COMPILE_TEST
+> 
+> And:
+> 
+>   arm,no-tick-in-suspend:
+>     type: boolean
+>     description: The main counter does not tick when the system is in
+>       low-power system suspend on some SoCs. This behavior does not match the
+>       Architecture Reference Manual's specification that the system
+> counter "must
+>       be implemented in an always-on power domain."
+> 
+> So there's already precedent for clocks that can be disabled.
 
-> +       help
-> +         This module provides a driver for the MII converter that is available
-> +         on RZ/N1 SoCs. This PCS convert MII to RMII/RGMII or can be set in
+No, this is only the case in *suspend*, as the name of the property
+vaguely hints at. And that's a property for a bug. In your case, the
+clock can be controlled arbitrarily, which is even worse.
 
-converts
+> 
+> > Worse case, this belongs to the boot firmware, not the kernel,
+> > and I don't think this should be described in the DT.
+> 
+> "DT describes hardware, not software policy"?
 
-> +         pass-through mode for MII.
-> +
+I'm happy to spread "always-on" properties all over the shop, but
+that's not helping. The HW spec says it in bold letters: the counter
+is always running, and doesn't jump backward. I can't imagine how
+secure SW will behave when you reset its counter... :-/
 
-> --- /dev/null
-> +++ b/drivers/net/pcs/pcs-rzn1-miic.c
+	M.
 
-> +static int miic_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct miic *miic;
-> +       u32 mode_cfg;
-> +       int ret;
-> +
-> +       ret = miic_parse_dt(dev, &mode_cfg);
-> +       if (ret < 0)
-> +               return -EINVAL;
-> +
-> +       miic = devm_kzalloc(dev, sizeof(*miic), GFP_KERNEL);
-> +       if (!miic)
-> +               return -ENOMEM;
-> +
-> +       spin_lock_init(&miic->lock);
-> +       miic->dev = dev;
-> +       miic->base = devm_platform_ioremap_resource(pdev, 0);
-> +       if (!miic->base)
-> +               return -EINVAL;
-> +
-> +       miic->nclk = devm_clk_bulk_get_all(dev, &miic->clks);
-> +       if (miic->nclk < 0)
-> +               return miic->nclk;
-> +
-> +       ret = clk_bulk_prepare_enable(miic->nclk, miic->clks);
-> +       if (ret)
-> +               return ret;
-
-As you don't seem to need any knowledge about the clocks' properties,
-perhaps you can use Runtime PM instead?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Without deviation from the norm, progress is not possible.
