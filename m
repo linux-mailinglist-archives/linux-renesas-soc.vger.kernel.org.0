@@ -2,128 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B604B5183D6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 14:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C26235184AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 15:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235072AbiECMGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 08:06:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52440 "EHLO
+        id S235673AbiECNFL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 09:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235147AbiECMGP (ORCPT
+        with ESMTP id S230133AbiECNFK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 08:06:15 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 942EF31DE0;
-        Tue,  3 May 2022 05:02:42 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,195,1647270000"; 
-   d="scan'208";a="118643217"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 May 2022 21:02:41 +0900
-Received: from localhost.localdomain (unknown [10.226.92.6])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 56D1C4226B04;
-        Tue,  3 May 2022 21:02:39 +0900 (JST)
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v3 12/12] arm64: dts: renesas: Add initial device tree for RZ/V2M EVK
-Date:   Tue,  3 May 2022 12:55:57 +0100
-Message-Id: <20220503115557.53370-13-phil.edworthy@renesas.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220503115557.53370-1-phil.edworthy@renesas.com>
-References: <20220503115557.53370-1-phil.edworthy@renesas.com>
+        Tue, 3 May 2022 09:05:10 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E11B19013
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 06:01:37 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id p18so19747467edr.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 06:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=gG0dwpdZEvdDBuvEs96CRkJ96qnrRXLRezy0ryDW5k4=;
+        b=ALFTAYUx97uyNKW+lAnYdzjZir2++CoTgHbyUjF7Tyu8FB355br9ymFrLHz0yjDrvH
+         DrBwdFc3LklD9yrRb89qLlvZA45swTSbmHuxKgldKlCxDB9G9Bd/rTJMgy2E5BhuXpNG
+         yb3uDyAd0RZWZOAzkIzno8BwG1U9FqEA2iDDfvFQdY1zAtE4mcYmqd0IK3E8B6WW5z6O
+         Il7T85auivSNN1fPpuxtB8GmcDN5yYpug0AHyoO9xlmN/aBKvPJd2Lo3lmc7T3UxTryT
+         aSyIBP9yrCWMYKMi9FYlBuxD7LnSgPuAOlxYmPFIuuY5zYNOFH/jYeetXY4nPgZt1+cp
+         4lTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=gG0dwpdZEvdDBuvEs96CRkJ96qnrRXLRezy0ryDW5k4=;
+        b=gHExcVeJoGX3ogqdARo8Ripgqk9dZvgh8IaEf8cLmw6NdgthV/JQLBU5/9cjFnCrPL
+         N7ofvQzKD1Z+mMUmNJaqBQRarexS9ephNPFkYP5VsFOa5wdnKFTeuDiryRw+fjZw1qkA
+         73twW1d4WkJE7uuXOTrPzWQq5ERxTNBoD3bd9bu+GVyCormsTIzrgfwydpoAaaKfIfP/
+         j02gRmthOxGJVlMPAtBqmEFNskpnjRsI22tmZbVmamX36m/KQjIenyvYtjnuxBBiJ6bw
+         ddr/iTmLxK2BP9TNIennMF+CkSx9QRJluSjp+nYn7TpSdd1KZUThEIRgimpQkmaSiK4U
+         WaWg==
+X-Gm-Message-State: AOAM532wQV/eakt6dr5xkJ2eo71BaSkyXm2VfxhWfA8NTjCsMgKxV64V
+        Ll2Bv+wvmERs4MUiSLoQCUBojw==
+X-Google-Smtp-Source: ABdhPJx2Srwjeq9nawpv4x1JuljzsyhT5QkLcbjVFz2bgafQYS+1B1AShuziH+AsAOVKPNcC8AG0zA==
+X-Received: by 2002:aa7:c0c4:0:b0:425:c776:6f17 with SMTP id j4-20020aa7c0c4000000b00425c7766f17mr17610108edp.131.1651582895443;
+        Tue, 03 May 2022 06:01:35 -0700 (PDT)
+Received: from [192.168.0.203] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id hy10-20020a1709068a6a00b006f3ef214dd4sm4687649ejc.58.2022.05.03.06.01.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 06:01:34 -0700 (PDT)
+Message-ID: <9d7514fd-511e-6596-5eb0-6001ead5a081@linaro.org>
+Date:   Tue, 3 May 2022 15:01:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/7] dt-bindings: gpio: renesas,rcar-gpio: R-Car V3U is
+ R-Car Gen4
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org
+References: <cover.1651497024.git.geert+renesas@glider.be>
+ <5628a862688bd9d3b4f6c66cb338671211058641.1651497024.git.geert+renesas@glider.be>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <5628a862688bd9d3b4f6c66cb338671211058641.1651497024.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add basic support for RZ/V2M EVK (based on R9A09G011):
-- memory
-- External input clock
-- UART
+On 02/05/2022 15:34, Geert Uytterhoeven wrote:
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence move its compatible value to the R-Car Gen4 section.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3:
- - Add comment about mem reserved for ISP Firmware
- - Remove sys node
----
- arch/arm64/boot/dts/renesas/Makefile          |  2 +
- .../boot/dts/renesas/r9a09g011-v2mevk2.dts    | 44 +++++++++++++++++++
- 2 files changed, 46 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 15309309a2e1..e66d76d42e52 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -83,3 +83,5 @@ dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044c2-smarc.dtb
- dtb-$(CONFIG_ARCH_R9A07G044) += r9a07g044l2-smarc.dtb
- 
- dtb-$(CONFIG_ARCH_R9A07G054) += r9a07g054l2-smarc.dtb
-+
-+dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-new file mode 100644
-index 000000000000..41cba82c2252
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
-@@ -0,0 +1,44 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the RZ/V2M (r9a09g011) Evaluation Kit Board
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r9a09g011.dtsi"
-+
-+/ {
-+	model = "RZ/V2M Evaluation Kit 2.0";
-+	compatible = "renesas,rzv2mevk2", "renesas,r9a09g011";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	memory@58000000 {
-+		device_type = "memory";
-+		/*
-+		 * first 2GiB is reserved for ISP Firmware,
-+		 * next 128MiB is reserved for secure area.
-+		 */
-+		reg = <0x0 0x58000000 0x0 0x28000000>;
-+	};
-+
-+	memory@180000000 {
-+		device_type = "memory";
-+		reg = <0x1 0x80000000 0x0 0x80000000>;
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <48000000>;
-+};
-+
-+&uart0 {
-+	status = "okay";
-+};
--- 
-2.32.0
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+
+Best regards,
+Krzysztof
