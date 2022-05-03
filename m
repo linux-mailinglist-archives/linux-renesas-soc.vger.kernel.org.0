@@ -2,60 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EACE5184D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 15:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8AA5184DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 15:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235720AbiECNGC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 09:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        id S235691AbiECNGS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 09:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235702AbiECNGC (ORCPT
+        with ESMTP id S235706AbiECNGQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 09:06:02 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BFB11D0D1
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 06:02:29 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id d6so19757421ede.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 06:02:28 -0700 (PDT)
+        Tue, 3 May 2022 09:06:16 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E685721E1A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 06:02:43 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id dk23so33303313ejb.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 06:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=iV4tVGnh7QHG+PfLI7Q0mYHuyjPaEc/xG5BZIpO4pGA=;
-        b=vlfeNENfF1eD8fgkOGVOtjFsvzln7tEDY/uEOryyt3IHcK5bc03CduITlrE+RmjT9t
-         HkAcbdG/F1yq25CW01RMJG7ZegtpUArT99f7TXV4enR2D5bIaMgR0oSP347XArZCCdpS
-         qGSVQMoY0pywrhjAmsy+EyIiVd3XrNGmKpA7wEeUYOj3/GPonpwV6l21NY2iA4ja9oML
-         7h3cupaTpNJ/0caFjvOLT2aAtApxXPpQt20omxMugYYxJRyy81Lq5aRFR8DbbG6dyOnM
-         90GXzqKSr8WPkPU3me/B2ilh5xwXh6CrlYYYdpjNUcY33g6ag+ddd5hhIfNbf8ogTk8i
-         v/Lg==
+        bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+        b=ewo04wJHjJ26IyHukQuan08cFZWOZ7IDAC+rphPmISbWSJd0i7v3ydWkWRbJ4mr7Ir
+         oZY274wqWX45dwJ5aPdkSSK8pPqMMQo4ZOGhI9o5qQ2aDJ5qP0hdW/BlyBUw8jZwPs3d
+         SOFA6kOq+ru/zHs/BJjJT1nJpDCVqg8mRMSB1EYvyPpQQDymST5pAkIAzQLfhTv+fAwu
+         eThs6VpM6H8m0MkjAdQvsUEzXZa9ss9qkrkJz5tUBqMhJpEx63XHJZ9Z+9xgIwfijEuZ
+         /Fvtj3PsqngNq8kFBbxK0YvvreqgxpWJ5oRc82770+h+mdqefxw4D9hk4YSmX8vYz0fl
+         chIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=iV4tVGnh7QHG+PfLI7Q0mYHuyjPaEc/xG5BZIpO4pGA=;
-        b=HdhWDT40wqikcN4dTgzh60jq3DhU+u0FjEUqsqAIO0fRaI1Lwl7KLjqgkARKSe5kjy
-         zCeAeplWzP27a9XtsuI1Pxl96r6qTApNM84PzNGb9wRw5Nw/9w4kOepmTP91P1wEX23k
-         g2Gi5GcshKftXJFFxnpArVJCgGFeaFh/CFwcv3tWKMZX+z3W0ePa1r6FiWu9E2apXHZL
-         CLPXtFd3qQpBfR3KzJoMlaskqC/jCbNzzHkTOSuCyXkvYRQqJAGfFRpErTvV0NrETzlL
-         D3u9+Cf4CNVoeSVXkPoHqAfs19yjmfUozjwRVZ7dsUXAXv2E4JqJMVlU0QcWj8Lmx8Bv
-         wYhg==
-X-Gm-Message-State: AOAM533W/sTFDszvVzkn8pv8tRM/EGtCjbTHGXghuKQntXxd5KeQCt/3
-        kNYvPTak+HWxNDotM/nvfN0i7A==
-X-Google-Smtp-Source: ABdhPJwIvyRvYCHNzuAJACjjuKhS9C3I9YB94dUMYFyGqf8a7sXjPP+2fhc+RFrOulXQwqT8A5V5tQ==
-X-Received: by 2002:a05:6402:5107:b0:427:ded9:9234 with SMTP id m7-20020a056402510700b00427ded99234mr4223009edd.275.1651582947612;
-        Tue, 03 May 2022 06:02:27 -0700 (PDT)
+        bh=wjuyFMi3EftK+wExgb79hTBMB0k+0b/v8BwPvQxw7y4=;
+        b=M4WIdnust0sbiHnRZsNwL3uXhygDRcoOkGDDpyLc971rrmsV5Trntlp0sJApRpL8lN
+         7Ru/9um1Xm9+b+QBJM8DV3qR7O2HSfPx1eZFT6BDG/yGFJXuy/0iqC7/0atXetF4CRxu
+         Wj8TBSLeR5eHGg4535kx0TyGVuxCVpOYOFoBLSrZH7wI41NNvWsw24caEKZc59hRQdor
+         6ZfHCgT7Ds7E343VZTn2kkbGnLhw+ukKVqJa1vUgNLDonAfXgXqewZC3oC//4Cwc7FhD
+         Gno9CPvzPYi/ZeVJz5Q0yImuqSW9/8mA9Zn6L2hXbBoSb57x8E5UUA+ooKnwwP/Sh1Z4
+         kPMA==
+X-Gm-Message-State: AOAM533QgE+EnczMI/SGiHx1eEblnaPWOa8J/fIyjBphI6V8Mk50TMnB
+        znjhF29pyk3TutUSxTJgnlFuDA==
+X-Google-Smtp-Source: ABdhPJxWgTe6ERgukBkZ++ex9vxpB+SWDPBIHrtqfv1/46KOzrlx42JkXeG5wZwA4KLrDpdY8UXEeA==
+X-Received: by 2002:a17:907:c0d:b0:6f3:ed89:d9c with SMTP id ga13-20020a1709070c0d00b006f3ed890d9cmr15463845ejc.502.1651582962080;
+        Tue, 03 May 2022 06:02:42 -0700 (PDT)
 Received: from [192.168.0.203] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id hg1-20020a1709072cc100b006f3ef214e72sm4579481ejc.216.2022.05.03.06.02.25
+        by smtp.gmail.com with ESMTPSA id hz22-20020a1709072cf600b006f3ef214df2sm4600317ejc.88.2022.05.03.06.02.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 06:02:26 -0700 (PDT)
-Message-ID: <7dec1fb4-1803-838e-291f-10f56b9fe10e@linaro.org>
-Date:   Tue, 3 May 2022 15:02:25 +0200
+        Tue, 03 May 2022 06:02:41 -0700 (PDT)
+Message-ID: <5ca8b4d2-5edc-0962-9b26-6701515a26cc@linaro.org>
+Date:   Tue, 3 May 2022 15:02:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 4/7] dt-bindings: renesas,rcar-dmac: R-Car V3U is R-Car
- Gen4
+Subject: Re: [PATCH 5/7] dt-bindings: serial: renesas,hscif: R-Car V3U is
+ R-Car Gen4
 Content-Language: en-US
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
@@ -75,9 +75,9 @@ Cc:     devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
         linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org
 References: <cover.1651497024.git.geert+renesas@glider.be>
- <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
+ <dd734aaa4e5e0b32864b038b79eafe72907fb99f.1651497024.git.geert+renesas@glider.be>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
+In-Reply-To: <dd734aaa4e5e0b32864b038b79eafe72907fb99f.1651497024.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -95,9 +95,6 @@ On 02/05/2022 15:34, Geert Uytterhoeven wrote:
 > family.  Hence move its compatible value to the R-Car Gen4 section.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/dma/renesas,rcar-dmac.yaml     | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
