@@ -2,135 +2,319 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5ED51821C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 12:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B78A9518277
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 12:42:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233888AbiECKSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 06:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35410 "EHLO
+        id S234201AbiECKqS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 06:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233860AbiECKSH (ORCPT
+        with ESMTP id S232740AbiECKqR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 06:18:07 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47D6369C6
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 03:14:34 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:cd2b:85eb:bdf:a9c3])
-        by albert.telenet-ops.be with bizsmtp
-        id SAEX270023SeZYW06AEXpV; Tue, 03 May 2022 12:14:31 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nlpY6-002rGb-P5; Tue, 03 May 2022 12:14:30 +0200
-Date:   Tue, 3 May 2022 12:14:30 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To:     Alan Stern <stern@rowland.harvard.edu>
-cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-In-Reply-To: <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
-Message-ID: <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
-References: <YjeEbHL8ITkW692W@rowland.harvard.edu> <YmKt3kH+85kjzdbL@kroah.com> <YmSc29YZvxgT5fEJ@rowland.harvard.edu> <YmSo6fU1FlNq8cOZ@rowland.harvard.edu> <YmSpKpnWR8WWEk/p@rowland.harvard.edu> <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Tue, 3 May 2022 06:46:17 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D012D27CE1
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 03:42:45 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id n14so7726051plf.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 03:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=11x9CnshobFOoaFd9KSOT/zIgEHqx63pylsqJI2zbH8=;
+        b=UG3xCnhr/8PHvS//aMaADIAmIgWMM3tSWVUyaWXdoRmQtSBr25PHIKK3jw1MabN7nx
+         Qcn7Vdkn/fpMgETCzzSmFoaUcEhTSKjpfg7GWfheqfuRJPpXn7V8k6f1NIwZB87rSEpp
+         Vuyf4hIT81wMBu9bk5F0ot9NJRdB8q2t2/epfWKsIvz12pW5AJTvB20TBRa8LGJlZJSJ
+         GgYwTnFhlNC31iKW0XQ4oDAljH8wsQ0lFL5iWydprrS84B2TYVi11NpwTT8gDTbZL5Et
+         uksCqIH4+5DPWThO8N8tRZPrW9J3J4UJEdl/zzXtFTxBXoD1yX8SdnkQvOG7+M7szKHQ
+         DOJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=11x9CnshobFOoaFd9KSOT/zIgEHqx63pylsqJI2zbH8=;
+        b=YneruIFREFN80CYaY1oV9e07h0r9YUFlQd0GKBDLuNEwr+c3FPrCJDRTSUy3xplnjp
+         slFZbSt8SzZWL7eyYHksR8L1GixNoHbvF0G1kyUFkVqIBCPW2jGdIDqBH7pn+LWWHWyb
+         kmk+joUTbiOqBwUdP0ly06VYc6ft9d0LOQHPOIEdLkOSI4JDN64NuBhuX3eSWkg9gmoL
+         aMx9tcpK7eQnucU2Um6MDXbkMiGaBmKrFzO3KGGsBKBlDfLzPBgxH8bybSlJxraXfyyd
+         vicASC9N8CeshElG+mHk6XUF5J5t+IUJ3Gmt3Y+tX+JLJ98Vnz2IPsc6AqBq4ejXTL8G
+         0b7g==
+X-Gm-Message-State: AOAM532dtHZd6x5J/MWus6tiHRroQXRcVlLDE0COizwE22exh7DQ5CKE
+        dgrxJXsb7U0MzGUM/4bHNo6afk13qWDkKBHhRxA=
+X-Google-Smtp-Source: ABdhPJxrIqtvLbVskq+c2zrcC93TVPAno/0XnGfHf4ExwDOaHQcVzE2PpJd0cijd9MQD8F34STcwIg==
+X-Received: by 2002:a17:90a:c302:b0:1d9:8222:c9a5 with SMTP id g2-20020a17090ac30200b001d98222c9a5mr3991725pjt.74.1651574565145;
+        Tue, 03 May 2022 03:42:45 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id c12-20020a17090ad90c00b001cd4989feccsm1088086pjv.24.2022.05.03.03.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 03:42:44 -0700 (PDT)
+Message-ID: <62710724.1c69fb81.8673a.300d@mx.google.com>
+Date:   Tue, 03 May 2022 03:42:44 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-05-02-v5.18-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 119 runs,
+ 6 regressions (renesas-devel-2022-05-02-v5.18-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- 	Hi Alan,
+renesas/master baseline-nfs: 119 runs, 6 regressions (renesas-devel-2022-05=
+-02-v5.18-rc5)
 
-On Sat, 23 Apr 2022, Alan Stern wrote:
-> This patch adds a "gadget" bus and uses it for registering gadgets and
-> their drivers.  From now on, bindings will be managed by the driver
-> core rather than through ad-hoc manipulations in the UDC core.
->
-> As part of this change, the driver_pending_list is removed.  The UDC
-> core won't need to keep track of unbound drivers for later binding,
-> because the driver core handles all of that for us.
->
-> However, we do need one new feature: a way to prevent gadget drivers
-> from being bound to more than one gadget at a time.  The existing code
-> does this automatically, but the driver core doesn't -- it's perfectly
-> happy to bind a single driver to all the matching devices on the bus.
-> The patch adds a new bitflag to the usb_gadget_driver structure for
-> this purpose.
->
-> A nice side effect of this change is a reduction in the total lines of
-> code, since now the driver core will do part of the work that the UDC
-> used to do.
->
-> A possible future patch could add udc devices to the gadget bus, say
-> as a separate device type.
->
-> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Regressions Summary
+-------------------
 
-Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
-gadget: Add a new bus for gadgets") in usb-next.
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+am57xx-beagle-x15            | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
 
-This patch cause a regression on the Renesas Salvator-XS development
-board, as R-Car H3 has multiple USB gadget devices:
+am57xx-beagle-x15            | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
 
-     sysfs: cannot create duplicate filename '/bus/gadget/devices/gadget'
-     CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc1-arm64-renesas-00074-gfc274c1e9973 #1587
-     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
-     Call trace:
-      dump_backtrace+0xcc/0xd8
-      show_stack+0x14/0x30
-      dump_stack_lvl+0x88/0xb0
-      dump_stack+0x14/0x2c
-      sysfs_warn_dup+0x60/0x78
-      sysfs_do_create_link_sd.isra.0+0xe4/0xf0
-      sysfs_create_link+0x20/0x40
-      bus_add_device+0x64/0x110
-      device_add+0x31c/0x850
-      usb_add_gadget+0x124/0x1a0
-      usb_add_gadget_udc_release+0x1c/0x50
-      usb_add_gadget_udc+0x10/0x18
-      renesas_usb3_probe+0x450/0x728
-      platform_probe+0x64/0xd0
-      really_probe+0x100/0x2a0
-      __driver_probe_device+0x74/0xd8
-      driver_probe_device+0x3c/0xe0
-      __driver_attach+0x80/0x110
-      bus_for_each_dev+0x6c/0xc0
-      driver_attach+0x20/0x28
-      bus_add_driver+0x138/0x1e0
-      driver_register+0x60/0x110
-      __platform_driver_register+0x24/0x30
-      renesas_usb3_driver_init+0x18/0x20
-      do_one_initcall+0x15c/0x31c
-      kernel_init_freeable+0x2f0/0x354
-      kernel_init+0x20/0x120
-      ret_from_fork+0x10/0x20
-     renesas_usb3: probe of ee020000.usb failed with error -17
-     ...
-     renesas_usbhs: probe of e6590000.usb failed with error -17
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
 
-After boot-up, only one gadget device is visible:
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
 
-     root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
-     total 0
-     lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget -> ../../../devices/platform/soc/e659c000.usb/gadget
-     root@h3-salvator-xs:~#
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
 
-Reverting this patch fixes the issue.
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-Gr{oetje,eeting}s,
 
- 						Geert
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-05-02-v5.18-rc5/plan/baseline-nfs/
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-05-02-v5.18-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      838711889c2bcb04dfefc610d665ce457c28d274 =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+am57xx-beagle-x15            | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+crypto    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6270d4d90752c7122edc7b22
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+crypto
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/basel=
+ine-nfs-am57xx-beagle-x15.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+crypto/gcc-10/lab-baylibre/basel=
+ine-nfs-am57xx-beagle-x15.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6270d4d90752c7122=
+edc7b23
+        new failure (last pass: renesas-devel-2022-04-29-v5.18-rc4) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+am57xx-beagle-x15            | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defconfig+debug     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6270daf70589137c6edc7b50
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+debug
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseli=
+ne-nfs-am57xx-beagle-x15.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+debug/gcc-10/lab-baylibre/baseli=
+ne-nfs-am57xx-beagle-x15.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6270daf70589137c6=
+edc7b51
+        new failure (last pass: renesas-devel-2022-04-29-v5.18-rc4) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+jetson-tk1                   | arm   | lab-baylibre  | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6270d384c3bdebe5b6dc7b39
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-baylibre/baseline-nfs-jetson-tk1.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-baylibre/baseline-nfs-jetson-tk1.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6270d384c3bdebe5b=
+6dc7b3a
+        new failure (last pass: renesas-devel-2022-04-29-v5.18-rc4) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+meson-g12b-a311d-khadas-vim3 | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6270dc0ce086edeef8dc7b78
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-meson-=
+g12b-a311d-khadas-vim3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/6270dc0ce086edeef=
+8dc7b79
+        new failure (last pass: renesas-devel-2022-04-19-v5.18-rc3) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+odroid-xu3                   | arm   | lab-collabora | gcc-10   | multi_v7_=
+defc...MB2_KERNEL=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62710601abe415c113dc7b41
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-nfs-odroid-xu3.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_THUMB2_KERNEL=3Dy/gcc-10/=
+lab-collabora/baseline-nfs-odroid-xu3.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62710601abe415c11=
+3dc7b42
+        failing since 42 days (last pass: renesas-devel-2022-03-08-v5.17-rc=
+7, first fail: renesas-devel-2022-03-21-v5.17) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/6270d2d648ddb051cedc7b30
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-02-v5.18-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/6270d2d648ddb051cedc7b56
+        failing since 55 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
+6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-05-03T06:59:19.287072  /lava-6245284/1/../bin/lava-test-case
+    2022-05-03T06:59:19.316231  <8>[   39.013029] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+ =20
