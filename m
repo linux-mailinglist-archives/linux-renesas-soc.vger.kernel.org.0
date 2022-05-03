@@ -2,82 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4023551879C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F182551874A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237531AbiECPDU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 11:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55834 "EHLO
+        id S237456AbiECO5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 10:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237620AbiECPDU (ORCPT
+        with ESMTP id S237454AbiECO5p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 11:03:20 -0400
-X-Greylist: delayed 470 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 03 May 2022 07:59:47 PDT
-Received: from mail.megasoftsol.com (mail.megasoftsol.com [43.231.250.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F6839811
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 07:59:47 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.megasoftsol.com (Postfix) with ESMTP id 3C93F90D6AF
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 20:17:00 +0530 (IST)
-Received: from mail.megasoftsol.com ([127.0.0.1])
-        by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 7jKFBBAIdvTT for <linux-renesas-soc@vger.kernel.org>;
-        Tue,  3 May 2022 20:16:59 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.megasoftsol.com (Postfix) with ESMTP id C2CB190D6BF
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 20:16:59 +0530 (IST)
-X-Virus-Scanned: amavisd-new at megasoftsol.com
-Received: from mail.megasoftsol.com ([127.0.0.1])
-        by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id BGgjOD3lSqAe for <linux-renesas-soc@vger.kernel.org>;
-        Tue,  3 May 2022 20:16:59 +0530 (IST)
-Received: from asda.co.uk (unknown [20.97.211.134])
-        (Authenticated sender: admin)
-        by mail.megasoftsol.com (Postfix) with ESMTPSA id 042A790D6AF
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 20:16:58 +0530 (IST)
-Reply-To: sales@asdaa.uk
-From:   ASDA Stores Limited <Hanes.Thomas23877@asda.co.uk>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: 2nd Quater puchase request
-Date:   03 May 2022 14:49:27 +0000
-Message-ID: <20220503092157.9349A842B7A71BEF@asda.co.uk>
+        Tue, 3 May 2022 10:57:45 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id CF1CF3915A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 07:54:11 -0700 (PDT)
+Received: (qmail 1087789 invoked by uid 1000); 3 May 2022 10:54:10 -0400
+Date:   Tue, 3 May 2022 10:54:10 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
+Message-ID: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
+References: <YjeEbHL8ITkW692W@rowland.harvard.edu>
+ <YmKt3kH+85kjzdbL@kroah.com>
+ <YmSc29YZvxgT5fEJ@rowland.harvard.edu>
+ <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
+ <YmSpKpnWR8WWEk/p@rowland.harvard.edu>
+ <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
+ <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,
-        RCVD_IN_BL_SPAMCOP_NET,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear linux-renesas-soc
+On Tue, May 03, 2022 at 12:14:30PM +0200, Geert Uytterhoeven wrote:
+> 	Hi Alan,
+> 
+> On Sat, 23 Apr 2022, Alan Stern wrote:
+> > This patch adds a "gadget" bus and uses it for registering gadgets and
+> > their drivers.  From now on, bindings will be managed by the driver
+> > core rather than through ad-hoc manipulations in the UDC core.
+> > 
+> > As part of this change, the driver_pending_list is removed.  The UDC
+> > core won't need to keep track of unbound drivers for later binding,
+> > because the driver core handles all of that for us.
+> > 
+> > However, we do need one new feature: a way to prevent gadget drivers
+> > from being bound to more than one gadget at a time.  The existing code
+> > does this automatically, but the driver core doesn't -- it's perfectly
+> > happy to bind a single driver to all the matching devices on the bus.
+> > The patch adds a new bitflag to the usb_gadget_driver structure for
+> > this purpose.
+> > 
+> > A nice side effect of this change is a reduction in the total lines of
+> > code, since now the driver core will do part of the work that the UDC
+> > used to do.
+> > 
+> > A possible future patch could add udc devices to the gadget bus, say
+> > as a separate device type.
+> > 
+> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> 
+> Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
+> gadget: Add a new bus for gadgets") in usb-next.
+> 
+> This patch cause a regression on the Renesas Salvator-XS development
+> board, as R-Car H3 has multiple USB gadget devices:
 
-We are interested in having some of your hot selling product in 
-our stores and outlets spread all over United Kingdom, Northern 
-Island and Africa. ASDA Stores Limited is one of the highest-
-ranking Wholesale & Retail outlets in the United Kingdom. 
-  
-We shall furnish our detailed company profile in our next 
-correspondent. However, it would be appreciated if you can send 
-us your catalog through email to learn more about your company's 
-products and wholesale quote. It is hopeful that we can start a 
-viable long-lasting business relationship (partnership) with you.  
-  
-  
-Your prompt response would be delightfully appreciated. 
-  
-Best Wishes 
-  
-  
-Hanes S. Thomas 
-Procurement Office. 
-ASDA Stores Limited 
-Tel:  + 44 - 7451271650 
-WhatsApp: + 44 – 7441440360 
-Website: www.asda.co.uk
+Then these gadgets ought to have distinct names in order to avoid the 
+conflict below:
+
+>     sysfs: cannot create duplicate filename '/bus/gadget/devices/gadget'
+>     CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc1-arm64-renesas-00074-gfc274c1e9973 #1587
+>     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+>     Call trace:
+>      dump_backtrace+0xcc/0xd8
+>      show_stack+0x14/0x30
+>      dump_stack_lvl+0x88/0xb0
+>      dump_stack+0x14/0x2c
+>      sysfs_warn_dup+0x60/0x78
+>      sysfs_do_create_link_sd.isra.0+0xe4/0xf0
+>      sysfs_create_link+0x20/0x40
+>      bus_add_device+0x64/0x110
+>      device_add+0x31c/0x850
+>      usb_add_gadget+0x124/0x1a0
+>      usb_add_gadget_udc_release+0x1c/0x50
+>      usb_add_gadget_udc+0x10/0x18
+>      renesas_usb3_probe+0x450/0x728
+...
+
+Having three gadget devices, all named "gadget", doesn't seem like a 
+good idea.
+
+> After boot-up, only one gadget device is visible:
+
+Naturally, since the first registration succeeds and the later ones fail 
+because they can't reuse the same name.
+
+>     root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
+>     total 0
+>     lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget -> ../../../devices/platform/soc/e659c000.usb/gadget
+>     root@h3-salvator-xs:~#
+> 
+> Reverting this patch fixes the issue.
+
+This doesn't seem like it should be too hard to fix, although I'm not 
+at all familiar with the renesas-usb3 driver.  Do you know who maintains 
+that driver?  Is it you?
+
+Alan Stern
