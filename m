@@ -2,182 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC39518806
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 17:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD8B518883
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 17:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235634AbiECPPS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 11:15:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44240 "EHLO
+        id S238449AbiECPa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 11:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236394AbiECPPR (ORCPT
+        with ESMTP id S238451AbiECPaz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 11:15:17 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B112A3A5D8;
-        Tue,  3 May 2022 08:11:44 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id h3so9021417qtn.4;
-        Tue, 03 May 2022 08:11:44 -0700 (PDT)
+        Tue, 3 May 2022 11:30:55 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3540825E94;
+        Tue,  3 May 2022 08:27:22 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id fu47so13671858qtb.5;
+        Tue, 03 May 2022 08:27:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dBlUIN4uArZEAw4XyiVN/Z56678UVaC7n0hqGZPfc3o=;
-        b=bYWideQ6TsJO1gWz6VIspQRpK7ShjIgWeTUgUPvhHHyvsUUi5nuvEcpme7ezriSysv
-         xYsK9AEKIz0RsnCpTWj+3S554YZLJ5D+8UZDSHzno+9BT3SrkTP2MltDuLUFalARv2Je
-         QLhYhHtLDUXlH4SAy6LsuBw6rpqmjEb5iI6hRwyj1lLD8SMhXlep3DRPKcKo8fJXC09w
-         OJPJoOdHvO29rUZun4HFkKp0Y7O6w65Qj5oTqmQa3xubo0fod3GNnVSCPb11/Y4gC4w/
-         Z/ZgxvQnqWi0SBbtXmzIA2934mrgtgOmlyRVsZJhv4ZFm1v5mSTQ0dnGvL1KkjfRZIKu
-         tucA==
-X-Gm-Message-State: AOAM530BoeUxFRJhDJCGwUsvcOI4QcgT8W9BOeNa0ffO8gF2ImRsblF0
-        uL8ZdGYN/8NokWQg4ZpQu8tTPNwh+Lj2WA==
-X-Google-Smtp-Source: ABdhPJxr8oSTgqLoM/Yl5vA/NbUw6Wb2oRLdELoXV+xAFsNEUWUThkNkg0PZYJBAygOiHAKPH992JA==
-X-Received: by 2002:ac8:5b83:0:b0:2f3:a2f4:fe85 with SMTP id a3-20020ac85b83000000b002f3a2f4fe85mr10020110qta.649.1651590703649;
-        Tue, 03 May 2022 08:11:43 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id f24-20020a37ad18000000b0069fc13ce23esm5860107qkm.111.2022.05.03.08.11.43
+        bh=KTaY5qW8ijHItpwiQrjyZtLK9UVGGZLKbTPeV/f2e4M=;
+        b=F4d8PlZ9kUChsFbwuWexjT/w/DdnxBgrR2gWlzi3utzaOtq6VTOmoQzZFVmEqUA4ZG
+         cxmDt9p5pNl/aQ0J6hxPMJneuOkW2iFrDRsyPAOhEVMcoAvaP5dB4pMUk4BTU8i88W04
+         v/Ipn5A147XE1vMj9ccc0u5y7kWDQ4W8OcECeht47PtBrqwQOlfhfTZBC802NYcAOGe7
+         eEja4/9jEFmaZBJ88/1eTaqR3SOrmb3eM2kfptUpfSivmcOvQHsPnA8W4lEGxj7sF3Ax
+         0QxEnmdm2peGONQgsAzwVX5nVjSO7SnPswb043feJ44RlFo/elYnS+MZrclSiZNWciIv
+         XiGA==
+X-Gm-Message-State: AOAM531KevaRegLSwwig3TM5+WkMLIbiIlHU2vh8omTfbcRUomlOVQcj
+        rr1kgUq60BZne6ZNpsmsf2Rjig8N3yFrDw==
+X-Google-Smtp-Source: ABdhPJywZDspUpMkDpLIbuzbvXowmG5FZup/eYZbKcDpA8hFFb+YUkPADY0H8vLVccId5DDtAgRflw==
+X-Received: by 2002:a05:622a:1c9:b0:2f3:a2cc:b7d6 with SMTP id t9-20020a05622a01c900b002f3a2ccb7d6mr10263209qtw.101.1651591641129;
+        Tue, 03 May 2022 08:27:21 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id h81-20020a379e54000000b0069fe1fc72e7sm3673370qke.90.2022.05.03.08.27.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 08:11:43 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f7d621d1caso182669197b3.11;
-        Tue, 03 May 2022 08:11:43 -0700 (PDT)
-X-Received: by 2002:a81:547:0:b0:2f8:6e8:19d7 with SMTP id 68-20020a810547000000b002f806e819d7mr15738822ywf.383.1651590702992;
- Tue, 03 May 2022 08:11:42 -0700 (PDT)
+        Tue, 03 May 2022 08:27:20 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2f83983782fso183713207b3.6;
+        Tue, 03 May 2022 08:27:20 -0700 (PDT)
+X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
+ z130-20020a816588000000b002f8b75e1e1amr16065257ywb.358.1651591640492; Tue, 03
+ May 2022 08:27:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220428065333.3108-1-biju.das.jz@bp.renesas.com> <20220428065333.3108-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220428065333.3108-3-biju.das.jz@bp.renesas.com>
+References: <YjeEbHL8ITkW692W@rowland.harvard.edu> <YmKt3kH+85kjzdbL@kroah.com>
+ <YmSc29YZvxgT5fEJ@rowland.harvard.edu> <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
+ <YmSpKpnWR8WWEk/p@rowland.harvard.edu> <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
+ <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg> <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
+In-Reply-To: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 May 2022 17:11:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUBVGUsuiVdaG+y-+G2Wz3aiKovZsw1K_GvZ6Azgx_zFg@mail.gmail.com>
-Message-ID: <CAMuHMdUBVGUsuiVdaG+y-+G2Wz3aiKovZsw1K_GvZ6Azgx_zFg@mail.gmail.com>
-Subject: Re: [PATCH v9 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Tue, 3 May 2022 17:27:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
+Message-ID: <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        USB mailing list <linux-usb@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Alan,
 
-On Thu, Apr 28, 2022 at 8:53 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As the resets DT property is mandatory, and is present in all .dtsi
-> in mainline, add support to perform deassert/assert using reference
-> counted reset handle.
+On Tue, May 3, 2022 at 5:14 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> On Tue, May 03, 2022 at 12:14:30PM +0200, Geert Uytterhoeven wrote:
+> > On Sat, 23 Apr 2022, Alan Stern wrote:
+> > > This patch adds a "gadget" bus and uses it for registering gadgets and
+> > > their drivers.  From now on, bindings will be managed by the driver
+> > > core rather than through ad-hoc manipulations in the UDC core.
+> > >
+> > > As part of this change, the driver_pending_list is removed.  The UDC
+> > > core won't need to keep track of unbound drivers for later binding,
+> > > because the driver core handles all of that for us.
+> > >
+> > > However, we do need one new feature: a way to prevent gadget drivers
+> > > from being bound to more than one gadget at a time.  The existing code
+> > > does this automatically, but the driver core doesn't -- it's perfectly
+> > > happy to bind a single driver to all the matching devices on the bus.
+> > > The patch adds a new bitflag to the usb_gadget_driver structure for
+> > > this purpose.
+> > >
+> > > A nice side effect of this change is a reduction in the total lines of
+> > > code, since now the driver core will do part of the work that the UDC
+> > > used to do.
+> > >
+> > > A possible future patch could add udc devices to the gadget bus, say
+> > > as a separate device type.
+> > >
+> > > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> >
+> > Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
+> > gadget: Add a new bus for gadgets") in usb-next.
+> >
+> > This patch cause a regression on the Renesas Salvator-XS development
+> > board, as R-Car H3 has multiple USB gadget devices:
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks for your patch!
-
-Unfortunately this patch causes a lock-up during boot on the Koelsch
-development board.
-
-Adding some debug code reveals that the VSP1 registers are accessed
-while the reset is still asserted:
-
-| WARNING: CPU: 0 PID: 1 at
-drivers/media/platform/renesas/vsp1/vsp1.h:121 vsp1_read+0x48/0x74
-| reset not deasserted
-| CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W
-5.18.0-rc5-shmobile-04787-g175dd1b77531-dirty #1230
-| Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-|  unwind_backtrace from show_stack+0x10/0x14
-|  show_stack from dump_stack_lvl+0x40/0x4c
-|  dump_stack_lvl from __warn+0xa0/0x124
-|  __warn from warn_slowpath_fmt+0x78/0xb0
-|  warn_slowpath_fmt from vsp1_read+0x48/0x74
-|  vsp1_read from vsp1_reset_wpf+0x14/0x90
-|  vsp1_reset_wpf from vsp1_pm_runtime_resume+0x3c/0x1c0
-|  vsp1_pm_runtime_resume from genpd_runtime_resume+0xfc/0x1bc
-
-vsp1_pm_runtime_resume() initializes the VSP1.
-
-|  genpd_runtime_resume from __rpm_callback+0x3c/0x114
-|  __rpm_callback from rpm_callback+0x50/0x54
-|  rpm_callback from rpm_resume+0x3e4/0x47c
-|  rpm_resume from __pm_runtime_resume+0x38/0x50
-|  __pm_runtime_resume from __device_attach+0xbc/0x148
-|  __device_attach from bus_probe_device+0x28/0x80
-
-__device_attach() calls "pm_runtime_get_sync(dev->parent)",
-bypassing vsp1_device_get().
-Hence it wakes the parent, but does not deassert reset.
-
-|  bus_probe_device from device_add+0x560/0x784
-|  device_add from cdev_device_add+0x20/0x58
-|  cdev_device_add from media_devnode_register+0x1b8/0x28c
-|  media_devnode_register from __media_device_register+0xb0/0x198
-|  __media_device_register from vsp1_probe+0xf74/0xfe0
-|  vsp1_probe from platform_probe+0x58/0xa8
-|  platform_probe from really_probe+0x138/0x29c
-|  really_probe from __driver_probe_device+0xc4/0xd8
-|  __driver_probe_device from driver_probe_device+0x40/0xc0
-|  driver_probe_device from __driver_attach+0xd4/0xe8
-|  __driver_attach from bus_for_each_dev+0x64/0xa8
-|  bus_for_each_dev from bus_add_driver+0x148/0x1a8
-|  bus_add_driver from driver_register+0xac/0xf0
-|  driver_register from do_one_initcall+0x70/0x16c
-|  do_one_initcall from kernel_init_freeable+0x1ac/0x1f8
-|  kernel_init_freeable from kernel_init+0x14/0x12c
-|  kernel_init from ret_from_fork+0x14/0x2c
-
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-
-> @@ -567,7 +568,17 @@ static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
->   */
->  int vsp1_device_get(struct vsp1_device *vsp1)
->  {
-> -       return pm_runtime_resume_and_get(vsp1->dev);
-> +       int ret;
-> +
-> +       ret = reset_control_deassert(vsp1->rstc);
-> +       if (ret < 0)
-> +               return ret;
-
-Perhaps you can move the deassertion of the reset to
-vsp1_pm_runtime_resume(), so it is called automatically on every
-resume?
-
-> +
-> +       ret = pm_runtime_resume_and_get(vsp1->dev);
-> +       if (ret < 0)
-> +               reset_control_assert(vsp1->rstc);
-> +
-> +       return ret;
->  }
+> Then these gadgets ought to have distinct names in order to avoid the
+> conflict below:
 >
->  /*
-> @@ -579,6 +590,7 @@ int vsp1_device_get(struct vsp1_device *vsp1)
->  void vsp1_device_put(struct vsp1_device *vsp1)
->  {
->         pm_runtime_put_sync(vsp1->dev);
-> +       reset_control_assert(vsp1->rstc);
-
-Likewise, move to vsp1_pm_runtime_suspend()?
-
->  }
+> >     sysfs: cannot create duplicate filename '/bus/gadget/devices/gadget'
+> >     CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc1-arm64-renesas-00074-gfc274c1e9973 #1587
+> >     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+> >     Call trace:
+> >      dump_backtrace+0xcc/0xd8
+> >      show_stack+0x14/0x30
+> >      dump_stack_lvl+0x88/0xb0
+> >      dump_stack+0x14/0x2c
+> >      sysfs_warn_dup+0x60/0x78
+> >      sysfs_do_create_link_sd.isra.0+0xe4/0xf0
+> >      sysfs_create_link+0x20/0x40
+> >      bus_add_device+0x64/0x110
+> >      device_add+0x31c/0x850
+> >      usb_add_gadget+0x124/0x1a0
+> >      usb_add_gadget_udc_release+0x1c/0x50
+> >      usb_add_gadget_udc+0x10/0x18
+> >      renesas_usb3_probe+0x450/0x728
+> ...
 >
->  /* -----------------------------------------------------------------------------
+> Having three gadget devices, all named "gadget", doesn't seem like a
+> good idea.
 
+I'm not so sure where these names are coming from.
+`git grep '"gadget"'` points to the following likely targets:
+
+drivers/usb/gadget/udc/core.c:  dev_set_name(&gadget->dev, "gadget");
+drivers/usb/renesas_usbhs/mod_gadget.c: gpriv->mod.name         = "gadget";
+
+Changing both names reveals the problem is actually caused by
+the former ;-)
+
+> This doesn't seem like it should be too hard to fix, although I'm not
+> at all familiar with the renesas-usb3 driver.  Do you know who maintains
+> that driver?  Is it you?
+
+Adding Shimoda-san to CC (but he's enjoying Golden Week).
 
 Gr{oetje,eeting}s,
 
