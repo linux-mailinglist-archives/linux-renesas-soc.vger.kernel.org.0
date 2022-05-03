@@ -2,652 +2,214 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4AC2517E59
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 09:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DAD517ECC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 09:24:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231792AbiECHTq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 03:19:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49380 "EHLO
+        id S232233AbiECH00 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 03:26:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231765AbiECHTb (ORCPT
+        with ESMTP id S232281AbiECH0S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 03:19:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 046A02CE02
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 00:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651562155;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xtraDmUmHWZ5CXW/vDLQ7b/w9+ZLre3XUlilpcMRu6A=;
-        b=EBv3D7UADwpV1AfFLuNfAq0AnMiP7eNI+tb0oVvllYDMksQnxaVtde+CNMjq32ltrOzoH4
-        oNvaerSiy4HrPUnnR6a1Xy2OuXztbvYs+uWEkCsEaRnLGspGAeGTb1Kjca5YJ8TI0KK9CI
-        R4RxNtukbIk+QFprbLhyzc+ufppUYm8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-_WrEIZQTPESDsxQ4JIOz7g-1; Tue, 03 May 2022 03:15:53 -0400
-X-MC-Unique: _WrEIZQTPESDsxQ4JIOz7g-1
-Received: by mail-wr1-f70.google.com with SMTP id u26-20020adfb21a000000b0020ac48a9aa4so6065431wra.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 00:15:53 -0700 (PDT)
+        Tue, 3 May 2022 03:26:18 -0400
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAC42AEB;
+        Tue,  3 May 2022 00:22:19 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id c8so4540653qvh.10;
+        Tue, 03 May 2022 00:22:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xtraDmUmHWZ5CXW/vDLQ7b/w9+ZLre3XUlilpcMRu6A=;
-        b=vOAGCRDYbB6Ol2d5pRW3w9kB1WjjE1WoFC01nVcCJ51vmWvUiQHaHxxz2QUrC0ve7R
-         8BeDOZFtlPjbcT9JERtOHwj8iFs514MiQwA9wiQhxlmMe5in+ZTtOxXEensMhXB4SHkR
-         Vb7PHv1Oa27NnoP8GezL6qxpaBaVyzD+RlkZBp/XoMXP9cGRoxXL+3Eo4nBSazRn1kW/
-         +PKY62hCDMn/5dJC6SJFZGWAjlgUGuSnGyHmkCVAeifW5EzT1kN7nC4e3QveZG4pHFNV
-         jGm2SiSaPVZ0NNKvthXltzXBZFZUxI/0bghQ6pUH12zwLSBH/N2jP50CaS3opGAPfeL4
-         m9dQ==
-X-Gm-Message-State: AOAM530/Ve4aLhmLVnZ25y9CSKGG/57l+humpCuC1UgdbtB9YZXKHnmv
-        XwA4biSC54HNbRRBnopAJoJLvK3x2tjgy4ZgnrpqYPqMKCKfpAy8bYpRR7MeFm11uqZUk8JrKpU
-        9G+i3svHsJ4mAIun1pjjdiWha9tLLMZM=
-X-Received: by 2002:a5d:4686:0:b0:20a:e8dc:fd99 with SMTP id u6-20020a5d4686000000b0020ae8dcfd99mr11567472wrq.478.1651562152425;
-        Tue, 03 May 2022 00:15:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBl7s6u9LXk5to6fBUq9k2QYLkjxFcT7wJp9/+4B6ASdL9DSXyR9W5uBHHsWeUQTXcm1BFXQ==
-X-Received: by 2002:a5d:4686:0:b0:20a:e8dc:fd99 with SMTP id u6-20020a5d4686000000b0020ae8dcfd99mr11567442wrq.478.1651562152071;
-        Tue, 03 May 2022 00:15:52 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id o20-20020a05600c339400b003942a244f33sm1035387wmp.12.2022.05.03.00.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 00:15:51 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, spice-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v3 2/3] drm/fb-helper: Rename preferred_bpp drm_fbdev_generic_setup() parameter
-Date:   Tue,  3 May 2022 09:15:39 +0200
-Message-Id: <20220503071540.471667-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220503071540.471667-1-javierm@redhat.com>
-References: <20220503071540.471667-1-javierm@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IUKGWDrL6/pXq4WbEOHgu62nMllQr4LM/X3ZBEoYdEo=;
+        b=aijilUO3c/6SOqSFWb+phSmDR1lvU0aRFEGHa1X6Q93FRP/1GyQwP+ULPF9Z/baKmH
+         XwZ6PhNXfet+aKekEOzG9LpC2Eh1CAIWFMkmXEu+l+grwj0a3INRB9+qzEXELKbs/s8V
+         IudqXIKqRUJ1rB6USr6T3rYYGISgIlZ1E1qJrj14fFcxRTSh1w3cTqWteYKBTmLa93OQ
+         Tb0yiNrYEljp1Sh4LIOK7C1MS0F8OhNZlKT8yAeBZpqavCyMAJtJc91Q7N8tOxdm5tA4
+         KhO3rEg6WeOKVdf+phz+TXp/pN+pFLWB6jsEA8dLzjsD2V4lUV3n63F4z+SX0ZDVyan/
+         5+xQ==
+X-Gm-Message-State: AOAM532nsVfh9mGz9sHu06jfIypq/pLhq1d+rULnjdWcsl8wsrDmoXyu
+        nOya9czyK36ldLupNm0aR1dvmYsXGTBqZw==
+X-Google-Smtp-Source: ABdhPJy3MtaSz3gnQRqvIuO6T8pqGdMlC9Q/J6Y5P/n4Njip7fVVpKwMZn0gw4S2VR0fPyvkbjWGLQ==
+X-Received: by 2002:a05:6214:625:b0:441:4934:3c8d with SMTP id a5-20020a056214062500b0044149343c8dmr12241375qvx.40.1651562538138;
+        Tue, 03 May 2022 00:22:18 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id c5-20020ac86605000000b002f39b99f6a0sm5438087qtp.58.2022.05.03.00.22.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 00:22:17 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id s30so29705031ybi.8;
+        Tue, 03 May 2022 00:22:17 -0700 (PDT)
+X-Received: by 2002:a05:6902:82:b0:649:d5a0:9edd with SMTP id
+ h2-20020a056902008200b00649d5a09eddmr2654052ybs.202.1651562536998; Tue, 03
+ May 2022 00:22:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220501081523.22479-1-biju.das.jz@bp.renesas.com>
+ <OSZPR01MB7019299D00A457C964CC403DAAC19@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922CCDFA8C3648F49A10EB186C19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdWHemJn2KUBzYA8oVYgtG4sX2H=4-AdRuF0uZ2EgQEk6w@mail.gmail.com>
+ <OSZPR01MB701947B40187981ACE6A271DAAC09@OSZPR01MB7019.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59222A7FAB923579C21D6B6286C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59222A7FAB923579C21D6B6286C09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 3 May 2022 09:22:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV5F9RMyKbqV=zUAhH2UZuRCoc5Y+WC_GNvG5JioMnFGA@mail.gmail.com>
+Message-ID: <CAMuHMdV5F9RMyKbqV=zUAhH2UZuRCoc5Y+WC_GNvG5JioMnFGA@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-By default the bits per pixel for the emulated framebuffer device is set
-to dev->mode_config.preferred_depth, but some devices need another value.
+Hi Biju,
 
-Since this second parameter is only used by a few drivers, and to allow
-drivers to use it for passing other configurations when registering the
-fbdev, rename @preferred_bpp to @options and make it a multi-field param.
+On Tue, May 3, 2022 at 8:54 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > Subject: Re: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL ADC
+> > > On Mon, May 2, 2022 at 8:18 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > > wrote:
+> > > > > Subject: RE: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL
+> > > > > ADC
+> > > > > > Subject: [PATCH] iio: adc: rzg2l_adc: Add support for RZ/G2UL
+> > > > > > ADC
+> > > > > >
+> > > > > > ADC found on RZ/G2UL SoC is almost identical to RZ/G2L SoC, but
+> > > > > > RZ/G2UL has 2 analog input channels compared to 8 channels on
+> > > RZ/G2L.
+> > > > > > Therefore, added a new compatible to handle this difference.
+> > > > > >
+> > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > > ---
+> > > > > >  drivers/iio/adc/rzg2l_adc.c | 18 +++++++++++++-----
+> > > > > >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > > > > >
+> > > > > I wonder if this changes is really required. RZ/G2UL can still use
+> > > > > the "renesas,rzg2l-adc". As the driver populates the channels
+> > > > > depending the number of elements in the array passed in the DTS
+> > > > > and not always 8 channels. For example on Renesas SMARC EVK only
+> > > > > four channels are populated.
+> > > >
+> > > > For me that restriction is coming from board design, as SoC is
+> > > > capable of handling 8 channels, But board design allows only 4.
+> > > >
+> > > > But on RZ/G2UL SoC, it is capable of handling only 2 channels. Other
+> > > channels are invalid for RZ/G2UL SoC.
+> > > >
+> > > > That is the difference.
+> > > >
+> > > > > With this we don't have to differentiate RZ/G2UL SoC if just add
+> > > > > two channel entries in the SoC DTSI and the driver will just
+> > > > > create two channels.
+> > > >
+> > > > > @Geert - your thoughts on this.
+> > >
+> > > It depends on the meaning of the channel subnodes: do they indicate
+> > > (a) the number of channels present on the SoC, or (b) the number of
+> > > channels used on the board?  The DT bindings are not clear about that.
+> > >
+> > > arch/arm64/boot/dts/renesas/r9a07g044.dtsi lists all channels and
+> > > doesn't keep any disabled, which suggests (a).
+> > > arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi does remove unused
+> > > channels, which suggests (b).
+> > >
+> > Yep its (b), since the SoC can support 8 channels the RZ/G2L SoC DTSI has
+> > 8 entries, If there comes a new EVK based on RZ/RZ/G2L SOC supporting all
+> > the channels so this holds good.
+> >
+> > > Is there any (perhaps performance?) reason we can't just use the
+> > > number of channels present in DT? "make dtbs_check" can still validate
+> > > this against the SoC-specific compatible value.
+> > >
+> > Nope performance issues. That is what the code does [0], It counts the
+> > number of available channels in DTS and depending on the count it
+> > populates the ADC channels. So for RZ/G2UL if we just add two channels in
+> > the SoC DTSI this holds good and the driver shall populate only two
+> > channels. And as you said the validation for the RZ/G2UL SoC for just two
+> > channels will be done by make dtbs_check and in the driver the condition
+> > still holds good 2 < 8.
+> >
+> > > Do we need to know at runtime both the number of channels physically
+> > > present and the number of channels used?  If yes, we either need to
+> > > use the SoC-specific compatible value, or add a num-channels property.
+> > >
+> > At runtime we just need to know the number of channels used on the board.
+> >
+> > [0]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree
+> > /drivers/iio/adc/rzg2l_adc.c?h=v5.18-rc5#n335
+> >
+>
+> DT describes hardware and here there is a hardware difference 2 channels(RZ/G2UL) vs 8 channel(RZ/G2L).
 
-The DRM_FB_OPTION() and DRM_FB_GET_OPTION() macros are provided to drivers
-for computing options bitfield values and getting the values respectively
+Yes, that's why there are two compatible values: the SoC-specific one,
+and the family-specific one.
 
-For now, only the DRM_FB_BPP option exists but other options can be added.
+> Krzysztof Kozlowski, wants to take care this difference in dt-bindings by adding some validation checks.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
+The maximum number of channels is implied by the SoC-specific compatible value.
+Invalid channel numbers can be verified using "make dtbs_check".
 
-Changes in v3:
-- Drop the preferred_bpp local variable (Laurent Pinchart).
-- Add a const qualifier to options parameter (Laurent Pinchart).
+> If we all are agreeing to drop dt-binding validation for channels, I am ok with that.
 
-Changes in v2:
-- Rename DRM_FB_SET_OPTION() to DRM_FB_OPTION() and make more clear in
-  the kernel-doc what this macro does (Laurent Pinchart).
-- Fix some kernel-doc issues I didn't notice in v1.
-- Add Reviewed-by tags from Thomas and Laurent.
+No, I want to keep dt-binding validation for channels.
+But I think the driver should not validate the number of channels,
+as this should have been caught at dtbs_check time (and won't work
+anyway).
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 +++--
- drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
- drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
- drivers/gpu/drm/ast/ast_drv.c                 |  2 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
- drivers/gpu/drm/drm_drv.c                     |  2 +-
- drivers/gpu/drm/drm_fb_helper.c               | 26 ++++++++++++-------
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
- .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
- drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
- drivers/gpu/drm/imx/imx-drm-core.c            |  2 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
- drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
- drivers/gpu/drm/meson/meson_drv.c             |  2 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
- drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
- drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  2 +-
- drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
- drivers/gpu/drm/stm/drv.c                     |  2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
- drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
- drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
- drivers/gpu/drm/tiny/bochs.c                  |  2 +-
- drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
- drivers/gpu/drm/vboxvideo/vbox_drv.c          |  2 +-
- drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  2 +-
- include/drm/drm_fb_helper.h                   | 14 +++++++++-
- 33 files changed, 64 insertions(+), 42 deletions(-)
+> But from driver point, still it need SoC-specific compatible value, or add a num-channels property as
+> there is hardware difference RZG2UL_ADC_MAX_CHANNELS(2) vs RZG2L_ADC_MAX_CHANNELS(8)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index b03663f42cc9..0c54470975e3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2118,9 +2118,11 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- 	    !list_empty(&adev_to_drm(adev)->mode_config.connector_list)) {
- 		/* select 8 bpp console on low vram cards */
- 		if (adev->gmc.real_vram_size <= (32*1024*1024))
--			drm_fbdev_generic_setup(adev_to_drm(adev), 8);
-+			drm_fbdev_generic_setup(adev_to_drm(adev),
-+						DRM_FB_OPTION(DRM_FB_BPP, 8));
- 		else
--			drm_fbdev_generic_setup(adev_to_drm(adev), 32);
-+			drm_fbdev_generic_setup(adev_to_drm(adev),
-+						DRM_FB_OPTION(DRM_FB_BPP, 32));
- 	}
- 
- 	ret = amdgpu_debugfs_init(adev);
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index e89ae0ec60eb..b69b1e5be379 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -321,7 +321,7 @@ static int hdlcd_drm_bind(struct device *dev)
- 	if (ret)
- 		goto err_register;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index d5aef21426cf..25685b579a05 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -863,7 +863,7 @@ static int malidp_bind(struct device *dev)
- 	if (ret)
- 		goto register_fail;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 7780b72de9e8..dcccc2e93aea 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -343,7 +343,7 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(&priv->drm, 32);
-+	drm_fbdev_generic_setup(&priv->drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 	return 0;
- 
- err_unload:
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 7465c4f0156a..115be73e9b02 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -126,7 +126,7 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
- 
--	drm_fbdev_generic_setup(dev, 32);
-+	drm_fbdev_generic_setup(dev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index 651e3c109360..d2ced1a03df9 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -760,7 +760,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(ddev, 24);
-+	drm_fbdev_generic_setup(ddev, DRM_FB_OPTION(DRM_FB_BPP, 24));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8214a0b1ab7f..9fbc2287c876 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -324,7 +324,7 @@ void drm_minor_release(struct drm_minor *minor)
-  *		if (ret)
-  *			return ret;
-  *
-- *		drm_fbdev_generic_setup(drm, 32);
-+ *		drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
-  *
-  *		return 0;
-  *	}
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index d265a73313c9..52042ba1e4cf 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2501,8 +2501,17 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
- /**
-  * drm_fbdev_generic_setup() - Setup generic fbdev emulation
-  * @dev: DRM device
-- * @preferred_bpp: Preferred bits per pixel for the device.
-- *                 @dev->mode_config.preferred_depth is used if this is zero.
-+ * @options: options for the registered framebuffer.
-+ *
-+ * The @options parameter is a multi-field parameter that can contain
-+ * different options for the emulated framebuffer device registered.
-+ *
-+ * The options field values can be set using DRM_FB_OPTION() to compute
-+ * the value according to the option bitfield and can be obtained using
-+ * DRM_FB_GET_OPTION(). The options fields are the following:
-+ *
-+ * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
-+ *   @dev->mode_config.preferred_depth is used instead.
-  *
-  * This function sets up generic fbdev emulation for drivers that supports
-  * dumb buffers with a virtual address and that can be mmap'ed.
-@@ -2525,8 +2534,7 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
-  *
-  * The fbdev is destroyed by drm_dev_unregister().
-  */
--void drm_fbdev_generic_setup(struct drm_device *dev,
--			     unsigned int preferred_bpp)
-+void drm_fbdev_generic_setup(struct drm_device *dev, const unsigned int options)
- {
- 	struct drm_fb_helper *fb_helper;
- 	int ret;
-@@ -2555,11 +2563,11 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 	 * mess, resulting in some drivers picking wrong fbdev defaults and
- 	 * others wrong preferred_depth defaults.
- 	 */
--	if (!preferred_bpp)
--		preferred_bpp = dev->mode_config.preferred_depth;
--	if (!preferred_bpp)
--		preferred_bpp = 32;
--	fb_helper->preferred_bpp = preferred_bpp;
-+	fb_helper->preferred_bpp = DRM_FB_GET_OPTION(DRM_FB_BPP, options);
-+	if (!fb_helper->preferred_bpp)
-+		fb_helper->preferred_bpp = dev->mode_config.preferred_depth;
-+	if (!fb_helper->preferred_bpp)
-+		fb_helper->preferred_bpp = 32;
- 
- 	ret = drm_fbdev_client_hotplug(&fb_helper->client);
- 	if (ret)
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 7a503bf08d0f..293390f0d99c 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-@@ -334,7 +334,7 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto put;
- 
--	drm_fbdev_generic_setup(drm, legacyfb_depth);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, legacyfb_depth));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index 2af51df6dca7..eb6f3e5d4c95 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -237,7 +237,7 @@ static int kirin_drm_bind(struct device *dev)
- 	if (ret)
- 		goto err_kms_cleanup;
- 
--	drm_fbdev_generic_setup(drm_dev, 32);
-+	drm_fbdev_generic_setup(drm_dev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index 9b84df34a6a1..f84b54793d96 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -148,7 +148,7 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
- 	if (ret)
- 		goto cleanup_crtc;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return kms;
- 
-diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
-index a57812ec36b1..5fd8cf003a4c 100644
---- a/drivers/gpu/drm/imx/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/imx-drm-core.c
-@@ -251,7 +251,7 @@ static int imx_drm_bind(struct device *dev)
- 	if (ret)
- 		goto err_poll_fini;
- 
--	drm_fbdev_generic_setup(drm, legacyfb_depth);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, legacyfb_depth));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 8eb0ad501a7b..2e7815294e32 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1388,7 +1388,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		goto err_clk_notifier_unregister;
- 	}
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index e601baa87e55..e2ca0162061f 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -238,7 +238,7 @@ static int mcde_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto unbind;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 247c6ff277ef..fef2cc840baf 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -393,7 +393,7 @@ static int mtk_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto err_deinit;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 1b70938cfd2c..87fcee9143a9 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -350,7 +350,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	if (ret)
- 		goto uninstall_irq;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 9d71c55a31c0..6b251916a6c9 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -357,7 +357,7 @@ static int mxsfb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index 520301b405f1..11b5aea3a166 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -308,7 +308,7 @@ static int pl111_amba_probe(struct amba_device *amba_dev,
- 	if (ret < 0)
- 		goto dev_put;
- 
--	drm_fbdev_generic_setup(drm, priv->variant->fb_bpp);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, priv->variant->fb_bpp));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index 1cb6f0c224bb..883beebe6317 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -122,7 +122,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto modeset_cleanup;
- 
--	drm_fbdev_generic_setup(&qdev->ddev, 32);
-+	drm_fbdev_generic_setup(&qdev->ddev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 	return 0;
- 
- modeset_cleanup:
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 957ea97541d5..6faadab6577b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -681,7 +681,7 @@ static int rcar_du_probe(struct platform_device *pdev)
- 
- 	DRM_INFO("Device %s probed\n", dev_name(&pdev->dev));
- 
--	drm_fbdev_generic_setup(&rcdu->ddev, 32);
-+	drm_fbdev_generic_setup(&rcdu->ddev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index d858209cf8de..b97ab614d25a 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -200,7 +200,7 @@ static int sti_bind(struct device *dev)
- 
- 	drm_mode_config_reset(ddev);
- 
--	drm_fbdev_generic_setup(ddev, 32);
-+	drm_fbdev_generic_setup(ddev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 0da7cce2a1a2..a04a54d0cc9a 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -203,7 +203,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_put;
- 
--	drm_fbdev_generic_setup(ddev, 16);
-+	drm_fbdev_generic_setup(ddev, DRM_FB_OPTION(DRM_FB_BPP, 16));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 275f7e4a03ae..f593a8d127fa 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -112,7 +112,7 @@ static int sun4i_drv_bind(struct device *dev)
- 	if (ret)
- 		goto finish_poll;
- 
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 04cfff89ee51..58f0d69b2979 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -180,7 +180,7 @@ static int tidss_probe(struct platform_device *pdev)
- 		goto err_irq_uninstall;
- 	}
- 
--	drm_fbdev_generic_setup(ddev, 32);
-+	drm_fbdev_generic_setup(ddev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	dev_dbg(dev, "%s done\n", __func__);
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index eee3c447fbac..5216365ccab5 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -384,7 +384,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 		goto init_failed;
- 	priv->is_registered = true;
- 
--	drm_fbdev_generic_setup(ddev, bpp);
-+	drm_fbdev_generic_setup(ddev, DRM_FB_OPTION(DRM_FB_BPP, bpp));
- 	return 0;
- 
- init_failed:
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index f0fa3b15c341..df989d5ff5a0 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -392,7 +392,7 @@ static int arcpgu_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(&arcpgu->drm, 16);
-+	drm_fbdev_generic_setup(&arcpgu->drm, DRM_FB_OPTION(DRM_FB_BPP, 16));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index ed971c8bb446..c99608f20bcc 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -663,7 +663,7 @@ static int bochs_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent
- 	if (ret)
- 		goto err_free_dev;
- 
--	drm_fbdev_generic_setup(dev, 32);
-+	drm_fbdev_generic_setup(dev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 	return ret;
- 
- err_free_dev:
-diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 6d9d2921abf4..5fc940d09043 100644
---- a/drivers/gpu/drm/tve200/tve200_drv.c
-+++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -226,7 +226,7 @@ static int tve200_probe(struct platform_device *pdev)
- 	 * Passing in 16 here will make the RGB565 mode the default
- 	 * Passing in 32 will use XRGB8888 mode
- 	 */
--	drm_fbdev_generic_setup(drm, 16);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 16));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-index f4f2bd79a7cb..2212be1bf03e 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-@@ -79,7 +79,7 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto err_irq_fini;
- 
--	drm_fbdev_generic_setup(&vbox->ddev, 32);
-+	drm_fbdev_generic_setup(&vbox->ddev, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 162bc18e7497..ddfdf9907344 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -291,7 +291,7 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto unbind_all;
- 
--	drm_fbdev_generic_setup(drm, 16);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 16));
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 5f25a8d15464..d62aa084392b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -128,7 +128,7 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
- 	if (ret)
- 		goto err_deinit;
- 
--	drm_fbdev_generic_setup(vdev->priv, 32);
-+	drm_fbdev_generic_setup(vdev->priv, DRM_FB_OPTION(DRM_FB_BPP, 32));
- 	return 0;
- 
- err_deinit:
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 824b510e337b..be1f0f6b460b 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -135,7 +135,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 		goto err_poll_fini;
- 
- 	/* Initialize fbdev generic emulation. */
--	drm_fbdev_generic_setup(drm, 24);
-+	drm_fbdev_generic_setup(drm, DRM_FB_OPTION(DRM_FB_BPP, 24));
- 
- 	return 0;
- 
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 3af4624368d8..5fc41cf0c987 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -35,6 +35,7 @@ struct drm_fb_helper;
- #include <drm/drm_client.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
-+#include <linux/bitfield.h>
- #include <linux/kgdb.h>
- 
- enum mode_set_atomic {
-@@ -42,6 +43,17 @@ enum mode_set_atomic {
- 	ENTER_ATOMIC_MODE_SET,
- };
- 
-+#define DRM_FB_BPP_MASK GENMASK(7, 0)
-+
-+/* Using the GNU statement expression extension */
-+#define DRM_FB_OPTION(option, value)				\
-+	({							\
-+		WARN_ON(!FIELD_FIT(option##_MASK, value));	\
-+		FIELD_PREP(option##_MASK, value);		\
-+	})
-+
-+#define DRM_FB_GET_OPTION(option, word) FIELD_GET(option##_MASK, word)
-+
- /**
-  * struct drm_fb_helper_surface_size - describes fbdev size and scanout surface size
-  * @fb_width: fbdev width
-@@ -269,7 +281,7 @@ void drm_fb_helper_lastclose(struct drm_device *dev);
- void drm_fb_helper_output_poll_changed(struct drm_device *dev);
- 
- void drm_fbdev_generic_setup(struct drm_device *dev,
--			     unsigned int preferred_bpp);
-+			     const unsigned int options);
- #else
- static inline void drm_fb_helper_prepare(struct drm_device *dev,
- 					struct drm_fb_helper *helper,
--- 
-2.35.1
+From reading the hardware manual, it only matters for channels actually
+used. Whether the other channels are unused, or non-existent, doesn't
+seem to matter at all?
 
+TBH, I think they're really the same hardware block, they just didn't
+wire up channels 3-7 on RZ/G2UL (see e.g. bits 7 to 2 in the ADM2
+register, which are not fixed to zero like the upper bits, but have an
+(undefined) initial value, which must be retained when written).
+
+> Currently driver validation only holds good for RZ/G2L SoC.
+>
+> See [1], [2], [3] and [4]
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/iio/adc/rzg2l_adc.c?h=v5.18-rc5#n324
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/iio/adc/rzg2l_adc.c?h=v5.18-rc5#n340
+
+These can be dropped, as dtbs_check should take care of that.
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/iio/adc/rzg2l_adc.c?h=v5.18-rc5#n263
+
+Looks like this condition can never happen, so the check can be removed?
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/iio/adc/rzg2l_adc.c?h=v5.18-rc5#n293
+
+That check can stay (RZG2L_ADC_MAX_CHANNELS is the maximum number of
+channels supported by the IP block), or the limit can be replaced by
+the highest channel number found, or just BITS_PER_LONG (no invalid
+bits can be set anyway, and intst was masked by RZG2L_ADSTS_INTST_MASK
+= 0xff).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
