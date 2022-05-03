@@ -2,95 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C643E518A7C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 18:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5BD518AAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 19:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239882AbiECQ4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 12:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46862 "EHLO
+        id S240017AbiECRGc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 13:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236361AbiECQ4K (ORCPT
+        with ESMTP id S240012AbiECRGb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 12:56:10 -0400
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 833A42C10C;
-        Tue,  3 May 2022 09:52:34 -0700 (PDT)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-ed9ac77cbbso7165942fac.1;
-        Tue, 03 May 2022 09:52:34 -0700 (PDT)
+        Tue, 3 May 2022 13:06:31 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1668530F42;
+        Tue,  3 May 2022 10:02:59 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id b24so20568077edu.10;
+        Tue, 03 May 2022 10:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0ebsl3t9Q4A5ZhggZdMt0K6huVQ4nPLjVF1HT4eHwHY=;
+        b=HaGnyx7pBoke+0aSLZ+0Cl9i2Z3rtc277xsE07lgnGx2lIPgKNR+/cHf1BHMJd+tWY
+         xLxDVjfXM0LpLkK6W47aSnLqvt4qcngT1GxJ9qnMFGWSSL68ZSpCJur0Qp+flnz9TG9V
+         8iSPz7fXNdaty2uNHB4TWoNsqJrz0v03bb5rxLo5UKkUbCeepA8IK+d4f511ABt2QcWd
+         ZpC42ODRQgilCYofK3JnmcBW/XdrLxgbLavwJlZDJe38uRpGjKQRfb1xNvaHi8pmKFwS
+         8RYFI+ibpzWIAh8L22MX0fUODrvS/rlJYgws3AcC0d8zDmBJEhPw91evXIyGqHtd9B1w
+         9Xiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bWkQqeErx5MXuFYoagP2ysKJM8eb7JrDblYR45Dz8Bg=;
-        b=VGCJPeUfA+EZJnX6lHLhS4jh1pSuMvHLFLlKfnjUdD8VCe5Ic8sgBwXDuLDmj9A/+m
-         X8hiODHRpqGv3vNTo/cv46jzSWgPyz4re1OGXadZIh+p+wBJ/g8yJnosSiTUvp2/578T
-         OKS4MwDua23ujsZj8Oaml1nUTra3n7+lxvKMVphsFrBdatUo8mbGH5XAsuDahwtt55HY
-         dTsKVFjVzzFcpekkjBRJ2qOu3TGTHbVxPQkaltjL2kkHdFUlzkeokVtsA2CCN6ovQmaU
-         KCwMGcO7jzRZnsOyaD5chbIKrdj7RJ+XWWWIEHLy7eit8/52rNzaV3xxf4eFpXGrSH7b
-         r9Fg==
-X-Gm-Message-State: AOAM531igVUDhjBzsvl5xugyMuPy/ETrzKt0cj+Cushf8Q5LlGxsT7dh
-        OLfnQwJyB+6Vswk/tkVbVA==
-X-Google-Smtp-Source: ABdhPJweQhiPc2aks3JjKmQerHyDZiP2Figm9BHZLfa154VJ/Sv6faf2F3g3gkldQCZLkAww3JxmPw==
-X-Received: by 2002:a05:6870:538d:b0:de:aa91:898e with SMTP id h13-20020a056870538d00b000deaa91898emr2066155oan.54.1651596753800;
-        Tue, 03 May 2022 09:52:33 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s35-20020a05680820a300b003260f1e8361sm1657401oiw.54.2022.05.03.09.52.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0ebsl3t9Q4A5ZhggZdMt0K6huVQ4nPLjVF1HT4eHwHY=;
+        b=im+01IOU4Zoy13pHmsTejb3PMVCiXvIelSdvFm7ZuPdaApVanG/iC7B5SyButNzh88
+         MmkjbG7NCIs9itc0Zv/QaCWOfvkmeHMaVyZ4d110cjTn1f8vOS8I/CqRYS1r84q4XiQ6
+         ogmIkWFjwiX5rFwsEx3RReBqKuwOA9DcbFgNLsnihu60fPj4rGiLMEZufbHyCzS6m7tc
+         NAd2OYYWBXTdT0YGlZKAz/s/SKdzNszQ7m6UzNZaEI3cgosU6to6Sd4aSweRXYVekDm6
+         vu7Y13ecVaHQ1I2CMhr5EB0/Bsfzgom0QMKZpMIeAsQdvOXO9IfvEXaU6MtDPmsDbCdh
+         lFgQ==
+X-Gm-Message-State: AOAM5309Om5VFGj4a+z32x3cDRW4j58y9elGbwyHdKnw2sgqUPjXP5a/
+        8qejceBq9hrDU5OLOG79eX5lijrt784=
+X-Google-Smtp-Source: ABdhPJwhqGbymFuBTyPLL+yyc+nnpILMy/ni7d7XOhYbnZCBoZ0oS8dRxaoc/0h9PTlfn8SevSJmlw==
+X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id f1-20020a056402194100b00413282209c8mr18716302edz.13.1651597377548;
+        Tue, 03 May 2022 10:02:57 -0700 (PDT)
+Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id q8-20020aa7cc08000000b0042617ba637esm8000905edt.8.2022.05.03.10.02.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 09:52:33 -0700 (PDT)
-Received: (nullmailer pid 3862072 invoked by uid 1000);
-        Tue, 03 May 2022 16:52:32 -0000
-Date:   Tue, 3 May 2022 11:52:32 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Marc Kleine-Budde <mkl@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-can@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL
- support
-Message-ID: <YnFd0CnF1yDltPoV@robh.at.kernel.org>
-References: <20220423130743.123198-1-biju.das.jz@bp.renesas.com>
- <YnAlVQr1A6UU0tB3@robh.at.kernel.org>
- <20220502185929.hgjuitw4mnu4ye3c@pengutronix.de>
+        Tue, 03 May 2022 10:02:56 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-kernel@vger.kernel.org,
+        Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, spice-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v3 2/3] drm/fb-helper: Rename preferred_bpp drm_fbdev_generic_setup() parameter
+Date:   Tue, 03 May 2022 19:02:54 +0200
+Message-ID: <2626921.mvXUDI8C0e@kista>
+In-Reply-To: <20220503071540.471667-3-javierm@redhat.com>
+References: <20220503071540.471667-1-javierm@redhat.com> <20220503071540.471667-3-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502185929.hgjuitw4mnu4ye3c@pengutronix.de>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 02, 2022 at 08:59:29PM +0200, Marc Kleine-Budde wrote:
-> On 02.05.2022 13:39:17, Rob Herring wrote:
-> > On Sat, 23 Apr 2022 14:07:43 +0100, Biju Das wrote:
-> > > Add CANFD binding documentation for Renesas R9A07G043 (RZ/G2UL) SoC.
-> > > 
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  .../devicetree/bindings/net/can/renesas,rcar-canfd.yaml          | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > 
-> > Applied, thanks!
+Dne torek, 03. maj 2022 ob 09:15:39 CEST je Javier Martinez Canillas 
+napisal(a):
+> By default the bits per pixel for the emulated framebuffer device is set
+> to dev->mode_config.preferred_depth, but some devices need another value.
 > 
-> That just got into net-next/master as
-> | 35a78bf20033 dt-bindings: can: renesas,rcar-canfd: Document RZ/G2UL support
+> Since this second parameter is only used by a few drivers, and to allow
+> drivers to use it for passing other configurations when registering the
+> fbdev, rename @preferred_bpp to @options and make it a multi-field param.
+> 
+> The DRM_FB_OPTION() and DRM_FB_GET_OPTION() macros are provided to drivers
+> for computing options bitfield values and getting the values respectively
+> 
+> For now, only the DRM_FB_BPP option exists but other options can be added.
+> 
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> 
+> Changes in v3:
+> - Drop the preferred_bpp local variable (Laurent Pinchart).
+> - Add a const qualifier to options parameter (Laurent Pinchart).
+> 
+> Changes in v2:
+> - Rename DRM_FB_SET_OPTION() to DRM_FB_OPTION() and make more clear in
+>   the kernel-doc what this macro does (Laurent Pinchart).
+> - Fix some kernel-doc issues I didn't notice in v1.
+> - Add Reviewed-by tags from Thomas and Laurent.
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 +++--
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>  drivers/gpu/drm/ast/ast_drv.c                 |  2 +-
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
+>  drivers/gpu/drm/drm_drv.c                     |  2 +-
+>  drivers/gpu/drm/drm_fb_helper.c               | 26 ++++++++++++-------
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
+>  drivers/gpu/drm/imx/imx-drm-core.c            |  2 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  2 +-
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
+>  drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+>  drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  2 +-
+>  drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
+>  drivers/gpu/drm/stm/drv.c                     |  2 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
 
-Okay, dropped.
+For sun4i:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Rob
+Best regard,
+Jernej
+
+>  drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
+>  drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+>  drivers/gpu/drm/tiny/bochs.c                  |  2 +-
+>  drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c          |  2 +-
+>  drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 +-
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  2 +-
+>  include/drm/drm_fb_helper.h                   | 14 +++++++++-
+>  33 files changed, 64 insertions(+), 42 deletions(-)
+
+
+
