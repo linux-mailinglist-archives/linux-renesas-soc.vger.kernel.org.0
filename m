@@ -2,50 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38776518062
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 11:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C005351810D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 11:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232391AbiECJDu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 05:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
+        id S233404AbiECJdc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 05:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233129AbiECJDs (ORCPT
+        with ESMTP id S233396AbiECJdb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 05:03:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2E7558B
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 02:00:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9ECFA61307
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 09:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00388C385A4
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 09:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651568416;
-        bh=9LwliDwbhbfgrFHHaHfg7Kh1P1afQY3pghWEZEbTkVk=;
-        h=Subject:From:Date:To:From;
-        b=S5nwEA0XqVipBgvKVMN/9nerM3ONQH8KCZ92LGUgLPvlRiAs8eOI15z4t3GVdpdfh
-         Fjq9mCHQkDArm11NPURoPtx+yWAt+0h9tuJ1DPdZcQHQNAwp9KC0y09qs9ukAza/33
-         0V45IUui7TjIAec0kWtr7CiEe/ifhG4JMqbpPsRZiIGmfkMpVMJm4s9s61qJYUkZV3
-         U3lY6Yq9ogIVEgmW5DXaZ2BMGzS6lFVNTvME0OMNtt9/sAiUmocheRAaSvKej+0pXF
-         W8xORCFIB5H+Oc8HGkX/K7pKyRY4Rg8gcGUcDFiOCyWiUICKuRJUaSl3GgfM9KbOZM
-         6Z8JDdHYcpmnQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6FE6E6D402
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 09:00:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 3 May 2022 05:33:31 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BB5369D0
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 02:29:56 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id p4so19273638edx.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 02:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=zB5e/Eye7NKTiR0iDf6A/QHPDIG8VOEpDlGbZQKTb30=;
+        b=BR6BitziOi0WXcjIJLa6fbzR99D1RO1QuZQlrMCVfu5IezrVdh94Je492bhD3tuePW
+         Vblf0IULaKsW3hkFdtR/JnR7P830V9R0yRz7ZsYDIngTVZA0O/Re1G+Q9y7ET6yAgTPX
+         tRpx+VIlUGwMeQHSYoyDWAm1BwalfVQyq3/DGy1iy+qaFlcLfCbGxL81eKnPmG/8w7Ww
+         n+lrtGmFl+HBIYtq5rWpKLfTU++lasaMTHN0TscdXYkcLRRcfbtXZSmhXwtOXKFR4/Rl
+         MbRT/oQFm7HNGHtoFhLEKxL95g0ZoNIAxQ7e8M2SdHtOBJvZKT/01Zcej5S4gQ6VnPN7
+         REUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=zB5e/Eye7NKTiR0iDf6A/QHPDIG8VOEpDlGbZQKTb30=;
+        b=TYQb/WojwEkUrpJD9wfZW5DteGC5ZXbsoRy94g71WOA0xWigVQx0uyPETQsg9KffKt
+         tLH/V2axfxsQNP8yEEDuWRKCBlCEJUO/Iwd74hbVZd3xcRiZJqM2GQIAeljyPwQo+wjG
+         7odOMMnSL4ARKFT2zrSPw7yQVYyWcUu2MVa0gmM+O9d/KeWBozgddZA0GTVXHiu7M/5w
+         DmRcYPs/towUFnDI7YHA9kJ9JC/3/MonduUsFJrxxCR9ozUck5NApDA2XhQEWMDFXkT7
+         0udaZ2VDdPpC5Xmfgh4yVnkWUkOtXK7HCG9nHUv7Pwc5tpCPdXmnRq0Gn54sQF5AJzLe
+         wGag==
+X-Gm-Message-State: AOAM532cyBff1TDE9C1Q3U0BLpMbiX9+XnMUfskpWBnUcx597obLBRYL
+        v5Kw8dhYBL60+HTv7emRRo7QCg==
+X-Google-Smtp-Source: ABdhPJw0CvtF1J8tlcNgNaOLoUi82bOqMVPxdlnIrx9IBPryH5dVXVAGmSZQkuKIy+RfCoXWk/K6Rw==
+X-Received: by 2002:a50:9f06:0:b0:425:c1ba:5037 with SMTP id b6-20020a509f06000000b00425c1ba5037mr17363890edf.285.1651570194908;
+        Tue, 03 May 2022 02:29:54 -0700 (PDT)
+Received: from [192.168.0.201] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id og13-20020a1709071dcd00b006f3ef214e3fsm4398405ejc.165.2022.05.03.02.29.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 02:29:54 -0700 (PDT)
+Message-ID: <5a89e9bf-1004-500a-75e1-995732629937@linaro.org>
+Date:   Tue, 3 May 2022 11:29:53 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <165156841580.21062.3551604340477844963.git-patchwork-summary@kernel.org>
-Date:   Tue, 03 May 2022 09:00:15 +0000
-To:     linux-renesas-soc@vger.kernel.org
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 2/6] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
+ device tree support for r9a06g032
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20220429134143.628428-1-herve.codina@bootlin.com>
+ <20220429134143.628428-4-herve.codina@bootlin.com>
+ <29ba3db6-e5c7-06d3-29d9-918ee5b34555@linaro.org>
+ <CAMuHMdWN_ni_V+e3QipWH2qKXeNPkEcVpHpb5iBYw1YQSAnCDA@mail.gmail.com>
+ <YnA0id1rXlNHNz+N@robh.at.kernel.org>
+ <CAMuHMdWktaRAw8Y6TR93_rH8v4mPR2yt3wGqeXeTA2p_Dh--wA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdWktaRAw8Y6TR93_rH8v4mPR2yt3wGqeXeTA2p_Dh--wA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,70 +97,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On 03/05/2022 08:51, Geert Uytterhoeven wrote:
+>>>> This should not be a reason why a property is or is not required. Either
+>>>> this is required for device operation or not. If it is required, should
+>>>> be in the bindings. Otherwise what are you going to do in the future?
+>>>> Add a required property breaking the ABI?
+>>>
+>>> The problem is that there are no bindings for the reset controller
+>>> (actually the reset controller feature of the system-controller) yet.
+>>> Yeah, we can just add #reset-cells = <1> to the system-controller
+>>> device node, but we cannot add the actual resets properties to the
+>>> consumers, until the actual cell values are defined.
+>>
+>> Sounds like you should implement providers first. Or just live with the
+>> warning as a reminder to implement the reset provider?
+> 
+> I'd go for the latter. The upstream r9a06g032.dtsi is still under active
+> development. Until very recently, the only device supported was the
+> serial console.
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+For clocks we use in such cases fixed-clock placeholders or empty
+phandles. Maybe something like that would work here as well?
 
-Series: Add OPP, TSU, RSPI and SPI Multi I/O Bus controller node
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=637390
-  Lore link: https://lore.kernel.org/r/20220501112926.47024-1-biju.das.jz@bp.renesas.com
-    Patches: [1/6] arm64: dts: renesas: r9a07g043: Add SPI Multi I/O Bus controller node
-             [2/6] arm64: dts: renesas: r9a07g043: Add RSPI{0,1,2} nodes
-             [3/6] arm64: dts: renesas: r9a07g043: Add OPP table
-             [4/6] arm64: dts: renesas: r9a07g043: Add TSU node
-             [5/6] arm64: dts: renesas: r9a07g043: Create thermal zone to support IPA
-
-Series: [v2,1/2] arm64: dts: renesas: Remove empty lvds endpoints
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=635076
-  Lore link: https://lore.kernel.org/r/20220424161228.8147-1-laurent.pinchart+renesas@ideasonboard.com
-    Patches: [v2,1/2] arm64: dts: renesas: Remove empty lvds endpoints
-             [v2,2/2] arm64: dts: renesas: Remove empty rgb output endpoints
-
-Series: [v4,1/2] arm64: dts: renesas: r9a07g044: Fix external clk node names
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=636616
-  Lore link: https://lore.kernel.org/r/20220428133156.18080-1-biju.das.jz@bp.renesas.com
-    Patches: [v4,1/2] arm64: dts: renesas: r9a07g044: Fix external clk node names
-             [v4,2/2] arm64: dts: renesas: r9a07g054: Fix external clk node names
-
-Patch: [v2] arm64: dts: renesas: r9a07g043: Add SPI Multi I/O Bus controller node
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=637698
-  Lore link: https://lore.kernel.org/r/20220502190155.84496-1-biju.das.jz@bp.renesas.com
-
-Series: dt-bindings: can: renesas,rcar-canfd: Make interrupt-names required
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=637682
-  Lore link: https://lore.kernel.org/r/cover.1651512451.git.geert+renesas@glider.be
-    Patches: [1/2] arm64: dts: renesas: Add interrupt-names to CANFD nodes
-
-Series: RZN1 DMA support
-  Submitter: Miquel Raynal <miquel.raynal@bootlin.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=636110
-  Lore link: https://lore.kernel.org/r/20220427095653.91804-1-miquel.raynal@bootlin.com
-    Patches: [v12,1/9] dt-bindings: dmaengine: Introduce RZN1 dmamux bindings
-             [v12,8/9] ARM: dts: r9a06g032: Add the two DMA nodes
-             [v12,9/9] ARM: dts: r9a06g032: Describe the DMA router
-
-Series: mtd: rawnand: renesas: Runtime PM use
-  Submitter: Miquel Raynal <miquel.raynal@bootlin.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=636906
-  Lore link: https://lore.kernel.org/r/20220429105229.368728-1-miquel.raynal@bootlin.com
-    Patches: [1/3] dt-bindings: mtd: renesas: Fix the NAND controller description
-             [2/3] ARM: dts: r9a06g032: Fix the NAND controller node
-
-
-Total patches: 16
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Best regards,
+Krzysztof
