@@ -2,122 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F182551874A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F447518768
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:55:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237456AbiECO5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 10:57:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51430 "EHLO
+        id S237543AbiECO7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 10:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237454AbiECO5p (ORCPT
+        with ESMTP id S237528AbiECO7S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 10:57:45 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CF1CF3915A
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 07:54:11 -0700 (PDT)
-Received: (qmail 1087789 invoked by uid 1000); 3 May 2022 10:54:10 -0400
-Date:   Tue, 3 May 2022 10:54:10 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
+        Tue, 3 May 2022 10:59:18 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7F017338BD;
+        Tue,  3 May 2022 07:55:45 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5361F12FC;
+        Tue,  3 May 2022 07:55:45 -0700 (PDT)
+Received: from lakrids (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F33AD3F5A1;
+        Tue,  3 May 2022 07:55:43 -0700 (PDT)
+Date:   Tue, 3 May 2022 15:55:41 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-Message-ID: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
-References: <YjeEbHL8ITkW692W@rowland.harvard.edu>
- <YmKt3kH+85kjzdbL@kroah.com>
- <YmSc29YZvxgT5fEJ@rowland.harvard.edu>
- <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
- <YmSpKpnWR8WWEk/p@rowland.harvard.edu>
- <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
- <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add
+ optional clock and reset
+Message-ID: <YnFCbe4ULoRRft4u@lakrids>
+References: <20220503115557.53370-1-phil.edworthy@renesas.com>
+ <20220503115557.53370-5-phil.edworthy@renesas.com>
+ <6fb57bcc87e091d6e88217d2b82af9da@kernel.org>
+ <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 03, 2022 at 12:14:30PM +0200, Geert Uytterhoeven wrote:
-> 	Hi Alan,
+Hi Geert,
+
+On Tue, May 03, 2022 at 04:22:35PM +0200, Geert Uytterhoeven wrote:
+> On Tue, May 3, 2022 at 3:12 PM Marc Zyngier <maz@kernel.org> wrote:
+> > On 2022-05-03 12:55, Phil Edworthy wrote:
+> > > Some SoCs use a gated clock for the timer and the means to reset the
+> > > timer.
+> > > Hence add these as optional.
+> >
+> > The architecture is crystal clear on the subject: the counter
+> > is in an always-on domain. Why should this be visible to SW?
+> > Also, reseting the counter breaks the guaranteed monotonicity
+> > we rely on.
 > 
-> On Sat, 23 Apr 2022, Alan Stern wrote:
-> > This patch adds a "gadget" bus and uses it for registering gadgets and
-> > their drivers.  From now on, bindings will be managed by the driver
-> > core rather than through ad-hoc manipulations in the UDC core.
-> > 
-> > As part of this change, the driver_pending_list is removed.  The UDC
-> > core won't need to keep track of unbound drivers for later binding,
-> > because the driver core handles all of that for us.
-> > 
-> > However, we do need one new feature: a way to prevent gadget drivers
-> > from being bound to more than one gadget at a time.  The existing code
-> > does this automatically, but the driver core doesn't -- it's perfectly
-> > happy to bind a single driver to all the matching devices on the bus.
-> > The patch adds a new bitflag to the usb_gadget_driver structure for
-> > this purpose.
-> > 
-> > A nice side effect of this change is a reduction in the total lines of
-> > code, since now the driver core will do part of the work that the UDC
-> > used to do.
-> > 
-> > A possible future patch could add udc devices to the gadget bus, say
-> > as a separate device type.
-> > 
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> The DT bindings do state:
 > 
-> Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
-> gadget: Add a new bus for gadgets") in usb-next.
+>   always-on:
+>     type: boolean
+>     description: If present, the timer is powered through an always-on power
+>       domain, therefore it never loses context.
 > 
-> This patch cause a regression on the Renesas Salvator-XS development
-> board, as R-Car H3 has multiple USB gadget devices:
+> and (surprisingly?) the absence of this property seems to be the
+> norm...
 
-Then these gadgets ought to have distinct names in order to avoid the 
-conflict below:
+That's the *timer* (i.e. the comparator logic within each CPU which
+fires an interrupt), not the *counter* (i.e. the incrementing value fed
+by a clock). What this is trying to say is whether that can be relied
+upon to cause a wakeup while the CPU is in a low-power state, or whether
+it cannot (and hence SW needs to use another timer for the wakeup).
 
->     sysfs: cannot create duplicate filename '/bus/gadget/devices/gadget'
->     CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc1-arm64-renesas-00074-gfc274c1e9973 #1587
->     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
->     Call trace:
->      dump_backtrace+0xcc/0xd8
->      show_stack+0x14/0x30
->      dump_stack_lvl+0x88/0xb0
->      dump_stack+0x14/0x2c
->      sysfs_warn_dup+0x60/0x78
->      sysfs_do_create_link_sd.isra.0+0xe4/0xf0
->      sysfs_create_link+0x20/0x40
->      bus_add_device+0x64/0x110
->      device_add+0x31c/0x850
->      usb_add_gadget+0x124/0x1a0
->      usb_add_gadget_udc_release+0x1c/0x50
->      usb_add_gadget_udc+0x10/0x18
->      renesas_usb3_probe+0x450/0x728
-...
+It's legitimate for each timer to not be in an always-on power domain
+because it is part of each CPU, whereas the counter is global to the
+system.
 
-Having three gadget devices, all named "gadget", doesn't seem like a 
-good idea.
+We can clear up the wording here since it's apparently confusing.
 
-> After boot-up, only one gadget device is visible:
-
-Naturally, since the first registration succeeds and the later ones fail 
-because they can't reuse the same name.
-
->     root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
->     total 0
->     lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget -> ../../../devices/platform/soc/e659c000.usb/gadget
->     root@h3-salvator-xs:~#
+> And:
 > 
-> Reverting this patch fixes the issue.
+>   arm,no-tick-in-suspend:
+>     type: boolean
+>     description: The main counter does not tick when the system is in
+>       low-power system suspend on some SoCs. This behavior does not match the
+>       Architecture Reference Manual's specification that the system
+> counter "must
+>       be implemented in an always-on power domain."
 
-This doesn't seem like it should be too hard to fix, although I'm not 
-at all familiar with the renesas-usb3 driver.  Do you know who maintains 
-that driver?  Is it you?
+This is admittedly a workaround for an integration bug, but it's quite
+different and only affects the time jump that can be observed when going
+into suspend an exiting from it. Whenever software is running the
+counter is incrementing.
 
-Alan Stern
+> So there's already precedent for clocks that can be disabled.
+
+There's precedent for the clock being disabled in a specific deep sleep
+state, not when SW is actively running.
+
+> > Worse case, this belongs to the boot firmware, not the kernel,
+> > and I don't think this should be described in the DT.
+> 
+> "DT describes hardware, not software policy"?
+
+It's still describing the HW. There's plenty of other always-on stuff
+that we don't describe because for all intents and purposes it is always
+on.
+
+Note that this being always-on isn't just a Linux thing; that affects
+plenty of other SW which may run and it's an *architectural property*
+that's apparently being violated.
+
+Thanks,
+Mark.
