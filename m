@@ -2,146 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADB5E518685
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD78518723
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 May 2022 16:46:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234023AbiECO0W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 May 2022 10:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
+        id S229854AbiECOuT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 May 2022 10:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232563AbiECO0W (ORCPT
+        with ESMTP id S237358AbiECOuT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 May 2022 10:26:22 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D1282CE0F;
-        Tue,  3 May 2022 07:22:49 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id t11so13476807qto.11;
-        Tue, 03 May 2022 07:22:49 -0700 (PDT)
+        Tue, 3 May 2022 10:50:19 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E521393C5
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 May 2022 07:46:46 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id t13so14186547pgn.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 May 2022 07:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=CkICzkYrr3dA1Nr9QkkPl0Zr+eG/l0FyzebtY7Xk9ec=;
+        b=TSO9VI2V3BxqMveHCJs6OdCybguITzV1nUqYzZZZC4qvGMiFFS4UKe/aCp0kMqu3nq
+         neDNoeHMi196hSqo3Hw0cr43rDOYWq5gfvU+yBMdMRW4pROWhX1gZB15zK906EEg2zAa
+         gJNt9zpnd3Vv2eUhWcuQha7cJ1riPSUYjJz6eueTqULNECJ/FF9D18Xn4/wM93weBTLi
+         0uhsZjSYQqcW214sDZvgLZcqHXDrH61jcFfX58HC2FKsRse4VptMQW98TTSISMaNfprQ
+         k8Gz0TnZtWbscIEHYq1nBgaVXlnL4CpvzG6r/H8+fqzgM1BaklBpflgWKgN10nXpcdh/
+         b8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3t6SRW/DjuDAlbfHDheZgdCnYyoKNEk8ORQglJBIxaM=;
-        b=61iJRRCwP2Zxr1bmTANdq0PWM7wirPKq3Q0VKIvLBce/HdspMlzso9Q5J84kkWVrhO
-         FDW2Ltwp1NcJIuyO9fvK844EPqcKKie3hr3w4ed2905RjFqI5TD3l786vkZaYguf2OWG
-         G6tVEWAUU3VpUtwgFf+Bkbgcf6W8nYVHa1f0n1ai3Bio1U984Z/QmlaoxWagYOIZ2Mln
-         COOaN1UlJMv0D8+omUmErlPZUT6Rk4H8FXRbF53G8HVnMHS2zxshONKy3Eq1r5uUgvM2
-         SreJcQbnumM1oUxwAeYSFVJmsgrS+5EFuy4rQDnTwG09NJYU/7g2ylWOrTrlv2vm9/ce
-         aqsg==
-X-Gm-Message-State: AOAM531bPSzteXZtZk0xMJwlgHScvfI/AgYpRuPYP39uYVZekfhlwBBT
-        nLqMJL4nPhLik3MkzK+LpDqrEIz/WDiYAA==
-X-Google-Smtp-Source: ABdhPJzr8STgTUcOAvo0wR7Yr1A8UCuRUgJOCFym0UGApXLBtqMaaLNhgQmuh/T7u32cZTCGDgvV+w==
-X-Received: by 2002:ac8:5a4a:0:b0:2f3:9ddf:2cdd with SMTP id o10-20020ac85a4a000000b002f39ddf2cddmr12749377qta.112.1651587768291;
-        Tue, 03 May 2022 07:22:48 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id 184-20020a3704c1000000b0069fc13ce1f5sm6022653qke.38.2022.05.03.07.22.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 May 2022 07:22:47 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id m128so31341315ybm.5;
-        Tue, 03 May 2022 07:22:47 -0700 (PDT)
-X-Received: by 2002:a25:6157:0:b0:645:8d0e:f782 with SMTP id
- v84-20020a256157000000b006458d0ef782mr14945254ybb.36.1651587767157; Tue, 03
- May 2022 07:22:47 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=CkICzkYrr3dA1Nr9QkkPl0Zr+eG/l0FyzebtY7Xk9ec=;
+        b=achh5KEvAKI2TGTwGnhK8uBc93FVWp5E2B9QIUmrQ/rgaEhaDJuqjAlG2realDhHpL
+         IjixAQ7vc0RQa5R2OoGYZ2V2nGGIzB66+sFJvAARishRJwrbcoECWQ1RQnCjP444iyLw
+         9xdTltG5H7nUSKFkncXI9dc22DuyNXfsrD1YAgH2i/c0827TqniTnKCtP5OeVZ/F40FB
+         wmiBSeP+Jt08nHPMrDhZ02OUwY8FH/DH9DHAV7tOQNMvGFb1byyD3Jbr4DdabN3Kf3L0
+         UfM5ZQ6iEuCThgpfgdK10N1OmPLjJ2oywqevk/CCRPzSza3yeTzEsEvjT+M7BN0Np+Ga
+         YFgg==
+X-Gm-Message-State: AOAM530lNWL7CMVgRn7jgeQ60bwxrmXLMDKO7CgbdkyZRTNHKeDzaAj6
+        Zy66LKLJO0DwQ6fIroqxemnOM2JjGgZTYg+rcbE=
+X-Google-Smtp-Source: ABdhPJyGrkAOnky789l/KCejM8Xr59ftN5nf83zRAHBhB2xHSZ6BqIkWOQ4+wWrZRBnu8DOTp1dvbg==
+X-Received: by 2002:a63:91c9:0:b0:3ab:11e6:4ff9 with SMTP id l192-20020a6391c9000000b003ab11e64ff9mr12844375pge.121.1651589202770;
+        Tue, 03 May 2022 07:46:42 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id e18-20020aa78c52000000b0050dc7628156sm6364998pfd.48.2022.05.03.07.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 07:46:42 -0700 (PDT)
+Message-ID: <62714052.1c69fb81.c0d44.f970@mx.google.com>
+Date:   Tue, 03 May 2022 07:46:42 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220503115557.53370-1-phil.edworthy@renesas.com>
- <20220503115557.53370-5-phil.edworthy@renesas.com> <6fb57bcc87e091d6e88217d2b82af9da@kernel.org>
-In-Reply-To: <6fb57bcc87e091d6e88217d2b82af9da@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 May 2022 16:22:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
-Message-ID: <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
-Subject: Re: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add optional
- clock and reset
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2022-05-03-v5.18-rc5
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 54 runs,
+ 1 regressions (renesas-devel-2022-05-03-v5.18-rc5)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+renesas/master baseline-nfs: 54 runs, 1 regressions (renesas-devel-2022-05-=
+03-v5.18-rc5)
 
-On Tue, May 3, 2022 at 3:12 PM Marc Zyngier <maz@kernel.org> wrote:
-> On 2022-05-03 12:55, Phil Edworthy wrote:
-> > Some SoCs use a gated clock for the timer and the means to reset the
-> > timer.
-> > Hence add these as optional.
->
-> The architecture is crystal clear on the subject: the counter
-> is in an always-on domain. Why should this be visible to SW?
-> Also, reseting the counter breaks the guaranteed monotonicity
-> we rely on.
+Regressions Summary
+-------------------
 
-The DT bindings do state:
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+meson-gxl-s905x-libretech-cc | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
 
-  always-on:
-    type: boolean
-    description: If present, the timer is powered through an always-on power
-      domain, therefore it never loses context.
 
-and (surprisingly?) the absence of this property seems to be the
-norm...
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-05-03-v5.18-rc5/plan/baseline-nfs/
 
-And:
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-05-03-v5.18-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      1446b22ccdefd16ccef5ba375037418bae2fee53 =
 
-  arm,no-tick-in-suspend:
-    type: boolean
-    description: The main counter does not tick when the system is in
-      low-power system suspend on some SoCs. This behavior does not match the
-      Architecture Reference Manual's specification that the system
-counter "must
-      be implemented in an always-on power domain."
 
-So there's already precedent for clocks that can be disabled.
 
-> Worse case, this belongs to the boot firmware, not the kernel,
-> and I don't think this should be described in the DT.
+Test Regressions
+---------------- =
 
-"DT describes hardware, not software policy"?
 
-> > --- a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> > +++ b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> > @@ -64,6 +64,13 @@ properties:
-> >        CNTFRQ on all CPUs to a uniform correct value. Use of this
-> > property is
-> >        strongly discouraged; fix your firmware unless absolutely
-> > impossible.
-> >
-> > +  clocks:
-> > +    description: Optional clock for the timer.
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> >    always-on:
-> >      type: boolean
-> >      description: If present, the timer is powered through an always-on
-> > power
 
-Gr{oetje,eeting}s,
+platform                     | arch  | lab         | compiler | defconfig |=
+ regressions
+-----------------------------+-------+-------------+----------+-----------+=
+------------
+meson-gxl-s905x-libretech-cc | arm64 | lab-broonie | gcc-10   | defconfig |=
+ 1          =
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  Details:     https://kernelci.org/test/plan/id/62711556bd95a0673cdc7b69
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-03-v5.18-rc5/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-meson-g=
+xl-s905x-libretech-cc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-03-v5.18-rc5/arm64/defconfig/gcc-10/lab-broonie/baseline-nfs-meson-g=
+xl-s905x-libretech-cc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220428.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62711556bd95a0673=
+cdc7b6a
+        new failure (last pass: renesas-devel-2022-05-02-v5.18-rc5) =
+
+ =20
