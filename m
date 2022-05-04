@@ -2,120 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3FA151AE59
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 21:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7799451AE70
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 21:54:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377705AbiEDTzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 May 2022 15:55:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
+        id S1377707AbiEDT6a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 May 2022 15:58:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377690AbiEDTzT (ORCPT
+        with ESMTP id S1377723AbiEDT6N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 May 2022 15:55:19 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4553D4E394
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  4 May 2022 12:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=roOe+AeBY7DP+Q6uo/3NlHB6bacD
-        iF8cZtCOKwDNtfY=; b=AVvmqY7D3UH/BWMnn7wIorUCqnrJ/+VLUtw394q8E+Om
-        FcZj38Meag68aRXJMZqBMV/ykDiAbYkJb7JobePTVSDwsJScwk5GU/y4NLU/d2X/
-        TtjYV05OBt+x37dH92tXFElqcjQbmeUxdL9XANm472CsC+dHuhk7AahZPz9ANQE=
-Received: (qmail 1533983 invoked from network); 4 May 2022 21:51:39 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 May 2022 21:51:39 +0200
-X-UD-Smtp-Session: l3s3148p1@aBgC9DTeXJwgAwDtxwyXAP9dq+3qRUcy
-Date:   Wed, 4 May 2022 21:51:36 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 2/7] dt-bindings: i2c: renesas,rcar-i2c: R-Car V3U is
- R-Car Gen4
-Message-ID: <YnLZSNJh7rdH77Lp@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org
-References: <cover.1651497024.git.geert+renesas@glider.be>
- <a0402ff46027196953fe9c13f60576d40c5aea4c.1651497024.git.geert+renesas@glider.be>
+        Wed, 4 May 2022 15:58:13 -0400
+Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B704E3BC;
+        Wed,  4 May 2022 12:54:34 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru E162820A3C1B
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 4/9] ravb: Separate handling of irq enable/disable regs
+ into feature
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com>
+ <20220504145454.71287-5-phil.edworthy@renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <d260937a-63bd-e3af-a032-c0b8848a4025@omp.ru>
+Date:   Wed, 4 May 2022 22:54:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="j/bfMYaLl7xWqyb8"
-Content-Disposition: inline
-In-Reply-To: <a0402ff46027196953fe9c13f60576d40c5aea4c.1651497024.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220504145454.71287-5-phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 5/4/22 5:54 PM, Phil Edworthy wrote:
 
---j/bfMYaLl7xWqyb8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Currently, when the HW has a single interrupt, the driver uses the
+> TIC, RIC0 registers to enable and disable RX/TX interrupts. When
+> the HW has multiple interrupts, it uses the TIE, TID, RIE0, RID0
+> registers.
+> 
+> However, other devices, e.g. RZ/V2M, have multiple irqs and use
+> the TIC, RIC0 registers.
 
-On Mon, May 02, 2022 at 03:34:54PM +0200, Geert Uytterhoeven wrote:
-> Despite the name, R-Car V3U is the first member of the R-Car Gen4
-> family.  I2C on R-Car V3U also supports some extra features (e.g. Slave
-> Clock Stretch Select), which are supported by other R-Car Gen4 SoCs, but
-> not by any other R-Car Gen3 SoC.
->=20
-> Hence move its compatible value to the R-Car Gen4 section.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+   s/use/have only/?
 
-Applied to for-next, thanks!
+> Therefore, split this into a separate feature.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      | 1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 5 +++--
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 15aa09d93ff0..67a240665cd2 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1027,6 +1027,7 @@ struct ravb_hw_info {
+>  	unsigned tx_counters:1;		/* E-MAC has TX counters */
+>  	unsigned carrier_counters:1;	/* E-MAC has carrier counters */
+>  	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple irqs */
+> +	unsigned irq_en_dis_regs:1;	/* Has separate irq enable and disable regs */
 
+   Perhaps just irq_en_dis?
 
---j/bfMYaLl7xWqyb8
-Content-Type: application/pgp-signature; name="signature.asc"
+>  	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
+>  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+>  	unsigned gptp_ptm_gic:1;	/* gPTP enables Presentation Time Match irq via GIC */
+[...]
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJy2UgACgkQFA3kzBSg
-KbbbBQ//bHWIRu7MnsRqfYi9eFC5lxec3M3uiwvykedIMxXDdWQCC2qXlAn6efuH
-qv9GS22D0TLykN9cUMh/mwkF8j4CpK1hxncdTz7//FyzfDcEhuABgks83Z1Z1Vib
-X8oYEjRjx5kRJD+TC6OXer3OVwKfFX8V+6FpRruFVW/LWVEZa/LTKFqlSLw1sO3A
-fy4Mw5pcBbKlDiXWmyTiAjk+Rv+apo2VXaO9nV7UxAJSICixTe0GmOPZzXHCem/z
-GvqpFKcaXWXtQ1FHt1zwxuscEhTf8YD4XDB3S1iCvkh1BXwN7xK0BW5vLQYtwxKJ
-c/F9Zwwg7dz5VHAy8Sf+AFIi3Q5Iv9gBJ7kjt6G4hpYG4itHOpCopBjmfxQu0YcD
-J5bOb/F1jKOVjPHfnE2IFzyH4Alsy+z7hAMk3R90WM/AumDfVB1d1msG/1V3rnFe
-IRRaP3yu9mmcPkG7rRWs3oi/HH3SWzeDCywaqJgIMwJWE0oFHuw5LA8KzKvk5rbD
-lVm+yJTMx0GyyhqV/dl+fyPdLTHj+5O1grgopDg6xjKDiN+2EmbstKJdGKtocA6N
-tHNzcp80bFOHV6eO3j89GhutyTdL0ma8z892LN/+Lk7dQDpyoTKLmC51fvE7BHBK
-+yqozekqkqbqe/qUVYEV0UCB/VkIEgSIoJJP39lRITx/rY2F404=
-=hJCI
------END PGP SIGNATURE-----
-
---j/bfMYaLl7xWqyb8--
+MBR, Sergey
