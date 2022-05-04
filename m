@@ -2,197 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AD9A519B23
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 11:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55132519BBA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 11:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346784AbiEDJJK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 May 2022 05:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47056 "EHLO
+        id S1347122AbiEDJfH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 May 2022 05:35:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347121AbiEDJJB (ORCPT
+        with ESMTP id S245754AbiEDJfG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 May 2022 05:09:01 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2126.outbound.protection.outlook.com [40.107.113.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD24E12610;
-        Wed,  4 May 2022 02:05:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K3koLwfzhQ4TDqF++6fsD3U7zsBgZaNNZyqhglclcko6MbmrUsk9fKVslWkg3pSyZOr1oDz20JlEsu2WdJk7CCs8mFbWGOgCLwuNeqlBgDGCNFdsBfcLji5AltvtxmJ/PDN06e6qxl1FNsJqGY15gr2wHVtBR4k4hPdsiteT9HdBBiz66MKnc2JS9gUciAM3dpSNN4MR8Xx8oQTyzaIjZ9AnefrQw5cv0Fxr1Ko+MYuDGtFIlIqxks7PYKx4ObspHaZ303kHoJmJZgRX8AoCZaXnrqWGgrdi0Nc6DIcqF0eTQvISXIc+D7AUAqoWYUCkCOJFk9mVwh2Z4lX2ezeW9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vxSwXCmuUll9fh5M1W44b1Dy7i3TyzDQxOZfwmS6VgE=;
- b=oa0jqyUCv+/AK/8NdV0XLkuKtmfnXm8k/7yJBAyBIu6yPfYm/voXuB+jDHoiI/v8g0MZbMzNEJNip3Rsjmypu8noG+fwwvBR60gw+4y6EgrXbTpaYf63q5ncsFQkr1w60sO3Kt5kn9jRzPqG219BHQ2azVJdPzEijvepApCZZqxxIgI2QHlCM2+GzJalEQ8+OFxn9Xw707HBDN4kmVSNpYXH4G7hqvaAWRxdSX1ZhjGPRn0+KGj/B8XfDYyVRPjT27u41zC4Tbv9V/i2glj7eKsSYOA96umL/JAOTZtBtwOnsAAm53Xl73Nwtmb7cMLUkngJwmvuQMIsZuvKaMBQ7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vxSwXCmuUll9fh5M1W44b1Dy7i3TyzDQxOZfwmS6VgE=;
- b=mt0Qinp/Z/gRZUw/RlyxRFb8bp0XjOFxRSGAUarjWqMkt1CN4ry6OcI+AInmPT9XzPeB9d4PxDj5Yl0htlR3xUM6Sg3BE9kbtdx8/gkmN0Nws+qoQAZN39y7pqTr38I1Bs3BpXcY8XFzbpNmf/vaavox8/I3TnJpmAoaBhQdLsg=
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
- by OSAPR01MB3411.jpnprd01.prod.outlook.com (2603:1096:604:31::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.12; Wed, 4 May
- 2022 09:05:22 +0000
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::e180:5c8b:8ddf:7244]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::e180:5c8b:8ddf:7244%6]) with mapi id 15.20.5206.024; Wed, 4 May 2022
- 09:05:22 +0000
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add optional
- clock and reset
-Thread-Topic: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add
- optional clock and reset
-Thread-Index: AQHYXvlGk2V1ml/rgUy8vyXtNawbhK0NTtaAgAEeoXA=
-Date:   Wed, 4 May 2022 09:05:22 +0000
-Message-ID: <TYYPR01MB70866F41FD4933A4E52A1DD6F5C39@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-References: <20220503115557.53370-1-phil.edworthy@renesas.com>
-        <20220503115557.53370-5-phil.edworthy@renesas.com>
-        <6fb57bcc87e091d6e88217d2b82af9da@kernel.org>
-        <CAMuHMdU4j=Uaz5fAODFrPud0i40TdHUo6bYq0YpdnUzWaM3-Og@mail.gmail.com>
- <87bkwe8v9c.wl-maz@kernel.org>
-In-Reply-To: <87bkwe8v9c.wl-maz@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 607b9ddf-859b-4626-93b7-08da2dad3862
-x-ms-traffictypediagnostic: OSAPR01MB3411:EE_
-x-microsoft-antispam-prvs: <OSAPR01MB341195D594962C3267BDF168F5C39@OSAPR01MB3411.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Af3bnbL2Z4Omch95ptoUtKmWIDmUlu+ZlcLyelwugWjEc9MU6Zr9z+nonmR70ceS/0iVFF4UsUgsPm44U4I49dzr5BjTeL49UIt0Jmhr6N1Fg+EZsgwAbFTuIy8hOuQ5AqSyp4DHHMtBBIie71MWwqzHUkiQ/Ei60R41WEdREjbbAkg6R+CIrt6BCMUBifYdkKXxWG8gRu9FuyP1b8cClL+DsaKDhIZDR2s0htadM/40lrwTjIfxHpIyUHgbZvp57iE/G3reAN+ImmcIH7CpBSf3jp2gEPSITFt7/xQYHmWVD5mralrFMCncUMdyVPMDHk4KxFH2ojOiS0cKXAQVPZ3mJj1elZRBeSeO2WAAc6I5FQBWXkzEAxiHEy4cZUopQ6i2Tk+8M2wzOlchNtpH5PJOWX9vFDg51BPDIZcE6mz9kU3M+NTdmyHmSCm2ZUMMffeoG9FYyZu+sEtXs56akj7NbTEjX9mETJFTMP3aYhzwU4JmnABdW6QiekM7yEN3yfSKVjuBKVTF5TwrRNTLUZT1oJseIEkW3XoPhYuyIytuqRt7sfPVUtfY/scmVrIHtXSu1sJKrAap4az37aTh+mntGCOCYiZPaaslkysF8NUekJvhDnGAo+x7PJtMZtpWx1jTUmHj6K5F8wt4OEbv3TJ/SqkUJJNhpyUMzADwHICpGIaNfk+5Uz7AK59kEDrDJOlfDBvcGyuiQAunfhKpag==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(110136005)(33656002)(8676002)(54906003)(4326008)(55016003)(64756008)(316002)(86362001)(53546011)(44832011)(2906002)(71200400001)(76116006)(66946007)(5660300002)(8936002)(52536014)(66556008)(7696005)(508600001)(66476007)(66446008)(83380400001)(26005)(6506007)(186003)(9686003)(38100700002)(38070700005)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rSb96JSxqp/PlVHFDUZDSFBDn/kL/LH/bdWYqDW+jm5VzELtifyzh91yTQq+?=
- =?us-ascii?Q?s5l10Mt1rYP7b9kN3AjEFQuMMSOKH0ZBAz5hxOtNbUWLVsl33A0ViINYViU1?=
- =?us-ascii?Q?YaQ48nj2D5wWrFgqdS3f8m2wdiWCqmaJeXEp+OoZP0K2tQxpTetSMWCvTSzL?=
- =?us-ascii?Q?goKqjN5fqC3rjzCFHhoPjyr1N2ZbAqiWTptUq+U1rLa55+WRvd1JUP0KTVor?=
- =?us-ascii?Q?n3KzvKEN+g7tw4BKg05Ya1epjuPYOUVFdg7wLMyEWmfCdjBz33EksEhGnSd7?=
- =?us-ascii?Q?rgKqwALeCofRjc/E3bW7ERHxFPHGTg9LwAFoT+r59aSnULoiB++9/6oeqnk2?=
- =?us-ascii?Q?Lig9uMsefadTBTMWQizAq5lNqjPIVhVRaG6NIlaCABYerqMMqIjVAZSDfbT7?=
- =?us-ascii?Q?SALY2vIYN78vAkUJ7tcAjfFNeWMsunGZEyLQRcXBiIKrqGLV/dh0KLebNp30?=
- =?us-ascii?Q?FMncRf1WJ1sOKyTkQ+l7IAd6NHHM5WM2dyQmY0PDO8dzh4F39vstLoEsapZY?=
- =?us-ascii?Q?4GAtM8omzz8P7swaSeCn8SFGhCN96FuxINKNATxPiZCgFcqAaQo0e6T13aMk?=
- =?us-ascii?Q?V5+BKO5FzEZ/76kALS7Yy4bzPSJ5BUlFEVqyTTKhMV9vOn7FLcIX2jSq2GnT?=
- =?us-ascii?Q?TMs+GI/BlGUmZe0alVb4b9DvVPfXlO3sDmOVFv3kJ/1AsvYO109A0VJqPNbK?=
- =?us-ascii?Q?MX/tKsQdXvGmxbYMrEyaIaOKcdlUy3X5Dto0/hm+p/K2KuafhVvLfjbPNAH2?=
- =?us-ascii?Q?Il0blhGr0MUaOoM0c3jshMyDwKnk526yWfQI/2pre083AiWzMESe+jKEQtPd?=
- =?us-ascii?Q?DYqilwYuuQCxWJdA7bKDeybEHQ2poTKj7YS1FTh/MISgN1T8kdQXd7+nIihX?=
- =?us-ascii?Q?Sk04yG8AgCkdQipv0882qMOy9l6nHfAaKVSSnpm8+Do66wx23TtioQ5Iym98?=
- =?us-ascii?Q?jYjQO3RNLp7SVp7OtURffwGtkXQ9ZFnsQ4fVFYGSNsHVTPnaOXAhVr+rxG8w?=
- =?us-ascii?Q?8KoGtbiVag3y8SQhhG9MZcEK9slRtbSbBhFaF7zLqLb4tjrca6n3hHSyrDEu?=
- =?us-ascii?Q?17/Up42JU1MsA33GaudNrjQvkarxlrHhy7oOUE7oMWNB456+ls62Sf0+5OH8?=
- =?us-ascii?Q?vkCt5m5CAmhcGd07PVAN7stXH+CbXMgujiZUUXcUPPlHpjRcksk5ZxGZP1ix?=
- =?us-ascii?Q?M9g/lLgcvNSWj3Co10UmceQ5/FpThUIy5bPgay1L5mqlj9AUq30JRe91q6EH?=
- =?us-ascii?Q?nx1+pL5kotBgmMej3sAjS9htPpxtK4RwuBPzSa9NXstVoM0nMm+pUrwq81/I?=
- =?us-ascii?Q?XNhcm9qbPqOYf1Nqlz3SNoxw4uKkqj2HEqNvElCm4mbaYEvrjgqnmmT4esND?=
- =?us-ascii?Q?ubfv4gB7X9EQpX7gnDTrGbbXaLTz/zm5xxnxY175L7TSMG7FNGQ+4RhmJFZX?=
- =?us-ascii?Q?/tECRbo/8xsSN3muGiribIS0DkazlK44IjH6i4Ra1HC0RL7VTj3yb+RovatO?=
- =?us-ascii?Q?ZP4s6ZHbwSs36bC928rlwFucOiTkKbCCU11gfUwu0OnZZTPuG+HkUKIDsaWm?=
- =?us-ascii?Q?B2Rwl966joAwGMqKUy3KlZCqRMGZPybLXaVpfIeb27sCoJA5BG/AoJJwnEZE?=
- =?us-ascii?Q?atdtroXU1gUuCvNAeydf5AqZO/cUz2ytxrhgoUMC2EMZV2PZnSC1iRS2XHRx?=
- =?us-ascii?Q?GMcn7fzANrZat4O/sLONGFNdvzjcrlGUTpZg27gu8AJhAZv35ZeOnnyiqCi1?=
- =?us-ascii?Q?9yi/Kwa4qvcRKlIbIvk71pkCj4mMBn4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 4 May 2022 05:35:06 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D3A20BF1;
+        Wed,  4 May 2022 02:31:29 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 3790E40006;
+        Wed,  4 May 2022 09:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1651656688;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=YfS2uF+ICNTRe6Flzquf4GuU6MKFWg01yDIcRiXDy6Q=;
+        b=ROk52wt1rQfp/9HtttBUNEzkHjGM0nEkyzLYwPCKWxLRv5voIEitSXl5lkr5JXoi9gE8hX
+        p6uYYKlLZY37N2QHWvOw3tEbukqrNEJ2biOAbdJZrZJsLyaDBwNgdcFbqNk+wEAy86NuHC
+        45H7mSjCM/asUzikyuZtM0Dw/DCQE33ffSLiVJvQXGYg4zYi4+9B8gzhBpLi6BSmqHfxyj
+        jlGu70Sg8pejl1rV7ce2jRUHeKttL9MMGNIqw3z2FC440dEEF7UE916TOv1NymfowthCrq
+        /M/2x3iUi5K04TyAHBXkJ+quOnXGpmleq6/m2EdlvjGoq9YQy4EJZ11f2BjD8A==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net-next v3 00/12] add support for Renesas RZ/N1 ethernet subsystem devices
+Date:   Wed,  4 May 2022 11:29:48 +0200
+Message-Id: <20220504093000.132579-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 607b9ddf-859b-4626-93b7-08da2dad3862
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2022 09:05:22.4610
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c8ycxpN9CmrBOY5nTdwoDCJoxdRVnG6cMFsag9fnwcDKON1eb7e07rlAXTrkI8xPcbkYAlPABjxKQ2gprynMEqUBHcrVpg6gCaouujBnu0g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3411
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc and Mark,
+The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+(most notably) a switch, two GMACs, and a MII converter [1]. This
+series adds support for the switch and the MII converter.
 
-On 03 May 2022 16:57 Marc Zyngier wrote:
-> On Tue, 03 May 2022 15:22:35 +0100, Geert Uytterhoeven wrote:
-> > On Tue, May 3, 2022 at 3:12 PM Marc Zyngier wrote:
-> > > On 2022-05-03 12:55, Phil Edworthy wrote:
-> > > > Some SoCs use a gated clock for the timer and the means to reset th=
-e
-> > > > timer.
-> > > > Hence add these as optional.
-> > >
-> > > The architecture is crystal clear on the subject: the counter
-> > > is in an always-on domain. Why should this be visible to SW?
-> > > Also, reseting the counter breaks the guaranteed monotonicity
-> > > we rely on.
-> >
-> > The DT bindings do state:
-> >
-> >   always-on:
-> >     type: boolean
-> >     description: If present, the timer is powered through an always-on
-> power
-> >       domain, therefore it never loses context.
-> >
-> > and (surprisingly?) the absence of this property seems to be the
-> > norm...
->=20
-> *timer* is the key word. And counter !=3D timer. What your HW has is a
-> gate on the *counter* which is illegal if observable from NS SW.
-Ok, thanks for your feedback. We'll pretend this clock gate and reset
-doesn't exist and drop this patch.
-=20
-> >
-> > And:
-> >
-> >   arm,no-tick-in-suspend:
-> >     type: boolean
-> >     description: The main counter does not tick when the system is in
-> >       low-power system suspend on some SoCs. This behavior does not
-> match the
-> >       Architecture Reference Manual's specification that the system
-> > counter "must
-> >       be implemented in an always-on power domain."
-> >
-> > So there's already precedent for clocks that can be disabled.
->=20
-> No, this is only the case in *suspend*, as the name of the property
-> vaguely hints at. And that's a property for a bug. In your case, the
-> clock can be controlled arbitrarily, which is even worse.
->=20
-> >
-> > > Worse case, this belongs to the boot firmware, not the kernel,
-> > > and I don't think this should be described in the DT.
-> >
-> > "DT describes hardware, not software policy"?
->=20
-> I'm happy to spread "always-on" properties all over the shop, but
-> that's not helping. The HW spec says it in bold letters: the counter
-> is always running, and doesn't jump backward. I can't imagine how
-> secure SW will behave when you reset its counter... :-/
+The MII converter present on this SoC has been represented as a PCS
+which sit between the MACs and the PHY. This PCS driver is probed from
+the device-tree since it requires to be configured. Indeed the MII
+converter also contains the registers that are handling the muxing of
+ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
 
-Thanks
-Phil
+The switch driver is based on DSA and exposes 4 ports + 1 CPU
+management port. It include basic bridging support as well as FDB and
+statistics support.
+
+This series needs commits bcfb459b25b8 and 542d5835e4f6 which are on
+the renesas-devel tree in order to enable generic power domain on
+RZ/N1.
+
+Link: [1] https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals
+
+-----
+Changes in V3:
+- PCS:
+  - Fixed reverse christmas tree declaration
+  - Remove spurious pr_err
+  - Use pm_runtime functions
+- Tag driver:
+  - Remove packed attribute from the tag struct
+  - Fix comment about packet size
+- Switch:
+  - Fix missing spin_unlock in fdb_dump in case of error
+  - Add static qualifier to dsa_switch_ops
+  - Add missing documentation for hclk and clk members of struct a5psw
+  - Changed types of fdb_entry to u16 to discard GCC note on char
+    packed bitfields and add reserved field
+- Added Reviewed-by tag from Florian Fainelli
+
+Changes in V2:
+- PCS:
+  - Fix Reverse Christmas tree declaration
+  - Removed stray newline
+  - Add PCS remove function and disable clocks in them
+  - Fix miic_validate function to return correct values
+  - Split PCS CONV_MODE definition
+  - Reordered phylink_pcs_ops in definition order
+  - Remove interface setting in miic_link_up
+  - Remove useless checks for invalid interface/speed and error prints
+  - Replace phylink_pcs_to_miic_port macro by a static function
+  - Add comment in miic_probe about platform_set_drvdata
+- Bindings:
+ - Fix wrong path for mdio.yaml $ref
+ - Fix yamllint errors
+- Tag driver:
+  - Squashed commit that added tag value with tag driver
+  - Add BUILD_BUG_ON for tag size
+  - Split control_data2 in 2 16bits values
+- Switch:
+  - Use .phylink_get_caps instead of .phylink_validate and fill
+    supported_interface correctly
+  - Use fixed size (ETH_GSTRING_LEN) string for stats and use memcpy
+  - Remove stats access locking since RTNL lock is used in upper layers
+  - Check for non C45 addresses in mdio_read/write and return
+    -EOPNOTSUPP
+  - Add get_eth_mac_stats, get_eth_mac_ctrl_stat, get_rmon_stats
+  - Fix a few indentation problems
+  - Remove reset callback from MDIO bus operation
+  - Add phy/mac/rmon stats
+- Add get_rmon_stat to dsa_ops
+
+Clément Léger (12):
+  net: dsa: add support for ethtool get_rmon_stats()
+  net: dsa: add Renesas RZ/N1 switch tag driver
+  dt-bindings: net: pcs: add bindings for Renesas RZ/N1 MII converter
+  net: pcs: add Renesas MII converter driver
+  dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port
+    switch
+  net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver
+  net: dsa: rzn1-a5psw: add statistics support
+  net: dsa: rzn1-a5psw: add FDB support
+  ARM: dts: r9a06g032: describe MII converter
+  ARM: dts: r9a06g032: describe GMAC2
+  ARM: dts: r9a06g032: describe switch
+  MAINTAINERS: add Renesas RZ/N1 switch related driver entry
+
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |  132 ++
+ .../bindings/net/pcs/renesas,rzn1-miic.yaml   |  162 +++
+ MAINTAINERS                                   |   11 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |   64 +
+ drivers/net/dsa/Kconfig                       |    9 +
+ drivers/net/dsa/Makefile                      |    1 +
+ drivers/net/dsa/rzn1_a5psw.c                  | 1057 +++++++++++++++++
+ drivers/net/dsa/rzn1_a5psw.h                  |  260 ++++
+ drivers/net/pcs/Kconfig                       |    8 +
+ drivers/net/pcs/Makefile                      |    1 +
+ drivers/net/pcs/pcs-rzn1-miic.c               |  502 ++++++++
+ include/dt-bindings/net/pcs-rzn1-miic.h       |   33 +
+ include/linux/pcs-rzn1-miic.h                 |   18 +
+ include/net/dsa.h                             |    5 +
+ net/dsa/Kconfig                               |    7 +
+ net/dsa/Makefile                              |    1 +
+ net/dsa/slave.c                               |   13 +
+ net/dsa/tag_rzn1_a5psw.c                      |  114 ++
+ 18 files changed, 2398 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.c
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.h
+ create mode 100644 drivers/net/pcs/pcs-rzn1-miic.c
+ create mode 100644 include/dt-bindings/net/pcs-rzn1-miic.h
+ create mode 100644 include/linux/pcs-rzn1-miic.h
+ create mode 100644 net/dsa/tag_rzn1_a5psw.c
+
+-- 
+2.34.1
+
