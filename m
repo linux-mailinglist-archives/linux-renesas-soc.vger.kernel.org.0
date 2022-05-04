@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5FB519A44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 10:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD553519A46
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 10:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346562AbiEDIsW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 May 2022 04:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46452 "EHLO
+        id S1346575AbiEDIs3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 May 2022 04:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346571AbiEDIsU (ORCPT
+        with ESMTP id S229727AbiEDIs1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 May 2022 04:48:20 -0400
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2521B24599;
-        Wed,  4 May 2022 01:44:45 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id kj8so438138qvb.6;
-        Wed, 04 May 2022 01:44:45 -0700 (PDT)
+        Wed, 4 May 2022 04:48:27 -0400
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4635E24599;
+        Wed,  4 May 2022 01:44:52 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id x9so376285qts.6;
+        Wed, 04 May 2022 01:44:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DvXySfTNMyD7wPbtBaaUMhVUjb1hJI7Yi3h6ioVr9FY=;
-        b=LZfB6DJWF6lSsy/pVWL6lGpboswTpHVChdF3pXuUgo9st85uqCeg68zwyI+MAg90AV
-         jz1U2eeZCzM3gkV9rqr/EBjEKbewFIkSepgoZ6ciVg+x/LK88kEoAMgtsuif0vrPjk8+
-         qtrVaCUYFjzOCaLZGU5k/BIrXm/mugjimosiILRADhLOEufBhCNDxXMFEtD4TwoJEOHa
-         /n2My57Ipk42BQTYYzu5iSdXpWBDK9aAbB1aR+NRYVxH9LAzKg4Tf/oTqycZZkcJ+onp
-         pDYVrUSbHgUYhoCuQK7qU22LW5k0EvnN/UYWi0ho2MKPq8TCiq/Mkcqz8yjS1yATR/tT
-         rMww==
-X-Gm-Message-State: AOAM533uMNpHhVbifYjLGt58jnsxNLSmF81aga+pxgWsoe3UeiYYdbBM
-        exFZ9pVE8AUgImI9QXTYyvqlV14qmcAw4Q==
-X-Google-Smtp-Source: ABdhPJxyqRpjKKpIBVW+cLcuKnKcie3G40qA45Zjzd67xgAvqTPUbIenCqtUQIshJr428ZhvAM7zJQ==
-X-Received: by 2002:a0c:e146:0:b0:458:10e4:d62f with SMTP id c6-20020a0ce146000000b0045810e4d62fmr16341499qvl.131.1651653884116;
-        Wed, 04 May 2022 01:44:44 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id f64-20020a37d243000000b0069fc13ce224sm7560838qkj.85.2022.05.04.01.44.43
+        bh=JpFpnoUv+1TZuq/F4Ej2GJGRcmP3Hur4hTCppd+4pJc=;
+        b=TnfoSPzt7+9EsEtKijF8BMX0Fiw/E9X/QfXRPAPVrElnwGTPosh6xaFnRWK3vQD5mm
+         /ka3ab1RGw3RLScLYq97zITK6rwwb1kK94Il6ElA1MyYQhhHCiRQlS1bMKaIJD9y5ZhD
+         O4DIgCJy36OOgzxSgazoySfrCk75TY1tHq7tKktWo9afwUaD8/ysJ3WLRR0Nr+45Nbyp
+         J81OTVXL3VAr2lY6Bz9WBB0596jFR0DFF1S5e0Q71zO0dXXTJHiVeykhX815ktn9x65z
+         XWbEeU4ifQCAVdqKtMMJ8ZrnubsfFdp8zP4V8bark4a/8AHAzFE6edpUTrAyBdQy4fAB
+         SgEw==
+X-Gm-Message-State: AOAM531+3sHocpvShUDnWClOj9SCWFPwAso1pl2vby/KLEZtCReunIxF
+        QtOuJsxv/8i97MTI3M7SdDML+94LWBMbfQ==
+X-Google-Smtp-Source: ABdhPJyC+kWEgWTsS+Zu19CFjZDt2M04m65CPhrOVyaVj/1hobuzhjr5+UqkRSy7BivHFLxtyRH5zw==
+X-Received: by 2002:ac8:5791:0:b0:2f3:b5a7:9388 with SMTP id v17-20020ac85791000000b002f3b5a79388mr2413492qta.565.1651653891272;
+        Wed, 04 May 2022 01:44:51 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id k13-20020a05620a138d00b0069fc13ce1dasm7175609qki.11.2022.05.04.01.44.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 01:44:43 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2f7bb893309so7693057b3.12;
-        Wed, 04 May 2022 01:44:43 -0700 (PDT)
-X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
- h64-20020a812143000000b002fb1274247emr1054332ywh.384.1651653883077; Wed, 04
- May 2022 01:44:43 -0700 (PDT)
+        Wed, 04 May 2022 01:44:51 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id w17so1218881ybh.9;
+        Wed, 04 May 2022 01:44:50 -0700 (PDT)
+X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
+ s14-20020a056902120e00b006346f296b84mr17219842ybu.604.1651653890612; Wed, 04
+ May 2022 01:44:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220503115557.53370-1-phil.edworthy@renesas.com> <20220503115557.53370-8-phil.edworthy@renesas.com>
-In-Reply-To: <20220503115557.53370-8-phil.edworthy@renesas.com>
+References: <20220503115557.53370-1-phil.edworthy@renesas.com> <20220503115557.53370-9-phil.edworthy@renesas.com>
+In-Reply-To: <20220503115557.53370-9-phil.edworthy@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 May 2022 10:44:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX16KQgp0sq=5h5nxs+Pck6xyhB3OAXKZufV6D9xFJj8w@mail.gmail.com>
-Message-ID: <CAMuHMdX16KQgp0sq=5h5nxs+Pck6xyhB3OAXKZufV6D9xFJj8w@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] clk: renesas: rzg2l: Set HIWORD mask for all mux
- and dividers
+Date:   Wed, 4 May 2022 10:44:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVqcPt0JKSqdqaLRApxOF5HCKsPN4gPxQm1xo2KmBoOiQ@mail.gmail.com>
+Message-ID: <CAMuHMdVqcPt0JKSqdqaLRApxOF5HCKsPN4gPxQm1xo2KmBoOiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/12] clk: renesas: rzg2l: Make use of CLK_MON
+ registers optional
 To:     Phil Edworthy <phil.edworthy@renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -60,8 +60,9 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,18 +70,15 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, May 3, 2022 at 2:02 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> All of the muxes and dividers that can be modified require the HIWORD
-> flags, so make the macros set them. It won't affect read only muxes and
-> dividers.
-> This will make the clock tables a little easier to read, particularly for
-> new SoCs coming.
+> The RZ/V2M SoC doesn't use CLK_MON registers, so make them optional.
 >
 > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v3:
->  - Remove HIWORD masks in new r9a07g043-cpg.c
->  - Remove flags from DEF_MUX/DEF_DIV args
+>  - Add has_clk_mon_regs to r9a07g043-cpg.c
+>  - Improve commit msg.
+>  - Return early if no clk mon regs to simply the code
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk-for-v5.19.
