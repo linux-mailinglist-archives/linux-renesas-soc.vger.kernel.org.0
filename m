@@ -2,49 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 801EF51A2B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 16:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBBDC51A2B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 May 2022 16:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240115AbiEDO7N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 May 2022 10:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46752 "EHLO
+        id S231284AbiEDO7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 May 2022 10:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351595AbiEDO7I (ORCPT
+        with ESMTP id S1351557AbiEDO7Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 May 2022 10:59:08 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC676222B6;
-        Wed,  4 May 2022 07:55:29 -0700 (PDT)
+        Wed, 4 May 2022 10:59:16 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E4D42250C;
+        Wed,  4 May 2022 07:55:40 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,198,1647270000"; 
-   d="scan'208";a="118714991"
+   d="scan'208";a="119939347"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 04 May 2022 23:55:28 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 04 May 2022 23:55:39 +0900
 Received: from localhost.localdomain (unknown [10.226.93.27])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BCA1F4250F05;
-        Wed,  4 May 2022 23:55:22 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 335584250F05;
+        Wed,  4 May 2022 23:55:36 +0900 (JST)
 From:   Phil Edworthy <phil.edworthy@renesas.com>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-clk@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 0/9] Add Renesas RZ/V2M Ethernet support
-Date:   Wed,  4 May 2022 15:54:45 +0100
-Message-Id: <20220504145454.71287-1-phil.edworthy@renesas.com>
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: [PATCH 1/9] clk: renesas: r9a09g011: Add eth clock and reset entries
+Date:   Wed,  4 May 2022 15:54:46 +0100
+Message-Id: <20220504145454.71287-2-phil.edworthy@renesas.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220504145454.71287-1-phil.edworthy@renesas.com>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
@@ -56,37 +46,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/V2M Ethernet is very similar to R-Car Gen3 Ethernet-AVB, though
-some small parts are the same as R-Car Gen2.
-Other differences are:
-* It has separate data (DI), error (Line 1) and management (Line 2) irqs
-  rather than one irq for all three.
-* Instead of using the High-speed peripheral bus clock for gPTP, it has
-  a separate gPTP reference clock.
+Add ethernet clock/reset entries to CPG driver.
 
-The dts patches depend on v4 of the following patch set:
-"Add new Renesas RZ/V2M SoC and Renesas RZ/V2M EVK support"
+Note that the AXI and CHI clocks are both enabled and disabled using
+the same register bit.
 
-Phil Edworthy (9):
-  clk: renesas: r9a09g011: Add eth clock and reset entries
-  dt-bindings: net: renesas,etheravb: Document RZ/V2M SoC
-  ravb: Separate use of GIC reg for PTME from multi_irqs
-  ravb: Separate handling of irq enable/disable regs into feature
-  ravb: Support separate Line0 (Desc), Line1 (Err) and Line2 (Mgmt) irqs
-  ravb: Use separate clock for gPTP
-  ravb: Add support for RZ/V2M
-  arm64: dts: renesas: r9a09g011: Add ethernet nodes
-  arm64: dts: renesas: rzv2m evk: Enable ethernet
+Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a09g011-cpg.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
- .../bindings/net/renesas,etheravb.yaml        | 82 ++++++++++++-----
- .../boot/dts/renesas/r9a09g011-v2mevk2.dts    | 14 +++
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi    | 51 +++++++++++
- drivers/clk/renesas/r9a09g011-cpg.c           | 14 +--
- drivers/net/ethernet/renesas/ravb.h           |  7 ++
- drivers/net/ethernet/renesas/ravb_main.c      | 89 +++++++++++++++++--
- drivers/net/ethernet/renesas/ravb_ptp.c       |  4 +-
- 7 files changed, 228 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/clk/renesas/r9a09g011-cpg.c b/drivers/clk/renesas/r9a09g011-cpg.c
+index 7f16a617dc8c..f0a958497f47 100644
+--- a/drivers/clk/renesas/r9a09g011-cpg.c
++++ b/drivers/clk/renesas/r9a09g011-cpg.c
+@@ -126,14 +126,18 @@ static const struct cpg_core_clk r9a09g011_core_clks[] __initconst = {
+ };
+ 
+ static const struct rzg2l_mod_clk r9a09g011_mod_clks[] __initconst = {
+-	DEF_MOD("gic",		R9A09G011_GIC_CLK,	CLK_SEL_B_D2, 0x400, 5),
+-	DEF_MOD("syc_cnt_clk",	R9A09G011_SYC_CNT_CLK,	CLK_MAIN_24,  0x41c, 12),
+-	DEF_MOD("urt_pclk",	R9A09G011_URT_PCLK,	CLK_SEL_E,    0x438, 4),
+-	DEF_MOD("urt0_clk",	R9A09G011_URT0_CLK,	CLK_SEL_W0,   0x438, 5),
+-	DEF_MOD("ca53",		R9A09G011_CA53_CLK,	CLK_DIV_A,    0x448, 0),
++	DEF_MOD("gic",		R9A09G011_GIC_CLK,	 CLK_SEL_B_D2, 0x400, 5),
++	DEF_COUPLED("eth_axi",	R9A09G011_ETH0_CLK_AXI,  CLK_PLL2_200, 0x40c, 8),
++	DEF_COUPLED("eth_chi",	R9A09G011_ETH0_CLK_CHI,  CLK_PLL2_100, 0x40c, 8),
++	DEF_MOD("eth_clk_gptp",	R9A09G011_ETH0_GPTP_EXT, CLK_PLL2_100, 0x40c, 9),
++	DEF_MOD("syc_cnt_clk",	R9A09G011_SYC_CNT_CLK,	 CLK_MAIN_24,  0x41c, 12),
++	DEF_MOD("urt_pclk",	R9A09G011_URT_PCLK,	 CLK_SEL_E,    0x438, 4),
++	DEF_MOD("urt0_clk",	R9A09G011_URT0_CLK,	 CLK_SEL_W0,   0x438, 5),
++	DEF_MOD("ca53",		R9A09G011_CA53_CLK,	 CLK_DIV_A,    0x448, 0),
+ };
+ 
+ static const struct rzg2l_reset r9a09g011_resets[] = {
++	DEF_RST_MON(R9A09G011_ETH0_RST_HW_N,	0x608, 11, 11),
+ 	DEF_RST_MON(R9A09G011_SYC_RST_N,	0x610, 9,  13),
+ };
+ 
 -- 
 2.32.0
 
