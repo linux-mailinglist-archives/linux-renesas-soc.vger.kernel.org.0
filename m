@@ -2,69 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0C751C696
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 19:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4313C51C6D6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 20:13:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382917AbiEER55 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 13:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48938 "EHLO
+        id S232388AbiEESRL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 14:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382911AbiEER55 (ORCPT
+        with ESMTP id S1383036AbiEESRE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 13:57:57 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208B528E33;
-        Thu,  5 May 2022 10:54:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 538E4CE2F31;
-        Thu,  5 May 2022 17:54:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89492C385A8;
-        Thu,  5 May 2022 17:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651773253;
-        bh=GSh1mA8i2G0crwkmWXmxvquL0ZnqaEBkZOwHtQhQzbI=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=bzfR2GwvmdqAWZJDSESlEOITUDtlkyfQr9niNSfknT8PBpa7OqeUPEFlvhzRRR/VD
-         pxKye/o8F/S8HAdovX7UkGYHHeLWTgF6zqoAWXpoEhXeSBE/Nq1/Php80d1zCTJ4ap
-         VN6KeQw/wYRbH7GRJ5Y9bfF3pxr9XFCvXePD+1rx+SD/BzZTTBmMAZtyo9FN+R4wmM
-         Fuw0KGO0PbLq7rorf/IeduUT2qYPCYmrPoy8KOSBfFDdghZMz96LcLgUb52z4Wp1Sw
-         WsLbmHnnVsYXJagYv6HPjKGqEtQJjQvLnMrTqq3JxgUye9JDgq3l+ZvNCBhimbwzsB
-         lbQkJ0jUEWB2A==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <e0eff1f57378ec29d0d3f1a7bdd7e380583f736b.1651494871.git.geert+renesas@glider.be>
-References: <e0eff1f57378ec29d0d3f1a7bdd7e380583f736b.1651494871.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] clk: renesas: r9a07g044: Fix OSTM1 module clock name.
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Thu, 5 May 2022 14:17:04 -0400
+Received: from mxout03.lancloud.ru (mxout03.lancloud.ru [45.84.86.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66425C373;
+        Thu,  5 May 2022 11:13:21 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru ECC7A20326CC
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH 6/9] ravb: Use separate clock for gPTP
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+CC:     Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Thu, 05 May 2022 10:54:11 -0700
-User-Agent: alot/0.10
-Message-Id: <20220505175413.89492C385A8@smtp.kernel.org>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com>
+ <20220504145454.71287-7-phil.edworthy@renesas.com>
+Organization: Open Mobile Platform
+Message-ID: <1bbb8044-a8a8-3fa1-b90b-cae9dfbb64cd@omp.ru>
+Date:   Thu, 5 May 2022 21:13:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220504145454.71287-7-phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2022-05-02 05:35:02)
-> Fix a typo in the name of the "ostm1_pclk" clock.
-> This change has no run-time impact.
->=20
-> Fixes: 161450134ae9bab3 ("clk: renesas: r9a07g044: Add OSTM clock and res=
-et entries")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+Hello!
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+On 5/4/22 5:54 PM, Phil Edworthy wrote:
+
+> RZ/V2M has a separate gPTP reference clock that is used when the
+> AVB-DMAC Mode Register (CCC) gPTP Clock Select (CSEL) bits are
+> set to "01: High-speed peripheral bus clock".
+> Therefore, add a feature that allows this clock to be used for
+> gPTP.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 73976a392457..f8706897ea41 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1032,6 +1032,7 @@ struct ravb_hw_info {
+>  	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
+>  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+>  	unsigned gptp_ptm_gic:1;	/* gPTP enables Presentation Time Match irq via GIC */
+> +	unsigned gptp_ref_clk:1;	/* gPTP has separate reference clock */
+
+   Perhaps just gptp_clk?
+
+[...]
+> @@ -1043,6 +1044,7 @@ struct ravb_private {
+>  	void __iomem *addr;
+>  	struct clk *clk;
+>  	struct clk *refclk;
+
+   I wonder what that refclk feeds -- no word of it in the commit adding it...
+
+> +	struct clk *gptp_clk;
+>  	struct mdiobb_ctrl mdiobb;
+>  	u32 num_rx_ring[NUM_RX_QUEUE];
+>  	u32 num_tx_ring[NUM_TX_QUEUE];
+[...]
+
+MBR, Sergey
