@@ -2,124 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B730351B854
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A53B951B86A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 09:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241997AbiEEHDL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 03:03:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
+        id S234896AbiEEHKJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 03:10:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235166AbiEEHDL (ORCPT
+        with ESMTP id S232300AbiEEHKI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 03:03:11 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6B147542;
-        Wed,  4 May 2022 23:59:33 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id fu47so2550439qtb.5;
-        Wed, 04 May 2022 23:59:33 -0700 (PDT)
+        Thu, 5 May 2022 03:10:08 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D27439B93;
+        Thu,  5 May 2022 00:06:30 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id c1so2570323qkf.13;
+        Thu, 05 May 2022 00:06:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1kyfcH624YObu9U2EDyv5UgsEw2pZgVLfORpPmEDwV0=;
-        b=nWWUsf1bTJ+CMZZR5AU2u+FV/aybBvUyJCs+xDgnGh2TzZlfUParIuyftqeoDAok/b
-         RT8Lhl9o014I77zuR8NenXQeojLARxbXAn/OQPE/kQDaF9YZpglfGfINRC8AoLpD7ctX
-         UClm4ry34tJBAZABMAF10YjIYw7k2aRdMNFNFv9GW/U1RtKraEodAM2rSp47qHZDqEiV
-         0wsps8xVODiMZJp4SDShCbYblS4wWMardvB0b7Kih9SfEzSYVdtr5rL+jdCWaP6tORAP
-         qsY3NhZK+cqfQm7N2k94EhP5IfC/ORkdvLRPfMikIZ+5/WPgDXswu35MQJRZwCkmaPQl
-         PdfQ==
-X-Gm-Message-State: AOAM532/yJVEWlfp1l/QmtTWu+u2cUEV9zSAxzjs/l6wa5LyhvoJxn7l
-        FyGBQV6jwwKpn0nekQ1blkbAeMTSJdazQg==
-X-Google-Smtp-Source: ABdhPJw3MVPc9LHMVwPOhabxZSORgomuFxm6Jt5ZC7fVqXJn/7fBzffvKV3zHZL95VgCt2Amnn0lBA==
-X-Received: by 2002:a05:622a:1649:b0:2f3:a6bc:73ea with SMTP id y9-20020a05622a164900b002f3a6bc73eamr16029240qtj.506.1651733971970;
-        Wed, 04 May 2022 23:59:31 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id x74-20020a37634d000000b0069ff51425a2sm392481qkb.120.2022.05.04.23.59.31
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wBJgXIebq1XDRWkw80M/tbsVjkVWmBwVz9lA2w4lvmA=;
+        b=scuJ3ni+Gy0zNHNDcEWmnCSpZ5lad4BvojwOKQ69QiaUVwRyk4Dksi3ha/B70Ch8Gk
+         hMbnWrltI2wgl8XEx70yynlsx/iHKRrb1DX7+wx64KXdHtMWvYh5PcCVyf7mcENZkZlK
+         ebS+TeVuXjT8KAd21o788THnHDTdUzs1Jis3xv1Jl4tryff+RM0cp3CFqOOECx3l+hh5
+         /XE21pMPC/x6tRpFNSqd14gE3tdfONfv9gKI3IuWW5m06Xv+4M2Xexy4fFpv8d4kQsBq
+         FH5wX5YqFJqNmnkW85G4RdERpoyKJpyCYS1+LVsijtZjdViRzrrgGnv88BgJu9LSRao1
+         hlNQ==
+X-Gm-Message-State: AOAM531vYhRrtg04vOTxTeOPsCXQm2nxAisqdNQCKxEgJHeLXmXR9uLK
+        3vyqIDtBNGoQfT/K5snQgutyF1qFsrdlaw==
+X-Google-Smtp-Source: ABdhPJzMiTq3LGn/fYLRqUjVY5ihYShQwUW02xBAjIs4kqYzFJqjTwWz3Q56dAC7UakmD6Vngk6/sw==
+X-Received: by 2002:a05:620a:3ca:b0:69e:88ef:5c75 with SMTP id r10-20020a05620a03ca00b0069e88ef5c75mr18775105qkm.255.1651734389390;
+        Thu, 05 May 2022 00:06:29 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id b20-20020a05620a271400b0069fc13ce1d5sm426285qkp.6.2022.05.05.00.06.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 23:59:31 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id y76so6146666ybe.1;
-        Wed, 04 May 2022 23:59:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:389:b0:633:31c1:d0f7 with SMTP id
- f9-20020a056902038900b0063331c1d0f7mr19881851ybs.543.1651733970778; Wed, 04
- May 2022 23:59:30 -0700 (PDT)
+        Thu, 05 May 2022 00:06:29 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id h10so6143800ybc.4;
+        Thu, 05 May 2022 00:06:28 -0700 (PDT)
+X-Received: by 2002:a25:6157:0:b0:645:8d0e:f782 with SMTP id
+ v84-20020a256157000000b006458d0ef782mr21780076ybb.36.1651734388574; Thu, 05
+ May 2022 00:06:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504145454.71287-1-phil.edworthy@renesas.com> <20220504175757.0a3c1a6a@kernel.org>
-In-Reply-To: <20220504175757.0a3c1a6a@kernel.org>
+References: <20220504184406.93788-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220504184406.93788-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 May 2022 08:59:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXKUpHa0SGGQUbepAHoS3evEBSzF4RYqA8B09eq1CtBUw@mail.gmail.com>
-Message-ID: <CAMuHMdXKUpHa0SGGQUbepAHoS3evEBSzF4RYqA8B09eq1CtBUw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Add Renesas RZ/V2M Ethernet support
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
+Date:   Thu, 5 May 2022 09:06:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUh69grzYVsMwdZLgv=KLy5-_FVjeMWx37qGsqCxz9Y6g@mail.gmail.com>
+Message-ID: <CAMuHMdUh69grzYVsMwdZLgv=KLy5-_FVjeMWx37qGsqCxz9Y6g@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add a delay after deassert
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         linux-clk <linux-clk@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jakub,
+Hi Biju,
 
-On Thu, May 5, 2022 at 2:58 AM Jakub Kicinski <kuba@kernel.org> wrote:
-> On Wed,  4 May 2022 15:54:45 +0100 Phil Edworthy wrote:
-> > The RZ/V2M Ethernet is very similar to R-Car Gen3 Ethernet-AVB, though
-> > some small parts are the same as R-Car Gen2.
-> > Other differences are:
-> > * It has separate data (DI), error (Line 1) and management (Line 2) irqs
-> >   rather than one irq for all three.
-> > * Instead of using the High-speed peripheral bus clock for gPTP, it has
-> >   a separate gPTP reference clock.
-> >
-> > The dts patches depend on v4 of the following patch set:
-> > "Add new Renesas RZ/V2M SoC and Renesas RZ/V2M EVK support"
-> >
-> > Phil Edworthy (9):
-> >   clk: renesas: r9a09g011: Add eth clock and reset entries
-> >   dt-bindings: net: renesas,etheravb: Document RZ/V2M SoC
-> >   ravb: Separate use of GIC reg for PTME from multi_irqs
-> >   ravb: Separate handling of irq enable/disable regs into feature
-> >   ravb: Support separate Line0 (Desc), Line1 (Err) and Line2 (Mgmt) irqs
-> >   ravb: Use separate clock for gPTP
-> >   ravb: Add support for RZ/V2M
-> >   arm64: dts: renesas: r9a09g011: Add ethernet nodes
-> >   arm64: dts: renesas: rzv2m evk: Enable ethernet
+On Wed, May 4, 2022 at 8:44 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> After adding reset support to vsp, it needs a delay of 32 microseconds
+> after reset operation, otherwise system hangs(due to register read/write).
+> This patch fixes the system hang issue by adding delay after deassert
+> operation.
 >
-> How are you expecting this to be merged?
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Thanks for your patch!
+
+> After adding reset/deassert support for vsp based on [1],
+> RZ/G1N board hangs. On debugging it found that it needs a delay
+> of 35 microseconds after deasserint reset. Wthout delay if
+> there is any register read/write will lead to hang.
 >
-> I think you should drop the first (clk) patch from this series
-> so we can apply the series to net-next. And route the clk patch
-> thru Geert's tree separately?
+> This 35 microseconds value is  picked from the reset().
 
-Same for the last two DTS patches, they should go through the
-renesas-devel and SoC trees.
+The 35 µs comes from the Hardware User's Manual: there should be
+at least 1 RCLK cycle _in between_ asserting and deasserting reset.
+The manual doesn't say anything about delays _after_ deasserting reset.
 
-> Right now patchwork thinks the series is incomplete because it
-> hasn't received patch 1.
+Could it be that the VSP1 driver is actually deasserting reset
+too early?
+
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+> @@ -637,6 +637,7 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
+>         dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
+>
+>         writel(bitmask, priv->base + priv->reset_regs[reg]);
+> +
+
+Unrelated change.
+
+>         return 0;
+>  }
+>
+> @@ -651,6 +652,10 @@ static int cpg_mssr_deassert(struct reset_controller_dev *rcdev,
+>         dev_dbg(priv->dev, "deassert %u%02u\n", reg, bit);
+>
+>         writel(bitmask, priv->base + priv->reset_clear_regs[reg]);
+> +
+> +       /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+> +       udelay(35);
+> +
+>         return 0;
+>  }
 
 Gr{oetje,eeting}s,
 
