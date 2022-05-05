@@ -2,100 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D19C51B4E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 02:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D487751B825
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233460AbiEEBBj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 May 2022 21:01:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45670 "EHLO
+        id S245089AbiEEGqU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 02:46:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232501AbiEEBBi (ORCPT
+        with ESMTP id S245025AbiEEGqR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 May 2022 21:01:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F0422287;
-        Wed,  4 May 2022 17:58:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D13D61D72;
-        Thu,  5 May 2022 00:58:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9C6C385A5;
-        Thu,  5 May 2022 00:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651712279;
-        bh=PNhBXOPnVpmHDlq1hrRy+qlY1DmxGj2kaPbLINje80Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TFohAHCcDsAtmbs/giK1b2ijhjJCSMJntoZo+KtAppYdiz/Bm0wjs5jCrtQ1qAO9W
-         BtaI2njyCFM4lfmUgoiwv0RV33+yIqIJAbPWEoFxl+4GQUtLDpGM4ZZ8k5l/8Uy9Bh
-         aBONPgsNwYzzxNqG0bDVOptOhfD6hJxDPECbLPYaWo//8x8DwTil8BuXM3F1Hehd24
-         XjdQ+cRpqM/oA00fQPKSpwhQSIMKcaBIaPXSfIZ4xKOSwUNUWADPh9YJelGPn+qYlF
-         nNEBJYz4q1X9GL5ZqBamT6ptYCJuCgpm+DXyJH9AGW/xuPaRAOdc5VggboYxzElMRO
-         EHR91wOM11s2g==
-Date:   Wed, 4 May 2022 17:57:57 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-clk@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/9] Add Renesas RZ/V2M Ethernet support
-Message-ID: <20220504175757.0a3c1a6a@kernel.org>
-In-Reply-To: <20220504145454.71287-1-phil.edworthy@renesas.com>
-References: <20220504145454.71287-1-phil.edworthy@renesas.com>
+        Thu, 5 May 2022 02:46:17 -0400
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6845947078;
+        Wed,  4 May 2022 23:42:38 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id kd11so2411853qvb.2;
+        Wed, 04 May 2022 23:42:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0IAbCehNYbIHhmQ4kdeHcWQuYR867QDRJfFQzpk1J/E=;
+        b=4CgFc0XDVIY/0maaPm2IMBKzoRx5LbFA75GQ9tvn5E9RHbKXyDqTdrqTYRmVNQen4L
+         6W1hlJRMiXoYOMaSOUGbx58JWHhbeKj2If1zDSjmvm8XVmSTcQfivgWP13GVg4N9xq0/
+         34C2LxjJlW+E2AZsKvPzk2dP5nLljtnsHcuonwrdftYQ/4V3DG8sKgM6+W2ZhPYfnsjr
+         bLzCyLw5bouUW/bm0XzVZKgIHNWxPMtbbDPIKA9eCGra0u4fd4f1wbGc7OQxQyszsvsg
+         ms5gPBB+EGrcZZSMJ8thIBqaAT7FdYOPg2dzEWw/0dRG/w6k5Ap/7sMC8X6MUkzpERCn
+         8Jkg==
+X-Gm-Message-State: AOAM530k5dO9IgiZ7g4N5VGkiKreTIX69Cmj6nYZIFsJPZA+vA8SD7w7
+        T83r/D0KbbUK9ZUsFeeKD5nznPRjPvLgAw==
+X-Google-Smtp-Source: ABdhPJxx1ngvDF+fNxMgKjJclcSTqBg6aEV6zxwvIjzPb06D2yx1IglrkRLDjfRpNQ0vH2CnEj4Vyw==
+X-Received: by 2002:ad4:5be1:0:b0:440:a2ec:ea99 with SMTP id k1-20020ad45be1000000b00440a2ecea99mr20279454qvc.20.1651732957454;
+        Wed, 04 May 2022 23:42:37 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id q21-20020a05620a0c9500b006a0098f029fsm399847qki.13.2022.05.04.23.42.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 May 2022 23:42:36 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2f7d7e3b5bfso38437857b3.5;
+        Wed, 04 May 2022 23:42:36 -0700 (PDT)
+X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
+ z130-20020a816588000000b002f8b75e1e1amr23276012ywb.358.1651732956506; Wed, 04
+ May 2022 23:42:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220503115557.53370-1-phil.edworthy@renesas.com>
+ <20220503115557.53370-5-phil.edworthy@renesas.com> <YnEqH+gzlfv96opc@lakrids> <YnL/IbciNHLhoNOZ@robh.at.kernel.org>
+In-Reply-To: <YnL/IbciNHLhoNOZ@robh.at.kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 5 May 2022 08:42:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX9ngzgkOUT-Y-CEkpMaJr1RSDqPhjYy7Czh6TRWQZu3Q@mail.gmail.com>
+Message-ID: <CAMuHMdX9ngzgkOUT-Y-CEkpMaJr1RSDqPhjYy7Czh6TRWQZu3Q@mail.gmail.com>
+Subject: Re: [PATCH v3 04/12] dt-bindings: timer: arm,arch_timer: Add optional
+ clock and reset
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed,  4 May 2022 15:54:45 +0100 Phil Edworthy wrote:
-> The RZ/V2M Ethernet is very similar to R-Car Gen3 Ethernet-AVB, though
-> some small parts are the same as R-Car Gen2.
-> Other differences are:
-> * It has separate data (DI), error (Line 1) and management (Line 2) irqs
->   rather than one irq for all three.
-> * Instead of using the High-speed peripheral bus clock for gPTP, it has
->   a separate gPTP reference clock.
-> 
-> The dts patches depend on v4 of the following patch set:
-> "Add new Renesas RZ/V2M SoC and Renesas RZ/V2M EVK support"
-> 
-> Phil Edworthy (9):
->   clk: renesas: r9a09g011: Add eth clock and reset entries
->   dt-bindings: net: renesas,etheravb: Document RZ/V2M SoC
->   ravb: Separate use of GIC reg for PTME from multi_irqs
->   ravb: Separate handling of irq enable/disable regs into feature
->   ravb: Support separate Line0 (Desc), Line1 (Err) and Line2 (Mgmt) irqs
->   ravb: Use separate clock for gPTP
->   ravb: Add support for RZ/V2M
->   arm64: dts: renesas: r9a09g011: Add ethernet nodes
->   arm64: dts: renesas: rzv2m evk: Enable ethernet
+Hi Rob,
 
-How are you expecting this to be merged?
+On Thu, May 5, 2022 at 12:33 AM Rob Herring <robh@kernel.org> wrote:
+> On Tue, May 03, 2022 at 02:11:59PM +0100, Mark Rutland wrote:
+> > This is the only patch from this series that I've received, and judging
+> > by the CC list this hasn't gone to either LKML or LAKML, so I'm missing
+> > the surrounding context for this.
+> >
+> > Looking on lore, this is part of:
+> >
+> >   https://lore.kernel.org/linux-devicetree/20220503115557.53370-1-phil.edworthy@renesas.com/T/#t
+> >
+> > ... which is adding support for an arm64 SoC.
+> >
+> > On Tue, May 03, 2022 at 12:55:49PM +0100, Phil Edworthy wrote:
+> > > Some SoCs use a gated clock for the timer and the means to reset the timer.
+> > > Hence add these as optional.
+> >
+> > The clock feeding the architected timer is supposed to be in an
+> > always-on clock domain, and is supopsed to be enabled before running any
+> > Normal World software.
+> >
+> > The arm64 kernel *requires* that this is enabled prior to entry. If the
+> > kernel ever has to touch either the clock or reset, then there are
+> > phases where the counter will not function correctly, which is simply
+> > broken.
+> >
+> > Given that, I do not think this should be in the DT, and instead the
+> > clock should be marked as critical in the provider node (and the reset
+> > should never be touched).
+>
+> That is not yet an accepted DT property, but is currently on the list
+> for review[1]. If that's something people need, chime in. More than 1
+> person needing something is always better.
 
-I think you should drop the first (clk) patch from this series 
-so we can apply the series to net-next. And route the clk patch 
-thru Geert's tree separately? 
+I am aware of[1]. AFAIU, that is meant for clocks that need to stay
+enabled for external reasons (external hardware driven by on-SoC
+clock).
+For internal reasons (e.g. arch-timer), CLK_IS_CRITICAL is fine.
 
-Right now patchwork thinks the series is incomplete because it 
-hasn't received patch 1.
+> [1] https://lore.kernel.org/all/20220428110107.149524-1-marex@denx.de/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
