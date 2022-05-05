@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5FE51C129
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 15:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECF4451C15C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 15:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378637AbiEENth (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 09:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34058 "EHLO
+        id S1378481AbiEENxJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 09:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245347AbiEENtg (ORCPT
+        with ESMTP id S1380076AbiEENxH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 09:49:36 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 221F42CCB7;
-        Thu,  5 May 2022 06:45:53 -0700 (PDT)
+        Thu, 5 May 2022 09:53:07 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1088C57B3B;
+        Thu,  5 May 2022 06:49:26 -0700 (PDT)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id AEC8F20007;
-        Thu,  5 May 2022 13:45:48 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5683160006;
+        Thu,  5 May 2022 13:49:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651758352;
+        t=1651758565;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=APu3zruYgegUIFbJNxsW/QRCDb/RNd0lCGoQLnybkX4=;
-        b=hUZr8TqznISglCXOoDmPQNy7VHUGtOg+69KBoCaQd/aG4OVfyqpsks65iqjmh72mBdeXZM
-        0YPfZJtxrCxY8H4UyIyoEI4A/Z0hEKXhMxjxwhAFj3SPxo6uWGOeijXR0X2L6cwgTpu1im
-        uF970G2QBHi2j/kOlJYJwwz+QEqqaWZLM5tu5fxLuIkcxiwdZxMwy1i0OKdIScypL6mfOx
-        okMTMJ9zYHkK4oKnRuFT8IPSzpXSDQs3NKvQtPlsfMAmc+jHqcApGopY32O8fpBS38DYnW
-        5RvF3zRgZjAiLnD7qadNVm/0OTDMyX+LB+tMsgJtKzn+porWx/vqlTVeZqGnPw==
-Date:   Thu, 5 May 2022 15:44:31 +0200
+        bh=vqDFbGmKNJruiByQjIrXNv8C+KNkeae3TcAb//Cv/EY=;
+        b=nOLhuyhIIqkvP7KRf+NXyjpJTXmH0yxAIjp/oMAZ0GOrCUrvr8n6FxwX5VZoXGn+zjt731
+        enmNxNiXH5C6XMhFrNwX5zkW+s96XPUwJt/T93XZHAWGYko/VMR2jYCp6i6+XokP/UCRD0
+        d+2E3gwjD8XX1hoafN7C910XMmgct9qEpS152tZsFJEs/6HjT4Hz0euYzwesZalC5Ywpdn
+        D0nfoKsKCn805Fn8iQAkMiLomxFriaE8EHYC08dbVLabJo8ZeQhAW4QqH3GJLbOavyE9Sk
+        6/9f3NjHRsTAuhB4Kv47b5p3tmM6zZlCFwIEiIr3NhLnd117PBqQ50UzBaMPtw==
+Date:   Thu, 5 May 2022 15:48:06 +0200
 From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 To:     Vladimir Oltean <olteanv@gmail.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
@@ -54,92 +54,106 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3 08/12] net: dsa: rzn1-a5psw: add FDB support
-Message-ID: <20220505154431.06174a04@fixe.home>
-In-Reply-To: <20220504162457.eeggo4xenvxddpkr@skbuf>
+Subject: Re: [PATCH net-next v3 02/12] net: dsa: add Renesas RZ/N1 switch
+ tag driver
+Message-ID: <20220505154806.7a7a182c@fixe.home>
+In-Reply-To: <20220504160039.5viu3cqd5zbmo6n2@skbuf>
 References: <20220504093000.132579-1-clement.leger@bootlin.com>
-        <20220504093000.132579-9-clement.leger@bootlin.com>
-        <20220504162457.eeggo4xenvxddpkr@skbuf>
+        <20220504093000.132579-3-clement.leger@bootlin.com>
+        <20220504160039.5viu3cqd5zbmo6n2@skbuf>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Wed, 4 May 2022 19:24:57 +0300,
+Le Wed, 4 May 2022 19:00:39 +0300,
 Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-> On Wed, May 04, 2022 at 11:29:56AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > +static int a5psw_port_fdb_del(struct dsa_switch *ds, int port,
-> > +			      const unsigned char *addr, u16 vid,
-> > +			      struct dsa_db db)
+> > +/* To define the outgoing port and to discover the incoming port a TAG=
+ is
+> > + * inserted after Src MAC :
+> > + *
+> > + *       Dest MAC       Src MAC           TAG         Type
+> > + * ...| 1 2 3 4 5 6 | 1 2 3 4 5 6 | 1 2 3 4 5 6 7 8 | 1 2 |...
+> > + *                                |<--------------->|
+> > + *
+> > + * See struct a5psw_tag for layout
+> > + */
+> > +
+> > +#define A5PSW_TAG_VALUE			0xE001 =20
+>=20
+> Maybe an ETH_P_DSA_A5PSW definition in include/uapi/linux/if_ether.h
+> would be appropriate? I'm not sure.
+
+That's a good question. Actually, this value is the default=20
+but is configurable in the hardware so I'm not sure this should be a
+reserved value. Maybe it would make sense to add it anyway to have the
+define shared between the switch driver and the tag driver.
+
+>=20
+> > +#define A5PSW_TAG_LEN			8
+> > +#define A5PSW_CTRL_DATA_FORCE_FORWARD	BIT(0)
+> > +/* This is both used for xmit tag and rcv tagging */
+> > +#define A5PSW_CTRL_DATA_PORT		GENMASK(3, 0)
+> > +
+> > +struct a5psw_tag {
+> > +	__be16 ctrl_tag;
+> > +	__be16 ctrl_data;
+> > +	__be16 ctrl_data2_hi;
+> > +	__be16 ctrl_data2_lo;
+> > +};
+> > +
+> > +static struct sk_buff *a5psw_tag_xmit(struct sk_buff *skb, struct net_=
+device *dev)
 > > +{
-> > +	struct a5psw *a5psw =3D ds->priv;
-> > +	union lk_data lk_data =3D {0};
-> > +	bool clear =3D false;
-> > +	int ret =3D 0;
-> > +	u16 entry;
-> > +	u32 reg;
+> > +	struct dsa_port *dp =3D dsa_slave_to_port(dev);
+> > +	struct a5psw_tag *ptag;
+> > +	u32 data2_val;
 > > +
-> > +	ether_addr_copy(lk_data.entry.mac, addr);
+> > +	BUILD_BUG_ON(sizeof(*ptag) !=3D A5PSW_TAG_LEN);
 > > +
-> > +	spin_lock(&a5psw->lk_lock);
-> > +
-> > +	ret =3D a5psw_lk_execute_lookup(a5psw, &lk_data, &entry);
-> > +	if (ret) {
-> > +		dev_err(a5psw->dev, "Failed to lookup mac address\n");
-> > +		goto lk_unlock;
-> > +	}
-> > +
-> > +	lk_data.hi =3D a5psw_reg_readl(a5psw, A5PSW_LK_DATA_HI);
-> > +	if (!lk_data.entry.valid) {
-> > +		dev_err(a5psw->dev, "Tried to remove non-existing entry\n");
-> > +		ret =3D -ENOENT;
-> > +		goto lk_unlock; =20
+> > +	/* The Ethernet switch we are interfaced with needs packets to be at
+> > +	 * least 64 bytes (including FCS) otherwise they will be discarded wh=
+en
+> > +	 * they enter the switch port logic. When tagging is enabled, we need
+> > +	 * to make sure that packets are at least 70 bytes (including FCS and
+> > +	 * tag).
+> > +	 */
+> > +	if (__skb_put_padto(skb, ETH_ZLEN + ETH_FCS_LEN + A5PSW_TAG_LEN, fals=
+e))
+> > +		return NULL; =20
 >=20
-> These error messages can happen under quite normal use with your hardware.
-> For example:
+> I'm confused by the inclusion of the FCS length in this calculation,
+> since the FCS space isn't present in the skb buffer as far as I know?
+
+I'm not sure either, the documentation is not really clear on what is
+the requirement for the minimal size of a packet. This was the closest
+thing I could find about that requirement:
+
+"A frame has a valid length if it contains at least 64 octets and does
+not exceed the programmed maximum length"
+
+And the figure associated to the frame show that the frame length
+includes the FCS which lead to a 64bytes frame.
 >=20
-> ip link add br0 type bridge && ip link set br0 master br0
-> bridge fdb add dev swp0 00:01:02:03:04:05 vid 1 master static
-> bridge fdb add dev swp0 00:01:02:03:04:05 vid 2 master static
-> bridge fdb del dev swp0 00:01:02:03:04:05 vid 2 master static
-> bridge fdb del dev swp0 00:01:02:03:04:05 vid 1 master static
+> "64 bytes including FCS" means "60 bytes excluding FCS".
+> And ETH_ZLEN is 60...
 >=20
-> Because the driver ignores the VID, then as soon as the VID 2 FDB entry
-> is removed, the VID 1 FDB entry doesn't exist anymore, either.
+> And I'm also not sure how we got to the number 70? A5PSW_TAG_LEN is 8.
+> If we add it to 60 we get 68. If we add it to 64 we get 72?
+>
 
-Argh did not thought about that but indeed, that will for sure trigger
-the error.
-
->=20
-> The above is a bit artificial. More practically, the bridge installs
-> local FDB entries (MAC address of bridge device, MAC addresses of ports)
-> once in the VLAN-unaware database (VID 0), and once per VLAN installed
-> on br0.
-
-Ok, seems clear.
-
->=20
-> When the MAC address of br0 is different from that of the ports, and it
-> is changed by the user, you'll get these errors too, since those changes
-> translate into a deletion of the old local FDB entries (installed as FDB
-> entries towards the CPU port). Do you want the users to see them and
-> think something is wrong?  I mean, something _is_ wrong (the hardware),
-> but you have to work with that somehow.
-
-Indeed, I'll simply remove these error message. Should I still return
-an error value however ? Seems like I should not to avoid triggering
-any error that might confuse the user.
+I'll check all these numbers and find the correct size that is expected
+by the switch.
 
 --=20
 Cl=C3=A9ment L=C3=A9ger,
