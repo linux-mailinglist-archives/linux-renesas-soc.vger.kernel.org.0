@@ -2,124 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EFEE51B8A5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 09:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4476D51B90E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 09:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241323AbiEEH0y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 03:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33872 "EHLO
+        id S1344799AbiEEHdr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 03:33:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235197AbiEEH0x (ORCPT
+        with ESMTP id S1344950AbiEEHdl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 03:26:53 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64374551D;
-        Thu,  5 May 2022 00:23:14 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id hf18so2600407qtb.0;
-        Thu, 05 May 2022 00:23:14 -0700 (PDT)
+        Thu, 5 May 2022 03:33:41 -0400
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834A1488B6;
+        Thu,  5 May 2022 00:29:57 -0700 (PDT)
+Received: by mail-qv1-f41.google.com with SMTP id l1so66440qvh.1;
+        Thu, 05 May 2022 00:29:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eYcDk46TN6nQtTEcA5D5pYs+CgfowD70wBO1ZsW6mP8=;
-        b=L5YkWRro6bHHIMO2DQyaPONTjmtw840QccTR/ymhRm+rNUTTbotKs/0DOPJMEDPJrN
-         IW70dci0F0726gpu+p8o1v+8Qfu6cO6uj8ywmwieZASI7FlA0B0XJewxIydsW6HuBfO/
-         DefmCDjEGro6eONFwVOelJlzB9jFFUwUkY5I7HtH/oLScgba1tX6DeTnIz2hiyErwFTJ
-         2Lkoi8a1heFdbE0UfM566/hk1O1M6ohAbE98qelqoD5V+pYWTASawYE/qZA8F0DHC/PT
-         uA4x+MRll03l+4tYCP0Qv7kQfMk8JHnJmC8bRYMKJrh9NBZ1JAu8xtfeQ52Pdi/vBevd
-         42yA==
-X-Gm-Message-State: AOAM533t16jQ5XpDFdeEtv8zRaKYh+nQOiqESdCnmBWJAjWP5scj4/o3
-        Ys5PZjzzk3GXSe2z/BGiqcd0fOp9FcMqiA==
-X-Google-Smtp-Source: ABdhPJyOZuEequcB5PiJHOlmJQogC11Tg7GcYThR8EwqrFR0Fa+kMufoO2PSj9ojQZ5XN0V0qyUGNQ==
-X-Received: by 2002:a05:622a:6184:b0:2f1:e213:9c7 with SMTP id hh4-20020a05622a618400b002f1e21309c7mr22374595qtb.467.1651735393797;
-        Thu, 05 May 2022 00:23:13 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id w27-20020ac84d1b000000b002f39b99f685sm452195qtv.31.2022.05.05.00.23.13
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KzAVmzBQmEO2JBPDtZGXfDmIQ4cQijhB1DuSyb01WrU=;
+        b=5N1IWr6m0gkJR6vW9nBddzzvBXN+oEycvKSnnLRyVOzjlyQPbi2YCFVm/czc6ACrL2
+         UGmXp/XMODp/Bcx1hviy0ymkXrfWDQ7W3od7TZmaJDRyolpAEGYs9aRvcXdjBFU8mIMN
+         3T8973Jz/f+BbCy9mSU7Ju+ol0szF9n0BqW0iSTi8ApHnErTAIFgMzTnwdLjAI8r/q7Q
+         HMBAgNmxTsLszBr32TxYY2bdl/39thCIvx8uVGyXTGc+Dyu1xT/w+41W4jJckuZWsLvS
+         /8YISqIKmqBd4DMxCLOx29ML/EeoUvbVlZ7REiK1dgvv9w7quxrbbBX8Uf705J+SnYx2
+         L3mQ==
+X-Gm-Message-State: AOAM532h3xpTaI++bz2r6ojWutXyDXJ8uXZd1yGyH8smpopYsx81Cjc9
+        0vGCzRntqwdvNNM5CCOnp9yfv8njaPO/yw==
+X-Google-Smtp-Source: ABdhPJwckh3gPol9EtZ060BLIaj2kVITp/R4+Z33r1y8JyoJObQRTAhGAD9QZtHxqiK0A5Sy5emKqw==
+X-Received: by 2002:a05:6214:2a82:b0:443:a395:cc23 with SMTP id jr2-20020a0562142a8200b00443a395cc23mr20705112qvb.67.1651735795912;
+        Thu, 05 May 2022 00:29:55 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id j186-20020a3755c3000000b0069fc13ce20asm424674qkb.59.2022.05.05.00.29.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 00:23:13 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id s30so6188191ybi.8;
-        Thu, 05 May 2022 00:23:13 -0700 (PDT)
-X-Received: by 2002:a25:4506:0:b0:648:cfc2:301d with SMTP id
- s6-20020a254506000000b00648cfc2301dmr20419980yba.380.1651735392873; Thu, 05
- May 2022 00:23:12 -0700 (PDT)
+        Thu, 05 May 2022 00:29:55 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ef5380669cso39197047b3.9;
+        Thu, 05 May 2022 00:29:55 -0700 (PDT)
+X-Received: by 2002:a81:234b:0:b0:2f8:4082:bbd3 with SMTP id
+ j72-20020a81234b000000b002f84082bbd3mr22448044ywj.47.1651735794998; Thu, 05
+ May 2022 00:29:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504190609.94375-1-biju.das.jz@bp.renesas.com> <20220504190609.94375-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220504190609.94375-3-biju.das.jz@bp.renesas.com>
+References: <20220504093000.132579-1-clement.leger@bootlin.com>
+In-Reply-To: <20220504093000.132579-1-clement.leger@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 May 2022 09:23:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXGkd=fqvj7Yue7Q6RhuhrgxCrB5BhV-6Q4F3evY1g=qQ@mail.gmail.com>
-Message-ID: <CAMuHMdXGkd=fqvj7Yue7Q6RhuhrgxCrB5BhV-6Q4F3evY1g=qQ@mail.gmail.com>
-Subject: Re: [PATCH v10 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Thu, 5 May 2022 09:29:43 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXdGCebeGiDj-4hYH24tBVRVqGsHbPfEqfUGT88GZKZrw@mail.gmail.com>
+Message-ID: <CAMuHMdXdGCebeGiDj-4hYH24tBVRVqGsHbPfEqfUGT88GZKZrw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 00/12] add support for Renesas RZ/N1 ethernet
+ subsystem devices
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Clément,
 
-On Wed, May 4, 2022 at 9:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As the resets DT property is mandatory, and is present in all .dtsi
-> in mainline, add support to perform deassert/assert using reference
-> counted reset handle.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v9->v10:
->  * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
+On Wed, May 4, 2022 at 11:31 AM Clément Léger <clement.leger@bootlin.com> wrote:
+> This series needs commits bcfb459b25b8 and 542d5835e4f6 which are on
+> the renesas-devel tree in order to enable generic power domain on
+> RZ/N1.
 
-Thanks for the update!
+-ENOENT
 
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -631,13 +633,21 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
->         struct vsp1_device *vsp1 = dev_get_drvdata(dev);
->         int ret;
->
-> +       ret = reset_control_deassert(vsp1->rstc);
-> +       if (ret < 0)
-> +               return ret;
-> +
->         if (vsp1->info) {
->                 ret = vsp1_device_init(vsp1);
->                 if (ret < 0)
-
-Missing reset_control_assert().
-
->                         return ret;
->         }
->
-> -       return rcar_fcp_enable(vsp1->fcp);
-> +       ret = rcar_fcp_enable(vsp1->fcp);
-> +       if (ret < 0)
-> +               reset_control_assert(vsp1->rstc);
-> +
-> +       return ret;
->  }
->
->  static const struct dev_pm_ops vsp1_pm_ops = {
+I assume you mean:
+14f11da778ff6421 ("soc: renesas: rzn1: Select PM and
+PM_GENERIC_DOMAINS configs")
+ed66b37f916ee23b ("ARM: dts: r9a06g032: Add missing '#power-domain-cells'")
 
 Gr{oetje,eeting}s,
 
