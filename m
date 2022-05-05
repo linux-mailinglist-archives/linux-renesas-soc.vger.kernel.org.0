@@ -2,103 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BACE51B846
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B730351B854
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:59:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238900AbiEEG7q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 02:59:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+        id S241997AbiEEHDL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 03:03:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238079AbiEEG7p (ORCPT
+        with ESMTP id S235166AbiEEHDL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 02:59:45 -0400
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2825377EF;
-        Wed,  4 May 2022 23:56:06 -0700 (PDT)
-Received: by mail-qv1-f47.google.com with SMTP id kd11so2426566qvb.2;
-        Wed, 04 May 2022 23:56:06 -0700 (PDT)
+        Thu, 5 May 2022 03:03:11 -0400
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6B147542;
+        Wed,  4 May 2022 23:59:33 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id fu47so2550439qtb.5;
+        Wed, 04 May 2022 23:59:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H63lRZ0aFf3Uo76l2TVh/QJRDaMCJkmpdWde3tg+LhI=;
-        b=cPwm6ZXgyQ2cTIJMEtRRARC53JUjs1pmcu4OQyZmKC14uK3I3TtMS3XmgZQ1NeQwIG
-         pnQT5gbnwFJ5BoL+DRu9crcxsbh6lV17HFODuZEUVwW89faDbUQeILJYgd8aQJGfy0YT
-         AGk/qi7epfw7Q7QaTnWfS0weLdCIE426hroSacPM0nLy0gAEofrW4VYfcUOioJzXIM7A
-         Vn6cypN7m7yGl0pgD9nTd2uGHX+erc6B33oWi60OEZ7dvREJ/wpil89J/QCLEPNtABCK
-         OSWRXwjn81oELKmTkcDJBkRJBLF3JoIZqO4mIuEiLeu5Lpnaz597JBMp4h54ArKcobUK
-         +8Wg==
-X-Gm-Message-State: AOAM53121veNiKmaW9JqgyyvHOwM3eDUMOzM27vPdgUAzI0HGOntX0Uo
-        7ove0PJssLHpWWppXgHRwiQqC9+lV2xv2w==
-X-Google-Smtp-Source: ABdhPJz1y9lRi4pNrieAI7o05QV3pJBfPjr3R/eTdXcGA44dXsGlJJQsq5OS/haoiOH+f/0ZDNxwbg==
-X-Received: by 2002:a0c:e409:0:b0:45a:8a6e:c771 with SMTP id o9-20020a0ce409000000b0045a8a6ec771mr15624117qvl.123.1651733765729;
-        Wed, 04 May 2022 23:56:05 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id l14-20020ac84a8e000000b002f39b99f68dsm417304qtq.39.2022.05.04.23.56.05
+        bh=1kyfcH624YObu9U2EDyv5UgsEw2pZgVLfORpPmEDwV0=;
+        b=nWWUsf1bTJ+CMZZR5AU2u+FV/aybBvUyJCs+xDgnGh2TzZlfUParIuyftqeoDAok/b
+         RT8Lhl9o014I77zuR8NenXQeojLARxbXAn/OQPE/kQDaF9YZpglfGfINRC8AoLpD7ctX
+         UClm4ry34tJBAZABMAF10YjIYw7k2aRdMNFNFv9GW/U1RtKraEodAM2rSp47qHZDqEiV
+         0wsps8xVODiMZJp4SDShCbYblS4wWMardvB0b7Kih9SfEzSYVdtr5rL+jdCWaP6tORAP
+         qsY3NhZK+cqfQm7N2k94EhP5IfC/ORkdvLRPfMikIZ+5/WPgDXswu35MQJRZwCkmaPQl
+         PdfQ==
+X-Gm-Message-State: AOAM532/yJVEWlfp1l/QmtTWu+u2cUEV9zSAxzjs/l6wa5LyhvoJxn7l
+        FyGBQV6jwwKpn0nekQ1blkbAeMTSJdazQg==
+X-Google-Smtp-Source: ABdhPJw3MVPc9LHMVwPOhabxZSORgomuFxm6Jt5ZC7fVqXJn/7fBzffvKV3zHZL95VgCt2Amnn0lBA==
+X-Received: by 2002:a05:622a:1649:b0:2f3:a6bc:73ea with SMTP id y9-20020a05622a164900b002f3a6bc73eamr16029240qtj.506.1651733971970;
+        Wed, 04 May 2022 23:59:31 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id x74-20020a37634d000000b0069ff51425a2sm392481qkb.120.2022.05.04.23.59.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 23:56:05 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ef5380669cso38504037b3.9;
-        Wed, 04 May 2022 23:56:05 -0700 (PDT)
-X-Received: by 2002:a81:913:0:b0:2f7:c833:f304 with SMTP id
- 19-20020a810913000000b002f7c833f304mr23117982ywj.283.1651733765108; Wed, 04
- May 2022 23:56:05 -0700 (PDT)
+        Wed, 04 May 2022 23:59:31 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id y76so6146666ybe.1;
+        Wed, 04 May 2022 23:59:31 -0700 (PDT)
+X-Received: by 2002:a05:6902:389:b0:633:31c1:d0f7 with SMTP id
+ f9-20020a056902038900b0063331c1d0f7mr19881851ybs.543.1651733970778; Wed, 04
+ May 2022 23:59:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504142333.8844-1-guozhengkui@vivo.com>
-In-Reply-To: <20220504142333.8844-1-guozhengkui@vivo.com>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com> <20220504175757.0a3c1a6a@kernel.org>
+In-Reply-To: <20220504175757.0a3c1a6a@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 May 2022 08:55:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW=V=92VnD2sPpuXwJ1CAj-swC10vcSssLArbrPULs4-A@mail.gmail.com>
-Message-ID: <CAMuHMdW=V=92VnD2sPpuXwJ1CAj-swC10vcSssLArbrPULs4-A@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzg2l: remove repeated data
-To:     Guo Zhengkui <guozhengkui@vivo.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
+Date:   Thu, 5 May 2022 08:59:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXKUpHa0SGGQUbepAHoS3evEBSzF4RYqA8B09eq1CtBUw@mail.gmail.com>
+Message-ID: <CAMuHMdXKUpHa0SGGQUbepAHoS3evEBSzF4RYqA8B09eq1CtBUw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] Add Renesas RZ/V2M Ethernet support
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        zhengkui_guo@outlook.com
+        netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guo,
+Hi Jakub,
 
-On Wed, May 4, 2022 at 4:24 PM Guo Zhengkui <guozhengkui@vivo.com> wrote:
-> Remove a repeated CPG_SIPLL5_CLK1_REFDIV_WEN.
+On Thu, May 5, 2022 at 2:58 AM Jakub Kicinski <kuba@kernel.org> wrote:
+> On Wed,  4 May 2022 15:54:45 +0100 Phil Edworthy wrote:
+> > The RZ/V2M Ethernet is very similar to R-Car Gen3 Ethernet-AVB, though
+> > some small parts are the same as R-Car Gen2.
+> > Other differences are:
+> > * It has separate data (DI), error (Line 1) and management (Line 2) irqs
+> >   rather than one irq for all three.
+> > * Instead of using the High-speed peripheral bus clock for gPTP, it has
+> >   a separate gPTP reference clock.
+> >
+> > The dts patches depend on v4 of the following patch set:
+> > "Add new Renesas RZ/V2M SoC and Renesas RZ/V2M EVK support"
+> >
+> > Phil Edworthy (9):
+> >   clk: renesas: r9a09g011: Add eth clock and reset entries
+> >   dt-bindings: net: renesas,etheravb: Document RZ/V2M SoC
+> >   ravb: Separate use of GIC reg for PTME from multi_irqs
+> >   ravb: Separate handling of irq enable/disable regs into feature
+> >   ravb: Support separate Line0 (Desc), Line1 (Err) and Line2 (Mgmt) irqs
+> >   ravb: Use separate clock for gPTP
+> >   ravb: Add support for RZ/V2M
+> >   arm64: dts: renesas: r9a09g011: Add ethernet nodes
+> >   arm64: dts: renesas: rzv2m evk: Enable ethernet
 >
-> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
-
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -601,9 +601,8 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+> How are you expecting this to be merged?
 >
->         /* Output clock setting 1 */
->         writel(CPG_SIPLL5_CLK1_POSTDIV1_WEN | CPG_SIPLL5_CLK1_REFDIV_WEN |
-> -              CPG_SIPLL5_CLK1_REFDIV_WEN  | (params.pl5_postdiv1 << 0) |
+> I think you should drop the first (clk) patch from this series
+> so we can apply the series to net-next. And route the clk patch
+> thru Geert's tree separately?
 
-This is not correct: one of the CPG_SIPLL5_CLK1_REFDIV_WENs
-should have been CPG_SIPLL5_CLK1_POSTDIV2_WEN.
+Same for the last two DTS patches, they should go through the
+renesas-devel and SoC trees.
 
-> -              (params.pl5_postdiv2 << 4) | (params.pl5_refdiv << 8),
-> -              priv->base + CPG_SIPLL5_CLK1);
-> +              (params.pl5_postdiv1 << 0) | (params.pl5_postdiv2 << 4) |
-> +              (params.pl5_refdiv << 8), priv->base + CPG_SIPLL5_CLK1);
->
->         /* Output clock setting, SSCG modulation value setting 3 */
->         writel((params.pl5_fracin << 8), priv->base + CPG_SIPLL5_CLK3);
-
-
-So I'm going for Wan's fix instead
-https://lore.kernel.org/r/20220504142058.18704-1-wanjiabing@vivo.com/
+> Right now patchwork thinks the series is incomplete because it
+> hasn't received patch 1.
 
 Gr{oetje,eeting}s,
 
