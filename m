@@ -2,249 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFEE451C445
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 17:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C812E51C524
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 18:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343951AbiEEPxD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 11:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41992 "EHLO
+        id S1381989AbiEEQeU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 12:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233641AbiEEPxC (ORCPT
+        with ESMTP id S1381473AbiEEQeT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 11:53:02 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC3E5A174
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 May 2022 08:49:22 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id w5-20020a17090aaf8500b001d74c754128so8404020pjq.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 May 2022 08:49:22 -0700 (PDT)
+        Thu, 5 May 2022 12:34:19 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E82A4B1D4;
+        Thu,  5 May 2022 09:30:38 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id ks9so3342073ejb.2;
+        Thu, 05 May 2022 09:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=czr4Y5NRw5DG8OXaX3hfUc/9BDdgdbF8AiXm7fNo5eA=;
-        b=Pl9792Q820XV2e/iBon26y2u89nAgxMuBo/A+P1EsKSgjO+Ej3nHZqh63U6zqAk2gs
-         zsirsvBNI2LIi9ds8XbxjoylzArJdVPPF54fnk45TDeLA7FZAVzKNV1EqGqmfguMpHIs
-         4cpTq5/EisBGALN291GvIOLu4pKICKnTG0E67ybesbxPeJbvwIFHcGtjpYi7N1Rv1ywx
-         ZYjiRyr54zFEaUs//O4RmYSpDaFDfYr+UP90VLg/Jdtf+j2NtQ8iE+iylVqog+RcLJv/
-         KPAExzHsNf9h0hJ2pAESAbGu7APXM4Ht/DJ/Y+CbAisB25JxZIO2jMFzIEYyaObzK01z
-         ++Ag==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=uWtgKKcajdz2BPJdKiwyTVbFB4omDy6DEJqy2lfeeqQ=;
+        b=hkFRRzh9WGqFiiEo6JXUDGQShvw+35UMlB1e48yZYL74nqgUp4F6N77zk7wy8fwGMU
+         06gFBKaka/bekg+u6rGJY15zZi/8VlqzmcSCYNaGOrOtq0oV/JXDW6JD4LtozAcAALg8
+         6qXMWhUo8xw2085Ytqj/3ds32GixLQVZc4r8skTAnJqkj/+4e86l3CYAvy6uD3IOmV+5
+         Op+yFcEdOAoC35xx+rXa7keTNiLNOij2so3hiiC5JjTPe4BX5aq5DUD4xq6QXJ2L/zdF
+         G2y7yJPWVfmKQyjc1VxIS/CiM8Pd/FHPehthhPo8THoNvaozDKUKPEsxX2wz/hkkXxl6
+         /bTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=czr4Y5NRw5DG8OXaX3hfUc/9BDdgdbF8AiXm7fNo5eA=;
-        b=fY39LrvknVnL2qBVtTKno7LQc4VXYhPWzwygFxI5eMoEI96CrKSeNYQqxAjxqEi/u0
-         tXb4AGriNkm9hIFwjIPjvMtr9w3wAJ9aUeT30A6ByDvX3fGXz7+10fvpdW6q07lSpyw7
-         9MWbhmTrfe7gV3pKbxTuEknTLpi++dAfgZG4NfbrerNtOzw3TyZFogUABDHMSx0JbqMP
-         A97SQDVOIXcMYH/QaKuuhXid0/TEW0KIr+lQ0TpPA7LCEs/V/LRdyDkt0Y9YPmmLTS8n
-         MWU172XxrLWyJ52lItrum2NMP0t2CwKidaPyoPMIuoL8b92nYEwZ8p4s65PNi8SDY/9z
-         YTXQ==
-X-Gm-Message-State: AOAM532vey42rtzkWEqWnsUHpos4W8BgHpa7gMhda6sJe/JKIKurQQs7
-        inGfpQvci+XhtYeTFa3aoL/wqsr72IrSpGSZbMg=
-X-Google-Smtp-Source: ABdhPJyfnv9vnGrSSwKZ7kqG394K82zbYjlrBgBD2ZBzt/JwF6DPRi0UArA9lW8Yd/LCHwuEej0waA==
-X-Received: by 2002:a17:90b:4a08:b0:1dc:6cc1:3d24 with SMTP id kk8-20020a17090b4a0800b001dc6cc13d24mr6983759pjb.131.1651765761505;
-        Thu, 05 May 2022 08:49:21 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 7-20020a17090a1a0700b001dbf2aac185sm1633196pjk.1.2022.05.05.08.49.21
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=uWtgKKcajdz2BPJdKiwyTVbFB4omDy6DEJqy2lfeeqQ=;
+        b=OpS95CFFU3xG2zwkup0W83jtk+jE1ZpLQsdttDJeVfaaV9u7H3pdXaA/j5Yq3kTyO9
+         YiHo4lfp2sI2WlFhMyQY9HlDvtP0QgkbWxNp0t3ky9fYSM1tAg+scnXtXWoaz4+S9MiK
+         YKKWWf+zkvz55YLSyrLjQM32R1+nuf2sSD2Ghl3pl0LoK+IUdNYYUw4A5oQ8oOWBsfGf
+         z3dQBlOkE3EvnGXeUQVRQvlxawKuTRj577anpO0uX+H+27aiGGqNi96Qa4b8X/Hzk1JL
+         1+NKJL8L/nOD1c2hqsHO2Os9KZVavlG++OT+Eq0Ca4z/17D/d5EZJnekGZ3mvM6K8NFk
+         naYw==
+X-Gm-Message-State: AOAM531sdOXCyUm9kAVh3Wusix60KnyhY4D4+7AbPl+FKfnhpRS/vq13
+        IfWcPaO4G0CCcedBpL6aW/k=
+X-Google-Smtp-Source: ABdhPJwBr27HFxzPJMx0nDaKSh9v9aTcDqMdXyURyBRGkHhqFvQBwM7hybPN+cL10Oaq1xuUGtuyfw==
+X-Received: by 2002:a17:906:29c2:b0:6f3:da29:8304 with SMTP id y2-20020a17090629c200b006f3da298304mr27312343eje.569.1651768236826;
+        Thu, 05 May 2022 09:30:36 -0700 (PDT)
+Received: from skbuf ([188.25.160.86])
+        by smtp.gmail.com with ESMTPSA id gx13-20020a1709068a4d00b006f3ef214e6asm918877ejc.208.2022.05.05.09.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 08:49:21 -0700 (PDT)
-Message-ID: <6273f201.1c69fb81.6211d.3c34@mx.google.com>
-Date:   Thu, 05 May 2022 08:49:21 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 05 May 2022 09:30:35 -0700 (PDT)
+Date:   Thu, 5 May 2022 19:30:33 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v3 08/12] net: dsa: rzn1-a5psw: add FDB support
+Message-ID: <20220505163033.3n744lm2ipsjmrlt@skbuf>
+References: <20220504093000.132579-1-clement.leger@bootlin.com>
+ <20220504093000.132579-9-clement.leger@bootlin.com>
+ <20220504162457.eeggo4xenvxddpkr@skbuf>
+ <20220505154431.06174a04@fixe.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2022-05-05-v5.18-rc5
-Subject: renesas/master baseline: 431 runs,
- 4 regressions (renesas-devel-2022-05-05-v5.18-rc5)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220505154431.06174a04@fixe.home>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 431 runs, 4 regressions (renesas-devel-2022-05-05-=
-v5.18-rc5)
+On Thu, May 05, 2022 at 03:44:31PM +0200, Clément Léger wrote:
+> Indeed, I'll simply remove these error message. Should I still return
+> an error value however ? Seems like I should not to avoid triggering
+> any error that might confuse the user.
 
-Regressions Summary
--------------------
+The error code will not be propagated to the bridge driver anyway, but
+will trigger prints in dsa_slave_switchdev_event_work() however.
 
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-imx8mn-ddr4-evk     | arm64 | lab-nxp       | gcc-10   | defconfig         =
-           | 1          =
+You have to choose between 2 alternatives
+(a) keep the FDB entry around until it gets removed from all VLANs
+(b) delete the FDB entry as soon as it gets removed from the first VLAN
 
-jetson-tk1          | arm   | lab-baylibre  | gcc-10   | multi_v7_defc...G_=
-ARM_LPAE=3Dy | 1          =
+Both options are going to raise eyebrows. (a) will result in "huh, why
+did my packet get delivered to this port when the address wasn't in the
+FDB?", while (b) will result in "huh, why was my packet flooded when the
+address was in the FDB?"
 
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig         =
-           | 1          =
-
-rk3399-gru-kevin    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook   | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2022-05-05-v5.18-rc5/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2022-05-05-v5.18-rc5
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      d1312c8c2b58ca08cd1d871e77474e7b2af0d3ce =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-imx8mn-ddr4-evk     | arm64 | lab-nxp       | gcc-10   | defconfig         =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6273bf61af6f83da178f5725
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig/gcc-10/lab-nxp/baseline-imx8mn-ddr4-evk=
-.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig/gcc-10/lab-nxp/baseline-imx8mn-ddr4-evk=
-.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220428.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6273bf61af6f83da178f5=
-726
-        new failure (last pass: renesas-devel-2022-05-03-v5.18-rc5) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-jetson-tk1          | arm   | lab-baylibre  | gcc-10   | multi_v7_defc...G_=
-ARM_LPAE=3Dy | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6273bc84f434ba61cf8f571a
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=3Dy
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-baylibre/baseline-jetson-tk1.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm/multi_v7_defconfig+CONFIG_EFI=3Dy+CONFIG_ARM_LPAE=
-=3Dy/gcc-10/lab-baylibre/baseline-jetson-tk1.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220428.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6273bc84f434ba61cf8f5=
-71b
-        failing since 5 days (last pass: renesas-devel-2022-04-13-v5.18-rc2=
-, first fail: renesas-devel-2022-04-29-v5.18-rc4) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-r8a77950-salvator-x | arm64 | lab-baylibre  | gcc-10   | defconfig         =
-           | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6273bdfff4f798ab498f5834
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig/gcc-10/lab-baylibre/baseline-r8a77950-s=
-alvator-x.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220428.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/6273bdfff4f798ab498f5=
-835
-        new failure (last pass: renesas-devel-2022-04-19-v5.18-rc3) =
-
- =
-
-
-
-platform            | arch  | lab           | compiler | defconfig         =
-           | regressions
---------------------+-------+---------------+----------+-------------------=
------------+------------
-rk3399-gru-kevin    | arm64 | lab-collabora | gcc-10   | defconfig+arm64-ch=
-romebook   | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/6273bc9ce1062f4b0d8f571f
-
-  Results:     88 PASS, 4 FAIL, 0 SKIP
-  Full config: defconfig+arm64-chromebook
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-022-05-05-v5.18-rc5/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
-aseline-rk3399-gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20220428.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/case/id=
-/6273bc9ce1062f4b0d8f5741
-        failing since 57 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
-6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
-
-    2022-05-05T12:01:04.393983  <8>[   34.194012] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s0-probed RESULT=3Dpass>
-    2022-05-05T12:01:05.415854  /lava-6274503/1/../bin/lava-test-case
-    2022-05-05T12:01:05.430202  <8>[   35.230999] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
-
- =20
+And since (b) is of lower complexity than (a), I'd just silently exit,
+maybe add a comment explaining why, and hope for the best.
