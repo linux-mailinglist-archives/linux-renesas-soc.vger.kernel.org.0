@@ -2,91 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C21251B843
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BACE51B846
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 08:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235778AbiEEG5g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 02:57:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34354 "EHLO
+        id S238900AbiEEG7q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 02:59:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240646AbiEEGzw (ORCPT
+        with ESMTP id S238079AbiEEG7p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 02:55:52 -0400
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7171547045;
-        Wed,  4 May 2022 23:52:14 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id x22so2544641qto.2;
-        Wed, 04 May 2022 23:52:14 -0700 (PDT)
+        Thu, 5 May 2022 02:59:45 -0400
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2825377EF;
+        Wed,  4 May 2022 23:56:06 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id kd11so2426566qvb.2;
+        Wed, 04 May 2022 23:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QGcj3wvDLBvz1Kbr4GVQBUSS7NWwZ5P79yidz10v/bo=;
-        b=ZeO0k5UeQE8maxbeBLKN7hDUdqJ0aKSJIcZdkpkiEi30MPAVz3OWprfbbrQYE6zYoE
-         Swf8i9IhODBoOqq0KX6N4VJcsVxwnbzogQw6/7lHKcMTRYhF7G3yNi0TKRpiJgOhMJlp
-         C2sw0wL8uDCx8gBkmxlHsh2sGgBXzLxaj7kfLof1kMVvozVt71gkzMkYR6EfEvP5Soaa
-         TA/gLHBGX5jKsLbimITI8iEnFjLWwDvpHofcvRs1XgvN6C5KT/P8N12vPSXz0u1mbTDq
-         ueYo4mX1kFOq3ffY98vnZBzbHYAu06tohr2IVSmTcagXAzV5m7eueBvIbBEBrGt3CTra
-         i3iw==
-X-Gm-Message-State: AOAM531I5IN/rnVruuUGxg3gfy3WhITimBAZQikrv3wDF/0meqIH+u6U
-        697a5nFKT73rlBoVPQNwbebiMSG5tt47gQ==
-X-Google-Smtp-Source: ABdhPJy7oZ7r8vYP284fktErF3MGwUYv4pMQ6rbI7MWzcZJi8n3Fja02FUsZD6gOXUF25JzZbDV05g==
-X-Received: by 2002:a05:622a:6205:b0:2f1:e9d9:df34 with SMTP id hj5-20020a05622a620500b002f1e9d9df34mr22337612qtb.86.1651733533183;
-        Wed, 04 May 2022 23:52:13 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id q21-20020a05620a0c9500b006a0098f029fsm408183qki.13.2022.05.04.23.52.12
+        bh=H63lRZ0aFf3Uo76l2TVh/QJRDaMCJkmpdWde3tg+LhI=;
+        b=cPwm6ZXgyQ2cTIJMEtRRARC53JUjs1pmcu4OQyZmKC14uK3I3TtMS3XmgZQ1NeQwIG
+         pnQT5gbnwFJ5BoL+DRu9crcxsbh6lV17HFODuZEUVwW89faDbUQeILJYgd8aQJGfy0YT
+         AGk/qi7epfw7Q7QaTnWfS0weLdCIE426hroSacPM0nLy0gAEofrW4VYfcUOioJzXIM7A
+         Vn6cypN7m7yGl0pgD9nTd2uGHX+erc6B33oWi60OEZ7dvREJ/wpil89J/QCLEPNtABCK
+         OSWRXwjn81oELKmTkcDJBkRJBLF3JoIZqO4mIuEiLeu5Lpnaz597JBMp4h54ArKcobUK
+         +8Wg==
+X-Gm-Message-State: AOAM53121veNiKmaW9JqgyyvHOwM3eDUMOzM27vPdgUAzI0HGOntX0Uo
+        7ove0PJssLHpWWppXgHRwiQqC9+lV2xv2w==
+X-Google-Smtp-Source: ABdhPJz1y9lRi4pNrieAI7o05QV3pJBfPjr3R/eTdXcGA44dXsGlJJQsq5OS/haoiOH+f/0ZDNxwbg==
+X-Received: by 2002:a0c:e409:0:b0:45a:8a6e:c771 with SMTP id o9-20020a0ce409000000b0045a8a6ec771mr15624117qvl.123.1651733765729;
+        Wed, 04 May 2022 23:56:05 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id l14-20020ac84a8e000000b002f39b99f68dsm417304qtq.39.2022.05.04.23.56.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 23:52:12 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id e12so6074277ybc.11;
-        Wed, 04 May 2022 23:52:12 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr21041538ybu.604.1651733532336; Wed, 04
- May 2022 23:52:12 -0700 (PDT)
+        Wed, 04 May 2022 23:56:05 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ef5380669cso38504037b3.9;
+        Wed, 04 May 2022 23:56:05 -0700 (PDT)
+X-Received: by 2002:a81:913:0:b0:2f7:c833:f304 with SMTP id
+ 19-20020a810913000000b002f7c833f304mr23117982ywj.283.1651733765108; Wed, 04
+ May 2022 23:56:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504142058.18704-1-wanjiabing@vivo.com>
-In-Reply-To: <20220504142058.18704-1-wanjiabing@vivo.com>
+References: <20220504142333.8844-1-guozhengkui@vivo.com>
+In-Reply-To: <20220504142333.8844-1-guozhengkui@vivo.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 May 2022 08:52:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX57C0o65AY=9H=_mge=ee0nwYtiZ6q5JVa3SHB1VnVeg@mail.gmail.com>
-Message-ID: <CAMuHMdX57C0o65AY=9H=_mge=ee0nwYtiZ6q5JVa3SHB1VnVeg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rzg2l: Fix duplicate argument in rzg2l-cpg
-To:     Wan Jiabing <wanjiabing@vivo.com>
+Date:   Thu, 5 May 2022 08:55:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW=V=92VnD2sPpuXwJ1CAj-swC10vcSssLArbrPULs4-A@mail.gmail.com>
+Message-ID: <CAMuHMdW=V=92VnD2sPpuXwJ1CAj-swC10vcSssLArbrPULs4-A@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rzg2l: remove repeated data
+To:     Guo Zhengkui <guozhengkui@vivo.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         linux-clk <linux-clk@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kael_w@yeah.net
+        zhengkui_guo@outlook.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wan,
+Hi Guo,
 
-On Wed, May 4, 2022 at 4:21 PM Wan Jiabing <wanjiabing@vivo.com> wrote:
-> Fix following coccicheck warning:
-> ./drivers/clk/renesas/rzg2l-cpg.c:603:39-65: duplicated argument to & or |
+On Wed, May 4, 2022 at 4:24 PM Guo Zhengkui <guozhengkui@vivo.com> wrote:
+> Remove a repeated CPG_SIPLL5_CLK1_REFDIV_WEN.
 >
-> The CPG_SIPLL5_CLK1_REFDIV_WEN here is duplicated.
-> Here should be CPG_SIPLL5_CLK1_POSTDIV2_WEN.
+> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
 
-Thanks, nice catch!
+Thanks for your patch!
 
-> Fixes: a16ed737e62b ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk support")
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -601,9 +601,8 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+>
+>         /* Output clock setting 1 */
+>         writel(CPG_SIPLL5_CLK1_POSTDIV1_WEN | CPG_SIPLL5_CLK1_REFDIV_WEN |
+> -              CPG_SIPLL5_CLK1_REFDIV_WEN  | (params.pl5_postdiv1 << 0) |
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-As I haven't sent a pull request yet, I will fix up the original commit in
-renesas-clk-for-v5.19.
+This is not correct: one of the CPG_SIPLL5_CLK1_REFDIV_WENs
+should have been CPG_SIPLL5_CLK1_POSTDIV2_WEN.
+
+> -              (params.pl5_postdiv2 << 4) | (params.pl5_refdiv << 8),
+> -              priv->base + CPG_SIPLL5_CLK1);
+> +              (params.pl5_postdiv1 << 0) | (params.pl5_postdiv2 << 4) |
+> +              (params.pl5_refdiv << 8), priv->base + CPG_SIPLL5_CLK1);
+>
+>         /* Output clock setting, SSCG modulation value setting 3 */
+>         writel((params.pl5_fracin << 8), priv->base + CPG_SIPLL5_CLK3);
+
+
+So I'm going for Wan's fix instead
+https://lore.kernel.org/r/20220504142058.18704-1-wanjiabing@vivo.com/
 
 Gr{oetje,eeting}s,
 
