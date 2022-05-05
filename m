@@ -2,83 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAB0951B898
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 09:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EFEE51B8A5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 09:23:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343622AbiEEHUg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 03:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58140 "EHLO
+        id S241323AbiEEH0y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 03:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343586AbiEEHUb (ORCPT
+        with ESMTP id S235197AbiEEH0x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 03:20:31 -0400
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BECE3CFE4;
-        Thu,  5 May 2022 00:16:53 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id fu47so2570467qtb.5;
-        Thu, 05 May 2022 00:16:53 -0700 (PDT)
+        Thu, 5 May 2022 03:26:53 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64374551D;
+        Thu,  5 May 2022 00:23:14 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id hf18so2600407qtb.0;
+        Thu, 05 May 2022 00:23:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Psb/QuXIO3rdiKJBYSV64pOzSRPQoJS6TszufIyjNe8=;
-        b=g2oXlQYt/GvBDNAKvS1NTWm5TO2W3PXM4aHDp1hk1eVk5SPrnIXuWalW+cnQA7UkLx
-         dHhDqz8AV+ww1QH+CZKGrqsWA1cRorVvFiqjZmicr2eN0/oBPAfFfnRl6r2a5zL+wMac
-         UGwtRNf8jqTMNojHw2e30toFvvGOJ1ee25KYALeyGpdNWhrulhjYi1ZRfCDmfywTsqBh
-         ToQA+VG0iANMMQGGGDt4S2xM1MTPB6B65H+XtopNi0PnQy2ybXw7YqQtEpJIFB+4q446
-         7Vj1IGlMYob0fjrKUMOWfoYqIDOXXBA/p2y2p19YUYm262qzR/uJTkku3YBr2ItCIQR0
-         OxVQ==
-X-Gm-Message-State: AOAM533Nb2QkuJUGGkW1TGiv8eLNeOfUkTQlWi5VrQSuysEpMXEEN3g4
-        F/kxt0RVdPcS0xUv7nUyd/C3uDKPD0sUiw==
-X-Google-Smtp-Source: ABdhPJxfcJiP6e3pG1LiEAfAF5dLVDxXwJYl+kiyO2WxFqjRf6BA2lTAv1LUus/hlk6wsBIhMPjW5w==
-X-Received: by 2002:ac8:7d4a:0:b0:2f3:bbe2:f97f with SMTP id h10-20020ac87d4a000000b002f3bbe2f97fmr1592188qtb.355.1651735012120;
-        Thu, 05 May 2022 00:16:52 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id w24-20020ac87198000000b002f39b99f697sm426369qto.49.2022.05.05.00.16.50
+         :message-id:subject:to:cc;
+        bh=eYcDk46TN6nQtTEcA5D5pYs+CgfowD70wBO1ZsW6mP8=;
+        b=L5YkWRro6bHHIMO2DQyaPONTjmtw840QccTR/ymhRm+rNUTTbotKs/0DOPJMEDPJrN
+         IW70dci0F0726gpu+p8o1v+8Qfu6cO6uj8ywmwieZASI7FlA0B0XJewxIydsW6HuBfO/
+         DefmCDjEGro6eONFwVOelJlzB9jFFUwUkY5I7HtH/oLScgba1tX6DeTnIz2hiyErwFTJ
+         2Lkoi8a1heFdbE0UfM566/hk1O1M6ohAbE98qelqoD5V+pYWTASawYE/qZA8F0DHC/PT
+         uA4x+MRll03l+4tYCP0Qv7kQfMk8JHnJmC8bRYMKJrh9NBZ1JAu8xtfeQ52Pdi/vBevd
+         42yA==
+X-Gm-Message-State: AOAM533t16jQ5XpDFdeEtv8zRaKYh+nQOiqESdCnmBWJAjWP5scj4/o3
+        Ys5PZjzzk3GXSe2z/BGiqcd0fOp9FcMqiA==
+X-Google-Smtp-Source: ABdhPJyOZuEequcB5PiJHOlmJQogC11Tg7GcYThR8EwqrFR0Fa+kMufoO2PSj9ojQZ5XN0V0qyUGNQ==
+X-Received: by 2002:a05:622a:6184:b0:2f1:e213:9c7 with SMTP id hh4-20020a05622a618400b002f1e21309c7mr22374595qtb.467.1651735393797;
+        Thu, 05 May 2022 00:23:13 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id w27-20020ac84d1b000000b002f39b99f685sm452195qtv.31.2022.05.05.00.23.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 00:16:50 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id f38so6205971ybi.3;
-        Thu, 05 May 2022 00:16:50 -0700 (PDT)
-X-Received: by 2002:a05:6902:352:b0:63e:94c:883c with SMTP id
- e18-20020a056902035200b0063e094c883cmr19378252ybs.365.1651735010190; Thu, 05
- May 2022 00:16:50 -0700 (PDT)
+        Thu, 05 May 2022 00:23:13 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id s30so6188191ybi.8;
+        Thu, 05 May 2022 00:23:13 -0700 (PDT)
+X-Received: by 2002:a25:4506:0:b0:648:cfc2:301d with SMTP id
+ s6-20020a254506000000b00648cfc2301dmr20419980yba.380.1651735392873; Thu, 05
+ May 2022 00:23:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504093000.132579-1-clement.leger@bootlin.com> <20220504093000.132579-5-clement.leger@bootlin.com>
-In-Reply-To: <20220504093000.132579-5-clement.leger@bootlin.com>
+References: <20220504190609.94375-1-biju.das.jz@bp.renesas.com> <20220504190609.94375-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220504190609.94375-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 5 May 2022 09:16:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU1dF25eKeihBO3xRarW-acG0vUSggWfKOwG3v=7eN+bg@mail.gmail.com>
-Message-ID: <CAMuHMdU1dF25eKeihBO3xRarW-acG0vUSggWfKOwG3v=7eN+bg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 04/12] net: pcs: add Renesas MII converter driver
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Thu, 5 May 2022 09:23:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXGkd=fqvj7Yue7Q6RhuhrgxCrB5BhV-6Q4F3evY1g=qQ@mail.gmail.com>
+Message-ID: <CAMuHMdXGkd=fqvj7Yue7Q6RhuhrgxCrB5BhV-6Q4F3evY1g=qQ@mail.gmail.com>
+Subject: Re: [PATCH v10 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
@@ -90,83 +74,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Hi Biju,
 
-On Wed, May 4, 2022 at 11:31 AM Clément Léger <clement.leger@bootlin.com> wrote:
-> Add a PCS driver for the MII converter that is present on the Renesas
-> RZ/N1 SoC. This MII converter is reponsible for converting MII to
-> RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
-> reuse it in both the switch driver and the stmmac driver. Currently,
-> this driver only allows the PCS to be used by the dual Cortex-A7
-> subsystem since the register locking system is not used.
+On Wed, May 4, 2022 at 9:06 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> As the resets DT property is mandatory, and is present in all .dtsi
+> in mainline, add support to perform deassert/assert using reference
+> counted reset handle.
 >
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v9->v10:
+>  * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
 
-Thanks for your patch!
+Thanks for the update!
 
-> --- /dev/null
-> +++ b/drivers/net/pcs/pcs-rzn1-miic.c
-
-> +static int miic_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct miic *miic;
-> +       u32 mode_cfg;
-> +       int ret;
-> +
-> +       ret = miic_parse_dt(dev, &mode_cfg);
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -631,13 +633,21 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
+>         struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+>         int ret;
+>
+> +       ret = reset_control_deassert(vsp1->rstc);
 > +       if (ret < 0)
-> +               return -EINVAL;
-> +
-> +       miic = devm_kzalloc(dev, sizeof(*miic), GFP_KERNEL);
-> +       if (!miic)
-> +               return -ENOMEM;
-> +
-> +       spin_lock_init(&miic->lock);
-> +       miic->dev = dev;
-> +       miic->base = devm_platform_ioremap_resource(pdev, 0);
-> +       if (!miic->base)
-> +               return -EINVAL;
-> +
-> +       pm_runtime_enable(dev);
-> +       ret = pm_runtime_resume_and_get(dev);
-> +       if (ret < 0)
-
-Missing pm_runtime_disable(dev).
-
 > +               return ret;
 > +
-> +       ret = miic_init_hw(miic, mode_cfg);
-> +       if (ret)
-> +               goto disable_runtime_pm;
-> +
-> +       /* miic_create() relies on that fact that data are attached to the
-> +        * platform device to determine if the driver is ready so this needs to
-> +        * be the last thing to be done after everything is initialized
-> +        * properly.
-> +        */
-> +       platform_set_drvdata(pdev, miic);
-> +
-> +       return 0;
-> +
-> +disable_runtime_pm:
-> +       pm_runtime_put(dev);
+>         if (vsp1->info) {
+>                 ret = vsp1_device_init(vsp1);
+>                 if (ret < 0)
 
-Missing pm_runtime_disable(dev).
+Missing reset_control_assert().
 
+>                         return ret;
+>         }
+>
+> -       return rcar_fcp_enable(vsp1->fcp);
+> +       ret = rcar_fcp_enable(vsp1->fcp);
+> +       if (ret < 0)
+> +               reset_control_assert(vsp1->rstc);
 > +
 > +       return ret;
-> +}
-> +
-> +static int miic_remove(struct platform_device *pdev)
-> +{
-> +       pm_runtime_put(&pdev->dev);
-
-Missing pm_runtime_disable(dev).
-
-> +
-> +       return 0;
-> +}
+>  }
+>
+>  static const struct dev_pm_ops vsp1_pm_ops = {
 
 Gr{oetje,eeting}s,
 
