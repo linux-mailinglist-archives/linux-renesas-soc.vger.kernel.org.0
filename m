@@ -2,150 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E11F51C93C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 21:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F6051C95B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 21:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385161AbiEETgR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 15:36:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49358 "EHLO
+        id S1385286AbiEETog (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 15:44:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385172AbiEETgM (ORCPT
+        with ESMTP id S1385221AbiEETof (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 15:36:12 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0FAC65D194;
-        Thu,  5 May 2022 12:32:24 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,203,1647270000"; 
-   d="scan'208";a="120034550"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 May 2022 04:32:24 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A078440E166D;
-        Fri,  6 May 2022 04:32:20 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 4/4] clk: renesas: r9a07g043: Add support for RZ/Five SoC
-Date:   Thu,  5 May 2022 20:31:43 +0100
-Message-Id: <20220505193143.31826-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Thu, 5 May 2022 15:44:35 -0400
+Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CE85DA33
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 May 2022 12:40:52 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 674BB205EE8C
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 5/9] ravb: Support separate Line0 (Desc), Line1 (Err) and
+ Line2 (Mgmt) irqs
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com>
+ <20220504145454.71287-6-phil.edworthy@renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <80099a39-5727-85fd-1988-01cef8793cc2@omp.ru>
+Date:   Thu, 5 May 2022 22:40:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220504145454.71287-6-phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add minimal clock and resets entries required to boot RZ/Five SoC.
+On 5/4/22 5:54 PM, Phil Edworthy wrote:
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g043-cpg.c | 30 +++++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+> R-Car has a combined interrupt line, ch22 = Line0_DiA | Line1_A | Line2_A.
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index 27b47ecfe4d8..95ea639490ef 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -151,7 +151,7 @@ static const struct {
- static const struct {
- 	struct rzg2l_mod_clk common[54];
- #ifdef CONFIG_RISCV
--	struct rzg2l_mod_clk rzfive[0];
-+	struct rzg2l_mod_clk rzfive[2];
- #else
- 	struct rzg2l_mod_clk rzg2ul[3];
- #endif
-@@ -268,6 +268,10 @@ static const struct {
- 	},
- #ifdef CONFIG_RISCV
- 	.rzfive = {
-+		DEF_MOD("iax45_pclk",	R9A07G043_IAX45_PCLK, R9A07G043_CLK_P2,
-+					0x518, 0),
-+		DEF_MOD("iax45_clk",	R9A07G043_IAX45_CLK, R9A07G043_CLK_P1,
-+					0x518, 1),
- 	},
- #else
- 	.rzg2ul = {
-@@ -284,7 +288,7 @@ static const struct {
- static const struct {
- 	struct rzg2l_reset common[42];
- #ifdef CONFIG_RISCV
--	struct rzg2l_reset rzfive[0];
-+	struct rzg2l_reset rzfive[1];
- #else
- 	struct rzg2l_reset rzg2ul[3];
- #endif
-@@ -335,6 +339,7 @@ static const struct {
- 	},
- #ifdef CONFIG_RISCV
- 	.rzfive = {
-+		DEF_RST(R9A07G043_IAX45_RESETN, 0x818, 0),
- 	},
- #else
- 	.rzg2ul = {
-@@ -345,16 +350,27 @@ static const struct {
- #endif
- };
- 
-+#ifdef CONFIG_RISCV
-+static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
-+	MOD_CLK_BASE + R9A07G043_IAX45_CLK,
-+	MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
-+};
-+#else
- static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A07G043_GIC600_GICCLK,
- 	MOD_CLK_BASE + R9A07G043_IA55_CLK,
- 	MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
- };
-+#endif
- 
- const struct rzg2l_cpg_info r9a07g043_cpg_info = {
- 	/* Core Clocks */
- 	.core_clks = core_clks.common,
-+#ifdef CONFIG_RISCV
-+	.num_core_clks = ARRAY_SIZE(core_clks.common),
-+#else
- 	.num_core_clks = ARRAY_SIZE(core_clks.common) + ARRAY_SIZE(core_clks.rzg2ul),
-+#endif
- 	.last_dt_core_clk = LAST_DT_CORE_CLK,
- 	.num_total_core_clks = MOD_CLK_BASE,
- 
-@@ -364,10 +380,20 @@ const struct rzg2l_cpg_info r9a07g043_cpg_info = {
- 
- 	/* Module Clocks */
- 	.mod_clks = mod_clks.common,
-+#ifdef CONFIG_RISCV
-+	.num_mod_clks = ARRAY_SIZE(mod_clks.common) + ARRAY_SIZE(mod_clks.rzfive),
-+	.num_hw_mod_clks = R9A07G043_IAX45_PCLK + 1,
-+#else
-+
- 	.num_mod_clks = ARRAY_SIZE(mod_clks.common) + ARRAY_SIZE(mod_clks.rzg2ul),
- 	.num_hw_mod_clks = R9A07G043_TSU_PCLK + 1,
-+#endif
- 
- 	/* Resets */
- 	.resets = resets.common,
-+#ifdef CONFIG_RISCV
-+	.num_resets = ARRAY_SIZE(resets.common) + ARRAY_SIZE(resets.rzfive),
-+#else
- 	ARRAY_SIZE(resets.common) + ARRAY_SIZE(resets.rzg2ul),
-+#endif
- };
--- 
-2.25.1
+   R-Car gen3, you mean? Because R-Car gen2 has single IRQ...
 
+> RZ/V2M has separate interrupt lines for each of these, so add a feature
+> that allows the driver to get these interrupts and call the common handler.
+> 
+> We keep the "ch22" name for Line0_DiA and "ch24" for Line3 interrupts to
+> keep the code simple.
+
+   Not sure I agree with such simplification -- at least about "ch22"...
+
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index d0b9688074ca..f12a23b9c391 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -2167,6 +2184,10 @@ static int ravb_close(struct net_device *ndev)
+>  		free_irq(priv->rx_irqs[RAVB_BE], ndev);
+>  		free_irq(priv->emac_irq, ndev);
+>  	}
+> +	if (info->err_mgmt_irqs) {
+> +		free_irq(priv->erra_irq, ndev);
+> +		free_irq(priv->mgmta_irq, ndev);
+> +	}
+
+   Shouldn't this be under:
+
+	if (info->multi_irqs) {
+
+above?
+
+>  	free_irq(ndev->irq, ndev);
+>  
+>  	if (info->nc_queues)
+> @@ -2665,6 +2686,22 @@ static int ravb_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> +	if (info->err_mgmt_irqs) {
+> +		irq = platform_get_irq_byname(pdev, "err_a");
+> +		if (irq < 0) {
+> +			error = irq;
+> +			goto out_release;
+> +		}
+> +		priv->erra_irq = irq;
+> +
+> +		irq = platform_get_irq_byname(pdev, "mgmt_a");
+> +		if (irq < 0) {
+> +			error = irq;
+> +			goto out_release;
+> +		}
+> +		priv->mgmta_irq = irq;
+> +	}
+> +
+
+   Same here... 
+
+>  	priv->clk = devm_clk_get(&pdev->dev, NULL);
+>  	if (IS_ERR(priv->clk)) {
+>  		error = PTR_ERR(priv->clk);
+
+MBR, Sergey
