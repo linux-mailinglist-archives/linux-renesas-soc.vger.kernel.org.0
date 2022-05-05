@@ -2,122 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 975D851BC80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 11:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 146C351BC7C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 May 2022 11:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354273AbiEEJxu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 May 2022 05:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36180 "EHLO
+        id S229576AbiEEJxd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 May 2022 05:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231517AbiEEJxs (ORCPT
+        with ESMTP id S231517AbiEEJxc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 May 2022 05:53:48 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206F14F9F6;
-        Thu,  5 May 2022 02:50:08 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 72BC64000C;
-        Thu,  5 May 2022 09:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651744207;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xUjwIJpEfOXdIS7txS+q5utiDVgOIee83y+WNlMxJOM=;
-        b=Z+R6SO9jeWSlxn1vJ7ttjTVjgZr/uE6JODAS49E1voO6KnKAxyiZevbldheyhq2G6csPNL
-        XX57Dw+5SWkX9qU3VfE6ERnfa3rrBv3/2r372uxe4Jx7TgLjYbSwOGze7bhnveo8wNs8EW
-        Xq1eh1nhcfkwj6HZm7FjW90wEADAH6E+GDFOHrO5Er+REgp6DdT3VPN9yo6ZpvVf60mFcM
-        YXaCdLjdxidxKY3pIeXPkdJnG22fldwqzQFELY+XqrSI01D3w40Flf6TuLyAsjtC4NOp0f
-        DqaHZBvK+ThghqYwtfb5ErHuUHJRe0/UVsO3U1MqUADYgwcKhAnV96xZqbol9Q==
-Date:   Thu, 5 May 2022 11:48:46 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thu, 5 May 2022 05:53:32 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEFCC4F478;
+        Thu,  5 May 2022 02:49:52 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id y6so2759467qke.10;
+        Thu, 05 May 2022 02:49:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sFqOXoyJhFpGiMXq2WG9dzp6lvFfSIJKN8/+jdUWR3o=;
+        b=LmkwdV2sWRnvd1AlAoDW86TvM0OhhmXHSZfN6GAbizqT0HdQdOyjy6LF42s3seJPNC
+         L3xCkDVLcgoNATB2XMJa3alCePYJtkD1DiVMP2RE65N3IpqXfIgiwUD5cmSzrl0TZFXg
+         iFfBla/LloaCjGJbvQUXtnI59l+WWucIpPXbCfypda+/xEU4ZteIpvKV8aFPLIw8T93A
+         NWUMnx6bQ7hO8qVD5veSq/YjzR7uOPhwnRiAbyyS/Pyae06RJKs0d76Mlw/dHbtv7dnZ
+         9KNgxhf5mbZMxnD1IS2kx3H45U7pSq+JwwTzabKHoUWNlOtFT3fPEjgMLWdSlTymuEsA
+         Afcw==
+X-Gm-Message-State: AOAM532bqZLJlz1IW/3Ujcy/j90JzrYs0iTGydT1ufvxtuBsP9JTe8Mx
+        kta5baQllb35yiTsPBFC5w1HrO4vBqbw/g==
+X-Google-Smtp-Source: ABdhPJwUGbdntzAP5kDrIvyGjqRxYA7xkShLOLGDAQAeTo6rMw4e6/Th1UkaCYwOf7dSbSjOj35XdA==
+X-Received: by 2002:a05:620a:424c:b0:67d:2bad:4450 with SMTP id w12-20020a05620a424c00b0067d2bad4450mr18959132qko.171.1651744191755;
+        Thu, 05 May 2022 02:49:51 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id 191-20020a3705c8000000b0069fc13ce204sm557035qkf.53.2022.05.05.02.49.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 02:49:51 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-2f7b815ac06so42496277b3.3;
+        Thu, 05 May 2022 02:49:51 -0700 (PDT)
+X-Received: by 2002:a81:547:0:b0:2f8:6e8:19d7 with SMTP id 68-20020a810547000000b002f806e819d7mr23467070ywf.383.1651744190793;
+ Thu, 05 May 2022 02:49:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <73cea9d5e1a6639422c67e4df4285042e31c9fd5.1651497071.git.geert+renesas@glider.be>
+In-Reply-To: <73cea9d5e1a6639422c67e4df4285042e31c9fd5.1651497071.git.geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 5 May 2022 11:49:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWEKj1+jgnHtqkd3hiNfpqD8nUa3APo7jYikLVxv0=XdA@mail.gmail.com>
+Message-ID: <CAMuHMdWEKj1+jgnHtqkd3hiNfpqD8nUa3APo7jYikLVxv0=XdA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779a0: Update to R-Car Gen4
+ compatible values
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 00/12] add support for Renesas RZ/N1
- ethernet subsystem devices
-Message-ID: <20220505114846.67697021@fixe.home>
-In-Reply-To: <CAMuHMdXdGCebeGiDj-4hYH24tBVRVqGsHbPfEqfUGT88GZKZrw@mail.gmail.com>
-References: <20220504093000.132579-1-clement.leger@bootlin.com>
-        <CAMuHMdXdGCebeGiDj-4hYH24tBVRVqGsHbPfEqfUGT88GZKZrw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Thu, 5 May 2022 09:29:43 +0200,
-Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
+On Mon, May 2, 2022 at 3:35 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence update the compatible properties in various device nodes
+> to include family-specific compatible values for R-Car Gen4 instead of
+> R-Car Gen3:
+>   - DMAC,
+>   - (H)SCIF,
+>   - I2C,
+>   - IPMMU,
+>   - WDT.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Hi Cl=C3=A9ment,
->=20
-> On Wed, May 4, 2022 at 11:31 AM Cl=C3=A9ment L=C3=A9ger <clement.leger@bo=
-otlin.com> wrote:
-> > This series needs commits bcfb459b25b8 and 542d5835e4f6 which are on
-> > the renesas-devel tree in order to enable generic power domain on
-> > RZ/N1. =20
->=20
-> -ENOENT
->=20
-> I assume you mean:
-> 14f11da778ff6421 ("soc: renesas: rzn1: Select PM and
-> PM_GENERIC_DOMAINS configs")
-> ed66b37f916ee23b ("ARM: dts: r9a06g032: Add missing '#power-domain-cells'=
-")
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
 
-Yep totally, did use my cherry-picked sha1 -_-'. Will fix that, sorry.
+> @@ -2092,7 +2094,8 @@ rpc: spi@ee200000 {
+>                 };
+>
+>                 ipmmu_rt0: iommu@ee480000 {
+> -                       compatible = "renesas,ipmmu-r8a779a0";
+> +                       compatible = "renesas,ipmmu-r8a779a0",
+> +                                    "renesas,rcar-gen4-ipmmu";
 
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+renesas,rcar-gen4-ipmmu-vmsa
 
+Will fix while applying.
 
+>                         reg = <0 0xee480000 0 0x20000>;
+>                         renesas,ipmmu-main = <&ipmmu_mm 10>;
+>                         power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
