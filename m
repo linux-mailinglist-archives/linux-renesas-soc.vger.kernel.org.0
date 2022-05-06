@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F39FB51D4B1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 11:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F19851D4B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 11:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390690AbiEFJhF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 May 2022 05:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
+        id S1390619AbiEFJhL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 May 2022 05:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1390730AbiEFJg5 (ORCPT
+        with ESMTP id S1390729AbiEFJg5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 6 May 2022 05:36:57 -0400
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A6A86A010
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A0EE69CDD
         for <linux-renesas-soc@vger.kernel.org>; Fri,  6 May 2022 02:32:23 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:287c:a0f:7d45:dc7b])
         by michel.telenet-ops.be with bizsmtp
-        id TMYL270131UVucw06MYMkG; Fri, 06 May 2022 11:32:21 +0200
+        id TMYM270031UVucw06MYMkL; Fri, 06 May 2022 11:32:21 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nmuJw-0038XD-GT; Fri, 06 May 2022 11:32:20 +0200
+        id 1nmuJw-0038XE-Is; Fri, 06 May 2022 11:32:20 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nmuJv-00AekN-SE; Fri, 06 May 2022 11:32:19 +0200
+        id 1nmuJv-00AekT-Ss; Fri, 06 May 2022 11:32:19 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/5] Renesas ARM SoC updates for v5.19
-Date:   Fri,  6 May 2022 11:32:14 +0200
-Message-Id: <cover.1651828611.git.geert+renesas@glider.be>
+Subject: [GIT PULL 4/5] Renesas driver updates for v5.19 (take two)
+Date:   Fri,  6 May 2022 11:32:15 +0200
+Message-Id: <cover.1651828613.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651828600.git.geert+renesas@glider.be>
 References: <cover.1651828600.git.geert+renesas@glider.be>
@@ -49,36 +49,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+The following changes since commit 2f89bef90de4740be33b2cb4ba95e0107df0d25e:
 
-  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+  soc: renesas: Identify RZ/G2UL SoC (2022-04-04 11:01:53 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-soc-for-v5.19-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v5.19-tag2
 
-for you to fetch changes up to 7bc53f59fbcad34599c99d07d6be1ff01849d457:
+for you to fetch changes up to 27e7657a7cdc4b4a73bd5e4448e9ed733bae05c0:
 
-  ARM: shmobile: rcar-gen2: Drop comma after OF match table sentinel (2022-05-05 12:32:40 +0200)
+  soc: renesas: R-Car V3U is R-Car Gen4 (2022-05-05 12:31:22 +0200)
 
 ----------------------------------------------------------------
-Renesas ARM SoC updates for v5.19
+Renesas driver updates for v5.19 (take two)
 
-  - Drop commas after sentinels.
+  - Initial support for the R-Car V4H and RZ/V2M SoCs,
+  - Miscellaneous fixes and improvements.
 
 ----------------------------------------------------------------
 Geert Uytterhoeven (2):
-      ARM: shmobile: Drop commas after dt_compat sentinels
-      ARM: shmobile: rcar-gen2: Drop comma after OF match table sentinel
+      Merge tag 'renesas-r8a779g0-dt-binding-defs-tag' into renesas-drivers-for-v5.19
+      soc: renesas: R-Car V3U is R-Car Gen4
 
- arch/arm/mach-shmobile/regulator-quirk-rcar-gen2.c | 2 +-
- arch/arm/mach-shmobile/setup-emev2.c               | 2 +-
- arch/arm/mach-shmobile/setup-r7s72100.c            | 2 +-
- arch/arm/mach-shmobile/setup-r7s9210.c             | 2 +-
- arch/arm/mach-shmobile/setup-r8a73a4.c             | 2 +-
- arch/arm/mach-shmobile/setup-r8a7740.c             | 2 +-
- arch/arm/mach-shmobile/setup-r8a7778.c             | 2 +-
- arch/arm/mach-shmobile/setup-r8a7779.c             | 2 +-
- arch/arm/mach-shmobile/setup-rcar-gen2.c           | 4 ++--
- arch/arm/mach-shmobile/setup-sh73a0.c              | 2 +-
- 10 files changed, 11 insertions(+), 11 deletions(-)
+Herve Codina (1):
+      soc: renesas: rzn1: Select PM and PM_GENERIC_DOMAINS configs
+
+Phil Edworthy (1):
+      soc: renesas: Add RZ/V2M (R9A09G011) config option
+
+Yoshihiro Shimoda (5):
+      dt-bindings: power: Add r8a779g0 SYSC power domain definitions
+      dt-bindings: clock: Add r8a779g0 CPG Core Clock Definitions
+      soc: renesas: r8a779g0-sysc: Add r8a779g0 support
+      soc: renesas: Identify R-Car V4H
+      soc: renesas: rcar-rst: Add support for R-Car V4H
+
+ drivers/soc/renesas/Kconfig                   | 20 ++++++
+ drivers/soc/renesas/Makefile                  |  1 +
+ drivers/soc/renesas/r8a779g0-sysc.c           | 62 ++++++++++++++++++
+ drivers/soc/renesas/rcar-gen4-sysc.c          |  3 +
+ drivers/soc/renesas/rcar-gen4-sysc.h          |  1 +
+ drivers/soc/renesas/rcar-rst.c                |  1 +
+ drivers/soc/renesas/renesas-soc.c             | 10 ++-
+ include/dt-bindings/clock/r8a779g0-cpg-mssr.h | 90 +++++++++++++++++++++++++++
+ include/dt-bindings/power/r8a779g0-sysc.h     | 45 ++++++++++++++
+ 9 files changed, 232 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/soc/renesas/r8a779g0-sysc.c
+ create mode 100644 include/dt-bindings/clock/r8a779g0-cpg-mssr.h
+ create mode 100644 include/dt-bindings/power/r8a779g0-sysc.h
