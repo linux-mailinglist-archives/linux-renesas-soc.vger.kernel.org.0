@@ -2,101 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B607F51D202
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 09:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88FB951D21C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 09:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389411AbiEFHO4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 May 2022 03:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34846 "EHLO
+        id S1389461AbiEFHVE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 May 2022 03:21:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353349AbiEFHO4 (ORCPT
+        with ESMTP id S1389463AbiEFHVD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 May 2022 03:14:56 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C8E66C9F
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 May 2022 00:11:14 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id fu47so5324060qtb.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 May 2022 00:11:14 -0700 (PDT)
+        Fri, 6 May 2022 03:21:03 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08E466FA3;
+        Fri,  6 May 2022 00:17:21 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id eq14so4873608qvb.4;
+        Fri, 06 May 2022 00:17:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FaBoTxbndWvtJyrVKRmeaM3VoQdc7soHwh2HyGnfUP8=;
-        b=KXoUti2Qd0e07DY3cjLLTuo9vs6t1XEZxtNiaV6EUSpdhiUFBcuFw0f8s4okRH0DKX
-         pkqbe45HmHwhvnVHqFeWmo4f/MhW6e6w8ZO0yEATrcy9XlscW+upQOSpYe/OoPkpV+Av
-         8ghwQoAPFeanxmUdrSJGgMt8MnN55W3EdBXNJUvoZysHoSP2UyGdhn51o6gGHK/ph9zc
-         um0UMLyxPi4+Vy6sEis0xRRukafdP8mNqlPz9dkJKRpT2a2y3KDxX2HLQfo7laOleltH
-         Wy6lE5QOfTYsqvuBl1gKzdevYec5I5KzblzQEk1ZP9/g3lxwl01X8uM8bNOc1S3cBOWR
-         DQVA==
-X-Gm-Message-State: AOAM530bJoRfoIlmC+is8TIz8NamZVTl19IfxNgrQbhoJh/SNmjgRkXv
-        h8iyDHs5kRVo0v0mNu+6x3YTHvH5XQEOMw==
-X-Google-Smtp-Source: ABdhPJx5wDWDKGnFUJtBVKmmjZ6xMIo0EBnIHRGXYUJXckKiRgnP2b9xBpcudB5B4TX0aPny4cYKwQ==
-X-Received: by 2002:a05:622a:611:b0:2f3:8454:edcd with SMTP id z17-20020a05622a061100b002f38454edcdmr1500659qta.297.1651821072901;
-        Fri, 06 May 2022 00:11:12 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id s28-20020a05622a1a9c00b002f1f934bedfsm2405645qtc.3.2022.05.06.00.11.12
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=7gUvCTF+zeKrO8IXhhvoks9ehUWGZScLpF4J5EMWPB8=;
+        b=P9Y09TMYsGP5Sa49nvp8fv2JGQ6qvaz0VFisV/JJwZPD8fIT0zrOFPXYSfvPVZ67Lp
+         MVHwaKeYhhhZJRWiZIVOqv4Iou3Jp3fPJfiD9zUnx3P7ypbWCnDtS2CV9gy1lMIfOrsp
+         eCnqfVsW2YA10AE3B2OjhqA2to/Cx8/HMoB6VZP+HkeC30oPqEvPCCxb3bCQbZySIT9X
+         fYCbuiSopdNzabeDL0kKL90vxzKGP6suJ8xf0M4tC5ZalFFTouy5ekVMMLIbvvM/sdqS
+         jM0FZu66tT5YQmy28mmrKcxCv0tNp82smbxpKQFPfQ1NsIMeV55FvSZcSozpJ6ZUOXp7
+         JDBQ==
+X-Gm-Message-State: AOAM530LDTZYRB0qE2GSlaxBxxyXNvk3lBl5PoDVMxu/dzMj8KFQC8IS
+        HLrzaYzw80Sb+N4oUOOVThhh5kuiTY4hOw==
+X-Google-Smtp-Source: ABdhPJwNZeIyBW5WSdhqLXco8Z2k2Ug+MDLskdTc00IPsnzQm6QfmMHLxrdSkPBvN3B2vK9R+YmwsA==
+X-Received: by 2002:ad4:4387:0:b0:456:cf82:2b9c with SMTP id s7-20020ad44387000000b00456cf822b9cmr1513922qvr.57.1651821440309;
+        Fri, 06 May 2022 00:17:20 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id g13-20020a05620a40cd00b0069fc13ce1fasm2211931qko.43.2022.05.06.00.17.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 May 2022 00:11:12 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2ef5380669cso71694837b3.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 May 2022 00:11:12 -0700 (PDT)
-X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
- s12-20020a819b0c000000b002f4c5227d3cmr1470743ywg.316.1651821072171; Fri, 06
- May 2022 00:11:12 -0700 (PDT)
+        Fri, 06 May 2022 00:17:19 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id w187so11430621ybe.2;
+        Fri, 06 May 2022 00:17:19 -0700 (PDT)
+X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
+ bu5-20020a056902090500b0064a2089f487mr1303655ybb.202.1651821439212; Fri, 06
+ May 2022 00:17:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <202205061401.IHqhpmgm-lkp@intel.com>
-In-Reply-To: <202205061401.IHqhpmgm-lkp@intel.com>
+References: <20220505184037.511295-1-biju.das.jz@bp.renesas.com> <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 May 2022 09:11:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXtBL1NnizN=6o8rpoiEFPEj+ymrr8303LZkSTd99Dafg@mail.gmail.com>
-Message-ID: <CAMuHMdXtBL1NnizN=6o8rpoiEFPEj+ymrr8303LZkSTd99Dafg@mail.gmail.com>
-Subject: Re: [geert-renesas-drivers:renesas-clk-for-v5.19 46/47]
- drivers/clk/renesas/r9a09g011-cpg.c:118:9: sparse: sparse: Using plain
- integer as NULL pointer
-To:     kernel test robot <lkp@intel.com>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>, kbuild-all@lists.01.org,
+Date:   Fri, 6 May 2022 09:17:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVV=MB8xa-Q-c_aZx9LGrW=9aP9iC3P-FMRSf-HiovOzA@mail.gmail.com>
+Message-ID: <CAMuHMdVV=MB8xa-Q-c_aZx9LGrW=9aP9iC3P-FMRSf-HiovOzA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 6, 2022 at 8:56 AM kernel test robot <lkp@intel.com> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.19
-> head:   2e0e144796fb5cfa637384f1e3ffc045c40bc4ca
-> commit: 6bca154251df4bdc32391965a49d90e143f272ff [46/47] clk: renesas: Add RZ/V2M support using the rzg2l driver
-> config: parisc-randconfig-s032-20220506 (https://download.01.org/0day-ci/archive/20220506/202205061401.IHqhpmgm-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 11.3.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.4-dirty
->         # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=6bca154251df4bdc32391965a49d90e143f272ff
->         git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
->         git fetch --no-tags geert-renesas-drivers renesas-clk-for-v5.19
->         git checkout 6bca154251df4bdc32391965a49d90e143f272ff
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/clk/renesas/
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/clk/renesas/r9a09g011-cpg.c:118:9: sparse: sparse: Using plain integer as NULL pointer
+Hi Biju,
 
-Thanks, I will amend the offending commit.
+On Thu, May 5, 2022 at 8:40 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
+> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
+> on the RZ/G2L.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Started using generic compatible for RZ/G2UL and added SoC specific validation
+>    for channels.
+
+Thanks for the update!
+
+> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> @@ -74,18 +75,48 @@ patternProperties:
+>        Represents the external channels which are connected to the ADC.
+>
+>      properties:
+> -      reg:
+> -        description: |
+> -          The channel number. It can have up to 8 channels numbered from 0 to 7.
+> -        items:
+> -          - minimum: 0
+> -            maximum: 7
+> -
+> +      reg: true
+>      required:
+>        - reg
+>
+>      additionalProperties: false
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043-adc
+> +    then:
+> +      patternProperties:
+> +        "^channel@[0-7]$":
+
+[0-1]
+
+> +          type: object
+> +          properties:
+> +            reg:
+> +              description: |
+> +                The channel number. It can have up to 2 channels numbered from 0 to 1.
+> +              items:
+> +                - minimum: 0
+> +                  maximum: 1
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g044-adc
+> +              - renesas,r9a07g054-adc
+> +    then:
+> +      patternProperties:
+> +        "^channel@[0-7]$":
+> +          type: object
+> +          properties:
+> +            reg:
+> +              description: |
+> +                The channel number. It can have up to 8 channels numbered from 0 to 7.
+> +              items:
+> +                - minimum: 0
+> +                  maximum: 7
+> +
+>  additionalProperties: false
+>
+>  examples:
+
+The rest LGTM, but I'm wondering if more of the channel subnodes
+description can be factored out to the common part?
 
 Gr{oetje,eeting}s,
 
