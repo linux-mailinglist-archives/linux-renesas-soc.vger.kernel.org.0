@@ -2,125 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 819C751D1BD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 08:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B607F51D202
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 09:11:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243822AbiEFHAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 May 2022 03:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49540 "EHLO
+        id S1389411AbiEFHO4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 May 2022 03:14:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243243AbiEFHAe (ORCPT
+        with ESMTP id S1353349AbiEFHO4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 May 2022 03:00:34 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA42C10C
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  5 May 2022 23:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651820211; x=1683356211;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H/+B1lbKEsxoJP5le5i7EGVtD8MKRBqt5nVtBOHmbNU=;
-  b=UMj32f5KF2fFgUjITzjBsBeOGGLBigUou3HOMpj+Cwhpf45IdH7EEn3S
-   LwUQD+QVTYrci3Xyo0aUwf63+hS96zOaJ7jbQe1po2E7UOO/LlD8OHwV0
-   6/vUEgRPuDRdoHFgBK58PDUOH4W533dLaZDGdGU90QNSyvV5hwnhB9rVk
-   E+Yv1GjFvdUl1M8+BRNrMOmbqVRn3H9+6KF3jg6oJqUddYd2OQMWiwHYu
-   2nZtpuS/ed6xtOItDBmWqNdaOlImn4s1yGR7KwzHKZ1l/0fkIQAP6uPnB
-   2WUDupqD0iu2tJYVyJdd28PsqdHDI7nOhhMMtmtL3kpF4ieoFatYMuSBe
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="328917590"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="328917590"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 23:56:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="695033550"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 May 2022 23:56:50 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nmrtR-000DEe-G3;
-        Fri, 06 May 2022 06:56:49 +0000
-Date:   Fri, 6 May 2022 14:56:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     kbuild-all@lists.01.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [geert-renesas-drivers:renesas-clk-for-v5.19 46/47]
+        Fri, 6 May 2022 03:14:56 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C8E66C9F
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 May 2022 00:11:14 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id fu47so5324060qtb.5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 May 2022 00:11:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FaBoTxbndWvtJyrVKRmeaM3VoQdc7soHwh2HyGnfUP8=;
+        b=KXoUti2Qd0e07DY3cjLLTuo9vs6t1XEZxtNiaV6EUSpdhiUFBcuFw0f8s4okRH0DKX
+         pkqbe45HmHwhvnVHqFeWmo4f/MhW6e6w8ZO0yEATrcy9XlscW+upQOSpYe/OoPkpV+Av
+         8ghwQoAPFeanxmUdrSJGgMt8MnN55W3EdBXNJUvoZysHoSP2UyGdhn51o6gGHK/ph9zc
+         um0UMLyxPi4+Vy6sEis0xRRukafdP8mNqlPz9dkJKRpT2a2y3KDxX2HLQfo7laOleltH
+         Wy6lE5QOfTYsqvuBl1gKzdevYec5I5KzblzQEk1ZP9/g3lxwl01X8uM8bNOc1S3cBOWR
+         DQVA==
+X-Gm-Message-State: AOAM530bJoRfoIlmC+is8TIz8NamZVTl19IfxNgrQbhoJh/SNmjgRkXv
+        h8iyDHs5kRVo0v0mNu+6x3YTHvH5XQEOMw==
+X-Google-Smtp-Source: ABdhPJx5wDWDKGnFUJtBVKmmjZ6xMIo0EBnIHRGXYUJXckKiRgnP2b9xBpcudB5B4TX0aPny4cYKwQ==
+X-Received: by 2002:a05:622a:611:b0:2f3:8454:edcd with SMTP id z17-20020a05622a061100b002f38454edcdmr1500659qta.297.1651821072901;
+        Fri, 06 May 2022 00:11:12 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id s28-20020a05622a1a9c00b002f1f934bedfsm2405645qtc.3.2022.05.06.00.11.12
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 May 2022 00:11:12 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2ef5380669cso71694837b3.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 May 2022 00:11:12 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr1470743ywg.316.1651821072171; Fri, 06
+ May 2022 00:11:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <202205061401.IHqhpmgm-lkp@intel.com>
+In-Reply-To: <202205061401.IHqhpmgm-lkp@intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 6 May 2022 09:11:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXtBL1NnizN=6o8rpoiEFPEj+ymrr8303LZkSTd99Dafg@mail.gmail.com>
+Message-ID: <CAMuHMdXtBL1NnizN=6o8rpoiEFPEj+ymrr8303LZkSTd99Dafg@mail.gmail.com>
+Subject: Re: [geert-renesas-drivers:renesas-clk-for-v5.19 46/47]
  drivers/clk/renesas/r9a09g011-cpg.c:118:9: sparse: sparse: Using plain
  integer as NULL pointer
-Message-ID: <202205061401.IHqhpmgm-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     kernel test robot <lkp@intel.com>
+Cc:     Phil Edworthy <phil.edworthy@renesas.com>, kbuild-all@lists.01.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.19
-head:   2e0e144796fb5cfa637384f1e3ffc045c40bc4ca
-commit: 6bca154251df4bdc32391965a49d90e143f272ff [46/47] clk: renesas: Add RZ/V2M support using the rzg2l driver
-config: parisc-randconfig-s032-20220506 (https://download.01.org/0day-ci/archive/20220506/202205061401.IHqhpmgm-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=6bca154251df4bdc32391965a49d90e143f272ff
-        git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
-        git fetch --no-tags geert-renesas-drivers renesas-clk-for-v5.19
-        git checkout 6bca154251df4bdc32391965a49d90e143f272ff
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/clk/renesas/
+On Fri, May 6, 2022 at 8:56 AM kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.19
+> head:   2e0e144796fb5cfa637384f1e3ffc045c40bc4ca
+> commit: 6bca154251df4bdc32391965a49d90e143f272ff [46/47] clk: renesas: Add RZ/V2M support using the rzg2l driver
+> config: parisc-randconfig-s032-20220506 (https://download.01.org/0day-ci/archive/20220506/202205061401.IHqhpmgm-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 11.3.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=6bca154251df4bdc32391965a49d90e143f272ff
+>         git remote add geert-renesas-drivers https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+>         git fetch --no-tags geert-renesas-drivers renesas-clk-for-v5.19
+>         git checkout 6bca154251df4bdc32391965a49d90e143f272ff
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/clk/renesas/
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/clk/renesas/r9a09g011-cpg.c:118:9: sparse: sparse: Using plain integer as NULL pointer
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Thanks, I will amend the offending commit.
 
+Gr{oetje,eeting}s,
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/renesas/r9a09g011-cpg.c:118:9: sparse: sparse: Using plain integer as NULL pointer
+                        Geert
 
-vim +118 drivers/clk/renesas/r9a09g011-cpg.c
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-    99	
-   100	static const struct cpg_core_clk r9a09g011_core_clks[] __initconst = {
-   101		/* External Clock Inputs */
-   102		DEF_INPUT("extal",	CLK_EXTAL),
-   103	
-   104		/* Internal Core Clocks */
-   105		DEF_FIXED(".main",	CLK_MAIN,	CLK_EXTAL,	1,	1),
-   106		DEF_FIXED(".main_24",	CLK_MAIN_24,	CLK_MAIN,	1,	2),
-   107		DEF_FIXED(".main_2",	CLK_MAIN_2,	CLK_MAIN,	1,	24),
-   108		DEF_FIXED(".pll1",	CLK_PLL1,	CLK_MAIN_2,	498,	1),
-   109		DEF_FIXED(".pll2",	CLK_PLL2,	CLK_MAIN_2,	800,	1),
-   110		DEF_FIXED(".pll2_800",	CLK_PLL2_800,	CLK_PLL2,	1,	2),
-   111		DEF_FIXED(".pll2_400",	CLK_PLL2_400,	CLK_PLL2_800,	1,	2),
-   112		DEF_FIXED(".pll2_200",	CLK_PLL2_200,	CLK_PLL2_800,	1,	4),
-   113		DEF_FIXED(".pll2_100",	CLK_PLL2_100,	CLK_PLL2_800,	1,	8),
-   114		DEF_SAMPLL(".pll4",	CLK_PLL4,	CLK_MAIN_2,	PLL4_CONF),
-   115	
-   116		DEF_DIV_RO(".diva",	CLK_DIV_A,	CLK_PLL1,	DIV_A,	dtable_diva),
-   117		DEF_DIV_RO(".divb",	CLK_DIV_B,	CLK_PLL2_400,	DIV_B,	dtable_divb),
- > 118		DEF_DIV_RO(".dive",	CLK_DIV_E,	CLK_PLL2_100,	DIV_E,	0),
-   119		DEF_DIV_RO(".divw",	CLK_DIV_W,	CLK_PLL4,	DIV_W,	dtable_divw),
-   120	
-   121		DEF_MUX_RO(".selb",	CLK_SEL_B,	SEL_B,		sel_b),
-   122		DEF_MUX_RO(".sele",	CLK_SEL_E,	SEL_E,		sel_e),
-   123		DEF_MUX(".selw0",	CLK_SEL_W0,	SEL_W0,		sel_w),
-   124	
-   125		DEF_FIXED(".selb_d2",	CLK_SEL_B_D2,	CLK_SEL_B,	1,	2),
-   126	};
-   127	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
