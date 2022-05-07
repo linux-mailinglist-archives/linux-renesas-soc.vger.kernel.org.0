@@ -2,69 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9143B51E477
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 07:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC8651E47E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 07:43:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383321AbiEGFnB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 May 2022 01:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42108 "EHLO
+        id S1445713AbiEGFrA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 May 2022 01:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351869AbiEGFnA (ORCPT
+        with ESMTP id S1377055AbiEGFq6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 May 2022 01:43:00 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6533BBCD;
-        Fri,  6 May 2022 22:39:13 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2f7b815ac06so100464117b3.3;
-        Fri, 06 May 2022 22:39:13 -0700 (PDT)
+        Sat, 7 May 2022 01:46:58 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EE65BD15;
+        Fri,  6 May 2022 22:43:13 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id r11so16197372ybg.6;
+        Fri, 06 May 2022 22:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LYRdsO+0UlNlQ+DkmAIOZqldyfEk/u6PC/HY88MOfZU=;
-        b=c+4l6A8UWMG8n7Sn8ONMpc7+JtZAn2WbMIU8DdP4ZpDfap9Hs2Kj8bX4KgvBY2aBO7
-         W8gm5EYTOye4CKnCZirb99S8zDaY4iwd4YfzyWUUuoHX+o4PG1J7ZGhZUbl3Dhgr2yaG
-         NL4dlS1J7gC91dkN5C7tCydrViq9XnyHb1wKW9Ly9jJ8xcEFRc57+jRb5/ieVCAJSQAx
-         KFB8rR9OsUbfajQ9ex1IF7VQTJBU11f3IaE2EP70zU074+HTKLTBGtkzxdVADC9q4dZH
-         pbPrdJ188jMfNyp10mDCh2txqlMG1AKo2YJHZH9yUcbL3VkdDlC2IcqOsPhqx4qrVyOR
-         oGYA==
+        bh=IPe5l3hTT4WLd4gkCQ87tQ9p9+J36zEd8q/74JcdAxo=;
+        b=irpX9tiWLkNHAwFZRwUl8vhDzGQBGF60Wgi9GuckFUCpDWl6duGxqr7Pn10mtLIhG9
+         g8Bm749U/Qh5Wxplfcq4uzMHgXfTT9UUi6QH8vuNwpnrxhVaWcRq1WzRaMiDJW0ILgbr
+         sLStORWEChwi0Ts6GGHMwe2aO4AE5+d3cRAdeTqgYbsPQoxnAgrvkqoY1dCbx3pxNO/j
+         v9C4BivxcGOhOTHP3WXu/XxxA0xfyx2mhJ4DrN2rUctbKTuP9DjfEY00apflYbRFigdo
+         ktPyjjuRosNuKB+4dtbWiUDSneqVwDVYTcX9mDXwzBFs7qZmYGhW92AmwP+3aS/j0THt
+         hwWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LYRdsO+0UlNlQ+DkmAIOZqldyfEk/u6PC/HY88MOfZU=;
-        b=4cr/UObEQvXbKAmWp1aBxK7iJk+ZL/z+cnlHudwr40hKMEOBf62T8cxnzwHRfIHc4R
-         QbVmy8qe06WEHGqemfwxCBGoBMZ8Kgayvqy6MHm/CdS6JtYUfwBepBZ5RpS2Lz8SV7LN
-         0xt1wkLd1niZjMT+dDYKICB826hMC7rVLNRoulawXNQDweqsemdXdUiFs9FF+gBFK+gv
-         7s23lAMWd3e2htYUeBmZJzNrS+B8BFWNGeGUP8CJIWLhV5f1RStLNG/n3hJenaeIxDxq
-         T1qErsR7/HxvLGNBYu8e8Tt4PVZBfuV8VAxLcND7euJcQx9VLMdvGw9ozpUzLGufEBMo
-         jQJg==
-X-Gm-Message-State: AOAM533NpxIqb8gig610p/gwZVWoXD5WPlWO9h5MrrCbgp0lyMt2Lswz
-        Pp8ND6HQveun6bt0by1sIMB8SfrQhOD6nui08Ys=
-X-Google-Smtp-Source: ABdhPJyrHTSZ5/KuR98/r+1DH2SsqqSrkEbzQZ2r3/x0mf/RW9I1q9CL/9jTDr4d7KTicCYcUUWPTYPpghD5dsihfYg=
-X-Received: by 2002:a81:9210:0:b0:2f4:d8f7:98e9 with SMTP id
- j16-20020a819210000000b002f4d8f798e9mr5694090ywg.265.1651901952525; Fri, 06
- May 2022 22:39:12 -0700 (PDT)
+        bh=IPe5l3hTT4WLd4gkCQ87tQ9p9+J36zEd8q/74JcdAxo=;
+        b=7u5C8QgSCARZsrOC/4mn1ZzdVX2mv8c9HqIY0gw5RY/NCGlPh9JW2OvKVpmhTJ2KD7
+         83MwIKwPAmn3GvGxoN4vwAioYBz5F36aQ/43sUMd1OYsa2Vl0zRIV1x/0UB/5YA4fLLv
+         MOOGcZ22etrMDJIq2tR1AHoX/xKPRkStcC1yr1Mjf18RTySZcOnIzdtE+R8XhO6Ynnud
+         DAXddF59NRGbsYNaJrkn2uuxpiCb9py6e4Qx4dimStogmmOtAq8wbs8o45utmY6dWkLf
+         JqTBgZsNrZI4rdacnR/hqpcjwUw50KK+qJcfnEl8WrTQUV6fnHnf0bjGhXntMTZwFqoA
+         LjHQ==
+X-Gm-Message-State: AOAM531+afstr3+pWf+g4Zj1yEAfsx0jCOq8akF68eX+Mz9tXJ/mED4T
+        f5cDRq/oXlPO4B2MpHCl/fWSzjODFoMrAGUx2VE=
+X-Google-Smtp-Source: ABdhPJzrcTL9OaDhvmVkjommo1aJkZC9KNCM75+rbl8QHfgQBt2wFR7gRpn675ZNW+w0gfOjCOTsFlBzVu4NqqPMhYQ=
+X-Received: by 2002:a25:42cd:0:b0:645:d805:4fcb with SMTP id
+ p196-20020a2542cd000000b00645d8054fcbmr5226533yba.182.1651902192697; Fri, 06
+ May 2022 22:43:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220505184037.511295-1-biju.das.jz@bp.renesas.com> <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
+References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220505193143.31826-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB592225B5A5E1BA7D250C466786C29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8shz+Wbj84vjaw=_Sys1TW45HC2RMy4fy_5QBR-hvNGFg@mail.gmail.com> <TYCPR01MB59337E4D599F0E69D81E308086C59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB59337E4D599F0E69D81E308086C59@TYCPR01MB5933.jpnprd01.prod.outlook.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 7 May 2022 06:38:45 +0100
-Message-ID: <CA+V-a8ufv29KYREU3qhMx+hTRq=vTDO9vbHrsPQQE1Sm2NybWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
+Date:   Sat, 7 May 2022 06:42:46 +0100
+Message-ID: <CA+V-a8uAuhHsYVLJ9fpmKMK4mQ_=cN_WKRnGcgWxtV135h2iQw@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/4] clk: renesas: rzg2l-cpg: Add support to stack the
+ resets instead of indexing
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -78,98 +82,96 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-Thank you for the patch.
+On Fri, May 6, 2022 at 1:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>
+> Hi Prabhakar,
+> > Subject: Re: [RFC PATCH 2/4] clk: renesas: rzg2l-cpg: Add support to stack
+> > the resets instead of indexing
+> >
+> > Hi Biju,
+> >
+> > Thank you for the review.
+> >
+> > On Thu, May 5, 2022 at 8:48 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > >
+> > > Hi Lad Prabhakar,
+> > >
+> > > Thanks for the patch.
+> > >
+> > > > Subject: [RFC PATCH 2/4] clk: renesas: rzg2l-cpg: Add support to
+> > > > stack the resets instead of indexing
+> > > >
+> > > > Instead of indexing the resets, stack them and instead create an id
+> > > > member in struct rzg2l_reset to store the index. With this approach
+> > > > for every id we will have to loop through the resets array to match the
+> > id.
+> > > >
+> > > > This in preparation to add support for Renesas RZ/Five CPG in
+> > > > r9a07g043- cpg.c file where the resets array will be split up into
+> > > > three i.e. common and two SoC specific.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar
+> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > >  drivers/clk/renesas/rzg2l-cpg.c | 76
+> > > > ++++++++++++++++++++++++++------- drivers/clk/renesas/rzg2l-cpg.h |
+> > > > 4 +-
+> > > >  2 files changed, 63 insertions(+), 17 deletions(-)
+> > > >
+> > > > diff --git a/drivers/clk/renesas/rzg2l-cpg.c
+> > > > b/drivers/clk/renesas/rzg2l- cpg.c index 1ce35f65682b..94fe307ec4c5
+> > > > 100644
+> > > > --- a/drivers/clk/renesas/rzg2l-cpg.c
+> > > > +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> > > > @@ -681,14 +681,37 @@ rzg2l_cpg_register_mod_clk(const struct
+> > > > rzg2l_mod_clk *mod,
+> > > >
+> > > >  #define rcdev_to_priv(x)     container_of(x, struct rzg2l_cpg_priv,
+> > > > rcdev)
+> > > >
+> > > > +static const struct rzg2l_reset
+> > > > +*rzg2l_get_reset_ptr(struct rzg2l_cpg_priv *priv,
+> > > > +                  unsigned long id)
+> > > > +
+> > > > +{
+> > > > +     const struct rzg2l_cpg_info *info = priv->info;
+> > > > +     unsigned int i;
+> > > > +
+> > > > +     for (i = 0; i < priv->num_resets; i++) {
+> > > > +             if (info->resets[i].id == id)
+> > > > +                     return &info->resets[i];
+> > > > +     }
+> > >
+> > > Is it not possible to use shared reset like RZ/G2L and RZ/V2L?, which
+> > > has optimal memory and performance wise we can avoid bigger loop.
+> > >
+> > > Like adding Last index of RZ/Five as last reset index and Handle
+> > > RZ/G2UL specific as invalid reset index in xlate??
+> > >
+> > So we will have to maintain an array id's which are invalid to RZ/Five SoC.
+> > For this too we will have to loop at runtime itself. The array for invalid
+> > index will be big too.
+>
+> As per [1], it will be 25 resets.
+>
+> if you invalidate RZ/G2L specific resets in probe, there is no runtime overhead.
+> when a device match found, the info->reset_callback() which is mentioned in the next mail
+> and invalidate the resets(resets[id].off = 0)
+>
+Ahh right got that. I'll wait for Geert if he has more cunning ideas.
+If not I'll go with your suggested approach.
 
-On Fri, May 6, 2022 at 2:09 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> ie,
 >
-> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
-> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
-> on the RZ/G2L.
+> if(info->reset_callback)
+>  info->reset_callback();
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Started using generic compatible for RZ/G2UL and added SoC specific validation
->    for channels.
-> ---
->  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 45 ++++++++++++++++---
->  1 file changed, 38 insertions(+), 7 deletions(-)
+> and on r9a07g043-cpg.c, make resets[id].off = 0 to invalidate the resets.
 >
-> diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> index d66c24cae1e1..2da3538a3543 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
-> @@ -19,6 +19,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> +          - renesas,r9a07g043-adc   # RZ/G2UL
->            - renesas,r9a07g044-adc   # RZ/G2L
->            - renesas,r9a07g054-adc   # RZ/V2L
->        - const: renesas,rzg2l-adc
-> @@ -74,18 +75,48 @@ patternProperties:
->        Represents the external channels which are connected to the ADC.
->
->      properties:
-> -      reg:
-> -        description: |
-> -          The channel number. It can have up to 8 channels numbered from 0 to 7.
-> -        items:
-> -          - minimum: 0
-> -            maximum: 7
-> -
-> +      reg: true
->      required:
->        - reg
->
->      additionalProperties: false
->
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g043-adc
-> +    then:
-> +      patternProperties:
-> +        "^channel@[0-7]$":
-> +          type: object
-> +          properties:
-> +            reg:
-> +              description: |
-> +                The channel number. It can have up to 2 channels numbered from 0 to 1.
-> +              items:
-> +                - minimum: 0
-> +                  maximum: 1
+OK.
 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a07g044-adc
-> +              - renesas,r9a07g054-adc
-> +    then:
-
-Can the above hunk be replaced by else instead?
-
+> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/tree/include/dt-bindings/clock/r9a07g043-cpg.h
+>
+>
 Cheers,
 Prabhakar
-
-> +      patternProperties:
-> +        "^channel@[0-7]$":
-> +          type: object
-> +          properties:
-> +            reg:
-> +              description: |
-> +                The channel number. It can have up to 8 channels numbered from 0 to 7.
-> +              items:
-> +                - minimum: 0
-> +                  maximum: 7
-> +
->  additionalProperties: false
->
->  examples:
-> --
-> 2.25.1
->
