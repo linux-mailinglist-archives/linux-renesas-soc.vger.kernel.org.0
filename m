@@ -2,179 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5F6251E833
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 17:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CEF251E92C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 20:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238609AbiEGPkL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 May 2022 11:40:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55384 "EHLO
+        id S244753AbiEGSY5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 May 2022 14:24:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353125AbiEGPkE (ORCPT
+        with ESMTP id S230521AbiEGSY5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 May 2022 11:40:04 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id ED39424594
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  7 May 2022 08:36:16 -0700 (PDT)
-Received: (qmail 74593 invoked by uid 1000); 7 May 2022 11:36:16 -0400
-Date:   Sat, 7 May 2022 11:36:16 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-Message-ID: <YnaR8LaaPTdLTiok@rowland.harvard.edu>
-References: <YjeEbHL8ITkW692W@rowland.harvard.edu>
- <YmKt3kH+85kjzdbL@kroah.com>
- <YmSc29YZvxgT5fEJ@rowland.harvard.edu>
- <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
- <YmSpKpnWR8WWEk/p@rowland.harvard.edu>
- <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
- <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
- <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
- <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
- <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
+        Sat, 7 May 2022 14:24:57 -0400
+Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBB76154;
+        Sat,  7 May 2022 11:21:07 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 1A3322327E34
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH 2/9] dt-bindings: net: renesas,etheravb: Document RZ/V2M
+ SoC
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220504145454.71287-1-phil.edworthy@renesas.com>
+ <20220504145454.71287-3-phil.edworthy@renesas.com>
+Organization: Open Mobile Platform
+Message-ID: <d0c1800f-8826-207f-35a8-90d3a62a32fe@omp.ru>
+Date:   Sat, 7 May 2022 21:21:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220504145454.71287-3-phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 03, 2022 at 11:48:33AM -0400, Alan Stern wrote:
-> On Tue, May 03, 2022 at 05:27:08PM +0200, Geert Uytterhoeven wrote:
-> > Hi Alan,
-> > 
-> > On Tue, May 3, 2022 at 5:14 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > > On Tue, May 03, 2022 at 12:14:30PM +0200, Geert Uytterhoeven wrote:
-> > > > On Sat, 23 Apr 2022, Alan Stern wrote:
-> > > > > This patch adds a "gadget" bus and uses it for registering gadgets and
-> > > > > their drivers.  From now on, bindings will be managed by the driver
-> > > > > core rather than through ad-hoc manipulations in the UDC core.
-> > > > >
-> > > > > As part of this change, the driver_pending_list is removed.  The UDC
-> > > > > core won't need to keep track of unbound drivers for later binding,
-> > > > > because the driver core handles all of that for us.
-> > > > >
-> > > > > However, we do need one new feature: a way to prevent gadget drivers
-> > > > > from being bound to more than one gadget at a time.  The existing code
-> > > > > does this automatically, but the driver core doesn't -- it's perfectly
-> > > > > happy to bind a single driver to all the matching devices on the bus.
-> > > > > The patch adds a new bitflag to the usb_gadget_driver structure for
-> > > > > this purpose.
-> > > > >
-> > > > > A nice side effect of this change is a reduction in the total lines of
-> > > > > code, since now the driver core will do part of the work that the UDC
-> > > > > used to do.
-> > > > >
-> > > > > A possible future patch could add udc devices to the gadget bus, say
-> > > > > as a separate device type.
-> > > > >
-> > > > > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > > >
-> > > > Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
-> > > > gadget: Add a new bus for gadgets") in usb-next.
-> > > >
-> > > > This patch cause a regression on the Renesas Salvator-XS development
-> > > > board, as R-Car H3 has multiple USB gadget devices:
-> > >
-> > > Then these gadgets ought to have distinct names in order to avoid the
-> > > conflict below:
+Hello!
 
-Geert:
+On 5/4/22 5:54 PM, Phil Edworthy wrote:
 
-Can you test the patch below?  It ought to fix the problem (although it 
-might end up causing other problems down the line...)
+> Document the Ethernet AVB IP found on RZ/V2M SoC.
+> It includes the Ethernet controller (E-MAC) and Dedicated Direct memory
+> access controller (DMAC) for transferring transmitted Ethernet frames
+> to and received Ethernet frames from respective storage areas in the
+> URAM at high speed.
 
-Alan Stern
+   I think nobody knows what exactly URAM stands for... you better call it
+just RAM. :-)
 
+> The AVB-DMAC is compliant with IEEE 802.1BA, IEEE 802.1AS timing and
+> synchronization protocol, IEEE 802.1Qav real-time transfer, and the
+> IEEE 802.1Qat stream reservation protocol.
+> 
+> R-Car has a pair of combined interrupt lines:
+>  ch22 = Line0_DiA | Line1_A | Line2_A
+>  ch23 = Line0_DiB | Line1_B | Line2_B
+> Line0 for descriptor interrupts.
+> Line1 for error related interrupts (which we call err_a and err_b).
+> Line2 for management and gPTP related interrupts (mgmt_a and mgmt_b).
+> 
+> RZ/V2M hardware has separate interrupt lines for each of these, but
+> we keep the "ch22" name for Line0_DiA.
 
-Index: usb-devel/drivers/usb/gadget/udc/core.c
-===================================================================
---- usb-devel.orig/drivers/usb/gadget/udc/core.c
-+++ usb-devel/drivers/usb/gadget/udc/core.c
-@@ -12,6 +12,7 @@
- #include <linux/module.h>
- #include <linux/device.h>
- #include <linux/list.h>
-+#include <linux/idr.h>
- #include <linux/err.h>
- #include <linux/dma-mapping.h>
- #include <linux/sched/task_stack.h>
-@@ -23,6 +24,8 @@
- 
- #include "trace.h"
- 
-+static DEFINE_IDA(gadget_id_numbers);
-+
- static struct bus_type gadget_bus_type;
- 
- /**
-@@ -1248,7 +1251,6 @@ static void usb_udc_nop_release(struct d
- void usb_initialize_gadget(struct device *parent, struct usb_gadget *gadget,
- 		void (*release)(struct device *dev))
- {
--	dev_set_name(&gadget->dev, "gadget");
- 	INIT_WORK(&gadget->work, usb_gadget_state_work);
- 	gadget->dev.parent = parent;
- 
-@@ -1304,12 +1306,21 @@ int usb_add_gadget(struct usb_gadget *ga
- 	usb_gadget_set_state(gadget, USB_STATE_NOTATTACHED);
- 	udc->vbus = true;
- 
-+	ret = ida_alloc(&gadget_id_numbers, GFP_KERNEL);
-+	if (ret < 0)
-+		goto err_del_udc;
-+	gadget->id_number = ret;
-+	dev_set_name(&gadget->dev, "gadget.%d", ret);
-+
- 	ret = device_add(&gadget->dev);
- 	if (ret)
--		goto err_del_udc;
-+		goto err_free_id;
- 
- 	return 0;
- 
-+ err_free_id:
-+	ida_free(&gadget_id_numbers, gadget->id_number);
-+
-  err_del_udc:
- 	flush_work(&gadget->work);
- 	device_del(&udc->dev);
-@@ -1417,6 +1428,7 @@ void usb_del_gadget(struct usb_gadget *g
- 	kobject_uevent(&udc->dev.kobj, KOBJ_REMOVE);
- 	flush_work(&gadget->work);
- 	device_del(&gadget->dev);
-+	ida_free(&gadget_id_numbers, gadget->id_number);
- 	device_unregister(&udc->dev);
- }
- EXPORT_SYMBOL_GPL(usb_del_gadget);
-Index: usb-devel/include/linux/usb/gadget.h
-===================================================================
---- usb-devel.orig/include/linux/usb/gadget.h
-+++ usb-devel/include/linux/usb/gadget.h
-@@ -386,6 +386,7 @@ struct usb_gadget_ops {
-  * @lpm_capable: If the gadget max_speed is FULL or HIGH, this flag
-  *	indicates that it supports LPM as per the LPM ECN & errata.
-  * @irq: the interrupt number for device controller.
-+ * @id_number: a unique ID number for ensuring that gadget names are distinct
-  *
-  * Gadgets have a mostly-portable "gadget driver" implementing device
-  * functions, handling all usb configurations and interfaces.  Gadget
-@@ -446,6 +447,7 @@ struct usb_gadget {
- 	unsigned			connected:1;
- 	unsigned			lpm_capable:1;
- 	int				irq;
-+	int				id_number;
- };
- #define work_to_gadget(w)	(container_of((w), struct usb_gadget, work))
- 
+   Not sure I agree here...
+   BTW, aren't the interrupts called "Ethernet ABV.ch<n>" (as on R-Car gen3)
+in your (complete?) manual?
+
+> We also keep the "ch24" name for the Line3 (MAC) interrupt.
+> 
+> It has 3 clocks; the main AXI clock, the AMBA CHI clock and a gPTP
+
+   Could you spell out CHI like below?
+
+> reference clock.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+[...]
+
+MBR, Sergey
