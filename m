@@ -2,131 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B2E51D7F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 May 2022 14:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9143B51E477
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 07:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347171AbiEFMjc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 May 2022 08:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
+        id S1383321AbiEGFnB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 May 2022 01:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1392080AbiEFMjL (ORCPT
+        with ESMTP id S1351869AbiEGFnA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 May 2022 08:39:11 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C48011C1E;
-        Fri,  6 May 2022 05:35:24 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 574461C000E;
-        Fri,  6 May 2022 12:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651840523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=H2Bk3mQ20dGxFwnkKyvshpUua/wpum6W/dZbHZ7rm1Y=;
-        b=g9gnkmhIb6svEygm5WDSRv6YcrjnfsEQPpH8RsytHfDx0bynTua6C23Cnk+Qa3teGWjU8b
-        vc4shpPdG5xxiUh8mTSQNueJ3Iqi6V2/TfITKAk5ligg0xv2CAFTjFx659sM/X5RhVE/Ml
-        5122xb2Ph32OvMZNpRTT3rXOm0IqUUbwKqy0IuB+rvWgg/+4bJA3DGAkdnWhVj7rlJkhgx
-        XeoEfu/kz4i0FCSAtkLEkcIFgw9X+zXEQO9fnhpeZr/D1YU/sBLwKOFmNxmQKx9lAwwxX+
-        F5K5Qd0bi/nWcT10WT97TqyRu958m79YPralpcevRha3m+IYMMkygwUBDzfQpQ==
-Date:   Fri, 6 May 2022 14:35:18 +0200
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Sat, 7 May 2022 01:43:00 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6533BBCD;
+        Fri,  6 May 2022 22:39:13 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2f7b815ac06so100464117b3.3;
+        Fri, 06 May 2022 22:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LYRdsO+0UlNlQ+DkmAIOZqldyfEk/u6PC/HY88MOfZU=;
+        b=c+4l6A8UWMG8n7Sn8ONMpc7+JtZAn2WbMIU8DdP4ZpDfap9Hs2Kj8bX4KgvBY2aBO7
+         W8gm5EYTOye4CKnCZirb99S8zDaY4iwd4YfzyWUUuoHX+o4PG1J7ZGhZUbl3Dhgr2yaG
+         NL4dlS1J7gC91dkN5C7tCydrViq9XnyHb1wKW9Ly9jJ8xcEFRc57+jRb5/ieVCAJSQAx
+         KFB8rR9OsUbfajQ9ex1IF7VQTJBU11f3IaE2EP70zU074+HTKLTBGtkzxdVADC9q4dZH
+         pbPrdJ188jMfNyp10mDCh2txqlMG1AKo2YJHZH9yUcbL3VkdDlC2IcqOsPhqx4qrVyOR
+         oGYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LYRdsO+0UlNlQ+DkmAIOZqldyfEk/u6PC/HY88MOfZU=;
+        b=4cr/UObEQvXbKAmWp1aBxK7iJk+ZL/z+cnlHudwr40hKMEOBf62T8cxnzwHRfIHc4R
+         QbVmy8qe06WEHGqemfwxCBGoBMZ8Kgayvqy6MHm/CdS6JtYUfwBepBZ5RpS2Lz8SV7LN
+         0xt1wkLd1niZjMT+dDYKICB826hMC7rVLNRoulawXNQDweqsemdXdUiFs9FF+gBFK+gv
+         7s23lAMWd3e2htYUeBmZJzNrS+B8BFWNGeGUP8CJIWLhV5f1RStLNG/n3hJenaeIxDxq
+         T1qErsR7/HxvLGNBYu8e8Tt4PVZBfuV8VAxLcND7euJcQx9VLMdvGw9ozpUzLGufEBMo
+         jQJg==
+X-Gm-Message-State: AOAM533NpxIqb8gig610p/gwZVWoXD5WPlWO9h5MrrCbgp0lyMt2Lswz
+        Pp8ND6HQveun6bt0by1sIMB8SfrQhOD6nui08Ys=
+X-Google-Smtp-Source: ABdhPJyrHTSZ5/KuR98/r+1DH2SsqqSrkEbzQZ2r3/x0mf/RW9I1q9CL/9jTDr4d7KTicCYcUUWPTYPpghD5dsihfYg=
+X-Received: by 2002:a81:9210:0:b0:2f4:d8f7:98e9 with SMTP id
+ j16-20020a819210000000b002f4d8f798e9mr5694090ywg.265.1651901952525; Fri, 06
+ May 2022 22:39:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220505184037.511295-1-biju.das.jz@bp.renesas.com> <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 7 May 2022 06:38:45 +0100
+Message-ID: <CA+V-a8ufv29KYREU3qhMx+hTRq=vTDO9vbHrsPQQE1Sm2NybWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio <linux-iio@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v5 2/6] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
- device tree support for r9a06g032
-Message-ID: <20220506143518.3ed9765b@bootlin.com>
-In-Reply-To: <CAMuHMdVv-qCTyMQzr8ALCP-UmojZe9=NOrExPieJNV2300yzbQ@mail.gmail.com>
-References: <20220429134143.628428-1-herve.codina@bootlin.com>
-        <20220429134143.628428-4-herve.codina@bootlin.com>
-        <29ba3db6-e5c7-06d3-29d9-918ee5b34555@linaro.org>
-        <CAMuHMdWN_ni_V+e3QipWH2qKXeNPkEcVpHpb5iBYw1YQSAnCDA@mail.gmail.com>
-        <YnA0id1rXlNHNz+N@robh.at.kernel.org>
-        <CAMuHMdWktaRAw8Y6TR93_rH8v4mPR2yt3wGqeXeTA2p_Dh--wA@mail.gmail.com>
-        <5a89e9bf-1004-500a-75e1-995732629937@linaro.org>
-        <CAMuHMdVv-qCTyMQzr8ALCP-UmojZe9=NOrExPieJNV2300yzbQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+Hi Biju,
 
-On Tue, 3 May 2022 11:37:31 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Thank you for the patch.
 
-> Hi Krzysztof,
->=20
-> On Tue, May 3, 2022 at 11:29 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
-> > On 03/05/2022 08:51, Geert Uytterhoeven wrote: =20
-> > >>>> This should not be a reason why a property is or is not required. =
-Either
-> > >>>> this is required for device operation or not. If it is required, s=
-hould
-> > >>>> be in the bindings. Otherwise what are you going to do in the futu=
-re?
-> > >>>> Add a required property breaking the ABI? =20
-> > >>>
-> > >>> The problem is that there are no bindings for the reset controller
-> > >>> (actually the reset controller feature of the system-controller) ye=
-t.
-> > >>> Yeah, we can just add #reset-cells =3D <1> to the system-controller
-> > >>> device node, but we cannot add the actual resets properties to the
-> > >>> consumers, until the actual cell values are defined. =20
-> > >>
-> > >> Sounds like you should implement providers first. Or just live with =
-the
-> > >> warning as a reminder to implement the reset provider? =20
-> > >
-> > > I'd go for the latter. The upstream r9a06g032.dtsi is still under act=
-ive
-> > > development. Until very recently, the only device supported was the
-> > > serial console. =20
-> >
-> > For clocks we use in such cases fixed-clock placeholders or empty
-> > phandles. Maybe something like that would work here as well? =20
->=20
-> I don't think that works for resets.
-> Besides, the driver doesn't need or use the reset anyway.
->=20
+On Fri, May 6, 2022 at 2:09 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>
+> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
+> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
+> on the RZ/G2L.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Started using generic compatible for RZ/G2UL and added SoC specific validation
+>    for channels.
+> ---
+>  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 45 ++++++++++++++++---
+>  1 file changed, 38 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> index d66c24cae1e1..2da3538a3543 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> @@ -19,6 +19,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043-adc   # RZ/G2UL
+>            - renesas,r9a07g044-adc   # RZ/G2L
+>            - renesas,r9a07g054-adc   # RZ/V2L
+>        - const: renesas,rzg2l-adc
+> @@ -74,18 +75,48 @@ patternProperties:
+>        Represents the external channels which are connected to the ADC.
+>
+>      properties:
+> -      reg:
+> -        description: |
+> -          The channel number. It can have up to 8 channels numbered from 0 to 7.
+> -        items:
+> -          - minimum: 0
+> -            maximum: 7
+> -
+> +      reg: true
+>      required:
+>        - reg
+>
+>      additionalProperties: false
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043-adc
+> +    then:
+> +      patternProperties:
+> +        "^channel@[0-7]$":
+> +          type: object
+> +          properties:
+> +            reg:
+> +              description: |
+> +                The channel number. It can have up to 2 channels numbered from 0 to 1.
+> +              items:
+> +                - minimum: 0
+> +                  maximum: 1
 
-Finally, related to the "resets" property, what should I do ?
- (a) Keep the property as not required an change the commit log
- (b) Set the property as required and live with a warning (Rob's suggestion)
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r9a07g044-adc
+> +              - renesas,r9a07g054-adc
+> +    then:
 
-Regards,
-Herv=C3=A9
+Can the above hunk be replaced by else instead?
 
---=20
-Herv=C3=A9 Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+Prabhakar
+
+> +      patternProperties:
+> +        "^channel@[0-7]$":
+> +          type: object
+> +          properties:
+> +            reg:
+> +              description: |
+> +                The channel number. It can have up to 8 channels numbered from 0 to 7.
+> +              items:
+> +                - minimum: 0
+> +                  maximum: 7
+> +
+>  additionalProperties: false
+>
+>  examples:
+> --
+> 2.25.1
+>
