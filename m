@@ -2,179 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D39951EA4C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 May 2022 23:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1348751EB13
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 May 2022 04:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348682AbiEGVU3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 May 2022 17:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
+        id S1383200AbiEHCq4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 May 2022 22:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245719AbiEGVU2 (ORCPT
+        with ESMTP id S1447104AbiEHCqt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 May 2022 17:20:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E392725;
-        Sat,  7 May 2022 14:16:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92EA255A;
-        Sat,  7 May 2022 23:16:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1651958198;
-        bh=0u6Nhc0or9xRfJWPbcM5/kKi6F21aec1hOKBvq4cBQ4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wiR63Nj4Cl55Yreue2H3lXeDIcDrpozrcPId50miZijffKwwcTDzbjoQRk0U+uL3M
-         XuoH0AhBbjkDc57AWlYYZk15qaEdbySPLrme2ohnrXdqWiNm9WE53zpVigv7L2UZpY
-         r/qbFyLrwyVYfTET586Fq5qUoHqTJ1rd/VSqm/aw=
-Date:   Sun, 8 May 2022 00:16:34 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l: vsp1: Fix offset calculation for plane
- cropping
-Message-ID: <YnbhsjznA3IZmtoU@pendragon.ideasonboard.com>
-References: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
- <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
- <20220419102215.GA46023@vmlxhi-121.adit-jv.com>
- <20220506095821.GA120301@vmlxhi-121.adit-jv.com>
+        Sat, 7 May 2022 22:46:49 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A250A2194
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  7 May 2022 19:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651977779; x=1683513779;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+/HZhihVbDEYlgLAXN9viHrRO2UcQSPajPllNCFKMZk=;
+  b=ZI8Dc/qJOK0612lPskzhAH154pUKf+P25lwYQqN+ADlyC7nlwx/+Ppj9
+   Q8/fSNAARvQq/Q+bTiuSAQhPn1CkFW9IZGnYV0yaHqwISIliYtdOdKEqI
+   WcdZBPRyJeYGVnyvhuUUYhfs4IDbruIWgCTgVybsi7SikKvhl7OuBLg2/
+   DojQrOtT8BwtSeSJD/rftalq3FEV5h/+UsQrXVGaY6ORRGhMOF3wcstWK
+   MMKtRlmJ11mLSKAN9FuDVl71MxAF4I0PV0KK0hpxxyC65p+INB9IYKUfd
+   yd+ziud+/DhLWqUDN5EbRrnNE8ol5eZXcsR8m4jWlHZ6ruZ82uffKp+VN
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10340"; a="266371450"
+X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
+   d="scan'208";a="266371450"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2022 19:42:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
+   d="scan'208";a="892446771"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 07 May 2022 19:42:45 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nnWsf-000FBU-55;
+        Sun, 08 May 2022 02:42:45 +0000
+Date:   Sun, 08 May 2022 10:42:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ 73738e3f3a1ddc060ffa371deea2f1b2b4c2a440
+Message-ID: <62772e1f.iY7ZXRzLEsd6/EvL%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220506095821.GA120301@vmlxhi-121.adit-jv.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Michael,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: 73738e3f3a1ddc060ffa371deea2f1b2b4c2a440  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-On Fri, May 06, 2022 at 11:58:21AM +0200, Michael Rodin wrote:
-> Hi Laurent,
-> 
-> do you see any open points for this patch? If not, do you know maybe when
-> it will be available on linux-media or maybe mainline branch?
+elapsed time: 6272m
 
-I've just sent a pull request that includes this fix, I hope it will
-make it to v5.19.
+configs tested: 119
+configs skipped: 3
 
-> On Tue, Apr 19, 2022 at 12:22:15PM +0200, Michael Rodin wrote:
-> > On Thu, Apr 14, 2022 at 05:20:14PM +0300, Laurent Pinchart wrote:
-> > > Hi Michael,
-> > > 
-> > > Your previous mail slipped through the cracks, sorry about that.
-> > > 
-> > > On Wed, Mar 02, 2022 at 12:00:12PM +0100, Michael Rodin wrote:
-> > > > Hi Laurent,
-> > > > 
-> > > > thank you for your work!
-> > > > 
-> > > > On Mon, Feb 28, 2022 at 02:00:58PM +0200, Laurent Pinchart wrote:
-> > > > > From: Michael Rodin <mrodin@de.adit-jv.com>
-> > > > > 
-> > > > > The vertical subsampling factor is currently not considered in the
-> > > > > offset calculation for plane cropping done in rpf_configure_partition.
-> > > > > This causes a distortion (shift of the color plane) when formats with
-> > > > > the vsub factor larger than 1 are used (e.g. NV12, see
-> > > > > vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
-> > > > > for all planes except plane 0 (luminance).
-> > > > > 
-> > > > > Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
-> > > > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > > > Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> > > > > 
-> > > > > Drop generalization of the offset calculation to reduce the binary size.
-> > > > 
-> > > > Dropping generalization which I have done in my initial patch [1] is ok as
-> > > > long as this will not cause any troubles. I am not aware of any case where
-> > > > bytesperline and bpp could be different between the chroma planes, so
-> > > > probably it's fine.
-> > > > 
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > ---
-> > > > >  drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
-> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > > index 85587c1b6a37..75083cb234fe 100644
-> > > > > --- a/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > > +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > > > > @@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> > > > >  		     + crop.left * fmtinfo->bpp[0] / 8;
-> > > > >  
-> > > > >  	if (format->num_planes > 1) {
-> > > > > +		unsigned int bpl = format->plane_fmt[1].bytesperline;
-> > > > >  		unsigned int offset;
-> > > > >  
-> > > > > -		offset = crop.top * format->plane_fmt[1].bytesperline
-> > > > > -		       + crop.left / fmtinfo->hsub
-> > > > > -		       * fmtinfo->bpp[1] / 8;
-> > > > > +		offset = crop.top / fmtinfo->vsub * bpl
-> > > > > +		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> > > > 
-> > > > Probably it makes sense to do the division after all multiplications are
-> > > > done in order to avoid rounding errors? Consider the case when left = 3,
-> > > > hsub = 2, bpp = 32. Then we would get for the second part of the offset:
-> > > >   3 / 2 * 32 / 8 = 1 * 32 / 8 = 4
-> > > > and if we do division as the last operation:
-> > > >   (3 * 32) / (8 * 2) = 96 / 16 = 6
-> > > 
-> > > This was actually done on purpose :-) If the horizontal subsampling
-> > > factor is equal to 2, for instance for the NV12 chroma plane, the
-> > > horizontal offset must effectively be a multiple of 2. Otherwise you'll
-> > > swap the Cr and Cb components.
-> > > 
-> > > Taking your above example with a NV12 format (left=3, hsub=2, but
-> > > bpp=16), with the rounding in this patch,
-> > > 
-> > > 	offset = crop.top / fmtinfo->vsub * bpl
-> > > 	       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> > > 	       = [vertical offset]
-> > > 	       + 3 / 2 * 16 / 8;
-> > > 	       = [vertical offset]
-> > > 	       + 2;
-> > > 
-> > > Byte: 0  1  2  3  4  5
-> > >       Cr Cb Cr Cb Cr Cb ...
-> > >             ^
-> > >             offset
-> > > 
-> > > With your rounding proposal,
-> > > 
-> > > 	offset = crop.top / fmtinfo->vsub * bpl
-> > > 	       + (crop.left * fmtinfo->bpp[1]) / (fmtinfo->hsub * 8);
-> > > 	       = [vertical offset]
-> > > 	       + (3 * 16) / (2 * 8);
-> > > 	       = [vertical offset]
-> > > 	       + 3;
-> > > 
-> > > Byte: 0  1  2  3  4  5
-> > >       Cr Cb Cr Cb Cr Cb ...
-> > >                ^
-> > >                offset
-> > 
-> > Thank you very much for the clarification, I have missed this point!
-> > Now the patch looks fine to me.
-> > 
-> > Reviewed-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > 
-> > > > The first part of the offset can probably also cause the same rounding
-> > > > issue.
-> > > > 
-> > > > >  		mem.addr[1] += offset;
-> > > > >  		mem.addr[2] += offset;
-> > > > >  	}
-> > > > > 
-> > > > 
-> > > > [1] https://lore.kernel.org/all/1637679566-2D76975-1-git-send-email-mrodin-40de.adit-jv.com/T/
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+arm64                               defconfig
+i386                          randconfig-c001
+mips                           jazz_defconfig
+sh                            titan_defconfig
+ia64                        generic_defconfig
+arm                      integrator_defconfig
+microblaze                          defconfig
+mips                         cobalt_defconfig
+arm                            pleb_defconfig
+powerpc                      tqm8xx_defconfig
+ia64                          tiger_defconfig
+arm                          lpd270_defconfig
+powerpc                      pasemi_defconfig
+powerpc                      mgcoge_defconfig
+arm                       aspeed_g5_defconfig
+m68k                            mac_defconfig
+arc                        nsimosci_defconfig
+arm                  randconfig-c002-20220501
+x86_64                        randconfig-c001
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+alpha                               defconfig
+csky                                defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allyesconfig
+parisc64                            defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220501
+s390                 randconfig-r044-20220501
+riscv                randconfig-r042-20220501
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+powerpc              randconfig-c003-20220501
+arm                  randconfig-c002-20220501
+x86_64                        randconfig-c007
+mips                 randconfig-c004-20220501
+i386                          randconfig-c001
+riscv                randconfig-c006-20220501
+s390                 randconfig-c005-20220501
+arm                      tct_hammer_defconfig
+mips                            e55_defconfig
+arm                         hackkit_defconfig
+arm                        magician_defconfig
+powerpc                   lite5200b_defconfig
+powerpc                        icon_defconfig
+mips                     cu1000-neo_defconfig
+powerpc                     tqm8540_defconfig
+powerpc                      katmai_defconfig
+powerpc                 mpc8560_ads_defconfig
+arm                        multi_v5_defconfig
+powerpc                     kmeter1_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64               randconfig-a011-20220502
+x86_64               randconfig-a012-20220502
+x86_64               randconfig-a013-20220502
+x86_64               randconfig-a014-20220502
+x86_64               randconfig-a016-20220502
+x86_64               randconfig-a015-20220502
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220501
+hexagon              randconfig-r041-20220501
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
