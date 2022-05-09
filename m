@@ -2,103 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D88A5200B3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 17:06:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB2A7520127
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 17:34:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237939AbiEIPJF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 May 2022 11:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45168 "EHLO
+        id S238437AbiEIPiZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 May 2022 11:38:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237911AbiEIPJD (ORCPT
+        with ESMTP id S238435AbiEIPiY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 May 2022 11:09:03 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id A4A9F201E8D
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  9 May 2022 08:05:07 -0700 (PDT)
-Received: (qmail 126511 invoked by uid 1000); 9 May 2022 11:05:06 -0400
-Date:   Mon, 9 May 2022 11:05:06 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
+        Mon, 9 May 2022 11:38:24 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82264231C9B;
+        Mon,  9 May 2022 08:34:30 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id BC631FF804;
+        Mon,  9 May 2022 15:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652110469;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5KLuJlfNEA5Fbzc0NZoL/MBREpZ4szczQ+9JCfaD3NQ=;
+        b=PL0vubCc5JiqT/rNnrn6CLfeOz8ceMyyGjJByHomeB+MrDwcanoPmdG4jr2hvLzAdshhrw
+        Hh+zBfc/KwdW02sYBG+yGBs9US0CJLUaD2iCp/xyyZTDD3hwaU44OKB2dY8tgRvxRUNH6z
+        4SOCmxt/URhi5TR2ix8H4gxKMSmcFBUq6G0ViYZ+9ZO7bfPjIus3b1NZhiaJkVE/+FPSOg
+        NFDlaTPcgbTyGhMaKRAAeXa3VMHyoBn63lQYiDuYW+bmpLDfIl1o61PHrmBcspF7Uby8lF
+        UI5nEEerrxJzH7eR1VHHfYCTh5jn3UFFr9YWUANcjAfiktQB2iHWfrTBiu5f2Q==
+Date:   Mon, 9 May 2022 17:34:24 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
+Cc:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-Message-ID: <YnktokC8Uk9j53yO@rowland.harvard.edu>
-References: <YmSpKpnWR8WWEk/p@rowland.harvard.edu>
- <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
- <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
- <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
- <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
- <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
- <YnaR8LaaPTdLTiok@rowland.harvard.edu>
- <CAMuHMdUpOiHHMktPk_-NauDW2ufvGThnkFU7Pok376pM6OEyYw@mail.gmail.com>
- <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
- <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 3/3] mtd: rawnand: renesas: Use runtime PM instead of
+ the raw clock API
+Message-ID: <20220509173424.75ec0d1a@xps13>
+In-Reply-To: <CAMuHMdVnx3O15aQw4Oxw-hfPZFUidMGQ_5HfQun9m_fKkAnm3w@mail.gmail.com>
+References: <20220429105229.368728-1-miquel.raynal@bootlin.com>
+        <20220429105229.368728-4-miquel.raynal@bootlin.com>
+        <CAMuHMdVnx3O15aQw4Oxw-hfPZFUidMGQ_5HfQun9m_fKkAnm3w@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 09, 2022 at 04:42:01PM +0200, Geert Uytterhoeven wrote:
-> Hi Alan,
-> 
-> On Mon, May 9, 2022 at 4:15 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > On Mon, May 09, 2022 at 09:46:25AM +0200, Geert Uytterhoeven wrote:
-> > > > Geert:
-> > > >
-> > > > Can you test the patch below?  It ought to fix the problem (although it
-> > >
-> > > Thanks!
-> > >
-> > > root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
-> > > total 0
-> > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.0 ->
-> > > ../../../devices/platform/soc/e659c000.usb/gadget.0
-> > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.1 ->
-> > > ../../../devices/platform/soc/ee020000.usb/gadget.1
-> > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.2 ->
-> > > ../../../devices/platform/soc/e6590000.usb/gadget.2
-> > >
-> > > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > LGTM, so
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Thanks!
-> >
-> > > > might end up causing other problems down the line...)
-> > >
-> > > Can you please elaborate? I'm not too familiar with UBS gadgets.
-> >
-> > I was concerned about the fact that changing the name of a file,
-> > directory, or symbolic link in sysfs means changing a user API, and so
-> > it might cause some existing programs to fail.  That would be a
-> > regression.
-> >
-> > Perhaps the best way to work around the problem is to leave the name set
-> > to "gadget" if the ID number is 0, while adding the ID number on to the
-> > name if the value is > 0.  What do you think?
-> 
-> Oh, you mean the "gadget.N" subdirs, which are the targets of the
-> symlinks above? These were indeed named "gadget" before.
-> 
-> Would it be possible to append the ".N" suffixes only to the actual
-> symlinks, while keeping the target directory names unchanged?
-> E.g. /sys/bus/gadget/devices/gadget.0 ->
-> ../../../devices/platform/soc/e659c000.usb/gadget
+Hi Geert,
 
-No, it's not possible.  Or at least, not without significant changes to 
-the driver core.  Besides, people expect these names to be the same.
 
-Alan Stern
+> >         ret =3D dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+> >         if (ret)
+> > -               goto disable_eclk;
+> > +               return ret;
+> > +
+> > +       pm_runtime_enable(&pdev->dev);
+> > +       pm_runtime_get_sync(&pdev->dev); =20
+>=20
+> ret =3D pm_runtime_resume_and_get)...);
+> if (ret < 0) ...
+
+I also changed the enable call to use devm_pm_runtime_enable() and
+dropped the calls to pm_runtime_disable() below (same in the RTC
+driver).
+
+>=20
+> > +
+> > +       /* The external NAND bus clock rate is needed for computing tim=
+ings */
+> > +       eclk =3D clk_get(&pdev->dev, "eclk");
+> > +       if (IS_ERR(eclk)) {
+> > +               ret =3D PTR_ERR(eclk);
+> > +               goto dis_runtime_pm;
+> > +       }
+> > +
+> > +       rnandc->ext_clk_rate =3D clk_get_rate(eclk);
+> > +       clk_put(eclk);
+> >
+
+Thanks,
+Miqu=C3=A8l
