@@ -2,57 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C0B52016D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 17:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBDB552018F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 17:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238578AbiEIPuY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 May 2022 11:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45792 "EHLO
+        id S238622AbiEIPxo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 May 2022 11:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238580AbiEIPuO (ORCPT
+        with ESMTP id S238529AbiEIPxn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 May 2022 11:50:14 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379A91D7341;
-        Mon,  9 May 2022 08:46:12 -0700 (PDT)
+        Mon, 9 May 2022 11:53:43 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ECBB2D7EC5;
+        Mon,  9 May 2022 08:49:47 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 13879200003;
-        Mon,  9 May 2022 15:46:09 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id EBE9CFF803;
+        Mon,  9 May 2022 15:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652111171;
+        t=1652111386;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AeURFA21azT2WZg6+haUTuGeT1PTBOnmz+vdgDPsEgY=;
-        b=Jcc+lLWGNptb7ngZ58iDE317h9qxwhywG54JBrhfCbApP4Zu1pOkYFK3s5hkWiXxRKeTwq
-        FYVgSEMOAP9H/4gQZVe/zNMpgHlk9DcGmzG8A72VWVixtsdXgIQtZe44S4tDUsvvX9PdGK
-        bykHTnwCiNe3vsjh5JgMxv39biP4vLlEkIxWv78LjeiedPV1mvdi/1X1UADQa0Xzmpx5PV
-        LhP4NG8lKJBkwzeVeyBsb0zRFePmjJxDRbykJ9T5pIk0WJ5EUpGD5lmoduAumrOqjh9ZPi
-        URmc8nk7UoFJGhZOsFKNRNFI+eaJrVgG0J19/DMiVfYiWHi5QOkW43VpiBiI+g==
+         content-transfer-encoding:content-transfer-encoding;
+        bh=mIquRG577JqEJQFRHPKavgPrOYAE9YyAjroW6Bm9Lt8=;
+        b=KxqAo1RleezPKdee9P+jVaqAyQbjagyU8gaRVXDs4FXLK4B6FzQv2yjd1aHJLkmjG07OrJ
+        ffUV3tzsSFEHDqZ6BEBlxRrK27uA0gWSbvbQmEmA4Dh6kFB2vuym4+SuDFBjbvrOtphu4Z
+        iQFQmZgWfuB/0CsHuXxWBNhto1uv3SHroBgRZOon0MHdzmyf5QZTwEAsZh2ycSbP4WneDB
+        Pv58t3m1SFOl1LVSVBPgH3AoHywPaRs12EeBfM8ia00TcGWvzNt7Yv9dywlKtnQ7fR7I1v
+        k0+sSq837fgso/EVxl02udUfYyxU+jT4Jvkw5bs7JXR0MKJ+vLdDIxO1OGpxTw==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+To:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        <linux-mtd@lists.infradead.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Subject: [PATCH v4 5/5] MAINTAINERS: Add myself as maintainer of the RZN1 RTC driver
-Date:   Mon,  9 May 2022 17:45:59 +0200
-Message-Id: <20220509154559.24851-6-miquel.raynal@bootlin.com>
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v2 0/2] mtd: rawnand: renesas: Runtime PM use
+Date:   Mon,  9 May 2022 17:49:41 +0200
+Message-Id: <20220509154943.25422-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220509154559.24851-1-miquel.raynal@bootlin.com>
-References: <20220509154559.24851-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -66,33 +68,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After contributing it, I'll volunteer to maintain it.
+There was a small mistake when first introducing this controller driver:
+the power-domain property was missing in the device tree because there
+was only one controller supported at this time (UART) and this is a
+Synopsis IP which did not support power domains. The idea is to always
+use these power domains when available, so let's add it to the bindings,
+the DT and use it from the driver through the runtimpe PM API instead of
+doing raw clk API calls.
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes in v2:
+* Dropped the DT patch merged by Geert.
+* Used devm_pm_runtime_enable() instead of pm_runtime_enable() and
+  dropped the pm_runtime_disable() calls.
+* Used pm_runtime_resume_and_get() instead of pm_runtime_get_sync().
+* Collected the tags on the bindings.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9cf74e4eacce..cc4a3cca022e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16847,6 +16847,14 @@ S:	Supported
- F:	Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
- F:	drivers/iio/adc/rzg2l_adc.c
- 
-+RENESAS RZ/N1 RTC CONTROLLER DRIVER
-+M:	Miquel Raynal <miquel.raynal@bootlin.com>
-+L:	linux-rtc@vger.kernel.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/rtc/renesas,rzn1-rtc.yaml
-+F:	drivers/rtc/rtc-rzn1.c
-+
- RENESAS R-CAR GEN3 & RZ/N1 NAND CONTROLLER DRIVER
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- L:	linux-mtd@lists.infradead.org
+Miquel Raynal (2):
+  dt-bindings: mtd: renesas: Fix the NAND controller description
+  mtd: rawnand: renesas: Use runtime PM instead of the raw clock API
+
+ .../bindings/mtd/renesas-nandc.yaml           |  5 ++
+ .../mtd/nand/raw/renesas-nand-controller.c    | 58 +++++++++----------
+ 2 files changed, 31 insertions(+), 32 deletions(-)
+
 -- 
 2.27.0
 
