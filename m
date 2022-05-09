@@ -2,131 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 976E552001D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 16:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F605200AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 17:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237490AbiEIOqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 May 2022 10:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56178 "EHLO
+        id S237856AbiEIPD6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 May 2022 11:03:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237586AbiEIOqK (ORCPT
+        with ESMTP id S237851AbiEIPD5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 May 2022 10:46:10 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E090D16549E;
-        Mon,  9 May 2022 07:42:15 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id p3so9066600qvi.7;
-        Mon, 09 May 2022 07:42:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5+vqGfHPelFk9/33nSW7ABuV7vg2is0Y9SwNAQ6T9v4=;
-        b=DGT+neaCKSscwji9RnnyGFEHn7J2QQUOuNq6XDeNgrNygGU0iXUjOdfj+nLKuuhI3L
-         oL6KQwVILpQYNKOfG2VuJcVRaIc1ayqiXIuFHHQJu2Mh+dc4on4D7lgxc7PTAxaA7TM9
-         +4yaSLcDU9QLAgJgzcdOKNda/XnyDJ/pDcAb8eSLf3PDvZcBmWfAx/cmtXimLarnEsjz
-         nSUHsSGqvC3PUISqoqP2OCxdsaXdmH+rDK5fVDtXtpcW+pjSl9pSEdnw33nt/z8i3/RJ
-         yI5wteJbSptHoWfiPIP9e/a+j16d3PZjgcENCXMAqqYDdCYHwZUlL13gYEQhViJuU7WC
-         fTyQ==
-X-Gm-Message-State: AOAM533jzNOHWi3g4UXU5rQkQzAYXmg3fRjWpdJhHnjg/xCo2A5ArcqE
-        fs65a1DFIwDEIzkS/clv2Ivy89rEp5l2Wg==
-X-Google-Smtp-Source: ABdhPJwTUAyBBcVDLljE8qHNTc1pWx9OGwM5BYrXk3pdZITLhywp1dWPKPsocm3VqzQxHInqnLCHvQ==
-X-Received: by 2002:a05:6214:411d:b0:45a:8012:d45c with SMTP id kc29-20020a056214411d00b0045a8012d45cmr13722396qvb.38.1652107334683;
-        Mon, 09 May 2022 07:42:14 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id n78-20020a372751000000b0069fc13ce228sm7059971qkn.89.2022.05.09.07.42.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 May 2022 07:42:14 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-2f7d7e3b5bfso146902677b3.5;
-        Mon, 09 May 2022 07:42:14 -0700 (PDT)
-X-Received: by 2002:a0d:d953:0:b0:2f7:d5ce:f204 with SMTP id
- b80-20020a0dd953000000b002f7d5cef204mr14325486ywe.502.1652107333940; Mon, 09
- May 2022 07:42:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <YmSc29YZvxgT5fEJ@rowland.harvard.edu> <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
- <YmSpKpnWR8WWEk/p@rowland.harvard.edu> <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
- <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg> <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
- <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
- <YnFO0Qr8RY7peFCg@rowland.harvard.edu> <YnaR8LaaPTdLTiok@rowland.harvard.edu>
- <CAMuHMdUpOiHHMktPk_-NauDW2ufvGThnkFU7Pok376pM6OEyYw@mail.gmail.com> <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
-In-Reply-To: <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 May 2022 16:42:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
-Message-ID: <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
+        Mon, 9 May 2022 11:03:57 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5742C8BD7;
+        Mon,  9 May 2022 07:59:53 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8AEDC1BF212;
+        Mon,  9 May 2022 14:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652108390;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IVtqCvMASNA9pIuuP5Mp+l/ROYTNTakgxxTILKeChdg=;
+        b=aw45/FZaVjTb17yj4n2Oy5F6bGOQQ9BIXmRgF+KQELYjWOeueUkBw06kLfa3MJnQ9owKOy
+        Oa7Hzhe3oCxsvUzaquM4ffJR8IL9auOMQZL9SJGV1PBcqw3DCsVlDyRM9isDG3ODrKaUtL
+        K8r6jlRXe0vVLPzlT7Q7/3mM9WzfM2eRFRPjAzba4SdS44Rx7tb5++HjN+BtuN/VtsrvmS
+        pzkFN4JqwVULprj3+LxGd64jQjjBfdeSVusYcS+7NWO9FokClJKdKB98edKSPP8EBhHVvC
+        N4Rkbh4k552hLhtjlDSeu+O2AU+V1JEMrPNyYe4ZKL+vLqGJQ1rxbzrbtc3dlQ==
+Date:   Mon, 9 May 2022 16:59:46 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Michel Pollet <michel.pollet@bp.renesas.com>
+Subject: Re: [PATCH v3 2/6] rtc: rzn1: Add new RTC driver
+Message-ID: <20220509165946.1e2d581d@xps13>
+In-Reply-To: <CAMuHMdVU2RDmPC014LjdB=L_b=Kn+htHnC0v4wAAUESbhWTA5w@mail.gmail.com>
+References: <20220429104602.368055-1-miquel.raynal@bootlin.com>
+        <20220429104602.368055-3-miquel.raynal@bootlin.com>
+        <CAMuHMdVU2RDmPC014LjdB=L_b=Kn+htHnC0v4wAAUESbhWTA5w@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alan,
+Hi Geert,
 
-On Mon, May 9, 2022 at 4:15 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> On Mon, May 09, 2022 at 09:46:25AM +0200, Geert Uytterhoeven wrote:
-> > > Geert:
-> > >
-> > > Can you test the patch below?  It ought to fix the problem (although it
+geert@linux-m68k.org wrote on Mon, 2 May 2022 16:41:20 +0200:
+
+> Hi Miquel,
+>=20
+> On Fri, Apr 29, 2022 at 12:46 PM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> > From: Michel Pollet <michel.pollet@bp.renesas.com>
 > >
-> > Thanks!
+> > Add a basic RTC driver for the RZ/N1.
 > >
-> > root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
-> > total 0
-> > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.0 ->
-> > ../../../devices/platform/soc/e659c000.usb/gadget.0
-> > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.1 ->
-> > ../../../devices/platform/soc/ee020000.usb/gadget.1
-> > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.2 ->
-> > ../../../devices/platform/soc/e6590000.usb/gadget.2
-> >
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > LGTM, so
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Thanks!
->
-> > > might end up causing other problems down the line...)
-> >
-> > Can you please elaborate? I'm not too familiar with UBS gadgets.
->
-> I was concerned about the fact that changing the name of a file,
-> directory, or symbolic link in sysfs means changing a user API, and so
-> it might cause some existing programs to fail.  That would be a
-> regression.
->
-> Perhaps the best way to work around the problem is to leave the name set
-> to "gadget" if the ID number is 0, while adding the ID number on to the
-> name if the value is > 0.  What do you think?
+> > Signed-off-by: Michel Pollet <michel.pollet@bp.renesas.com>
+> > Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com> =20
+>=20
+> Thanks for your patch!
+>=20
+> > --- /dev/null
+> > +++ b/drivers/rtc/rtc-rzn1.c
+> > @@ -0,0 +1,246 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Renesas RZN1 Real Time Clock interface for Linux =20
+>=20
+> RZ/N1
 
-Oh, you mean the "gadget.N" subdirs, which are the targets of the
-symlinks above? These were indeed named "gadget" before.
+Done.
 
-Would it be possible to append the ".N" suffixes only to the actual
-symlinks, while keeping the target directory names unchanged?
-E.g. /sys/bus/gadget/devices/gadget.0 ->
-../../../devices/platform/soc/e659c000.usb/gadget
+>=20
+> > +static int rzn1_rtc_probe(struct platform_device *pdev)
+> > +{
+> > +       struct rzn1_rtc *rtc;
+> > +       int ret;
+> > +
+> > +       rtc =3D devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+> > +       if (!rtc)
+> > +               return -ENOMEM;
+> > +
+> > +       platform_set_drvdata(pdev, rtc);
+> > +
+> > +       rtc->base =3D devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(rtc->base))
+> > +               return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "M=
+issing reg\n");
+> > +
+> > +       rtc->rtcdev =3D devm_rtc_allocate_device(&pdev->dev);
+> > +       if (IS_ERR(rtc->rtcdev))
+> > +               return PTR_ERR(rtc);
+> > +
+> > +       rtc->rtcdev->range_min =3D RTC_TIMESTAMP_BEGIN_2000;
+> > +       rtc->rtcdev->range_max =3D RTC_TIMESTAMP_END_2099;
+> > +       rtc->rtcdev->ops =3D &rzn1_rtc_ops;
+> > +       clear_bit(RTC_FEATURE_ALARM, rtc->rtcdev->features);
+> > +       clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
+> > +
+> > +       pm_runtime_enable(&pdev->dev);
+> > +       pm_runtime_get_sync(&pdev->dev); =20
+>=20
+> While this call cannot really fail on this platform, you may want to
+> call pm_runtime_resume_and_get() instead, and check its return
+> value (else the janitors will make that change later ;-)
 
-Gr{oetje,eeting}s,
+Right, I misunderstood the doc, I'll change it.
 
-                        Geert
+>=20
+> > +
+> > +       /*
+> > +        * Ensure the clock counter is enabled.
+> > +        * Set 24-hour mode and possible oscillator offset compensation=
+ in SUBU mode.
+> > +        */
+> > +       writel(RZN1_RTC_CTL0_CE | RZN1_RTC_CTL0_AMPM | RZN1_RTC_CTL0_SL=
+SB_SUBU,
+> > +              rtc->base + RZN1_RTC_CTL0);
+> > +
+> > +       /* Disable all interrupts */
+> > +       writel(0, rtc->base + RZN1_RTC_CTL1);
+> > +
+> > +       ret =3D devm_rtc_register_device(rtc->rtcdev);
+> > +       if (ret)
+> > +               goto dis_runtime_pm;
+> > +
+> > +       return 0;
+> > +
+> > +dis_runtime_pm:
+> > +       pm_runtime_put_sync(&pdev->dev); =20
+>=20
+> pm_runtime_put() should be fine, no need for the synchronous version.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Right, there is no need for the _sync() version here and below I
+believe.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>=20
+> > +       pm_runtime_disable(&pdev->dev);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int rzn1_rtc_remove(struct platform_device *pdev)
+> > +{
+> > +       pm_runtime_put_sync(&pdev->dev); =20
+>=20
+> pm_runtime_put().
+>=20
+> > +       pm_runtime_disable(&pdev->dev);
+> > +
+> > +       return 0;
+> > +} =20
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+
+
+Thanks,
+Miqu=C3=A8l
