@@ -2,110 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB04520596
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 21:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 616395205DC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 May 2022 22:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240705AbiEIUAP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 May 2022 16:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
+        id S229450AbiEIUch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 May 2022 16:32:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240703AbiEIUAO (ORCPT
+        with ESMTP id S229489AbiEIUb6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 May 2022 16:00:14 -0400
-Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B59A888C;
-        Mon,  9 May 2022 12:56:16 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru D8B3B20C73DD
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH v2 2/5] ravb: Separate handling of irq enable/disable regs
- into feature
-To:     Phil Edworthy <phil.edworthy@renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Mon, 9 May 2022 16:31:58 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA88D5A;
+        Mon,  9 May 2022 13:20:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=obE3GvP5MiFalr+zUuFTsVYAipwQCABa5LeNZRhk2iw=; b=hyHleL2qGRNzf/f0LIaT4+nAG0
+        7ldV8Th5xj9XD3zKxtMqCjfCZP2P548K9Exfs7scwOVT0ZO9/3RK9VKgXfcFNU6WMvqJt39n9f/rE
+        A5Jccm7RiR00kZn9xF6tW/7+VAqZVW+gfhAj6r5bor8oNoU2pl7RfV50UHpDpKF2C3R+C91DoeIge
+        Avvgcyb5d7MGKgcrfgZacnrnxMQB7dTTw3xRD0IcAP1H0l/I2RB1n2hlhAtWeKcdxM3WSrGeWweiy
+        OrgEmgnYUArHP0/C0B2f1z9ccASxFScvthsYLfDqH5+vOixi6KccN7kUPSPBpRKklhGB/i4CE3muW
+        VjWMN+tA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60654)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1no9rt-0003i3-Uw; Mon, 09 May 2022 21:20:34 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1no9rq-0005Oe-CL; Mon, 09 May 2022 21:20:30 +0100
+Date:   Mon, 9 May 2022 21:20:30 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20220509142431.24898-1-phil.edworthy@renesas.com>
- <20220509142431.24898-3-phil.edworthy@renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <d500a003-f5bb-b7cb-2ad4-bfe0d4f8c87c@omp.ru>
-Date:   Mon, 9 May 2022 22:56:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v4 04/12] net: pcs: add Renesas MII converter
+ driver
+Message-ID: <Ynl3jpuJFqXLscvE@shell.armlinux.org.uk>
+References: <20220509131900.7840-1-clement.leger@bootlin.com>
+ <20220509131900.7840-5-clement.leger@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <20220509142431.24898-3-phil.edworthy@renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220509131900.7840-5-clement.leger@bootlin.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi,
 
-On 5/9/22 5:24 PM, Phil Edworthy wrote:
+On Mon, May 09, 2022 at 03:18:52PM +0200, Clément Léger wrote:
+> +#define MIIC_PRCMD			0x0
+> +#define MIIC_ESID_CODE			0x4
+> +
+> +#define MIIC_MODCTRL			0x20
+> +#define MIIC_MODCTRL_SW_MODE		GENMASK(4, 0)
+> +
+> +#define MIIC_CONVCTRL(port)		(0x100 + (port) * 4)
+> +
+> +#define MIIC_CONVCTRL_CONV_SPEED	GENMASK(1, 0)
+> +#define CONV_MODE_10MBPS		0
+> +#define CONV_MODE_100MBPS		BIT(0)
+> +#define CONV_MODE_1000MBPS		BIT(1)
 
-> Currently, when the HW has a single interrupt, the driver uses the
-> GIC, TIC, RIC0 registers to enable and disable interrupts.
-> When the HW has multiple interrupts, it uses the GIE, GID, TIE, TID,
-> RIE0, RID0 registers.
-> 
-> However, other devices, e.g. RZ/V2M, have multiple irqs and only have
-> the GIC, TIC, RIC0 registers.
-> Therefore, split this into a separate feature.
-> 
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2:
->  - Renamed irq_en_dis_regs to irq_en_dis
->  - Squashed use of GIC reg versus GIE/GID into this patch and got rid
->    of separate gptp_ptm_gic feature.
->  - Minor editing of the commit msg
-> ---
->  drivers/net/ethernet/renesas/ravb.h      | 1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 5 +++--
->  drivers/net/ethernet/renesas/ravb_ptp.c  | 4 ++--
->  3 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 08062d73df10..0ec8256f7eef 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1027,6 +1027,7 @@ struct ravb_hw_info {
->  	unsigned tx_counters:1;		/* E-MAC has TX counters */
->  	unsigned carrier_counters:1;	/* E-MAC has carrier counters */
->  	unsigned multi_irqs:1;		/* AVB-DMAC and E-MAC has multiple irqs */
-> +	unsigned irq_en_dis_regs:1;	/* Has separate irq enable and disable regs */
+I think this is an inappropriate use of the BIT() macro. BIT() should be
+used for single bit rather than for field values.
 
-   You forgot to actually rename it. ;-)
+You seem to have a two bit field in bits 1 and 0 of a register, which
+has the values of:
+0 - 10MBPS
+1 - 100MBPS
+2 - 1GBPS
 
->  	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
->  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
->  	unsigned nc_queues:1;		/* AVB-DMAC has RX and TX NC queues */
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_ptp.c b/drivers/net/ethernet/renesas/ravb_ptp.c
-> index c099656dd75b..a7726c2ed594 100644
-> --- a/drivers/net/ethernet/renesas/ravb_ptp.c
-> +++ b/drivers/net/ethernet/renesas/ravb_ptp.c
+I'd guess 3 is listed as "undefined", "do not use" or something similar?
 
-    I think you missed the check in ravb_ptp_extts()...
+> +
+> +#define MIIC_CONVCTRL_CONV_MODE		GENMASK(3, 2)
+> +#define CONV_MODE_MII			0
+> +#define CONV_MODE_RMII			BIT(0)
+> +#define CONV_MODE_RGMII			BIT(1)
 
-[...]
+This looks similar. a 2-bit field in bits 3 and 2 taking values:
+0 - MII
+1 - RMII
+2 - RGMII
 
-MBR, Sergey
+...
+
+> +static int miic_config(struct phylink_pcs *pcs, unsigned int mode,
+> +		       phy_interface_t interface,
+> +		       const unsigned long *advertising, bool permit)
+> +{
+> +	u32 speed = CONV_MODE_10MBPS, conv_mode = CONV_MODE_MII, val;
+> +	struct miic_port *miic_port = phylink_pcs_to_miic_port(pcs);
+> +	struct miic *miic = miic_port->miic;
+> +	int port = miic_port->port;
+> +
+> +	switch (interface) {
+> +	case PHY_INTERFACE_MODE_RMII:
+> +		conv_mode = CONV_MODE_RMII;
+> +		speed = CONV_MODE_100MBPS;
+> +		break;
+> +	case PHY_INTERFACE_MODE_RGMII:
+> +		conv_mode = CONV_MODE_RGMII;
+> +		speed = CONV_MODE_1000MBPS;
+> +		break;
+> +	case PHY_INTERFACE_MODE_MII:
+
+I'm not sure why you need to initialise "speed" and "conv_mode" above
+when you could set them here.
+
+Thanks. 
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
