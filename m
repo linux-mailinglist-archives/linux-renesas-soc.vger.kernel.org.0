@@ -2,154 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 406AF521069
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 11:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4C5452106F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 11:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237846AbiEJJSw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 05:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53530 "EHLO
+        id S238495AbiEJJTt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 05:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235954AbiEJJSv (ORCPT
+        with ESMTP id S237308AbiEJJTs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 05:18:51 -0400
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEBD6712E1;
-        Tue, 10 May 2022 02:14:52 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id hh4so13069065qtb.10;
-        Tue, 10 May 2022 02:14:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A15r4+EoT4EZyVbRMp20MyCJWBQTiIY9T0jy9XAyUCg=;
-        b=kKgnXMA0woR0Gk3oqEREb6H8Yx+o1yONVy23XkIohYL4nAGFM/lLLp3XMdP0UlWNtx
-         hGLM1xwTl2q/nuhpB/QmP/L/5pMRgVJMEYP1ba+ZSTgz5RQqODBDvCblC+kXU//88yYe
-         zOGqZuewYP646F6qivNTzkmfiqme7iR8A4TvfXO5ds0h3VHkHaktChcd0z6Qbf8LGSF1
-         ecDGDQXCr4IsWWo9mswh6Q3mmHnZLcr4Ia8M21DjzqzoRvDxauPK87TH0HfpSCVpjbjg
-         /d59BLIplYDLEsP3IU2lSdqutgsfhAetGWcgF5z1mcIGsmqyVoNyz9EvRDzdp7qqtoBa
-         V7yA==
-X-Gm-Message-State: AOAM533sDSpic21lfmwfuyhCD3a5DcUS6C9m/KwsCdVrp/6JCAqYPkrx
-        drpv9dkPbOtuWYzhrSw6OmOVm0wRRbm0rg==
-X-Google-Smtp-Source: ABdhPJx1SPSCgiqGe2ex8QmEmRx1KNFqBXBFKOgh3G0DthXPGHeOxaPJEPdAoz8oGrqhcp6WRemxUA==
-X-Received: by 2002:a05:622a:1cc:b0:2f3:e619:8088 with SMTP id t12-20020a05622a01cc00b002f3e6198088mr1439035qtw.261.1652174091815;
-        Tue, 10 May 2022 02:14:51 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id a36-20020a05620a43a400b0069fc13ce212sm8203502qkp.67.2022.05.10.02.14.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 02:14:50 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id r11so29529245ybg.6;
-        Tue, 10 May 2022 02:14:49 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr17702940ybu.604.1652174088988; Tue, 10
- May 2022 02:14:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220509154943.25422-1-miquel.raynal@bootlin.com>
- <20220509154943.25422-3-miquel.raynal@bootlin.com> <CAMuHMdUQafhSHA6vz2FP4=CLodEB3uK2p2W6fu_xK8kA+pMGFA@mail.gmail.com>
- <20220510110257.11ac55f1@xps13>
-In-Reply-To: <20220510110257.11ac55f1@xps13>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 May 2022 11:14:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU2KHuh2d_cw6xZEiZv+-v8P_YFfzxr2qLdC=HKaLr2ZQ@mail.gmail.com>
-Message-ID: <CAMuHMdU2KHuh2d_cw6xZEiZv+-v8P_YFfzxr2qLdC=HKaLr2ZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mtd: rawnand: renesas: Use runtime PM instead of
- the raw clock API
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
+        Tue, 10 May 2022 05:19:48 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7063A5EE;
+        Tue, 10 May 2022 02:15:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UsvMY8TwoJIrOC1WZQa2pMlwm3hYAZG1Y7n6kPTguEB3aPTWc655yCQX9W8N84vGrAit40v62GhR8UM5YsIq5lKTrMXZzRABoJd6X+54tMD69Jpozcd87vZpyAFJ3ivLUrfb/6T8ujYyS0S87LKvHb3kAae3J599qyTBXypFUe8OyVXnXbzsOQa8yWkNt1V7Q0GPK+lyCmyvxVqg4sjbUXUXxzgM60HtbjH2wOUb0vsh9UQ8/pbKiDvmz9gBCIM2hoHdG5yYzr5qBRezgZeXtQKlqLaW/t5wFp1gdHojLk1Ampiw1fLRRFQSkqeVkG1mDOcEsiCLpHB1El80MVpy2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xmaMtm+XuTu9673c9AINtpdfcMGLt95QsuXg/TuMzoU=;
+ b=WqzxO28wgoyw8WHxj00a3XGPuzXb6RFkq8Q4BjW71Q3G7lgxJGAqEGGITdv9RJqQJSyZ6lEX4vP4lZ9AdZZ/bUZC/r2vAoIZ77KDSovIuxG03Kmr6gX8E3wzCjk/fQ+fKcZXxYt7oISHtjvzFQnrrqIMPHFSSlqP0oYTC+2eOcPnTkTW+OQ2RzVIrVSz/qtngtDXk5D2qepaLfboUPtH3cZmeGds8jY+DS5PP4wUex3xOKkU55AXNKyH0iwTyRWBE9u5P5dE5/MF0RqBhXXrTuhvFWVbUX7Q4pk5O9x2T3PKhO2YdLnIG2PZWvYZP/0nJ2y1u3GquG4NPu959f1ynA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xmaMtm+XuTu9673c9AINtpdfcMGLt95QsuXg/TuMzoU=;
+ b=Q+W6+YB0dPlrem4DBxKk6KXUDyC6+m9nT36k8tHmQDBqmFHbpnP6v6P5WkbjzKHtjkzGQfc684ixrkVVRTPheyAGJ/fgma73Y/FFpHlmQMppgJXhOyJyBp0b8AsLsGvZe2ywW3xUwjknXm8pmeS/v9dVtwoERNDNK2YIB/fRUcw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYAPR01MB5165.jpnprd01.prod.outlook.com (2603:1096:404:12e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Tue, 10 May
+ 2022 09:15:47 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57%9]) with mapi id 15.20.5227.023; Tue, 10 May 2022
+ 09:15:47 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
+Thread-Topic: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
+Thread-Index: AQHYYLAXexu1Iz9l/0mXLMs9PUTblK0Xy8wAgAAA//CAAA0fAIAAAPdg
+Date:   Tue, 10 May 2022 09:15:47 +0000
+Message-ID: <OS0PR01MB5922B28212F59C522FE432B786C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220505184353.512133-1-biju.das.jz@bp.renesas.com>
+ <b89be37d-ec17-8b6f-561b-63781352e774@gmail.com>
+ <OS0PR01MB592248147BA1A775236B080186C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <530ed78e-bce5-09bd-f0ef-f20de956cfcf@omp.ru>
+In-Reply-To: <530ed78e-bce5-09bd-f0ef-f20de956cfcf@omp.ru>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a7c3b054-792f-4633-eea4-08da3265ab50
+x-ms-traffictypediagnostic: TYAPR01MB5165:EE_
+x-microsoft-antispam-prvs: <TYAPR01MB516574A65820A1C74585DB8C86C99@TYAPR01MB5165.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8XERLqLsVavJY6QQj0YN55qhPToRx1chwLcvd5pPo2vuuLmxGLRRo57gdSXaAQRY0RKWDlJn6TJuHcdTVGxjvmiFkXQ7LLW7jhZZkv5b7Xlh/K66XXowH1TZoSjIcXEsZiY5Ds+TedPN9BF6gMOGaMiB+oyyYk6elujgRsZK4MDqD4hl++DrR14e7IJyvJSXsujaW3SD6uI4JSjvuZsMBeOXTsgpYG4QsLD70eMr5nonWDOMSkIX0AoxsQtsLwFL1wOvlPZGuuVMYib4BYY9Z0GND6+O3ooeb4PvyaZCopAwbJMlBuA/leBC/ciWYJHWhXJ+7ET/11xKjzPJ/6GvPjLU4lt8wEPnZTkAEOjwY1GN53QhznZdDu7NWC8et8tH8bRWLUQugML4Bb0U30VJJQaPmkcnbcRJqx7h38Vsv7PO6y3KXSiQJ67E0L6swILmZN6Jh9hNT6JxCCOQV0je763fKgyT76/KyjlHitguhcQ73eE9oAA1a5nTXe3KURHQtIgX4DTBa0YqtXHgmmh//Ob6Ll/YJu/nsF2/rQGYU/xodHRTqQBgvb63puUnk7gpq+FHkjaLs06TRtlllXYpsXjsQiIGUopUMn4mDRzc8pqMebqxseKMnzx7cKaphseYTSXvC91T0X+Km0fmgT0Cjh1IV5KKeQlkhsO/sfiVLkO/9geOC1/NF/mrg4T82vQwuCsS8erRjJCqHKORpSAqFw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38070700005)(38100700002)(33656002)(83380400001)(2906002)(186003)(5660300002)(55016003)(4326008)(8936002)(316002)(107886003)(8676002)(86362001)(52536014)(54906003)(76116006)(110136005)(66556008)(66476007)(64756008)(66446008)(66946007)(6506007)(26005)(7696005)(508600001)(71200400001)(122000001)(9686003)(53546011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VtEYPkd5106CyrZ1daW9xNGSz2BF5h0zP0wkwh5gobSNk+3nwAO8vsuH5BmJ?=
+ =?us-ascii?Q?OSrZ2wGp54yRag8IzvXoq6pqS4CNbOYAv7wdUOIqfH0XfImoE5kk/7a9DkHz?=
+ =?us-ascii?Q?efNVRRrMTME/B6Qv7E+GU6WyOxbq5JI6or5tg1oBwgp9Em256NFA/MiATWre?=
+ =?us-ascii?Q?41qjxh/KbHQ2Qf2P93hYBHiWJ4bYIczAF+XawFGAOQoUIQLhm5jzhzj9KuIP?=
+ =?us-ascii?Q?wg/yqLFQTfYlxABPCReyhsQrD9OpS1vXof2tcStj5hYZXBCkhnO9Nsv3SLB3?=
+ =?us-ascii?Q?MoYsaCoe/3r/KOClrL1Swc4DWEupRFirP06WIictDNxEohuf4BqFRhlRMLjB?=
+ =?us-ascii?Q?VVF8ug4EbGlqNLMlpwjpfLu7gx86YOuqpL8OUEcI42PysSclQ/XUuDMzj5Sx?=
+ =?us-ascii?Q?CLACwZs2m/JAQXaUvqtrXNCNWH3oCFy4a+zZdXRja9HUJ4fMK71A3Ty2GFjn?=
+ =?us-ascii?Q?+vsx4qd/LIUG3BBDzeOZnpSN+4HYie8xISgSzVH7hA3SUqo3NkWFhcJ10AqR?=
+ =?us-ascii?Q?3hetqX1BjiqeZusbVihbHGgSRcsUr38L0KXDTsFlJlCc45+AJ4zwTvw2wGUU?=
+ =?us-ascii?Q?Xu3Q+zxm1ZqnjLUxSirI+Ahla0DLX+2U7Rq5J19IyzScgF0eBYVLJrIYx3EM?=
+ =?us-ascii?Q?mNFE4yJoSFIBOxf0Q9FbaSnyQ+8Ge1sGnBy2J5Ix8b3FG50QaGMYHBojIRC9?=
+ =?us-ascii?Q?PGJpBpjR/E6vuMHe6MLMKDhDrcYpJvgfHJNPh1yn7wH+K1anMCo0/hBnq2Jj?=
+ =?us-ascii?Q?QmKCtzpx0o5xPlhEeGcvpaI4wAhnP15SwBp2unEbGBwA8XQFqpyy9slZqJJ4?=
+ =?us-ascii?Q?0VhXtW3nTd5Esaw2L+ej1gmy7yY2d9YE6ffgzGCmaHzkjtANekYJVp4sh+Cu?=
+ =?us-ascii?Q?9KUzrEnbclX5zk1o58yWipcllMWoFtKQzEd5IqvDR4iXUQT5MG9NtCv0r4/p?=
+ =?us-ascii?Q?xp68VTctdkqS7jS/4Zof/wwR6gGQYIYsPt3haUrVF9dzrB58T5ZzSgLv0P4s?=
+ =?us-ascii?Q?GZJQtyaC7jIojr1YgGWr9iFQn6iNzM8Ho5gZefj8n0rbhVT6u+CJ26bM4el1?=
+ =?us-ascii?Q?OYYkvaoz4kn+pnHxzA2TRp34HoJTcpsWSt8bTX+Y3nWHGKsdW9u1Mw+BdJ2I?=
+ =?us-ascii?Q?QIKkVeuBsSeAY2OVVwX28SU7XAMol2cCsEjHIlcxQC0iYkc4uKguSanJw46h?=
+ =?us-ascii?Q?3246AO1eJVweZFL3JAULV5Xp8pCJgWLag24Xb5hU6lXvF3CSuuEjNevs4oNC?=
+ =?us-ascii?Q?oeOYTL6ySIj6MwMysD6Qj9KrqfXm5QOjAmwqtC2d7EHB1UYYdpfHMg2gRGQU?=
+ =?us-ascii?Q?lqUGuLTV5uZeOut5FOanP7OB4/w97LLYKrne1D05z7r3a3HvoiqJABK0p+rZ?=
+ =?us-ascii?Q?hdn5Tikf3UVjKQ7KUWXbbKhSV2cH30wXukIwAeBO1it70Vfuy9isGDRLIOZ/?=
+ =?us-ascii?Q?5fz4ZsMST9aEWFWE1betQWJ0UrGF/tXQyINgptNs0gAy9E+AWOKA0gQujHi5?=
+ =?us-ascii?Q?u17rdsLf4aw1oOrkhgmFvB72I9zWhFNp4So5s4VSkKDmN5FoQUnu9rgNY5Oa?=
+ =?us-ascii?Q?FyIcumbbT4wJ0HJTjH6p+0K6vILtFUPGFqYlm+aJmGM0DxTvCjAjrXNeFo+O?=
+ =?us-ascii?Q?QxkScVo2rcNIqV8CAdSNP2mwRgl23YHuocoJP/DwtXcywFR9sUjiVzQGRdjy?=
+ =?us-ascii?Q?G6uZ3yqDXsPOYSXy/4UIgI3E7+JSbGb9nJ+EgoAhj/MwLp+opLW7uqo+fUNl?=
+ =?us-ascii?Q?iqo81no07RLY+XeTZlJFvnv7paBbGwc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7c3b054-792f-4633-eea4-08da3265ab50
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2022 09:15:47.3483
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Iq/cYBaXozrwrta+nBZ7z6WdvD8cL3t2ZFsb9fb9HmL+wsDySI17N+zwxrzP4qeH77AOtEZMVXovsRzIjUNXxs0jCGjvGv1t30y6zSuoTD4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5165
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+Hi Sergei,
 
-On Tue, May 10, 2022 at 11:03 AM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
-> geert@linux-m68k.org wrote on Tue, 10 May 2022 10:52:41 +0200:
-> > On Mon, May 9, 2022 at 5:49 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> > > This NAND controller is part of a well defined power domain handled by
-> > > the runtime PM core. Let's keep the harmony with the other RZ/N1 drivers
-> > > and exclusively use the runtime PM API to enable/disable the clocks.
-> > >
-> > > We still need to retrieve the external clock rate in order to derive the
-> > > NAND timings, but that is not a big deal, we can still do that in the
-> > > probe and just save this value to reuse it later.
-> > >
-> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Thanks for the feedback.
 
-> > > @@ -1365,12 +1347,27 @@ static int rnandc_probe(struct platform_device *pdev)
-> > >                 ret = devm_request_irq(&pdev->dev, irq, rnandc_irq_handler, 0,
-> > >                                        "renesas-nand-controller", rnandc);
-> > >                 if (ret < 0)
-> > > -                       goto disable_eclk;
-> > > +                       return ret;
-> > >         }
-> > >
-> > >         ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-> > >         if (ret)
-> > > -               goto disable_eclk;
-> > > +               return ret;
-> > > +
-> > > +       devm_pm_runtime_enable(&pdev->dev);
-> > > +       ret = pm_runtime_get_sync(&pdev->dev);
-> > > +       if (ret < 0)
-> > > +               return ret;
-> > > +
-> > > +       /* The external NAND bus clock rate is needed for computing timings */
-> > > +       eclk = clk_get(&pdev->dev, "eclk");
-> > > +       if (IS_ERR(eclk)) {
-> > > +               ret = PTR_ERR(eclk);
-> > > +               goto dis_runtime_pm;
-> > > +       }
-> > > +
-> > > +       rnandc->ext_clk_rate = clk_get_rate(eclk);
+> Subject: Re: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
+>=20
+> On 5/10/22 11:24 AM, Biju Das wrote:
+> [...]
+>=20
+> >>> Add ADC node to R9A07G043 (RZ/G2UL) SoC DTSI.
+> >>>
+> >>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >>> ---
+> >>>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 21 ++++++++++++++++++++=
+-
+> >>>  1 file changed, 20 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> >> b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> >>> index b31fb713ae4d..40201a16d653 100644
+> >>> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> >>> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> >>> @@ -483,8 +483,27 @@ i2c3: i2c@10058c00 {
+> >>>  		};
+> >>>
+> >>>  		adc: adc@10059000 {
+> >>> +			compatible =3D "renesas,r9a07g043-adc", "renesas,rzg2l-
+> >> adc";
+> >>>  			reg =3D <0 0x10059000 0 0x400>;
+> >>> -			/* place holder */
+> >>> +			interrupts =3D <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
+> >>> +			clocks =3D <&cpg CPG_MOD R9A07G043_ADC_ADCLK>,
+> >>> +				 <&cpg CPG_MOD R9A07G043_ADC_PCLK>;
+> >>> +			clock-names =3D "adclk", "pclk";
+> >>> +			resets =3D <&cpg R9A07G043_ADC_PRESETN>,
+> >>> +				 <&cpg R9A07G043_ADC_ADRST_N>;
+> >>> +			reset-names =3D "presetn", "adrst-n";
+> >>
+> >>    Not "adrst_n"?
 > >
-> > Personally, I would do this before requesting the interrupt.
-> > But I guess it's fine to do that here, too.
->
-> What do you mean by "do this"? If you are talking about getting the
+> > As per bindings[1], it is correct ie, "adrst-n"
+> >
+> >
+>=20
+>    Then I think the bindings aren't actually correct. But nevermind... :-=
+)
 
-Getting the clock (which could -EPROBE_DEFER, in theory) and its rate.
+Why do you think it is not correct? What difference it make, changing from=
+=20
+adrst-n->adrst_n? Is it violating any DT specification?
 
-> rate of the clock it's only needed when initializing the timings which
-> happens later in the probe path and has no relationship with the
-> interrupts at all. Anyway, I will move all of that earlier so that we
-> don't have a possible situation where the device is not clocked when
-> accessing it.
+Please clarify.
 
-OK.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Biju
