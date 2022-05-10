@@ -2,188 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25554520F84
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 10:11:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDDEB520F98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 10:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234282AbiEJIPi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 04:15:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
+        id S237926AbiEJIXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 04:23:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiEJIPh (ORCPT
+        with ESMTP id S233162AbiEJIW5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 04:15:37 -0400
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC248AE43;
-        Tue, 10 May 2022 01:11:39 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id 185so3209750qke.7;
-        Tue, 10 May 2022 01:11:39 -0700 (PDT)
+        Tue, 10 May 2022 04:22:57 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9620F28E4F5;
+        Tue, 10 May 2022 01:18:57 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id j4so27925554lfh.8;
+        Tue, 10 May 2022 01:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zFoEdoFuJSa5hWnPVwjN4WENmSdRezh+7EGbd50bWPY=;
+        b=ByDIBtjITN9LTf9LqaM9ih5Dqro8l8KYkJFbn5VbIzHCZuEQr5MUp7sbfXkI4IEVK8
+         SlhEDKE76Idoaw+zBTjwh+Ix+vtqpsvgzDbJgPAM6bdWjav1pIzKWFc4xOMjj8x8ofCX
+         ha+4S52RSMb+RJ688uQCMTfbvLn+NCiEyPo+2Jb05IFeDOiGSqR1Xx12z1yt5N82gzdA
+         gN+Y0XB4FRQETlSjWFcBurnpjhvvAiSaomzmbNGHcjJTbFJMC5XKa4VOLRXmYeVRVgzc
+         aUDAw8Oi5fnahq3wdX8rkYBEz+OsBeJim4n/QO/UlhqOb6nT2ro9bPJsXnFRqfvGW3PU
+         b/Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uhALeu7x2VWkulby+gfNBCQt8rp7fFwVaYXJL9pXNm0=;
-        b=wt8wMIuDjMB7gU1zffk+qKhq0Dqu47nN9ruZfJH6BOtlakLsn53tgFWt6WpKUfmyT2
-         pP9xrpknGd6Fk1G7X7QElv432Y/hrQKnycimP25w1rhkbGtHZjADI0kEKr7SIToCiPqQ
-         b1APwc75I5AmheWD18cV5+Anm8mSMKC0WDdHdGjNmdyXJzqZx28LGC4X+jEtBG1J89OX
-         hy5ZimmHZkXJ21sJbU2tfVS6IxmiuOxqEV5nztq2Ph2PEISLxUiXNxIiX9i18DutzopO
-         YZ6Zp+OssF3g0R+V6J4TWAmxnyKpC2eQVOqCL8dLS0nTan0f9rFGrwAGW5YodQbZrnrE
-         mmLw==
-X-Gm-Message-State: AOAM532TsZlmcPDS/+Df5YjrIis1QEtDUeHh0HNIgT2wJ7khh6hoeItD
-        CK0i6/0xB2flwX1TiP9VUJsHT/8L66ejqg==
-X-Google-Smtp-Source: ABdhPJyS1rN8w/pK5oYsNJ6Y32WLozIy/jd1LWLGWxbsG0kF0+/qV/kpaiavv8RSFj85offI9wB71g==
-X-Received: by 2002:a05:620a:210e:b0:69f:9d3e:3ced with SMTP id l14-20020a05620a210e00b0069f9d3e3cedmr13925529qkl.536.1652170298850;
-        Tue, 10 May 2022 01:11:38 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id 191-20020a3705c8000000b0069fc13ce204sm8319786qkf.53.2022.05.10.01.11.37
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zFoEdoFuJSa5hWnPVwjN4WENmSdRezh+7EGbd50bWPY=;
+        b=4aqA1vONHCbWATTwLeHDZexeW288X2nNicsdLdl/Kv3K1dL3cDowGsPYFxsGR+AYWi
+         wFrH4hB+cjw5UY8rpBxTvRe38FnMt6FsngvQ96wUGXBe6wSyyfAT+fHvu1dBfaoEeODh
+         6nCagdVym+FhqHOXvRQybxFps/4cqq+h4KXxjE/DR2/z3x5FBYIK6Fre+1NEgly5pwCz
+         qtxjX1eUqLLefLP8b6dVPrI8KYGbMgt4OH+BfIVuicnhOOKngntABdWcVtxUWA6pCemB
+         ttGHe7d+8ys+dGV8A8F99vSkFk27CoWAIlXYBGeeFC4lY2xS6yOdtTQjZGtnWZcFk3rz
+         w7ww==
+X-Gm-Message-State: AOAM530YbfiRTW5+35Rf0T9d0V9BGy7fhulGBthfLjRMuEkcDe7oNN/I
+        Sm0qBeDTHMIiehMpmGZzjxU=
+X-Google-Smtp-Source: ABdhPJyl21luSl8NtR6D8wZ8v7EZAcgeENFFdEsNpydqHlGOdy9mOcyo+pqBieoYwbu1g27ofQwLGg==
+X-Received: by 2002:a05:6512:114c:b0:473:b2a7:65e1 with SMTP id m12-20020a056512114c00b00473b2a765e1mr15631157lfg.480.1652170735947;
+        Tue, 10 May 2022 01:18:55 -0700 (PDT)
+Received: from [192.168.1.103] ([31.173.87.32])
+        by smtp.gmail.com with ESMTPSA id x21-20020a2e7c15000000b0024f3d1daebbsm2016703ljc.67.2022.05.10.01.18.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 01:11:37 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-2f7d621d1caso170537987b3.11;
-        Tue, 10 May 2022 01:11:37 -0700 (PDT)
-X-Received: by 2002:a81:913:0:b0:2f7:c833:f304 with SMTP id
- 19-20020a810913000000b002f7c833f304mr18325160ywj.283.1652170296892; Tue, 10
- May 2022 01:11:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220509050953.11005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220509050953.11005-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <OS0PR01MB5922B58BB70B92813041745786C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdVuLq1Q2KB7gFQ5MsQmyUTv4yuu-GUBVn_xGwKhUwYQZg@mail.gmail.com> <CA+V-a8uG8qzzWj+=6EhzSd5j8NC3bpf=9tU9jgxzK8Cg75BTtw@mail.gmail.com>
-In-Reply-To: <CA+V-a8uG8qzzWj+=6EhzSd5j8NC3bpf=9tU9jgxzK8Cg75BTtw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 May 2022 10:11:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU+WprHzht+daRpvF_mYe+b8SoCYhN_F=DhBgn55cAH9Q@mail.gmail.com>
-Message-ID: <CAMuHMdU+WprHzht+daRpvF_mYe+b8SoCYhN_F=DhBgn55cAH9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+        Tue, 10 May 2022 01:18:55 -0700 (PDT)
+Subject: Re: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220505184353.512133-1-biju.das.jz@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <b89be37d-ec17-8b6f-561b-63781352e774@gmail.com>
+Date:   Tue, 10 May 2022 11:18:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220505184353.512133-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello!
 
-On Mon, May 9, 2022 at 9:24 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Mon, May 9, 2022 at 10:10 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, May 9, 2022 at 9:22 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > > Subject: [PATCH v2 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller
-> > > > driver
-> > > >
-> > > > Add a driver for the Renesas RZ/G2L Interrupt Controller.
-> > > >
-> > > > This supports external pins being used as interrupts. It supports one line
-> > > > for NMI, 8 external pins and 32 GPIO pins (out of 123) to be used as IRQ
-> > > > lines.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > > > --- /dev/null
-> > > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> >
-> > > > +static void rzg2l_irqc_irq_disable(struct irq_data *d) {
-> > > > +     unsigned int hw_irq = irqd_to_hwirq(d);
-> > > > +
-> > > > +     if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT) {
-> > > > +             struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-> > > > +             u32 offset = hw_irq - IRQC_TINT_START;
-> > > > +             u32 tssr_offset = TSSR_OFFSET(offset);
-> > > > +             u8 tssr_index = TSSR_INDEX(offset);
-> > > > +             u32 reg;
-> > > > +
-> > > > +             raw_spin_lock(&priv->lock);
-> > > > +             reg = readl_relaxed(priv->base + TSSR(tssr_index));
-> > > > +             reg &= ~(TSSEL_MASK << tssr_offset);
-> > > > +             writel_relaxed(reg, priv->base + TSSR(tssr_index));
-> > > > +             raw_spin_unlock(&priv->lock);
-> > > > +     }
-> > > > +     irq_chip_disable_parent(d);
-> > > > +}
-> >
-> > > > +static int rzg2l_tint_set_edge(struct irq_data *d, unsigned int type) {
-> > > > +     struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
-> > > > +     unsigned int hwirq = irqd_to_hwirq(d);
-> > > > +     u32 titseln = hwirq - IRQC_TINT_START;
-> > > > +     u32 offset;
-> > > > +     u8 sense;
-> > > > +     u32 reg;
-> > > > +
-> > > > +     switch (type & IRQ_TYPE_SENSE_MASK) {
-> > > > +     case IRQ_TYPE_EDGE_RISING:
-> > > > +             sense = TITSR_TITSEL_EDGE_RISING;
-> > > > +             break;
-> > > > +
-> > > > +     case IRQ_TYPE_EDGE_FALLING:
-> > > > +             sense = TITSR_TITSEL_EDGE_FALLING;
-> > > > +             break;
-> > > > +
-> > > > +     default:
-> > > > +             return -EINVAL;
-> > > > +     }
-> > > > +
-> > >
-> > > > +     if (titseln < TITSR0_MAX_INT) {
-> > > > +             offset = TITSR0;
-> > > > +     } else {
-> > > > +             titseln /= TITSEL_WIDTH;
-> > > > +             offset  = TITSR1;
-> > > > +     }
-> > >
-> > > as TITSR0 (0x24) and TITSR1(0x28) are contiguous address location
-> > >
-> > > May be like others, above declare it as
-> > > u32 offset = TITSR0; ??
-> > >
-> > > and here
-> > >  if ((titseln >= TITSR0_MAX_INT) {
-> > >         titseln /= TITSEL_WIDTH;
-> > >         offset  += 4;
-> > >  }
-> >
-> > Why "titseln /= TITSEL_WIDTH"?
-> > Shouldn't that be "titseln -= TITSR0_MAX_INT"?
->
-> Ouch, that should be "titseln -= TITSR0_MAX_INT".
->
-> > Do I need more coffee?
-> >
-> > Can't you define TITSR_{OFFSET,INDEX}() helper macros, like for
-> > TSSR above?
-> >
-> you mean a macro to get the TITSELx offset?
+On 5/5/22 9:43 PM, Biju Das wrote:
 
-Either a macro, or an open-coded calculation (if you need it in only
-one place).
+> Add ADC node to R9A07G043 (RZ/G2UL) SoC DTSI.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 21 ++++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> index b31fb713ae4d..40201a16d653 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> @@ -483,8 +483,27 @@ i2c3: i2c@10058c00 {
+>  		};
+>  
+>  		adc: adc@10059000 {
+> +			compatible = "renesas,r9a07g043-adc", "renesas,rzg2l-adc";
+>  			reg = <0 0x10059000 0 0x400>;
+> -			/* place holder */
+> +			interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
+> +			clocks = <&cpg CPG_MOD R9A07G043_ADC_ADCLK>,
+> +				 <&cpg CPG_MOD R9A07G043_ADC_PCLK>;
+> +			clock-names = "adclk", "pclk";
+> +			resets = <&cpg R9A07G043_ADC_PRESETN>,
+> +				 <&cpg R9A07G043_ADC_ADRST_N>;
+> +			reset-names = "presetn", "adrst-n";
 
-As TITSR0 and TITSR1 are stored contiguous, you can easily
-derive offset/shift from irq index.
+   Not "adrst_n"?
 
-Gr{oetje,eeting}s,
+[...]
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergey
