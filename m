@@ -2,137 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8277A520F18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 09:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25554520F84
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 10:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233151AbiEJH4b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 03:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46840 "EHLO
+        id S234282AbiEJIPi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 04:15:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbiEJH4b (ORCPT
+        with ESMTP id S229737AbiEJIPh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 03:56:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A939A243106;
-        Tue, 10 May 2022 00:52:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 437A160EE0;
-        Tue, 10 May 2022 07:52:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4F0C385A6;
-        Tue, 10 May 2022 07:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1652169153;
-        bh=vc0jkaHHDEyk7KcfLPoRwXfVaaRAgF8uAKkEtH+i3d8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o57B2N5NdHj7ACnoHZLdj/Sa5tQnRlJKGhzqPWmo1TjmXKTWjaFI/zfkc/krS0ub9
-         BGZrDFhJqFRQ21zDj0sNbTs+Ok6mbSEx1VRlhShub15jp/y/8M0FOyyZ38aGeDhikp
-         PhGcRhsSQIDt0NLaMOR4bJSmBpD/uIJP610tetDk=
-Date:   Tue, 10 May 2022 09:52:29 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
-Message-ID: <YnoZva+tZa8Ix+aI@kroah.com>
-References: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
- <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
- <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
- <YnaR8LaaPTdLTiok@rowland.harvard.edu>
- <CAMuHMdUpOiHHMktPk_-NauDW2ufvGThnkFU7Pok376pM6OEyYw@mail.gmail.com>
- <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
- <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
- <YnktokC8Uk9j53yO@rowland.harvard.edu>
- <YnlAAxT5Lq0NvxX0@kroah.com>
- <YnlFl0M0FRzhxwpK@rowland.harvard.edu>
+        Tue, 10 May 2022 04:15:37 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC248AE43;
+        Tue, 10 May 2022 01:11:39 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id 185so3209750qke.7;
+        Tue, 10 May 2022 01:11:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uhALeu7x2VWkulby+gfNBCQt8rp7fFwVaYXJL9pXNm0=;
+        b=wt8wMIuDjMB7gU1zffk+qKhq0Dqu47nN9ruZfJH6BOtlakLsn53tgFWt6WpKUfmyT2
+         pP9xrpknGd6Fk1G7X7QElv432Y/hrQKnycimP25w1rhkbGtHZjADI0kEKr7SIToCiPqQ
+         b1APwc75I5AmheWD18cV5+Anm8mSMKC0WDdHdGjNmdyXJzqZx28LGC4X+jEtBG1J89OX
+         hy5ZimmHZkXJ21sJbU2tfVS6IxmiuOxqEV5nztq2Ph2PEISLxUiXNxIiX9i18DutzopO
+         YZ6Zp+OssF3g0R+V6J4TWAmxnyKpC2eQVOqCL8dLS0nTan0f9rFGrwAGW5YodQbZrnrE
+         mmLw==
+X-Gm-Message-State: AOAM532TsZlmcPDS/+Df5YjrIis1QEtDUeHh0HNIgT2wJ7khh6hoeItD
+        CK0i6/0xB2flwX1TiP9VUJsHT/8L66ejqg==
+X-Google-Smtp-Source: ABdhPJyS1rN8w/pK5oYsNJ6Y32WLozIy/jd1LWLGWxbsG0kF0+/qV/kpaiavv8RSFj85offI9wB71g==
+X-Received: by 2002:a05:620a:210e:b0:69f:9d3e:3ced with SMTP id l14-20020a05620a210e00b0069f9d3e3cedmr13925529qkl.536.1652170298850;
+        Tue, 10 May 2022 01:11:38 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id 191-20020a3705c8000000b0069fc13ce204sm8319786qkf.53.2022.05.10.01.11.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 May 2022 01:11:37 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-2f7d621d1caso170537987b3.11;
+        Tue, 10 May 2022 01:11:37 -0700 (PDT)
+X-Received: by 2002:a81:913:0:b0:2f7:c833:f304 with SMTP id
+ 19-20020a810913000000b002f7c833f304mr18325160ywj.283.1652170296892; Tue, 10
+ May 2022 01:11:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnlFl0M0FRzhxwpK@rowland.harvard.edu>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220509050953.11005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220509050953.11005-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB5922B58BB70B92813041745786C69@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdVuLq1Q2KB7gFQ5MsQmyUTv4yuu-GUBVn_xGwKhUwYQZg@mail.gmail.com> <CA+V-a8uG8qzzWj+=6EhzSd5j8NC3bpf=9tU9jgxzK8Cg75BTtw@mail.gmail.com>
+In-Reply-To: <CA+V-a8uG8qzzWj+=6EhzSd5j8NC3bpf=9tU9jgxzK8Cg75BTtw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 10 May 2022 10:11:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU+WprHzht+daRpvF_mYe+b8SoCYhN_F=DhBgn55cAH9Q@mail.gmail.com>
+Message-ID: <CAMuHMdU+WprHzht+daRpvF_mYe+b8SoCYhN_F=DhBgn55cAH9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 09, 2022 at 12:47:19PM -0400, Alan Stern wrote:
-> On Mon, May 09, 2022 at 06:23:31PM +0200, Greg KH wrote:
-> > On Mon, May 09, 2022 at 11:05:06AM -0400, Alan Stern wrote:
-> > > On Mon, May 09, 2022 at 04:42:01PM +0200, Geert Uytterhoeven wrote:
-> > > > Hi Alan,
-> > > > 
-> > > > On Mon, May 9, 2022 at 4:15 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > > > > On Mon, May 09, 2022 at 09:46:25AM +0200, Geert Uytterhoeven wrote:
-> > > > > > > Geert:
-> > > > > > >
-> > > > > > > Can you test the patch below?  It ought to fix the problem (although it
-> > > > > >
-> > > > > > Thanks!
-> > > > > >
-> > > > > > root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
-> > > > > > total 0
-> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.0 ->
-> > > > > > ../../../devices/platform/soc/e659c000.usb/gadget.0
-> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.1 ->
-> > > > > > ../../../devices/platform/soc/ee020000.usb/gadget.1
-> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.2 ->
-> > > > > > ../../../devices/platform/soc/e6590000.usb/gadget.2
-> > > > > >
-> > > > > > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > >
-> > > > > > LGTM, so
-> > > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > >
-> > > > > Thanks!
-> > > > >
-> > > > > > > might end up causing other problems down the line...)
-> > > > > >
-> > > > > > Can you please elaborate? I'm not too familiar with UBS gadgets.
-> > > > >
-> > > > > I was concerned about the fact that changing the name of a file,
-> > > > > directory, or symbolic link in sysfs means changing a user API, and so
-> > > > > it might cause some existing programs to fail.  That would be a
-> > > > > regression.
-> > > > >
-> > > > > Perhaps the best way to work around the problem is to leave the name set
-> > > > > to "gadget" if the ID number is 0, while adding the ID number on to the
-> > > > > name if the value is > 0.  What do you think?
-> > > > 
-> > > > Oh, you mean the "gadget.N" subdirs, which are the targets of the
-> > > > symlinks above? These were indeed named "gadget" before.
-> > > > 
-> > > > Would it be possible to append the ".N" suffixes only to the actual
-> > > > symlinks, while keeping the target directory names unchanged?
-> > > > E.g. /sys/bus/gadget/devices/gadget.0 ->
-> > > > ../../../devices/platform/soc/e659c000.usb/gadget
-> > > 
-> > > No, it's not possible.  Or at least, not without significant changes to 
-> > > the driver core.  Besides, people expect these names to be the same.
-> > 
-> > It should always be ok to change the names of devices as those are not
-> > going to be persistent / determinisitic.  It's the attributes of devices
-> > that are supposed to be used to determine those types of things.
-> > 
-> > So I think let's start out with the .N suffix for everything for now.
-> > I'll be glad to submit the fixed patch to the Android kernel build
-> > system to see what their testing comes back with to see if they happened
-> > to make any name assumptions as that's the largest user of this
-> > codebase.
-> 
-> Okay.  Do you need me to send it as a proper patch before you try it 
-> out?
+Hi Prabhakar,
 
-Yes please.
+On Mon, May 9, 2022 at 9:24 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Mon, May 9, 2022 at 10:10 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, May 9, 2022 at 9:22 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > Subject: [PATCH v2 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller
+> > > > driver
+> > > >
+> > > > Add a driver for the Renesas RZ/G2L Interrupt Controller.
+> > > >
+> > > > This supports external pins being used as interrupts. It supports one line
+> > > > for NMI, 8 external pins and 32 GPIO pins (out of 123) to be used as IRQ
+> > > > lines.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > > > --- /dev/null
+> > > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> >
+> > > > +static void rzg2l_irqc_irq_disable(struct irq_data *d) {
+> > > > +     unsigned int hw_irq = irqd_to_hwirq(d);
+> > > > +
+> > > > +     if (hw_irq >= IRQC_TINT_START && hw_irq <= IRQC_TINT_COUNT) {
+> > > > +             struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> > > > +             u32 offset = hw_irq - IRQC_TINT_START;
+> > > > +             u32 tssr_offset = TSSR_OFFSET(offset);
+> > > > +             u8 tssr_index = TSSR_INDEX(offset);
+> > > > +             u32 reg;
+> > > > +
+> > > > +             raw_spin_lock(&priv->lock);
+> > > > +             reg = readl_relaxed(priv->base + TSSR(tssr_index));
+> > > > +             reg &= ~(TSSEL_MASK << tssr_offset);
+> > > > +             writel_relaxed(reg, priv->base + TSSR(tssr_index));
+> > > > +             raw_spin_unlock(&priv->lock);
+> > > > +     }
+> > > > +     irq_chip_disable_parent(d);
+> > > > +}
+> >
+> > > > +static int rzg2l_tint_set_edge(struct irq_data *d, unsigned int type) {
+> > > > +     struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+> > > > +     unsigned int hwirq = irqd_to_hwirq(d);
+> > > > +     u32 titseln = hwirq - IRQC_TINT_START;
+> > > > +     u32 offset;
+> > > > +     u8 sense;
+> > > > +     u32 reg;
+> > > > +
+> > > > +     switch (type & IRQ_TYPE_SENSE_MASK) {
+> > > > +     case IRQ_TYPE_EDGE_RISING:
+> > > > +             sense = TITSR_TITSEL_EDGE_RISING;
+> > > > +             break;
+> > > > +
+> > > > +     case IRQ_TYPE_EDGE_FALLING:
+> > > > +             sense = TITSR_TITSEL_EDGE_FALLING;
+> > > > +             break;
+> > > > +
+> > > > +     default:
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > >
+> > > > +     if (titseln < TITSR0_MAX_INT) {
+> > > > +             offset = TITSR0;
+> > > > +     } else {
+> > > > +             titseln /= TITSEL_WIDTH;
+> > > > +             offset  = TITSR1;
+> > > > +     }
+> > >
+> > > as TITSR0 (0x24) and TITSR1(0x28) are contiguous address location
+> > >
+> > > May be like others, above declare it as
+> > > u32 offset = TITSR0; ??
+> > >
+> > > and here
+> > >  if ((titseln >= TITSR0_MAX_INT) {
+> > >         titseln /= TITSEL_WIDTH;
+> > >         offset  += 4;
+> > >  }
+> >
+> > Why "titseln /= TITSEL_WIDTH"?
+> > Shouldn't that be "titseln -= TITSR0_MAX_INT"?
+>
+> Ouch, that should be "titseln -= TITSR0_MAX_INT".
+>
+> > Do I need more coffee?
+> >
+> > Can't you define TITSR_{OFFSET,INDEX}() helper macros, like for
+> > TSSR above?
+> >
+> you mean a macro to get the TITSELx offset?
 
-thanks,
+Either a macro, or an open-coded calculation (if you need it in only
+one place).
 
-greg k-h
+As TITSR0 and TITSR1 are stored contiguous, you can easily
+derive offset/shift from irq index.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
