@@ -2,67 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9ACE520EAE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 09:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7588520EB7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 09:35:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232173AbiEJHjE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 03:39:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57166 "EHLO
+        id S235430AbiEJHjK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 03:39:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241123AbiEJH2R (ORCPT
+        with ESMTP id S241534AbiEJHdT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 03:28:17 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0EB1F63B7;
-        Tue, 10 May 2022 00:24:17 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 505051C000A;
-        Tue, 10 May 2022 07:24:11 +0000 (UTC)
+        Tue, 10 May 2022 03:33:19 -0400
+X-Greylist: delayed 56592 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 May 2022 00:29:21 PDT
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F462A4A06;
+        Tue, 10 May 2022 00:29:19 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 86EB020000D;
+        Tue, 10 May 2022 07:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652167456;
+        t=1652167758;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=+GKGEOMV8HdvRtCTi7Q1ZSPYbY21Obt2PJMYQBlni4g=;
-        b=bhhu1IcacSZrxL8ddeSJT6p7EYsCv0sPfh5KN6uv0Ab+Bya349FAyQE7V/xbeYGFTDBJ+1
-        f09y1FQ7SreSrhRVS5hV2mH/cPOo6CO/nx8oKC//l24s9vIdqRe0I8uITZUOTekJvTZ97d
-        SuZnRowWLWuVwoIrEOD4oZ0nJ2isKLtzBkaHWi6o6iD/MXevcZeSAg1qsMax8jW7Prnjtm
-        8GSrbbqxQLqKbzXhsw7TCmRYN6qltcTPWpU+2oHgdHX9Dbpl/tnGCq7bhaWImOFCYgZXEP
-        UGS+bOKGyI4tvhGKW7fVnKOfMbugNW7ia5g1Dx+piTpjTm305dkAD0JWmIQkUA==
-Date:   Tue, 10 May 2022 09:24:10 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        bh=78SwRfuIkXdOX10+Kuc7el4F9ko1j9nEWVkbYfW8LZE=;
+        b=GdCwEFRMEtaNNfsHY6C2a6NrmZJst2FMbyFx4JqFaifUHhWVZ0254TRAIBy6qAKKv5bvGq
+        M5DauLw4g6Z+VEc54JfZUymxg5NwvjX15K8REGbTrfVDA4F7o6hsq76mjOAWdAz4UE0fQN
+        YvB0R8eQW9TSkjdUO7lknldDHPgdT6CY1aXMg7JQrzVPtuPG+MFl4s++xC78Blqxvz+7Hd
+        iZ6r6Wk/nb77hgl+oXjt7CdZNw4a/jhmVOce5AumE3LAf1qsxrZMARtxO1dzawO6EON61o
+        xxjZxMYd90qChnZvslM2ZoPfGr6A5PtJ6YWCb5GTwkPJYHaXOjEYabyqATD2Jw==
+Date:   Tue, 10 May 2022 09:29:11 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Magnus Damm <magnus.damm@gmail.com>, kbuild-all@lists.01.org,
+        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v4 04/12] net: pcs: add Renesas MII converter
- driver
-Message-ID: <20220510092410.1c1f5eaa@xps-bootlin>
-In-Reply-To: <Ynl3jpuJFqXLscvE@shell.armlinux.org.uk>
-References: <20220509131900.7840-1-clement.leger@bootlin.com>
-        <20220509131900.7840-5-clement.leger@bootlin.com>
-        <Ynl3jpuJFqXLscvE@shell.armlinux.org.uk>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Michel Pollet <michel.pollet@bp.renesas.com>
+Subject: Re: [PATCH v4 2/5] rtc: rzn1: Add new RTC driver
+Message-ID: <20220510092911.5ab2f15a@xps13>
+In-Reply-To: <202205100552.VY3kCkh5-lkp@intel.com>
+References: <20220509154559.24851-3-miquel.raynal@bootlin.com>
+        <202205100552.VY3kCkh5-lkp@intel.com>
 Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,82 +70,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Mon, 9 May 2022 21:20:30 +0100,
-"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
+Hi Alex,
 
-> Hi,
->=20
-> On Mon, May 09, 2022 at 03:18:52PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > +#define MIIC_PRCMD			0x0
-> > +#define MIIC_ESID_CODE			0x4
-> > +
-> > +#define MIIC_MODCTRL			0x20
-> > +#define MIIC_MODCTRL_SW_MODE		GENMASK(4, 0)
-> > +
-> > +#define MIIC_CONVCTRL(port)		(0x100 + (port) * 4)
-> > +
-> > +#define MIIC_CONVCTRL_CONV_SPEED	GENMASK(1, 0)
-> > +#define CONV_MODE_10MBPS		0
-> > +#define CONV_MODE_100MBPS		BIT(0)
-> > +#define CONV_MODE_1000MBPS		BIT(1) =20
->=20
-> I think this is an inappropriate use of the BIT() macro. BIT() should
-> be used for single bit rather than for field values.
->=20
-> You seem to have a two bit field in bits 1 and 0 of a register, which
-> has the values of:
-> 0 - 10MBPS
-> 1 - 100MBPS
-> 2 - 1GBPS
->=20
-> I'd guess 3 is listed as "undefined", "do not use" or something
-> similar?
+lkp@intel.com wrote on Tue, 10 May 2022 05:26:55 +0800:
 
-You are right, this is actually values rather than individual bits.
-
+> Hi Miquel,
 >=20
-> > +
-> > +#define MIIC_CONVCTRL_CONV_MODE		GENMASK(3, 2)
-> > +#define CONV_MODE_MII			0
-> > +#define CONV_MODE_RMII			BIT(0)
-> > +#define CONV_MODE_RGMII			BIT(1) =20
+> Thank you for the patch! Yet something to improve:
 >=20
-> This looks similar. a 2-bit field in bits 3 and 2 taking values:
-> 0 - MII
-> 1 - RMII
-> 2 - RGMII
->=20
-> ...
->=20
-> > +static int miic_config(struct phylink_pcs *pcs, unsigned int mode,
-> > +		       phy_interface_t interface,
-> > +		       const unsigned long *advertising, bool
-> > permit) +{
-> > +	u32 speed =3D CONV_MODE_10MBPS, conv_mode =3D CONV_MODE_MII,
-> > val;
-> > +	struct miic_port *miic_port =3D
-> > phylink_pcs_to_miic_port(pcs);
-> > +	struct miic *miic =3D miic_port->miic;
-> > +	int port =3D miic_port->port;
-> > +
-> > +	switch (interface) {
-> > +	case PHY_INTERFACE_MODE_RMII:
-> > +		conv_mode =3D CONV_MODE_RMII;
-> > +		speed =3D CONV_MODE_100MBPS;
-> > +		break;
-> > +	case PHY_INTERFACE_MODE_RGMII:
-> > +		conv_mode =3D CONV_MODE_RGMII;
-> > +		speed =3D CONV_MODE_1000MBPS;
-> > +		break;
-> > +	case PHY_INTERFACE_MODE_MII: =20
->=20
-> I'm not sure why you need to initialise "speed" and "conv_mode" above
-> when you could set them here.
-
-It only seemed to me that 0 value was the default init one but I'll
-move that in that case.
-
->=20
-> Thanks.=20
+> [auto build test ERROR on abelloni/rtc-next]
+> [also build test ERROR on robh/for-next linus/master v5.18-rc6 next-20220=
+509]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
 >=20
 
+[...]
+
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> >> drivers/rtc/rtc-rzn1.c:23:10: fatal error: linux/soc/renesas/r9a06g032=
+-sysctrl.h: No such file or directory =20
+>       23 | #include <linux/soc/renesas/r9a06g032-sysctrl.h>
+>          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    compilation terminated.
+
+That include is no longer needed in this driver (and should be merged
+through another tree). Tell me if I need to resend or if you can fix it
+while applying.
+
+Thanks,
+Miqu=C3=A8l
