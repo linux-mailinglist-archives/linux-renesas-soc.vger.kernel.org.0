@@ -2,50 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BADD8521CB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 16:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9EED521D51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 16:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344407AbiEJOrb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 10:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39138 "EHLO
+        id S1345537AbiEJPDj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 11:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344703AbiEJOrQ (ORCPT
+        with ESMTP id S1345478AbiEJPDd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 10:47:16 -0400
-Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E464D2E5D24;
-        Tue, 10 May 2022 07:05:29 -0700 (PDT)
+        Tue, 10 May 2022 11:03:33 -0400
+Received: from mxout03.lancloud.ru (mxout03.lancloud.ru [45.84.86.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F8B327775;
+        Tue, 10 May 2022 07:27:21 -0700 (PDT)
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 2F4232424D2E
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 5242B20EE528
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
-Subject: Re: [PATCH v3 2/5] ravb: Separate handling of irq enable/disable regs
- into feature
+Subject: Re: [PATCH v3 1/5] dt-bindings: net: renesas,etheravb: Document
+ RZ/V2M SoC
 To:     Phil Edworthy <phil.edworthy@renesas.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
 References: <20220510090336.14272-1-phil.edworthy@renesas.com>
- <20220510090336.14272-3-phil.edworthy@renesas.com>
+ <20220510090336.14272-2-phil.edworthy@renesas.com>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <86eb5131-5a0f-5bf0-b884-747a0617af41@omp.ru>
-Date:   Tue, 10 May 2022 17:05:24 +0300
+Message-ID: <b3ab3062-9ef9-776a-6977-0f83caac00a9@omp.ru>
+Date:   Tue, 10 May 2022 17:27:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20220510090336.14272-3-phil.edworthy@renesas.com>
+In-Reply-To: <20220510090336.14272-2-phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
  LFEX1907.lancloud.ru (fd00:f066::207)
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
@@ -58,19 +60,41 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 5/10/22 12:03 PM, Phil Edworthy wrote:
 
-> Currently, when the HW has a single interrupt, the driver uses the
-> GIC, TIC, RIC0 registers to enable and disable interrupts.
-> When the HW has multiple interrupts, it uses the GIE, GID, TIE, TID,
-> RIE0, RID0 registers.
+> Document the Ethernet AVB IP found on RZ/V2M SoC.
+> It includes the Ethernet controller (E-MAC) and Dedicated Direct memory
+> access controller (DMAC) for transferring transmitted Ethernet frames
+> to and received Ethernet frames from respective storage areas in the
+> RAM at high speed.
+> The AVB-DMAC is compliant with IEEE 802.1BA, IEEE 802.1AS timing and
+> synchronization protocol, IEEE 802.1Qav real-time transfer, and the
+> IEEE 802.1Qat stream reservation protocol.
 > 
-> However, other devices, e.g. RZ/V2M, have multiple irqs and only have
-> the GIC, TIC, RIC0 registers.
-> Therefore, split this into a separate feature.
+> R-Car has a pair of combined interrupt lines:
+>  ch22 = Line0_DiA | Line1_A | Line2_A
+>  ch23 = Line0_DiB | Line1_B | Line2_B
+> Line0 for descriptor interrupts (which we call dia and dib).
+> Line1 for error related interrupts (which we call err_a and err_b).
+> Line2 for management and gPTP related interrupts (mgmt_a and mgmt_b).
+> 
+> RZ/V2M hardware has separate interrupt lines for each of these.
+> 
+> It has 3 clocks; the main AXI clock, the AMBA CHI (Coherent Hub
+> Interface) clock and a gPTP reference clock.
 > 
 > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+   I'm not an expert in the DT bindings, though...
+
+> ---
+> v3:
+>  - No change
+> v2:
+>  - Instead of reusing ch22 and ch24 interupt names, use the proper names
+
+   Interrupt. :-)
 
 [...]
 
