@@ -2,495 +2,331 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4ACE521DB1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 17:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE05521DF2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 17:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345340AbiEJPLy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 11:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56040 "EHLO
+        id S1345164AbiEJPUc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 11:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345748AbiEJPLG (ORCPT
+        with ESMTP id S1345526AbiEJPUJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 11:11:06 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7E6911900C7;
-        Tue, 10 May 2022 07:43:16 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,214,1647270000"; 
-   d="scan'208";a="120532100"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 10 May 2022 23:43:15 +0900
-Received: from localhost.localdomain (unknown [10.226.92.112])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 16AFC4008C6D;
-        Tue, 10 May 2022 23:43:11 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] pwm: Add support for RZ/G2L GPT
-Date:   Tue, 10 May 2022 15:42:59 +0100
-Message-Id: <20220510144259.9908-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220510144259.9908-1-biju.das.jz@bp.renesas.com>
-References: <20220510144259.9908-1-biju.das.jz@bp.renesas.com>
+        Tue, 10 May 2022 11:20:09 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA4D4666C;
+        Tue, 10 May 2022 07:59:54 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id c1so13363822qkf.13;
+        Tue, 10 May 2022 07:59:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3e3Lz+jYEnYk5BFbUe1qTpBNu9HtQF+sDOwNpDINJlI=;
+        b=qPwtF5pAEIBm7FNj4YVI5vpIwC9REJqgqyX05AT3M8kXNlW6lFIlou/VV57aX5gVe8
+         gRip8XH754i/dY0U/VRe+g/y18Nj5ooaQtv6AZJiC7kLYd+Hpgsyu46TJz16I8pu+S9q
+         Xi9GWE1rqdlYQqOSAk8z18Z+K+Uteya5uOuTE53vTua2Js1tx8WBgi7CjdzKZ5DJImYf
+         xwasRtUnkEby+L8OwNScv/v3BZOEoYeAjN0TBlH/N5l0VDvjNEwS5F+WUVgsuBxTGz4J
+         d8G1e1VCHO5ZkWwxxs5+TVcj+lkCi31gQeU9wJxlqwp/aoGAkMtIgmli7tZxTvzMXf1Z
+         auJA==
+X-Gm-Message-State: AOAM530sr+O0j0i6GKkHliN5dpspHvtvH3Tbemd9C2X/H7+oTI6Z0fGF
+        eL8iE1IaVk1qYgRcs6S/4oaTazIynti3Fw==
+X-Google-Smtp-Source: ABdhPJyeyQXHzd4g8uD9vWGJdqpkL4wUi/W742W14oohqRg3G4kCoXlpMJkiGiYEk2xNiTh2g4T/lA==
+X-Received: by 2002:a05:620a:4091:b0:6a0:54cf:c0ed with SMTP id f17-20020a05620a409100b006a054cfc0edmr11845380qko.578.1652194792734;
+        Tue, 10 May 2022 07:59:52 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id s11-20020ac85ecb000000b002f39b99f69dsm9058368qtx.55.2022.05.10.07.59.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 May 2022 07:59:52 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id r11so31170660ybg.6;
+        Tue, 10 May 2022 07:59:52 -0700 (PDT)
+X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
+ s14-20020a056902120e00b006346f296b84mr19168862ybu.604.1652194791974; Tue, 10
+ May 2022 07:59:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220505193143.31826-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220505193143.31826-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 10 May 2022 16:59:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7A32skBCmXDbyP9Y+kY0S3nv+8iFHwqFnzJU1nYn1WQ@mail.gmail.com>
+Message-ID: <CAMuHMdX7A32skBCmXDbyP9Y+kY0S3nv+8iFHwqFnzJU1nYn1WQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/4] clk: renesas: r9a07g043: Split up core, module
+ and resets array
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
-(GPT32E). It supports the following functions
- * 32 bits × 8 channels
- * Up-counting or down-counting (saw waves) or up/down-counting
-   (triangle waves) for each counter.
- * Clock sources independently selectable for each channel
- * Two I/O pins per channel
- * Two output compare/input capture registers per channel
- * For the two output compare/input capture registers of each channel,
-   four registers are provided as buffer registers and are capable of
-   operating as comparison registers when buffering is not in use.
- * In output compare operation, buffer switching can be at crests or
-   troughs, enabling the generation of laterally asymmetric PWM waveforms.
- * Registers for setting up frame cycles in each channel (with capability
-   for generating interrupts at overflow or underflow)
- * Generation of dead times in PWM operation
- * Synchronous starting, stopping and clearing counters for arbitrary
-   channels
- * Starting, stopping, clearing and up/down counters in response to input
-   level comparison
- * Starting, clearing, stopping and up/down counters in response to a
-   maximum of four external triggers
- * Output pin disable function by dead time error and detected
-   short-circuits between output pins
- * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
- * Enables the noise filter for input capture and external trigger
-   operation
+Hi Prabhakar,
 
-This patch adds basic pwm support for RZ/G2L GPT driver by creating
-separate logical channels for each IOs.
+On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> In preparation for adding support for Renesas RZ/Five SoC as part of
+> r9a07g043-cpg.c file, split up the core clock, module clock and resets
+> array into common and SoC specific.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-RFC->V1:
- * Updated macros
- * replaced rzg2l_gpt_write_mask()->rzg2l_gpt_modify()
- * Added rzg2l_gpt_read()
----
- drivers/pwm/Kconfig         |  11 ++
- drivers/pwm/Makefile        |   1 +
- drivers/pwm/pwm-rzg2l-gpt.c | 355 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 367 insertions(+)
- create mode 100644 drivers/pwm/pwm-rzg2l-gpt.c
+Thanks for your patch!
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 21e3b05a5153..d93b510f9ca8 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -471,6 +471,17 @@ config PWM_ROCKCHIP
- 	  Generic PWM framework driver for the PWM controller found on
- 	  Rockchip SoCs.
- 
-+config PWM_RZG2L_GPT
-+	tristate "Renesas RZ/G2L General PWM Timer support"
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	depends on HAS_IOMEM
-+	help
-+	  This driver exposes the General PWM Timer controller found in Renesas
-+	  RZ/G2L like chips through the PWM API.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-rzg2l-gpt.
-+
- config PWM_SAMSUNG
- 	tristate "Samsung PWM support"
- 	depends on PLAT_SAMSUNG || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 708840b7fba8..bd213ae64074 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -43,6 +43,7 @@ obj-$(CONFIG_PWM_RASPBERRYPI_POE)	+= pwm-raspberrypi-poe.o
- obj-$(CONFIG_PWM_RCAR)		+= pwm-rcar.o
- obj-$(CONFIG_PWM_RENESAS_TPU)	+= pwm-renesas-tpu.o
- obj-$(CONFIG_PWM_ROCKCHIP)	+= pwm-rockchip.o
-+obj-$(CONFIG_PWM_RZG2L_GPT)	+= pwm-rzg2l-gpt.o
- obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
- obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
- obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-new file mode 100644
-index 000000000000..d5d22b1ff792
---- /dev/null
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -0,0 +1,355 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas RZ/G2L General PWM Timer (GPT) driver
-+ *
-+ * Copyright (C) 2022 Renesas Electronics Corporation
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/pwm.h>
-+#include <linux/reset.h>
-+#include <linux/units.h>
-+
-+#define GPT_IO_PER_CHANNEL	2
-+
-+#define GTPR_MAX_VALUE	0xFFFFFFFF
-+#define GTCR		0x2c
-+#define GTUDDTYC	0x30
-+#define GTIOR		0x34
-+#define GTBER		0x40
-+#define GTCNT		0x48
-+#define GTCCRA		0x4c
-+#define GTCCRB		0x50
-+#define GTPR		0x64
-+
-+#define GTCR_CST			BIT(0)
-+#define GTCR_MD_MASK			GENMASK(18, 16)
-+#define GTCR_TPCS_MASK			GENMASK(26, 24)
-+#define GTCR_MD_SAW_WAVE_PWM_MODE	(0 << 16)
-+
-+#define GTUDDTYC_UP	BIT(0)
-+#define GTUDDTYC_UDF	BIT(1)
-+#define UP_COUNTING	(GTUDDTYC_UP | GTUDDTYC_UDF)
-+
-+#define GTIOR_GTIOA_MASK			GENMASK(4, 0)
-+#define GTIOR_GTIOB_MASK			GENMASK(20, 16)
-+#define GTIOR_OAE				BIT(8)
-+#define GTIOR_OBE				BIT(24)
-+
-+#define INIT_OUT_LO_OUT_LO_END_TOGGLE		(0x07)
-+#define INIT_OUT_HI_OUT_HI_END_TOGGLE		(0x1B)
-+#define GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH	(INIT_OUT_HI_OUT_HI_END_TOGGLE | GTIOR_OAE)
-+#define GTIOR_GTIOA_OUT_LO_END_TOGGLE_CMP_MATCH	(INIT_OUT_LO_OUT_LO_END_TOGGLE | GTIOR_OAE)
-+#define GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH	((INIT_OUT_HI_OUT_HI_END_TOGGLE << 16) | GTIOR_OBE)
-+#define GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH	((INIT_OUT_LO_OUT_LO_END_TOGGLE << 16) | GTIOR_OBE)
-+
-+struct phase {
-+	u32 value;
-+	u32 mask;
-+	u32 duty_reg_offset;
-+};
-+
-+static const struct phase phase_params[] = {
-+	/* Setting for phase A */
-+	{
-+		GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH,
-+		GTIOR_GTIOA_MASK | GTIOR_OAE,
-+		GTCCRA,
-+	},
-+
-+	/* Setting for phase B */
-+	{
-+		GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH,
-+		GTIOR_GTIOB_MASK | GTIOR_OBE,
-+		GTCCRB,
-+	},
-+};
-+
-+struct rzg2l_gpt_chip;
-+
-+struct gpt_pwm_device {
-+	struct rzg2l_gpt_chip *pc;
-+	const struct phase *ph;
-+	unsigned int channel;	/* IO channel number in the GPT */
-+
-+	enum pwm_polarity polarity;
-+};
-+
-+struct rzg2l_gpt_chip {
-+	struct pwm_chip chip;
-+	void __iomem *mmio;
-+	struct reset_control *rstc;
-+	struct clk *clk;
-+};
-+
-+static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct rzg2l_gpt_chip, chip);
-+}
-+
-+static void rzg2l_gpt_write(struct rzg2l_gpt_chip *pc, u32 reg, u32 data)
-+{
-+	iowrite32(data, pc->mmio + reg);
-+}
-+
-+static u32 rzg2l_gpt_read(struct rzg2l_gpt_chip *pc, u32 reg)
-+{
-+	return ioread32(pc->mmio + reg);
-+}
-+
-+static void rzg2l_gpt_modify(struct rzg2l_gpt_chip *pc, u32 reg, u32 clr, u32 set)
-+{
-+	rzg2l_gpt_write(pc, reg, (rzg2l_gpt_read(pc, reg) & ~clr) | set);
-+}
-+
-+static int rzg2l_calculate_prescale(struct rzg2l_gpt_chip *pc, int period_ns)
-+{
-+	unsigned long long c, clk_rate;
-+	unsigned long period_cycles;
-+	int prescale;
-+	int i, prod;
-+
-+	clk_rate = clk_get_rate(pc->clk);
-+	c = clk_rate * period_ns;
-+	period_cycles = div_u64(c, NANO);
-+
-+	if (period_cycles < 1)
-+		period_cycles = 1;
-+
-+	prescale = -1;
-+	/* prescale 1, 4, 16, 64, 256 and 1024 */
-+	for (i = 0, prod = 1; i < 6; i++) {
-+		if ((period_cycles / GTPR_MAX_VALUE * prod) == 0) {
-+			prescale = i;
-+			break;
-+		}
-+
-+		prod *= 4;
-+	}
-+
-+	return prescale;
-+}
-+
-+static unsigned long
-+rzg2l_time_to_tick_number(struct rzg2l_gpt_chip *pc, int time_ns,
-+			  unsigned long prescale)
-+{
-+	unsigned long long c, clk_rate;
-+	unsigned long period_cycles;
-+	int i, prod;
-+
-+	clk_rate = clk_get_rate(pc->clk);
-+	c = clk_rate * time_ns;
-+	period_cycles = div_u64(c, NANO);
-+
-+	if (period_cycles < 1)
-+		period_cycles = 1;
-+
-+	/* Divide by 1, 4, 16, 64, 256 and 1024 */
-+	for (i = 0, prod = 1; i < prescale; i++)
-+		prod *= 4;
-+
-+	return period_cycles / prod;
-+}
-+
-+static int rzg2l_gpt_request(struct pwm_chip *chip, struct pwm_device *_pwm)
-+{
-+	struct rzg2l_gpt_chip *pc = to_rzg2l_gpt_chip(chip);
-+	struct gpt_pwm_device *pwm;
-+
-+	if (_pwm->hwpwm >= GPT_IO_PER_CHANNEL)
-+		return -EINVAL;
-+
-+	pwm = kzalloc(sizeof(*pwm), GFP_KERNEL);
-+	if (!pwm)
-+		return -ENOMEM;
-+
-+	pwm->pc = pc;
-+	pwm->channel = _pwm->hwpwm;
-+	pwm->polarity = PWM_POLARITY_NORMAL;
-+	pwm->ph = &phase_params[pwm->channel & 0x1];
-+	pwm_set_chip_data(_pwm, pwm);
-+
-+	pm_runtime_get_sync(chip->dev);
-+
-+	return 0;
-+}
-+
-+static void rzg2l_gpt_free(struct pwm_chip *chip, struct pwm_device *_pwm)
-+{
-+	struct gpt_pwm_device *pwm = pwm_get_chip_data(_pwm);
-+
-+	pm_runtime_put(chip->dev);
-+	kfree(pwm);
-+}
-+
-+static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *_pwm,
-+			    int duty_ns, int period_ns)
-+{
-+	struct gpt_pwm_device *pwm = pwm_get_chip_data(_pwm);
-+	struct rzg2l_gpt_chip *pc = to_rzg2l_gpt_chip(chip);
-+	unsigned long pv, dc;
-+	int prescale;
-+
-+	if (duty_ns < 0 || period_ns < 0) {
-+		dev_err(chip->dev, "ch=%d Set time negative\n", pwm->channel);
-+		return -EINVAL;
-+	}
-+
-+	prescale = rzg2l_calculate_prescale(pc, period_ns);
-+	if (prescale < 0) {
-+		dev_err(chip->dev, "ch=%d wrong prescale val\n", pwm->channel);
-+		return -EINVAL;
-+	}
-+
-+	pv = rzg2l_time_to_tick_number(pc, period_ns, prescale);
-+	dc = rzg2l_time_to_tick_number(pc, duty_ns, prescale);
-+	if (duty_ns == period_ns)
-+		dc = pv;
-+
-+	/* GPT setting saw-wave up-counting */
-+	rzg2l_gpt_modify(pc, GTCR, GTCR_MD_MASK, GTCR_MD_SAW_WAVE_PWM_MODE);
-+	rzg2l_gpt_modify(pc, GTCR, GTCR_TPCS_MASK, prescale << 24);
-+	/* Set counting mode */
-+	rzg2l_gpt_write(pc, GTUDDTYC, UP_COUNTING);
-+	/* Set period */
-+	rzg2l_gpt_write(pc, GTPR, pv);
-+
-+	/* Enable pin output */
-+	rzg2l_gpt_modify(pc, GTIOR, pwm->ph->mask, pwm->ph->value);
-+
-+	/* Set duty cycle */
-+	rzg2l_gpt_write(pc, pwm->ph->duty_reg_offset, dc);
-+
-+	/* Set initial value for counter */
-+	rzg2l_gpt_write(pc, GTCNT, 0);
-+	/* Set no buffer operation */
-+	rzg2l_gpt_write(pc, GTBER, 0);
-+
-+	return 0;
-+}
-+
-+static int rzg2l_gpt_enable(struct rzg2l_gpt_chip *pc)
-+{
-+	/* Start count */
-+	rzg2l_gpt_modify(pc, GTCR, GTCR_CST, GTCR_CST);
-+
-+	return 0;
-+}
-+
-+static void rzg2l_gpt_disable(struct rzg2l_gpt_chip *pc)
-+{
-+	/* Stop count */
-+	rzg2l_gpt_modify(pc, GTCR, GTCR_CST, 0);
-+}
-+
-+static int rzg2l_gpt_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   const struct pwm_state *state)
-+{
-+	struct rzg2l_gpt_chip *pc = to_rzg2l_gpt_chip(chip);
-+	int ret;
-+
-+	if (!state->enabled) {
-+		rzg2l_gpt_disable(pc);
-+		return 0;
-+	}
-+
-+	ret = rzg2l_gpt_config(chip, pwm, state->duty_cycle, state->period);
-+	if (!ret)
-+		ret = rzg2l_gpt_enable(pc);
-+
-+	return ret;
-+}
-+
-+static const struct pwm_ops rzg2l_gpt_ops = {
-+	.request = rzg2l_gpt_request,
-+	.free = rzg2l_gpt_free,
-+	.apply = rzg2l_gpt_apply,
-+	.owner = THIS_MODULE,
-+};
-+
-+static const struct of_device_id rzg2l_gpt_of_table[] = {
-+	{ .compatible = "renesas,rzg2l-gpt", },
-+	{ /* Sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, rzg2l_gpt_of_table);
-+
-+static int rzg2l_gpt_probe(struct platform_device *pdev)
-+{
-+	struct rzg2l_gpt_chip *rzg2l_gpt;
-+	int ret;
-+
-+	rzg2l_gpt = devm_kzalloc(&pdev->dev, sizeof(*rzg2l_gpt), GFP_KERNEL);
-+	if (!rzg2l_gpt)
-+		return -ENOMEM;
-+
-+	rzg2l_gpt->mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(rzg2l_gpt->mmio))
-+		return PTR_ERR(rzg2l_gpt->mmio);
-+
-+	rzg2l_gpt->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(rzg2l_gpt->rstc))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->rstc),
-+				     "get reset failed\n");
-+
-+	rzg2l_gpt->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(rzg2l_gpt->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->clk),
-+				     "cannot get clock\n");
-+
-+	platform_set_drvdata(pdev, rzg2l_gpt);
-+
-+	ret = reset_control_deassert(rzg2l_gpt->rstc);
-+	if (ret) {
-+		dev_err(&pdev->dev, "cannot deassert reset control: %pe\n",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	pm_runtime_enable(&pdev->dev);
-+
-+	rzg2l_gpt->chip.dev = &pdev->dev;
-+	rzg2l_gpt->chip.ops = &rzg2l_gpt_ops;
-+	rzg2l_gpt->chip.npwm = GPT_IO_PER_CHANNEL;
-+
-+	ret = pwmchip_add(&rzg2l_gpt->chip);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "failed to register GPT chip: %d\n", ret);
-+		pm_runtime_disable(&pdev->dev);
-+		reset_control_assert(rzg2l_gpt->rstc);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rzg2l_gpt_remove(struct platform_device *pdev)
-+{
-+	struct rzg2l_gpt_chip *rzg2l_gpt = platform_get_drvdata(pdev);
-+
-+	pwmchip_remove(&rzg2l_gpt->chip);
-+	pm_runtime_disable(&pdev->dev);
-+	reset_control_assert(rzg2l_gpt->rstc);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver rzg2l_gpt_driver = {
-+	.driver = {
-+		.name = "pwm-rzg2l-gpt",
-+		.of_match_table = of_match_ptr(rzg2l_gpt_of_table),
-+	},
-+	.probe = rzg2l_gpt_probe,
-+	.remove = rzg2l_gpt_remove,
-+};
-+module_platform_driver(rzg2l_gpt_driver);
-+
-+MODULE_AUTHOR("Biju Das <biju.das.jz@bp.renesas.com>");
-+MODULE_DESCRIPTION("Renesas RZ/G2L General PWM Timer (GPT) Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:pwm-rzg2l-gpt");
--- 
-2.25.1
+> --- a/drivers/clk/renesas/r9a07g043-cpg.c
+> +++ b/drivers/clk/renesas/r9a07g043-cpg.c
+> @@ -36,9 +36,11 @@ enum clk_ids {
+>         CLK_PLL3_DIV2_4_2,
+>         CLK_SEL_PLL3_3,
+>         CLK_DIV_PLL3_C,
+> +#ifndef CONFIG_RISCV
 
+Perhaps make this a positive check, i.e. check for CONFIG_ARM64?
+Just in case Renesas spins out another variant with a
+non-arm64/non-riscv core ;-)
+
+>         CLK_PLL5,
+>         CLK_PLL5_500,
+>         CLK_PLL5_250,
+> +#endif
+
+Technically, this #ifdef protection is not needed, but it helps to
+catch errors below.
+
+>         CLK_PLL6,
+>         CLK_PLL6_250,
+>         CLK_P1_DIV2,
+> @@ -76,227 +78,271 @@ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
+>  static const char * const sel_pll6_2[] = { ".pll6_250", ".pll5_250" };
+>  static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
+>
+> -static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
+> -       /* External Clock Inputs */
+> -       DEF_INPUT("extal", CLK_EXTAL),
+> +static const struct {
+> +       struct cpg_core_clk common[38];
+> +#ifndef CONFIG_RISCV
+> +       struct cpg_core_clk rzg2ul[3];
+> +#endif
+
+Unlike in the r9a07g044 vs. r9a07g054 case, there is no need to have
+access to the individual arrays at runtime.  So you can just keep the
+single r9a07g043_core_clks[] array, and add #ifdef/#endif around the
+clock definitions for clocks that are present on one variant only.
+
+> +} core_clks __initconst = {
+> +       .common = {
+> +               /* External Clock Inputs */
+> +               DEF_INPUT("extal", CLK_EXTAL),
+>
+> -       /* Internal Core Clocks */
+> -       DEF_FIXED(".osc", R9A07G043_OSCCLK, CLK_EXTAL, 1, 1),
+> -       DEF_FIXED(".osc_div1000", CLK_OSC_DIV1000, CLK_EXTAL, 1, 1000),
+> -       DEF_SAMPLL(".pll1", CLK_PLL1, CLK_EXTAL, PLL146_CONF(0)),
+> -       DEF_FIXED(".pll2", CLK_PLL2, CLK_EXTAL, 200, 3),
+> -       DEF_FIXED(".pll2_div2", CLK_PLL2_DIV2, CLK_PLL2, 1, 2),
+> -       DEF_FIXED(".clk_800", CLK_PLL2_800, CLK_PLL2, 1, 2),
+> -       DEF_FIXED(".clk_533", CLK_PLL2_SDHI_533, CLK_PLL2, 1, 3),
+> -       DEF_FIXED(".clk_400", CLK_PLL2_SDHI_400, CLK_PLL2_800, 1, 2),
+> -       DEF_FIXED(".clk_266", CLK_PLL2_SDHI_266, CLK_PLL2_SDHI_533, 1, 2),
+> -       DEF_FIXED(".pll2_div2_8", CLK_PLL2_DIV2_8, CLK_PLL2_DIV2, 1, 8),
+> -       DEF_FIXED(".pll2_div2_10", CLK_PLL2_DIV2_10, CLK_PLL2_DIV2, 1, 10),
+> -       DEF_FIXED(".pll3", CLK_PLL3, CLK_EXTAL, 200, 3),
+> -       DEF_FIXED(".pll3_div2", CLK_PLL3_DIV2, CLK_PLL3, 1, 2),
+> -       DEF_FIXED(".pll3_div2_4", CLK_PLL3_DIV2_4, CLK_PLL3_DIV2, 1, 4),
+> -       DEF_FIXED(".pll3_div2_4_2", CLK_PLL3_DIV2_4_2, CLK_PLL3_DIV2_4, 1, 2),
+> -       DEF_FIXED(".pll3_400", CLK_PLL3_400, CLK_PLL3, 1, 4),
+> -       DEF_FIXED(".pll3_533", CLK_PLL3_533, CLK_PLL3, 1, 3),
+> -       DEF_MUX(".sel_pll3_3", CLK_SEL_PLL3_3, SEL_PLL3_3,
+> -               sel_pll3_3, ARRAY_SIZE(sel_pll3_3), 0, CLK_MUX_READ_ONLY),
+> -       DEF_DIV("divpl3c", CLK_DIV_PLL3_C, CLK_SEL_PLL3_3,
+> -               DIVPL3C, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
+
+I.e. add
+#ifdef CONFIG_ARM64
+
+> -       DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
+> -       DEF_FIXED(".pll5_500", CLK_PLL5_500, CLK_PLL5, 1, 6),
+> -       DEF_FIXED(".pll5_250", CLK_PLL5_250, CLK_PLL5_500, 1, 2),
+
+#endif
+
+> -       DEF_FIXED(".pll6", CLK_PLL6, CLK_EXTAL, 125, 6),
+> -       DEF_FIXED(".pll6_250", CLK_PLL6_250, CLK_PLL6, 1, 2),
+> +               /* Internal Core Clocks */
+> +               DEF_FIXED(".osc", R9A07G043_OSCCLK, CLK_EXTAL, 1, 1),
+
+[...]
+
+> +               DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G043_CLK_SD1, 1, 4),
+> +       },
+> +#ifndef CONFIG_RISCV
+> +       .rzg2ul = {
+> +               DEF_FIXED(".pll5", CLK_PLL5, CLK_EXTAL, 125, 1),
+> +               DEF_FIXED(".pll5_500", CLK_PLL5_500, CLK_PLL5, 1, 6),
+> +               DEF_FIXED(".pll5_250", CLK_PLL5_250, CLK_PLL5_500, 1, 2),
+> +       },
+> +#endif
+>
+> -       /* Core output clk */
+> -       DEF_DIV("I", R9A07G043_CLK_I, CLK_PLL1, DIVPL1A, dtable_1_8,
+> -               CLK_DIVIDER_HIWORD_MASK),
+> -       DEF_DIV("P0", R9A07G043_CLK_P0, CLK_PLL2_DIV2_8, DIVPL2A,
+> -               dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
+> -       DEF_FIXED("P0_DIV2", R9A07G043_CLK_P0_DIV2, R9A07G043_CLK_P0, 1, 2),
+> -       DEF_FIXED("TSU", R9A07G043_CLK_TSU, CLK_PLL2_DIV2_10, 1, 1),
+> -       DEF_DIV("P1", R9A07G043_CLK_P1, CLK_PLL3_DIV2_4,
+> -               DIVPL3B, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
+> -       DEF_FIXED("P1_DIV2", CLK_P1_DIV2, R9A07G043_CLK_P1, 1, 2),
+> -       DEF_DIV("P2", R9A07G043_CLK_P2, CLK_PLL3_DIV2_4_2,
+> -               DIVPL3A, dtable_1_32, CLK_DIVIDER_HIWORD_MASK),
+> -       DEF_FIXED("M0", R9A07G043_CLK_M0, CLK_PLL3_DIV2_4, 1, 1),
+> -       DEF_FIXED("ZT", R9A07G043_CLK_ZT, CLK_PLL3_DIV2_4_2, 1, 1),
+> -       DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2,
+> -               sel_pll6_2, ARRAY_SIZE(sel_pll6_2), 0, CLK_MUX_HIWORD_MASK),
+> -       DEF_FIXED("SPI0", R9A07G043_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
+> -       DEF_FIXED("SPI1", R9A07G043_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
+> -       DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0,
+> -                  sel_shdi, ARRAY_SIZE(sel_shdi)),
+> -       DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1,
+> -                  sel_shdi, ARRAY_SIZE(sel_shdi)),
+> -       DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G043_CLK_SD0, 1, 4),
+> -       DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G043_CLK_SD1, 1, 4),
+>  };
+>
+> -static struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
+
+Likewise, you can keep r9a07g043_mod_clks[].
+
+#ifdef CONFIG_ARM64
+
+> -       DEF_MOD("gic",          R9A07G043_GIC600_GICCLK, R9A07G043_CLK_P1,
+> -                               0x514, 0),
+> -       DEF_MOD("ia55_pclk",    R9A07G043_IA55_PCLK, R9A07G043_CLK_P2,
+> -                               0x518, 0),
+> -       DEF_MOD("ia55_clk",     R9A07G043_IA55_CLK, R9A07G043_CLK_P1,
+> -                               0x518, 1),
+
+#endif
+
+and add the RZ/Five-only module clocks later protected by
+#ifdef CONFIG_RISCV.
+
+> -       DEF_MOD("dmac_aclk",    R9A07G043_DMAC_ACLK, R9A07G043_CLK_P1,
+> -                               0x52c, 0),
+
+[...]
+
+> +static const struct {
+> +       struct rzg2l_mod_clk common[54];
+> +#ifdef CONFIG_RISCV
+> +       struct rzg2l_mod_clk rzfive[0];
+> +#else
+> +       struct rzg2l_mod_clk rzg2ul[3];
+> +#endif
+> +} mod_clks = {
+> +       .common = {
+> +               DEF_MOD("dmac_aclk",    R9A07G043_DMAC_ACLK, R9A07G043_CLK_P1,
+> +                                       0x52c, 0),
+
+[...]
+
+> +               DEF_MOD("tsu_pclk",     R9A07G043_TSU_PCLK, R9A07G043_CLK_TSU,
+> +                                       0x5ac, 0),
+> +       },
+> +#ifdef CONFIG_RISCV
+> +       .rzfive = {
+> +       },
+> +#else
+> +       .rzg2ul = {
+> +               DEF_MOD("gic",          R9A07G043_GIC600_GICCLK, R9A07G043_CLK_P1,
+> +                                       0x514, 0),
+> +               DEF_MOD("ia55_pclk",    R9A07G043_IA55_PCLK, R9A07G043_CLK_P2,
+> +                                       0x518, 0),
+> +               DEF_MOD("ia55_clk",     R9A07G043_IA55_CLK, R9A07G043_CLK_P1,
+> +                                       0x518, 1),
+> +       },
+> +#endif
+>  };
+>
+> -static struct rzg2l_reset r9a07g043_resets[] = {
+
+If you do the same for the resets, you can drop "[RFC PATCH 2/4]
+clk: renesas: rzg2l-cpg: Add support to stack the resets instead
+of indexing".
+
+> @@ -307,8 +353,8 @@ static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
+>
+>  const struct rzg2l_cpg_info r9a07g043_cpg_info = {
+>         /* Core Clocks */
+> -       .core_clks = r9a07g043_core_clks,
+> -       .num_core_clks = ARRAY_SIZE(r9a07g043_core_clks),
+> +       .core_clks = core_clks.common,
+> +       .num_core_clks = ARRAY_SIZE(core_clks.common) + ARRAY_SIZE(core_clks.rzg2ul),
+
+Then this change is not needed...
+
+>         .last_dt_core_clk = LAST_DT_CORE_CLK,
+>         .num_total_core_clks = MOD_CLK_BASE,
+>
+> @@ -317,11 +363,11 @@ const struct rzg2l_cpg_info r9a07g043_cpg_info = {
+>         .num_crit_mod_clks = ARRAY_SIZE(r9a07g043_crit_mod_clks),
+>
+>         /* Module Clocks */
+> -       .mod_clks = r9a07g043_mod_clks,
+> -       .num_mod_clks = ARRAY_SIZE(r9a07g043_mod_clks),
+> +       .mod_clks = mod_clks.common,
+> +       .num_mod_clks = ARRAY_SIZE(mod_clks.common) + ARRAY_SIZE(mod_clks.rzg2ul),
+
+Same here.
+
+#ifdef CONFIG_ARM64
+
+>         .num_hw_mod_clks = R9A07G043_TSU_PCLK + 1,
+
+#endif
+
+Note that compile-testing on non-arm64/non-riscv still works fine,
+as .num_hw_mod_clks = 0 is not an issue at build-time.
+
+>
+>         /* Resets */
+> -       .resets = r9a07g043_resets,
+
+#ifdef CONFIG_ARM64
+
+> -       .num_resets = R9A07G043_TSU_PRESETN + 1, /* Last reset ID + 1 */
+
+#endif
+
+> +       .resets = resets.common,
+> +       ARRAY_SIZE(resets.common) + ARRAY_SIZE(resets.rzg2ul),
+
+(BTW, ".num_resets = " was lost here)
+
+>  };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
