@@ -2,172 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57CBA521E5F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 17:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99DF05220AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 18:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345519AbiEJP2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 11:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56546 "EHLO
+        id S241327AbiEJQJH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 12:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346065AbiEJP07 (ORCPT
+        with ESMTP id S1348472AbiEJQIR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 11:26:59 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648802016C6;
-        Tue, 10 May 2022 08:14:32 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id x9so13749681qts.6;
-        Tue, 10 May 2022 08:14:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vz1eJzNwX0qqlgjKghzI8UdnpqFW4v/yeEdgJ7aBooc=;
-        b=d9g9CtWKsOGR7z5n/x33vnbuP8nImZ5VYEHaN+wmNX+xmzA0AG2Lj17Hhzmp9v/r4e
-         kxWsxCd5aYsDBrvrtYcbR+h177R5jZ5eutBwK5x9W069WlEDrT41+UMymuBWmDRrHZ4n
-         jufFg8l+Mi0QydGUJQev5YUn+CPnXkUBuQXCPh6qklp4s4NAndRDzRRRHQuxgP8j0If4
-         2hlVlyocbw+OjjnQPLEbGR2Sc13/kRheMBasfRZykqLljY6WTyM1vFcBS6DaY4sEypcT
-         wL1PV79eAiJY8va8OUlarZXKbY4H5R6nbtrEdHDhua/aO4g9KczjbFnGbLxjmVAZVDS8
-         ISTA==
-X-Gm-Message-State: AOAM533anAxpbCuPpkPilS7mwGw/khHj0B8sPG6fxG9xGXJcAXt0fG1r
-        CEC6zp6Iu3Xx4ImJB4k234xIzpIuU75Z6w==
-X-Google-Smtp-Source: ABdhPJzVNRRGRMkmw0kwAOgsedCsn5kkgcEeQ+MUFnOmBdpkRZfK+cpnisqt1Z+Az080srveVc8RTQ==
-X-Received: by 2002:ac8:5bd5:0:b0:2f3:b654:694d with SMTP id b21-20020ac85bd5000000b002f3b654694dmr19934873qtb.435.1652195671013;
-        Tue, 10 May 2022 08:14:31 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id h191-20020a379ec8000000b0069fc347ef5dsm8536086qke.74.2022.05.10.08.14.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 08:14:30 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id v59so31246334ybi.12;
-        Tue, 10 May 2022 08:14:30 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr19243837ybu.604.1652195669937; Tue, 10
- May 2022 08:14:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220505193143.31826-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220505193143.31826-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 May 2022 17:14:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVajeFy++etApUrZC4_sgFCPH76xOOb93rQWsz42i3EVg@mail.gmail.com>
-Message-ID: <CAMuHMdVajeFy++etApUrZC4_sgFCPH76xOOb93rQWsz42i3EVg@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] clk: renesas: r9a07g043: Add support for RZ/Five SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Tue, 10 May 2022 12:08:17 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23ABA60BA5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 May 2022 09:01:08 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1noSI6-0004bX-A3; Tue, 10 May 2022 18:00:50 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1noSI6-001W9r-2j; Tue, 10 May 2022 18:00:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1noSI4-008q4u-4j; Tue, 10 May 2022 18:00:48 +0200
+Date:   Tue, 10 May 2022 18:00:45 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC 0/8] Add RZ/G2L POEG support
+Message-ID: <20220510160045.4d3pgvjlbea2jwy5@pengutronix.de>
+References: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tjk46zng4p3czgo2"
+Content-Disposition: inline
+In-Reply-To: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
 
-On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add minimal clock and resets entries required to boot RZ/Five SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+--tjk46zng4p3czgo2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Tue, May 10, 2022 at 04:11:04PM +0100, Biju Das wrote:
+> The output pins of the general PWM timer (GPT) can be disabled by using
+> the port output enabling function for the GPT (POEG). Specifically,
+> either of the following ways can be used.
+>   * Input level detection of the GTETRGA to GTETRGD pins.
+>   * Output-disable request from the GPT.
+>   * Register settings.
+>=20
+> Added RZ/G2L POEG support under driver/soc/renesas, as currently I am not=
+ sure about
+> the framework to be used for POEG.
+>=20
+> This patch series add support for controlling output disable function usi=
+ng sysfs.
+>=20
+> For output disable operation, POEG group needs to be linked with
+> GPT. So introduced renesas,poeg-group property in pwm for linking both GP=
+T and
+> POEG devices.
+>=20
+> Please share your valuable comments.
+>=20
+> patch#3 and #4 depend upon [1]
+> [1] https://lore.kernel.org/linux-renesas-soc/20220510144259.9908-1-biju.=
+das.jz@bp.renesas.com/T/#t
 
-I'm only commenting on the actual clock/reset definitions, as I expect
-the structure of this file to change...
+I suggest to use the --base switch to git-format-patch for the next
+submission round. This way the built robots can parse this information,
+too.
 
-> --- a/drivers/clk/renesas/r9a07g043-cpg.c
-> +++ b/drivers/clk/renesas/r9a07g043-cpg.c
-> @@ -151,7 +151,7 @@ static const struct {
->  static const struct {
->         struct rzg2l_mod_clk common[54];
->  #ifdef CONFIG_RISCV
-> -       struct rzg2l_mod_clk rzfive[0];
-> +       struct rzg2l_mod_clk rzfive[2];
->  #else
->         struct rzg2l_mod_clk rzg2ul[3];
->  #endif
-> @@ -268,6 +268,10 @@ static const struct {
->         },
->  #ifdef CONFIG_RISCV
->         .rzfive = {
-> +               DEF_MOD("iax45_pclk",   R9A07G043_IAX45_PCLK, R9A07G043_CLK_P2,
-> +                                       0x518, 0),
-> +               DEF_MOD("iax45_clk",    R9A07G043_IAX45_CLK, R9A07G043_CLK_P1,
-> +                                       0x518, 1),
+Best regards
+Uwe
 
-OK.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Note that the register offset and bits for the IAX45 block on riscv
-are exactly the same as for the IA55 block on arm64.  Hence it
-would be an option to use the exact same values in the DT binding
-definitions for R9A07G043_IAX45_(P)CLK and R9A07G043_IA55_(P)CLK,
-and avoid the #ifdefs and duplicated DEF_MOD() entries here.
+--tjk46zng4p3czgo2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'm undecided what's the best option...
+-----BEGIN PGP SIGNATURE-----
 
->         },
->  #else
->         .rzg2ul = {
-> @@ -284,7 +288,7 @@ static const struct {
->  static const struct {
->         struct rzg2l_reset common[42];
->  #ifdef CONFIG_RISCV
-> -       struct rzg2l_reset rzfive[0];
-> +       struct rzg2l_reset rzfive[1];
->  #else
->         struct rzg2l_reset rzg2ul[3];
->  #endif
-> @@ -335,6 +339,7 @@ static const struct {
->         },
->  #ifdef CONFIG_RISCV
->         .rzfive = {
-> +               DEF_RST(R9A07G043_IAX45_RESETN, 0x818, 0),
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJ6jCoACgkQwfwUeK3K
+7AnJtgf/X2Qug9zfJKeDXJOUlIhTIoaDddPmGFP5jtb+zLMXec3ZPmkSedfiQaKu
+Hgt2zSAeYZfSTu6/rnRnJqnA3/zVBc5mND3z1XkAPxsVhRydLMGHhVEQNU1iFzce
+BEDp3lDrsDF45MlTMiZQg4j0R3e8xkKqB26+0be63h6Ro8zdZhOkyRJD8+wEThpu
+ifVnm/AzVgzaXLyNhqfaJwp6eMjnYTEBiId5QUfZmvpotSrnUjChjdnUuta7/RQ/
+fgh4OZIa12b2UPtmbFuStTATb1n07AkjT9nXeGQRqeFuZo0ixLhHEBThoKe3qZ6B
+MIW6NooQ8r9f5nmne2dD6lNi2U7VOg==
+=4n1b
+-----END PGP SIGNATURE-----
 
-Same for R9A07G043_IAX45_RESETN and R9A07G043_IAA55_RESETN.
-
->         },
->  #else
->         .rzg2ul = {
-> @@ -345,16 +350,27 @@ static const struct {
->  #endif
->  };
->
-> +#ifdef CONFIG_RISCV
-> +static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
-> +       MOD_CLK_BASE + R9A07G043_IAX45_CLK,
-> +       MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
-> +};
-> +#else
->  static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
->         MOD_CLK_BASE + R9A07G043_GIC600_GICCLK,
->         MOD_CLK_BASE + R9A07G043_IA55_CLK,
->         MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
->  };
-> +#endif
-
-Please keep a single r9a07g043_crit_mod_clks[] array, and protect the
-entries inside by #ifdef CONFIG_ARM64 or CONFIG_RISCV.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--tjk46zng4p3czgo2--
