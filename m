@@ -2,109 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 842DA521E0F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 17:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A33521E61
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 17:24:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242762AbiEJPWz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 11:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
+        id S243431AbiEJP2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 11:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346304AbiEJPW0 (ORCPT
+        with ESMTP id S1345651AbiEJPZx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 11:22:26 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9412615801;
-        Tue, 10 May 2022 08:05:57 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id a22so13410405qkl.5;
-        Tue, 10 May 2022 08:05:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3buBIN+IyWy8jl5QP9VpwtQkm+plR/re5/e7qWc+5iU=;
-        b=AWJKXpxp+wGGwAMKWY6y+evKTJCoZVs3h+VIwVPJfwKLd4pLNbtfdr0xx7+z1uTTEk
-         JKBUHNgF+WQ+0+qjrENwv76LG5+6VLptTWDBSxbkjwi8gWec0JrpVqyXbNqsnmS5KPhN
-         +CDihUjQZvmoqO57kS16Sj8KmMt9oqqlYsh+hhFN/7NI+BiEo1HvQ+3NoGdkXm2s4he3
-         vRqIIZKbU1OKdZ9pjirov8x6dgae33VGIjeKCRdxmJJm0tKaNuFWTIcarOe0+6rsASx+
-         QZ6AF5lXmtXkuStqKjxfmxPbeXSzoUSB9maW68zztRVQ973dfjNu8V7Wgct4rrpJ7B1p
-         gRIw==
-X-Gm-Message-State: AOAM532uuyksx/gjRDZWZ1Yy7KL9FBNUgkOZ7SfhvmG3OFN7z7kauVYl
-        LpSZ8fOBbpewL9kPJbmC33mOrPFtseit0A==
-X-Google-Smtp-Source: ABdhPJx1fX/9AbUOi27gMb3WUjt+0JWFPd2nJ3l+tMGlLObEzedH1sNGWZGzTsSoTN47UzFiPYbomg==
-X-Received: by 2002:a37:a351:0:b0:69f:cebf:5a7c with SMTP id m78-20020a37a351000000b0069fcebf5a7cmr15047972qke.740.1652195155971;
-        Tue, 10 May 2022 08:05:55 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id az35-20020a05620a172300b0069fc13ce20bsm9138500qkb.60.2022.05.10.08.05.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 08:05:55 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id x17so10700173ybj.3;
-        Tue, 10 May 2022 08:05:55 -0700 (PDT)
-X-Received: by 2002:a25:6157:0:b0:645:8d0e:f782 with SMTP id
- v84-20020a256157000000b006458d0ef782mr20010518ybb.36.1652195155051; Tue, 10
- May 2022 08:05:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220505193143.31826-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220505193143.31826-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 May 2022 17:05:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVtPRgWJXDAGRh8rm4TiH4XMNmp_+V2Vu0rShjzBdaykw@mail.gmail.com>
-Message-ID: <CAMuHMdVtPRgWJXDAGRh8rm4TiH4XMNmp_+V2Vu0rShjzBdaykw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/4] clk: renesas: rzg2l-cpg: Add support to stack the
- resets instead of indexing
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Tue, 10 May 2022 11:25:53 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A06DAC07E;
+        Tue, 10 May 2022 08:11:20 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,214,1647270000"; 
+   d="scan'208";a="120533845"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 11 May 2022 00:11:19 +0900
+Received: from localhost.localdomain (unknown [10.226.92.112])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 81E3C400A11D;
+        Wed, 11 May 2022 00:11:15 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFC 0/8] Add RZ/G2L POEG support
+Date:   Tue, 10 May 2022 16:11:04 +0100
+Message-Id: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+The output pins of the general PWM timer (GPT) can be disabled by using
+the port output enabling function for the GPT (POEG). Specifically,
+either of the following ways can be used.
+  * Input level detection of the GTETRGA to GTETRGD pins.
+  * Output-disable request from the GPT.
+  * Register settings.
 
-On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Instead of indexing the resets, stack them and instead create an id member
-> in struct rzg2l_reset to store the index. With this approach for every id
-> we will have to loop through the resets array to match the id.
->
-> This in preparation to add support for Renesas RZ/Five CPG in
-> r9a07g043-cpg.c file where the resets array will be split up into three
-> i.e. common and two SoC specific.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Added RZ/G2L POEG support under driver/soc/renesas, as currently I am not sure about
+the framework to be used for POEG.
 
-Thanks for your patch!
+This patch series add support for controlling output disable function using sysfs.
 
-An obvious alternative would be to allocate an array with pointers to
-the individual resets, like is done for clocks.
+For output disable operation, POEG group needs to be linked with
+GPT. So introduced renesas,poeg-group property in pwm for linking both GPT and
+POEG devices.
 
-Please see the suggestion in my reply to "[RFC PATCH 3/4] clk: renesas:
-r9a07g043: Split up core, module and resets array", which would make
-this patch unnecessary.
+Please share your valuable comments.
 
-Gr{oetje,eeting}s,
+patch#3 and #4 depend upon [1]
+[1] https://lore.kernel.org/linux-renesas-soc/20220510144259.9908-1-biju.das.jz@bp.renesas.com/T/#t
 
-                        Geert
+Biju Das (8):
+  dt-bindings: soc: renesas: Add RZ/G2L POEG binding
+  drivers: soc: renesas: Add POEG driver support
+  dt-bindings: pwm: rzg2l-gpt: Document renesas,poeg-group property
+  pwm: rzg2l-gpt: Add support for linking with POEG
+  arm64: dts: renesas: r9a07g044: Add POEG nodes
+  arm64: dts: renesas: r9a07g054: Add POEG nodes
+  arm64: dts: renesas: rzg2l-smarc: Enable POEGG{A,B,C,D} on carrier
+    board
+  arm64: dts: renesas: rzg2l-smarc: Link GPT4 with POEGGD on carrier
+    board
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ .../bindings/pwm/renesas,rzg2l-gpt.yaml       |   8 +
+ .../soc/renesas/renesas,rzg2l-poeg.yaml       |  65 ++++++++
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  44 ++++++
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    |  44 ++++++
+ arch/arm64/boot/dts/renesas/rzg2l-smarc.dtsi  |  17 ++
+ drivers/pwm/pwm-rzg2l-gpt.c                   |  59 +++++++
+ drivers/soc/renesas/Kconfig                   |   2 +
+ drivers/soc/renesas/Makefile                  |   2 +
+ drivers/soc/renesas/poeg/Kconfig              |  12 ++
+ drivers/soc/renesas/poeg/Makefile             |   2 +
+ drivers/soc/renesas/poeg/poeg-rzg2l.c         | 148 ++++++++++++++++++
+ 11 files changed, 403 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml
+ create mode 100644 drivers/soc/renesas/poeg/Kconfig
+ create mode 100644 drivers/soc/renesas/poeg/Makefile
+ create mode 100644 drivers/soc/renesas/poeg/poeg-rzg2l.c
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+2.25.1
+
