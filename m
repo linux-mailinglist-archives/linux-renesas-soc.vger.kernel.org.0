@@ -2,102 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B638E521056
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 11:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406AF521069
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 11:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238440AbiEJJNb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 05:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36544 "EHLO
+        id S237846AbiEJJSw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 05:18:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238411AbiEJJNa (ORCPT
+        with ESMTP id S235954AbiEJJSv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 05:13:30 -0400
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0DCD2555B8;
-        Tue, 10 May 2022 02:09:30 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru D27C520B8F35
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220505184353.512133-1-biju.das.jz@bp.renesas.com>
- <b89be37d-ec17-8b6f-561b-63781352e774@gmail.com>
- <OS0PR01MB592248147BA1A775236B080186C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <530ed78e-bce5-09bd-f0ef-f20de956cfcf@omp.ru>
-Date:   Tue, 10 May 2022 12:09:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Tue, 10 May 2022 05:18:51 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEBD6712E1;
+        Tue, 10 May 2022 02:14:52 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id hh4so13069065qtb.10;
+        Tue, 10 May 2022 02:14:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A15r4+EoT4EZyVbRMp20MyCJWBQTiIY9T0jy9XAyUCg=;
+        b=kKgnXMA0woR0Gk3oqEREb6H8Yx+o1yONVy23XkIohYL4nAGFM/lLLp3XMdP0UlWNtx
+         hGLM1xwTl2q/nuhpB/QmP/L/5pMRgVJMEYP1ba+ZSTgz5RQqODBDvCblC+kXU//88yYe
+         zOGqZuewYP646F6qivNTzkmfiqme7iR8A4TvfXO5ds0h3VHkHaktChcd0z6Qbf8LGSF1
+         ecDGDQXCr4IsWWo9mswh6Q3mmHnZLcr4Ia8M21DjzqzoRvDxauPK87TH0HfpSCVpjbjg
+         /d59BLIplYDLEsP3IU2lSdqutgsfhAetGWcgF5z1mcIGsmqyVoNyz9EvRDzdp7qqtoBa
+         V7yA==
+X-Gm-Message-State: AOAM533sDSpic21lfmwfuyhCD3a5DcUS6C9m/KwsCdVrp/6JCAqYPkrx
+        drpv9dkPbOtuWYzhrSw6OmOVm0wRRbm0rg==
+X-Google-Smtp-Source: ABdhPJx1SPSCgiqGe2ex8QmEmRx1KNFqBXBFKOgh3G0DthXPGHeOxaPJEPdAoz8oGrqhcp6WRemxUA==
+X-Received: by 2002:a05:622a:1cc:b0:2f3:e619:8088 with SMTP id t12-20020a05622a01cc00b002f3e6198088mr1439035qtw.261.1652174091815;
+        Tue, 10 May 2022 02:14:51 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id a36-20020a05620a43a400b0069fc13ce212sm8203502qkp.67.2022.05.10.02.14.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 May 2022 02:14:50 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id r11so29529245ybg.6;
+        Tue, 10 May 2022 02:14:49 -0700 (PDT)
+X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
+ s14-20020a056902120e00b006346f296b84mr17702940ybu.604.1652174088988; Tue, 10
+ May 2022 02:14:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB592248147BA1A775236B080186C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220509154943.25422-1-miquel.raynal@bootlin.com>
+ <20220509154943.25422-3-miquel.raynal@bootlin.com> <CAMuHMdUQafhSHA6vz2FP4=CLodEB3uK2p2W6fu_xK8kA+pMGFA@mail.gmail.com>
+ <20220510110257.11ac55f1@xps13>
+In-Reply-To: <20220510110257.11ac55f1@xps13>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 10 May 2022 11:14:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU2KHuh2d_cw6xZEiZv+-v8P_YFfzxr2qLdC=HKaLr2ZQ@mail.gmail.com>
+Message-ID: <CAMuHMdU2KHuh2d_cw6xZEiZv+-v8P_YFfzxr2qLdC=HKaLr2ZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] mtd: rawnand: renesas: Use runtime PM instead of
+ the raw clock API
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 5/10/22 11:24 AM, Biju Das wrote:
-[...]
+Hi Miquel,
 
->>> Add ADC node to R9A07G043 (RZ/G2UL) SoC DTSI.
->>>
->>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>> ---
->>>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 21 ++++++++++++++++++++-
->>>  1 file changed, 20 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->> b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>> index b31fb713ae4d..40201a16d653 100644
->>> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>> @@ -483,8 +483,27 @@ i2c3: i2c@10058c00 {
->>>  		};
->>>
->>>  		adc: adc@10059000 {
->>> +			compatible = "renesas,r9a07g043-adc", "renesas,rzg2l-
->> adc";
->>>  			reg = <0 0x10059000 0 0x400>;
->>> -			/* place holder */
->>> +			interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
->>> +			clocks = <&cpg CPG_MOD R9A07G043_ADC_ADCLK>,
->>> +				 <&cpg CPG_MOD R9A07G043_ADC_PCLK>;
->>> +			clock-names = "adclk", "pclk";
->>> +			resets = <&cpg R9A07G043_ADC_PRESETN>,
->>> +				 <&cpg R9A07G043_ADC_ADRST_N>;
->>> +			reset-names = "presetn", "adrst-n";
->>
->>    Not "adrst_n"?
-> 
-> As per bindings[1], it is correct ie, "adrst-n"
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml?h=next-20220509#n51
+On Tue, May 10, 2022 at 11:03 AM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+> geert@linux-m68k.org wrote on Tue, 10 May 2022 10:52:41 +0200:
+> > On Mon, May 9, 2022 at 5:49 PM Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+> > > This NAND controller is part of a well defined power domain handled by
+> > > the runtime PM core. Let's keep the harmony with the other RZ/N1 drivers
+> > > and exclusively use the runtime PM API to enable/disable the clocks.
+> > >
+> > > We still need to retrieve the external clock rate in order to derive the
+> > > NAND timings, but that is not a big deal, we can still do that in the
+> > > probe and just save this value to reuse it later.
+> > >
+> > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-   Then I think the bindings aren't actually correct. But nevermind... :-)
+> > > @@ -1365,12 +1347,27 @@ static int rnandc_probe(struct platform_device *pdev)
+> > >                 ret = devm_request_irq(&pdev->dev, irq, rnandc_irq_handler, 0,
+> > >                                        "renesas-nand-controller", rnandc);
+> > >                 if (ret < 0)
+> > > -                       goto disable_eclk;
+> > > +                       return ret;
+> > >         }
+> > >
+> > >         ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+> > >         if (ret)
+> > > -               goto disable_eclk;
+> > > +               return ret;
+> > > +
+> > > +       devm_pm_runtime_enable(&pdev->dev);
+> > > +       ret = pm_runtime_get_sync(&pdev->dev);
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       /* The external NAND bus clock rate is needed for computing timings */
+> > > +       eclk = clk_get(&pdev->dev, "eclk");
+> > > +       if (IS_ERR(eclk)) {
+> > > +               ret = PTR_ERR(eclk);
+> > > +               goto dis_runtime_pm;
+> > > +       }
+> > > +
+> > > +       rnandc->ext_clk_rate = clk_get_rate(eclk);
+> >
+> > Personally, I would do this before requesting the interrupt.
+> > But I guess it's fine to do that here, too.
+>
+> What do you mean by "do this"? If you are talking about getting the
 
-> Cheers,
-> Biju
+Getting the clock (which could -EPROBE_DEFER, in theory) and its rate.
 
-MBR, Sergey
+> rate of the clock it's only needed when initializing the timings which
+> happens later in the probe path and has no relationship with the
+> interrupts at all. Anyway, I will move all of that earlier so that we
+> don't have a possible situation where the device is not clocked when
+> accessing it.
+
+OK.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
