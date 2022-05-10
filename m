@@ -2,106 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7588520EB7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 09:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8277A520F18
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 09:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235430AbiEJHjK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 03:39:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
+        id S233151AbiEJH4b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 May 2022 03:56:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241534AbiEJHdT (ORCPT
+        with ESMTP id S231309AbiEJH4b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 03:33:19 -0400
-X-Greylist: delayed 56592 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 May 2022 00:29:21 PDT
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F462A4A06;
-        Tue, 10 May 2022 00:29:19 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 86EB020000D;
-        Tue, 10 May 2022 07:29:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652167758;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=78SwRfuIkXdOX10+Kuc7el4F9ko1j9nEWVkbYfW8LZE=;
-        b=GdCwEFRMEtaNNfsHY6C2a6NrmZJst2FMbyFx4JqFaifUHhWVZ0254TRAIBy6qAKKv5bvGq
-        M5DauLw4g6Z+VEc54JfZUymxg5NwvjX15K8REGbTrfVDA4F7o6hsq76mjOAWdAz4UE0fQN
-        YvB0R8eQW9TSkjdUO7lknldDHPgdT6CY1aXMg7JQrzVPtuPG+MFl4s++xC78Blqxvz+7Hd
-        iZ6r6Wk/nb77hgl+oXjt7CdZNw4a/jhmVOce5AumE3LAf1qsxrZMARtxO1dzawO6EON61o
-        xxjZxMYd90qChnZvslM2ZoPfGr6A5PtJ6YWCb5GTwkPJYHaXOjEYabyqATD2Jw==
-Date:   Tue, 10 May 2022 09:29:11 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, kbuild-all@lists.01.org,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Michel Pollet <michel.pollet@bp.renesas.com>
-Subject: Re: [PATCH v4 2/5] rtc: rzn1: Add new RTC driver
-Message-ID: <20220510092911.5ab2f15a@xps13>
-In-Reply-To: <202205100552.VY3kCkh5-lkp@intel.com>
-References: <20220509154559.24851-3-miquel.raynal@bootlin.com>
-        <202205100552.VY3kCkh5-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Tue, 10 May 2022 03:56:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A939A243106;
+        Tue, 10 May 2022 00:52:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 437A160EE0;
+        Tue, 10 May 2022 07:52:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4F0C385A6;
+        Tue, 10 May 2022 07:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1652169153;
+        bh=vc0jkaHHDEyk7KcfLPoRwXfVaaRAgF8uAKkEtH+i3d8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o57B2N5NdHj7ACnoHZLdj/Sa5tQnRlJKGhzqPWmo1TjmXKTWjaFI/zfkc/krS0ub9
+         BGZrDFhJqFRQ21zDj0sNbTs+Ok6mbSEx1VRlhShub15jp/y/8M0FOyyZ38aGeDhikp
+         PhGcRhsSQIDt0NLaMOR4bJSmBpD/uIJP610tetDk=
+Date:   Tue, 10 May 2022 09:52:29 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
+Message-ID: <YnoZva+tZa8Ix+aI@kroah.com>
+References: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
+ <CAMuHMdVDK0W0T3=+2c1E6wtwy5JTUemTGYyj3PFuVUhK++AzrA@mail.gmail.com>
+ <YnFO0Qr8RY7peFCg@rowland.harvard.edu>
+ <YnaR8LaaPTdLTiok@rowland.harvard.edu>
+ <CAMuHMdUpOiHHMktPk_-NauDW2ufvGThnkFU7Pok376pM6OEyYw@mail.gmail.com>
+ <Ynkh5eKtfxU+AyZX@rowland.harvard.edu>
+ <CAMuHMdVi6jCi=tRBNjBodVcA48ygiqPACQcmHx+1HRYnArJ9tQ@mail.gmail.com>
+ <YnktokC8Uk9j53yO@rowland.harvard.edu>
+ <YnlAAxT5Lq0NvxX0@kroah.com>
+ <YnlFl0M0FRzhxwpK@rowland.harvard.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnlFl0M0FRzhxwpK@rowland.harvard.edu>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+On Mon, May 09, 2022 at 12:47:19PM -0400, Alan Stern wrote:
+> On Mon, May 09, 2022 at 06:23:31PM +0200, Greg KH wrote:
+> > On Mon, May 09, 2022 at 11:05:06AM -0400, Alan Stern wrote:
+> > > On Mon, May 09, 2022 at 04:42:01PM +0200, Geert Uytterhoeven wrote:
+> > > > Hi Alan,
+> > > > 
+> > > > On Mon, May 9, 2022 at 4:15 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > > > > On Mon, May 09, 2022 at 09:46:25AM +0200, Geert Uytterhoeven wrote:
+> > > > > > > Geert:
+> > > > > > >
+> > > > > > > Can you test the patch below?  It ought to fix the problem (although it
+> > > > > >
+> > > > > > Thanks!
+> > > > > >
+> > > > > > root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
+> > > > > > total 0
+> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.0 ->
+> > > > > > ../../../devices/platform/soc/e659c000.usb/gadget.0
+> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.1 ->
+> > > > > > ../../../devices/platform/soc/ee020000.usb/gadget.1
+> > > > > > lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget.2 ->
+> > > > > > ../../../devices/platform/soc/e6590000.usb/gadget.2
+> > > > > >
+> > > > > > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > >
+> > > > > > LGTM, so
+> > > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > >
+> > > > > Thanks!
+> > > > >
+> > > > > > > might end up causing other problems down the line...)
+> > > > > >
+> > > > > > Can you please elaborate? I'm not too familiar with UBS gadgets.
+> > > > >
+> > > > > I was concerned about the fact that changing the name of a file,
+> > > > > directory, or symbolic link in sysfs means changing a user API, and so
+> > > > > it might cause some existing programs to fail.  That would be a
+> > > > > regression.
+> > > > >
+> > > > > Perhaps the best way to work around the problem is to leave the name set
+> > > > > to "gadget" if the ID number is 0, while adding the ID number on to the
+> > > > > name if the value is > 0.  What do you think?
+> > > > 
+> > > > Oh, you mean the "gadget.N" subdirs, which are the targets of the
+> > > > symlinks above? These were indeed named "gadget" before.
+> > > > 
+> > > > Would it be possible to append the ".N" suffixes only to the actual
+> > > > symlinks, while keeping the target directory names unchanged?
+> > > > E.g. /sys/bus/gadget/devices/gadget.0 ->
+> > > > ../../../devices/platform/soc/e659c000.usb/gadget
+> > > 
+> > > No, it's not possible.  Or at least, not without significant changes to 
+> > > the driver core.  Besides, people expect these names to be the same.
+> > 
+> > It should always be ok to change the names of devices as those are not
+> > going to be persistent / determinisitic.  It's the attributes of devices
+> > that are supposed to be used to determine those types of things.
+> > 
+> > So I think let's start out with the .N suffix for everything for now.
+> > I'll be glad to submit the fixed patch to the Android kernel build
+> > system to see what their testing comes back with to see if they happened
+> > to make any name assumptions as that's the largest user of this
+> > codebase.
+> 
+> Okay.  Do you need me to send it as a proper patch before you try it 
+> out?
 
-lkp@intel.com wrote on Tue, 10 May 2022 05:26:55 +0800:
+Yes please.
 
-> Hi Miquel,
->=20
-> Thank you for the patch! Yet something to improve:
->=20
-> [auto build test ERROR on abelloni/rtc-next]
-> [also build test ERROR on robh/for-next linus/master v5.18-rc6 next-20220=
-509]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
->=20
+thanks,
 
-[...]
-
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All errors (new ones prefixed by >>):
->=20
-> >> drivers/rtc/rtc-rzn1.c:23:10: fatal error: linux/soc/renesas/r9a06g032=
--sysctrl.h: No such file or directory =20
->       23 | #include <linux/soc/renesas/r9a06g032-sysctrl.h>
->          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    compilation terminated.
-
-That include is no longer needed in this driver (and should be merged
-through another tree). Tell me if I need to resend or if you can fix it
-while applying.
-
-Thanks,
-Miqu=C3=A8l
+greg k-h
