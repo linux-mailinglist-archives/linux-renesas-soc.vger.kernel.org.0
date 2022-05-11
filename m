@@ -2,99 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DD23522EFC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 11:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60332522F8F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 11:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbiEKJIw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 May 2022 05:08:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
+        id S241246AbiEKJgu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 May 2022 05:36:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbiEKJIv (ORCPT
+        with ESMTP id S241096AbiEKJgo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 May 2022 05:08:51 -0400
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26AA2CC88;
-        Wed, 11 May 2022 02:08:50 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id m1so1800844qkn.10;
-        Wed, 11 May 2022 02:08:50 -0700 (PDT)
+        Wed, 11 May 2022 05:36:44 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C19A41A07D;
+        Wed, 11 May 2022 02:36:42 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id g20so1826532edw.6;
+        Wed, 11 May 2022 02:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=70Qlhkcc4Ow/r5C//bTIZEag8dRv3Msy3Svgs6lC2hI=;
+        b=flahq3cL2dnd5v3fLrVHVfP6KORvv3Nm+FhgP/SSZP+l4mdQ3hpY3kR5byA1sMrvjT
+         bP7q/WMKmli69dcZGaEctSVq0hHf1pjHd+vSIT+ok5ew/Ag03r69OYUYcoZkc+Z3dMZq
+         WIkBDEyaA6im6AIRuFHLyVD6wVpJmIHhWpvZ1Au4nvxsuSWX+8/js4xYyl2w4v2ACn8J
+         oFgsH/ZgjKRklnHzMkmsqXbBwUcDjtCHchd9wMmkSzaxuMX8e0od6at3Q+H4pVaVQ46E
+         7Ci/ROMxCIhJ6BHxuwiPEycQlwFkd1bzE/9IOckbsmLyrgYdAlBu5UrzgLLCl+zm5xsc
+         ydgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HhYQv27JmheN+IIAmT/S+0BaIl0u3hjG9Yztl7Q3bYI=;
-        b=TZuPmOW70TUB+sleb5ZQWdRJQPFjoLL1L76Pr20kFnVei9sysu9k2O/m96cm+ckz2q
-         DupDFQRI2E1ZRtMrQgIWmpuTasgbcYgfothSwi8dTqF/9ASeXV5zB183uVm7KymqEgUX
-         bBDbEEWsgn+JUsF+smryPSN0D0It+/3Z4eGwtu3FJkz8+Ljk+vm3ICWho44fXPvfZ2a7
-         P3oTbV7uMEEyM8aV7aZ3LDBFYcqhzpvQjVb0QRbo8DUggq/Vv9jdlMNKzR019gUCaqqW
-         php8NQQcuIrhQxiI/0o269ppFwoW2JKGd2E5HsMf3l/RoKjqKmPmV5u57jisqzXiqtHj
-         5RXQ==
-X-Gm-Message-State: AOAM530GwRAIZsdYyHPWabd/N2gPjpB63x3CeBw1Gc6bwL1/2z09c5/W
-        LJQDYQ47bOdgt8sbFp6mrpgSFClpH3Idog==
-X-Google-Smtp-Source: ABdhPJxg1WI5OjXgKAjZqUrH7ZuN7HnyAf6ZevH92l8Hj5iZ3vCB+TFgdvEUzMVOaRMav2ryCEgAsQ==
-X-Received: by 2002:a05:620a:4449:b0:6a0:3f3c:c29d with SMTP id w9-20020a05620a444900b006a03f3cc29dmr18117946qkp.25.1652260129575;
-        Wed, 11 May 2022 02:08:49 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id v3-20020ac85783000000b002f39b99f6b8sm873292qta.82.2022.05.11.02.08.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 02:08:48 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id w187so2780962ybe.2;
-        Wed, 11 May 2022 02:08:48 -0700 (PDT)
-X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
- bu5-20020a056902090500b0064a2089f487mr22009190ybb.202.1652260128075; Wed, 11
- May 2022 02:08:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220511082325.36185-1-biju.das.jz@bp.renesas.com> <20220511082325.36185-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220511082325.36185-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 May 2022 11:08:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXpfV-u6Yk+J_fhh1pYd4+uPdJRhv2C4Zr7ajaQdzzDxQ@mail.gmail.com>
-Message-ID: <CAMuHMdXpfV-u6Yk+J_fhh1pYd4+uPdJRhv2C4Zr7ajaQdzzDxQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=70Qlhkcc4Ow/r5C//bTIZEag8dRv3Msy3Svgs6lC2hI=;
+        b=amIl+OngMofPNL6uZV8nrJLaNT1/WnqzrMEGhGVZtoAjjlGRr2Qafh+EvIbgEffXIr
+         zfy9Qn/k7WVEjZyKPj434OVxte3MmuRPUS8YIef6gtWpD7PqGq6pQNgeNKQUDCTiOUUX
+         WrsD33i1S/HKnn0tubSypFuNyXzcPB05VCmuXkAZI4uVRH3vvp3/JMKPt56id7F7bluN
+         eI8KcL48Wu06Po3MTAVRcFTzBLNWTwU1IrLeWEUJKQYDTIn9qSSVYuXUXQLYF4Jd8eWb
+         pyTDeys1pPS17JgKxba7pMtFCM9uOhE7QTdOHuNGJ3ctDIdjJM+64JQAGUHIe+c8Wr9N
+         lbbw==
+X-Gm-Message-State: AOAM533sojFqHcLyk/afiHtNNvNyzMGjdQxafyERaSiycjdTSpV9ooSw
+        vaXDFKd7WGzy+yXBnueyagk=
+X-Google-Smtp-Source: ABdhPJx8eOqhXvG8IguKS02jcUHHeREfjnKpkk3qk3xLY82RHhp4Lk6jY+vKDSWdDEeIntvpnYiuGg==
+X-Received: by 2002:a05:6402:1a34:b0:425:ca01:58ec with SMTP id be20-20020a0564021a3400b00425ca0158ecmr27804005edb.373.1652261801188;
+        Wed, 11 May 2022 02:36:41 -0700 (PDT)
+Received: from skbuf ([188.25.160.86])
+        by smtp.gmail.com with ESMTPSA id z5-20020aa7cf85000000b00428b4381686sm878579edx.64.2022.05.11.02.36.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 02:36:40 -0700 (PDT)
+Date:   Wed, 11 May 2022 12:36:38 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH net-next v4 06/12] net: dsa: rzn1-a5psw: add Renesas
+ RZ/N1 advanced 5 port switch driver
+Message-ID: <20220511093638.kc32n6ldtaqfwupi@skbuf>
+References: <20220509131900.7840-1-clement.leger@bootlin.com>
+ <20220509131900.7840-7-clement.leger@bootlin.com>
+ <20220509160813.stfqb4c2houmfn2g@skbuf>
+ <20220510103458.381aaee2@xps-bootlin>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220510103458.381aaee2@xps-bootlin>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 11, 2022 at 10:23 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
-> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
-> on the RZ/G2L.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Removed unnecessary SoC specific reg description as it is
->    equivalent to the logic used in reg.
->  * Removed Items from reg.
+On Tue, May 10, 2022 at 10:34:58AM +0200, Clément Léger wrote:
+> > By the way, does this switch pass
+> > tools/testing/selftests/drivers/net/dsa/no_forwarding.sh?
+> 
+> Unfortunately, the board I have only has 2 ports availables and thus, I
+> can only test one bridge or two separated ports at a time... I *should*
+> receive a 4 ports one in a near future but that not yet sure.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+2 switch ports or 2 ports in total? h1 and h2 can be non-switch ports
+(should work with USB-Ethernet adapters etc).
