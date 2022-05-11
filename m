@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 183F6522CD3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 09:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E2A522CDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 09:08:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbiEKHHE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 May 2022 03:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39130 "EHLO
+        id S242610AbiEKHI1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 May 2022 03:08:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237943AbiEKHHD (ORCPT
+        with ESMTP id S235005AbiEKHIZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 May 2022 03:07:03 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C2239BB5;
-        Wed, 11 May 2022 00:07:01 -0700 (PDT)
+        Wed, 11 May 2022 03:08:25 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5B5A30A0;
+        Wed, 11 May 2022 00:08:22 -0700 (PDT)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2AB9A20003;
-        Wed, 11 May 2022 07:06:57 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 0B8841BF20D;
+        Wed, 11 May 2022 07:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652252819;
+        t=1652252901;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=6k9oVfxMoWnS5euSo4CM5CYub9UXjY9/qIWVMIQnhb8=;
-        b=BTsmMt7ipKcPQ7U0u2hxYHpm1ja/aVvNLTyMpYEmzsnxXTDJYiHFHVkXg9nS80acNtAHEb
-        OuYX0Wz1HRzOJaYHx28p9rWiT4aOU84rDEJWehtVvmM2/VhcPTQUWReHf7/M+VQtMEW02a
-        TB4dwv0BE1gvEZ5oGwDoGEjPOlR62gmPQcwjFxvPuk3lmqLgMuY45vdtDEFkrOGzBmrGxt
-        mylg+hCE5y8FMPZiDBOVbUACnLfaVztPf/dQMjTIxP9s3jWxK7KNrYeld4A2dHd04tX47v
-        rl/GI+QEszJL0moZHK50az1guYwryJ7mGHKy5szXLO3hcQ9562LhPlHzULa/+Q==
-Date:   Wed, 11 May 2022 09:06:56 +0200
+        bh=j94gMFJ0WOTyCXQ5/7RSgY2UuqQn8cfJodJNeaB6sKM=;
+        b=o4c+Ks//LyKW+VNGeLfdEJFW3hTEugCv+16z7cGmKcltjQ8WhG3X3Vq+S/UPO3WWdiZPCP
+        VJ0y6wQTbnbXrfocRv47evYyFOBJG1kG9I38pNS9Alv/2ZBrYS124ovixjjR118MPtrKb7
+        Ibcuhc6jF5wTvdv2iw6auQvuqeRGDtGYJtB7O2clACTSUHmBrEiiDv3HV0nrt167iZEK1N
+        XgMr3cCTZhl2jR/X0BEjAVQf78V5xN8PVGhmscA+bWpLSWuk/+kSLGxMawkgGvclsuLNZP
+        IThnigvwZvpCraoAPYAxFKKMUkfdIEL+3iubgF6L95KefI/yL0GiUpnG+M3TLQ==
+Date:   Wed, 11 May 2022 09:08:15 +0200
 From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 To:     Florian Fainelli <f.fainelli@gmail.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
@@ -54,13 +54,12 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Pascal Eberhard <pascal.eberhard@se.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v4 07/12] net: dsa: rzn1-a5psw: add statistics
- support
-Message-ID: <20220511090656.4c5af4e1@xps-bootlin>
-In-Reply-To: <e31809b6-6f57-111b-3e01-76bfa69f9796@gmail.com>
+Subject: Re: [PATCH net-next v4 00/12] add support for Renesas RZ/N1
+ ethernet subsystem devices
+Message-ID: <20220511090815.42deebac@xps-bootlin>
+In-Reply-To: <1b097089-d6e6-5622-15aa-7038b66b1367@gmail.com>
 References: <20220509131900.7840-1-clement.leger@bootlin.com>
-        <20220509131900.7840-8-clement.leger@bootlin.com>
-        <e31809b6-6f57-111b-3e01-76bfa69f9796@gmail.com>
+        <1b097089-d6e6-5622-15aa-7038b66b1367@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -76,54 +75,54 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, 10 May 2022 09:32:53 -0700,
+Le Tue, 10 May 2022 09:30:17 -0700,
 Florian Fainelli <f.fainelli@gmail.com> a =C3=A9crit :
 
 > On 5/9/22 06:18, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add statistics support to the rzn1-a5psw driver by implementing the
-> > following dsa_switch_ops callbacks:
-> > - get_sset_count()
-> > - get_strings()
-> > - get_ethtool_stats()
-> > - get_eth_mac_stats()
-> > - get_eth_ctrl_stats()
-> > - get_rmon_stats()
+> > The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+> > (most notably) a switch, two GMACs, and a MII converter [1]. This
+> > series adds support for the switch and the MII converter.
 > >=20
-> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
-> > ---
-> >   drivers/net/dsa/rzn1_a5psw.c | 178
-> > +++++++++++++++++++++++++++++++++++ drivers/net/dsa/rzn1_a5psw.h |
-> > 46 ++++++++- 2 files changed, 223 insertions(+), 1 deletion(-)
+> > The MII converter present on this SoC has been represented as a PCS
+> > which sit between the MACs and the PHY. This PCS driver is probed
+> > from the device-tree since it requires to be configured. Indeed the
+> > MII converter also contains the registers that are handling the
+> > muxing of ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
 > >=20
-> > diff --git a/drivers/net/dsa/rzn1_a5psw.c
-> > b/drivers/net/dsa/rzn1_a5psw.c index 1e2fac80f3e0..46ba25672593
-> > 100644 --- a/drivers/net/dsa/rzn1_a5psw.c
-> > +++ b/drivers/net/dsa/rzn1_a5psw.c
-> > @@ -17,6 +17,61 @@
-> >  =20
-> >   #include "rzn1_a5psw.h"
-> >  =20
-> > +struct a5psw_stats {
-> > +	u16 offset;
-> > +	const char name[ETH_GSTRING_LEN];
-> > +};
-> > +
-> > +#define STAT_DESC(_offset, _name) {.offset =3D _offset, .name =3D
-> > _name} =20
+> > The switch driver is based on DSA and exposes 4 ports + 1 CPU
+> > management port. It include basic bridging support as well as FDB
+> > and statistics support.
+> >=20
+> > This series needs commits 14f11da778ff6421 ("soc: renesas: rzn1:
+> > Select PM and PM_GENERIC_DOMAINS configs") and ed66b37f916ee23b
+> > ("ARM: dts: r9a06g032: Add missing '#power-domain-cells'") which
+> > are available on the renesas-devel tree in order to enable generic
+> > power domain on RZ/N1.
+> >=20
+> > Link: [1]
+> > https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1=
+l-group-users-manual-r-engine-and-ethernet-peripherals
+> > =20
+> Build testing this patch set gave me the following Kconfig warnings:
 >=20
-> You can build a more compact representation as long as you keep the=20
-> offset constant and the name in sync, the attached patch and leverage=20
-> the __stringify() macro to construct the name field:
+> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
+> [=3Dn]) Selected by [m]:
+>    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
 >=20
-> -#define STAT_DESC(_offset, _name) {.offset =3D _offset, .name =3D _name}
-> +#define STAT_DESC(_offset) {   \
-> +       .offset =3D A5PSW_##_offset,      \
-> +       .name =3D __stringify(_offset),   \
-> +}
-
-Indeed, nice catch ! Thanks for the patch !
-
+> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
+> [=3Dn]) Selected by [m]:
+>    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
 >=20
-> The attached patch does the conversion if you want to fixup into your=20
-> commit.
+> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
+>    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
+> [=3Dn]) Selected by [m]:
+>    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
+>=20
+> I started off with arm64's defconfig and then enabled all of the DSA=20
+> drivers.
 
+Ok, I'll fix that.
+
+Cl=C3=A9ment
