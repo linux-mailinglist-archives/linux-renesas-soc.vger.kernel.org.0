@@ -2,127 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E2A522CDA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 09:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4F5A522CF1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 09:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242610AbiEKHI1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 May 2022 03:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
+        id S241389AbiEKHN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 May 2022 03:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235005AbiEKHIZ (ORCPT
+        with ESMTP id S234003AbiEKHN4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 May 2022 03:08:25 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5B5A30A0;
-        Wed, 11 May 2022 00:08:22 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0B8841BF20D;
-        Wed, 11 May 2022 07:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652252901;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j94gMFJ0WOTyCXQ5/7RSgY2UuqQn8cfJodJNeaB6sKM=;
-        b=o4c+Ks//LyKW+VNGeLfdEJFW3hTEugCv+16z7cGmKcltjQ8WhG3X3Vq+S/UPO3WWdiZPCP
-        VJ0y6wQTbnbXrfocRv47evYyFOBJG1kG9I38pNS9Alv/2ZBrYS124ovixjjR118MPtrKb7
-        Ibcuhc6jF5wTvdv2iw6auQvuqeRGDtGYJtB7O2clACTSUHmBrEiiDv3HV0nrt167iZEK1N
-        XgMr3cCTZhl2jR/X0BEjAVQf78V5xN8PVGhmscA+bWpLSWuk/+kSLGxMawkgGvclsuLNZP
-        IThnigvwZvpCraoAPYAxFKKMUkfdIEL+3iubgF6L95KefI/yL0GiUpnG+M3TLQ==
-Date:   Wed, 11 May 2022 09:08:15 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v4 00/12] add support for Renesas RZ/N1
- ethernet subsystem devices
-Message-ID: <20220511090815.42deebac@xps-bootlin>
-In-Reply-To: <1b097089-d6e6-5622-15aa-7038b66b1367@gmail.com>
-References: <20220509131900.7840-1-clement.leger@bootlin.com>
-        <1b097089-d6e6-5622-15aa-7038b66b1367@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
+        Wed, 11 May 2022 03:13:56 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEEE86FD1F;
+        Wed, 11 May 2022 00:13:55 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id n10so1493844qvi.5;
+        Wed, 11 May 2022 00:13:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Tbpujvy+yKLfcJgrFJ+v4Kcv6jitXcPGM+E32YlO9vI=;
+        b=touwP5vjlmtPLfeyl+cHBYo8gLIFh8L0bo0qomuV7n1EDZ22Wgbm2XGgHZQ4D2hgtr
+         jqZpmIml4ZjIquUvaIBMaSKE6G8yHy0YFNtTF9ohOntIgLEi2bEFU3VooN8ciOSkCSFv
+         5SW+cFBLimYvWMWhvm0iz/cjqtpQTKFxJy2aJJtpjYrsxRGn/UNhd78VpSdGFRqXVGaM
+         oTIZAlpZD0SRtWQkg5FnPh/3R82JTtOAWTUDHolH3g6y+oB3qFYrNmazwQywVqjz/xyg
+         MAh5I+MWn1ZSIACUks2xkD+0QRtQr/HP+GXxhnADSmshbdlW5PJ1uwQZVALyJgkieH45
+         HFtw==
+X-Gm-Message-State: AOAM532ombIl0TqGFj4+u4+4zM9QWt21f0AnaruCl8UzIaTS3eDgrZGJ
+        g9QYSMnXgCLdkaaIqfcuC4l9Fv20UsWrjg==
+X-Google-Smtp-Source: ABdhPJwyKKOSUoq4pIoEgSwIYnJ6vYjx6PSPJ9EzmpO3jHDDIg22FE4/sqzX0QdtG6nFMIBFceamfA==
+X-Received: by 2002:a05:6214:246f:b0:45a:c441:4744 with SMTP id im15-20020a056214246f00b0045ac4414744mr21235315qvb.13.1652253234503;
+        Wed, 11 May 2022 00:13:54 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id p124-20020a37a682000000b0069fcdbabdb4sm775564qke.69.2022.05.11.00.13.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 May 2022 00:13:54 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id s30so2230366ybi.8;
+        Wed, 11 May 2022 00:13:53 -0700 (PDT)
+X-Received: by 2002:a25:4506:0:b0:648:cfc2:301d with SMTP id
+ s6-20020a254506000000b00648cfc2301dmr21693536yba.380.1652253233501; Wed, 11
+ May 2022 00:13:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220511070443.30231-1-biju.das.jz@bp.renesas.com> <20220511070443.30231-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220511070443.30231-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 11 May 2022 09:13:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWNP_H9FNcygXZp0Ysw=wGXzV71Q_U7Hs=wH_Vctnz1pg@mail.gmail.com>
+Message-ID: <CAMuHMdWNP_H9FNcygXZp0Ysw=wGXzV71Q_U7Hs=wH_Vctnz1pg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL ADC
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, 10 May 2022 09:30:17 -0700,
-Florian Fainelli <f.fainelli@gmail.com> a =C3=A9crit :
+Hi Biju,
 
-> On 5/9/22 06:18, Cl=C3=A9ment L=C3=A9ger wrote:
-> > The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
-> > (most notably) a switch, two GMACs, and a MII converter [1]. This
-> > series adds support for the switch and the MII converter.
-> >=20
-> > The MII converter present on this SoC has been represented as a PCS
-> > which sit between the MACs and the PHY. This PCS driver is probed
-> > from the device-tree since it requires to be configured. Indeed the
-> > MII converter also contains the registers that are handling the
-> > muxing of ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
-> >=20
-> > The switch driver is based on DSA and exposes 4 ports + 1 CPU
-> > management port. It include basic bridging support as well as FDB
-> > and statistics support.
-> >=20
-> > This series needs commits 14f11da778ff6421 ("soc: renesas: rzn1:
-> > Select PM and PM_GENERIC_DOMAINS configs") and ed66b37f916ee23b
-> > ("ARM: dts: r9a06g032: Add missing '#power-domain-cells'") which
-> > are available on the renesas-devel tree in order to enable generic
-> > power domain on RZ/N1.
-> >=20
-> > Link: [1]
-> > https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1=
-l-group-users-manual-r-engine-and-ethernet-peripherals
-> > =20
-> Build testing this patch set gave me the following Kconfig warnings:
->=20
-> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
-> [=3Dn]) Selected by [m]:
->    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
->=20
-> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
-> [=3Dn]) Selected by [m]:
->    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
->=20
-> WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
->    Depends on [n]: NETDEVICES [=3Dy] && (ARCH_RZN1 [=3Dn] || COMPILE_TEST
-> [=3Dn]) Selected by [m]:
->    - NET_DSA_RZN1_A5PSW [=3Dm] && NETDEVICES [=3Dy] && NET_DSA [=3Dm]
->=20
-> I started off with arm64's defconfig and then enabled all of the DSA=20
-> drivers.
+On Wed, May 11, 2022 at 9:04 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
+> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
+> on the RZ/G2L.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Added generic description for reg.
+>  * Improved schema validation by restricting both channel and reg to [0-1].
 
-Ok, I'll fix that.
+Thanks for the update!
 
-Cl=C3=A9ment
+> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> @@ -19,6 +19,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043-adc   # RZ/G2UL
+>            - renesas,r9a07g044-adc   # RZ/G2L
+>            - renesas,r9a07g054-adc   # RZ/V2L
+>        - const: renesas,rzg2l-adc
+> @@ -76,16 +77,43 @@ patternProperties:
+>      properties:
+>        reg:
+>          description: |
+> -          The channel number. It can have up to 8 channels numbered from 0 to 7.
+> -        items:
+> -          - minimum: 0
+> -            maximum: 7
+> +          The channel number.
+>
+>      required:
+>        - reg
+>
+>      additionalProperties: false
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043-adc
+> +    then:
+> +      patternProperties:
+> +        "^channel@[2-7]$": false
+> +        "^channel@[0-1]$":
+> +          type: object
+> +          properties:
+> +            reg:
+> +              description: |
+> +                It can have up to 2 channels numbered from 0 to 1.
+
+IMHO the description doesn't add any value, as it's equivalent to
+the logic below.
+
+> +              items:
+
+I don't think the "items" is needed or wanted, as there can be
+only one?
+
+> +                - minimum: 0
+> +                  maximum: 1
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
