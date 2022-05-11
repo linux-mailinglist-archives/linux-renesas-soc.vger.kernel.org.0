@@ -2,110 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BBBE52242E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 May 2022 20:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78853522B45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 06:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344093AbiEJSg3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 May 2022 14:36:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
+        id S241948AbiEKEkS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 May 2022 00:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349118AbiEJSgZ (ORCPT
+        with ESMTP id S235951AbiEKEj1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 May 2022 14:36:25 -0400
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE93550450;
-        Tue, 10 May 2022 11:36:20 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 7290120DA93F
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] arm64: dts: renesas: r9a07g043: Add ADC node
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220505184353.512133-1-biju.das.jz@bp.renesas.com>
- <b89be37d-ec17-8b6f-561b-63781352e774@gmail.com>
- <OS0PR01MB592248147BA1A775236B080186C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <530ed78e-bce5-09bd-f0ef-f20de956cfcf@omp.ru>
- <OS0PR01MB5922B28212F59C522FE432B786C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <2d987f83-d59b-b598-1a3d-94bc570b8d89@omp.ru>
-Date:   Tue, 10 May 2022 21:36:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 11 May 2022 00:39:27 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C12153533
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-ed8a3962f8so1493782fac.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
+         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
+         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
+         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
+         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
+         wrQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
+        b=zRFxuydfV205r1W0Lq9VtSiuxmLcwJutWY7KmsOLEJV/gCy5Rwd/s0GgBN9MrF07Iv
+         /pIPFUxJBhskijiz5kR885gLitJjIRgn2V655glaorLjxrTyIFLdbBwhxfZeFIzAkRAr
+         3R3O6hgpxyenS6Sr3dJx73t3hgsklnKBFrK/eRI/y/MORts8BExGYZI0EMfBdGgoLS6E
+         nXQaWgisE62QO9sd/137G7LaXgfEfbmsMJ0W2BVFT8jvdhK0Xqo7+QEHPvbUmbKA68SV
+         5qcxXzSul6RXx4WfqkYlyvoZocu9aRoJ1k9+1EiUX1shlJmS2H+hFjsg+IDeCT/bj6TN
+         Mcow==
+X-Gm-Message-State: AOAM530Piuee8qgEDE2NqBjoqTpUnsbelHkACxB1HCxhSiB9qqeVwhOz
+        YUGktcQr3xZ99eGqFh3813Ef6RJ/8AY3yyyhpboiIer/VHGwrQ==
+X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
+X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
+ gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
+ May 2022 21:39:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <OS0PR01MB5922B28212F59C522FE432B786C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
+ -0700 (PDT)
+From:   Private Mail <privatemail1961@gmail.com>
+Date:   Tue, 10 May 2022 21:39:10 -0700
+Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
+Subject: Have you had this? It is for your Benefit
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 5/10/22 12:15 PM, Biju Das wrote:
-[...]
+Our Ref: BG/WA0151/2022
 
->>>>> Add ADC node to R9A07G043 (RZ/G2UL) SoC DTSI.
->>>>>
->>>>> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->>>>> ---
->>>>>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 21 ++++++++++++++++++++-
->>>>>  1 file changed, 20 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>>> b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>>>> index b31fb713ae4d..40201a16d653 100644
->>>>> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>>>> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
->>>>> @@ -483,8 +483,27 @@ i2c3: i2c@10058c00 {
->>>>>  		};
->>>>>
->>>>>  		adc: adc@10059000 {
->>>>> +			compatible = "renesas,r9a07g043-adc", "renesas,rzg2l-
->>>> adc";
->>>>>  			reg = <0 0x10059000 0 0x400>;
->>>>> -			/* place holder */
->>>>> +			interrupts = <GIC_SPI 347 IRQ_TYPE_EDGE_RISING>;
->>>>> +			clocks = <&cpg CPG_MOD R9A07G043_ADC_ADCLK>,
->>>>> +				 <&cpg CPG_MOD R9A07G043_ADC_PCLK>;
->>>>> +			clock-names = "adclk", "pclk";
->>>>> +			resets = <&cpg R9A07G043_ADC_PRESETN>,
->>>>> +				 <&cpg R9A07G043_ADC_ADRST_N>;
->>>>> +			reset-names = "presetn", "adrst-n";
->>>>
->>>>    Not "adrst_n"?
->>>
->>> As per bindings[1], it is correct ie, "adrst-n"
->>
->>    Then I think the bindings aren't actually correct. But nevermind... :-)
-> 
-> Why do you think it is not correct? What difference it make, changing from 
-> adrst-n->adrst_n? Is it violating any DT specification?
-> 
-> Please clarify.
+Dear Beneficiary
 
-   No, I don't think this violates the DT spec. It just doesn't feel right to
-convert underscores to hyphens in the "reset-names" prop...
+Subject: An Estate of US$15.8 Million
 
-> Regards,
-> Biju
+Blount and Griffin Genealogical Investigators specializes in probate
+research to locate missing heirs and beneficiaries to estates in the
+United Kingdom and Europe.
 
-MBR, Sergey
+We can also help you find wills, obtain copies of certificates, help
+you to administer an estate, as well as calculating how an estate,
+intestacy or trust should be distributed.
+
+You may be entitled to a large pay out for an inheritance in Europe
+worth US$15.8 million. We have discovered an estate belonging to the
+late Depositor has remained unclaimed since he died in 2011 and we
+have strong reasons to believe you are the closest living relative to
+the deceased we can find.
+
+You may unknowingly be the heir of this person who died without
+leaving a will (intestate). We will conduct a probate research to
+prove your entitlement, and can submit a claim on your behalf all at
+no risk to yourselves.
+
+Our service fee of 10% will be paid to us after you have received the estate.
+
+The estate transfer process should take just a matter of days as we
+have the mechanism and expertise to get this done very quickly. This
+message may come to you as a shock, however we hope to work with you
+to transfer the estate to you as quickly as possible.
+
+Feel free to email our senior case worker Mr. Malcolm Casey on email:
+malcolmcasey68@yahoo.com for further discussions.
+
+With warm regards,
+
+Mr. Blount W. Gort, CEO.
+Blount and Griffin Associates Inc
