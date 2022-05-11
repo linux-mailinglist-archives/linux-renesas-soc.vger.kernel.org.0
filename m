@@ -2,269 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85FFB52309D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 12:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0709752312F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 May 2022 13:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235216AbiEKKZI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 May 2022 06:25:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46268 "EHLO
+        id S233645AbiEKLMV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 May 2022 07:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230392AbiEKKZG (ORCPT
+        with ESMTP id S229534AbiEKLMT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 May 2022 06:25:06 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF86419A9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 May 2022 03:25:03 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c9c1:6ba7:bb0d:8433])
-        by baptiste.telenet-ops.be with bizsmtp
-        id VNR1270051sk9zo01NR1h4; Wed, 11 May 2022 12:25:01 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nojWe-003ihb-JW; Wed, 11 May 2022 12:25:00 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nojWe-004ebw-1x; Wed, 11 May 2022 12:25:00 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: Rename numbered regulators
-Date:   Wed, 11 May 2022 12:24:59 +0200
-Message-Id: <b90dfeb834c4d7dabd22bf03396f33df58f54507.1652264651.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Wed, 11 May 2022 07:12:19 -0400
+Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39EC11DEC57;
+        Wed, 11 May 2022 04:12:17 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 7AC993C00BA;
+        Wed, 11 May 2022 13:12:15 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.33) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Wed, 11 May
+ 2022 13:12:15 +0200
+Date:   Wed, 11 May 2022 13:12:10 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+CC:     Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC] media: renesas: vsp1: Add VSPD underrun detection & tracing
+Message-ID: <20220511111210.GA4369@lxhi-065>
+References: <1650962227-14281-1-git-send-email-erosca@de.adit-jv.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1650962227-14281-1-git-send-email-erosca@de.adit-jv.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.33]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Numbered regulators are prone to conflicts, causing silent overwrites
-(see e.g. [1]).
+Dear Laurent,
+Dear Kieran,
 
-Make conflicts less likely to happen by renaming all numbered regulators
-to names reflecting the regulator's purposes.
+On Di, Apr 26, 2022 at 10:37:07 +0200, Eugeniu Rosca wrote:
+> A barely noticeable (especially if hardly reproducible) display flicker
+> may not be the biggest concern in the development environment. However,
+> an automotive OEM will not only notice it, but will also be haunted by
+> its phenomenon/nature till it is understood in the greatest detail and
+> ultimately eradicated, to avoid impairing user experience.
+> 
+> Troubleshooting the above without the right tools becomes a nightmare.
+> 
+> Since VSPD underruns may indeed cause [1] display flicker, we believe
+> that having a minimal/lightweight support for detecting and logging
+> such events would be extremely beneficial. Obviously, this only applies
+> to VSP2 modules having an interface to DU (i.e. not mem2mem).
+> 
+> This implementation is heavily inspired by Koji Matsuoka's work [2-3],
+> but has been refactored to hopefully become production/mainline-friendly
+> (the original feature is intended for the development environment only).
+> 
+> [1] https://lore.kernel.org/linux-renesas-soc/20220421161259.GA2660@lxhi-065
+> [2] https://github.com/renesas-rcar/linux-bsp/commit/3469001c3098
+>     ("v4l: vsp1: Add underrun hung-up workaround")
+> [3] https://github.com/renesas-rcar/linux-bsp/commit/12ea79975a10
+>     ("v4l: vsp1: Add underrun debug messege option")
 
-[1] commit 45f5d5a9e34d3fe4 ("arm64: dts: renesas: r8a77995: draak: Fix
-    backlight regulator name").
+Would you please provide brief high-level guidance/steering on this
+patch proposal, to define further direction? Many thanks in advance.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v5.20.
+Any criticism and/or simply the gut feeling would be very welcome.
 
- arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi | 4 ++--
- arch/arm64/boot/dts/renesas/ebisu.dtsi              | 6 +++---
- arch/arm64/boot/dts/renesas/hihope-common.dtsi      | 4 ++--
- arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi    | 4 ++--
- arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi   | 4 ++--
- arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi   | 4 ++--
- arch/arm64/boot/dts/renesas/salvator-common.dtsi    | 6 +++---
- arch/arm64/boot/dts/renesas/ulcb.dtsi               | 4 ++--
- 8 files changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-index 877d076ffcc9bf92..f5c1d74b738b9344 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
-@@ -20,7 +20,7 @@ osc_32k: osc_32k {
- 		clock-output-names = "osc_32k";
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -29,7 +29,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-index 72f359efa23e78d8..9c311906fdaf395f 100644
---- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-@@ -145,7 +145,7 @@ memory@48000000 {
- 		reg = <0x0 0x48000000 0x0 0x38000000>;
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -154,7 +154,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-@@ -163,7 +163,7 @@ reg_3p3v: regulator1 {
- 		regulator-always-on;
- 	};
- 
--	reg_12p0v: regulator2 {
-+	reg_12p0v: regulator-12p0v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "D12.0V";
- 		regulator-min-microvolt = <12000000>;
-diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-index 935d06515aa6130b..b062f41ee270124b 100644
---- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-@@ -53,7 +53,7 @@ led4 {
- 		};
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -62,7 +62,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-index aeacd22e9eb019a3..9410796c8ad6b72d 100644
---- a/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2l-smarc-som.dtsi
-@@ -34,7 +34,7 @@ memory@48000000 {
- 		reg = <0x0 0x48000000 0x0 0x78000000>;
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -43,7 +43,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-index 959a0ad1d3671063..78e6e2376b015ab8 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc-som.dtsi
-@@ -23,7 +23,7 @@ memory@48000000 {
- 		reg = <0x0 0x48000000 0x0 0x38000000>;
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -32,7 +32,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-diff --git a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-index a663115f5aae616a..429bdde579c3f052 100644
---- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc-som.dtsi
-@@ -24,7 +24,7 @@ memory@48000000 {
- 		reg = <0x0 0x48000000 0x0 0x38000000>;
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -33,7 +33,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-index 7efdf5c80b8ba2d6..5d7f67a1ad1d71b5 100644
---- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-@@ -176,7 +176,7 @@ key-wakeup {
- 		};
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -185,7 +185,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
-@@ -194,7 +194,7 @@ reg_3p3v: regulator1 {
- 		regulator-always-on;
- 	};
- 
--	reg_12v: regulator2 {
-+	reg_12v: regulator-12v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-12V";
- 		regulator-min-microvolt = <12000000>;
-diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index 90a4c0629d240fdb..d5f0f75b249b4681 100644
---- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -76,7 +76,7 @@ led6 {
- 		};
- 	};
- 
--	reg_1p8v: regulator0 {
-+	reg_1p8v: regulator-1p8v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
- 		regulator-min-microvolt = <1800000>;
-@@ -85,7 +85,7 @@ reg_1p8v: regulator0 {
- 		regulator-always-on;
- 	};
- 
--	reg_3p3v: regulator1 {
-+	reg_3p3v: regulator-3p3v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-3.3V";
- 		regulator-min-microvolt = <3300000>;
--- 
-2.25.1
-
+Best regards,
+Eugeniu
