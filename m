@@ -2,158 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16307524D6C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 14:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C0D524E07
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 15:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352094AbiELMti (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 08:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
+        id S1354128AbiELNRK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 09:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353969AbiELMta (ORCPT
+        with ESMTP id S1354107AbiELNRI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 08:49:30 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D098C24D5BA;
-        Thu, 12 May 2022 05:49:20 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-2fb9a85a124so51744587b3.13;
-        Thu, 12 May 2022 05:49:20 -0700 (PDT)
+        Thu, 12 May 2022 09:17:08 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F989246422
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 May 2022 06:17:07 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id c14so4780995pfn.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 May 2022 06:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7DrF5cwoQrpy+nOj+sSKtS5rKw6qKbXX4wWCz3z6jZ8=;
-        b=XEEm8XV4zWeN1/m4PMvtMtMAdviw5CxhEOzn1ytnh1IM04riYkcoUjE0kvHzeKNeEs
-         8Xt+pL1APjslWuydnUY4U00cJgH1WEdhUZriBcwvhgSE+q5IoOq/rfDHoHcaRu8OwsDW
-         nmYBTUhIALP0AvZwAfxxqQj7k6aociLx4m2wxBUe7TV7Dn7B4zmpMLgCszXTonyqU0S+
-         1EQG5fBNblIoO1soU34JR8jDfLLXUfYyIPWhk6/L6ASUTGRMfoBXGOkIBDB1aNjKLnmc
-         XXkDSv3xyjji4R3NkmYZhxQYJ89OVA/ey9SaXgWiPIz94pbBTtqgaqq7xneJPPbsabNs
-         eICw==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Rnogcr7ZLfXOCRxe1rwlddRUy0BjLUcz0t69pn/hTu4=;
+        b=nv0VJ9RtQ7tENtK6DIZdWB6Ve9yCDvQQUu86pQNzyQlV0rRZqWVxie/vRJ18bd96Kg
+         b+zlA0bhhDfLWN+063m0e2ru4sdkGRICUjvVRLv0Tx3Y4Lb7oHjRzSWS+5L+uznnCQwr
+         zy7+O6ODu8zEiQvjLBT5vbjVQPVCIgFnM3pBeRC0O4IF5aLMB/JD+MLI0lp9d0KuTVzT
+         FNHNv90g7Rd4Vk1fcnnQQgSLZyAPjQkJUvtAP5zWopjSzImR1L1Mui3ysusWOaAcDG4b
+         u8LFXmUD9eUIrUJmxHTy3pkklaB4ZbBgBY+9xVQD44qsek6dIgpz1f9R5ed+Zn4lpJvK
+         bW3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7DrF5cwoQrpy+nOj+sSKtS5rKw6qKbXX4wWCz3z6jZ8=;
-        b=ClQqZ20X47PDhjW9klsIJKEiM5NCxv9wz14mXy8wfXctZoETCEeIxrwmfl7Ovw0uNv
-         L2PxcXpJNYzDKai4HcLTTETc9CSBFQ2Pi+lSB0YniJkXuSbTwwRKacgeDZGYy/Fw0540
-         luEn68GwZBGbgi7QR8iXyC3+Ha/CB984yLeLhLNR/LgqbPMIqmtVeYXAjV96AlkjI4WQ
-         MgQJzGc4/iEF3ByUpQBfzX4c7dDHw51HLhswGcH8Msi8D0z/XBvAqR56/Y7xFYcwf71+
-         CfqqpVuv5GVGZVU5bZ+v9XLr5gGjqahd+JqZnUZ94JDgrlIW6YnKz1WsETVNsHxMDkeT
-         d+LA==
-X-Gm-Message-State: AOAM531e6haQlZRK5njDE1oofzQv3MSstoqAx+ij/SCbobLWC8Z25dPf
-        bpS1iyPmlRm+MVbe3V5bsSgO1sDMVsUP4tXeGlQ=
-X-Google-Smtp-Source: ABdhPJzSgMI5UURmQJlSkLt97lQZJ7s/A3CPFHlQP8eFxEnwrx5uT1fvSWZ4F2cWet2S4Rs+ffet0qTWPLH7sFVHGT0=
-X-Received: by 2002:a0d:d491:0:b0:2ef:5485:fca with SMTP id
- w139-20020a0dd491000000b002ef54850fcamr30261598ywd.16.1652359759761; Thu, 12
- May 2022 05:49:19 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Rnogcr7ZLfXOCRxe1rwlddRUy0BjLUcz0t69pn/hTu4=;
+        b=wUiGWyWaS2LOZrHfhzkI+bEXTg78OKu8o8+ub4/+cHd1jxrmVLLh7WtxniOxhCMQoZ
+         yr14HF9x7dRzUXDaTb2h3FkRimqkWn0msDYsWpXdGXptt0xbcy60LUiiXv6912zm+A9A
+         09pJOco4xIwpNtARdz8fPnXjCbY7ql0mY/URB7VSSFCt1vEXZX4Q+ahtrxPQvbZm/H23
+         y6nExZrlph/qpV9xKJZ9LZMmY8B8+Url9oeio1QtUXx6T7aqItl5mlMC9iXbrVJ/M6Hb
+         JvUNy9ZbA68U8fY+lpYC9CV3BSFjzJIQH3Yv7Z9xpOFGljWOAkKQrb1Kd4fbhjx+EvZZ
+         ZiyA==
+X-Gm-Message-State: AOAM532Oec84ahvn0Bvz2Ejz9hejhkwkjJnnCQDKyrPBKlaymzFyiXE4
+        5pPDbAURcOUAVS1NtywIj9NSQ3mXlFlFBdpvf+k=
+X-Google-Smtp-Source: ABdhPJz6yF0AtZdrnKjsZUDB5GvbNMYhFwIviGQHoklgj0JHWnufcPhdTkLgWAgUp69VmdgP7fe6dRFy4EakmNIm2Hw=
+X-Received: by 2002:a05:6a00:1252:b0:50e:9fc:d5b7 with SMTP id
+ u18-20020a056a00125200b0050e09fcd5b7mr30043915pfi.85.1652361426949; Thu, 12
+ May 2022 06:17:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220511183210.5248-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <87y1z75770.wl-maz@kernel.org>
-In-Reply-To: <87y1z75770.wl-maz@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 12 May 2022 13:48:53 +0100
-Message-ID: <CA+V-a8tf1RmT-cX5y807rTAPES2NXLJHp=u1WUG11fLrtt-5Mg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] gpio: gpiolib: Allow free() callback to be overridden
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Received: by 2002:a17:90a:f00e:0:0:0:0 with HTTP; Thu, 12 May 2022 06:17:06
+ -0700 (PDT)
+Reply-To: usmankido.lawfirm@gmail.com
+From:   Usman Kido <beckydessi01@gmail.com>
+Date:   Thu, 12 May 2022 06:17:06 -0700
+Message-ID: <CABowprE3KK1cKB3Bbod+6OW7wdBNZawNbwnTNqVVZ=ueWbfWHw@mail.gmail.com>
+Subject: GHreeting
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc,
+GHreeting,
 
-Thank you for the review.
+Hello, I hope you are doing great today
 
-On Thu, May 12, 2022 at 12:19 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Wed, 11 May 2022 19:32:08 +0100,
-> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > Allow free() callback to be overridden from irq_domain_ops for
-> > hierarchical chips.
-> >
-> > This allows drivers to free any resources which are allocated during
-> > populate_parent_alloc_arg().
->
-> Do you mean more than the fwspec? I don't see this being used.
->
-The free callback is used in patch 5/5 where free is overridden by
-rzg2l_gpio_irq_domain_free. I just gave an example there as an
-populate_parent_alloc_arg()  In actual in the child_to_parent_hwirq
-callback I am using a bitmap [0] to get a free tint slot, this bitmap
-needs freeing up when the GPIO interrupt is released from the driver
-that as when overridden free callback frees the allocated tint slot so
-that its available for re-use.
+=E2=80=8BI sent you mail earlier but not sure if you received it. Please
+confirm receipt of this message as I have useful information for you=E2=80=
+=8B
 
-> There is also the question of why we need to have dynamic allocation
-> for the fwspec itself. Why isn't that a simple stack allocation in the
-> context of gpiochip_hierarchy_irq_domain_alloc()?
->
-you mean gpio core itself should handle the fwspec allocation/freeing?
+Best regards,
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220511183210.5248-6-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-Cheers,
-Prabhakar
-
->         M.
->
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/gpio/gpiolib.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > index b7694171655c..d36c4a965efc 100644
-> > --- a/drivers/gpio/gpiolib.c
-> > +++ b/drivers/gpio/gpiolib.c
-> > @@ -1187,15 +1187,18 @@ static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
-> >       ops->activate = gpiochip_irq_domain_activate;
-> >       ops->deactivate = gpiochip_irq_domain_deactivate;
-> >       ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
-> > -     ops->free = irq_domain_free_irqs_common;
-> >
-> >       /*
-> > -      * We only allow overriding the translate() function for
-> > +      * We only allow overriding the translate() and free() functions for
-> >        * hierarchical chips, and this should only be done if the user
-> > -      * really need something other than 1:1 translation.
-> > +      * really need something other than 1:1 translation for translate()
-> > +      * callback and free if user wants to free up any resources which
-> > +      * were allocated during callbacks, for example populate_parent_alloc_arg.
-> >        */
-> >       if (!ops->translate)
-> >               ops->translate = gpiochip_hierarchy_irq_domain_translate;
-> > +     if (!ops->free)
-> > +             ops->free = irq_domain_free_irqs_common;
-> >  }
-> >
-> >  static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
-> > --
-> > 2.25.1
-> >
-> >
->
-> --
-> Without deviation from the norm, progress is not possible.
+Usman Kido
