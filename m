@@ -2,120 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2C7524C14
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 13:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16307524D6C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 14:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353487AbiELLsu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 07:48:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56528 "EHLO
+        id S1352094AbiELMti (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 08:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353466AbiELLsf (ORCPT
+        with ESMTP id S1353969AbiELMta (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 07:48:35 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 798ED562C6;
-        Thu, 12 May 2022 04:48:31 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,219,1647270000"; 
-   d="scan'208";a="119489205"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 12 May 2022 20:48:30 +0900
-Received: from localhost.localdomain (unknown [10.226.93.50])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8354D40083D6;
-        Thu, 12 May 2022 20:48:27 +0900 (JST)
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 5/5] ravb: Add support for RZ/V2M
-Date:   Thu, 12 May 2022 12:47:22 +0100
-Message-Id: <20220512114722.35965-6-phil.edworthy@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220512114722.35965-1-phil.edworthy@renesas.com>
-References: <20220512114722.35965-1-phil.edworthy@renesas.com>
+        Thu, 12 May 2022 08:49:30 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D098C24D5BA;
+        Thu, 12 May 2022 05:49:20 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-2fb9a85a124so51744587b3.13;
+        Thu, 12 May 2022 05:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7DrF5cwoQrpy+nOj+sSKtS5rKw6qKbXX4wWCz3z6jZ8=;
+        b=XEEm8XV4zWeN1/m4PMvtMtMAdviw5CxhEOzn1ytnh1IM04riYkcoUjE0kvHzeKNeEs
+         8Xt+pL1APjslWuydnUY4U00cJgH1WEdhUZriBcwvhgSE+q5IoOq/rfDHoHcaRu8OwsDW
+         nmYBTUhIALP0AvZwAfxxqQj7k6aociLx4m2wxBUe7TV7Dn7B4zmpMLgCszXTonyqU0S+
+         1EQG5fBNblIoO1soU34JR8jDfLLXUfYyIPWhk6/L6ASUTGRMfoBXGOkIBDB1aNjKLnmc
+         XXkDSv3xyjji4R3NkmYZhxQYJ89OVA/ey9SaXgWiPIz94pbBTtqgaqq7xneJPPbsabNs
+         eICw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7DrF5cwoQrpy+nOj+sSKtS5rKw6qKbXX4wWCz3z6jZ8=;
+        b=ClQqZ20X47PDhjW9klsIJKEiM5NCxv9wz14mXy8wfXctZoETCEeIxrwmfl7Ovw0uNv
+         L2PxcXpJNYzDKai4HcLTTETc9CSBFQ2Pi+lSB0YniJkXuSbTwwRKacgeDZGYy/Fw0540
+         luEn68GwZBGbgi7QR8iXyC3+Ha/CB984yLeLhLNR/LgqbPMIqmtVeYXAjV96AlkjI4WQ
+         MgQJzGc4/iEF3ByUpQBfzX4c7dDHw51HLhswGcH8Msi8D0z/XBvAqR56/Y7xFYcwf71+
+         CfqqpVuv5GVGZVU5bZ+v9XLr5gGjqahd+JqZnUZ94JDgrlIW6YnKz1WsETVNsHxMDkeT
+         d+LA==
+X-Gm-Message-State: AOAM531e6haQlZRK5njDE1oofzQv3MSstoqAx+ij/SCbobLWC8Z25dPf
+        bpS1iyPmlRm+MVbe3V5bsSgO1sDMVsUP4tXeGlQ=
+X-Google-Smtp-Source: ABdhPJzSgMI5UURmQJlSkLt97lQZJ7s/A3CPFHlQP8eFxEnwrx5uT1fvSWZ4F2cWet2S4Rs+ffet0qTWPLH7sFVHGT0=
+X-Received: by 2002:a0d:d491:0:b0:2ef:5485:fca with SMTP id
+ w139-20020a0dd491000000b002ef54850fcamr30261598ywd.16.1652359759761; Thu, 12
+ May 2022 05:49:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220511183210.5248-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <87y1z75770.wl-maz@kernel.org>
+In-Reply-To: <87y1z75770.wl-maz@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 12 May 2022 13:48:53 +0100
+Message-ID: <CA+V-a8tf1RmT-cX5y807rTAPES2NXLJHp=u1WUG11fLrtt-5Mg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] gpio: gpiolib: Allow free() callback to be overridden
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/V2M Ethernet is very similar to R-Car Gen3 Ethernet-AVB, though
-some small parts are the same as R-Car Gen2.
-Other differences to R-Car Gen3 and Gen2 are:
-* It has separate data (DI), error (Line 1) and management (Line 2) irqs
-  rather than one irq for all three.
-* Instead of using the High-speed peripheral bus clock for gPTP, it has a
-  separate gPTP reference clock.
+Hi Marc,
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
-v4:
- - No change
-v3:
- - Added Reviewed-by tags
-v2:
- - Removed gptp_ptm_gic feature that is no longer needed.
----
- drivers/net/ethernet/renesas/ravb_main.c | 26 ++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Thank you for the review.
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 9d281f74abd0..b357ac4c56c5 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2460,6 +2460,31 @@ static const struct ravb_hw_info ravb_gen2_hw_info = {
- 	.magic_pkt = 1,
- };
- 
-+static const struct ravb_hw_info ravb_rzv2m_hw_info = {
-+	.rx_ring_free = ravb_rx_ring_free_rcar,
-+	.rx_ring_format = ravb_rx_ring_format_rcar,
-+	.alloc_rx_desc = ravb_alloc_rx_desc_rcar,
-+	.receive = ravb_rx_rcar,
-+	.set_rate = ravb_set_rate_rcar,
-+	.set_feature = ravb_set_features_rcar,
-+	.dmac_init = ravb_dmac_init_rcar,
-+	.emac_init = ravb_emac_init_rcar,
-+	.gstrings_stats = ravb_gstrings_stats,
-+	.gstrings_size = sizeof(ravb_gstrings_stats),
-+	.net_hw_features = NETIF_F_RXCSUM,
-+	.net_features = NETIF_F_RXCSUM,
-+	.stats_len = ARRAY_SIZE(ravb_gstrings_stats),
-+	.max_rx_len = RX_BUF_SZ + RAVB_ALIGN - 1,
-+	.tccr_mask = TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-+	.rx_max_buf_size = SZ_2K,
-+	.multi_irqs = 1,
-+	.err_mgmt_irqs = 1,
-+	.gptp = 1,
-+	.gptp_ref_clk = 1,
-+	.nc_queues = 1,
-+	.magic_pkt = 1,
-+};
-+
- static const struct ravb_hw_info gbeth_hw_info = {
- 	.rx_ring_free = ravb_rx_ring_free_gbeth,
- 	.rx_ring_format = ravb_rx_ring_format_gbeth,
-@@ -2487,6 +2512,7 @@ static const struct of_device_id ravb_match_table[] = {
- 	{ .compatible = "renesas,etheravb-rcar-gen2", .data = &ravb_gen2_hw_info },
- 	{ .compatible = "renesas,etheravb-r8a7795", .data = &ravb_gen3_hw_info },
- 	{ .compatible = "renesas,etheravb-rcar-gen3", .data = &ravb_gen3_hw_info },
-+	{ .compatible = "renesas,etheravb-rzv2m", .data = &ravb_rzv2m_hw_info },
- 	{ .compatible = "renesas,rzg2l-gbeth", .data = &gbeth_hw_info },
- 	{ }
- };
--- 
-2.34.1
+On Thu, May 12, 2022 at 12:19 PM Marc Zyngier <maz@kernel.org> wrote:
+>
+> On Wed, 11 May 2022 19:32:08 +0100,
+> Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Allow free() callback to be overridden from irq_domain_ops for
+> > hierarchical chips.
+> >
+> > This allows drivers to free any resources which are allocated during
+> > populate_parent_alloc_arg().
+>
+> Do you mean more than the fwspec? I don't see this being used.
+>
+The free callback is used in patch 5/5 where free is overridden by
+rzg2l_gpio_irq_domain_free. I just gave an example there as an
+populate_parent_alloc_arg()  In actual in the child_to_parent_hwirq
+callback I am using a bitmap [0] to get a free tint slot, this bitmap
+needs freeing up when the GPIO interrupt is released from the driver
+that as when overridden free callback frees the allocated tint slot so
+that its available for re-use.
 
+> There is also the question of why we need to have dynamic allocation
+> for the fwspec itself. Why isn't that a simple stack allocation in the
+> context of gpiochip_hierarchy_irq_domain_alloc()?
+>
+you mean gpio core itself should handle the fwspec allocation/freeing?
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220511183210.5248-6-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+>         M.
+>
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/gpio/gpiolib.c | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> > index b7694171655c..d36c4a965efc 100644
+> > --- a/drivers/gpio/gpiolib.c
+> > +++ b/drivers/gpio/gpiolib.c
+> > @@ -1187,15 +1187,18 @@ static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
+> >       ops->activate = gpiochip_irq_domain_activate;
+> >       ops->deactivate = gpiochip_irq_domain_deactivate;
+> >       ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
+> > -     ops->free = irq_domain_free_irqs_common;
+> >
+> >       /*
+> > -      * We only allow overriding the translate() function for
+> > +      * We only allow overriding the translate() and free() functions for
+> >        * hierarchical chips, and this should only be done if the user
+> > -      * really need something other than 1:1 translation.
+> > +      * really need something other than 1:1 translation for translate()
+> > +      * callback and free if user wants to free up any resources which
+> > +      * were allocated during callbacks, for example populate_parent_alloc_arg.
+> >        */
+> >       if (!ops->translate)
+> >               ops->translate = gpiochip_hierarchy_irq_domain_translate;
+> > +     if (!ops->free)
+> > +             ops->free = irq_domain_free_irqs_common;
+> >  }
+> >
+> >  static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
+> > --
+> > 2.25.1
+> >
+> >
+>
+> --
+> Without deviation from the norm, progress is not possible.
