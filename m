@@ -2,166 +2,189 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0AB152527D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 18:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C09945253C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 19:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356454AbiELQ0i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 12:26:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
+        id S1356928AbiELRgq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 13:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356473AbiELQ0P (ORCPT
+        with ESMTP id S242790AbiELRgp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 12:26:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688951D0C4;
-        Thu, 12 May 2022 09:26:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F2D2261F38;
-        Thu, 12 May 2022 16:26:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513FCC34117;
-        Thu, 12 May 2022 16:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652372773;
-        bh=VwS1IMdx40foTuyZRyqzdlwtdVrEe4ScwvbrYNkBDzM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=E7cD59b6uJMxohBzVdnByQtXEmY0oS0T+j4/7WzT96YUwGZYXR/BMex9Wr8n45c2k
-         X0GgsDM7dDRAbxGEEU+7OfQyjCOQOBmajODJo7jApm6Nn/eoylx52v2qnX86M7ksJr
-         I0EkxjUwrt3w+D+bzyK4+YLIrwbOEIgDrGP2G2rRak5r/O5B2c9tVacni+pzm+mK7k
-         EQSq5o79f9N34MH+/BBiUXYNVG3j9ICCz/WlvoQna+nrDlXczDvJeyqD5qzyTCFkCO
-         +axOrOrQ1I2yUlVTnXyiSWQTO+ED6K8vfiIKkSG24aoBzsYI11iTlGEKMzlmU0RuJo
-         aVB81tiVSd6GQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1npBdi-00Avri-QG; Thu, 12 May 2022 17:26:10 +0100
-Date:   Thu, 12 May 2022 17:26:10 +0100
-Message-ID: <87v8ua67kt.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+        Thu, 12 May 2022 13:36:45 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F1D3326DC;
+        Thu, 12 May 2022 10:36:44 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id v59so11048420ybi.12;
+        Thu, 12 May 2022 10:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KciQs1/yGPFy4fqE//6Ur4aaE5S7VXUIcGW3EivMUbE=;
+        b=oyqcMoSqA9aJbw6tLEyAEmjGIo5MGdgCc178Lenc5EP96fr8XQpAKmLnA0r3Hi77nE
+         518JToT5uKJfGIh9i852Ija2MoD3hdQ0F14OmHn0ZLpw5B1kVXqS0UcIM0LtEGz+x6oo
+         03JwJm4oSNliaI7ciuuM594DUQEuyWnx1yxB2wCorI1NmSCMnJ03PtPwSrnZr9ZvLDlb
+         vYlrXeMT10Pp523tln1zkXiJX/Dj3pEjFBGWwisLCoohWK3vMh6RHb1quHAJzt/mSJzI
+         uwPM4GZI+j256eRqydeg/bRYI7p3Yqqeaq3DDxUqm/nqQirO/4B7kLiaBfaxE0WXlPLu
+         b7ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KciQs1/yGPFy4fqE//6Ur4aaE5S7VXUIcGW3EivMUbE=;
+        b=QC/UqLAfrk9XGplj4Rm1tT02TGPvqt6umhPI8uPCbNen73fbFJ4MsDemg5K+QLgQTu
+         McR5kuj5AiPyWxB0wTSMDhB6OT2hYIML56kT5xr0CRwJB2hwWs0qvdBRiwG1dKP5DXJl
+         C2jqVjGmS4Fqr5Z6DJSweQvkSjqEThWdxm35ezjENdAXCGtPFYaH9pDN4lgzpL8+yCvn
+         bdMKBdKvSvaUispWWpBzyuQsKPM2Di0CeIXqvk2eTn0P+zCoYi1CamaYb4jzNZxCr4qn
+         folLg/uTnTtPc6okKc8nempP1NYobi0ffCgUGwBHhD9SRmZ+YajYVVl8wHsFFRMsynsa
+         GKoA==
+X-Gm-Message-State: AOAM531GeW1/WkHo9s2Fsh7OSeMuW7xRXQLgDE1lcycaSChAvUctmT3t
+        lOYW4AB2gV6XfTbIbVUGTF/vgxroC0r3XIOoLlezGyvxCiPfIg==
+X-Google-Smtp-Source: ABdhPJy7tamfWD3GzonlIuCs/c5Z8ME6ymOgP0txO82R0MNHZdWpF2nfgYrkTEGiVeSfyg5H1eLJ6i+GhPCdudBItZ8=
+X-Received: by 2002:a25:83d1:0:b0:648:725c:6a05 with SMTP id
+ v17-20020a2583d1000000b00648725c6a05mr915020ybm.218.1652377003238; Thu, 12
+ May 2022 10:36:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220511183210.5248-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXDQ+eECWwvAGOb-MaN16H17qm_v_1baZ7PdT8qx9McSw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXDQ+eECWwvAGOb-MaN16H17qm_v_1baZ7PdT8qx9McSw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 12 May 2022 18:36:16 +0100
+Message-ID: <CA+V-a8tNrJQtAQYoUKVwH9w4QOyA9JUWNjiYDPUPsj6UuJ4vaA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
+ handle GPIO interrupt
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linus Walleij <linus.walleij@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3 3/5] gpio: gpiolib: Allow free() callback to be overridden
-In-Reply-To: <CA+V-a8v9WodNNK7AL4XemDnSrrWc9wG+qDKZb7SmbWixs5Q3Nw@mail.gmail.com>
-References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220511183210.5248-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <87y1z75770.wl-maz@kernel.org>
-        <CA+V-a8tf1RmT-cX5y807rTAPES2NXLJHp=u1WUG11fLrtt-5Mg@mail.gmail.com>
-        <87wneq6fz3.wl-maz@kernel.org>
-        <CA+V-a8v9WodNNK7AL4XemDnSrrWc9wG+qDKZb7SmbWixs5Q3Nw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, geert+renesas@glider.be, linus.walleij@linaro.org, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, brgl@bgdev.pl, p.zabel@pengutronix.de, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, phil.edworthy@renesas.com, biju.das.jz@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 12 May 2022 14:50:05 +0100,
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> 
-> Hi Marc,
-> 
-> On Thu, May 12, 2022 at 2:24 PM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > On Thu, 12 May 2022 13:48:53 +0100,
-> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> > >
-> > > Hi Marc,
-> > >
-> > > Thank you for the review.
-> > >
-> > > On Thu, May 12, 2022 at 12:19 PM Marc Zyngier <maz@kernel.org> wrote:
-> > > >
-> > > > On Wed, 11 May 2022 19:32:08 +0100,
-> > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > >
-> > > > > Allow free() callback to be overridden from irq_domain_ops for
-> > > > > hierarchical chips.
-> > > > >
-> > > > > This allows drivers to free any resources which are allocated during
-> > > > > populate_parent_alloc_arg().
-> > > >
-> > > > Do you mean more than the fwspec? I don't see this being used.
-> > > >
-> > > The free callback is used in patch 5/5 where free is overridden by
-> > > rzg2l_gpio_irq_domain_free. I just gave an example there as an
-> > > populate_parent_alloc_arg()  In actual in the child_to_parent_hwirq
-> > > callback I am using a bitmap [0] to get a free tint slot, this bitmap
-> > > needs freeing up when the GPIO interrupt is released from the driver
-> > > that as when overridden free callback frees the allocated tint slot so
-> > > that its available for re-use.
-> >
-> > Right, so that's actually a different life-cycle, and the whole
-> > populate_parent_alloc_arg() is a red herring. What you want is to free
-> > resources that have been allocated via some other paths. It'd be good
-> Is there any other path which I have missed where I can free up resources?
+Hi Geert,
 
-No, that's the only one. It is just that usually, the alloc()
-callback is where you are supposed to perform... allocations.
+Thank you for the review.
 
-It'd be good if you could move your allocation there, as I would
-expect calls to child_to_parent_hwirq() to be idempotent.
-
+On Thu, May 12, 2022 at 8:39 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> > if your commit message actually reflected this instead of using an
-> > example that doesn't actually exist.
+> Hi Prabhakar,
+>
+> On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add IRQ domian to RZ/G2L pinctrl driver to handle GPIO interrupt.
+>
+> domain
+>
+ouch.
+
+> > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
+> > used as IRQ lines at given time. Selection of pins as IRQ lines
+>
+> at a given time
+>
+will fix that.
+
+> > is handled by IA55 (which is the IRQC block) which sits in between the
+> > GPIO and GIC.
 > >
-> My bad, I will update the commit message.
-> 
-> > >
-> > > > There is also the question of why we need to have dynamic allocation
-> > > > for the fwspec itself. Why isn't that a simple stack allocation in the
-> > > > context of gpiochip_hierarchy_irq_domain_alloc()?
-> > > >
-> > > you mean gpio core itself should handle the fwspec
-> > > allocation/freeing?
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+>
+> >  static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
+> >  {
+> >         struct device_node *np = pctrl->dev->of_node;
+> >         struct gpio_chip *chip = &pctrl->gpio_chip;
+> >         const char *name = dev_name(pctrl->dev);
+> > +       struct irq_domain *parent_domain;
+> >         struct of_phandle_args of_args;
+> > +       struct device_node *parent_np;
+> > +       struct gpio_irq_chip *girq;
+> >         int ret;
 > >
-> > Yes. The only reason we resort to dynamic allocation is because
-> > ThunderX is using MSI-based GPIOs, and thus doesn't use a fwspec (no
-> > firmware is involved here).
+> > +       parent_np = of_irq_find_parent(np);
+> > +       if (!parent_np)
+> > +               return -ENXIO;
+> > +
+> > +       parent_domain = irq_find_host(parent_np);
+> > +       of_node_put(parent_np);
+> > +       if (!parent_domain)
+> > +               return -EPROBE_DEFER;
+> > +
+> >         ret = of_parse_phandle_with_fixed_args(np, "gpio-ranges", 3, 0, &of_args);
+> >         if (ret) {
+> >                 dev_err(pctrl->dev, "Unable to parse gpio-ranges\n");
+> > @@ -1138,6 +1330,15 @@ static int rzg2l_gpio_register(struct rzg2l_pinctrl *pctrl)
+> >         chip->base = -1;
+> >         chip->ngpio = of_args.args[2];
 > >
-> I see..
-> 
-> > If we had a union of the two types, we could just have a stack
-> > variable, and pass that along, completely sidestepping the whole
-> > dynamic allocation/freeing business.
-> >
-> Right agreed.
+> > +       girq = &chip->irq;
+> > +       girq->chip = &rzg2l_gpio_irqchip;
+> > +       girq->fwnode = of_node_to_fwnode(np);
+> > +       girq->parent_domain = parent_domain;
+> > +       girq->child_to_parent_hwirq = rzg2l_gpio_child_to_parent_hwirq;
+> > +       girq->populate_parent_alloc_arg = rzg2l_gpio_populate_parent_fwspec;
+> > +       girq->child_irq_domain_ops.free = rzg2l_gpio_irq_domain_free;
+> > +       girq->ngirq = RZG2L_TINT_MAX_INTERRUPT;
+> > +
+>
+> I think you need to provide a .init_valid_mask() callback, as
+> gpiochip_irqchip_remove() relies on that for destroying interrupts.
+Are you suggesting  the callback to avoid looping through all the GPIO pins?
 
-FWIW, I've just posted a PoC patch[1].
+> However, the mask will need to be dynamic, as GPIO interrupts can be
+> mapped and unmapped to one of the 32 available interrupts dynamically,
+> right?
+Yep that's correct.
 
-Thanks,
+> I'm not sure if that can be done easily: if gpiochip_irqchip_irq_valid()
+> is ever called too early, before the mapping is done, it would fail.
+>
+The mask initialization is a one time process and that is during
+adding the GPIO chip. At this stage we won't be knowing what will be
+the valid GPIO pins used as interrupts. Maybe the core needs to
+implement a callback which lands in the GPIO controller driver to tell
+if the gpio irq line is valid. This way we can handle dynamic
+interrupts.
 
-	M.
+Cheers,
+Prabhakar
 
-[1] https://lore.kernel.org/r/20220512162320.2213488-1-maz@kernel.org
-
--- 
-Without deviation from the norm, progress is not possible.
+> >         pctrl->gpio_range.id = 0;
+> >         pctrl->gpio_range.pin_base = 0;
+> >         pctrl->gpio_range.base = 0;
+>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
