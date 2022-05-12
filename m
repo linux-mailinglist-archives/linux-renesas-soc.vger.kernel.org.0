@@ -2,150 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3873252460B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 08:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7DEE524660
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 09:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345977AbiELGnY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 02:43:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
+        id S1347633AbiELHC4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 03:02:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240920AbiELGnX (ORCPT
+        with ESMTP id S1350711AbiELHCn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 02:43:23 -0400
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 729251B7939;
-        Wed, 11 May 2022 23:43:21 -0700 (PDT)
-Received: by mail-qt1-f176.google.com with SMTP id x9so3659174qts.6;
-        Wed, 11 May 2022 23:43:21 -0700 (PDT)
+        Thu, 12 May 2022 03:02:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9E8AA4A3CD
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 May 2022 00:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652338958;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5dnSgXgDqm6uywdT7uNCvIvTgOmlGJ/1yy1mRaIg9zk=;
+        b=YbVDF+nBBNnl7Nfj+vXBjIpEYPyKjEzlTTGAd77im8Qc7qvuzSaoRjntN8KHYDKIlFOD1w
+        uSVmgjXN7LSbm4ZVhRBLfZqQ9E2MEperCvDTCnwRKE9j5QHDZqrFPL49h94fzvhYRglFep
+        N517VqTagub/4O5Mntk5CWNHFE04vDQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-230-MO0RP2VcN-S7a3iWhYiK5w-1; Thu, 12 May 2022 03:02:36 -0400
+X-MC-Unique: MO0RP2VcN-S7a3iWhYiK5w-1
+Received: by mail-wm1-f70.google.com with SMTP id z23-20020a05600c221700b003942fd37764so3972111wml.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 May 2022 00:02:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OFP7hJ6KzfffhBpGLIJzVwzD4tIyuujgKC17ziO4XoU=;
-        b=avCH17pglDxmMCfl7OkvHBzImsz656JoTuS/IJLq9lWbGYQaHojSjiPcQiG+FX2VnF
-         RZv6kqjrOf645WExuTWKoUnHH/IzxekgDxFBHl4tOg69Lf5Fbeq+ZWW+JDdyGrcfMfpt
-         AEcaAqDAiak1yxHoJhgvaHdgGAR0U/h3uFTGFl3WXd6dCO6OxhIJIA9OnPXY3wrnLDvO
-         RQ+yOuk12CH+1NoMtmKiyyXyFad5glzXDaHJS71C+QFoDM1JTdgQ+b+uY8/Ey9nrm54h
-         4az3xiCxfX+yqKfVq4xbx49xa34GoSuf2DOJq8Ezjht9k1lmAexH8NJ0Xfrf7AxfyzWK
-         NLlg==
-X-Gm-Message-State: AOAM5316ajdwnoLi80+7K1LxaEiAzKj1yDenlI3xOuB2GpBJlbXvql7H
-        WIimQXNIAWK/YCPGfQ5a+aLJF3qNjex+Ng==
-X-Google-Smtp-Source: ABdhPJw2bcXzPmoifc4THsehp38cXvXYfniJ7FLd6SN3l45Ep7p7ZWAAPjnwgIaj1qo0zSiJHyCIIQ==
-X-Received: by 2002:a05:622a:591:b0:2f3:d8fc:1967 with SMTP id c17-20020a05622a059100b002f3d8fc1967mr17660497qtb.353.1652337800334;
-        Wed, 11 May 2022 23:43:20 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id y30-20020a05620a0e1e00b0069fd9de088esm2345779qkm.93.2022.05.11.23.43.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 23:43:19 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2f16645872fso45269287b3.4;
-        Wed, 11 May 2022 23:43:18 -0700 (PDT)
-X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
- z130-20020a816588000000b002f8b75e1e1amr29899309ywb.358.1652337798506; Wed, 11
- May 2022 23:43:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220511183210.5248-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220511183210.5248-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 May 2022 08:43:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU6-cfgYE0DLyWSxzDmQ3Z67qTJAKzi75qNt8p=PMuEnA@mail.gmail.com>
-Message-ID: <CAMuHMdU6-cfgYE0DLyWSxzDmQ3Z67qTJAKzi75qNt8p=PMuEnA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/G2L Interrupt Controller
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=5dnSgXgDqm6uywdT7uNCvIvTgOmlGJ/1yy1mRaIg9zk=;
+        b=jbUe8ANBe42yT37WiwKdCZHm9qcAv9eh/MVQwRebMTlCXtXLOBeNDnyUvMWWt8UNDy
+         xeZG/JoviLTvSE/ZQ53dRYCFSuDpLA0+Hlosd1MH/ta8e04VO74WQTBXNB61Khn2n8wr
+         uPn0lltD84jKJAuqBFyHzMWIDHEwZsJwjKVmlhnJuv5l7sVzuO3lrv9A1LVXoi6EMb+7
+         GGr9nX95J5CkE1iXcm5B6E1WOAotaJBxZ17IFkLge57Thod3xjp+seRWq/bvGM4alAZp
+         q+gry/ltwm9EoDvU/3X5YbK6aJJ7owQBXEIT+tGTac6RO4NhMHDzOor++8gNy7U516hs
+         SEGw==
+X-Gm-Message-State: AOAM530K2+TQo3xE1ImHVLK8o/+JkcZrvVdTlMXlZNf6n3NylJMoMfpk
+        HXG3QgwNM744+M5L+zxRubp7B4FwY/7l/uVeQuyp7N97feBaIH9r4wKC3AT+T+590beNMUdA76X
+        d8agpV5JuD6lLO3Ejofg2GB5cWd0OumA=
+X-Received: by 2002:a5d:47ca:0:b0:20c:72c9:d3be with SMTP id o10-20020a5d47ca000000b0020c72c9d3bemr25478411wrc.114.1652338954444;
+        Thu, 12 May 2022 00:02:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzA/sRB+d1I+yqn5MiN+ckHAMIh91n67y2w7zcSYVVJ6ZulnL1r7Bzm8OHowDH45toQlJDbQA==
+X-Received: by 2002:a5d:47ca:0:b0:20c:72c9:d3be with SMTP id o10-20020a5d47ca000000b0020c72c9d3bemr25478391wrc.114.1652338954210;
+        Thu, 12 May 2022 00:02:34 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-113-89.dyn.eolo.it. [146.241.113.89])
+        by smtp.gmail.com with ESMTPSA id h15-20020a5d6e0f000000b0020c5253d8besm3475713wrz.10.2022.05.12.00.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 00:02:33 -0700 (PDT)
+Message-ID: <041789819aa163907ef27fed537dfca16d293f4d.camel@redhat.com>
+Subject: Re: [PATCH v3 4/5] ravb: Use separate clock for gPTP
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date:   Thu, 12 May 2022 09:02:32 +0200
+In-Reply-To: <20220510090336.14272-5-phil.edworthy@renesas.com>
+References: <20220510090336.14272-1-phil.edworthy@renesas.com>
+         <20220510090336.14272-5-phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add DT bindings for the Renesas RZ/G2L Interrupt Controller.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for the update!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> @@ -0,0 +1,134 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,rzg2l-irqc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On Tue, 2022-05-10 at 10:03 +0100, Phil Edworthy wrote:
+> RZ/V2M has a separate gPTP reference clock that is used when the
+> AVB-DMAC Mode Register (CCC) gPTP Clock Select (CSEL) bits are
+> set to "01: High-speed peripheral bus clock".
+> Therefore, add a feature that allows this clock to be used for
+> gPTP.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> ---
+> v3:
+>  - No change
+> v2:
+>  - Added Reviewed-by tags
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  2 ++
+>  drivers/net/ethernet/renesas/ravb_main.c | 15 ++++++++++++++-
+>  2 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index e505e8088445..b980bce763d3 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1031,6 +1031,7 @@ struct ravb_hw_info {
+>  	unsigned err_mgmt_irqs:1;	/* Line1 (Err) and Line2 (Mgmt) irqs are separate */
+>  	unsigned gptp:1;		/* AVB-DMAC has gPTP support */
+>  	unsigned ccc_gac:1;		/* AVB-DMAC has gPTP support active in config mode */
+> +	unsigned gptp_ref_clk:1;	/* gPTP has separate reference clock */
+>  	unsigned nc_queues:1;		/* AVB-DMAC has RX and TX NC queues */
+>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
+>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
+> @@ -1042,6 +1043,7 @@ struct ravb_private {
+>  	void __iomem *addr;
+>  	struct clk *clk;
+>  	struct clk *refclk;
+> +	struct clk *gptp_clk;
+>  	struct mdiobb_ctrl mdiobb;
+>  	u32 num_rx_ring[NUM_RX_QUEUE];
+>  	u32 num_tx_ring[NUM_TX_QUEUE];
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 8ccc817b8b5d..ef6967731263 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2495,11 +2495,15 @@ MODULE_DEVICE_TABLE(of, ravb_match_table);
+>  static int ravb_set_gti(struct net_device *ndev)
+>  {
+>  	struct ravb_private *priv = netdev_priv(ndev);
+> +	const struct ravb_hw_info *info = priv->info;
+>  	struct device *dev = ndev->dev.parent;
+>  	unsigned long rate;
+>  	uint64_t inc;
+>  
+> -	rate = clk_get_rate(priv->clk);
+> +	if (info->gptp_ref_clk)
+> +		rate = clk_get_rate(priv->gptp_clk);
+> +	else
+> +		rate = clk_get_rate(priv->clk);
+>  	if (!rate)
+>  		return -EINVAL;
+>  
+> @@ -2721,6 +2725,15 @@ static int ravb_probe(struct platform_device *pdev)
+>  	}
+>  	clk_prepare_enable(priv->refclk);
+>  
+> +	if (info->gptp_ref_clk) {
+> +		priv->gptp_clk = devm_clk_get(&pdev->dev, "gptp");
+> +		if (IS_ERR(priv->gptp_clk)) {
+> +			error = PTR_ERR(priv->gptp_clk);
+> +			goto out_release;
+> +		}
+> +		clk_prepare_enable(priv->gptp_clk);
+> +	}
 > +
-> +title: Renesas RZ/G2L (and alike SoC's) Interrupt Controller (IA55)
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description: |
-> +  IA55 performs various interrupt controls including synchronization for the external
-> +  interrupts of NMI, IRQ, and GPIOINT and the interrupts of the built-in peripheral
-> +  interrupts output by each IP. And it notifies the interrupt to the GIC
-> +    - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI interrupts
-> +    - GPIO pins used as external interrupt input pins, mapped to 32 GIC SPI interrupts
-> +    - NMI edge select (NMI is not treated as NMI exception and supports fall edge and
-> +      stand-up edge detection interrupts)
-> +
-> +allOf:
-> +  - $ref: /schemas/interrupt-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-irqc    # RZ/G2L
-> +      - const: renesas,rzg2l-irqc
-> +
-> +  '#interrupt-cells':
-> +    description: The first cell should contain interrupt number and the second cell
-> +                 is used to specify the flag.
 
-The important part is still missing: which interrupt number (the general
-description mentions 3 types)?
-I believe the answer is "external interrupt number".
+I guess you need to a conditional
 
-> +    const: 2
-> +
-> +
+	clk_disable_unprepare(info->gptp_ref_clk)
 
-Double blank line.
+in the error path? And even in ravb_remove()?
 
-> +  '#address-cells':
-> +    const: 0
+>  	ndev->max_mtu = info->rx_max_buf_size - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
+>  	ndev->min_mtu = ETH_MIN_MTU;
+>  
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
