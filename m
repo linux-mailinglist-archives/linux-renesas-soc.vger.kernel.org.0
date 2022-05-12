@@ -2,171 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE59352568E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 22:51:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BCC5257B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 00:24:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358470AbiELUvR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 16:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
+        id S1359110AbiELWYd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 18:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358473AbiELUvQ (ORCPT
+        with ESMTP id S236178AbiELWYd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 16:51:16 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B13D05537A;
-        Thu, 12 May 2022 13:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652388675; x=1683924675;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CpTDljh9Jok9rnbBL80mkvsp+ypOGYJtLjkURZghnsM=;
-  b=eEHCuLdOUUCUV5CPfVypE7yninX7+NkaXzzw3nRpWJ1uknx0fp0Gyk49
-   hKH47S/Ep28ghFFA7uJ+AsMXL9RE9TsoMEyuEJztZzKWyI9GewHHf0Os4
-   yB5x9ojklyRfskAVvMjWkZn230Llo0micqYNNpF+J3QEVNvNcYgaUaR3w
-   jlJvdaeRioh2NeSbIzLHorAO0JG3ybC7MMq37dFKiwdVWzjrXlNPHW/iO
-   wwh5U2kZ964G0t0AuZ2T8uA/B6gv65XJ4BEicK7Ern2N6f8xh7GajpTxj
-   noyvskf7zWfSdaRQzGYiUlDHloeF8KWGBKDrrXPcVdZeM09p8wAlXbvEJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="252180976"
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
-   d="scan'208";a="252180976"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 13:50:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
-   d="scan'208";a="671020142"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 May 2022 13:50:50 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1npFlp-000Kuh-ND;
-        Thu, 12 May 2022 20:50:49 +0000
-Date:   Fri, 13 May 2022 04:50:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thu, 12 May 2022 18:24:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5040281347;
+        Thu, 12 May 2022 15:24:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37A5B61F33;
+        Thu, 12 May 2022 22:24:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8351BC385B8;
+        Thu, 12 May 2022 22:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652394270;
+        bh=Lc1EANfP1MQNRs942EGNTUmsGp9phgY1vwN9up7zOUg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HxCPOXn5RDIRhIhlPJoSYXFerF91jClgOchhrxJEx6Kbl9hrWzRz5BsaNkSy8gKvY
+         QljXFwyWRICSG6VUm6ymyGO9L17dOZF9h4JTehA4q9AKLKhyY6xUi2lsff280lhl/z
+         836UWmqVTrzexW58AWWlP8ZpnknmG7Oi6JLISQxTXsbw5kJWQlxjeT0dTHbQqqr7+b
+         7g2hFBIJWFu9QcgCBmVkThpoWZ4+0gFsJ5MSXTwkuyPqzPFaT2WE9lBT3hwAoHpkG+
+         UbTTfkX9uVnKCBjfA7ZE7eh6DqnF+40doDQSmV24YJS/wLJ9E4B95m/ltFQUKA2BHf
+         z8jpBQgux/cUw==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1npHER-00AzZF-VL; Thu, 12 May 2022 23:24:28 +0100
+Date:   Thu, 12 May 2022 23:24:25 +0100
+Message-ID: <87sfpemlt2.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     kbuild-all@lists.01.org, Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>
-Subject: Re: [PATCH v5 4/5] rtc: rzn1: Add oscillator offset support
-Message-ID: <202205130445.mjHjgcBv-lkp@intel.com>
-References: <20220512143920.238987-5-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220512143920.238987-5-miquel.raynal@bootlin.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 3/5] gpio: gpiolib: Allow free() callback to be overridden
+In-Reply-To: <CA+V-a8sMvjYK5NfkqpD3ertfUOy1zbauXW9gLzG+GLzZtvUygg@mail.gmail.com>
+References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20220511183210.5248-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <87y1z75770.wl-maz@kernel.org>
+        <CA+V-a8tf1RmT-cX5y807rTAPES2NXLJHp=u1WUG11fLrtt-5Mg@mail.gmail.com>
+        <87wneq6fz3.wl-maz@kernel.org>
+        <CA+V-a8v9WodNNK7AL4XemDnSrrWc9wG+qDKZb7SmbWixs5Q3Nw@mail.gmail.com>
+        <87v8ua67kt.wl-maz@kernel.org>
+        <CA+V-a8sMvjYK5NfkqpD3ertfUOy1zbauXW9gLzG+GLzZtvUygg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, geert+renesas@glider.be, linus.walleij@linaro.org, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, brgl@bgdev.pl, p.zabel@pengutronix.de, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, phil.edworthy@renesas.com, biju.das.jz@bp.renesas.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Miquel,
+On Thu, 12 May 2022 18:55:38 +0100,
+"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> 
+> Hi Marc,
+> 
+> On Thu, May 12, 2022 at 5:26 PM Marc Zyngier <maz@kernel.org> wrote:
+> >
+> > On Thu, 12 May 2022 14:50:05 +0100,
+> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > Hi Marc,
+> > >
+> > > On Thu, May 12, 2022 at 2:24 PM Marc Zyngier <maz@kernel.org> wrote:
+> > > >
+> > > > On Thu, 12 May 2022 13:48:53 +0100,
+> > > > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > > > >
+> > > > > Hi Marc,
+> > > > >
+> > > > > Thank you for the review.
+> > > > >
+> > > > > On Thu, May 12, 2022 at 12:19 PM Marc Zyngier <maz@kernel.org> wrote:
+> > > > > >
+> > > > > > On Wed, 11 May 2022 19:32:08 +0100,
+> > > > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > > > >
+> > > > > > > Allow free() callback to be overridden from irq_domain_ops for
+> > > > > > > hierarchical chips.
+> > > > > > >
+> > > > > > > This allows drivers to free any resources which are allocated during
+> > > > > > > populate_parent_alloc_arg().
+> > > > > >
+> > > > > > Do you mean more than the fwspec? I don't see this being used.
+> > > > > >
+> > > > > The free callback is used in patch 5/5 where free is overridden by
+> > > > > rzg2l_gpio_irq_domain_free. I just gave an example there as an
+> > > > > populate_parent_alloc_arg()  In actual in the child_to_parent_hwirq
+> > > > > callback I am using a bitmap [0] to get a free tint slot, this bitmap
+> > > > > needs freeing up when the GPIO interrupt is released from the driver
+> > > > > that as when overridden free callback frees the allocated tint slot so
+> > > > > that its available for re-use.
+> > > >
+> > > > Right, so that's actually a different life-cycle, and the whole
+> > > > populate_parent_alloc_arg() is a red herring. What you want is to free
+> > > > resources that have been allocated via some other paths. It'd be good
+> > > Is there any other path which I have missed where I can free up resources?
+> >
+> > No, that's the only one. It is just that usually, the alloc()
+> > callback is where you are supposed to perform... allocations.
+> >
+> OK.
+> 
+> > It'd be good if you could move your allocation there, as I would
+> > expect calls to child_to_parent_hwirq() to be idempotent.
+> >
+> For now I'll go with the current implementation, as currently a an
+> array is maintained which is tied with the tint slot and child (which
+> is obtained from child_to_parent_hwirq)
+> 
+> > >
+> > > > if your commit message actually reflected this instead of using an
+> > > > example that doesn't actually exist.
+> > > >
+> > > My bad, I will update the commit message.
+> > >
+> > > > >
+> > > > > > There is also the question of why we need to have dynamic allocation
+> > > > > > for the fwspec itself. Why isn't that a simple stack allocation in the
+> > > > > > context of gpiochip_hierarchy_irq_domain_alloc()?
+> > > > > >
+> > > > > you mean gpio core itself should handle the fwspec
+> > > > > allocation/freeing?
+> > > >
+> > > > Yes. The only reason we resort to dynamic allocation is because
+> > > > ThunderX is using MSI-based GPIOs, and thus doesn't use a fwspec (no
+> > > > firmware is involved here).
+> > > >
+> > > I see..
+> > >
+> > > > If we had a union of the two types, we could just have a stack
+> > > > variable, and pass that along, completely sidestepping the whole
+> > > > dynamic allocation/freeing business.
+> > > >
+> > > Right agreed.
+> >
+> > FWIW, I've just posted a PoC patch[1].
+> >
+> I guess I'll have to rebase my changes on top of it now ;)
 
-I love your patch! Perhaps something to improve:
+Not yet. Let's see what people say about it.
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on robh/for-next linus/master v5.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/RZ-N1-RTC-support/20220512-224022
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20220513/202205130445.mjHjgcBv-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1b2c010278819d2c7aab406d9718a659ead047cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Miquel-Raynal/RZ-N1-RTC-support/20220512-224022
-        git checkout 1b2c010278819d2c7aab406d9718a659ead047cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/rtc/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/rtc/rtc-rzn1.c: In function 'rzn1_rtc_set_offset':
->> drivers/rtc/rtc-rzn1.c:275:29: warning: variable 'ppb_per_step' set but not used [-Wunused-but-set-variable]
-     275 |         unsigned int steps, ppb_per_step;
-         |                             ^~~~~~~~~~~~
-
-
-vim +/ppb_per_step +275 drivers/rtc/rtc-rzn1.c
-
-   271	
-   272	static int rzn1_rtc_set_offset(struct device *dev, long offset)
-   273	{
-   274		struct rzn1_rtc *rtc = dev_get_drvdata(dev);
- > 275		unsigned int steps, ppb_per_step;
-   276		int stepsh, stepsl;
-   277		u32 val;
-   278		int ret;
-   279	
-   280		/*
-   281		 * Check which resolution mode (every 20 or 60s) can be used.
-   282		 * Between 2 and 124 clock pulses can be added or substracted.
-   283		 *
-   284		 * In 20s mode, the minimum resolution is 2 / (32768 * 20) which is
-   285		 * close to 3051 ppb. In 60s mode, the resolution is closer to 1017.
-   286		 */
-   287		stepsh = DIV_ROUND_CLOSEST(offset, 1017);
-   288		stepsl = DIV_ROUND_CLOSEST(offset, 3051);
-   289	
-   290		if (stepsh >= -0x3E && stepsh <= 0x3E) {
-   291			ppb_per_step = 1017;
-   292			steps = stepsh;
-   293			val |= RZN1_RTC_SUBU_DEV;
-   294		} else if (stepsl >= -0x3E && stepsl <= 0x3E) {
-   295			ppb_per_step = 3051;
-   296			steps = stepsl;
-   297		} else {
-   298			return -ERANGE;
-   299		}
-   300	
-   301		if (!steps)
-   302			return 0;
-   303	
-   304		if (steps > 0) {
-   305			val |= steps + 1;
-   306		} else {
-   307			val |= RZN1_RTC_SUBU_DECR;
-   308			val |= (~(-steps - 1)) & 0x3F;
-   309		}
-   310	
-   311		ret = readl_poll_timeout(rtc->base + RZN1_RTC_CTL2, val,
-   312					 !(val & RZN1_RTC_CTL2_WUST), 100, 2000000);
-   313		if (ret)
-   314			return ret;
-   315	
-   316		writel(val, rtc->base + RZN1_RTC_SUBU);
-   317	
-   318		return 0;
-   319	}
-   320	
+	M.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Without deviation from the norm, progress is not possible.
