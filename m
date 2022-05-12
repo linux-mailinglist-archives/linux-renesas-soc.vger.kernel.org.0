@@ -2,100 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58B5952477F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 09:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E36FD524838
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 May 2022 10:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351262AbiELH7L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 May 2022 03:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
+        id S230160AbiELIsD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 May 2022 04:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351196AbiELH7K (ORCPT
+        with ESMTP id S237092AbiELIsC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 May 2022 03:59:10 -0400
-Received: from mxout02.lancloud.ru (mxout02.lancloud.ru [45.84.86.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7640168318;
-        Thu, 12 May 2022 00:59:07 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 4A00E20566BC
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH v3 4/5] ravb: Use separate clock for gPTP
-To:     Paolo Abeni <pabeni@redhat.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20220510090336.14272-1-phil.edworthy@renesas.com>
- <20220510090336.14272-5-phil.edworthy@renesas.com>
- <041789819aa163907ef27fed537dfca16d293f4d.camel@redhat.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <99c49555-8dc6-5eaa-4f1b-b2d17562ddf4@omp.ru>
-Date:   Thu, 12 May 2022 10:59:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 12 May 2022 04:48:02 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6B55C765;
+        Thu, 12 May 2022 01:47:58 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 26C271C0007;
+        Thu, 12 May 2022 08:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652345277;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MHDErb2Vw0nQ2xCx9+Ah6ILpUdH4/NR5Ddf2E2382Fk=;
+        b=MgoOXadftUHvAdzKcmjzxqnUpzRTOXOZIopJD6Geg9pOcekSVQUTONqiY5IcSUD4CFg1qm
+        q7FuXxRVCzusjZcNjyZWQv71h1PqxKjOruR5u+ZIQK0mQQIOCuwSbhfn/OvfNm8cCEuUzH
+        T4HokJF0eJcnWhH/uWo8HmszoK4/jtZMFJkYirP5prEGVcrVoCzCKiyMI00N8J+bx+7nb7
+        2K8FJ49w1DXjN9o86DFrASXO1F+epwwN0VLw9LrVo9AezcVl0pAg9O+ex3zJ9OVkP4/qgx
+        hkh8CReYrSRfiZTWzYHdYrDFDlsFK/+oRzygdCHXgfAJBwUFg+6MWoty0CAHAg==
+Date:   Thu, 12 May 2022 10:47:53 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH net-next v4 06/12] net: dsa: rzn1-a5psw: add Renesas
+ RZ/N1 advanced 5 port switch driver
+Message-ID: <20220512104753.075f2120@xps-bootlin>
+In-Reply-To: <20220511093638.kc32n6ldtaqfwupi@skbuf>
+References: <20220509131900.7840-1-clement.leger@bootlin.com>
+        <20220509131900.7840-7-clement.leger@bootlin.com>
+        <20220509160813.stfqb4c2houmfn2g@skbuf>
+        <20220510103458.381aaee2@xps-bootlin>
+        <20220511093638.kc32n6ldtaqfwupi@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <041789819aa163907ef27fed537dfca16d293f4d.camel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 5/12/22 10:02 AM, Paolo Abeni wrote:
+Le Wed, 11 May 2022 12:36:38 +0300,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
->> RZ/V2M has a separate gPTP reference clock that is used when the
->> AVB-DMAC Mode Register (CCC) gPTP Clock Select (CSEL) bits are
->> set to "01: High-speed peripheral bus clock".
->> Therefore, add a feature that allows this clock to be used for
->> gPTP.
->>
->> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
->> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> On Tue, May 10, 2022 at 10:34:58AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > > By the way, does this switch pass
+> > > tools/testing/selftests/drivers/net/dsa/no_forwarding.sh? =20
+> >=20
+> > Unfortunately, the board I have only has 2 ports availables and
+> > thus, I can only test one bridge or two separated ports at a
+> > time... I *should* receive a 4 ports one in a near future but that
+> > not yet sure. =20
+>=20
+> 2 switch ports or 2 ports in total? h1 and h2 can be non-switch ports
+> (should work with USB-Ethernet adapters etc).
 
-[...]
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index 8ccc817b8b5d..ef6967731263 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
->> @@ -2721,6 +2725,15 @@ static int ravb_probe(struct platform_device *pdev)
->>  	}
->>  	clk_prepare_enable(priv->refclk);
->>  
->> +	if (info->gptp_ref_clk) {
->> +		priv->gptp_clk = devm_clk_get(&pdev->dev, "gptp");
->> +		if (IS_ERR(priv->gptp_clk)) {
->> +			error = PTR_ERR(priv->gptp_clk);
->> +			goto out_release;
->> +		}
->> +		clk_prepare_enable(priv->gptp_clk);
->> +	}
->> +
-> 
-> I guess you need to a conditional
-> 
-> 	clk_disable_unprepare(info->gptp_ref_clk)
-> 
-> in the error path? And even in ravb_remove()?
+2 switchs ports only but I now have a board with 2 switch ports + 2
+non-switch ports so I'll try that on that new board.
 
-   Indeed! How could I miss it? :-/
+Cl=C3=A9ment
 
-[...]
 
-MBR, Sergey
