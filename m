@@ -2,272 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44896526596
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 17:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB37526801
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 19:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345871AbiEMPDc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 May 2022 11:03:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36808 "EHLO
+        id S1382360AbiEMRQ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 May 2022 13:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381260AbiEMPDP (ORCPT
+        with ESMTP id S238350AbiEMRQX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 May 2022 11:03:15 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A324E3AF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 08:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652454194; x=1683990194;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gwYWt0h8JL42HUHIj443DtU+8WMe5nVd4gp4OtAvAgE=;
-  b=V5wGts5jlC1OiPJ6RXobEDtPu4SDh0tfEvOvZZ5efJJDnELU/AuNbzA4
-   AjQEwTOb1xl6BE8/m75+1ycEwmhjo6MnCVFpi1q2QGA0Bkq79RIVHR+4c
-   /Loo0y+kpHExJ5NkhQ6XFaarwnwi2ajUv3u0mxIEUl0GfJrIUTduOhOQo
-   xbXyH2sNEd/ki7ctBUlEEYEFdHChw87nkczYVCXRgrv0zY/9t12219Qo0
-   d6Bdma9yhifrsv76Xd5BwqQmw0zU6U6TdhPsUzYWsdZrKLjDzLElpfZa0
-   n3sv/KOm4b0aIwor92ryrqOjOajKW5pNk/N4bf3ojo9JO6Mk6RtUOQCBQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10346"; a="270257502"
-X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="270257502"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 08:02:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="521447476"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 May 2022 08:02:49 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1npWoa-000Lqp-MX;
-        Fri, 13 May 2022 15:02:48 +0000
-Date:   Fri, 13 May 2022 23:02:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/rcar-v3u-is-gen4-v1] BUILD SUCCESS
- 0a24d3c9459ad3b098dcd62deef910ca5c515bf0
-Message-ID: <627e7302.RXkDgu4qAPK6fVDF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 13 May 2022 13:16:23 -0400
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91FC163A0;
+        Fri, 13 May 2022 10:16:21 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id js14so7100764qvb.12;
+        Fri, 13 May 2022 10:16:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=raRyjvi/nNYnyN2p2YoiBhtLtPa6DvP11Zh+f/IjRsk=;
+        b=nlFUNmeea732A2hRNrh9aFbxDJKP78DInq78e0LVlzmKNwYjlMLkkvqIyOfaqaB7sp
+         omfNNtR6hui62pGc031a/rQMvagv4mFehULZOfVga0XbWcXo/H+zTuCoqjO/ukf0aPeF
+         XNZAaKU7bbUDmES9jlcurW0/2ruiTQTo0bJsQAfdj7EoU/mr4ecyhpCy5lt/GuqTwrsh
+         8qW2BQOid/W4S+R5SgfF+Fzg9+GgiruuuzjWVNxZOkjovFADXmCrhv4k1h1r+xm5sOVR
+         0hOi4EJ/gu6X6gq4YjZ28hpr8LwE2upBptrPsNBtaHG0zlvYSNai0tQIxL62mlAe2eEB
+         BFNQ==
+X-Gm-Message-State: AOAM531rq3LQewjB1FPmaIf2H0K7BXKqR73bcA0y+6DHsfCjOtH36+ui
+        bTACLWPWDeyEWmFpFJbIz+D2jSPgzg/66w==
+X-Google-Smtp-Source: ABdhPJy5895WUGhzok/gOxcerwdT15xONRPO6cx9ZKH09oiy1dioaBOeuhY9EujN4C7nvHRoT44/Mg==
+X-Received: by 2002:a05:6214:1c87:b0:42d:20cb:e484 with SMTP id ib7-20020a0562141c8700b0042d20cbe484mr5180142qvb.10.1652462180474;
+        Fri, 13 May 2022 10:16:20 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id g20-20020a37e214000000b0069fc13ce23csm1573828qki.109.2022.05.13.10.16.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 May 2022 10:16:19 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2f863469afbso97688987b3.0;
+        Fri, 13 May 2022 10:16:19 -0700 (PDT)
+X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
+ h64-20020a812143000000b002fb1274247emr6840940ywh.384.1652462179266; Fri, 13
+ May 2022 10:16:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220513104957.257721-1-miquel.raynal@bootlin.com> <20220513104957.257721-3-miquel.raynal@bootlin.com>
+In-Reply-To: <20220513104957.257721-3-miquel.raynal@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 13 May 2022 19:16:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWFV0PcvEYJht__pTDTq3jj-CW2KegwGMyDgfeJhtpSRw@mail.gmail.com>
+Message-ID: <CAMuHMdWFV0PcvEYJht__pTDTq3jj-CW2KegwGMyDgfeJhtpSRw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] mtd: rawnand: renesas: Use runtime PM instead of
+ the raw clock API
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar-v3u-is-gen4-v1
-branch HEAD: 0a24d3c9459ad3b098dcd62deef910ca5c515bf0  soc: renesas: R-Car V3U is R-Car Gen4
+On Fri, May 13, 2022 at 12:50 PM Miquel Raynal
+<miquel.raynal@bootlin.com> wrote:
+> This NAND controller is part of a well defined power domain handled by
+> the runtime PM core. Let's keep the harmony with the other RZ/N1 drivers
+> and exclusively use the runtime PM API to enable/disable the clocks.
+>
+> We still need to retrieve the external clock rate in order to derive the
+> NAND timings, but that is not a big deal, we can still do that in the
+> probe and just save this value to reuse it later.
+>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-elapsed time: 14211m
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-configs tested: 187
-configs skipped: 3
+Gr{oetje,eeting}s,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+                        Geert
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-m68k                       m5475evb_defconfig
-arm                           corgi_defconfig
-arc                           tb10x_defconfig
-sh                          rsk7203_defconfig
-powerpc                      pasemi_defconfig
-arm                      footbridge_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                     pq2fads_defconfig
-mips                         cobalt_defconfig
-powerpc                 canyonlands_defconfig
-m68k                        m5272c3_defconfig
-mips                         bigsur_defconfig
-arm                            pleb_defconfig
-powerpc                   currituck_defconfig
-openrisc                 simple_smp_defconfig
-m68k                        mvme147_defconfig
-arc                        nsimosci_defconfig
-powerpc                     tqm8555_defconfig
-sh                               allmodconfig
-arm                      integrator_defconfig
-microblaze                          defconfig
-arm                         lpc18xx_defconfig
-parisc64                            defconfig
-powerpc                    klondike_defconfig
-sparc64                             defconfig
-arm                           sunxi_defconfig
-powerpc                       maple_defconfig
-m68k                       m5249evb_defconfig
-mips                           ip32_defconfig
-powerpc                     asp8347_defconfig
-ia64                        generic_defconfig
-mips                       bmips_be_defconfig
-i386                             alldefconfig
-mips                  maltasmvp_eva_defconfig
-sh                         microdev_defconfig
-arc                          axs101_defconfig
-riscv             nommu_k210_sdcard_defconfig
-openrisc                  or1klitex_defconfig
-sh                          rsk7269_defconfig
-xtensa                    xip_kc705_defconfig
-sh                        apsh4ad0a_defconfig
-powerpc                     sequoia_defconfig
-powerpc                     mpc83xx_defconfig
-mips                         rt305x_defconfig
-xtensa                  audio_kc705_defconfig
-m68k                            q40_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                 mpc85xx_cds_defconfig
-arm                            xcep_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                      ppc40x_defconfig
-arm                            lart_defconfig
-powerpc                      arches_defconfig
-sh                   secureedge5410_defconfig
-um                                  defconfig
-xtensa                    smp_lx200_defconfig
-um                             i386_defconfig
-arm                            qcom_defconfig
-sh                          polaris_defconfig
-mips                        bcm47xx_defconfig
-m68k                        stmark2_defconfig
-arm                            mps2_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220501
-arm                  randconfig-c002-20220505
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-xtensa                           allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a002
-i386                 randconfig-a004-20220502
-i386                 randconfig-a006-20220502
-i386                 randconfig-a002-20220502
-i386                 randconfig-a003-20220502
-i386                 randconfig-a001-20220502
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-arc                  randconfig-r043-20220505
-s390                 randconfig-r044-20220505
-riscv                randconfig-r042-20220505
-arc                  randconfig-r043-20220501
-s390                 randconfig-r044-20220501
-riscv                randconfig-r042-20220501
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-clang tested configs:
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-powerpc              randconfig-c003-20220501
-riscv                randconfig-c006-20220501
-mips                 randconfig-c004-20220501
-arm                  randconfig-c002-20220501
-powerpc              randconfig-c003-20220505
-riscv                randconfig-c006-20220505
-arm                  randconfig-c002-20220505
-powerpc                    socrates_defconfig
-mips                     cu1830-neo_defconfig
-mips                  cavium_octeon_defconfig
-arm                          ep93xx_defconfig
-arm                        neponset_defconfig
-powerpc                          g5_defconfig
-mips                      maltaaprp_defconfig
-arm                           sama7_defconfig
-hexagon                          alldefconfig
-arm                         s3c2410_defconfig
-mips                        workpad_defconfig
-arm                       mainstone_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                      pmac32_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a014
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-x86_64               randconfig-a015-20220502
-x86_64               randconfig-a012-20220502
-x86_64               randconfig-a016-20220502
-x86_64               randconfig-a014-20220502
-x86_64               randconfig-a013-20220502
-x86_64               randconfig-a011-20220502
-i386                 randconfig-a011-20220502
-i386                 randconfig-a013-20220502
-i386                 randconfig-a016-20220502
-i386                 randconfig-a015-20220502
-i386                 randconfig-a014-20220502
-i386                 randconfig-a012-20220502
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-hexagon              randconfig-r045-20220502
-hexagon              randconfig-r045-20220501
-riscv                randconfig-r042-20220502
-hexagon              randconfig-r041-20220502
-hexagon              randconfig-r041-20220501
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
