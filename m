@@ -2,69 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BD54526BC4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 22:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 480A5526CD3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 May 2022 00:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381632AbiEMUrT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 May 2022 16:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44028 "EHLO
+        id S229990AbiEMWNE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 May 2022 18:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244358AbiEMUrR (ORCPT
+        with ESMTP id S229796AbiEMWND (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 May 2022 16:47:17 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC56A25B04D
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 13:47:15 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id e12so17204191ybc.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 13:47:15 -0700 (PDT)
+        Fri, 13 May 2022 18:13:03 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17E46EB18
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 15:13:00 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id y76so17598651ybe.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 15:13:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2r8LlMY/L/pVT9GNoIX6W6UvcdRsNWQcsMHoYfGNY60=;
-        b=vFEdtZy/OcImmh0aLEoSN3eO0UzqIV3jtOiDPVIkJxdmXPcXeuQuh8REuqrhs6dCvo
-         ZuVfSZl1qfGip70Vnoc+yWC5WRFyQWK+m50z4wox1sl4k9ExUn5Y0tAlWePJo+CgnyJl
-         L+aZbjHq/NfJTXizYWwINpTjTXaOXy8zVAYgonfnChD3FAwIs9jepIiqX63YEOV9GJNb
-         Rmwru2kgDh1oN86M5MnWF1fPclRz+cU+d+kiLuTUC4+acjTedG7VjzRQVtuWm5QffOXM
-         ZPryuuwHnNj/dki+OMoD+haau/V+Yjpb6UJPuG2PlKSr4jeLFFRt9f4t+3/GUlrwWCm+
-         7+Wg==
+        bh=hPXr8pV9dZF9B1BXNKQfXMsYbL4rZ6nKjrUwBZQ0KMo=;
+        b=DHMa15fitu2r/PPB1WyddaTAumAftS6vsCOF9zBC7o5tUDhku++ZAFZdAjLZqkR/4O
+         KX9pgu0nhyXarktf2F7egfxAdIkEjn1nrLIaAu1dscNjoQdsOaEbg9rlVjOSSR/9U+W7
+         fF9/0uIVsF1CKnclqxUFYK03LSRWHwMpuJQWV03jnnNCj8HLOTb8XQOC03TzlHXrd11e
+         Pvk0073QqoqJT4IY6nBATQGIfOg66LqbvK0hQ3wY6V9R2LkXW3Z7VSxjgZhcZbgicNTf
+         /YHRakDlnlyqJTFdMZcjl4omUdTi+VyA/ZkrWY28MxiBc5wnvSeUXOgDzGII6NX6XYlh
+         iOjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2r8LlMY/L/pVT9GNoIX6W6UvcdRsNWQcsMHoYfGNY60=;
-        b=iYatmFxYKo/qXTEffGTsHnUDyPZU1pUdhIBU2CvYsFQJTNVSEG4jPgfXyKSWKSxoKn
-         YKGhMsi+mtwSdyHDcP+TAHgJDm9YJs9R8kjBFDAd4ILacTE2GV03kAnkyf6H6KH7a4W8
-         LDkPjeYNI2vNgdOHkH/P1KUvc/Qi+PfaEV0c8EBjED6lb0IlUPBmkBt3veCoPqAfdXmK
-         w3PJm1nq9drcrvpPxH2LlY4XCcAFn4FlV4tdbG/E9M5mFwG8IO7O6d3FSwslt7NHU1/Z
-         /uPH09ZpHs95U4KYzZhm2oTi2Xb0wFnI0CRISMP3iO1RLgPDILj5zfVwH3D7N8SqsJuY
-         TJ+g==
-X-Gm-Message-State: AOAM530ESEt6nvyHxprE1UKQKzf5SB7M1qHVvv72PQjEE5mOFBan9F56
-        vA8nKHJKLWY1KeIQfy4UOmF3Q918/6QGJzf4wQud/iwblpnDtg==
-X-Google-Smtp-Source: ABdhPJxYxnyE/ScIaueIcgyhWUucikQN+NYKGInyGJOHC9bQqhJHm/W0dHIKofGVzfnpUAaIF6GDIiRzCGtwro93RSk=
-X-Received: by 2002:a25:e684:0:b0:645:d429:78e9 with SMTP id
- d126-20020a25e684000000b00645d42978e9mr6944743ybh.369.1652474835095; Fri, 13
- May 2022 13:47:15 -0700 (PDT)
+        bh=hPXr8pV9dZF9B1BXNKQfXMsYbL4rZ6nKjrUwBZQ0KMo=;
+        b=bI7jYpe7ufDfyLjNs5CqVWfOBSpP937dxJUxVT/HXT75hnjh+dHrTnhPTlvMvc7DqL
+         C0x3WPHJx3bGB/nShQ8qBFCJ8QyeLbJhj/hu+g2YQ8NHLnjhF0zGeSVDa+tqPBptt3b7
+         SheqOrwkbafxGSB+Blhe9LW2uhIvLW+Rm7OatgjPsk8zrPewqoKfb1jj+iYxQMxvLcaa
+         75SczSkyvSJutAC+fIrXBCchSbMmvBD00JY4urtpZGQXIK/XOvMTXmxycuXrIZpNeFd4
+         d9H2wnXKb8yTeYwJFV701ZXvRZb3XzGGz9wf/UgmCrk6leWKFM+zhaFJwAX7bGDflVSG
+         ocQg==
+X-Gm-Message-State: AOAM530pWfmpVaFXlHNiv72sp3GamO9vvtv4Gl/5zg6LxGS5Nx2FJn05
+        9Z3drcTyPCam/8xfUofW5M2jVfYGRrgLvfyY0gtvgA==
+X-Google-Smtp-Source: ABdhPJwdDBtD5whluJHsM54nTP7gGqxuqR862sxqevyBOecVN1RSRe8qZZNMWPlXtgaeaFPIGj9+/FwhHzKHQLS55y0=
+X-Received: by 2002:a5b:302:0:b0:64b:a20a:fcd9 with SMTP id
+ j2-20020a5b0302000000b0064ba20afcd9mr4121428ybp.492.1652479980153; Fri, 13
+ May 2022 15:13:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220511183210.5248-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220511183210.5248-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220509050953.11005-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220509050953.11005-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220509050953.11005-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 13 May 2022 22:47:04 +0200
-Message-ID: <CACRpkdYQAsam_v0XHm-A_trbyifj1pBQq5N+zc9KVw1vXVTYUw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] gpio: gpiolib: Add ngirq member to struct gpio_irq_chip
+Date:   Sat, 14 May 2022 00:12:48 +0200
+Message-ID: <CACRpkdafrkyQjmyoa4CAJXJ8JdT3owapq10=yBQLyPp0EwO6AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] gpio: gpiolib: Add ngirq member to struct gpio_irq_chip
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -76,7 +75,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
+On Mon, May 9, 2022 at 7:10 AM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
 > Supported GPIO IRQs by the chip is not always equal to the number of GPIO
@@ -90,8 +89,7 @@ On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-As Geert says, I think you can just use .valid_mask for this,
-what do you say?
+As mentioned in some other patch, try to use .valid_mask for this instead.
 
 Yours,
 Linus Walleij
