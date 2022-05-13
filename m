@@ -2,121 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 597095262F8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 15:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3354052631B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 15:52:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380668AbiEMNZY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 May 2022 09:25:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41080 "EHLO
+        id S1344872AbiEMNug (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 May 2022 09:50:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380609AbiEMNZW (ORCPT
+        with ESMTP id S1382017AbiEMNmc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 May 2022 09:25:22 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8483EC9EC0;
-        Fri, 13 May 2022 06:25:19 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,221,1647270000"; 
-   d="scan'208";a="120910964"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 May 2022 22:25:18 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B7D56400854A;
-        Fri, 13 May 2022 22:25:15 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] Input: gpio-keys - Cancel delayed work only in case of GPIO
-Date:   Fri, 13 May 2022 14:25:00 +0100
-Message-Id: <20220513132500.32395-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Fri, 13 May 2022 09:42:32 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349EBBE0B;
+        Fri, 13 May 2022 06:42:31 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id s30so15350946ybi.8;
+        Fri, 13 May 2022 06:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WVSV/AblZY396bQwg7Kf9zjiyu4vW5yj0nxgxQP4FHE=;
+        b=eAdM95f+OmqPUQiS4QQN+Xrm6uqyU1Z3OIS2MK/LX6cVyRMbr7bsGedHauH1S1CHtA
+         amKUX8lK3zm71J7xJ5V27aX25u+fMqI2ui1e4XthznVQ/0KsZ5HwFjNIgDhR6WH9vR0q
+         XtwC4kQhxlpf+5EekYSNi7qfxb1+BJoM3UGeny7PZtKWMURz6F5DObL+v+GB63ulswYs
+         8sYPRWUjmzSlwaGifmUbngFzSfeQzpSO+ij2FpxEtEzJ273jALWUzQwrPz+zeM0fJ0VI
+         Vb2XzTu6nMUuz+YUVcAzi+AFyWmVnXOFFY6MxVPZ4V7YG8WcLU3Vh65ayPVgQrQl01ig
+         bolw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WVSV/AblZY396bQwg7Kf9zjiyu4vW5yj0nxgxQP4FHE=;
+        b=4RKfXyptSO3ZjTBlMYWWhkcwfEo/x24C+ng7/FfOtBcMTHklzUny13UMAjmHlZkFAS
+         Ojo/XceoWFYiXUzhkiZNJi80sOlkNUXyhKdd3a4IWyF1KhX1dWkXrdSphS/UGfWee+8K
+         oQ1WwGxywCSRKhSbzm+gaTyBqwHG2wtoLa17UuRmyeeajolQi8cfKDqUROcu7pJO/Rdi
+         hzXY1q4p5NIsClNrmMMu/fpqJkw14v0DbM6z1W9WsRKeCrlWKk22HCQNj4/2VxemJ2DC
+         VGQSN4M9wCBqceH0uG9iMoa5IAVSqhb3zA3nD4sC1PBKJgHP96ctbQwIsqipOvzNn8Hq
+         UW+w==
+X-Gm-Message-State: AOAM530hoSpRl1nAqRswPvVtpk7VP5ORIKsWLFB6GpzCwS99Cx2AO0uY
+        OTBZnEB8SnCIxf7uBXp6aq83v6mqlDcDyXTk8PQ=
+X-Google-Smtp-Source: ABdhPJz9dj+JwKYsFAih6d907sBseviSqnt8EC9F4FjmdyzAh6mhMRBcIMwP0v+xpQXJyfnVUGbmrfPqChBBEsQYZYM=
+X-Received: by 2002:a25:bfce:0:b0:648:963b:1ccb with SMTP id
+ q14-20020a25bfce000000b00648963b1ccbmr5025903ybm.417.1652449350423; Fri, 13
+ May 2022 06:42:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220511183210.5248-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <OS0PR01MB59221ADFC86483FE2C8765C486CB9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CA+V-a8s4RfNSXCHG5xo4LhkHw09aj2wFnH0iCDos_ysunV1+5g@mail.gmail.com>
+ <OS0PR01MB5922D4C79DE916F5715B610E86CB9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59222A7E4DF42FB7557F757886CA9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB59222A7E4DF42FB7557F757886CA9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 13 May 2022 14:42:04 +0100
+Message-ID: <CA+V-a8vVSnBb66AbAeg4+U-aSaj5BugGQ0FBTZJNdUnb=C641g@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
+ handle GPIO interrupt
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-gpio_keys module can either accept gpios or interrupts. The module
-initializes delayed work in case of gpios only and not for interrupts,
-so make sure cancel_delayed_work_sync() is called only when bdata->gpiod
-is true.
+On Fri, May 13, 2022 at 7:12 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: 12 May 2022 18:59
+> > To: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> > Cc: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>; Geert
+> > Uytterhoeven <geert+renesas@glider.be>; Linus Walleij
+> > <linus.walleij@linaro.org>; Thomas Gleixner <tglx@linutronix.de>; Marc
+> > Zyngier <maz@kernel.org>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+> > Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Bartosz Golaszewski
+> > <brgl@bgdev.pl>; Philipp Zabel <p.zabel@pengutronix.de>; linux-
+> > gpio@vger.kernel.org; linux-kernel@vger.kernel.org; linux-renesas-
+> > soc@vger.kernel.org; devicetree@vger.kernel.org; Phil Edworthy
+> > <phil.edworthy@renesas.com>
+> > Subject: RE: [PATCH v3 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain
+> > to handle GPIO interrupt
+> >
+> > Hi Prabhakar,
+> >
+> > > Subject: Re: [PATCH v3 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ
+> > > domain to handle GPIO interrupt
+> > >
+> > > Hi Biju,
+> > >
+> > > Thank you for the review.
+> > >
+> > > On Thu, May 12, 2022 at 6:35 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > > wrote:
+> > > >
+> > > > Hi Prabhakar,
+> > > >
+> > > > Thanks for the patch.
+> > > >
+> > > > > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > Subject: [PATCH v3 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ
+> > > > > domain to handle GPIO interrupt
+> > > > >
+> > > > > Add IRQ domian to RZ/G2L pinctrl driver to handle GPIO interrupt.
+> > > > >
+> > > > > GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can
+> > > > > be used as IRQ lines at given time. Selection of pins as IRQ lines
+> > > > > is handled by IA55 (which is the IRQC block) which sits in between
+> > > > > the
+> > > GPIO and GIC.
+> > > >
+> > > > Do we need to update bindings with interrupt-cells on [1] like [2]
+> > > > as it
+> > > act as parent for GPIO interrupts?
+> > > >
+> > > Yes interrupt-controller and interrupt-parent needs to be added. I'm
+> > > wondering if "interrupt-cells" is not required. If the pin is an
+> > > interrupt it will be passed as an GPIO.
+> >
+> > It is same as external interrupt case right?
+> >
+> > For eg:- Ethernet PHY case,
+> >
+> >      interrupt-parent = <&irqc>;
+> >      interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+> >
+> > if you use GPIO, it will be like this right?
+> >
+> >      interrupt-parent = <&pinctrl>;
+> >      interrupts = <RZG2L_GPIO(1, 0) IRQ_TYPE_LEVEL_LOW>;
+>
+> FYI,
+>
+> Previously, I have tested ADV HPD interrupt with below changes while investigating [1]
+>
+> interrupt-parent = <&pinctrl>;
+> interrupts = <RZG2L_GPIO(2, 1) IRQ_TYPE_EDGE_FALLING>;
+>
+Right, #interrupt-cells=<2> , where the first cell is the GPIO pin and
+the second cell is the flag.
 
-This fixes the issue seen below when the gpio_keys module is unloaded and
-an interrupt pin is used instead of GPIO:
-
-[  360.297569] ------------[ cut here ]------------
-[  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
-[  360.310531] Modules linked in: gpio_keys(-)
-[  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
-[  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
-[  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  360.338318] pc : __flush_work+0x414/0x470
-[  360.342385] lr : __cancel_work_timer+0x140/0x1b0
-[  360.347065] sp : ffff80000a7fba00
-[  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
-[  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
-[  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
-[  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
-[  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
-[  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
-[  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
-[  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
-[  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
-[  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
-[  360.422818] Call trace:
-[  360.425299]  __flush_work+0x414/0x470
-[  360.429012]  __cancel_work_timer+0x140/0x1b0
-[  360.433340]  cancel_delayed_work_sync+0x10/0x18
-[  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
-[  360.443327]  devm_action_release+0x10/0x18
-[  360.447481]  release_nodes+0x8c/0x1a0
-[  360.451194]  devres_release_all+0x90/0x100
-[  360.455346]  device_unbind_cleanup+0x14/0x60
-[  360.459677]  device_release_driver_internal+0xe8/0x168
-[  360.464883]  driver_detach+0x4c/0x90
-[  360.468509]  bus_remove_driver+0x54/0xb0
-[  360.472485]  driver_unregister+0x2c/0x58
-[  360.476462]  platform_driver_unregister+0x10/0x18
-[  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
-[  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
-[  360.490945]  invoke_syscall+0x40/0xf8
-[  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
-[  360.499515]  do_el0_svc+0x20/0x78
-[  360.502877]  el0_svc+0x48/0xf8
-[  360.505977]  el0t_64_sync_handler+0x88/0xb0
-[  360.510216]  el0t_64_sync+0x148/0x14c
-[  360.513930] irq event stamp: 4306
-[  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
-[  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
-[  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
-[  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
-[  360.550591] ---[ end trace 0000000000000000 ]---
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/input/keyboard/gpio_keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index d75a8b179a8a..ec9d50ddda42 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -133,7 +133,7 @@ static void gpio_keys_quiesce_key(void *data)
- 		hrtimer_cancel(&bdata->release_timer);
- 	if (bdata->debounce_use_hrtimer)
- 		hrtimer_cancel(&bdata->debounce_timer);
--	else
-+	else if (bdata->gpiod)
- 		cancel_delayed_work_sync(&bdata->work);
- }
- 
--- 
-2.17.1
-
+Cheers,
+Prabhakar
