@@ -2,73 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 706E6525D02
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 10:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3891525FD7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 12:39:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233240AbiEMIKs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 May 2022 04:10:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54500 "EHLO
+        id S1350241AbiEMKPV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 May 2022 06:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378112AbiEMIKi (ORCPT
+        with ESMTP id S229822AbiEMKPT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 May 2022 04:10:38 -0400
-Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E932E2A4A26
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 01:10:36 -0700 (PDT)
-Received: by mail.coredeal.pl (Postfix, from userid 1002)
-        id 3614EA524C; Fri, 13 May 2022 08:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
-        t=1652429251; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
-        h=Date:From:To:Subject:From;
-        b=dzom2iDZ4in2VdeznsCtamiDv7/ZKeu1bznHQ4Dp5mxpnzz9gG5uXTCAYwNCF34VK
-         wc+rrgHSNbEfc9IVOYR3TAD7LXyTTWsgHxzii+nVE1/zj8vCvd0YyQQp2cC0I5k/8g
-         3bmjATdnOwYKMB09t3N7Giv72KBsTxxY0LBFLhipBP0AtjE18P/rcU0V/HR8rmg4eq
-         LS9A0tn1kMcCavE02ZnbBmISO5Z/zyQ6j/U2inJu4ctrAaJxcheEC/7ZZqFthi7Rdp
-         BqkS9k1mkXU5PzZjJXnh+Mys6vSINryxM7M17CaaUbKTY9PIV52dG3NY9hVBxRNu4I
-         6KbLkKcbaVuAg==
-Received: by mail.coredeal.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 08:05:55 GMT
-Message-ID: <20220513064500-0.1.33.o0v5.0.o69sshb4km@coredeal.pl>
-Date:   Fri, 13 May 2022 08:05:55 GMT
-From:   "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: Biznesowy angielski
-X-Mailer: mail.coredeal.pl
+        Fri, 13 May 2022 06:15:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B4227EB85
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 03:15:17 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 497DD5A4;
+        Fri, 13 May 2022 12:15:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1652436915;
+        bh=iYmkML+vl0LJ0Ak1nVMPFnrebvvh9tOSY6bzl1L3XyU=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=CxXVQi6xZlZGnIualJ5kXlnY4PlHidXteRUCDZ4CYEn85TUuul75g1cWxV0bwQcP7
+         9vnFTTEeNqiNDobkwHrV8miXXjjAqjWSo2Rr4i+nksTfXhXtJISQ+dGzr+dbg+UZlN
+         kdp1Hp+utADYrTE3L/rRk6qCZWyuvJFL9D3qlxJI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220426084157.10979-1-biju.das.jz@bp.renesas.com>
+References: <20220426084157.10979-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] drm: rcar-du: Fix Alpha blending issue on Gen3
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     LUU HOAI <hoai.luu.ub@renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>
+Date:   Fri, 13 May 2022 11:15:12 +0100
+Message-ID: <165243691268.2416244.4640685679737534741@Monstersaurus>
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+Quoting Biju Das (2022-04-26 09:41:57)
+> From: LUU HOAI <hoai.luu.ub@renesas.com>
+>=20
+> As per R-Car-Gen3_Common_OPC_Customer_Notifications_V30.1.pdf,
+> unexpected image output(such as incorrect colors or planes being
+> invisible) can happen on the below conditions, as PnALPHAR register
+> is not initialized by reset.
+>=20
+> When alpha blending (PpMRm.PpSPIM=3D0b101) is performed and:
+>         =E2=80=A2two Planes are enabled on any DUn (n=3D0,1,2,3)
+>                 oDSPRn=3D 0x0000 0031 or 0x0000 0013
+>         =E2=80=A2or DU0 and DU1 is used for display at the same time
+>                 oDSPR0=3D 0x0000 0001 and DSPR1=3D 0x0000 0003
+>                 oDSPR0=3D 0x0000 0003 and DSPR1=3D 0x0000 0001
+>         =E2=80=A2or DU2 and DU3(H3 Only) is used for display at the same =
+time
+>                 oDSPR2=3D 0x0000 0001 and DSPR3=3D 0x0000 0003
+>                 oDSPR2=3D 0x0000 0003 and DSPR3=3D 0x0000 0001
+>=20
+> This patch set PnALPHAR register to 0 to avoid this issue.
+>=20
+> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Updated commit description
+>  * Updated the code comments
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rc=
+ar-du/rcar_du_plane.c
+> index f214a8b6cfd3..aa80c44dd8d7 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> @@ -510,6 +510,18 @@ static void rcar_du_plane_setup_format_gen3(struct r=
+car_du_group *rgrp,
+> =20
+>         rcar_du_plane_write(rgrp, index, PnDDCR4,
+>                             state->format->edf | PnDDCR4_CODE);
+> +
+> +       /*
+> +        * On Gen3, some DU channels have two planes, each being wired to=
+ a
+> +        * separate VSPD instance. The DU can then blend two planes. While
+> +        * this feature isn't used by the driver, issues related to alpha
+> +        * blending (such as incorrect colors or planes being invisible) =
+may
+> +        * still occur if the PnALPHAR register has a stale value. Set the
+> +        * register to 0 to avoid this.
+> +        */
+> +
 
-czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
-swoich pracownik=C3=B3w?
+Sounds reasonable.
 
-Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
-w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
-ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
-=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
+> +       /* TODO: Check if alpha-blending should be disabled in PnMR. */
 
-Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
-=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
-re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
-o=C5=BCliwo=C5=9Bci biznesowe.=20
-
-Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
- kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
-za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
-=2E
-
-Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
-w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
+How will this be done? Do you have a specific test in mind to determine
+if it causes issues? Or does it need validating through the hardware
+teams?
 
 
-Pozdrawiam
-Krzysztof Maj
+
+> +       rcar_du_plane_write(rgrp, index, PnALPHAR, 0);
+
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>  }
+> =20
+>  static void rcar_du_plane_setup_format(struct rcar_du_group *rgrp,
+> --=20
+> 2.25.1
+>
