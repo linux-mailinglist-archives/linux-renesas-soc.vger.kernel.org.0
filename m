@@ -2,33 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FFF526057
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 12:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6165152605F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 May 2022 12:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379623AbiEMKuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 May 2022 06:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37136 "EHLO
+        id S1379627AbiEMKuG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 May 2022 06:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233550AbiEMKuC (ORCPT
+        with ESMTP id S233550AbiEMKuF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 May 2022 06:50:02 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96104296BE3;
-        Fri, 13 May 2022 03:50:01 -0700 (PDT)
+        Fri, 13 May 2022 06:50:05 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7925C296BE3;
+        Fri, 13 May 2022 03:50:04 -0700 (PDT)
 Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 39E7BFF810;
-        Fri, 13 May 2022 10:49:58 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7C5BBFF803;
+        Fri, 13 May 2022 10:50:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652439000;
+        t=1652439003;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=EOnBw339JZrqM43NcFanIyq3YzXvKL8IR0/WPRtOnr0=;
-        b=dv8mGuviAjL/9g1H1jG/m6wLkRB5Fon/bb3iJikEI9pBpc7sIRYSIhlw4CLq1bcPeRKp8J
-        zcfF2vHZ7vFcNVU6FHOHY/mjLidppUFvu+qKU186e+5uDKWxo28ecJziCyOwE4oZQY4O8h
-        UGJKQF1k9SW8Fyinwbzz5H9Tgamml4igqVoQSGpkGEZ15BrrWO7YCsTLL/lmi8/mLMInbV
-        5/RJLACBjTJwv5fb/3ycAHohahCkEbZzRq+aSTzWjaDsY1dZrpJIR5BGkHvfrh8ZqZnoE5
-        pGW637LNzfqY058RWJhu4z6Rmd830/bI7DbkDDtO67CXnxDRXXxFvkFX063trQ==
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=A2IC48sC2BqDK1qhGGtGZy4CQ73sH3Lc5IdbUgWh0VI=;
+        b=X1mNUI2r3uApp3MzKyN+1xcS6LPWMKumNxwNcJWZul8XBEHiD3YqTdxJOg4kz4WYoJo8oF
+        I4QeZjNR0pMyONGLKBiIrQiTva1PF2J2RrpJJdif7w6UIOeE/xGCn6RWPQTz2zuq9AtTdH
+        vyVF0uEeCcOzYaxbqQdpHYyC81w3uGm3o7Jjr1ZYE5DTA6xxhuawD93kOOZzN599of5Rpg
+        xtPvmHP11Lv3/3FgN+43owFb0kM7csyk823EbEyLaT7DPjyUmhI2WNWfpEEkM7OLuiUF80
+        +rZCEFs3/zJBI7kSipeZ0zG6gDXpBQ7ym5sp+awmSEJosxj38mpVn9WKAj//FA==
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -50,11 +51,15 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH v4 0/2] mtd: rawnand: renesas: Runtime PM use
-Date:   Fri, 13 May 2022 12:49:55 +0200
-Message-Id: <20220513104957.257721-1-miquel.raynal@bootlin.com>
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 1/2] dt-bindings: mtd: renesas: Fix the NAND controller description
+Date:   Fri, 13 May 2022 12:49:56 +0200
+Message-Id: <20220513104957.257721-2-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220513104957.257721-1-miquel.raynal@bootlin.com>
+References: <20220513104957.257721-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -68,36 +73,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There was a small mistake when first introducing this controller driver:
-the power-domain property was missing in the device tree because there
-was only one controller supported at this time (UART) and this is a
-Synopsis IP which did not support power domains. The idea is to always
-use these power domains when available, so let's add it to the bindings,
-the DT and use it from the driver through the runtimpe PM API instead of
-doing raw clk API calls.
+Add the missing power-domain property which is needed on all the
+RZ/N1 SoC IPs.
 
-Changes in v4:
-* Use pm_runtime_resume_and_get() instead of pm_runtime_get_sync().
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/mtd/renesas-nandc.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Changes in v3:
-* Moved the pm_runtime calls earlier in the probe to avoid possible
-  register accesses while the clocks have not yet been enabled.
+diff --git a/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml b/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
+index 2870d36361c4..7b18bc5cc8b3 100644
+--- a/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
++++ b/Documentation/devicetree/bindings/mtd/renesas-nandc.yaml
+@@ -36,11 +36,15 @@ properties:
+       - const: hclk
+       - const: eclk
  
-Changes in v2:
-* Dropped the DT patch merged by Geert.
-* Used devm_pm_runtime_enable() instead of pm_runtime_enable() and
-  dropped the pm_runtime_disable() calls.
-* Used pm_runtime_resume_and_get() instead of pm_runtime_get_sync().
-* Collected the tags on the bindings.
-
-Miquel Raynal (2):
-  dt-bindings: mtd: renesas: Fix the NAND controller description
-  mtd: rawnand: renesas: Use runtime PM instead of the raw clock API
-
- .../bindings/mtd/renesas-nandc.yaml           |  5 ++
- .../mtd/nand/raw/renesas-nand-controller.c    | 51 +++++++++----------
- 2 files changed, 28 insertions(+), 28 deletions(-)
-
++  power-domains:
++    maxItems: 1
++
+ required:
+   - compatible
+   - reg
+   - clocks
+   - clock-names
++  - power-domains
+   - interrupts
+ 
+ unevaluatedProperties: false
+@@ -56,6 +60,7 @@ examples:
+         interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
+         clocks = <&sysctrl R9A06G032_HCLK_NAND>, <&sysctrl R9A06G032_CLK_NAND>;
+         clock-names = "hclk", "eclk";
++        power-domains = <&sysctrl>;
+         #address-cells = <1>;
+         #size-cells = <0>;
+     };
 -- 
 2.27.0
 
