@@ -2,407 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B969526EB1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 May 2022 09:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E97A252718C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 May 2022 16:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbiENE3c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 May 2022 00:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
+        id S232754AbiENOFc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 May 2022 10:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231629AbiENE3a (ORCPT
+        with ESMTP id S232521AbiENOFb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 May 2022 00:29:30 -0400
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7980E8B8E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 21:29:27 -0700 (PDT)
-Received: by mail-vs1-xe31.google.com with SMTP id c62so10297454vsc.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 May 2022 21:29:27 -0700 (PDT)
+        Sat, 14 May 2022 10:05:31 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E04014011;
+        Sat, 14 May 2022 07:05:30 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-f16a3e0529so3650101fac.2;
+        Sat, 14 May 2022 07:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nigauri-org.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0GWEa088/8gygvvNMddpKVADIoKT6txzQQgu1gUUI6Q=;
-        b=Dkus6aeJjC7PLy1CCBHq409Il+rO3IPxriIXEkxsoUPB+jHybB8+tm7HhY1WH+DP0E
-         F7tRpBNvo79dC4K8ff5GL/aBpYDGgRx/uEtFQoHFg8izVf+5B+FSlMrL9TqlUXk4RoOA
-         NCUI6hV3xcmKtGMLDi0oOPNaGXCo+bxeT2HViynRI08FJP20OlUQSjl2C9QTGskDwR7i
-         lQGrp++wN3yGxpIZo2ZLEMRXWMUZjexTnwp08zGxd2GECzcvPd/8NYhoPmGELnJyrTuC
-         zXNw4W8tKEngEoZGBYAlOamOLmlFYb3AqcULcjg88aRDXAqXTtgNaQ1GfZHaCSl0wZuf
-         Ab5g==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=H1rAn7agXNY4SKWR1IHEUDfm7bTD4FsfGjzsnQ8t8wY=;
+        b=OZtXXpiEuzc3B3gQ5VPp2GUesAXeMh9RQ75PXl82D4HO2rLSnMm0USKkfVsq3dfWAw
+         yATr8setkpZbWQHnXEykD4flJmymkJrzg9u4i0RXqVV8yBODGngTvkwndK4dwXwPPLu6
+         zBzksljL+qjdlPuJlNHtn6J4SEh4DHELfEyLi4rxhww1nPvSiPc/a2DkmRjCsejlx+9D
+         VH/nRL7RgKECqbjJDS7CfnEagB58zeuoxoa4MRe8oQlMa9wka7CK7kpeEDODZs8GJaRf
+         WpAKAT+NSyRmvHTWCAnTZB+SsrQBcryTcpAlzB4k7ubIhM/ROiP2Eb19/GWhur+35eB+
+         +vtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0GWEa088/8gygvvNMddpKVADIoKT6txzQQgu1gUUI6Q=;
-        b=Umym6eQV4WtePIzOyHf0Eakg9WdFAT5pui1qokXcykvuKtJWrVlK0phYzgJ2dfpp6D
-         tU7HASnvxeZp74EadYG3kYeeuSqIdW3u6v2iPgGkD2s44+zcuE0CjjDwOPH4s0a8NVJ0
-         KDxRxdDS3KQY7MnaAL842zmPnl1ytrkPr9u10ZBzPZZrgd9qCcrhJ0thIyyejI1bRluU
-         Kx0b4jo67KoTsiF74xMWhxOEGWiqU+DSMjfQF4e94kw5W7Fof18fXaf2DSfafLbB+n04
-         0LFajM6rYvuwYG+q9Vl4GJGeP9U5HdU0bONgvUPwoXrWfslslNhBpHYMeJV2xJGhyj/o
-         5h9Q==
-X-Gm-Message-State: AOAM5319xLLDMHg8QYaux6gsXtWIKtbkz43jSJe1SWZmkfBRMZ7GZDzh
-        drzbk4u1taBOe/cGJjN4Wc+bwUsRdwuqvmTyns8dB8MbLw==
-X-Google-Smtp-Source: ABdhPJyTGVd8B0YWcDGyINB4mGqpFei5GsWH4sqHsmBqvAilzt3RthSV+RCR5yoCvcWTZfl7wbBUnIJl48blNYnoPdc=
-X-Received: by 2002:a05:6102:c13:b0:32d:518f:feaf with SMTP id
- x19-20020a0561020c1300b0032d518ffeafmr3303593vss.84.1652502566657; Fri, 13
- May 2022 21:29:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220513110327.261652-1-miquel.raynal@bootlin.com> <20220513110327.261652-3-miquel.raynal@bootlin.com>
-In-Reply-To: <20220513110327.261652-3-miquel.raynal@bootlin.com>
-From:   Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-Date:   Sat, 14 May 2022 13:29:00 +0900
-Message-ID: <CABMQnVKsJwuHNGaLxBKAv44Sx+TiHZ5p20b-FNNTeCxtBLWF+Q@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] rtc: rzn1: Add new RTC driver
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=H1rAn7agXNY4SKWR1IHEUDfm7bTD4FsfGjzsnQ8t8wY=;
+        b=Mjn/pUtG0jFo4TR7+6wRkuKhCUZ6Dc7hDB+GhUujEoe3Dl21TgKJHqu+rfjDkBH1Rj
+         gVuiAcaAycNDE9gEQPtGIBSqO+aNwzgft8diKTHNIr8IZGmp5hn9RweHA5F5Qyl2wD+S
+         +Tr3qxoRQJkkBpjOekzA5ocMvzH1OEXyZt9P+4tu1nrHArn2AapoAtsQRPa5DCOZ+vzO
+         Kdk4vPeMpfM6cFDDgiMqq90wfFt4S+uuHVIlBXQJsCfF6DO78KV3zcoT16gfKxvS58yd
+         rDjx0ozny+LCNoWTWDT6cRkFta4EBFYv2Tw3nUE3Wf5QVJeSnwg/9kctIReVEkexBgX/
+         ka7Q==
+X-Gm-Message-State: AOAM530tGdhmZA3PpISr5EpPQvPerev6vPHc4IZgGtxT/wXPZQjt1dDK
+        G2cuS7CjsJssMxYuFjxyowimYOs6EcpG0g==
+X-Google-Smtp-Source: ABdhPJwipn4axI3cqJczT1ezRfeeLaRwVQT+kfnfHtLORgAacul8FEuqzaPS5fpgrrnDFN07lEmZfw==
+X-Received: by 2002:a05:6870:5708:b0:db:2ef8:f220 with SMTP id k8-20020a056870570800b000db2ef8f220mr10781289oap.198.1652537129831;
+        Sat, 14 May 2022 07:05:29 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q14-20020a4a6c0e000000b00333301670dcsm2350996ooc.2.2022.05.14.07.05.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 May 2022 07:05:29 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 14 May 2022 07:05:27 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Michel Pollet <michel.pollet@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: watchdog: renesas,wdt: Document RZ/G2UL SoC
+Message-ID: <20220514140527.GA1318039@roeck-us.net>
+References: <20220424071323.151757-1-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220424071323.151757-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+On Sun, Apr 24, 2022 at 08:13:23AM +0100, Biju Das wrote:
+> Document RZ/G2UL WDT bindings. RZ/G2UL WDT is similar to one found
+> on the RZ/G2L SoC. No driver changes are required as generic compatible
+> string "renesas,rzg2l-wdt" will be used as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-2022=E5=B9=B45=E6=9C=8813=E6=97=A5(=E9=87=91) 20:03 Miquel Raynal <miquel.r=
-aynal@bootlin.com>:
->
-> From: Michel Pollet <michel.pollet@bp.renesas.com>
->
-> Add a basic RTC driver for the RZ/N1.
->
-> Signed-off-by: Michel Pollet <michel.pollet@bp.renesas.com>
-> Co-developed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
->  drivers/rtc/Kconfig    |   7 ++
->  drivers/rtc/Makefile   |   1 +
->  drivers/rtc/rtc-rzn1.c | 245 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 253 insertions(+)
->  create mode 100644 drivers/rtc/rtc-rzn1.c
->
-> diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
-> index 41c65b4d2baf..a00f901b5c1d 100644
-> --- a/drivers/rtc/Kconfig
-> +++ b/drivers/rtc/Kconfig
-> @@ -1548,6 +1548,13 @@ config RTC_DRV_RS5C313
->         help
->           If you say yes here you get support for the Ricoh RS5C313 RTC c=
-hips.
->
-> +config RTC_DRV_RZN1
-> +       tristate "Renesas RZ/N1 RTC"
-> +       depends on ARCH_RZN1 || COMPILE_TEST
-> +       depends on OF && HAS_IOMEM
-> +       help
-> +         If you say yes here you get support for the Renesas RZ/N1 RTC.
-> +
->  config RTC_DRV_GENERIC
->         tristate "Generic RTC support"
->         # Please consider writing a new RTC driver instead of using the g=
-eneric
-> diff --git a/drivers/rtc/Makefile b/drivers/rtc/Makefile
-> index 2d827d8261d5..fb04467b652d 100644
-> --- a/drivers/rtc/Makefile
-> +++ b/drivers/rtc/Makefile
-> @@ -151,6 +151,7 @@ obj-$(CONFIG_RTC_DRV_RX6110)        +=3D rtc-rx6110.o
->  obj-$(CONFIG_RTC_DRV_RX8010)   +=3D rtc-rx8010.o
->  obj-$(CONFIG_RTC_DRV_RX8025)   +=3D rtc-rx8025.o
->  obj-$(CONFIG_RTC_DRV_RX8581)   +=3D rtc-rx8581.o
-> +obj-$(CONFIG_RTC_DRV_RZN1)     +=3D rtc-rzn1.o
->  obj-$(CONFIG_RTC_DRV_S35390A)  +=3D rtc-s35390a.o
->  obj-$(CONFIG_RTC_DRV_S3C)      +=3D rtc-s3c.o
->  obj-$(CONFIG_RTC_DRV_S5M)      +=3D rtc-s5m.o
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> new file mode 100644
-> index 000000000000..685cba87cd90
-> --- /dev/null
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -0,0 +1,245 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Renesas RZ/N1 Real Time Clock interface for Linux
-> + *
-> + * Copyright:
-> + * - 2014 Renesas Electronics Europe Limited
-> + * - 2022 Schneider Electric
-> + *
-> + * Authors:
-> + * - Michel Pollet <michel.pollet@bp.renesas.com>, <buserror@gmail.com>
-> + * - Miquel Raynal <miquel.raynal@bootlin.com>
-> + */
-> +
-> +#include <linux/bcd.h>
-> +#include <linux/clk.h>
-> +#include <linux/init.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/rtc.h>
-> +
-> +#define RZN1_RTC_CTL0 0x00
-> +#define   RZN1_RTC_CTL0_SLSB_SUBU 0
-> +#define   RZN1_RTC_CTL0_SLSB_SCMP BIT(4)
-> +#define   RZN1_RTC_CTL0_AMPM BIT(5)
-> +#define   RZN1_RTC_CTL0_CE BIT(7)
-> +
-> +#define RZN1_RTC_CTL1 0x04
-> +#define   RZN1_RTC_CTL1_ALME BIT(4)
-> +
-> +#define RZN1_RTC_CTL2 0x08
-> +#define   RZN1_RTC_CTL2_WAIT BIT(0)
-> +#define   RZN1_RTC_CTL2_WST BIT(1)
-> +#define   RZN1_RTC_CTL2_WUST BIT(5)
-> +#define   RZN1_RTC_CTL2_STOPPED (RZN1_RTC_CTL2_WAIT | RZN1_RTC_CTL2_WST)
-> +
-> +#define RZN1_RTC_SEC 0x14
-> +#define RZN1_RTC_MIN 0x18
-> +#define RZN1_RTC_HOUR 0x1c
-> +#define RZN1_RTC_WEEK 0x20
-> +#define RZN1_RTC_DAY 0x24
-> +#define RZN1_RTC_MONTH 0x28
-> +#define RZN1_RTC_YEAR 0x2c
-> +
-> +#define RZN1_RTC_SUBU 0x38
-> +#define   RZN1_RTC_SUBU_DEV BIT(7)
-> +#define   RZN1_RTC_SUBU_DECR BIT(6)
-> +
-> +#define RZN1_RTC_ALM 0x40
-> +#define RZN1_RTC_ALH 0x44
-> +#define RZN1_RTC_ALW 0x48
-> +
-> +#define RZN1_RTC_SECC 0x4c
-> +#define RZN1_RTC_MINC 0x50
-> +#define RZN1_RTC_HOURC 0x54
-> +#define RZN1_RTC_WEEKC 0x58
-> +#define RZN1_RTC_DAYC 0x5c
-> +#define RZN1_RTC_MONTHC 0x60
-> +#define RZN1_RTC_YEARC 0x64
-> +
-> +struct rzn1_rtc {
-> +       struct rtc_device *rtcdev;
-> +       void __iomem *base;
-> +       struct clk *clk;
-
-clk variables do not seem to be used in this patch series.
-If it is not used in the future, I think it can be deleted with
-'#Include <linux/clk.h>".
-
-> +};
-> +
-> +static void rzn1_rtc_get_time_snapshot(struct rzn1_rtc *rtc, struct rtc_=
-time *tm)
-> +{
-> +       tm->tm_sec =3D readl(rtc->base + RZN1_RTC_SECC);
-> +       tm->tm_min =3D readl(rtc->base + RZN1_RTC_MINC);
-> +       tm->tm_hour =3D readl(rtc->base + RZN1_RTC_HOURC);
-> +       tm->tm_wday =3D readl(rtc->base + RZN1_RTC_WEEKC);
-> +       tm->tm_mday =3D readl(rtc->base + RZN1_RTC_DAYC);
-> +       tm->tm_mon =3D readl(rtc->base + RZN1_RTC_MONTHC);
-> +       tm->tm_year =3D readl(rtc->base + RZN1_RTC_YEARC);
-> +}
-> +
-> +static unsigned int rzn1_rtc_tm_to_wday(struct rtc_time *tm)
-> +{
-> +       time64_t time;
-> +       unsigned int days;
-> +       u32 secs;
-> +
-> +       time =3D rtc_tm_to_time64(tm);
-> +       days =3D div_s64_rem(time, 86400, &secs);
-> +
-> +       /* day of the week, 1970-01-01 was a Thursday */
-> +       return (days + 4) % 7;
-> +}
-> +
-> +static int rzn1_rtc_read_time(struct device *dev, struct rtc_time *tm)
-> +{
-> +       struct rzn1_rtc *rtc =3D dev_get_drvdata(dev);
-> +       u32 val, secs;
-> +
-> +       /*
-> +        * The RTC was not started or is stopped and thus does not carry =
-the
-> +        * proper time/date.
-> +        */
-> +       val =3D readl(rtc->base + RZN1_RTC_CTL2);
-> +       if (val & RZN1_RTC_CTL2_STOPPED)
-> +               return -EINVAL;
-> +
-> +       rzn1_rtc_get_time_snapshot(rtc, tm);
-> +       secs =3D readl(rtc->base + RZN1_RTC_SECC);
-> +       if (tm->tm_sec !=3D secs)
-> +               rzn1_rtc_get_time_snapshot(rtc, tm);
-> +
-> +       tm->tm_sec =3D bcd2bin(tm->tm_sec);
-> +       tm->tm_min =3D bcd2bin(tm->tm_min);
-> +       tm->tm_hour =3D bcd2bin(tm->tm_hour);
-> +       tm->tm_wday =3D bcd2bin(tm->tm_wday);
-> +       tm->tm_mday =3D bcd2bin(tm->tm_mday);
-> +       tm->tm_mon =3D bcd2bin(tm->tm_mon);
-> +       tm->tm_year =3D bcd2bin(tm->tm_year);
-> +
-> +       return 0;
-> +}
-> +
-> +static int rzn1_rtc_set_time(struct device *dev, struct rtc_time *tm)
-> +{
-> +       struct rzn1_rtc *rtc =3D dev_get_drvdata(dev);
-> +       u32 val;
-> +       int ret;
-> +
-> +       tm->tm_sec =3D bin2bcd(tm->tm_sec);
-> +       tm->tm_min =3D bin2bcd(tm->tm_min);
-> +       tm->tm_hour =3D bin2bcd(tm->tm_hour);
-> +       tm->tm_wday =3D bin2bcd(rzn1_rtc_tm_to_wday(tm));
-> +       tm->tm_mday =3D bin2bcd(tm->tm_mday);
-> +       tm->tm_mon =3D bin2bcd(tm->tm_mon);
-> +       tm->tm_year =3D bin2bcd(tm->tm_year);
-> +
-> +       val =3D readl(rtc->base + RZN1_RTC_CTL2);
-> +       if (!(val & RZN1_RTC_CTL2_STOPPED)) {
-> +               /* Hold the counter if it was counting up */
-> +               writel(RZN1_RTC_CTL2_WAIT, rtc->base + RZN1_RTC_CTL2);
-> +
-> +               /* Wait for the counter to stop: two 32k clock cycles */
-> +               usleep_range(61, 100);
-> +               ret =3D readl_poll_timeout(rtc->base + RZN1_RTC_CTL2, val=
-,
-> +                                        val & RZN1_RTC_CTL2_WST, 0, 100)=
-;
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       writel(tm->tm_sec, rtc->base + RZN1_RTC_SEC);
-> +       writel(tm->tm_min, rtc->base + RZN1_RTC_MIN);
-> +       writel(tm->tm_hour, rtc->base + RZN1_RTC_HOUR);
-> +       writel(tm->tm_wday, rtc->base + RZN1_RTC_WEEK);
-> +       writel(tm->tm_mday, rtc->base + RZN1_RTC_DAY);
-> +       writel(tm->tm_mon, rtc->base + RZN1_RTC_MONTH);
-> +       writel(tm->tm_year, rtc->base + RZN1_RTC_YEAR);
-> +       writel(0, rtc->base + RZN1_RTC_CTL2);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct rtc_class_ops rzn1_rtc_ops =3D {
-> +       .read_time =3D rzn1_rtc_read_time,
-> +       .set_time =3D rzn1_rtc_set_time,
-> +};
-> +
-> +static int rzn1_rtc_probe(struct platform_device *pdev)
-> +{
-> +       struct rzn1_rtc *rtc;
-> +       int ret;
-> +
-> +       rtc =3D devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-> +       if (!rtc)
-> +               return -ENOMEM;
-> +
-> +       platform_set_drvdata(pdev, rtc);
-> +
-> +       rtc->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(rtc->base))
-> +               return dev_err_probe(&pdev->dev, PTR_ERR(rtc->base), "Mis=
-sing reg\n");
-> +
-> +       rtc->rtcdev =3D devm_rtc_allocate_device(&pdev->dev);
-> +       if (IS_ERR(rtc->rtcdev))
-> +               return PTR_ERR(rtc);
-> +
-> +       rtc->rtcdev->range_min =3D RTC_TIMESTAMP_BEGIN_2000;
-> +       rtc->rtcdev->range_max =3D RTC_TIMESTAMP_END_2099;
-> +       rtc->rtcdev->ops =3D &rzn1_rtc_ops;
-> +       clear_bit(RTC_FEATURE_ALARM, rtc->rtcdev->features);
-> +       clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtcdev->features);
-> +
-> +       devm_pm_runtime_enable(&pdev->dev);
-> +       ret =3D pm_runtime_resume_and_get(&pdev->dev);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       /*
-> +        * Ensure the clock counter is enabled.
-> +        * Set 24-hour mode and possible oscillator offset compensation i=
-n SUBU mode.
-> +        */
-> +       writel(RZN1_RTC_CTL0_CE | RZN1_RTC_CTL0_AMPM | RZN1_RTC_CTL0_SLSB=
-_SUBU,
-> +              rtc->base + RZN1_RTC_CTL0);
-> +
-> +       /* Disable all interrupts */
-> +       writel(0, rtc->base + RZN1_RTC_CTL1);
-> +
-> +       ret =3D devm_rtc_register_device(rtc->rtcdev);
-> +       if (ret)
-> +               goto dis_runtime_pm;
-> +
-> +       return 0;
-> +
-> +dis_runtime_pm:
-> +       pm_runtime_put(&pdev->dev);
-> +
-> +       return ret;
-> +}
-> +
-> +static int rzn1_rtc_remove(struct platform_device *pdev)
-> +{
-> +       pm_runtime_put(&pdev->dev);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct of_device_id rzn1_rtc_of_match[] =3D {
-> +       { .compatible   =3D "renesas,rzn1-rtc" },
-> +       {},
-> +};
-> +MODULE_DEVICE_TABLE(of, rzn1_rtc_of_match);
-> +
-> +static struct platform_driver rzn1_rtc_driver =3D {
-> +       .probe =3D rzn1_rtc_probe,
-> +       .remove =3D rzn1_rtc_remove,
-> +       .driver =3D {
-> +               .name   =3D "rzn1-rtc",
-> +               .owner  =3D THIS_MODULE,
-> +               .of_match_table =3D rzn1_rtc_of_match,
-> +       },
-> +};
-> +module_platform_driver(rzn1_rtc_driver);
-> +
-> +MODULE_AUTHOR("Michel Pollet <Michel.Pollet@bp.renesas.com");
-> +MODULE_AUTHOR("Miquel Raynal <miquel.raynal@bootlin.com");
-> +MODULE_DESCRIPTION("RZ/N1 RTC driver");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.27.0
->
-
-Best regards,
-  Nobuhiro
-
-
---
-Nobuhiro Iwamatsu
-   iwamatsu at {nigauri.org / debian.org / kernel.org}
-   GPG ID: 40AD1FA6
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index 59a48387e72d..84c008d956e4 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -21,6 +21,7 @@ properties:
+>  
+>        - items:
+>            - enum:
+> +              - renesas,r9a07g043-wdt    # RZ/G2UL
+>                - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
+>                - renesas,r9a07g054-wdt    # RZ/V2L
+>            - const: renesas,rzg2l-wdt
