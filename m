@@ -2,202 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6289B5273B3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 May 2022 21:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB71D5273FF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 May 2022 22:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234855AbiENTRi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 May 2022 15:17:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58762 "EHLO
+        id S235121AbiENUfr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 May 2022 16:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234857AbiENTRg (ORCPT
+        with ESMTP id S235118AbiENUfq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 May 2022 15:17:36 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F4C2E68B
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 May 2022 12:17:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652555855; x=1684091855;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uI/3fnw5AVJ8IRICW/3qjR0otW4fknBqOVs6kHVXlKY=;
-  b=ZzGQvcWjRuubcwIB/dSwuoxpGTqNltGtEw0zlMv3uoqUJ2fUIx7Ulif5
-   qyhrghsrmrvATNFhogw/3vP+oFcpSpi8JAMY2nl9lPFCn2zi9QOBpdH2h
-   /pMqim/lDLxnIO39wWJkrL15yywtNSaJQm7DEXWhlA84HbgnzvfQyfYcQ
-   1fS5LKKONGTY75s+wDJmCP+B//cwPnyxhE4JiOfcWX9hyliNyRWRO7QYT
-   nOnccEZEA2BKGqfyrNBLdjn6ptRau3w2Cw1J6ezGIijHPdrI4XvR6vxv7
-   Wsbyahoo2WbDD36vrKjkEZGbpUsQ0U9ZZQ7tVVUc4ft/+2mpEDTMj43MO
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10347"; a="268133951"
-X-IronPort-AV: E=Sophos;i="5.91,226,1647327600"; 
-   d="scan'208";a="268133951"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2022 12:17:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,226,1647327600"; 
-   d="scan'208";a="595775139"
-Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 14 May 2022 12:17:30 -0700
-Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1npxGb-0000xd-1u;
-        Sat, 14 May 2022 19:17:29 +0000
-Date:   Sun, 15 May 2022 03:17:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-r9a09g011-dt-binding-defs] BUILD
- SUCCESS 96055bf71ab1629cdedff15bcbc04609cfa1f198
-Message-ID: <6280002e.uHB3Mr2B/MOIwQfS%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 14 May 2022 16:35:46 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1137FB4A
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 May 2022 13:35:44 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id bq30so19886709lfb.3
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 May 2022 13:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=e3G8IpqywDEQjEr7fmlZZGPKai6zzPVpDCaOqxUYl4o=;
+        b=jEK2JlILacvWZfOhR+2DWw03FiULAN4nWySfk/IrAeRpT14JXfDBPRJBpUoMdnRanN
+         8ugH35mztPZY18+7cQVNRCaVhptMQby2AbOl/9pzrz8TiyhxH59hotuxtFSYz/1qh2cB
+         O0yqMboPEUAYkJPSNXNSBzvhw0Q8Y0ceQkhp6P9Xf3QY3PHx6BJiBqNeLcLnDWQ/Qkkd
+         gc30kUJTi6HUMcfb/qcxYKd6/PtmmfCwA2cJ7TwljUyEn1SLmcsEt1n6UzTr+6whqv17
+         zg4bsx9yVCe7F17woEvlYqhvGUsQ2US9UYdmcfaJ/LvEYwkE2WucOcJozzCeNYLUYKWZ
+         OXUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=e3G8IpqywDEQjEr7fmlZZGPKai6zzPVpDCaOqxUYl4o=;
+        b=hmZVlKGZbDcASChfvZYxPZiDQakEjjyUR08SA0fHwYD6FQN51sp6ohNsP28W87ObiN
+         JVCKW7BdUDTgDX0BeJfMJKLIgKJrscqQoZ7O9179IETvGBM5ZuGJa+toNvhZsqAhOuvK
+         Ykx6ErU+PMLQQTVyR5ksCA9Qpqu6j7ovBilsR8LZa4+N/QcqfiKXXvcYPTrve8L23Zkk
+         JmZ4AUuTnwqYnClLw7rm9APb4Kj1F2wr7x/v4FfnqJk1CsQVZQoS0LYhlMwEfYrjEp4t
+         Q86ST2DRolFeOlPo3/7Ml8pf9qRwp0sEOOyu/Nsw+ycHf9DUJX7wErfGxrRw+eMB+ZwM
+         CDhg==
+X-Gm-Message-State: AOAM531vL8v6U5YhGYfYN0sxiFmWpA8mnRBsBuiTTn8QOTxmLuEMPwMA
+        uO76QBGEA5iDF/lQIi2rjaNO7g==
+X-Google-Smtp-Source: ABdhPJwex93OlPwmCPUB5CECyMFJc82mJEGHOYURcMK+oK4G1BeIA9Na0fcC5JYFA12N1ZiGHSaN6w==
+X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id s6-20020ac24646000000b00472108e51afmr7998828lfo.184.1652560542320;
+        Sat, 14 May 2022 13:35:42 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id x2-20020a056512078200b0047255d21166sm805217lfr.149.2022.05.14.13.35.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 May 2022 13:35:41 -0700 (PDT)
+Message-ID: <39a41150-6ac8-e158-f21d-15884b34a6e5@linaro.org>
+Date:   Sat, 14 May 2022 22:35:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL
+ ADC
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+References: <20220511082325.36185-1-biju.das.jz@bp.renesas.com>
+ <20220511082325.36185-2-biju.das.jz@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220511082325.36185-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-r9a09g011-dt-binding-defs
-branch HEAD: 96055bf71ab1629cdedff15bcbc04609cfa1f198  dt-bindings: clock: Add r9a09g011 CPG Clock Definitions
+On 11/05/2022 10:23, Biju Das wrote:
+> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
+> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
+> on the RZ/G2L.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v4:
+>  * Removed unnecessary SoC specific reg description as it is
+>    equivalent to the logic used in reg.
+>  * Removed Items from reg.
+> v2->v3:
+>  * Added generic description for reg.
+>  * Improved schema validation by restricting both channel and reg to [0-1].
+> v1->v2:
+>  * Started using generic compatible for RZ/G2UL and added SoC specific validation
+>    for channels.
+> ---
+>  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 30 ++++++++++++++++---
+>  1 file changed, 26 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> index d66c24cae1e1..ae6226c1044e 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
+> @@ -19,6 +19,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043-adc   # RZ/G2UL
+>            - renesas,r9a07g044-adc   # RZ/G2L
+>            - renesas,r9a07g054-adc   # RZ/V2L
+>        - const: renesas,rzg2l-adc
+> @@ -76,16 +77,37 @@ patternProperties:
+>      properties:
+>        reg:
+>          description: |
+> -          The channel number. It can have up to 8 channels numbered from 0 to 7.
+> -        items:
+> -          - minimum: 0
+> -            maximum: 7
+> +          The channel number.
+>  
+>      required:
+>        - reg
+>  
+>      additionalProperties: false
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043-adc
+> +    then:
+> +      patternProperties:
+> +        "^channel@[2-7]$": false
+> +        "^channel@[0-1]$":
+> +          type: object
 
-elapsed time: 13295m
+The actual type was defined earlier - in your first "patternProperties"
+- so this "type:object" should not be needed.
 
-configs tested: 118
-configs skipped: 3
+> +          properties:
+> +            reg:
+> +              minimum: 0
+> +              maximum: 1
+> +    else:
+> +      patternProperties:
+> +        "^channel@[0-7]$":
+> +          type: object
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Ditto.
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-powerpc                     ep8248e_defconfig
-nios2                            allyesconfig
-powerpc                        warp_defconfig
-powerpc                      tqm8xx_defconfig
-sh                           se7712_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arc                     nsimosci_hs_defconfig
-i386                                defconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                      cm5200_defconfig
-arm                         nhk8815_defconfig
-arm                        mvebu_v7_defconfig
-mips                           ip32_defconfig
-powerpc                       maple_defconfig
-mips                        vocore2_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                            pleb_defconfig
-mips                          rb532_defconfig
-mips                         tb0226_defconfig
-sh                                  defconfig
-arm                         at91_dt_defconfig
-sh                             sh03_defconfig
-powerpc64                           defconfig
-sh                               j2_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220506
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a015
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                randconfig-r042-20220505
-s390                 randconfig-r044-20220505
-arc                  randconfig-r043-20220505
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
+With both removed:
 
-clang tested configs:
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-powerpc              randconfig-c003-20220505
-riscv                randconfig-c006-20220505
-arm                  randconfig-c002-20220505
-s390                 randconfig-c005-20220506
-powerpc              randconfig-c003-20220506
-riscv                randconfig-c006-20220506
-mips                 randconfig-c004-20220506
-arm                  randconfig-c002-20220506
-arm                          collie_defconfig
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-hexagon              randconfig-r041-20220505
-hexagon              randconfig-r045-20220505
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+
+Best regards,
+Krzysztof
