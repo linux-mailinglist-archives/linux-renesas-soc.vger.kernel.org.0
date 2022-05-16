@@ -2,66 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29D06528343
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 May 2022 13:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42AB152898E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 May 2022 18:07:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243156AbiEPLbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 May 2022 07:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58628 "EHLO
+        id S245009AbiEPQHx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 May 2022 12:07:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243193AbiEPLbK (ORCPT
+        with ESMTP id S245735AbiEPQHs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 May 2022 07:31:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B88270E;
-        Mon, 16 May 2022 04:31:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9AB2660FEB;
-        Mon, 16 May 2022 11:31:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD1DC385B8;
-        Mon, 16 May 2022 11:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652700668;
-        bh=ZUEmliErSd51RiMCP41XFunKKxEzgbyR6TU1VDmqeFg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OwHwwzsfSzLP0Uce40JHWVOXb60biukmdN90zMYRkS5G9tzrnmYjYUW7T9kRkPIAI
-         vE2lIUrrlFNJBG4JrjnEs55gi5D5ycBEEl7YRix30Qqlkn23RtPftT0VwGey/IeNfm
-         6eF2mgsVxQNwdNmLgkUGQiqhOVJHKmuLiX5pOE39dh3A6GVdOluffWB8cQ4ouVoRvu
-         AEOtc5EOeJMvYJRv1hts3L6KpcRf8bvFSkhQSMRN2Qyb12RUUmQyB1YXEd1UpULbe6
-         XV4wn3zHRRFRRhw4WaNrUhlB5Z4NhDLcL4mQe4tCWp2TCLvbS8IXNVfOsws8kkTZis
-         L66BD/UsAC+jw==
-Date:   Mon, 16 May 2022 17:01:04 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        Mon, 16 May 2022 12:07:48 -0400
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FDA37A90;
+        Mon, 16 May 2022 09:07:47 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id w130so19225268oig.0;
+        Mon, 16 May 2022 09:07:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=M2EISucrHwn09zYBJZ3CQdN9SDlOOKF7wKfYmfL/1ww=;
+        b=bX7/gwZg13Mv30rILFQLvgI3Bu9t64P8sWaBdy8Y0l4oORQS+Q9r+ByaaoaOwsA2dr
+         hOgEzLwtQaPbNgZski4sfzMRPCk7EmDB2bgfL8RMk7KZt01aYCX9EqirBpGxw+Abhs/U
+         VMwx1X3U1DnFibel0EO0gR4npmOriITFJEoLc1nidGd33vwOnqDSWIEBoDKrMCbe9hvH
+         9E4bTV2WYDauMugHv3OC2VQhj1o//h1IS4CokCT0Yq7BEdLOCBJ2f/PdKjThMV9aNdm0
+         sQVKHqHclcP3O9gxOhhgU90Y8C1v/0jPBuUR4JVVLOeuTZw7/moAEWeaH6y46ftUCWHa
+         E9zg==
+X-Gm-Message-State: AOAM530IACmZ3k9dYoUw0pqRN68mm68SVsgK7UHMnpp1PpqgwIL8wGAb
+        k/SjpOYg6vEg5/WPhYRbmA==
+X-Google-Smtp-Source: ABdhPJwyWfBL6qdXzCaCB0rIQwj553Wvs3k7fKbeOqxpF/2D/lclfPCQX12M3tnnUkV0W0Tl9f9Tpg==
+X-Received: by 2002:a05:6808:2086:b0:328:a434:2915 with SMTP id s6-20020a056808208600b00328a4342915mr13464491oiw.279.1652717266262;
+        Mon, 16 May 2022 09:07:46 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id c16-20020a05687093d000b000e9b8376a7bsm5332793oal.23.2022.05.16.09.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 09:07:45 -0700 (PDT)
+Received: (nullmailer pid 2740392 invoked by uid 1000);
+        Mon, 16 May 2022 16:07:44 -0000
+Date:   Mon, 16 May 2022 11:07:44 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-serial@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: renesas,rcar-dmac: R-Car V3U is R-Car
- Gen4
-Message-ID: <YoI1+HDb9Sr4mWmB@matsya>
-References: <cover.1651497024.git.geert+renesas@glider.be>
- <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL
+ ADC
+Message-ID: <20220516160744.GA2740328-robh@kernel.org>
+References: <20220515060337.16513-1-biju.das.jz@bp.renesas.com>
+ <20220515060337.16513-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e6e4cf701f3a43b061b9c3f7f0adc4d6addd4722.1651497024.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <20220515060337.16513-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,11 +73,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02-05-22, 15:34, Geert Uytterhoeven wrote:
-> Despite the name, R-Car V3U is the first member of the R-Car Gen4
-> family.  Hence move its compatible value to the R-Car Gen4 section.
+On Sun, 15 May 2022 07:03:35 +0100, Biju Das wrote:
+> Document Renesas RZ/G2UL ADC bindings. RZ/G2UL ADC is almost identical
+> to RZ/G2L, but it has 2 analog input channels compared to 8 channels
+> on the RZ/G2L.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> v4->v5:
+>  * Removed redundant "type:object"
+>  * Added Rb tag from Krzysztof Kozlowski
+> v3->v4:
+>  * Removed unnecessary SoC specific reg description as it is
+>    equivalent to the logic used in reg.
+>  * Removed Items from reg.
+> v2->v3:
+>  * Added generic description for reg.
+>  * Improved schema validation by restricting both channel and reg to [0-1].
+> v1->v2:
+>  * Started using generic compatible for RZ/G2UL and added SoC specific validation
+>    for channels.
+> ---
+>  .../bindings/iio/adc/renesas,rzg2l-adc.yaml   | 28 ++++++++++++++++---
+>  1 file changed, 24 insertions(+), 4 deletions(-)
+> 
 
-Applied, thanks
-
--- 
-~Vinod
+Acked-by: Rob Herring <robh@kernel.org>
