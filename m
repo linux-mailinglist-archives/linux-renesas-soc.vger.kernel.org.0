@@ -2,60 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2585296B8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 03:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 856A45297E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 05:24:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231519AbiEQBaC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 May 2022 21:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33278 "EHLO
+        id S230098AbiEQDYI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 May 2022 23:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbiEQBaB (ORCPT
+        with ESMTP id S229592AbiEQDYH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 May 2022 21:30:01 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF9B45AD1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 May 2022 18:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652751000; x=1684287000;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=23y1WppwH5otxNbj7CnZs7j1bW4LHrfKXe3tDPTrvFM=;
-  b=PXk3SCiIzSzoJTGf5QVsyJs77HhSEgcw+zxbiPuOlntvAdpqW+eYY/da
-   LpJSSfKj/fOjD8cWXXprFC/xj3+zF9g+x71a2/JR1FwPFndKRnvanODOR
-   DP9Toxslirs/2Nt24slzn3K5Hn8+aGGqFYB4znMM+6eutp1Zn79kv58HY
-   QI+d6RpykOI5BViKQcuyaT/X0WjUUn8Jqo0RF5XBfu8e0qgskoR5lt7Y/
-   YQFbmO+fseQzdVccr/8yqtqHapehSHyziAdJI1BNKCXtiz9IyHckBHpqE
-   y17htHI84Gf0zxOWpsM4kJdaYEUuzmFPnZPqEtHDO1yt2wfzWVKN1Jkcx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="271143020"
-X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; 
-   d="scan'208";a="271143020"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 18:30:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,231,1647327600"; 
-   d="scan'208";a="699822298"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 May 2022 18:29:59 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqm2A-0000TJ-Bg;
-        Tue, 17 May 2022 01:29:58 +0000
-Date:   Tue, 17 May 2022 09:29:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- f35c24489921b1d4963dbb55053b97fb0e53f471
-Message-ID: <6282fa6b.xZIjChlmW+kobrz0%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 16 May 2022 23:24:07 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645A74506D;
+        Mon, 16 May 2022 20:24:06 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L2LxM2sqJz923h;
+        Tue, 17 May 2022 11:21:11 +0800 (CST)
+Received: from localhost.localdomain (10.175.103.91) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 17 May 2022 11:24:04 +0800
+From:   Jialin Zhang <zhangjialin11@huawei.com>
+To:     <prabhakar.mahadev-lad.rj@bp.renesas.com>, <jic23@kernel.org>,
+        <lars@metafoo.de>, <biju.das.jz@bp.renesas.com>
+CC:     <linux-iio@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] iio: adc: rzg2l_adc: add missing fwnode_handle_put() in rzg2l_adc_parse_properties()
+Date:   Tue, 17 May 2022 11:35:26 +0800
+Message-ID: <20220517033526.2035735-1-zhangjialin11@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500021.china.huawei.com (7.185.36.109)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,110 +47,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: f35c24489921b1d4963dbb55053b97fb0e53f471  Merge tag 'v5.18-rc7' into renesas-devel
+fwnode_handle_put() should be used when terminating
+device_for_each_child_node() iteration with break or
+return to prevent stale device node references from
+being left behind.
 
-elapsed time: 926m
+Fixes: d484c21bacfa ("iio: adc: Add driver for Renesas RZ/G2L A/D converter")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jialin Zhang <zhangjialin11@huawei.com>
+---
+ drivers/iio/adc/rzg2l_adc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-configs tested: 89
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                 randconfig-c001-20220516
-sh                        sh7785lcr_defconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-alpha                               defconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a012-20220516
-x86_64               randconfig-a011-20220516
-x86_64               randconfig-a013-20220516
-x86_64               randconfig-a014-20220516
-x86_64               randconfig-a016-20220516
-x86_64               randconfig-a015-20220516
-i386                 randconfig-a016-20220516
-i386                 randconfig-a013-20220516
-i386                 randconfig-a015-20220516
-i386                 randconfig-a012-20220516
-i386                 randconfig-a014-20220516
-i386                 randconfig-a011-20220516
-s390                 randconfig-r044-20220516
-riscv                randconfig-r042-20220516
-arc                  randconfig-r043-20220516
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-
-clang tested configs:
-arm                        magician_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                     tqm5200_defconfig
-i386                 randconfig-a003-20220516
-i386                 randconfig-a001-20220516
-i386                 randconfig-a002-20220516
-i386                 randconfig-a005-20220516
-i386                 randconfig-a006-20220516
-i386                 randconfig-a004-20220516
-hexagon              randconfig-r045-20220516
-hexagon              randconfig-r041-20220516
-x86_64               randconfig-a002-20220516
-x86_64               randconfig-a001-20220516
-x86_64               randconfig-a003-20220516
-x86_64               randconfig-a004-20220516
-x86_64               randconfig-a005-20220516
-x86_64               randconfig-a006-20220516
-
+diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+index 7585144b9715..5b09a93fdf34 100644
+--- a/drivers/iio/adc/rzg2l_adc.c
++++ b/drivers/iio/adc/rzg2l_adc.c
+@@ -334,11 +334,15 @@ static int rzg2l_adc_parse_properties(struct platform_device *pdev, struct rzg2l
+ 	i = 0;
+ 	device_for_each_child_node(&pdev->dev, fwnode) {
+ 		ret = fwnode_property_read_u32(fwnode, "reg", &channel);
+-		if (ret)
++		if (ret) {
++			fwnode_handle_put(fwnode);
+ 			return ret;
++		}
+ 
+-		if (channel >= RZG2L_ADC_MAX_CHANNELS)
++		if (channel >= RZG2L_ADC_MAX_CHANNELS) {
++			fwnode_handle_put(fwnode);
+ 			return -EINVAL;
++		}
+ 
+ 		chan_array[i].type = IIO_VOLTAGE;
+ 		chan_array[i].indexed = 1;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
