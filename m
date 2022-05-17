@@ -2,43 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 856A45297E7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 05:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49055299DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 08:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbiEQDYI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 May 2022 23:24:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
+        id S231225AbiEQGuN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 02:50:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbiEQDYH (ORCPT
+        with ESMTP id S240474AbiEQGuD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 May 2022 23:24:07 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645A74506D;
-        Mon, 16 May 2022 20:24:06 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L2LxM2sqJz923h;
-        Tue, 17 May 2022 11:21:11 +0800 (CST)
-Received: from localhost.localdomain (10.175.103.91) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 11:24:04 +0800
-From:   Jialin Zhang <zhangjialin11@huawei.com>
-To:     <prabhakar.mahadev-lad.rj@bp.renesas.com>, <jic23@kernel.org>,
-        <lars@metafoo.de>, <biju.das.jz@bp.renesas.com>
-CC:     <linux-iio@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] iio: adc: rzg2l_adc: add missing fwnode_handle_put() in rzg2l_adc_parse_properties()
-Date:   Tue, 17 May 2022 11:35:26 +0800
-Message-ID: <20220517033526.2035735-1-zhangjialin11@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 17 May 2022 02:50:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB12F47044;
+        Mon, 16 May 2022 23:49:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 57E29B80E81;
+        Tue, 17 May 2022 06:49:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C985FC34100;
+        Tue, 17 May 2022 06:49:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652770186;
+        bh=CpWulmZSDl1zLLPbxdVBecEkO+AICzB50qAS3ianLD4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=WzdDxiAhxGWBwB3ATM2dApnR2NyrXG3gANE3+xEt1peE8fH7dSg9h1p5Nf44pfVEb
+         2FWArY4+PDxRq79AmKhm7y/XlSrRUuYwUY6vKX5iBC8/4EIMb3DazfStUeV0wLDhDl
+         5aXQiFMy9Va6Dr3n9M4fJpCKxyOWOfx0W4zdXy9V2KUi6Q4svkROtBdE9AvVvm/bSu
+         2W1KbKwg87LXydSUHrshx0ZirPIkKBszmxDmOGm8M9z5a8MyqP8aj2OJrZ1r2AAVLC
+         L02/yFzVnefTu6+nPW0tOMKMFsI/W9QzbioH+q3/uHHvO1JLBa6dnH2b1hRjUx8nMQ
+         PRMpO3sba24Ug==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500021.china.huawei.com (7.185.36.109)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1651829136.git.geert+renesas@glider.be>
+References: <cover.1651829136.git.geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v5.19 (take two)
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Mon, 16 May 2022 23:49:44 -0700
+User-Agent: alot/0.10
+Message-Id: <20220517064946.C985FC34100@smtp.kernel.org>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -47,40 +56,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-fwnode_handle_put() should be used when terminating
-device_for_each_child_node() iteration with break or
-return to prevent stale device node references from
-being left behind.
+Quoting Geert Uytterhoeven (2022-05-06 02:32:29)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit 59086e4193f4fc920a23d2045a473f62450b42=
+69:
+>=20
+>   clk: renesas: r9a07g043: Add SDHI clock and reset entries (2022-04-13 1=
+2:30:19 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/renesas-clk-for-v5.19-tag2
+>=20
+> for you to fetch changes up to 23426d1be3c20907b4f3d72bf95234d4ee254393:
+>=20
+>   clk: renesas: r9a09g011: Add eth clock and reset entries (2022-05-06 09=
+:38:40 +0200)
+>=20
+> ----------------------------------------------------------------
 
-Fixes: d484c21bacfa ("iio: adc: Add driver for Renesas RZ/G2L A/D converter")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Jialin Zhang <zhangjialin11@huawei.com>
----
- drivers/iio/adc/rzg2l_adc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
-index 7585144b9715..5b09a93fdf34 100644
---- a/drivers/iio/adc/rzg2l_adc.c
-+++ b/drivers/iio/adc/rzg2l_adc.c
-@@ -334,11 +334,15 @@ static int rzg2l_adc_parse_properties(struct platform_device *pdev, struct rzg2l
- 	i = 0;
- 	device_for_each_child_node(&pdev->dev, fwnode) {
- 		ret = fwnode_property_read_u32(fwnode, "reg", &channel);
--		if (ret)
-+		if (ret) {
-+			fwnode_handle_put(fwnode);
- 			return ret;
-+		}
- 
--		if (channel >= RZG2L_ADC_MAX_CHANNELS)
-+		if (channel >= RZG2L_ADC_MAX_CHANNELS) {
-+			fwnode_handle_put(fwnode);
- 			return -EINVAL;
-+		}
- 
- 		chan_array[i].type = IIO_VOLTAGE;
- 		chan_array[i].indexed = 1;
--- 
-2.25.1
-
+Thanks. Pulled into clk-next
