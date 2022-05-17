@@ -2,164 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03EE152A895
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 18:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0B8F52A9D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 20:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351194AbiEQQvS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 May 2022 12:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49820 "EHLO
+        id S1351737AbiEQSDj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 14:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351207AbiEQQu7 (ORCPT
+        with ESMTP id S1351726AbiEQSDh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 May 2022 12:50:59 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5AE2BE7;
-        Tue, 17 May 2022 09:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652806257; x=1684342257;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9E/vttDFy0EFq5zSJDnsg0HX9OScE43/QxlsTcLOYjs=;
-  b=UJP/OC/2KaLR5AWSQouaN1Gn86vjq8OiJlF4rj4czHPCzl1W20K28/yj
-   E48d3/mnsQq9MGhMPHzQhwRhrS6Y9ylFqNVpHBMnlQzakcyonIljuzsw2
-   /Wlm3MGAXM1oMtPb2hLe8UQuNX3atEIBNZ9vkcedVhvpUGBy4ergUvyFX
-   USfbcdLREcD1wZsXsiZkkCqkqs3CEOdeqtxwb/KkLBc1nYuLP1tD28tAR
-   WclN2XblDZRwtPIi/cwTw74EfMRQWhqcVg5SJNkZoebwdvVUp/h9Mi/k8
-   UV1rn/PnmsWXLJovpJLIVBzc1DbLDpUNsAlV4eHBj+wSiX16F1JMgMiJl
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271371030"
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="271371030"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 09:50:57 -0700
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="672939443"
-Received: from abhuwalk-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.246.60])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 09:50:55 -0700
-Message-ID: <7b1a9f3b5b5087f47bf4839858c7bfebdb60aa2f.camel@linux.intel.com>
-Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
- thermal_sensor_ops
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Alexandre Bailon <abailon@baylibre.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Chuansheng Liu <chuansheng.liu@intel.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antoine Tenart <atenart@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
-        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
-        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
-        <linux-wireless@vger.kernel.org>,
-        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
-        <platform-driver-x86@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-Date:   Tue, 17 May 2022 09:50:54 -0700
-In-Reply-To: <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
-References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
-         <20220507125443.2766939-2-daniel.lezcano@linexp.org>
-         <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        Tue, 17 May 2022 14:03:37 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2119.outbound.protection.outlook.com [40.107.114.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4958F50073
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 May 2022 11:03:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dz+o+ue/XPnBf+eMF1ZRngF55QeaWyzqqIwcuQDEg/VIDx8goF0utk0Gz/8SDWa4rRseWsDsxZI6KG7wH+cr2skivkMyqP/NKMT06jbQ579uoeD4DPI75f+kWLStduda1RiVKj2WWBnZvPrJM4AKZCSGqmSzjXTUtiHPEX5Acikhzq/ydKjWyr1N2RUTtXuwdRYJH995cPlz43fqhX2t7dYBxwGDVheIeMEjjBnKwrcJ1ypjCHc2bfIOwKbZ71HahWvZaP9OL391jv+PvscsSb2n/3zdRUG6agaoaRane3302QABIy2jzkLTmxcffqBolLVQKc5VumpkxE4ZXD8xvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8H9vCs79HAu1D7aSSik1Pq3xMau0Q+txwldeBTUtL9Y=;
+ b=fJA5GOoIuMMWJQNlaRrHsiv9pT3qX3nN86lSGiGRfI4ZEjWKPRNqlcxoiOj+2jonOLYgpnO5A9fguYJLe1PrHOvLxxHjcHS6vClvRsJ6W0xKUA3J/11Og2qcbs7OnsvifiGdsYpPieqEEFrvbfcB7fJGUvrO1fWIMiuPI8lGzR8YIJ6zMQtCMJXhYHsei+aHtxjn6WCoFK79TWkcuhNICrUI5TmxWT06NkEntUmghsG494E8ai/ydkGtz/aIvOOWMedvZKYpuTrg6YQmlot1x2bemy31H19V/iVtmgqDCvdOiSv9ewU7GYLnSJrxJhTS7M4vixN5l2rJS7dIW0jGow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8H9vCs79HAu1D7aSSik1Pq3xMau0Q+txwldeBTUtL9Y=;
+ b=MFbxhm9U4Q4kEPd807NNOkQ4WXlBPyGV3tQBudHCjnAHEklFagyAKL16ZXnGfFpVm3Dq+nnzIcMQUa3yt3p+ccWiQATldR3Y3/RFbkoRma43JyQr87K7PZJWke0uUvX5jvfLrdLLRuy0Ye08YMLIMbqgB+4QJZdU4X1Was1aUpM=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY1PR01MB1675.jpnprd01.prod.outlook.com (2603:1096:403:6::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Tue, 17 May
+ 2022 18:03:33 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57%9]) with mapi id 15.20.5273.014; Tue, 17 May 2022
+ 18:03:32 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>
+CC:     Hoai Luu <hoai.luu.ub@renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v2] drm: rcar-du: Fix Alpha blending issue on Gen3
+Thread-Topic: [PATCH v2] drm: rcar-du: Fix Alpha blending issue on Gen3
+Thread-Index: AQHYWUmCZ4K4PfWv4U+O9uppgMBUe60cshYAgAbLr7A=
+Date:   Tue, 17 May 2022 18:03:32 +0000
+Message-ID: <OS0PR01MB5922E7CBF5806C833F3874AE86CE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220426084157.10979-1-biju.das.jz@bp.renesas.com>
+ <165243691268.2416244.4640685679737534741@Monstersaurus>
+In-Reply-To: <165243691268.2416244.4640685679737534741@Monstersaurus>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8ca3502f-83c9-45ed-a805-08da382f8e50
+x-ms-traffictypediagnostic: TY1PR01MB1675:EE_
+x-microsoft-antispam-prvs: <TY1PR01MB167545D0356821825AE0CDC986CE9@TY1PR01MB1675.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TFFrkvR1Jmo2rSxJQplylSp/yjQjtwTN3YsuSVF6zLaHbarxp8Cqv56Dy7dqbSTmQX8GlzJKP/exQTzLXB9ODXTMrWOYL221s6ixAXbxKQRoOw0xmY7djC0O0C4xP1iyLLfcksekKGwiGFn4qyMdutt9duQMdCK9HId7ebVdNzdH3TftWQ/fytvIg4cbycxa57IhSaqJaIQEszFO3S2B6LDZ2Xm1xuDbOCOZ50MKUXX9vhZz0jnmtuA9Xx4G/V2qKmJHpl0n7eFPEyd7UxFGihWiNK0bCny6Z4oHBA0g44MqsxSNsQPsKUn4hsTGAQRykv2KLRwl2fEzPfVmp/bSbuP4QYbzJAEB40810zahyGFXb9uJmpxpR8U4qkTZGxvWLyrbk4BVzJcPPYonuq8GX19jZo+AuEsW3LhOTTuFdJtLXgmhgL3iyolQnreRRiJURZohT4tZMjhncEIelE8ITC7uNrWf59p2jYWXHw6hZDgIlRrPCDww4kDScAXntQZg1fwZIwxhzOsAl1zNHcNLf7oCQk475zfAHnwoSD14fTB29OIJwBHP1rMYB4zUR7Q9xd49/ZUdLuzZQaqLKZTZywMuaOlv3loYnjJBs1oddal29AqQfb6AHDM6K5i2Ef8fFCeaM6+8iVV/uU71mq0G/5NUwiu0iBUB8Pvq59L0UPvI4mW+DoCi+gciN1PE8IjpzmNk8DpHPHW5mHdyp5Qkvg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(55016003)(33656002)(2906002)(122000001)(4326008)(110136005)(54906003)(76116006)(64756008)(66446008)(66946007)(66476007)(66556008)(7696005)(52536014)(508600001)(71200400001)(9686003)(8676002)(26005)(86362001)(186003)(6506007)(316002)(83380400001)(8936002)(38070700005)(5660300002)(38100700002)(107886003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3FWSTNjSG1GWHBlNC9yNkFhbndRTDNiVVcvTlBoOElJVkc3OEFUWG10Nit4?=
+ =?utf-8?B?QW15c0NvZVVzb3lXd29JLzNKMHhYZ2g5Mm1Uek8vNlJMVXV6alk0MDlLRzVE?=
+ =?utf-8?B?RHZhYnAzYmZURzM1YU9kYXFZUWVKZkIvYVdTam1ObkVMWDFwTUhPVGx2RXpu?=
+ =?utf-8?B?S3hxTC8zMDluVFF0ZFVxRDVkY3ZHUGVPbmcxYTY3TjhiZytWbGtCSnliNjhz?=
+ =?utf-8?B?bE1UWEgzT0c5WGNnd0JxZDZhVzU1YVdaMGUzTnVLdHVYZS9SZWl5Mjc2RnE4?=
+ =?utf-8?B?UkI3MklqNDh0L0kxVEdkeDl1Nk1vSWhvK0MxUEpUYkNxTHMvcEg5REg1OW4w?=
+ =?utf-8?B?UDFoVnVHZGhrWGlmRFhQc3ltRmtobXM2K3dSbWdVVVJBRTJjZmNNOVBma3Jw?=
+ =?utf-8?B?cXNvMnpTcDY1STRzOXdZRndXZUJhMXFnZlI4Z0dHaFBlQy9iRmZBaTRNZFlM?=
+ =?utf-8?B?cFhxcmxSMWZVRVZJQWMwa0dFeURnYytPN0JadE1QZ0JVQjBwYllUdFlBWG5Q?=
+ =?utf-8?B?YWw5RzJUeHZwc2hPZXBqTVZUWjlldG0xeFhWcVRSUURSejFkeW9FbXViVEdB?=
+ =?utf-8?B?VjMxbUsyeFBaaUt2WGt4V2xFOTZoYWh2dmJsSUNMV05vVUN2M29VVmJpLy9a?=
+ =?utf-8?B?aEtPaWc3WXl2UXlJL2pYSFVPNVdQVVlUR0MvRStYNkZ0enlFb0xod2dhS1Y0?=
+ =?utf-8?B?OFA5QWZWNWhpcGE0SE5IUEhPNm1HeFZxZkJkSFFRWHJvSXBjdE1IaTg4S0V6?=
+ =?utf-8?B?MW03RXB3Y3o1YUlGam8zRnpmTmtPQWlCVWdUZ2FlV09UZ0lTNjVXamExbDZ5?=
+ =?utf-8?B?L1FmTUc4eGx6YlpUSmp3SVRSNzZvc1ZCL3F1OWtXZFM5ZzFoRGxqRmNGL2VN?=
+ =?utf-8?B?THBLaVlJRDBERk5ob2czV2tKOU5wcjVDUkNJMU9PaHJzSmc1V0JUU3o5eU1n?=
+ =?utf-8?B?cnllOXRaK3E3Q05wSEttK0FEaUdwZTI0MnR1bm05RHUyaVUrTmtWaENJcHgx?=
+ =?utf-8?B?c0VpNHNrVURYMlNBQTBCK0dLZ0hFdllTemN0bHE3R0dIN3pjb0s5aVNUVEo0?=
+ =?utf-8?B?ci9KdThJTm5nODRzM0FhNkxweER6bXdpcjBsMVU1dGgyMW9qWW9lc2FTSWp1?=
+ =?utf-8?B?azd0RHJOcDFQSWhJWmlWNlZjdFFYQndBQnhRRVZ0ZXk1eXFXOUljZkcxbTdH?=
+ =?utf-8?B?TW9NcHJjZmpWMWJiR1Fqb1AxdTI1R0ZoWWJ4Wm9tT09aR1hNcHh1eVo1UW9i?=
+ =?utf-8?B?T21ZQ3FTb01qTUZ5ajhZVDlGc3hmNTZGZXpyYzBxNE1JYlJ0R3pzWWlhYzV3?=
+ =?utf-8?B?SjF4OVpoOFR4dFA2azh4a09IbXVGMXhaNHU0T0I3YjlmYzIrZ0dRa2pyUkpT?=
+ =?utf-8?B?VkNEQkhwT0c2WHQwcFV1SkNjeE50RURub3BCUFFYTEFaV0FFUmkxdWhWaE9X?=
+ =?utf-8?B?N29nV3BvdHVlTmRGWU9VbmhSbFBSZzVodzU1VUx3a1E1cWV3RkxZeXB2cWZO?=
+ =?utf-8?B?S0R4Tml6S3ppQXgvL3BKK3orclNhNkovNE5GV3hCNUoxUHFYU0s0ZnRsN1Nr?=
+ =?utf-8?B?VFIxWkN2b3BsTG9KdjZsU0p6UmFNd1NrT29RbHFiWXh6dUFWTWF3U0JkZUVj?=
+ =?utf-8?B?U0p4SU9QaUtNd29JYTU3NHZmME8xOUkxWTRHL2VDVzhtcThZeWRaZkg0d2Qy?=
+ =?utf-8?B?cGlzUGgwSkdSZktmL3YwdE94ZWxVOTB1RU4vbGRUY2d5amxqMTZNQXA5L3dm?=
+ =?utf-8?B?dGxpem1id08zZ2Y3cU1DVVZsL1hGaEh0QjR6YTB6bHNqalQrSEJpOE0rS0pD?=
+ =?utf-8?B?SU5aUFFxc3B0anl0eXVoUXpSUkl2cVdGTXBlcHFTdldlRk80R2g0V0tYcEhY?=
+ =?utf-8?B?ZEwrZitnRStqRWFIalhnRisycUczdjBXak1CaEFxN0RIVERQU1c3SEZCbVNk?=
+ =?utf-8?B?RU5oZEVLQlFBVDVmaWFoTjg4dzZHVThqM3dNV1E3WVFyVURBdnZIUERDK2dY?=
+ =?utf-8?B?VXpDZ01YeEUyekFLbVFZZHVsaXRvTkpONWZ4Mkh1eURvM3RiUldNTno2bTZo?=
+ =?utf-8?B?VC9FT0pzUDVpNDYyZ2JTU1hmY1Y4RzkxK3dKN2tMaVd1T0FOd09oS3hmNnNj?=
+ =?utf-8?B?YUplN3dLUlhnLzgyRWcyQWFZZVBQUWpTUnlhcHZzUURYZWZ3UFNybFJFZEh3?=
+ =?utf-8?B?RU10RWMvVzV3dDlWaUJnUG8zeG5sRGlNSWtPdWNjYld1WjVab0NIUVUrUXJF?=
+ =?utf-8?B?N2k4UEtZZjNaOTBrb0lZcDBKOHduemkrSTJhQVBRY3VCTmNmQzRqTUVpU3R5?=
+ =?utf-8?B?QWZ6QkgzT3U5Ky82N3ZQRXlpdStSWEFZc1pDNU5ETldMN05aUnNValBISnEw?=
+ =?utf-8?Q?/d37NTHXjVBpFhN4=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca3502f-83c9-45ed-a805-08da382f8e50
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2022 18:03:32.8459
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6nuaH1YR/hBZGptuKA11+epHXqd3b3yM7ZcOERTBWPAyPJPl/twyYy6fs7198AkfXGF9lXPVx/KlpOHs6BzdGMa1sogd9PpoIlDaBfFCvhY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1675
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 2022-05-17 at 17:42 +0200, Rafael J. Wysocki wrote:
-> On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano
-> <daniel.lezcano@linexp.org> wrote:
-> > 
-> > A thermal zone is software abstraction of a sensor associated with
-> > properties and cooling devices if any.
-> > 
-> > The fact that we have thermal_zone and thermal_zone_ops mixed is
-> > confusing and does not clearly identify the different components
-> > entering in the thermal management process. A thermal zone appears
-> > to
-> > be a sensor while it is not.
-> 
-> Well, the majority of the operations in thermal_zone_ops don't apply
-> to thermal sensors.  For example, ->set_trips(), ->get_trip_type(),
-> ->get_trip_temp().
-> 
-In past we discussed adding thermal sensor sysfs with threshold to
-notify temperature.
-
-So sensor can have set/get_threshold() functions instead of the
-set/get_trip for zones.
-
-Like we have /sys/class/thermal_zone* we can have
-/sys/class/thermal_sensor*.
-
-Thermal sensor(s) are bound to  thermal zones. This can also include
-multiple sensors in a zone and can create a virtual sensor also.
-
-Thanks,
-Srinivas
-
-> > In order to set the scene for multiple thermal sensors aggregated
-> > into
-> > a single thermal zone. Rename the thermal_zone_ops to
-> > thermal_sensor_ops, that will appear clearyl the thermal zone is
-> > not a
-> > sensor but an abstraction of one [or multiple] sensor(s).
-> 
-> So I'm not convinced that the renaming mentioned above is
-> particularly
-> clean either.
-> 
-> IMV the way to go would be to split the thermal sensor operations,
-> like ->get_temp(), out of thermal_zone_ops.
-> 
-> But then it is not clear what a thermal zone with multiple sensors in
-> it really means.  I guess it would require an aggregation function to
-> combine the thermal sensors in it that would produce an effective
-> temperature to check against the trip points.
-> 
-> Honestly, I don't think that setting a separate set of trips for each
-> sensor in a thermal zone would make a lot of sense.
-
+SGkgS2llcmFuLA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjJdIGRybTogcmNhci1kdTogRml4
+IEFscGhhIGJsZW5kaW5nIGlzc3VlIG9uIEdlbjMNCj4gDQo+IFF1b3RpbmcgQmlqdSBEYXMgKDIw
+MjItMDQtMjYgMDk6NDE6NTcpDQo+ID4gRnJvbTogTFVVIEhPQUkgPGhvYWkubHV1LnViQHJlbmVz
+YXMuY29tPg0KPiA+DQo+ID4gQXMgcGVyIFItQ2FyLUdlbjNfQ29tbW9uX09QQ19DdXN0b21lcl9O
+b3RpZmljYXRpb25zX1YzMC4xLnBkZiwNCj4gPiB1bmV4cGVjdGVkIGltYWdlIG91dHB1dChzdWNo
+IGFzIGluY29ycmVjdCBjb2xvcnMgb3IgcGxhbmVzIGJlaW5nDQo+ID4gaW52aXNpYmxlKSBjYW4g
+aGFwcGVuIG9uIHRoZSBiZWxvdyBjb25kaXRpb25zLCBhcyBQbkFMUEhBUiByZWdpc3RlciBpcw0K
+PiA+IG5vdCBpbml0aWFsaXplZCBieSByZXNldC4NCj4gPg0KPiA+IFdoZW4gYWxwaGEgYmxlbmRp
+bmcgKFBwTVJtLlBwU1BJTT0wYjEwMSkgaXMgcGVyZm9ybWVkIGFuZDoNCj4gPiAgICAgICAgIOKA
+onR3byBQbGFuZXMgYXJlIGVuYWJsZWQgb24gYW55IERVbiAobj0wLDEsMiwzKQ0KPiA+ICAgICAg
+ICAgICAgICAgICBvRFNQUm49IDB4MDAwMCAwMDMxIG9yIDB4MDAwMCAwMDEzDQo+ID4gICAgICAg
+ICDigKJvciBEVTAgYW5kIERVMSBpcyB1c2VkIGZvciBkaXNwbGF5IGF0IHRoZSBzYW1lIHRpbWUN
+Cj4gPiAgICAgICAgICAgICAgICAgb0RTUFIwPSAweDAwMDAgMDAwMSBhbmQgRFNQUjE9IDB4MDAw
+MCAwMDAzDQo+ID4gICAgICAgICAgICAgICAgIG9EU1BSMD0gMHgwMDAwIDAwMDMgYW5kIERTUFIx
+PSAweDAwMDAgMDAwMQ0KPiA+ICAgICAgICAg4oCib3IgRFUyIGFuZCBEVTMoSDMgT25seSkgaXMg
+dXNlZCBmb3IgZGlzcGxheSBhdCB0aGUgc2FtZSB0aW1lDQo+ID4gICAgICAgICAgICAgICAgIG9E
+U1BSMj0gMHgwMDAwIDAwMDEgYW5kIERTUFIzPSAweDAwMDAgMDAwMw0KPiA+ICAgICAgICAgICAg
+ICAgICBvRFNQUjI9IDB4MDAwMCAwMDAzIGFuZCBEU1BSMz0gMHgwMDAwIDAwMDENCj4gPg0KPiA+
+IFRoaXMgcGF0Y2ggc2V0IFBuQUxQSEFSIHJlZ2lzdGVyIHRvIDAgdG8gYXZvaWQgdGhpcyBpc3N1
+ZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IExVVSBIT0FJIDxob2FpLmx1dS51YkByZW5lc2Fz
+LmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNh
+cy5jb20+DQo+ID4gLS0tDQo+ID4gdjEtPnYyOg0KPiA+ICAqIFVwZGF0ZWQgY29tbWl0IGRlc2Ny
+aXB0aW9uDQo+ID4gICogVXBkYXRlZCB0aGUgY29kZSBjb21tZW50cw0KPiA+IC0tLQ0KPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmMgfCAxMiArKysrKysrKysrKysN
+Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X3BsYW5lLmMNCj4gPiBiL2RyaXZl
+cnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfcGxhbmUuYw0KPiA+IGluZGV4IGYyMTRhOGI2Y2Zk
+My4uYWE4MGM0NGRkOGQ3IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
+L3JjYXJfZHVfcGxhbmUuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJf
+ZHVfcGxhbmUuYw0KPiA+IEBAIC01MTAsNiArNTEwLDE4IEBAIHN0YXRpYyB2b2lkDQo+ID4gcmNh
+cl9kdV9wbGFuZV9zZXR1cF9mb3JtYXRfZ2VuMyhzdHJ1Y3QgcmNhcl9kdV9ncm91cCAqcmdycCwN
+Cj4gPg0KPiA+ICAgICAgICAgcmNhcl9kdV9wbGFuZV93cml0ZShyZ3JwLCBpbmRleCwgUG5ERENS
+NCwNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhdGUtPmZvcm1hdC0+ZWRmIHwg
+UG5ERENSNF9DT0RFKTsNCj4gPiArDQo+ID4gKyAgICAgICAvKg0KPiA+ICsgICAgICAgICogT24g
+R2VuMywgc29tZSBEVSBjaGFubmVscyBoYXZlIHR3byBwbGFuZXMsIGVhY2ggYmVpbmcgd2lyZWQg
+dG8NCj4gYQ0KPiA+ICsgICAgICAgICogc2VwYXJhdGUgVlNQRCBpbnN0YW5jZS4gVGhlIERVIGNh
+biB0aGVuIGJsZW5kIHR3byBwbGFuZXMuDQo+IFdoaWxlDQo+ID4gKyAgICAgICAgKiB0aGlzIGZl
+YXR1cmUgaXNuJ3QgdXNlZCBieSB0aGUgZHJpdmVyLCBpc3N1ZXMgcmVsYXRlZCB0byBhbHBoYQ0K
+PiA+ICsgICAgICAgICogYmxlbmRpbmcgKHN1Y2ggYXMgaW5jb3JyZWN0IGNvbG9ycyBvciBwbGFu
+ZXMgYmVpbmcgaW52aXNpYmxlKQ0KPiBtYXkNCj4gPiArICAgICAgICAqIHN0aWxsIG9jY3VyIGlm
+IHRoZSBQbkFMUEhBUiByZWdpc3RlciBoYXMgYSBzdGFsZSB2YWx1ZS4gU2V0DQo+IHRoZQ0KPiA+
+ICsgICAgICAgICogcmVnaXN0ZXIgdG8gMCB0byBhdm9pZCB0aGlzLg0KPiA+ICsgICAgICAgICov
+DQo+ID4gKw0KPiANCj4gU291bmRzIHJlYXNvbmFibGUuDQo+IA0KPiA+ICsgICAgICAgLyogVE9E
+TzogQ2hlY2sgaWYgYWxwaGEtYmxlbmRpbmcgc2hvdWxkIGJlIGRpc2FibGVkIGluIFBuTVIuDQo+
+ID4gKyAqLw0KPiANCj4gSG93IHdpbGwgdGhpcyBiZSBkb25lPyBEbyB5b3UgaGF2ZSBhIHNwZWNp
+ZmljIHRlc3QgaW4gbWluZCB0byBkZXRlcm1pbmUgaWYNCj4gaXQgY2F1c2VzIGlzc3Vlcz8gT3Ig
+ZG9lcyBpdCBuZWVkIHZhbGlkYXRpbmcgdGhyb3VnaCB0aGUgaGFyZHdhcmUgdGVhbXM/DQoNCkl0
+IGlzIFRPIERPIGFjdGl2aXR5IGFuZCB3aWxsIGJlIGludmVzdGlnYXRlZCBsYXRlci4gQWZ0ZXIg
+aW52ZXN0aWdhdGlvbiwgaWYgaXQgaXMgbm8gbW9yZSByZXF1aXJlZA0KVGhlbiB3aWxsIHJlbW92
+ZSB0aGUgYWJvdmUgY29tbWVudCBvciBpZiBpdCBpcyByZXF1aXJlZCB3aWxsIHNlbmQgYSBwYXRj
+aC4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0KPiANCj4gDQo+ID4gKyAgICAgICByY2FyX2R1X3Bs
+YW5lX3dyaXRlKHJncnAsIGluZGV4LCBQbkFMUEhBUiwgMCk7DQo+IA0KPiANCj4gUmV2aWV3ZWQt
+Ynk6IEtpZXJhbiBCaW5naGFtIDxraWVyYW4uYmluZ2hhbStyZW5lc2FzQGlkZWFzb25ib2FyZC5j
+b20+DQo+IA0KPiA+ICB9DQo+ID4NCj4gPiAgc3RhdGljIHZvaWQgcmNhcl9kdV9wbGFuZV9zZXR1
+cF9mb3JtYXQoc3RydWN0IHJjYXJfZHVfZ3JvdXAgKnJncnAsDQo+ID4gLS0NCj4gPiAyLjI1LjEN
+Cj4gPg0K
