@@ -2,169 +2,356 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B944F52A4A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 16:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7721652A4C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 16:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348810AbiEQOVh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 May 2022 10:21:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
+        id S1344754AbiEQOZk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 10:25:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348815AbiEQOVb (ORCPT
+        with ESMTP id S241347AbiEQOZj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 May 2022 10:21:31 -0400
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AA33D1C3;
-        Tue, 17 May 2022 07:21:30 -0700 (PDT)
-Received: by mail-qk1-f180.google.com with SMTP id m1so14628393qkn.10;
-        Tue, 17 May 2022 07:21:30 -0700 (PDT)
+        Tue, 17 May 2022 10:25:39 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3F9CE15
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 May 2022 07:25:37 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id w200so1137464pfc.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 May 2022 07:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=dmujmvnHVO24YMvW8lqnV0MsOp2phUIfXU/jAXX1hvg=;
+        b=JS/Vn1JtNy3R2M4UWDw4yiHvQbpdWwUr+u+lz6NOdcKBE646f+FOlkz2wDDTXKUFlL
+         555lizHPW6ZKFmrwd3+tL1PKP4hh4azzIaSn8WUKdvIsZbt1a1RcyT4kuwPOfNBWPUFX
+         iyY/4shyZv6PKUxwPf22q/P4xpFlqDfdOpPPWU1McAJOPjDa6QxzAevp+F01DgKSo7iN
+         veYSHKAtheznMOtrU9YFKb6Ke5i/I9t4krKGoxaFDytPco7wtWHG8vJThV0WblT85UnQ
+         kqwr1j00pmWLQZBiJwiGBxd01286zDkBd9NR8H/0L0G17WjhfAJL5uCefihNKDDmmJCk
+         PxWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=i8yO9kHwhygBJ9j9PsAS6OuX3WjdjaQdW8IPhRNoDhQ=;
-        b=EybXetboA+aa2776vTWK97MW9tAsyUmA0MyaMl07PQHlbtEIUlBeJO7zpgHfejHh9T
-         IzxeSjddzesC3E+ZbIrh/gQpFf7AMOinwgZiV+h9cjS9wXhBVJc7AAzbOMf2BRhWrmc6
-         3hOVtOqGv6N0pJMPrwyE1wqD90Sc7UiP6giLrlL6Pv9MnDFydLgSfV7zmBnLd0yATLL+
-         JsTYZm5LU9/jBLjEKu+MtHOKlVS12eWi1T3scyKBhDLgpXjIGnOevfhvY+JY6crEseR4
-         GqCQdL4yNIr2fBoyvymFMLE2TEq9xGc5gd+Bnkj2NY7CiNJoxLhVGhqtic0HlBqlBu2D
-         DBjw==
-X-Gm-Message-State: AOAM530pgvKPJQLzxB8j8Nj8doq0yBSd1I85cqouYurFJ5e4EesKqoCi
-        iT1V534YyWeKa+cdB2oc9siHdi8XUmRcRg==
-X-Google-Smtp-Source: ABdhPJwJj4NtGolE2WheDERACBEETH74B2FXsOGaiJmPOnQY592Ojn5XkMh178UnQFsonprcddUcMA==
-X-Received: by 2002:a05:620a:10:b0:69e:5d4c:149a with SMTP id j16-20020a05620a001000b0069e5d4c149amr16588025qki.488.1652797289684;
-        Tue, 17 May 2022 07:21:29 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id f6-20020a05622a114600b002f39b99f69esm7754478qty.56.2022.05.17.07.21.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 May 2022 07:21:29 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id o80so12911285ybg.1;
-        Tue, 17 May 2022 07:21:29 -0700 (PDT)
-X-Received: by 2002:a05:6902:389:b0:633:31c1:d0f7 with SMTP id
- f9-20020a056902038900b0063331c1d0f7mr22854661ybs.543.1652797288944; Tue, 17
- May 2022 07:21:28 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=dmujmvnHVO24YMvW8lqnV0MsOp2phUIfXU/jAXX1hvg=;
+        b=aRPNSBXPDT143wtHRyDeBVPJdQNF6l9sv5zJPoes3kWYV1ZElPSBTrNd86YG8+u6gv
+         2h1/bSkIUA5W5tPniqbdnWnixRV4VbWE1xMCS9nR5gBghzUi+DEyjLiph7TIBdXmc73w
+         /0Hxjjuws5jAUCb8XchoRPt460A6/xuqpLW1qGEWphomSjOBjcftEScxXaCcjj91Q7PQ
+         eklZLWny8WCy2iBKjjrzCIKB1QAXn540nHlH2w50oZzwwdWbChO6JBcrvFEVsCVt1mGz
+         mRBDoaLXOgpMdfWOxnff7qEpduEbuotqdEZNLcaevUL6XzFqrftnzjw+XV+YeUluE1gm
+         TqTg==
+X-Gm-Message-State: AOAM532frZPqWYRCU+7fW4FC7Zw+GqhCNAtFg0Gyg8ZhEcurfanzW2Uo
+        xr5i8pjFgkdQcWku27vVB8CAkBU1bOQIPFMG4ZQ=
+X-Google-Smtp-Source: ABdhPJz7hAgZ/EHSHM59zM/1Xt7iZHJraK87bAwwxvbVjlH28x2CIQj0Z2W+AO+zDT8KTE586/9TTQ==
+X-Received: by 2002:a63:df45:0:b0:3c5:1242:2282 with SMTP id h5-20020a63df45000000b003c512422282mr19570186pgj.435.1652797537196;
+        Tue, 17 May 2022 07:25:37 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id x1-20020a17090ab00100b001df58f4649fsm1755827pjq.18.2022.05.17.07.25.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 07:25:36 -0700 (PDT)
+Message-ID: <6283b060.1c69fb81.ceafd.45a4@mx.google.com>
+Date:   Tue, 17 May 2022 07:25:36 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220504184406.93788-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdUh69grzYVsMwdZLgv=KLy5-_FVjeMWx37qGsqCxz9Y6g@mail.gmail.com>
- <OS0PR01MB59224D1908A7DBB08DAF444986C29@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdVqj6nr5h5G9w3wTDHCDbDK_9fJW4d7cvc1c1LC9D2roA@mail.gmail.com> <OS0PR01MB592211288197B1923D452B3986CE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592211288197B1923D452B3986CE9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 May 2022 16:21:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUAmrnWaCMxeqByU2E7y6S1dr8VStkfhUdkziF5sOmCpw@mail.gmail.com>
-Message-ID: <CAMuHMdUAmrnWaCMxeqByU2E7y6S1dr8VStkfhUdkziF5sOmCpw@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add a delay after deassert
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2022-05-17-v5.18-rc7
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master baseline-nfs: 75 runs,
+ 7 regressions (renesas-devel-2022-05-17-v5.18-rc7)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+renesas/master baseline-nfs: 75 runs, 7 regressions (renesas-devel-2022-05-=
+17-v5.18-rc7)
 
-On Tue, May 17, 2022 at 3:36 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add a delay after deassert
-> > On Thu, May 5, 2022 at 12:01 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add a delay after
-> > > > deassert On Wed, May 4, 2022 at 8:44 PM Biju Das
-> > <biju.das.jz@bp.renesas.com> wrote:
-> > > > > After adding reset support to vsp, it needs a delay of 32
-> > > > > microseconds after reset operation, otherwise system hangs(due to
-> > > > > register
-> > > > read/write).
-> > > > > This patch fixes the system hang issue by adding delay after
-> > > > > deassert operation.
-> > > > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > >
-> > > > > After adding reset/deassert support for vsp based on [1], RZ/G1N
-> > > > > board hangs. On debugging it found that it needs a delay of 35
-> > > > > microseconds after deasserint reset. Wthout delay if there is any
-> > > > > register read/write will lead to hang.
-> > > > >
-> > > > > This 35 microseconds value is  picked from the reset().
-> > > >
-> > > > The 35 µs comes from the Hardware User's Manual: there should be at
-> > > > least 1 RCLK cycle _in between_ asserting and deasserting reset.
-> > > > The manual doesn't say anything about delays _after_ deasserting
-> > reset.
-> > > >
-> > > > Could it be that the VSP1 driver is actually deasserting reset too
-> > early?
-> > >
-> > > My test results on RZ/G1N shows, it needs 35 micro seconds after
-> > deasserting reset.
-> >
-> > I can confirm that accessing the VSP registers without the delay causes a
-> > lock-up on R-Car M2-W, too.
-> > I see no such lock-up on R-Car Gen3, but I cannot rule out that it is
-> > mitigated by a handler in secure mode, and that VSP initialization may
-> > actually fail (accessing registers of non-clocked modules usually causes
-> > an imprecise external abort, which is caught by Linux on R-Car Gen2, but
-> > turned into a no-op by secure firmware on R-Car Gen3).
-> >
-> > Instead of adding the explicit delay, I tried added a polling loop after
-> > the call to reset_control_deassert() in the vsp1 driver, to wait until the
-> > reset is cleared, like is done in the i2c-rcar driver:
-> >
-> >         ret = read_poll_timeout_atomic(reset_control_status, ret, ret ==
-> > 0, 1,
-> >                                        100, false, vsp1->rstc);
-> >         if (ret < 0) {
-> >                 ...
-> >         }
-> >
-> > This also fixes the issue for me.
->
-> Yes, It is better fix than the explicit delay.
->
-> > Adding more debug code shows that reset_control_status() is called only
-> > once (both for i2c and vsp1), so the polling completes before any call to
-> > udelay().
->
-> >
-> > Note that at that time[1], we added the delay to the i2c-rcar driver
-> > instead of the CPG/MSSR driver, as we were told that i2c reset was
-> > special, and other modules do not need this.
-> > Perhaps vsp reset is special, too?
-> > Or perhaps it is time to revisit this, and add the polling to both
-> > cpg_mssr_reset() and cpg_mssr_deassert(), so it can be removed from the
-> > drivers?
->
-> I feel adding poll in VSP driver is better compared to cpg driver, as
-> it reduces wakeup time after "Suspend to RAM" operation.
->
-> How do we proceed here? Do you want me to add as part of RZ/G2L patch series? Or you will post separately.
+Regressions Summary
+-------------------
 
-Feel free to incorporate it into v11 of "[2/5] media: renesas: vsp1:
-Add support to deassert/assert reset line".
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8173-elm-hana              | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-Thanks!
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
 
-Gr{oetje,eeting}s,
+r8a774a1-hihope-rzg2m-ex     | arm64 | lab-cip       | gcc-10   | defconfig=
++crypto             | 1          =
 
-                        Geert
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
+
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2022-05-17-v5.18-rc7/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2022-05-17-v5.18-rc7
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6bd98cbba53cd9f63aaf4d82982dff95c824b92a =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8173-elm-hana              | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62837b582120d5e657a39bfa
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-mt8173-elm-hana.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-mt8173-elm-hana.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62837b582120d5e65=
+7a39bfb
+        failing since 0 day (last pass: renesas-devel-2022-05-09-v5.18-rc6,=
+ first fail: renesas-devel-2022-05-16-v5.18-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+mt8183-kukui-...uniper-sku16 | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62837b79b4defeb49aa39c12
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-mt8183-kukui-jacuzzi-juniper-sku16.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62837b79b4defeb49=
+aa39c13
+        failing since 0 day (last pass: renesas-devel-2022-05-09-v5.18-rc6,=
+ first fail: renesas-devel-2022-05-16-v5.18-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+r8a774a1-hihope-rzg2m-ex     | arm64 | lab-cip       | gcc-10   | defconfig=
++crypto             | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/628385640c22cbcda2a39bd9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+crypto/gcc-10/lab-cip/baseline-nfs-r8a7=
+74a1-hihope-rzg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+crypto/gcc-10/lab-cip/baseline-nfs-r8a7=
+74a1-hihope-rzg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/628385640c22cbcda=
+2a39bda
+        new failure (last pass: renesas-devel-2022-05-16-v5.18-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
+                    | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62837c4a1a0e52a8d5a39bef
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a779=
+50-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig/gcc-10/lab-baylibre/baseline-nfs-r8a779=
+50-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62837c4a1a0e52a8d=
+5a39bf0
+        new failure (last pass: renesas-devel-2022-05-16-v5.18-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++crypto             | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62837f2f73309f23bfa39c6a
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+crypto
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+crypto/gcc-10/lab-baylibre/baseline-nfs=
+-r8a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/62837f2f73309f23b=
+fa39c6b
+        new failure (last pass: renesas-devel-2022-05-16-v5.18-rc7) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+r8a77950-salvator-x          | arm64 | lab-baylibre  | gcc-10   | defconfig=
++CON...OMIZE_BASE=3Dy | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/628384bcd124744b75a39bd4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig+CONFIG_RANDOMIZE_BASE=3Dy
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
+ylibre/baseline-nfs-r8a77950-salvator-x.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+CONFIG_RANDOMIZE_BASE=3Dy/gcc-10/lab-ba=
+ylibre/baseline-nfs-r8a77950-salvator-x.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/628384bcd124744b7=
+5a39bd5
+        new failure (last pass: renesas-devel-2022-04-19-v5.18-rc3) =
+
+ =
+
+
+
+platform                     | arch  | lab           | compiler | defconfig=
+                    | regressions
+-----------------------------+-------+---------------+----------+----------=
+--------------------+------------
+rk3399-gru-kevin             | arm64 | lab-collabora | gcc-10   | defconfig=
++arm64-chromebook   | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/62837ced6a23d262a1a39be2
+
+  Results:     82 PASS, 6 FAIL, 0 SKIP
+  Full config: defconfig+arm64-chromebook
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+022-05-17-v5.18-rc7/arm64/defconfig+arm64-chromebook/gcc-10/lab-collabora/b=
+aseline-nfs-rk3399-gru-kevin.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+220513.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.rockchip-i2s1-probed: https://kernelci.org/test/cas=
+e/id/62837ced6a23d262a1a39c07
+        failing since 69 days (last pass: renesas-devel-2022-02-28-v5.17-rc=
+6, first fail: renesas-devel-2022-03-08-v5.17-rc7)
+
+    2022-05-17T10:45:48.811881  /lava-6403041/1/../bin/lava-test-case
+    2022-05-17T10:45:48.844204  <8>[   38.052339] <LAVA_SIGNAL_TESTCASE TES=
+T_CASE_ID=3Drockchip-i2s1-probed RESULT=3Dfail>   =
+
+ =20
