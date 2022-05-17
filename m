@@ -2,161 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A209152AD4D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 23:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FAB52AD5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 23:13:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234453AbiEQVEK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 May 2022 17:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
+        id S1343792AbiEQVNL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 17:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235046AbiEQVEK (ORCPT
+        with ESMTP id S242972AbiEQVNK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 May 2022 17:04:10 -0400
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D76532FB;
-        Tue, 17 May 2022 14:04:09 -0700 (PDT)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-f16a3e0529so214438fac.2;
-        Tue, 17 May 2022 14:04:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8F3suBL/aNM3dQyouVRoR2dfCYwP1OY5NBcTIO2ADO4=;
-        b=oehQIkUhB3l4K/EcpdhAza6x6nYcf1UZ8rnwTTMZWnYB/uFKoQfMiFvWA+eMABLpGT
-         p5uwoyNAgBx4xbJBs1EeKv3I6JEs8iCTEMmxtMH1dKTgByMvXjIaylozZwSNuwnpWnW3
-         ZmabsMmZtyRArNJfwFaIcip5X39PjEuqw7ngxVsOHlWqN5I3v9775PsbafRvRhlxZq9Z
-         7BUiFTrSg0CMqnRWlWRqwttiNdTUli2Vmwi/aJsPAHWTJ4ofYheXeBWWI5nAEzXhwNI9
-         Kz2CAduBTADoQsZ7QVJp6JjTPV4R1XnWMQrKqtwjOYZn4yf8WJheMWK7fxMU99OJ57t+
-         6Kdw==
-X-Gm-Message-State: AOAM5302/9q9GpfxmOx8o3WCVFzc6DJOiaPXLPoUPTNuk0zHP2IT6XEw
-        6yfsSkBsdjwFwX6udQYDrA==
-X-Google-Smtp-Source: ABdhPJzJhT+FIsAn3vilSiC+3Cvpbol50BGRh1QSZVL1IdUbT5gT8uy8Xoyym4W8MtiGpssz/VLraw==
-X-Received: by 2002:a05:6870:e0d1:b0:f1:aa95:6536 with SMTP id a17-20020a056870e0d100b000f1aa956536mr6036724oab.171.1652821448732;
-        Tue, 17 May 2022 14:04:08 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k22-20020a056870959600b000e686d1386asm313715oao.4.2022.05.17.14.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 14:04:08 -0700 (PDT)
-Received: (nullmailer pid 1640028 invoked by uid 1000);
-        Tue, 17 May 2022 21:04:07 -0000
-Date:   Tue, 17 May 2022 16:04:07 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
-Message-ID: <20220517210407.GA1635524-robh@kernel.org>
-References: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
- <20220510151112.16249-2-biju.das.jz@bp.renesas.com>
+        Tue, 17 May 2022 17:13:10 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B1742EEA;
+        Tue, 17 May 2022 14:13:08 -0700 (PDT)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A0AAEC0002;
+        Tue, 17 May 2022 21:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652821987;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qBaJl8WcrskpVvu5x6uJ7XKJuPc6WqxXWNmf+zmU5C0=;
+        b=XJcefgUihW/mLjSlmZtAH14YAmr+OzwTF9nzTT5peXEn5qhJwOG7F8ludFkaVHvWachzQE
+        Dge4lHwLx7J+sd78ampwrHRodU5qkixX6wbHznUf+cCDE9RRCbCTdUcV/GQMWfpyWBZFjQ
+        1Vku6mgH/GCStsAJ8vd8RZHIYA4J0TTVCXkvMeeGDFTY1b6/cI5FRgQHaZNp2TXMwKKf5f
+        bYl336+RgOZquuSf+B97QxDHxMC49f4COEgh2CU3yhXNA9JfFFLoajmVKd77zBCoQO4k1V
+        jnSIOAgt8YZhrLYXNTBadCC/ssPZKuo3ymniggDSCC7cnstMdcQUrSDSvtgpLw==
+Date:   Tue, 17 May 2022 23:13:05 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Herve Codina <herve.codina@bootlin.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        linux-rtc@vger.kernel.org,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Jimmy Lalande <jimmy.lalande@se.com>
+Subject: Re: [PATCH v7 0/5] RZ/N1 RTC support
+Message-ID: <165282193419.289847.12458884088861451958.b4-ty@bootlin.com>
+References: <20220516082504.33913-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220510151112.16249-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220516082504.33913-1-miquel.raynal@bootlin.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 10, 2022 at 04:11:05PM +0100, Biju Das wrote:
-> Add device tree bindings for the RZ/G2L Port Output Enable for GPT (POEG).
+On Mon, 16 May 2022 10:24:59 +0200, Miquel Raynal wrote:
+> This small series adds support for the RZ/N1 RTC.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../soc/renesas/renesas,rzg2l-poeg.yaml       | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml
+> Despite its limitations, I found useful to at least have alarm and
+> offset support.
 > 
-> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml
-> new file mode 100644
-> index 000000000000..5737dbf3fa45
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/soc/renesas/renesas,rzg2l-poeg.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Renesas RZ/G2L Port Output Enable for GPT (POEG)
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +description:
-
-'|' needed.
-
-> +  The output pins of the general PWM timer (GPT) can be disabled by using
-> +  the port output enabling function for the GPT (POEG). Specifically,
-> +  either of the following ways can be used.
-> +  * Input level detection of the GTETRGA to GTETRGD pins.
-> +  * Output-disable request from the GPT.
-> +  * Register settings.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a07g044-poeg  # RZ/G2{L,LC}
-> +          - renesas,r9a07g054-poeg  # RZ/V2L
-> +      - const: renesas,rzg2l-poeg
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    poeggd: poeg@10049400 {
-> +        compatible = "renesas,r9a07g044-poeg", "renesas,rzg2l-poeg";
-> +        reg = <0x10049400 0x4>;
-
-This looks like it is part of some larger block?
-
-> +        interrupts = <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD R9A07G044_POEG_D_CLKP>;
-> +        power-domains = <&cpg>;
-> +        resets = <&cpg R9A07G044_POEG_D_RST>;
-> +    };
-> -- 
-> 2.25.1
+> Cheers,
+> Miquèl
 > 
-> 
+> [...]
+
+Applied, thanks!
+
+[1/5] dt-bindings: rtc: rzn1: Describe the RZN1 RTC
+      commit: 4c4d145a65e5a7faac440081bc1eac860930cd24
+[2/5] rtc: rzn1: Add new RTC driver
+      commit: deeb4b5393e106b990607df06261fba0ebb7ebde
+[3/5] rtc: rzn1: Add alarm support
+      commit: b5ad1bf00d2c4bf96bf9318f44a929f0b22dd29c
+[4/5] rtc: rzn1: Add oscillator offset support
+      commit: be4a11cf98aff5d456eae947a49b6163393d9420
+[5/5] MAINTAINERS: Add myself as maintainer of the RZN1 RTC driver
+      commit: 060eceb739e5b30db684666592c2a33d09426651
+
+Best regards,
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
