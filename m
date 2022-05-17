@@ -2,209 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B753E52AB83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 21:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8482C52AD40
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 23:01:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233721AbiEQTH2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 May 2022 15:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49886 "EHLO
+        id S237224AbiEQVBb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 17:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231967AbiEQTH1 (ORCPT
+        with ESMTP id S231673AbiEQVBb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 May 2022 15:07:27 -0400
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26AAB3F;
-        Tue, 17 May 2022 12:07:25 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f16645872fso1170967b3.4;
-        Tue, 17 May 2022 12:07:25 -0700 (PDT)
+        Tue, 17 May 2022 17:01:31 -0400
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6217752E7D;
+        Tue, 17 May 2022 14:01:30 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-f1d5464c48so183813fac.6;
+        Tue, 17 May 2022 14:01:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sduYyeVxKqNpGkWhBxHiPbrXuQpVfXTI/19h1XUIt6k=;
-        b=2N37fk8pndEs7lG6RfQoBUi4XZ2n+lqjmXOQXZ18FIH0UNdpVDG3ChqcYW1eRSYPLC
-         BjgRJgENhMylWznbOCHnywADGl5Kw87cwoMxs6JMd+euBz5trnlFwPTCs/v9XfZMBHSs
-         nOKQdK4RnPsbzoeJqrFiIfAVLfiRZSy2YxmD24QZTsMoCHb+SA7c/IRClT99Df83DDTL
-         9lIaCaWWMl/Wn2V+ytyLd7KmUIITO5J2cAHcClQ6wkVTmJRgv3kRz9I6Tpum3Od7Ob5b
-         iteCI3lQ32V27uLXk9cX1x3jmfvjFYW2OIogpKVFO/jN/Mv+LEsAn6pKVLvpCVUAaNwO
-         7m0A==
-X-Gm-Message-State: AOAM531MnIhBcrik4Wbnb+hvXmsq3G/jJIn8Ct02yMwRMQIJA9TZXybo
-        FERQuQMQl6rDK74dDipi/8K30gY/zHK4XnyWGbM=
-X-Google-Smtp-Source: ABdhPJzUYv2OrRrI3N1qBYg19RgG8O0CEOuy67iukFNgVk/13X7zQPxtxxFKGk0ZKcppI+w+ImdB0lohrDi45EAoT4k=
-X-Received: by 2002:a0d:c442:0:b0:2fe:beab:1fef with SMTP id
- g63-20020a0dc442000000b002febeab1fefmr24237356ywd.196.1652814445013; Tue, 17
- May 2022 12:07:25 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Ydx+NAThrmyhZkmIzSHvkUPadaaKDNFyyA6hZGFo99M=;
+        b=4pXNKeTXp4FNfvZTjM7bQnm5dDEIagnT0GkqGGpvlq53k1lpKrfrToxhPMz82saWTE
+         l12EmjTWQ8qjkdqMNLYUylyKX3BvkCR1pBl4CD4vtYDOpi/B1DSiijeNo1KeMfd4ZzRu
+         YWoPN2H7hGFZ7i9AWSnxviGJz0+Dg47zeUJRsyBcNKfwd+q4JUhryvAjLxkyJ3zgBZKX
+         NHkqp8+KBEEw5qdbRq116FcIwSSs/0yY9h2msAt7gsQwvD7VVOiFXnB2Pcf6UngRY3Di
+         Cd+Dkcy1EK0XzCiKCwkeYJgHiUBw9SjI3nyEb3e3yUZ227Gud8m5jyFUpxP4rq3sPr+A
+         8qCA==
+X-Gm-Message-State: AOAM533QYAgOSoum6HPFX+0+KMnHRBr8OXmalaKhS4UUfB17S552KMCL
+        YZtiWGeuak67bcGuoktjtA==
+X-Google-Smtp-Source: ABdhPJyWg+9hIpwzSAoRLIjGKBx0TgtxbLs9Zq7SNwApW8Yr8HjaQD6NMQRwlYTUxw44h3VH93hEew==
+X-Received: by 2002:a05:6870:6b0d:b0:ee:1253:948e with SMTP id mt13-20020a0568706b0d00b000ee1253948emr18710602oab.129.1652821289661;
+        Tue, 17 May 2022 14:01:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e3-20020a05683013c300b00606a6c09a0csm185672otq.12.2022.05.17.14.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 14:01:29 -0700 (PDT)
+Received: (nullmailer pid 1635316 invoked by uid 1000);
+        Tue, 17 May 2022 21:01:28 -0000
+Date:   Tue, 17 May 2022 16:01:28 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: pwm: Add RZ/G2L GPT binding
+Message-ID: <20220517210128.GA1630873-robh@kernel.org>
+References: <20220510144259.9908-1-biju.das.jz@bp.renesas.com>
+ <20220510144259.9908-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
- <20220507125443.2766939-2-daniel.lezcano@linexp.org> <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
- <7b1a9f3b5b5087f47bf4839858c7bfebdb60aa2f.camel@linux.intel.com>
- <CAJZ5v0hqN-zKZvWTNPzW2P22Dirmyh99qyycf+US4Z9Yxw9mhA@mail.gmail.com> <afcc7b08ebe2578d32e6595d258afeec3e73512e.camel@linux.intel.com>
-In-Reply-To: <afcc7b08ebe2578d32e6595d258afeec3e73512e.camel@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 17 May 2022 21:07:14 +0200
-Message-ID: <CAJZ5v0gBm+rEkAZ-9DGoR5Z0HS=D-b_XeJSyUUX6Ui5sgh7MwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to thermal_sensor_ops
-To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linexp.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Alexandre Bailon <abailon@baylibre.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Chuansheng Liu <chuansheng.liu@intel.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antoine Tenart <atenart@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
-        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
-        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
-        <linux-wireless@vger.kernel.org>,
-        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
-        <platform-driver-x86@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220510144259.9908-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 17, 2022 at 9:02 PM srinivas pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> On Tue, 2022-05-17 at 20:53 +0200, Rafael J. Wysocki wrote:
-> > On Tue, May 17, 2022 at 6:51 PM srinivas pandruvada
-> > <srinivas.pandruvada@linux.intel.com> wrote:
-> > >
-> > > On Tue, 2022-05-17 at 17:42 +0200, Rafael J. Wysocki wrote:
-> > > > On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano
-> > > > <daniel.lezcano@linexp.org> wrote:
-> > > > >
-> > > > > A thermal zone is software abstraction of a sensor associated
-> > > > > with
-> > > > > properties and cooling devices if any.
-> > > > >
-> > > > > The fact that we have thermal_zone and thermal_zone_ops mixed
-> > > > > is
-> > > > > confusing and does not clearly identify the different
-> > > > > components
-> > > > > entering in the thermal management process. A thermal zone
-> > > > > appears
-> > > > > to
-> > > > > be a sensor while it is not.
-> > > >
-> > > > Well, the majority of the operations in thermal_zone_ops don't
-> > > > apply
-> > > > to thermal sensors.  For example, ->set_trips(), -
-> > > > >get_trip_type(),
-> > > > ->get_trip_temp().
-> > > >
-> > > In past we discussed adding thermal sensor sysfs with threshold to
-> > > notify temperature.
-> > >
-> > > So sensor can have set/get_threshold() functions instead of the
-> > > set/get_trip for zones.
-> > >
-> > > Like we have /sys/class/thermal_zone* we can have
-> > > /sys/class/thermal_sensor*.
-> >
-> > Exactly, so renaming thermal_zone_ops as thermal_sensor_ops isn't
-> > quite helpful in this respect.
-> >
-> > IMO there should be operations for sensors and there should be
-> > operations for thermal zones and those two sets of operations should
-> > be different.
-> >
-> > > Thermal sensor(s) are bound to  thermal zones.
-> >
-> > So I think that this binding should be analogous to the binding
-> > between thermal zones and cooling devices.
-> >
-> > > This can also include multiple sensors in a zone and can create a
-> > > virtual sensor also.
-> >
-> > It can.
-> >
-> > However, what's the difference between a thermal zone with multiple
-> > sensors and a thermal zone with one virtual sensor being an aggregate
-> > of multiple physical sensors?
-> >
-> Either way is fine. A thermal sensor can be aggregate of other sensors.
+On Tue, May 10, 2022 at 03:42:58PM +0100, Biju Das wrote:
+> Add device tree bindings for the General PWM Timer (GPT).
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> RFC->v1:
+>  * Added Description
+>  * Removed comments from reg and clock
+> ---
+>  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 131 ++++++++++++++++++
+>  1 file changed, 131 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml b/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+> new file mode 100644
+> index 000000000000..b57c1b256a86
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+> @@ -0,0 +1,131 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/renesas,rzg2l-gpt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L General PWM Timer (GPT)
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description:
+> +  RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
+> +  (GPT32E). It supports the following functions
+> +  * 32 bits × 8 channels.
 
-Agreed.
+You need a '|' after 'description:' if you want formatting preserved.
+ 
+> +  * Up-counting or down-counting (saw waves) or up/down-counting
+> +    (triangle waves) for each counter.
+> +  * Clock sources independently selectable for each channel.
+> +  * Two I/O pins per channel.
+> +  * Two output compare/input capture registers per channel.
+> +  * For the two output compare/input capture registers of each channel,
+> +    four registers are provided as buffer registers and are capable of
+> +    operating as comparison registers when buffering is not in use.
+> +  * In output compare operation, buffer switching can be at crests or
+> +    troughs, enabling the generation of laterally asymmetric PWM waveforms.
+> +  * Registers for setting up frame cycles in each channel (with capability
+> +    for generating interrupts at overflow or underflow)
+> +  * Generation of dead times in PWM operation.
+> +  * Synchronous starting, stopping and clearing counters for arbitrary
+> +    channels.
+> +  * Starting, stopping, clearing and up/down counters in response to input
+> +    level comparison.
+> +  * Starting, clearing, stopping and up/down counters in response to a
+> +    maximum of four external triggers.
+> +  * Output pin disable function by dead time error and detected
+> +    short-circuits between output pins.
+> +  * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
+> +  * Enables the noise filter for input capture and external trigger
+> +    operation.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a07g044-gpt  # RZ/G2{L,LC}
+> +          - renesas,r9a07g054-gpt  # RZ/V2L
+> +      - const: renesas,rzg2l-gpt
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#pwm-cells':
+> +    const: 2
+> +    description: |
+> +      See pwm.yaml in this directory for a description of the cells format.
 
-But the point is that if we go with thermal zones bound to multiple
-physical sensors, I don't see much point in using virtual sensors.
-And the other way around.
+Drop. No need to describe common properties.
 
-Daniel seems to be preferring the thermal zones bound to multiple
-physical sensors approach.
-
-
-> > Both involve some type of aggregation of temperature values measured
-> > by the physical sensors.
-> >
-> > > > > In order to set the scene for multiple thermal sensors
-> > > > > aggregated
-> > > > > into
-> > > > > a single thermal zone. Rename the thermal_zone_ops to
-> > > > > thermal_sensor_ops, that will appear clearyl the thermal zone
-> > > > > is
-> > > > > not a
-> > > > > sensor but an abstraction of one [or multiple] sensor(s).
-> > > >
-> > > > So I'm not convinced that the renaming mentioned above is
-> > > > particularly
-> > > > clean either.
-> > > >
-> > > > IMV the way to go would be to split the thermal sensor
-> > > > operations,
-> > > > like ->get_temp(), out of thermal_zone_ops.
-> > > >
-> > > > But then it is not clear what a thermal zone with multiple
-> > > > sensors in
-> > > > it really means.  I guess it would require an aggregation
-> > > > function to
-> > > > combine the thermal sensors in it that would produce an effective
-> > > > temperature to check against the trip points.
-> > > >
-> > > > Honestly, I don't think that setting a separate set of trips for
-> > > > each
-> > > > sensor in a thermal zone would make a lot of sense.
-> > >
->
+> +
+> +  interrupts:
+> +    items:
+> +      - description: GTCCRA input capture/compare match
+> +      - description: GTCCRB input capture/compare
+> +      - description: GTCCRC compare match
+> +      - description: GTCCRD compare match
+> +      - description: GTCCRE compare match
+> +      - description: GTCCRF compare match
+> +      - description: GTADTRA compare match
+> +      - description: GTADTRB compare match
+> +      - description: GTCNT overflow/GTPR compare match
+> +      - description: GTCNT underflow
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: ccmpa
+> +      - const: ccmpb
+> +      - const: cmpc
+> +      - const: cmpd
+> +      - const: cmpe
+> +      - const: cmpf
+> +      - const: adtrga
+> +      - const: adtrgb
+> +      - const: ovf
+> +      - const: unf
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +
+> +allOf:
+> +  - $ref: pwm.yaml#
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    gpt4: pwm@10048400 {
+> +        compatible = "renesas,r9a07g044-gpt", "renesas,rzg2l-gpt";
+> +        reg = <0x10048400 0xa4>;
+> +        interrupts = <GIC_SPI 270 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 272 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 273 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 274 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 275 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 276 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 279 IRQ_TYPE_EDGE_RISING>;
+> +        interrupt-names = "ccmpa", "ccmpb", "cmpc", "cmpd",
+> +                          "cmpe", "cmpf", "adtrga", "adtrgb",
+> +                          "ovf", "unf";
+> +        clocks = <&cpg CPG_MOD R9A07G044_GPT_PCLK>;
+> +        power-domains = <&cpg>;
+> +        resets = <&cpg R9A07G044_GPT_RST_C>;
+> +        #pwm-cells = <2>;
+> +    };
+> -- 
+> 2.25.1
+> 
+> 
