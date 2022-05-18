@@ -2,62 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F04C552C144
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 19:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFB3D52C15A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 19:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241022AbiERR2e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 13:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
+        id S241118AbiERR24 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 13:28:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241075AbiERR2e (ORCPT
+        with ESMTP id S241081AbiERR2x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 13:28:34 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6A613FD77
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:33 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id m6so3059544iob.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:33 -0700 (PDT)
+        Wed, 18 May 2022 13:28:53 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3411519CEC4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:51 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id d3so1972150ilr.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HCKolOlzzwnZ7+8eELQXskFMIvOTP7lX/YwA+iJBQY4=;
-        b=L3XVYyOQzSOkyyakBykuHe2f+T35o9DcLyQB/B00jC1Odl2Xw7aHVgfeLKWkFyKj+T
-         g9GMQ9yzg+0cMi1cMbb3EXUCeNCzhCAxFJXf+rZPwX6AQlToTO4c6uTfQXWOIAY9O2Bb
-         zaOswkiC/CBKTtMyZ++GdrbUstx2GIOhu08EHG30VJKEdmne3FCnLd/aLEhIVj6bN+GH
-         WhAj0gZqoVD/MGdJVbRp3JdsPbDpgOwCosqD/euUs4RUMtvwMuaARunbetUQ8sgalqZ2
-         yjzuVU9jLUS6D51QgmrxUHROF0l/PdGcIcTuRoBBl4ptOpqU5riWnV2xj2iJdvsKqCvu
-         IuHA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=AOx1LypXvhJE14nWPZ5PxL9FhVAWWtg9pDE4J4YMhoQ=;
+        b=K0M9wXlEDBj1y6Wt13RE7Zj8BL4HiOajXSxtTGoZiTdjQiNeq4CluQVhZImvkSQbJ1
+         i0uzSmq/gTkqqRm3em78DU8AYTuiF4zTPdIiiVw2gEFS/sy0xaV73lj9YD8wlNPZ/imK
+         HzECX5Kc62AKFg57kdsUOv6Wduc2vFrCCMpNMmjoZ5MdFv/aH42veIxCRgeu35GtHygw
+         gKsSsUoq/NTYe2onrvoeJ7tLskhs4CuFThgAwnWqao7Z/g5apgXNmL1GksJCFD6u9jH4
+         Mgivs683kzl3+dllBbHBhIYwB/tos96yvxTsq+ysCFM21YX4fAvnbNzqg7OSYCy4ibs/
+         CZmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HCKolOlzzwnZ7+8eELQXskFMIvOTP7lX/YwA+iJBQY4=;
-        b=LxU3RhVlpu5NJa1/ezaikdxxOYT2N0QBOxCrXZYL5Ldd3Ed3cLg0vp9iOGDugG+vBE
-         jPuExw5+xBn/U5HmR05N6pZptHQ1OoP3loeT+UOd9dkrA+tFU42oTo1tMGgLtsGh8Hab
-         5qAQmjTdHazYmUr1Hf45KpJBxBqHqyejjF68yc1k+m96E1CrBiuDm4hTwsw4bkAQfzYI
-         VdATScOYSoPUi5/eat76W+TvF0f3y5IWJ+krn8tXRTnY+osXY5HsabOqxjP6sfr8e8OJ
-         z08I/+hndvzTNErMiga47dYUOA9mVokJJkqf6ck5heEx1iN5aBfUhkRber4+8WZfyANt
-         GInw==
-X-Gm-Message-State: AOAM530YRHk37I5cv172Qpfs7u2nJx7ZY4V6m9BT2X2OW2linCjX0TOL
-        6mPffqdOxlMZf187dMxspicAXttP0nPjnw==
-X-Google-Smtp-Source: ABdhPJySGBsjt6QuVeV1RImGuXtBAAbxw/OwHGbMLJ56AyjiA3bw9wf9Kv5xxhyqVjEQuxIgTJE8WA==
-X-Received: by 2002:a05:6602:3290:b0:657:73af:c385 with SMTP id d16-20020a056602329000b0065773afc385mr365253ioz.58.1652894912494;
-        Wed, 18 May 2022 10:28:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=AOx1LypXvhJE14nWPZ5PxL9FhVAWWtg9pDE4J4YMhoQ=;
+        b=By7nlIhFTU2JIYd4ErxH0J3Pwd18h+M+cBGV6B4zvIVWWCIsohAZkACZjz734ojyul
+         JEks/5aeGLgbV2VjLvTKRJpGc/vL3WV3kxdhs6P6NpHQVTYe2XJoyzV2ZmQ9icYhdSVu
+         o2po1sjWMDw+KKhe2tCAqQpfcm6da2nEry5ri9TiVwTJJfEafcmltfVDPcK1OziHpBSs
+         lvZHDsGifr3BN8fsmg5DCtUFXO6eocRD9Tr4e3ZXBqqQNxG3133Z7Ol7gI33ORTKX9yx
+         Kd8uJ29W/FymaFnTMottdll8CTbX+zgEhr6S3/jI7329oLqskSWYyq3NBvQSC+daalnj
+         cT2A==
+X-Gm-Message-State: AOAM532diVc1Xu/q2U/9yQGLmPZFJdgsIHRwOJ/p3p5SNu5/tSVm0BMn
+        aB0YGxZZOyHBKCe/36Jvl+YgxZYKggTFeA==
+X-Google-Smtp-Source: ABdhPJwUNHQWAYmQo+uc5LNqpMPNDRgZ/USR+VN+WwJn/IJjd0Pn21Yg8dlJhCl4V1z/EpCtb67DUw==
+X-Received: by 2002:a05:6e02:1485:b0:2cd:fa3d:72b9 with SMTP id n5-20020a056e02148500b002cdfa3d72b9mr423352ilk.247.1652894930650;
+        Wed, 18 May 2022 10:28:50 -0700 (PDT)
 Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id v11-20020a05663812cb00b0032ba5cbae2esm12858jas.144.2022.05.18.10.28.31
+        by smtp.gmail.com with ESMTPSA id v11-20020a05663812cb00b0032ba5cbae2esm12858jas.144.2022.05.18.10.28.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 10:28:31 -0700 (PDT)
+        Wed, 18 May 2022 10:28:50 -0700 (PDT)
 From:   Ralph Siemsen <ralph.siemsen@linaro.org>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     phil.edworthy@renesas.com,
         Ralph Siemsen <ralph.siemsen@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-clk@vger.kernel.org
-Subject: [PATCH 1/3] clk: renesas: r9a06g032: Fix UART clkgrp bitsel
-Date:   Wed, 18 May 2022 13:27:15 -0400
-Message-Id: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
+Subject: [PATCH 2/3] clk: renesas: r9a06g032: drop some unused fields
+Date:   Wed, 18 May 2022 13:27:16 -0400
+Message-Id: <20220518172808.1691450-2-ralph.siemsen@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
+References: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -70,40 +72,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There are two UART clock groups, each having a mux to select its
-upstream clock source. The register/bit definitions for accessing these
-two muxes appear to have been reversed since introduction. Correct them
-so as to match the hardware manual.
-
-Fixes: 4c3d88526eba ("clk: renesas: Renesas R9A06G032 clock driver")
+Minor cleanup, remove unused fields from struct r9a06g032_clkdesc.
 
 Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 ---
- drivers/clk/renesas/r9a06g032-clocks.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/clk/renesas/r9a06g032-clocks.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index c99942f0e4d4..0baa6a06ada8 100644
+index 0baa6a06ada8..9dbcf9620fa0 100644
 --- a/drivers/clk/renesas/r9a06g032-clocks.c
 +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -287,7 +287,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
- 		.type = K_BITSEL,
- 		.source = 1 + R9A06G032_DIV_UART,
- 		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG1_PR2 */
--		.dual.sel = ((0xec / 4) << 5) | 24,
-+		.dual.sel = ((0x34 / 4) << 5) | 30,
- 		.dual.group = 0,
- 	},
- 	{
-@@ -296,7 +296,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
- 		.type = K_BITSEL,
- 		.source = 1 + R9A06G032_DIV_P2_PG,
- 		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG0_0 */
--		.dual.sel = ((0x34 / 4) << 5) | 30,
-+		.dual.sel = ((0xec / 4) << 5) | 24,
- 		.dual.group = 1,
- 	},
- 	D_UGATE(CLK_UART0, "clk_uart0", UART_GROUP_012, 0, 0, 0x1b2, 0x1b3, 0x1b4, 0x1b5),
+@@ -47,11 +47,9 @@ struct r9a06g032_clkdesc {
+ 		struct {
+ 			u16 div, mul;
+ 		};
+-		unsigned int factor;
+-		unsigned int frequency;
+ 		/* for dual gate */
+ 		struct {
+-			uint16_t group : 1, index: 3;
++			uint16_t group : 1;
+ 			u16 sel, g1, r1, g2, r2;
+ 		} dual;
+ 	};
+@@ -84,7 +82,7 @@ struct r9a06g032_clkdesc {
+ #define D_UGATE(_idx, _n, _src, _g, _gi, _g1, _r1, _g2, _r2) \
+ 	{ .type = K_DUALGATE, .index = R9A06G032_##_idx, \
+ 		.source = 1 + R9A06G032_##_src, .name = _n, \
+-		.dual = { .group = _g, .index = _gi, \
++		.dual = { .group = _g, \
+ 			.g1 = _g1, .r1 = _r1, .g2 = _g2, .r2 = _r2 }, }
+ 
+ enum { K_GATE = 0, K_FFC, K_DIV, K_BITSEL, K_DUALGATE };
 -- 
 2.25.1
 
