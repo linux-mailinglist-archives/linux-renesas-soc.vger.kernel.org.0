@@ -2,113 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0F052C271
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 20:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7802752C2B7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 20:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241455AbiERSg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 14:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49338 "EHLO
+        id S241662AbiERSxQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 14:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241296AbiERSg4 (ORCPT
+        with ESMTP id S241708AbiERSxO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 14:36:56 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796321C345C;
-        Wed, 18 May 2022 11:36:55 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id q135so5154018ybg.10;
-        Wed, 18 May 2022 11:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z+wFB5Fdlp80HPZ0rDBxYUuhgX0VkiUoP9qDKbx3W6U=;
-        b=i6uC2Gh7/Iu4IYcfm/izqjPXBLaBPFh9F7S/XxDzPCmeusV+g95LEEU2TxZ5+Eybcn
-         vSzevKbVChVrkixF3JhT34XLebrh3DBiRdNizqnmoccc/nzrX0H+Ex8ugdsNGzIh/3mp
-         DURbMuGpIoI7NC9lUr37VzbvjkZDgfAUGnfu5dUJGaQnxnp+qHdXtIKe6ZGFOdDoWxUD
-         taiDR28BLZGYDqhf0KXaaSv1F61XaDLid7rjBpqWmRBCp9r4fm4agcJmke60LmtzsERZ
-         Qdk63z7GJw7R0h4N0rg79sOYS+UIrCGEEr46NyYvPgb2cHD7dn6HAE+GYbmg6lnG42D6
-         4u9g==
+        Wed, 18 May 2022 14:53:14 -0400
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE6D020EE20;
+        Wed, 18 May 2022 11:53:10 -0700 (PDT)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-e5e433d66dso3914370fac.5;
+        Wed, 18 May 2022 11:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z+wFB5Fdlp80HPZ0rDBxYUuhgX0VkiUoP9qDKbx3W6U=;
-        b=2jCpqcCFrCNOBNUdtDqBlJeqvsuFg+OVf4NK7iayON38XOFpdngItq3YRP79ABpxfa
-         AsEJkxN2xpTqlPjchWkYDenJFLRaDDHGiYTAxSigpKbsmdK1vQAU0SxwmrdtRFYp+29J
-         OAJV0ArGfrEwy0HC8q6oRvNF7YR5gl+aNLLJqVBOHhAi7czTGEoSNBK605Jh963objFn
-         7rqumDaz5B8WIkcpFbrtTN76WdqVDCZDSH9pURkYIKXgpwLzz1RGLXZX8CihN+AM5Lbe
-         i1yaD2xFZkI4ld2eCgNR/xtOJFWwFOQw8mxvEh30lhErmICX1aAaThBQ/6CAJqYjcFRD
-         abQQ==
-X-Gm-Message-State: AOAM530kcWi3LG7rSlhuAX9heYXd0QRjYy5lqE7s1tNRxb/PTEkO186a
-        O4sXFVvRa3rIv4k8T6dOpTE1ucMkb+GP0BVK4BU=
-X-Google-Smtp-Source: ABdhPJxomAexeHpFDfrCohF3Dr3KktAL/UvFbfVdhyWtHW79Q4HxbdlPH0duXEI0EhEhmuUukOhmCshmVdmPlacd24s=
-X-Received: by 2002:a05:6902:1407:b0:64a:ecc7:aa2 with SMTP id
- z7-20020a056902140700b0064aecc70aa2mr937661ybu.645.1652899014699; Wed, 18 May
- 2022 11:36:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220511183210.5248-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CACRpkdYQAsam_v0XHm-A_trbyifj1pBQq5N+zc9KVw1vXVTYUw@mail.gmail.com>
-In-Reply-To: <CACRpkdYQAsam_v0XHm-A_trbyifj1pBQq5N+zc9KVw1vXVTYUw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 18 May 2022 19:36:28 +0100
-Message-ID: <CA+V-a8v_bCtoipKXyYoHsSku0-AbABi6Wj0RsHrj7_Sk4MUJyg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] gpio: gpiolib: Add ngirq member to struct gpio_irq_chip
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=8MjJCE/8K8+TV18DiRjp4WnXk9vy6w8u4Ub+xfkaiUo=;
+        b=NWb6Q3Xp8TjvfEuECfIQr9df1jw+ayPwuRvx0niNBQuVXPSTM+UUV9YoaOuxuK70MH
+         C2pCHplp1VP4eV5d0Pkihl3CYLiitDTRasrd+7p/pYXn+DV89pSXfMOKLllydTfH8NeF
+         7mRQub4QFL+L6RR4mfEjJhA+SRKn9X+zHqtPYelTGz0gstgzPRNP5StkaljSpjCOS0Lq
+         hJKA51WujP9e9c8K4GzLG7mBFm8hsli0kcmWSUjyNZAzQ3EkU7kVgoHwjV+IDP5DcEMe
+         T09kJRO94G5ogh7TMRGPX24aDGQmFNkOZzkFi+Iia2gp6lr3twPg9GB3BZ6KSMNxpOxg
+         m7oQ==
+X-Gm-Message-State: AOAM531rZ1Jh8K+slVqKDs6Wjlg0WgEukSX7nEhxc664egcU3G5Gj/5J
+        piGvk4IjSs5kLkyCKqhEbA==
+X-Google-Smtp-Source: ABdhPJw+P/6QyDD9F7P5YoNd1qUPUMDZ8vwFg4Y7o7BJFW/d3h8QUhanxfXSfGfLfywzFxVJbjIodA==
+X-Received: by 2002:a05:6870:f61a:b0:f1:7484:8eca with SMTP id ek26-20020a056870f61a00b000f174848ecamr546312oab.107.1652899989566;
+        Wed, 18 May 2022 11:53:09 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a9-20020a056870618900b000edda81f868sm1267659oah.10.2022.05.18.11.53.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 11:53:08 -0700 (PDT)
+Received: (nullmailer pid 3685342 invoked by uid 1000);
+        Wed, 18 May 2022 18:53:07 -0000
+Date:   Wed, 18 May 2022 13:53:07 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v4 05/12] dt-bindings: net: dsa: add bindings
+ for Renesas RZ/N1 Advanced 5 port switch
+Message-ID: <20220518185307.GL3302100-robh@kernel.org>
+References: <20220509131900.7840-1-clement.leger@bootlin.com>
+ <20220509131900.7840-6-clement.leger@bootlin.com>
+ <20220511152221.GA334055-robh@kernel.org>
+ <20220511153337.deqxawpbbk3actxf@skbuf>
+ <20220518015924.GC2049643-robh@kernel.org>
+ <20220518120503.3m2zfw7kmhsfg336@skbuf>
+ <20220518144111.135c7d0d@fixe.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220518144111.135c7d0d@fixe.home>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+On Wed, May 18, 2022 at 02:41:11PM +0200, Clément Léger wrote:
+> Le Wed, 18 May 2022 15:05:03 +0300,
+> Vladimir Oltean <olteanv@gmail.com> a écrit :
+> 
+> > On Tue, May 17, 2022 at 08:59:24PM -0500, Rob Herring wrote:
+> > > On Wed, May 11, 2022 at 06:33:37PM +0300, Vladimir Oltean wrote:  
+> > > > On Wed, May 11, 2022 at 10:22:21AM -0500, Rob Herring wrote:  
+> > > > > > +patternProperties:
+> > > > > > +  "^ethernet-ports$":  
+> > > > > 
+> > > > > Move to 'properties', not a pattern.
+> > > > > 
+> > > > > With that,
+> > > > > 
+> > > > > Reviewed-by: Rob Herring <robh@kernel.org>  
+> > > > 
+> > > > Even if it should have been "^(ethernet-)?ports$"?  
+> > > 
+> > > Why? Allowing 'ports' is for existing users. New ones don't need the 
+> > > variability and should use just 'ethernet-ports'.
+> > > 
+> > > Rob  
+> > 
+> > Yeah, ok, somehow the memo that new DSA drivers shouldn't support "ports"
+> > didn't reach me. They invariably will though, since the DSA framework is
+> > the main parser of the property, and that is shared by both old and new
+> > drivers.
+> 
+> Should also the subnodes of "ethernet-ports" use the
+> "ethernet-port@[0-9]*" naming ? Or keeping the existing pattern is ok
+> (ie "^(ethernet-)?port@[0-4]$") ?
 
-Thank you for the review.
+I prefer the former, but care less. The whole reason for 'ethernet-' 
+prefix is to make this distinct from the graph binding that uses ports 
+and port.
 
-On Fri, May 13, 2022 at 9:47 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> > Supported GPIO IRQs by the chip is not always equal to the number of GPIO
-> > pins. For example on Renesas RZ/G2L SoC where it has GPIO0-122 pins but at
-> > a give point a maximum of only 32 GPIO pins can be used as IRQ lines in
-> > the IRQC domain.
-> >
-> > This patch adds ngirq member to struct gpio_irq_chip and passes this as a
-> > size to irq_domain_create_hierarchy()/irq_domain_create_simple() if it is
-> > being set in the driver otherwise fallbacks to using ngpio.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> As Geert says, I think you can just use .valid_mask for this,
-> what do you say?
->
-I don't think Geert is suggesting that. The .valid_mask option is one
-time setting but what I need is something dynamic i.e. out of 392 GPIO
-pins any 32 can be used as an interrupt pin. Also with this patch we
-also save on memory [0].
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/kernel/irq/irqdomain.c?h=next-20220518#n153
-
-Cheers,
-Prabhakar
+Rob
