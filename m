@@ -2,98 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 991C752BE4A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 17:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F04C552C144
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 19:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239139AbiERPJ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 11:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
+        id S241022AbiERR2e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 13:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239087AbiERPJ0 (ORCPT
+        with ESMTP id S241075AbiERR2e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 11:09:26 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAC2195EAD;
-        Wed, 18 May 2022 08:09:24 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 373EDC0003;
-        Wed, 18 May 2022 15:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652886563;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FLdoGJYGG/Ago8Jd5bcv62TJ96wqqFhxKMXBejyBWDI=;
-        b=UW4pbngg4rU1zBTrYkx+RdpTzLmADSmoeA/zt9lRkipX7zw/Thx8eeWh/CzZtqdoB9H7mh
-        M5gOyUbguyPaKEUrvhjjA0CiqUAsQ1NdOsrRjBxSshNGRbrchPbBATK9f7GNE12cd4FM44
-        Yyh9rK8Auz9S7tyHL6J4aVHW/RnW1egC7BgqLkRUM1OTLegHRjAigWbyBKNdupjGDFC271
-        ZMeg0C/xaaYLc8rt471NfYIocCdb6fSOgH+kjAIzbt+A9qXvpGNCM889n4k4zQlajENa24
-        4FBSM3Ffu0B+oQSA3sT9V42eUBZmAU9zDc0di6/NEQLAXgboFalmkR/r5ZYjsw==
-Date:   Wed, 18 May 2022 17:09:20 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Tom Rix <trix@redhat.com>
-Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
-        nathan@kernel.org, ndesaulniers@google.com,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] rtc: rzn1: initialize val in rzn1_rtc_set_offset
-Message-ID: <20220518170920.4db16990@xps-13>
-In-Reply-To: <20220518134747.3215597-1-trix@redhat.com>
-References: <20220518134747.3215597-1-trix@redhat.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Wed, 18 May 2022 13:28:34 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6A613FD77
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:33 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id m6so3059544iob.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 10:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HCKolOlzzwnZ7+8eELQXskFMIvOTP7lX/YwA+iJBQY4=;
+        b=L3XVYyOQzSOkyyakBykuHe2f+T35o9DcLyQB/B00jC1Odl2Xw7aHVgfeLKWkFyKj+T
+         g9GMQ9yzg+0cMi1cMbb3EXUCeNCzhCAxFJXf+rZPwX6AQlToTO4c6uTfQXWOIAY9O2Bb
+         zaOswkiC/CBKTtMyZ++GdrbUstx2GIOhu08EHG30VJKEdmne3FCnLd/aLEhIVj6bN+GH
+         WhAj0gZqoVD/MGdJVbRp3JdsPbDpgOwCosqD/euUs4RUMtvwMuaARunbetUQ8sgalqZ2
+         yjzuVU9jLUS6D51QgmrxUHROF0l/PdGcIcTuRoBBl4ptOpqU5riWnV2xj2iJdvsKqCvu
+         IuHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HCKolOlzzwnZ7+8eELQXskFMIvOTP7lX/YwA+iJBQY4=;
+        b=LxU3RhVlpu5NJa1/ezaikdxxOYT2N0QBOxCrXZYL5Ldd3Ed3cLg0vp9iOGDugG+vBE
+         jPuExw5+xBn/U5HmR05N6pZptHQ1OoP3loeT+UOd9dkrA+tFU42oTo1tMGgLtsGh8Hab
+         5qAQmjTdHazYmUr1Hf45KpJBxBqHqyejjF68yc1k+m96E1CrBiuDm4hTwsw4bkAQfzYI
+         VdATScOYSoPUi5/eat76W+TvF0f3y5IWJ+krn8tXRTnY+osXY5HsabOqxjP6sfr8e8OJ
+         z08I/+hndvzTNErMiga47dYUOA9mVokJJkqf6ck5heEx1iN5aBfUhkRber4+8WZfyANt
+         GInw==
+X-Gm-Message-State: AOAM530YRHk37I5cv172Qpfs7u2nJx7ZY4V6m9BT2X2OW2linCjX0TOL
+        6mPffqdOxlMZf187dMxspicAXttP0nPjnw==
+X-Google-Smtp-Source: ABdhPJySGBsjt6QuVeV1RImGuXtBAAbxw/OwHGbMLJ56AyjiA3bw9wf9Kv5xxhyqVjEQuxIgTJE8WA==
+X-Received: by 2002:a05:6602:3290:b0:657:73af:c385 with SMTP id d16-20020a056602329000b0065773afc385mr365253ioz.58.1652894912494;
+        Wed, 18 May 2022 10:28:32 -0700 (PDT)
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id v11-20020a05663812cb00b0032ba5cbae2esm12858jas.144.2022.05.18.10.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 10:28:31 -0700 (PDT)
+From:   Ralph Siemsen <ralph.siemsen@linaro.org>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     phil.edworthy@renesas.com,
+        Ralph Siemsen <ralph.siemsen@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-clk@vger.kernel.org
+Subject: [PATCH 1/3] clk: renesas: r9a06g032: Fix UART clkgrp bitsel
+Date:   Wed, 18 May 2022 13:27:15 -0400
+Message-Id: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+There are two UART clock groups, each having a mux to select its
+upstream clock source. The register/bit definitions for accessing these
+two muxes appear to have been reversed since introduction. Correct them
+so as to match the hardware manual.
 
-trix@redhat.com wrote on Wed, 18 May 2022 09:47:47 -0400:
+Fixes: 4c3d88526eba ("clk: renesas: Renesas R9A06G032 clock driver")
 
-> The clang build fails with
-> rtc-rzn1.c:291:3: error: variable 'val' is uninitialized when used here [=
--Werror,-Wuninitialized]
->   val |=3D RZN1_RTC_SUBU_DEV;
->   ^~~
->=20
-> The val variable in rzn1_rtc_set_offset() is never initialized so
-> the series of |=3D operations in the function will start with a
-> garbage value.  So initialize val to 0.
->=20
-> Fixes: be4a11cf98af ("rtc: rzn1: Add oscillator offset support")
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/rtc/rtc-rzn1.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> index 980ade8c9601..0b4bf6e43464 100644
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -272,7 +272,7 @@ static int rzn1_rtc_set_offset(struct device *dev, lo=
-ng offset)
->  	struct rzn1_rtc *rtc =3D dev_get_drvdata(dev);
->  	unsigned int steps;
->  	int stepsh, stepsl;
-> -	u32 val;
-> +	u32 val =3D 0;
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ drivers/clk/renesas/r9a06g032-clocks.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Actually reviewing this makes me realize I mixed two variables
-together:
-- val here and below should be renamed to something like "subu" or
-  and indeed initialized to 0 here.
-- a "ctl2" u32 should be introduced and be used instead of "val" in the
-  readl_poll_timeout() call.
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index c99942f0e4d4..0baa6a06ada8 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -287,7 +287,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
+ 		.type = K_BITSEL,
+ 		.source = 1 + R9A06G032_DIV_UART,
+ 		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG1_PR2 */
+-		.dual.sel = ((0xec / 4) << 5) | 24,
++		.dual.sel = ((0x34 / 4) << 5) | 30,
+ 		.dual.group = 0,
+ 	},
+ 	{
+@@ -296,7 +296,7 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
+ 		.type = K_BITSEL,
+ 		.source = 1 + R9A06G032_DIV_P2_PG,
+ 		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG0_0 */
+-		.dual.sel = ((0x34 / 4) << 5) | 30,
++		.dual.sel = ((0xec / 4) << 5) | 24,
+ 		.dual.group = 1,
+ 	},
+ 	D_UGATE(CLK_UART0, "clk_uart0", UART_GROUP_012, 0, 0, 0x1b2, 0x1b3, 0x1b4, 0x1b5),
+-- 
+2.25.1
 
-Thanks,
-Miqu=C3=A8l
