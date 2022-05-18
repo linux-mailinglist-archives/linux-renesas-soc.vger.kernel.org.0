@@ -2,257 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A48B952B207
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 08:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50EC152B204
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 08:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbiERF6F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 01:58:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60000 "EHLO
+        id S230374AbiERGAj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 02:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230352AbiERF6E (ORCPT
+        with ESMTP id S230399AbiERGAg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 01:58:04 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5885EDDC;
-        Tue, 17 May 2022 22:58:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HPDg0CS1Vrtyf7WugFMm0JTlbUj5wLLP+K+9wnB/X2bYVSOLqIzMR14UbXZdCYhbc0P5ZFLZo1XxRAj+xGk8N5UlENOt1RqQLWrNEpoqVZLDSTWiRjXPWy1pnncei9hTtehUdUVezYEAWXaK34ladX5hpCwU4zmFrlP2e2klc9x2y8R/XeeFLv8NVfmI+wT5hrPHWbulL5c5UYix/dpRvY80n/kSjEvIH5UeUIErs6RpnvitWVjzW5IMEj3TyXnU+WiCkATeARgAk0IgljOdHsjT0ZT2MVLghjUmqsEMk4jKlN73lI4lAePqq40V25KOh76HOHsizozu+55yQ+xEjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/e83+c4TCcgKXz/4XZLwsqy2i3ivyA7FUezUrCzA4Pg=;
- b=MJM5tCKjdVuBu+iEBSIf8hvWF3POj0/eHroM71oYdhZkKRXdYrIyrnfQtLT4+IPzu7wyM72qvuA0YfSYJIXJoIgcwKrBJepyxS8dJVFmuVfsT131W1DFGqQYaG/y46gKOabvmDa+P9EV2u6Vv5IrFoxi5Zs/hDXq53PVr1dB5xN7Qbju3U6fvrO7xzzRmpplGuRK+TrhboNQfT1Wgzd/me2yuK+uRls7zgvjhsHzoi/9FCk6lt8jZmjVG/qRkP2Mjq5MeYBGE7VjOmrjDoloRC+j8ah1qMG8Vr8kX8jmWR1uC7QMIReF65zUslVJblOpJAmUA0GGEL84J+/Jgz/1Gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/e83+c4TCcgKXz/4XZLwsqy2i3ivyA7FUezUrCzA4Pg=;
- b=fZ6SoytoiSMq4VwlX75ROTde/rzsfXngxlHyOjuXu0wrdBzHijS3WB4TOEboItczdwgStGVkefCK5pNbLYEPUjzbumazk6e+3IXoCYMVerkSqMqn2ZJ8099hCj41p9IJpycD5CmSngGVxIH62bYoUmFZj01lwxfP7R387+4++VY=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB5806.jpnprd01.prod.outlook.com (2603:1096:400:43::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Wed, 18 May
- 2022 05:58:00 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3e:970b:c238:f57]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3e:970b:c238:f57%9]) with mapi id 15.20.5273.014; Wed, 18 May 2022
- 05:58:00 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Subject: RE: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
-Thread-Topic: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
-Thread-Index: AQHYZIA3TRVrx9T/skGzEuiCwjtE0q0jmkqAgACR+bA=
-Date:   Wed, 18 May 2022 05:58:00 +0000
-Message-ID: <OS0PR01MB5922FC66FD4EF05F31B17D3386D19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
- <20220510151112.16249-2-biju.das.jz@bp.renesas.com>
- <20220517210407.GA1635524-robh@kernel.org>
-In-Reply-To: <20220517210407.GA1635524-robh@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7c5096ac-6f7f-457e-c270-08da38935d6c
-x-ms-traffictypediagnostic: TYCPR01MB5806:EE_
-x-microsoft-antispam-prvs: <TYCPR01MB5806D6875DB8A731A59255D786D19@TYCPR01MB5806.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eU0Ucz+LdE1D6+LQcbWT6Odbaq8N4KhHGStaFAYjkNEwMX0qXyfk/cXVdoC6S0GyM7hZ8S3EbChA3vG3Ow+DPsASgK7lR4SRLcV3iXhX1vkUcZg0YPJ4kJtKE1sq5p27O/Onb5ZkyNAmsj/U49/5DM6brvhXkCScQYhOII2X0mubAKAWSfgsYZXv0HsFxq0xeHcVr4u6EBZgur1waZQQRipInf5slGN57lvpWn4/GEzDerzF2vPGWMJRW2k2vcq3vagxm2RJgv9kCIashzGIbG0wxi6LodlZCR082K+u0LP4svsn8x0nyz9R4e3WA1dDpp0it9NcMn4hnQP3z1CsmmcoJlgqxLsQHXocs/TqtoqDBDYX4V4+EJBUgND9/MlBdpZnGAspJoAOpSdM40xnisKDyE+H+HRsZXP82cajP+/AvFtbD8nVd+26TOfZS0HWol7fo9XHfeTEpcFkKoHGjCXIrcXTmpxQwV8k1tDbNSajLkIP6Qz3QNgtBBBvHr3Eq1cRdTBo5LAW24cx/mz7dBnWka0YzT8xgFxPtsMGhMl/JhvNmWbfq/6VwUwNjR48lSKulvYFARtY7ZrwqOS5t3aI/SPvZCgM+0R2nJ5975fNgOTW6G2dDOeodI3rEhJxuAS/iV82AE6UuQDCFPUrykWlzOnlkCgr2zrZl+Q2WOwGjp59aE3AU3ZdNSAPRui4zQ8YAiO7qRrG411GUxnvEQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(6506007)(76116006)(66446008)(66556008)(2906002)(66476007)(8676002)(71200400001)(64756008)(508600001)(52536014)(8936002)(38100700002)(83380400001)(5660300002)(7696005)(38070700005)(55016003)(316002)(26005)(33656002)(9686003)(122000001)(6916009)(4326008)(66946007)(54906003)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ZQA3h3AzWlXlhgDFYhF0/P1YLxMxAoN70XfK60nxFe9BzLELoU0C5mWSg/?=
- =?iso-8859-1?Q?jLsPMhb8t24Wy/d05zoMe7C+lKKJy36q0FbLktBcAH35V1fGtl1nwKJVWv?=
- =?iso-8859-1?Q?PqNiptWdoTI9NL7d/aW2rNIUeOE9zxHHcuPdSWHY7mJyNA4OOcd4wyZKok?=
- =?iso-8859-1?Q?opng/bQe37L1nH+mu8ivBkZ4BBgDxJycn2SCKEU3mdq2D02A6WmIUhvJpb?=
- =?iso-8859-1?Q?5w9mxWGMY8rnTxcRD9od6Fzw7LHF9azt3Tx5AMmTMcIZd9BL9nZDxULv47?=
- =?iso-8859-1?Q?XX0OcjA8PMcPt01WpAI/M4tcaGbTHP7XYfctLWX/YJmuzV2n+BGsoGSjEH?=
- =?iso-8859-1?Q?5JklpRtpYiB6QfLKgCEv4AJzvB+C1d/ypJICL+jgpvcQ8zFo6Z6wl0BF6Q?=
- =?iso-8859-1?Q?2gi5hI0fmz0H2YaDWv9HBm0HuBHSW1P2GqXHCEfVh4XfDRE2sUs7wgZNdK?=
- =?iso-8859-1?Q?M8r1cugq6wBhw7PN0B5Q55LpxiBjivYRZxXlF9ibANaD03GdfJFgjit/ye?=
- =?iso-8859-1?Q?+LUmVQNxG4pBmvWTE2rwsEpZoTNMKHuAteYY6Kyiz+3ZX2HxcloJARxaAe?=
- =?iso-8859-1?Q?KkMv8+V+cCsqdrgQ847J2stI2rHsZNHX5uPGNso6r553/WtB3A0oxXR/bb?=
- =?iso-8859-1?Q?YfrjA9SXkbpaEMTFMNlRiW0PdTb5QYLF7KKHkA5qcFba92XHhhWVU4DK16?=
- =?iso-8859-1?Q?K5LnLqUltLKBF3y1VkisdT982jid/T/cHq8pfDnm0VwDXdqCI9sUaI3XHE?=
- =?iso-8859-1?Q?nUEFoworS9updn1Rtme1c/TJVstGKs3jIGX1CVFvpWoeqtIE60WZVOZVDA?=
- =?iso-8859-1?Q?KL+gsbyviUAHlBmCjX1HyL3U/h8GyyEwTBpwyn9/QcBSmsy9B9UZbHe5jt?=
- =?iso-8859-1?Q?iLZZbbgNi2XtcYvO3+DQ7ZIaHp/MSSYRkxiZFXNgmokVi70EQLZif085SJ?=
- =?iso-8859-1?Q?AdttbNL7xmW0Z4eUjdsxhBRJz/6SdNNq33Fm+LztzZUnklp8NZN328itQW?=
- =?iso-8859-1?Q?JV9zVNyn086bBMwNyeiJQnHScVtR+Ler0ySGLLnJsUKCwk8e6km6cT5eYA?=
- =?iso-8859-1?Q?0boka3r5DJRtZn8xSrrCV93NmtzQuv3KwUjHaqK6yeUvGd0eiERH6fZQqx?=
- =?iso-8859-1?Q?cZSLAo1lWrYaLldayOxs0WFJhvDh9LHg2iwG87hYjUHTimQQwzBVUDK5iz?=
- =?iso-8859-1?Q?XJiWP8fjuyt8oK7IcFoesY5dI/sGAlozH4RVfP2NPmlG+xgX9lGExhUlw1?=
- =?iso-8859-1?Q?cyt0bsuDOCeXWwUzpv5ruxGW3Jfvs7SFgvqi7WPfQ/ESr1pdFpdQ/VhzsP?=
- =?iso-8859-1?Q?fd8uNn/UqdG3nYD6Y0HTwXmMrCtiT1/jjAaGUym/E7JDViQan5WDxduNVD?=
- =?iso-8859-1?Q?t7sIH4k5MWp5ayNyazd++B0r/Du6gFwero3TCYc/C4+lhLPKVVGMmpQb+e?=
- =?iso-8859-1?Q?VEvYKo/ZREnzLDPwPSza4Ru7WDmNHCSuSUwJfbETHurAh0OtKuH3dv0YyH?=
- =?iso-8859-1?Q?2f9n3ZGS6kSJ2Vz7CCpA3Bb51VAb22FVYTOrnnC5Cs+hCpImTU6sobeA0j?=
- =?iso-8859-1?Q?TVnAstlz8og7DFwrG+UZT28u9kIvTT/lt7wFeKt1HLnU4mXSHTRdhnM4Ah?=
- =?iso-8859-1?Q?DjeWWx4gNFe9lH2Uudu5HWlHOyeI52id0Nyf47ZDaUeZ+i4FDlGfZYT+7M?=
- =?iso-8859-1?Q?ycXprdT4EayjqmXPg9yQNMTI/gZTp0Rv5qpUmvc5sqC+6ypYvvzVGR2TYo?=
- =?iso-8859-1?Q?VnhuH3ZxKAOT1LPpOmOwdgCGmZHWNavvBc/8wdA8pXi5iRszTACPa00E8L?=
- =?iso-8859-1?Q?4tUFHmYapwuTO4QZDqeUlsXrDGjIvf0=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 18 May 2022 02:00:36 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48512C5E4A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 May 2022 23:00:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652853622; x=1684389622;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YohCXIzgxDVaEd59G6Gx5y/dop/Q8XUUDdr3mot0qrU=;
+  b=UEoSCiwZFgwMAv6a+gkuoxFeeyWj2XhX5NiScYg85VSCnmoaYzDERCrc
+   FndpuAAkNX9WIHbIMW8bZkG4c/VQ+iPmEQbH7u7SecHmktyNJ0yJbKONy
+   UIN8XOratvmHPgrxSPSTOP2HB1g6e1cCN7eMPNVCso1vz3ijecjF521Yl
+   hiBVI1rKsfYUMJNMPdmLIJ6bQtzSMCjYrmbJMPJQkfj4Wf5gpPnpFsUHi
+   z0a9gKG08qwy9ApYtNwPOSX65/xMN14taooRRjo09h3rxOKCUvw2ciudI
+   juBZK+15UtALLOjQXDTeNQUtIEZC1nqqtxcLuqSOLwZT/l8ZRxMFKoTnh
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="259062170"
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; 
+   d="scan'208";a="259062170"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 23:00:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; 
+   d="scan'208";a="742155051"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 17 May 2022 23:00:20 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nrCjL-0001r3-L8;
+        Wed, 18 May 2022 06:00:19 +0000
+Date:   Wed, 18 May 2022 13:59:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 6bd98cbba53cd9f63aaf4d82982dff95c824b92a
+Message-ID: <62848b3b.kDZ9ti78v1lo66Ub%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c5096ac-6f7f-457e-c270-08da38935d6c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2022 05:58:00.4790
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sQUNyOPmPcRFgZd1lmothNc6qacS1f2Rgd21MmD5CRF1jkmbDv/7Jqs6cv/3Xe09KfpAJLS7yqdTZin9zvv5zD20mxLTC2pub5eBH2vGQkE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5806
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 6bd98cbba53cd9f63aaf4d82982dff95c824b92a  Merge branch 'renesas-arm-dt-for-v5.20' into renesas-devel
 
-Thanks for the feedback.
+elapsed time: 1248m
 
-> Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
->=20
-> On Tue, May 10, 2022 at 04:11:05PM +0100, Biju Das wrote:
-> > Add device tree bindings for the RZ/G2L Port Output Enable for GPT
-> (POEG).
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  .../soc/renesas/renesas,rzg2l-poeg.yaml       | 65 +++++++++++++++++++
-> >  1 file changed, 65 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yaml
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yam
-> > l
-> > b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg.yam
-> > l
-> > new file mode 100644
-> > index 000000000000..5737dbf3fa45
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,rzg2l-poeg
-> > +++ .yaml
-> > @@ -0,0 +1,65 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > +---
-> > +$id:
-"
-> > +
-> > +title: Renesas RZ/G2L Port Output Enable for GPT (POEG)
-> > +
-> > +maintainers:
-> > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > +
-> > +description:
->=20
-> '|' needed.
+configs tested: 103
+configs skipped: 3
 
-OK.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->=20
-> > +  The output pins of the general PWM timer (GPT) can be disabled by
-> > + using  the port output enabling function for the GPT (POEG).
-> > + Specifically,  either of the following ways can be used.
-> > +  * Input level detection of the GTETRGA to GTETRGD pins.
-> > +  * Output-disable request from the GPT.
-> > +  * Register settings.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,r9a07g044-poeg  # RZ/G2{L,LC}
-> > +          - renesas,r9a07g054-poeg  # RZ/V2L
-> > +      - const: renesas,rzg2l-poeg
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - power-domains
-> > +  - resets
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    poeggd: poeg@10049400 {
-> > +        compatible =3D "renesas,r9a07g044-poeg", "renesas,rzg2l-poeg";
-> > +        reg =3D <0x10049400 0x4>;
->=20
-> This looks like it is part of some larger block?
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+i386                 randconfig-c001-20220516
+sh                              ul2_defconfig
+powerpc                   currituck_defconfig
+xtensa                         virt_defconfig
+m68k                        mvme147_defconfig
+powerpc                      ppc40x_defconfig
+m68k                           sun3_defconfig
+mips                           ip32_defconfig
+m68k                          sun3x_defconfig
+sh                           se7780_defconfig
+sh                           se7705_defconfig
+powerpc                     sequoia_defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+sh                               allmodconfig
+arc                                 defconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allyesconfig
+parisc64                            defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+nios2                               defconfig
+arc                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a012-20220516
+x86_64               randconfig-a011-20220516
+x86_64               randconfig-a013-20220516
+x86_64               randconfig-a014-20220516
+x86_64               randconfig-a016-20220516
+x86_64               randconfig-a015-20220516
+i386                 randconfig-a011-20220516
+i386                 randconfig-a013-20220516
+i386                 randconfig-a012-20220516
+i386                 randconfig-a016-20220516
+i386                 randconfig-a014-20220516
+i386                 randconfig-a015-20220516
+arc                  randconfig-r043-20220516
+riscv                randconfig-r042-20220516
+s390                 randconfig-r044-20220516
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                            allyesconfig
+riscv                          rv32_defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
 
-There are 2 IP blocks GPT(PWM) and POEG with its own resources like (regist=
-er map, clk, reset and interrupts)
+clang tested configs:
+arm                       versatile_defconfig
+arm                       mainstone_defconfig
+powerpc                        icon_defconfig
+mips                         tb0287_defconfig
+powerpc                   microwatt_defconfig
+powerpc                     akebono_defconfig
+powerpc                    mvme5100_defconfig
+x86_64               randconfig-a002-20220516
+x86_64               randconfig-a001-20220516
+x86_64               randconfig-a003-20220516
+x86_64               randconfig-a005-20220516
+x86_64               randconfig-a004-20220516
+x86_64               randconfig-a006-20220516
+i386                 randconfig-a003-20220516
+i386                 randconfig-a001-20220516
+i386                 randconfig-a004-20220516
+i386                 randconfig-a006-20220516
+i386                 randconfig-a002-20220516
+i386                 randconfig-a005-20220516
+hexagon              randconfig-r045-20220516
+hexagon              randconfig-r041-20220516
 
-Larger block is GPT, which has lot of functionalities. The output from GPT =
-block can be disabled
-by this IP either by external trigger, request from GPT(Deadtime error, bot=
-h output low/high)
-or explicit software control). This IP has only a single register. Currentl=
-y I am not sure which framework
-to be used for this IP?? Or should it be merged with larger block GPT by co=
-mbining the resources?
-
-Cheers,
-Biju
-
-
->=20
-> > +        interrupts =3D <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks =3D <&cpg CPG_MOD R9A07G044_POEG_D_CLKP>;
-> > +        power-domains =3D <&cpg>;
-> > +        resets =3D <&cpg R9A07G044_POEG_D_RST>;
-> > +    };
-> > --
-> > 2.25.1
-> >
-> >
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
