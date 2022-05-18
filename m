@@ -2,103 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6AC652BE30
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 17:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991C752BE4A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 17:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239054AbiERPDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 11:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
+        id S239139AbiERPJ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 11:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239043AbiERPDv (ORCPT
+        with ESMTP id S239087AbiERPJ0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 11:03:51 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4410C1DE556;
-        Wed, 18 May 2022 08:03:50 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id y7so2902248ejr.13;
-        Wed, 18 May 2022 08:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DIU6nbXTAiAMQ/3SVzqxTbsO2euyVD3quCdWwb6E3nA=;
-        b=hgY1QL+wrUYK+LW+M54xhYQFTwEP4IRsM0Mco4O9DObO2rtCLqAlHBidMaXWSbpmMi
-         3Oa87JQXe0SqLcqDByMzvK+a0Tyse1PppKxDLAl4FYsygwkP6Kbwxyd4ie1nVYlbvdGX
-         IhhiYPD+Jgysiu/kkjSRm8Oe/qWjf7lJYtKAD2Z6icwz8j3fe4s9xpmPJ2YekV9JExgG
-         l1Qj5Lt2KTyAoSWdBr9vdPnGTG62z6faKRLWxttT0nsjnxUIJtQIvWey4WreqNri999G
-         rMkJm3q30orS5dkGdXZLCNttmr6EPm/BY3LsknjeTOXd8oK6oykweUVgPNUa+WH+uB8A
-         5Iyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DIU6nbXTAiAMQ/3SVzqxTbsO2euyVD3quCdWwb6E3nA=;
-        b=4PvuAV+Z2S6EpZSEJme/2NP/DLe2rH7/I9TzOmaUgbCirIDJIgRmh+Q6Jd3xSIJgKT
-         hGHIulskPgDxWqCZ+e8cNxx+o5obiEs4tPJrZw3VzsvEOGqBLrX3EUREGXXs6zdGSFJi
-         4TovsRQHIcVDIUOMjrZm35abe5pgt5lg0eeucTKYCkJl92tFNBWHmn1NVrKy2nVyQtW3
-         qMYHKH1OJ36GvPG7e/gLJ8frN3zO0oRsdJevrffbeu7zgsPPHWPcRbFu31cv7MublW66
-         sC77OMrDlOkhH7t+E/o7jC1nXxaaqVlloDIcai7nhrZfw/62vb1JdNZYog8JQkPPl0vu
-         xAHA==
-X-Gm-Message-State: AOAM532gRytwbgLowojC+oC0vbMdOfUUtCXXeXlDmVbZwtVSQxO0eKwt
-        /VwH2rqL9XTkvJpf/JZhPfW/7QXj7XTkQ9NjFVs=
-X-Google-Smtp-Source: ABdhPJxpb/ukSW3BtDrH/mQU2isMxd4g390WY6v6LQsg3UqFwHJueUlapMsF+ouMRujJ/pebfVVWjFa6dw09jDekpJU=
-X-Received: by 2002:a17:907:6d8a:b0:6fe:1b36:dfcc with SMTP id
- sb10-20020a1709076d8a00b006fe1b36dfccmr19071735ejc.579.1652886228719; Wed, 18
- May 2022 08:03:48 -0700 (PDT)
+        Wed, 18 May 2022 11:09:26 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAC2195EAD;
+        Wed, 18 May 2022 08:09:24 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 373EDC0003;
+        Wed, 18 May 2022 15:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652886563;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FLdoGJYGG/Ago8Jd5bcv62TJ96wqqFhxKMXBejyBWDI=;
+        b=UW4pbngg4rU1zBTrYkx+RdpTzLmADSmoeA/zt9lRkipX7zw/Thx8eeWh/CzZtqdoB9H7mh
+        M5gOyUbguyPaKEUrvhjjA0CiqUAsQ1NdOsrRjBxSshNGRbrchPbBATK9f7GNE12cd4FM44
+        Yyh9rK8Auz9S7tyHL6J4aVHW/RnW1egC7BgqLkRUM1OTLegHRjAigWbyBKNdupjGDFC271
+        ZMeg0C/xaaYLc8rt471NfYIocCdb6fSOgH+kjAIzbt+A9qXvpGNCM889n4k4zQlajENa24
+        4FBSM3Ffu0B+oQSA3sT9V42eUBZmAU9zDc0di6/NEQLAXgboFalmkR/r5ZYjsw==
+Date:   Wed, 18 May 2022 17:09:20 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Tom Rix <trix@redhat.com>
+Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+        nathan@kernel.org, ndesaulniers@google.com,
+        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] rtc: rzn1: initialize val in rzn1_rtc_set_offset
+Message-ID: <20220518170920.4db16990@xps-13>
+In-Reply-To: <20220518134747.3215597-1-trix@redhat.com>
+References: <20220518134747.3215597-1-trix@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220509050953.11005-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220509050953.11005-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CACRpkdafrkyQjmyoa4CAJXJ8JdT3owapq10=yBQLyPp0EwO6AQ@mail.gmail.com>
-In-Reply-To: <CACRpkdafrkyQjmyoa4CAJXJ8JdT3owapq10=yBQLyPp0EwO6AQ@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 May 2022 17:03:07 +0200
-Message-ID: <CAHp75VdFuV_vSvJMjuOn9+CewXXJjfxOYw6gVhmX_gwSC2R6mg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] gpio: gpiolib: Add ngirq member to struct gpio_irq_chip
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, May 14, 2022 at 4:14 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Mon, May 9, 2022 at 7:10 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> > Supported GPIO IRQs by the chip is not always equal to the number of GPIO
-> > pins. For example on Renesas RZ/G2L SoC where it has GPIO0-122 pins but at
-> > a give point a maximum of only 32 GPIO pins can be used as IRQ lines in
-> > the IRQC domain.
-> >
-> > This patch adds ngirq member to struct gpio_irq_chip and passes this as a
-> > size to irq_domain_create_hierarchy()/irq_domain_create_simple() if it is
-> > being set in the driver otherwise fallbacks to using ngpio.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi,
 
-> As mentioned in some other patch, try to use .valid_mask for this instead.
+trix@redhat.com wrote on Wed, 18 May 2022 09:47:47 -0400:
 
-I have not been Cc'ed, but briefly reading I agree with Linus.
+> The clang build fails with
+> rtc-rzn1.c:291:3: error: variable 'val' is uninitialized when used here [=
+-Werror,-Wuninitialized]
+>   val |=3D RZN1_RTC_SUBU_DEV;
+>   ^~~
+>=20
+> The val variable in rzn1_rtc_set_offset() is never initialized so
+> the series of |=3D operations in the function will start with a
+> garbage value.  So initialize val to 0.
+>=20
+> Fixes: be4a11cf98af ("rtc: rzn1: Add oscillator offset support")
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/rtc/rtc-rzn1.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+> index 980ade8c9601..0b4bf6e43464 100644
+> --- a/drivers/rtc/rtc-rzn1.c
+> +++ b/drivers/rtc/rtc-rzn1.c
+> @@ -272,7 +272,7 @@ static int rzn1_rtc_set_offset(struct device *dev, lo=
+ng offset)
+>  	struct rzn1_rtc *rtc =3D dev_get_drvdata(dev);
+>  	unsigned int steps;
+>  	int stepsh, stepsl;
+> -	u32 val;
+> +	u32 val =3D 0;
 
--- 
-With Best Regards,
-Andy Shevchenko
+Actually reviewing this makes me realize I mixed two variables
+together:
+- val here and below should be renamed to something like "subu" or
+  and indeed initialized to 0 here.
+- a "ctl2" u32 should be introduced and be used instead of "val" in the
+  readl_poll_timeout() call.
+
+Thanks,
+Miqu=C3=A8l
