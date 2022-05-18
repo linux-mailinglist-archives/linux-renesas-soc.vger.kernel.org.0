@@ -2,115 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F239052C226
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 20:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD3452C257
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 20:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238519AbiERSZl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 14:25:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
+        id S241410AbiERSac (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 14:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234057AbiERSZk (ORCPT
+        with ESMTP id S241408AbiERSaa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 14:25:40 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231431CA347
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 11:25:39 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id v5so2133416qvs.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 11:25:39 -0700 (PDT)
+        Wed, 18 May 2022 14:30:30 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A9C2268A7;
+        Wed, 18 May 2022 11:30:29 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id e78so5114772ybc.12;
+        Wed, 18 May 2022 11:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CVGtSDjxtUlLWvvetgGRiUZg3RmuWi7A88eHZqwiyZg=;
-        b=lRGutispnHq6m+luptKyIFq685ZKFMADIpH5jZddkQznt0UdqhHyIicw28abv63fL+
-         X36rzDVceNC2YnyXX12UHCqFjT5uvMEC5fFqPZKvxObixtH5u1lTnxLq8/f7NWXR+Cu9
-         BES8iz6Hq7D0xkKjXhHVLV+aMqR45v9aHv9kkcoppxLXU2bChp9jyeu8FYKTI+sxFuzG
-         g8zCo1lOZWv7fMv3gwf/qr0EhW2yVbpCLc3jD6eL8bp2v+eun33JqfrAoNGr4+an8e5T
-         44xuhLxqbfXbzFOBtXbFj2H9P9r5297eYP9RUHvxUYtPeDztY6WLRiclqW/r3260kVVY
-         WbrA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bf0jmikkZt6khZjmZ+vQTYW/X5n5hIhO7K0m1yFYmMA=;
+        b=DQrs0jTpZ1vGSeqz7AYb5bKh1GiP4TZvutQH5ZOx/53NncCrtyYXWc9qsPCc+v8nsT
+         6lijKkPTj1fMN1w1jnhxD9GkWA6svUP3mn/xt/TKC5fyKafJpL1Q1ESGOElx62VBHo6r
+         isYoLighMpLY0WRY46APIdrvR6L/7bE4jDLIAXWiBqCUwt2Iq/9E1+nqEo024ASniG1Q
+         uWUJuCccB1qLN+pQj9yBUpSKstdgp7rUxYpS4KwAyMwOy3bjEhE/cncdl9xuNzo8a0Dq
+         +Sm0AjiBxpDZAP84N7f2dHEMgXMO7AUkffY2KV5lt63GcJSHM/5L7M4n5pMAiHSfO+kH
+         z6HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CVGtSDjxtUlLWvvetgGRiUZg3RmuWi7A88eHZqwiyZg=;
-        b=d6DYIWGiwaJvEayKEgKLnjtNMWy+ggS1mloC6XD6lfn1jPPZXxbD8tk3FbVa84Sk8g
-         al0DefJIO7BfxEZsKhtqdlhNkAlsvfQmdtH07CyI1Z2rW7blOLRWdufrT19wQUPMeo9i
-         HJJelP/ob97zQ7TAj9lSNUPw7/R30C6nLEpYS24FgvCwzwdj1PjZpBTVCFwNpRku/hQl
-         wZxF8yBu8zb2SzrTiiGwMt42Fw21hAVsPHqQTjj0e6qvD1oqgZFRqm6Jb5nmy/9Xf59I
-         nEdAr78IzCDg7KJrYBRjbrN2Xq39Uv4TjvWMIqNaIcXRr7BXJTQMLDt8o9bRZWyhnaUL
-         Ziew==
-X-Gm-Message-State: AOAM5337mZ7Sk6jhFxv7XghtFBBNjAcqgAGJUIcfunzLpcR9UdBm9LEA
-        e39KtkPRqNnwtrmRrFF2HumblQ==
-X-Google-Smtp-Source: ABdhPJz8bZUpOLUyws4VEIBREZFYVwJBoIDnKP1B3V4SGYcehuOp3jsAxnXGo8uZo5tK59GkuTRzeQ==
-X-Received: by 2002:a05:6214:c66:b0:45c:538f:21b2 with SMTP id t6-20020a0562140c6600b0045c538f21b2mr850277qvj.90.1652898338283;
-        Wed, 18 May 2022 11:25:38 -0700 (PDT)
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id l19-20020a05622a175300b002f39b99f670sm1798361qtk.10.2022.05.18.11.25.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 11:25:37 -0700 (PDT)
-From:   Ralph Siemsen <ralph.siemsen@linaro.org>
-To:     ralph.siemsen@linaro.org
-Cc:     geert+renesas@glider.be, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, phil.edworthy@renesas.com
-Subject: [PATCH v2 1/3] clk: renesas: r9a06g032: Fix UART clkgrp bitsel
-Date:   Wed, 18 May 2022 14:25:27 -0400
-Message-Id: <20220518182527.1693156-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
-References: <20220518172808.1691450-1-ralph.siemsen@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bf0jmikkZt6khZjmZ+vQTYW/X5n5hIhO7K0m1yFYmMA=;
+        b=jA2EkbSa4AVoLYuh4Oo/tDg9nCFn9wxEGhGZlsYvOUBCuYktBGnXZR9lHJolIp6NQV
+         U89C2S2r1/gHILaTnBzTydBb4RU6ZOrvk+c9i+7mSAZXNgyvuYQAst6R3GWy3C6zBHo2
+         XDX77Mvy1le8IeCxpdLZ9Jp+UDZgn3TxNbb5mqvYafrWUrwSQDLazt/+mhaL9f1HzJic
+         HflMbazZjx8I0h3FPhLnSujEgnU4qVLX1UlwMtt0TBTHdPbX3C7yqkTFVoh4BYCllFOK
+         33lmwdm5ITw+HLscaOZkOc9hKPpS5Mn4enDeO5Vfg/PP53XgIiDwoH8Sa9OOVJ97CiuE
+         4enA==
+X-Gm-Message-State: AOAM531ANjeGlz5k/D8hdV4WoxDeuAIYMEhe9HK+bCeYoXgLn8J2Qsf9
+        skPGMUkQdkPAbdqjbTNaDg4xb/cR/VfVGUguslU=
+X-Google-Smtp-Source: ABdhPJwa8QmUvXVgKqdigNG0HwCeALivqCUbq0/SWjT0HH4A9ZF+Ly+39iqLY7/VD2e+bS7AHJBXjdU1WWmvfIWoSn0=
+X-Received: by 2002:a5b:246:0:b0:619:5651:3907 with SMTP id
+ g6-20020a5b0246000000b0061956513907mr958340ybp.190.1652898628394; Wed, 18 May
+ 2022 11:30:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220511183210.5248-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220511183210.5248-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUiq3svPa+OMmG70HP-3h4gKV6puoT8QUm3WgPw+e4i=A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUiq3svPa+OMmG70HP-3h4gKV6puoT8QUm3WgPw+e4i=A@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 18 May 2022 19:30:02 +0100
+Message-ID: <CA+V-a8uzaHr=gQ+b8JeqdsibKqQtiqGqVaxkeauu+6o-V3ki6g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] gpio: gpiolib: Add ngirq member to struct gpio_irq_chip
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There are two UART clock groups, each having a mux to select its
-upstream clock source. The register/bit definitions for accessing these
-two muxes appear to have been reversed since introduction. Correct them
-so as to match the hardware manual.
+Hi Geert,
 
-Fixes: 4c3d88526eba ("clk: renesas: Renesas R9A06G032 clock driver")
+Thank you for the review.
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
----
-v2 changes:
-- reverse the comments as well
+On Thu, May 12, 2022 at 8:29 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, May 11, 2022 at 8:32 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Supported GPIO IRQs by the chip is not always equal to the number of GPIO
+> > pins. For example on Renesas RZ/G2L SoC where it has GPIO0-122 pins but at
+> > a give point a maximum of only 32 GPIO pins can be used as IRQ lines in
+> > the IRQC domain.
+> >
+> > This patch adds ngirq member to struct gpio_irq_chip and passes this as a
+> > size to irq_domain_create_hierarchy()/irq_domain_create_simple() if it is
+> > being set in the driver otherwise fallbacks to using ngpio.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/gpio/gpiolib.c
+> > +++ b/drivers/gpio/gpiolib.c
+> > @@ -1221,7 +1221,7 @@ static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
+> >         gc->irq.domain = irq_domain_create_hierarchy(
+> >                 gc->irq.parent_domain,
+> >                 0,
+> > -               gc->ngpio,
+> > +               gc->irq.ngirq ?: gc->ngpio,
+> >                 gc->irq.fwnode,
+> >                 &gc->irq.child_irq_domain_ops,
+> >                 gc);
+> > @@ -1574,7 +1574,7 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+> >         } else {
+> >                 /* Some drivers provide custom irqdomain ops */
+> >                 gc->irq.domain = irq_domain_create_simple(fwnode,
+> > -                       gc->ngpio,
+> > +                       gc->irq.ngirq ?: gc->ngpio,
+> >                         gc->irq.first,
+> >                         gc->irq.domain_ops ?: &gpiochip_domain_ops,
+> >                         gc);
+>
+> OK.
+>
+> gpiochip_irqchip_remove() does:
+>
+>         /* Remove all IRQ mappings and delete the domain */
+>         if (gc->irq.domain) {
+>                 unsigned int irq;
+>
+>                 for (offset = 0; offset < gc->ngpio; offset++) {
+>                        if (!gpiochip_irqchip_irq_valid(gc, offset))
+>
+> Hence it relies on gc->irq.valid_mask, which I think is OK in general.
+>
+Agreed.
 
- drivers/clk/renesas/r9a06g032-clocks.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+>                                 continue;
+>
+>                         irq = irq_find_mapping(gc->irq.domain, offset);
+>                         irq_dispose_mapping(irq);
+>                 }
+>
+>                 irq_domain_remove(gc->irq.domain);
+>
+>         }
+>
+> > --- a/include/linux/gpio/driver.h
+> > +++ b/include/linux/gpio/driver.h
+> > @@ -51,6 +51,14 @@ struct gpio_irq_chip {
+> >          */
+> >         const struct irq_domain_ops *domain_ops;
+> >
+> > +       /**
+> > +        * @ngirq:
+> > +        *
+> > +        * The number of GPIO IRQ's handled by this IRQ domain; usually is
+> > +        * equal to ngpio.
+>
+> "If not set, ngpio will be used."
+>
+sure will update the comment.
 
-diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
-index c99942f0e4d4..abc0891fd96d 100644
---- a/drivers/clk/renesas/r9a06g032-clocks.c
-+++ b/drivers/clk/renesas/r9a06g032-clocks.c
-@@ -286,8 +286,8 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
- 		.name = "uart_group_012",
- 		.type = K_BITSEL,
- 		.source = 1 + R9A06G032_DIV_UART,
--		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG1_PR2 */
--		.dual.sel = ((0xec / 4) << 5) | 24,
-+		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG0_0 */
-+		.dual.sel = ((0x34 / 4) << 5) | 30,
- 		.dual.group = 0,
- 	},
- 	{
-@@ -295,8 +295,8 @@ static const struct r9a06g032_clkdesc r9a06g032_clocks[] = {
- 		.name = "uart_group_34567",
- 		.type = K_BITSEL,
- 		.source = 1 + R9A06G032_DIV_P2_PG,
--		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG0_0 */
--		.dual.sel = ((0x34 / 4) << 5) | 30,
-+		/* R9A06G032_SYSCTRL_REG_PWRCTRL_PG1_PR2 */
-+		.dual.sel = ((0xec / 4) << 5) | 24,
- 		.dual.group = 1,
- 	},
- 	D_UGATE(CLK_UART0, "clk_uart0", UART_GROUP_012, 0, 0, 0x1b2, 0x1b3, 0x1b4, 0x1b5),
--- 
-2.25.1
+Cheers,
+Prabhakar
 
+> > +        */
+> > +       u16 ngirq;
+> > +
+> >  #ifdef CONFIG_IRQ_DOMAIN_HIERARCHY
+> >         /**
+> >          * @fwnode:
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
