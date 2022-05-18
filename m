@@ -2,276 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADFEA52DEDD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 23:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDBE152E412
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 06:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244510AbiESVA3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 17:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42404 "EHLO
+        id S1345432AbiETEw3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 00:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232073AbiESVA0 (ORCPT
+        with ESMTP id S1345428AbiETEwX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 17:00:26 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5661EC3EE
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id h8so7606754ljb.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 May 2022 14:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
-        b=ruiqItQaoeqAgrJoFFwJ/UR0y1kFMIA4/jFsRXtqkA/UzGJaMIfiqZww1gW8BwBhDH
-         YCKHxoyVRuF9CHRNB+qAziSMUqD1JEltX2KQSlMDQ3e2jtR76Fy82aBCGjVPyYNwrNdy
-         MwkftIr89LES3mjhfPw3qBR5l1hKK/aFssC1kLYJXCAhOEKBQ7tKPPGtZXaZPQF+qSqO
-         sGQR18LNpEO8xu3tNL0RObIImk83UlGl22zjMHmHJyWtdDQ96jgEPvaSJWzrBRB9qp6d
-         GiC7oCQuLDj+64B6mFx3acaFfU/xQj3yzdoeThqgPcd5bLhllXm45BzTQF47BEdR/i29
-         JB5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jJ5ibJyWgXSEVtzkRw4+wBg9lBfLq6hkUK/PMQO4gu8=;
-        b=htEZsrbb71xt02xCUJemojLHvnK7175ChC7RI7YgtLLqSOMmHC08T43fVKYRKKjkbE
-         iB8iS2nBn++fuuq3u08SZ8sz9eaCHgjoZsVQWe6oF+kivwHCCRKEy6LgbFJR1pp+BAYG
-         e6ciByy1QimDbJxlUO63Q3ysjs1FfDzWzHKj72/13vvGELVFJLBluROQbsb1IUn0aP1K
-         v/jU20bmCFdQ40iLm4qyG897E2BvoBJbwbT5qOIPXGWnJ2uMQO2Fo1JgPTyrMTUYPAny
-         R0gjZEWJVTw/g/XI8KoUWHfTStbJYbOzVZM54DFq3GKtE0JJ9bIlEP0AFE1iSkjFLu12
-         SJ3A==
-X-Gm-Message-State: AOAM532R8K1v30+Mnadq5kF2llPVSy/T15R7LPhyzW9LfslzzhlPhAih
-        9A/bi+aHMMIMigMiyNzMO60tSg==
-X-Google-Smtp-Source: ABdhPJz8OynJaFv5FD/dGoBy3yUXY/Dc5t8MtNwMt5B41FEmq0MCX+2wnuKUQ8pm5p1f9Ytf7jiVsQ==
-X-Received: by 2002:a2e:a445:0:b0:24a:c1ba:b62f with SMTP id v5-20020a2ea445000000b0024ac1bab62fmr3744675ljn.81.1652994021950;
-        Thu, 19 May 2022 14:00:21 -0700 (PDT)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id x12-20020a19f60c000000b00477c619f47fsm363543lfe.92.2022.05.19.14.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 14:00:21 -0700 (PDT)
-Date:   Thu, 19 May 2022 23:00:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
- stop streaming if required
-Message-ID: <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
-References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
- <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
+        Fri, 20 May 2022 00:52:23 -0400
+X-Greylist: delayed 1096 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 May 2022 21:52:16 PDT
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02hn2233.outbound.protection.partner.outlook.cn [139.219.17.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0373D66FA1;
+        Thu, 19 May 2022 21:52:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dTgGc0h/0At8MBttzBkK8Ng18cD+wAmbmz35rRkzX2XuiAckWJA0l1KXg8aLkYfgPi7sDokHr+gmzTfIOQwiuhqYCylSHEqPt4cwrvgFr0m85bRiUMvUETEKTlm2tUySZxPlti+0GU9By9/3mxtOUO/cUjSSKmn595kW29RMwYjYtkiypQRgPmuVxyfcb9fdrJBYHRPYr8r98y/a+ZOGc7Cz05b0xj0XOGRFR/5K2M2Cwk6d50WHTQe/WWhbyj2nzaSrEa3wSi8zTbAhTmFZgTNxODWIAMQF2tutBJ8+w3lTD0TPpI8pR1KexM3pWkefgXNuSL/aAK10aamR2eAVhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
+ b=jIaZzQhQA82X+a0w7q6rEhMwvvJys6dL9lzHi1YcEHPXS0ShHMMxGO/E4kwE5RFdGDsxNV/sDXzSRe5V7FiQcHL7Ts3xOoARSBxYkYqqvuNArc6vqgtGlFu+AzSbLh8oMxVQ9FPDfsbHSlaWFqdvxPZX/f2splna30cRSGNYvSwZ4FzRM49vG68NhNSeZxr5lh/6ufXPq8Z5seuvKGxNF+4vTk6EHcPf3VXZLySJiwb6dS6lBwDOhGTkERmYJy+B1dkjzVFh2cEISar82BftErG47D2dGJELAvGzNLcV/KfE5uLQShbBvdXYkyqL2DULEUdgNIrISQpbX7mJZzo/Dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gientech.com; dmarc=pass action=none header.from=gientech.com;
+ dkim=pass header.d=gientech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gientech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
+ b=foLc+ZHUrkiTBblRVDfCc5ao8/S+6hbc/DEoLKcVaPpPajKnX4z7jSqL3SVfuMywUWqjNX+MXQpx8lfrn58abX8BQ7LyfzpBFg7lGTgSn3OWVF6ByZHmCqQIQruFX9tY6ITLzTeCdVYTr3g07IyxdRCBQpaevPHM0jyKGIrqu23jo48JVXDsd/H8mBYChEC31FE1W17JIWlGPi7Yn9hvE5K4PslZrcVIsfkoq8jh5tyLdDvbf3AlnqATiYXQwFGngzOSFF+k3dXhjkcz2T09rHYyBYW90HKJldrCOPFwxUy0umrG6snFvwq5WbkBpNfCmPYPNQe80G+qndcTRfokPA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gientech.com;
+Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn (10.43.110.19) by
+ SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn (10.43.109.207) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5273.15; Fri, 20 May 2022 04:19:12 +0000
+Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19])
+ by SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19]) with mapi
+ id 15.20.5273.017; Fri, 20 May 2022 04:19:12 +0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Ree
+To:     Recipients <cuidong.liu@gientech.com>
+From:   "J Wu" <cuidong.liu@gientech.com>
+Date:   Wed, 18 May 2022 21:19:15 +0000
+Reply-To: contact@jimmywu.online
+X-ClientProxiedBy: BJSPR01CA0002.CHNPR01.prod.partner.outlook.cn
+ (10.43.34.142) To SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
+ (10.43.110.19)
+Message-ID: <SHXPR01MB06238D40DEF6AAD61B0227D389D19@SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 41ca1767-fbf2-4795-4231-08da39141d61
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0575:EE_
+X-Microsoft-Antispam-PRVS: <SHXPR01MB05757B59B2D012F5EB1E390D89D39@SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?2HAd0fwgQDXkUZsGOEW4k34pXdmeGj4x7s+V0ucJJ4+0gri2WmjmZnuBM0?=
+ =?iso-8859-1?Q?vwoY9h8ruvMfbVR52dwMpwwjF3PjR7nWXSXKTJLbveOT/OOiyP2rOkOTVf?=
+ =?iso-8859-1?Q?/PsCHnU7yKCeKnLH2iLW5+7FxP6daDPy34OXIZ3/GIFtlNsB5aAFX0mp5k?=
+ =?iso-8859-1?Q?97q76D9I63IVoNUqzQ7cyar+J7q5Gz6MZhEV4qf7vBq98Ywv8wsUnf5M+b?=
+ =?iso-8859-1?Q?qkIBcJeSR85lKdc6JVTKjnymWzx4dhPlGXcMOmVHpDiVcODvy84XoZ19vA?=
+ =?iso-8859-1?Q?rsiS8UO425yUlZzB/bmJ0XXUo5zxtJuP+ASQ7bttTVyVcWv8rn0Ug04yX9?=
+ =?iso-8859-1?Q?FHOkBofWyrZB1A6Fw8Rv3soQkWwFv805wG8/2OO/ztl8FlkwCjSfVfX3Qr?=
+ =?iso-8859-1?Q?7ta+6oUgAlRo6uQqaGTaEWebQUUMbF7mhUgeJKmy4sAXhso+1OizEWc870?=
+ =?iso-8859-1?Q?N47RC4/V9QyM/2jjKTqzSMUng2a+Q9qtexDhPq+Qo11YjqDiVdh/doiGGf?=
+ =?iso-8859-1?Q?utMHTDSXL3bU+iw6D6CzELrMB6LY61pDs6hoz13FBQjUZ4mfKSJb2yNnfR?=
+ =?iso-8859-1?Q?82/QueIVmOzx1ejFP7jCP/elAFg1pBYlfvdh1+yTuDgQIAAe7ihfXMBNu1?=
+ =?iso-8859-1?Q?DhTATPMOvBpWIVTrbORhG3TRia/8X35kKPMtL/S46PiqHlkvQaAw3N8R25?=
+ =?iso-8859-1?Q?nRyhHQ6XWxEldG+T/lTJ1FIBp8K6ec2W5DQjrxKTLNAbVsrplJBZAqLce9?=
+ =?iso-8859-1?Q?vq9U0DNC8yjtnQRZCnpFf881vbxkMOtVoYCfU8mXBGFaw+M3nr449bpnDs?=
+ =?iso-8859-1?Q?qIGmckV+DkVHmvj3/ctn02kTdqbdAvBnaYItZ1rWXoJWs4qXYJ1UsmUjpw?=
+ =?iso-8859-1?Q?GeGB/wzThmlKYdWhtvsN0JBNQbYTe1ZH8D8E+0i8PDqV8D71Mr35xcRfzi?=
+ =?iso-8859-1?Q?WtzDAfGQlkAj4OOtAvygcuyTrK2vyO6ss3tCHD0jpvba29iyAMJxYCbKG+?=
+ =?iso-8859-1?Q?w5ELAWO/hsrNSfLYPgjkWziv/hV7NdoR60shxlV9dRs5Ywvg+EUdvKY+rB?=
+ =?iso-8859-1?Q?7Q=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:OSPM;SFS:(13230001)(366004)(7696005)(52116002)(40160700002)(19618925003)(38100700002)(6200100001)(558084003)(38350700002)(26005)(8936002)(8676002)(4270600006)(40180700001)(9686003)(6862004)(66946007)(7406005)(66556008)(7416002)(55016003)(7366002)(66476007)(186003)(86362001)(2906002)(508600001)(7116003)(3480700007)(33656002)(62346012);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?6m47vHuf/0UBnw9LibOUdsnIfmAruF36JKfn1tgu4grukT4hnZWiw5hvE9?=
+ =?iso-8859-1?Q?9Vv9ls/8Fdx709ZJdfi0AtnYCnY3DnppEVWL/3JwZpZpqAMd+AOSLonxgZ?=
+ =?iso-8859-1?Q?j44XCnFpe0KXi9D/V+11FBhM64kJXv/a/KI8MRje1MWhEYjFEka1OrJzo4?=
+ =?iso-8859-1?Q?HGeQ6tuCkcXxCyEw5ObqL8y8XLjCh6ggbAN0Siktlc3NYgcVC9iD9qDryp?=
+ =?iso-8859-1?Q?+HCJLqZM1j9QBMuzJUR4tYsHLdSIij0JwdH9ybyEyoBbUSySTQTgKk0Mpf?=
+ =?iso-8859-1?Q?sJQXUrASo0euRv2NTSAjnEF50OdOI9MoHsM9j86I8wQwN0pDhf25jeCPlJ?=
+ =?iso-8859-1?Q?PJKCzbozxjy7xKoDRMNdYgd60GH0RU07edJnjK/DMndUDLDoRhpPJKIQHc?=
+ =?iso-8859-1?Q?um4U9qnjP/yTmhhGGJ0bV/+ZXe99ZcnpjlE9GhNHM85Bv12SkZM0ousRl2?=
+ =?iso-8859-1?Q?j5hb2r5OmOvzYrpSUPc8hB6low05FFDDBCyRdF/PDmjnhm10URBsOszZmS?=
+ =?iso-8859-1?Q?Wf8Zep1qfz897pLFq6JALjGHmmIllqp5N5OeyLFWkyOnZF/LTR32mjoZbg?=
+ =?iso-8859-1?Q?QPsxrbuxJpRK35ZSmX6lZDEvqwgaAaLAnvkWnyO22S6mryutx4WYPszi78?=
+ =?iso-8859-1?Q?a4F9MGxm0jYp8TE46NcIg7YypeGQme4quh+Hl3DEZUnY1o/RFcCJ8mo3uQ?=
+ =?iso-8859-1?Q?2KhjgzlxS4zmXDO+8C2qFI3SQoa5kshmRK/bUuTIOZkp8hM+sQyDD2WfrY?=
+ =?iso-8859-1?Q?HqnLi9Ya6ShG+UIsRIndFqrFxnKIKAWQvdVVeZMAl0r1LsXqn9lRqGaOOi?=
+ =?iso-8859-1?Q?L/rvCHRtOaG8NN0AzYg2G32OxvN/7F2D2DEh4d2dZJhXz+rKK60AMG0WQp?=
+ =?iso-8859-1?Q?4dgnhHteSpD7702Qwd+xVBwXQT8t1uQ5VLB7VeVfsj9gzAjeRG3dPTX3SQ?=
+ =?iso-8859-1?Q?pG9YyFOnd1KEFSeSQijJ12hDt527v0eTjmZUyGQ47NL8VuanUF7GFtiuR9?=
+ =?iso-8859-1?Q?tq2jN4xFxNyFbmuaGJdZqLj7Ibja8FxR9yyJM/rKIy6XZd0CX2F3IOYVCr?=
+ =?iso-8859-1?Q?ad3RBmaTwUJsQz9Zzmj0zNxzxelisTeF0Ca50tIiXebIwgkW3kdc77h5l1?=
+ =?iso-8859-1?Q?L0wYuAj3sOQz0c2EI6l8DNLqrnrSwioDsoybp9p5M5FXjthIN6hh5M3ZCd?=
+ =?iso-8859-1?Q?dhLLAcb9iQ/D86VeUjgZpSUlg/+xJF/p4PuzF0UlvUrUTj7di6D2/+R9jb?=
+ =?iso-8859-1?Q?IfM7EUwnkm6Ev9UEoTrpOqNFfOeg6K/ifwnW5KU7kaMDHBe7pyim7Go2A3?=
+ =?iso-8859-1?Q?2rA7iOiWLwIdGh4cJzn9BbdeSy3FHGfYq5iLYHlIVcb2oNSAYjmK2mp/f0?=
+ =?iso-8859-1?Q?E+IANm02fXX9Tg1NNNX8O+wQBlMMgy2Zu5aZlunScS95YdBd3R4sDjm1/v?=
+ =?iso-8859-1?Q?NwQSTv0rdTzvP7iDIftbNCTM6ociCiAETUViKxR/nGaIivR+bEG+7YD0Vn?=
+ =?iso-8859-1?Q?eAI/Fu/lQT+W0SesbBwgZD/+GmcKA8cjpUMFe6c0Ofl4xa4uIU64/GrPVu?=
+ =?iso-8859-1?Q?HGH5toj4UVlzAGpZ82NknoLtJRJIZK78+fQHMO1sWbpUZ828sh7nVWoB19?=
+ =?iso-8859-1?Q?WUfT6ORQ2koZBzLDRbeI/EKirVHyLDRCFxVSXDqSoyoZ5xuDe46LIgHaVH?=
+ =?iso-8859-1?Q?eU85FZCjjzu5cW1bHrpVXR1iU0zaRt3vZH7Ur58OZw25PB+tAz2Vzl7r8v?=
+ =?iso-8859-1?Q?WDLQ=3D=3D?=
+X-OriginatorOrg: gientech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41ca1767-fbf2-4795-4231-08da39141d61
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 21:19:38.2482
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 89592e53-6f9d-4b93-82b1-9f8da689f1b4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k0DUz4TNoHO9cM0vkzNpHWdemcLULpCXtHA3c6a0BN6Aea57Y2GajnwScipA1Nv/Q+ZyJyP/DCFexWvIgzQlyc256IuC6ZL5cypLU3ro7vM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0575
+X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_50,DATE_IN_PAST_24_48,
+        DKIM_INVALID,DKIM_SIGNED,FORGED_SPF_HELO,KHOP_HELO_FCRDNS,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Michael,
-
-Thanks for your work.
-
-I like this patch, I think it captures the issue discussed in the 
-previous thread quiet nicely. One small nit below.
-
-On 2022-05-19 20:00:09 +0200, Michael Rodin wrote:
-> When a subdevice sends a transfer error event during streaming and we can
-> not capture new frames, then we know for sure that this is an unrecoverable
-> failure and not just a temporary glitch. In this case we can not ignore the
-> transfer error any more and have to notify userspace. In response to the
-> transfer error event userspace can try to restart streaming and hope that
-> it works again.
-> 
-> This patch is based on the patch [1] from Niklas Söderlund, however it adds
-> more logic to check whether the VIN hardware module is actually affected by
-> the transfer errors reported by the usptream device. For this it takes some
-> ideas from the imx driver where EOF interrupts are monitored by the
-> eof_timeout_timer added by commit 4a34ec8e470c ("[media] media: imx: Add
-> CSI subdev driver").
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se/
-> 
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 ++++++++++++++++++++++
->  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 18 +++++++++++-
->  drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  7 +++++
->  3 files changed, 58 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index 2272f1c..596a367 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
->  #include <linux/pm_runtime.h>
-> +#include <media/v4l2-event.h>
->  
->  #include <media/videobuf2-dma-contig.h>
->  
-> @@ -1060,6 +1061,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
->  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
->  	}
->  
-> +	cancel_delayed_work(&vin->frame_timeout);
-> +	schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> +
->  	vin->sequence++;
->  
->  	/* Prepare for next frame */
-> @@ -1283,6 +1287,7 @@ int rvin_start_streaming(struct rvin_dev *vin)
->  	spin_lock_irqsave(&vin->qlock, flags);
->  
->  	vin->sequence = 0;
-> +	vin->xfer_error = false;
->  
->  	ret = rvin_capture_start(vin);
->  	if (ret)
-> @@ -1290,6 +1295,10 @@ int rvin_start_streaming(struct rvin_dev *vin)
->  
->  	spin_unlock_irqrestore(&vin->qlock, flags);
->  
-> +	/* We start the frame watchdog only after we have successfully started streaming */
-> +	if (!ret)
-> +		schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-> +
->  	return ret;
->  }
->  
-> @@ -1332,6 +1341,12 @@ void rvin_stop_streaming(struct rvin_dev *vin)
->  	}
->  
->  	vin->state = STOPPING;
-> +	/*
-> +	 * Since we are now stopping and don't expect more frames to be captured, make sure that
-> +	 * there is no pending work for error handling.
-> +	 */
-> +	cancel_delayed_work_sync(&vin->frame_timeout);
-> +	vin->xfer_error = false;
-
-Do we need to set xfer_error to false here? The delayed work is canceled 
-and we reset the xfer_error when we start in rvin_start_streaming().
-
->  
->  	/* Wait until only scratch buffer is used, max 3 interrupts. */
->  	retries = 0;
-> @@ -1424,6 +1439,23 @@ void rvin_dma_unregister(struct rvin_dev *vin)
->  	v4l2_device_unregister(&vin->v4l2_dev);
->  }
->  
-> +static void rvin_frame_timeout(struct work_struct *work)
-> +{
-> +	struct delayed_work *dwork = to_delayed_work(work);
-> +	struct rvin_dev *vin = container_of(dwork, struct rvin_dev, frame_timeout);
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_XFER_ERROR,
-> +	};
-> +
-> +	vin_dbg(vin, "Frame timeout!\n");
-> +
-> +	if (!vin->xfer_error)
-> +		return;
-> +	vin_err(vin, "Unrecoverable transfer error detected, stopping streaming\n");
-> +	vb2_queue_error(&vin->queue);
-> +	v4l2_event_queue(&vin->vdev, &event);
-> +}
-> +
->  int rvin_dma_register(struct rvin_dev *vin, int irq)
->  {
->  	struct vb2_queue *q = &vin->queue;
-> @@ -1470,6 +1502,8 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
->  		goto error;
->  	}
->  
-> +	INIT_DELAYED_WORK(&vin->frame_timeout, rvin_frame_timeout);
-> +
->  	return 0;
->  error:
->  	rvin_dma_unregister(vin);
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> index 2e2aa9d..bd7f6fe2 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> @@ -648,6 +648,8 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
->  	switch (sub->type) {
->  	case V4L2_EVENT_SOURCE_CHANGE:
->  		return v4l2_event_subscribe(fh, sub, 4, NULL);
-> +	case V4L2_EVENT_XFER_ERROR:
-> +		return v4l2_event_subscribe(fh, sub, 1, NULL);
->  	}
->  	return v4l2_ctrl_subscribe_event(fh, sub);
->  }
-> @@ -1000,9 +1002,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
->  static void rvin_notify_video_device(struct rvin_dev *vin,
->  				     unsigned int notification, void *arg)
->  {
-> +	const struct v4l2_event *event;
-> +
->  	switch (notification) {
->  	case V4L2_DEVICE_NOTIFY_EVENT:
-> -		v4l2_event_queue(&vin->vdev, arg);
-> +		event = arg;
-> +
-> +		switch (event->type) {
-> +		case V4L2_EVENT_XFER_ERROR:
-> +			if (vin->state != STOPPED && vin->state != STOPPING) {
-> +				vin_dbg(vin, "Subdevice signaled transfer error.\n");
-> +				vin->xfer_error = true;
-> +			}
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +
->  		break;
->  	default:
->  		break;
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 1f94589..4726a69 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -31,6 +31,9 @@
->  /* Max number on VIN instances that can be in a system */
->  #define RCAR_VIN_NUM 32
->  
-> +/* maximum time we wait before signalling an error to userspace */
-> +#define FRAME_TIMEOUT_MS 1000
-> +
->  struct rvin_group;
->  
->  enum model_id {
-> @@ -207,6 +210,8 @@ struct rvin_info {
->   * @std:		active video standard of the video source
->   *
->   * @alpha:		Alpha component to fill in for supported pixel formats
-> + * @xfer_error:		Indicates if any transfer errors occurred in the current streaming session.
-> + * @frame_timeout:	Watchdog for monitoring regular capturing of frames in rvin_irq.
->   */
->  struct rvin_dev {
->  	struct device *dev;
-> @@ -251,6 +256,8 @@ struct rvin_dev {
->  	v4l2_std_id std;
->  
->  	unsigned int alpha;
-> +	bool xfer_error;
-> +	struct delayed_work frame_timeout;
->  };
->  
->  #define vin_to_source(vin)		((vin)->parallel.subdev)
-> -- 
-> 2.7.4
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+Can you do a job with me?
