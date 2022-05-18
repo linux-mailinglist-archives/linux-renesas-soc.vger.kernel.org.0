@@ -2,96 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FAB52AD5F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 May 2022 23:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC6552B033
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 03:50:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343792AbiEQVNL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 May 2022 17:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37524 "EHLO
+        id S231147AbiERBu0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 May 2022 21:50:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242972AbiEQVNK (ORCPT
+        with ESMTP id S229939AbiERBuZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 May 2022 17:13:10 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B1742EEA;
-        Tue, 17 May 2022 14:13:08 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A0AAEC0002;
-        Tue, 17 May 2022 21:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1652821987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qBaJl8WcrskpVvu5x6uJ7XKJuPc6WqxXWNmf+zmU5C0=;
-        b=XJcefgUihW/mLjSlmZtAH14YAmr+OzwTF9nzTT5peXEn5qhJwOG7F8ludFkaVHvWachzQE
-        Dge4lHwLx7J+sd78ampwrHRodU5qkixX6wbHznUf+cCDE9RRCbCTdUcV/GQMWfpyWBZFjQ
-        1Vku6mgH/GCStsAJ8vd8RZHIYA4J0TTVCXkvMeeGDFTY1b6/cI5FRgQHaZNp2TXMwKKf5f
-        bYl336+RgOZquuSf+B97QxDHxMC49f4COEgh2CU3yhXNA9JfFFLoajmVKd77zBCoQO4k1V
-        jnSIOAgt8YZhrLYXNTBadCC/ssPZKuo3ymniggDSCC7cnstMdcQUrSDSvtgpLw==
-Date:   Tue, 17 May 2022 23:13:05 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Herve Codina <herve.codina@bootlin.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        linux-rtc@vger.kernel.org,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Jimmy Lalande <jimmy.lalande@se.com>
-Subject: Re: [PATCH v7 0/5] RZ/N1 RTC support
-Message-ID: <165282193419.289847.12458884088861451958.b4-ty@bootlin.com>
-References: <20220516082504.33913-1-miquel.raynal@bootlin.com>
+        Tue, 17 May 2022 21:50:25 -0400
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C056546B9;
+        Tue, 17 May 2022 18:50:24 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id q8so1009994oif.13;
+        Tue, 17 May 2022 18:50:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LlSxDaLCHauGZrqN/giBvHhtN9qFCAg+kdEdfUnEMW0=;
+        b=Gq6goUrrsts9A7AfFXeiOUK0pkOGhZ28KgXkIVwoW0dM39SE5SMqysCAwznFWgaWVz
+         u9qpmdqkeIJCofOSyFbvhdTOJ8Dmqt7tVz+hTC49gVnwUNU5Z8xDof28X7y8VcSy5g3f
+         LAkqNbqyIZmQTUr4qS8Z3tr1niBsfcEKGeKvnKCxNM1m1Kpe1/L6zKk4cL/iduecOJdV
+         deKScvWEfHIEUhPe8TCzRB5IvcX9d+SQsafZvUvKNF4F6qX4oP0ShJ+JRbtW2nK1uxza
+         lqOq1afNEPFYHfOKZ1vRJ2zLM+dy+SejeIZqy/aExcxkgWhDLiEoMgSME1NRBQE0XIGQ
+         +VJw==
+X-Gm-Message-State: AOAM5328qXmBslp1JxTb9UWQU9PG+AehopmgS+KT8s8nB/hQR0sIartq
+        ANoiYD0LX9tj4sl75mlPg51jVbAjsA==
+X-Google-Smtp-Source: ABdhPJxt57AaLIoBe4gd7/llGhBOKO95nQjGdxw8b1GbZW2CUw2ffSQMWlHULWyl9syuQtuDjXYv/A==
+X-Received: by 2002:a05:6808:238f:b0:326:d4e1:a4b6 with SMTP id bp15-20020a056808238f00b00326d4e1a4b6mr12263742oib.241.1652838623504;
+        Tue, 17 May 2022 18:50:23 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id f19-20020a4ae613000000b0035eb4e5a6c6sm454635oot.28.2022.05.17.18.50.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 18:50:22 -0700 (PDT)
+Received: (nullmailer pid 2056833 invoked by uid 1000);
+        Wed, 18 May 2022 01:50:21 -0000
+Date:   Tue, 17 May 2022 20:50:21 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL
+ ADC
+Message-ID: <20220518015021.GA2049643-robh@kernel.org>
+References: <20220505184037.511295-1-biju.das.jz@bp.renesas.com>
+ <20220505184037.511295-2-biju.das.jz@bp.renesas.com>
+ <CAMuHMdVV=MB8xa-Q-c_aZx9LGrW=9aP9iC3P-FMRSf-HiovOzA@mail.gmail.com>
+ <OS0PR01MB59224E3B5A9E5D8FD5E55B2886C59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdXDCDLhOSGgy9WWwawiHpE8C6isU2dLn6uSpY2gFAr38g@mail.gmail.com>
+ <OS0PR01MB5922CD6D965A6138721F9A5886C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <YnqPTQVUNADk/YO4@robh.at.kernel.org>
+ <OS0PR01MB59222568C4189A74FE83D6B186C99@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdVAxgsfnS1hjmrjT+pQrne8qGLejFgQ54+KDPdv=mq72g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220516082504.33913-1-miquel.raynal@bootlin.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAMuHMdVAxgsfnS1hjmrjT+pQrne8qGLejFgQ54+KDPdv=mq72g@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 16 May 2022 10:24:59 +0200, Miquel Raynal wrote:
-> This small series adds support for the RZ/N1 RTC.
+On Wed, May 11, 2022 at 08:53:53AM +0200, Geert Uytterhoeven wrote:
+> Hi Biju,
 > 
-> Despite its limitations, I found useful to at least have alarm and
-> offset support.
+> On Tue, May 10, 2022 at 8:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > Subject: Re: [PATCH v2 1/2] dt-bindings: iio: adc: Document Renesas RZ/G2UL
+> > > ADC
+> > > patternProperties:
+> > >   '^channel@[2-7]$': false
+> >
+> > This fixes the validation for channels. But how do we restrict reg index between 0-1 ?
+> > The below example is passing instead of failing.
+> >       channel@0 {
+> >         reg = <5>;
+> >       };
 > 
-> Cheers,
-> Miquèl
-> 
-> [...]
+> I expect that to be flagged by the generic unit-address vs. reg check?
 
-Applied, thanks!
+No such thing. All the unit-address vs. reg value checks are bus 
+specific (and in dtc). David G was against any generic/default check...
 
-[1/5] dt-bindings: rtc: rzn1: Describe the RZN1 RTC
-      commit: 4c4d145a65e5a7faac440081bc1eac860930cd24
-[2/5] rtc: rzn1: Add new RTC driver
-      commit: deeb4b5393e106b990607df06261fba0ebb7ebde
-[3/5] rtc: rzn1: Add alarm support
-      commit: b5ad1bf00d2c4bf96bf9318f44a929f0b22dd29c
-[4/5] rtc: rzn1: Add oscillator offset support
-      commit: be4a11cf98aff5d456eae947a49b6163393d9420
-[5/5] MAINTAINERS: Add myself as maintainer of the RZN1 RTC driver
-      commit: 060eceb739e5b30db684666592c2a33d09426651
-
-Best regards,
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Rob
