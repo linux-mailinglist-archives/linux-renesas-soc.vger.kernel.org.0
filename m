@@ -2,76 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF0FC52BD63
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 16:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9DC52BE62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 17:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238249AbiERNwV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 09:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44950 "EHLO
+        id S238955AbiERO7o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 10:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238245AbiERNwU (ORCPT
+        with ESMTP id S238888AbiERO7k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 09:52:20 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EF3691A8E3B;
-        Wed, 18 May 2022 06:52:17 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,235,1647270000"; 
-   d="scan'208";a="121389377"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 May 2022 22:52:17 +0900
-Received: from localhost.localdomain (unknown [10.226.92.148])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B9DAE436E6EA;
-        Wed, 18 May 2022 22:52:14 +0900 (JST)
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clk: renesas: r9a09g011: Add PFC clock and reset entries
-Date:   Wed, 18 May 2022 14:52:08 +0100
-Message-Id: <20220518135208.39885-1-phil.edworthy@renesas.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 18 May 2022 10:59:40 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D1A19FB3A;
+        Wed, 18 May 2022 07:59:39 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id n10so4378840ejk.5;
+        Wed, 18 May 2022 07:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6ghJb9MXOvPjVbNP2O+VvilLUlkkCEx3WunS6BB5Uc4=;
+        b=XB1PCP63p5IcPuRby4NOXLPeQmPAAJR/xJ32cC19iUtkhwaH25uzpPFyNyxYM6+XZD
+         lWullQw1lRNhWje4m6l2MRtHI8axUnC2D7NmtYBqJlrrZjhP0Q7UP1TkwmPWICZsxsJ2
+         HrqhOotv2Ii7WFFSWAag0MZumtWlvz07eg+f6wt0YpDEVkwRJsW65UMpMYixTVKn4Ntu
+         wlkUvPcRlEsTk308h123bQ/NEmTOR1nPP/a9A2HKDsfcsN2TS+kr2DgKR8OB2Bnar7xN
+         QOETZjEwc+qPIByBOVWovJmyidy5MMBwyMLnUr/HlBJznDh6oF2K3n/gw+Kc05cRuOya
+         i+nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ghJb9MXOvPjVbNP2O+VvilLUlkkCEx3WunS6BB5Uc4=;
+        b=kTHllVGGFfjmOlNqjWJw4w87wD+fCMuC3q/hPDUdUcVJcyWxbkqnBKy3a1vSew+HTh
+         coe25l27+Wm9o2YteIoJfIrH+zKeVa6ueiJOOhUW8kAMIM6iNSRQ37BJ+nltsEohtJ+L
+         5ykamR1ldt/cOGvxwVdmjrli+dJ6ciHa/oy/F1dq+skc50dNK1eipiWSIeBm8CATKV46
+         zueHBTXj3VYu6OGp33sgqgnGQwyxS5lGKSoIf27MYAwtbwTmJBQGxpJUK9AsY+mXYj74
+         gyDtyvMqWJFgSrfdYAULvzEkTlOa13cyZH5/Q7dbBldM6iL//KktqPMfPKuqCffQ5IAF
+         aSRg==
+X-Gm-Message-State: AOAM532t82MnFFUaX7mUTB/PtNkRftcXUQWk9bO2rnpl/Yy2mnWrVd0K
+        z7dvC8OO5OoPeQGSIS+3lczSYxKYQ2HmVo5iTOTy9cOtBUp/Gg==
+X-Google-Smtp-Source: ABdhPJxh9Dl/E85FkZ/QleUoSSfmHcZ+WPUZf4Hmz9IBTvfJF0iRVB3rdAjQu7bZCo3MCTYA15vyGZpm0auz11BdxoQ=
+X-Received: by 2002:a17:907:6d8a:b0:6fe:1b36:dfcc with SMTP id
+ sb10-20020a1709076d8a00b006fe1b36dfccmr19051240ejc.579.1652885977469; Wed, 18
+ May 2022 07:59:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <6dc8b18570f63d9841c11441c8d203ee655007c7.1652879174.git.geert+renesas@glider.be>
+In-Reply-To: <6dc8b18570f63d9841c11441c8d203ee655007c7.1652879174.git.geert+renesas@glider.be>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 18 May 2022 16:59:00 +0200
+Message-ID: <CAHp75Vf4i7SMzfNhszCxpbbGo-ffDTnHeLatDDAdB33LxTKkHg@mail.gmail.com>
+Subject: Re: [PATCH] gpio: pca953x: Make the irqchip immutable
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Marc Zyngier <maz@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add PFC clock/reset entries to CPG driver.
+On Wed, May 18, 2022 at 3:08 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a09g011-cpg.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks for your patches!
 
-diff --git a/drivers/clk/renesas/r9a09g011-cpg.c b/drivers/clk/renesas/r9a09g011-cpg.c
-index 40693bb85b80..b01d79a73dd8 100644
---- a/drivers/clk/renesas/r9a09g011-cpg.c
-+++ b/drivers/clk/renesas/r9a09g011-cpg.c
-@@ -126,6 +126,7 @@ static const struct cpg_core_clk r9a09g011_core_clks[] __initconst = {
- };
- 
- static const struct rzg2l_mod_clk r9a09g011_mod_clks[] __initconst = {
-+	DEF_MOD("pfc",		R9A09G011_PFC_PCLK,	 CLK_MAIN,     0x400, 2),
- 	DEF_MOD("gic",		R9A09G011_GIC_CLK,	 CLK_SEL_B_D2, 0x400, 5),
- 	DEF_COUPLED("eth_axi",	R9A09G011_ETH0_CLK_AXI,	 CLK_PLL2_200, 0x40c, 8),
- 	DEF_COUPLED("eth_chi",	R9A09G011_ETH0_CLK_CHI,	 CLK_PLL2_100, 0x40c, 8),
-@@ -137,6 +138,7 @@ static const struct rzg2l_mod_clk r9a09g011_mod_clks[] __initconst = {
- };
- 
- static const struct rzg2l_reset r9a09g011_resets[] = {
-+	DEF_RST(R9A09G011_PFC_PRESETN,		0x600, 2),
- 	DEF_RST_MON(R9A09G011_ETH0_RST_HW_N,	0x608, 11, 11),
- 	DEF_RST_MON(R9A09G011_SYC_RST_N,	0x610, 9,  13),
- };
+> Commit 6c846d026d49 ("gpio: Don't fiddle with irqchips marked as
+> immutable") added a warning to indicate if the gpiolib is altering the
+> internals of irqchips.  Following this change the following warning is
+> now observed for the pca953x driver:
+>
+>     gpio gpiochip7: (0-0020): not an immutable chip, please consider fixing it!
+>
+> Fix this by making the irqchip in the pca953x driver immutable.
+
+I have two fixes against documentation [1] and here is exactly the
+point to do it better.
+Please, update all your patches accordingly.
+
+[1]: In one of the recent Linux Nexts:
+e9fdcc2d8376 Documentation: gpio: Advertise irqd_to_hwirq() helper in
+the examples
+bdb6528ec550 Documentation: gpio: Fix IRQ mask and unmask examples
+
+...
+
+>         irq_hw_number_t hwirq = irqd_to_hwirq(d);
+>
+> +       gpiochip_enable_irq(gc, d->hwirq);
+
+We have already hwirq.
+
 -- 
-2.34.1
-
+With Best Regards,
+Andy Shevchenko
