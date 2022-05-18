@@ -2,177 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A735652C3A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 21:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD32D52C55C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 May 2022 23:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242059AbiERTnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 May 2022 15:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51448 "EHLO
+        id S242936AbiERVIz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 May 2022 17:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241960AbiERTnw (ORCPT
+        with ESMTP id S243004AbiERVIy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 May 2022 15:43:52 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0332020CA53
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 May 2022 12:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652903030; x=1684439030;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QT/mI2uFHZqpvCNJSJ2Ihy4QkRz2S3BEXNk5H/ITsCs=;
-  b=bkosnEgLOXEH7AhqZ+kzaEUE2WfreEt2C88cFjC5nIFzrV85aQq4NMUs
-   YzKMPM/BdcYN2fk+qZolG0vamxldGoP27REP1aU7DBdYwxCPibEPvthi3
-   fHGDfBuQq4+RZOQ79Kvv8jUMhPfx1ijs29j6g2hJCW6EDW2RKUTO8I7qa
-   Z1noB0yINOqUbREhYBtrQOR+rzB5tY1ouuLXxtM2b7MbP4AQU08jhPPmE
-   Dd8FNSzXikrxN1AIjYZDLqjaI730Jzx5TbqKQDYcHBqpbRzQsbrzoonAX
-   bxCh07fVYoxEKtzvFYte8dnV7i60/fD0NDlM/9r0iQmQMx6hbHuiGVkuU
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="259432358"
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
-   d="scan'208";a="259432358"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 12:43:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
-   d="scan'208";a="545641166"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 May 2022 12:43:49 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nrPaG-0002YX-QS;
-        Wed, 18 May 2022 19:43:48 +0000
-Date:   Thu, 19 May 2022 03:43:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 649d5a1bb230356c830181dd87365a735718f94e
-Message-ID: <62854c46.5A4e/uRouaKUb2tj%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 18 May 2022 17:08:54 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1961A1B437C;
+        Wed, 18 May 2022 14:08:53 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id n13so4283756ejv.1;
+        Wed, 18 May 2022 14:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=poAMdlgLXQTMkIS8fgKzLL8994lxq2o1RAN5DIIIqcM=;
+        b=hUgrXKGHUGIZBbl8I9XYfH9uW4wflRL6A40xhqtOHNyn2s/ScMigiOPqQdAZBL+cTH
+         0IraWlSLjdwK2YmGmnAzHMnBljbl9SrVbtQRz4YTlJBmBUoCoNjrgYtrQfBoMKBZ0HrR
+         PnEvF4FL+Sa/mncStYhShm27o1tZ/8Zca2ZotDzV8BTgQ1DW8XjSuTZdKkRtrkpdFjEH
+         ljDnuncmS521mSvO6C+lahR5q7wZRcw22SaIHvJTcG71S0LcgtEjNVER2BYfukx8I5dt
+         yC6UIJ6kArq8rGydSn1pkfYC1LJCQlqgbHatZQ+FfVLh+X1abarikla8wxrTR8aG3X9Y
+         4XLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=poAMdlgLXQTMkIS8fgKzLL8994lxq2o1RAN5DIIIqcM=;
+        b=Deml7xoBniVn7L9/s2jpQGrmcXPi7F13RPkE9yCQLkdCFeNuX2AERZVHU8X38Ixv/G
+         Z7MGEJ7VkAyY1liatNG0UKrOu7EVDkac3VNUEOoaHojUjV5YCE/QN40+1GRXYTsVm9v8
+         IHuYh3426sfzIJ0reYXpM4qGR8BKgrB7TQxOUpU6KrEbNaWH5PM9a2a2VXa/5zScxiT1
+         Lvn4fJ9RiLx/U1tZk4/0jT8ihWZAqKRGNVCFPDwwCgSm1CId3SCA1oFXoXSbumZ1WGFy
+         Sy1pQ/JkjZoorHqQQYlkIB3u401/uTZA6UYujM0TW27bCBl2RnfYGpbzSzJ9hXpz3gdX
+         BSFw==
+X-Gm-Message-State: AOAM5308vBx6mC0Yx3vMTbBL1n8+OtosnaMsoFJtGApev+GrJA/DocUs
+        8lcZFlm5BjjwK/jglZhEaWxbs3GLTsdppG8+ueE=
+X-Google-Smtp-Source: ABdhPJwFvYLZ+xzM7U+/4ei85VsSOTnLxcc8+TJ3t1hLtKLIWqJXDfgtbnn+8qMuueo8Iqc0vnAmUg/SsetyFMAie7o=
+X-Received: by 2002:a17:907:868e:b0:6fa:2fe2:92d6 with SMTP id
+ qa14-20020a170907868e00b006fa2fe292d6mr1296593ejc.639.1652908131493; Wed, 18
+ May 2022 14:08:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220518192924.20948-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220518192924.20948-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220518192924.20948-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 18 May 2022 23:08:15 +0200
+Message-ID: <CAHp75VfbcYCH5XgnP9VB0hX0W3_jdvSBmXSB1ANMiT66yLQvOA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] gpio: gpiolib: Add a check to validate GPIO hwirq
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 649d5a1bb230356c830181dd87365a735718f94e  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+On Wed, May 18, 2022 at 9:30 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> Add a check to validate GPIO hwirq is always within the range of hwirq_max
+> set in the GPIO irq domain.
 
-elapsed time: 1692m
+...
 
-configs tested: 95
-configs skipped: 3
+> +                       if (WARN(hwirq >= domain->hwirq_max,
+> +                                "error: hwirq 0x%x is too large for %s\n",
+> +                                (int)hwirq, domain->name))
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Using castings in the printf() often points to possible mistakes or
+missed custom specifiers.
 
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-i386                 randconfig-c001-20220516
-mips                  decstation_64_defconfig
-powerpc                      pasemi_defconfig
-mips                           ip32_defconfig
-m68k                          sun3x_defconfig
-m68k                          amiga_defconfig
-sh                           se7751_defconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-alpha                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                                 defconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-parisc64                            defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-sparc                            allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-mips                             allmodconfig
-mips                             allyesconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a012-20220516
-x86_64               randconfig-a011-20220516
-x86_64               randconfig-a013-20220516
-x86_64               randconfig-a014-20220516
-x86_64               randconfig-a016-20220516
-x86_64               randconfig-a015-20220516
-i386                 randconfig-a014-20220516
-i386                 randconfig-a011-20220516
-i386                 randconfig-a013-20220516
-i386                 randconfig-a015-20220516
-i386                 randconfig-a012-20220516
-i386                 randconfig-a016-20220516
-arc                  randconfig-r043-20220516
-s390                 randconfig-r044-20220516
-riscv                randconfig-r042-20220516
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                                  kexec
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                               rhel-8.3
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
+...
 
-clang tested configs:
-powerpc                     pseries_defconfig
-mips                         tb0287_defconfig
-mips                           mtx1_defconfig
-arm                   milbeaut_m10v_defconfig
-i386                 randconfig-a003-20220516
-i386                 randconfig-a001-20220516
-i386                 randconfig-a004-20220516
-i386                 randconfig-a006-20220516
-i386                 randconfig-a002-20220516
-i386                 randconfig-a005-20220516
-x86_64               randconfig-a002-20220516
-x86_64               randconfig-a001-20220516
-x86_64               randconfig-a004-20220516
-x86_64               randconfig-a003-20220516
-x86_64               randconfig-a005-20220516
-x86_64               randconfig-a006-20220516
-hexagon              randconfig-r045-20220516
-hexagon              randconfig-r041-20220516
+> +               if (WARN(hwirq >= domain->hwirq_max,
+> +                        "error: hwirq 0x%x is too large for %s\n", (int)hwirq, domain->name))
+
+Ditto.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With Best Regards,
+Andy Shevchenko
