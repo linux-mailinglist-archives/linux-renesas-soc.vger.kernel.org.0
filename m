@@ -2,110 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1030452D024
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F8E52D053
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232912AbiESKIE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 06:08:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
+        id S236565AbiESKUM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 06:20:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbiESKID (ORCPT
+        with ESMTP id S236768AbiESKUF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 06:08:03 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D36DA7740;
-        Thu, 19 May 2022 03:08:02 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id f9so9039622ejc.0;
-        Thu, 19 May 2022 03:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EZvPkAeujwgNKCH5EMvSfalxGi18lEkG+bj2iAM0yAs=;
-        b=jLOnF0e7IvKq0dViMCad++sS/fMzl1uvK8JrCKAnJ8R/TGlg3fdAeTxdFfmrkYDg7I
-         KZ/MY7YpSK86SmKcjAJ8Hepr8OoTq3DoJ1tlflZmNQ3+8mtkpTpKjvxp5H9JkadBoWTM
-         F3TKYyy1q83krbp92fH28aMfL7MhgnFiQVIQgHsSPiP8J6X8kvEE+ingczbeOz7Oy+g/
-         x472XDt1dNPEqSoQo5dGfGevS/JIsxg4Ac5NRg88wGRY02FmWhy5ci9mCXC1Hct5mcuX
-         DivoBjJmvk4KGKIgUvevNHnWKrfdrvrl9oc8u+wev/CDk+fs1gJLS0B9yfEWYqmcD/yj
-         t9dA==
+        Thu, 19 May 2022 06:20:05 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E075AEE33;
+        Thu, 19 May 2022 03:19:59 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id i20so4439761qti.11;
+        Thu, 19 May 2022 03:19:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EZvPkAeujwgNKCH5EMvSfalxGi18lEkG+bj2iAM0yAs=;
-        b=h7J7bnM8u/P0hTKvf2DgsDzxGheBaaHIA9FO98YqNqKROvo9t8s/IQU1IoCMYxi6uJ
-         Ybbf8B9zghzbdwLaScJQCiWA1O3Pdk+e64mU4xWVgxhuPT97sJDP5z0/0ejBNjFoVK7h
-         rjIL6QiEMQ9elz+1fu4plxlZ6kwROrNp5o4o96xPrJfqFRmaRy1tj057b/PLWZ2oNHDv
-         7uDnH0TWfu2riSOvJLrpxf4EhStaxs1nQ1IYSk3e38J1uqowrTPDLA07yGOCzCR3NZiA
-         EGKrI+Uql2P9GVimZ4AVGRZrkL5khagKsS/YTCoEA9vOtABHNKMTJtNQ8EjcjgmpCn9V
-         TrkQ==
-X-Gm-Message-State: AOAM532us8p0P4bXmBN3k1/4jFAqwagttCwp4zReaeDFAIAq8dm6EdSB
-        32951UPxB9p70e5Ytyoa1fD8iK5xZ06ecgrA6IM=
-X-Google-Smtp-Source: ABdhPJzJayPSTOH8apl4X7mFph72vPHSGtbxYNMETu8oPZt5Ra6jCHh52C93NfRy/hJ4wplCEVFMXJnKsXs6wcDGcMw=
-X-Received: by 2002:a17:907:a088:b0:6f4:f661:f77a with SMTP id
- hu8-20020a170907a08800b006f4f661f77amr3494449ejc.77.1652954880656; Thu, 19
- May 2022 03:08:00 -0700 (PDT)
+        bh=eL9MIMmXb+DZaq6vr6BbVmUp5SemuWgZsAc5myxClhA=;
+        b=y6KtOzwBJdqajm4Dng1KFBHUmVQ3ZqLl++7zx8f/1ry+YgDrbuIJirJgM8kZFou5Ex
+         cO6dkp8/dZm9acaYbOjbXhbV2M8jKr2ZCDS5yDk01XZpExgjjxpMQcqR5NcQgGkyqV07
+         3vYUvmtuZy4ScQtru3R6y8Ai8/kfq3Rfvtvn4CFA81THGhG4drO2VogkpiQnrpeWCsSq
+         PEEiq/AeXEeBOmetemFSq7kXC32BDxMqnwH1IEw7r4UXot2p8qiOyVF0Qz/lYelH6ktL
+         efXcDH2PCgCCCn/bIVlnWEwjkAjXhVBNFU52yI4qdqWbkxhXzu0idh3nqP9X5DkGSDW5
+         GQYQ==
+X-Gm-Message-State: AOAM533hlKTU7/HR1PcTdh2h1EqcMUPiKhubbvgzWsDNtg0kfuarID0J
+        L2/Qjy6fEhuE7nPclxTgT+ClxIJhMrv0PA==
+X-Google-Smtp-Source: ABdhPJxyBl2YeT2rjvZTwedOhVM3vStCXbLnmD6Ny5qd67o/G+6kSuMDg1Fa6FLdMIo76xHz1Nemug==
+X-Received: by 2002:ac8:5b56:0:b0:2f3:eb25:910e with SMTP id n22-20020ac85b56000000b002f3eb25910emr3109341qtw.616.1652955597943;
+        Thu, 19 May 2022 03:19:57 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id he17-20020a05622a601100b002f39b99f6c3sm1010634qtb.93.2022.05.19.03.19.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 03:19:56 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-2fee010f509so51625517b3.11;
+        Thu, 19 May 2022 03:19:56 -0700 (PDT)
+X-Received: by 2002:a81:6588:0:b0:2f8:b75e:1e1a with SMTP id
+ z130-20020a816588000000b002f8b75e1e1amr4011497ywb.358.1652955595834; Thu, 19
+ May 2022 03:19:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518192924.20948-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAHp75VeyU4Ox76wz9VfT8qEKHsE1eAo2iw27Lro1tmjJB0npMg@mail.gmail.com> <CA+V-a8tp0T=ojr3hB-QacOvV5sCZ29YXspPzKSSpGHUA8_1XDA@mail.gmail.com>
-In-Reply-To: <CA+V-a8tp0T=ojr3hB-QacOvV5sCZ29YXspPzKSSpGHUA8_1XDA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 19 May 2022 12:07:23 +0200
-Message-ID: <CAHp75VcauAsM2dTsS2CjOTc1_fwd-oT=A+yU6LzQ+vwQRAHjBg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] Renesas RZ/G2L IRQC support
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <20220517081645.3764-1-phil.edworthy@renesas.com> <20220517081645.3764-3-phil.edworthy@renesas.com>
+In-Reply-To: <20220517081645.3764-3-phil.edworthy@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 19 May 2022 12:19:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUEwEwbpTZq2AV+-YiPKXgaTb8t6Nx3zxeUF0JtEfT8BA@mail.gmail.com>
+Message-ID: <CAMuHMdUEwEwbpTZq2AV+-YiPKXgaTb8t6Nx3zxeUF0JtEfT8BA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: rzv2m evk: Enable ethernet
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 19, 2022 at 6:07 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Wed, May 18, 2022 at 10:10 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Wed, May 18, 2022 at 9:29 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+Hi Phil,
 
-...
+On Tue, May 17, 2022 at 10:17 AM Phil Edworthy
+<phil.edworthy@renesas.com> wrote:
+> Enable Ethernet interface on RZ/V2M EVK.
+>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2:
+>  - No change
 
-> > > GIC. Out of GPIOINT0-122 only 32 can be mapped to GIC SPI, this mapping is
-> > > handled by the pinctrl and IRQC driver.
-> >
-> > Where is the explanation on why valid_mask can't be used instead?
-> >
-> The .valid_mask option is one time setting but what I need is
-> something dynamic i.e. out of 392 GPIO pins any 32 can be used as an
-> interrupt pin. Also with this patch we also save on memory here [0].
+Thanks for your patch!
 
-Which internal APIs are bound to valid_mask not to be updated?
+> --- a/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+> +++ b/arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts
+> @@ -42,3 +43,16 @@ &extal_clk {
+>  &uart0 {
+>         status = "okay";
+>  };
+> +
+> +&avb {
+> +       renesas,no-ether-link;
+> +       phy-handle = <&phy0>;
+> +       phy-mode = "gmii";
+> +       status = "okay";
+> +
+> +       phy0: ethernet-phy@0 {
+> +               compatible = "ethernet-phy-id0022.1622",
 
--- 
-With Best Regards,
-Andy Shevchenko
+My schematics says RTL8211FG-CG, not Micrel KSZ9031?
+I.e. "ethernet-phy-id001c.c916"?
+
+As there is no PHY reset to deassert, you can remove the compatible
+property, and check what's read back from the PHY ID registers.
+
+I'd say you can just drop the compatible value completely, but you
+would have to readd it anyway when the PHY reset is documented.
+
+> +                            "ethernet-phy-ieee802.3-c22";
+> +               reg = <0>;
+
+Once you have GPIO/IRQ support, you can add the interrupts and
+resets properties, pointing to P16_12 resp. P17_00.
+
+> +       };
+> +};
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
