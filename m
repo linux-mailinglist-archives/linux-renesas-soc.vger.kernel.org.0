@@ -2,177 +2,219 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3BA352D600
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 16:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B02E052D78D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 17:32:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239671AbiESO1c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 10:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59714 "EHLO
+        id S233174AbiESPcf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 11:32:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237188AbiESO1c (ORCPT
+        with ESMTP id S233058AbiESPce (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 10:27:32 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1E766ACF;
-        Thu, 19 May 2022 07:27:30 -0700 (PDT)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24JDBvF1007814;
-        Thu, 19 May 2022 14:27:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=dX4u/ujyYw6EbdKwZ3gOnB4UBTSENWIRhTKkBHeGz/M=;
- b=n4Emahm15smGFSHRsz/fHjoQAHbj8gsaILMnHUT4pdrxvczj19DEp72Hy80PY2hzEppd
- azO0KFw01qqMmilYDnMeJDqvl69i+UD6zVuI4oX2UsEG3RS05taVQ144QFGtQMilgZT0
- QnS/oBmX/qe0WQ3NNreG54GInoHtNgW/WnykilEBppb+Zwg67JVj4jS7eH99/puFgaKE
- Qjim+Yq7nLFfZa+ktriqdk2fVc9kJl5KrHvMEEI9liktsu9CyPF68Tm5AuHa4P+XXhmX
- v+rflBtr1F7oUemgjGyoyFiHZVtQgjuvwlL9DGr5HGgj7eKFncA4+wC2aaLUAEFVckHR 2g== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g22ucc2v2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 May 2022 14:27:15 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24JEQ6n5012693;
-        Thu, 19 May 2022 14:27:14 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2047.outbound.protection.outlook.com [104.47.51.47])
-        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3g22v5ct24-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 May 2022 14:27:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D06UV+FS1XhZKoVWvZK+lJiM9grgJtvHOv2J2LwgZCm7pObqM/LgQHZQdQ/7Pb+d10svH8yp3uxbys6YrFSL4P38+3WFCsV9uXdM0iiA0GTgHyLQ3/DYW08zsf2zuRjd709nnZ8D45CdkeMq8qz3TKdWfy55BkOTJS6DH2B6qYKePxKMOPaqwONc42trvrsZstP0lt0uoS90tkF86tv42Wouo105rfVgTpEtl+A6bGuormGgv41VU6Q65dBnp6hU3Prg1eOEiJUzk3FsCGdK2kVJQVau+tepWH4oz7nf6b3zrajtwiyqbqZA216o3AwKlnRxOH5CQ5OSGBVf+RVRlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dX4u/ujyYw6EbdKwZ3gOnB4UBTSENWIRhTKkBHeGz/M=;
- b=Xpch0k19tl55FhhRTn+NW0GOJiIdgF9S4be1IMZcRAa0cdckpDNTt/MtrtdqDlsG4F59vAFEvN4uW15+BsG8zpnTrWN0PutspzDmw3q9ff4eTvUAu4w+GYb9sejCKrUV0YS5q7TZDf6P4wvWj4FVIahtoDYT1LNDPTLpJ1sIso5m3WB4COGO2673aI0gIN+wXTMtiyTlqTCEsfc/0miqPuylB5wNpVXHEbd3p9ebQfp1Adtkcz61WGXm3rFQDrbdghsms3CSj3R4oy7o2zQuXSxDcRBJEmWeiIgasEhHtLHyUTShCgI7JniThR3XR4bGeqj+own9Zu77lEmCbdc+sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dX4u/ujyYw6EbdKwZ3gOnB4UBTSENWIRhTKkBHeGz/M=;
- b=Kq5txV/wVtAr5G5CPc06SG1bZHkPZJxtP8COa6Li698gkubdSsz8Zo/dnoIcqUy7Y7xPMyM5bf6ITTIxXij8eQCuVF49kZ1Ki8YLTEYKWBB+CFdERC+qXa/50/L+3MV8UsHOpcyM1lu8Xot2dVo7lTM3or/58Ijtrwpax5B255Y=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM5PR10MB1322.namprd10.prod.outlook.com
- (2603:10b6:3:e::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Thu, 19 May
- 2022 14:27:12 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.014; Thu, 19 May 2022
- 14:27:11 +0000
-Date:   Thu, 19 May 2022 17:26:46 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Michel Pollet <michel.pollet@bp.renesas.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] rtc: rzn1: Fix error code in probe
-Message-ID: <20220519142646.GA23160@kadam>
-References: <YoZMg1dmHHSJEfE9@kili>
- <20220519160821.14230810@xps-13>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519160821.14230810@xps-13>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0011.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::23)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        Thu, 19 May 2022 11:32:34 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19125C84D;
+        Thu, 19 May 2022 08:32:31 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 22DDEFF808;
+        Thu, 19 May 2022 15:32:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652974349;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=hKrtA8hHRp6m3e8Ogw2x8R6ZNuMP/N9koMR2t9nuceE=;
+        b=jV4c2heL8ZjOSlM0aINmt5Dos9dvPDEfNGNw9Sil46OAxB1tQPOtdJ+4OqbCwsnX5+n6nC
+        igIE9nxcWx1xuz71PmIm0D+m+qZzRPh/ug8gI6ot9iPxvbKcyXHtJFgsrXkcfSnznOIwDR
+        +6cqsApt5dC+xHOGDjVgqjKRlhkiVY7ReOm72A6sKdMQ7ODx6ddrFreDloZgyc5oc8kZt5
+        wno7RqScG6PfTQ9bw4NcPoyxUzuDRxJq7zvR+J9bxdcU3RYGbDNNvcoQy5hjBj0EGqA4/R
+        WWzM34MtfcpJrgeEr0hE8PKo9/Xyj0A+hZZRnk5Ps7inyKoJD/k3y7hcgJ+zjA==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net-next v5 00/13] add support for Renesas RZ/N1 ethernet subsystem devices
+Date:   Thu, 19 May 2022 17:30:54 +0200
+Message-Id: <20220519153107.696864-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 02e3b8d4-da9c-4b05-8a3c-08da39a3a9d1
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1322:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB13226C0215C07EC065E2B1AF8ED09@DM5PR10MB1322.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Idv6RaSqKDCLsYSIV1mEAv0vlOsAxVuY8tyGbPg1/Wb/ku1AV7Td0oTHeQ+hf6EHhWPs/5M6YeYfVrJIlkyGBfR8O8HjlIC4Cx0tzS+gESUmnVJBP2j7ifp/jMIQZayA0evOkmq0NaO4NPDmMaECoRbYOAAd7u5QBnHZ9+sZRNd14eIpxIM1w3dK88UFogPTeLSe7fi+t3OQkE42lIu0bJRaKd+VDwJ+a7Z/5e55nYgeHtXrBT9Xyk8iKFqVTBpFYvPllpWD7SWK8CvrGwbJ7vQVE33zDMNYQkkzorGdC/hzdlMvVstihh+6bdIEX/QU+xjL4bQd2M1L71QLM5ZCBFdJTihhjHR9AzSHOnp6B+HnGtTzhMKuuxP/P4VO0gr09s/qTCkSG5/W3w4pMZcLT4tGJzDO96t5Rri05oZsrVY0ZZqIlYUWpxUMezw/Z/e3/gnplHelY7cdWGQT2EI/DCtsTLpo3CWXpq4Q3sXUjV5Z5YUZu7MvFNaTcc3SUaZNhd4SUlaUO/rXBp39qgedu3JOKwNAOyOWbagyQCIDfov/6QpGDjiTVdeuyAolcMvDdCXwwBkku9rAmHX/6gKEaEwvEuqRaK59DHzwahVGOkOWCYlx72pizx4aKFiTfDGVrnASgkljMa5UHxUXsBkFvsTTl3QoSetWA/3agI1PGXhAboftqzrtjpxwA4z/6gJ9JtvOrEH5BOWdNvoaSPJtlw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(508600001)(26005)(38100700002)(54906003)(6506007)(38350700002)(6916009)(6666004)(9686003)(66946007)(5660300002)(2906002)(8676002)(4326008)(66476007)(66556008)(44832011)(8936002)(6486002)(186003)(316002)(33656002)(1076003)(4744005)(6512007)(33716001)(86362001)(83380400001)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nmPfojvYCDqCjWP1xXGjTEzHbYgGBP8C2Es05yKBSieepMZcsG/frbTBAqzR?=
- =?us-ascii?Q?SDtk97RMoAK/nNxhFm5WJFxHol6TcaPttG2XzokIcaEff1ox1aYV1dKCDKjH?=
- =?us-ascii?Q?d7QRmbDmtXqaO9kHNTbQey6UmaCCWSwcvPP5LmOQSfUdNTY4LS8N/LP3M8Ld?=
- =?us-ascii?Q?xJuJk4OZ77dt4Z8QsIulWPvW7CHXc9skLkjRrjsrXqVEPdUX28w8o9BtHbRF?=
- =?us-ascii?Q?lip8ZHsGwYXH4wuWpQV6t9uLQ26DjxJvmOIsjGtwiXd1uXZuC1p9xdsCzHnd?=
- =?us-ascii?Q?Eb6c98mxxhyTRfpZaPmeLcdyOcRomW7Z1015pNgJysCIGozmkSWfeExeHqDF?=
- =?us-ascii?Q?YjqFEo77e7MUftjWqIg2DRUjAJSXogZPUlZSWej0NZLUDGFd+kGA1e4scHz4?=
- =?us-ascii?Q?fm5j/OiqIetVIXteGAd6oOQnPo9SlQu1y1XW+yGR61nQEJ8sF4kSJCd82Wqg?=
- =?us-ascii?Q?eSrZNVCK3qazf0p7f1hsfLXx7c8sojSAQDs4xdatLGqYqq2i/SrC6aORLJ7w?=
- =?us-ascii?Q?PZ3F1xmX+i2U+9XIG6xk+QINWH9L5sD9ejTw687h3hdLjgMK9BKh2UH7UwPY?=
- =?us-ascii?Q?rGwpeKPw9GtgsDk8OLyViuBJT48e0h1oSm0SP0kVSExlFWbil9moq2SL4uun?=
- =?us-ascii?Q?jB99qN51J5JLteCsuDudOLK0a8OhPIS3pbFLDPGaMSd0tGJPl+iGdAKR2gH3?=
- =?us-ascii?Q?CBpM6yQYZN84IetTY2R21IEk0uKpCm2+QQL+pcH8QUy9MVJ0Fs++PUXKd+Hl?=
- =?us-ascii?Q?yOTVfhn8wQ5Jg5oPWm/Rs20BP8j67DB7qBoa9KncKuWBCzipt+Ey+jbZbJCL?=
- =?us-ascii?Q?0p3zL5GYyxYekX8JpxgR7iMN6PgRPPYkqs85DbmIfg1M6TJKCi+cL9izTd4A?=
- =?us-ascii?Q?tFfcPdhFRjWoGAP5NVJ8aK4q77KFZ1Lsek4jZcdcNLqIoG0z1ta03mdGVBQl?=
- =?us-ascii?Q?On4p8C8r8mMaGxFV8p1Rfy7FlnsI+qiDWMYXhYnYvWvAXdGM2Yq+ig4Lk3Ts?=
- =?us-ascii?Q?EinAQC+8rBLTGANcGASrDoyr1SxwfjB+6w4dJEucBylXO1oFKCXXFxMxh6x7?=
- =?us-ascii?Q?Mdv333hVIrJf+ueAxNIsMLxN6pwOXYQFzYSZTNJqcCJUoQUTmSMriruDN5KR?=
- =?us-ascii?Q?8izE+9lpmaWUo7dq0kTa+eYBV3D99ioNe44al7bXKbmPVD3oEztYsF9S+9cy?=
- =?us-ascii?Q?xrfq4poDx9jykVWa4vJtrJJrIKcdycLUNaLkGxMu76P9+iffm+FfFYN8podm?=
- =?us-ascii?Q?47f6tZDgRHRWXGAKI+G4AxbAbgMq+RMEL6Sni2SfWJlVDpvizCavR+MOK7m5?=
- =?us-ascii?Q?4Rn50QZ0dqyoZPyQ6Tu7t/Z7+FrrGnUwTl17QTO9WtRiaGjev+PXsVTEdh/T?=
- =?us-ascii?Q?GY23wMiU7OlvcON2wDk38/IhbP41L9uWF/5xsTLlc0kkUeUB7yssE7iUYxz8?=
- =?us-ascii?Q?Bzvx+fF3wFrYFTyLvhDg9MIISKnbwsWGVdxAjMLxBanUaBHETVjm1v+9iRC4?=
- =?us-ascii?Q?Ayc4l5cx6gJQX2OFKv8pFyVomWP9R5Oxr4CJSWT3LIGikrEl2/xKk/w29D0f?=
- =?us-ascii?Q?MHdNhzvydygHPzjX2fGFr8x4vDRg0v23FHPZFupvEMPBmkTnj2SX/YGBRnGv?=
- =?us-ascii?Q?/XKpdCPRhMCtVywhoWlo5uctPBZ7h+bMfBwHAwY2Yl/poFsVZ5drCz6Q2vXd?=
- =?us-ascii?Q?2feIK8uwOLOTJR66zW/l5F2AoYQBXlWaspiWagYpUT4uyiIMO2L9SaTooVlr?=
- =?us-ascii?Q?NSLqQHqzxvl8NF5568SXnJ4bxXy3yQg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02e3b8d4-da9c-4b05-8a3c-08da39a3a9d1
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 14:27:11.9130
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sX7kG/6DwAii+NGjWSRBqPkBx6sBfTzxVUEKHieP6PDqb05VLuFt0fWUdbEru5lewlzT4kQCAvTx8VxPI0+Yd3xgc6KEfnpMD4cngb6eN80=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1322
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
- definitions=2022-05-19_04:2022-05-19,2022-05-19 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
- bulkscore=0 malwarescore=0 adultscore=0 suspectscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205190085
-X-Proofpoint-GUID: 3U1oM41qHA_wXHT5R9jodMAVy8Ij_oXQ
-X-Proofpoint-ORIG-GUID: 3U1oM41qHA_wXHT5R9jodMAVy8Ij_oXQ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 19, 2022 at 04:08:21PM +0200, Miquel Raynal wrote:
-> Hi Dan,
-> 
-> dan.carpenter@oracle.com wrote on Thu, 19 May 2022 16:56:19 +0300:
-> 
-> > There is a copy and paste error so this code returns the wrong variable.
-> > 
-> > Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
-> 
-> The Fixes here will point to an unknown id once pulled by Linus.
+The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+(most notably) a switch, two GMACs, and a MII converter [1]. This
+series adds support for the switch and the MII converter.
 
-No, it shouldn't be an issue.
+The MII converter present on this SoC has been represented as a PCS
+which sit between the MACs and the PHY. This PCS driver is probed from
+the device-tree since it requires to be configured. Indeed the MII
+converter also contains the registers that are handling the muxing of
+ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
 
-I'm assuming based on the S-o-b tags that this goes through Alexandre's
-tree.  The hash will stay the same unless Alexandre rebases.
+The switch driver is based on DSA and exposes 4 ports + 1 CPU
+management port. It include basic bridging support as well as FDB and
+statistics support.
 
-When a maintainer rebases then it's their responsibility to update the
-Fixes tags.  Most likely the maintainer just going to fold the fixes
-patches into the original patch so it's a moot issue.  There are
-automated checks run on linux-next for incorrect Fixes tags so, you
-know, don't rebase and then push immediately; first let the autobuilders
-check for stuff like this.
+This series needs commits 14f11da778ff6421 ("soc: renesas: rzn1: Select
+PM and PM_GENERIC_DOMAINS configs") and ed66b37f916ee23b ("ARM: dts:
+r9a06g032: Add missing '#power-domain-cells'") which are available on
+the renesas-devel tree in order to enable generic power domain on
+RZ/N1.
 
-regards,
-dan carpenter
+Link: [1] https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals
+
+-----
+Changes in V5:
+- MAINTAINERS:
+  - Add Florian Fainelli Reviewed-by
+- Switch:
+  - Switch Lookup table lock to a mutex instead of a spinlock
+  - Only handle "ethernet-ports" property for switch ports
+  - Handle RGMII_ID/RXID/TXID
+  - Add check for pdata to be non null in remiove
+  - Add missing of_node_put() for mdio and ports
+  - Applied Florian Fainelli patch which makes stats description
+    shorter
+  - Add Kconfig dependency on ARCH_RZN1 to avoid Kconfig "unmet direct
+    dependency"
+- PCS:
+  - Handle RGMII_ID/RXID/TXID
+  - Use value instead of BIT() for speed/mode
+- Tag driver:
+  - Add Florian Fainelli Reviewed-by
+
+Changes in V4:
+- Add ETH_P_DSA_A5PSW in uapi/linux/if_ether.h
+- PCS:
+  - Use devm_pm_runtime_enable() instead of pm_runtime_enable()
+- Switch:
+  - Return -EOPNOTSUPP and set extack when multiple bdridge are created
+  - Remove error messages in fdb_del if entry does not exists
+  - Add compatibility with "ethernet-ports" device-tree property
+- Tag driver:
+  - Use ETH_ZLEN as padding len
+
+Changes in V3:
+- PCS:
+  - Fixed reverse christmas tree declaration
+  - Remove spurious pr_err
+  - Use pm_runtime functions
+- Tag driver:
+  - Remove packed attribute from the tag struct
+- Switch:
+  - Fix missing spin_unlock in fdb_dump in case of error
+  - Add static qualifier to dsa_switch_ops
+  - Add missing documentation for hclk and clk members of struct a5psw
+  - Changed types of fdb_entry to u16 to discard GCC note on char
+    packed bitfields and add reserved field
+- Added Reviewed-by tag from Florian Fainelli
+
+Changes in V2:
+- PCS:
+  - Fix Reverse Christmas tree declaration
+  - Removed stray newline
+  - Add PCS remove function and disable clocks in them
+  - Fix miic_validate function to return correct values
+  - Split PCS CONV_MODE definition
+  - Reordered phylink_pcs_ops in definition order
+  - Remove interface setting in miic_link_up
+  - Remove useless checks for invalid interface/speed and error prints
+  - Replace phylink_pcs_to_miic_port macro by a static function
+  - Add comment in miic_probe about platform_set_drvdata
+- Bindings:
+ - Fix wrong path for mdio.yaml $ref
+ - Fix yamllint errors
+- Tag driver:
+  - Squashed commit that added tag value with tag driver
+  - Add BUILD_BUG_ON for tag size
+  - Split control_data2 in 2 16bits values
+- Switch:
+  - Use .phylink_get_caps instead of .phylink_validate and fill
+    supported_interface correctly
+  - Use fixed size (ETH_GSTRING_LEN) string for stats and use memcpy
+  - Remove stats access locking since RTNL lock is used in upper layers
+  - Check for non C45 addresses in mdio_read/write and return
+    -EOPNOTSUPP
+  - Add get_eth_mac_stats, get_eth_mac_ctrl_stat, get_rmon_stats
+  - Fix a few indentation problems
+  - Remove reset callback from MDIO bus operation
+  - Add phy/mac/rmon stats
+- Add get_rmon_stat to dsa_ops
+
+Clément Léger (13):
+  net: dsa: allow port_bridge_join() to override extack message
+  net: dsa: add support for ethtool get_rmon_stats()
+  net: dsa: add Renesas RZ/N1 switch tag driver
+  dt-bindings: net: pcs: add bindings for Renesas RZ/N1 MII converter
+  net: pcs: add Renesas MII converter driver
+  dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port
+    switch
+  net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver
+  net: dsa: rzn1-a5psw: add statistics support
+  net: dsa: rzn1-a5psw: add FDB support
+  ARM: dts: r9a06g032: describe MII converter
+  ARM: dts: r9a06g032: describe GMAC2
+  ARM: dts: r9a06g032: describe switch
+  MAINTAINERS: add Renesas RZ/N1 switch related driver entry
+
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |  131 ++
+ .../bindings/net/pcs/renesas,rzn1-miic.yaml   |  162 +++
+ MAINTAINERS                                   |   11 +
+ arch/arm/boot/dts/r9a06g032.dtsi              |   64 +
+ drivers/net/dsa/Kconfig                       |    9 +
+ drivers/net/dsa/Makefile                      |    1 +
+ drivers/net/dsa/rzn1_a5psw.c                  | 1063 +++++++++++++++++
+ drivers/net/dsa/rzn1_a5psw.h                  |  259 ++++
+ drivers/net/pcs/Kconfig                       |    8 +
+ drivers/net/pcs/Makefile                      |    1 +
+ drivers/net/pcs/pcs-rzn1-miic.c               |  516 ++++++++
+ include/dt-bindings/net/pcs-rzn1-miic.h       |   33 +
+ include/linux/pcs-rzn1-miic.h                 |   18 +
+ include/net/dsa.h                             |    5 +
+ include/uapi/linux/if_ether.h                 |    1 +
+ net/dsa/Kconfig                               |    7 +
+ net/dsa/Makefile                              |    1 +
+ net/dsa/slave.c                               |   18 +-
+ net/dsa/tag_rzn1_a5psw.c                      |  113 ++
+ 19 files changed, 2419 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.c
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.h
+ create mode 100644 drivers/net/pcs/pcs-rzn1-miic.c
+ create mode 100644 include/dt-bindings/net/pcs-rzn1-miic.h
+ create mode 100644 include/linux/pcs-rzn1-miic.h
+ create mode 100644 net/dsa/tag_rzn1_a5psw.c
+
+-- 
+2.36.0
 
