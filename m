@@ -2,132 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7897052DCC3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 20:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 032F152DE0C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 22:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243903AbiESS2b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 14:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
+        id S244375AbiESUEv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 16:04:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243885AbiESS2R (ORCPT
+        with ESMTP id S239668AbiESUEt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 14:28:17 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17441C6E79;
-        Thu, 19 May 2022 11:28:16 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id y13so10803793eje.2;
-        Thu, 19 May 2022 11:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1sDcNbgzxstYFS1dCzzCYng8q+gbAciBWtOhDHr35lY=;
-        b=Qs068JdV71v2mLkWZADWIvNoA1hKeNDw694CzcnIbE5aoHv7lctOcj8yQGD2Zdp1kZ
-         lANiJLLPG3z92YN1RjSOR2GcIGFyfij/ngDjp2qPmj1U8eBWhRfYZlPqKUh5nA6mdv7N
-         V1EudqXB83vYPlhgMoskMW56c8DD9sWnkYOQ5CYZQDJJJzpCKy0sIZXOffIVgUZiSuEk
-         /hHxSQCth7cK//2VrlSsdYy72uD6tn6OP4FRNg1VZ3MmwfIPTMngEJ85eZ3zNjbm8/Ks
-         OOaBDj/US9MMPJU/jI/1OfBhlVhty6vXCvyCGLSnmkOkcitSFVj4Tyz6i98VKh/2QrzX
-         YnMw==
+        Thu, 19 May 2022 16:04:49 -0400
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51396CA8E;
+        Thu, 19 May 2022 13:04:48 -0700 (PDT)
+Received: by mail-ot1-f52.google.com with SMTP id y14-20020a9d460e000000b00605ee347da1so4249417ote.8;
+        Thu, 19 May 2022 13:04:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1sDcNbgzxstYFS1dCzzCYng8q+gbAciBWtOhDHr35lY=;
-        b=kX53wh1Mh8zP4HmcdcXVxziw55am1xvDUJQkBRKCm6HYfC1ZMrjg/Qpmp7fwQlAzs2
-         L5tdmb94x20a9pQZ3F3lapj9Kia+aFS6tO8OyzKgI5X+KNUjaz+uxKNlVzRLeL1R0duz
-         IQPy5Lj4GWh365qUA+S27c+hDX388h0rQOIP4uIe0GEkrUQYbo5RIAdqFj71zAqRuhc6
-         C9dhAEFVWxAnCgOMq2Shlb0Y6kJEHFka5Llrgs+kCGkO2TNF0OIk3VRfpmBcMXAsAc95
-         Fiyl0H4+3EXpPfDejVqCSF2H307kUcCmURbb8fdkMDNeDnLt/NYw2iNo+q0dcXKz1lP9
-         yeNA==
-X-Gm-Message-State: AOAM530sy8L7DWG5VYPHQj4kve3oEqsQ1eTyj94bllGd0FHpbxpGKhFm
-        1ebwKVShfeB7OGFU4BWbR0o=
-X-Google-Smtp-Source: ABdhPJxLX2HTJhx/MNiPan0SKInfK85r5Zi6aqFuFnQoZBbncjAdDbtmhjNjxDP+kVf3c4hgBhLGUw==
-X-Received: by 2002:a17:906:dc8b:b0:6fe:920b:61ff with SMTP id cs11-20020a170906dc8b00b006fe920b61ffmr5609038ejc.565.1652984894651;
-        Thu, 19 May 2022 11:28:14 -0700 (PDT)
-Received: from skbuf ([188.25.255.186])
-        by smtp.gmail.com with ESMTPSA id yl15-20020a17090693ef00b006f3ef214e69sm2321301ejb.207.2022.05.19.11.28.12
+         :mime-version:content-disposition:in-reply-to;
+        bh=GTT4wIhpDJnzKjHIGPXs5tV9PIbRQeBZZBItHT9r7RI=;
+        b=N1NgxkCBumsmIDUjQw2tN+8Qkoy1K+tyadDuNCbZNonM+8ufuYR4hw6wep8LgtfCwo
+         liQ3P/6jeILlg3owtswXyxP37j2b4OLAnPXzVsupbRgIoKp+nV70s/uwcoIX+gem2YVM
+         +ebFlzHntdkRjDdxH3PYu7YwBUm8i1aHvbdWVqunQNeGdQOurwgFVI4Gw/tGPT7iwZRp
+         eaSQyuVGBZxp9CO7EFZgxTupC/Z5ctW5DpgQCO9njkvVRvI+Aoaq2WryyUeTmRcOiVkO
+         2zKpHIgiUfoz6JIxTP3N1IBds2zRfZj1RRFGBzGMq7iak527pa9oIfpxtjrt5kUvPlCu
+         dVVw==
+X-Gm-Message-State: AOAM530DNRu1Q+InscU0pMTO44jhWu0Abes5mfC1Khl2piKtqzxAME5I
+        5Jx3lcZ47rx120ZSQ5668Q==
+X-Google-Smtp-Source: ABdhPJzWfrQLCbV1u4Fzjw2rIffT+DYqX5xyF5xAzvszQwfy66OUdNdJpog58+IkZG0E2BSDXeBS8g==
+X-Received: by 2002:a05:6830:4187:b0:605:4e15:de30 with SMTP id r7-20020a056830418700b006054e15de30mr2655004otu.182.1652990688134;
+        Thu, 19 May 2022 13:04:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t16-20020a05683022f000b0060603221260sm113271otc.48.2022.05.19.13.04.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 11:28:14 -0700 (PDT)
-Date:   Thu, 19 May 2022 21:28:12 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thu, 19 May 2022 13:04:47 -0700 (PDT)
+Received: (nullmailer pid 2104566 invoked by uid 1000);
+        Thu, 19 May 2022 20:04:46 -0000
+Date:   Thu, 19 May 2022 15:04:46 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v5 12/13] ARM: dts: r9a06g032: describe switch
-Message-ID: <20220519182812.lmp2gp6m47jt742y@skbuf>
-References: <20220519153107.696864-1-clement.leger@bootlin.com>
- <20220519153107.696864-13-clement.leger@bootlin.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
+Message-ID: <20220519200446.GB2071376-robh@kernel.org>
+References: <20220510151112.16249-1-biju.das.jz@bp.renesas.com>
+ <20220510151112.16249-2-biju.das.jz@bp.renesas.com>
+ <20220517210407.GA1635524-robh@kernel.org>
+ <OS0PR01MB5922FC66FD4EF05F31B17D3386D19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20220518181730.GH3302100-robh@kernel.org>
+ <OS0PR01MB5922BC7AAC6154DEF7B98F0386D19@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdWPy4HmPrfnL8kZmFBBcHY-EoNm7Z6CoJyudhKornTS=g@mail.gmail.com>
+ <OS0PR01MB5922D0FFFA82AC5428F8C8D886D09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220519153107.696864-13-clement.leger@bootlin.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <OS0PR01MB5922D0FFFA82AC5428F8C8D886D09@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 19, 2022 at 05:31:06PM +0200, Clément Léger wrote:
-> Add description of the switch that is present on the RZ/N1 SoC.
+On Thu, May 19, 2022 at 09:30:19AM +0000, Biju Das wrote:
+> Hi Geert,
 > 
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-> ---
->  arch/arm/boot/dts/r9a06g032.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Thanks for the feedback.
 > 
-> diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-> index 31c4b2e2950a..20d3dce632ce 100644
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -255,6 +255,15 @@ mii_conv5: mii-conv@5 {
->  			};
->  		};
->  
-> +		switch: switch@44050000 {
-> +			compatible = "renesas,r9a06g032-a5psw", "renesas,rzn1-a5psw";
-> +			reg = <0x44050000 0x10000>;
-> +			clocks = <&sysctrl R9A06G032_HCLK_SWITCH>,
-> +				 <&sysctrl R9A06G032_CLK_SWITCH>;
-> +			clock-names = "hclk", "clk";
-> +			status = "disabled";
+> > Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG binding
+> > 
+> > Hi Biju,
+> > 
+> > On Wed, May 18, 2022 at 8:34 PM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L POEG
+> > > > binding On Wed, May 18, 2022 at 05:58:00AM +0000, Biju Das wrote:
+> > > > > > Subject: Re: [RFC 1/8] dt-bindings: soc: renesas: Add RZ/G2L
+> > > > > > POEG binding
+> > > > > >
+> > > > > > On Tue, May 10, 2022 at 04:11:05PM +0100, Biju Das wrote:
+> > > > > > > Add device tree bindings for the RZ/G2L Port Output Enable for
+> > > > > > > GPT
+> > > > > > (POEG).
+> > > > > > >
+> > > > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > 
+> > > > > > > +examples:
+> > > > > > > +  - |
+> > > > > > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > > > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > > > > +
+> > > > > > > +    poeggd: poeg@10049400 {
+> > > > > > > +        compatible = "renesas,r9a07g044-poeg", "renesas,rzg2l-
+> > poeg";
+> > > > > > > +        reg = <0x10049400 0x4>;
+> > > > > >
+> > > > > > This looks like it is part of some larger block?
+> > > > >
+> > > > > There are 2 IP blocks GPT(PWM) and POEG with its own resources
+> > > > > like (register map, clk, reset and interrupts)
+> > > > >
+> > > > > Larger block is GPT, which has lot of functionalities. The output
+> > > > > from GPT block can be disabled by this IP either by external
+> > > > > trigger, request from GPT(Deadtime error, both output low/high) or
+> > > > > explicit software control). This IP has only a single register.
+> > > > > Currently I am not
+> > > > sure which framework to be used for this IP?? Or should it be merged
+> > > > with
+> > 
+> > Yeah, POEG is a weird beast.
+> > Some of it fits under pin control, but not all of it.
+> > From a quick glance, most of its configuration is intended to be static,
+> > i.e. could be done from DT, like pin control?
+> > I have no idea how to use the POEG interrupts, though.
+> 
+> If there is a GPT request(Dead time error or Both output low/high condition) output is disabled automatically and we get an 
+> Interrupt. May be to clear it , we need to implement interrupt. Otherwise output will be always disabled,
+> even if the outputs are out of phase after the fault condition.
+> 
+> I have done a quick test with interrupts previously for output disable using GPT request:- 
+> 	Use both A and B in phase, output is disabled automatically and you get an interrupt in POEG block.
+>       If you inverse B, it is out of phase and fault condition is no more, but still output is disabled.
+>       In this condition, If we want to enable outputs, we need to clear interrupt status bits.
+>             
+> > 
+> > > > larger block GPT by combining the resources?
+> > > >
+> > > > Usually, IP blocks would have some minimum address alignment (typ 4K
+> > > > or 64K to be page aligned), but if there's no other IP in this
+> > > > address range as-is is fine. The question is what's before or after
+> > the above address?
+> > >
+> > > As per the HW manual, before GPT IP block and after POE3 block(Port
+> > Output Enable 3 (POE3) for MTU).
+> > >
+> > > Before
+> > > H'0_1004_8000 H'0_1004_87FF 2 Kbytes GPT
+> > >
+> > > After
+> > > H'0_1004_9800 H'0_1004_9BFF 1 Kbyte POE3
+> > >
+> > > Please find the address map for the IP blocks near to it.
+> > >
+> > > H'0_1004_A000 H'0_1004_A3FF 1 Kbyte SSIF ch1
+> > > H'0_1004_9C00 H'0_1004_9FFF 1 Kbyte SSIF ch0
+> > > H'0_1004_9800 H'0_1004_9BFF 1 Kbyte POE3
+> > > H'0_1004_9400 H'0_1004_97FF 1 Kbyte POEGD
+> > > H'0_1004_9000 H'0_1004_93FF 1 Kbyte POEGC
+> > > H'0_1004_8C00 H'0_1004_8FFF 1 Kbyte POEGB
+> > > H'0_1004_8800 H'0_1004_8BFF 1 Kbyte POEGA
+> > > H'0_1004_8000 H'0_1004_87FF 2 Kbytes GPT
+> > 
+> > This is actually 8 x 256 bytes, for 8 GPT instances.
+> 
+> Yes correct.
+> 
+> > 
+> > > H'0_1004_7000 H'0_1004_7FFF 4 Kbytes SRC (Reg)
+> > > H'0_1004_0000 H'0_1004_6FFF 28 Kbytes SRC (Memory)
+> > 
+> > So you can combine GPT and POEG[A-D] into a single block.
+> > However, doing so will make life harder when reusing the driver on an SoC
+> > with a different layout, or a different number of POEG blocks and GPT
+> > channels.
+> 
+> I agree. Modelling as a different driver gives lots of flexibility.
 
-Does the switch port count depend on anything? If it doesn't, maybe you
-could add the "ethernet-ports" node and all the ports here, with status
-= "disabled", so that board files don't need to spell them out each time?
-I'm also thinking you could define the fixed-link and phy-mode = "internal"
-property of the CPU port with this occasion. That surely isn't a
-per-board thing.
+The question is different h/w blocks or 1, not driver(s). It's 
+convenient when the answer is the same (i.e. h/w node:driver is 1:1), 
+but h/w is sometimes messy.
 
-> +		};
-> +
->  		gic: interrupt-controller@44101000 {
->  			compatible = "arm,gic-400", "arm,cortex-a7-gic";
->  			interrupt-controller;
-> -- 
-> 2.36.0
-> 
+In any case, that looks like different blocks to me.
+
+Rob
