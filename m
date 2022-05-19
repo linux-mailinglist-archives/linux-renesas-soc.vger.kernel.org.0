@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6431D52CF9D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 11:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 309E452CFA8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 11:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236115AbiESJpJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 05:45:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
+        id S236235AbiESJrf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 05:47:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbiESJpJ (ORCPT
+        with ESMTP id S235319AbiESJre (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 05:45:09 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1B870904;
-        Thu, 19 May 2022 02:45:08 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id v6so1389095qtx.12;
-        Thu, 19 May 2022 02:45:08 -0700 (PDT)
+        Thu, 19 May 2022 05:47:34 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36996970F;
+        Thu, 19 May 2022 02:47:33 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id s22so4466086qta.0;
+        Thu, 19 May 2022 02:47:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2+JVHSEY+D/dij6L2Cjx5+dSW/vZcYEkFubCxdEzOVs=;
-        b=jbuYZJn220hYfkTmRihTT0x01mZHSn0T5FTIHlJ8dLZRVx/ujyzDY4MaYPq3YSmBKG
-         BB23Oox6xuiFPf6+CpNIZaFeIHtjKTaeRCM1KHVReVca6mOCvjJJoZDwWLhxWoXRYAYR
-         EjotSaCcfFWdS5+2nwbypQGu3o0L6d4xpz3ENcHJMXrSFqGVZduCsbKh1BKSwSLRolDQ
-         t3yqkIB88zPwtt0ifErUEMktKHWSOw1VNfxBvP8d1/uITvpLgoNxkq6QMjBjouiPkn1D
-         OAdRBR4E45zoEekqikidFLfBbNx0ZykMLdUFpHmPRCASSbakYa1XFAuqzOvpvB3xw00Z
-         HwLw==
-X-Gm-Message-State: AOAM533Rl8DgIMg1LPj5Q92q/Ph6Lyj6v37hjGNjkX1KJD6xVuE3aSN8
-        QrbCYUtEbGqfMU8bsgu4VpSaIBSF2sqGog==
-X-Google-Smtp-Source: ABdhPJyIujYPNz3HG5016g0+lGDcn321XHrtJn/1yYmaW2kZFD2dh+fgFPvUD/fMlCF/PV5jdjf4YQ==
-X-Received: by 2002:a05:622a:114:b0:2f9:f7c:ef with SMTP id u20-20020a05622a011400b002f90f7c00efmr2191779qtw.177.1652953507467;
-        Thu, 19 May 2022 02:45:07 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id u1-20020a379201000000b0069fc13ce1d7sm1047219qkd.8.2022.05.19.02.45.06
+        bh=iKSoheoQptDFa3QVeXneo99zoGHd1dA/7lDHXoCagCw=;
+        b=BCLA6G3RZiNxA/1MUWyRrJB3nTKiieiNuXAUAx14vujMF5EiM/L9ELsEs1oCXmDQZc
+         ilfbBVNa8uZ4P8SWj4nUFSC7pTFJzjMtgwK9iV+vvCp1HLUcLMlPTJFf3gHMUxUAc5gT
+         6FmICLItvSNN7vB4JSi3zxpxYuoPUaXOu/IyR2JnLcUrurCVGzCTCqIg+5S9rNgciU4y
+         3brJwNvuHJJJZS3cg/apxR8kefN0h+hUd6rrEZHhx63c8YIcqs/1hNFUWIY30q4aWkpv
+         sgbEt18pQ4/yr1yFpl5gmFHRfKfqkcNjm7Jvwl7J50dMi6Mso2dWvg/FqDtg1FIURYMY
+         i74g==
+X-Gm-Message-State: AOAM531h+vR/pHLAJzSl84dNmb8+ko+LGFXHgnn4+W/uonc11moZnXql
+        b2cJqWF5IC09xS47Bpu6i23F2q/F4RPITw==
+X-Google-Smtp-Source: ABdhPJw8ehsCKOOpWZ2Jzfy8BXKzzB0ldQdtMLd8QAS4q6xHJlaI/2Qd92CTJeDOWRdZbxMGoV7JwQ==
+X-Received: by 2002:ac8:7c4e:0:b0:2f3:fb43:c767 with SMTP id o14-20020ac87c4e000000b002f3fb43c767mr3120452qtv.188.1652953652646;
+        Thu, 19 May 2022 02:47:32 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id t65-20020ae9df44000000b0069fc13ce232sm1017691qkf.99.2022.05.19.02.47.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 02:45:07 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id q135so8051713ybg.10;
-        Thu, 19 May 2022 02:45:06 -0700 (PDT)
-X-Received: by 2002:a25:4289:0:b0:64d:746f:5311 with SMTP id
- p131-20020a254289000000b0064d746f5311mr3252723yba.89.1652953506527; Thu, 19
- May 2022 02:45:06 -0700 (PDT)
+        Thu, 19 May 2022 02:47:32 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2fee9fe48c2so51318047b3.3;
+        Thu, 19 May 2022 02:47:31 -0700 (PDT)
+X-Received: by 2002:a81:234b:0:b0:2f8:4082:bbd3 with SMTP id
+ j72-20020a81234b000000b002f84082bbd3mr3760840ywj.47.1652953651678; Thu, 19
+ May 2022 02:47:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220510110653.7326-1-biju.das.jz@bp.renesas.com> <20220510110653.7326-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220510110653.7326-2-biju.das.jz@bp.renesas.com>
+References: <20220510110653.7326-1-biju.das.jz@bp.renesas.com> <20220510110653.7326-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220510110653.7326-3-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 May 2022 11:44:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV0jUb-HBqfEfRw3jAh4zkU8Aq8csELBRX880zkJRWZzg@mail.gmail.com>
-Message-ID: <CAMuHMdV0jUb-HBqfEfRw3jAh4zkU8Aq8csELBRX880zkJRWZzg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: renesas: r9a07g044: Add GPT clock and reset entry
+Date:   Thu, 19 May 2022 11:47:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXn1aHATE9-QnMOx7t33LXSwA433ymiKKMbOCgwOQCaoA@mail.gmail.com>
+Message-ID: <CAMuHMdXn1aHATE9-QnMOx7t33LXSwA433ymiKKMbOCgwOQCaoA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] clk: renesas: r9a07g044: Add POEG clock and reset entries
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -71,7 +71,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, May 10, 2022 at 1:07 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add GPT clock and reset entry to CPG driver.
+> Add POEG clock and reset entries to CPG driver.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
