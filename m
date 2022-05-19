@@ -2,92 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 953D752D015
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7719352D01A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236076AbiESKGp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 06:06:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60354 "EHLO
+        id S236496AbiESKGr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 06:06:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234132AbiESKGm (ORCPT
+        with ESMTP id S236473AbiESKGq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 06:06:42 -0400
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6053CFEE;
-        Thu, 19 May 2022 03:06:39 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id 135so1832986qkm.4;
-        Thu, 19 May 2022 03:06:39 -0700 (PDT)
+        Thu, 19 May 2022 06:06:46 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2A03A5D5;
+        Thu, 19 May 2022 03:06:45 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id p189so2592476wmp.3;
+        Thu, 19 May 2022 03:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XBWLqbdmzfQgEw0/TRzerfoDbzPzGOJbF95S1SOzfNM=;
+        b=f+GBf9Qh4cVJUQMRY/rpCcSXUz0c7J4JYRsnY9Uvzh+68vgvCx30cbPMnboSRuVJN/
+         ldNXY1l2f9wCgjnYHQHZv1+higU7BzOrV3RFeEC/RD1H8hp5sWyY2Y+j4CZQkUKDa+sV
+         Ei8TjxSCua8YeEjgbFV1ZRP73rfgdglhTvy+zp8uIVUfNYqDmlB3p/Wb/7yjq0SUvE7F
+         Szx+IMCTneg/ulioC4VzawxWMAdKtmukF9ByJaXMRO5knSUQRxZK5eQjevxamYtOruLq
+         +nDMbLlKNRMWA4qPB/EYEPDQGYxHws4mHEcFKfsTy1tqTytkPINuiLr7WNPNsqpm8ykw
+         SzCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XsML1Fzd0mI70YY65ti5KucCY9s3M5cUl1m7qMWv0qk=;
-        b=0V02GX3/a2HMKyanPH8UuMvQo9u23+CvmTbsVrsBrWy1XEX6hAOSUxpEPHsfXku8e3
-         kwlKJgjUPLaZ6qYTx9CswbS4PiwA65SdllBQxR+8ms/XGWjRA5OZO/69crMAk0wmHKtT
-         q4Hb5lRRD8C+vabRoqmDE49532pOGV1fZ9sZDbP3JfL+POQvhsEaMgK+1jV3s8HfIX32
-         +bt5EaY/9uXVomQNuMFTtM4Xfp2YHeEYM7iSQvw9f00m6Pvu3eJ1+gZulsQegZQmmO5J
-         6wbofnHU1fGNPOHJjzhSEi5P5ckICvQdWbK3m/GpTA0UDFK6FdMcw5+uhjQFKuWDRYXT
-         nzFw==
-X-Gm-Message-State: AOAM533otcVr+dkK4O/5Mh+bCIPcF1LiKUTSDMaicnbRdjTYTi04Mv9O
-        EafSeR1iiYkn82CHixJaEMlfceK8l5kqNA==
-X-Google-Smtp-Source: ABdhPJwC1XxMTR9a+P0h35WQmovHWnkr0/jvfdGsYpSF49xVSHQp07818qCvBoJC54A6uY+E4QcwWw==
-X-Received: by 2002:a05:620a:4096:b0:6a0:40d1:450a with SMTP id f22-20020a05620a409600b006a040d1450amr2451956qko.506.1652954798444;
-        Thu, 19 May 2022 03:06:38 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id h11-20020ac85e0b000000b002f90e768db8sm1107958qtx.59.2022.05.19.03.06.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 03:06:37 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id v71so8164924ybi.4;
-        Thu, 19 May 2022 03:06:37 -0700 (PDT)
-X-Received: by 2002:a25:e7ce:0:b0:64d:6028:96b9 with SMTP id
- e197-20020a25e7ce000000b0064d602896b9mr3456532ybh.365.1652954797149; Thu, 19
- May 2022 03:06:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XBWLqbdmzfQgEw0/TRzerfoDbzPzGOJbF95S1SOzfNM=;
+        b=s6KgC/CqMEAQNMzf6tLackwyBgTW8RO3FeRbjTdji/aQk+4BIyvgcBRv3WBmwDMm46
+         0Geu+Fzy+n6vmxu0AT9H8RyoK7QIFC5yZbOO5kUSHpUBVTXYVgJ3fEatZ0XMfKBoo+YQ
+         n1Z8pjoFkTrNa3kQ8f7r9QpbkkTj5/ag1yFAZ7e4bCJ5WwsK7pfHw5w/H9CWD4jf56sx
+         OUE9D53VCc1Ao/EwTWv1L5zwuNak6AjtN1Qj1BgogydAbIGe4RRI8Mz5e/sOHRXdE8iH
+         1hcgjEJ4OmF5MzLRnKViCRZbqIyCMtteJoVrrOZwf0ZY02xH/f0mM3+49fXX2WIXiU3V
+         5JNA==
+X-Gm-Message-State: AOAM531GausgTXY4+yda4cRyP089SCvG788mGdI5ySBoZDtER+5l963y
+        SVg/vgoinK3ZoPvkGpGlOwQ=
+X-Google-Smtp-Source: ABdhPJwxCE6AVFhSoylPIebvZAf66K1HbsHHnHzTPOFaqkhljsKfIhuv9psUcQFsta/ZLBayjn41/Q==
+X-Received: by 2002:a05:600c:4e91:b0:394:8d30:d6dd with SMTP id f17-20020a05600c4e9100b003948d30d6ddmr3033496wmq.21.1652954803528;
+        Thu, 19 May 2022 03:06:43 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id q21-20020adfb195000000b0020c5253d8basm4986182wra.6.2022.05.19.03.06.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 03:06:42 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Michel Pollet <michel.pollet@bp.renesas.com>,
+        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] rtc: rzn1: Fix uninitialized variable val
+Date:   Thu, 19 May 2022 11:06:41 +0100
+Message-Id: <20220519100641.595608-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220517081645.3764-1-phil.edworthy@renesas.com> <20220517081645.3764-2-phil.edworthy@renesas.com>
-In-Reply-To: <20220517081645.3764-2-phil.edworthy@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 May 2022 12:06:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW80WGdQfK2zyYxxk=uvuYuRapVHgrNHiEkfS=1kQe-bQ@mail.gmail.com>
-Message-ID: <CAMuHMdW80WGdQfK2zyYxxk=uvuYuRapVHgrNHiEkfS=1kQe-bQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r9a09g011: Add ethernet nodes
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 17, 2022 at 10:17 AM Phil Edworthy
-<phil.edworthy@renesas.com> wrote:
-> Add Ethernet nodes to SoC dtsi.
->
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2:
->  - Fix interrupt names
+Variable val is not being initialized and is later being read with
+a potentially garbage value. Fix this by initializing val to zero.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+Detected by clang scan build:
+warning: variable 'val' is uninitialized when used here [-Wuninitialized]
 
-Gr{oetje,eeting}s,
+Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/rtc/rtc-rzn1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-                        Geert
+diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
+index 980ade8c9601..0b4bf6e43464 100644
+--- a/drivers/rtc/rtc-rzn1.c
++++ b/drivers/rtc/rtc-rzn1.c
+@@ -272,7 +272,7 @@ static int rzn1_rtc_set_offset(struct device *dev, long offset)
+ 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
+ 	unsigned int steps;
+ 	int stepsh, stepsl;
+-	u32 val;
++	u32 val = 0;
+ 	int ret;
+ 
+ 	/*
+-- 
+2.35.1
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
