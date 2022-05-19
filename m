@@ -2,63 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D4252CB58
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 06:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B254152CB99
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 07:46:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233858AbiESE7J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 00:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
+        id S234183AbiESFpU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 01:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233855AbiESE7I (ORCPT
+        with ESMTP id S234154AbiESFpO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 00:59:08 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798E787227;
-        Wed, 18 May 2022 21:59:05 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2ec42eae76bso45264497b3.10;
-        Wed, 18 May 2022 21:59:05 -0700 (PDT)
+        Thu, 19 May 2022 01:45:14 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330AEBA57B;
+        Wed, 18 May 2022 22:45:13 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id i11so7203828ybq.9;
+        Wed, 18 May 2022 22:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KFrp9wzq4sCkuwLY21DamOeXfwOOx7ci5Z7FlQKCo0o=;
-        b=pqGBuGbKiyhuZzK3H20eVg3ZjdCpjyeI+gQmEMvGfF2dMzgN/tHoxIud1GDP+n6ZH9
-         9AmV/Y4qb/d7mUQXh4gS/iIFKRZ/kvdo7khq7yRoMOQuiTwY11JujXq9GJK1IEmZblnk
-         QUuLDl9mGm8T3NDARUl6BOMitQjSFpUeQtPWkHKo3nLIfr2XV1+MayFX91CM2z2jQe0j
-         EkicZcXGmE5avn60jigo9wxAqmmA/BixOo18Uw/3hZSityTyg0ZrPZEfNC7gFRj3PDgE
-         TKM8ypsAsGafjJHLU5wYIU05LK2GI+z005SyRnQuJnznxmkT4M9uGeChuDp1vBJkG4NG
-         WySw==
+        bh=OO5QfkSjnZ/cUUUJ0aPadwaoIkqNmNY8ULRaHcmvwDI=;
+        b=LlU651kk2sjEpLEGf81r+AAuqbC1cCColEFLQMJpvNK2KJZXq3EteAT2fkzG+fBJLq
+         J3uWu4ZpkZvauoeZn4SqYuOd3WlnzNscTxb+tITJ29GVpXzRf5KJPimMSAEatrK6VLdd
+         VojQFvyEQec5wkJ5w4G0F3Fws5pPia44QYC6Tpo/Eduy7zY+pmVH0grE+Bdt9c77jFrv
+         uAGRsjUej2bsi9hJZTAEnzFdulu39S6CaFvuW5vTJGCpRbLrGgds3iyg7n/kt0zbbkwT
+         PLMVtgYEwPT5aqyGuHDNYSHb4W44bz0uhWpHq4N97n3bb6EWsP/Gp6lSspz54Ip0ohi8
+         Yt4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KFrp9wzq4sCkuwLY21DamOeXfwOOx7ci5Z7FlQKCo0o=;
-        b=j+MgwaeBDmVkrLrK6HUEVzU3k5C1njRAi/AjJJKlmBfDYKaUsu8nd+u7TWO/Rsp1xX
-         MqhvRgr23+eHos3LbV/P6tyu+dFjS4zr41lDNh3NAxJR3kmirsmj9vMezrED9Q0iSKql
-         HK2FzDsUSbeSnbOVasny7957L83OVNzVuOKrNEGz0mla/owXqlE0ZmIkJsb+hRPKcS94
-         h4thpz7KzrikWjRjYVIhIdO7h84JqyW6d24fSK8emBrLTAgTcAphviLMHLSLhHQlIoAt
-         6vzWM66RVWuQXj+AYkuAYqi8+ehx6/SGDEkg/rysayVPgcJp8Mr2HiN24Mi6TWKL9JKj
-         eh6Q==
-X-Gm-Message-State: AOAM530UJTwi0MlRpXsB/rWSYGdh+xE/+CzxmKPYTZuzSY2IfUtxCu0R
-        YEyp+UeDKZiroDvWQj6ExDdz7QvNXUMY0yO4El4=
-X-Google-Smtp-Source: ABdhPJyRx84ItJIk5Ins7S9RGT10EmMI8VoeX1fvKM8UZq0gI9C5++A2/8WlAuVdh/NW42hGU5LdPkHg5Ln1/jGoksw=
-X-Received: by 2002:a81:6cc9:0:b0:2fe:cad8:f4e0 with SMTP id
- h192-20020a816cc9000000b002fecad8f4e0mr2956960ywc.119.1652936344738; Wed, 18
- May 2022 21:59:04 -0700 (PDT)
+        bh=OO5QfkSjnZ/cUUUJ0aPadwaoIkqNmNY8ULRaHcmvwDI=;
+        b=xl63eaerSJe27zur1iM3Jio1xfzugWN9T3K49AZwmWdUPZgqgCx+LamXFLTab03lwO
+         vWcJHFGS4wHi1orOcY0tAqncicFweUEgQ7aExc/Lh5ZpLBZLbna2SaUBbQLO0YGlnmUA
+         XtA0kDbXZZQ40DbIQUhlqqjy9X8LntCIfytOC+WMZKtJoTfO2JticfDgzw2XdHfYMPl0
+         PYQpS0YqsQTA16M/SWI5BsE2VbyShTv5zs46ht/pPXQdvusAcXvaFhBGFDqpTOHotIH+
+         m48eRSCbTmeILYdc+ATVumQuQJyu7vvkiHbprZZPImVaVHAhfWLKUlW7BJ6Ku7gUxgmK
+         HFBw==
+X-Gm-Message-State: AOAM531EmhYNi/LHUO9TBpI9O0fVDXuFIp/zq42E2JrDLy8EI6uYIkfg
+        7hvHqbks2toRxp9EHEkwuuUERwcRRj+FTpJRuVGcNPpECFw3lA==
+X-Google-Smtp-Source: ABdhPJw6GBlelR+tbudinQOnNGE8N4fHr2U489qVow3itikJQLf6uJMmLuAe8AFXaamN81tR1nT/2QX8pO95R5L8e1s=
+X-Received: by 2002:a25:ad8a:0:b0:64d:e1ef:a214 with SMTP id
+ z10-20020a25ad8a000000b0064de1efa214mr2766567ybi.417.1652939112051; Wed, 18
+ May 2022 22:45:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220513132500.32395-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <YoR6N2ACf3TZr1P5@google.com>
-In-Reply-To: <YoR6N2ACf3TZr1P5@google.com>
+References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220505193143.31826-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX0egGvyu94-=tJdvW0=q6Y==ZNkexCJpnmrNJezuiqDw@mail.gmail.com>
+In-Reply-To: <CAMuHMdX0egGvyu94-=tJdvW0=q6Y==ZNkexCJpnmrNJezuiqDw@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 19 May 2022 05:58:38 +0100
-Message-ID: <CA+V-a8si1uD5FgmpRfjfQ9FnarCA0_Fn2SMKJfw4nVZ=4iui4Q@mail.gmail.com>
-Subject: Re: [PATCH] Input: gpio-keys - Cancel delayed work only in case of GPIO
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Thu, 19 May 2022 06:44:45 +0100
+Message-ID: <CA+V-a8sxZOZRXG_gsCnQGJdNDw-uVLmuTZ-dOsmUfhS9KL0Esg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] dt-bindings: clock: r9a07g043-cpg: Add Renesas
+ RZ/Five CPG Clock and Reset Definitions
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
+        Phil Edworthy <phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -70,47 +78,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dmitry,
+Hi Geert,
 
 Thank you for the review.
 
-On Wed, May 18, 2022 at 5:46 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Tue, May 10, 2022 at 3:02 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Lad,
+> Hi Prabhakar,
 >
-> On Fri, May 13, 2022 at 02:25:00PM +0100, Lad Prabhakar wrote:
-> > gpio_keys module can either accept gpios or interrupts. The module
-> > initializes delayed work in case of gpios only and not for interrupts,
-> > so make sure cancel_delayed_work_sync() is called only when bdata->gpiod
-> > is true.
-> ...
-> > diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-> > index d75a8b179a8a..ec9d50ddda42 100644
-> > --- a/drivers/input/keyboard/gpio_keys.c
-> > +++ b/drivers/input/keyboard/gpio_keys.c
-> > @@ -133,7 +133,7 @@ static void gpio_keys_quiesce_key(void *data)
-> >               hrtimer_cancel(&bdata->release_timer);
-> >       if (bdata->debounce_use_hrtimer)
-> >               hrtimer_cancel(&bdata->debounce_timer);
-> > -     else
-> > +     else if (bdata->gpiod)
-> >               cancel_delayed_work_sync(&bdata->work);
+> Thanks for your patch!
 >
-> We already have a check for bdata->gpiod a couple lines above. I think
-> the chunk should look like this:
+> On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Renesas RZ/Five SoC has almost the same clock structure compared to the
+> > Renesas RZ/G2UL SoC, re-use the r9a07g043-cpg.h header file and just
+> > ammend the RZ/Five CPG clock and reset definitions.
 >
->         if (!bdata->gpiod)
->                 hrtimer_cancel(&bdata->release_timer);
->         else if (bdata->debounce_use_hrtimer)
->                 hrtimer_cancel(&bdata->debounce_timer);
->         else
->                 cancel_delayed_work_sync(&bdata->work);
+> amend
 >
-> since we use debounce timer/work only when we deal with gpio-backed
-> keys.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-Agreed, will fix that in v2.
+> > --- a/include/dt-bindings/clock/r9a07g043-cpg.h
+> > +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+> > @@ -108,6 +108,15 @@
+> >  #define R9A07G043_ADC_ADCLK            76
+> >  #define R9A07G043_ADC_PCLK             77
+> >  #define R9A07G043_TSU_PCLK             78
+> > +#define R9A07G043_NCEPLDM_DM_CLK       79      /* RZ/Five Only */
+>
+> While NCEPLDM_DM_CLK is listed in the clock list spreadsheet, its
+> control bit is not documented.
+>
+> > +#define R9A07G043_NCEPLDM_ACLK         80      /* RZ/Five Only */
+> > +#define R9A07G043_NCEPLDM_TCK          81      /* RZ/Five Only */
+>
+> While NCEPLDM_TCK is listed in the clock list spreadsheet, its
+> control bit is not documented.
+>
+I have got the feedback for the above, NCEPLDM_DM_CLK and NCEPLDM_TCK
+clocks cannot be stopped as a result there are no register bits for it
+in the HW manual (clock spreadsheet will be updated). I will drop this
+and send a v2 including your RB.
 
 Cheers,
 Prabhakar
+
+> The rest LGTM, so with the above clarified
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
