@@ -2,236 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D68252DC38
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 20:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE00352DC69
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 20:09:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243549AbiESSCF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 14:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48900 "EHLO
+        id S242651AbiESSI6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 14:08:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243559AbiESSCE (ORCPT
+        with ESMTP id S241236AbiESSI6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 14:02:04 -0400
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF0A5BE7B;
-        Thu, 19 May 2022 11:02:02 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id BD7463C00BA;
-        Thu, 19 May 2022 20:02:00 +0200 (CEST)
-Received: from vmlxhi-121.localdomain (10.72.92.132) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Thu, 19 May
- 2022 20:02:00 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
-        <erosca@de.adit-jv.com>
-Subject: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and stop streaming if required
-Date:   Thu, 19 May 2022 20:00:09 +0200
-Message-ID: <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
-References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
+        Thu, 19 May 2022 14:08:58 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A5BB0409;
+        Thu, 19 May 2022 11:08:55 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id gi33so2978590ejc.3;
+        Thu, 19 May 2022 11:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=bKLtlyj1omDM7cHVqZHxMKZlB2vZKbH6hnKKHTQb34Y=;
+        b=kbtrb5R98xSIg+EZHZD6bvl1UORQjsXulPzGLnZ6lrKv5LoDL2Q1YYuwdJeLipkLTI
+         bIbVvAK0dmL1ieDE4l4oSvjl0C9Zizmmg8vriVc4wNEYhn2TaWX6uj04pRRx7mRhXQzV
+         eJ+rHGX57gnXkez09+RWBKlGDzYPW5EIk5xO1E3WLyS/WMx/WWubBCUzzQfU0e+Tt2TX
+         hBOxhpkvZsjVomx/hTU2eraaHAAHG/wZYJekAukjCX1CXgMMjf33/wH+WusL8eOhjM3y
+         l1UYQNIoz7XJKtiwqzZH9UgqNO1GUsHWwOsc3lr4yY68rgHueaXMERejYlPK8KxDHbkJ
+         Y6fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=bKLtlyj1omDM7cHVqZHxMKZlB2vZKbH6hnKKHTQb34Y=;
+        b=lMhj5epTSVpuu+dUdjrikgD0nnJ2Oj4yQCnORGsFVpSS9rgjSz/kiq0nJbW1I2FZn9
+         jOSzDexCk12Rhv6VzUYJUwXzb76gSA2sxX8oiPiC6S7wdV8jXl0k7L7iJkXRXMIm4Lhi
+         Wt9NGRG8ZLiKPJ1NS2/Ywz+JAbua8rzizxsiILPMHkcE6EJuF4u2iIn6TP+oGM+/Ofy9
+         l7MJC/KxZ640iAfbu1Ixyw7B8N8vBKwGPy/lRqVSC5sM5brLHaOMmpeIm6Ul2BuE6h+S
+         FpSKhjpm9BUQfF7iXm/razpiZ3nSjZvAcvKnkLli7o76PSTmOx2y1cUg0rQ/8ok437ig
+         coWg==
+X-Gm-Message-State: AOAM5322KHlGWMJs56xXihho9Mc+PNeAIA1eHyjHwqyYb5iz44Yoa9mY
+        +G3XJcK7p05k7La71sRJuWY=
+X-Google-Smtp-Source: ABdhPJxQTBVx6kY82ts8VrWsL8afJOmcrh0klfXXq/kVOHUSCjoWqljGKBrHes/YN8bkRO+0PsRqGA==
+X-Received: by 2002:a17:907:98eb:b0:6f3:ce56:c1a2 with SMTP id ke11-20020a17090798eb00b006f3ce56c1a2mr5532533ejc.173.1652983734493;
+        Thu, 19 May 2022 11:08:54 -0700 (PDT)
+Received: from skbuf ([188.25.255.186])
+        by smtp.gmail.com with ESMTPSA id i14-20020a1709067a4e00b006fea4d258cfsm112476ejo.147.2022.05.19.11.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 11:08:53 -0700 (PDT)
+Date:   Thu, 19 May 2022 21:08:51 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?utf-8?Q?Miqu=C3=A8l?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        Jean-Pierre Geslin <jean-pierre.geslin@non.se.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Subject: Re: [PATCH net-next v5 07/13] net: dsa: rzn1-a5psw: add Renesas
+ RZ/N1 advanced 5 port switch driver
+Message-ID: <20220519180851.chpqhou7ykt45oty@skbuf>
+References: <20220519153107.696864-1-clement.leger@bootlin.com>
+ <20220519153107.696864-8-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.72.92.132]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220519153107.696864-8-clement.leger@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When a subdevice sends a transfer error event during streaming and we can
-not capture new frames, then we know for sure that this is an unrecoverable
-failure and not just a temporary glitch. In this case we can not ignore the
-transfer error any more and have to notify userspace. In response to the
-transfer error event userspace can try to restart streaming and hope that
-it works again.
+On Thu, May 19, 2022 at 05:31:01PM +0200, Clément Léger wrote:
+> +static int a5psw_pcs_get(struct a5psw *a5psw)
+> +{
+> +	struct device_node *ports, *port, *pcs_node;
+> +	struct phylink_pcs *pcs;
+> +	int ret;
+> +	u32 reg;
+> +
+> +	ports = of_get_child_by_name(a5psw->dev->of_node, "ethernet-ports");
+> +	if (!ports)
+> +		return -EINVAL;
+> +
+> +	for_each_available_child_of_node(ports, port) {
+> +		pcs_node = of_parse_phandle(port, "pcs-handle", 0);
+> +		if (!pcs_node)
+> +			continue;
+> +
+> +		if (of_property_read_u32(port, "reg", &reg)) {
+> +			ret = -EINVAL;
+> +			goto free_pcs;
 
-This patch is based on the patch [1] from Niklas SÃ¶derlund, however it adds
-more logic to check whether the VIN hardware module is actually affected by
-the transfer errors reported by the usptream device. For this it takes some
-ideas from the imx driver where EOF interrupts are monitored by the
-eof_timeout_timer added by commit 4a34ec8e470c ("[media] media: imx: Add
-CSI subdev driver").
+I think when you exit the for_each_available_child_of_node() loop you
+need to manually call of_node_put(port).
 
-[1] https://lore.kernel.org/linux-renesas-soc/20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se/
-
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
----
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 34 ++++++++++++++++++++++
- .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 18 +++++++++++-
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  7 +++++
- 3 files changed, 58 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 2272f1c..596a367 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -13,6 +13,7 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/pm_runtime.h>
-+#include <media/v4l2-event.h>
- 
- #include <media/videobuf2-dma-contig.h>
- 
-@@ -1060,6 +1061,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
- 	}
- 
-+	cancel_delayed_work(&vin->frame_timeout);
-+	schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-+
- 	vin->sequence++;
- 
- 	/* Prepare for next frame */
-@@ -1283,6 +1287,7 @@ int rvin_start_streaming(struct rvin_dev *vin)
- 	spin_lock_irqsave(&vin->qlock, flags);
- 
- 	vin->sequence = 0;
-+	vin->xfer_error = false;
- 
- 	ret = rvin_capture_start(vin);
- 	if (ret)
-@@ -1290,6 +1295,10 @@ int rvin_start_streaming(struct rvin_dev *vin)
- 
- 	spin_unlock_irqrestore(&vin->qlock, flags);
- 
-+	/* We start the frame watchdog only after we have successfully started streaming */
-+	if (!ret)
-+		schedule_delayed_work(&vin->frame_timeout, msecs_to_jiffies(FRAME_TIMEOUT_MS));
-+
- 	return ret;
- }
- 
-@@ -1332,6 +1341,12 @@ void rvin_stop_streaming(struct rvin_dev *vin)
- 	}
- 
- 	vin->state = STOPPING;
-+	/*
-+	 * Since we are now stopping and don't expect more frames to be captured, make sure that
-+	 * there is no pending work for error handling.
-+	 */
-+	cancel_delayed_work_sync(&vin->frame_timeout);
-+	vin->xfer_error = false;
- 
- 	/* Wait until only scratch buffer is used, max 3 interrupts. */
- 	retries = 0;
-@@ -1424,6 +1439,23 @@ void rvin_dma_unregister(struct rvin_dev *vin)
- 	v4l2_device_unregister(&vin->v4l2_dev);
- }
- 
-+static void rvin_frame_timeout(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct rvin_dev *vin = container_of(dwork, struct rvin_dev, frame_timeout);
-+	struct v4l2_event event = {
-+		.type = V4L2_EVENT_XFER_ERROR,
-+	};
-+
-+	vin_dbg(vin, "Frame timeout!\n");
-+
-+	if (!vin->xfer_error)
-+		return;
-+	vin_err(vin, "Unrecoverable transfer error detected, stopping streaming\n");
-+	vb2_queue_error(&vin->queue);
-+	v4l2_event_queue(&vin->vdev, &event);
-+}
-+
- int rvin_dma_register(struct rvin_dev *vin, int irq)
- {
- 	struct vb2_queue *q = &vin->queue;
-@@ -1470,6 +1502,8 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
- 		goto error;
- 	}
- 
-+	INIT_DELAYED_WORK(&vin->frame_timeout, rvin_frame_timeout);
-+
- 	return 0;
- error:
- 	rvin_dma_unregister(vin);
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 2e2aa9d..bd7f6fe2 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -648,6 +648,8 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
- 	switch (sub->type) {
- 	case V4L2_EVENT_SOURCE_CHANGE:
- 		return v4l2_event_subscribe(fh, sub, 4, NULL);
-+	case V4L2_EVENT_XFER_ERROR:
-+		return v4l2_event_subscribe(fh, sub, 1, NULL);
- 	}
- 	return v4l2_ctrl_subscribe_event(fh, sub);
- }
-@@ -1000,9 +1002,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
- static void rvin_notify_video_device(struct rvin_dev *vin,
- 				     unsigned int notification, void *arg)
- {
-+	const struct v4l2_event *event;
-+
- 	switch (notification) {
- 	case V4L2_DEVICE_NOTIFY_EVENT:
--		v4l2_event_queue(&vin->vdev, arg);
-+		event = arg;
-+
-+		switch (event->type) {
-+		case V4L2_EVENT_XFER_ERROR:
-+			if (vin->state != STOPPED && vin->state != STOPPING) {
-+				vin_dbg(vin, "Subdevice signaled transfer error.\n");
-+				vin->xfer_error = true;
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+
- 		break;
- 	default:
- 		break;
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 1f94589..4726a69 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -31,6 +31,9 @@
- /* Max number on VIN instances that can be in a system */
- #define RCAR_VIN_NUM 32
- 
-+/* maximum time we wait before signalling an error to userspace */
-+#define FRAME_TIMEOUT_MS 1000
-+
- struct rvin_group;
- 
- enum model_id {
-@@ -207,6 +210,8 @@ struct rvin_info {
-  * @std:		active video standard of the video source
-  *
-  * @alpha:		Alpha component to fill in for supported pixel formats
-+ * @xfer_error:		Indicates if any transfer errors occurred in the current streaming session.
-+ * @frame_timeout:	Watchdog for monitoring regular capturing of frames in rvin_irq.
-  */
- struct rvin_dev {
- 	struct device *dev;
-@@ -251,6 +256,8 @@ struct rvin_dev {
- 	v4l2_std_id std;
- 
- 	unsigned int alpha;
-+	bool xfer_error;
-+	struct delayed_work frame_timeout;
- };
- 
- #define vin_to_source(vin)		((vin)->parallel.subdev)
--- 
-2.7.4
-
+> +		}
+> +
+> +		if (reg >= ARRAY_SIZE(a5psw->pcs)) {
+> +			ret = -ENODEV;
+> +			goto free_pcs;
+> +		}
+> +
+> +		pcs = miic_create(pcs_node);
+> +		if (IS_ERR(pcs)) {
+> +			dev_err(a5psw->dev, "Failed to create PCS for port %d\n",
+> +				reg);
+> +			ret = PTR_ERR(pcs);
+> +			goto free_pcs;
+> +		}
+> +
+> +		a5psw->pcs[reg] = pcs;
+> +	}
+> +	of_node_put(ports);
+> +
+> +	return 0;
+> +
+> +free_pcs:
+> +	a5psw_pcs_free(a5psw);
+> +	of_node_put(ports);
+> +
+> +	return ret;
+> +}
