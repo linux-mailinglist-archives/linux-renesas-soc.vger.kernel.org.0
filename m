@@ -2,66 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7719352D01A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1030452D024
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 12:08:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236496AbiESKGr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 06:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
+        id S232912AbiESKIE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 06:08:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236473AbiESKGq (ORCPT
+        with ESMTP id S232667AbiESKID (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 06:06:46 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2A03A5D5;
-        Thu, 19 May 2022 03:06:45 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id p189so2592476wmp.3;
-        Thu, 19 May 2022 03:06:44 -0700 (PDT)
+        Thu, 19 May 2022 06:08:03 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D36DA7740;
+        Thu, 19 May 2022 03:08:02 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id f9so9039622ejc.0;
+        Thu, 19 May 2022 03:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XBWLqbdmzfQgEw0/TRzerfoDbzPzGOJbF95S1SOzfNM=;
-        b=f+GBf9Qh4cVJUQMRY/rpCcSXUz0c7J4JYRsnY9Uvzh+68vgvCx30cbPMnboSRuVJN/
-         ldNXY1l2f9wCgjnYHQHZv1+higU7BzOrV3RFeEC/RD1H8hp5sWyY2Y+j4CZQkUKDa+sV
-         Ei8TjxSCua8YeEjgbFV1ZRP73rfgdglhTvy+zp8uIVUfNYqDmlB3p/Wb/7yjq0SUvE7F
-         Szx+IMCTneg/ulioC4VzawxWMAdKtmukF9ByJaXMRO5knSUQRxZK5eQjevxamYtOruLq
-         +nDMbLlKNRMWA4qPB/EYEPDQGYxHws4mHEcFKfsTy1tqTytkPINuiLr7WNPNsqpm8ykw
-         SzCQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EZvPkAeujwgNKCH5EMvSfalxGi18lEkG+bj2iAM0yAs=;
+        b=jLOnF0e7IvKq0dViMCad++sS/fMzl1uvK8JrCKAnJ8R/TGlg3fdAeTxdFfmrkYDg7I
+         KZ/MY7YpSK86SmKcjAJ8Hepr8OoTq3DoJ1tlflZmNQ3+8mtkpTpKjvxp5H9JkadBoWTM
+         F3TKYyy1q83krbp92fH28aMfL7MhgnFiQVIQgHsSPiP8J6X8kvEE+ingczbeOz7Oy+g/
+         x472XDt1dNPEqSoQo5dGfGevS/JIsxg4Ac5NRg88wGRY02FmWhy5ci9mCXC1Hct5mcuX
+         DivoBjJmvk4KGKIgUvevNHnWKrfdrvrl9oc8u+wev/CDk+fs1gJLS0B9yfEWYqmcD/yj
+         t9dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XBWLqbdmzfQgEw0/TRzerfoDbzPzGOJbF95S1SOzfNM=;
-        b=s6KgC/CqMEAQNMzf6tLackwyBgTW8RO3FeRbjTdji/aQk+4BIyvgcBRv3WBmwDMm46
-         0Geu+Fzy+n6vmxu0AT9H8RyoK7QIFC5yZbOO5kUSHpUBVTXYVgJ3fEatZ0XMfKBoo+YQ
-         n1Z8pjoFkTrNa3kQ8f7r9QpbkkTj5/ag1yFAZ7e4bCJ5WwsK7pfHw5w/H9CWD4jf56sx
-         OUE9D53VCc1Ao/EwTWv1L5zwuNak6AjtN1Qj1BgogydAbIGe4RRI8Mz5e/sOHRXdE8iH
-         1hcgjEJ4OmF5MzLRnKViCRZbqIyCMtteJoVrrOZwf0ZY02xH/f0mM3+49fXX2WIXiU3V
-         5JNA==
-X-Gm-Message-State: AOAM531GausgTXY4+yda4cRyP089SCvG788mGdI5ySBoZDtER+5l963y
-        SVg/vgoinK3ZoPvkGpGlOwQ=
-X-Google-Smtp-Source: ABdhPJwxCE6AVFhSoylPIebvZAf66K1HbsHHnHzTPOFaqkhljsKfIhuv9psUcQFsta/ZLBayjn41/Q==
-X-Received: by 2002:a05:600c:4e91:b0:394:8d30:d6dd with SMTP id f17-20020a05600c4e9100b003948d30d6ddmr3033496wmq.21.1652954803528;
-        Thu, 19 May 2022 03:06:43 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id q21-20020adfb195000000b0020c5253d8basm4986182wra.6.2022.05.19.03.06.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 03:06:42 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michel Pollet <michel.pollet@bp.renesas.com>,
-        linux-rtc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] rtc: rzn1: Fix uninitialized variable val
-Date:   Thu, 19 May 2022 11:06:41 +0100
-Message-Id: <20220519100641.595608-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EZvPkAeujwgNKCH5EMvSfalxGi18lEkG+bj2iAM0yAs=;
+        b=h7J7bnM8u/P0hTKvf2DgsDzxGheBaaHIA9FO98YqNqKROvo9t8s/IQU1IoCMYxi6uJ
+         Ybbf8B9zghzbdwLaScJQCiWA1O3Pdk+e64mU4xWVgxhuPT97sJDP5z0/0ejBNjFoVK7h
+         rjIL6QiEMQ9elz+1fu4plxlZ6kwROrNp5o4o96xPrJfqFRmaRy1tj057b/PLWZ2oNHDv
+         7uDnH0TWfu2riSOvJLrpxf4EhStaxs1nQ1IYSk3e38J1uqowrTPDLA07yGOCzCR3NZiA
+         EGKrI+Uql2P9GVimZ4AVGRZrkL5khagKsS/YTCoEA9vOtABHNKMTJtNQ8EjcjgmpCn9V
+         TrkQ==
+X-Gm-Message-State: AOAM532us8p0P4bXmBN3k1/4jFAqwagttCwp4zReaeDFAIAq8dm6EdSB
+        32951UPxB9p70e5Ytyoa1fD8iK5xZ06ecgrA6IM=
+X-Google-Smtp-Source: ABdhPJzJayPSTOH8apl4X7mFph72vPHSGtbxYNMETu8oPZt5Ra6jCHh52C93NfRy/hJ4wplCEVFMXJnKsXs6wcDGcMw=
+X-Received: by 2002:a17:907:a088:b0:6f4:f661:f77a with SMTP id
+ hu8-20020a170907a08800b006f4f661f77amr3494449ejc.77.1652954880656; Thu, 19
+ May 2022 03:08:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220518192924.20948-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAHp75VeyU4Ox76wz9VfT8qEKHsE1eAo2iw27Lro1tmjJB0npMg@mail.gmail.com> <CA+V-a8tp0T=ojr3hB-QacOvV5sCZ29YXspPzKSSpGHUA8_1XDA@mail.gmail.com>
+In-Reply-To: <CA+V-a8tp0T=ojr3hB-QacOvV5sCZ29YXspPzKSSpGHUA8_1XDA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 19 May 2022 12:07:23 +0200
+Message-ID: <CAHp75VcauAsM2dTsS2CjOTc1_fwd-oT=A+yU6LzQ+vwQRAHjBg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/7] Renesas RZ/G2L IRQC support
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -72,31 +86,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Variable val is not being initialized and is later being read with
-a potentially garbage value. Fix this by initializing val to zero.
+On Thu, May 19, 2022 at 6:07 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, May 18, 2022 at 10:10 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wed, May 18, 2022 at 9:29 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-Detected by clang scan build:
-warning: variable 'val' is uninitialized when used here [-Wuninitialized]
+...
 
-Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/rtc/rtc-rzn1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > GIC. Out of GPIOINT0-122 only 32 can be mapped to GIC SPI, this mapping is
+> > > handled by the pinctrl and IRQC driver.
+> >
+> > Where is the explanation on why valid_mask can't be used instead?
+> >
+> The .valid_mask option is one time setting but what I need is
+> something dynamic i.e. out of 392 GPIO pins any 32 can be used as an
+> interrupt pin. Also with this patch we also save on memory here [0].
 
-diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-index 980ade8c9601..0b4bf6e43464 100644
---- a/drivers/rtc/rtc-rzn1.c
-+++ b/drivers/rtc/rtc-rzn1.c
-@@ -272,7 +272,7 @@ static int rzn1_rtc_set_offset(struct device *dev, long offset)
- 	struct rzn1_rtc *rtc = dev_get_drvdata(dev);
- 	unsigned int steps;
- 	int stepsh, stepsl;
--	u32 val;
-+	u32 val = 0;
- 	int ret;
- 
- 	/*
+Which internal APIs are bound to valid_mask not to be updated?
+
 -- 
-2.35.1
-
+With Best Regards,
+Andy Shevchenko
