@@ -2,70 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B20352CF24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 11:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EDDA52CF35
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 May 2022 11:21:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232220AbiESJP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 May 2022 05:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44506 "EHLO
+        id S235984AbiESJUq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 May 2022 05:20:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230370AbiESJP0 (ORCPT
+        with ESMTP id S235981AbiESJUo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 May 2022 05:15:26 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EC857117;
-        Thu, 19 May 2022 02:15:24 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id y15so102232qtx.4;
-        Thu, 19 May 2022 02:15:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hfcRoMNgXbpbp4lEQmFgNamkdeleq0kQBl4tE1oou8s=;
-        b=6G4U2SLbnqeveTm5aQJb04sPcgL8mKR2j00411L/rvipHmSvoLfYd1mmaddNj9l36V
-         niVp4+UQdwjLOEhcHeGHuo8yLX723agpLmyByImYt0+Vd4Cpnmm5ksuUWWpnE9zkCIUP
-         A1i65dll/bt84YPGaaWccqenN6UB7huykK3V0uqR0bawC1UTqcgK19oUV+jyo/5QHPbo
-         cwnHLaWR/yTh4QsLBWPOlohe9pEEgYQ/2OagBppTRVk/kI3xsG7sGP2lUozVcVFPg3m9
-         A7IUJgJdCi9XOi6ZdxnOyg8dGsCxaGqJkd3LzIwZHuT3enBXYvtFbeEdeTQOFdKSq4C7
-         Ee8g==
-X-Gm-Message-State: AOAM531NpBbX3DVt+e3xVls/t/My7dmlB5J6+mKq0d39IbE2/qOQZfRr
-        FClakGfuNxEJODsmufZq3PfFV8/z39jqEA==
-X-Google-Smtp-Source: ABdhPJzX78567TB++gq69F0NXTfesOnt2zqRIwBdjK7VzT2Tg7qWUTLQ+ykv4fb7ZWIM0w4Yq2Nluw==
-X-Received: by 2002:ac8:4e8b:0:b0:2f9:cae:cc8b with SMTP id 11-20020ac84e8b000000b002f90caecc8bmr3043171qtp.590.1652951723323;
-        Thu, 19 May 2022 02:15:23 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id cp3-20020a05622a420300b002f3d7c13a24sm986120qtb.4.2022.05.19.02.15.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 02:15:22 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id e78so7921696ybc.12;
-        Thu, 19 May 2022 02:15:22 -0700 (PDT)
-X-Received: by 2002:a25:4150:0:b0:64d:7747:9d93 with SMTP id
- o77-20020a254150000000b0064d77479d93mr3498425yba.36.1652951721872; Thu, 19
- May 2022 02:15:21 -0700 (PDT)
+        Thu, 19 May 2022 05:20:44 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED56E25EC
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 May 2022 02:20:43 -0700 (PDT)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id D1AB8200012;
+        Thu, 19 May 2022 09:20:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1652952037;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3fF8TXfzuMO2aAQ4ZMYHR9TcyWJ8s6t3LJpHkibRzbo=;
+        b=pMPJsTuEHgPN5iQT99K6z1ZdCIcfwX5MsMSGQwX8O/h0GX+eDDaHKEmZi+ks8VDWONVn5g
+        0Sn1/OrnngudgVnU6ktbTyx7JJD2ZopvUy4J7qVOBZvwrQSkWOsWvHIbFVW8Avjde1p0wm
+        n/2BxOKno8f9sP0vmxsR6ToTWqseLIO0t91qQyYATVAJynCsvaLmuS0XFGyzW5INDEMDXF
+        mPwr44bIdZdFDsk4LJgR0ciB1a4eAy4LdpqaPuDxrxRxLtXcC5/LfclVLfDmdmKUbW+l7I
+        DVk7IvUQ5ZkfKAbZPVj8J9UxyHs6aumOqeLKnxUp6L/PLCXj2q6S1Fm57TtwRw==
+Date:   Thu, 19 May 2022 11:20:36 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Yang Li <yang.lee@linux.alibaba.com>, miquel.raynal@bootlin.com
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, a.zummo@towertech.it,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] rtc: rzn1: fix platform_no_drv_owner.cocci warning
+Message-ID: <165295200014.525355.7168522727059763563.b4-ty@bootlin.com>
+References: <20220518232445.79156-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20220510151112.16249-1-biju.das.jz@bp.renesas.com> <20220510151112.16249-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220510151112.16249-5-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 May 2022 11:15:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVoQ9rjOuubLYb=6j_LP=qVeG+u0nxmqh_Pkr+jDPWLUw@mail.gmail.com>
-Message-ID: <CAMuHMdVoQ9rjOuubLYb=6j_LP=qVeG+u0nxmqh_Pkr+jDPWLUw@mail.gmail.com>
-Subject: Re: [RFC 4/8] pwm: rzg2l-gpt: Add support for linking with POEG
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518232445.79156-1-yang.lee@linux.alibaba.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,71 +52,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Thu, 19 May 2022 07:24:45 +0800, Yang Li wrote:
+> Remove .owner field if calls are used which set it automatically.
+> ./drivers/rtc/rtc-rzn1.c:411:3-8: No need to set .owner here. The core
+> will do it.
+> 
+> 
 
-On Tue, May 10, 2022 at 5:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This patch add support for linking POEG group with pwm, so that
-> POEG can control the output disable function.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Applied, thanks!
 
-Thanks for your patch!
+[1/1] rtc: rzn1: fix platform_no_drv_owner.cocci warning
+      commit: e60e8a73235ce5d42a2891c6989e8df1c8888c4a
 
-> --- a/drivers/pwm/pwm-rzg2l-gpt.c
-> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> @@ -266,6 +291,36 @@ static int rzg2l_gpt_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->         return ret;
->  }
->
-> +static int rzg2l_gpt_parse_properties(struct platform_device *pdev,
-> +                                     struct rzg2l_gpt_chip *pc)
-> +{
-> +       static const u64 poeg_grp_addr[] = {
-> +               POEG_GRP_A_ADDR, POEG_GRP_B_ADDR, POEG_GRP_C_ADDR, POEG_GRP_D_ADDR
-> +       };
-> +       struct device_node *np;
-> +       unsigned int i;
-> +       u64 addr;
-> +
-> +       pc->poeg_grp = GRP_INVALID;
-> +       np = of_parse_phandle(pdev->dev.of_node, "renesas,poeg-group", 0);
-> +       if (!np)
-> +               return 0;
-> +
-> +       if (!of_property_read_u64(np, "reg", &addr)) {
-> +               for (i = 0; i < ARRAY_SIZE(poeg_grp_addr); i++) {
-> +                       if (addr == poeg_grp_addr[i]) {
+Best regards,
 
-Matching on addresses looks fragile to me.
-Of course this is code, not DT, so it can be changed later.
-
-Possible alternatives:
-  1. Use a numeric property instead of a phandle, so you can store
-     its value directly into pc->poeg_grp.
-     This loses the linking by phandle, though, which is nice to
-     have, and might be useful for other purposes later.
-  2. Add a "renesas,id" property to each POEGx DT node, cfr.
-     Documentation/devicetree/bindings/media/renesas,vin.yaml.
-
-> +                               pc->poeg_grp = i;
-> +                               break;
-> +                       }
-> +               }
-> +       }
-> +
-> +       if (np)
-> +               of_node_put(np);
-> +
-> +       return 0;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
