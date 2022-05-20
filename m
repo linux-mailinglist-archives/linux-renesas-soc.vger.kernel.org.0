@@ -2,143 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B1852EDF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 16:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEADD52EF1B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 17:24:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350153AbiETOTf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 10:19:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53088 "EHLO
+        id S1350861AbiETPYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 11:24:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236247AbiETOTe (ORCPT
+        with ESMTP id S1350831AbiETPYF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 10:19:34 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3F71611C7;
-        Fri, 20 May 2022 07:19:33 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id m20so575180wrb.13;
-        Fri, 20 May 2022 07:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Heq5HViSRVLPbnvHc7QenObIQfHo9RAeEcWGUwWIy8w=;
-        b=NhVQH7CvywDmnRBBHKaYX8+KdKPCio2sjNgcctQqECdNWivg3hqobbJSFq7BDXmPWG
-         7AFKIxZw9vSjJYEWzmHMigQNJDFURBZYX/nJbDzRlqWrUMu6pBW4/8d4f31RUwmHrtWF
-         FDo5EEo2ElTNy0JvWOyhv9HfwA3WDlGgWmXQvjenzpD6ZTs9QcazPQE7RgG7uYapbXEX
-         2JTV0qgaXVpRmXjgxRCBLRf2p8Th7QJWrfIOHyRm0SHlrtxT92QJHqqrmLs80hF5VeCQ
-         vuT6O9m6GEHkKOpLPV8wO2XG7CQS64JVxr+zA8n1htCy5DJ7KYbJFRpj922M+ArrFhiV
-         NfQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Heq5HViSRVLPbnvHc7QenObIQfHo9RAeEcWGUwWIy8w=;
-        b=S/UTJzFXlTxohrofjTgmPWqMm7A9Lgz2dUmeg9p/RZO+GZPlNf59NUAq6IBYXUd5WR
-         eAp8MWJ/jbj7P8L78LRbVHapHlbqbWQxofif0bhHVIq7ZGN2XRS9cA5647fvh/N6tc77
-         Ow9ykzHoHxf5EtjACY3IqSUP2Z0hR3i5WCxPrfaZiyJfPDjCvJLnztdd1fVCnEfaZIpO
-         dMThCIlQJAWHBs1bzz6Ya2PNCQOhYZPBZ9IWtnEqT6H9Gsl2U///KZh+I9zTvQznQhie
-         HSHds3y/wyjtbB524w20fWd2obJ6ToiGNphERP22TWYTR4/EHh66bvyD1UWbOYpVOOBd
-         Y+MA==
-X-Gm-Message-State: AOAM5325XJKO/PoRmG6fWICEA97/46WjGfm+pqq7QBGwDyklrIxAzNA5
-        uAvDGQTZfFuSRLxOMd6K1LshkM+iync=
-X-Google-Smtp-Source: ABdhPJwgH+0zhWNOFCNb2p2utbBDSEa/0gFooHXZvgMK0Kb3ffDW9y2gKMWwdrz0rAYi73nL9oOfOQ==
-X-Received: by 2002:a5d:65d2:0:b0:20d:7e7:8298 with SMTP id e18-20020a5d65d2000000b0020d07e78298mr8616294wrw.668.1653056371762;
-        Fri, 20 May 2022 07:19:31 -0700 (PDT)
-Received: from orome ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id i66-20020a1c3b45000000b003942a244f51sm2062072wma.42.2022.05.20.07.19.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 07:19:30 -0700 (PDT)
-Date:   Fri, 20 May 2022 16:19:28 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
+        Fri, 20 May 2022 11:24:05 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D308617855D;
+        Fri, 20 May 2022 08:23:57 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 23225FF809;
+        Fri, 20 May 2022 15:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1653060236;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=y2eVv2sbUXjs+9RjlT2SeuyRq4O8E4/f2RMuQg0THiI=;
+        b=GeW2ux4oA0T5tY4/Oz5778QiBwJAqCaEtqHvz0IktDXqURyB3nKl8PRDSob4ipt+UJ+clQ
+        RHgA+1ViJcedEMObN3EDKXNNkjC1A9f8Du99IDEW+FNTHKVla8JUn+/LLgEaGNaXr4MILQ
+        11Cu1m4cFTVsGWXYLPSq7uTXWYafEE9qb8dr1jKEmbfL2GIMzopgOgjqepC9lUiHRxAxMq
+        FZQO+KJxEZPtLzPJoE+/XIhozOXQ6l9pRO/WHy+z73K47u1rfY8cZRhlH7tRZ1tbjjnilG
+        wdbNWOecFk1qbrlbmEj4D0npoVAZr46UB2w4W2GiNNidXC2jG5DBKaNlhvuQyQ==
+Date:   Fri, 20 May 2022 17:22:44 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2 0/6] pwm: renesas-tpu: Various improvements
-Message-ID: <YoejcKmXGbKUJkJd@orome>
-References: <20220420121240.67781-1-u.kleine-koenig@pengutronix.de>
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v5 05/13] net: pcs: add Renesas MII converter
+ driver
+Message-ID: <20220520172244.1f17f736@fixe.home>
+In-Reply-To: <20220520084914.5x6bfu4qaza4tqcz@skbuf>
+References: <20220519153107.696864-1-clement.leger@bootlin.com>
+        <20220519153107.696864-6-clement.leger@bootlin.com>
+        <YoZvZj9sQL2GZAI3@shell.armlinux.org.uk>
+        <20220520095241.6bbccdf0@fixe.home>
+        <20220520084914.5x6bfu4qaza4tqcz@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="aNkGJh8FDKU9vD2t"
-Content-Disposition: inline
-In-Reply-To: <20220420121240.67781-1-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/2.2.4 (c3baa83e) (2022-04-30)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Le Fri, 20 May 2022 11:49:14 +0300,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
---aNkGJh8FDKU9vD2t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, May 20, 2022 at 09:52:41AM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > > Also, as a request to unbind this driver would be disasterous to user=
+s,
+> > > I think you should set ".suppress_bind_attrs =3D true" to prevent the
+> > > sysfs bind/unbind facility being available. This doesn't completely
+> > > solve the problem. =20
+> >=20
+> > Acked. What should I do to make it more robust ? Should I use a
+> > refcount per pdev and check that in the remove() callback to avoid
+> > removing the pdev if used ? =20
+>=20
+> I wonder, if you call device_link_add(ds->dev, miic->dev, DL_FLAG_AUTOREM=
+OVE_CONSUMER),
+> wouldn't that be enough to auto-unbind the DSA driver when the MII
+> converter driver unbinds?
 
-On Wed, Apr 20, 2022 at 02:12:34PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->=20
-> I reworked the series to improve the renesas-tpu PWM driver after
-> feedback I got from Geert. The changes are:
->=20
->  - Add Geert's tags for the first two patches
->    (I didn't add them for the other patches as I changed these enough to
->    not carry the tags forward.)
->  - Use tpu_pwm_disable instead chip->ops->disable (which is NULL now)
->    fixing a crash in v1.
->  - The calculation now uses a switch instead of ilog2.
->    Looking at the compiled code for ARM this is more effective and I
->    assume the same holds true for other platforms.
->=20
-> Thanks again to Geert for his valuable feedback and testing.
->=20
-> Best regards
-> Uwe
->=20
-> Uwe Kleine-K=C3=B6nig (6):
->   pwm: renesas-tpu: Make use of dev_err_probe()
->   pwm: renesas-tpu: Make use of devm functions
->   pwm: renesas-tpu: Implement .apply() callback
->   pwm: renesas-tpu: Rename variables to match the usual naming
->   pwm: renesas-tpu: Improve maths to compute register settings
->   pwm: renesas-tpu: Improve precision of period and duty_cycle
->     calculation
->=20
->  drivers/pwm/pwm-renesas-tpu.c | 317 +++++++++++++++++++---------------
->  1 file changed, 180 insertions(+), 137 deletions(-)
+I looiked at that a bit and I'm not sure how to achieve that cleanly. If
+I need to create this link, then I need to do it once for the dsa switch
+device. However, currently, the way I get the references to the MII
+converter are via the pcs-handle properties which are for each port.
 
-Applied, with the checkpatch warning in patch 5/6 addressed (I opted to
-replace the tabs by spaces).
+So, I'm not sure creating the link multiple times in miic_create() would
+be ok and also, I'm not sure how to create the link once without adding
+a specific property which points on the MII converter node and use that
+to create the link by adding miic_device_add_link() for instance.
+
+Do you have any preference ?
 
 Thanks,
-Thierry
 
---aNkGJh8FDKU9vD2t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmKHo24ACgkQ3SOs138+
-s6HZxhAAmKfzEjyKQuZFLNdoHHM1cWnzo8vHG5vEMoVIZCy4rMt4RCqQhHQuEzK/
-l2X310ZmiuYpUNw7lSaLhIU2tbKxZ+L24M8D/zbh2X7NJdt9F+WHZUcdH+YqWBG/
-iZeh9mYzghaV/TOEnp2cvv7mouw2IhJpflmRp6oOYZjUHu4e+gtEyYXOByXjIWPg
-9kydrMbTKXJbXy+qRh9GknGRAmeV+K/kJfbtU3t7VZeiOQ19yqgi80cR8WmzHXYI
-sIQzVavNW4W5JIssiUFN64808lNXWvZyIIeaMmDXWCFw7azbvbeDySk06NPZLjmF
-edrY5qVf+lVgTNo+bG5UudmG1R8tda/XfHsjNcyJLCabp0ql6uA6fcssWx2KQvMs
-lI/kMwqcPTDOcGvD+y/649hHKKMgTSepwaskW2GNhPUz3jrMDKFNGEfpa0d2DW2U
-SucwG1NlDF1RsHczHCj6+sURfenuAzbqUXAxXcsSf5VdWHtd7Ln4MjvqViZKvqpX
-a390BkQ35zFWwnGQC9lHJY0KuU6vsS1m3AOES6Q8CA49D6V1VNI+Nku5oJ03sHAb
-LN8zDJiQt0yo3LdpVpmLZKKAlUSj/uSzjyvuGVt3ME+NJoeEjHRzGI0HZEdxWV2j
-TZrW2audqdxHgM5z93CFoiabR7+axBkqeErGfIbY09zujtNCvos=
-=o86l
------END PGP SIGNATURE-----
-
---aNkGJh8FDKU9vD2t--
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
