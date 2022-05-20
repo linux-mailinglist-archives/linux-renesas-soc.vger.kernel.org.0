@@ -2,101 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 073AE52E923
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 11:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 708D452E96F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 11:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347869AbiETJms (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 05:42:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34092 "EHLO
+        id S1347629AbiETJyg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 05:54:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347814AbiETJmq (ORCPT
+        with ESMTP id S1348008AbiETJyd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 05:42:46 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D8AA149AA2;
-        Fri, 20 May 2022 02:42:37 -0700 (PDT)
-Received: (Authenticated sender: herve.codina@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id CE5701C0006;
-        Fri, 20 May 2022 09:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653039755;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3sbzBzsCcC7x9s3vXEvDzSjrA2nDIAK9IYFPPKABIDw=;
-        b=gO27dZkzBfMtegto1vIGkWgZin67UDCXsQ+Lu64r2gl7wQtsk/28Wddo7Ucd1TuSZy14KI
-        qlRkaQ7Nfij+MKOWV/DIEea+7XLbU5d2xhL9mAC7xBJHVNvNNutI1NE0PM7y1Og8s8UEEj
-        4wfh9YYh1BuzVIi+HBPHaownrza5ytvVXM6zoZ8Voti0HnUe/ir92wu/cUNOzsv0k/1UPk
-        EKz8zp6dAOU8XkDhbmizxx/VNZRiorcSGgjjsRBSa6XJl3fqngMiVBWUBR9niweeP+Jabn
-        ISJ6aOALrO31ER4ub1Sn2iPAyFq26fleAOP4b08Nn7ktCKnYJAQBO5N8HknCjw==
-From:   Herve Codina <herve.codina@bootlin.com>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v6 6/6] ARM: dts: r9a06g032: Link the PCI USB devices to the USB PHY
-Date:   Fri, 20 May 2022 11:41:55 +0200
-Message-Id: <20220520094155.313784-7-herve.codina@bootlin.com>
+        Fri, 20 May 2022 05:54:33 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EF1D14C74F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 May 2022 02:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=vDEMEWp+BmgerKos80VGiEwf+Ck
+        34UFR37s7ST+K7Aw=; b=ebQxQfaHl7KGNeQCDQY13MyBwdNHxZIg9/BbNg3HD3a
+        pQ1Hbmeu9T3wHCaRhLSd1J07Gdx7KyjLw9kBZl/2rc5EdGmozlMCM4wR8mZZS1wJ
+        fOLv+xoEt6x7oZxTdA7GcmMY3K2Qq8nw03uJeJJ8cPiAnfAEbs6MJ9sZPIqovpyM
+        =
+Received: (qmail 3722136 invoked from network); 20 May 2022 11:54:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 May 2022 11:54:27 +0200
+X-UD-Smtp-Session: l3s3148p1@3E3WeW7fzXVZD+8D
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2] i2c: rcar: fix PM ref counts in probe error paths
+Date:   Fri, 20 May 2022 11:54:21 +0200
+Message-Id: <20220520095421.51742-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220520094155.313784-1-herve.codina@bootlin.com>
-References: <20220520094155.313784-1-herve.codina@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the PCI USB devices that are behind the PCI bridge, adding
-necessary links to the USB PHY device.
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+We have to take care of ID_P_PM_BLOCKED when bailing out during probe.
+
+Fixes: 7ee24eb508d6 ("i2c: rcar: disable PM in multi-master mode")
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm/boot/dts/r9a06g032.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 8cedc08ba3b9..db1e35381d9b 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -121,6 +121,18 @@ pci_usb: pci@40030000 {
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			usb@1,0 {
-+				reg = <0x800 0 0 0 0>;
-+				phys = <&usbphy>;
-+				phy-names = "usb";
-+			};
-+
-+			usb@2,0 {
-+				reg = <0x1000 0 0 0 0>;
-+				phys = <&usbphy>;
-+				phy-names = "usb";
-+			};
- 		};
+Changes since v1:
+* fixed some exit points to 'out_pm_put' so the fix actually gets applied
+* added special handling for errors on clock calculation
+* reworded commit message and subject
+
+ drivers/i2c/busses/i2c-rcar.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index ca61dbe218bf..3e49e652d83c 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -1086,8 +1086,10 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_get_sync(dev);
+ 	ret = rcar_i2c_clock_calculate(priv);
+-	if (ret < 0)
+-		goto out_pm_put;
++	if (ret < 0) {
++		pm_runtime_put(dev);
++		goto out_pm_disable;
++	}
  
- 		uart0: serial@40060000 {
+ 	rcar_i2c_write(priv, ICSAR, 0); /* Gen2: must be 0 if not using slave */
+ 
+@@ -1116,19 +1118,19 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 
+ 	ret = platform_get_irq(pdev, 0);
+ 	if (ret < 0)
+-		goto out_pm_disable;
++		goto out_pm_put;
+ 	priv->irq = ret;
+ 	ret = devm_request_irq(dev, priv->irq, irqhandler, irqflags, dev_name(dev), priv);
+ 	if (ret < 0) {
+ 		dev_err(dev, "cannot get irq %d\n", priv->irq);
+-		goto out_pm_disable;
++		goto out_pm_put;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, priv);
+ 
+ 	ret = i2c_add_numbered_adapter(adap);
+ 	if (ret < 0)
+-		goto out_pm_disable;
++		goto out_pm_put;
+ 
+ 	if (priv->flags & ID_P_HOST_NOTIFY) {
+ 		priv->host_notify_client = i2c_new_slave_host_notify_device(adap);
+@@ -1145,7 +1147,8 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+  out_del_device:
+ 	i2c_del_adapter(&priv->adap);
+  out_pm_put:
+-	pm_runtime_put(dev);
++	if (priv->flags & ID_P_PM_BLOCKED)
++		pm_runtime_put(dev);
+  out_pm_disable:
+ 	pm_runtime_disable(dev);
+ 	return ret;
 -- 
 2.35.1
 
