@@ -2,37 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BE6F52E7A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 10:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BED452E800
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 10:48:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347160AbiETIeU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 04:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47398 "EHLO
+        id S240372AbiETIsW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 04:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347463AbiETIdp (ORCPT
+        with ESMTP id S245470AbiETIsV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 04:33:45 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A83A158948;
-        Fri, 20 May 2022 01:33:08 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A58A124001C;
-        Fri, 20 May 2022 08:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653035587;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8uycxO5fJimk0zTNVtpGUm4BdARppNdHxB7/Xtb6ANM=;
-        b=gPStD7GoQ1fffRcB8mNyIeGO4ElBHqlR+svkzdvU8QApZyJqS1PVnyFh7PeqBwiNpTMn7d
-        ouuZxIXXLukQpNS3trpXZDxz6MQ501jIhKFYwZo0rTAn5UOvzx4Q5v3EVmZEJ4uNF0s8ny
-        y2Cqj5hCfUaR8PeKkFvkLiXfXw2WYRb3OZW2Ce0gsEfHAQljuQC+1tdNhrWYhkWq/EvkGf
-        3BAFdvPdRW+rvd0Koff9tM6D9NW16Xt59P4VFnjBltmgINsAdWDqq9fyjB1sCD6RLOX6tp
-        v5jAShkIh6yeXsnvBHrQ5aphV3gIMPONSezL3gjvsSw3mf+mLTXJFpzN13yPDQ==
-Date:   Fri, 20 May 2022 10:31:52 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        Fri, 20 May 2022 04:48:21 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A593BBC6FD;
+        Fri, 20 May 2022 01:48:20 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id m1so6452848qkn.10;
+        Fri, 20 May 2022 01:48:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JWWW8GaGp7Bfgc3aX0E1QG9mqMLN8epseaMJO1I0gvs=;
+        b=Wt2+mMTjs0ln7OwJIsUFv2f6CKK6e8JKuj1hb7PM8Aa/2JzgsjoioMxKAivYhEwanN
+         tgmziw6asF7tre5vzVNcEFXJ0QTIoVuEezgKRj7glP1ssfVXZDO/n1akBKtuEafGXmsu
+         9HBsUVi++waSVGnjIenfcGEpBbSCVKFaRCSGACJoIPie5fx7+qmmck3CRZkFC7Uk4y/0
+         K+BmoZG6PhM4Lfbsqgxw7XdmhRqVk6RHNjU/VSc7XBnOxORdrekvnp+1pR3eiebjGyf7
+         H1ayOFEI+EuhJv8nOEV38ECxny1JAKaX5ufnCRzaX9I5P26K+OCqoREU9y5YCf0M+PQd
+         zhPQ==
+X-Gm-Message-State: AOAM530B7xoeoEITdf+Oi3d2IUZmTywjgVY/+uoZre0HWFKMqyV3oU/M
+        U2bWw6tle8lfJ0vlZejNzGMVVgl21n+oNw==
+X-Google-Smtp-Source: ABdhPJzCZYpkvWsWVhCZcDC/KQ3OosVm4vkjIkhnnYhqQg31JSpJTE2v030b7145puFRr8QP7FBgoQ==
+X-Received: by 2002:a05:620a:2e2:b0:6a3:5662:e499 with SMTP id a2-20020a05620a02e200b006a35662e499mr60398qko.361.1653036499462;
+        Fri, 20 May 2022 01:48:19 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id d200-20020a3768d1000000b006a351e0eacdsm254588qkc.95.2022.05.20.01.48.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 May 2022 01:48:18 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2fed823dd32so79944057b3.12;
+        Fri, 20 May 2022 01:48:18 -0700 (PDT)
+X-Received: by 2002:a0d:f002:0:b0:2fe:cfba:d597 with SMTP id
+ z2-20020a0df002000000b002fecfbad597mr8716166ywe.502.1653036498056; Fri, 20
+ May 2022 01:48:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220519153107.696864-1-clement.leger@bootlin.com>
+ <20220519153107.696864-12-clement.leger@bootlin.com> <CAMuHMdUJpNSyX0qK64+W1G6P1S-78mb_+D0-w3kHOFY3VVkANQ@mail.gmail.com>
+ <20220520101332.0905739f@fixe.home> <CAMuHMdXTrZnGVt44hg5QUvuS5cZABmRncgNYtatkmk8VcH7gew@mail.gmail.com>
+ <20220520103152.48f7b178@fixe.home>
+In-Reply-To: <20220520103152.48f7b178@fixe.home>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 May 2022 10:48:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUXasnd+RQUvN09ZUEEPLJzLcpgPrXuqadfsfsY+RsZPg@mail.gmail.com>
+Message-ID: <CAMuHMdUXasnd+RQUvN09ZUEEPLJzLcpgPrXuqadfsfsY+RsZPg@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 11/13] ARM: dts: r9a06g032: describe GMAC2
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -49,7 +71,7 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Russell King <linux@armlinux.org.uk>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
@@ -58,180 +80,109 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v5 11/13] ARM: dts: r9a06g032: describe GMAC2
-Message-ID: <20220520103152.48f7b178@fixe.home>
-In-Reply-To: <CAMuHMdXTrZnGVt44hg5QUvuS5cZABmRncgNYtatkmk8VcH7gew@mail.gmail.com>
-References: <20220519153107.696864-1-clement.leger@bootlin.com>
-        <20220519153107.696864-12-clement.leger@bootlin.com>
-        <CAMuHMdUJpNSyX0qK64+W1G6P1S-78mb_+D0-w3kHOFY3VVkANQ@mail.gmail.com>
-        <20220520101332.0905739f@fixe.home>
-        <CAMuHMdXTrZnGVt44hg5QUvuS5cZABmRncgNYtatkmk8VcH7gew@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Fri, 20 May 2022 10:25:37 +0200,
-Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
+Hi Clément,
 
-> Hi Cl=C3=A9ment,
->=20
-> On Fri, May 20, 2022 at 10:14 AM Cl=C3=A9ment L=C3=A9ger
-> <clement.leger@bootlin.com> wrote:
-> > Le Fri, 20 May 2022 09:18:58 +0200,
-> > Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit : =20
-> > > On Thu, May 19, 2022 at 5:32 PM Cl=C3=A9ment L=C3=A9ger <clement.lege=
-r@bootlin.com> wrote: =20
-> > > > RZ/N1 SoC includes two MAC named GMACx that are compatible with the
-> > > > "snps,dwmac" driver. GMAC1 is connected directly to the MII convert=
-er
-> > > > port 1. GMAC2 however can be used as the MAC for the switch CPU
-> > > > management port or can be muxed to be connected directly to the MII
-> > > > converter port 2. This commit add description for the GMAC2 which w=
-ill
-> > > > be used by the switch description.
+On Fri, May 20, 2022 at 10:33 AM Clément Léger
+<clement.leger@bootlin.com> wrote:
+> Le Fri, 20 May 2022 10:25:37 +0200,
+> Geert Uytterhoeven <geert@linux-m68k.org> a écrit :
+> > On Fri, May 20, 2022 at 10:14 AM Clément Léger
+> > <clement.leger@bootlin.com> wrote:
+> > > Le Fri, 20 May 2022 09:18:58 +0200,
+> > > Geert Uytterhoeven <geert@linux-m68k.org> a écrit :
+> > > > On Thu, May 19, 2022 at 5:32 PM Clément Léger <clement.leger@bootlin.com> wrote:
+> > > > > RZ/N1 SoC includes two MAC named GMACx that are compatible with the
+> > > > > "snps,dwmac" driver. GMAC1 is connected directly to the MII converter
+> > > > > port 1. GMAC2 however can be used as the MAC for the switch CPU
+> > > > > management port or can be muxed to be connected directly to the MII
+> > > > > converter port 2. This commit add description for the GMAC2 which will
+> > > > > be used by the switch description.
+> > > > >
+> > > > > Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> >
+> > > > > --- a/arch/arm/boot/dts/r9a06g032.dtsi
+> > > > > +++ b/arch/arm/boot/dts/r9a06g032.dtsi
+> > > > > @@ -200,6 +200,23 @@ nand_controller: nand-controller@40102000 {
+> > > > >                         status = "disabled";
+> > > > >                 };
+> > > > >
+> > > > > +               gmac2: ethernet@44002000 {
+> > > > > +                       compatible = "snps,dwmac";
 > > > >
-> > > > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> =
-=20
->=20
-> > > > --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> > > > +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> > > > @@ -200,6 +200,23 @@ nand_controller: nand-controller@40102000 {
-> > > >                         status =3D "disabled";
-> > > >                 };
-> > > >
-> > > > +               gmac2: ethernet@44002000 {
-> > > > +                       compatible =3D "snps,dwmac"; =20
+> > > > Does this need an SoC-specific compatible value?
 > > >
-> > > Does this need an SoC-specific compatible value? =20
+> > > Indeed, it might be useful to introduce a specific SoC compatible since
+> > > in a near future, there might be some specific support for that gmac.
+> > > Here is an overview of the gmac connection on the SoC:
+> > >
+> > >                                           ┌─────────┐   ┌──────────┐
+> > >                                           │         │   │          │
+> > >                                           │  GMAC2  │   │  GMAC1   │
+> > >                                           │         │   │          │
+> > >                                           └───┬─────┘   └─────┬────┘
+> > >                                               │               │
+> > >                                               │               │
+> > >                                               │               │
+> > >                                          ┌────▼──────┐        │
+> > >                                          │           │        │
+> > >             ┌────────────────────────────┤  SWITCH   │        │
+> > >             │                            │           │        │
+> > >             │          ┌─────────────────┴─┬────┬────┘        │
+> > >             │          │            ┌──────┘    │             │
+> > >             │          │            │           │             │
+> > >        ┌────▼──────────▼────────────▼───────────▼─────────────▼────┐
+> > >        │                      MII Converter                        │
+> > >        │                                                           │
+> > >        │                                                           │
+> > >        │ port 1      port 2       port 3      port 4       port 5  │
+> > >        └───────────────────────────────────────────────────────────┘
+> > >
+> > > As you can see, the GMAC1 is directly connected to MIIC converter and
+> > > thus will need a "pcs-handle" property to point on the MII converter
+> > > port whereas the GMAC2 is directly connected to the switch in GMII.
+> > >
+> > > Is "renesas,r9a06g032-gmac2", "renesas,rzn1-switch-gmac2" looks ok
+> > > for you for this one ?
 > >
-> > Indeed, it might be useful to introduce a specific SoC compatible since
-> > in a near future, there might be some specific support for that gmac.
-> > Here is an overview of the gmac connection on the SoC:
-> >
-> >                                           =E2=94=8C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90   =
-=E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=90
-> >                                           =E2=94=82         =E2=94=82  =
- =E2=94=82          =E2=94=82
-> >                                           =E2=94=82  GMAC2  =E2=94=82  =
- =E2=94=82  GMAC1   =E2=94=82
-> >                                           =E2=94=82         =E2=94=82  =
- =E2=94=82          =E2=94=82
-> >                                           =E2=94=94=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=AC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98   =
-=E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=98
-> >                                               =E2=94=82               =
-=E2=94=82
-> >                                               =E2=94=82               =
-=E2=94=82
-> >                                               =E2=94=82               =
-=E2=94=82
-> >                                          =E2=94=8C=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=90        =E2=94=82
-> >                                          =E2=94=82           =E2=94=82 =
-       =E2=94=82
-> >             =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4  SWITCH   =
-=E2=94=82        =E2=94=82
-> >             =E2=94=82                            =E2=94=82           =
-=E2=94=82        =E2=94=82
-> >             =E2=94=82          =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=80=E2=94=AC=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=98        =E2=94=82
-> >             =E2=94=82          =E2=94=82            =E2=94=8C=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82        =
-     =E2=94=82
-> >             =E2=94=82          =E2=94=82            =E2=94=82          =
- =E2=94=82             =E2=94=82
-> >        =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BC=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BC=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BC=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-> >        =E2=94=82                      MII Converter                    =
-    =E2=94=82
-> >        =E2=94=82                                                       =
-    =E2=94=82
-> >        =E2=94=82                                                       =
-    =E2=94=82
-> >        =E2=94=82 port 1      port 2       port 3      port 4       port=
- 5  =E2=94=82
-> >        =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=98
-> >
-> > As you can see, the GMAC1 is directly connected to MIIC converter and
-> > thus will need a "pcs-handle" property to point on the MII converter
-> > port whereas the GMAC2 is directly connected to the switch in GMII.
-> >
-> > Is "renesas,r9a06g032-gmac2", "renesas,rzn1-switch-gmac2" looks ok
-> > for you for this one ? =20
->=20
-> Why "switch" in the family-specific value, but not in the SoC-specific
-> value?
+> > Why "switch" in the family-specific value, but not in the SoC-specific
+> > value?
+>
+> That's a typo, switch should be removed.
 
-That's a typo, switch should be removed.
+OK.
 
->=20
-> Are GMAC1 and GMAC2 really different, or are they identical, and is
-> the only difference in the wiring, which can be detected at run-time
-> using this "pcs-handle" property? If they're identical, they should
-> use the same compatible value.
+> > Are GMAC1 and GMAC2 really different, or are they identical, and is
+> > the only difference in the wiring, which can be detected at run-time
+> > using this "pcs-handle" property? If they're identical, they should
+> > use the same compatible value.
+>
+> They are actually identical except the requirement for a "pcs-handle"
+> for gmac1. I thought about using different compatible to enforce this by
+> making it "required" with the "renesas,r9a06g032-gmac1" compatible but
+> not the "renesas,r9a06g032-gmac2" one. If it's ok for you to let it
+> optional and use a single compatible, I'm ok with that !
 
-They are actually identical except the requirement for a "pcs-handle"
-for gmac1. I thought about using different compatible to enforce this by
-making it "required" with the "renesas,r9a06g032-gmac1" compatible but
-not the "renesas,r9a06g032-gmac2" one. If it's ok for you to let it
-optional and use a single compatible, I'm ok with that !
+OK to make it optional. Thanks!
 
+Gr{oetje,eeting}s,
 
-Thanks !
+                        Geert
 
->=20
-> Thanks!
->=20
-> Gr{oetje,eeting}s,
->=20
->                         Geert
->=20
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->=20
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
