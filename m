@@ -2,154 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A1A52E9CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 12:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A095F52E9EF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 12:33:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348109AbiETKWC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 06:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
+        id S1348133AbiETKdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 06:33:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348107AbiETKWC (ORCPT
+        with ESMTP id S1347846AbiETKde (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 06:22:02 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD12E5996E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 May 2022 03:21:58 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:cdaa:735b:3efc:39fe])
-        by andre.telenet-ops.be with bizsmtp
-        id YyMx2700238adXi01yMxDm; Fri, 20 May 2022 12:21:57 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nrzlc-000zus-Ky; Fri, 20 May 2022 12:21:56 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nrzlc-003vG3-0o; Fri, 20 May 2022 12:21:56 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] gpio: pca953x: Make the irqchip immutable
-Date:   Fri, 20 May 2022 12:21:54 +0200
-Message-Id: <658f37ac17921a4770853635153fd6173dc4ef69.1653042074.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 20 May 2022 06:33:34 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20B058CB3E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 May 2022 03:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=3xEy1SebfqFd2pZ8CpY00l8vQjw
+        1377ptfrPsN5dzwM=; b=cFcf22mBHRwRqJoJL+f8DZ19R4zpXW/+n82DxnFvQ12
+        bAenlJ4FnSmPUFYZ6NPGwzYe3nfYAji0KJl7xDLuvP3jxuH7m/gEBlkVu8m75GLA
+        UIzl1Kig8M5iXvqHRjDDQo0PY7UdIY52vXg32KZzMfGQx6eRg0b1uJNjh6oGnXLg
+        =
+Received: (qmail 3736468 invoked from network); 20 May 2022 12:33:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 May 2022 12:33:30 +0200
+X-UD-Smtp-Session: l3s3148p1@GimCBW/f1U5ZD+8D
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 0/2] i2c: rcar: increase robustness against long SMIs
+Date:   Fri, 20 May 2022 12:33:23 +0200
+Message-Id: <20220520103325.81110-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit 6c846d026d49 ("gpio: Don't fiddle with irqchips marked as
-immutable") added a warning to indicate if the gpiolib is altering the
-internals of irqchips.  Following this change the following warning is
-now observed for the pca953x driver:
+A customer reported problems with the R-Car I2C driver with System
+Management Interrupts lasting longer than 30us. Let's not comment about
+SMIs taking this long (and even up to 200us), but improve the driver to
+handle such situations.
 
-    gpio gpiochip7: (0-0020): not an immutable chip, please consider fixing it!
+Wolfram Sang (2):
+  i2c: rcar: avoid race condition with SMIs
+  i2c: rcar: refactor handling of first message
 
-Fix this by making the irqchip in the pca953x driver immutable.
+ drivers/i2c/busses/i2c-rcar.c | 76 ++++++++++++++++++-----------------
+ 1 file changed, 39 insertions(+), 37 deletions(-)
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Against gpio/for-next.
-Boot-tested with pca9654 on the r8a77990/ebisu development board.
-
-v2:
-  - Use existing hwirq variable.
----
- drivers/gpio/gpio-pca953x.c | 35 +++++++++++++++++++++++------------
- 1 file changed, 23 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpio/gpio-pca953x.c b/drivers/gpio/gpio-pca953x.c
-index ba36de7a384527de..b444c6ab958bfd06 100644
---- a/drivers/gpio/gpio-pca953x.c
-+++ b/drivers/gpio/gpio-pca953x.c
-@@ -201,7 +201,6 @@ struct pca953x_chip {
- 	DECLARE_BITMAP(irq_stat, MAX_LINE);
- 	DECLARE_BITMAP(irq_trig_raise, MAX_LINE);
- 	DECLARE_BITMAP(irq_trig_fall, MAX_LINE);
--	struct irq_chip irq_chip;
- #endif
- 	atomic_t wakeup_path;
- 
-@@ -629,6 +628,7 @@ static void pca953x_irq_mask(struct irq_data *d)
- 	irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
- 	clear_bit(hwirq, chip->irq_mask);
-+	gpiochip_disable_irq(gc, hwirq);
- }
- 
- static void pca953x_irq_unmask(struct irq_data *d)
-@@ -637,6 +637,7 @@ static void pca953x_irq_unmask(struct irq_data *d)
- 	struct pca953x_chip *chip = gpiochip_get_data(gc);
- 	irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
-+	gpiochip_enable_irq(gc, hwirq);
- 	set_bit(hwirq, chip->irq_mask);
- }
- 
-@@ -721,6 +722,26 @@ static void pca953x_irq_shutdown(struct irq_data *d)
- 	clear_bit(hwirq, chip->irq_trig_fall);
- }
- 
-+static void pca953x_irq_print_chip(struct irq_data *data, struct seq_file *p)
-+{
-+	struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
-+
-+	seq_printf(p, dev_name(gc->parent));
-+}
-+
-+static const struct irq_chip pca953x_irq_chip = {
-+	.irq_mask		= pca953x_irq_mask,
-+	.irq_unmask		= pca953x_irq_unmask,
-+	.irq_set_wake		= pca953x_irq_set_wake,
-+	.irq_bus_lock		= pca953x_irq_bus_lock,
-+	.irq_bus_sync_unlock	= pca953x_irq_bus_sync_unlock,
-+	.irq_set_type		= pca953x_irq_set_type,
-+	.irq_shutdown		= pca953x_irq_shutdown,
-+	.irq_print_chip		= pca953x_irq_print_chip,
-+	.flags			= IRQCHIP_IMMUTABLE,
-+	GPIOCHIP_IRQ_RESOURCE_HELPERS,
-+};
-+
- static bool pca953x_irq_pending(struct pca953x_chip *chip, unsigned long *pending)
- {
- 	struct gpio_chip *gc = &chip->gpio_chip;
-@@ -812,7 +833,6 @@ static irqreturn_t pca953x_irq_handler(int irq, void *devid)
- static int pca953x_irq_setup(struct pca953x_chip *chip, int irq_base)
- {
- 	struct i2c_client *client = chip->client;
--	struct irq_chip *irq_chip = &chip->irq_chip;
- 	DECLARE_BITMAP(reg_direction, MAX_LINE);
- 	DECLARE_BITMAP(irq_stat, MAX_LINE);
- 	struct gpio_irq_chip *girq;
-@@ -846,17 +866,8 @@ static int pca953x_irq_setup(struct pca953x_chip *chip, int irq_base)
- 	bitmap_and(chip->irq_stat, irq_stat, reg_direction, chip->gpio_chip.ngpio);
- 	mutex_init(&chip->irq_lock);
- 
--	irq_chip->name = dev_name(&client->dev);
--	irq_chip->irq_mask = pca953x_irq_mask;
--	irq_chip->irq_unmask = pca953x_irq_unmask;
--	irq_chip->irq_set_wake = pca953x_irq_set_wake;
--	irq_chip->irq_bus_lock = pca953x_irq_bus_lock;
--	irq_chip->irq_bus_sync_unlock = pca953x_irq_bus_sync_unlock;
--	irq_chip->irq_set_type = pca953x_irq_set_type;
--	irq_chip->irq_shutdown = pca953x_irq_shutdown;
--
- 	girq = &chip->gpio_chip.irq;
--	girq->chip = irq_chip;
-+	gpio_irq_chip_set_chip(girq, &pca953x_irq_chip);
- 	/* This will let us handle the parent IRQ in the driver */
- 	girq->parent_handler = NULL;
- 	girq->num_parents = 0;
 -- 
-2.25.1
+2.35.1
 
