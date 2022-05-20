@@ -2,56 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2727D52E60E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 09:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B5C52E69B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 09:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241454AbiETHTT convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 03:19:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48402 "EHLO
+        id S1344264AbiETHx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 03:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231572AbiETHTN (ORCPT
+        with ESMTP id S239607AbiETHx5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 03:19:13 -0400
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA8F30557;
-        Fri, 20 May 2022 00:19:13 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id m1so6353681qkn.10;
-        Fri, 20 May 2022 00:19:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+GCCZN6JxXJvyJ+kgBCmMkSmKyGomtPqZqdNh5AEW+Q=;
-        b=bqiRjY8ozS6DBYmjXxJS6IG8/lrTGIdAdgQAiGlNYDsUmWt+EhBizLy40kgQ3pWMAl
-         l30iZjljYonB0fkx3o9mHue2QsoslTVH+fzjuReNV+GlM4/p0bz0SpmC/OL4GguojygD
-         yYgdcoa0fsX9VG/at20rodMydPkYUJ6VyxmSShEoaeFeyvQq3iaf3DjTRLSrPksM5jiJ
-         rmC5fs4fubRyASxQ24yeJx/DFhDRUlswgUNx2jLz3RqY9rydNr6JKzRZghigknBakR/C
-         gY/LuuM69DjXQ14pnmhxRmXnapGEIqdMY75tdEF9n56K1dTARwRLvp1yj1cevPxiPPgl
-         5RBA==
-X-Gm-Message-State: AOAM531srQmIXcE0vDxFzkurnFcr7St18RJDFReJfdCdhc4hyfZS/dao
-        o8Oena7D+vCYX+w8suvbujdfxEhoysbYew==
-X-Google-Smtp-Source: ABdhPJxQrN8lVMavG9vVJqyhHxsyo7gbqot5mVnp0NvQoH5PEJTl73qCfD9vzebM4b261GGYm1Xfbw==
-X-Received: by 2002:a37:6902:0:b0:680:da57:1483 with SMTP id e2-20020a376902000000b00680da571483mr5299053qkc.269.1653031151797;
-        Fri, 20 May 2022 00:19:11 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id z20-20020ac875d4000000b002f39b99f678sm2514221qtq.18.2022.05.20.00.19.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 May 2022 00:19:11 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2fed823dd32so78102537b3.12;
-        Fri, 20 May 2022 00:19:10 -0700 (PDT)
-X-Received: by 2002:a0d:f745:0:b0:2fe:e903:b0f8 with SMTP id
- h66-20020a0df745000000b002fee903b0f8mr8901378ywf.383.1653031150703; Fri, 20
- May 2022 00:19:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220519153107.696864-1-clement.leger@bootlin.com> <20220519153107.696864-12-clement.leger@bootlin.com>
-In-Reply-To: <20220519153107.696864-12-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 May 2022 09:18:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUJpNSyX0qK64+W1G6P1S-78mb_+D0-w3kHOFY3VVkANQ@mail.gmail.com>
-Message-ID: <CAMuHMdUJpNSyX0qK64+W1G6P1S-78mb_+D0-w3kHOFY3VVkANQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 11/13] ARM: dts: r9a06g032: describe GMAC2
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+        Fri, 20 May 2022 03:53:57 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A83106561;
+        Fri, 20 May 2022 00:53:54 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 47E2640005;
+        Fri, 20 May 2022 07:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1653033233;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yoEhYOBRBgutAiogB53ii3LuQRNfEBwgcYFElSjLpok=;
+        b=ZmWzl7IxUoJcigm7KAJ6beUJS8SRedasi70dWc0Kbosm4M7OOt2E2Owdtc8KXe01b3TIGT
+        mmlDczU27RaBYK0zd0FcMFwnPve8hDoNtHlrEMTC3Qhco+sUz8ki9P2uzlXJJcdx5FIYJH
+        8/bnejuAUVW0mxqzXv/p4bAi5IWOIoAUeooFdlhfNqyeBRlqMUaTrA2/Ba9ZHfjzgQCay4
+        OsWld18d4Ma9PFTgXmTA9bbZ6JDz9GCE73ygcVZmpiI0uXnn/wOmQ+Fal9r7pjw/9mnG+j
+        EcNjJtVKYFiNNXEibMED3xGc6YP23pdRdY3H+ARJKgVnyYu9ATqhe4tND1zQcA==
+Date:   Fri, 20 May 2022 09:52:41 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -65,85 +46,82 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v5 05/13] net: pcs: add Renesas MII converter
+ driver
+Message-ID: <20220520095241.6bbccdf0@fixe.home>
+In-Reply-To: <YoZvZj9sQL2GZAI3@shell.armlinux.org.uk>
+References: <20220519153107.696864-1-clement.leger@bootlin.com>
+        <20220519153107.696864-6-clement.leger@bootlin.com>
+        <YoZvZj9sQL2GZAI3@shell.armlinux.org.uk>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément
+Le Thu, 19 May 2022 17:25:10 +0100,
+"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
 
-On Thu, May 19, 2022 at 5:32 PM Clément Léger <clement.leger@bootlin.com> wrote:
-> RZ/N1 SoC includes two MAC named GMACx that are compatible with the
-> "snps,dwmac" driver. GMAC1 is connected directly to the MII converter
-> port 1. GMAC2 however can be used as the MAC for the switch CPU
-> management port or can be muxed to be connected directly to the MII
-> converter port 2. This commit add description for the GMAC2 which will
-> be used by the switch description.
->
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Hi,
+>=20
+> On Thu, May 19, 2022 at 05:30:59PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Add a PCS driver for the MII converter that is present on the Renesas
+> > RZ/N1 SoC. This MII converter is reponsible for converting MII to
+> > RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
+> > reuse it in both the switch driver and the stmmac driver. Currently,
+> > this driver only allows the PCS to be used by the dual Cortex-A7
+> > subsystem since the register locking system is not used.
+> >=20
+> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> =20
+>=20
+> Looks much better now, thanks. Only one thing I've spotted is:
+>=20
+> > +static int miic_validate(struct phylink_pcs *pcs, unsigned long *suppo=
+rted,
+> > +			 const struct phylink_link_state *state)
+> > +{
+> > +	if (state->interface =3D=3D PHY_INTERFACE_MODE_RGMII ||
+> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_ID ||
+> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_TXID ||
+> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_RXID || =20
+>=20
+> The above could use:
+>=20
+> 	if (phy_interface_mode_is_rgmii(state->interface) ||
 
-Thanks for your patch!
+Thanks, I did found the one to set the bit for phylink part but not
+this one.
 
-> --- a/arch/arm/boot/dts/r9a06g032.dtsi
-> +++ b/arch/arm/boot/dts/r9a06g032.dtsi
-> @@ -200,6 +200,23 @@ nand_controller: nand-controller@40102000 {
->                         status = "disabled";
->                 };
->
-> +               gmac2: ethernet@44002000 {
-> +                       compatible = "snps,dwmac";
+>=20
+> Also, as a request to unbind this driver would be disasterous to users,
+> I think you should set ".suppress_bind_attrs =3D true" to prevent the
+> sysfs bind/unbind facility being available. This doesn't completely
+> solve the problem.
 
-Does this need an SoC-specific compatible value?
+Acked. What should I do to make it more robust ? Should I use a
+refcount per pdev and check that in the remove() callback to avoid
+removing the pdev if used ?
 
-> +                       reg = <0x44002000 0x2000>;
-> +                       interrupt-parent = <&gic>;
-> +                       interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
-> +                       interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
-> +                       clock-names = "stmmaceth";
-> +                       clocks = <&sysctrl R9A06G032_HCLK_GMAC1>;
+Thanks,
 
-Missing "power-domains", also in the DT bindings.
-The driver already uses Runtime PM.
-
-> +                       snps,multicast-filter-bins = <256>;
-> +                       snps,perfect-filter-entries = <128>;
-> +                       tx-fifo-depth = <2048>;
-> +                       rx-fifo-depth = <4096>;
-> +                       status = "disabled";
-> +               };
-> +
->                 eth_miic: eth-miic@44030000 {
->                         compatible = "renesas,r9a06g032-miic", "renesas,rzn1-miic";
->                         #address-cells = <1>;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
