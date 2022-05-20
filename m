@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1B5C52E69B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 09:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15BA952E6B8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 09:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344264AbiETHx6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 03:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
+        id S241082AbiETH6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 03:58:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239607AbiETHx5 (ORCPT
+        with ESMTP id S235137AbiETH6r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 03:53:57 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A83106561;
-        Fri, 20 May 2022 00:53:54 -0700 (PDT)
+        Fri, 20 May 2022 03:58:47 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFB714CDC7;
+        Fri, 20 May 2022 00:58:44 -0700 (PDT)
 Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 47E2640005;
-        Fri, 20 May 2022 07:53:51 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 539C16000D;
+        Fri, 20 May 2022 07:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653033233;
+        t=1653033523;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=yoEhYOBRBgutAiogB53ii3LuQRNfEBwgcYFElSjLpok=;
-        b=ZmWzl7IxUoJcigm7KAJ6beUJS8SRedasi70dWc0Kbosm4M7OOt2E2Owdtc8KXe01b3TIGT
-        mmlDczU27RaBYK0zd0FcMFwnPve8hDoNtHlrEMTC3Qhco+sUz8ki9P2uzlXJJcdx5FIYJH
-        8/bnejuAUVW0mxqzXv/p4bAi5IWOIoAUeooFdlhfNqyeBRlqMUaTrA2/Ba9ZHfjzgQCay4
-        OsWld18d4Ma9PFTgXmTA9bbZ6JDz9GCE73ygcVZmpiI0uXnn/wOmQ+Fal9r7pjw/9mnG+j
-        EcNjJtVKYFiNNXEibMED3xGc6YP23pdRdY3H+ARJKgVnyYu9ATqhe4tND1zQcA==
-Date:   Fri, 20 May 2022 09:52:41 +0200
+        bh=gmGaXG6vGzUCTmc3IUGjVh5xf9GDtvuGXKgKOkXHkDg=;
+        b=FCXHREZ1qt+UdZYwm20wexqRvwxbDqkkHAKfHFOA3VGw4YAyYfARjkff3ES9CaI7GIKYMQ
+        m2vAYWqzYrk78/jCKZgcarpYAOHKcwxQjjPfsX9Ck7M+f6agVTNIa1TDrQQRQ/UQafHIqV
+        +7UqI8G9t+7sb3NTo7+rSFBhV4T964t1J54uqCAQO8zod+VWHVeJu4Q1pURLcGg4Sj2wpL
+        US/Cz2g2coP+0mGvpNLYQHuflJuF8xMi2tDGwRl/6GEGvJgGD72ccpA36fQTjfRoAtNxQ3
+        UXzClgUeebv7zaDPgbotVtR0hksllHZ+7SIqiw6KIseZwQiS+0OXfnA7VaIlAA==
+Date:   Fri, 20 May 2022 09:57:30 +0200
 From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -46,21 +46,25 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Herve Codina <herve.codina@bootlin.com>,
         =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
         Milan Stevanovic <milan.stevanovic@se.com>,
         Jimmy Lalande <jimmy.lalande@se.com>,
         Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v5 05/13] net: pcs: add Renesas MII converter
- driver
-Message-ID: <20220520095241.6bbccdf0@fixe.home>
-In-Reply-To: <YoZvZj9sQL2GZAI3@shell.armlinux.org.uk>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH net-next v5 06/13] dt-bindings: net: dsa: add bindings
+ for Renesas RZ/N1 Advanced 5 port switch
+Message-ID: <20220520095730.512bbb8d@fixe.home>
+In-Reply-To: <CAMuHMdXRCggkTSxfnSHvz3N2Oekuw7y5Sy2AKkqZpZzK_Eg_ng@mail.gmail.com>
 References: <20220519153107.696864-1-clement.leger@bootlin.com>
-        <20220519153107.696864-6-clement.leger@bootlin.com>
-        <YoZvZj9sQL2GZAI3@shell.armlinux.org.uk>
+        <20220519153107.696864-7-clement.leger@bootlin.com>
+        <CAMuHMdXRCggkTSxfnSHvz3N2Oekuw7y5Sy2AKkqZpZzK_Eg_ng@mail.gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -76,50 +80,114 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Thu, 19 May 2022 17:25:10 +0100,
-"Russell King (Oracle)" <linux@armlinux.org.uk> a =C3=A9crit :
+Le Fri, 20 May 2022 09:13:23 +0200,
+Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
 
-> Hi,
+> Hi Cl=C3=A9ment,
 >=20
-> On Thu, May 19, 2022 at 05:30:59PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
-> > Add a PCS driver for the MII converter that is present on the Renesas
-> > RZ/N1 SoC. This MII converter is reponsible for converting MII to
-> > RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
-> > reuse it in both the switch driver and the stmmac driver. Currently,
-> > this driver only allows the PCS to be used by the dual Cortex-A7
-> > subsystem since the register locking system is not used.
-> >=20
+> On Thu, May 19, 2022 at 5:32 PM Cl=C3=A9ment L=C3=A9ger <clement.leger@bo=
+otlin.com> wrote:
+> > Add bindings for Renesas RZ/N1 Advanced 5 port switch. This switch is
+> > present on Renesas RZ/N1 SoC and was probably provided by MoreThanIP.
+> > This company does not exists anymore and has been bought by Synopsys.
+> > Since this IP can't be find anymore in the Synospsy portfolio, lets use
+> > Renesas as the vendor compatible for this IP.
+> >
 > > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> =20
 >=20
-> Looks much better now, thanks. Only one thing I've spotted is:
+> Thanks for your patch!
 >=20
-> > +static int miic_validate(struct phylink_pcs *pcs, unsigned long *suppo=
-rted,
-> > +			 const struct phylink_link_state *state)
-> > +{
-> > +	if (state->interface =3D=3D PHY_INTERFACE_MODE_RGMII ||
-> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_ID ||
-> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_TXID ||
-> > +	    state->interface =3D=3D PHY_INTERFACE_MODE_RGMII_RXID || =20
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+> > @@ -0,0 +1,131 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/N1 Advanced 5 ports ethernet switch
+> > +
+> > +maintainers:
+> > +  - Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+> > +
+> > +description: |
+> > +  The advanced 5 ports switch is present on the Renesas RZ/N1 SoC fami=
+ly and
+> > +  handles 4 ports + 1 CPU management port.
+> > +
+> > +allOf:
+> > +  - $ref: dsa.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - renesas,r9a06g032-a5psw
+> > +      - const: renesas,rzn1-a5psw
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  mdio:
+> > +    $ref: /schemas/net/mdio.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: AHB clock used for the switch register interface
+> > +      - description: Switch system clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: hclk
+> > +      - const: clk =20
 >=20
-> The above could use:
+> (Good, "clock-names" is present ;-)
 >=20
-> 	if (phy_interface_mode_is_rgmii(state->interface) ||
-
-Thanks, I did found the one to set the bit for phylink part but not
-this one.
-
+> Missing "power-domains" property.
 >=20
-> Also, as a request to unbind this driver would be disasterous to users,
-> I think you should set ".suppress_bind_attrs =3D true" to prevent the
-> sysfs bind/unbind facility being available. This doesn't completely
-> solve the problem.
 
-Acked. What should I do to make it more robust ? Should I use a
-refcount per pdev and check that in the remove() callback to avoid
-removing the pdev if used ?
+I do not use pm_runtime* in the switch driver. I should probably do that
+right ?
 
-Thanks,
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
+> > +
+> > +    switch@44050000 {
+> > +        compatible =3D "renesas,r9a06g032-a5psw", "renesas,rzn1-a5psw";
+> > +        reg =3D <0x44050000 0x10000>;
+> > +        clocks =3D <&sysctrl R9A06G032_HCLK_SWITCH>, <&sysctrl R9A06G0=
+32_CLK_SWITCH>;
+> > +        clock-names =3D "hclk", "clk";
+> > +        pinctrl-names =3D "default";
+> > +        pinctrl-0 =3D <&pins_mdio1>, <&pins_eth3>, <&pins_eth4>; =20
+>=20
+> Usually we don't list pinctrl-* properties in examples.
+>=20
+
+Acked, I'll remove that.
+
+> The rest LGTM (from an SoC integration PoV), so with the above fixed
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+
+
 
 --=20
 Cl=C3=A9ment L=C3=A9ger,
