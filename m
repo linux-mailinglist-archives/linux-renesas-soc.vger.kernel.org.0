@@ -2,135 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDBE152E412
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 06:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CC9352E5E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 May 2022 09:10:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345432AbiETEw3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 May 2022 00:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
+        id S1345990AbiETHJm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 May 2022 03:09:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345428AbiETEwX (ORCPT
+        with ESMTP id S1345889AbiETHJk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 May 2022 00:52:23 -0400
-X-Greylist: delayed 1096 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 May 2022 21:52:16 PDT
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02hn2233.outbound.protection.partner.outlook.cn [139.219.17.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0373D66FA1;
-        Thu, 19 May 2022 21:52:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dTgGc0h/0At8MBttzBkK8Ng18cD+wAmbmz35rRkzX2XuiAckWJA0l1KXg8aLkYfgPi7sDokHr+gmzTfIOQwiuhqYCylSHEqPt4cwrvgFr0m85bRiUMvUETEKTlm2tUySZxPlti+0GU9By9/3mxtOUO/cUjSSKmn595kW29RMwYjYtkiypQRgPmuVxyfcb9fdrJBYHRPYr8r98y/a+ZOGc7Cz05b0xj0XOGRFR/5K2M2Cwk6d50WHTQe/WWhbyj2nzaSrEa3wSi8zTbAhTmFZgTNxODWIAMQF2tutBJ8+w3lTD0TPpI8pR1KexM3pWkefgXNuSL/aAK10aamR2eAVhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
- b=jIaZzQhQA82X+a0w7q6rEhMwvvJys6dL9lzHi1YcEHPXS0ShHMMxGO/E4kwE5RFdGDsxNV/sDXzSRe5V7FiQcHL7Ts3xOoARSBxYkYqqvuNArc6vqgtGlFu+AzSbLh8oMxVQ9FPDfsbHSlaWFqdvxPZX/f2splna30cRSGNYvSwZ4FzRM49vG68NhNSeZxr5lh/6ufXPq8Z5seuvKGxNF+4vTk6EHcPf3VXZLySJiwb6dS6lBwDOhGTkERmYJy+B1dkjzVFh2cEISar82BftErG47D2dGJELAvGzNLcV/KfE5uLQShbBvdXYkyqL2DULEUdgNIrISQpbX7mJZzo/Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gientech.com; dmarc=pass action=none header.from=gientech.com;
- dkim=pass header.d=gientech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gientech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
- b=foLc+ZHUrkiTBblRVDfCc5ao8/S+6hbc/DEoLKcVaPpPajKnX4z7jSqL3SVfuMywUWqjNX+MXQpx8lfrn58abX8BQ7LyfzpBFg7lGTgSn3OWVF6ByZHmCqQIQruFX9tY6ITLzTeCdVYTr3g07IyxdRCBQpaevPHM0jyKGIrqu23jo48JVXDsd/H8mBYChEC31FE1W17JIWlGPi7Yn9hvE5K4PslZrcVIsfkoq8jh5tyLdDvbf3AlnqATiYXQwFGngzOSFF+k3dXhjkcz2T09rHYyBYW90HKJldrCOPFwxUy0umrG6snFvwq5WbkBpNfCmPYPNQe80G+qndcTRfokPA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gientech.com;
-Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn (10.43.110.19) by
- SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn (10.43.109.207) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.15; Fri, 20 May 2022 04:19:12 +0000
-Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19])
- by SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19]) with mapi
- id 15.20.5273.017; Fri, 20 May 2022 04:19:12 +0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Ree
-To:     Recipients <cuidong.liu@gientech.com>
-From:   "J Wu" <cuidong.liu@gientech.com>
-Date:   Wed, 18 May 2022 21:19:15 +0000
-Reply-To: contact@jimmywu.online
-X-ClientProxiedBy: BJSPR01CA0002.CHNPR01.prod.partner.outlook.cn
- (10.43.34.142) To SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
- (10.43.110.19)
-Message-ID: <SHXPR01MB06238D40DEF6AAD61B0227D389D19@SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn>
+        Fri, 20 May 2022 03:09:40 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F47C14D7BA;
+        Fri, 20 May 2022 00:09:38 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id 14so207266qkl.6;
+        Fri, 20 May 2022 00:09:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/gd2QrNW920jKEDeNc6oH0JJgiKsVitkuy57vUL4Nt8=;
+        b=zJEYFOCH88VTDjpb6Re2XR51abX5fHhhqQmIIZ2AC5cgWAMfdpGB4XOEyP8JwD0pAU
+         f6aLzuWdneinCzdBCbWyqUywNV2gcu6lx5xg+8BqyjWOA8Rwxosh3q8AA/rn6DxMXaDu
+         36xU72IkqujUiAS8jhzWcz/geZsmTmoomSOntBXiU4YwfTD4zenx0ge8fbEDyNkbDihm
+         4Z584mYYKJPNanuYJR6B9r6g7aJsjLDgxLq2bzVC3tRh9fAXUdMih1J22/ijocC3B2+t
+         qJAeP4zEs5hogWUX/tbJfqDj/74q1Va5dS7h1hW+2mRYvV5VRfqDLrew7q+7ANthMhO1
+         uxBQ==
+X-Gm-Message-State: AOAM531kfI+CChePhytdYb8Fyy2TtSge7iSXzZEXUToZ3egLf3GXZPOx
+        zg9WC+dZDinUaVQESzjDubeBoMtgZQSQKQ==
+X-Google-Smtp-Source: ABdhPJyquiVofAh1ku48QqyP8uC8wSBQtT7lK5ZBBF7uLh3iVl68HLy98JZsCCY6C+0g1qJqC/ZPYw==
+X-Received: by 2002:a37:6247:0:b0:6a3:3620:b07e with SMTP id w68-20020a376247000000b006a33620b07emr3975545qkb.339.1653030576830;
+        Fri, 20 May 2022 00:09:36 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id h18-20020ac87152000000b002f39b99f69asm2470384qtp.52.2022.05.20.00.09.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 May 2022 00:09:36 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-2f83983782fso78286537b3.6;
+        Fri, 20 May 2022 00:09:35 -0700 (PDT)
+X-Received: by 2002:a81:ad11:0:b0:2fe:fb00:a759 with SMTP id
+ l17-20020a81ad11000000b002fefb00a759mr8671091ywh.283.1653030575421; Fri, 20
+ May 2022 00:09:35 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 41ca1767-fbf2-4795-4231-08da39141d61
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0575:EE_
-X-Microsoft-Antispam-PRVS: <SHXPR01MB05757B59B2D012F5EB1E390D89D39@SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?2HAd0fwgQDXkUZsGOEW4k34pXdmeGj4x7s+V0ucJJ4+0gri2WmjmZnuBM0?=
- =?iso-8859-1?Q?vwoY9h8ruvMfbVR52dwMpwwjF3PjR7nWXSXKTJLbveOT/OOiyP2rOkOTVf?=
- =?iso-8859-1?Q?/PsCHnU7yKCeKnLH2iLW5+7FxP6daDPy34OXIZ3/GIFtlNsB5aAFX0mp5k?=
- =?iso-8859-1?Q?97q76D9I63IVoNUqzQ7cyar+J7q5Gz6MZhEV4qf7vBq98Ywv8wsUnf5M+b?=
- =?iso-8859-1?Q?qkIBcJeSR85lKdc6JVTKjnymWzx4dhPlGXcMOmVHpDiVcODvy84XoZ19vA?=
- =?iso-8859-1?Q?rsiS8UO425yUlZzB/bmJ0XXUo5zxtJuP+ASQ7bttTVyVcWv8rn0Ug04yX9?=
- =?iso-8859-1?Q?FHOkBofWyrZB1A6Fw8Rv3soQkWwFv805wG8/2OO/ztl8FlkwCjSfVfX3Qr?=
- =?iso-8859-1?Q?7ta+6oUgAlRo6uQqaGTaEWebQUUMbF7mhUgeJKmy4sAXhso+1OizEWc870?=
- =?iso-8859-1?Q?N47RC4/V9QyM/2jjKTqzSMUng2a+Q9qtexDhPq+Qo11YjqDiVdh/doiGGf?=
- =?iso-8859-1?Q?utMHTDSXL3bU+iw6D6CzELrMB6LY61pDs6hoz13FBQjUZ4mfKSJb2yNnfR?=
- =?iso-8859-1?Q?82/QueIVmOzx1ejFP7jCP/elAFg1pBYlfvdh1+yTuDgQIAAe7ihfXMBNu1?=
- =?iso-8859-1?Q?DhTATPMOvBpWIVTrbORhG3TRia/8X35kKPMtL/S46PiqHlkvQaAw3N8R25?=
- =?iso-8859-1?Q?nRyhHQ6XWxEldG+T/lTJ1FIBp8K6ec2W5DQjrxKTLNAbVsrplJBZAqLce9?=
- =?iso-8859-1?Q?vq9U0DNC8yjtnQRZCnpFf881vbxkMOtVoYCfU8mXBGFaw+M3nr449bpnDs?=
- =?iso-8859-1?Q?qIGmckV+DkVHmvj3/ctn02kTdqbdAvBnaYItZ1rWXoJWs4qXYJ1UsmUjpw?=
- =?iso-8859-1?Q?GeGB/wzThmlKYdWhtvsN0JBNQbYTe1ZH8D8E+0i8PDqV8D71Mr35xcRfzi?=
- =?iso-8859-1?Q?WtzDAfGQlkAj4OOtAvygcuyTrK2vyO6ss3tCHD0jpvba29iyAMJxYCbKG+?=
- =?iso-8859-1?Q?w5ELAWO/hsrNSfLYPgjkWziv/hV7NdoR60shxlV9dRs5Ywvg+EUdvKY+rB?=
- =?iso-8859-1?Q?7Q=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:OSPM;SFS:(13230001)(366004)(7696005)(52116002)(40160700002)(19618925003)(38100700002)(6200100001)(558084003)(38350700002)(26005)(8936002)(8676002)(4270600006)(40180700001)(9686003)(6862004)(66946007)(7406005)(66556008)(7416002)(55016003)(7366002)(66476007)(186003)(86362001)(2906002)(508600001)(7116003)(3480700007)(33656002)(62346012);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?6m47vHuf/0UBnw9LibOUdsnIfmAruF36JKfn1tgu4grukT4hnZWiw5hvE9?=
- =?iso-8859-1?Q?9Vv9ls/8Fdx709ZJdfi0AtnYCnY3DnppEVWL/3JwZpZpqAMd+AOSLonxgZ?=
- =?iso-8859-1?Q?j44XCnFpe0KXi9D/V+11FBhM64kJXv/a/KI8MRje1MWhEYjFEka1OrJzo4?=
- =?iso-8859-1?Q?HGeQ6tuCkcXxCyEw5ObqL8y8XLjCh6ggbAN0Siktlc3NYgcVC9iD9qDryp?=
- =?iso-8859-1?Q?+HCJLqZM1j9QBMuzJUR4tYsHLdSIij0JwdH9ybyEyoBbUSySTQTgKk0Mpf?=
- =?iso-8859-1?Q?sJQXUrASo0euRv2NTSAjnEF50OdOI9MoHsM9j86I8wQwN0pDhf25jeCPlJ?=
- =?iso-8859-1?Q?PJKCzbozxjy7xKoDRMNdYgd60GH0RU07edJnjK/DMndUDLDoRhpPJKIQHc?=
- =?iso-8859-1?Q?um4U9qnjP/yTmhhGGJ0bV/+ZXe99ZcnpjlE9GhNHM85Bv12SkZM0ousRl2?=
- =?iso-8859-1?Q?j5hb2r5OmOvzYrpSUPc8hB6low05FFDDBCyRdF/PDmjnhm10URBsOszZmS?=
- =?iso-8859-1?Q?Wf8Zep1qfz897pLFq6JALjGHmmIllqp5N5OeyLFWkyOnZF/LTR32mjoZbg?=
- =?iso-8859-1?Q?QPsxrbuxJpRK35ZSmX6lZDEvqwgaAaLAnvkWnyO22S6mryutx4WYPszi78?=
- =?iso-8859-1?Q?a4F9MGxm0jYp8TE46NcIg7YypeGQme4quh+Hl3DEZUnY1o/RFcCJ8mo3uQ?=
- =?iso-8859-1?Q?2KhjgzlxS4zmXDO+8C2qFI3SQoa5kshmRK/bUuTIOZkp8hM+sQyDD2WfrY?=
- =?iso-8859-1?Q?HqnLi9Ya6ShG+UIsRIndFqrFxnKIKAWQvdVVeZMAl0r1LsXqn9lRqGaOOi?=
- =?iso-8859-1?Q?L/rvCHRtOaG8NN0AzYg2G32OxvN/7F2D2DEh4d2dZJhXz+rKK60AMG0WQp?=
- =?iso-8859-1?Q?4dgnhHteSpD7702Qwd+xVBwXQT8t1uQ5VLB7VeVfsj9gzAjeRG3dPTX3SQ?=
- =?iso-8859-1?Q?pG9YyFOnd1KEFSeSQijJ12hDt527v0eTjmZUyGQ47NL8VuanUF7GFtiuR9?=
- =?iso-8859-1?Q?tq2jN4xFxNyFbmuaGJdZqLj7Ibja8FxR9yyJM/rKIy6XZd0CX2F3IOYVCr?=
- =?iso-8859-1?Q?ad3RBmaTwUJsQz9Zzmj0zNxzxelisTeF0Ca50tIiXebIwgkW3kdc77h5l1?=
- =?iso-8859-1?Q?L0wYuAj3sOQz0c2EI6l8DNLqrnrSwioDsoybp9p5M5FXjthIN6hh5M3ZCd?=
- =?iso-8859-1?Q?dhLLAcb9iQ/D86VeUjgZpSUlg/+xJF/p4PuzF0UlvUrUTj7di6D2/+R9jb?=
- =?iso-8859-1?Q?IfM7EUwnkm6Ev9UEoTrpOqNFfOeg6K/ifwnW5KU7kaMDHBe7pyim7Go2A3?=
- =?iso-8859-1?Q?2rA7iOiWLwIdGh4cJzn9BbdeSy3FHGfYq5iLYHlIVcb2oNSAYjmK2mp/f0?=
- =?iso-8859-1?Q?E+IANm02fXX9Tg1NNNX8O+wQBlMMgy2Zu5aZlunScS95YdBd3R4sDjm1/v?=
- =?iso-8859-1?Q?NwQSTv0rdTzvP7iDIftbNCTM6ociCiAETUViKxR/nGaIivR+bEG+7YD0Vn?=
- =?iso-8859-1?Q?eAI/Fu/lQT+W0SesbBwgZD/+GmcKA8cjpUMFe6c0Ofl4xa4uIU64/GrPVu?=
- =?iso-8859-1?Q?HGH5toj4UVlzAGpZ82NknoLtJRJIZK78+fQHMO1sWbpUZ828sh7nVWoB19?=
- =?iso-8859-1?Q?WUfT6ORQ2koZBzLDRbeI/EKirVHyLDRCFxVSXDqSoyoZ5xuDe46LIgHaVH?=
- =?iso-8859-1?Q?eU85FZCjjzu5cW1bHrpVXR1iU0zaRt3vZH7Ur58OZw25PB+tAz2Vzl7r8v?=
- =?iso-8859-1?Q?WDLQ=3D=3D?=
-X-OriginatorOrg: gientech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41ca1767-fbf2-4795-4231-08da39141d61
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 21:19:38.2482
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 89592e53-6f9d-4b93-82b1-9f8da689f1b4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k0DUz4TNoHO9cM0vkzNpHWdemcLULpCXtHA3c6a0BN6Aea57Y2GajnwScipA1Nv/Q+ZyJyP/DCFexWvIgzQlyc256IuC6ZL5cypLU3ro7vM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0575
-X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_50,DATE_IN_PAST_24_48,
-        DKIM_INVALID,DKIM_SIGNED,FORGED_SPF_HELO,KHOP_HELO_FCRDNS,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+References: <20220519153107.696864-1-clement.leger@bootlin.com> <20220519153107.696864-5-clement.leger@bootlin.com>
+In-Reply-To: <20220519153107.696864-5-clement.leger@bootlin.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 May 2022 09:09:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUdsgoOyFqMq--F3d67QwE4V=CTEedm=uC7grmWZZEHJg@mail.gmail.com>
+Message-ID: <CAMuHMdUdsgoOyFqMq--F3d67QwE4V=CTEedm=uC7grmWZZEHJg@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 04/13] dt-bindings: net: pcs: add bindings for
+ Renesas RZ/N1 MII converter
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Can you do a job with me?
+Hi Clément,
+
+On Thu, May 19, 2022 at 5:32 PM Clément Léger <clement.leger@bootlin.com> wrote:
+> This MII converter can be found on the RZ/N1 processor family. The MII
+> converter ports are declared as subnodes which are then referenced by
+> users of the PCS driver such as the switch.
+>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/pcs/renesas,rzn1-miic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/N1 MII converter
+> +
+> +maintainers:
+> +  - Clément Léger <clement.leger@bootlin.com>
+> +
+> +description: |
+> +  This MII converter is present on the Renesas RZ/N1 SoC family. It is
+> +  responsible to do MII passthrough or convert it to RMII/RGMII.
+> +
+> +properties:
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,r9a06g032-miic
+> +      - const: renesas,rzn1-miic
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: MII reference clock
+> +      - description: RGMII reference clock
+> +      - description: RMII reference clock
+> +      - description: AHB clock used for the MII converter register interface
+
+Please add clock-names (and make it required), as there are multiple clocks.
+
+The rest LGTM (from an SoC integration PoV), so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
