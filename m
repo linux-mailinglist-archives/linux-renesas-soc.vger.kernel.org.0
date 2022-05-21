@@ -2,93 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 259F652FAC2
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 May 2022 12:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B849E52FF67
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 May 2022 22:34:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236019AbiEUK4y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 21 May 2022 06:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48014 "EHLO
+        id S1344847AbiEUUe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 21 May 2022 16:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235156AbiEUK4x (ORCPT
+        with ESMTP id S240502AbiEUUez (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 21 May 2022 06:56:53 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED2555212
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 21 May 2022 03:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=XNjMIjslYS0gsqboDqg3xCy6RknD
-        qyuCskpYH8PWXAI=; b=DHxoeS/j+XG8hyIp8iAkQfn4usgxNDixtHrrseXNjqNH
-        7+BphxM4UF4HQWNMhWLZV2FXEbPNFPobv+4Fij1ErZxHl81o9X5ti6pcsOrlgIjW
-        u+E2ybqf7NfG7I8c+KBYVoqqcrIKWfU6zTkkBx+sHACKOGtulpF0B7S3IoTSqIw=
-Received: (qmail 4129084 invoked from network); 21 May 2022 12:56:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 May 2022 12:56:48 +0200
-X-UD-Smtp-Session: l3s3148p1@UZSvdoPfxrAgAwDtxwyXAGMY7IbT6g6m
-Date:   Sat, 21 May 2022 12:56:48 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 3/3] i2c: rcar: use flags instead of atomic_xfer
-Message-ID: <YojFcPIIFgagCkS5@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20220520202918.17889-1-wsa+renesas@sang-engineering.com>
- <20220520202918.17889-4-wsa+renesas@sang-engineering.com>
+        Sat, 21 May 2022 16:34:55 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B625338BE0;
+        Sat, 21 May 2022 13:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653165294; x=1684701294;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U53QBVnQjgrZwXCmHNKU8vM4EN7VyzE4dG5Eg1eRKBU=;
+  b=oFBWnyun3v2d6phSv+G3umEqeXli2+w+IV9Re+7hpW51BEHybtbmyJP6
+   x4a6/ZPzftiehlttA2+gIw6zBMLHyBQsGKqMXq/Rhbdzo1bl46J+QYt+c
+   l8yvkzVKVFq6LLERXrREIhbvBojGnwjMxXZ+GrLxQrWm22CNVda8hNRzh
+   364ImFVhLNgA0sIT6GvFABYYpjhSK6p3rQiB9Vwn81dBiwTzhv7vJSpTO
+   LhRb1nj/WUkcSvWeg6Ta2GDCF+83W99FzQ503YOzvLnQdmioyMEicvTAL
+   2whOqRk5+CCTuutem+6A1STbFf+NMasYZYTxQ3C/nZyfIHpbqlDvqh9ft
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10354"; a="333533404"
+X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
+   d="scan'208";a="333533404"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:34:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
+   d="scan'208";a="607545747"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 21 May 2022 13:34:52 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nsVoJ-0006bQ-JH;
+        Sat, 21 May 2022 20:34:51 +0000
+Date:   Sun, 22 May 2022 04:34:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     kbuild-all@lists.01.org, Phil Edworthy <phil.edworthy@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3] arm64: dts: renesas: rzv2m evk: Enable ethernet
+Message-ID: <202205220428.1iv6rKAJ-lkp@intel.com>
+References: <20220520100736.15182-1-phil.edworthy@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="g/EUe/8R9Jeh62kS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220520202918.17889-4-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220520100736.15182-1-phil.edworthy@renesas.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Phil,
 
---g/EUe/8R9Jeh62kS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-On Fri, May 20, 2022 at 10:29:18PM +0200, Wolfram Sang wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->=20
-> i2c-rcar already has priv->flags. This patch adds a new persistent flag
-> ID_P_NOT_ATOMIC and uses it to save the extra variable. The negation of
-> the logic was done to make the code more readable.
->=20
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> [wsa: negated the logic, rebased, updated the commit message]
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[auto build test ERROR on geert-renesas-devel/next]
+[cannot apply to krzk/for-next v5.18-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Applied to for-next, thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Edworthy/arm64-dts-renesas-rzv2m-evk-Enable-ethernet/20220520-180929
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220522/202205220428.1iv6rKAJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bae3dc745b58471823c22e98b6dbfb0ef17e213a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Phil-Edworthy/arm64-dts-renesas-rzv2m-evk-Enable-ethernet/20220520-180929
+        git checkout bae3dc745b58471823c22e98b6dbfb0ef17e213a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
---g/EUe/8R9Jeh62kS
-Content-Type: application/pgp-signature; name="signature.asc"
+All errors (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+>> Error: arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts:47.1-5 Label or path avb not found
+   FATAL ERROR: Syntax error parsing input tree
 
-iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKIxXAACgkQFA3kzBSg
-Kbaq0Q/4kUH+FPKRe7K24vaYCZoZzBPxsdv67Vgvp8WUrjEoIXdiUXRlKJBJxULl
-v347a156YG9os9VyMWgWmkV/sB3mVQtqFoBWd5X+QGOLn6NgmZXQJfJazo1S1oEZ
-HoEjJiaUgkhLNOo0kiR+ltBNGTZCoRGIqjeXpnYGjSXfBvx8xoBIgT1m4EbIoaPH
-c/RVLo20xRSRvYatHWc4zASJZoL3/528mrYuVx0asrE6EslHy+tQhk2ltnv3WANQ
-cbWIyhhceXATvNYXMr/sMqidrr1GGjLUi29NOoj8RIFxd8ZNnCGwSmabr2ZtX8f0
-MeRoaVjKizD6jtqU3RIAc+HX53f65Hp0sff/P8NEb1fo3A9BDnU4HqXosdSvOdIO
-eongGdKffBsrDRXQWFAVl2XRP57rZX7sh9WJv8rQjPKd6xlk3N9HqglKyGCeFkAN
-DCNxv6A41YrxubXo334jxAtobCuvYIj4rwlqtH5Vcp3dlWQoT50fxzmn/erdlgum
-C2/sz5m7ofZuj2Pgu3eNK91Miskawswd+llaUWSioTA6P11lsABKcJRSn/1y8caK
-GIto6HiO4DWqm5UZmeGLijfsSDtd6I8BkK7Nlop1l/VyjO5PRpW7rF3gzayOwIQQ
-QMpYeCEqDWnivFNd4k69SZQlcNnp8FWOVcglDs8L7vB2yn8e6w==
-=eong
------END PGP SIGNATURE-----
-
---g/EUe/8R9Jeh62kS--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
