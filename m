@@ -2,66 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B849E52FF67
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 May 2022 22:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D39953029E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 May 2022 13:19:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344847AbiEUUe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 21 May 2022 16:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59576 "EHLO
+        id S244791AbiEVLTd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 May 2022 07:19:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240502AbiEUUez (ORCPT
+        with ESMTP id S244620AbiEVLTc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 21 May 2022 16:34:55 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B625338BE0;
-        Sat, 21 May 2022 13:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653165294; x=1684701294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U53QBVnQjgrZwXCmHNKU8vM4EN7VyzE4dG5Eg1eRKBU=;
-  b=oFBWnyun3v2d6phSv+G3umEqeXli2+w+IV9Re+7hpW51BEHybtbmyJP6
-   x4a6/ZPzftiehlttA2+gIw6zBMLHyBQsGKqMXq/Rhbdzo1bl46J+QYt+c
-   l8yvkzVKVFq6LLERXrREIhbvBojGnwjMxXZ+GrLxQrWm22CNVda8hNRzh
-   364ImFVhLNgA0sIT6GvFABYYpjhSK6p3rQiB9Vwn81dBiwTzhv7vJSpTO
-   LhRb1nj/WUkcSvWeg6Ta2GDCF+83W99FzQ503YOzvLnQdmioyMEicvTAL
-   2whOqRk5+CCTuutem+6A1STbFf+NMasYZYTxQ3C/nZyfIHpbqlDvqh9ft
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10354"; a="333533404"
-X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
-   d="scan'208";a="333533404"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:34:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
-   d="scan'208";a="607545747"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 May 2022 13:34:52 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nsVoJ-0006bQ-JH;
-        Sat, 21 May 2022 20:34:51 +0000
-Date:   Sun, 22 May 2022 04:34:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     kbuild-all@lists.01.org, Phil Edworthy <phil.edworthy@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v3] arm64: dts: renesas: rzv2m evk: Enable ethernet
-Message-ID: <202205220428.1iv6rKAJ-lkp@intel.com>
-References: <20220520100736.15182-1-phil.edworthy@renesas.com>
+        Sun, 22 May 2022 07:19:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85453D493;
+        Sun, 22 May 2022 04:19:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A07760F9F;
+        Sun, 22 May 2022 11:19:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF6DAC385AA;
+        Sun, 22 May 2022 11:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653218370;
+        bh=NhyAiVCeqAx2z0dmzBlSZjwSKWMViekhCT2H8px98MA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=l63swqfc3lPEaVj4XadbwdxywukzONV+NCFHbNmgmn8IJ8zPQgew1w0mzDjyl7QNn
+         /xZG8z9zVUOA3YX3ttPMmIWSb8SyXdNafgmWM2kEyfJam4chomvMBbZh21seChd1Zu
+         c+lP4H61M/y58bzvX8rt0lOSNfXP6Jnm4WdElcYgTCoLUQbnEzPXHWR129zAISY7YS
+         qdXPvOxwClqAKxzgiQ7s6m1Z5nT4c7Ot4/2510eKjRNuTBvwjfUBrpdkYPN8Ti0QRD
+         FhEFPKI7CqFmKTdGyI5dL9hUsBic+fDEKVlUjiA3pc4qYPuDtEpUAKAnbbjE/KdQG2
+         ymy8S1SI4wDvg==
+Date:   Sun, 22 May 2022 12:28:15 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Jialin Zhang <zhangjialin11@huawei.com>
+Cc:     <prabhakar.mahadev-lad.rj@bp.renesas.com>, <lars@metafoo.de>,
+        <biju.das.jz@bp.renesas.com>, <linux-iio@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] iio: adc: rzg2l_adc: add missing fwnode_handle_put() in
+ rzg2l_adc_parse_properties()
+Message-ID: <20220522122815.60f09ab7@jic23-huawei>
+In-Reply-To: <20220517033526.2035735-1-zhangjialin11@huawei.com>
+References: <20220517033526.2035735-1-zhangjialin11@huawei.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220520100736.15182-1-phil.edworthy@renesas.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,39 +57,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+On Tue, 17 May 2022 11:35:26 +0800
+Jialin Zhang <zhangjialin11@huawei.com> wrote:
 
-Thank you for the patch! Yet something to improve:
+> fwnode_handle_put() should be used when terminating
+> device_for_each_child_node() iteration with break or
+> return to prevent stale device node references from
+> being left behind.
+> 
+> Fixes: d484c21bacfa ("iio: adc: Add driver for Renesas RZ/G2L A/D converter")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Jialin Zhang <zhangjialin11@huawei.com>
+Applied to the fixes-togreg branch of iio.git.
 
-[auto build test ERROR on geert-renesas-devel/next]
-[cannot apply to krzk/for-next v5.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Edworthy/arm64-dts-renesas-rzv2m-evk-Enable-ethernet/20220520-180929
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220522/202205220428.1iv6rKAJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bae3dc745b58471823c22e98b6dbfb0ef17e213a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Phil-Edworthy/arm64-dts-renesas-rzv2m-evk-Enable-ethernet/20220520-180929
-        git checkout bae3dc745b58471823c22e98b6dbfb0ef17e213a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+Jonathan
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/iio/adc/rzg2l_adc.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/rzg2l_adc.c b/drivers/iio/adc/rzg2l_adc.c
+> index 7585144b9715..5b09a93fdf34 100644
+> --- a/drivers/iio/adc/rzg2l_adc.c
+> +++ b/drivers/iio/adc/rzg2l_adc.c
+> @@ -334,11 +334,15 @@ static int rzg2l_adc_parse_properties(struct platform_device *pdev, struct rzg2l
+>  	i = 0;
+>  	device_for_each_child_node(&pdev->dev, fwnode) {
+>  		ret = fwnode_property_read_u32(fwnode, "reg", &channel);
+> -		if (ret)
+> +		if (ret) {
+> +			fwnode_handle_put(fwnode);
+>  			return ret;
+> +		}
+>  
+> -		if (channel >= RZG2L_ADC_MAX_CHANNELS)
+> +		if (channel >= RZG2L_ADC_MAX_CHANNELS) {
+> +			fwnode_handle_put(fwnode);
+>  			return -EINVAL;
+> +		}
+>  
+>  		chan_array[i].type = IIO_VOLTAGE;
+>  		chan_array[i].indexed = 1;
 
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/renesas/r9a09g011-v2mevk2.dts:47.1-5 Label or path avb not found
-   FATAL ERROR: Syntax error parsing input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
