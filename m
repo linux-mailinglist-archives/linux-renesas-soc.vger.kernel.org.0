@@ -2,87 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A75530A1A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 May 2022 10:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C133530AFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 May 2022 10:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbiEWH6j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 May 2022 03:58:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35378 "EHLO
+        id S231406AbiEWIAy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 May 2022 04:00:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiEWH6h (ORCPT
+        with ESMTP id S231381AbiEWIAv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 May 2022 03:58:37 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061A2EAF;
-        Mon, 23 May 2022 00:58:33 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id EB76B200007;
-        Mon, 23 May 2022 07:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653292712;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YnX7d82uLFyXKL9RU+Q7pPoOWV1qdJm9PA8IlytzpR4=;
-        b=hh+FeoLrN8cwOptCVVTPnujUtQHs3s/JsJtan241Z5qxAM3MUOf1PxyeN7OZT6YXNKzRnh
-        hR5Knfa/g3U39o9d13vOb6zxaeymm/KIDDOzkcU/Yw9g6NYUOtq8o4WpOqtJQeIA+FbqRJ
-        fuhSjJ3wRPg7+36umHY7t9J8NOe9bZr0zPpQOv7+8IxS90ZOO1oXhxYCc1P1oeA0MJepSP
-        0Fe7v/1UBj7SmI2YmgJkGBLlKziDKLodYQiL6yTPXVtkwVKwwh/a7D+JGB/KbgkFf/DuZI
-        liEJqWiRRM2xeDbFnDHWEp1q3zF7G4QCkDZpqdV+I7CrtKvPZqRs3fQ/bimOaQ==
-Date:   Mon, 23 May 2022 09:58:31 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Ziyang Xuan <william.xuanziyang@huawei.com>
-Cc:     <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>,
-        <linux-rtc@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] rtc: rzn1: fix inconsistent IS_ERR and PTR_ERR
-Message-ID: <20220523095831.241380cd@xps-13>
-In-Reply-To: <20220523015725.198244-1-william.xuanziyang@huawei.com>
-References: <20220523015725.198244-1-william.xuanziyang@huawei.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Mon, 23 May 2022 04:00:51 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9569A16593;
+        Mon, 23 May 2022 01:00:49 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id x65so7990604qke.2;
+        Mon, 23 May 2022 01:00:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=78dk875LafIfDiQAHXpXdnt3YIhTksx5eQ10JxEZ2W4=;
+        b=dx/LACimog30dDhKTx5qh8+OtZNpQ4RZTGeyV0DnrR/+zgklBizNkQ+C7M/3RsGwcp
+         obvXxrrZlz0YfMKQdr5d01mtwfIBuzDo3UeGiFEnT5+hafXWLJPfU1FT0rkwh2LnkDCh
+         RKpFdof+8JhcC/8qEQhQFmhOe8sKL7QE11pkN0j4/LKYFzVzawL++TaTLa4pDR9USfkn
+         6sjig+3fWsPcUjiFFiILAZU5Xdh2S8+njdJ53rHYAibTn1TDgKRwcoC1b0fPu8qBLuLl
+         buiRK3om9IJFDEbta9pxPHo5vinpZNB/DqWFfLVXpTbdTHYFsvdBBkRFjAY1OGzAnXPs
+         zffg==
+X-Gm-Message-State: AOAM531BDp8+GdxzIwVcymmof8jbeZTKQuv5aAlYJDZvbVynahtoDvQR
+        Sh6IYSnI8SzO16hqYIAeOWqMNJquAGP3vw==
+X-Google-Smtp-Source: ABdhPJxlyZH0qzYNPIYegu9AFGKM06lQUh6v+/CwZPs41YoDkRqJLr2isyyJrMT7vXVTTz5YBBKpGw==
+X-Received: by 2002:a37:a6d5:0:b0:6a3:4872:32fb with SMTP id p204-20020a37a6d5000000b006a3487232fbmr10154136qke.588.1653292848625;
+        Mon, 23 May 2022 01:00:48 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id t5-20020a05620a004500b0069fc13ce24asm3894961qkt.123.2022.05.23.01.00.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 May 2022 01:00:48 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id b124so11982576ybg.12;
+        Mon, 23 May 2022 01:00:48 -0700 (PDT)
+X-Received: by 2002:a25:e04d:0:b0:64d:6f23:b906 with SMTP id
+ x74-20020a25e04d000000b0064d6f23b906mr20256218ybg.380.1653292848029; Mon, 23
+ May 2022 01:00:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220520202918.17889-1-wsa+renesas@sang-engineering.com> <20220520202918.17889-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220520202918.17889-2-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 May 2022 10:00:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWiAQRYUafh5874dA599BxSXa8=g=5ya0XQ63Xffn=Spg@mail.gmail.com>
+Message-ID: <CAMuHMdWiAQRYUafh5874dA599BxSXa8=g=5ya0XQ63Xffn=Spg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] i2c: rcar: use BIT macro consistently
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ziyang,
+On Sat, May 21, 2022 at 5:39 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Easier to read and ensures proper types.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-william.xuanziyang@huawei.com wrote on Mon, 23 May 2022 09:57:25 +0800:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> It is inconsistent IS_ERR and PTR_ERR for rtc->rtcdev in rzn1_rtc_probe().
->=20
-> Generated by coccinelle script:
-> 	scripts/coccinelle/tests/odd_ptr_err.cocci
->=20
-> Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
-> Signed-off-by: Ziyang Xuan <william.xuanziyang@huawei.com>
-> ---
->  drivers/rtc/rtc-rzn1.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> index f92d1398b0f1..4cf54af8a8c3 100644
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -348,7 +348,7 @@ static int rzn1_rtc_probe(struct platform_device *pde=
-v)
-> =20
->  	rtc->rtcdev =3D devm_rtc_allocate_device(&pdev->dev);
->  	if (IS_ERR(rtc->rtcdev))
-> -		return PTR_ERR(rtc);
-> +		return PTR_ERR(rtc->rtcdev);
+Gr{oetje,eeting}s,
 
-Thanks for the patch, but Dan Carpenter already provided the exact same
-fix.
+                        Geert
 
-Cheers,
-Miqu=C3=A8l
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
