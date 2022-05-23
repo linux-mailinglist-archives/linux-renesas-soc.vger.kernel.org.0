@@ -2,72 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C133530AFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 May 2022 10:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 179D8530C0A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 May 2022 11:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbiEWIAy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 May 2022 04:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
+        id S231650AbiEWIHo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 May 2022 04:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231381AbiEWIAv (ORCPT
+        with ESMTP id S231635AbiEWIHk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 May 2022 04:00:51 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9569A16593;
-        Mon, 23 May 2022 01:00:49 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id x65so7990604qke.2;
-        Mon, 23 May 2022 01:00:49 -0700 (PDT)
+        Mon, 23 May 2022 04:07:40 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E5DFA;
+        Mon, 23 May 2022 01:07:38 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id g3so12025406qtb.7;
+        Mon, 23 May 2022 01:07:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=78dk875LafIfDiQAHXpXdnt3YIhTksx5eQ10JxEZ2W4=;
-        b=dx/LACimog30dDhKTx5qh8+OtZNpQ4RZTGeyV0DnrR/+zgklBizNkQ+C7M/3RsGwcp
-         obvXxrrZlz0YfMKQdr5d01mtwfIBuzDo3UeGiFEnT5+hafXWLJPfU1FT0rkwh2LnkDCh
-         RKpFdof+8JhcC/8qEQhQFmhOe8sKL7QE11pkN0j4/LKYFzVzawL++TaTLa4pDR9USfkn
-         6sjig+3fWsPcUjiFFiILAZU5Xdh2S8+njdJ53rHYAibTn1TDgKRwcoC1b0fPu8qBLuLl
-         buiRK3om9IJFDEbta9pxPHo5vinpZNB/DqWFfLVXpTbdTHYFsvdBBkRFjAY1OGzAnXPs
-         zffg==
-X-Gm-Message-State: AOAM531BDp8+GdxzIwVcymmof8jbeZTKQuv5aAlYJDZvbVynahtoDvQR
-        Sh6IYSnI8SzO16hqYIAeOWqMNJquAGP3vw==
-X-Google-Smtp-Source: ABdhPJxlyZH0qzYNPIYegu9AFGKM06lQUh6v+/CwZPs41YoDkRqJLr2isyyJrMT7vXVTTz5YBBKpGw==
-X-Received: by 2002:a37:a6d5:0:b0:6a3:4872:32fb with SMTP id p204-20020a37a6d5000000b006a3487232fbmr10154136qke.588.1653292848625;
-        Mon, 23 May 2022 01:00:48 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id t5-20020a05620a004500b0069fc13ce24asm3894961qkt.123.2022.05.23.01.00.48
+        bh=5fOzm2XqOazWnqz8+qsIbRLXFUmNZHUpcq1ssqKqVUs=;
+        b=vkZ9sun0SEO6f1KLpcwYZ3zN96RAwcaYfAyPRZ2r+723dKaFWfbW6Td6qWfz1rfh8b
+         7hYbqM4TEM3Lism5xdDane6kHd94HSKjJUtGZeqf2o1xdtKEjSw7VGvkAbdz4onOC6RI
+         ne88x20CpnKv8s2WFeCVOvtb5/oWr9J5F+K8xvcM2mDdEaidym6rTsEc8xYXNDPFGk5Z
+         KE9hIlONUa/WJcPKyzd35+NRP7NgqdrsieLiKzxzpYH9BTFZ2DSUiM/0PsddZcoZpYqK
+         BMY3+Lt0plTt+aa/UblmDtTwCly1NCByipyoi0UXSFWS3fC3cIZWjvhAgL8aeCb1+7Qe
+         z3+g==
+X-Gm-Message-State: AOAM533gHCofr3UssIL4wHScw+Dj0Dn6WBC8sspyFWaA4MmriI3zvAs8
+        EpDn8j3w04/UVfyr2IFWv4lMyr9E8en1eg==
+X-Google-Smtp-Source: ABdhPJwPbwTg0cIGT/MlhkoYvZsIZeDYqXnfB5MNRIZQ2plZQ7OU3dl/M7KGllavfUddTMiIwCY0VQ==
+X-Received: by 2002:ac8:7c51:0:b0:2f3:cb71:c7a6 with SMTP id o17-20020ac87c51000000b002f3cb71c7a6mr15211224qtv.409.1653293257675;
+        Mon, 23 May 2022 01:07:37 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id k123-20020a37ba81000000b0069fc13ce1ddsm4077249qkf.14.2022.05.23.01.07.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 May 2022 01:00:48 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id b124so11982576ybg.12;
-        Mon, 23 May 2022 01:00:48 -0700 (PDT)
-X-Received: by 2002:a25:e04d:0:b0:64d:6f23:b906 with SMTP id
- x74-20020a25e04d000000b0064d6f23b906mr20256218ybg.380.1653292848029; Mon, 23
- May 2022 01:00:48 -0700 (PDT)
+        Mon, 23 May 2022 01:07:37 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-2f83983782fso138835017b3.6;
+        Mon, 23 May 2022 01:07:37 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr22445245ywg.316.1653293257175; Mon, 23
+ May 2022 01:07:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220520202918.17889-1-wsa+renesas@sang-engineering.com> <20220520202918.17889-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220520202918.17889-2-wsa+renesas@sang-engineering.com>
+References: <20220520095421.51742-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220520095421.51742-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 May 2022 10:00:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWiAQRYUafh5874dA599BxSXa8=g=5ya0XQ63Xffn=Spg@mail.gmail.com>
-Message-ID: <CAMuHMdWiAQRYUafh5874dA599BxSXa8=g=5ya0XQ63Xffn=Spg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] i2c: rcar: use BIT macro consistently
+Date:   Mon, 23 May 2022 10:07:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=HVwnXKGNgYsHdZ2hyeyqdCGWA--P8ufxG40B1HPvDg@mail.gmail.com>
+Message-ID: <CAMuHMdU=HVwnXKGNgYsHdZ2hyeyqdCGWA--P8ufxG40B1HPvDg@mail.gmail.com>
+Subject: Re: [PATCH v2] i2c: rcar: fix PM ref counts in probe error paths
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, May 21, 2022 at 5:39 PM Wolfram Sang
+Hi Wolfram,
+
+On Sat, May 21, 2022 at 1:48 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Easier to read and ensures proper types.
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
+> We have to take care of ID_P_PM_BLOCKED when bailing out during probe.
+>
+> Fixes: 7ee24eb508d6 ("i2c: rcar: disable PM in multi-master mode")
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
