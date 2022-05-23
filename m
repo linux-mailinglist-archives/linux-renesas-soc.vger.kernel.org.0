@@ -2,73 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 764C7531E69
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 00:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8383D531E68
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 00:14:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbiEWWOH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S229731AbiEWWOH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 23 May 2022 18:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiEWWOH (ORCPT
+        with ESMTP id S229379AbiEWWOG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 May 2022 18:14:07 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163FA6D945
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 May 2022 15:14:06 -0700 (PDT)
+        Mon, 23 May 2022 18:14:06 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B016D848
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 May 2022 15:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653344046; x=1684880046;
+  t=1653344045; x=1684880045;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=FaDPrE4YqzW0Wh+rdohdWFsF22ZDloMbwTxwF+ZTA+4=;
-  b=BRs1LkAJowfNTZ2G61xkQUH3nWyLXFrPXKHMeUGpHQnSErpILjqeVhiq
-   CqKsEz8PW5aB0VF+VRAx1JetEJcZb+O0b3QQTWP3YXGzzxBrFkXZ2UUnh
-   qvS+XhMq7oHfGYPfwBUHndO0W2bwcxQyQHTP5FBkrb08Z87E4BW3uEx2+
-   hXj/3Ux/zhZV1xkmSY/pLVDygBFHCD4C4S6irP3gvPmUCThRZFf1E4Col
-   hQpwatjFIw//2FYM6OV2igFJMfLQS4ZNQ7B4ThnOxU8kce47Y7Fhu++/I
-   niE4BVqrTzx9WU4lKpSTmzREXoCc7mis/n0pgQv8IzGFe7Sp4zyqjKdDU
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="336428080"
+  bh=ZXMaWDqWgilVlVRxY7fHOHH6+K7lk8Z4OU0jb7KExds=;
+  b=TNdlJc6GH1uLyshs36V5MG4R5ozGs//nDgz5v/YqxD7HaE3o7sBbOp0p
+   enhMGxseTok0bXx3kESAxy4ds9EXw0PRAzgzSMO6f0/NypHr2ROaPTJwn
+   imiq9a1Z3St0SVm5zKiu2WSA0ekJ+JMYdsSHnuA3kjCIRJWAwLbr3qZh8
+   gMback7XGhQwkrW0hF4FcnMZ6KrMXVbOYt3bUiKt2j+3izkUkUjk5vFE8
+   Tc9Iyx0+9Z99Zhg7yqxteAjrmyx24AJonidApgj8nm2dTKPm6DjwQJcuh
+   GBJJDhTqVk7vEqSemn9Ed+hVIi2cgbQCxIY07ATNcqfyvmMtjdrDJZz/W
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="260980031"
 X-IronPort-AV: E=Sophos;i="5.91,247,1647327600"; 
-   d="scan'208";a="336428080"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 15:14:05 -0700
+   d="scan'208";a="260980031"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 15:14:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,247,1647327600"; 
-   d="scan'208";a="744957444"
+   d="scan'208";a="820031210"
 Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 May 2022 15:14:04 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 May 2022 15:14:04 -0700
 Received: from kbuild by db63a1be7222 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1ntGJP-0001TW-EH;
+        id 1ntGJP-0001Th-HZ;
         Mon, 23 May 2022 22:14:03 +0000
-Date:   Tue, 24 May 2022 06:13:56 +0800
+Date:   Tue, 24 May 2022 06:14:02 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.20] BUILD SUCCESS
- a911a94b7660cea4b8bf57124a013fb3f8639b97
-Message-ID: <628c0724.8zBrhRGmrRDlQPoT%lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-clk-for-v5.20] BUILD SUCCESS
+ c8bc1d7f7495e4b2098c119bd41b5cebd85babe0
+Message-ID: <628c072a.gDLfE8DO5Sw1fdgX%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.20
-branch HEAD: a911a94b7660cea4b8bf57124a013fb3f8639b97  arm64: dts: renesas: rzv2mevk2: Enable ethernet
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v5.20
+branch HEAD: c8bc1d7f7495e4b2098c119bd41b5cebd85babe0  clk: renesas: r9a06g032: Fix UART clkgrp bitsel
 
 elapsed time: 727m
 
-configs tested: 167
+configs tested: 166
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -128,7 +129,6 @@ mips                 decstation_r4k_defconfig
 arm                  randconfig-c002-20220522
 x86_64                        randconfig-c001
 ia64                                defconfig
-ia64                             allmodconfig
 riscv                             allnoconfig
 m68k                             allmodconfig
 m68k                                defconfig
