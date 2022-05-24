@@ -2,94 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 333BF5323EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 09:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E82A5325AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 10:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233281AbiEXHTj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 May 2022 03:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53286 "EHLO
+        id S233512AbiEXIy6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 May 2022 04:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232123AbiEXHTi (ORCPT
+        with ESMTP id S233561AbiEXIy5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 May 2022 03:19:38 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D045C93471;
-        Tue, 24 May 2022 00:19:35 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BE3641C0008;
-        Tue, 24 May 2022 07:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1653376774;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zjs+j4aGboQ+r/y2NDDZnHkMaoAXbFrfp8OX0hEDMTY=;
-        b=Hrv8Zsh1HBJE+qiGwCtSziYPbAIIZRQYbqJrscPwH/aKPvucWB7QNCTA/CfL1aexxkOq1F
-        wMzpcu4HylA9w6a9lctw6DWeFrYAKpLqs+08J8byQbmBUcgKwmLMLAUj6fyczwFIQloRZn
-        th3Z0qWCX/2yH6IzVFzQ4Q316L9NsOkeCjeA9g6LBuL299vbQUKcAVzgJ043AQGAkX/raQ
-        LzDa4fppfsEWkyKstWce+crnwcI13wDIrWVqzvYaaw0Yv0HyGCPHjaDweDVd3TnxnVTIjA
-        UVkoVlN303xg+Xep8zys1ujxWdm45kwdRo9dQWnBsPK7s8NnZk/K2jUQXVRojw==
-Date:   Tue, 24 May 2022 09:19:30 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Haowen Bai <baihaowen@meizu.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Michel Pollet <michel.pollet@bp.renesas.com>,
-        <linux-rtc@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] rtc: rzn1: Fix  inconsistent IS_ERR and PTR_ERR
-Message-ID: <20220524091930.51e2a7ef@xps-13>
-In-Reply-To: <1653372586-24736-1-git-send-email-baihaowen@meizu.com>
-References: <1653372586-24736-1-git-send-email-baihaowen@meizu.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Tue, 24 May 2022 04:54:57 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E9E79388
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:54:51 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id x137so1299461ybg.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uqZD+ogOM6DMMZNvJXo9UtOZIWjh9lX3b715CP395Rw=;
+        b=YalnveRKXo/MmbpOdqU9xl8clAnBE9reOoViC11TCrupa/uAC8igoDuIf3X98aDlr0
+         H9spduLwCrMws7VKbclVVDyvNS+SeJv/VSzmN3fB9isHzsz1ENnXF+krtD7RxE9bkxH8
+         rOqQ5OdY/HBgvkzG9OMNS4P8S/HhS0cHV97ThG5d8PdMP9BWI3TLDafyp+g2WvGb2GMm
+         BLEJQQoYT0B/gLoXkpOmoQZd3rra/n4iHf8wSinAaYNfaKkLSmKZiY2h/WjA1QgUezC0
+         OIF5UOQRmY5VpKS441Rwybtwepuab+IatetBAcDmHu/W9nU8ORpJ6omFL1pw2NJ5gb1j
+         gZAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uqZD+ogOM6DMMZNvJXo9UtOZIWjh9lX3b715CP395Rw=;
+        b=to6NUQY+iMZyp5qJdNQRwvgtVbeofiBYT3WGbjGlsRkzktU5RnPT4Kzmq1Nso4C5TP
+         7aEoHx2B1A9/izj3dUiXAA/TPuJLIX/Rr/dp4zK4IsMKu6adSmM8vmpDL2aylXZW6nUF
+         QBLjqNOYrMAaZ92u3pWnjlDG1MzCooQKwwEx8QNUj2bTYk87xUNMr4m80UIw8UQxGANU
+         6vs6hJ5IHZkMsWwvfS1W3EauPRQLn3nGCACd6mcoI7Ev2nT36Orgs/PhZOWwesuuezmS
+         XSXsxBJtykiSsuJ1dboTFycBzSWxLjK7iYwBSKvGaO1O3Z7LIBk6ySiKVsQB/f9s3B64
+         Ry9g==
+X-Gm-Message-State: AOAM531pHg+3z+3XwMXF8SYEAjR1oZ+/84a0cO++pP3wdtXNz589zG82
+        4kwbcSvulPFBQGJ/5avZfpDQMu5xR3yX83lKccSauQ==
+X-Google-Smtp-Source: ABdhPJwmTZMv++iingNx6Cx2coJjp0zLQsy9Binu+PO+H9btH3fjaVRzSwcDgANvXo1lN7abVTZY0I5SNNywjxprtt8=
+X-Received: by 2002:a25:2c82:0:b0:64d:62a1:850b with SMTP id
+ s124-20020a252c82000000b0064d62a1850bmr25986931ybs.291.1653382490845; Tue, 24
+ May 2022 01:54:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220523174238.28942-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220523174238.28942-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 24 May 2022 10:54:39 +0200
+Message-ID: <CACRpkdYaWmD9PTcGgeP5MTe9bXMgmf=tUSDBQ-4VxSfL4qkoeQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] gpio: gpiolib: Allow free() callback to be overridden
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Marc Zyngier <maz@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Haowen,
+On Mon, May 23, 2022 at 7:43 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-baihaowen@meizu.com wrote on Tue, 24 May 2022 14:09:45 +0800:
+> Allow free() callback to be overridden from irq_domain_ops for
+> hierarchical chips.
+>
+> This allows drivers to free up resources which are allocated during
+> child_to_parent_hwirq()/populate_parent_alloc_arg() callbacks.
+>
+> On Renesas RZ/G2L platform a bitmap is maintained for TINT slots, a slot
+> is allocated in child_to_parent_hwirq() callback which is freed up in free
+> callback hence this override.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> The proper pointer to be passed as argument is rtc->rtcdev.
-> Detected using Coccinelle.
->=20
-> Fixes: deeb4b5393e1 ("rtc: rzn1: Add new RTC driver")
+So that function today looks like this:
 
-Thanks for your patch. This has already been reported twice,
-Alexandre will likely apply one of the fixes after the merge window.
+static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
+{
+        ops->activate = gpiochip_irq_domain_activate;
+        ops->deactivate = gpiochip_irq_domain_deactivate;
+        ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
+        ops->free = irq_domain_free_irqs_common;
 
->=20
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  drivers/rtc/rtc-rzn1.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/rtc/rtc-rzn1.c b/drivers/rtc/rtc-rzn1.c
-> index f92d1398b0f1..4cf54af8a8c3 100644
-> --- a/drivers/rtc/rtc-rzn1.c
-> +++ b/drivers/rtc/rtc-rzn1.c
-> @@ -348,7 +348,7 @@ static int rzn1_rtc_probe(struct platform_device *pde=
-v)
-> =20
->  	rtc->rtcdev =3D devm_rtc_allocate_device(&pdev->dev);
->  	if (IS_ERR(rtc->rtcdev))
-> -		return PTR_ERR(rtc);
-> +		return PTR_ERR(rtc->rtcdev);
-> =20
->  	rtc->rtcdev->range_min =3D RTC_TIMESTAMP_BEGIN_2000;
->  	rtc->rtcdev->range_max =3D RTC_TIMESTAMP_END_2099;
+        /*
+         * We only allow overriding the translate() function for
+         * hierarchical chips, and this should only be done if the user
+         * really need something other than 1:1 translation.
+         */
+        if (!ops->translate)
+                ops->translate = gpiochip_hierarchy_irq_domain_translate;
+}
 
+(...)
+-       ops->free = irq_domain_free_irqs_common;
+(...)
+> +       if (!ops->free)
+> +               ops->free = irq_domain_free_irqs_common;
 
-Thanks,
-Miqu=C3=A8l
+Marc Z is working on cleaning up the way that gpiolib is (ab)using
+irqchips. We definitely need his ACK if we do things like this.
+This doesn't look like one of the big offenders to me, but I want
+to make sure we don't create new problems while Marc is trying
+to solve the old ones.
+
+Yours,
+Linus Walleij
