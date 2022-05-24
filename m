@@ -2,233 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B52532F8E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 19:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7CA5330A1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 20:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239936AbiEXRWx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 May 2022 13:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60540 "EHLO
+        id S231164AbiEXSrZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 May 2022 14:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239937AbiEXRWw (ORCPT
+        with ESMTP id S240423AbiEXSrX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 May 2022 13:22:52 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C6B947DE0A;
-        Tue, 24 May 2022 10:22:50 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,248,1647270000"; 
-   d="scan'208";a="122108004"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 25 May 2022 02:22:50 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 35404400A8AA;
-        Wed, 25 May 2022 02:22:44 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Tue, 24 May 2022 14:47:23 -0400
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA360167C3;
+        Tue, 24 May 2022 11:47:22 -0700 (PDT)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-f1d5464c48so23370261fac.6;
+        Tue, 24 May 2022 11:47:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=a/gu+zlEuZDbUAmPz1zaMTbVOGJ5w5VzobNVyWlD/qk=;
+        b=Ut/yActsQo/0CiowkpYQ0lB9K3eFBMugR2VVaIAgpvMvNPZsl7B0T49PJEwNp0Ekdp
+         /cSdzolzIzeyrXpH9SON1lJ1ItU39ZqC/7UPfOy8nbsza2YXvMWwHOE/euzR1GrzzF7X
+         FjuYzRmj0OqcNt4f6SA2hHgRJIDNqPl4efkNlaahEtiESJLji3dQEyQTPLr101e3ddHe
+         F2TFk20iOr/pqe2gOGsrcr1SUjzF7sjBsPwUwxNQ4gE3lgSYZWxyim8BnQ6GEe3ID9Tv
+         2CDnWKpwnry+D7P+Ku6p7ebcHHnujIOkVzrK6FrS32w4urjNHeN07iTO/n4XFs3t5/3o
+         oAtQ==
+X-Gm-Message-State: AOAM530UNlufC52FpXRFPP2vGPpYNOK2HUMQ0t547/Fmwj/cymCi/eFz
+        0rNzTW2W+KYQylJWOE31JP4CNybmEA==
+X-Google-Smtp-Source: ABdhPJyFm9QhMQk/4jRkh9zVAn4n0H2Xxx3MjpCVd/IeVWl2WsgosNqFBnMVaJc3tjPjXTLu8nqozw==
+X-Received: by 2002:a05:6870:ea93:b0:ee:1763:6ed2 with SMTP id s19-20020a056870ea9300b000ee17636ed2mr3491311oap.28.1653418042065;
+        Tue, 24 May 2022 11:47:22 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id n10-20020a0568301e8a00b0060b1e040014sm1570001otr.51.2022.05.24.11.47.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 11:47:21 -0700 (PDT)
+Received: (nullmailer pid 4157335 invoked by uid 1000);
+        Tue, 24 May 2022 18:47:20 -0000
+Date:   Tue, 24 May 2022 13:47:20 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH RFC 2/2] irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
-Date:   Tue, 24 May 2022 18:22:14 +0100
-Message-Id: <20220524172214.5104-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas: Add DT bindings for
+ RZ/V2M pinctrl
+Message-ID: <20220524184720.GA4138401-robh@kernel.org>
+References: <20220520154051.29088-1-phil.edworthy@renesas.com>
+ <20220520154051.29088-2-phil.edworthy@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520154051.29088-2-phil.edworthy@renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
-NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
-case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
-edge until the previous completion message has been received and
-NCEPLIC100 doesn't support pending interrupt counter, hence losing the
-interrupts if not acknowledged in time.
+On Fri, May 20, 2022 at 04:40:50PM +0100, Phil Edworthy wrote:
+> Add device tree binding documentation and header file for Renesas
+> RZ/V2M pinctrl.
+> 
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../pinctrl/renesas,rzv2m-pinctrl.yaml        | 174 ++++++++++++++++++
+>  include/dt-bindings/pinctrl/rzv2m-pinctrl.h   |  23 +++
+>  2 files changed, 197 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+>  create mode 100644 include/dt-bindings/pinctrl/rzv2m-pinctrl.h
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+> new file mode 100644
+> index 000000000000..305e836cf0a3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
+> @@ -0,0 +1,174 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzv2m-pinctrl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/V2M combined Pin and GPIO controller
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +  - Phil Edworthy <phil.edworthy@renesas.com>
+> +
+> +description:
+> +  The Renesas RZ/V2M SoC features a combined Pin and GPIO controller.
+> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> +  Each port features up to 16 pins, each of them configurable for GPIO function
+> +  (port mode) or in alternate function mode.
+> +  Up to 8 different alternate function modes exist for each single pin.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - const: renesas,r9a09g011-pinctrl # RZ/V2M
 
-So the workaround for edge-triggered interrupts to be handled correctly
-and without losing is that it needs to be acknowledged first and then
-handler must be run so that we don't miss on the next edge-triggered
-interrupt.
+With only 1, you can drop 'oneOf' and 'items'.
 
-This patch adds a new compatible string for Renesas RZ/Five SoC and adds
-support to change interrupt flow based on the interrupt type. It also
-implements irq_ack and irq_set_type callbacks.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description:
+> +      The first cell contains the global GPIO port index, constructed using the
+> +      RZV2M_GPIO() helper macro in <dt-bindings/pinctrl/rzv2m-pinctrl.h> and the
+> +      second cell represents consumer flag as mentioned in ../gpio/gpio.txt
+> +      E.g. "RZV2M_GPIO(8, 1)" for P8_1.
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 39
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/irqchip/Kconfig           |  1 +
- drivers/irqchip/irq-sifive-plic.c | 71 ++++++++++++++++++++++++++++++-
- 2 files changed, 70 insertions(+), 2 deletions(-)
+Needs some description as to what all these are. If it is not all the 
+same kind of interrupt, then each one has to be listed.
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index f3d071422f3b..aea0e4e7e547 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -537,6 +537,7 @@ config SIFIVE_PLIC
- 	bool "SiFive Platform-Level Interrupt Controller"
- 	depends on RISCV
- 	select IRQ_DOMAIN_HIERARCHY
-+	select IRQ_FASTEOI_HIERARCHY_HANDLERS
- 	help
- 	   This enables support for the PLIC chip found in SiFive (and
- 	   potentially other) RISC-V systems.  The PLIC controls devices
-diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
-index bb87e4c3b88e..abffce48e69c 100644
---- a/drivers/irqchip/irq-sifive-plic.c
-+++ b/drivers/irqchip/irq-sifive-plic.c
-@@ -60,10 +60,13 @@
- #define	PLIC_DISABLE_THRESHOLD		0x7
- #define	PLIC_ENABLE_THRESHOLD		0
- 
-+#define RENESAS_R9A07G043_PLIC		1
-+
- struct plic_priv {
- 	struct cpumask lmask;
- 	struct irq_domain *irqdomain;
- 	void __iomem *regs;
-+	u8 of_data;
- };
- 
- struct plic_handler {
-@@ -163,10 +166,31 @@ static int plic_set_affinity(struct irq_data *d,
- }
- #endif
- 
-+static void plic_irq_ack(struct irq_data *d)
-+{
-+	struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-+
-+	if (irqd_irq_masked(d)) {
-+		plic_irq_unmask(d);
-+		writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
-+		plic_irq_mask(d);
-+	} else {
-+		writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
-+	}
-+}
-+
- static void plic_irq_eoi(struct irq_data *d)
- {
- 	struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
- 
-+	/*
-+	 * For Renesas R9A07G043 SoC if the interrupt type is EDGE
-+	 * we have already acknowledged it in ack callback.
-+	 */
-+	if (handler->priv->of_data == RENESAS_R9A07G043_PLIC &&
-+	    !irqd_is_level_type(d))
-+		return;
-+
- 	if (irqd_irq_masked(d)) {
- 		plic_irq_unmask(d);
- 		writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
-@@ -176,11 +200,37 @@ static void plic_irq_eoi(struct irq_data *d)
- 	}
- }
- 
-+static int plic_irq_set_type(struct irq_data *d, unsigned int type)
-+{
-+	struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-+
-+	if (handler->priv->of_data != RENESAS_R9A07G043_PLIC)
-+		return 0;
-+
-+	switch (type) {
-+	case IRQ_TYPE_LEVEL_HIGH:
-+		irq_set_handler_locked(d, handle_fasteoi_irq);
-+		break;
-+
-+	case IRQ_TYPE_EDGE_RISING:
-+		irq_set_handler_locked(d, handle_fasteoi_ack_irq);
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static struct irq_chip plic_chip = {
- 	.name		= "SiFive PLIC",
- 	.irq_mask	= plic_irq_mask,
- 	.irq_unmask	= plic_irq_unmask,
-+	.irq_ack	= plic_irq_ack,
- 	.irq_eoi	= plic_irq_eoi,
-+	.irq_set_type	= plic_irq_set_type,
-+
- #ifdef CONFIG_SMP
- 	.irq_set_affinity = plic_set_affinity,
- #endif
-@@ -198,6 +248,19 @@ static int plic_irqdomain_map(struct irq_domain *d, unsigned int irq,
- 	return 0;
- }
- 
-+static int plic_irq_domain_translate(struct irq_domain *d,
-+				     struct irq_fwspec *fwspec,
-+				     unsigned long *hwirq,
-+				     unsigned int *type)
-+{
-+	struct plic_priv *priv = d->host_data;
-+
-+	if (priv->of_data == RENESAS_R9A07G043_PLIC)
-+		return irq_domain_translate_twocell(d, fwspec, hwirq, type);
-+
-+	return irq_domain_translate_onecell(d, fwspec, hwirq, type);
-+}
-+
- static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
- 				 unsigned int nr_irqs, void *arg)
- {
-@@ -206,7 +269,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
- 	unsigned int type;
- 	struct irq_fwspec *fwspec = arg;
- 
--	ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
-+	ret = plic_irq_domain_translate(domain, fwspec, &hwirq, &type);
- 	if (ret)
- 		return ret;
- 
-@@ -220,7 +283,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
- }
- 
- static const struct irq_domain_ops plic_irqdomain_ops = {
--	.translate	= irq_domain_translate_onecell,
-+	.translate	= plic_irq_domain_translate,
- 	.alloc		= plic_irq_domain_alloc,
- 	.free		= irq_domain_free_irqs_top,
- };
-@@ -293,6 +356,9 @@ static int __init plic_init(struct device_node *node,
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	if (of_device_is_compatible(node, "renesas-r9a07g043-plic"))
-+		priv->of_data = RENESAS_R9A07G043_PLIC;
-+
- 	priv->regs = of_iomap(node, 0);
- 	if (WARN_ON(!priv->regs)) {
- 		error = -EIO;
-@@ -411,5 +477,6 @@ static int __init plic_init(struct device_node *node,
- }
- 
- IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
-+IRQCHIP_DECLARE(renesas_r9a07g043_plic, "renesas-r9a07g043-plic", plic_init);
- IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
- IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_init); /* for firmware driver */
--- 
-2.25.1
-
+Rob
