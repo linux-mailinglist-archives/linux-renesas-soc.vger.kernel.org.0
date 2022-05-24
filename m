@@ -2,41 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C753532BCC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 15:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A705E532CD5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 17:03:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237216AbiEXN6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 May 2022 09:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33386 "EHLO
+        id S238613AbiEXPDy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 May 2022 11:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231878AbiEXN6k (ORCPT
+        with ESMTP id S236693AbiEXPDs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 May 2022 09:58:40 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 292211EAFF;
-        Tue, 24 May 2022 06:58:39 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,248,1647270000"; 
-   d="scan'208";a="120738317"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 May 2022 22:58:38 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8E2C1434C214;
-        Tue, 24 May 2022 22:58:35 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] Input: gpio-keys - Cancel delayed work only in case of GPIO
-Date:   Tue, 24 May 2022 14:58:22 +0100
-Message-Id: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        Tue, 24 May 2022 11:03:48 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355BD8AE4C;
+        Tue, 24 May 2022 08:03:47 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id hh4so14886798qtb.10;
+        Tue, 24 May 2022 08:03:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xvY3YRGz6Q5JdIA0GD3/2z1w0vgXjW2K3nWPGIL58cE=;
+        b=xmw6PBJiSKQWxyIlk16DzUlnKILhKmHhqG8uMXbF+yPCpsjbkkIGNrPKL+ptX2oSWM
+         10hxtw6XYabM9Y6OFj5CbNeOA11OELyYv1s2LMJi0B+U7SaIcApYvttqfLYa3DLLFIe6
+         S1XMdU4rNuEnzPKmVtdKefOHqVUQBOc1Pg+PLs8+H6hmY3FdIRDD2MEQ+B/QlLapC+Jh
+         V54GLpUZUm8uVkePXQ2BZmAFyFCrb/ErCxRFnlyNGmCTIV6PeP7HbUeKM+eqQkev274K
+         5QGR/DRp6vwg+1wk+89Ky86U/IXZiASfyi9yRqe2FcFNhh84gv4iAPVQvPxpgKfOfeuV
+         7zIw==
+X-Gm-Message-State: AOAM533jFVWX6MTIzltEAkzjXD+sgLwm/jLPRMy1Ure0h6xAde70GoHj
+        b543jcrjuUQklrGLL37dklIHDP06AnN3uGYc
+X-Google-Smtp-Source: ABdhPJwuk9H/mEk8wIoK8/x19GtEPey883vcqDGFb9QDo6KvHAzFTF8B3gztyBKrkKlDvmsI+8rjtg==
+X-Received: by 2002:a05:622a:1aa9:b0:2f9:8593:76c0 with SMTP id s41-20020a05622a1aa900b002f9859376c0mr1039264qtc.278.1653404626186;
+        Tue, 24 May 2022 08:03:46 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 7-20020a370707000000b0069fc13ce244sm6230671qkh.117.2022.05.24.08.03.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 08:03:43 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id g72so3324900ybf.0;
+        Tue, 24 May 2022 08:03:42 -0700 (PDT)
+X-Received: by 2002:a81:2143:0:b0:2fb:1274:247e with SMTP id
+ h64-20020a812143000000b002fb1274247emr28501106ywh.384.1653404610585; Tue, 24
+ May 2022 08:03:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220509233235.995021-1-dmitry.osipenko@collabora.com>
+ <20220509233235.995021-8-dmitry.osipenko@collabora.com> <CAMuHMdVGjeFe=Z_1Kr9ZaNZ7HUVH1usvubEB31WUQf0fg8E1kA@mail.gmail.com>
+ <c4914e14-1882-55a1-bcbd-a905852b45a3@collabora.com>
+In-Reply-To: <c4914e14-1882-55a1-bcbd-a905852b45a3@collabora.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 24 May 2022 17:03:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWBWWVeegvLQQzT8CRL5z38AhXigaNjzw8p0NwQ1B4DPQ@mail.gmail.com>
+Message-ID: <CAMuHMdWBWWVeegvLQQzT8CRL5z38AhXigaNjzw8p0NwQ1B4DPQ@mail.gmail.com>
+Subject: Re: [PATCH v8 07/27] kernel/reboot: Add kernel_can_power_off()
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Joshua Thompson <funaho@jurai.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee.jones@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-csky@vger.kernel.org,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        xen-devel@lists.xenproject.org,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,83 +124,77 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-gpio_keys module can either accept gpios or interrupts. The module
-initializes delayed work in case of gpios only and is only used if
-debounce timer is not used, so make sure cancel_delayed_work_sync()
-is called only when its gpio-backed and debounce_use_hrtimer is false.
+Hi Dmitry,
 
-This fixes the issue seen below when the gpio_keys module is unloaded and
-an interrupt pin is used instead of GPIO:
+On Tue, May 24, 2022 at 3:41 PM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+> On 5/24/22 16:14, Geert Uytterhoeven wrote:
+> > On Tue, May 10, 2022 at 1:33 AM Dmitry Osipenko
+> > <dmitry.osipenko@collabora.com> wrote:
+> >> Add kernel_can_power_off() helper that replaces open-coded checks of
+> >> the global pm_power_off variable. This is a necessary step towards
+> >> supporting chained power-off handlers.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >
+> > Thanks for your patch, which is now commit 0e2110d2e910e44c
+> > ("kernel/reboot: Add kernel_can_power_off()") in pm/linux-next.
+> >
+> > This causes the "poweroff" command (Debian nfsroot) to no longer
+> > cleanly halt the system on arm32 systems, but fail with a panic
+> > instead:
+> >
+> > -reboot: System halted
+> > +reboot: Power down
+> > +Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000000
+> > +CPU: 0 PID: 1 Comm: systemd-shutdow Not tainted
+> > 5.18.0-rc7-shmobile-00007-g0e2110d2e910 #1274
+> > +Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+> > + unwind_backtrace from show_stack+0x10/0x14
+> > + show_stack from dump_stack_lvl+0x40/0x4c
+> > + dump_stack_lvl from panic+0xf4/0x330
+> > + panic from do_exit+0x1c8/0x8e4
+> > + do_exit from __do_sys_reboot+0x174/0x1fc
+> > + __do_sys_reboot from ret_fast_syscall+0x0/0x54
+> > +Exception stack(0xf0815fa8 to 0xf0815ff0)
+> > +5fa0:                   004e6954 00000000 fee1dead 28121969 4321fedc f0d94600
+> > +5fc0: 004e6954 00000000 00000000 00000058 befa0c78 00000000 befa0c10 004e56f8
+> > +5fe0: 00000058 befa0b6c b6ec8d45 b6e4a746
+> > +---[ end Kernel panic - not syncing: Attempted to kill init!
+> > exitcode=0x00000000 ]---
+> >
+> > On arm64, "poweroff" causes a clean "reboot: Power down" before/after.
+> >
+> > On both arm32 and arm64, the same handlers are registered:
+> >   - SYS_OFF_MODE_POWER_OFF_PREPARE: legacy_pm_power_off_prepare
+> >   - SYS_OFF_MODE_POWER_OFF: legacy_pm_power_off
+> >
+> > On both arm32 and arm64, legacy_pm_power_off_prepare() is called.
+> > On both arm32 and arm64, legacy_pm_power_off() does not seem to
+> > be called.
+> >
+> > On arm32, both pm_power_off_prepare and pm_power_off are NULL.
+> > On arm64, pm_power_off_prepare is NULL, and
+> > pm_power_off is psci_sys_poweroff.
+> >
+> > Do you have a clue?
+> > Thanks!
+>
+> Thank you, Geert! I see the problem, the kernel_can_power_off() checks whether power-off handler is registered, but it's always registered because legacy_pm_power_off is registered unconditionally. So it causes trouble for platforms that don't have power-off handler installed at all. All platforms that I tested have a power-off handler, so now wonder that I didn't notice this before.
+>
+> This change should fix the problem, please give it a try:
 
-[  360.297569] ------------[ cut here ]------------
-[  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
-[  360.310531] Modules linked in: gpio_keys(-)
-[  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
-[  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
-[  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  360.338318] pc : __flush_work+0x414/0x470
-[  360.342385] lr : __cancel_work_timer+0x140/0x1b0
-[  360.347065] sp : ffff80000a7fba00
-[  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
-[  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
-[  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
-[  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
-[  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
-[  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
-[  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
-[  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
-[  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
-[  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
-[  360.422818] Call trace:
-[  360.425299]  __flush_work+0x414/0x470
-[  360.429012]  __cancel_work_timer+0x140/0x1b0
-[  360.433340]  cancel_delayed_work_sync+0x10/0x18
-[  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
-[  360.443327]  devm_action_release+0x10/0x18
-[  360.447481]  release_nodes+0x8c/0x1a0
-[  360.451194]  devres_release_all+0x90/0x100
-[  360.455346]  device_unbind_cleanup+0x14/0x60
-[  360.459677]  device_release_driver_internal+0xe8/0x168
-[  360.464883]  driver_detach+0x4c/0x90
-[  360.468509]  bus_remove_driver+0x54/0xb0
-[  360.472485]  driver_unregister+0x2c/0x58
-[  360.476462]  platform_driver_unregister+0x10/0x18
-[  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
-[  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
-[  360.490945]  invoke_syscall+0x40/0xf8
-[  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
-[  360.499515]  do_el0_svc+0x20/0x78
-[  360.502877]  el0_svc+0x48/0xf8
-[  360.505977]  el0t_64_sync_handler+0x88/0xb0
-[  360.510216]  el0t_64_sync+0x148/0x14c
-[  360.513930] irq event stamp: 4306
-[  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
-[  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
-[  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
-[  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
-[  360.550591] ---[ end trace 0000000000000000 ]---
+Thank you, that fixes the problem for me!
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Fixed review comment suggested by Dmitry.
----
- drivers/input/keyboard/gpio_keys.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index d75a8b179a8a..a5dc4ab87fa1 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -131,7 +131,7 @@ static void gpio_keys_quiesce_key(void *data)
- 
- 	if (!bdata->gpiod)
- 		hrtimer_cancel(&bdata->release_timer);
--	if (bdata->debounce_use_hrtimer)
-+	else if (bdata->debounce_use_hrtimer)
- 		hrtimer_cancel(&bdata->debounce_timer);
- 	else
- 		cancel_delayed_work_sync(&bdata->work);
--- 
-2.17.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
