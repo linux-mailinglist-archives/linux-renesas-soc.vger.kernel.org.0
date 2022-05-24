@@ -2,59 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E82A5325AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 10:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 644985325F2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 May 2022 11:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233512AbiEXIy6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 May 2022 04:54:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
+        id S231207AbiEXI7x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 May 2022 04:59:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233561AbiEXIy5 (ORCPT
+        with ESMTP id S234627AbiEXI6t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 May 2022 04:54:57 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E9E79388
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:54:51 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id x137so1299461ybg.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:54:51 -0700 (PDT)
+        Tue, 24 May 2022 04:58:49 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C619D068
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:57:36 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2ff90e0937aso99808727b3.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 24 May 2022 01:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uqZD+ogOM6DMMZNvJXo9UtOZIWjh9lX3b715CP395Rw=;
-        b=YalnveRKXo/MmbpOdqU9xl8clAnBE9reOoViC11TCrupa/uAC8igoDuIf3X98aDlr0
-         H9spduLwCrMws7VKbclVVDyvNS+SeJv/VSzmN3fB9isHzsz1ENnXF+krtD7RxE9bkxH8
-         rOqQ5OdY/HBgvkzG9OMNS4P8S/HhS0cHV97ThG5d8PdMP9BWI3TLDafyp+g2WvGb2GMm
-         BLEJQQoYT0B/gLoXkpOmoQZd3rra/n4iHf8wSinAaYNfaKkLSmKZiY2h/WjA1QgUezC0
-         OIF5UOQRmY5VpKS441Rwybtwepuab+IatetBAcDmHu/W9nU8ORpJ6omFL1pw2NJ5gb1j
-         gZAQ==
+        bh=4Zw+PnzWB8h+ThHJTVyyQUjiYecVhb2sE120uBGAUZA=;
+        b=VTh31M1eL6e8UIMPcgJIYcPPvfYj8HWqbmtoodidhzI5aBLBhG2vv24AOZeU9xSZ+/
+         ZTevit+H4DUP8hiJpvK1iwmh7W2g+sex1D+1WqunmXX/WtdNtYQBS5SWboZr0RMC/2vD
+         FGkIUt5tWnvP6ROrccfgpJMshWGiLJfi6V6aXmUDBM4jkVEfth+gZqeYxajbpMs9KtXo
+         +GeJ2h9IgLFVZUerBt/v/vLznVkLB4MK6vih5SVCl4Eb0ata5H8t1Kg1pDuX1m9xJP39
+         jmBxi7ShOVUH1X0HJ5u0kh8A9Vv6DUPHqkeBlnlV+KjBnlM5SBS7q9dxYsOM8EA/QmXt
+         gK+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uqZD+ogOM6DMMZNvJXo9UtOZIWjh9lX3b715CP395Rw=;
-        b=to6NUQY+iMZyp5qJdNQRwvgtVbeofiBYT3WGbjGlsRkzktU5RnPT4Kzmq1Nso4C5TP
-         7aEoHx2B1A9/izj3dUiXAA/TPuJLIX/Rr/dp4zK4IsMKu6adSmM8vmpDL2aylXZW6nUF
-         QBLjqNOYrMAaZ92u3pWnjlDG1MzCooQKwwEx8QNUj2bTYk87xUNMr4m80UIw8UQxGANU
-         6vs6hJ5IHZkMsWwvfS1W3EauPRQLn3nGCACd6mcoI7Ev2nT36Orgs/PhZOWwesuuezmS
-         XSXsxBJtykiSsuJ1dboTFycBzSWxLjK7iYwBSKvGaO1O3Z7LIBk6ySiKVsQB/f9s3B64
-         Ry9g==
-X-Gm-Message-State: AOAM531pHg+3z+3XwMXF8SYEAjR1oZ+/84a0cO++pP3wdtXNz589zG82
-        4kwbcSvulPFBQGJ/5avZfpDQMu5xR3yX83lKccSauQ==
-X-Google-Smtp-Source: ABdhPJwmTZMv++iingNx6Cx2coJjp0zLQsy9Binu+PO+H9btH3fjaVRzSwcDgANvXo1lN7abVTZY0I5SNNywjxprtt8=
-X-Received: by 2002:a25:2c82:0:b0:64d:62a1:850b with SMTP id
- s124-20020a252c82000000b0064d62a1850bmr25986931ybs.291.1653382490845; Tue, 24
- May 2022 01:54:50 -0700 (PDT)
+        bh=4Zw+PnzWB8h+ThHJTVyyQUjiYecVhb2sE120uBGAUZA=;
+        b=muU+ciPNaKv8QwbifQ+EOsoLgbCKxgzyMAh2hIXBU0Z7+2I6FztWtnj0zxEf53smA7
+         Vtguduj/Yzfxl2cURDbtRrlgaI43wluea3c8KEjlVIbzpCR8zIi1bE0D0qMgasRCwf34
+         4UI9INh8FGbEANBUPenVCNBW5xc6K56qxWWNMGSVhX4+4Mh/K3mX9CzBxZZ6QddqeHbr
+         k7NA4ICDYHW4BMh53iaIXAkjwHDk/R9oCGuwdALGWhZgzDRnWHSDldA3lUz/vBW3HDCU
+         PBy1lmP94c2fHZ50vmuVYBsxGNzwaA/ZyNWzgRD7X71Sx+LhBSrxIrBaW9r3G/M6J32V
+         msmQ==
+X-Gm-Message-State: AOAM530bbsrX+gYEoD2bVDEM/E4AX4utJDUBLGgYnDXYz0KPDMCWwTaE
+        4bTnm/CIeP/HHswP9IMLyQBPkmWjtc2KkNtAGwC1yQ==
+X-Google-Smtp-Source: ABdhPJxLp2LEKH5I0AtfIDdj4e3IuUqumlkL+hld/RK7gmmNjMHIGITRXK8Wg5qz0XNOw4mg1FnJjztwD0FFVdXrgXU=
+X-Received: by 2002:a81:9ad3:0:b0:300:364b:a78a with SMTP id
+ r202-20020a819ad3000000b00300364ba78amr712012ywg.118.1653382651718; Tue, 24
+ May 2022 01:57:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220523174238.28942-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220523174238.28942-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220523174238.28942-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220523174238.28942-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 24 May 2022 10:54:39 +0200
-Message-ID: <CACRpkdYaWmD9PTcGgeP5MTe9bXMgmf=tUSDBQ-4VxSfL4qkoeQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] gpio: gpiolib: Allow free() callback to be overridden
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Tue, 24 May 2022 10:57:20 +0200
+Message-ID: <CACRpkda5x-O+RT-=4AU0MYgeR2j7ToH5maYGCUH5NDyx6T7CFw@mail.gmail.com>
+Subject: Re: [PATCH v5 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
+ handle GPIO interrupt
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -86,48 +87,18 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Mon, May 23, 2022 at 7:43 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 
-> Allow free() callback to be overridden from irq_domain_ops for
-> hierarchical chips.
+> Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
 >
-> This allows drivers to free up resources which are allocated during
-> child_to_parent_hwirq()/populate_parent_alloc_arg() callbacks.
->
-> On Renesas RZ/G2L platform a bitmap is maintained for TINT slots, a slot
-> is allocated in child_to_parent_hwirq() callback which is freed up in free
-> callback hence this override.
+> GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
+> used as IRQ lines at a given time. Selection of pins as IRQ lines
+> is handled by IA55 (which is the IRQC block) which sits in between the
+> GPIO and GIC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-So that function today looks like this:
-
-static void gpiochip_hierarchy_setup_domain_ops(struct irq_domain_ops *ops)
-{
-        ops->activate = gpiochip_irq_domain_activate;
-        ops->deactivate = gpiochip_irq_domain_deactivate;
-        ops->alloc = gpiochip_hierarchy_irq_domain_alloc;
-        ops->free = irq_domain_free_irqs_common;
-
-        /*
-         * We only allow overriding the translate() function for
-         * hierarchical chips, and this should only be done if the user
-         * really need something other than 1:1 translation.
-         */
-        if (!ops->translate)
-                ops->translate = gpiochip_hierarchy_irq_domain_translate;
-}
-
-(...)
--       ops->free = irq_domain_free_irqs_common;
-(...)
-> +       if (!ops->free)
-> +               ops->free = irq_domain_free_irqs_common;
-
-Marc Z is working on cleaning up the way that gpiolib is (ab)using
-irqchips. We definitely need his ACK if we do things like this.
-This doesn't look like one of the big offenders to me, but I want
-to make sure we don't create new problems while Marc is trying
-to solve the old ones.
+I don't know if I'm too tired or reading it wrong, but it seems you
+went through the trouble of making it possible to override .free() in
+the irqdomain in patch 3/5 and yet not using it in this patch 5/5?
 
 Yours,
 Linus Walleij
