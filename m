@@ -2,143 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B01A053401C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 17:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D099534201
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 19:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234800AbiEYPPF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 May 2022 11:15:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51786 "EHLO
+        id S245597AbiEYRJJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 May 2022 13:09:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245075AbiEYPOx (ORCPT
+        with ESMTP id S236369AbiEYRJH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 May 2022 11:14:53 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3693B0A6D
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 08:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=PmJeUcD7gmhS0PYNVlvnsEYDc66
-        oPHymA7qkWS2f7mc=; b=l6xpk6TF26KM1mnnh0+jz50FYpB78xor+ZgrgkGzOa6
-        /AE5kojTiMnLlP2sgBBwW9mnPWd2Spv7hLf4TLCWD4m9nh5Bjx0BlX7RFlB8wC/r
-        EPoJDhAWWgkiPoHLYjKyPthdV/nL9C63iYoaz5aIwR1E4OtFpfi5rvjYBMcreuxw
-        =
-Received: (qmail 1645302 invoked from network); 25 May 2022 17:13:58 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2022 17:13:58 +0200
-X-UD-Smtp-Session: l3s3148p1@hA++hdffyRdZD++C
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Linh Phung <linh.phung.jy@renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 25 May 2022 13:09:07 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4EB6B7ED
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 10:09:05 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id v9so15914187lja.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 10:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=XH75s2ibfYOnYvdn8gNCgozNpY03+JL9zHVitvmbL7o=;
+        b=W6RomVh8+2pw0mKlmg9fXmIEeZvIHkem2uMvEqHf1zVpKgGtKrHJ0gifzyutYouqcT
+         FrdiiYrsnZIy0ZjHQ82V1DFUjOtQ2fxuEzLjeyxcj1nBM0HLcnTm2Uf+Z5B+QBP0ORgC
+         kbcojdgmazItre//BUH3KtXBicqPPlRXNT4Wm+p/6RLHXpq9n7JHaXZVZLbrQ4inKqoV
+         uZT1jP3PLT3MlsuBWxxzUUsT5FSvzF8mZO/OTgqW8OOv7q6SLa7Oa+delRALjVnAu0dR
+         Rnb0beTAkCIcmdMO9xjI7AjfnvjYTgRGkeysxajRRq+9vhuuUjq9x4dSsUnZom8xkeyU
+         R9kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=XH75s2ibfYOnYvdn8gNCgozNpY03+JL9zHVitvmbL7o=;
+        b=NT3oBcN8u8XPf3PTPLbQLqo0zZsrPiH9d7aXFoo/po6dX0/9bEXymuyQRy1zi+KMNa
+         IdBB+HrBW/5iXqLleisnwMrlu8NgqXSZxj8NsTSf9J7Q1ogD00FqYs41ybKhmOUCBuLy
+         L4lBOn86G7BRrd5cHjixY6bQrq72fu91YmAPqDO/IevXs4cJTnsPqDq9f9K5GqQsdxCC
+         qh8lrVjHNQHIPgSIHlIVBm9EE0j0zQWW56eTnoGd/gpslmlaaSuWwp+ClJAVDuN4NQs+
+         +8F4Y9QxIrRngDTYcutUbmRMYZ486mlXTAMX1R6cw9AodGbi6WJxz334bkZxCWvmMCHm
+         vsKA==
+X-Gm-Message-State: AOAM532SUrsifFBZvo3ibV/jsy00cjqrQgCgLpVvrTNz6w8VQ8VPRa6t
+        V2yJ9s15ixmyr9KI0dmYHm5qmc0OzTsFHHVx
+X-Google-Smtp-Source: ABdhPJwOx4xSigkJYaEAd82a2/KIUm7V2pXrOMfC5VXgjwlfxVNMBS8pwPkw/Q0jxG+QmZoCutuopA==
+X-Received: by 2002:a05:651c:211a:b0:253:df5a:f821 with SMTP id a26-20020a05651c211a00b00253df5af821mr15175594ljq.414.1653498543429;
+        Wed, 25 May 2022 10:09:03 -0700 (PDT)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id l9-20020a2e8689000000b0024f3d1daeb5sm3131649lji.61.2022.05.25.10.09.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 10:09:02 -0700 (PDT)
+Date:   Wed, 25 May 2022 19:09:02 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: r8a779f0: Add thermal support
-Date:   Wed, 25 May 2022 17:13:55 +0200
-Message-Id: <20220525151355.24175-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779f0
+ support
+Message-ID: <Yo5irmDuQokhfZdN@oden.dyn.berto.se>
+References: <20220525151040.24024-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220525151040.24024-1-wsa+renesas@sang-engineering.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Linh Phung <linh.phung.jy@renesas.com>
+Hi Wolfram,
 
-Add support for 3 TSC nodes of thermal. The 4th node is for the control
-domain and not for Linux.
+Thanks for your work.
 
-Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
-[wsa: rebased, fixed resource size, removed unused 4th node breaking probe]
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
----
+On 2022-05-25 17:10:40 +0200, Wolfram Sang wrote:
+> Add support for R-Car S4. The S4 IP differs a bit from its siblings in
+> such way that it has 3 out of 4 TSC nodes for Linux and the interrupts
+> are not routed to the INTC-AP but to the ECM.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Works fine on my Spider board and allowed me to disconnect the fan :)
+Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 56 +++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+> ---
+>  .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml    | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> index 1368d90da0e8..b863c0a935ec 100644
+> --- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> @@ -8,9 +8,10 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Renesas R-Car Gen3 Thermal Sensor
+>  
+>  description:
+> -  On R-Car Gen3 SoCs, the thermal sensor controllers (TSC) control the thermal
+> -  sensors (THS) which are the analog circuits for measuring temperature (Tj)
+> -  inside the LSI.
+> +
+> +  On most R-Car Gen3 and later SoCs, the thermal sensor controllers (TSC)
+> +  control the thermal sensors (THS) which are the analog circuits for
+> +  measuring temperature (Tj) inside the LSI.
+>  
+>  maintainers:
+>    - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> @@ -27,6 +28,7 @@ properties:
+>        - renesas,r8a77965-thermal # R-Car M3-N
+>        - renesas,r8a77980-thermal # R-Car V3H
+>        - renesas,r8a779a0-thermal # R-Car V3U
+> +      - renesas,r8a779f0-thermal # R-Car S4
+>  
+>    reg: true
+>  
+> -- 
+> 2.35.1
+> 
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index df46fb87cffc..d89064f86d85 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -157,6 +157,18 @@ sysc: system-controller@e6180000 {
- 			#power-domain-cells = <1>;
- 		};
- 
-+		tsc: thermal@e6198000 {
-+			compatible = "renesas,r8a779f0-thermal";
-+			/* The 4th sensor is in control domain and not for Linux */
-+			reg = <0 0xe6198000 0 0x200>,
-+			      <0 0xe61a0000 0 0x200>,
-+			      <0 0xe61a8000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 919>;
-+			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-+			resets = <&cpg 919>;
-+			#thermal-sensor-cells = <1>;
-+		};
-+
- 		i2c0: i2c@e6500000 {
- 			compatible = "renesas,i2c-r8a779f0",
- 				     "renesas,rcar-gen4-i2c";
-@@ -360,6 +372,50 @@ prr: chipid@fff00044 {
- 		};
- 	};
- 
-+	thermal-zones {
-+		sensor_thermal1: sensor-thermal1 {
-+			polling-delay-passive = <250>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&tsc 0>;
-+
-+			trips {
-+				sensor1_crit: sensor1-crit {
-+					temperature = <120000>;
-+					hysteresis = <1000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+
-+		sensor_thermal2: sensor-thermal2 {
-+			polling-delay-passive = <250>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&tsc 1>;
-+
-+			trips {
-+				sensor2_crit: sensor2-crit {
-+					temperature = <120000>;
-+					hysteresis = <1000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+
-+		sensor_thermal3: sensor-thermal3 {
-+			polling-delay-passive = <250>;
-+			polling-delay = <1000>;
-+			thermal-sensors = <&tsc 2>;
-+
-+			trips {
-+				sensor3_crit: sensor3-crit {
-+					temperature = <120000>;
-+					hysteresis = <1000>;
-+					type = "critical";
-+				};
-+			};
-+		};
-+	};
-+
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
 -- 
-2.35.1
-
+Kind Regards,
+Niklas Söderlund
