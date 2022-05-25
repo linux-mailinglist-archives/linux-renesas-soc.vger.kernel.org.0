@@ -2,47 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A97533FEF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 17:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F0D5534001
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 17:12:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235731AbiEYPLT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 May 2022 11:11:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
+        id S245137AbiEYPMI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 May 2022 11:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232445AbiEYPLS (ORCPT
+        with ESMTP id S245064AbiEYPLu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 May 2022 11:11:18 -0400
+        Wed, 25 May 2022 11:11:50 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C12FAF324
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 08:11:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 030B0AFB0C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 08:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version:content-type
-        :content-transfer-encoding; s=k1; bh=HBB+DldoBDJN8+9cmyZ80UpseyD
-        V7NerRossp9DEtzU=; b=Nb/Kv2wayz7C8c09BiS7DBJdcfqZSC2Y2u5ApgHRUy8
-        wj8jb/Cg1i/Bny8hhr02pYVd15JNf1Gl+2ntXMajPItv9LBTQPH00B1/AfZ/ivPs
-        /+sL5rkH054zolftl+5V6EA+3nQlm1hJtcw4bjS8QAvK1Y/n48o0HUWkoy7eZkwA
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=IxNuk27AOBJI8YqPCZRwZ+KdvyF
+        sVujNqAFYumeASkc=; b=DHmofkLbcNshOGlzIeXSba5GKBiXzRFkSRHo2kbqnYE
+        0n5BSzM3rjpFQcyBNhILbFpPEO2hvmMOd7DXaTJrAFgQxpTEGYKbKbOCT5GYNKyA
+        rJF7J/UiZ5dZhtZDAz1XGH9JNvtH8WmSYMF2HchLtmRFCLTKAUkJIdWjwv1o84po
         =
-Received: (qmail 1644184 invoked from network); 25 May 2022 17:11:13 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2022 17:11:13 +0200
-X-UD-Smtp-Session: l3s3148p1@DHbde9ffF25ZD++C
+Received: (qmail 1644403 invoked from network); 25 May 2022 17:11:37 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2022 17:11:37 +0200
+X-UD-Smtp-Session: l3s3148p1@gZlMfdffvVVZD++C
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779f0 support
-Date:   Wed, 25 May 2022 17:10:40 +0200
-Message-Id: <20220525151040.24024-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] clk: renesas: r8a779f0: Add thermal clock
+Date:   Wed, 25 May 2022 17:11:30 +0200
+Message-Id: <20220525151130.24103-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
@@ -54,40 +48,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for R-Car S4. The S4 IP differs a bit from its siblings in
-such way that it has 3 out of 4 TSC nodes for Linux and the interrupts
-are not routed to the INTC-AP but to the ECM.
-
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml    | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/clk/renesas/r8a779f0-cpg-mssr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-index 1368d90da0e8..b863c0a935ec 100644
---- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-@@ -8,9 +8,10 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Renesas R-Car Gen3 Thermal Sensor
- 
- description:
--  On R-Car Gen3 SoCs, the thermal sensor controllers (TSC) control the thermal
--  sensors (THS) which are the analog circuits for measuring temperature (Tj)
--  inside the LSI.
-+
-+  On most R-Car Gen3 and later SoCs, the thermal sensor controllers (TSC)
-+  control the thermal sensors (THS) which are the analog circuits for
-+  measuring temperature (Tj) inside the LSI.
- 
- maintainers:
-   - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-@@ -27,6 +28,7 @@ properties:
-       - renesas,r8a77965-thermal # R-Car M3-N
-       - renesas,r8a77980-thermal # R-Car V3H
-       - renesas,r8a779a0-thermal # R-Car V3U
-+      - renesas,r8a779f0-thermal # R-Car S4
- 
-   reg: true
+diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+index c17ebe6b5992..0aec5e8ffd96 100644
+--- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
+@@ -132,6 +132,7 @@ static const struct mssr_mod_clk r8a779f0_mod_clks[] __initconst = {
+ 	DEF_MOD("sys-dmac1",	710,	R8A779F0_CLK_S0D3_PER),
+ 	DEF_MOD("wdt",		907,	R8A779F0_CLK_R),
+ 	DEF_MOD("pfc0",		915,	R8A779F0_CLK_CL16M),
++	DEF_MOD("tsc",		919,	R8A779F0_CLK_CL16M),
+ 	DEF_MOD("ufs",		1514,	R8A779F0_CLK_S0D4_HSC),
+ };
  
 -- 
 2.35.1
