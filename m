@@ -2,44 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACDD1534019
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 17:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B01A053401C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 May 2022 17:15:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245098AbiEYPMz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 May 2022 11:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
+        id S234800AbiEYPPF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 May 2022 11:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245171AbiEYPMb (ORCPT
+        with ESMTP id S245075AbiEYPOx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 May 2022 11:12:31 -0400
+        Wed, 25 May 2022 11:14:53 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642EEB41C9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 08:12:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3693B0A6D
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 May 2022 08:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=wXdyuOARirN+3i
-        RGTghL8/L7A4l+1eU1qZGAVV4qlX4=; b=Lqikdu5kQVp61DYmUg1rnRRDUueMV+
-        uIMDCwVuuTn5c/qDUhiz8liDvAkFnyQ3zgkYtbIkhcu7k80E2jAK7xq/YHpvTf15
-        3Yl8qBY9KF8s+Kjj/c5i44zT8D/uF4rxztde99W/HuTxzaQOj2oefHF6pTiR/mGz
-        XqxbgKaF6HVrI=
-Received: (qmail 1644752 invoked from network); 25 May 2022 17:12:22 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2022 17:12:22 +0200
-X-UD-Smtp-Session: l3s3148p1@ekr9f9ffCiFZD++C
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=PmJeUcD7gmhS0PYNVlvnsEYDc66
+        oPHymA7qkWS2f7mc=; b=l6xpk6TF26KM1mnnh0+jz50FYpB78xor+ZgrgkGzOa6
+        /AE5kojTiMnLlP2sgBBwW9mnPWd2Spv7hLf4TLCWD4m9nh5Bjx0BlX7RFlB8wC/r
+        EPoJDhAWWgkiPoHLYjKyPthdV/nL9C63iYoaz5aIwR1E4OtFpfi5rvjYBMcreuxw
+        =
+Received: (qmail 1645302 invoked from network); 25 May 2022 17:13:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 May 2022 17:13:58 +0200
+X-UD-Smtp-Session: l3s3148p1@hA++hdffyRdZD++C
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] thermal: rcar_gen3_thermal: improve logging during probe
-Date:   Wed, 25 May 2022 17:12:16 +0200
-Message-Id: <20220525151216.24133-2-wsa+renesas@sang-engineering.com>
+Cc:     Linh Phung <linh.phung.jy@renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: r8a779f0: Add thermal support
+Date:   Wed, 25 May 2022 17:13:55 +0200
+Message-Id: <20220525151355.24175-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220525151216.24133-1-wsa+renesas@sang-engineering.com>
-References: <20220525151216.24133-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -52,44 +50,95 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When setting up a new board, a plain "Can't register thermal zone"
-didn't help me much because the thermal zones in DT were all fine. I
-just had a sensor entry too much in the parent TSC node. Reword the
-failure/success messages to contain the sensor number to make it easier
-to understand which sensor is affected. Example output now:
+From: Linh Phung <linh.phung.jy@renesas.com>
 
-rcar_gen3_thermal e6198000.thermal: Sensor 0: Trip points loaded: 1
-rcar_gen3_thermal e6198000.thermal: Sensor 1: Trip points loaded: 1
-rcar_gen3_thermal e6198000.thermal: Sensor 2: Trip points loaded: 1
-rcar_gen3_thermal e6198000.thermal: Sensor 3: Can't register thermal zone
+Add support for 3 TSC nodes of thermal. The 4th node is for the control
+domain and not for Linux.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
+[wsa: rebased, fixed resource size, removed unused 4th node breaking probe]
+Signed-off-by: Wolfram Sang <wsa@kernel.org>
 ---
- drivers/thermal/rcar_gen3_thermal.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index ccdf8a24ddc7..ca5558178374 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -511,7 +511,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
- 							    &rcar_gen3_tz_of_ops);
- 		if (IS_ERR(zone)) {
--			dev_err(dev, "Can't register thermal zone\n");
-+			dev_err(dev, "Sensor %u: Can't register thermal zone\n", i);
- 			ret = PTR_ERR(zone);
- 			goto error_unregister;
- 		}
-@@ -533,7 +533,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
- 		if (ret < 0)
- 			goto error_unregister;
+Works fine on my Spider board and allowed me to disconnect the fan :)
+
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 56 +++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+index df46fb87cffc..d89064f86d85 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+@@ -157,6 +157,18 @@ sysc: system-controller@e6180000 {
+ 			#power-domain-cells = <1>;
+ 		};
  
--		dev_info(dev, "TSC%u: Loaded %d trip points\n", i, ret);
-+		dev_info(dev, "Sensor %u: Trip points loaded: %u\n", i, ret);
- 	}
++		tsc: thermal@e6198000 {
++			compatible = "renesas,r8a779f0-thermal";
++			/* The 4th sensor is in control domain and not for Linux */
++			reg = <0 0xe6198000 0 0x200>,
++			      <0 0xe61a0000 0 0x200>,
++			      <0 0xe61a8000 0 0x200>;
++			clocks = <&cpg CPG_MOD 919>;
++			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
++			resets = <&cpg 919>;
++			#thermal-sensor-cells = <1>;
++		};
++
+ 		i2c0: i2c@e6500000 {
+ 			compatible = "renesas,i2c-r8a779f0",
+ 				     "renesas,rcar-gen4-i2c";
+@@ -360,6 +372,50 @@ prr: chipid@fff00044 {
+ 		};
+ 	};
  
- 	if (!priv->num_tscs) {
++	thermal-zones {
++		sensor_thermal1: sensor-thermal1 {
++			polling-delay-passive = <250>;
++			polling-delay = <1000>;
++			thermal-sensors = <&tsc 0>;
++
++			trips {
++				sensor1_crit: sensor1-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++
++		sensor_thermal2: sensor-thermal2 {
++			polling-delay-passive = <250>;
++			polling-delay = <1000>;
++			thermal-sensors = <&tsc 1>;
++
++			trips {
++				sensor2_crit: sensor2-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++
++		sensor_thermal3: sensor-thermal3 {
++			polling-delay-passive = <250>;
++			polling-delay = <1000>;
++			thermal-sensors = <&tsc 2>;
++
++			trips {
++				sensor3_crit: sensor3-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++	};
++
+ 	timer {
+ 		compatible = "arm,armv8-timer";
+ 		interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
 -- 
 2.35.1
 
