@@ -2,71 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 932005354C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 May 2022 22:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AA9A53552E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 May 2022 22:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344828AbiEZUmp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 May 2022 16:42:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51600 "EHLO
+        id S236021AbiEZUzc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 May 2022 16:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348946AbiEZUmi (ORCPT
+        with ESMTP id S239832AbiEZUy5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 May 2022 16:42:38 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A14A22ADB
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 May 2022 13:42:35 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id q21so5189925ejm.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 May 2022 13:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zBSottq5B2GJ9FFPovyG/bRnnI/fVKoW6GgzyoAPPks=;
-        b=mqm2TyTwLe9J3JzIvwLX0t7OOCi6SC7Ci5LT4ey3rSWSr8XLS4LfCEMPkzVFr2g1gn
-         WFOBsQO10LJuTz0PS5+KKEd6B4piYrbVXwbQFbPk16xZzidpogTh/2p8GawS9uDlK2EJ
-         75ijNM9oNz2CrSCWfYq9OeQEKcMbdccezQIUnlECkj+1Ga47rpvvfNnmRoEUXS/wX/Bu
-         nkpptkYm+hQ2SdifCTJRPuhVGA+ZlcolTCOXKto5mcNNxXpk3MLqekCzj6lywkPtYamB
-         J8TOImHlRF9NHnRL5G0QAbZtmRebyd4kErEdpW61miRlVEmQfh/SkdF0KsXxs8jzxrJ6
-         jcqA==
+        Thu, 26 May 2022 16:54:57 -0400
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F316E733D;
+        Thu, 26 May 2022 13:54:43 -0700 (PDT)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-e656032735so3686707fac.0;
+        Thu, 26 May 2022 13:54:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zBSottq5B2GJ9FFPovyG/bRnnI/fVKoW6GgzyoAPPks=;
-        b=hNcKBSaiMgij1enrmWGPZq8jVNZwY48ccNQ69W+QRatocwQG83lSv3gurS/SE8AE0d
-         rxoO+wGqGefJdKjTxYU2msj4mmG+HyCXvK9S0hURxuKdZa2A+VVQ8Nd26z+C50ySTgTo
-         6AVW7qHTABvWZgr0f9dTbxDh1NHW2apbUCt1sLpaG7ofIMgYYCD/LjduuWhXosYZmI0F
-         YZWdB1MCikrVqj76grU6onuCayERrsk4QkQL82XkVbOM8NECDTdoTMo8ZjwoNWsu9qmC
-         B49hALoJo0s1k6EqdFGMpF9PBUL24n9gwVQjjWIXrHfJTC7uU8eG+q2gk3Ci0RkMiiez
-         HEAQ==
-X-Gm-Message-State: AOAM533hRh6rDRTZwh5RAHBZwNAJvJpZSm+8jlmA6xdnIWfJf194RtGE
-        QV6BwpAnbFzN0HUMSdPgVT6TQst12Jj9LVvs
-X-Google-Smtp-Source: ABdhPJz7O6I5XI5FpXBZSFKsMcuwni2DNPsFAGM+js5EZkfB37k56jQ/r1s0n1NCr6XaDCKTFlOHaQ==
-X-Received: by 2002:a17:906:49c6:b0:6fe:95bb:93cc with SMTP id w6-20020a17090649c600b006fe95bb93ccmr34838737ejv.30.1653597754194;
-        Thu, 26 May 2022 13:42:34 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id ay21-20020a170906d29500b006feba4ef020sm798012ejb.180.2022.05.26.13.42.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Uw3bM0P3pe33VfUehU1c4lxugP1Ro3/xxEg5stMeRUQ=;
+        b=taQI4jUBkqCyCp6uha8ZwU+bI+w7k4Q/7+RRNVGJdKWR2dbYbMvRUOU5gm8ZTDdP9O
+         +tcoR7Hxu4KGQ/ex8YQlmNKJiKZEQeUs00ruEI1YKgYcSL9KArnwvq2YTxDl7lc9j4d2
+         vKn4FQJB1EHHzdehlSgOmuTRQbXv74bE4Cy0ybNbcr2SEItHwz1sH8DwLvswYJih3rMC
+         QyykSoJwvkuNE05mNUmPNo00XRZsXLjQ56b2Syj4cv9ShaEnprY+wYqO4ChdUz2pm5bE
+         RaCeSsm0KNEYJgVIpWc/DxB1ayD621mQ5uhBZRmVcoQGYSw9v9epjLjJblnfpib053kv
+         r29Q==
+X-Gm-Message-State: AOAM530LNhItCbm3qk1gOEaCL/s1doaC8N43Y3bPY2s5WYjDuuz0k/Yg
+        PQAMBD6rezps2e/1pTjKqw==
+X-Google-Smtp-Source: ABdhPJxXA7Cuayn5tDjkcgtUo6Nj2SthCdPrBoTmM6N+bBfv5KYBviYzOvfn/Lz2qpaKacV/LB2ASQ==
+X-Received: by 2002:a05:6870:468b:b0:f2:d163:450e with SMTP id a11-20020a056870468b00b000f2d163450emr2302477oap.31.1653598482329;
+        Thu, 26 May 2022 13:54:42 -0700 (PDT)
+Received: from robh.at.kernel.org (rrcs-192-154-179-37.sw.biz.rr.com. [192.154.179.37])
+        by smtp.gmail.com with ESMTPSA id a32-20020a056870a1a000b000f1a2378a12sm131959oaf.37.2022.05.26.13.54.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 13:42:33 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm@kernel.org, soc@kernel.org,
+        Thu, 26 May 2022 13:54:41 -0700 (PDT)
+Received: (nullmailer pid 247119 invoked by uid 1000);
+        Thu, 26 May 2022 20:54:40 -0000
+Date:   Thu, 26 May 2022 15:54:40 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] arm64: dts: renesas: adjust whitespace around '='
-Date:   Thu, 26 May 2022 22:42:31 +0200
-Message-Id: <20220526204231.832090-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v6 2/6] dt-bindings: PCI: renesas,pci-rcar-gen2: Add
+ device tree support for r9a06g032
+Message-ID: <20220526205440.GL54904-robh@kernel.org>
+References: <20220520094155.313784-1-herve.codina@bootlin.com>
+ <20220520094155.313784-3-herve.codina@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520094155.313784-3-herve.codina@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,107 +76,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix whitespace coding style: use single space instead of tabs or
-multiple spaces around '=' sign in property assignment.  No functional
-changes (same DTB).
+On Fri, May 20, 2022 at 11:41:51AM +0200, Herve Codina wrote:
+> Add internal PCI bridge support for the r9a06g032 SOC. The Renesas
+> RZ/N1D (R9A06G032) internal PCI bridge is compatible with the one
+> present in the R-Car Gen2 family.
+> Compared to the R-Car Gen2 family, it needs three clocks instead of
+> one.
+> 
+> The 'resets' property for the RZ/N1 family is not required.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../bindings/pci/renesas,pci-rcar-gen2.yaml   | 50 +++++++++++++++----
+>  1 file changed, 40 insertions(+), 10 deletions(-)
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-Output compared with dtx_diff and fdtdump.
----
- arch/arm64/boot/dts/renesas/draak.dtsi           |  2 +-
- arch/arm64/boot/dts/renesas/ebisu.dtsi           |  2 +-
- arch/arm64/boot/dts/renesas/salvator-common.dtsi |  2 +-
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi         | 14 +++++++-------
- arch/arm64/boot/dts/renesas/ulcb.dtsi            |  2 +-
- 5 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/draak.dtsi b/arch/arm64/boot/dts/renesas/draak.dtsi
-index 7231f820d601..ef3bb835d5c0 100644
---- a/arch/arm64/boot/dts/renesas/draak.dtsi
-+++ b/arch/arm64/boot/dts/renesas/draak.dtsi
-@@ -630,7 +630,7 @@ rsnd_for_ak4613: endpoint {
- 				bitclock-master = <&rsnd_for_ak4613>;
- 				frame-master = <&rsnd_for_ak4613>;
- 				playback = <&ssi3>, <&src5>, <&dvc0>;
--				capture  = <&ssi4>, <&src6>, <&dvc1>;
-+				capture = <&ssi4>, <&src6>, <&dvc1>;
- 			};
- 		};
- 	};
-diff --git a/arch/arm64/boot/dts/renesas/ebisu.dtsi b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-index 72f359efa23e..aef0896b2f5f 100644
---- a/arch/arm64/boot/dts/renesas/ebisu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ebisu.dtsi
-@@ -711,7 +711,7 @@ &rcar_sound {
- 	rcar_sound,dai {
- 		dai0 {
- 			playback = <&ssi0>, <&src0>, <&dvc0>;
--			capture  = <&ssi1>, <&src1>, <&dvc1>;
-+			capture = <&ssi1>, <&src1>, <&dvc1>;
- 		};
- 	};
- 
-diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-index 31837fcd7bf0..09ff1708cfa6 100644
---- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-@@ -832,7 +832,7 @@ rsnd_endpoint0: endpoint {
- 				frame-master = <&rsnd_endpoint0>;
- 
- 				playback = <&ssi0>, <&src0>, <&dvc0>;
--				capture  = <&ssi1>, <&src1>, <&dvc1>;
-+				capture = <&ssi1>, <&src1>, <&dvc1>;
- 			};
- 		};
- 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index 5bcb84403ef6..408871c2859d 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -206,12 +206,12 @@ pcm3168a: audio-codec@44 {
- 				clocks = <&clksndsel>;
- 				clock-names = "scki";
- 
--				VDD1-supply	= <&snd_3p3v>;
--				VDD2-supply	= <&snd_3p3v>;
--				VCCAD1-supply	= <&snd_vcc5v>;
--				VCCAD2-supply	= <&snd_vcc5v>;
--				VCCDA1-supply	= <&snd_vcc5v>;
--				VCCDA2-supply	= <&snd_vcc5v>;
-+				VDD1-supply = <&snd_3p3v>;
-+				VDD2-supply = <&snd_3p3v>;
-+				VCCAD1-supply = <&snd_vcc5v>;
-+				VCCAD2-supply = <&snd_vcc5v>;
-+				VCCDA1-supply = <&snd_vcc5v>;
-+				VCCDA2-supply = <&snd_vcc5v>;
- 
- 				ports {
- 					#address-cells = <1>;
-@@ -438,7 +438,7 @@ rsnd_for_pcm3168a_capture: endpoint {
- 				bitclock-master;
- 				frame-master;
- 				dai-tdm-slot-num = <6>;
--				capture  = <&ssi4>;
-+				capture = <&ssi4>;
- 			};
- 		};
- 	};
-diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index 90a4c0629d24..5f390865a4cd 100644
---- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -411,7 +411,7 @@ rsnd_for_ak4613: endpoint {
- 				bitclock-master;
- 				frame-master;
- 				playback = <&ssi0>, <&src0>, <&dvc0>;
--				capture  = <&ssi1>, <&src1>, <&dvc1>;
-+				capture = <&ssi1>, <&src1>, <&dvc1>;
- 			};
- 		};
- 		rsnd_port1: port@1 {
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
