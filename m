@@ -2,166 +2,322 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03525535557
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 May 2022 23:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B82FD535EF2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 May 2022 13:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345951AbiEZVKr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 May 2022 17:10:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44002 "EHLO
+        id S244262AbiE0LGL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 May 2022 07:06:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232900AbiEZVKr (ORCPT
+        with ESMTP id S242190AbiE0LGJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 May 2022 17:10:47 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C75339BAF3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 May 2022 14:10:44 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id jx22so5156480ejb.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 May 2022 14:10:44 -0700 (PDT)
+        Fri, 27 May 2022 07:06:09 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECEE13276D;
+        Fri, 27 May 2022 04:06:05 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-30a2adffd24so1146427b3.7;
+        Fri, 27 May 2022 04:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=n5ISJ9yLZ548Mz4jCd/68AcqRvOzgjUn9wXGD+ASjI4=;
-        b=lZVmHfF6LYBzFMaqjGMVB2ZPV+hPOKUic6CjH+XhRrRzKSyO43nCBJPvX05Nyk6k4Z
-         OdiUk/r7NaOsPqwT9VJG3jgoNjCBThtKaCQuyOkBv8Vi7eqN0eoTgN9ncK6bkGZcKeyC
-         bsoL/H3dLQIWCQfPyEHsnzG4UGGThjGdhCyn9djsqxIL8GWoLBr5U+0C9TU5YJvtn2XJ
-         niDhVthqOEERTZoQjUTgCkyEYs2WmQ8uU8pSswjn9UeW6Xd7qvg567LHcltuktw5tImZ
-         798/3PEQm5cQFgmBuj4ndBuBAp8jRAjdcvNVCUmzJiRqnvefQy1rm3HsUyR8/7BdpDhv
-         oKmw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fRa2P5R5JHyAbD0921v5jTq/ooDfcVGFwaV7OE0Et6o=;
+        b=kJGGUDKLTlcgvdzeSf1+D3/jxr9Asp7eEdqVnybm5O84SY6IwYmKlOjsAjZ7ecrVva
+         uzAwaXxoJrGr7WCKwmJznP4IpRi68uaZB7JY4qkjUBn6PQz8V7M3MN1/59a9CwWJI4vp
+         BGojBTyC/1v4vfuvjyNAMMfRHb+zNLDVxKTaD3vXgUfj2aW5+Ry/6YW+eAuQQh+JvACH
+         NCsxOXsfQDzr5oSRfOtnHw3Vp6hrHpRP0hNAVxG6GzpyE/RGp8emjDPFXbGUcoTRvgpH
+         9TolshWpMSHkvnjcrK90CYS0cHHfJgXKSsdg/YuhGS0XtGq6l89G+sxadk9kuxexmfg7
+         kTQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=n5ISJ9yLZ548Mz4jCd/68AcqRvOzgjUn9wXGD+ASjI4=;
-        b=mDqAvTk0CS+0bzj8sjAFwQX6kg+faVJStPPyEuV1ByqtWmKdXgDgoOD8PkwXjaLJtO
-         /M3BJZx2fyuHTbJKc/iw+/+qWB5b0Jrzjcc/JpCHgimEv0oirfF2HBfF2HNosLfI0SdZ
-         tsH/4nYmlkiUE8ZfH4A+5WfJimwlWeit3j2+rwA5SuWw2vlXcyFDzBGwg7da5ww29OAA
-         ppRH0VGQy53XSzmVHQtHHJj2T6774wx9Q7h29s2J0vn3v9ZLv73u5Jt977X/iUUjPYBY
-         U3ivX/JIkN8NmYeUW7L6l/J4ZYj8oUq6C8f+4wHoviWeWghmcmjrmD9jIsQbZPucHA6C
-         eOrg==
-X-Gm-Message-State: AOAM532PrI2wSP7WXdOF37siQanRNvPpVhDT8O5dD9PmQxEehPeuzVCC
-        h9izqmw9EW59wa8neuOz298xaQ==
-X-Google-Smtp-Source: ABdhPJzH2AYsc87sKJTEJvKhEp90igqSe7vZ4SuRlgUhjJrY2/j5+u/fAOVedF+0min99G5EjJX2IA==
-X-Received: by 2002:a17:906:6985:b0:6fe:988b:d248 with SMTP id i5-20020a170906698500b006fe988bd248mr34031598ejr.226.1653599443354;
-        Thu, 26 May 2022 14:10:43 -0700 (PDT)
-Received: from [192.168.0.177] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id s23-20020a1709064d9700b006fe8b3d8cb6sm851155eju.62.2022.05.26.14.10.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 May 2022 14:10:42 -0700 (PDT)
-Message-ID: <9ad3b26e-5d71-72f4-1a16-9ab3164141de@linaro.org>
-Date:   Thu, 26 May 2022 23:10:41 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fRa2P5R5JHyAbD0921v5jTq/ooDfcVGFwaV7OE0Et6o=;
+        b=YZ/xL5WepA0MSCADt1Q2rSYcS+rs3s7iP64shs8xU6cQz39ljzVVWAfwKqODB0fz3W
+         MtfWtyZFzt04Nf2SeNveqgxriXOSdg4FYBx5WwxFiaDxNxbgxv46InYdZ6rBbrI+hJQA
+         wqTHNhVYFFkrPyDAI8N8dE7l5kF61Y9QTdzE9m727yh86opW2G5pK58Q8dHLpoOP5fuS
+         yauo5V8XTgAjBd6NPrKsA+h363uakEZwRcL91YZKt/yVQEOWhwG9re90/xjh4SST/XMm
+         ckfQ+qtspApmhiqo6CudWwllWliAliuZf997xWgAHKPf6KZuSHfqAqwTlm6Bp17vInxg
+         VZoQ==
+X-Gm-Message-State: AOAM530zv4rewHkjXYsIBnRZIpfoJ3GobjMd31p/n230RbuIsVoe/2zo
+        IsDp+Q453QfNwcS11oQJBDVWuOV+3uIX8UkCX3w=
+X-Google-Smtp-Source: ABdhPJxUmotqC0TlXzdswm1/HGKqKMcvrFQ6HTKOQiniXSSy8vS9J3TvvqymhS0jNEyh4j721BFcwJ4bO0u8WRmY+6U=
+X-Received: by 2002:a81:6c14:0:b0:306:14a:9f7c with SMTP id
+ h20-20020a816c14000000b00306014a9f7cmr2089658ywc.16.1653649565012; Fri, 27
+ May 2022 04:06:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] arm64: dts: renesas: adjust whitespace around '='
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220524172214.5104-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220524172214.5104-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 27 May 2022 12:05:38 +0100
+Message-ID: <CA+V-a8vfzsB55YdFmtx3eim617b=WCYJu+Tm3SO9c1QCB3i0Lw@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] irqchip/sifive-plic: Add support for Renesas
+ RZ/Five SoC
+To:     Marc Zyngier <maz@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220526204231.832090-1-krzysztof.kozlowski@linaro.org>
- <CAMuHMdWvfbbB3578aFAx6twdKNCkB1T-Uihf3OzGLHmcZG047g@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAMuHMdWvfbbB3578aFAx6twdKNCkB1T-Uihf3OzGLHmcZG047g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 26/05/2022 23:05, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Thu, May 26, 2022 at 10:42 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> Fix whitespace coding style: use single space instead of tabs or
->> multiple spaces around '=' sign in property assignment.  No functional
->> changes (same DTB).
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Thanks for your patch!
-> 
->> --- a/arch/arm64/boot/dts/renesas/draak.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/draak.dtsi
->> @@ -630,7 +630,7 @@ rsnd_for_ak4613: endpoint {
->>                                 bitclock-master = <&rsnd_for_ak4613>;
->>                                 frame-master = <&rsnd_for_ak4613>;
->>                                 playback = <&ssi3>, <&src5>, <&dvc0>;
->> -                               capture  = <&ssi4>, <&src6>, <&dvc1>;
->> +                               capture = <&ssi4>, <&src6>, <&dvc1>;
-> 
-> I think the idea was to align the playback and capture properties,
-> for easier comparison.
-> Hence I'm a bit undecided if this needs to be fixed or not...
+Hi,
 
-yeah, but then one should align "frame-master" to "bitclock-master" and
-several other properties.
+On Tue, May 24, 2022 at 6:22 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
+> NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
+> case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
+> edge until the previous completion message has been received and
+> NCEPLIC100 doesn't support pending interrupt counter, hence losing the
+> interrupts if not acknowledged in time.
+>
+> So the workaround for edge-triggered interrupts to be handled correctly
+> and without losing is that it needs to be acknowledged first and then
+> handler must be run so that we don't miss on the next edge-triggered
+> interrupt.
+>
+> This patch adds a new compatible string for Renesas RZ/Five SoC and adds
+> support to change interrupt flow based on the interrupt type. It also
+> implements irq_ack and irq_set_type callbacks.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/irqchip/Kconfig           |  1 +
+>  drivers/irqchip/irq-sifive-plic.c | 71 ++++++++++++++++++++++++++++++-
+>  2 files changed, 70 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index f3d071422f3b..aea0e4e7e547 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -537,6 +537,7 @@ config SIFIVE_PLIC
+>         bool "SiFive Platform-Level Interrupt Controller"
+>         depends on RISCV
+>         select IRQ_DOMAIN_HIERARCHY
+> +       select IRQ_FASTEOI_HIERARCHY_HANDLERS
+>         help
+>            This enables support for the PLIC chip found in SiFive (and
+>            potentially other) RISC-V systems.  The PLIC controls devices
+> diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+> index bb87e4c3b88e..abffce48e69c 100644
+> --- a/drivers/irqchip/irq-sifive-plic.c
+> +++ b/drivers/irqchip/irq-sifive-plic.c
+> @@ -60,10 +60,13 @@
+>  #define        PLIC_DISABLE_THRESHOLD          0x7
+>  #define        PLIC_ENABLE_THRESHOLD           0
+>
+> +#define RENESAS_R9A07G043_PLIC         1
+> +
+>  struct plic_priv {
+>         struct cpumask lmask;
+>         struct irq_domain *irqdomain;
+>         void __iomem *regs;
+> +       u8 of_data;
+>  };
+>
+>  struct plic_handler {
+> @@ -163,10 +166,31 @@ static int plic_set_affinity(struct irq_data *d,
+>  }
+>  #endif
+>
+> +static void plic_irq_ack(struct irq_data *d)
+> +{
+> +       struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
+> +
+> +       if (irqd_irq_masked(d)) {
+> +               plic_irq_unmask(d);
+> +               writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
+> +               plic_irq_mask(d);
+> +       } else {
+> +               writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
+> +       }
+> +}
+> +
+I sometimes still see an interrupt miss!
 
-> 
->>                         };
->>                 };
->>         };
-> 
->> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
->> @@ -206,12 +206,12 @@ pcm3168a: audio-codec@44 {
->>                                 clocks = <&clksndsel>;
->>                                 clock-names = "scki";
+As per [0], we first need to claim the interrupt by reading the claim
+register which needs to be done in the ack callback (which should be
+doable) for edge interrupts, but the problem arises in the chained
+handler callback where it does claim the interrupt by reading the
+claim register.
 
-like here ^^^ - clocks with clock-names...
+static void plic_handle_irq(struct irq_desc *desc)
+{
+    struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
+    struct irq_chip *chip = irq_desc_get_chip(desc);
+    void __iomem *claim = handler->hart_base + CONTEXT_CLAIM;
+    irq_hw_number_t hwirq;
 
->>
->> -                               VDD1-supply     = <&snd_3p3v>;
->> -                               VDD2-supply     = <&snd_3p3v>;
->> -                               VCCAD1-supply   = <&snd_vcc5v>;
->> -                               VCCAD2-supply   = <&snd_vcc5v>;
->> -                               VCCDA1-supply   = <&snd_vcc5v>;
->> -                               VCCDA2-supply   = <&snd_vcc5v>;
->> +                               VDD1-supply = <&snd_3p3v>;
->> +                               VDD2-supply = <&snd_3p3v>;
->> +                               VCCAD1-supply = <&snd_vcc5v>;
->> +                               VCCAD2-supply = <&snd_vcc5v>;
->> +                               VCCDA1-supply = <&snd_vcc5v>;
->> +                               VCCDA2-supply = <&snd_vcc5v>;
-> 
-> Same for the various supplies.
+    WARN_ON_ONCE(!handler->present);
 
-I don't think there is benefit to order few single entries, while entire
-file does not follow that convention. It would be different for some
-multiple-line entries, but that's not the case here.
+    chained_irq_enter(chip, desc);
 
-Anyway that's only my opinion, so I am happy to trim the patch to the
-last part (although then it is a bit churn :) ).
+    while ((hwirq = readl(claim))) {
+        int err = generic_handle_domain_irq(handler->priv->irqdomain,
+                            hwirq);
+        if (unlikely(err))
+            pr_warn_ratelimited("can't find mapping for hwirq %lu\n",
+                    hwirq);
+    }
 
-> 
->>
->>                                 ports {
->>                                         #address-cells = <1>;
->> @@ -438,7 +438,7 @@ rsnd_for_pcm3168a_capture: endpoint {
->>                                 bitclock-master;
->>                                 frame-master;
->>                                 dai-tdm-slot-num = <6>;
->> -                               capture  = <&ssi4>;
->> +                               capture = <&ssi4>;
-> 
-> Right, there's nothing to align here.
+    chained_irq_exit(chip, desc);
+}
+
+I was thinking I would get around by getting the irqdata in
+plic_handle_irq() callback using the irq_desc (struct irq_data *d =
+&desc->irq_data;) and check the d->hwirq but this will be always 9.
+
+        plic: interrupt-controller@12c00000 {
+            compatible = "renesas-r9a07g043-plic";
+            #interrupt-cells = <2>;
+            #address-cells = <0>;
+            riscv,ndev = <543>;
+            interrupt-controller;
+            reg = <0x0 0x12c00000 0 0x400000>;
+            clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
+            clock-names = "plic100ss";
+            power-domains = <&cpg>;
+            resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
+            interrupts-extended = <&cpu0_intc 11 &cpu0_intc 9>;
+        };
+
+Any pointers on how this could be done sanely.
+
+[0] https://github.com/riscv/riscv-plic-spec/blob/master/images/PLICInterruptFlow.jpg
+
+Cheers,
+Prabhakar
 
 
-
-Best regards,
-Krzysztof
+>  static void plic_irq_eoi(struct irq_data *d)
+>  {
+>         struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
+>
+> +       /*
+> +        * For Renesas R9A07G043 SoC if the interrupt type is EDGE
+> +        * we have already acknowledged it in ack callback.
+> +        */
+> +       if (handler->priv->of_data == RENESAS_R9A07G043_PLIC &&
+> +           !irqd_is_level_type(d))
+> +               return;
+> +
+>         if (irqd_irq_masked(d)) {
+>                 plic_irq_unmask(d);
+>                 writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
+> @@ -176,11 +200,37 @@ static void plic_irq_eoi(struct irq_data *d)
+>         }
+>  }
+>
+> +static int plic_irq_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +       struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
+> +
+> +       if (handler->priv->of_data != RENESAS_R9A07G043_PLIC)
+> +               return 0;
+> +
+> +       switch (type) {
+> +       case IRQ_TYPE_LEVEL_HIGH:
+> +               irq_set_handler_locked(d, handle_fasteoi_irq);
+> +               break;
+> +
+> +       case IRQ_TYPE_EDGE_RISING:
+> +               irq_set_handler_locked(d, handle_fasteoi_ack_irq);
+> +               break;
+> +
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  static struct irq_chip plic_chip = {
+>         .name           = "SiFive PLIC",
+>         .irq_mask       = plic_irq_mask,
+>         .irq_unmask     = plic_irq_unmask,
+> +       .irq_ack        = plic_irq_ack,
+>         .irq_eoi        = plic_irq_eoi,
+> +       .irq_set_type   = plic_irq_set_type,
+> +
+>  #ifdef CONFIG_SMP
+>         .irq_set_affinity = plic_set_affinity,
+>  #endif
+> @@ -198,6 +248,19 @@ static int plic_irqdomain_map(struct irq_domain *d, unsigned int irq,
+>         return 0;
+>  }
+>
+> +static int plic_irq_domain_translate(struct irq_domain *d,
+> +                                    struct irq_fwspec *fwspec,
+> +                                    unsigned long *hwirq,
+> +                                    unsigned int *type)
+> +{
+> +       struct plic_priv *priv = d->host_data;
+> +
+> +       if (priv->of_data == RENESAS_R9A07G043_PLIC)
+> +               return irq_domain_translate_twocell(d, fwspec, hwirq, type);
+> +
+> +       return irq_domain_translate_onecell(d, fwspec, hwirq, type);
+> +}
+> +
+>  static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>                                  unsigned int nr_irqs, void *arg)
+>  {
+> @@ -206,7 +269,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>         unsigned int type;
+>         struct irq_fwspec *fwspec = arg;
+>
+> -       ret = irq_domain_translate_onecell(domain, fwspec, &hwirq, &type);
+> +       ret = plic_irq_domain_translate(domain, fwspec, &hwirq, &type);
+>         if (ret)
+>                 return ret;
+>
+> @@ -220,7 +283,7 @@ static int plic_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>  }
+>
+>  static const struct irq_domain_ops plic_irqdomain_ops = {
+> -       .translate      = irq_domain_translate_onecell,
+> +       .translate      = plic_irq_domain_translate,
+>         .alloc          = plic_irq_domain_alloc,
+>         .free           = irq_domain_free_irqs_top,
+>  };
+> @@ -293,6 +356,9 @@ static int __init plic_init(struct device_node *node,
+>         if (!priv)
+>                 return -ENOMEM;
+>
+> +       if (of_device_is_compatible(node, "renesas-r9a07g043-plic"))
+> +               priv->of_data = RENESAS_R9A07G043_PLIC;
+> +
+>         priv->regs = of_iomap(node, 0);
+>         if (WARN_ON(!priv->regs)) {
+>                 error = -EIO;
+> @@ -411,5 +477,6 @@ static int __init plic_init(struct device_node *node,
+>  }
+>
+>  IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+> +IRQCHIP_DECLARE(renesas_r9a07g043_plic, "renesas-r9a07g043-plic", plic_init);
+>  IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
+>  IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_init); /* for firmware driver */
+> --
+> 2.25.1
+>
