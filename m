@@ -2,89 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E830253628B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 May 2022 14:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A04C8536E7D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 May 2022 23:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240555AbiE0M2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 May 2022 08:28:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56064 "EHLO
+        id S229964AbiE1Uqj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 28 May 2022 16:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354215AbiE0MZj (ORCPT
+        with ESMTP id S229977AbiE1Uqf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 May 2022 08:25:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47BB763391;
-        Fri, 27 May 2022 05:03:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8509305;
-        Fri, 27 May 2022 14:03:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1653652998;
-        bh=aHAtY9WKA3vunkfTCR0DRvsKmSw92w8t8NQ/qCaDuUY=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=sqrzisRqSYfVgSNMauSuDpxuM4dBw13ICXRSwbflrtHZ2X+qprvJpS728FCZvu7n9
-         W9m9NSepEMHHE9ZTjSqaQtjhkU0LB6dyoDZ9Xx5QMBK6W2N4wa5sVP2QVtIsh1erK7
-         0HN7jQfiJ3T2rX9AWngXwCAOU6E+eNR55y2R8DW0=
-Content-Type: text/plain; charset="utf-8"
+        Sat, 28 May 2022 16:46:35 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7226330;
+        Sat, 28 May 2022 13:46:34 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id d20so3423165pjr.0;
+        Sat, 28 May 2022 13:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zo/NP9nLCCBCpvU9H4FnFXRxxYji1PHEJV6zeEuPq/E=;
+        b=Z7DskZIASyFVLxshlZ7FE1SaMyHK9HR64tp7iqYXmeRbuDozD4OGUe2v3mHim2kphP
+         etvsjs3Tbc3q7JemzKsx9ECC8S8m2/eNCb7jlG76+L/7Huhk0hUwf5abZGNA4PFqCXRT
+         E84UmXfGPYhhGEHgB2CqjrQApDoATeUJFjRgqyGuHQ/V+7NqoVqsq84/IJSq8wNZ8aAf
+         44Evg8WsW/EL4NuZB33HxSGqLcf3LmphF6BWvK4eWELjyAuPdLrw7mICyTVqItekg0mQ
+         oNA7HUbJ8QZbN1rDqpCioMg+0B4ixRrPoSX+jkp5zYgFxi98BlwEKcja7aV2/vWxCC09
+         K7Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zo/NP9nLCCBCpvU9H4FnFXRxxYji1PHEJV6zeEuPq/E=;
+        b=L/hhR2YyyXFEKwnUU5zJcX+61T8ZdsZuBFTRbOQ5oN8JszEmXjkTnnLiIofhHosjcp
+         i5ADg+wQeanpR6cZg/AUhhWx+rEyiuE1IDNaGbB9KAWAQncTNe1/GnyQIfKQDM2lTRnE
+         XX2PPNr2/v0OhMx+yqcX2IiMwalN2SAcf7ElnIseF8usWHHKkmvhShgdfirrLWxOsMUk
+         /fpNQV9HzxgzD87posN0NpN+nMPs0GNyY1a1w2uNp929IIhKDexs1uHpREBJG6nDkwOh
+         xk6HMuTHyX8MAU708DGHBqFPkvlE6jk0eNzKRPNEfvaU1vFQySQ2EAgmWVAHUb2BA4Ii
+         0vXA==
+X-Gm-Message-State: AOAM531JxqmmrTftSJJB85Nkkp6pmWuygDIXmzMTNUkogktHt5iTia1q
+        mS+fYYBf6CwbaLSVBAPV1T8=
+X-Google-Smtp-Source: ABdhPJzBsiPuFL8Xgu4lDCpLdDUKRC5ZMlYOP1IX6qFEKxn2MKzR55i7mtvaTsqAQzZnsw65bx+2gQ==
+X-Received: by 2002:a17:902:d4ce:b0:162:42bd:72e with SMTP id o14-20020a170902d4ce00b0016242bd072emr25139399plg.129.1653770793573;
+        Sat, 28 May 2022 13:46:33 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:781a:4ab0:a93b:176b])
+        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b0015e8d4eb267sm6214318plp.177.2022.05.28.13.46.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 May 2022 13:46:32 -0700 (PDT)
+Date:   Sat, 28 May 2022 13:46:30 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-input@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] Input: gpio-keys - Cancel delayed work only in case
+ of GPIO
+Message-ID: <YpKKJrn9AzgLiRxI@google.com>
+References: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220525092054.26089-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220525092054.26089-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] media: renesas: rcar_drif: Drop of_match_ptr()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Date:   Fri, 27 May 2022 13:03:17 +0100
-Message-ID: <165365299706.1823135.14333390932062955644@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220524135822.14764-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-05-25 10:20:54)
-> The device_driver structure's of_match_table field exists
-> unconditionally, so there's no need for of_match_ptr(). This fixes a
-> compiler warning when test-compiling on non-OF platforms:
->=20
-> drivers/media/platform/renesas/rcar_drif.c:1470:34: warning: unused varia=
-ble 'rcar_drif_of_table' [-Wunused-const-variable]
-> static const struct of_device_id rcar_drif_of_table[] =3D {
->                                  ^
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+On Tue, May 24, 2022 at 02:58:22PM +0100, Lad Prabhakar wrote:
+> gpio_keys module can either accept gpios or interrupts. The module
+> initializes delayed work in case of gpios only and is only used if
+> debounce timer is not used, so make sure cancel_delayed_work_sync()
+> is called only when its gpio-backed and debounce_use_hrtimer is false.
+> 
+> This fixes the issue seen below when the gpio_keys module is unloaded and
+> an interrupt pin is used instead of GPIO:
+> 
+> [  360.297569] ------------[ cut here ]------------
+> [  360.302303] WARNING: CPU: 0 PID: 237 at kernel/workqueue.c:3066 __flush_work+0x414/0x470
+> [  360.310531] Modules linked in: gpio_keys(-)
+> [  360.314797] CPU: 0 PID: 237 Comm: rmmod Not tainted 5.18.0-rc5-arm64-renesas-00116-g73636105874d-dirty #166
+> [  360.324662] Hardware name: Renesas SMARC EVK based on r9a07g054l2 (DT)
+> [  360.331270] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  360.338318] pc : __flush_work+0x414/0x470
+> [  360.342385] lr : __cancel_work_timer+0x140/0x1b0
+> [  360.347065] sp : ffff80000a7fba00
+> [  360.350423] x29: ffff80000a7fba00 x28: ffff000012b9c5c0 x27: 0000000000000000
+> [  360.357664] x26: ffff80000a7fbb80 x25: ffff80000954d0a8 x24: 0000000000000001
+> [  360.364904] x23: ffff800009757000 x22: 0000000000000000 x21: ffff80000919b000
+> [  360.372143] x20: ffff00000f5974e0 x19: ffff00000f5974e0 x18: ffff8000097fcf48
+> [  360.379382] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000053f40
+> [  360.386622] x14: ffff800009850e88 x13: 0000000000000002 x12: 000000000000a60c
+> [  360.393861] x11: 000000000000a610 x10: 0000000000000000 x9 : 0000000000000008
+> [  360.401100] x8 : 0101010101010101 x7 : 00000000a473c394 x6 : 0080808080808080
+> [  360.408339] x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff80000919b458
+> [  360.415578] x2 : ffff8000097577f0 x1 : 0000000000000001 x0 : 0000000000000000
+> [  360.422818] Call trace:
+> [  360.425299]  __flush_work+0x414/0x470
+> [  360.429012]  __cancel_work_timer+0x140/0x1b0
+> [  360.433340]  cancel_delayed_work_sync+0x10/0x18
+> [  360.437931]  gpio_keys_quiesce_key+0x28/0x58 [gpio_keys]
+> [  360.443327]  devm_action_release+0x10/0x18
+> [  360.447481]  release_nodes+0x8c/0x1a0
+> [  360.451194]  devres_release_all+0x90/0x100
+> [  360.455346]  device_unbind_cleanup+0x14/0x60
+> [  360.459677]  device_release_driver_internal+0xe8/0x168
+> [  360.464883]  driver_detach+0x4c/0x90
+> [  360.468509]  bus_remove_driver+0x54/0xb0
+> [  360.472485]  driver_unregister+0x2c/0x58
+> [  360.476462]  platform_driver_unregister+0x10/0x18
+> [  360.481230]  gpio_keys_exit+0x14/0x828 [gpio_keys]
+> [  360.486088]  __arm64_sys_delete_module+0x1e0/0x270
+> [  360.490945]  invoke_syscall+0x40/0xf8
+> [  360.494661]  el0_svc_common.constprop.3+0xf0/0x110
+> [  360.499515]  do_el0_svc+0x20/0x78
+> [  360.502877]  el0_svc+0x48/0xf8
+> [  360.505977]  el0t_64_sync_handler+0x88/0xb0
+> [  360.510216]  el0t_64_sync+0x148/0x14c
+> [  360.513930] irq event stamp: 4306
+> [  360.517288] hardirqs last  enabled at (4305): [<ffff8000080b0300>] __cancel_work_timer+0x130/0x1b0
+> [  360.526359] hardirqs last disabled at (4306): [<ffff800008d194fc>] el1_dbg+0x24/0x88
+> [  360.534204] softirqs last  enabled at (4278): [<ffff8000080104a0>] _stext+0x4a0/0x5e0
+> [  360.542133] softirqs last disabled at (4267): [<ffff8000080932ac>] irq_exit_rcu+0x18c/0x1b0
+> [  360.550591] ---[ end trace 0000000000000000 ]---
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Applied, thank you.
 
-> ---
->  drivers/media/platform/renesas/rcar_drif.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/p=
-latform/renesas/rcar_drif.c
-> index 9a0982fa5c6b..5167960781bf 100644
-> --- a/drivers/media/platform/renesas/rcar_drif.c
-> +++ b/drivers/media/platform/renesas/rcar_drif.c
-> @@ -1477,7 +1477,7 @@ MODULE_DEVICE_TABLE(of, rcar_drif_of_table);
->  static struct platform_driver rcar_drif_driver =3D {
->         .driver =3D {
->                 .name =3D RCAR_DRIF_DRV_NAME,
-> -               .of_match_table =3D of_match_ptr(rcar_drif_of_table),
-> +               .of_match_table =3D rcar_drif_of_table,
->                 .pm =3D &rcar_drif_pm_ops,
->                 },
->         .probe =3D rcar_drif_probe,
->=20
-> base-commit: 6c1c1eb8c87de221051b9198d40971640060842f
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+-- 
+Dmitry
