@@ -2,137 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B798538AD9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 May 2022 07:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8E3A538BE6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 May 2022 09:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243977AbiEaFYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 May 2022 01:24:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
+        id S244492AbiEaHRN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 May 2022 03:17:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243975AbiEaFYH (ORCPT
+        with ESMTP id S244475AbiEaHRL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 May 2022 01:24:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29989155B;
-        Mon, 30 May 2022 22:24:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 68E0861186;
-        Tue, 31 May 2022 05:24:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A69FC385A9;
-        Tue, 31 May 2022 05:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653974644;
-        bh=K25t52uoCNYvpbrLQpbyibAodXjFdV5vwswnYCvnAS0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CbfNNbDisfkjIlr5el8eLItHfExKRxouOzQFTz3IXOPK5GxLJ/7y42vhbJ540tT7z
-         ECvyb3tU88oyGuzT2uQXjilZJkYgxWoHHL9d7iRavTTqfq3w32fKXbhZJGzVC7hedC
-         zfSM/eokCABKe0sUG8NWiqaqNiGpmijT1TeOKpEj5gtYGAs/Wcq1gEyfX/Ha90AyAt
-         vYEKUDI1Aqcahh6wTtreeLtROTqh1TQDftikVx/wa8Wl6X3q024QYhzYe7R44fm0nc
-         B60RLQp7trDb9lo2rsc9heRaqHESHWQDtP4TCKji+6qkaBtjx6uXsdQGw8W93ASWe5
-         SEqO4WzP7XDfA==
-Date:   Tue, 31 May 2022 10:54:00 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Dave Jiang <dave.jiang@intel.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] dmaengine: add verification of DMA_INTERRUPT capability
- for dmatest
-Message-ID: <YpWmcHtGzrv4oP5L@matsya>
-References: <164978679251.2361020.5856734256126725993.stgit@djiang5-desk3.ch.intel.com>
- <CAMuHMdVjDTAW-84c9Fh21f_GWOhnD4+VW2nqSTQ6EK-m+KG=vQ@mail.gmail.com>
+        Tue, 31 May 2022 03:17:11 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6CAB84C79E;
+        Tue, 31 May 2022 00:17:03 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,264,1647270000"; 
+   d="scan'208";a="122810497"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 31 May 2022 16:17:03 +0900
+Received: from localhost.localdomain (unknown [10.226.92.53])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 32ED141EB050;
+        Tue, 31 May 2022 16:16:59 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: [PATCH] clk: renesas: rzg2l: Fix reset status function
+Date:   Tue, 31 May 2022 08:16:57 +0100
+Message-Id: <20220531071657.104121-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVjDTAW-84c9Fh21f_GWOhnD4+VW2nqSTQ6EK-m+KG=vQ@mail.gmail.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30-05-22, 10:06, Geert Uytterhoeven wrote:
-> Hi Dave, Vinod,
+As per RZ/G2L HW(Rev.1.10) manual, reset monitor register value 0 means
+reset signal is not applied (deassert state) and 1 means reset signal
+is applied (assert state).
 
-Hi Geert,
+reset_control_status() expects a positive value if the reset line is
+asserted. But rzg2l_cpg_status function returns zero for asserted
+state.
 
-> 
-> On Wed, Apr 13, 2022 at 12:58 AM Dave Jiang <dave.jiang@intel.com> wrote:
-> > Looks like I forgot to add DMA_INTERRUPT cap setting to the idxd driver and
-> > dmatest is still working regardless of this mistake. Add an explicit check
-> > of DMA_INTERRUPT capability for dmatest to make sure the DMA device being used
-> > actually supports interrupt before the test is launched and also that the
-> > driver is programmed correctly.
-> >
-> > Signed-off-by: Dave Jiang <dave.jiang@intel.com>
-> 
-> Thanks for your patch, which is now commit a8facc7b988599f8
-> ("dmaengine: add verification of DMA_INTERRUPT capability for
-> dmatest") upstream.
-> 
-> > --- a/drivers/dma/dmatest.c
-> > +++ b/drivers/dma/dmatest.c
-> > @@ -675,10 +675,16 @@ static int dmatest_func(void *data)
-> >         /*
-> >          * src and dst buffers are freed by ourselves below
-> >          */
-> > -       if (params->polled)
-> > +       if (params->polled) {
-> >                 flags = DMA_CTRL_ACK;
-> > -       else
-> > -               flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
-> > +       } else {
-> > +               if (dma_has_cap(DMA_INTERRUPT, dev->cap_mask)) {
-> > +                       flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
-> > +               } else {
-> > +                       pr_err("Channel does not support interrupt!\n");
-> > +                       goto err_pq_array;
-> > +               }
-> > +       }
-> >
-> >         ktime = ktime_get();
-> >         while (!(kthread_should_stop() ||
-> > @@ -906,6 +912,7 @@ static int dmatest_func(void *data)
-> 
-> Shimoda-san reports that this commit breaks dmatest on rcar-dmac.
-> Like most DMA engine drivers, rcar-dmac does not set the DMA_INTERRUPT
-> capability flag, hence dmatest now fails to start:
-> 
->     dmatest: Channel does not support interrupt!
-> 
-> To me, it looks like the new check is bogus, as I believe it confuses
-> two different concepts:
-> 
->   1. Documentation/driver-api/dmaengine/provider.rst says:
-> 
->        - DMA_INTERRUPT
-> 
->          - The device is able to trigger a dummy transfer that will
->            generate periodic interrupts
-> 
->   2. In non-polled mode, dmatest sets DMA_PREP_INTERRUPT.
->      include/linux/dmaengine.h says:
-> 
->        * @DMA_PREP_INTERRUPT - trigger an interrupt (callback) upon
-> completion of
->        *  this transaction
-> 
-> As dmatest uses real transfers, I think it does not depend on
-> the ability to use interrupts from dummy transfers.
+This patch fixes the issue by adding double inverted logic, so that
+reset_control_status returns a positive value if the reset line is
+asserted.
 
-Yes this does not look right to me. DMA_INTERRUPT is for a specific
-capability which is linked to dma_prep_interrupt() which dmatest does
-not use so i think it is not correct for dmatest to use this...
+Fixes: ef3c613ccd68 ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/clk/renesas/rzg2l-cpg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can revert this patch... Dave?
-
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index e2999ab2b53c..3ff6ecd61756 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1180,7 +1180,7 @@ static int rzg2l_cpg_status(struct reset_controller_dev *rcdev,
+ 	s8 monbit = info->resets[id].monbit;
+ 
+ 	if (info->has_clk_mon_regs) {
+-		return !(readl(priv->base + CLK_MRST_R(reg)) & bitmask);
++		return !!(readl(priv->base + CLK_MRST_R(reg)) & bitmask);
+ 	} else if (monbit >= 0) {
+ 		u32 monbitmask = BIT(monbit);
+ 
 -- 
-~Vinod
+2.25.1
+
