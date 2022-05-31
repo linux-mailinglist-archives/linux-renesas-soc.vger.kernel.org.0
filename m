@@ -2,46 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F4453930D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 May 2022 16:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF2D9539353
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 May 2022 16:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345203AbiEaOU1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 May 2022 10:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
+        id S1345307AbiEaOtS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 May 2022 10:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345197AbiEaOU0 (ORCPT
+        with ESMTP id S1345299AbiEaOtQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 May 2022 10:20:26 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4D8E7703CD;
-        Tue, 31 May 2022 07:20:25 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,265,1647270000"; 
-   d="scan'208";a="121464469"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 31 May 2022 23:20:24 +0900
-Received: from localhost.localdomain (unknown [10.226.92.53])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 04A434004BBF;
-        Tue, 31 May 2022 23:20:20 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v11 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Tue, 31 May 2022 15:19:58 +0100
-Message-Id: <20220531141958.575616-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
-References: <20220531141958.575616-1-biju.das.jz@bp.renesas.com>
+        Tue, 31 May 2022 10:49:16 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60232C131;
+        Tue, 31 May 2022 07:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654008555; x=1685544555;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=u9Z8ZFlRwWPx3bByNpAkkztxDD23bRv+DbFZ3HtAIpM=;
+  b=Owb2g0aiTFnSGEx3VcCNj852vW9z0+1S/fRM5wfsB7LUJpp12WusHe71
+   feN5erCY79W/XJSGJmWxq26OndsrDEg0gOLqcYlowi93Ez/OSTrioclD+
+   MLXWsfJlbEXSZlqcf2RUPJEPJHaBU5zyUiVXwlipjqTWH4SYmWMrjUPMk
+   8kEQwHw3LxTrRmTRrXvSo26Wx1izivl6oYQ3OzwawM9F7YZJq7H3p+Us7
+   YPj/Vd0ZdB5FjmYshlQdz1XW1DguiJckK8xynAORfswJLHBhn+NCD7TCQ
+   ztdiTN3G+Zlx/wY/awqZCknvnmLiSuCMNaT/cu2KNPEkCsbMnZ2zQ5Og9
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="274998817"
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
+   d="scan'208";a="274998817"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 07:49:15 -0700
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
+   d="scan'208";a="611859531"
+Received: from jahern6-mobl1.amr.corp.intel.com (HELO [10.212.125.28]) ([10.212.125.28])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 07:49:14 -0700
+Message-ID: <ba4ddd60-335b-b80a-68a2-0568c166f82d@intel.com>
+Date:   Tue, 31 May 2022 07:49:16 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.1
+Subject: Re: [PATCH] dmaengine: add verification of DMA_INTERRUPT capability
+ for dmatest
+Content-Language: en-US
+To:     Vinod Koul <vkoul@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <164978679251.2361020.5856734256126725993.stgit@djiang5-desk3.ch.intel.com>
+ <CAMuHMdVjDTAW-84c9Fh21f_GWOhnD4+VW2nqSTQ6EK-m+KG=vQ@mail.gmail.com>
+ <YpWmcHtGzrv4oP5L@matsya>
+From:   Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <YpWmcHtGzrv4oP5L@matsya>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,149 +69,75 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
 
-The VSPD block on RZ/G2L SoCs does not have a version register, so
-added a new compatible string "renesas,r9a07g044-vsp2" with a data
-pointer containing the info structure. Also the reset line is shared
-with the DU module.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v10->v11:
- * No change.
-v9->v10:
- * No change.
-v8->v9:
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 256794c67e63..dd37fe81c4c5 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -833,6 +833,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -983,6 +995,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..8928f4c6bb55 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoCs have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
-
+On 5/30/2022 10:24 PM, Vinod Koul wrote:
+> On 30-05-22, 10:06, Geert Uytterhoeven wrote:
+>> Hi Dave, Vinod,
+> Hi Geert,
+>
+>> On Wed, Apr 13, 2022 at 12:58 AM Dave Jiang <dave.jiang@intel.com> wrote:
+>>> Looks like I forgot to add DMA_INTERRUPT cap setting to the idxd driver and
+>>> dmatest is still working regardless of this mistake. Add an explicit check
+>>> of DMA_INTERRUPT capability for dmatest to make sure the DMA device being used
+>>> actually supports interrupt before the test is launched and also that the
+>>> driver is programmed correctly.
+>>>
+>>> Signed-off-by: Dave Jiang <dave.jiang@intel.com>
+>> Thanks for your patch, which is now commit a8facc7b988599f8
+>> ("dmaengine: add verification of DMA_INTERRUPT capability for
+>> dmatest") upstream.
+>>
+>>> --- a/drivers/dma/dmatest.c
+>>> +++ b/drivers/dma/dmatest.c
+>>> @@ -675,10 +675,16 @@ static int dmatest_func(void *data)
+>>>          /*
+>>>           * src and dst buffers are freed by ourselves below
+>>>           */
+>>> -       if (params->polled)
+>>> +       if (params->polled) {
+>>>                  flags = DMA_CTRL_ACK;
+>>> -       else
+>>> -               flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
+>>> +       } else {
+>>> +               if (dma_has_cap(DMA_INTERRUPT, dev->cap_mask)) {
+>>> +                       flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
+>>> +               } else {
+>>> +                       pr_err("Channel does not support interrupt!\n");
+>>> +                       goto err_pq_array;
+>>> +               }
+>>> +       }
+>>>
+>>>          ktime = ktime_get();
+>>>          while (!(kthread_should_stop() ||
+>>> @@ -906,6 +912,7 @@ static int dmatest_func(void *data)
+>> Shimoda-san reports that this commit breaks dmatest on rcar-dmac.
+>> Like most DMA engine drivers, rcar-dmac does not set the DMA_INTERRUPT
+>> capability flag, hence dmatest now fails to start:
+>>
+>>      dmatest: Channel does not support interrupt!
+>>
+>> To me, it looks like the new check is bogus, as I believe it confuses
+>> two different concepts:
+>>
+>>    1. Documentation/driver-api/dmaengine/provider.rst says:
+>>
+>>         - DMA_INTERRUPT
+>>
+>>           - The device is able to trigger a dummy transfer that will
+>>             generate periodic interrupts
+>>
+>>    2. In non-polled mode, dmatest sets DMA_PREP_INTERRUPT.
+>>       include/linux/dmaengine.h says:
+>>
+>>         * @DMA_PREP_INTERRUPT - trigger an interrupt (callback) upon
+>> completion of
+>>         *  this transaction
+>>
+>> As dmatest uses real transfers, I think it does not depend on
+>> the ability to use interrupts from dummy transfers.
+> Yes this does not look right to me. DMA_INTERRUPT is for a specific
+> capability which is linked to dma_prep_interrupt() which dmatest does
+> not use so i think it is not correct for dmatest to use this...
+>
+> I can revert this patch... Dave?
+Yes we can revert it.
