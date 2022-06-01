@@ -2,142 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2D9539353
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 May 2022 16:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5335153A6D6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jun 2022 15:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345307AbiEaOtS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 May 2022 10:49:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34366 "EHLO
+        id S1353679AbiFANzm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jun 2022 09:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345299AbiEaOtQ (ORCPT
+        with ESMTP id S1353797AbiFANzI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 May 2022 10:49:16 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60232C131;
-        Tue, 31 May 2022 07:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654008555; x=1685544555;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=u9Z8ZFlRwWPx3bByNpAkkztxDD23bRv+DbFZ3HtAIpM=;
-  b=Owb2g0aiTFnSGEx3VcCNj852vW9z0+1S/fRM5wfsB7LUJpp12WusHe71
-   feN5erCY79W/XJSGJmWxq26OndsrDEg0gOLqcYlowi93Ez/OSTrioclD+
-   MLXWsfJlbEXSZlqcf2RUPJEPJHaBU5zyUiVXwlipjqTWH4SYmWMrjUPMk
-   8kEQwHw3LxTrRmTRrXvSo26Wx1izivl6oYQ3OzwawM9F7YZJq7H3p+Us7
-   YPj/Vd0ZdB5FjmYshlQdz1XW1DguiJckK8xynAORfswJLHBhn+NCD7TCQ
-   ztdiTN3G+Zlx/wY/awqZCknvnmLiSuCMNaT/cu2KNPEkCsbMnZ2zQ5Og9
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="274998817"
-X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
-   d="scan'208";a="274998817"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 07:49:15 -0700
-X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; 
-   d="scan'208";a="611859531"
-Received: from jahern6-mobl1.amr.corp.intel.com (HELO [10.212.125.28]) ([10.212.125.28])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 07:49:14 -0700
-Message-ID: <ba4ddd60-335b-b80a-68a2-0568c166f82d@intel.com>
-Date:   Tue, 31 May 2022 07:49:16 -0700
+        Wed, 1 Jun 2022 09:55:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB638CCC8;
+        Wed,  1 Jun 2022 06:54:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 13ED2B81AE7;
+        Wed,  1 Jun 2022 13:53:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB4BEC3411D;
+        Wed,  1 Jun 2022 13:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654091589;
+        bh=MzavRj9nrP27S+bq6CPB0yuwsmyvhj3CJKBoxHtwgwM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cMjCZxeWNLUrg2XTU8JS1XKUF5e96t3Xsj6D7SI3ROzGhrkx+/ntHhcwJ1Y0h1luF
+         yz2i4EF4hBsHlZe58ugdk+n0ExRtG54BsWn66IMTb0unEl7oLIsA+7QT7Tb0NFPkz9
+         YdOc9O9rZfca7QkPJToW/nxQEHU8CRM5Ts2dsuJdldtkFAAFIHuZCe1x56PsTqyR4i
+         bF+OKwStqIIUrh+g8Ak5VozOvTEk5szV2ZcHghVkUYhUSkR8+xPtRSn1RxlKlY8tOV
+         VZmatdJBkvFiVVds9gdChsXZj+hjoeroZQ9Ulp+4nCJsuL30YeY1POgrvN01CkR9Rj
+         gZloub7acvS+Q==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sasha Levin <sashal@kernel.org>, linus.walleij@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 22/49] pinctrl: renesas: rzn1: Fix possible null-ptr-deref in sh_pfc_map_resources()
+Date:   Wed,  1 Jun 2022 09:51:46 -0400
+Message-Id: <20220601135214.2002647-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220601135214.2002647-1-sashal@kernel.org>
+References: <20220601135214.2002647-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.1
-Subject: Re: [PATCH] dmaengine: add verification of DMA_INTERRUPT capability
- for dmatest
-Content-Language: en-US
-To:     Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <164978679251.2361020.5856734256126725993.stgit@djiang5-desk3.ch.intel.com>
- <CAMuHMdVjDTAW-84c9Fh21f_GWOhnD4+VW2nqSTQ6EK-m+KG=vQ@mail.gmail.com>
- <YpWmcHtGzrv4oP5L@matsya>
-From:   Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <YpWmcHtGzrv4oP5L@matsya>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-On 5/30/2022 10:24 PM, Vinod Koul wrote:
-> On 30-05-22, 10:06, Geert Uytterhoeven wrote:
->> Hi Dave, Vinod,
-> Hi Geert,
->
->> On Wed, Apr 13, 2022 at 12:58 AM Dave Jiang <dave.jiang@intel.com> wrote:
->>> Looks like I forgot to add DMA_INTERRUPT cap setting to the idxd driver and
->>> dmatest is still working regardless of this mistake. Add an explicit check
->>> of DMA_INTERRUPT capability for dmatest to make sure the DMA device being used
->>> actually supports interrupt before the test is launched and also that the
->>> driver is programmed correctly.
->>>
->>> Signed-off-by: Dave Jiang <dave.jiang@intel.com>
->> Thanks for your patch, which is now commit a8facc7b988599f8
->> ("dmaengine: add verification of DMA_INTERRUPT capability for
->> dmatest") upstream.
->>
->>> --- a/drivers/dma/dmatest.c
->>> +++ b/drivers/dma/dmatest.c
->>> @@ -675,10 +675,16 @@ static int dmatest_func(void *data)
->>>          /*
->>>           * src and dst buffers are freed by ourselves below
->>>           */
->>> -       if (params->polled)
->>> +       if (params->polled) {
->>>                  flags = DMA_CTRL_ACK;
->>> -       else
->>> -               flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
->>> +       } else {
->>> +               if (dma_has_cap(DMA_INTERRUPT, dev->cap_mask)) {
->>> +                       flags = DMA_CTRL_ACK | DMA_PREP_INTERRUPT;
->>> +               } else {
->>> +                       pr_err("Channel does not support interrupt!\n");
->>> +                       goto err_pq_array;
->>> +               }
->>> +       }
->>>
->>>          ktime = ktime_get();
->>>          while (!(kthread_should_stop() ||
->>> @@ -906,6 +912,7 @@ static int dmatest_func(void *data)
->> Shimoda-san reports that this commit breaks dmatest on rcar-dmac.
->> Like most DMA engine drivers, rcar-dmac does not set the DMA_INTERRUPT
->> capability flag, hence dmatest now fails to start:
->>
->>      dmatest: Channel does not support interrupt!
->>
->> To me, it looks like the new check is bogus, as I believe it confuses
->> two different concepts:
->>
->>    1. Documentation/driver-api/dmaengine/provider.rst says:
->>
->>         - DMA_INTERRUPT
->>
->>           - The device is able to trigger a dummy transfer that will
->>             generate periodic interrupts
->>
->>    2. In non-polled mode, dmatest sets DMA_PREP_INTERRUPT.
->>       include/linux/dmaengine.h says:
->>
->>         * @DMA_PREP_INTERRUPT - trigger an interrupt (callback) upon
->> completion of
->>         *  this transaction
->>
->> As dmatest uses real transfers, I think it does not depend on
->> the ability to use interrupts from dummy transfers.
-> Yes this does not look right to me. DMA_INTERRUPT is for a specific
-> capability which is linked to dma_prep_interrupt() which dmatest does
-> not use so i think it is not correct for dmatest to use this...
->
-> I can revert this patch... Dave?
-Yes we can revert it.
+[ Upstream commit 2f661477c2bb8068194dbba9738d05219f111c6e ]
+
+It will cause null-ptr-deref when using 'res', if platform_get_resource()
+returns NULL, so move using 'res' after devm_ioremap_resource() that
+will check it to avoid null-ptr-deref.
+And use devm_platform_get_and_ioremap_resource() to simplify code.
+
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Link: https://lore.kernel.org/r/20220429082637.1308182-2-yangyingliang@huawei.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pinctrl/renesas/pinctrl-rzn1.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzn1.c b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+index ef5fb25b6016..849d091205d4 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzn1.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzn1.c
+@@ -865,17 +865,15 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
+ 	ipctl->mdio_func[0] = -1;
+ 	ipctl->mdio_func[1] = -1;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	ipctl->lev1_protect_phys = (u32)res->start + 0x400;
+-	ipctl->lev1 = devm_ioremap_resource(&pdev->dev, res);
++	ipctl->lev1 = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(ipctl->lev1))
+ 		return PTR_ERR(ipctl->lev1);
++	ipctl->lev1_protect_phys = (u32)res->start + 0x400;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	ipctl->lev2_protect_phys = (u32)res->start + 0x400;
+-	ipctl->lev2 = devm_ioremap_resource(&pdev->dev, res);
++	ipctl->lev2 = devm_platform_get_and_ioremap_resource(pdev, 1, &res);
+ 	if (IS_ERR(ipctl->lev2))
+ 		return PTR_ERR(ipctl->lev2);
++	ipctl->lev2_protect_phys = (u32)res->start + 0x400;
+ 
+ 	ipctl->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(ipctl->clk))
+-- 
+2.35.1
+
