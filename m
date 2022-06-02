@@ -2,83 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50ECC53BA05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jun 2022 15:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C343353BB2A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jun 2022 16:49:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235509AbiFBNpM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jun 2022 09:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60134 "EHLO
+        id S236160AbiFBOtb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jun 2022 10:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233407AbiFBNpL (ORCPT
+        with ESMTP id S235013AbiFBOta (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jun 2022 09:45:11 -0400
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6075E2997BA;
-        Thu,  2 Jun 2022 06:45:10 -0700 (PDT)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-f2e0a41009so6777631fac.6;
-        Thu, 02 Jun 2022 06:45:10 -0700 (PDT)
+        Thu, 2 Jun 2022 10:49:30 -0400
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83BBF178557;
+        Thu,  2 Jun 2022 07:49:28 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-f314077115so7043060fac.1;
+        Thu, 02 Jun 2022 07:49:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QsEpPPAD6QGNrjKZg/Z6uX8TAObYx6G5aPX9DKMETYc=;
-        b=cBQF03rsvw+BNxAa8N2ZMb/dilxrn+DG7R1K0TbRhQjNOF8zwSL6NFPmPDpH+HUWhr
-         ZN3DlPJP+tynLPfoJLB/hGEWLMAIV/NtOhc/75uxXbjl/nsHsVzN0iOchXN2hDhI5E+5
-         gmtFaAOHxnyK6RDoJS/5P8L4Ym0bbz7CidiWB2faq8CRow38kIve1K+Ku5O7iIiYVZts
-         PULBVzWykySjJC74IbBr4ux3hk2pp6SBulfiejayf/hhfRIfWO3mpdwXnmBytVlphPgs
-         Q0UWQ8liY9yxRFmKhb22bgE2E52r5bVnG8AgaUcbI4w+9ctSPETi9R5Qq2zZzpQsm9Gz
-         lyxg==
-X-Gm-Message-State: AOAM533o8NlwAmngBae8uVqKQ+PIBqYi0NstiEfLFK4pPp62Cpn0gRlH
-        EMlqg9Yz0w3lUxoF871upw==
-X-Google-Smtp-Source: ABdhPJymXyLv9Wr0NBlN0joQq5pJOGQRGVFvY4wxPiFicadD7AnLM8zBnL30SrtGXTSANgRBpFBYVQ==
-X-Received: by 2002:a05:6870:4201:b0:f2:a980:2bb2 with SMTP id u1-20020a056870420100b000f2a9802bb2mr19135087oac.230.1654177509685;
-        Thu, 02 Jun 2022 06:45:09 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+SLUeshYYRHHBiExGyMNYhWtwhte/6gxD1JnckYeRpI=;
+        b=pZ5FXhjhKlDoP88MQ9kWlwxTTQxJG+Mgf5RsOD1pyOYl09PZGSI4473FW2zg/f7/bn
+         EqhaL9r27NZ06pvLhMFfYaMWQfIYsQc7KLHpn5h5pn7OxDU7VinzFMxpfu7Uw4L9Ae8U
+         nnWhMUiNlgpexR3L+b1mhwESYD6Nz48pNYft0Fi+o46TjfbyxxPiB+M8kmBOLt7FYpxL
+         GEI6M1X3WP8U/RpcaS/3RB+bsx/ZRmXMH3dWBs71AbgptQZ8lcNVG/Denaz4vMXmW6bx
+         e6C/v4BlpE7mQTsxS71ZAuFxfZIARVh9e62+3rl6FICIIgbLTTR4mIgyjOM/A6enfti9
+         FbjQ==
+X-Gm-Message-State: AOAM5300kN192WjruTdR38Sfu1Ybzd8BMSivwQuFLE89jb1JCrx6DvqK
+        rfohGwwZWRFZ/ESrFDHU+Q==
+X-Google-Smtp-Source: ABdhPJxIzt4j7P1KqTn80l1LO7apZYo2bBKUcKBQ6UzAcOedmsCpzdyfNCQxPCnSvCvrWKW3CoRHNg==
+X-Received: by 2002:a05:6870:3308:b0:f1:9e97:5a9d with SMTP id x8-20020a056870330800b000f19e975a9dmr18614142oae.127.1654181367787;
+        Thu, 02 Jun 2022 07:49:27 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id a17-20020a056870469100b000e686d13883sm2048577oap.29.2022.06.02.06.45.08
+        by smtp.gmail.com with ESMTPSA id 12-20020aca120c000000b00325cda1ffa5sm2281218ois.36.2022.06.02.07.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 06:45:09 -0700 (PDT)
-Received: (nullmailer pid 2178259 invoked by uid 1000);
-        Thu, 02 Jun 2022 13:45:08 -0000
-Date:   Thu, 2 Jun 2022 08:45:08 -0500
+        Thu, 02 Jun 2022 07:49:27 -0700 (PDT)
+Received: (nullmailer pid 2296230 invoked by uid 1000);
+        Thu, 02 Jun 2022 14:49:26 -0000
+Date:   Thu, 2 Jun 2022 09:49:26 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779f0
- support
-Message-ID: <20220602134508.GA2178226-robh@kernel.org>
-References: <20220525151040.24024-1-wsa+renesas@sang-engineering.com>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Pascal Eberhard <pascal.eberhard@se.com>, netdev@vger.kernel.org,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>
+Subject: Re: [PATCH net-next v6 10/16] dt-bindings: net: snps,dwmac: add
+ "power-domains" property
+Message-ID: <20220602144926.GA2296137-robh@kernel.org>
+References: <20220530084917.91130-1-clement.leger@bootlin.com>
+ <20220530084917.91130-11-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220525151040.24024-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220530084917.91130-11-clement.leger@bootlin.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 25 May 2022 17:10:40 +0200, Wolfram Sang wrote:
-> Add support for R-Car S4. The S4 IP differs a bit from its siblings in
-> such way that it has 3 out of 4 TSC nodes for Linux and the interrupts
-> are not routed to the INTC-AP but to the ECM.
+On Mon, 30 May 2022 10:49:11 +0200, Clément Léger wrote:
+> Since the stmmac driver already uses pm_runtime*() functions, describe
+> "power-domains" property in the binding.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 > ---
->  .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml    | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  Documentation/devicetree/bindings/net/snps,dwmac.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
