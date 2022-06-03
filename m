@@ -2,25 +2,25 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED3153C921
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jun 2022 13:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4CC53C917
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jun 2022 13:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243954AbiFCLFy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jun 2022 07:05:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S243961AbiFCLFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jun 2022 07:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243940AbiFCLFn (ORCPT
+        with ESMTP id S243938AbiFCLFm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jun 2022 07:05:43 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C2003BFBE;
-        Fri,  3 Jun 2022 04:05:42 -0700 (PDT)
+        Fri, 3 Jun 2022 07:05:42 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A352C3BFB8;
+        Fri,  3 Jun 2022 04:05:40 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,274,1647270000"; 
-   d="scan'208";a="123226937"
+   d="scan'208";a="121822517"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Jun 2022 20:05:38 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 Jun 2022 20:05:38 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4846B42849B8;
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6BAB442849B3;
         Fri,  3 Jun 2022 20:05:38 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
@@ -28,10 +28,11 @@ To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
 Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
         linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v6 5/7] scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
-Date:   Fri,  3 Jun 2022 20:05:22 +0900
-Message-Id: <20220603110524.1997825-6-yoshihiro.shimoda.uh@renesas.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v6 6/7] arm64: dts: renesas: r8a779f0: Add UFS node
+Date:   Fri,  3 Jun 2022 20:05:23 +0900
+Message-Id: <20220603110524.1997825-7-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
 References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
@@ -46,31 +47,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add maintainer for Renesas UFS driver.
+Add UFS node for R-Car S4-8 (r8a779f0).
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 95cffa82d6d5..06425beb8d05 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20322,6 +20322,13 @@ L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	drivers/ufs/host/ufs-mediatek*
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+index df46fb87cffc..155a7ee8dae4 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+@@ -40,6 +40,13 @@ extalr_clk: extalr {
+ 		clock-frequency = <0>;
+ 	};
  
-+UNIVERSAL FLASH STORAGE HOST CONTROLLER DRIVER RENESAS HOOKS
-+M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-+L:	linux-renesas-soc@vger.kernel.org
-+L:	linux-scsi@vger.kernel.org
-+S:	Maintained
-+F:	drivers/ufs/host/ufs-renesas.c
++	ufs30_clk: ufs30-clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		/* This value must be overridden by the board */
++		clock-frequency = <0>;
++	};
 +
- UNSORTED BLOCK IMAGES (UBI)
- M:	Richard Weinberger <richard@nod.at>
- L:	linux-mtd@lists.infradead.org
+ 	pmu_a55 {
+ 		compatible = "arm,cortex-a55-pmu";
+ 		interrupts-extended = <&gic GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
+@@ -259,6 +266,18 @@ i2c5: i2c@e66e0000 {
+ 			status = "disabled";
+ 		};
+ 
++		ufs: ufs@e6860000 {
++			compatible = "renesas,r8a779f0-ufs";
++			reg = <0 0xe6860000 0 0x100>;
++			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 1514>, <&ufs30_clk>;
++			clock-names = "fck", "ref_clk";
++			freq-table-hz = <200000000 200000000>, <38400000 38400000>;
++			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
++			resets = <&cpg 1514>;
++			status = "disabled";
++		};
++
+ 		scif3: serial@e6c50000 {
+ 			compatible = "renesas,scif-r8a779f0",
+ 				     "renesas,rcar-gen4-scif", "renesas,scif";
 -- 
 2.25.1
 
