@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CBD53D3DE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jun 2022 01:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F7253D3E0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jun 2022 01:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245481AbiFCXaC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jun 2022 19:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60214 "EHLO
+        id S242331AbiFCXdG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jun 2022 19:33:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbiFCX36 (ORCPT
+        with ESMTP id S239755AbiFCXdG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jun 2022 19:29:58 -0400
+        Fri, 3 Jun 2022 19:33:06 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4528B2981E
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jun 2022 16:29:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858E4286F2
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jun 2022 16:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=T/phbt3vcAGisqPAgcf24gGsfCa
-        exEjo7z4JytiWMV8=; b=HslkWl/PchTP7NBbxUF5SeRMOobOI0rzA1jH1YjSTke
-        5eQQsC0naEMpEalfnwQ+n4KFx4koTfQ4eeTrQt89HYXqsEKdcZpygxUI/UL+xtKc
-        FzAaSFx/oTZuC7n11fQtsJbamaoyyV2MF+QeVRGQPKSlxaaaIDiWmqvqNOuq4798
+        :content-transfer-encoding; s=k1; bh=qBfw8dQd6HLY4K8BuX+uG//Ir6v
+        YHBMytjks85Rp3LE=; b=BWFHicCk+okj1daIniT6eI80EqtXFaCPbscGtZbBZBp
+        uUX9A54TUSbx32FR/fTMJ2OqnPmNmshtefozGHBpjCQYOHpl/vSUU09Tibg2e1uN
+        W3YWgA26Nyds5kZI87ubnRIYoOX1rNdJ5e5DAgAPQte5mQ8WsHwKIAPxy0MC57oI
         =
-Received: (qmail 1097493 invoked from network); 4 Jun 2022 01:29:52 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2022 01:29:52 +0200
-X-UD-Smtp-Session: l3s3148p1@m59uf5Pg/z5ZzIm6
+Received: (qmail 1098115 invoked from network); 4 Jun 2022 01:33:03 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2022 01:33:03 +0200
+X-UD-Smtp-Session: l3s3148p1@GNwpi5Pgo11ZzIm6
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] arm64: dts: renesas: rzg2l-smarc: use proper bool operator
-Date:   Sat,  4 Jun 2022 01:29:40 +0200
-Message-Id: <20220603232940.21736-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] mmc: renesas_sdhi: add R-Car Gen4 fallback compatibility string
+Date:   Sat,  4 Jun 2022 01:33:00 +0200
+Message-Id: <20220603233300.21789-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,30 +45,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When checking for defined macros, we want the boolean AND not the binary
-one.
+For now, Gen4 is treated the same as Gen3. But we still want a seperate
+fallback just in case.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Found while looking for examples of '#if' in dts files.
-
- arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-index aa170492dd2b..6be25a8a28db 100644
---- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
-@@ -29,7 +29,7 @@
- #define SW_RSPI_CAN	1
- #endif
- 
--#if (SW_SCIF_CAN & SW_RSPI_CAN)
-+#if (SW_SCIF_CAN && SW_RSPI_CAN)
- #error "Can not set 1 to both SW_SCIF_CAN and SW_RSPI_CAN due to HW routing"
- #endif
- 
+diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+index 3084b15ae2cb..8f2e6619fa68 100644
+--- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+@@ -268,6 +268,7 @@ static const struct of_device_id renesas_sdhi_internal_dmac_of_match[] = {
+ 	{ .compatible = "renesas,sdhi-r8a77990", .data = &of_r8a77990_compatible, },
+ 	{ .compatible = "renesas,sdhi-r8a77995", .data = &of_rcar_gen3_nohs400_compatible, },
+ 	{ .compatible = "renesas,rcar-gen3-sdhi", .data = &of_rcar_gen3_compatible, },
++	{ .compatible = "renesas,rcar-gen4-sdhi", .data = &of_rcar_gen3_compatible, },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, renesas_sdhi_internal_dmac_of_match);
 -- 
 2.35.1
 
