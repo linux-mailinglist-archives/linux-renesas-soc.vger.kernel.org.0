@@ -2,218 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BC7253C744
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jun 2022 11:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA7A53C91C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jun 2022 13:06:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242953AbiFCJNB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jun 2022 05:13:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38052 "EHLO
+        id S243932AbiFCLFl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jun 2022 07:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241874AbiFCJNA (ORCPT
+        with ESMTP id S243923AbiFCLFk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jun 2022 05:13:00 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59ED20BF7;
-        Fri,  3 Jun 2022 02:12:58 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id hh4so5103571qtb.10;
-        Fri, 03 Jun 2022 02:12:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xrZu3JWLdC5Y2R17LStLOEC4phCuKGH0ZqwdOEha4HQ=;
-        b=Q7o3fsbqEzZjd6lbzXzmzRTc03mMEKrsYvp9S/nPHIbwtj6+4pBsT55pLmcd+KE186
-         W8DQ3HeBEzBP3+Kef3hgofIYF46cfDN3U6T2ld2hgQ35xcH1+GnmYN1DlRAZp7FOfLr0
-         dCm6enNlqwijYjt4+M6R/VmREbV6jIs6+1beH+4HEYNvODB7kaoF+qNKj25JqjWSBjtr
-         BovZL14pHNbtyMGH2o+8oqmu55qsKgESEePrNbC1ZQ3c3nn6eerfuIBkgiVw4+cR+KGS
-         f7cHeu5k/u82x/7yIYzZfvNI0GFy6EQy6i8sLMS57ioqZ8DXTeYSv7fKEqPVW6vhCm/7
-         n1Bg==
-X-Gm-Message-State: AOAM533XZXN4CEDbAoLYwhXpjbMDNek7x/8IeS9+5WHpurdurt/O2Z40
-        OxuZssgKSy316q4IgM/lNM8YjLs3mOP2cw==
-X-Google-Smtp-Source: ABdhPJw+3hUzlJEz7/ycUqnnBaSsBrk4qYBjZjYddalyLFA+voNNHXgSQq+l5rEWW7AolUxxx3DpuQ==
-X-Received: by 2002:ac8:5a86:0:b0:303:fba5:ed5e with SMTP id c6-20020ac85a86000000b00303fba5ed5emr6604827qtc.330.1654247577638;
-        Fri, 03 Jun 2022 02:12:57 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id v7-20020ac873c7000000b002f93be3ccfdsm284865qtp.18.2022.06.03.02.12.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jun 2022 02:12:57 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id w2so12678738ybi.7;
-        Fri, 03 Jun 2022 02:12:57 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr10146637ybu.604.1654247576916; Fri, 03
- Jun 2022 02:12:56 -0700 (PDT)
+        Fri, 3 Jun 2022 07:05:40 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3ABB3BFB8;
+        Fri,  3 Jun 2022 04:05:38 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,274,1647270000"; 
+   d="scan'208";a="123226928"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 03 Jun 2022 20:05:37 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A986642849B8;
+        Fri,  3 Jun 2022 20:05:37 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
+        krzk+dt@kernel.org
+Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v6 0/7] treewide: ufs: Add support for Renesas R-Car UFS controller
+Date:   Fri,  3 Jun 2022 20:05:17 +0900
+Message-Id: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <87mteu49tm.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87mteu49tm.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 Jun 2022 11:12:45 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUWCjFRnjVDzrjDh4ODDyh5hV5zdM9o4i20c4mLXhNpHg@mail.gmail.com>
-Message-ID: <CAMuHMdUWCjFRnjVDzrjDh4ODDyh5hV5zdM9o4i20c4mLXhNpHg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] pinctrl: renesas: r8a779g0: Add pins, groups and functions
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+This patch series adds support Renesas R-Car S4-8 UFS controller.
+This controller has some restrictions so adds some quirks for it.
+Before using this driver, we have to initialize a clock generator
+on the environment board (named "Spider") by using the commands of
+U-Boot like below:
+ => i2c dev 0
+ => i2c mw 0x6c 0x26 0x05
+ => i2c olen 0x6c 2
+ => i2c mw 0x6c 0x13a 0x86
+ => i2c mw 0x6c 0x268 0x06
+ => i2c mw 0x6c 0x269 0x00
+ => i2c mw 0x6c 0x26a 0x3c
+ => i2c mw 0x6c 0x26b 0x00
+ => i2c mw 0x6c 0x26c 0x06
+ => i2c mw 0x6c 0x26d 0x00
+ => i2c mw 0x6c 0x26e 0x3f
+ => i2c mw 0x6c 0x26f 0x00
 
-On Fri, Jun 3, 2022 at 7:04 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> These are for V4H (r8a779g0) pinctrl patches.
->
-> I have separate new macro definition from original patch [1/3].
-> I have cleanuped original initial patch, and merged its fixup patch [2/3].
-> I have merged original many device settings patches into one [3/3].
->
->   [1/3] pinctrl: renesas: Add PORT_GP_CFG_13 macros
->   [2/3] pinctrl: renesas: Initial R8A779G0 (V4H) PFC support
->   [3/3] pinctrl: renesas: r8a779g0: Add pins, groups and functions
+Changes from v5:
+ - Rebase on the following repositories:
+   - Based on renesas-drivers-2022-05-24-v5.18
+   - Merged jejb/for-next
+ - Add Reviewed-by and Acked-by tags in patch [1/7].
+   Note that the document has an error about number of interrupts.
+   So, the Renesas UFS has one interrupt and it's the same with ufs-common.yaml.
+ - Clear hda->capabilities of MASK_64_ADDRESSING_SUPPORT instead in patch [2/7].
+ - Fix some issues in patch [4/7].
+ - Add Reviewed-by in patch [6/7] and [7/7].
+https://lore.kernel.org/all/20220427123706.555166-2-yoshihiro.shimoda.uh@renesas.com/
 
-Thanks for your series!
+Changes from v4:
+ - Fix ufs_renesas_of_match was not terminated in patch [4/7].
+   (from kernel test robot, thanks!)
+https://lore.kernel.org/all/20220420025450.289578-1-yoshihiro.shimoda.uh@renesas.com/
 
-Here's a first set of quick comments. More will follow later.
+Changes from v3:
+ - Fix build warning by clang in patch [4/7].
+https://lore.kernel.org/all/20220419120316.209151-1-yoshihiro.shimoda.uh@renesas.com/
 
-Note that this does not apply cleanly against renesas-pinctrl, as
-drivers/pinctrl/renesas/Kconfig has received some changes in the
-meantime.
+Changes from v2:
+ - Add Reviewed-by in patch [1/7]. (Krzysztof, thanks!)
+ - Use WARN_ON() instead of BUG_ON in patch [4/7].
+https://lore.kernel.org/all/20220414023115.4190736-1-yoshihiro.shimoda.uh@renesas.com/
 
-Please fix the following issues reported by scripts/checkpatch.pl:
-  - code indent should use tabs where possible,
-  - please, no spaces at the start of a line,
-  - please, no space before tabs.
+Changes from v1:
+ - Fix dt-binding doc in patch [1/7].
+ - Add __maybe_unused for compile test on other platforms in patch [4/7].
+ - Fix node names in patch [5/7].
+https://lore.kernel.org/all/20220412073647.3808493-1-yoshihiro.shimoda.uh@renesas.com/
 
-Please enable CONFIG_DEBUG_PINCTRL=y to run the sh-pfc checker (this
-works even when running on another Renesas platform than R-Car V4H;
-all included drivers will be checked), and fix the issues reported:
+Yoshihiro Shimoda (7):
+  dt-bindings: ufs: Document Renesas R-Car UFS host controller
+  ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
+  ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
+  scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
+  scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
+  arm64: dts: renesas: r8a779f0: Add UFS node
+  arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
 
-    r8a779g0_pfc: pin GP_1_23: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_1_24: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_1_25: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_1_26: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_1_27: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_1_28: SH_PFC_PIN_CFG_IO_VOLTAGE set but
-invalid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_3_19: SH_PFC_PIN_CFG_DRIVE_STRENGTH flag set
-but not in drive_regs
-    r8a779g0_pfc: pin GP_4_0: SH_PFC_PIN_CFG_IO_VOLTAGE not set but
-valid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_5_0: SH_PFC_PIN_CFG_IO_VOLTAGE not set but
-valid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_5_20: SH_PFC_PIN_CFG_PULL_UP flag set but pin
-not in bias_regs
-    r8a779g0_pfc: pin GP_5_20: SH_PFC_PIN_CFG_PULL_DOWN flag set but
-pin not in bias_regs
-    r8a779g0_pfc: pin GP_6_0: SH_PFC_PIN_CFG_IO_VOLTAGE not set but
-valid pin_to_pocctrl()
-    r8a779g0_pfc: pin GP_7_0: SH_PFC_PIN_CFG_IO_VOLTAGE not set but
-valid pin_to_pocctrl()
-    r8a779g0_pfc: drive_reg 0xe6058888:5/0xe6058888:4: pin conflict
-    r8a779g0_pfc: bias_reg 0xe60608c0:20/0xe60608c0:19: pin conflict
-    r8a779g0_pfc: bias_reg 0xe60608e0:20/0xe60608e0:19: pin conflict
+ .../devicetree/bindings/ufs/renesas,ufs.yaml  |  61 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |   8 +
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     |  19 +
+ drivers/ufs/core/ufshcd.c                     |  11 +-
+ drivers/ufs/host/Kconfig                      |  12 +
+ drivers/ufs/host/Makefile                     |   1 +
+ drivers/ufs/host/ufs-renesas.c                | 412 ++++++++++++++++++
+ include/ufs/ufshcd.h                          |  12 +
+ 9 files changed, 541 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ufs/renesas,ufs.yaml
+ create mode 100644 drivers/ufs/host/ufs-renesas.c
 
-It is also a good idea to follow the suggestions about pin group subsets
-and reserved fields, as that will reduce table sizes:
+-- 
+2.25.1
 
-    r8a779g0_pfc: group mmc_data1 is a subset of mmc_data4
-    r8a779g0_pfc: group mmc_data1 is a subset of mmc_data8
-    r8a779g0_pfc: group mmc_data4 is a subset of mmc_data8
-    r8a779g0_pfc: group qspi0_data2 is a subset of qspi0_data4
-    r8a779g0_pfc: group qspi1_data2 is a subset of qspi1_data4
-    r8a779g0_pfc: reg 0xe6050040 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6058040 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6060840 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6061040 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6061840 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6068040 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6050068 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe605086c can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6058068 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe605886c can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6061068 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6061868 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6068064 can be described with variable-width
-reserved fields
-    r8a779g0_pfc: reg 0xe6060100: field [0:3] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [4:7] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [8:11] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [14:15] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [18:18] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [20:21] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [24:25] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [27:28] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060100: field [31:31] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [0:3] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [4:7] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [8:11] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [13:14] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [17:18] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [21:22] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [24:24] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [27:28] can be described as reserved
-    r8a779g0_pfc: reg 0xe6060900: field [30:30] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [0:3] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [4:7] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [8:11] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [12:12] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [14:14] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [16:17] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [20:20] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [22:23] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [27:28] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061100: field [31:31] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [0:3] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [4:7] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [8:11] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [12:13] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [14:14] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [17:17] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [19:19] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [22:23] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [26:27] can be described as reserved
-    r8a779g0_pfc: reg 0xe6061900: field [30:30] can be described as reserved
-    r8a779g0_pfc: reg 0xe6068100: field [0:3] can be described as reserved
-    r8a779g0_pfc: reg 0xe6068100: field [4:7] can be described as reserved
-    r8a779g0_pfc: reg 0xe6068100: field [8:11] can be described as reserved
-    r8a779g0_pfc: reg 0xe6068100: field [12:15] can be described as reserved
-    r8a779g0_pfc: reg 0xe6068100: field [16:19] can be described as reserved
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
