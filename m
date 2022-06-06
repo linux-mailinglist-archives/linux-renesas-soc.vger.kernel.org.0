@@ -2,214 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A16953E955
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jun 2022 19:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A3D753E894
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jun 2022 19:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241018AbiFFPll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jun 2022 11:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
+        id S241479AbiFFQF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jun 2022 12:05:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241023AbiFFPlk (ORCPT
+        with ESMTP id S241462AbiFFQFU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jun 2022 11:41:40 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA18856772;
-        Mon,  6 Jun 2022 08:41:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 159C0CE1715;
-        Mon,  6 Jun 2022 15:41:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 544A0C34115;
-        Mon,  6 Jun 2022 15:41:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654530095;
-        bh=LMoX1OcQiR7IDT2C7EN5//xbFskMPn+ON5V9Ke6Ivno=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HlIzFg/OhGuQWx1ZqLx5fiR58C9tYsF1IXPSKIhLLspkIGEC8F5dqwX+lQsHVxQLs
-         JKibXvQ1cRBbkwhzLPw5HdqeoJgmb/y/f2zlu4PdtVmKBAqB4ymTrQh6VoV+1vW++Z
-         l84KI5xxpYUuxEqwKLOBeINckzdfyOKnEfXzuZjaglXT0A+ZXLEnI8AolAiRIyItiW
-         uTDtuDmGzu3LXjlbsqfHVMyhJRKafIx47YiM+uusvwwhZmDAtL6Hnag8BMpgZ+3gdc
-         X30q500cZGcu+yr0fIdd9te+pu/fCh0kiwb9FpheosVA3c199oPwEzaBtJgWGyi0Lq
-         ExwbvEtJgLIqQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1nyErE-00FwW9-TN; Mon, 06 Jun 2022 16:41:33 +0100
-Date:   Mon, 06 Jun 2022 16:41:32 +0100
-Message-ID: <87r1414x5f.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Mon, 6 Jun 2022 12:05:20 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 99B851611EC;
+        Mon,  6 Jun 2022 09:05:16 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.91,280,1647270000"; 
+   d="scan'208";a="123496102"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Jun 2022 01:05:16 +0900
+Received: from localhost.localdomain (unknown [10.226.92.45])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DC517400A0F8;
+        Tue,  7 Jun 2022 01:05:11 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH RFC 2/2] irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
-In-Reply-To: <CA+V-a8vfzsB55YdFmtx3eim617b=WCYJu+Tm3SO9c1QCB3i0Lw@mail.gmail.com>
-References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220524172214.5104-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <CA+V-a8vfzsB55YdFmtx3eim617b=WCYJu+Tm3SO9c1QCB3i0Lw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com, sagar.kadam@sifive.com, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, phil.edworthy@renesas.com, biju.das.jz@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/2] Add support for RZ/G2L GPT
+Date:   Mon,  6 Jun 2022 17:05:07 +0100
+Message-Id: <20220606160509.250962-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 27 May 2022 12:05:38 +0100,
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> 
-> Hi,
-> 
-> On Tue, May 24, 2022 at 6:22 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > The Renesas RZ/Five SoC has a RISC-V AX45MP AndesCore with NCEPLIC100. The
-> > NCEPLIC100 supports both edge-triggered and level-triggered interrupts. In
-> > case of edge-triggered interrupts NCEPLIC100 ignores the next interrupt
-> > edge until the previous completion message has been received and
-> > NCEPLIC100 doesn't support pending interrupt counter, hence losing the
-> > interrupts if not acknowledged in time.
-> >
-> > So the workaround for edge-triggered interrupts to be handled correctly
-> > and without losing is that it needs to be acknowledged first and then
-> > handler must be run so that we don't miss on the next edge-triggered
-> > interrupt.
-> >
-> > This patch adds a new compatible string for Renesas RZ/Five SoC and adds
-> > support to change interrupt flow based on the interrupt type. It also
-> > implements irq_ack and irq_set_type callbacks.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/irqchip/Kconfig           |  1 +
-> >  drivers/irqchip/irq-sifive-plic.c | 71 ++++++++++++++++++++++++++++++-
-> >  2 files changed, 70 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-> > index f3d071422f3b..aea0e4e7e547 100644
-> > --- a/drivers/irqchip/Kconfig
-> > +++ b/drivers/irqchip/Kconfig
-> > @@ -537,6 +537,7 @@ config SIFIVE_PLIC
-> >         bool "SiFive Platform-Level Interrupt Controller"
-> >         depends on RISCV
-> >         select IRQ_DOMAIN_HIERARCHY
-> > +       select IRQ_FASTEOI_HIERARCHY_HANDLERS
-> >         help
-> >            This enables support for the PLIC chip found in SiFive (and
-> >            potentially other) RISC-V systems.  The PLIC controls devices
-> > diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
-> > index bb87e4c3b88e..abffce48e69c 100644
-> > --- a/drivers/irqchip/irq-sifive-plic.c
-> > +++ b/drivers/irqchip/irq-sifive-plic.c
-> > @@ -60,10 +60,13 @@
-> >  #define        PLIC_DISABLE_THRESHOLD          0x7
-> >  #define        PLIC_ENABLE_THRESHOLD           0
-> >
-> > +#define RENESAS_R9A07G043_PLIC         1
-> > +
-> >  struct plic_priv {
-> >         struct cpumask lmask;
-> >         struct irq_domain *irqdomain;
-> >         void __iomem *regs;
-> > +       u8 of_data;
-> >  };
-> >
-> >  struct plic_handler {
-> > @@ -163,10 +166,31 @@ static int plic_set_affinity(struct irq_data *d,
-> >  }
-> >  #endif
-> >
-> > +static void plic_irq_ack(struct irq_data *d)
-> > +{
-> > +       struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-> > +
-> > +       if (irqd_irq_masked(d)) {
-> > +               plic_irq_unmask(d);
-> > +               writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
-> > +               plic_irq_mask(d);
-> > +       } else {
-> > +               writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
-> > +       }
-> > +}
-> > +
-> I sometimes still see an interrupt miss!
-> 
-> As per [0], we first need to claim the interrupt by reading the claim
-> register which needs to be done in the ack callback (which should be
-> doable) for edge interrupts, but the problem arises in the chained
-> handler callback where it does claim the interrupt by reading the
-> claim register.
-> 
-> static void plic_handle_irq(struct irq_desc *desc)
-> {
->     struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
->     struct irq_chip *chip = irq_desc_get_chip(desc);
->     void __iomem *claim = handler->hart_base + CONTEXT_CLAIM;
->     irq_hw_number_t hwirq;
-> 
->     WARN_ON_ONCE(!handler->present);
-> 
->     chained_irq_enter(chip, desc);
-> 
->     while ((hwirq = readl(claim))) {
->         int err = generic_handle_domain_irq(handler->priv->irqdomain,
->                             hwirq);
->         if (unlikely(err))
->             pr_warn_ratelimited("can't find mapping for hwirq %lu\n",
->                     hwirq);
->     }
-> 
->     chained_irq_exit(chip, desc);
-> }
-> 
-> I was thinking I would get around by getting the irqdata in
-> plic_handle_irq() callback using the irq_desc (struct irq_data *d =
-> &desc->irq_data;) and check the d->hwirq but this will be always 9.
-> 
->         plic: interrupt-controller@12c00000 {
->             compatible = "renesas-r9a07g043-plic";
->             #interrupt-cells = <2>;
->             #address-cells = <0>;
->             riscv,ndev = <543>;
->             interrupt-controller;
->             reg = <0x0 0x12c00000 0 0x400000>;
->             clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
->             clock-names = "plic100ss";
->             power-domains = <&cpg>;
->             resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
->             interrupts-extended = <&cpu0_intc 11 &cpu0_intc 9>;
->         };
-> 
-> Any pointers on how this could be done sanely.
+RZ/G2L General PWM Timer (GPT) composed of 8 channels with 32-bit timer
+(GPT32E). It supports the following functions
+ * 32 bits × 8 channels
+ * Up-counting or down-counting (saw waves) or up/down-counting
+   (triangle waves) for each counter.
+ * Clock sources independently selectable for each channel
+ * Two I/O pins per channel
+ * Two output compare/input capture registers per channel
+ * For the two output compare/input capture registers of each channel,
+   four registers are provided as buffer registers and are capable of
+   operating as comparison registers when buffering is not in use.
+ * In output compare operation, buffer switching can be at crests or
+   troughs, enabling the generation of laterally asymmetric PWM waveforms.
+ * Registers for setting up frame cycles in each channel (with capability
+   for generating interrupts at overflow or underflow)
+ * Generation of dead times in PWM operation
+ * Synchronous starting, stopping and clearing counters for arbitrary
+   channels
+ * Starting, stopping, clearing and up/down counters in response to input
+   level comparison
+ * Starting, clearing, stopping and up/down counters in response to a
+   maximum of four external triggers
+ * Output pin disable function by dead time error and detected
+   short-circuits between output pins
+ * A/D converter start triggers can be generated (GPT32E0 to GPT32E3)
+ * Enables the noise filter for input capture and external trigger
+   operation
 
-Why doesn't the chained interrupt also get the ack-aware irq_chip?
+This patch series aims to add basic pwm support for RZ/G2L GPT driver
+by creating separate logical channels for each IOs.
 
-	M.
+V1->v2:
+ * Added '|' after 'description:' to preserve formatting.
+ * Removed description for pwm_cells as it is common property.
+ * Changed the reg size in example from 0xa4->0x100
+ * Added Rb tag from Geert for bindings.
+ * Added Limitations section
+ * dropped "_MASK" from the define names.
+ * used named initializer for struct phase
+ * Added gpt_pwm_device into a flexible array member in rzg2l_gpt_chip
+ * Revised the logic for prescale
+ * Added .get_state callback
+ * Improved error handling in rzg2l_gpt_apply
+ * Removed .remove callback
+ * Tested the driver with PWM_DEBUG enabled.
 
+RFC->v1:
+ * Added Description in binding patch
+ * Removed comments from reg and clock
+ * replaced rzg2l_gpt_write_mask()->rzg2l_gpt_modify()
+ * Added rzg2l_gpt_read() and updated macros
+ * Removed dtsi patches, will send it separately
+
+RFC:
+ * https://lore.kernel.org/linux-renesas-soc/20220430075915.5036-1-biju.das.jz@bp.renesas.com/T/#t
+
+Biju Das (2):
+  dt-bindings: pwm: Add RZ/G2L GPT binding
+  pwm: Add support for RZ/G2L GPT
+
+ .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 129 +++++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzg2l-gpt.c                   | 351 ++++++++++++++++++
+ 4 files changed, 492 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
+ create mode 100644 drivers/pwm/pwm-rzg2l-gpt.c
+
+
+base-commit: 997b2d66ff4e40ef6a5acf76452e8c21104416f7
 -- 
-Without deviation from the norm, progress is not possible.
+2.25.1
+
