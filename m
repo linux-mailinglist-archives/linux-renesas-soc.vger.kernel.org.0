@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADBDF53F790
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jun 2022 09:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C304653F79D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jun 2022 09:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbiFGHqb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jun 2022 03:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48166 "EHLO
+        id S237930AbiFGHtF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jun 2022 03:49:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231281AbiFGHqa (ORCPT
+        with ESMTP id S237932AbiFGHtE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jun 2022 03:46:30 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74291C17DB
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jun 2022 00:46:29 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id j8so9295993qtn.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jun 2022 00:46:29 -0700 (PDT)
+        Tue, 7 Jun 2022 03:49:04 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9AE6A438
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jun 2022 00:49:00 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id x7so12073103qta.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jun 2022 00:49:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=udkFYnrRhuaS0d9Hyr0bAb66t+eE1zu4fp1aOrvZzhc=;
-        b=kJW1gd4MaPzlzE3erzPo1lKhwUssYRomvae6ihGEgKFz8J4tJyMW3GzQ8mvWYHX/vJ
-         8BgfDmyIfEWEDEHy0xbMfVJqQziy/DRBsHnaXUq288iyIL7z1ePJ90jHsFLhxKAxTJYc
-         1/+JXnumzuzNnzXX4RDOX2nguDxdSVLGgkHhGUYptSr57H6pCl4QGW+GVcyRLnTveUrR
-         hZaFp8GOmhBAaCVnLACq2UE7Qo8iOxWkFMB6wTTXeK/JWXMjrvB2YKF3SmRO7BNaDYMF
-         EOR8NVzU134bndLHgtuC83T+jt3dhi+am7j9qIomZK5Q1eVrMnfaU19HTFvafn2Fk72l
-         cQ/g==
-X-Gm-Message-State: AOAM532rG1SiM+O5k3Hop/Rmkefvaf1+P6GaABswc1WtU8NJ2qXG+Von
-        922oWAMaZotm9481dIgQpEH0xUWkLJ4jvw==
-X-Google-Smtp-Source: ABdhPJwVxrUrviGM5HGlN1nM662J6la2QQfh5SR4UQwWBknmf6Q1tPRhNirupG8gYaOiKaXPWPjveQ==
-X-Received: by 2002:ac8:5896:0:b0:2f3:d231:58a9 with SMTP id t22-20020ac85896000000b002f3d23158a9mr21630925qta.131.1654587988456;
-        Tue, 07 Jun 2022 00:46:28 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id d4-20020a376804000000b006a6b84c6cbdsm4666087qkc.30.2022.06.07.00.46.28
+        bh=WwkZjTKT24/QvKamHPhDckgQxV2ZnCcEeVpRT8SNhtA=;
+        b=1F+9HiTB4ldQGkR6v8e840C+5vCXr1anL1MqiQkf0SSvjLyFlsR/v23f9YJhLxZKvn
+         VcE11P2sHKlWpHsyc5wIawZBUwPeD2TetNiLL9OZXpX0ZfTNqG0Thu2vETYuKrKznJnU
+         OO/Uj+nzjU6FJ0RUAzqngOIxQl7PkqYiNQMNKgbPkEGBNa1MVfQf5U3oC75ennYpjRvg
+         MFnh+w4A2KPSE+rQaYVlb7AcXiHJZWjJi1PgUwsTGrx430Sk3M3oYEglWO5GsN3iOFBl
+         i1+xNG6vEi976YTdMNbPhKgk9azgmu17sExIAwXuAAV7oyo1JmZhFLO1iH5oD1arkaOe
+         VPrg==
+X-Gm-Message-State: AOAM530+Xg2XropLLHdZF6nEOINmMn8U7vQ7D2cW9u83oXM5Ymw9g2GW
+        gMHr6RN3M7uhxKt/GRExXgNBz5YEm/i1wg==
+X-Google-Smtp-Source: ABdhPJypDnBNfwOnlk/0r9OQRuJGw7/WGxBcCfuTxAnjJSXdxnaZRGRHJ8UQKmgTQZYh0j2Qq8VLKA==
+X-Received: by 2002:a05:622a:1a28:b0:304:ec1d:e8c3 with SMTP id f40-20020a05622a1a2800b00304ec1de8c3mr7398118qtb.175.1654588139330;
+        Tue, 07 Jun 2022 00:48:59 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id z5-20020a05622a124500b00304efba3d84sm2770862qtx.25.2022.06.07.00.48.58
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 00:46:28 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2ec42eae76bso166402937b3.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jun 2022 00:46:28 -0700 (PDT)
-X-Received: by 2002:a81:4811:0:b0:30c:8021:4690 with SMTP id
- v17-20020a814811000000b0030c80214690mr30058815ywa.47.1654587987814; Tue, 07
- Jun 2022 00:46:27 -0700 (PDT)
+        Tue, 07 Jun 2022 00:48:59 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-30fdbe7467cso131189557b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jun 2022 00:48:58 -0700 (PDT)
+X-Received: by 2002:a81:f41:0:b0:313:4d6c:49db with SMTP id
+ 62-20020a810f41000000b003134d6c49dbmr265198ywp.384.1654588138597; Tue, 07 Jun
+ 2022 00:48:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220530024626.1870277-1-yoshihiro.shimoda.uh@renesas.com> <20220530024626.1870277-2-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220530024626.1870277-2-yoshihiro.shimoda.uh@renesas.com>
+References: <20220530024626.1870277-1-yoshihiro.shimoda.uh@renesas.com> <20220530024626.1870277-3-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220530024626.1870277-3-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Jun 2022 09:46:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWD9_j1pK7zdLk6rzTX4PuNfauGFBTKbKjpfCQ6uuPsCw@mail.gmail.com>
-Message-ID: <CAMuHMdWD9_j1pK7zdLk6rzTX4PuNfauGFBTKbKjpfCQ6uuPsCw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779f0: Add IPMMU nodes
+Date:   Tue, 7 Jun 2022 09:48:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUYsXiNE5-h0wgEfJxexEQ4Hdr6m5RbwMteRHPhv+ni0A@mail.gmail.com>
+Message-ID: <CAMuHMdUYsXiNE5-h0wgEfJxexEQ4Hdr6m5RbwMteRHPhv+ni0A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a779f0: Add iommus in dmac nodes
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
@@ -68,12 +68,13 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, May 30, 2022 at 4:46 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add IPMMU nodes for r8a779f0.
+> Add iommus propaties in the dmac nodes for r8a779f0.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
+My
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+on v1 is still valid, so will queue in renesas-devel for v5.20.
 
 Gr{oetje,eeting}s,
 
