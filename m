@@ -2,195 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FB8543F4A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 00:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DE5A543F73
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 00:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234785AbiFHWnK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 18:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50640 "EHLO
+        id S230024AbiFHWtR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 18:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236686AbiFHWnJ (ORCPT
+        with ESMTP id S229970AbiFHWtQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 18:43:09 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA3A24FA0A
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 15:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654728187; x=1686264187;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3baUNOVpEY+VGrKBZBpakpFceTV8UHCawJLuySWrQe4=;
-  b=fld0MQwZ7qQzDX7dKz9y2too3JoccBZg0uo7sasmiEhCRLI5jG3AEpHl
-   5gZhdUD2Nn9J9tioLNqmF8CTy8ZpnIB4Dd1aEuF2CftNdBem6RsIhWigx
-   3FXZ+0GPVxQEB6pNkIyDWAb+aPxSz67A1Y1H6KtDQddZIWdxTBLj5B36B
-   BIGCUHuxsA6qWcmG2gr+LuaTnLkE50YlFMPLkUcWV42juKXeEgpYQeQRM
-   vlSyCJbIIpKlOLTO822L/kYZOnymTwkrPXUtj6PVk68h/k3KnPGP0A/9H
-   Zc/g2Mngy7ylSMh7LwTv7K0nTIX8cMp0a+RqH5aZaRADPzlg9vxRdLvSl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="278235018"
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; 
-   d="scan'208";a="278235018"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 15:43:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; 
-   d="scan'208";a="637106830"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Jun 2022 15:43:05 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nz4OH-000FBT-3V;
-        Wed, 08 Jun 2022 22:43:05 +0000
-Date:   Thu, 09 Jun 2022 06:42:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 6f4a1ec70aeccaabaae9ae3860561c6f48965c31
-Message-ID: <62a125cd.b8nDzpL6D4J0EpJX%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 8 Jun 2022 18:49:16 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA74228716;
+        Wed,  8 Jun 2022 15:49:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 18F51CE2C8A;
+        Wed,  8 Jun 2022 22:49:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C22C34116;
+        Wed,  8 Jun 2022 22:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654728551;
+        bh=KoDfYZU8H3/Jk6nelCnyzGy1ViLp+HOvc80VTERRhLk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=c47L61jNlPTTvhMermxgEoTOR9tWN65ALmSIUqWA/wuOeo+x67eQrpqH+NwJc5S+h
+         PXtQCy08WczMlRL1nrqYaTzNO8rQ7ucEMUfc1fak2OFB8n3dUP4d+rjMPwR2VNbPH0
+         Mf6l5WTxg4u1Kcn783ubkdYv2krRDz2t1vUTXPBVPXt9B8mkQ0GMHULzam2VTrceSn
+         vNzj7lGKeQ8LZvsupIlQG5hs80ef3vrgPzzmPrVZUmCHf0eyTLpjvNj41LJJPA7k1D
+         MGP0elVE6cT4SScOWE7iEvpStoF4640FLL1sX7CvK+m4RK4FHM2MPS5Q45TdRfX4j3
+         QUGUYhF+ECwLQ==
+Date:   Wed, 8 Jun 2022 15:49:08 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Ahern <dsahern@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Thomas Bogendoerfer <tbogendoerfer@suse.de>
+Subject: Re: [PATCH v2 0/9] deferred_probe_timeout logic clean up
+Message-ID: <20220608154908.4ddb9795@kernel.org>
+In-Reply-To: <CAGETcx8UO=4mk31tU4QaWU3RaNM_myA9woe0idBp6p7+X5AEgg@mail.gmail.com>
+References: <20220601070707.3946847-1-saravanak@google.com>
+        <CAMuHMdXkX-SXtBuTRGJOUnpw9goSP6RFr_PTt_3w_yWgBpWsqg@mail.gmail.com>
+        <CAGETcx9f0UBhpp6dM+KJwtYpLx19wwsq6_ygi3En7FrXobOSpA@mail.gmail.com>
+        <CAGETcx8VM+xOCe7HEx9FUU-1B9nrX8Q=tE=NjTyb9uX2_8RXLQ@mail.gmail.com>
+        <CAMuHMdXzu8Vp=a7fyjOB=xt04aee=vWXV=TcRZeeKUGYFFZ1CA@mail.gmail.com>
+        <CAGETcx_Nqo4ju7cWwO3dP3YM2wpCb0jx23OHOReexOjpT5pATA@mail.gmail.com>
+        <CAMuHMdXQCwMQj_ZiOBAzusdCxd8w6NbTqD_7nzykhVs+UWx8Gw@mail.gmail.com>
+        <CAGETcx8UO=4mk31tU4QaWU3RaNM_myA9woe0idBp6p7+X5AEgg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 6f4a1ec70aeccaabaae9ae3860561c6f48965c31  Merge branch 'renesas-arm-dt-for-v5.20' into renesas-next
+On Wed, 8 Jun 2022 14:07:44 -0700 Saravana Kannan wrote:
+> David/Jakub,
+> 
+> Do the IP4 autoconfig changes look reasonable to you?
 
-elapsed time: 2239m
+I'm no expert in this area, I'd trust the opinion of the embedded folks
+(adding Florian as well) more than myself. It's unclear to me why we'd
+wait_for_init_devices_probe() after the first failed iteration, sleep,
+and then allow 11 more iterations with wait_for_device_probe().
 
-configs tested: 109
-configs skipped: 126
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-mips                 randconfig-c004-20220607
-sh                           se7206_defconfig
-powerpc                    adder875_defconfig
-sh                         apsh4a3a_defconfig
-sh                          r7785rp_defconfig
-powerpc                      ppc6xx_defconfig
-arm                        shmobile_defconfig
-parisc                generic-64bit_defconfig
-openrisc                 simple_smp_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                      tqm8xx_defconfig
-powerpc                 mpc834x_itx_defconfig
-alpha                            alldefconfig
-m68k                            mac_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220607
-arm                  randconfig-c002-20220608
-x86_64                            allnoconfig
-riscv                             allnoconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-h8300                            allyesconfig
-m68k                             allyesconfig
-xtensa                           allyesconfig
-m68k                             allmodconfig
-csky                                defconfig
-arc                                 defconfig
-mips                             allyesconfig
-nios2                            allyesconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-mips                             allmodconfig
-sh                               allmodconfig
-powerpc                          allyesconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-um                             i386_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                        randconfig-a011
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a003
-i386                          randconfig-a001
-i386                          randconfig-a005
-x86_64                    rhel-8.3-kselftests
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-powerpc              randconfig-c003-20220607
-x86_64                        randconfig-c007
-riscv                randconfig-c006-20220607
-i386                          randconfig-c001
-s390                 randconfig-c005-20220607
-mips                 randconfig-c004-20220607
-arm                  randconfig-c002-20220607
-mips                      pic32mzda_defconfig
-arm                         socfpga_defconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                        fsp2_defconfig
-powerpc                          g5_defconfig
-arm64                            allyesconfig
-mips                        maltaup_defconfig
-powerpc                       ebony_defconfig
-powerpc                     akebono_defconfig
-powerpc                 mpc832x_mds_defconfig
-arm                         mv78xx0_defconfig
-arm                         lpc32xx_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-hexagon              randconfig-r045-20220608
-hexagon              randconfig-r041-20220608
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Let me also add Thomas since he wrote e2ffe3ff6f5e ("net: ipconfig:
+Wait for deferred device probes").
