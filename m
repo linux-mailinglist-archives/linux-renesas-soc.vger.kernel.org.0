@@ -2,43 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D965431E6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 15:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E4FC5431EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 15:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240895AbiFHNtl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 09:49:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56594 "EHLO
+        id S240913AbiFHNvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 09:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240563AbiFHNtk (ORCPT
+        with ESMTP id S240954AbiFHNvk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 09:49:40 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB20F27C242
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 06:49:37 -0700 (PDT)
+        Wed, 8 Jun 2022 09:51:40 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6206D84E
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 06:51:39 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:243a:e14b:d107:1f56])
-        by baptiste.telenet-ops.be with bizsmtp
-        id gdpb2700B1qF9lr01dpbFn; Wed, 08 Jun 2022 15:49:35 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id gdrd2700J1qF9lr01drdF3; Wed, 08 Jun 2022 15:51:38 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nyw3y-003DB9-Qt; Wed, 08 Jun 2022 15:49:34 +0200
+        id 1nyw5x-003DBw-4Z; Wed, 08 Jun 2022 15:51:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1nyw3y-008L36-C1; Wed, 08 Jun 2022 15:49:34 +0200
+        id 1nyw5w-008L6w-Ec; Wed, 08 Jun 2022 15:51:36 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: clock: renesas,rzg2l: Simplify header file references
-Date:   Wed,  8 Jun 2022 15:49:33 +0200
-Message-Id: <f274ad16010798dd4a45d2dca5f870da8acbb470.1654696009.git.geert+renesas@glider.be>
+Subject: [PATCH] soc: renesas: r8a779a0-sysc: Fix A2DP1 and A2CV[2357] PDR values
+Date:   Wed,  8 Jun 2022 15:51:35 +0200
+Message-Id: <87bc2e70ba4082970cf8c65871beae4be3503189.1654696188.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,43 +47,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The bindings already uses <dt-bindings/clock/r9a0*-cpg.h> to refer to
-the header files with DT binding definitions for core clocks.
-Use more wildcards to simplify more references to these files.
+The PDR values for the A2DP1 and A2CV[2357] power areas on R-Car V3U are
+incorrect (copied-and-pasted from A2DP0 and A2CV[0146]).
+Fix them.
 
+Reported-by: Renesas Vietnam via Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Fixes: 1b4298f000064cc2 ("soc: renesas: r8a779a0-sysc: Add r8a779a0 support")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-clk-for-v5.20.
+To be queued in renesas-devel-for-v5.20.
 
- .../devicetree/bindings/clock/renesas,rzg2l-cpg.yaml       | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/soc/renesas/r8a779a0-sysc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-index 8880b834f264cd9f..d036675e0779addc 100644
---- a/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,rzg2l-cpg.yaml
-@@ -45,10 +45,9 @@ properties:
-     description: |
-       - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
-         and a core clock reference, as defined in
--        <dt-bindings/clock/r9a0*-cpg.h>
-+        <dt-bindings/clock/r9a0*-cpg.h>,
-       - For module clocks, the two clock specifier cells must be "CPG_MOD" and
--        a module number, as defined in the <dt-bindings/clock/r9a07g0*-cpg.h> or
--        <dt-bindings/clock/r9a09g011-cpg.h>.
-+        a module number, as defined in <dt-bindings/clock/r9a0*-cpg.h>.
-     const: 2
- 
-   '#power-domain-cells':
-@@ -62,7 +61,7 @@ properties:
-   '#reset-cells':
-     description:
-       The single reset specifier cell must be the module number, as defined in
--      the <dt-bindings/clock/r9a07g0*-cpg.h> or <dt-bindings/clock/r9a09g011-cpg.h>.
-+      <dt-bindings/clock/r9a0*-cpg.h>.
-     const: 1
- 
- required:
+diff --git a/drivers/soc/renesas/r8a779a0-sysc.c b/drivers/soc/renesas/r8a779a0-sysc.c
+index fdfc857df33492a6..04f1bc322ae7b671 100644
+--- a/drivers/soc/renesas/r8a779a0-sysc.c
++++ b/drivers/soc/renesas/r8a779a0-sysc.c
+@@ -57,11 +57,11 @@ static struct rcar_gen4_sysc_area r8a779a0_areas[] __initdata = {
+ 	{ "a2cv6",	R8A779A0_PD_A2CV6, R8A779A0_PD_A3IR },
+ 	{ "a2cn2",	R8A779A0_PD_A2CN2, R8A779A0_PD_A3IR },
+ 	{ "a2imp23",	R8A779A0_PD_A2IMP23, R8A779A0_PD_A3IR },
+-	{ "a2dp1",	R8A779A0_PD_A2DP0, R8A779A0_PD_A3IR },
+-	{ "a2cv2",	R8A779A0_PD_A2CV0, R8A779A0_PD_A3IR },
+-	{ "a2cv3",	R8A779A0_PD_A2CV1, R8A779A0_PD_A3IR },
+-	{ "a2cv5",	R8A779A0_PD_A2CV4, R8A779A0_PD_A3IR },
+-	{ "a2cv7",	R8A779A0_PD_A2CV6, R8A779A0_PD_A3IR },
++	{ "a2dp1",	R8A779A0_PD_A2DP1, R8A779A0_PD_A3IR },
++	{ "a2cv2",	R8A779A0_PD_A2CV2, R8A779A0_PD_A3IR },
++	{ "a2cv3",	R8A779A0_PD_A2CV3, R8A779A0_PD_A3IR },
++	{ "a2cv5",	R8A779A0_PD_A2CV5, R8A779A0_PD_A3IR },
++	{ "a2cv7",	R8A779A0_PD_A2CV7, R8A779A0_PD_A3IR },
+ 	{ "a2cn1",	R8A779A0_PD_A2CN1, R8A779A0_PD_A3IR },
+ 	{ "a1cnn0",	R8A779A0_PD_A1CNN0, R8A779A0_PD_A2CN0 },
+ 	{ "a1cnn2",	R8A779A0_PD_A1CNN2, R8A779A0_PD_A2CN2 },
 -- 
 2.25.1
 
