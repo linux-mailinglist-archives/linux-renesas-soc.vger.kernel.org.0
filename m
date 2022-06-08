@@ -2,152 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0BC5542E6E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 12:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19162542EFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 13:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236795AbiFHKwa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 06:52:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
+        id S237682AbiFHLQq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 07:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236983AbiFHKw3 (ORCPT
+        with ESMTP id S237780AbiFHLQp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 06:52:29 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AEA1E7AF8
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 03:52:27 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id q1so40676497ejz.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 03:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=H9gdPAYEu5XJptAc0kQeVYVgl5hWoLoZN5syYTQ5mNM=;
-        b=Qh7Ty68rfizvfaF3qG8UEXEMAt0L3arSPDojNDSN3auo8VlkqDM72cqwFuZziVAsa0
-         plKefXVcxI4k66rDRYoTRRW41rt9bZNsOeumGTlCSWF6NdgTUl6bHDo7dCSMiFfN41m3
-         ouBmkLI4q5sjmmTLuySV7f3HrRmRK5Iq4vu50YsM/ZWBx2Ksr7AuLb7SCZpErlpQUzfE
-         V1fQEd7BVgwnY/mzfQmbnuD9aR6iRklNYslEvhNJ6YfKXeezX1RGHUGLX/hNEbDzDipA
-         bIeLe8zWV+LJSLMvxR2s4DD089CMhg8Zv79vStXTYNP/dQNUB0+dop1eCwqCoC9uP51u
-         LTKA==
+        Wed, 8 Jun 2022 07:16:45 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7413739DE;
+        Wed,  8 Jun 2022 04:16:44 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id z10so1224688qta.2;
+        Wed, 08 Jun 2022 04:16:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=H9gdPAYEu5XJptAc0kQeVYVgl5hWoLoZN5syYTQ5mNM=;
-        b=MjUtLRBjUu9F6y1+A5AlYhvyGMJoz65xyF6yM3zZD2AvRA1zFzHLAfvVZykBK1JZTg
-         H/AD+eCnXp0VLcsygV7jCrXw4otvr6YNmcjEAHc/3D4C0sjYAx7b3BzwDQ28GP4jj4rm
-         TqBjAL+NEtRYUGlV4H63DG9PWbrka7Pu9Zv9jJkMOfejlrjSZESnDpKsyCX6tMEe9MSx
-         vQjJwKMhbKGZsMLzYhwLhw58syVKMk0kQOUumVA8GIQxITa3pMQuLvWnnxVA7vZNtbrs
-         4/CYWpROFUIU2/065Uo6qdZK8bjUV6sBPyG08WsXthCxKfV98fEDQNTmwiQzuDoRjRsZ
-         tzNw==
-X-Gm-Message-State: AOAM531JJL6gestTViZQMDzrJ8J32gkHLNqCXPTKNuXOtRhiuHsS2ZUx
-        QnMYTJc/eXQneD1ztWWNd39veA==
-X-Google-Smtp-Source: ABdhPJwWec2s26qVJ689sEFpvOyRFQnCAppG/t70ZsXqIRM6ewBZOhQ5Orpe86cCQG5CBFZlBxQUTw==
-X-Received: by 2002:a17:906:6a1a:b0:711:ec13:b7bc with SMTP id qw26-20020a1709066a1a00b00711ec13b7bcmr4875722ejc.688.1654685545546;
-        Wed, 08 Jun 2022 03:52:25 -0700 (PDT)
-Received: from [192.168.0.191] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id b6-20020a17090636c600b006feb6dee4absm9002564ejc.137.2022.06.08.03.52.24
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QrKTc24aJUxfwS5ZLT4D6EbhdOHRFrkso98/RbnTqgw=;
+        b=2hETDNIJGI88Wa0J45LfO4VMLr0MAbmPEoBIJRVX5on+/0uZuQEX1bXWtyYTtAHjca
+         6eywzr2WQMuqCE6nPaxU50LgEYPpjR8sS1dAdQFa/wDQFA/Cp1zqEsT9yAnm++xjYnf6
+         TPDbzsfaYKV+m7nqSh2vGl1p0WDBgpzPDZZ3KNrlffFp+zLkSAmbuxOv2Z4yKs4jR8Qi
+         +wEzUf47mz7S6X5DTVP8y/DwvM9nLuO3cMrHJ6MS9Xf9dxko5x4e/ZZa6kHaUoO3rqs8
+         7HCVYg9BylvHoK1CId1qdQyHWVQK26iz8YvUWRG1PS0CFp53/LlOEBpeRVf+BJUHdNiD
+         vh6A==
+X-Gm-Message-State: AOAM531CTZrEApmPAiPA/ZviS2oWUtMamqRJ3sl2dbwDbWpu+MjPJBVQ
+        GVFkTYRkNr3tc3592OkfCHCq77KatIrWLQ==
+X-Google-Smtp-Source: ABdhPJzjEgFddioXtt+KPUu10OYFkl7bcANT9YC1vaTBbXxDKymVzdlMMySVe1gjGrZfsNrRWwjxGw==
+X-Received: by 2002:ac8:5b56:0:b0:2f3:f4a7:cd33 with SMTP id n22-20020ac85b56000000b002f3f4a7cd33mr26878928qtw.608.1654687003617;
+        Wed, 08 Jun 2022 04:16:43 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id d8-20020ac85448000000b00304ef07ee7asm5065169qtq.83.2022.06.08.04.16.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 03:52:24 -0700 (PDT)
-Message-ID: <83a8fb86-3311-87fe-c4ca-ab8e6d0cf784@linaro.org>
-Date:   Wed, 8 Jun 2022 12:52:23 +0200
+        Wed, 08 Jun 2022 04:16:43 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-30c143c41e5so205284367b3.3;
+        Wed, 08 Jun 2022 04:16:43 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr36784488ywg.316.1654687003046; Wed, 08
+ Jun 2022 04:16:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: watchdog: renesas,wdt: Add r9a09g011
- (RZ/V2M) support
-Content-Language: en-US
-To:     Phil Edworthy <phil.edworthy@renesas.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220607135619.174110-1-phil.edworthy@renesas.com>
- <20220607135619.174110-2-phil.edworthy@renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220607135619.174110-2-phil.edworthy@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220603233810.21972-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220603233810.21972-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Jun 2022 13:16:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3U6PjGpB4m4jXC4UMjruqg1T66WtBSnuF68sKD48WTA@mail.gmail.com>
+Message-ID: <CAMuHMdU3U6PjGpB4m4jXC4UMjruqg1T66WtBSnuF68sKD48WTA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document R-Car S4-8 and
+ generic Gen4 support
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07/06/2022 15:56, Phil Edworthy wrote:
-> Add the documentation for the r9a09g011 SoC, but in doing so also
-> reorganise the doc to make it easier to read.
-> Additionally, make the binding require an interrupt to be specified.
-> Whilst the driver does not need an interrupt, all of the SoCs that use
-> this binding actually provide one.
-> 
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../bindings/watchdog/renesas,wdt.yaml        | 63 ++++++++++++-------
->  1 file changed, 42 insertions(+), 21 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index a8d7dde5271b..6473734921e3 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -31,6 +31,11 @@ properties:
->                - renesas,r9a07g054-wdt    # RZ/V2L
->            - const: renesas,rzg2l-wdt
->  
+Hi Wolfram,
+
+On Sun, Jun 5, 2022 at 2:34 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -61,6 +61,10 @@ properties:
+>                - renesas,sdhi-r9a07g044 # RZ/G2{L,LC}
+>                - renesas,sdhi-r9a07g054 # RZ/V2L
+>            - const: renesas,rcar-gen3-sdhi # R-Car Gen3 or RZ/G2
 > +      - items:
 > +          - enum:
-> +              - renesas,r9a09g011-wdt    # RZ/V2M
-> +          - const: renesas,rzv2m-wdt     # RZ/V2M
-> +
->        - items:
->            - enum:
->                - renesas,r8a7742-wdt      # RZ/G1H
-> @@ -70,13 +75,27 @@ properties:
+> +              - renesas,sdhi-r8a779f0  # R-Car S4-8
+> +          - const: renesas,rcar-gen4-sdhi # R-Car Gen4
+
+LGTM.
+
+>
 >    reg:
 >      maxItems: 1
->  
-> -  interrupts: true
-> +  interrupts:
-> +    minItems: 1
-> +    items:
-> +      - description: Timeout
-> +      - description: Parity error
->  
-> -  interrupt-names: true
-> +  interrupt-names:
 
-This also needs minItems
+You forgot to add "renesas,rcar-gen4-sdhi" to the "if" block below, controlling
+clocks and clock-names.
 
-> +    items:
-> +      - const: wdt
-> +      - const: perrout
->  
-> -  clocks: true
-> +  clocks:
-> +    minItems: 1
-> +    items:
-> +      - description: Register access clock
-> +      - description: Main clock
->  
-> -  clock-names: true
-> +  clock-names:
+Gr{oetje,eeting}s,
 
-Ditto
+                        Geert
 
-> +    items:
-> +      - const: pclk
-> +      - const: oscclk
->  
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
