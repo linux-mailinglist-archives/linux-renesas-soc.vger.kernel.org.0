@@ -2,79 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9F5542DF6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 12:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0BC5542E6E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 12:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237546AbiFHKgE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 06:36:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39744 "EHLO
+        id S236795AbiFHKwa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 06:52:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239228AbiFHKfA (ORCPT
+        with ESMTP id S236983AbiFHKw3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 06:35:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 669582A8918;
-        Wed,  8 Jun 2022 03:28:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BC776B8261D;
-        Wed,  8 Jun 2022 10:27:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D39C34116;
-        Wed,  8 Jun 2022 10:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654684071;
-        bh=lS1qiuHW0eqGC4UvSS41hSkG8X/ge0lN3jktBcbYpeQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uIzDWzysJK3RpgucV/+5VsGzXWxaO6fP5yGSEYPvIXJmwtFHICwP48/4/V0OOTRWs
-         6sUs9zuTTWBK5+s5+3/qI2qGZO8sSOOa89OCEuAWV2/5Pnt7YCsr5sjuZnVkQ2PO4i
-         e4CfjWU7p05jkRgdaNKSSNjnelPKCFy9gCLGu1/fGmdgRVoZIbhUIgW1xfHk1mh7LJ
-         5FHKBjNtVBqhEXyUofAD6rnv0kLRf3qc8VSaOpfZE9cqrsrx1DpwPg72MUApltdLBs
-         kHrRRFplY42lOdHA1gMj1No+GJviikzawkmpP2TvrCYYoaS8D+OqzTDtzeWAwazsKp
-         DxThBFjep7hzQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1nysui-00GZgf-22; Wed, 08 Jun 2022 11:27:49 +0100
-Date:   Wed, 08 Jun 2022 11:27:47 +0100
-Message-ID: <87leu74fh8.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Wed, 8 Jun 2022 06:52:29 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AEA1E7AF8
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 03:52:27 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id q1so40676497ejz.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 03:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=H9gdPAYEu5XJptAc0kQeVYVgl5hWoLoZN5syYTQ5mNM=;
+        b=Qh7Ty68rfizvfaF3qG8UEXEMAt0L3arSPDojNDSN3auo8VlkqDM72cqwFuZziVAsa0
+         plKefXVcxI4k66rDRYoTRRW41rt9bZNsOeumGTlCSWF6NdgTUl6bHDo7dCSMiFfN41m3
+         ouBmkLI4q5sjmmTLuySV7f3HrRmRK5Iq4vu50YsM/ZWBx2Ksr7AuLb7SCZpErlpQUzfE
+         V1fQEd7BVgwnY/mzfQmbnuD9aR6iRklNYslEvhNJ6YfKXeezX1RGHUGLX/hNEbDzDipA
+         bIeLe8zWV+LJSLMvxR2s4DD089CMhg8Zv79vStXTYNP/dQNUB0+dop1eCwqCoC9uP51u
+         LTKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=H9gdPAYEu5XJptAc0kQeVYVgl5hWoLoZN5syYTQ5mNM=;
+        b=MjUtLRBjUu9F6y1+A5AlYhvyGMJoz65xyF6yM3zZD2AvRA1zFzHLAfvVZykBK1JZTg
+         H/AD+eCnXp0VLcsygV7jCrXw4otvr6YNmcjEAHc/3D4C0sjYAx7b3BzwDQ28GP4jj4rm
+         TqBjAL+NEtRYUGlV4H63DG9PWbrka7Pu9Zv9jJkMOfejlrjSZESnDpKsyCX6tMEe9MSx
+         vQjJwKMhbKGZsMLzYhwLhw58syVKMk0kQOUumVA8GIQxITa3pMQuLvWnnxVA7vZNtbrs
+         4/CYWpROFUIU2/065Uo6qdZK8bjUV6sBPyG08WsXthCxKfV98fEDQNTmwiQzuDoRjRsZ
+         tzNw==
+X-Gm-Message-State: AOAM531JJL6gestTViZQMDzrJ8J32gkHLNqCXPTKNuXOtRhiuHsS2ZUx
+        QnMYTJc/eXQneD1ztWWNd39veA==
+X-Google-Smtp-Source: ABdhPJwWec2s26qVJ689sEFpvOyRFQnCAppG/t70ZsXqIRM6ewBZOhQ5Orpe86cCQG5CBFZlBxQUTw==
+X-Received: by 2002:a17:906:6a1a:b0:711:ec13:b7bc with SMTP id qw26-20020a1709066a1a00b00711ec13b7bcmr4875722ejc.688.1654685545546;
+        Wed, 08 Jun 2022 03:52:25 -0700 (PDT)
+Received: from [192.168.0.191] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id b6-20020a17090636c600b006feb6dee4absm9002564ejc.137.2022.06.08.03.52.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jun 2022 03:52:24 -0700 (PDT)
+Message-ID: <83a8fb86-3311-87fe-c4ca-ab8e6d0cf784@linaro.org>
+Date:   Wed, 8 Jun 2022 12:52:23 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: watchdog: renesas,wdt: Add r9a09g011
+ (RZ/V2M) support
+Content-Language: en-US
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH RFC 2/2] irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
-In-Reply-To: <CA+V-a8sRW7oUmwOmzBx8cpk+n=cRofh3vT1cmroH_ESHN+Z3YA@mail.gmail.com>
-References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220524172214.5104-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <CA+V-a8vfzsB55YdFmtx3eim617b=WCYJu+Tm3SO9c1QCB3i0Lw@mail.gmail.com>
-        <87r1414x5f.wl-maz@kernel.org>
-        <CA+V-a8sRW7oUmwOmzBx8cpk+n=cRofh3vT1cmroH_ESHN+Z3YA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, geert+renesas@glider.be, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com, sagar.kadam@sifive.com, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, phil.edworthy@renesas.com, biju.das.jz@bp.renesas.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20220607135619.174110-1-phil.edworthy@renesas.com>
+ <20220607135619.174110-2-phil.edworthy@renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220607135619.174110-2-phil.edworthy@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,82 +83,71 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 07 Jun 2022 13:41:16 +0100,
-"Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+On 07/06/2022 15:56, Phil Edworthy wrote:
+> Add the documentation for the r9a09g011 SoC, but in doing so also
+> reorganise the doc to make it easier to read.
+> Additionally, make the binding require an interrupt to be specified.
+> Whilst the driver does not need an interrupt, all of the SoCs that use
+> this binding actually provide one.
 > 
-> Hi Marc,
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  .../bindings/watchdog/renesas,wdt.yaml        | 63 ++++++++++++-------
+>  1 file changed, 42 insertions(+), 21 deletions(-)
 > 
-> On Mon, Jun 6, 2022 at 4:41 PM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > On Fri, 27 May 2022 12:05:38 +0100,
-> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
-> > >
-> > > I sometimes still see an interrupt miss!
-> > >
-> > > As per [0], we first need to claim the interrupt by reading the claim
-> > > register which needs to be done in the ack callback (which should be
-> > > doable) for edge interrupts, but the problem arises in the chained
-> > > handler callback where it does claim the interrupt by reading the
-> > > claim register.
-> > >
-> > > static void plic_handle_irq(struct irq_desc *desc)
-> > > {
-> > >     struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-> > >     struct irq_chip *chip = irq_desc_get_chip(desc);
-> > >     void __iomem *claim = handler->hart_base + CONTEXT_CLAIM;
-> > >     irq_hw_number_t hwirq;
-> > >
-> > >     WARN_ON_ONCE(!handler->present);
-> > >
-> > >     chained_irq_enter(chip, desc);
-> > >
-> > >     while ((hwirq = readl(claim))) {
-> > >         int err = generic_handle_domain_irq(handler->priv->irqdomain,
-> > >                             hwirq);
-> > >         if (unlikely(err))
-> > >             pr_warn_ratelimited("can't find mapping for hwirq %lu\n",
-> > >                     hwirq);
-> > >     }
-> > >
-> > >     chained_irq_exit(chip, desc);
-> > > }
-> > >
-> > > I was thinking I would get around by getting the irqdata in
-> > > plic_handle_irq() callback using the irq_desc (struct irq_data *d =
-> > > &desc->irq_data;) and check the d->hwirq but this will be always 9.
-> > >
-> > >         plic: interrupt-controller@12c00000 {
-> > >             compatible = "renesas-r9a07g043-plic";
-> > >             #interrupt-cells = <2>;
-> > >             #address-cells = <0>;
-> > >             riscv,ndev = <543>;
-> > >             interrupt-controller;
-> > >             reg = <0x0 0x12c00000 0 0x400000>;
-> > >             clocks = <&cpg CPG_MOD R9A07G043_NCEPLIC_ACLK>;
-> > >             clock-names = "plic100ss";
-> > >             power-domains = <&cpg>;
-> > >             resets = <&cpg R9A07G043_NCEPLIC_ARESETN>;
-> > >             interrupts-extended = <&cpu0_intc 11 &cpu0_intc 9>;
-> > >         };
-> > >
-> > > Any pointers on how this could be done sanely.
-> >
-> > Why doesn't the chained interrupt also get the ack-aware irq_chip?
-> >
-> Sorry for being naive, could you please elaborate on this.
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index a8d7dde5271b..6473734921e3 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -31,6 +31,11 @@ properties:
+>                - renesas,r9a07g054-wdt    # RZ/V2L
+>            - const: renesas,rzg2l-wdt
+>  
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a09g011-wdt    # RZ/V2M
+> +          - const: renesas,rzv2m-wdt     # RZ/V2M
+> +
+>        - items:
+>            - enum:
+>                - renesas,r8a7742-wdt      # RZ/G1H
+> @@ -70,13 +75,27 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> -  interrupts: true
+> +  interrupts:
+> +    minItems: 1
+> +    items:
+> +      - description: Timeout
+> +      - description: Parity error
+>  
+> -  interrupt-names: true
+> +  interrupt-names:
 
-There are two main reasons why the above code fails: these interrupts
-are not using either
+This also needs minItems
 
-- the irqchip you think they are using (which one then?),
+> +    items:
+> +      - const: wdt
+> +      - const: perrout
+>  
+> -  clocks: true
+> +  clocks:
+> +    minItems: 1
+> +    items:
+> +      - description: Register access clock
+> +      - description: Main clock
+>  
+> -  clock-names: true
+> +  clock-names:
 
-- the interrupt flow they should be using.
+Ditto
 
-Dumping /sys/kernel/debug/irq/irqs/$IRQ should give you a clue.
+> +    items:
+> +      - const: pclk
+> +      - const: oscclk
+>  
 
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Best regards,
+Krzysztof
