@@ -2,139 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D65E1543E29
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 23:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1963543E3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 23:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbiFHVEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 17:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34382 "EHLO
+        id S234901AbiFHVIY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 17:08:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235001AbiFHVEh (ORCPT
+        with ESMTP id S230483AbiFHVIY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 17:04:37 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E202271AB
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 14:04:33 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id u23so35074773lfc.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 14:04:33 -0700 (PDT)
+        Wed, 8 Jun 2022 17:08:24 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D862271A5
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 14:08:22 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-31332df12a6so74341217b3.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 14:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3og44WXkQ15rtspRUHybs2AJ6uWnEPTknKE2/uTVFhk=;
-        b=c9xQrWqUh3Y4y7wrrShTgfIjJfpd+ZpKRWC1HqYB9YTGBsndvDvQ9cfoHXRsCTr7fg
-         DpZTYZrXWeOQVFKT1Oj+a+8fWZuO+gj894/2qkaeh6Mh0Mg/nqsl+KeZonNzjx+kciDI
-         3OvoDonBlGyAnUfyd+0ej7hSwrjhsacmDpywsibtSC4TegswuwuHhPJVRY9fBGTcRqLn
-         dq/GIqfb6FFtkTPV3w6HPstioV4BsjXoFFCDgZgesBgZKuey3gwQBzp9QVilvmjolP85
-         Qys9ZClOx5k/vtufUzMJe6/Qr8oPJiVJ+yUIGFoWlmA/6DbBzLTKtQ5AXawsuVpWaRCh
-         Yv+A==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b5ReOqAs2o3gzeqG3OL7V4il5yL5akHyIyGPxcacfBA=;
+        b=Ba4mwhCNe1k/SVYGgiax1RHLVYaE16PYm+5fiQboXFgD/ag+N5cvz705MN4rVjpIPI
+         20mqv9SEpUPx3PtChBxCddPxC3gpwz6N5PF+G0ZElhJAMs7eaWr/Z+J8nMSxF5pOKofY
+         CLFQyzIeUPghYqThB66mUFHJcWTC93ASqEVRt3LVLl9QPXBD+PYs/yU2uLqcxreGwdik
+         4HASNcsIvuV/mOpjIf/knlk/2pymeg4ut2QXPF/hi4finuKXsMk29G9quSLgCq5XjL9S
+         aWkJqkdgxfW8i8wPGvE0N8YcrI2ZFizB9Lbxi1u9CnGJusfu9M2jfO6bciIlSU/xqWwh
+         708Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=3og44WXkQ15rtspRUHybs2AJ6uWnEPTknKE2/uTVFhk=;
-        b=w8C6zxxvpLYsu3fSHSlAzEexJDYUvIH3+Z6Nwg7MQotZpz+3XxRUlL4KuoV/D96jFJ
-         cKBa7k7qrC8mcClF4PWxbjmWBL1HnHJN8Bl5kiTJdxldYf6z53VjoxVRScD+B/lE6nmf
-         cIEE0GyyWFvxo33xB267yq+BQDHjAAVKd0712oZB2V1iFkuyuyEbUuiZpe2c+gJY/ThL
-         xoBaV7j0VLKZmrwK+8LJTFHnfMt95X4DtojoSnRAEg2Pd5TV1sTirwiOj3apmZRzx/28
-         tccSlJWFw5zdLuMWFOV2J6A7394kiN+2ItCYRg8DIQVYOvaj/b+ded2XxXQ1euJvzaHU
-         7S4A==
-X-Gm-Message-State: AOAM531XipJ+ESPOFkWBQjMyIb82cceKmCciLv0YylvmrlL0JF0EdgtR
-        7jWGZ3QFw4hMkAVtlO8coRmjLw==
-X-Google-Smtp-Source: ABdhPJznMyIMvmIa9+UbNg9WB1mTMChsKt3TSYKKErioRbkh5g61JmjB1k+SFRhuuel2BnXY69ASYQ==
-X-Received: by 2002:a05:6512:1504:b0:478:d3a1:11 with SMTP id bq4-20020a056512150400b00478d3a10011mr23059178lfb.622.1654722271860;
-        Wed, 08 Jun 2022 14:04:31 -0700 (PDT)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id x36-20020a0565123fa400b004744bfd620fsm3864284lfa.236.2022.06.08.14.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 14:04:31 -0700 (PDT)
-Date:   Wed, 8 Jun 2022 23:04:31 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
- stop streaming if required
-Message-ID: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
-References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
- <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
- <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
- <20220520195041.GA18056@vmlxhi-121.adit-jv.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b5ReOqAs2o3gzeqG3OL7V4il5yL5akHyIyGPxcacfBA=;
+        b=ye1sH5MCFdIuwqujzWXqz/RmG2LpbF9yNFJOGJGImm6xLxu8vot/aUL57zds5HE7i9
+         cT85c65RVILuIZT3kz5DQXX0hE8AnV99hM1XZYsYSSKGuDGYB1g7XNunO1UfqpBgdJ/K
+         jM8p7KqQTqsQQswH40t/NblkkxpX9NbQU7iLZM9eTQRvmYmLyXaEfG0RggYwznICSu9l
+         LH+b+fL0T8+XmyAvza+lJtgzYru5+7doABTLIlUQWZWRuJaSrrtUmUDDHmNsENwPQdwD
+         WrZaa3U0OFWRzlxU6BKDONtdPpY45D7mQ5EidN/Fhz33HkBMxqhz2jwaU5qexglBNfA/
+         tEtg==
+X-Gm-Message-State: AOAM532kiwtHLZXUjd3aThcX3vAbmbVEPXBKY8i4jMxMIdtifOTL4K1F
+        TRuJUjDW1cN2mBi6RwUPCNY6Nd1/6wzGMliV5PdPnw==
+X-Google-Smtp-Source: ABdhPJwApqB8Aa/s/hWKyN1cGMg0w6J6U6ZpPLsgPu6Z8rVbvyvZo/4KRS+qCvxDCZ36rJaIIDOHULExfT8EFh33Nno=
+X-Received: by 2002:a0d:c984:0:b0:30c:c95c:21d0 with SMTP id
+ l126-20020a0dc984000000b0030cc95c21d0mr41306613ywd.218.1654722500963; Wed, 08
+ Jun 2022 14:08:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220520195041.GA18056@vmlxhi-121.adit-jv.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220601070707.3946847-1-saravanak@google.com>
+ <CAMuHMdXkX-SXtBuTRGJOUnpw9goSP6RFr_PTt_3w_yWgBpWsqg@mail.gmail.com>
+ <CAGETcx9f0UBhpp6dM+KJwtYpLx19wwsq6_ygi3En7FrXobOSpA@mail.gmail.com>
+ <CAGETcx8VM+xOCe7HEx9FUU-1B9nrX8Q=tE=NjTyb9uX2_8RXLQ@mail.gmail.com>
+ <CAMuHMdXzu8Vp=a7fyjOB=xt04aee=vWXV=TcRZeeKUGYFFZ1CA@mail.gmail.com>
+ <CAGETcx_Nqo4ju7cWwO3dP3YM2wpCb0jx23OHOReexOjpT5pATA@mail.gmail.com> <CAMuHMdXQCwMQj_ZiOBAzusdCxd8w6NbTqD_7nzykhVs+UWx8Gw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXQCwMQj_ZiOBAzusdCxd8w6NbTqD_7nzykhVs+UWx8Gw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 8 Jun 2022 14:07:44 -0700
+Message-ID: <CAGETcx8UO=4mk31tU4QaWU3RaNM_myA9woe0idBp6p7+X5AEgg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] deferred_probe_timeout logic clean up
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Ahern <dsahern@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.5 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URI_HEX,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Michael,
+On Wed, Jun 8, 2022 at 11:54 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Wed, Jun 8, 2022 at 8:13 PM Saravana Kannan <saravanak@google.com> wrote:
+> > On Wed, Jun 8, 2022 at 3:26 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Wed, Jun 8, 2022 at 6:17 AM Saravana Kannan <saravanak@google.com> wrote:
+> > > > On Tue, Jun 7, 2022 at 5:55 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > > > On Tue, Jun 7, 2022 at 11:13 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > On Wed, Jun 1, 2022 at 12:46 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > > > > > This series is based on linux-next + these 2 small patches applies on top:
+> > > > > > > https://lore.kernel.org/lkml/20220526034609.480766-1-saravanak@google.com/
+> > > > > > >
+> > > > > > > A lot of the deferred_probe_timeout logic is redundant with
+> > > > > > > fw_devlink=on.  Also, enabling deferred_probe_timeout by default breaks
+> > > > > > > a few cases.
+> > > > > > >
+> > > > > > > This series tries to delete the redundant logic, simplify the frameworks
+> > > > > > > that use driver_deferred_probe_check_state(), enable
+> > > > > > > deferred_probe_timeout=10 by default, and fixes the nfsroot failure
+> > > > > > > case.
+> > > > > > >
+> > > > > > > The overall idea of this series is to replace the global behavior of
+> > > > > > > driver_deferred_probe_check_state() where all devices give up waiting on
+> > > > > > > supplier at the same time with a more granular behavior:
+> > > > > > >
+> > > > > > > 1. Devices with all their suppliers successfully probed by late_initcall
+> > > > > > >    probe as usual and avoid unnecessary deferred probe attempts.
+> > > > > > >
+> > > > > > > 2. At or after late_initcall, in cases where boot would break because of
+> > > > > > >    fw_devlink=on being strict about the ordering, we
+> > > > > > >
+> > > > > > >    a. Temporarily relax the enforcement to probe any unprobed devices
+> > > > > > >       that can probe successfully in the current state of the system.
+> > > > > > >       For example, when we boot with a NFS rootfs and no network device
+> > > > > > >       has probed.
+> > > > > > >    b. Go back to enforcing the ordering for any devices that haven't
+> > > > > > >       probed.
+> > > > > > >
+> > > > > > > 3. After deferred probe timeout expires, we permanently give up waiting
+> > > > > > >    on supplier devices without drivers. At this point, whatever devices
+> > > > > > >    can probe without some of their optional suppliers end up probing.
+> > > > > > >
+> > > > > > > In the case where module support is disabled, it's fairly
+> > > > > > > straightforward and all device probes are completed before the initcalls
+> > > > > > > are done.
+> > > > > > >
+> > > > > > > Patches 1 to 3 are fairly straightforward and can probably be applied
+> > > > > > > right away.
+> > > > > > >
+> > > > > > > Patches 4 to 6 are for fixing the NFS rootfs issue and setting the
+> > > > > > > default deferred_probe_timeout back to 10 seconds when modules are
+> > > > > > > enabled.
+> > > > > > >
+> > > > > > > Patches 7 to 9 are further clean up of the deferred_probe_timeout logic
+> > > > > > > so that no framework has to know/care about deferred_probe_timeout.
+> > > > > > >
+> > > > > > > Yoshihiro/Geert,
+> > > > > > >
+> > > > > > > If you can test this patch series and confirm that the NFS root case
+> > > > > > > works, I'd really appreciate that.
+> > > > > >
+> > > > > > Thanks, I gave this a try on various boards I have access to.
+> > > > > > The results were quite positive. E.g. the compile error I saw on v1
+> > > > > > (implicit declation of fw_devlink_unblock_may_probe(), which is no longer
+> > > > > >  used in v2) is gone.
+> > > > >
+> > > > > Thanks a lot for testing these.
+> > > > >
+> > > > > > However, I'm seeing a weird error when userspace (Debian9 nfsroot) is
+> > > > > > starting:
+>
+> > > Setting fw_devlink_strict to true vs. false seems to influence which of
+> > > two different failures will happen:
+> > >   - rcar-csi2: probe of feaa0000.csi2 failed with error -22
+> > >   - rcar-vin: probe of e6ef5000.video failed with error -22
+> > > The former causes the NULL pointer dereference later.
+> > > The latter existed before, but I hadn't noticed it, and bisection
+> > > led to the real culprit (commit 3e52419ec04f9769 ("media: rcar-{csi2,vin}:
+> > > Move to full Virtual Channel routing per CSI-2 IP").
+> >
+> > If you revert that patch, does this series work fine? If yes, are you
+> > happy with giving this a Tested-by?
+>
+> Sure, sorry for forgetting that ;-)
+>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 2022-05-20 21:50:41 +0200, Michael Rodin wrote:
++few folks who I forgot to add.
 
-[snip]
+Geert,
 
-> > 
-> > Do we need to set xfer_error to false here? The delayed work is canceled 
-> > and we reset the xfer_error when we start in rvin_start_streaming().
-> > 
-> 
-> You are right, this seems to be redundant. But I think that there might be
-> a different case where we have to reset xfer_error:
-> 
->  1. A non-critical transfer error has occurred during streaming from a
->     HDMI source.
->  2. Frames are still captured for an hour without any further problems,
->     since it was just a short glitch
->  3. Now the source (e.g. HDMI signal generator) has been powered off by the
->     user so it does not send new frames.
->  4. Timeout occurs due to 3 but since xfer_error has been set 1 hour ago,
->     userspace is notified about a transfer error and assumes that streaming
->     has been stopped because of this.
-> 
-> To avoid this scenario I think maybe we have to restrict validity of
-> xfer_error. Maybe it would be better to make xfer_error a counter which is
-> set after a transfer error to e.g. 10 frames and then decremented after
-> each captured frame so after 10 successfully captured frames we know that a
-> timeout has occurred definitely not due to a transfer error?
-> 
-> Another possible improvement might be to make FRAME_TIMEOUT_MS configurable,
-> maybe via a v4l2 control from userspace? Or we could also define the timeout
-> as a multiple of the frame interval of the source. This would allow us to
-> reduce the timeout further based on the particular source so the userspace
-> does not have to wait for a second until it knows that it has to restart
-> streaming.
-> 
-> What do you think?
+Thanks for the extensive testing!
 
-I discussed this problem last week at a conference and the consensus was 
-that this problem of timeouts and the like should in the first hand be 
-handled in user-space. The reason being that there might be use-cases 
-that are better dealt with there.
+Linus W, Ulf, Kevin, Will, Rob, Vladimir,
 
-If the monitor thread is is strictly needed for some reason in kernel 
-thread it should likely be moved to the V4L2 core as all drivers would 
-then be able to use it instead of deeding on slightly different 
-implementations in each driver.
+Can I get your reviews for the deletion of
+driver_deferred_probe_check_state() please? We can finally remove it
+and have frameworks not needing to know about it.
 
-So I fear we are back to only try to signal xfer errors in the driver 
-and then leave it to either user-space or some new V4L2 code to help 
-monitoring.
+Greg, Rafael,
 
-Sorry for only understanding this so late in the review, it took some 
-time for me to understand it but once explained to me it made sens.
+Can you review the wait_for_init_devices_probe() patch and the other
+trivial driver core changes please?
 
--- 
-Kind Regards,
-Niklas Söderlund
+David/Jakub,
+
+Do the IP4 autoconfig changes look reasonable to you?
+
+Thanks,
+Saravana
+
+
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
