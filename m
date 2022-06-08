@@ -2,105 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E8AC543DC7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 22:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D65E1543E29
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jun 2022 23:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234139AbiFHUsM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jun 2022 16:48:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48404 "EHLO
+        id S230483AbiFHVEj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jun 2022 17:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234222AbiFHUsJ (ORCPT
+        with ESMTP id S235001AbiFHVEh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jun 2022 16:48:09 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6514AF505A
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 13:47:36 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id v1so33041468ejg.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 13:47:36 -0700 (PDT)
+        Wed, 8 Jun 2022 17:04:37 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E202271AB
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jun 2022 14:04:33 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id u23so35074773lfc.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jun 2022 14:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FhCJBllozrMsVOewiDTmDGtBWkpMka58/b7PdCPf/1w=;
-        b=RQaHzYxf7kIoIvpIRw3Br0NR8J5lZBWco7S5UXTW/nh2AXHaaZ+6In+g+HaakcNr8+
-         Iqsg23cdCbWlkj/9761viebCP1GICesYTOd1epZJ5CJH5OB7NxPGxo+SuNkKEEYhTVpp
-         gBYTwvoi4SbT5B5E1PMzeSKMzXLconje8dtLWeodsRf+9ob9tkCZkUt+Fa4W7ah/yG9O
-         KwLNQmXVMN4BmfG/9nNWEWHQNRl9sqQLSqDe6lTKlk5GF2UtAP1d+ofs+lZi9V+JFPE7
-         PqHHpBQeK3mDXU5eirLpqc2ZODmXZ3oQAUg9ooEmgJyCDtQ1CJjH9ryeMW75L/suqN/+
-         VVoA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=3og44WXkQ15rtspRUHybs2AJ6uWnEPTknKE2/uTVFhk=;
+        b=c9xQrWqUh3Y4y7wrrShTgfIjJfpd+ZpKRWC1HqYB9YTGBsndvDvQ9cfoHXRsCTr7fg
+         DpZTYZrXWeOQVFKT1Oj+a+8fWZuO+gj894/2qkaeh6Mh0Mg/nqsl+KeZonNzjx+kciDI
+         3OvoDonBlGyAnUfyd+0ej7hSwrjhsacmDpywsibtSC4TegswuwuHhPJVRY9fBGTcRqLn
+         dq/GIqfb6FFtkTPV3w6HPstioV4BsjXoFFCDgZgesBgZKuey3gwQBzp9QVilvmjolP85
+         Qys9ZClOx5k/vtufUzMJe6/Qr8oPJiVJ+yUIGFoWlmA/6DbBzLTKtQ5AXawsuVpWaRCh
+         Yv+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FhCJBllozrMsVOewiDTmDGtBWkpMka58/b7PdCPf/1w=;
-        b=Zdnqi3g8GAzwp7gPyOs7hvFNOVuY1K+n3i3al1o2EmbZsOXN8aKdfkJ9At430HSxQc
-         bvRP9f1MKfiM6qh7vh8qK1xkGhNF1NDxX8AvpmMXxOCsallKhasXHAlCaJc95TIqwDDJ
-         3qVAHVAPS1ISX54WvFwv9KDhbTwOr6u2bx6PoeJ23voXlwVqPJ2ZUNGLCfKEsdFiBBHR
-         mQKw9I7YomOPtkfJwF++g35IUCacfjAJbH8MH21JopPYaD2KORmp0eGqNeob/m4pUPgd
-         NRRY6qJBJOiJoPQYigJoNN1mPa9yoOWOYmx8OPCHu2KVkYn3dxWtOb9gjkg88VqOK9nP
-         l7VA==
-X-Gm-Message-State: AOAM5320rQjFyzeFeVhM4s5nWqBvozyUEmsEb5+VFpOE3l4RwYDDYLNj
-        H2+1vflViFczQlEL1qliI8L3OyGPJ6bwFIFG
-X-Google-Smtp-Source: ABdhPJyaDpWbBsoLjIxWTOSgU3pg+xovRe/xUfySxTYGZG6Z/yPOZDiMzl5x5AXZJbBKoCHteaJgTQ==
-X-Received: by 2002:a17:906:b18e:b0:710:26db:7a53 with SMTP id w14-20020a170906b18e00b0071026db7a53mr24708040ejy.290.1654721255243;
-        Wed, 08 Jun 2022 13:47:35 -0700 (PDT)
-Received: from bismarck.berto.se (p4fca22cf.dip0.t-ipconnect.de. [79.202.34.207])
-        by smtp.googlemail.com with ESMTPSA id s20-20020a05640217d400b0042617ba6396sm13097432edy.32.2022.06.08.13.47.34
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=3og44WXkQ15rtspRUHybs2AJ6uWnEPTknKE2/uTVFhk=;
+        b=w8C6zxxvpLYsu3fSHSlAzEexJDYUvIH3+Z6Nwg7MQotZpz+3XxRUlL4KuoV/D96jFJ
+         cKBa7k7qrC8mcClF4PWxbjmWBL1HnHJN8Bl5kiTJdxldYf6z53VjoxVRScD+B/lE6nmf
+         cIEE0GyyWFvxo33xB267yq+BQDHjAAVKd0712oZB2V1iFkuyuyEbUuiZpe2c+gJY/ThL
+         xoBaV7j0VLKZmrwK+8LJTFHnfMt95X4DtojoSnRAEg2Pd5TV1sTirwiOj3apmZRzx/28
+         tccSlJWFw5zdLuMWFOV2J6A7394kiN+2ItCYRg8DIQVYOvaj/b+ded2XxXQ1euJvzaHU
+         7S4A==
+X-Gm-Message-State: AOAM531XipJ+ESPOFkWBQjMyIb82cceKmCciLv0YylvmrlL0JF0EdgtR
+        7jWGZ3QFw4hMkAVtlO8coRmjLw==
+X-Google-Smtp-Source: ABdhPJznMyIMvmIa9+UbNg9WB1mTMChsKt3TSYKKErioRbkh5g61JmjB1k+SFRhuuel2BnXY69ASYQ==
+X-Received: by 2002:a05:6512:1504:b0:478:d3a1:11 with SMTP id bq4-20020a056512150400b00478d3a10011mr23059178lfb.622.1654722271860;
+        Wed, 08 Jun 2022 14:04:31 -0700 (PDT)
+Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
+        by smtp.gmail.com with ESMTPSA id x36-20020a0565123fa400b004744bfd620fsm3864284lfa.236.2022.06.08.14.04.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 13:47:34 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] media: rcar-vin: Fix channel routing for Ebisu
-Date:   Wed,  8 Jun 2022 22:46:57 +0200
-Message-Id: <20220608204657.1101889-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.36.0
+        Wed, 08 Jun 2022 14:04:31 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 23:04:31 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Michael Rodin <mrodin@de.adit-jv.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
+        erosca@de.adit-jv.com
+Subject: Re: [PATCH 3/3] rcar-vin: handle transfer errors from subdevices and
+ stop streaming if required
+Message-ID: <YqEO3/KekkZhVjW+@oden.dyn.berto.se>
+References: <1652983210-1194-1-git-send-email-mrodin@de.adit-jv.com>
+ <1652983210-1194-4-git-send-email-mrodin@de.adit-jv.com>
+ <Yoav5KjnbIlpkR6c@oden.dyn.berto.se>
+ <20220520195041.GA18056@vmlxhi-121.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220520195041.GA18056@vmlxhi-121.adit-jv.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When converting to full Virtual Channel routing an error crept into the
-routing table for Ebisu (r8a77990). The routing information is used at
-probe time preventing rcar-vin from probing correctly on this SoC, solve
-by correcting the routing table.
+Hi Michael,
 
-Fixes: 3e52419ec04f9769 ("media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP")
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-* Changes since v1
-- Corrected the email to Geert and added his Tested-by tag.
----
- drivers/media/platform/renesas/rcar-vin/rcar-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2022-05-20 21:50:41 +0200, Michael Rodin wrote:
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 49bdcfba010b2c8a..4b7a9743554af6c3 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1261,7 +1261,7 @@ static const struct rvin_info rcar_info_r8a77980 = {
- };
- 
- static const struct rvin_group_route rcar_info_r8a77990_routes[] = {
--	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
-+	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
- 	{ /* Sentinel */ }
- };
- 
+[snip]
+
+> > 
+> > Do we need to set xfer_error to false here? The delayed work is canceled 
+> > and we reset the xfer_error when we start in rvin_start_streaming().
+> > 
+> 
+> You are right, this seems to be redundant. But I think that there might be
+> a different case where we have to reset xfer_error:
+> 
+>  1. A non-critical transfer error has occurred during streaming from a
+>     HDMI source.
+>  2. Frames are still captured for an hour without any further problems,
+>     since it was just a short glitch
+>  3. Now the source (e.g. HDMI signal generator) has been powered off by the
+>     user so it does not send new frames.
+>  4. Timeout occurs due to 3 but since xfer_error has been set 1 hour ago,
+>     userspace is notified about a transfer error and assumes that streaming
+>     has been stopped because of this.
+> 
+> To avoid this scenario I think maybe we have to restrict validity of
+> xfer_error. Maybe it would be better to make xfer_error a counter which is
+> set after a transfer error to e.g. 10 frames and then decremented after
+> each captured frame so after 10 successfully captured frames we know that a
+> timeout has occurred definitely not due to a transfer error?
+> 
+> Another possible improvement might be to make FRAME_TIMEOUT_MS configurable,
+> maybe via a v4l2 control from userspace? Or we could also define the timeout
+> as a multiple of the frame interval of the source. This would allow us to
+> reduce the timeout further based on the particular source so the userspace
+> does not have to wait for a second until it knows that it has to restart
+> streaming.
+> 
+> What do you think?
+
+I discussed this problem last week at a conference and the consensus was 
+that this problem of timeouts and the like should in the first hand be 
+handled in user-space. The reason being that there might be use-cases 
+that are better dealt with there.
+
+If the monitor thread is is strictly needed for some reason in kernel 
+thread it should likely be moved to the V4L2 core as all drivers would 
+then be able to use it instead of deeding on slightly different 
+implementations in each driver.
+
+So I fear we are back to only try to signal xfer errors in the driver 
+and then leave it to either user-space or some new V4L2 code to help 
+monitoring.
+
+Sorry for only understanding this so late in the review, it took some 
+time for me to understand it but once explained to me it made sens.
+
 -- 
-2.36.0
-
+Kind Regards,
+Niklas Söderlund
