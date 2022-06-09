@@ -2,94 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7CB545443
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 20:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B199D54551E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 21:42:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233030AbiFISjS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 14:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48522 "EHLO
+        id S238643AbiFITmU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 15:42:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244450AbiFISjR (ORCPT
+        with ESMTP id S231879AbiFITmT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 14:39:17 -0400
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BEFB8BE1;
-        Thu,  9 Jun 2022 11:39:16 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id h8so4698054iof.11;
-        Thu, 09 Jun 2022 11:39:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8vpGjf5f2hCMK/dOd5Ud/UWN4pv1x98Yt51zG6FEFrE=;
-        b=VWFMejHyx0ma4xgYF2MKaBYkTZWoccVpYuY1zv7EtV2ozPrWDpTdD7dycl2MuCDTn+
-         CBFztDZNzmvzKtP92EYgzLs17hHSkkiQkZFfYbCIQWp9luhV54SC4KneBgUtl4U56skc
-         IaPAxSyAhYwS2sA9qlWNwvz8mLbhDMtKrjmQaaiSbCJOhczLJX0KniApGZPmwsX85Q8g
-         EA94Xu99i8wecUpxGjs20enRpfSqNWgCGWYazTPoLuqgytWFNTHdbJnn86a3sCmIhZTy
-         OsARXbQFVjlo0mI/aYWdozsDi4/4Nq3/XC8JCSZHeTmQZ8pp05yYypk5ZX2xUamVBpMj
-         unxg==
-X-Gm-Message-State: AOAM5320Fc5If34B0DA7PRFOKIJV3qhVbM3r0rSy/zMGCynMSSRFLW4z
-        g8Pc49WqcxcO3z9VFTv3Tw==
-X-Google-Smtp-Source: ABdhPJxZ9+SqYHxtLPBH9TYjtcQ7aniemxdDnaQl2V9C86e9xNpwSUF8mIBOq6HuXa4wWu2EuYGXvg==
-X-Received: by 2002:a05:6638:3389:b0:331:f5e7:7dda with SMTP id h9-20020a056638338900b00331f5e77ddamr4163700jav.93.1654799955565;
-        Thu, 09 Jun 2022 11:39:15 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id b14-20020a05663805ae00b00331d98c9a7fsm3509665jar.40.2022.06.09.11.39.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 11:39:15 -0700 (PDT)
-Received: (nullmailer pid 4090610 invoked by uid 1000);
-        Thu, 09 Jun 2022 18:39:12 -0000
-Date:   Thu, 9 Jun 2022 12:39:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
+        Thu, 9 Jun 2022 15:42:19 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C0F3E0DA
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jun 2022 12:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version:content-type
+        :content-transfer-encoding; s=k1; bh=Iz08tVktvNrbowTeGbModb3qzWC
+        sOcZZTav84wWb4W4=; b=uUEr2opAfqH2G3i89GbrxTWooooQcTpVRO3II2T2ZLU
+        +2fe+RlIH0pic2xOlSFlqMCQTI5760kzLa+JZBibQR+7ck4eWloFGszZdvbtV8+f
+        +EjZYnz60u7ADD8w5+vqeRCtRH+6f0LCdcTGZs4OARyx1G46lIYKqvq2QcF28MIY
+        =
+Received: (qmail 3437072 invoked from network); 9 Jun 2022 21:42:11 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jun 2022 21:42:11 +0200
+X-UD-Smtp-Session: l3s3148p1@GvcPBAnhM0VZD+/V
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: pwm: Add RZ/G2L GPT binding
-Message-ID: <20220609183912.GA4090532-robh@kernel.org>
-References: <20220606160509.250962-1-biju.das.jz@bp.renesas.com>
- <20220606160509.250962-2-biju.das.jz@bp.renesas.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779f0 support
+Date:   Thu,  9 Jun 2022 21:41:53 +0200
+Message-Id: <20220609194154.12829-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606160509.250962-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 06 Jun 2022 17:05:08 +0100, Biju Das wrote:
-> Add device tree bindings for the General PWM Timer (GPT).
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v1->v2:
->  * Added '|' after 'description:' to preserve formatting.
->  * Removed description for pwm_cells as it is common property.
->  * Changed the reg size in example from 0xa4->0x100
->  * Added Rb tag from Geert.
-> RFC->v1:
->  * Added Description
->  * Removed comments from reg and clock
-> ---
->  .../bindings/pwm/renesas,rzg2l-gpt.yaml       | 129 ++++++++++++++++++
->  1 file changed, 129 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzg2l-gpt.yaml
-> 
+Add support for R-Car S4. The S4 IP differs a bit from its siblings in
+such way that it has 3 out of 4 TSC nodes for Linux and the interrupts
+are not routed to the INTC-AP but to the ECM.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+
+Change since v1:
+
+* Describe that this SoC does not require interrupts (Thanks, Geert!)
+
+I hope dtbs_check is happy now. I can't test it because I get tons of
+python install errors when trying to update my dtschema :(
+
+ .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml   | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+index 1368d90da0e8..08001d6fa67c 100644
+--- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+@@ -8,9 +8,10 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Renesas R-Car Gen3 Thermal Sensor
+ 
+ description:
+-  On R-Car Gen3 SoCs, the thermal sensor controllers (TSC) control the thermal
+-  sensors (THS) which are the analog circuits for measuring temperature (Tj)
+-  inside the LSI.
++
++  On most R-Car Gen3 and later SoCs, the thermal sensor controllers (TSC)
++  control the thermal sensors (THS) which are the analog circuits for
++  measuring temperature (Tj) inside the LSI.
+ 
+ maintainers:
+   - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+@@ -27,6 +28,7 @@ properties:
+       - renesas,r8a77965-thermal # R-Car M3-N
+       - renesas,r8a77980-thermal # R-Car V3H
+       - renesas,r8a779a0-thermal # R-Car V3U
++      - renesas,r8a779f0-thermal # R-Car S4
+ 
+   reg: true
+ 
+@@ -63,6 +65,7 @@ if:
+         contains:
+           enum:
+             - renesas,r8a779a0-thermal
++            - renesas,r8a779f0-thermal
+ then:
+   properties:
+     reg:
+-- 
+2.35.1
+
