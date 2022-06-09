@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39828544669
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 10:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3B485446A8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 10:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230430AbiFIIvB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 04:51:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
+        id S239571AbiFII4Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 04:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241991AbiFIIum (ORCPT
+        with ESMTP id S240927AbiFII4G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 04:50:42 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3707F149AA0
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jun 2022 01:48:48 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id l1so16133267qvh.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jun 2022 01:48:48 -0700 (PDT)
+        Thu, 9 Jun 2022 04:56:06 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B8B14AF4A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jun 2022 01:54:24 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id x18so13801907qtj.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jun 2022 01:54:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=paum+hqZGo4LQqQDEJebOvfdhxw+L0Ahtq1lxMIPcGw=;
-        b=7Ghd0oToh2TdA90Krwfg+M/yjNP2TMjOAYr7xQbGGHyjvOK54Zxw8vze4zDQNOLLqU
-         O4lXk0buITqszF35M0ESI9p1u+Vgb0RRgnow0rwvDV+6nGh71Xd5AYU5qcADkG8KhF04
-         aNYn+Muzg7BemyCQh/RHtz0UJjHdgNDYK87I50v+t8T+p5SC30daLTncpN+MjzOLOVON
-         g4exM6Ak4fIOMJq5DtIM8VW/tDSwB75QgROJFxK8q8v99qcMD68hZHCRg6EuyjNcdyFk
-         EFJtNwTiZDDtzo1u5Y1TXbScvFBDtugfHMtdQpOXPyHzLT55S5R95QSEfbwFgAY4w0Ug
-         C6IA==
-X-Gm-Message-State: AOAM532mOlS6HAgXrL0bx4jv8+hXvIVwMfW2F9cnw1ClZgd4v33FLl8P
-        W0Ugpg8HBdiNX4c+a2+jIE+AilweAaSLWA==
-X-Google-Smtp-Source: ABdhPJzBclN60jwC+28nTls5kQKETOCd2XkkmqiQ+KLX8Gmc4bRHvGl6gZj1kNJAz2oCYz2QYpiDjQ==
-X-Received: by 2002:a05:6214:c6a:b0:464:68bb:c523 with SMTP id t10-20020a0562140c6a00b0046468bbc523mr33596585qvj.49.1654764527226;
-        Thu, 09 Jun 2022 01:48:47 -0700 (PDT)
+        bh=+jt7SxHDMfv3hOgpgMnA7HmRbiH0W2JhDnsVQ+iVJNM=;
+        b=KvcWdcaH3jXfGeKY97xjYdVyPs8ZB+3W4dcoZ6NqDHk4SAYmzCgJU3xUrZmwDvH2Oh
+         ETC5uCnOL3MJljj0F6KBEon1mExFTehw4UxcW0K/O4DW3m9KfRYg5BRJnn05Ej2lQOjV
+         MrvHK2swx2RUd0WoNU4ktBwYmD4VKsQpsTVxS4RITnyHG8wSVv+k6N/YIAo/Isexp0++
+         VFRUGlaKriUBkekzz9vUNV5bqUblsrGgTCFrglRYkWz/DWRomgtK/4y+WKrLtL8CgAfp
+         etLs9roBCOB6rmWIQqLBZXqQOYGKVWuytWlnT/QpFOIu+cnsn+D1jKdKH1oH0wPKZNqu
+         ugcQ==
+X-Gm-Message-State: AOAM532vOVy3VoKorfdH2Ceh7QhSfG+fzQxjnF2AeFATHWl1iJw2FJ9S
+        tHikp9enjhHydWOyOfWEgI+9mwfsJRzckw==
+X-Google-Smtp-Source: ABdhPJyIkkc+X0DLkMwZ73ro7P6AOEtWXceGDXQKVrvJAFtiVDmby42TQKOBGetu8/h2IUhAFwp5RA==
+X-Received: by 2002:a05:622a:1185:b0:304:f783:e9b7 with SMTP id m5-20020a05622a118500b00304f783e9b7mr10945812qtk.647.1654764863590;
+        Thu, 09 Jun 2022 01:54:23 -0700 (PDT)
 Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id f6-20020ac84646000000b00304e9dc0fd5sm8886753qto.12.2022.06.09.01.48.46
+        by smtp.gmail.com with ESMTPSA id k8-20020a05620a414800b006a6ae9150fesm12435104qko.41.2022.06.09.01.54.23
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 01:48:46 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id v22so40645178ybd.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jun 2022 01:48:46 -0700 (PDT)
-X-Received: by 2002:a25:7307:0:b0:65c:b98a:f592 with SMTP id
- o7-20020a257307000000b0065cb98af592mr38368067ybc.380.1654764526724; Thu, 09
- Jun 2022 01:48:46 -0700 (PDT)
+        Thu, 09 Jun 2022 01:54:23 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id e184so40649169ybf.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Jun 2022 01:54:23 -0700 (PDT)
+X-Received: by 2002:a25:d748:0:b0:65c:6b00:55af with SMTP id
+ o69-20020a25d748000000b0065c6b0055afmr37629123ybg.365.1654764862808; Thu, 09
+ Jun 2022 01:54:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220603232940.21736-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220603232940.21736-1-wsa+renesas@sang-engineering.com>
+References: <20220603233928.22004-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220603233928.22004-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 10:48:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUn0ukTBYuo-Z=kj1Xy4AN95wTiwjQ0avdc2werfDZMbw@mail.gmail.com>
-Message-ID: <CAMuHMdUn0ukTBYuo-Z=kj1Xy4AN95wTiwjQ0avdc2werfDZMbw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg2l-smarc: use proper bool operator
+Date:   Thu, 9 Jun 2022 10:54:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWJEY5-Ng8C4T_VpVBCZuuCwoXFbh8n73uD3S4QjK7o0g@mail.gmail.com>
+Message-ID: <CAMuHMdWJEY5-Ng8C4T_VpVBCZuuCwoXFbh8n73uD3S4QjK7o0g@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Add SDHI0 support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,20 +67,41 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram,
 
-On Mon, Jun 6, 2022 at 6:33 AM Wolfram Sang
+On Sat, Jun 4, 2022 at 8:58 AM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> When checking for defined macros, we want the boolean AND not the binary
-> one.
+> Extracted from a larger BSP patch made by Linh Phung.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
-While it works fine in this case (both are either 0 or 1), I agree
-it's better to be consistent.
+> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+> @@ -355,6 +355,18 @@ dmac1: dma-controller@e7351000 {
+>                         dma-channels = <16>;
+>                 };
+>
+> +               mmc0: mmc@ee140000 {
+> +                       compatible = "renesas,sdhi-r8a779f0",
+> +                                    "renesas,rcar-gen4-sdhi";
+> +                       reg = <0 0xee140000 0 0x2000>;
+> +                       interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 706>;
 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Missing SD0H clock.
+Missing clock-names.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+> +                       power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 706>;
+> +                       max-frequency = <200000000>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 gic: interrupt-controller@f1000000 {
+>                         compatible = "arm,gic-v3";
+>                         #interrupt-cells = <3>;
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
