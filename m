@@ -2,175 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C20235447E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0132544818
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234046AbiFIJme (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52636 "EHLO
+        id S234780AbiFIJ4s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 05:56:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242882AbiFIJmb (ORCPT
+        with ESMTP id S230164AbiFIJ4s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:42:31 -0400
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9065B50B14;
-        Thu,  9 Jun 2022 02:42:24 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id k6so14280624qkf.4;
-        Thu, 09 Jun 2022 02:42:24 -0700 (PDT)
+        Thu, 9 Jun 2022 05:56:48 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084773A780A;
+        Thu,  9 Jun 2022 02:56:47 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id s39so13323973ybi.0;
+        Thu, 09 Jun 2022 02:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=trU76HfpJ1kVO7VlsUAYRiM1gRVI7EygRQZUmQ7VGqo=;
+        b=fgKM2m+rhk/HGRenipS8Qk3+m9xu5wfr47e9uF7eE1YRJ0ybfQejhpfXLQChff+XYv
+         hafih0d855i3MrUhMB2sGhxM9w2JmLEH9tiJZNdGufcB0lrtJEIjQ2SIAw0JO7YYutDQ
+         Xv+uK+WlC5o9hlCyfk43tb0wBV0AsDfy863XUjzH6HNO4sFwN3t4i1SAb2BuU+z6n+XH
+         kvzJyEFiBzfNsQXOsByiXIoe1vLrWoLmvlzrZTSyOj2JfcPrrYb9Y0YjYsV/i4XmA0mN
+         h732l4AK8a0K2QVLtpMqmWZnCfoqvT18IUxfP5xWulq0rpRiIdhkYa3U3h8RWxgbEc9g
+         JgOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CdScqDIt7cletpD0dszRyDkdpl0EPlQmkhSL9q4U+Ck=;
-        b=ceds/elGnpkjID5ZoIdSwaSld41Dac4zAVRQ+xs7tmk+Cu6VrDmMqe0S4dyQ0J0rHd
-         aFt8KDxCidnvaEVsMV69K+rr9G8Au5rTM1fNo2LfJsheidTmFO4s4J/I9YBj9ENbBByE
-         7I5dy9RM1L8zRBHMWc7pFZvUS7DA89qqAQpT2AXRZ669ZsK4MmDGtUE970sV2aZPePf3
-         ksoz/BZWSwq8zDJaTr90X+/9OrcH9e58QSa3NmuHCv5zW3KSKCrP9SyFciTWkHLwONJ2
-         Nn4jR4WXsT3Ls45G7lBmAE5WXBKlXH842DSDuLiYsteSHfoP7vgNh8b4otbfE+BIJIN4
-         bo7A==
-X-Gm-Message-State: AOAM531toxFFOFWJQb68P+/O2L/+fxx1UaAKx52Kr1ungv3mbZSQx3wb
-        w8VK5aYSVoNtCucMKidh863QQNBZJQxNgQ==
-X-Google-Smtp-Source: ABdhPJzY6ooSfoUi3N1kpt/bhEZP6s3kjylbACz/P3zuPsnkekUsrz8vJaSsT/CbY55BIMPgEz9eaA==
-X-Received: by 2002:a37:5ac4:0:b0:69a:1423:4cac with SMTP id o187-20020a375ac4000000b0069a14234cacmr25828294qkb.41.1654767743443;
-        Thu, 09 Jun 2022 02:42:23 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id f9-20020ac80689000000b002f3e127be41sm15723549qth.20.2022.06.09.02.42.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 02:42:22 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-31336535373so84198547b3.2;
-        Thu, 09 Jun 2022 02:42:22 -0700 (PDT)
-X-Received: by 2002:a81:1dd2:0:b0:30f:a4fc:315e with SMTP id
- d201-20020a811dd2000000b0030fa4fc315emr43772632ywd.383.1654767742001; Thu, 09
- Jun 2022 02:42:22 -0700 (PDT)
+        bh=trU76HfpJ1kVO7VlsUAYRiM1gRVI7EygRQZUmQ7VGqo=;
+        b=Yz1oJtwJB5SxzppO5o7e6XshCfJv6x6R9prr0m0S9CNuHVjypTLMLZ+QHpPKGWMzoo
+         r/rs8bo1kvoDdVuumVttOzDfmhKWEG3qVgKUGoBq5GQ1xNDhnNLG0TvVRPb3j9xOmMdf
+         CSR4AGfLYvwnN+aA5AZxTDRU2RgtAkLbCGMAhfoIfpWeq0A2NsIYPyuHCcHgG3SnMs+5
+         EWMNDvdqZrbghKBFLLoPiMe1a+hWPDVxvb6n5ygn/aoZkyBb+jQgeUodk9NoZLL9n0mq
+         aq53Xv6JAvtN4q+MYifV+nlbXMU5TvwzxN8Yk1zC1rW4mIMV0j/XbQo/VlsIWOJWZJij
+         gxrg==
+X-Gm-Message-State: AOAM5313VHESguNN1i+QRfIpjABZD1Xpec43zcViLLvucLg/Jr/0D9Mp
+        K8SBMMvSv6vIyIfJ57vK/vXCSwRS4GvVtReth7k=
+X-Google-Smtp-Source: ABdhPJxhy2kL9Nq1aL2YQVFH7TdE2ydKeKC87G9lJV827pmes5MPSF3+nz+aCbGUsxsZ9EA+TZcoqpeUR27tr8/ClLA=
+X-Received: by 2002:a25:cc4c:0:b0:65c:8e83:fd5e with SMTP id
+ l73-20020a25cc4c000000b0065c8e83fd5emr41469747ybf.563.1654768606253; Thu, 09
+ Jun 2022 02:56:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220524172214.5104-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220524172214.5104-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 11:42:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVos-hVhGar91oBvZaCOLfjdsNR7vRGnX-KuNt0UX3xWQ@mail.gmail.com>
-Message-ID: <CAMuHMdVos-hVhGar91oBvZaCOLfjdsNR7vRGnX-KuNt0UX3xWQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/2] dt-bindings: interrupt-controller: sifive,plic:
- Document Renesas RZ/Five SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220505193143.31826-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdX0egGvyu94-=tJdvW0=q6Y==ZNkexCJpnmrNJezuiqDw@mail.gmail.com>
+ <CA+V-a8sxZOZRXG_gsCnQGJdNDw-uVLmuTZ-dOsmUfhS9KL0Esg@mail.gmail.com> <CAMuHMdW0hbVnCcbcC5E8J7Jc_UZPVSpHkmtPd3Haio-WnhhbpQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdW0hbVnCcbcC5E8J7Jc_UZPVSpHkmtPd3Haio-WnhhbpQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 9 Jun 2022 10:56:20 +0100
+Message-ID: <CA+V-a8tD5E7J5pG7yFZ7aiJ58Zt5MMRiC8o3VRFhudkqW1y5XQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] dt-bindings: clock: r9a07g043-cpg: Add Renesas
+ RZ/Five CPG Clock and Reset Definitions
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Tue, May 24, 2022 at 7:22 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document Renesas RZ/Five (R9A07G043) SoC.
+Sorry for the late reply.
+
+On Thu, May 19, 2022 at 7:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-> @@ -28,7 +28,10 @@ description:
+> Hi Prabhakar,
 >
->    While the PLIC supports both edge-triggered and level-triggered interrupts,
->    interrupt handlers are oblivious to this distinction and therefore it is not
-> -  specified in the PLIC device-tree binding.
-> +  specified in the PLIC device-tree binding for SiFive PLIC (and similar PLIC's),
-> +  but for the Renesas RZ/Five Soc (AX45MP AndesCore) which has NCEPLIC100 we need
-> +  to specify the interrupt type as the flow for EDGE interrupts is different
-> +  compared to LEVEL interrupts.
+> On Thu, May 19, 2022 at 7:45 AM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Tue, May 10, 2022 at 3:02 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
+> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > Renesas RZ/Five SoC has almost the same clock structure compared to the
+> > > > Renesas RZ/G2UL SoC, re-use the r9a07g043-cpg.h header file and just
+> > > > ammend the RZ/Five CPG clock and reset definitions.
+> > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > > --- a/include/dt-bindings/clock/r9a07g043-cpg.h
+> > > > +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+> > > > @@ -108,6 +108,15 @@
+> > > >  #define R9A07G043_ADC_ADCLK            76
+> > > >  #define R9A07G043_ADC_PCLK             77
+> > > >  #define R9A07G043_TSU_PCLK             78
+> > > > +#define R9A07G043_NCEPLDM_DM_CLK       79      /* RZ/Five Only */
+> > >
+> > > While NCEPLDM_DM_CLK is listed in the clock list spreadsheet, its
+> > > control bit is not documented.
+> > >
+> > > > +#define R9A07G043_NCEPLDM_ACLK         80      /* RZ/Five Only */
+> > > > +#define R9A07G043_NCEPLDM_TCK          81      /* RZ/Five Only */
+> > >
+> > > While NCEPLDM_TCK is listed in the clock list spreadsheet, its
+> > > control bit is not documented.
+> > >
+> > I have got the feedback for the above, NCEPLDM_DM_CLK and NCEPLDM_TCK
+> > clocks cannot be stopped as a result there are no register bits for it
+> > in the HW manual (clock spreadsheet will be updated). I will drop this
+> > and send a v2 including your RB.
 >
->    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
->    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC that
-> @@ -57,6 +60,7 @@ properties:
->            - enum:
->                - allwinner,sun20i-d1-plic
->            - const: thead,c900-plic
-> +      - const: renesas-r9a07g043-plic
+> The question is not if the clocks can be stopped or not, but if there
+> is any need to refer to them from a DT node.
+As per DT rule we have to add ;)
 
-renesas,r9a07g043-plic
-
+> What's the nature of the future update to the clock spreadsheet?
 >
->    reg:
->      maxItems: 1
-> @@ -64,8 +68,7 @@ properties:
->    '#address-cells':
->      const: 0
+I have got confirmation from HW team, the UM and clock list will not be updated,
+
+* NCEPLDM_DM_CLK, NCEPLDM_TCK and NCEPLDM_ACLK actually exist, and
+should be listed on the clock list. Only NCEPLDM_ACLK has a mechanism
+to stop.
+* Therefore, only NCEPLDM_ACLK should appear on the Clock Control
+register on the UM.
+
+> Of course, if we don't add these clock definitions now, they can
+> still be added later. DT binding definitions are append-only.
 >
-> -  '#interrupt-cells':
-> -    const: 1
-> +  '#interrupt-cells': true
->
->    interrupt-controller: true
->
-> @@ -91,6 +94,35 @@ required:
->    - interrupts-extended
->    - riscv,ndev
->
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: renesas-r9a07g043-plic
+For now I will keep them.
 
-renesas,r9a07g043-plic
-
-> +then:
-> +  properties:
-> +    clocks:
-> +      maxItems: 1
-> +
-> +    resets:
-> +      maxItems: 1
-> +
-> +    power-domains:
-> +      maxItems: 1
-> +
-> +    '#interrupt-cells':
-> +      const: 2
-> +
-> +  required:
-> +    - clocks
-> +    - resets
-> +    - power-domains
-> +
-> +else:
-> +  properties:
-> +    '#interrupt-cells':
-> +      const: 1
-> +
->  additionalProperties: false
->
->  examples:
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
