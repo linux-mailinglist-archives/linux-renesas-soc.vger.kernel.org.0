@@ -2,56 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD445447AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B10F5447C0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234852AbiFIJg2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49738 "EHLO
+        id S240457AbiFIJj2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 05:39:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234695AbiFIJg1 (ORCPT
+        with ESMTP id S229583AbiFIJj2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:36:27 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FF52F664;
-        Thu,  9 Jun 2022 02:36:26 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id 68so8880071qkk.9;
-        Thu, 09 Jun 2022 02:36:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mjax5gcHpDCOdlHkRO1oWqhUAzsN643izB/R7ubf5Zg=;
-        b=GROSR0qY7htLnU/CvxIvntRBFqMA8mh2r1A5xvco8n0xwUyHh7HbWwpW7OSx7tQq1b
-         PPaFaJZhTOCcrICQNzmLVPGm7vRYnRmXMVpjts2PVQLzbjvKlprKReyXJ6xZCKsq38xt
-         m06HDYn5ODOxFN3ReGIowYxIi9IBZNKn6VOhvM6qrMxvafUsjNZkAW3Z1rxEYo90eDN0
-         8saQdtAuNyKwURlbw8jDXhAheNCTEvr8H1367VRQiB1U0AtZ/i9+8OVWx0/GfmykDb3X
-         lbwBmUMnrkyitTBZ1I1nBsvIiA30LBeb536oDaA6rwtlgfAsABza84qsaLjv58GXoZTE
-         wQ2g==
-X-Gm-Message-State: AOAM5326o9c0RVH04byjbwCMBJQmxQMYEsogr1U+xaKGmjBR2SxUY4bE
-        vFfGzUa/06xbujv+2WFYVmz9OGctHFrDxA==
-X-Google-Smtp-Source: ABdhPJx/ca9U/coJuHsLM/PJtLIRaxpk/GnhEK4le13Re5pQvQjUFaap27v0eGGt8/CTK4GRYQtOkQ==
-X-Received: by 2002:a37:9e08:0:b0:6a6:a23b:9bbd with SMTP id h8-20020a379e08000000b006a6a23b9bbdmr21126085qke.596.1654767385413;
-        Thu, 09 Jun 2022 02:36:25 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id r23-20020ac85e97000000b00304f98ad3c1sm5146062qtx.29.2022.06.09.02.36.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 02:36:25 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-313a8a8b95aso987037b3.5;
-        Thu, 09 Jun 2022 02:36:24 -0700 (PDT)
-X-Received: by 2002:a0d:d481:0:b0:30c:44f1:2721 with SMTP id
- w123-20020a0dd481000000b0030c44f12721mr42235528ywd.283.1654767384522; Thu, 09
- Jun 2022 02:36:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220608090850.92735-1-clement.leger@bootlin.com>
-In-Reply-To: <20220608090850.92735-1-clement.leger@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 11:36:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
-Message-ID: <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: r9a06g032-rzn1d400-db: enable rtc0
-To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+        Thu, 9 Jun 2022 05:39:28 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907CF3C73C;
+        Thu,  9 Jun 2022 02:39:25 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id DE5604000E;
+        Thu,  9 Jun 2022 09:39:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1654767564;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ps+Ms/Yq5xIFxB3kZR+3U7gZ/XQP/0QRaXFop4LSScQ=;
+        b=YhLjgSB6qVB3jtaOxsFksvf1eU+iiKHSjvyveupACp21ylA4amfWMN+g/hUdPtmEp2vmKQ
+        iEO75v0FbHvDE86Z4z5LwNEqRi4AcRDCPHHHkx/u6eD0OnE8ELkQk55cxt3dh5lfs6HYdP
+        E2DVAWxZHxT5Z05M3/KUTfminLOeq7N/mdRczmhrVwNwHzSk9DsFuNgPKGaD7zsIgq1sID
+        4+FGCQZbH4T2GnK1dI6ycvT4VXxUb9IRuIlFfI/k3rZBo3yvbvsefZ8QE7gx/MO00chk+/
+        yZo3oNTAqwqdbnIAC2fQpZ1E/7KRC/tgQbzzL7O6i7DP3HzbAVnUS2EN0/lpcA==
+Date:   Thu, 9 Jun 2022 11:38:23 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -60,51 +41,79 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH] ARM: dts: r9a06g032-rzn1d400-db: enable rtc0
+Message-ID: <20220609113823.36b4b264@fixe.home>
+In-Reply-To: <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
+References: <20220608090850.92735-1-clement.leger@bootlin.com>
+        <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Clément,
+Le Thu, 9 Jun 2022 11:36:13 +0200,
+Geert Uytterhoeven <geert@linux-m68k.org> a =C3=A9crit :
 
-On Wed, Jun 8, 2022 at 11:10 AM Clément Léger <clement.leger@bootlin.com> wrote:
-> The RZ/N1D-DB board does have a battery to power the RTC. Enable the
-> RTC device on this board.
->
-> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> Hi Cl=C3=A9ment,
+>=20
+> On Wed, Jun 8, 2022 at 11:10 AM Cl=C3=A9ment L=C3=A9ger <clement.leger@bo=
+otlin.com> wrote:
+> > The RZ/N1D-DB board does have a battery to power the RTC. Enable the
+> > RTC device on this board.
+> >
+> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com> =20
+>=20
+> Thanks for your patch!
+>=20
+> > --- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > @@ -31,3 +31,7 @@ &wdt0 {
+> >         timeout-sec =3D <60>;
+> >         status =3D "okay";
+> >  };
+> > +
+> > +&rtc0 {
+> > +       status =3D "okay";
+> > +}; =20
+>=20
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.20, with rtc0 moved up to
+> preserve sort order (no need to resend).
 
-Thanks for your patch!
+Acked, I checked the order but the wdt0 has already been inserted after
+the uart0 node so I assumed it was unsorted.
 
-> --- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-> +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-> @@ -31,3 +31,7 @@ &wdt0 {
->         timeout-sec = <60>;
->         status = "okay";
->  };
-> +
-> +&rtc0 {
-> +       status = "okay";
-> +};
+Thanks !=20
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20, with rtc0 moved up to
-preserve sort order (no need to resend).
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>=20
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
-Gr{oetje,eeting}s,
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
