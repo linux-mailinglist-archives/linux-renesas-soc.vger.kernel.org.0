@@ -2,66 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42151544738
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFE1354474A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:24:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233300AbiFIJTR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55968 "EHLO
+        id S231833AbiFIJYC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 05:24:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231754AbiFIJTQ (ORCPT
+        with ESMTP id S229477AbiFIJYC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:19:16 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B84441F2FE;
-        Thu,  9 Jun 2022 02:19:15 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id y15so16714975qtx.4;
-        Thu, 09 Jun 2022 02:19:15 -0700 (PDT)
+        Thu, 9 Jun 2022 05:24:02 -0400
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3B928998;
+        Thu,  9 Jun 2022 02:24:01 -0700 (PDT)
+Received: by mail-qv1-f42.google.com with SMTP id b17so7674830qvz.0;
+        Thu, 09 Jun 2022 02:24:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zLBQ/1iNltaWLswe/a2+FpHCpp5bwmu+I0N93NCsVa0=;
-        b=hCB5P60uwqvEHwrii49UW2qAEnxCznKQZYaKAC5atg3eZGOj7aCsy7e5F2J8/wj1DE
-         8SihwBMe2O4b8lMmdhnfyU054iGEacy6LaF8cPTXdXuIIB4cXKnPnlKAQghSpXhhsBRi
-         e7SAHj0dKpgDXstUMJjRI3lkUBL5jkj+9iRMZkoyoV2g8exNba7ZnP249GDukIWBK5g2
-         ODsXvLjQmJcek8VLcWlYHUiyXC8XuUtyn62YFArX3axWqnjbZCs1WVuV6YAOxWwOJEHQ
-         IeIc6lGx1/2OC1OsP2fQkhrWqvKP5RFaLuvjQinhdXJPqw7xGx0st/51+mQGQA+bnpqn
-         ZYeA==
-X-Gm-Message-State: AOAM532kec0vIS4mHnSP6xSK0GGyex41Je+pKoeRruyzOKWcefGIDEDu
-        GOcHxmq2Rz1pVHZbQWFcp2Uhg8NxOyAiFg==
-X-Google-Smtp-Source: ABdhPJzVlRlMeNTwj9AbZz1pk5P/M1Lu4925n9bpgOJldmE9C3W66Jz0edLrEPK48kT0Y/Iyxw4LXg==
-X-Received: by 2002:ac8:5f12:0:b0:305:c3d:c1da with SMTP id x18-20020ac85f12000000b003050c3dc1damr1888749qta.492.1654766354685;
-        Thu, 09 Jun 2022 02:19:14 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id hh8-20020a05622a618800b00304f3e320f2sm5731766qtb.4.2022.06.09.02.19.14
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Hnmd3IRDd62Da3L6ZDV2N5MF/jRn6ZQWlE7WGBHbxwM=;
+        b=XKqiqGs5YzC9aXoQhg7I+jD5sgcHd53BkO5xiX2yrTJYqonhfnzqRBDdPo+jGVgyKP
+         tM2cwM3AjixDnqAJ5c5LXri+AAJXXNko/oHC5L5BJvnY/e13mbJ51GJXwcdzASk9Z+iL
+         icqxmoBPWyxx6nTCAtEm+WUjSMa6XVD0ZXqm0VS22dhP7SSXILk1OUyihD6rX25XaCIb
+         zMtLnKD97YQUltGgk8rz6B4LgCK6D2JjXwJb8aqJw68voe8lFyAgcNwL3YSauYMIp2pO
+         jIcJx8bbk6jyuU8mzEmAqiNQJZ4wesbhaHe+AFdozWEqtTKOMWz09QBf9/E5V3uC0vH3
+         z7xw==
+X-Gm-Message-State: AOAM5333NtkryolECRUhYLfpkNjhFcRZ4xzbYjcemGqjol6ldTfPwYii
+        HzhYKz+eyIlImdO58aEInXsRiC3xE1bi7A==
+X-Google-Smtp-Source: ABdhPJzv3D9+ZSrNb9+1W4D+qFm60OdswW15nt7RK2AlqAVgqUU/6UHHT6MU7nOUCBFjQyPI/w+rng==
+X-Received: by 2002:ad4:49ac:0:b0:46a:effd:fbd0 with SMTP id u12-20020ad449ac000000b0046aeffdfbd0mr18866414qvx.13.1654766640364;
+        Thu, 09 Jun 2022 02:24:00 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id g16-20020ac85810000000b002f906fc8530sm8066784qtg.46.2022.06.09.02.23.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 02:19:14 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id g201so12917358ybf.12;
-        Thu, 09 Jun 2022 02:19:14 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr39923091ybu.604.1654766354021; Thu, 09
- Jun 2022 02:19:14 -0700 (PDT)
+        Thu, 09 Jun 2022 02:24:00 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id g201so12934572ybf.12;
+        Thu, 09 Jun 2022 02:23:59 -0700 (PDT)
+X-Received: by 2002:a25:7307:0:b0:65c:b98a:f592 with SMTP id
+ o7-20020a257307000000b0065cb98af592mr38482388ybc.380.1654766639717; Thu, 09
+ Jun 2022 02:23:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220525151355.24175-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220525151355.24175-1-wsa+renesas@sang-engineering.com>
+References: <20220608175728.1012550-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdV28kUAZjGUwv=hHOFdwCj+OhJDixN+eY_UvPdtPxRmoQ@mail.gmail.com> <YqGyCtmLM9vl4voC@oden.dyn.berto.se>
+In-Reply-To: <YqGyCtmLM9vl4voC@oden.dyn.berto.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 11:19:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVhteUVZ0+kaSggEntrwSYtrNEB-CNopPCmdJsRrqkYRg@mail.gmail.com>
-Message-ID: <CAMuHMdVhteUVZ0+kaSggEntrwSYtrNEB-CNopPCmdJsRrqkYRg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Add thermal support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date:   Thu, 9 Jun 2022 11:23:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVr1h1gPAJneJOQ5qPDFeRA_6hRt1ijUNa0nOtYRjLm1w@mail.gmail.com>
+Message-ID: <CAMuHMdVr1h1gPAJneJOQ5qPDFeRA_6hRt1ijUNa0nOtYRjLm1w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Add missing space after remote-endpoint
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linh Phung <linh.phung.jy@renesas.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
@@ -72,18 +69,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 25, 2022 at 5:14 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> From: Linh Phung <linh.phung.jy@renesas.com>
->
-> Add support for 3 TSC nodes of thermal. The 4th node is for the control
-> domain and not for Linux.
->
-> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
-> [wsa: rebased, fixed resource size, removed unused 4th node breaking probe]
-> Signed-off-by: Wolfram Sang <wsa@kernel.org>
+Hi Niklas,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, Jun 9, 2022 at 10:40 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2022-06-09 10:13:49 +0200, Geert Uytterhoeven wrote:
+> > On Wed, Jun 8, 2022 at 7:58 PM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > Add the missing space after remote-endpoint in r8a774c0.dtsi and
+> > > r8a77990.dtsi before the typo spreads to other files.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> > Do you plan to fix the other in-tree offenders, too?
+>
+> I was plain too, seems like a perfect opportunity to force myself to try
+> and learn Coccinelle :-)
+
+Very smart!
+I would chicken-out, saying the number of offenders is too small ;-)
 
 Gr{oetje,eeting}s,
 
