@@ -2,65 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 998255447C5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C20235447E0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:43:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234696AbiFIJkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43086 "EHLO
+        id S234046AbiFIJme (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 05:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231911AbiFIJkb (ORCPT
+        with ESMTP id S242882AbiFIJmb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:40:31 -0400
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEAE94AE2E;
-        Thu,  9 Jun 2022 02:40:30 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id b17so7695105qvz.0;
-        Thu, 09 Jun 2022 02:40:30 -0700 (PDT)
+        Thu, 9 Jun 2022 05:42:31 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9065B50B14;
+        Thu,  9 Jun 2022 02:42:24 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id k6so14280624qkf.4;
+        Thu, 09 Jun 2022 02:42:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=USvCbIzf7kAWUlatXORQPqOzuZzCVX+P1+Q0wg0R4kk=;
-        b=sLatTqhzzXcYQmVAFNg6p6Tq1D6sVYw+SCYynmxc/YSnyzo5RBPA3Y35ePz5F2aQIZ
-         7gXvohWavA7ltUuFEb8MMFRFLrXMYrXK89rcTnQZlQXsNW+FerbJk2APNIxyaEFQXvIy
-         umQyD2XNAi8QwAbGtNA06dGqbwFrnaIwsTlPRJS36UMrpaqKu6ZBVli0zCpN3BwFOXeA
-         xcs3XFgwG4r1pF8i27f2pYns/vZXenGWxXYfbzWJezrIa8sUEZeX/8Wt2bCbkVyQ6ZAE
-         lAhGXOG/SUCEW2DbtKwG7fRJz3YGbBEzFQ8/7BixD7N02547CFrIVHVAE7Ij2L9OIqm+
-         LWaw==
-X-Gm-Message-State: AOAM533ZCwgQsVu1MDTxAFw0xy2XTb0/6yoh9W6UjtHB83xpTnOCwqKc
-        SpqGsvKR5vvF70n/9A/6aImH/ln+eSO0iA==
-X-Google-Smtp-Source: ABdhPJz+iv0hediA7Bcnt/YymjKhMjXfuX0Ul4PpaBbgIoTYXp1eXEiPKK/celRAw7N1DGeLehYDeg==
-X-Received: by 2002:ad4:5d46:0:b0:464:5970:5b9 with SMTP id jk6-20020ad45d46000000b00464597005b9mr28744911qvb.25.1654767629817;
-        Thu, 09 Jun 2022 02:40:29 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id v5-20020a05622a130500b00304fce6a137sm4784267qtk.66.2022.06.09.02.40.28
+        bh=CdScqDIt7cletpD0dszRyDkdpl0EPlQmkhSL9q4U+Ck=;
+        b=ceds/elGnpkjID5ZoIdSwaSld41Dac4zAVRQ+xs7tmk+Cu6VrDmMqe0S4dyQ0J0rHd
+         aFt8KDxCidnvaEVsMV69K+rr9G8Au5rTM1fNo2LfJsheidTmFO4s4J/I9YBj9ENbBByE
+         7I5dy9RM1L8zRBHMWc7pFZvUS7DA89qqAQpT2AXRZ669ZsK4MmDGtUE970sV2aZPePf3
+         ksoz/BZWSwq8zDJaTr90X+/9OrcH9e58QSa3NmuHCv5zW3KSKCrP9SyFciTWkHLwONJ2
+         Nn4jR4WXsT3Ls45G7lBmAE5WXBKlXH842DSDuLiYsteSHfoP7vgNh8b4otbfE+BIJIN4
+         bo7A==
+X-Gm-Message-State: AOAM531toxFFOFWJQb68P+/O2L/+fxx1UaAKx52Kr1ungv3mbZSQx3wb
+        w8VK5aYSVoNtCucMKidh863QQNBZJQxNgQ==
+X-Google-Smtp-Source: ABdhPJzY6ooSfoUi3N1kpt/bhEZP6s3kjylbACz/P3zuPsnkekUsrz8vJaSsT/CbY55BIMPgEz9eaA==
+X-Received: by 2002:a37:5ac4:0:b0:69a:1423:4cac with SMTP id o187-20020a375ac4000000b0069a14234cacmr25828294qkb.41.1654767743443;
+        Thu, 09 Jun 2022 02:42:23 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id f9-20020ac80689000000b002f3e127be41sm15723549qth.20.2022.06.09.02.42.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 02:40:29 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-30ce6492a60so235013257b3.8;
-        Thu, 09 Jun 2022 02:40:28 -0700 (PDT)
-X-Received: by 2002:a81:6157:0:b0:30c:7e4d:b28e with SMTP id
- v84-20020a816157000000b0030c7e4db28emr41765469ywb.502.1654767628538; Thu, 09
- Jun 2022 02:40:28 -0700 (PDT)
+        Thu, 09 Jun 2022 02:42:22 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-31336535373so84198547b3.2;
+        Thu, 09 Jun 2022 02:42:22 -0700 (PDT)
+X-Received: by 2002:a81:1dd2:0:b0:30f:a4fc:315e with SMTP id
+ d201-20020a811dd2000000b0030fa4fc315emr43772632ywd.383.1654767742001; Thu, 09
+ Jun 2022 02:42:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220526204231.832090-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220526204231.832090-1-krzysztof.kozlowski@linaro.org>
+References: <20220524172214.5104-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220524172214.5104-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220524172214.5104-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 11:40:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUWnqppXcOfsr=HU4cuwFx6__GK_Fjbpvdse2e3T0K92A@mail.gmail.com>
-Message-ID: <CAMuHMdUWnqppXcOfsr=HU4cuwFx6__GK_Fjbpvdse2e3T0K92A@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: adjust whitespace around '='
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Date:   Thu, 9 Jun 2022 11:42:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVos-hVhGar91oBvZaCOLfjdsNR7vRGnX-KuNt0UX3xWQ@mail.gmail.com>
+Message-ID: <CAMuHMdVos-hVhGar91oBvZaCOLfjdsNR7vRGnX-KuNt0UX3xWQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] dt-bindings: interrupt-controller: sifive,plic:
+ Document Renesas RZ/Five SoC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -72,16 +79,90 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 26, 2022 at 10:42 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Fix whitespace coding style: use single space instead of tabs or
-> multiple spaces around '=' sign in property assignment.  No functional
-> changes (same DTB).
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Prabhakar,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+On Tue, May 24, 2022 at 7:22 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Document Renesas RZ/Five (R9A07G043) SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> @@ -28,7 +28,10 @@ description:
+>
+>    While the PLIC supports both edge-triggered and level-triggered interrupts,
+>    interrupt handlers are oblivious to this distinction and therefore it is not
+> -  specified in the PLIC device-tree binding.
+> +  specified in the PLIC device-tree binding for SiFive PLIC (and similar PLIC's),
+> +  but for the Renesas RZ/Five Soc (AX45MP AndesCore) which has NCEPLIC100 we need
+> +  to specify the interrupt type as the flow for EDGE interrupts is different
+> +  compared to LEVEL interrupts.
+>
+>    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
+>    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC that
+> @@ -57,6 +60,7 @@ properties:
+>            - enum:
+>                - allwinner,sun20i-d1-plic
+>            - const: thead,c900-plic
+> +      - const: renesas-r9a07g043-plic
+
+renesas,r9a07g043-plic
+
+>
+>    reg:
+>      maxItems: 1
+> @@ -64,8 +68,7 @@ properties:
+>    '#address-cells':
+>      const: 0
+>
+> -  '#interrupt-cells':
+> -    const: 1
+> +  '#interrupt-cells': true
+>
+>    interrupt-controller: true
+>
+> @@ -91,6 +94,35 @@ required:
+>    - interrupts-extended
+>    - riscv,ndev
+>
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: renesas-r9a07g043-plic
+
+renesas,r9a07g043-plic
+
+> +then:
+> +  properties:
+> +    clocks:
+> +      maxItems: 1
+> +
+> +    resets:
+> +      maxItems: 1
+> +
+> +    power-domains:
+> +      maxItems: 1
+> +
+> +    '#interrupt-cells':
+> +      const: 2
+> +
+> +  required:
+> +    - clocks
+> +    - resets
+> +    - power-domains
+> +
+> +else:
+> +  properties:
+> +    '#interrupt-cells':
+> +      const: 1
+> +
+>  additionalProperties: false
+>
+>  examples:
 
 Gr{oetje,eeting}s,
 
