@@ -2,61 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFE1354474A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BD445447AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:36:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231833AbiFIJYC convert rfc822-to-8bit (ORCPT
+        id S234852AbiFIJg2 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50526 "EHLO
+        Thu, 9 Jun 2022 05:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbiFIJYC (ORCPT
+        with ESMTP id S234695AbiFIJg1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:24:02 -0400
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3B928998;
-        Thu,  9 Jun 2022 02:24:01 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id b17so7674830qvz.0;
-        Thu, 09 Jun 2022 02:24:01 -0700 (PDT)
+        Thu, 9 Jun 2022 05:36:27 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FF52F664;
+        Thu,  9 Jun 2022 02:36:26 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id 68so8880071qkk.9;
+        Thu, 09 Jun 2022 02:36:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Hnmd3IRDd62Da3L6ZDV2N5MF/jRn6ZQWlE7WGBHbxwM=;
-        b=XKqiqGs5YzC9aXoQhg7I+jD5sgcHd53BkO5xiX2yrTJYqonhfnzqRBDdPo+jGVgyKP
-         tM2cwM3AjixDnqAJ5c5LXri+AAJXXNko/oHC5L5BJvnY/e13mbJ51GJXwcdzASk9Z+iL
-         icqxmoBPWyxx6nTCAtEm+WUjSMa6XVD0ZXqm0VS22dhP7SSXILk1OUyihD6rX25XaCIb
-         zMtLnKD97YQUltGgk8rz6B4LgCK6D2JjXwJb8aqJw68voe8lFyAgcNwL3YSauYMIp2pO
-         jIcJx8bbk6jyuU8mzEmAqiNQJZ4wesbhaHe+AFdozWEqtTKOMWz09QBf9/E5V3uC0vH3
-         z7xw==
-X-Gm-Message-State: AOAM5333NtkryolECRUhYLfpkNjhFcRZ4xzbYjcemGqjol6ldTfPwYii
-        HzhYKz+eyIlImdO58aEInXsRiC3xE1bi7A==
-X-Google-Smtp-Source: ABdhPJzv3D9+ZSrNb9+1W4D+qFm60OdswW15nt7RK2AlqAVgqUU/6UHHT6MU7nOUCBFjQyPI/w+rng==
-X-Received: by 2002:ad4:49ac:0:b0:46a:effd:fbd0 with SMTP id u12-20020ad449ac000000b0046aeffdfbd0mr18866414qvx.13.1654766640364;
-        Thu, 09 Jun 2022 02:24:00 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id g16-20020ac85810000000b002f906fc8530sm8066784qtg.46.2022.06.09.02.23.59
+        bh=mjax5gcHpDCOdlHkRO1oWqhUAzsN643izB/R7ubf5Zg=;
+        b=GROSR0qY7htLnU/CvxIvntRBFqMA8mh2r1A5xvco8n0xwUyHh7HbWwpW7OSx7tQq1b
+         PPaFaJZhTOCcrICQNzmLVPGm7vRYnRmXMVpjts2PVQLzbjvKlprKReyXJ6xZCKsq38xt
+         m06HDYn5ODOxFN3ReGIowYxIi9IBZNKn6VOhvM6qrMxvafUsjNZkAW3Z1rxEYo90eDN0
+         8saQdtAuNyKwURlbw8jDXhAheNCTEvr8H1367VRQiB1U0AtZ/i9+8OVWx0/GfmykDb3X
+         lbwBmUMnrkyitTBZ1I1nBsvIiA30LBeb536oDaA6rwtlgfAsABza84qsaLjv58GXoZTE
+         wQ2g==
+X-Gm-Message-State: AOAM5326o9c0RVH04byjbwCMBJQmxQMYEsogr1U+xaKGmjBR2SxUY4bE
+        vFfGzUa/06xbujv+2WFYVmz9OGctHFrDxA==
+X-Google-Smtp-Source: ABdhPJx/ca9U/coJuHsLM/PJtLIRaxpk/GnhEK4le13Re5pQvQjUFaap27v0eGGt8/CTK4GRYQtOkQ==
+X-Received: by 2002:a37:9e08:0:b0:6a6:a23b:9bbd with SMTP id h8-20020a379e08000000b006a6a23b9bbdmr21126085qke.596.1654767385413;
+        Thu, 09 Jun 2022 02:36:25 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id r23-20020ac85e97000000b00304f98ad3c1sm5146062qtx.29.2022.06.09.02.36.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 02:24:00 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id g201so12934572ybf.12;
-        Thu, 09 Jun 2022 02:23:59 -0700 (PDT)
-X-Received: by 2002:a25:7307:0:b0:65c:b98a:f592 with SMTP id
- o7-20020a257307000000b0065cb98af592mr38482388ybc.380.1654766639717; Thu, 09
- Jun 2022 02:23:59 -0700 (PDT)
+        Thu, 09 Jun 2022 02:36:25 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-313a8a8b95aso987037b3.5;
+        Thu, 09 Jun 2022 02:36:24 -0700 (PDT)
+X-Received: by 2002:a0d:d481:0:b0:30c:44f1:2721 with SMTP id
+ w123-20020a0dd481000000b0030c44f12721mr42235528ywd.283.1654767384522; Thu, 09
+ Jun 2022 02:36:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220608175728.1012550-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdV28kUAZjGUwv=hHOFdwCj+OhJDixN+eY_UvPdtPxRmoQ@mail.gmail.com> <YqGyCtmLM9vl4voC@oden.dyn.berto.se>
-In-Reply-To: <YqGyCtmLM9vl4voC@oden.dyn.berto.se>
+References: <20220608090850.92735-1-clement.leger@bootlin.com>
+In-Reply-To: <20220608090850.92735-1-clement.leger@bootlin.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 11:23:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVr1h1gPAJneJOQ5qPDFeRA_6hRt1ijUNa0nOtYRjLm1w@mail.gmail.com>
-Message-ID: <CAMuHMdVr1h1gPAJneJOQ5qPDFeRA_6hRt1ijUNa0nOtYRjLm1w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Add missing space after remote-endpoint
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Thu, 9 Jun 2022 11:36:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
+Message-ID: <CAMuHMdXACzs8aLgry0ughT4zcU6ZQhL5+SaLPGshXGqNKL88-Q@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: r9a06g032-rzn1d400-db: enable rtc0
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -69,25 +73,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Clément,
 
-On Thu, Jun 9, 2022 at 10:40 AM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2022-06-09 10:13:49 +0200, Geert Uytterhoeven wrote:
-> > On Wed, Jun 8, 2022 at 7:58 PM Niklas Söderlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > Add the missing space after remote-endpoint in r8a774c0.dtsi and
-> > > r8a77990.dtsi before the typo spreads to other files.
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> > Do you plan to fix the other in-tree offenders, too?
+On Wed, Jun 8, 2022 at 11:10 AM Clément Léger <clement.leger@bootlin.com> wrote:
+> The RZ/N1D-DB board does have a battery to power the RTC. Enable the
+> RTC device on this board.
 >
-> I was plain too, seems like a perfect opportunity to force myself to try
-> and learn Coccinelle :-)
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 
-Very smart!
-I would chicken-out, saying the number of offenders is too small ;-)
+Thanks for your patch!
+
+> --- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> @@ -31,3 +31,7 @@ &wdt0 {
+>         timeout-sec = <60>;
+>         status = "okay";
+>  };
+> +
+> +&rtc0 {
+> +       status = "okay";
+> +};
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.20, with rtc0 moved up to
+preserve sort order (no need to resend).
 
 Gr{oetje,eeting}s,
 
