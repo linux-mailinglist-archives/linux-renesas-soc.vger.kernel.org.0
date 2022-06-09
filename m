@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6275458B7
+	by mail.lfdr.de (Postfix) with ESMTP id 91BCF5458B6
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jun 2022 01:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238503AbiFIXk5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S238537AbiFIXk5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Thu, 9 Jun 2022 19:40:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49832 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237000AbiFIXk4 (ORCPT
+        with ESMTP id S238503AbiFIXk4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 9 Jun 2022 19:40:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF17420A5F4
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jun 2022 16:40:54 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7933320A70A
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  9 Jun 2022 16:40:55 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFB899F7;
-        Fri, 10 Jun 2022 01:40:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 39EFFD59;
+        Fri, 10 Jun 2022 01:40:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1654818044;
-        bh=r87wCBB4j2ophvRPuZbG4lnkS+7gH6zD2cjvu5RcV3g=;
+        bh=eIHekD/s4Hz5xJ2AIF5PkgFzsH8EN+p087Hk/7mJhKs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YFFoCMxEDuBCu3pY2R+ExWiQOGfKOXX0YVsX4jH7q0yQTVnoLIs4aLDnrZN05szJU
-         qIZPjEd7GyzoPYzi3qq1qpFrW5odAaCqNDUq+3dhQjzGPBInC81f/P8Us1MPUMNPLB
-         Q0lJXyGg9qZkX8GAvUkrfyFg5cyGgqP1gux+dmic=
+        b=No8cNA6oJ8IFXbmlXYVFCt9sI1fr3D/yDm0XuzOMvzi+oWSP7wjnQP695t1WB1AQE
+         izhZayTntCAidGaTNLDRkbB0xw5LWyaACTyAXRoaQLIq2rFBKHRDLUTsGYHnGyeiOj
+         KRk9RWHk+YVYNGQ04FTFCVklp22kJMUGT3yxxR7U=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [kms-test] [PATCH 05/10] kmstest: Support specifying property values in percents
-Date:   Fri, 10 Jun 2022 02:40:26 +0300
-Message-Id: <20220609234031.14803-6-laurent.pinchart@ideasonboard.com>
+Subject: [kms-test] [PATCH 06/10] kmstest: Support specifying alpha value for planes
+Date:   Fri, 10 Jun 2022 02:40:27 +0300
+Message-Id: <20220609234031.14803-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220609234031.14803-1-laurent.pinchart@ideasonboard.com>
 References: <20220609234031.14803-1-laurent.pinchart@ideasonboard.com>
@@ -46,64 +46,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-If the property is a string that ends with a '%' character, treat it as
-a percentage of the range reported by the property and convert it to the
-corresponding numerical value.
+Add an optional alpha argument to the atomic_plane_set() function to
+specify the alpha value for the plane.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- tests/kmstest.py | 27 ++++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ tests/kmstest.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/tests/kmstest.py b/tests/kmstest.py
-index 2afaa513aa4d..a99bf3b89d34 100755
+index a99bf3b89d34..1c2a1b46ebe7 100755
 --- a/tests/kmstest.py
 +++ b/tests/kmstest.py
-@@ -258,8 +258,25 @@ class AtomicRequest(pykms.AtomicReq):
-         self.__test = test
-         self.__props = {}
+@@ -385,7 +385,7 @@ class KMSTest(object):
+         else:
+             return req.commit(0, True)
  
--    def __format_props(self, props):
--        return {k: v & ((1 << 64) - 1) for k, v in props.items()}
-+    def __format_props(self, obj, props):
-+        out = {}
-+        for k, v in props.items():
-+            if isinstance(v, str):
-+                if v.endswith('%'):
-+                    prop = obj.get_prop(k)
-+                    if prop.type not in (pykms.PropertyType.Range, pykms.PropertyType.SignedRange):
-+                        raise RuntimeError(f'Unsupported property type {prop.type} for value {v}')
-+
-+                    min, max = prop.values
-+                    v = min + int((max - min) * int(v[:-1]) / 100)
-+                else:
-+                    v = int(v)
-+
-+            if not isinstance(v, int):
-+                raise RuntimeError(f'Unsupported value type {type(v)} for property {k}')
-+
-+            out[k] = v & ((1 << 64) - 1)
-+        return out
- 
-     def add(self, obj, *kwargs):
-         if obj.id not in self.__props:
-@@ -267,13 +284,13 @@ class AtomicRequest(pykms.AtomicReq):
-         obj_props = self.__props[obj.id]
- 
-         if len(kwargs) == 1 and isinstance(kwargs[0], collections.abc.Mapping):
--            props = self.__format_props(kwargs[0])
-+            props = self.__format_props(obj, kwargs[0])
-         elif len(kwargs) == 2:
--            props = self.__format_props({ kwargs[0]: = kwargs[1] })
-+            props = self.__format_props(obj, { kwargs[0]: kwargs[1] })
- 
-         obj_props.update(props)
- 
--        super().add(obj, *kwargs)
-+        super().add(obj, props)
- 
-     def commit(self, data=0, allow_modeset=False):
-         ret = super().commit(data, allow_modeset)
+-    def atomic_plane_set(self, plane, crtc, source, destination, fb, sync=False):
++    def atomic_plane_set(self, plane, crtc, source, destination, fb, alpha=None, sync=False):
+         req = AtomicRequest(self)
+         req.add(plane, {
+                     'FB_ID': fb.id,
+@@ -399,6 +399,8 @@ class KMSTest(object):
+                     'CRTC_W': destination.width,
+                     'CRTC_H': destination.height,
+         })
++        if alpha is not None:
++            req.add(plane, 'alpha', alpha)
+         if sync:
+             return req.commit_sync()
+         else:
 -- 
 Regards,
 
