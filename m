@@ -2,61 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FDE9544869
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 12:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C23A544C53
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 14:42:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbiFIKLj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 06:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41022 "EHLO
+        id S1343489AbiFIMmv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 08:42:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiFIKLi (ORCPT
+        with ESMTP id S245758AbiFIMmu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 06:11:38 -0400
+        Thu, 9 Jun 2022 08:42:50 -0400
 Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9E71567EE;
-        Thu,  9 Jun 2022 03:11:36 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id c144so14872587qkg.11;
-        Thu, 09 Jun 2022 03:11:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D1A2F00F;
+        Thu,  9 Jun 2022 05:42:48 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id d128so9745720qkg.8;
+        Thu, 09 Jun 2022 05:42:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=W0CEJ/qcwTzcY+cM9PfLjLpJfyNjG7OJcgxv5r4qzbY=;
-        b=xv7XX8trPJri7kEQtQHOvKK2qRlSlx5bwIh845eozpyUI08aKddEgLP6YBgCbc16oS
-         7mnRKbi3uv2Uke/FDcqtU4O0/RrJZxqUo2oJO6og3OLxKbWRTINs6hLe257wIgJgVur1
-         VcgbdmSLTVaJ9DSMJ65XFXVQuU9bGfHvYlPB2f8EEUcMS7QSYyWfloVZK8VYJt0kVxJZ
-         KeNwj+w/8bRt3WKcN8CXBvBTDFWB5zjO1YHp26rkveJS8lz5+gqkbSKZ3Bfk6ZQb3vnk
-         VPddOgSZfOYaOCoS9RhZPCyuVwkIMSWpRXhbKmyS9KimHuYFoUERPMDFUdKGOE5sIioa
-         F3Vw==
-X-Gm-Message-State: AOAM531Qwiuv6ri7zi8xIB9fPmRpN/t2d89cCPfMfifFwdX2Jxl4tfDb
-        w3vrrsfY0As17DIxgOWwItQFoKBx1eebNg==
-X-Google-Smtp-Source: ABdhPJycLmVR8y45h3BBqBsT9URHvWUlnLB8CFgsJHMixm7P3n5mwdDn/FIy/g9gAjwUX82xfMw6YQ==
-X-Received: by 2002:a05:620a:4553:b0:6a6:fcb5:c2f9 with SMTP id u19-20020a05620a455300b006a6fcb5c2f9mr6167488qkp.299.1654769495878;
-        Thu, 09 Jun 2022 03:11:35 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id a25-20020ac87219000000b00304eaca5e5csm8661886qtp.73.2022.06.09.03.11.35
+        bh=OwkCUGiaBE5pGkYM38twOtTXunQNzCIQYE/XvxVgKnc=;
+        b=H67cvOqYdxWUFCcbqZa1WgSWVAEqlN0dwrrp8t0q8e4HeL1vDZ2lK51LM8qnlKFE/2
+         9WTEy69bUYGevXnkGCULDwIhvKnlULQseg33FBjY2rWn2ZDYh30K41FT4/7iDhte5x5X
+         lY4MO3IhlLFOheA/hbmsLvBsAsyItb5dL948MAHfqHk/ZEml9Y0EX8U8JS/wxnbCa+yW
+         XfyPrmsGIxlqQetMVd7Im1i1zRlSh8FBVlpQs+M2hj6z4n44IHUXVrdx3KyCjdxYtN4z
+         qtx2jfDdIpe4eco6CE/9HkrksVrMEvlqv8LJ1A7zEvTDEPYlsOz5c6xInqJ85h1ObrVm
+         ni/A==
+X-Gm-Message-State: AOAM532abzDYVIsr8YupmNQhCF0iQ2CkTbOgoAOLzNb58Z2rMLiD5BfF
+        gD3ZUuDWr2fgmQDSwYGlPhdFJJpXIQ3zBg==
+X-Google-Smtp-Source: ABdhPJzzJ+2LjYVp7HlI6FrSY4qO51kDcZvbRV70ivkBCnboGVmkx9hz9Bvdt3ih4OfhMYhmXSnSnA==
+X-Received: by 2002:a05:620a:370e:b0:6a7:2471:b3eb with SMTP id de14-20020a05620a370e00b006a72471b3ebmr2575170qkb.631.1654778567663;
+        Thu, 09 Jun 2022 05:42:47 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id v7-20020ac873c7000000b002f93be3ccfdsm11822987qtp.18.2022.06.09.05.42.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 03:11:35 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-313a8a8b95aso1812547b3.5;
-        Thu, 09 Jun 2022 03:11:35 -0700 (PDT)
-X-Received: by 2002:a81:4811:0:b0:30c:8021:4690 with SMTP id
- v17-20020a814811000000b0030c80214690mr42003708ywa.47.1654769495142; Thu, 09
- Jun 2022 03:11:35 -0700 (PDT)
+        Thu, 09 Jun 2022 05:42:47 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3137c877092so39539017b3.13;
+        Thu, 09 Jun 2022 05:42:46 -0700 (PDT)
+X-Received: by 2002:a0d:f801:0:b0:30f:f716:2950 with SMTP id
+ i1-20020a0df801000000b0030ff7162950mr38956789ywf.358.1654778566374; Thu, 09
+ Jun 2022 05:42:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220607135619.174110-1-phil.edworthy@renesas.com> <20220607135619.174110-3-phil.edworthy@renesas.com>
-In-Reply-To: <20220607135619.174110-3-phil.edworthy@renesas.com>
+References: <20220608173025.22792-1-biju.das.jz@bp.renesas.com> <20220608173025.22792-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220608173025.22792-2-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Jun 2022 12:11:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVyeB+2Sx072igo1uFmAgYoJWABSX2Ks851=tzNUrKzEw@mail.gmail.com>
-Message-ID: <CAMuHMdVyeB+2Sx072igo1uFmAgYoJWABSX2Ks851=tzNUrKzEw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] watchdog: rzg2l_wdt: Add rzv2m compatible string
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+Date:   Thu, 9 Jun 2022 14:42:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXSQ_y2XQSM3RU4xUUn5H5q83DrWUc+gTqgN8kNxPc2UQ@mail.gmail.com>
+Message-ID: <CAMuHMdXSQ_y2XQSM3RU4xUUn5H5q83DrWUc+gTqgN8kNxPc2UQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: rzg2ul-smarc: Enable RSPI1 on
+ carrier board
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -68,34 +73,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
-
-Thanks for your patch!
-
-On Tue, Jun 7, 2022 at 3:59 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> The WDT on RZ/V2M devices is basically the same as RZ/G2L, with the
-> exception that the RZ/V2M has a single combined interrupt, whereas the
-> RZ/G2L has time out and error interrupts.
-
-... and that the RZ/V2M watchdog does not have the parity error
-handling.
-
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-> --- a/drivers/watchdog/rzg2l_wdt.c
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-> @@ -256,6 +256,7 @@ static int rzg2l_wdt_probe(struct platform_device *pdev)
+On Wed, Jun 8, 2022 at 7:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> RSPI1 (SPI1) interface is available on PMOD0 connector (J1) on the
+> carrier board.  This patch adds pinmux and spi1 nodes to the carrier
+> board dtsi file and drops deleting pinctl* properties from board
+> DTS file.
 >
->  static const struct of_device_id rzg2l_wdt_ids[] = {
->         { .compatible = "renesas,rzg2l-wdt", },
-> +       { .compatible = "renesas,rzv2m-wdt", },
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Hence this is not sufficient, as you need to prevent writing to the
-parity registers on RZ/V2M.
-
->         { /* sentinel */ }
->  };
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.20.
 
 Gr{oetje,eeting}s,
 
