@@ -2,143 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0132544818
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D68154481F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jun 2022 11:58:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234780AbiFIJ4s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jun 2022 05:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60256 "EHLO
+        id S232691AbiFIJ62 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jun 2022 05:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbiFIJ4s (ORCPT
+        with ESMTP id S234924AbiFIJ62 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jun 2022 05:56:48 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084773A780A;
-        Thu,  9 Jun 2022 02:56:47 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id s39so13323973ybi.0;
-        Thu, 09 Jun 2022 02:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=trU76HfpJ1kVO7VlsUAYRiM1gRVI7EygRQZUmQ7VGqo=;
-        b=fgKM2m+rhk/HGRenipS8Qk3+m9xu5wfr47e9uF7eE1YRJ0ybfQejhpfXLQChff+XYv
-         hafih0d855i3MrUhMB2sGhxM9w2JmLEH9tiJZNdGufcB0lrtJEIjQ2SIAw0JO7YYutDQ
-         Xv+uK+WlC5o9hlCyfk43tb0wBV0AsDfy863XUjzH6HNO4sFwN3t4i1SAb2BuU+z6n+XH
-         kvzJyEFiBzfNsQXOsByiXIoe1vLrWoLmvlzrZTSyOj2JfcPrrYb9Y0YjYsV/i4XmA0mN
-         h732l4AK8a0K2QVLtpMqmWZnCfoqvT18IUxfP5xWulq0rpRiIdhkYa3U3h8RWxgbEc9g
-         JgOQ==
+        Thu, 9 Jun 2022 05:58:28 -0400
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201213E48C6;
+        Thu,  9 Jun 2022 02:58:27 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id 15so12157110qki.6;
+        Thu, 09 Jun 2022 02:58:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=trU76HfpJ1kVO7VlsUAYRiM1gRVI7EygRQZUmQ7VGqo=;
-        b=Yz1oJtwJB5SxzppO5o7e6XshCfJv6x6R9prr0m0S9CNuHVjypTLMLZ+QHpPKGWMzoo
-         r/rs8bo1kvoDdVuumVttOzDfmhKWEG3qVgKUGoBq5GQ1xNDhnNLG0TvVRPb3j9xOmMdf
-         CSR4AGfLYvwnN+aA5AZxTDRU2RgtAkLbCGMAhfoIfpWeq0A2NsIYPyuHCcHgG3SnMs+5
-         EWMNDvdqZrbghKBFLLoPiMe1a+hWPDVxvb6n5ygn/aoZkyBb+jQgeUodk9NoZLL9n0mq
-         aq53Xv6JAvtN4q+MYifV+nlbXMU5TvwzxN8Yk1zC1rW4mIMV0j/XbQo/VlsIWOJWZJij
-         gxrg==
-X-Gm-Message-State: AOAM5313VHESguNN1i+QRfIpjABZD1Xpec43zcViLLvucLg/Jr/0D9Mp
-        K8SBMMvSv6vIyIfJ57vK/vXCSwRS4GvVtReth7k=
-X-Google-Smtp-Source: ABdhPJxhy2kL9Nq1aL2YQVFH7TdE2ydKeKC87G9lJV827pmes5MPSF3+nz+aCbGUsxsZ9EA+TZcoqpeUR27tr8/ClLA=
-X-Received: by 2002:a25:cc4c:0:b0:65c:8e83:fd5e with SMTP id
- l73-20020a25cc4c000000b0065c8e83fd5emr41469747ybf.563.1654768606253; Thu, 09
- Jun 2022 02:56:46 -0700 (PDT)
+        bh=t4z1KqwXzprFCMlgSC2zUcKgcFcn2kVvaKgCgZpKQF8=;
+        b=K3xFfim454mlFHsVOLMMySgho+1xnQxu0Y9CpFTrMNQJqx3tfD29L0v1WgZk6jbgvZ
+         2EFqo620FYWOVPN40One+tLZVzrv5Ms17HdKhBBiJxEjXDxwvqqSKKuSuiFknZqzI7gG
+         uzgVn3nPvcqTPBxcjh5+Ty7AJ/PiC1g47g50ybPjNhJhGZ0jpFB03eSuuAg8lpeLTCGO
+         wBEMkYAEs4IYgASOivjJY+36Mm6pwZfEw7fpj9c9nDQHRt5EW8/wmOSW4xOztsUuhzCg
+         pCpbOqzLaas6TGP1a92jF5GNKFk5U6Avv6ueBomQ5WH0cenh21ssEnWK9F6YunmAQHJ7
+         qwqA==
+X-Gm-Message-State: AOAM530mCxr0/1sAgQVdiiAMlu0MAIbySt6U+rj32lX35XA7WJZzmTaL
+        3SbZFQCXqEFy5bbNjeZ0UqRb99tOoSlvXQ==
+X-Google-Smtp-Source: ABdhPJwQPKThRayvmqfmhe2bHz4snWFHvuQ2m+Q/G9z62PH+NANC7u6ZfArE/Hww8nqXmDJYmbQntA==
+X-Received: by 2002:a37:bd06:0:b0:6a3:4346:fc23 with SMTP id n6-20020a37bd06000000b006a34346fc23mr26451105qkf.348.1654768706129;
+        Thu, 09 Jun 2022 02:58:26 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id i187-20020a3786c4000000b0069fc13ce1fesm17962650qkd.47.2022.06.09.02.58.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 02:58:25 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-31332df12a6so87442207b3.4;
+        Thu, 09 Jun 2022 02:58:25 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr41954176ywg.316.1654768705496; Thu, 09
+ Jun 2022 02:58:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220505193143.31826-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX0egGvyu94-=tJdvW0=q6Y==ZNkexCJpnmrNJezuiqDw@mail.gmail.com>
- <CA+V-a8sxZOZRXG_gsCnQGJdNDw-uVLmuTZ-dOsmUfhS9KL0Esg@mail.gmail.com> <CAMuHMdW0hbVnCcbcC5E8J7Jc_UZPVSpHkmtPd3Haio-WnhhbpQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdW0hbVnCcbcC5E8J7Jc_UZPVSpHkmtPd3Haio-WnhhbpQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 9 Jun 2022 10:56:20 +0100
-Message-ID: <CA+V-a8tD5E7J5pG7yFZ7aiJ58Zt5MMRiC8o3VRFhudkqW1y5XQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] dt-bindings: clock: r9a07g043-cpg: Add Renesas
- RZ/Five CPG Clock and Reset Definitions
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+References: <87zgipgu3s.wl-kuninori.morimoto.gx@renesas.com> <87y1y9gu30.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87y1y9gu30.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Jun 2022 11:58:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW=W7MH1iXHiDgDjckO1gKq6EEW0VsZ1Ed8OPnQ1Zgx_w@mail.gmail.com>
+Message-ID: <CAMuHMdW=W7MH1iXHiDgDjckO1gKq6EEW0VsZ1Ed8OPnQ1Zgx_w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: pinctrl: renesas,pfc: Document
+ r8a779g0 support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Sorry for the late reply.
-
-On Thu, May 19, 2022 at 7:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Jun 7, 2022 at 3:07 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> Hi Prabhakar,
+> Document Pin Function Controller (PFC) support for the Renesas
+> R-Car V4H (R8A779G0) SoC.
 >
-> On Thu, May 19, 2022 at 7:45 AM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Tue, May 10, 2022 at 3:02 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Thu, May 5, 2022 at 9:32 PM Lad Prabhakar
-> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > Renesas RZ/Five SoC has almost the same clock structure compared to the
-> > > > Renesas RZ/G2UL SoC, re-use the r9a07g043-cpg.h header file and just
-> > > > ammend the RZ/Five CPG clock and reset definitions.
-> > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > > --- a/include/dt-bindings/clock/r9a07g043-cpg.h
-> > > > +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
-> > > > @@ -108,6 +108,15 @@
-> > > >  #define R9A07G043_ADC_ADCLK            76
-> > > >  #define R9A07G043_ADC_PCLK             77
-> > > >  #define R9A07G043_TSU_PCLK             78
-> > > > +#define R9A07G043_NCEPLDM_DM_CLK       79      /* RZ/Five Only */
-> > >
-> > > While NCEPLDM_DM_CLK is listed in the clock list spreadsheet, its
-> > > control bit is not documented.
-> > >
-> > > > +#define R9A07G043_NCEPLDM_ACLK         80      /* RZ/Five Only */
-> > > > +#define R9A07G043_NCEPLDM_TCK          81      /* RZ/Five Only */
-> > >
-> > > While NCEPLDM_TCK is listed in the clock list spreadsheet, its
-> > > control bit is not documented.
-> > >
-> > I have got the feedback for the above, NCEPLDM_DM_CLK and NCEPLDM_TCK
-> > clocks cannot be stopped as a result there are no register bits for it
-> > in the HW manual (clock spreadsheet will be updated). I will drop this
-> > and send a v2 including your RB.
->
-> The question is not if the clocks can be stopped or not, but if there
-> is any need to refer to them from a DT node.
-As per DT rule we have to add ;)
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-> What's the nature of the future update to the clock spreadsheet?
->
-I have got confirmation from HW team, the UM and clock list will not be updated,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v5.20.
 
-* NCEPLDM_DM_CLK, NCEPLDM_TCK and NCEPLDM_ACLK actually exist, and
-should be listed on the clock list. Only NCEPLDM_ACLK has a mechanism
-to stop.
-* Therefore, only NCEPLDM_ACLK should appear on the Clock Control
-register on the UM.
+Gr{oetje,eeting}s,
 
-> Of course, if we don't add these clock definitions now, they can
-> still be added later. DT binding definitions are append-only.
->
-For now I will keep them.
+                        Geert
 
-Cheers,
-Prabhakar
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
