@@ -2,111 +2,205 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5116545E1E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jun 2022 10:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5CE545E4E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jun 2022 10:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245171AbiFJIE5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Jun 2022 04:04:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42542 "EHLO
+        id S245171AbiFJIOx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Jun 2022 04:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346525AbiFJIEz (ORCPT
+        with ESMTP id S1346746AbiFJIOv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Jun 2022 04:04:55 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E66633F;
-        Fri, 10 Jun 2022 01:04:52 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id i25so689081qtq.0;
-        Fri, 10 Jun 2022 01:04:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rfQ6+6RXDzdhBSxFYL22382fD6+9vWq5XpLo77tRV5s=;
-        b=KKgnB0aw3wPaLB9jNcWz1aoTIswa/9UFRANbq651X6a13JW4kBoUx8EDzhsCdfYolt
-         BYpzVzwn0lEML5J98j+jEcl2o2m9PdQTKvuunm1kvQn+tmcL/u8Ztypky7MTpjoI9asi
-         cqkofyC1LbWRSJBAi8SEV3tuqgBuThBc5kQKTOaGbrMBvNfxDqgAfGovkBaPbo6qAYEW
-         U/lOfYYbFzfYlGlbVNYoPmbY14xeKOg9R/vLr/8BAt19r60IlFQrpGeRYuujVGsEvy2M
-         OWv+u1I4D7BkA5ANOU7BtQOrDddQ9DucuO1KLxQ+6trmAdRbZDTmUmDpY7Jvg6mT6Tc5
-         2MTw==
-X-Gm-Message-State: AOAM531tc88HpgxWO/9kf8irM9gEp2FNXkkG2gMtEr6h0GcbsUghAAEM
-        XcT6KZ0ZEvGQFpFVkPqAK0EQU/jqidZrkw==
-X-Google-Smtp-Source: ABdhPJw3cPFK4IBmJ5EmAWsFjoKeSOaweaDZWsEgAcXl6aka4cE3wwHbrZYXSGQ2wrDlDY5Br9yqkQ==
-X-Received: by 2002:ac8:5856:0:b0:304:da79:e117 with SMTP id h22-20020ac85856000000b00304da79e117mr32243128qth.379.1654848291909;
-        Fri, 10 Jun 2022 01:04:51 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id x14-20020a05620a448e00b006a6f8d26b35sm8041803qkp.63.2022.06.10.01.04.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jun 2022 01:04:51 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id r82so45689700ybc.13;
-        Fri, 10 Jun 2022 01:04:50 -0700 (PDT)
-X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
- l10-20020a056902000a00b0065cb38e6d9fmr44746879ybh.36.1654848290710; Fri, 10
- Jun 2022 01:04:50 -0700 (PDT)
+        Fri, 10 Jun 2022 04:14:51 -0400
+X-Greylist: delayed 393 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 01:14:49 PDT
+Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C10D3A5AAA;
+        Fri, 10 Jun 2022 01:14:49 -0700 (PDT)
+Received: from mail (mail.baikal.int [192.168.51.25])
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 9473516A0;
+        Fri, 10 Jun 2022 11:08:57 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 9473516A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baikalelectronics.ru; s=mail; t=1654848540;
+        bh=P0epdiQ2UfkKeER5KtOFqFsZ8/0xaqJ7ab4vUUQPTCw=;
+        h=From:To:CC:Subject:Date:From;
+        b=FES/RpZBcFEtKNYzfj2ZM1TKH3v4j1D1srCu1QFX0yo+vxrndl74dC/lOEO0AROoD
+         E9WiAns/InODAMwuQ3yGDm0SYSUjNGDlAku4e4gJHtto+ZKLwtUZuRhTH6qiwi2G8o
+         Wx1WzoKWULlo6KhIEebDed0WI8cU+7OfayCvYSmE=
+Received: from localhost (192.168.53.207) by mail (192.168.51.25) with
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 10 Jun 2022 11:08:05 +0300
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Srujana Challa <schalla@marvell.com>,
+        Arnaud Ebalard <arno@natisbad.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        <linux-crypto@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        <dmaengine@vger.kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Li Yang <leoyang.li@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Linu Cherian <lcherian@marvell.com>,
+        Geetha sowjanya <gakula@marvell.com>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>, <ntb@lists.linux.dev>,
+        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] dma-direct: take dma-ranges/offsets into account in resource mapping
+Date:   Fri, 10 Jun 2022 11:08:02 +0300
+Message-ID: <20220610080802.11147-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-References: <20220609200709.4455-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220609200709.4455-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 10 Jun 2022 10:04:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbq+AUq6LoT3+b0NqjqyNtS3BKvonzt2PLuTAPv-GwQg@mail.gmail.com>
-Message-ID: <CAMuHMdWbq+AUq6LoT3+b0NqjqyNtS3BKvonzt2PLuTAPv-GwQg@mail.gmail.com>
-Subject: Re: [PATCH v2] thermal: rcar_gen3_thermal: improve logging during probe
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+A basic device-specific linear memory mapping was introduced back in
+commit ("dma: Take into account dma_pfn_offset") as a single-valued offset
+preserved in the device.dma_pfn_offset field, which was initialized for
+instance by means of the "dma-ranges" DT property. Afterwards the
+functionality was extended to support more than one device-specific region
+defined in the device.dma_range_map list of maps. But all of these
+improvements concerned a single pointer, page or sg DMA-mapping methods,
+while the system resource mapping function turned to miss the
+corresponding modification. Thus the dma_direct_map_resource() method now
+just casts the CPU physical address to the device DMA address with no
+dma-ranges-based mapping taking into account, which is obviously wrong.
+Let's fix it by using the phys_to_dma_direct() method to get the
+device-specific bus address from the passed memory resource for the case
+of the directly mapped DMA.
 
-On Thu, Jun 9, 2022 at 10:23 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> When setting up a new board, a plain "Can't register thermal zone"
-> didn't help me much because the thermal zones in DT were all fine. I
-> just had a sensor entry too much in the parent TSC node. Reword the
-> failure/success messages to contain the sensor number to make it easier
-> to understand which sensor is affected. Example output now:
->
-> rcar_gen3_thermal e6198000.thermal: Sensor 0: Loaded 1 trip point
-> rcar_gen3_thermal e6198000.thermal: Sensor 1: Loaded 1 trip point
-> rcar_gen3_thermal e6198000.thermal: Sensor 2: Loaded 1 trip point
-> rcar_gen3_thermal e6198000.thermal: Sensor 3: Can't register thermal zone
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Change from v1: reword the dev_info string to be more like the original
-> one. Added a check to add the plural-'s' only when needed.
+Fixes: 25f1e1887088 ("dma: Take into account dma_pfn_offset")
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 
-Thanks for the update!
+---
 
-> Geert: is this better now?
+After a long discussion with Christoph and Robin regarding this patch
+here:
+https://lore.kernel.org/lkml/20220324014836.19149-4-Sergey.Semin@baikalelectronics.ru
+and here
+https://lore.kernel.org/linux-pci/20220503225104.12108-2-Sergey.Semin@baikalelectronics.ru/
+It was decided to consult with wider maintainers audience whether it's ok
+to accept the change as is or a more sophisticated solution needs to be
+found for the non-linear direct MMIO mapping.
 
-Much better!
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+file: arch/arm/mach-orion5x/board-dt.c
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: linux-arm-kernel@lists.infradead.org
 
-Gr{oetje,eeting}s,
+file: drivers/crypto/marvell/cesa/cesa.c
+Cc: Srujana Challa <schalla@marvell.com>
+Cc: Arnaud Ebalard <arno@natisbad.org>
+Cc: Boris Brezillon <bbrezillon@kernel.org>
+Cc: linux-crypto@vger.kernel.org
 
-                        Geert
+file: drivers/dma/{fsl-edma-common.c,pl330.c,sh/rcar-dmac.c}
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: dmaengine@vger.kernel.org
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+file: arch/arm/boot/dts/{vfxxx.dtsi,ls1021a.dtsi,imx7ulp.dtsi,fsl-ls1043a.dtsi}
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Li Yang <leoyang.li@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+file: arch/arm/boot/dts/r8a77*.dtsi, arch/arm64/boot/dts/renesas/r8a77*.dtsi
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org
+
+file: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+
+file: drivers/gpu/drm/virtio/virtgpu_vram.c
+Cc: David Airlie <airlied@linux.ie>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+
+file: drivers/media/common/videobuf2/videobuf2-dma-contig.c
+Cc: Tomasz Figa <tfiga@chromium.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+
+file: drivers/misc/habanalabs/common/memory.c
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+file: drivers/mtd/nand/raw/qcom_nandc.c
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+
+file: arch/arm64/boot/dts/qcom/{ipq8074.dtsi,ipq6018.dtsi,qcom-sdx55.dtsi,qcom-ipq4019.dtsi,qcom-ipq8064.dtsi}
+Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org
+
+file: drivers/net/ethernet/marvell/octeontx2/af/rvu.c
+Cc: Sunil Goutham <sgoutham@marvell.com>
+Cc: Linu Cherian <lcherian@marvell.com>
+Cc: Geetha sowjanya <gakula@marvell.com>
+
+file: drivers/ntb/ntb_transport.c
+Cc: Jon Mason <jdmason@kudzu.us>
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: ntb@lists.linux.dev
+---
+ kernel/dma/direct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 9743c6ccce1a..bc06db74dfdb 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -497,7 +497,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+ dma_addr_t dma_direct_map_resource(struct device *dev, phys_addr_t paddr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	dma_addr_t dma_addr = paddr;
++	dma_addr_t dma_addr = phys_to_dma_direct(dev, paddr);
+ 
+ 	if (unlikely(!dma_capable(dev, dma_addr, size, false))) {
+ 		dev_err_once(dev,
+-- 
+2.35.1
+
