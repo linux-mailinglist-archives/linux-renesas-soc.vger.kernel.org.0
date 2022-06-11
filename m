@@ -2,74 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2659A5473AC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jun 2022 12:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E305474CD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jun 2022 15:22:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231414AbiFKKW0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Jun 2022 06:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45174 "EHLO
+        id S233643AbiFKNWT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Jun 2022 09:22:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231374AbiFKKWV (ORCPT
+        with ESMTP id S233560AbiFKNWS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Jun 2022 06:22:21 -0400
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBB32DA
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Jun 2022 03:22:17 -0700 (PDT)
-Received: from pop-os.home ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id zyFxnNqvYgoLGzyFxn1o94; Sat, 11 Jun 2022 12:22:15 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 11 Jun 2022 12:22:15 +0200
-X-ME-IP: 90.11.190.129
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] media: rcar_drif: Remove useless license text when SPDX-License-Identifier is already used
-Date:   Sat, 11 Jun 2022 12:22:12 +0200
-Message-Id: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Sat, 11 Jun 2022 09:22:18 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F64610D5
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Jun 2022 06:22:15 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id kq6so2834761ejb.11
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 11 Jun 2022 06:22:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=pfX78KqgOSduBpoy4Zu2aWB7lpgcjxt2pBzkk7CLZdQ=;
+        b=tvbQJ0I8Bv63cHerDMVZK2FqbDLX/nFl80ZyCGt42ELtzf5fYOs7UMDRslpkSrWJhP
+         UiFx7xwGtkL8svqk4/qqYGgqtVHURnelAHHKDsOhIIpli0DUz8M5qUOeBk7PUS6CNSFK
+         PlsDkJ4Imt5abdMtlj9CV33sM51mTVl64a+KkbVVb75jCR8X3mlpGhDBkzqIMWUI5M9v
+         v4WT99zMGgB4IIIC5W4nK3x2jnEFvf8akvoFIBYLOLHRit6knjbH1grQ468eDIA2b1zo
+         sMD5GojOwP5mq7WVG/1IYuEzBCvs4JxSpH6BwmiYzmJbhrD2zL2D9sWOI/kuPkJcW3NM
+         nx8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=pfX78KqgOSduBpoy4Zu2aWB7lpgcjxt2pBzkk7CLZdQ=;
+        b=pmDLeI52f4ui72RHuumdKKoDuPAD+fLhllwLf6doF6a7HHxh6gh3GTD0cLYrmKTG2O
+         Bk/SpKrKb3pb21QCGjEUMzmXK8EV3aRbSGwhpCN7l5JKCt9s1dgqQK0GZ6ppPxn2+puq
+         vdkJJKVQlh1zHYVwnxun0BGAEJD3mgD38hyrCWG164NpmETLSR4gkDZ+4SnV+F3z3JZB
+         iYI81DvD8qj5PURp82kj3w5vyC4daHogrVuTJSFrpLPvD4jWjnToWKq9Amj2yV8Ti4x6
+         Gvvy/8o2h5P3LmthirTjfzv4PFPUNH9hw4IRHlS2nbO25jznMHJYAqhGVJ90LrrBG7Fh
+         5sbg==
+X-Gm-Message-State: AOAM5312j7zsVt3BT9qDp3KiuQLtR6Q/iHlY9MqEoTqP8bl3JBsRMG+C
+        hvDz8x7y8072DetteLFtWAUyRQ==
+X-Google-Smtp-Source: ABdhPJzfw/FFOwgsoIlsrs20Xnf1cUR6OnO79Bsn0q6KUMW2dsLYRbaM5a6SKi2Gm82CsS738vk+vQ==
+X-Received: by 2002:a17:907:c20e:b0:710:7a7a:fd85 with SMTP id ti14-20020a170907c20e00b007107a7afd85mr34116414ejc.346.1654953734067;
+        Sat, 11 Jun 2022 06:22:14 -0700 (PDT)
+Received: from [192.168.0.203] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id q8-20020a056402040800b0042dd4f9c464sm1382146edv.84.2022.06.11.06.22.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jun 2022 06:22:13 -0700 (PDT)
+Message-ID: <94f03fed-73f5-ce1e-7bbd-2f53f461816d@linaro.org>
+Date:   Sat, 11 Jun 2022 15:22:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: watchdog: renesas,wdt: Add r9a09g011
+ (RZ/V2M) support
+Content-Language: en-US
+To:     Phil Edworthy <phil.edworthy@renesas.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220607135619.174110-1-phil.edworthy@renesas.com>
+ <20220607135619.174110-2-phil.edworthy@renesas.com>
+ <83a8fb86-3311-87fe-c4ca-ab8e6d0cf784@linaro.org>
+ <TYYPR01MB7086EFE64F1DF8C6141E8719F5A69@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYYPR01MB7086EFE64F1DF8C6141E8719F5A69@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-An SPDX-License-Identifier is already in place. There is no need to
-duplicate part of the corresponding license.
+On 10/06/2022 16:38, Phil Edworthy wrote:
+> Hi Krzysztof,
+> 
+> Thanks for your review.
+> 
+> On 08 June 2022 11:52 Krzysztof Kozlowski wrote:
+>> On 07/06/2022 15:56, Phil Edworthy wrote:
+>>> Add the documentation for the r9a09g011 SoC, but in doing so also
+>>> reorganise the doc to make it easier to read.
+>>> Additionally, make the binding require an interrupt to be specified.
+>>> Whilst the driver does not need an interrupt, all of the SoCs that use
+>>> this binding actually provide one.
+>>>
+>>> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>>  .../bindings/watchdog/renesas,wdt.yaml        | 63 ++++++++++++-------
+>>>  1 file changed, 42 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+>> b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+>>> index a8d7dde5271b..6473734921e3 100644
+>>> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+>>> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+>>> @@ -31,6 +31,11 @@ properties:
+>>>                - renesas,r9a07g054-wdt    # RZ/V2L
+>>>            - const: renesas,rzg2l-wdt
+>>>
+>>> +      - items:
+>>> +          - enum:
+>>> +              - renesas,r9a09g011-wdt    # RZ/V2M
+>>> +          - const: renesas,rzv2m-wdt     # RZ/V2M
+>>> +
+>>>        - items:
+>>>            - enum:
+>>>                - renesas,r8a7742-wdt      # RZ/G1H
+>>> @@ -70,13 +75,27 @@ properties:
+>>>    reg:
+>>>      maxItems: 1
+>>>
+>>> -  interrupts: true
+>>> +  interrupts:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - description: Timeout
+>>> +      - description: Parity error
+>>>
+>>> -  interrupt-names: true
+>>> +  interrupt-names:
+>>
+>> This also needs minItems
+> I left minItems off for interrupt-names and clock-names on the basis that
+> they are only needed if you have more than one interrupt or clock.
 
-This is a left-over from commit adeb69705682 ("media: rcar_drif: convert to
-SPDX identifiers")
+True, but now you disallow them for one clock/interrupt cases in other
+variants. Although after looking at existing bindings - it's even
+messier there. For certain variants it is just ":true" which is not correct.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/platform/renesas/rcar_drif.c | 5 -----
- 1 file changed, 5 deletions(-)
+In general, the properties in "properties:" section should have
+constraints - the most wide. These are narrowed for specific variants or
+even disallowed for some. Old bindings allowed anything for some
+variants, like 20 interrupt names so clearly wrong.
 
-diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
-index 9a0982fa5c6b..49e4c15a02cc 100644
---- a/drivers/media/platform/renesas/rcar_drif.c
-+++ b/drivers/media/platform/renesas/rcar_drif.c
-@@ -3,11 +3,6 @@
-  * R-Car Gen3 Digital Radio Interface (DRIF) driver
-  *
-  * Copyright (C) 2017 Renesas Electronics Corporation
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- /*
--- 
-2.34.1
+> 
+> After adding the lines you suggested (minItems: 1), I find that
+> 'make dtbs_check' passes even if there are no interrupt-names or
+> clock-names specified. Is this expected?
 
+These are not required, aren't they? If they are not required, they can
+be missing...
+
+> 
+> minItems: 0 makes more sense to me, but it is required to be greater than
+> or equal 1
+> 
+> Thanks
+> Phil
+
+
+Best regards,
+Krzysztof
