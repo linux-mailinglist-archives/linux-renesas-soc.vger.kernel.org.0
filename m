@@ -2,179 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F313547239
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jun 2022 07:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA2A5472BB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Jun 2022 10:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348741AbiFKF2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Jun 2022 01:28:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
+        id S231283AbiFKIBl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Jun 2022 04:01:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348603AbiFKF2C (ORCPT
+        with ESMTP id S229661AbiFKIBl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Jun 2022 01:28:02 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D686A03B
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jun 2022 22:28:01 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-30c143c41e5so9519867b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jun 2022 22:28:01 -0700 (PDT)
+        Sat, 11 Jun 2022 04:01:41 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B718410F9;
+        Sat, 11 Jun 2022 01:01:36 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id r3so2169976ybr.6;
+        Sat, 11 Jun 2022 01:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KtaWcoAGVUWpa8COeQVX5nOZg3KfNhRwqB48xxrgvYY=;
-        b=lTjzkKBXOx0+KKjlsLj+QplfboxQxEe3XZQuDoi5tV/FpHjCUrIbJSBO8l9PkmHhiG
-         u9cFmCHQsKGXLtS0MxtR1WthkdKnqIH5mrkLCbadThYDrAQeruLTyqmvpM/ynjwH4GAr
-         0TBgR/NHdatZOB2WU5iD+zkGEKMS5E333yjsEPkTQ8Bcow5TiKB+XkEob1o49e9yDpc0
-         3r3aRwglLopYhREBMoJKbQkYjgg6MQlue5kZUZE3K492FrWyuI8Avq7yD3u6xWa7tzqZ
-         /rL24lAWwC0mdxIvmcF9wbCVlJOr/BJyp+y1tWhL0o4KZ9viG9R3s8Ty0sn5puFhwdQb
-         jWSw==
+        bh=J6tjynxzIVHRb16JzapzgQcaIfTmSbsb2/a0kmRZXfE=;
+        b=gT95eMHWJT2+APQPM5Sb/zlwU3qLLfVhm8RS4IDEDOluySu+nfAwnG2wdCQUs2etxG
+         a3qWJPqoGqxviVQvgou6M4KXoavBKCVsbpnlsSCN4VFzC9aBVXn3u8SSvfu6sYMEwVHc
+         +RakSf4zwpF6JZqIiVgEtpFuZsgu0PjppeRnv9Z9bRkUh6nzTdldxO2aF/L/U40L01lw
+         m1q9Yms8CVfw3qII7OfPkKUqyOu0y99VMc7Hrm7zL3jXSTpfkDkXB5V2HCGEOLhSn/a8
+         RKdvTc7/GHhYqTmz6dHOyaa30NhHFrframySZURj255Jx28thKDTa9smn0AFHcl2Sn8u
+         j8EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KtaWcoAGVUWpa8COeQVX5nOZg3KfNhRwqB48xxrgvYY=;
-        b=PP2QLikeL4Zd/jHsk4RuNFqoJkRHKCGoqTevlt6uIWAIBA0QmyaaubX9xvf4P8m4UG
-         at42aSNkLMGfmqo19BooG2IvBeKdsRIXR+xHVY/F2IJURufTr8qw8QolY11q/8Tr6uNW
-         QqRrXSlKYV470mSmOLPM71bq2EIRVtbPCg8F7jXTSknwlkzmpgvL0AD2Wr4gBn/DfxZm
-         xqALHRGeAPAHSgI2lmkh8yRlMv/lEOot78vA4IhwbCEcGoPZT66SQvdZRifyNLKtIZhu
-         3THib3v3xhvxP83HlfGuVoyg2+ZoiGMj52xZ9abB5iAS0Kz8x4Mkh1xlbATC4jv3DNGA
-         muRg==
-X-Gm-Message-State: AOAM532RFcpV0CX1YZjMcyDndqPTIy/6+2eoVS0qpIST2RC8qglKb36e
-        UKux9z8j4acm2kOhv5ojsM9/NWC5QhcyQh0zjjh7XQ==
-X-Google-Smtp-Source: ABdhPJwLTZP6Fi253xeMCxYftfDPlNh/MGW5n7fQpLNMCzv2G/kL2ZcE78GOBiNU6b72I/yYsP+YG47yBoeUFjxJHtE=
-X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
- s12-20020a819b0c000000b002f4c5227d3cmr52513063ywg.316.1654925279564; Fri, 10
- Jun 2022 22:27:59 -0700 (PDT)
+        bh=J6tjynxzIVHRb16JzapzgQcaIfTmSbsb2/a0kmRZXfE=;
+        b=YaLokb8Nmy3QFnXsjlLNm5EYSGdPfL66DozqWjxQUlX9/trHuVIiPKfUiAdwNtRvTk
+         r5G1YinVLdCns8XoY14WqoI3vHvP5YThBqDAlyr2HFDs0SwfxTEK5v0PeqSRWfny53vb
+         bqox4Y1WVuPPN39IOivFqCk8tr5TkwWMJXC97Wp1jfFA2M6L0PcOHxT5U1ZR2CiFVrtn
+         PfNtyn/Tl6o5E7h7dCGDUHDnqFWJFiJTu5LpZTOxL85klV29Kv/d2TzX3XHSnj9yRsYl
+         zDon2GTtsrb/jcp6cXNVlpijbXp4CMiVsh/b05a3WhQjvzHoShLnCrlMNJF4tCMrx7y2
+         EGgQ==
+X-Gm-Message-State: AOAM530YkOraUvVW1dlJn0SL7NhZ0XWKJEeHUxyEXSOed2weFoSN2a1O
+        LhnQuzApC5hM4jthAK/PtUgkD5wO+X/rRaMo8rN+Vt85QDpdsQ==
+X-Google-Smtp-Source: ABdhPJy5kYyqrX/lptw1Ap7SKHtGXneDN+CrtV2GFrbq/7UNmNiXQaPRJbhG2lL6+ozyK78i/oXBtkBJo6JQI9dWEhk=
+X-Received: by 2002:a25:1c04:0:b0:660:1ffc:fb9 with SMTP id
+ c4-20020a251c04000000b006601ffc0fb9mr47542871ybc.431.1654934495957; Sat, 11
+ Jun 2022 01:01:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Yongqin Liu <yongqin.liu@linaro.org>
-Date:   Sat, 11 Jun 2022 13:27:48 +0800
-Message-ID: <CAMSo37US03pKhPR=a1sJnWMF6L+WDvhWz469G=+0XY2WX-p=bg@mail.gmail.com>
+References: <20220316200633.28974-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMSo37US03pKhPR=a1sJnWMF6L+WDvhWz469G=+0XY2WX-p=bg@mail.gmail.com>
+In-Reply-To: <CAMSo37US03pKhPR=a1sJnWMF6L+WDvhWz469G=+0XY2WX-p=bg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 11 Jun 2022 09:01:09 +0100
+Message-ID: <CA+V-a8t2w14bJVCiiHQq8bwgetw5za1-t_OSfyr6Cwo4eZOt2Q@mail.gmail.com>
 Subject: Re: [RFC PATCH] of/platform: Drop static setup of IRQ resource from
  DT core
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>,
+To:     Yongqin Liu <yongqin.liu@linaro.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi, Lad
+Hi Yongqin,
 
-# sorry for the confusion if you have received it before with the
-non-plain-text mode
+On Sat, Jun 11, 2022 at 6:28 AM Yongqin Liu <yongqin.liu@linaro.org> wrote:
+>
+> Hi, Lad
+>
+> # sorry for the confusion if you have received it before with the
+> non-plain-text mode
+>
+> In this change you said "all the DT drivers have switched to
+> platform_get_irq()",
+> could you please help share with me one example about the above change
+> as reference?
+The change is we just switch to using platform_get_irq() [0] for
+fetching IRQ numbers.
 
-In this change you said "all the DT drivers have switched to
-platform_get_irq()",
-could you please help share with me one example about the above change
-as reference?
-We have one hikey960 android build with some out of tree changes,
-which could not boot
-successfully with some errors on surfaceflinger(I am not sure it's a
-problem with the gpu or display),
-but could boot if I have this change reverted.
+> We have one hikey960 android build with some out of tree changes,
+> which could not boot
+> successfully with some errors on surfaceflinger(I am not sure it's a
+> problem with the gpu or display),
+> but could boot if I have this change reverted.
+>
+> I guess it needs some changes on the gpu/display dts or driver side to
+> have it work
+Just the changes to the driver is needed.
 
-I guess it needs some changes on the gpu/display dts or driver side to
-have it work
-with this change, not sure if you could give some suggestions on the fix.
-
-And here are two out of tree changes might be related listed here just
-for reference in case:
-https://android-review.linaro.org/c/kernel/common/+/21680
-https://android-review.linaro.org/c/kernel/common/+/21682
-
-Thanks in advance!
-
-On Thu, 17 Mar 2022 at 04:07, Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> with this change, not sure if you could give some suggestions on the fix.
 >
-> Now that all the DT drivers have switched to platform_get_irq() we can now
-> safely drop the static setup of IRQ resource from DT core code.
->
-> With the above change hierarchical setup of irq domains is no longer
-> bypassed and thus allowing hierarchical interrupt domains to describe
-> interrupts using "interrupts" DT property.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Hi All,
->
-> Sending this as RFC as couple of more drivers need to hit -rc yet with
-> the platform_get_irq() change while that is in progress I wanted to get
-> some feedback on this patch.
->
-> Cheers,
-> Prabhakar
-> ---
->  drivers/of/platform.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index 793350028906..6890f7fe556f 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -114,35 +114,31 @@ struct platform_device *of_device_alloc(struct device_node *np,
->                                   struct device *parent)
->  {
->         struct platform_device *dev;
-> -       int rc, i, num_reg = 0, num_irq;
-> +       int rc, i, num_reg = 0;
->         struct resource *res, temp_res;
->
->         dev = platform_device_alloc("", PLATFORM_DEVID_NONE);
->         if (!dev)
->                 return NULL;
->
-> -       /* count the io and irq resources */
-> +       /* count the io resources */
->         while (of_address_to_resource(np, num_reg, &temp_res) == 0)
->                 num_reg++;
-> -       num_irq = of_irq_count(np);
->
->         /* Populate the resource table */
-> -       if (num_irq || num_reg) {
-> -               res = kcalloc(num_irq + num_reg, sizeof(*res), GFP_KERNEL);
-> +       if (num_reg) {
-> +               res = kcalloc(num_reg, sizeof(*res), GFP_KERNEL);
->                 if (!res) {
->                         platform_device_put(dev);
->                         return NULL;
->                 }
->
-> -               dev->num_resources = num_reg + num_irq;
-> +               dev->num_resources = num_reg;
->                 dev->resource = res;
->                 for (i = 0; i < num_reg; i++, res++) {
->                         rc = of_address_to_resource(np, i, res);
->                         WARN_ON(rc);
->                 }
-> -               if (of_irq_to_resource_table(np, res, num_irq) != num_irq)
-> -                       pr_debug("not all legacy IRQ resources mapped for %pOFn\n",
-> -                                np);
->         }
->
->         dev->dev.of_node = of_node_get(np);
-> --
-> 2.17.1
+> And here are two out of tree changes might be related listed here just
+> for reference in case:
+> https://android-review.linaro.org/c/kernel/common/+/21680
+> https://android-review.linaro.org/c/kernel/common/+/21682
 >
 
+[0] https://lore.kernel.org/lkml/20211221213547.1553-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
--- 
-Best Regards,
-Yongqin Liu
----------------------------------------------------------------
-#mailing list
-linaro-android@lists.linaro.org
-http://lists.linaro.org/mailman/listinfo/linaro-android
+Cheers,
+Prabhakar
