@@ -2,33 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1507B548FE9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 18:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2715554908D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 18:26:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385859AbiFMOzC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jun 2022 10:55:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S1357878AbiFMOze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jun 2022 10:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386674AbiFMOyI (ORCPT
+        with ESMTP id S1387171AbiFMOy4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jun 2022 10:54:08 -0400
+        Mon, 13 Jun 2022 10:54:56 -0400
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AF65A2F66C;
-        Mon, 13 Jun 2022 04:56:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EA5ACD19F9;
+        Mon, 13 Jun 2022 04:57:45 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.91,297,1647270000"; 
-   d="scan'208";a="124235756"
+   d="scan'208";a="124235793"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2022 20:56:35 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2022 20:57:21 +0900
 Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 13C8D4220BC9;
-        Mon, 13 Jun 2022 20:56:35 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C9CE54220BF2;
+        Mon, 13 Jun 2022 20:57:21 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
+        bhelgaas@google.com, krzk+dt@kernel.org, geert+renesas@glider.be,
+        magnus.damm@gmail.com
+Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] clk: renesas: r8a779f0: Add PCIe clocks
-Date:   Mon, 13 Jun 2022 20:56:27 +0900
-Message-Id: <20220613115627.2831257-1-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/7] treewide: PCI: renesas: Add R-Car Gen4 PCIe support
+Date:   Mon, 13 Jun 2022 20:57:05 +0900
+Message-Id: <20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,27 +45,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the module clocks used by the PCIe controllers on the Renesas
-R-Car S4-8 (R8A779F0) SoC.
+Add R-Car S4-8 (R-Car Gen4) PCIe Host and Endpoint support.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/clk/renesas/r8a779f0-cpg-mssr.c | 2 ++
- 1 file changed, 2 insertions(+)
+Yoshihiro Shimoda (7):
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
+  PCI: renesas: Add R-Car Gen4 PCIe Host support
+  PCI: renesas: Add R-Car Gen4 PCIe Endpoint support
+  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
+  arm64: dts: renesas: r8a779f0: Add PCIe Host and Endpoint nodes
+  arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
 
-diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-index c17ebe6b5992..6bd2324ce073 100644
---- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-@@ -124,6 +124,8 @@ static const struct mssr_mod_clk r8a779f0_mod_clks[] __initconst = {
- 	DEF_MOD("i2c3",		521,	R8A779F0_CLK_S0D6_PER),
- 	DEF_MOD("i2c4",		522,	R8A779F0_CLK_S0D6_PER),
- 	DEF_MOD("i2c5",		523,	R8A779F0_CLK_S0D6_PER),
-+	DEF_MOD("pcie0",	624,	R8A779F0_CLK_S0D2),
-+	DEF_MOD("pcie1",	625,	R8A779F0_CLK_S0D2),
- 	DEF_MOD("scif0",	702,	R8A779F0_CLK_S0D12_PER),
- 	DEF_MOD("scif1",	703,	R8A779F0_CLK_S0D12_PER),
- 	DEF_MOD("scif3",	704,	R8A779F0_CLK_S0D12_PER),
+ .../bindings/pci/rcar-gen4-pci-ep.yaml        | 111 ++++++++
+ .../bindings/pci/rcar-gen4-pci-host.yaml      | 104 +++++++
+ MAINTAINERS                                   |   1 +
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi |  43 +++
+ arch/arm64/boot/dts/renesas/r8a779f0.dtsi     | 133 +++++++++
+ drivers/pci/controller/dwc/Kconfig            |  18 ++
+ drivers/pci/controller/dwc/Makefile           |   2 +
+ .../pci/controller/dwc/pcie-rcar-gen4-ep.c    | 253 ++++++++++++++++++
+ .../pci/controller/dwc/pcie-rcar-gen4-host.c  | 235 ++++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 198 ++++++++++++++
+ drivers/pci/controller/dwc/pcie-rcar-gen4.h   |  60 +++++
+ 11 files changed, 1158 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-ep.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-ep.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4-host.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+ create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.h
+
 -- 
 2.25.1
 
