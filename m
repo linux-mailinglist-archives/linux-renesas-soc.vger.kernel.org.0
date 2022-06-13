@@ -2,132 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E90549BF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 20:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 940D7549D2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 21:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344455AbiFMSoX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jun 2022 14:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
+        id S239269AbiFMTP0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jun 2022 15:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346500AbiFMSnt (ORCPT
+        with ESMTP id S1345765AbiFMTNQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jun 2022 14:43:49 -0400
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB05EDFD37;
-        Mon, 13 Jun 2022 08:19:13 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id 15so4246930qki.6;
-        Mon, 13 Jun 2022 08:19:13 -0700 (PDT)
+        Mon, 13 Jun 2022 15:13:16 -0400
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E23FE28;
+        Mon, 13 Jun 2022 10:34:50 -0700 (PDT)
+Received: by mail-il1-f169.google.com with SMTP id h7so4767731ila.10;
+        Mon, 13 Jun 2022 10:34:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LcgDoi8Ks07zUpb/ZR8TTydtN5e8nq+lNn0ycM26yjg=;
-        b=gZXI7jpai/YTdNRT3Ksr92tqPDqA9F/ajvyabGggCIAyEVauyRZqcXL6MeyG1Vbc2H
-         azC7d0UjS+6PqPjlO2Jpc79vew/MFi0NsBx6vhQQwRaymW1FdhWgfQbLXr9tE/dKNYtG
-         R6K0T5BRJyrCU/XG4Q44CVmiKu7JyGar2WbE4hstre0qiXBrAkyClhfOV6Qq2WdmZpNA
-         pE5fVHAkFab7eHE6O8gZ3WdXZITL2p/oYPUhTz17JKAmSsICWzgevE1TwueolPeIZie+
-         xxRXCSNEj4AM3kixoso7urRJ7sz9MAESDMbCC6xzbm1w2MCeuDD2JjFe+xKSxk9ctXEE
-         67iw==
-X-Gm-Message-State: AOAM531bA8rEGmVyxMnfN50FH8Mt9ia5jGW4RKk0xaMtEAjsmWktUrc2
-        pRaIA998cVAUeKVR60tQa4v9O7OOeJevsQ==
-X-Google-Smtp-Source: ABdhPJw6KfdrKkB2U5sttUmCqFYOXPRMrmUqGIEgCVcU2flYNvhHzHJSJT8h8I9ac8zd12PZmJHpGQ==
-X-Received: by 2002:ae9:f405:0:b0:6a7:1892:8603 with SMTP id y5-20020ae9f405000000b006a718928603mr337044qkl.293.1655133552655;
-        Mon, 13 Jun 2022 08:19:12 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id n7-20020a37a407000000b006a66f3d3708sm6500542qke.129.2022.06.13.08.19.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 08:19:12 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id l204so10372485ybf.10;
-        Mon, 13 Jun 2022 08:19:12 -0700 (PDT)
-X-Received: by 2002:a25:cc53:0:b0:65c:b19c:fac1 with SMTP id
- l80-20020a25cc53000000b0065cb19cfac1mr68276ybf.89.1655133551763; Mon, 13 Jun
- 2022 08:19:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <87zgipgu3s.wl-kuninori.morimoto.gx@renesas.com>
- <87v8tdgu1t.wl-kuninori.morimoto.gx@renesas.com> <alpine.DEB.2.22.394.2206101756520.828669@ramsan.of.borg>
- <877d5l1lv9.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <877d5l1lv9.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Jun 2022 17:18:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWUeynL0YSV4Qr25TymN49guTHLwVe2UgtFcHeyjJvvVg@mail.gmail.com>
-Message-ID: <CAMuHMdWUeynL0YSV4Qr25TymN49guTHLwVe2UgtFcHeyjJvvVg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] pinctrl: renesas: Initial R8A779G0 (V4H) PFC support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=VexzobjkGRB0ucHkwaD3d+mrxZdJ+NIvR+Qk/N/8+OM=;
+        b=0slZVBP2qlyJzbdMh4j6VOpsAa9u/cDEtlSJGT4coiQT7QMmbxGRlyD/XKEQpRJLGY
+         1I05iG02AQv1LNkC693BJhQQHzMS5RjnhG6ACgRYJrYvLqy2QdzfhE4JYDjyVnSp58mb
+         BIDree+bOgFzmx+iiDiqhuO9K2hCBE/Y/sI+mYJ8tgR6pV2w9GY8mP89tI2TyDWqcpFL
+         HcDVUHUxfHpzQtC39mdpT87mVTjFkS9DDTsqt5oenop2HZ2ZrtxIzkXExW0cigNUmqEI
+         RCFo6Tnzva8PZW7WYZx7axykm2LhfHPZki+wmGjzPcGGtINYX2SKUhGEsocwlvA99K6c
+         vcEg==
+X-Gm-Message-State: AJIora+84G777O8FIAa0XVbQfX3WT31RGl9j0kslzzL+wEhGvddTlXhY
+        ljoaI+ttFfVKWMMTXH/QJQ==
+X-Google-Smtp-Source: AGRyM1tHMHc+/gWm0UnSKdLtipBp1pFsdBQ8KPOQKgEHymZK6K65TkXJNtJOVtoPrwDzqV+a0hb1yA==
+X-Received: by 2002:a92:c891:0:b0:2d3:a221:ad70 with SMTP id w17-20020a92c891000000b002d3a221ad70mr538561ilo.99.1655141688892;
+        Mon, 13 Jun 2022 10:34:48 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id a3-20020a5ec303000000b0066579afd3cbsm4169257iok.50.2022.06.13.10.34.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 10:34:48 -0700 (PDT)
+Received: (nullmailer pid 3951182 invoked by uid 1000);
+        Mon, 13 Jun 2022 17:34:46 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     bhelgaas@google.com, linux-renesas-soc@vger.kernel.org,
+        magnus.damm@gmail.com, krzk+dt@kernel.org,
+        marek.vasut+renesas@gmail.com, geert+renesas@glider.be,
+        robh+dt@kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, lpieralisi@kernel.org, kw@linux.com
+In-Reply-To: <20220613115712.2831386-2-yoshihiro.shimoda.uh@renesas.com>
+References: <20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com> <20220613115712.2831386-2-yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 1/7] dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
+Date:   Mon, 13 Jun 2022 11:34:46 -0600
+Message-Id: <1655141686.984544.3951181.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+On Mon, 13 Jun 2022 20:57:06 +0900, Yoshihiro Shimoda wrote:
+> Document bindings for Renesas R-Car Gen4 and R-Car S4-8 (R8A779F0)
+> PCIe host module.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  .../bindings/pci/rcar-gen4-pci-host.yaml      | 104 ++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+> 
 
-On Mon, Jun 13, 2022 at 1:51 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > From: LUU HOAI <hoai.luu.ub@renesas.com>
-> > >
-> > > This patch adds initial pinctrl support for the R8A779G0 (V4H) SoC,
-> > > including bias, drive strength and voltage control.
-> > >
-> > > [Morimoto merged Kihara-san's MODSEL8 fixup patch,
-> > > and cleanuped white space, care reserved bit on each configs,
-> > > fixup setting miss]
-> > > Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> > > Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> > > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > Below is a first set of comments.
-> > You can expect a second set of comments after the weekend.
->
-> May I suggest ?
->
-> v1 patch was almost as-is of working implementation,
-> I did was just cleanup.
-> v2 patch was tidyup implementation which found via runtime.
-> So far, I think we can say "v2 patch is cleanup version of working implementation".
->
-> But, v3 needs too many tidyups, and it is related to very deep parts.
-> I'm very afraid it breaks working implementation for some reasons.
-> In such case, it is very difficult to find and/or fix the issue
-> because PFC file is too big and too complicated.
->
-> I'm happy to fix all of you pointed, but I want to make it as additional patch.
-> But what do you think ?
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-For missing features (e.g. missing alternative functions, missing
-support for using I2C-capable pins as GPIOs, ...) I agree: these can
-be added incrementally.
+yamllint warnings/errors:
 
-For descriptions that are wrong, I disagree: please try to fix them
-in the patch that introduces them, if possible.
-This is especially true for descriptions that become user-visible:
-e.g. set names (no suffix vs. "_A" vs. "_B" suffixes) become DT ABI
-once their pin groups have been defined.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: compatible:0: 'renesas,r8a779f0-pcie' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: compatible:1: 'renesas,rcar-gen4-pcie' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: compatible: ['intel,lgm-pcie', 'snps,dw-pcie'] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: clocks: [[4294967295, 120]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: 'clock-names' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: 'power-domains' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/intel-gw-pcie.example.dtb: pcie@d0e00000: 'oneOf' conditional failed, one must be fixed:
+	'interrupts' is a required property
+	'interrupts-extended' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: compatible:0: 'renesas,r8a779f0-pcie' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: compatible: ['snps,dw-pcie'] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: interrupts: [[25], [24]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: 'clocks' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: 'clock-names' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/snps,dw-pcie.example.dtb: pcie@dfc00000: 'power-domains' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pci/rcar-gen4-pci-host.yaml
 
-Unfortunately some of the (lack of) set names need confirmation or
-clarification from the hardware documentation team.
+doc reference errors (make refcheckdocs):
 
-BTW, do you know which devices and pin groups have been tested on
-actual hardware?
+See https://patchwork.ozlabs.org/patch/
 
-Thanks!
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-Gr{oetje,eeting}s,
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-                        Geert
+pip3 install dtschema --upgrade
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Please check and re-submit.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
