@@ -2,152 +2,762 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3AA3549C18
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 20:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9275549C1F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 20:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245665AbiFMSr5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jun 2022 14:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55838 "EHLO
+        id S234130AbiFMStB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jun 2022 14:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243670AbiFMSrn (ORCPT
+        with ESMTP id S1343899AbiFMSsR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jun 2022 14:47:43 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C2112DA612;
-        Mon, 13 Jun 2022 08:06:20 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,297,1647270000"; 
-   d="scan'208";a="124246690"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Jun 2022 00:06:20 +0900
-Received: from localhost.localdomain (unknown [10.226.93.20])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 05B5A425A308;
-        Tue, 14 Jun 2022 00:06:17 +0900 (JST)
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Phil Edworthy <phil.edworthy@renesas.com>,
-        linux-watchdog@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 2/2] watchdog: rzg2l_wdt: Add rzv2m support
-Date:   Mon, 13 Jun 2022 16:05:50 +0100
-Message-Id: <20220613150550.70334-3-phil.edworthy@renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220613150550.70334-1-phil.edworthy@renesas.com>
-References: <20220613150550.70334-1-phil.edworthy@renesas.com>
+        Mon, 13 Jun 2022 14:48:17 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D36A5372C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jun 2022 08:08:50 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:1568:8330:e22d:e2d2])
+        by baptiste.telenet-ops.be with bizsmtp
+        id if8n2700K0XlP1U01f8nx7; Mon, 13 Jun 2022 17:08:48 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o0lgN-003yEg-7V; Mon, 13 Jun 2022 17:08:47 +0200
+Date:   Mon, 13 Jun 2022 17:08:47 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] pinctrl: renesas: Initial R8A779G0 (V4H) PFC
+ support
+In-Reply-To: <87v8tdgu1t.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <alpine.DEB.2.22.394.2206131708100.946510@ramsan.of.borg>
+References: <87zgipgu3s.wl-kuninori.morimoto.gx@renesas.com> <87v8tdgu1t.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/mixed; boundary="8323329-1910135428-1655132927=:946510"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,UPPERCASE_50_75
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The WDT on RZ/V2M devices is basically the same as RZ/G2L, but without
-the parity error registers. This means the driver has to reset the
-hardware plus set the minimum timeout in order to do a restart and has
-a single interrupt.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- - Replace use of parity error registers in restart
- - Commit msg modified to reflect different contents
----
- drivers/watchdog/rzg2l_wdt.c | 37 ++++++++++++++++++++++++++++--------
- 1 file changed, 29 insertions(+), 8 deletions(-)
+--8323329-1910135428-1655132927=:946510
+Content-Type: text/plain; charset=ISO-8859-7; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/drivers/watchdog/rzg2l_wdt.c b/drivers/watchdog/rzg2l_wdt.c
-index 6eea0ee4af49..f3b6da5c964a 100644
---- a/drivers/watchdog/rzg2l_wdt.c
-+++ b/drivers/watchdog/rzg2l_wdt.c
-@@ -9,8 +9,9 @@
- #include <linux/delay.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/math64.h>
- #include <linux/module.h>
--#include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-@@ -40,6 +41,11 @@ module_param(nowayout, bool, 0);
- MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (default="
- 				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
- 
-+enum rz_wdt_type {
-+	I2C_RZG2L,
-+	I2C_RZV2M,
-+};
-+
- struct rzg2l_wdt_priv {
- 	void __iomem *base;
- 	struct watchdog_device wdev;
-@@ -48,6 +54,7 @@ struct rzg2l_wdt_priv {
- 	unsigned long delay;
- 	struct clk *pclk;
- 	struct clk *osc_clk;
-+	enum rz_wdt_type devtype;
- };
- 
- static void rzg2l_wdt_wait_delay(struct rzg2l_wdt_priv *priv)
-@@ -139,14 +146,25 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
- {
- 	struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
- 
--	clk_prepare_enable(priv->pclk);
--	clk_prepare_enable(priv->osc_clk);
-+	if (priv->devtype == I2C_RZG2L) {
-+		clk_prepare_enable(priv->pclk);
-+		clk_prepare_enable(priv->osc_clk);
- 
--	/* Generate Reset (WDTRSTB) Signal on parity error */
--	rzg2l_wdt_write(priv, 0, PECR);
-+		/* Generate Reset (WDTRSTB) Signal on parity error */
-+		rzg2l_wdt_write(priv, 0, PECR);
- 
--	/* Force parity error */
--	rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
-+		/* Force parity error */
-+		rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
-+	} else {
-+		/* RZ/V2M doesn't have parity error registers */
-+
-+		wdev->timeout = 0;
-+		rzg2l_wdt_start(wdev);
-+
-+		/* Wait 2 consecutive overflow cycles for reset */
-+		udelay(DIV64_U64_ROUND_UP(2 * 0xFFFFF * 1000000ULL,
-+					  priv->osc_clk_rate));
-+	}
- 
- 	return 0;
- }
-@@ -227,6 +245,8 @@ static int rzg2l_wdt_probe(struct platform_device *pdev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "failed to deassert");
- 
-+	priv->devtype = (enum rz_wdt_type)of_device_get_match_data(dev);
-+
- 	pm_runtime_enable(&pdev->dev);
- 
- 	priv->wdev.info = &rzg2l_wdt_ident;
-@@ -255,7 +275,8 @@ static int rzg2l_wdt_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id rzg2l_wdt_ids[] = {
--	{ .compatible = "renesas,rzg2l-wdt", },
-+	{ .compatible = "renesas,rzg2l-wdt", .data = (void *)I2C_RZG2L },
-+	{ .compatible = "renesas,rzv2m-wdt", .data = (void *)I2C_RZV2M },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, rzg2l_wdt_ids);
--- 
-2.34.1
+ 	Hi Morimoto-san,
 
+On Tue, 7 Jun 2022, Kuninori Morimoto wrote:
+> From: LUU HOAI <hoai.luu.ub@renesas.com>
+>
+> This patch adds initial pinctrl support for the R8A779G0 (V4H) SoC,
+> including bias, drive strength and voltage control.
+>
+> [Morimoto merged Kihara-san's MODSEL8 fixup patch,
+> and cleanuped white space, care reserved bit on each configs,
+> fixup setting miss]
+> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Thanks for your patch!
+
+Below is my second (and final) set of comments.
+
+> --- /dev/null
+> +++ b/drivers/pinctrl/renesas/pfc-r8a779g0.c
+
+> +/* MOD_SEL4 */			/* 0 */				/* 1 */
+> +#define MOD_SEL4_19		FM(SEL_TSN0_TD2_0)		FM(SEL_TSN0_TD2_1)
+> +#define MOD_SEL4_18		FM(SEL_TSN0_TD3_0)		FM(SEL_TSN0_TD3_1)
+> +#define MOD_SEL4_17		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_16		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_15		FM(SEL_TSN0_TD0_0)		FM(SEL_TSN0_TD0_1)
+> +#define MOD_SEL4_14		FM(SEL_TSN0_TD1_0)		FM(SEL_TSN0_TD1_1)
+> +#define MOD_SEL4_13		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_12		FM(SEL_TSN0_TXC_0)		FM(SEL_TSN0_TXC_1)
+> +#define MOD_SEL4_11		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_10		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_9		FM(SEL_TSN0_TX_CTL_0)		FM(SEL_TSN0_TX_CTL_1)
+> +#define MOD_SEL4_8		FM(SEL_TSN0_AVTP_PPS0_0)	FM(SEL_TSN0_AVTP_PPS0_1)
+> +#define MOD_SEL4_7		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_6		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_5		FM(SEL_TSN0_AVTP_MATCH_0)	FM(SEL_TSN0_AVTP_MATCH_1)
+> +#define MOD_SEL4_4		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_3		F_(0, 0)			F_(0, 0)
+> +#define MOD_SEL4_2		FM(SEL_TSN0_AVTP_PPS1_0)	FM(SEL_TSN0_AVTP_PPS1_1)
+> +#define MOD_SEL4_1		FM(SEL_TSN0_MDC_0)		FM(SEL_TSN0_MDC_1)
+> +#define MOD_SEL4_0		F_(0, 0)			F_(0, 0)
+
+Like for the IPxSRy_n_m() macros, if the definition of a MOD_SELn_m()
+macro consists of a series of "F_(0, 0)" only, you can just omit that
+definition, and omit its use in the definition of the PINMUX_MOD_SELS()
+macro below.
+
+Note that you already omitted MOD_SEL4_n for n > 19.
+
+> +static const u16 pinmux_data[] = {
+> +	PINMUX_DATA_GP_ALL(),
+
+Given the inset for I2C selection in Figure 7.1 ("PFC Block Diagram"),
+and the documentation for the MODSEL8 register bits in Rev. 0.51 of
+the R-Car V4H Series Hardware User¢s Manual, I think you need to
+override GP_8_[0-12]_FN here to use the GPIO function on I2C-capable
+pins.  See also commits 4288caed9a6319b7 ("pinctrl: renesas: r8a779a0:
+Fix GPIO function on I2C-capable pins") and 8bdd369dba7ff2f8 ("pinctrl:
+renesas: r8a779f0: Fix GPIO function on I2C-capable pins").
+
+And probably you need something similar to configure MODSEL[4567] when
+using TSN0 or AVB[012] pins as GPIOs, or when using CC5_OSCOUT?
+
+> +
+> +	PINMUX_SINGLE(AVS1),
+> +	PINMUX_SINGLE(AVS0),
+> +	PINMUX_SINGLE(PCIE1_CLKREQ_N),
+> +	PINMUX_SINGLE(PCIE0_CLKREQ_N),
+> +	PINMUX_SINGLE(TSN0_TXCREFCLK),
+> +	PINMUX_SINGLE(TSN0_TD2),
+
+As using TSN0_{TD[0-3],TXC,TX_CTL,AVTP_PPS[01],AVTP_MATCH,MDC}
+needs configuration in MODSEL4, you should use PINMUX_IPSR_NOGM()
+instead.
+
+E.g. PINMUX_IPSR_NOGM(0, TSN0_TD2, SEL_TSN0_TD2_1).
+
+> +	PINMUX_SINGLE(TSN0_TD3),
+> +	PINMUX_SINGLE(TSN0_RD2),
+> +	PINMUX_SINGLE(TSN0_RD3),
+> +	PINMUX_SINGLE(TSN0_TD0),
+> +	PINMUX_SINGLE(TSN0_TD1),
+> +	PINMUX_SINGLE(TSN0_RD1),
+> +	PINMUX_SINGLE(TSN0_TXC),
+> +	PINMUX_SINGLE(TSN0_RXC),
+> +	PINMUX_SINGLE(TSN0_RD0),
+> +	PINMUX_SINGLE(TSN0_TX_CTL),
+> +	PINMUX_SINGLE(TSN0_AVTP_PPS0),
+> +	PINMUX_SINGLE(TSN0_RX_CTL),
+> +	PINMUX_SINGLE(TSN0_AVTP_CAPTURE),
+> +	PINMUX_SINGLE(TSN0_AVTP_MATCH),
+> +	PINMUX_SINGLE(TSN0_LINK),
+> +	PINMUX_SINGLE(TSN0_PHY_INT),
+> +	PINMUX_SINGLE(TSN0_AVTP_PPS1),
+> +	PINMUX_SINGLE(TSN0_MDC),
+> +	PINMUX_SINGLE(TSN0_MDIO),
+> +
+> +	PINMUX_SINGLE(AVB2_RX_CTL),
+> +	PINMUX_SINGLE(AVB2_TX_CTL),
+
+As using AVB2_{TX_CTL,TXC,TD[0-3],MDC,MAGIC,AVTP_MATCH,AVTP_CAPTURE}
+needs configuration in MODSEL5, you should use PINMUX_IPSR_NOGM()
+instead.
+
+E.g. PINMUX_IPSR_NOGM(0, AVB2_TX_CTL, SEL_AVB2_TX_CTL_1).
+
+> +	PINMUX_SINGLE(AVB2_RXC),
+> +	PINMUX_SINGLE(AVB2_RD0),
+> +	PINMUX_SINGLE(AVB2_TXC),
+> +	PINMUX_SINGLE(AVB2_TD0),
+> +	PINMUX_SINGLE(AVB2_RD1),
+> +	PINMUX_SINGLE(AVB2_RD2),
+> +	PINMUX_SINGLE(AVB2_TD1),
+> +	PINMUX_SINGLE(AVB2_TD2),
+> +	PINMUX_SINGLE(AVB2_MDIO),
+> +	PINMUX_SINGLE(AVB2_RD3),
+> +	PINMUX_SINGLE(AVB2_TD3),
+> +	PINMUX_SINGLE(AVB2_TXCREFCLK),
+> +	PINMUX_SINGLE(AVB2_MDC),
+> +	PINMUX_SINGLE(AVB2_MAGIC),
+> +	PINMUX_SINGLE(AVB2_PHY_INT),
+> +	PINMUX_SINGLE(AVB2_LINK),
+> +	PINMUX_SINGLE(AVB2_AVTP_MATCH),
+> +	PINMUX_SINGLE(AVB2_AVTP_CAPTURE),
+> +	PINMUX_SINGLE(AVB2_AVTP_PPS),
+> +
+> +	/* IP0SR0 */
+> +	PINMUX_IPSR_GPSR(IP0SR0_3_0,	ERROROUTC),
+
+Missing TCLK2_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_7_4,	MSIOF3_SS1),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_11_8,	MSIOF3_SS2),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_15_12,	IRQ3),
+> +	PINMUX_IPSR_GPSR(IP0SR0_15_12,	MSIOF3_SCK),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_19_16,	IRQ2),
+> +	PINMUX_IPSR_GPSR(IP0SR0_19_16,	MSIOF3_TXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_23_20,	IRQ1),
+> +	PINMUX_IPSR_GPSR(IP0SR0_23_20,	MSIOF3_RXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_27_24,	IRQ0),
+> +	PINMUX_IPSR_GPSR(IP0SR0_27_24,	MSIOF3_SYNC),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR0_31_28,	MSIOF5_SS2),
+> +
+> +	/* IP1SR0 */
+> +	PINMUX_IPSR_GPSR(IP1SR0_3_0,	MSIOF5_SS1),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_7_4,	MSIOF5_SYNC),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_11_8,	MSIOF5_TXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_15_12,	MSIOF5_SCK),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_19_16,	MSIOF5_RXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_23_20,	MSIOF2_SS2),
+> +	PINMUX_IPSR_GPSR(IP1SR0_23_20,	TCLK1),
+
+Missing IRQ2_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_27_24,	MSIOF2_SS1),
+> +	PINMUX_IPSR_GPSR(IP1SR0_27_24,	HTX1),
+> +	PINMUX_IPSR_GPSR(IP1SR0_27_24,	TX1),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR0_31_28,	MSIOF2_SYNC),
+> +	PINMUX_IPSR_GPSR(IP1SR0_31_28,	HRX1),
+> +	PINMUX_IPSR_GPSR(IP1SR0_31_28,	RX1),
+> +
+> +	/* IP2SR0 */
+> +	PINMUX_IPSR_GPSR(IP2SR0_3_0,	MSIOF2_TXD),
+> +	PINMUX_IPSR_GPSR(IP2SR0_3_0,	HCTS1_N),
+> +	PINMUX_IPSR_GPSR(IP2SR0_3_0,	CTS1_N),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR0_7_4,	MSIOF2_SCK),
+> +	PINMUX_IPSR_GPSR(IP2SR0_7_4,	HRTS1_N),
+> +	PINMUX_IPSR_GPSR(IP2SR0_7_4,	RTS1_N),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR0_11_8,	MSIOF2_RXD),
+> +	PINMUX_IPSR_GPSR(IP2SR0_11_8,	HSCK1),
+> +	PINMUX_IPSR_GPSR(IP2SR0_11_8,	SCK1),
+> +
+> +	/* IP0SR1 */
+> +	PINMUX_IPSR_GPSR(IP0SR1_3_0,	MSIOF1_SS2),
+
+Missing HTX3_A and TX3_A
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_7_4,	MSIOF1_SS1),
+
+Missing HCTS3_N_A and RX3_A
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_11_8,	MSIOF1_SYNC),
+
+Missing RTS3_N_A and RTS3_N
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_15_12,	MSIOF1_SCK),
+
+Missing HSCK3_A and CTS3_N
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_19_16,	MSIOF1_TXD),
+
+Missing HRX3_A and SCK3
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_23_20,	MSIOF1_RXD),
+> +	PINMUX_IPSR_GPSR(IP0SR1_27_24,	MSIOF0_SS2),
+
+Missing HTX1 and TX1
+
+> +	PINMUX_IPSR_GPSR(IP0SR1_31_28,	MSIOF0_SS1),
+
+Missing HRX1 and TX1
+
+> +
+> +	/* IP1SR1 */
+> +	PINMUX_IPSR_GPSR(IP1SR1_3_0,	MSIOF0_SYNC),
+
+Missing HCTS1_N, CTS1_N, and CANFD5_TX_B
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_7_4,	MSIOF0_TXD),
+
+Missing HRTS1_N, RTS1_N, and CANFD5_RX_B
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_11_8,	MSIOF0_SCK),
+
+Missing HSCK1 and SCK1
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_15_12,	MSIOF0_RXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_19_16,	HTX0),
+> +	PINMUX_IPSR_GPSR(IP1SR1_19_16,	TX0),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_23_20,	HCTS0_N),
+> +	PINMUX_IPSR_GPSR(IP1SR1_23_20,	CTS0_N),
+> +	PINMUX_IPSR_GPSR(IP1SR1_23_20,	PWM8),
+
+PWM8_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_27_24,	HRTS0_N),
+> +	PINMUX_IPSR_GPSR(IP1SR1_27_24,	RTS0_N),
+> +	PINMUX_IPSR_GPSR(IP1SR1_27_24,	PWM9),
+
+PWM9_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR1_31_28,	HSCK0),
+> +	PINMUX_IPSR_GPSR(IP1SR1_31_28,	SCK0),
+> +	PINMUX_IPSR_GPSR(IP1SR1_31_28,	PWM0),
+
+PWM0_A
+
+> +
+> +	/* IP2SR1 */
+> +	PINMUX_IPSR_GPSR(IP2SR1_3_0,	HRX0),
+> +	PINMUX_IPSR_GPSR(IP2SR1_3_0,	RX0),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_7_4,	SCIF_CLK),
+> +	PINMUX_IPSR_GPSR(IP2SR1_7_4,	IRQ4),
+
+IRQ4_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_11_8,	SSI_SCK),
+> +	PINMUX_IPSR_GPSR(IP2SR1_11_8,	TCLK3),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_15_12,	SSI_WS),
+> +	PINMUX_IPSR_GPSR(IP2SR1_15_12,	TCLK4),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_19_16,	SSI_SD),
+
+Missing IRQ0_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_23_20,	AUDIO_CLKOUT),
+
+Missing IRQ1_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_27_24,	AUDIO_CLKIN),
+> +	PINMUX_IPSR_GPSR(IP2SR1_27_24,	PWM3),
+
+PWM3_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR1_31_28,	TCLK2),
+> +	PINMUX_IPSR_GPSR(IP2SR1_31_28,	MSIOF4_SS1),
+
+Missing IRQ3_B
+
+> +
+> +	/* IP3SR1 */
+> +	PINMUX_IPSR_GPSR(IP3SR1_3_0,	HRX3),
+> +	PINMUX_IPSR_GPSR(IP3SR1_3_0,	SCK3),
+
+SCK3_A
+
+> +	PINMUX_IPSR_GPSR(IP3SR1_3_0,	MSIOF4_SS2),
+> +
+> +	PINMUX_IPSR_GPSR(IP3SR1_7_4,	HSCK3),
+> +	PINMUX_IPSR_GPSR(IP3SR1_7_4,	CTS3_N),
+
+CTS3_N_A
+
+> +	PINMUX_IPSR_GPSR(IP3SR1_7_4,	MSIOF4_SCK),
+
+Missing TPU0TO0_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP3SR1_11_8,	HRTS3_N),
+> +	PINMUX_IPSR_GPSR(IP3SR1_11_8,	RTS3_N),
+
+RTS3_N_A
+
+> +	PINMUX_IPSR_GPSR(IP3SR1_11_8,	MSIOF4_TXD),
+
+Missing TPU0TO1_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP3SR1_15_12,	HCTS3_N),
+> +	PINMUX_IPSR_GPSR(IP3SR1_15_12,	RX3),
+
+RX3_A
+
+> +	PINMUX_IPSR_GPSR(IP3SR1_15_12,	MSIOF4_RXD),
+> +
+> +	PINMUX_IPSR_GPSR(IP3SR1_19_16,	HTX3),
+> +	PINMUX_IPSR_GPSR(IP3SR1_19_16,	TX3),
+
+TX3_A
+
+> +	PINMUX_IPSR_GPSR(IP3SR1_19_16,	MSIOF4_SYNC),
+> +
+> +	/* IP0SR2 */
+> +	PINMUX_IPSR_GPSR(IP0SR2_3_0,	FXR_TXDA),
+> +	PINMUX_IPSR_GPSR(IP0SR2_3_0,	CANFD1_TX),
+
+Missing TPU0TO2_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_7_4,	FXR_TXENA_N),
+> +	PINMUX_IPSR_GPSR(IP0SR2_7_4,	CANFD1_RX),
+
+Missing TPU0TO3_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_11_8,	RXDA_EXTFXR),
+> +	PINMUX_IPSR_GPSR(IP0SR2_11_8,	CANFD5_TX),
+> +	PINMUX_IPSR_GPSR(IP0SR2_11_8,	IRQ5),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_15_12,	CLK_EXTFXR),
+> +	PINMUX_IPSR_GPSR(IP0SR2_15_12,	CANFD5_RX),
+
+Missing IRQ4_B
+
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_19_16,	RXDB_EXTFXR),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_23_20,	FXR_TXENB_N),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_27_24,	FXR_TXDB),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR2_31_28,	TPU0TO1),
+> +	PINMUX_IPSR_GPSR(IP0SR2_31_28,	CANFD6_TX),
+
+Missing TCLK2_B
+
+> +
+> +	/* IP1SR2 */
+> +	PINMUX_IPSR_GPSR(IP1SR2_3_0,	TPU0TO0),
+> +	PINMUX_IPSR_GPSR(IP1SR2_3_0,	CANFD6_RX),
+
+Missing TCLK1_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_7_4,	CAN_CLK),
+
+Missing FXR_TXENA_N
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_11_8,	CANFD0_TX),
+
+Missing FXR_TXENB_N
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_15_12,	CANFD0_RX),
+> +	PINMUX_IPSR_GPSR(IP1SR2_15_12,	STPWT_EXTFXR),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_19_16,	CANFD2_TX),
+> +	PINMUX_IPSR_GPSR(IP1SR2_19_16,	TPU0TO2),
+
+Missing TCLK3_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_23_20,	CANFD2_RX),
+> +	PINMUX_IPSR_GPSR(IP1SR2_23_20,	TPU0TO3),
+> +	PINMUX_IPSR_GPSR(IP1SR2_23_20,	PWM1),
+
+PWM1_B
+
+Missing TCLK4_A
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_27_24,	CANFD3_TX),
+> +	PINMUX_IPSR_GPSR(IP1SR2_27_24,	PWM2),
+
+PWM2_B
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR2_31_28,	CANFD3_RX),
+
+Missing PWM3_B
+
+> +
+> +	/* IP2SR2 */
+> +	PINMUX_IPSR_GPSR(IP2SR2_3_0,	CANFD4_TX),
+> +	PINMUX_IPSR_GPSR(IP2SR2_3_0,	PWM4),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR2_7_4,	CANFD4_RX),
+> +	PINMUX_IPSR_GPSR(IP2SR2_7_4,	PWM5),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR2_11_8,	CANFD7_TX),
+> +	PINMUX_IPSR_GPSR(IP2SR2_11_8,	PWM6),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR2_15_12,	CANFD7_RX),
+> +	PINMUX_IPSR_GPSR(IP2SR2_15_12,	PWM7),
+> +
+> +	/* IP0SR3 */
+> +	PINMUX_IPSR_GPSR(IP0SR3_3_0,	MMC_SD_D1),
+> +	PINMUX_IPSR_GPSR(IP0SR3_7_4,	MMC_SD_D0),
+> +	PINMUX_IPSR_GPSR(IP0SR3_11_8,	MMC_SD_D2),
+> +	PINMUX_IPSR_GPSR(IP0SR3_15_12,	MMC_SD_CLK),
+> +	PINMUX_IPSR_GPSR(IP0SR3_19_16,	MMC_DS),
+> +	PINMUX_IPSR_GPSR(IP0SR3_23_20,	MMC_SD_D3),
+> +	PINMUX_IPSR_GPSR(IP0SR3_27_24,	MMC_D5),
+> +	PINMUX_IPSR_GPSR(IP0SR3_31_28,	MMC_D4),
+> +
+> +	/* IP1SR3 */
+> +	PINMUX_IPSR_GPSR(IP1SR3_3_0,	MMC_D7),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_7_4,	MMC_D6),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_11_8,	MMC_SD_CMD),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_15_12,	SD_CD),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_19_16,	SD_WP),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_23_20,	IPC_CLKIN),
+> +	PINMUX_IPSR_GPSR(IP1SR3_23_20,	IPC_CLKEN_IN),
+
+Missing PWM1_A and TCLK3
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_27_24,	IPC_CLKOUT),
+> +	PINMUX_IPSR_GPSR(IP1SR3_27_24,	IPC_CLKEN_OUT),
+
+Missing ERROROUTC_A, TCLK4, and PWM2_A (the latter is only listed in the
+pin function spreadsheet, as the main PDF file lacks a column for
+function 4?).
+
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR3_31_28,	QSPI0_SSL),
+> +
+> +	/* IP2SR3 */
+> +	PINMUX_IPSR_GPSR(IP2SR3_3_0,	QSPI0_IO3),
+> +	PINMUX_IPSR_GPSR(IP2SR3_7_4,	QSPI0_IO2),
+> +	PINMUX_IPSR_GPSR(IP2SR3_11_8,	QSPI0_MISO_IO1),
+> +	PINMUX_IPSR_GPSR(IP2SR3_15_12,	QSPI0_MOSI_IO0),
+> +	PINMUX_IPSR_GPSR(IP2SR3_19_16,	QSPI0_SPCLK),
+> +	PINMUX_IPSR_GPSR(IP2SR3_23_20,	QSPI1_MOSI_IO0),
+> +	PINMUX_IPSR_GPSR(IP2SR3_27_24,	QSPI1_SPCLK),
+> +	PINMUX_IPSR_GPSR(IP2SR3_31_28,	QSPI1_MISO_IO1),
+> +
+> +	/* IP3SR3 */
+> +	PINMUX_IPSR_GPSR(IP3SR3_3_0,	QSPI1_IO2),
+> +	PINMUX_IPSR_GPSR(IP3SR3_7_4,	QSPI1_SSL),
+> +	PINMUX_IPSR_GPSR(IP3SR3_11_8,	QSPI1_IO3),
+> +	PINMUX_IPSR_GPSR(IP3SR3_15_12,	RPC_RESET_N),
+> +	PINMUX_IPSR_GPSR(IP3SR3_19_16,	RPC_WP_N),
+> +	PINMUX_IPSR_GPSR(IP3SR3_23_20,	RPC_INT_N),
+> +
+> +	/* IP0SR6 */
+> +	PINMUX_IPSR_GPSR(IP0SR6_3_0,	AVB1_MDIO),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_7_4,	AVB1_MAGIC),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_11_8,	AVB1_MDC),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_15_12,	AVB1_PHY_INT),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_19_16,	AVB1_LINK),
+> +	PINMUX_IPSR_GPSR(IP0SR6_19_16,	AVB1_MII_TX_ER),
+
+Hmm, the MII functions for SVB[01] are only documented in the main PDF
+file, not in the pin function spreadsheet...
+
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_23_20,	AVB1_AVTP_MATCH),
+> +	PINMUX_IPSR_GPSR(IP0SR6_23_20,	AVB1_MII_RX_ER),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_27_24,	AVB1_TXC),
+> +	PINMUX_IPSR_GPSR(IP0SR6_27_24,	AVB1_MII_TXC),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR6_31_28,	AVB1_TX_CTL),
+> +	PINMUX_IPSR_GPSR(IP0SR6_31_28,	AVB1_MII_TX_EN),
+> +
+> +	/* IP1SR6 */
+> +	PINMUX_IPSR_GPSR(IP1SR6_3_0,	AVB1_RXC),
+> +	PINMUX_IPSR_GPSR(IP1SR6_3_0,	AVB1_MII_RXC),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_7_4,	AVB1_RX_CTL),
+> +	PINMUX_IPSR_GPSR(IP1SR6_7_4,	AVB1_MII_RX_DV),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_11_8,	AVB1_AVTP_PPS),
+> +	PINMUX_IPSR_GPSR(IP1SR6_11_8,	AVB1_MII_COL),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_15_12,	AVB1_AVTP_CAPTURE),
+> +	PINMUX_IPSR_GPSR(IP1SR6_15_12,	AVB1_MII_CRS),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_19_16,	AVB1_TD1),
+> +	PINMUX_IPSR_GPSR(IP1SR6_19_16,	AVB1_MII_TD1),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_23_20,	AVB1_TD0),
+> +	PINMUX_IPSR_GPSR(IP1SR6_23_20,	AVB1_MII_TD0),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_27_24,	AVB1_RD1),
+> +	PINMUX_IPSR_GPSR(IP1SR6_27_24,	AVB1_MII_RD1),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR6_31_28,	AVB1_RD0),
+> +	PINMUX_IPSR_GPSR(IP1SR6_31_28,	AVB1_MII_RD0),
+> +
+> +	/* IP2SR6 */
+> +	PINMUX_IPSR_GPSR(IP2SR6_3_0,	AVB1_TD2),
+> +	PINMUX_IPSR_GPSR(IP2SR6_3_0,	AVB1_MII_TD2),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR6_7_4,	AVB1_RD2),
+> +	PINMUX_IPSR_GPSR(IP2SR6_7_4,	AVB1_MII_RD2),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR6_11_8,	AVB1_TD3),
+> +	PINMUX_IPSR_GPSR(IP2SR6_11_8,	AVB1_MII_TD3),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR6_15_12,	AVB1_RD3),
+> +	PINMUX_IPSR_GPSR(IP2SR6_15_12,	AVB1_MII_RD3),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR6_19_16,	AVB1_TXCREFCLK),
+
+Some of the above need to configure MODSEL6, so you should use
+PINMUX_IPSR_MSEL(..., AVB1_*, SEL_AVB1_*).
+
+> +
+> +	/* IP0SR7 */
+> +	PINMUX_IPSR_MSEL(IP0SR7_3_0,	AVB0_AVTP_PPS,		SEL_AVB0_AVTP_PPS_1),
+> +	PINMUX_IPSR_MSEL(IP0SR7_3_0,	AVB0_MII_COL,		SEL_AVB0_AVTP_PPS_0),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR7_7_4,	AVB0_AVTP_CAPTURE),
+> +	PINMUX_IPSR_GPSR(IP0SR7_7_4,	AVB0_MII_CRS),
+> +
+> +	PINMUX_IPSR_MSEL(IP0SR7_11_8,	AVB0_AVTP_MATCH,	SEL_AVB0_AVTP_MATCH_1),
+> +	PINMUX_IPSR_MSEL(IP0SR7_11_8,	AVB0_MII_RX_ER,		SEL_AVB0_AVTP_MATCH_0),
+> +	PINMUX_IPSR_MSEL(IP0SR7_11_8,	CC5_OSCOUT,		SEL_AVB0_AVTP_MATCH_0),
+> +
+> +	PINMUX_IPSR_MSEL(IP0SR7_15_12,	AVB0_TD3,		SEL_AVB0_TD3_1),
+> +	PINMUX_IPSR_MSEL(IP0SR7_15_12,	AVB0_MII_TD3,		SEL_AVB0_TD3_0),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR7_19_16,	AVB0_LINK),
+> +	PINMUX_IPSR_GPSR(IP0SR7_19_16,	AVB0_MII_TX_ER),
+> +
+> +	PINMUX_IPSR_GPSR(IP0SR7_23_20,	AVB0_PHY_INT),
+> +
+> +	PINMUX_IPSR_MSEL(IP0SR7_27_24,	AVB0_TD2,		SEL_AVB0_TD2_1),
+> +	PINMUX_IPSR_MSEL(IP0SR7_27_24,	AVB0_MII_TD2,		SEL_AVB0_TD2_0),
+> +
+> +	PINMUX_IPSR_MSEL(IP0SR7_31_28,	AVB0_TD1,		SEL_AVB0_TD1_1),
+> +	PINMUX_IPSR_MSEL(IP0SR7_31_28,	AVB0_MII_TD1,		SEL_AVB0_TD1_0),
+> +
+> +	/* IP1SR7 */
+> +	PINMUX_IPSR_GPSR(IP1SR7_3_0,	AVB0_RD3),
+> +	PINMUX_IPSR_GPSR(IP1SR7_3_0,	AVB0_MII_RD3),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR7_7_4,	AVB0_TXCREFCLK),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR7_11_8,	AVB0_MAGIC,		SEL_AVB0_MAGIC_1),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR7_15_12,	AVB0_TD0,		SEL_AVB0_TD0_1),
+> +	PINMUX_IPSR_MSEL(IP1SR7_15_12,	AVB0_MII_TD0,		SEL_AVB0_TD0_0),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR7_19_16,	AVB0_RD2),
+> +	PINMUX_IPSR_GPSR(IP1SR7_19_16,	AVB0_MII_RD2),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR7_23_20,	AVB0_MDC,		SEL_AVB0_MDC_1),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR7_27_24,	AVB0_MDIO),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR7_31_28,	AVB0_TXC,		SEL_AVB0_TXC_1),
+> +	PINMUX_IPSR_MSEL(IP1SR7_31_28,	AVB0_MII_TXC,		SEL_AVB0_TXC_0),
+> +
+> +	/* IP2SR7 */
+> +	PINMUX_IPSR_MSEL(IP2SR7_3_0,	AVB0_TX_CTL,		SEL_AVB0_TX_CTL_1),
+> +	PINMUX_IPSR_MSEL(IP2SR7_3_0,	AVB0_MII_TX_EN,		SEL_AVB0_TX_CTL_0),
+
+Are the above SEL_AVB0_* values correct?
+I am not an MII expert, but I would expect e.g. both AVB0_TD3 and
+AVB0_MII_TD3 to need SEL_AVB0_TD3_1 (= output enabled).
+
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR7_7_4,	AVB0_RD1),
+> +	PINMUX_IPSR_GPSR(IP2SR7_7_4,	AVB0_MII_RD1),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR7_11_8,	AVB0_RD0),
+> +	PINMUX_IPSR_GPSR(IP2SR7_11_8,	AVB0_MII_RD0),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR7_15_12,	AVB0_RXC),
+> +	PINMUX_IPSR_GPSR(IP2SR7_15_12,	AVB0_MII_RXC),
+> +
+> +	PINMUX_IPSR_GPSR(IP2SR7_19_16,	AVB0_RX_CTL),
+> +	PINMUX_IPSR_GPSR(IP2SR7_19_16,	AVB0_MII_RX_DV),
+> +
+> +	/* IP0SR8 */
+> +	PINMUX_IPSR_MSEL(IP0SR8_3_0,	SCL0,			SEL_SCL0_0),
+
+SEL_SCL0_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_7_4,	SDA0,			SEL_SDA0_0),
+
+SEL_SDA0_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_11_8,	SCL1,			SEL_SCL1_0),
+
+SEL_SCL1_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_15_12,	SDA1,			SEL_SDA1_0),
+
+SEL_SDA1_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_19_16,	SCL2,			SEL_SCL2_0),
+
+SEL_SCL2_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_23_20,	SDA2,			SEL_SDA2_0),
+
+SEL_SDA2_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_27_24,	SCL3,			SEL_SCL3_0),
+
+SEL_SCL3_1
+
+> +	PINMUX_IPSR_MSEL(IP0SR8_31_28,	SDA3,			SEL_SDA3_0),
+
+SEL_SDA3_1
+
+> +
+> +	/* IP1SR8 */
+> +	PINMUX_IPSR_MSEL(IP1SR8_3_0,	SCL4,			SEL_SCL4_0),
+
+SEL_SCL4_1
+
+> +	PINMUX_IPSR_MSEL(IP1SR8_3_0,	HRX2,			SEL_SCL4_0),
+> +	PINMUX_IPSR_MSEL(IP1SR8_3_0,	SCK4,			SEL_SCL4_0),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR8_7_4,	SDA4,			SEL_SDA4_0),
+
+SEL_SDA4_1
+
+> +	PINMUX_IPSR_MSEL(IP1SR8_7_4,	HTX2,			SEL_SDA4_0),
+> +	PINMUX_IPSR_MSEL(IP1SR8_7_4,	CTS4_N,			SEL_SDA4_0),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR8_11_8,	SCL5,			SEL_SCL5_0),
+
+SEL_SCL5_1
+
+> +	PINMUX_IPSR_MSEL(IP1SR8_11_8,	HRTS2_N,		SEL_SCL5_0),
+> +	PINMUX_IPSR_MSEL(IP1SR8_11_8,	RTS4_N,			SEL_SCL5_0),
+> +
+> +	PINMUX_IPSR_MSEL(IP1SR8_15_12,	SDA5,			SEL_SDA5_0),
+
+SEL_SDA5_1
+
+> +	PINMUX_IPSR_MSEL(IP1SR8_15_12,	SCIF_CLK2,		SEL_SDA5_0),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR8_19_16,	HCTS2_N),
+> +	PINMUX_IPSR_GPSR(IP1SR8_19_16,	TX4),
+> +
+> +	PINMUX_IPSR_GPSR(IP1SR8_23_20,	HSCK2),
+> +	PINMUX_IPSR_GPSR(IP1SR8_23_20,	RX4),
+> +};
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
+--8323329-1910135428-1655132927=:946510--
