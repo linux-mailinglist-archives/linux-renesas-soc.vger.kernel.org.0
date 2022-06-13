@@ -2,134 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53D83549137
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 18:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 537F2549983
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jun 2022 19:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243833AbiFMO4s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jun 2022 10:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
+        id S235787AbiFMRHP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jun 2022 13:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351910AbiFMO4F (ORCPT
+        with ESMTP id S239560AbiFMRGi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jun 2022 10:56:05 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DA52D4117;
-        Mon, 13 Jun 2022 04:58:04 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.91,297,1647270000"; 
-   d="scan'208";a="122758913"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2022 20:57:22 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B62DD422104E;
-        Mon, 13 Jun 2022 20:57:22 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     lpieralisi@kernel.org, robh+dt@kernel.org, kw@linux.com,
-        bhelgaas@google.com, krzk+dt@kernel.org, geert+renesas@glider.be,
-        magnus.damm@gmail.com
-Cc:     marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 7/7] arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
-Date:   Mon, 13 Jun 2022 20:57:12 +0900
-Message-Id: <20220613115712.2831386-8-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com>
+        Mon, 13 Jun 2022 13:06:38 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DB12559B;
+        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id l192so1663867qke.13;
+        Mon, 13 Jun 2022 05:05:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cwLyOilx9WOqvNt/3Yiyfo9fY3D0D5JL9svjFDzxcJc=;
+        b=mirG+pXYdWmT/wWIEW46KPdRMH8MivKaZ/dKt1JgRO4IcipqNlZQ2fZ+lvJssw66K9
+         kZCeOmE02qq1pT/JNuUZOu4KUo15Psce3yKzggqVi4b5QVxin9vPhWbOZC6t63c3MUv4
+         NqTHZlyocexLMKY3KjjTXcsxJGvVnDN+c+CwhcYNcdlX94ZGvcvZvEIhYVO9/SaLbpxr
+         Snqw13uQY7lDllq0/K5/9gbDyKQvGUATXyrqxCII6zdUedpYp+ogfa5DBwc2WoEwJ23J
+         rj6fRmY7d2qR4WjRRgfjmaF6gfmFmmwjpyyTci7tfzindOYDw+RlFPC4kXBtNXB5rlaq
+         rolw==
+X-Gm-Message-State: AOAM533EyBjxxtZPjbdXEB4TZeVC2nQVnM5O5p59Af+zByw3vXqzxK/S
+        k3KRcny8Q05L7HVNy4j+XyO0o11rij4z1Q==
+X-Google-Smtp-Source: ABdhPJyG1Z+ss0PDfZyxXSVEb2nP2BBLomzlw8szdGzyWol2HPyjMMZZUVT5aABs6ygf5y2cuJmc3w==
+X-Received: by 2002:ae9:f107:0:b0:69c:232b:bf39 with SMTP id k7-20020ae9f107000000b0069c232bbf39mr38809443qkg.310.1655121954596;
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id ca21-20020a05622a1f1500b00304e5839734sm4874647qtb.55.2022.06.13.05.05.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-30c143c41e5so49016067b3.3;
+        Mon, 13 Jun 2022 05:05:54 -0700 (PDT)
+X-Received: by 2002:a0d:d481:0:b0:30c:44f1:2721 with SMTP id
+ w123-20020a0dd481000000b0030c44f12721mr64775617ywd.283.1655121953732; Mon, 13
+ Jun 2022 05:05:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <4dcd5c4ef92318dfa3298eb0c03945a8ce9b5833.1654942925.git.christophe.jaillet@wanadoo.fr>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Jun 2022 14:05:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
+Message-ID: <CAMuHMdWT+sFoa9spFk1FYZb=Kyck8gPL4gRU5E8YOhdmmGAZxA@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar_drif: Remove useless license text when
+ SPDX-License-Identifier is already used
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
+On Sat, Jun 11, 2022 at 12:28 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+> An SPDX-License-Identifier is already in place. There is no need to
+> duplicate part of the corresponding license.
+>
+> This is a left-over from commit adeb69705682 ("media: rcar_drif: convert to
+> SPDX identifiers")
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 41aa8591b3b1..d5fe22355e20 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2021 Renesas Electronics Corp.
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
- #include "r8a779f0.dtsi"
- 
- / {
-@@ -31,6 +32,28 @@ &extalr_clk {
- 	clock-frequency = <32768>;
- };
- 
-+&i2c0 {
-+	pinctrl-0 = <&i2c0_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	gpio_exp_20: gpio@20 {
-+		compatible = "ti,tca9554";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		pcie-perst-hog {
-+			gpio-hog;
-+			gpios = <0 GPIO_ACTIVE_HIGH>;
-+			output-high;
-+			line-name = "PCIE_PERSTn";
-+		};
-+	};
-+};
-+
- &i2c4 {
- 	pinctrl-0 = <&i2c4_pins>;
- 	pinctrl-names = "default";
-@@ -46,15 +69,35 @@ eeprom@50 {
- 	};
- };
- 
-+&pcie_bus_clk {
-+	clock-frequency = <100000000>;
-+};
-+
-+&pciec0 {
-+	pinctrl-0 = <&pcie0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
- &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
- 
-+	i2c0_pins: i2c0 {
-+		groups = "i2c0";
-+		function = "i2c0";
-+	};
-+
- 	i2c4_pins: i2c4 {
- 		groups = "i2c4";
- 		function = "i2c4";
- 	};
- 
-+	pcie0_pins: pcie0 {
-+		groups = "pcie0_clkreq_n";
-+		function = "pcie";
-+	};
-+
- 	scif3_pins: scif3 {
- 		groups = "scif3_data", "scif3_ctrl";
- 		function = "scif3";
--- 
-2.25.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
