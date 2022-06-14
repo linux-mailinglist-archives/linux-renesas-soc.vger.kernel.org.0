@@ -2,60 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1823B54A9E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 09:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5841154AB5C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 10:00:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352689AbiFNG4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 02:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58244 "EHLO
+        id S236640AbiFNIAj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 04:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352702AbiFNG4M (ORCPT
+        with ESMTP id S233210AbiFNIAh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 02:56:12 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0243B00B;
-        Mon, 13 Jun 2022 23:56:09 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id 68so5730825qkk.9;
-        Mon, 13 Jun 2022 23:56:09 -0700 (PDT)
+        Tue, 14 Jun 2022 04:00:37 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991049E;
+        Tue, 14 Jun 2022 01:00:34 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id n197so5841792qke.1;
+        Tue, 14 Jun 2022 01:00:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5C5c6a/FjphgO/+q9LPOsae/PEJeCJHHPy+5h5zaKZI=;
-        b=MVjq5s5BPBS5AWhlPkXdymPpYUTyshrzTFn9BI56DDskBExb3HzsaJ0KSq8PqsnxY2
-         K/Sqs6bqRMeNUwCru+POipej6Cs/2ts2DAo27qB0h0sRDPcA8zEgFl6/vhptNkE9kopo
-         tMuHdwSFhKRnCgqDiyCoLS1AXDI2hAYS5E5SEBcYpyPwoMWS7T78DIgc1rXJleOmCXWO
-         hi5puZ9d9L4VPpJiygiTGqBRGDnMNBVgiVAgKaxGNhpn4DJkvy+2k9M/QyoZ1LUiHS/K
-         zztKCdhW24biQAJHmd/WupwHuh2cSNh+uIaeVCWFQa26mTyTxIS5EuOwbpqkCiedfj3Y
-         +0UQ==
-X-Gm-Message-State: AOAM5309JVfURFHXU2S/ZKIHoO6w0O0VscX97hZS0woXovd0oHsuUKcl
-        bHhsw1YJuKpqtanZIL+ulRU7ezGsn4z0Ow==
-X-Google-Smtp-Source: ABdhPJyzqxvE+eSJdTGFvH3Kya1b/Yi0dwPrIr55xAk4GjgdGWrOY50RwPNjf8ApIgfiyZgO+Kd/Yw==
-X-Received: by 2002:ae9:e402:0:b0:6a7:86a3:752e with SMTP id q2-20020ae9e402000000b006a786a3752emr2845650qkc.300.1655189768079;
-        Mon, 13 Jun 2022 23:56:08 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id ca21-20020a05622a1f1500b00304e5839734sm6552335qtb.55.2022.06.13.23.56.07
+        bh=UwqQBif62pfk96bb34/7O5EloXnDszc4ir5IVolTz3g=;
+        b=hdTHzFQ88zMSuLlQwR/BAMHsRr9N/6OvvFoBzLAmMx3oH1B+/go0WxQP2RogboQjdh
+         Q5SicRfa/0gnKidc63j2MMQDHl2NfoI2NT/yUbvQhXdu5f3aZpLJ5l4lfpIQeLpk1fd4
+         MWaiInN4Nj1OxVlNZ3nu4d6mkYQns2NPEop6GPDwghXG+I49EdD6EqXB/R1xAio2SzsF
+         JlMXCMgIEUjyceX/flgajEwa7r0fKOrWpQ4TU8zPcTiZFPKTLrBwHQvX/SohxJ722iOV
+         LAC5AktADDgm9FRLk+Hb2Tk5xfq09NK0TE8ce5LL+WK+jwCFIGVAe5nt06usNB6GfkZw
+         thdA==
+X-Gm-Message-State: AOAM531o3vZDczHj395n29Rj12RBrkvM+qsrdLtL37hOpsvMvhSBvwJk
+        t6KGjxe+5sCIiRCEIjGJdF671Wqt+DPgMQ==
+X-Google-Smtp-Source: ABdhPJyO5TT5P4K7NsU5lwZsyEm2L/MSCC4kofYWkftuljEnHuUMT3I0cKVG/H0KnAFLTljEIj8QNA==
+X-Received: by 2002:ae9:dd03:0:b0:6a7:1c2a:bbea with SMTP id r3-20020ae9dd03000000b006a71c2abbeamr2933196qkf.769.1655193633514;
+        Tue, 14 Jun 2022 01:00:33 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05620a138f00b006a73654c19bsm8306604qki.23.2022.06.14.01.00.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 23:56:07 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-30c143c41e5so20290657b3.3;
-        Mon, 13 Jun 2022 23:56:07 -0700 (PDT)
-X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
- s12-20020a819b0c000000b002f4c5227d3cmr3936784ywg.316.1655189767410; Mon, 13
- Jun 2022 23:56:07 -0700 (PDT)
+        Tue, 14 Jun 2022 01:00:33 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id x38so13826352ybd.9;
+        Tue, 14 Jun 2022 01:00:32 -0700 (PDT)
+X-Received: by 2002:a25:818c:0:b0:664:a584:fafd with SMTP id
+ p12-20020a25818c000000b00664a584fafdmr3587127ybk.543.1655193632753; Tue, 14
+ Jun 2022 01:00:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <87zgipgu3s.wl-kuninori.morimoto.gx@renesas.com>
- <87v8tdgu1t.wl-kuninori.morimoto.gx@renesas.com> <alpine.DEB.2.22.394.2206101756520.828669@ramsan.of.borg>
- <877d5kkuiq.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <877d5kkuiq.wl-kuninori.morimoto.gx@renesas.com>
+References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 08:55:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUhz==kdNejHh9t15cRVLxyxamsj4APOU6gz1p5H9-=DA@mail.gmail.com>
-Message-ID: <CAMuHMdUhz==kdNejHh9t15cRVLxyxamsj4APOU6gz1p5H9-=DA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] pinctrl: renesas: Initial R8A779G0 (V4H) PFC support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Date:   Tue, 14 Jun 2022 10:00:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWY7OpB=F3sUoBEpMyJx9U=+YJBFrVd59y=wdsEvN=4JA@mail.gmail.com>
+Message-ID: <CAMuHMdWY7OpB=F3sUoBEpMyJx9U=+YJBFrVd59y=wdsEvN=4JA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/7] treewide: ufs: Add support for Renesas R-Car UFS controller
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>, avri.altman@wdc.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        scsi <linux-scsi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -67,29 +71,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Martin,
 
-On Tue, Jun 14, 2022 at 1:34 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > +#define CPU_ALL_GP(fn, sfx)                                                                \
-> > > +   PORT_GP_CFG_19(0,       fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),  \
-> > > +   PORT_GP_CFG_29(1,       fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),  \
-> >
-> > GP1_23 to GP1_28 do not support voltage control.
-> (snip)
-> > "<= RCAR_GP_PIN(1, 22)", as GP1_23 to GP1_28 do not support voltage
-> > control.
+On Fri, Jun 3, 2022 at 5:40 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch series adds support Renesas R-Car S4-8 UFS controller.
+> This controller has some restrictions so adds some quirks for it.
 >
-> Am I missing something ?
-> I guess GP1_23 to GP1_28 are same as other GP1_xxx.
+> Yoshihiro Shimoda (7):
+>   dt-bindings: ufs: Document Renesas R-Car UFS host controller
+>   ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
+>   ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
+>   scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
+>   scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
+>   arm64: dts: renesas: r8a779f0: Add UFS node
+>   arm64: dts: renesas: r8a779f0: spider-cpu: Enable UFS device
 
-Table 7.28 ("Configuration of Registers in POC0 , POC1") documents
-voltage control bits in POC1 for bits 0-22 only.
+I see you have applied this series, including the DTS parts, to
+your for-next tree. Please never apply DTS patches to the SCSI tree,
+as they are meant to go in through the soc tree.
 
-However, the pin function spreadsheet says GP1_23 to GP1_28 are
-1.8/3.3V.
-
-Which one is correct?
+Can you please drop the last two patches from your tree?
+Thanks!
 
 Gr{oetje,eeting}s,
 
