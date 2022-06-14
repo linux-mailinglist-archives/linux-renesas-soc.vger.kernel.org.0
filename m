@@ -2,81 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD36754B4AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C93F154B4D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241025AbiFNP3d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 11:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35148 "EHLO
+        id S1356866AbiFNPgS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 11:36:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239987AbiFNP33 (ORCPT
+        with ESMTP id S1344072AbiFNPgR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 11:29:29 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD02377D5;
-        Tue, 14 Jun 2022 08:29:28 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id l3so5003722qtp.1;
-        Tue, 14 Jun 2022 08:29:28 -0700 (PDT)
+        Tue, 14 Jun 2022 11:36:17 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5E72AC7A;
+        Tue, 14 Jun 2022 08:36:17 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id l3so5020303qtp.1;
+        Tue, 14 Jun 2022 08:36:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xMlrFysL6NER0BlZN8jiCoV2LFdvTf/MmGUlZKHHukw=;
-        b=ojbXCcKkbOHdD1xyrpe/zmRzfC8qA/YWYdgc/3bxEOAbaO6/eC/vr4WFzsVndFWZZR
-         fuV2ItycLhzUWv4mr1hUGiTHX6OR54p7DToSgeUHfX9fyuqmFfQDecKOQBp5pLBvoC+q
-         pl/UFmKdR6sR8YVo7bhbTxpTvzmBzWuqhEfgMzdW9/lp7UaCxfDnv4e/DraAzYTj0hqL
-         lWl6TI3TdPE00//ojKvp9qwBzSXpqLQw5zRrt8a3VGuLsCH/e2Av8eCSdd2LX9TeqJPW
-         JPBCcQDea69krqZQwSOYPv/hHBLic7GlgUoZL8LKpQJd4GB0DJN75P8wfFKpWf3dU1rV
-         gK1Q==
-X-Gm-Message-State: AOAM532cbRxWf9RCPB6JZPsgiyodzXS8f0iatwZCtH5ZfXVmHGPHvHHd
-        ADA556l9gpkOb33kdd/00/zhM+0wBqZmIQ==
-X-Google-Smtp-Source: ABdhPJxBBhea0ODzbRw9JZ69ent/Hrzi+3mK0sBTDk/5UchPN+9CFzfIqEX7AmRVkvBWmqMJrEGRTA==
-X-Received: by 2002:ac8:67c8:0:b0:305:e4e:43db with SMTP id r8-20020ac867c8000000b003050e4e43dbmr4793499qtp.562.1655220567126;
-        Tue, 14 Jun 2022 08:29:27 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id 7-20020a370507000000b006a725432959sm9257393qkf.37.2022.06.14.08.29.26
+        bh=+0Hk2AFNKQgkWbvipCu+92xiO5qRKMwKyffIoACTDw4=;
+        b=TPKPykwF4a66qvj3NOgFEb4wZNOhvETiV4cHs2OD4DUULSfozeO+Daw08CcUNSxy5r
+         TGIsQSJrKbd/LXVPpUttFK/HLz345DtTO4gws/n+0y7SRh8puthDXEV3M1cOgZH7Cvj8
+         F8XubUUTAfdeMLuEcl/uQtI3eaw1CZXeAbKTJxWKMXSHQYHu6D8GCjHauBLfZV4544nW
+         oBztZaCbIyma0cZzjruQNtsu+ETVLHhC0sV5+U6n9wYjFnYmXDgTGctWsTgAkXWRTbbV
+         ib/1WUuMsfe/zbqTa1pzjR53AWUYOKKlNwcovsNpX+EMStr9WRNQ3sB8LJcfR1xPTbTk
+         oNnQ==
+X-Gm-Message-State: AOAM533lcUA3gI3pokJaOzMo5DmCaLtucCKLr1Qdq1u1UhKYWGcg632J
+        PYhteiMQEPKGeDatkpZ+9zrEH+L26uA3jg==
+X-Google-Smtp-Source: ABdhPJw/J/i/Mh961GuRUCWzaQqJPzHJI9J0yq8qJbZHmyut1cF+72A9FsV0/Ub3ToJvnzYTqQ+O8w==
+X-Received: by 2002:a05:622a:5c6:b0:306:6cf1:4f5e with SMTP id d6-20020a05622a05c600b003066cf14f5emr732103qtb.30.1655220976125;
+        Tue, 14 Jun 2022 08:36:16 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id bl4-20020a05622a244400b00304e33f21f7sm7163041qtb.68.2022.06.14.08.36.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 08:29:26 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id p13so15790209ybm.1;
-        Tue, 14 Jun 2022 08:29:26 -0700 (PDT)
-X-Received: by 2002:a25:7307:0:b0:65c:b98a:f592 with SMTP id
- o7-20020a257307000000b0065cb98af592mr5524851ybc.380.1655220566545; Tue, 14
- Jun 2022 08:29:26 -0700 (PDT)
+        Tue, 14 Jun 2022 08:36:16 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3137316bb69so33497547b3.10;
+        Tue, 14 Jun 2022 08:36:15 -0700 (PDT)
+X-Received: by 2002:a81:1dd2:0:b0:30f:a4fc:315e with SMTP id
+ d201-20020a811dd2000000b0030fa4fc315emr6497733ywd.383.1655220975600; Tue, 14
+ Jun 2022 08:36:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613131007.10027-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220613131007.10027-1-wsa+renesas@sang-engineering.com>
+References: <20220520154051.29088-1-phil.edworthy@renesas.com>
+ <20220520154051.29088-3-phil.edworthy@renesas.com> <CAMuHMdUiqUUN_A+a2hcVpdx56NKHSBPMiYyHeS0SAVwdZSbZZA@mail.gmail.com>
+ <TYYPR01MB7086A7083ACEBF9468ACE2AFF5AA9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYYPR01MB7086A7083ACEBF9468ACE2AFF5AA9@TYYPR01MB7086.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 17:29:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUaSi_cnmVSARVsSpB_J=-rLwgg9+5+B3Qj1-+LccDGtg@mail.gmail.com>
-Message-ID: <CAMuHMdUaSi_cnmVSARVsSpB_J=-rLwgg9+5+B3Qj1-+LccDGtg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: serial: renesas,hscif: Document r8a779f0 bindings
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Tue, 14 Jun 2022 17:36:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW=iUzNJRYnsK_MrVLA-CFsm-xfuCjZbUUe+q6oZx4Z4w@mail.gmail.com>
+Message-ID: <CAMuHMdW=iUzNJRYnsK_MrVLA-CFsm-xfuCjZbUUe+q6oZx4Z4w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pinctrl: renesas: Add RZ/V2M pin and gpio controller driver
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 3:10 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Phil,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Jun 14, 2022 at 5:00 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
+> On 14 June 2022 13:43 Geert Uytterhoeven wrote:
+> > On Fri, May 20, 2022 at 5:41 PM Phil Edworthy wrote:
+> > > Add support for pin and gpio controller driver for RZ/V2M SoC.
+> > > Based on the RZ/G2L driver.
+> > >
+> > > Note that the DETDO and DETMS dedicated pins are currently not
+> > > documented in the HW manual as to which pin group they are in.
+> > > HW team have since said that the output level of V1.8V I/O group 4
+> > > (for MD0-7, and debugger) is the same as the 1.8V IO group 3.
+> >
+> > Thank you, I rediscovered this explanation just before pressing send ;-)
+> >
+> > >
+> > > Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > > --- a/drivers/pinctrl/renesas/Kconfig
+> > > +++ b/drivers/pinctrl/renesas/Kconfig
+> > > @@ -193,6 +194,18 @@ config PINCTRL_RZG2L
+> > >           This selects GPIO and pinctrl driver for Renesas
+> > RZ/{G2L,G2UL,V2L}
+> > >           platforms.
+> > >
+> > > +config PINCTRL_RZV2M
+> > > +       bool "pin control support for RZ/V2M"
+> > > +       depends on OF
+> > > +       depends on ARCH_R9A09G011 || COMPILE_TEST
+> > > +       select GPIOLIB
+> > > +       select GENERIC_PINCTRL_GROUPS
+> > > +       select GENERIC_PINMUX_FUNCTIONS
+> > > +       select GENERIC_PINCONF
+> > > +       help
+> > > +         This selects GPIO and pinctrl driver for Renesas RZ/V2M
+> > > +         platforms.
+> > > +
+> >
+> > Please preserve sort order.
+> For a while I couldn't see what's wrong here. It should be ordered on
+> the text, not the Kconfig symbol, right?
+
+Exactly, cfr. commit d89a08f52b0dd30d ("pinctrl: sh-pfc: Tidy up
+driver description title").
+
+> > > +       case PIN_CONFIG_DRIVE_STRENGTH_UA:
+> > > +               if (!(cfg & PIN_CFG_DRV))
+> > > +                       return -EINVAL;
+> > > +
+> > > +               /* DRV uses 2-bits per pin */
+> > > +               bit <<= 1;
+> > > +
+> > > +               /* Dedicated port is irregularly located to the others
+> > */
+> > > +               if (port_offset == RZV2M_DEDICATED_PORT_IDX)
+> > > +                       val = (readl(pctrl->base + DRV_DEDICATED) >>
+> > bit) & DRV_MASK;
+> > > +               else
+> > > +                       val = (readl(pctrl->base + DRV(port_offset))
+> > > + >> bit) & DRV_MASK;
+> >
+> > You can simplify this, by handling the dedicated port offset in the
+> > definition of the DRV() macro.  Same for SR().
+> Do you mean put conditional code in the DRV() macro?
+
+Indeed. Cfr. the IMUCTR(n) in drivers/iommu/ipmmu-vmsa.c.
 
 Gr{oetje,eeting}s,
 
