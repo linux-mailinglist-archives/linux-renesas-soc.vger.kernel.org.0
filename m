@@ -2,57 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 739DD54B4E1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39F5354B4E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356937AbiFNPjB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 11:39:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47820 "EHLO
+        id S235828AbiFNPk0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 11:40:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235793AbiFNPjA (ORCPT
+        with ESMTP id S235793AbiFNPk0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 11:39:00 -0400
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DD13584A;
-        Tue, 14 Jun 2022 08:38:59 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id o73so6644393qke.7;
-        Tue, 14 Jun 2022 08:38:59 -0700 (PDT)
+        Tue, 14 Jun 2022 11:40:26 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D9931363;
+        Tue, 14 Jun 2022 08:40:25 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id 15so6645453qki.6;
+        Tue, 14 Jun 2022 08:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gWkjio64HLTn0FlN5EkGUWjaDjlbrlEM+HvPB5I3j9E=;
-        b=sylXMzY9Zbu7NqvGwOD4iakjZEjAwZNxyJcuurhUPW3ZiS4Sg7/hv+xGGN93sAj5dh
-         myyHf6JMo6AfaxcbWE59tNjRCOXVw1ZpEuNxYxPp+crpxYMEImaHdvrA+5Bgh12ZxL3+
-         3PKBLcZ4S6UeUr1YqapVA7p/PBrfpaAna+RmALgtSBnuyWlKROOG6+E5qTrZ5CG/+pui
-         HB8DQNsj8dejxOtqx+vEqoCacSnHpk8FKxAriMyymM7MfqC1b7WsrdfB7/HfJSiprCOW
-         S4xw1jqoVBQguOWUgGtX7F43bAs14ocl6xIDzQMBGFDoLhadxAHti8OYyKhTPbyuQIMI
-         fAgA==
-X-Gm-Message-State: AOAM532pYEu4t84IqQvdFBnEOtEh4s+Gy/5V5OolSn01P/IUsZZvI6fp
-        +HFLel4Jintpn/pmLQ0sXgmeCJL9I6nQTA==
-X-Google-Smtp-Source: ABdhPJxvKFHxcioMbwZjyA2gRSp9NSKOOfJQxmukKa+6g6nz7KpWom5tHXpB6cOFkf0Qxv8+FBxuLA==
-X-Received: by 2002:a05:620a:24c7:b0:6a7:2d03:2de3 with SMTP id m7-20020a05620a24c700b006a72d032de3mr4569133qkn.134.1655221138486;
-        Tue, 14 Jun 2022 08:38:58 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05620a294700b006a708baa069sm10119944qkp.101.2022.06.14.08.38.58
+        bh=tt+Cu2SuK6f2NZEo5x0BH6Qhmkr9WhlYq2XBsQ2WpNs=;
+        b=g2u4rmOj2s3/hbbbSvjP4CvAcAQm+g0pqpSUCGG6MV/qeJiNGjlgNNsC+Ul9FAVLky
+         dMuzHFg36RWh1J3r/hlUXG0rpxdgjL/q+A/Rkbw95xOI6qtWuIA5S9ew+fPO3t8+voxQ
+         lKBImXDeeLmp08bgPPfxgqmniCqKsmjGo7/uZi5lA15iP0jqnzO4gPOVBP1ukeLPK2uU
+         feCOjfUAkBE7pMZ3Nwia/4cVKdLyZRqvRU9IKQsk5f0x8kuIifaa/tp3Q9pR2QIc2QdS
+         XVA2b2I8chp1pDVt5aaQWDvc4d+nSNEz4GKlXZRL7SbJuSZ4/grdG1fs5SnoBYBEVWNF
+         pmDg==
+X-Gm-Message-State: AOAM530oswoMWj3oLdkmvYY7HLYOU5BMrm6Qnv3tboWPQGDsxKwQFO20
+        49aC8HOoHC9ufuaBLWmPgTXATYOCfdzimg==
+X-Google-Smtp-Source: ABdhPJxwbQzRJUfd3gguGGFd+FT03oYX6suLbM8cygcvkgohlwAsH+tJVgCDlYbxyyU0bBHzKqnoEw==
+X-Received: by 2002:a05:620a:46a4:b0:6a6:f528:e2e0 with SMTP id bq36-20020a05620a46a400b006a6f528e2e0mr4533932qkb.208.1655221224459;
+        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id v18-20020a05622a015200b0030509559d1fsm7510634qtw.30.2022.06.14.08.40.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 08:38:58 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-313a8a8b95aso33885307b3.5;
-        Tue, 14 Jun 2022 08:38:58 -0700 (PDT)
-X-Received: by 2002:a81:f41:0:b0:313:4d6c:49db with SMTP id
- 62-20020a810f41000000b003134d6c49dbmr6307027ywp.384.1655221137793; Tue, 14
- Jun 2022 08:38:57 -0700 (PDT)
+        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id w2so15806002ybi.7;
+        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
+X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
+ l10-20020a056902000a00b0065cb38e6d9fmr5886189ybh.36.1655221223744; Tue, 14
+ Jun 2022 08:40:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613115627.2831257-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220613115627.2831257-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20220614094937.8104-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220614094937.8104-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 17:38:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWMCCwh_QEt+uPX1cg2KiaWbFbN6VLC535bkOAwxumP4A@mail.gmail.com>
-Message-ID: <CAMuHMdWMCCwh_QEt+uPX1cg2KiaWbFbN6VLC535bkOAwxumP4A@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: r8a779f0: Add PCIe clocks
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 14 Jun 2022 17:40:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXNhy5LfmM73gR0LzoJndqE8RmTZY4QvMZF9oH1tBn_3g@mail.gmail.com>
+Message-ID: <CAMuHMdXNhy5LfmM73gR0LzoJndqE8RmTZY4QvMZF9oH1tBn_3g@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: renesas: r8a779f0: Add HSCIF clocks
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -64,12 +67,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 1:56 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add the module clocks used by the PCIe controllers on the Renesas
-> R-Car S4-8 (R8A779F0) SoC.
+On Tue, Jun 14, 2022 at 11:49 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Change since v1: include all HSCIF
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-clk-for-v5.20.
