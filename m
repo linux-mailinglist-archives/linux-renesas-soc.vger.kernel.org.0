@@ -2,80 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F5354B4E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E58954B513
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235828AbiFNPk0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 11:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49084 "EHLO
+        id S1343771AbiFNPtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 11:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235793AbiFNPk0 (ORCPT
+        with ESMTP id S237623AbiFNPtK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 11:40:26 -0400
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D9931363;
-        Tue, 14 Jun 2022 08:40:25 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id 15so6645453qki.6;
-        Tue, 14 Jun 2022 08:40:25 -0700 (PDT)
+        Tue, 14 Jun 2022 11:49:10 -0400
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F512E08F;
+        Tue, 14 Jun 2022 08:49:09 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id hf10so6371872qtb.7;
+        Tue, 14 Jun 2022 08:49:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tt+Cu2SuK6f2NZEo5x0BH6Qhmkr9WhlYq2XBsQ2WpNs=;
-        b=g2u4rmOj2s3/hbbbSvjP4CvAcAQm+g0pqpSUCGG6MV/qeJiNGjlgNNsC+Ul9FAVLky
-         dMuzHFg36RWh1J3r/hlUXG0rpxdgjL/q+A/Rkbw95xOI6qtWuIA5S9ew+fPO3t8+voxQ
-         lKBImXDeeLmp08bgPPfxgqmniCqKsmjGo7/uZi5lA15iP0jqnzO4gPOVBP1ukeLPK2uU
-         feCOjfUAkBE7pMZ3Nwia/4cVKdLyZRqvRU9IKQsk5f0x8kuIifaa/tp3Q9pR2QIc2QdS
-         XVA2b2I8chp1pDVt5aaQWDvc4d+nSNEz4GKlXZRL7SbJuSZ4/grdG1fs5SnoBYBEVWNF
-         pmDg==
-X-Gm-Message-State: AOAM530oswoMWj3oLdkmvYY7HLYOU5BMrm6Qnv3tboWPQGDsxKwQFO20
-        49aC8HOoHC9ufuaBLWmPgTXATYOCfdzimg==
-X-Google-Smtp-Source: ABdhPJxwbQzRJUfd3gguGGFd+FT03oYX6suLbM8cygcvkgohlwAsH+tJVgCDlYbxyyU0bBHzKqnoEw==
-X-Received: by 2002:a05:620a:46a4:b0:6a6:f528:e2e0 with SMTP id bq36-20020a05620a46a400b006a6f528e2e0mr4533932qkb.208.1655221224459;
-        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
+        bh=2Lz2xm2OeZO7pMrkyEsrx4M6KP6BHP9ACsFmmAuNdJE=;
+        b=xVvu73MHUUEUj5+r+6n9WWuTseX4F2sccRHYu+YldWfqvA8mMn6/pXcQtD+jFJL1ui
+         6cPQSeHEl9HSuqZq42zDFsnQI9Fwk4sM6/S6FIRj8sR1P/WwcRMXUN0V4jRNaJUYi/2k
+         A0V2YLT7kEyM4jyCyIWI0PzCi6MHaxRRbDH2jcnpnMJwLL1JGsKI3S9fxcKqh1Q8F0Sq
+         HsbmwP6eChRfVZgjXn9nKC0WYd+p2mhZAiPLnp2YjaMJ/urXbxbHNxA5vgDXSMrQCo37
+         eaQj492q3ujuUSq3CKiWp0gZ00FDdIWQsFtcBI1KRuJ/+2+c4TRvBihUaeH6oM5U9AsM
+         29dg==
+X-Gm-Message-State: AOAM530gjNvijQSxjvAoVgb/zu0JptURiE9v2CWanc7F5vasq+S72d4C
+        P7g2VIbRKacHhU75/GDpKHi6zv/JC9kF8A==
+X-Google-Smtp-Source: ABdhPJyjZcL86ZtgiGvwCCHzMJs3/IaCrGdoWU8qbUZEZINAZox7I51VQVdQ2FJypRfyrO20F7QkBQ==
+X-Received: by 2002:a05:622a:1393:b0:304:b6c8:bca2 with SMTP id o19-20020a05622a139300b00304b6c8bca2mr4637798qtk.642.1655221748403;
+        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
 Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id v18-20020a05622a015200b0030509559d1fsm7510634qtw.30.2022.06.14.08.40.24
+        by smtp.gmail.com with ESMTPSA id j9-20020ae9c209000000b006a377a015d4sm9466708qkg.39.2022.06.14.08.49.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id w2so15806002ybi.7;
-        Tue, 14 Jun 2022 08:40:24 -0700 (PDT)
-X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
- l10-20020a056902000a00b0065cb38e6d9fmr5886189ybh.36.1655221223744; Tue, 14
- Jun 2022 08:40:23 -0700 (PDT)
+        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id v81so15942249ybe.0;
+        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
+X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
+ bu5-20020a056902090500b0064a2089f487mr5874556ybb.202.1655221747725; Tue, 14
+ Jun 2022 08:49:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220614094937.8104-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220614094937.8104-1-wsa+renesas@sang-engineering.com>
+References: <20220613134914.18655-1-wsa+renesas@sang-engineering.com> <20220613134914.18655-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220613134914.18655-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 17:40:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXNhy5LfmM73gR0LzoJndqE8RmTZY4QvMZF9oH1tBn_3g@mail.gmail.com>
-Message-ID: <CAMuHMdXNhy5LfmM73gR0LzoJndqE8RmTZY4QvMZF9oH1tBn_3g@mail.gmail.com>
-Subject: Re: [PATCH v2] clk: renesas: r8a779f0: Add HSCIF clocks
+Date:   Tue, 14 Jun 2022 17:48:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWJ9N1=X0O0LtpPrjH-uSbupKAVr+J3KwStL7xYgMxfWw@mail.gmail.com>
+Message-ID: <CAMuHMdWJ9N1=X0O0LtpPrjH-uSbupKAVr+J3KwStL7xYgMxfWw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: spider-cpu: Enable SCIF0 on
+ second connector
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 11:49 AM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Change since v1: include all HSCIF
+Hi Wolfram,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.20.
+On Mon, Jun 13, 2022 at 3:49 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The schematics label it as SCIF0 debug port.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+> @@ -68,6 +68,11 @@ i2c4_pins: i2c4 {
+>                 function = "i2c4";
+>         };
+>
+> +       scif0_pins: scif0 {
+> +               groups = "scif0_data", "scif0_ctrl";
+> +               function = "scif0";
+> +       };
+> +
+>         scif_clk_pins: scif_clk {
+>                 groups = "scif_clk";
+>                 function = "scif_clk";
+> @@ -79,6 +84,14 @@ &rwdt {
+>         status = "okay";
+>  };
+>
+> +&scif0 {
+> +       pinctrl-0 = <&scif0_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       uart-has-rtscts;
+> +       status = "okay";
+> +};
+> +
+>  &scif_clk {
+>         clock-frequency = <24000000>;
+>  };
+
+This needs a new serial alias under /aliases.
+Mixing dynamic and static serial IDs may cause conflicts, cfr. commit
+7678f4c20fa7670f ("serial: sh-sci: Add support for dynamic instances").
 
 Gr{oetje,eeting}s,
 
