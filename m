@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3893354B277
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 15:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C22254B28D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 15:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235958AbiFNNq5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 09:46:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60804 "EHLO
+        id S235608AbiFNNyS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 09:54:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230077AbiFNNq5 (ORCPT
+        with ESMTP id S235174AbiFNNyS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 09:46:57 -0400
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D020421E21;
-        Tue, 14 Jun 2022 06:46:53 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id d128so6375953qkg.8;
-        Tue, 14 Jun 2022 06:46:53 -0700 (PDT)
+        Tue, 14 Jun 2022 09:54:18 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50BF538BF5;
+        Tue, 14 Jun 2022 06:54:17 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id l192so4234453qke.13;
+        Tue, 14 Jun 2022 06:54:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4e9YVI1qcHuboFx6XM8DW9ECXNo0yy6Zy9E+en0JNY4=;
-        b=b0rHqZgh1nq2RMwd56UMKbapYHUzhjN8Qaw5xblMTgeUmQrMRUGArdwu2JL/Wbh3Wt
-         cel7QO76YS4FuujNxizkZlffQtg73h5YdETVcqcNe5HMNJ7Yiob6zi+8Glwj0NYNbLP1
-         5x5BT5BpjJfps5rrUHBLgdC3Ev5Vm+GD7/4xDqTnw/StO9le+jCVdtE2DciBHs0r7km1
-         x2FYFsIVd6H8gk3sa7UTctHXQEfuhBRzIgqiOYIiexBnwknqmao7b33y/lsm3+Liersi
-         UZq4GmPPXIO/OUkMZICFirMqmI5zHcW+nP8k5RZppOU7cNtF2uMOfmpMr/oxHdCkP+BN
-         E2Ng==
-X-Gm-Message-State: AOAM530zpaOdX2GaVcGa2E/BpJ+Ka3zJGzY/JEuXH/6TIm0gs+PomaVd
-        h1CiQbvvW305UJAJWUOmP94rjMlSl1iRow==
-X-Google-Smtp-Source: ABdhPJxwvRN9T5goLP0u05qzkiD1NCmBL3Xzr8N/NHL2Qh+ouxw+QmS5pC1FDDanU93lHDuKjZ3YiA==
-X-Received: by 2002:a05:620a:1a0c:b0:6a6:d021:7be3 with SMTP id bk12-20020a05620a1a0c00b006a6d0217be3mr3817680qkb.667.1655214412740;
-        Tue, 14 Jun 2022 06:46:52 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id ff24-20020a05622a4d9800b003051190886dsm6978489qtb.75.2022.06.14.06.46.52
+        bh=Xff5oMuYjLIbpEy0I37sAZKgq+SJdneKw8SbYhPEF5I=;
+        b=nRDD3I8h1/FTTPcU8qL+oryXac8KYjQ0f2dJyQsmIFBur17FRVx4EUqW6Xv3ijZXj9
+         nV9c9L6VSXuu6cgIGr6PVsxS7BjTT4VWDkhO4bpTj9feQIylpqZr90YN+dpWzL/IKw8A
+         +j6Ib4LUjWhPXj2cuC3KYXBAVhJwe1kFBfy5niamAAPIzkPic4h4y+8PpuTw+IPkFZ9o
+         r2O+nlZnt7llr/VEDk7qix0dtYrBH6QVfrz8pnLEuYyTfZbJcdFMku7aCs/u3ZaS80FI
+         +PhaZ2dKd08xmWCzuV7erO9w0mxdnhGFqiAa4PooheEanY7Tn3zbscD6iusLZUVHXlac
+         EcWA==
+X-Gm-Message-State: AOAM5316auRire1S1S1uIYW1AMucYqHWMznkL6Qb8ucQhK238APHcgbl
+        zQjxgQAAxZl4DKV7k7XxaFXzLHzEBIXcpg==
+X-Google-Smtp-Source: ABdhPJwEzp+nvoYhRugOLlCy39LiBYye9UwFah536hRdaTLvWjIcYfu2nJccJn5kXOVn+KcL2t1Q8Q==
+X-Received: by 2002:a05:620a:917:b0:6a6:b76b:d6b4 with SMTP id v23-20020a05620a091700b006a6b76bd6b4mr3890055qkv.279.1655214856091;
+        Tue, 14 Jun 2022 06:54:16 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id j1-20020a05620a410100b006a65c58db99sm9813084qko.64.2022.06.14.06.54.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 06:46:52 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id t32so15177387ybt.12;
-        Tue, 14 Jun 2022 06:46:52 -0700 (PDT)
-X-Received: by 2002:a25:818c:0:b0:664:a584:fafd with SMTP id
- p12-20020a25818c000000b00664a584fafdmr5077802ybk.543.1655214412054; Tue, 14
- Jun 2022 06:46:52 -0700 (PDT)
+        Tue, 14 Jun 2022 06:54:15 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-3137316bb69so30076547b3.10;
+        Tue, 14 Jun 2022 06:54:15 -0700 (PDT)
+X-Received: by 2002:a81:1dd2:0:b0:30f:a4fc:315e with SMTP id
+ d201-20020a811dd2000000b0030fa4fc315emr5910787ywd.383.1655214855297; Tue, 14
+ Jun 2022 06:54:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220610201701.7946-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220610201701.7946-1-wsa+renesas@sang-engineering.com>
+References: <20220610201701.7946-1-wsa+renesas@sang-engineering.com> <20220610201701.7946-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20220610201701.7946-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 15:46:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW-UybcPx-XexQZvDGQopPYa2POYaxrS-ey+QWu3GBs_w@mail.gmail.com>
-Message-ID: <CAMuHMdW-UybcPx-XexQZvDGQopPYa2POYaxrS-ey+QWu3GBs_w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: thermal: rcar-gen3-thermal: use
- positive logic
+Date:   Tue, 14 Jun 2022 15:54:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
+Message-ID: <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] dt-bindings: thermal: rcar-gen3-thermal: Add
+ r8a779f0 support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -75,24 +75,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 10:18 PM Wolfram Sang
+Hi Wolfram,
+
+On Fri, Jun 10, 2022 at 10:17 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> When handling the V3U/r8a779a0 exception, avoid using 'not:' because
-> then its subschemas are far away in the 'else:' branch. Keep them
-> together using positive logic.
+> Add support for R-Car S4. The S4 IP differs a bit from its siblings in
+> such way that it has 3 out of 4 TSC nodes for Linux and the interrupts
+> are not routed to the INTC-AP but to the ECM.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
 >
-> Changes since v2:
-> * new patch
+> Change since V2:
+> * make interrupts not required for this SoC
+
+Thanks for the update!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Tested with:
-> make dtbs_check DT_SCHEMA_FILES=thermal/rcar-gen3-thermal.yaml
+> --- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
 
-And dt_binding_check? Yep, it succeeds ;-)
+> @@ -79,8 +80,16 @@ else:
+>          - description: TSC1 registers
+>          - description: TSC2 registers
+>          - description: TSC3 registers
+> -  required:
+> -    - interrupts
+> +  if:
+> +    not:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r8a779f0-thermal
+> +  then:
+> +    required:
+> +      - interrupts
+
+While correct, IMHO adding this check here loses again the improvement
+made by "[PATCH v3 1/2] dt-bindings: thermal: rcar-gen3-thermal: use
+positive logic".
+
+What about splitting this in two separate checks at the top level:
+  - one for regs (R-Car V3U vs. the world), and
+  - a second for interrupts (R-Car V3U+S4-8 vs. the world)?
 
 Gr{oetje,eeting}s,
 
