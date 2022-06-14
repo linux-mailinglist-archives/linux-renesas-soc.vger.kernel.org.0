@@ -2,108 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49ED554BB33
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 22:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56BA454BC55
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 22:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240284AbiFNUTn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 16:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58772 "EHLO
+        id S1345178AbiFNUw7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 16:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352577AbiFNUST (ORCPT
+        with ESMTP id S245178AbiFNUwq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 16:18:19 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D1338B4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 13:18:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Kr/UeB9oM281vcck974XwJ6BZeKE
-        XSbV2DPYhGfC0DM=; b=old13mZqsudOfh92apttnUaWMOqDo2YNpVaSuIEkDDTH
-        26ZV4zId3oQ74jOEeYu8FKj1heZB8bn258l6tHgQELGF1oblrptMY63jMmm5q7zC
-        MqOYkC9NPIunSOFvvnEro78caWdUiXRRAG+Dal3iMhfHs30a1ViLGK2ugEuo7fs=
-Received: (qmail 1848877 invoked from network); 14 Jun 2022 22:18:13 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2022 22:18:13 +0200
-X-UD-Smtp-Session: l3s3148p1@yLqhGm7h9psgAwDtxwyXAGMY7IbT6g6m
-Date:   Tue, 14 Jun 2022 22:18:13 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
+        Tue, 14 Jun 2022 16:52:46 -0400
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DB9E1F2F0;
+        Tue, 14 Jun 2022 13:52:46 -0700 (PDT)
+Received: by mail-io1-f43.google.com with SMTP id i16so10696295ioa.6;
+        Tue, 14 Jun 2022 13:52:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=AQU7G9dtg8Y8H+vQgrYNezCoo/xULoFEsuyaQ6U59LU=;
+        b=bL7dVC1vvzBFpadcU8JdyjynPGHSgvN4wcw+BpystNkBjUFBYlBP+HaUDtCglYOHKM
+         vKlKpQEuRd9iaVlKMVPO29IXqkiG6xzZhF1NxVLOXXlrgUdN3RSDPZyIKoSNos/4DVbP
+         CpHrFNZtl+AzlKsIADu5Qxs7sp4scFux2a10TU4EDwDiwSNf9Y0lf1m5tM55suK1t4hd
+         QVZPF0L+z9y+mqW6ge4rWlYIQYSRpV3iAbGwZQeRaSprHgntP/XdHkkDzCZ6zuojJAg9
+         l+g6NPcNbU2Nd2JFm4XhQTAhb83PwDf6VPAZQI9eFUplw+truG1q5xJP5RU/eaRazV6x
+         51Ug==
+X-Gm-Message-State: AOAM530JYbjUHk/cg89Mg9/i+b5qpBqMXOokbqVLuIHcvGSiXXvUCzr/
+        tNaijBRaMmBiIvk57YUqrQ==
+X-Google-Smtp-Source: ABdhPJy4OZTKgkm9bsNozXxDdwuI56FSZM66Se3QH8NuIoteF12/9pfiXl/uOuGuu0rZ7hwu/sJUxA==
+X-Received: by 2002:a05:6638:1346:b0:331:b571:9fd6 with SMTP id u6-20020a056638134600b00331b5719fd6mr4027605jad.266.1655239965312;
+        Tue, 14 Jun 2022 13:52:45 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id p136-20020a6b8d8e000000b00669a3314870sm5691555iod.9.2022.06.14.13.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 13:52:44 -0700 (PDT)
+Received: (nullmailer pid 2528143 invoked by uid 1000);
+        Tue, 14 Jun 2022 20:52:42 -0000
+Date:   Tue, 14 Jun 2022 14:52:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>
+Cc:     Jimmy Lalande <jimmy.lalande@se.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] dt-bindings: thermal: rcar-gen3-thermal: Add
- r8a779f0 support
-Message-ID: <YqjtBQdzexzCRrmq@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220610201701.7946-1-wsa+renesas@sang-engineering.com>
- <20220610201701.7946-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH RESEND net-next v7 11/16] dt-bindings: net: snps,dwmac:
+ add "renesas,rzn1" compatible
+Message-ID: <20220614205242.GA2527905-robh@kernel.org>
+References: <20220610103712.550644-1-clement.leger@bootlin.com>
+ <20220610103712.550644-12-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uOF+LnROtUk/ylo3"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220610103712.550644-12-clement.leger@bootlin.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, 10 Jun 2022 12:37:07 +0200, Clément Léger wrote:
+> Add "renesas,rzn1-gmac" and "renesas,r9a06g032-gmac" compatible strings.
+> 
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
+> ---
+>  Documentation/devicetree/bindings/net/snps,dwmac.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
---uOF+LnROtUk/ylo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> What about splitting this in two separate checks at the top level:
->   - one for regs (R-Car V3U vs. the world), and
->   - a second for interrupts (R-Car V3U+S4-8 vs. the world)?
-
-This task seems too much for my YAML-foo :( I couldn't get it to work.
-Can we leave it as-is for now?
-
-
---uOF+LnROtUk/ylo3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKo7QAACgkQFA3kzBSg
-Kbao4Q//WYdbnQJ+s0sI1UFm7IC6XM44Mtao3slqtfqPV0sWpqWXsoHT4QO/rkee
-OQrCTYGWJW5SR91kRoQVyaOdsDVx69m5QOW3OJn/m3MP8QptfirX+AYPAp+1EN4l
-ylHwOca+mQwVUspzttGM/nswNa0SIfTfz8kKWuvi8qFSoalMR4Ec6m0kR1pucof2
-Er3Kc7/Prg+lMVMZr4I9Ddw01Bku71RLBjOnkWYMnFLAvnUmwc/FPIKVdz78SVOQ
-p97K6c0xqwWF/NefGRQ2tIASErbSXYTWbpz5Plr+aiHWDmGQUd+ZjDVamC2y4oWE
-HOjHeNMUGVWH1otstnAUiSUtpgaY21mpUbyw2nHeHdm+FSlpSymAt9PLTLDc6G8G
-nFweTobJ5nou73nAEnN/pqxbCfY4zJxcw27C3HFBiALbEDODCQzmenIKbqBHq1I1
-jUCAFd86eMwjsBNojdRCELeXMEcDkrIQnljC/GJXO8bACWlS/rEgy1mmZ3WdbDmM
-MTAci4u/q29eZUJ1TBdQWFnJavzdGgGiRQ/bXO1cZkh8ytAWcug77eamdXpZ6hyG
-lfo2oBDyLb5wlPsLLs9Ol9/nvCwabA/oJ5Iz0Qnk/13WsK4/R79+w8u69KT0s/FL
-ZbUjxH3ydmYu9JvB4HnCf6uH7uhjyTbJf7QhFlb77r+6yx5WYxY=
-=HtGH
------END PGP SIGNATURE-----
-
---uOF+LnROtUk/ylo3--
+Acked-by: Rob Herring <robh@kernel.org>
