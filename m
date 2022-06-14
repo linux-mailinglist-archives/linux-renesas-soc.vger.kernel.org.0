@@ -2,148 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF7154AFF8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 14:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DF9754B158
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 14:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355366AbiFNMLH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 08:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
+        id S235202AbiFNMiD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 08:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356696AbiFNMKz (ORCPT
+        with ESMTP id S234990AbiFNMhb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 08:10:55 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD7349C84;
-        Tue, 14 Jun 2022 05:10:36 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id el14so6304438qvb.7;
-        Tue, 14 Jun 2022 05:10:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1TqWw+Z+tcc67DWXCAxBw86GMgQwTDRi1u8mPHT7xFw=;
-        b=PuqjCAAU3a+VFrggpWAUnm9DjEkgnl3BRA1Twix8gwkfHn8imLwkI7XC0nL1lucnzY
-         ytMcYnVcRvFG01kRvXkRwbemvspTOOEYnl1j8ym6beMOZsnFSqsiPW+KqBnLrzpEDkuN
-         vLas7zt5UhSwGPmeS89beCXHaQ701c4hs+23A9o3o6uNIDpgvNYqUr4p5kpIOpz//viS
-         xDRaGr+fLE5zCyfuBXTtkLg3BG8JdWiDqnpn/YElBDeOJrPNLPenZmYUekOTYzMYK0zC
-         T/u75zLzkos/yF7jZHVm8LuDkGHzwgRMd6nMMijRkyNdr2MA06r9olnZ9LkpAJ6NTu3W
-         97bg==
-X-Gm-Message-State: AJIora/vu4X2KyRXq5ZMFWE1xfJCRCTMom7ck7ll4e1kj6ZImaWHfRlz
-        8wqCB7Clkjsvx08lTx1xEfHgPdMz6XV1Aw==
-X-Google-Smtp-Source: AGRyM1vYVxKl/hl3i5v2W88ZtnjbREU8C8HOBJ75KV5SQQNyhGHXlo4IJGU+FMEIxupgbyB0Gh3H+w==
-X-Received: by 2002:a05:6214:2245:b0:464:6b29:f443 with SMTP id c5-20020a056214224500b004646b29f443mr2925909qvc.99.1655208635293;
-        Tue, 14 Jun 2022 05:10:35 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id l3-20020a05620a28c300b006a780aa9fc4sm7114307qkp.96.2022.06.14.05.10.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 05:10:34 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-3137316bb69so27014437b3.10;
-        Tue, 14 Jun 2022 05:10:34 -0700 (PDT)
-X-Received: by 2002:a0d:e657:0:b0:314:7e4d:30a9 with SMTP id
- p84-20020a0de657000000b003147e4d30a9mr937672ywe.316.1655208634421; Tue, 14
- Jun 2022 05:10:34 -0700 (PDT)
+        Tue, 14 Jun 2022 08:37:31 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830FE26AF0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 05:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655210078; x=1686746078;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3efGh5U1OQ0hsZoYI+bQnoNMsdKyS/EkBefgof0P6Ao=;
+  b=UEkhYXybFmjIr3UClIR4HJpmUkI3Xf4L+cMwik0NPS98EngeU6UvbQEq
+   qfoywrh5SnFU/XLqyIIpirPIgYF9vFz62x04iE77JNMOOYmpVh2iEgjox
+   DZRcCFRRBMDrLPZW3hrZ0N2yErdd3NT9AkjBlkhTX3AfTXO09R0KYpeM/
+   BogxhEQacgXcOcfKmH0LuP59K7LGCIAbwpHvqDrNHVQTkiuWba86IfMKv
+   UfXOYJwv6h55R7RQ7UdqiHS/WC1282A9gQ0gLa+eGnXIXfK0AN3rIN9z1
+   kQ6huOIeQagGN9iIBAzD6DM6FVRMu89o1Lxmes1WvY0GyeH21s83LkQ3q
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="277386942"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="277386942"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 05:34:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="673849345"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2022 05:34:29 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o15kb-000Ls9-8Z;
+        Tue, 14 Jun 2022 12:34:29 +0000
+Date:   Tue, 14 Jun 2022 20:34:06 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
+ 0f078525e402a8f997fa1f31f1a29d8cf9f0a709
+Message-ID: <62a8803e.YGi/FRCHa/S5ihIN%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20220520154051.29088-1-phil.edworthy@renesas.com> <20220520154051.29088-2-phil.edworthy@renesas.com>
-In-Reply-To: <20220520154051.29088-2-phil.edworthy@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 14:10:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVyoCG7PNtk9b32JAnzq4R+EeLCxM-8owuphhD=KFS=Ow@mail.gmail.com>
-Message-ID: <CAMuHMdVyoCG7PNtk9b32JAnzq4R+EeLCxM-8owuphhD=KFS=Ow@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: renesas: Add DT bindings for
- RZ/V2M pinctrl
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
+branch HEAD: 0f078525e402a8f997fa1f31f1a29d8cf9f0a709  arm64: renesas: defconfig: Enable PSCI CPU idle Driver
 
-On Fri, May 20, 2022 at 5:41 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> Add device tree binding documentation and header file for Renesas
-> RZ/V2M pinctrl.
->
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+elapsed time: 1563m
 
-Thanks for your patch!
+configs tested: 84
+configs skipped: 3
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzv2m-pinctrl.yaml
-> @@ -0,0 +1,174 @@
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +additionalProperties:
-> +  anyOf:
-> +    - type: object
-> +      allOf:
-> +        - $ref: pincfg-node.yaml#
-> +        - $ref: pinmux-node.yaml#
-> +
-> +      description:
-> +        Pin controller client devices use pin configuration subnodes (children
-> +        and grandchildren) for desired pin configuration.
-> +        Client device subnodes use below standard properties.
-> +
-> +      properties:
-> +        phandle: true
-> +        pinmux:
-> +          description:
-> +            Values are constructed from GPIO port number, pin number, and
-> +            alternate function configuration number using the RZV2M_PORT_PINMUX()
-> +            helper macro in <dt-bindings/pinctrl/rzv2m-pinctrl.h>.
-> +        pins: true
-> +        bias-disable: true
-> +        bias-pull-down: true
-> +        bias-pull-up: true
-> +        drive-strength-microamp:
-> +          # Superset of supported values
-> +          enum: [ 1600, 1800, 2000, 3200, 3800, 4000, 6400, 7800, 8000,
-> +                  9000, 9600, 11000, 12000, 13000, 18000 ]
-> +
-> +        power-source:
-> +          description: I/O voltage in millivolt.
-> +          enum: [ 1800, 3300 ]
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a015-20220613
+x86_64               randconfig-a014-20220613
+x86_64               randconfig-a011-20220613
+x86_64               randconfig-a016-20220613
+x86_64               randconfig-a012-20220613
+x86_64               randconfig-a013-20220613
+i386                 randconfig-a013-20220613
+i386                 randconfig-a011-20220613
+i386                 randconfig-a014-20220613
+i386                 randconfig-a012-20220613
+i386                 randconfig-a016-20220613
+i386                 randconfig-a015-20220613
+riscv                randconfig-r042-20220613
+arc                  randconfig-r043-20220613
+s390                 randconfig-r044-20220613
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
 
-Is power-source actually supported?
-While the documentation shows there are some 1.8/3.3V pin groups,
-I didn't find how to switch voltage?
+clang tested configs:
+x86_64               randconfig-a003-20220613
+x86_64               randconfig-a006-20220613
+x86_64               randconfig-a001-20220613
+x86_64               randconfig-a005-20220613
+x86_64               randconfig-a002-20220613
+x86_64               randconfig-a004-20220613
+i386                 randconfig-a001-20220613
+i386                 randconfig-a004-20220613
+i386                 randconfig-a002-20220613
+i386                 randconfig-a003-20220613
+i386                 randconfig-a006-20220613
+i386                 randconfig-a005-20220613
+hexagon              randconfig-r041-20220613
+hexagon              randconfig-r045-20220613
 
-> +        slew-rate: true
-
-What are valid values?
-Looking at the code, 0 = slow, 1 = fast?
-
-> +        gpio-hog: true
-> +        gpios: true
-> +        input-enable: true
-
-Missing output-enable?
-
-> +        output-high: true
-> +        output-low: true
-> +        line-name: true
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
