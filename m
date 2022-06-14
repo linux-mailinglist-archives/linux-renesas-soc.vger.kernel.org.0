@@ -2,107 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C1654BA85
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 21:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D656454BAB8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 21:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234362AbiFNTaN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 15:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
+        id S245261AbiFNTmH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 15:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232793AbiFNTaK (ORCPT
+        with ESMTP id S243571AbiFNTmG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 15:30:10 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD3F1D0C1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 12:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=JYA73JAUbaXV/TVudQauMuQD88C
-        teYoD72mnTRjwInY=; b=GME3YTHxGg9bGDeFoa3lM+IYcom/QK/HaEGLg+IvbXb
-        UNrFU9G3+OFXiG+788L13MC/nnm+JNecYgBsKKIaIuO4vA9KzW6y7IZ1ZWJ6pBjH
-        a2/sCCKKeK4RYSZgjq+vOiOmlM5gR1VjqJ3ry5t7S//sjHm9ocCbiNqOGbEC+oCM
-        =
-Received: (qmail 1834197 invoked from network); 14 Jun 2022 21:30:07 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2022 21:30:07 +0200
-X-UD-Smtp-Session: l3s3148p1@Xouhbm3h9JsgAwDtxwyXAGMY7IbT6g6m
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] arm64: dts: renesas: spider-cpu: Enable SCIF0 on second connector
-Date:   Tue, 14 Jun 2022 21:30:05 +0200
-Message-Id: <20220614193005.2652-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 14 Jun 2022 15:42:06 -0400
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93442899E;
+        Tue, 14 Jun 2022 12:42:04 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id p128so10530393iof.1;
+        Tue, 14 Jun 2022 12:42:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2jLRHj6azgOympWSUCJ+nKb7b1xZ7biLjgEasSl3aCI=;
+        b=yVpBlXyTts4+Xy+IhhMLVMKDNYDzZUotfWk5dbjL/1WMaMRlYzsodPIBoYFF/gWJXU
+         IrYT9oUKZkMxKPcRHsoRyulIMnb10DO8x3j1EAIvm3CeHLR5gHnxnQxnAGKbqeuQmuLc
+         VHEhcvyxH6mLhT9WxDdM4B9CCgTda0Tpm2BKfeW89k3mc78/zIaNPj7QkH23EKYKH1+R
+         ydvHsfALaKMw2tFIXGIdRYOUVrMlMawYNROBgrjCYDaYQEN2XxZcVuLFTXKkThc29+Ui
+         DNVp2u2AmL6PutYnTPhfisAPk0cFKjNq/0kWzPVW5Y7J8yzQRx/ex7xWxuiJJ1zRURsf
+         w3CA==
+X-Gm-Message-State: AOAM530vbPA/PItvocLBP+u97LPr+kQ9K9unhA6pbMzBMLHhLOWO4Rp+
+        STb/8dCkyAqVDZdiQZlGEw==
+X-Google-Smtp-Source: ABdhPJz0AU7sUgMn5H2uebJW9hSTaCZaCz+pm4D6P6oSsm4HKOCKTgvByJQXqwASGo5hoNITZfJWQg==
+X-Received: by 2002:a05:6638:1691:b0:333:f345:ef6c with SMTP id f17-20020a056638169100b00333f345ef6cmr3689545jat.7.1655235724134;
+        Tue, 14 Jun 2022 12:42:04 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id b13-20020a02380d000000b0033167715cf9sm5204583jaa.27.2022.06.14.12.42.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 12:42:03 -0700 (PDT)
+Received: (nullmailer pid 2275774 invoked by uid 1000);
+        Tue, 14 Jun 2022 19:42:02 -0000
+Date:   Tue, 14 Jun 2022 13:42:02 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 4/7] PCI: renesas: Add R-Car Gen4 PCIe Endpoint support
+Message-ID: <20220614194202.GA2209956-robh@kernel.org>
+References: <20220613115712.2831386-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220613115712.2831386-5-yoshihiro.shimoda.uh@renesas.com>
+ <20220613215043.GB87830-robh@kernel.org>
+ <TYBPR01MB5341FFE04E29E43772683A90D8AA9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB5341FFE04E29E43772683A90D8AA9@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The schematics label it as SCIF0 debug port.
+On Tue, Jun 14, 2022 at 11:58:46AM +0000, Yoshihiro Shimoda wrote:
+> Hi Rob,
+> 
+> Thank you for your review!
+> 
+> > From: Rob Herring, Sent: Tuesday, June 14, 2022 6:51 AM
+> > 
+> > On Mon, Jun 13, 2022 at 08:57:09PM +0900, Yoshihiro Shimoda wrote:
+> > > Add R-Car Gen4 PCIe Endpoint support. This controller is based on
+> > > Synopsys Designware PCIe.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+[...]
 
-Change since v1: added alias
+> > > +	u32			num_lanes;
+> > 
+> > What's wrong with dw_pcie.num_lanes?
+> 
+> The dw_pcie.num_lanes is set after dw_pcie_ep_init() succeeded.
+> However, this driver would like to refer the num_lanes before dw_pcie_ep_init()
+> to initialize vendor-specific registers. In other words, this value is only
+> needed at that timing. So, we can remove this from struct rcar_gen4_pcie_ep,
+> and just get the num_lanes as a local variable.
 
- .../arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 13 +++++++++++++
- arch/arm64/boot/dts/renesas/r8a779f0-spider.dts     |  1 +
- 2 files changed, 14 insertions(+)
+AFAICT, you are just using it to set PCI_EXP_LNKCAP_MLW. That's a common 
+register, so it should be able to set in the common code.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 3208d2148768..7a62afb64204 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -68,6 +68,11 @@ i2c4_pins: i2c4 {
- 		function = "i2c4";
- 	};
- 
-+	scif0_pins: scif0 {
-+		groups = "scif0_data", "scif0_ctrl";
-+		function = "scif0";
-+	};
-+
- 	scif_clk_pins: scif_clk {
- 		groups = "scif_clk";
- 		function = "scif_clk";
-@@ -79,6 +84,14 @@ &rwdt {
- 	status = "okay";
- };
- 
-+&scif0 {
-+	pinctrl-0 = <&scif0_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
- &scif_clk {
- 	clock-frequency = <24000000>;
- };
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-index 954ba227bfa7..2c1fe4330c2b 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
-@@ -15,6 +15,7 @@ / {
- 
- 	aliases {
- 		serial0 = &hscif0;
-+		serial1 = &scif0;
- 	};
- 
- 	chosen {
--- 
-2.35.1
+
+[...]
+
+> > > +static struct platform_driver rcar_gen4_pcie_ep_driver = {
+> > > +	.driver = {
+> > > +		.name = "pcie-rcar-gen4-ep",
+> > > +		.of_match_table = rcar_gen4_pcie_of_match,
+> > > +	},
+> > > +	.probe = rcar_gen4_pcie_ep_probe,
+> > > +	.remove = rcar_gen4_pcie_ep_remove,
+> > > +};
+> > > +builtin_platform_driver(rcar_gen4_pcie_ep_driver);
+> > 
+> > Not a module or...
+> > 
+> > > +
+> > > +MODULE_DESCRIPTION("Renesas R-Car Gen4 PCIe endpoint controller driver");
+> > > +MODULE_LICENSE("GPL v2");
+> > 
+> > A module? Should be a module if possible.
+> 
+> Oops. I'll drop these MODULE_*.
+
+No, is there some reason it can't be a module?
+
+Rob
 
