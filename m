@@ -2,197 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A10954A98D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 08:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1823B54A9E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 09:02:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239803AbiFNGfV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 02:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
+        id S1352689AbiFNG4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 02:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238289AbiFNGfU (ORCPT
+        with ESMTP id S1352702AbiFNG4M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 02:35:20 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D797837BC5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jun 2022 23:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655188519; x=1686724519;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=m+JHknGEcQggF0WTLKP44E/wdVPJ3QEQP0v7G095TTQ=;
-  b=ZWSQlhYEJCXUJ3MHBUxrzS2an3ltEro9lkwQ+7cUNGmBB8DXcr0KZ8/W
-   i9R7vnf9BYm/RK3lwYtko9ErkCLV5atFLpyUGDlIO83zqNucva0r2a5WV
-   n4lJ0OJOSQeM2e5RzEkzMV7pPGzjvOoZlWX/XCSg/V20HpjGdRhmXgVZL
-   EbvuZbu5Xav+wVuDaJwTIzy8vBDcWA+9gp6S+74k2cILb6mrLSdYOsmcu
-   RvEnpjyfPth03yD0dWBvoReCuontUFR4cxmVWUvksREQMKe3oE9NEmo6n
-   1MAz933U38RhCgYb9AUwmbYEcrZrf5PIHi2nLGYpRqPwmc+TNOIx4cuYg
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="267211607"
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="267211607"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 23:35:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="686496843"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2022 23:35:18 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o108z-000LZv-Jq;
-        Tue, 14 Jun 2022 06:35:17 +0000
-Date:   Tue, 14 Jun 2022 14:34:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-drivers-for-v5.20] BUILD SUCCESS
- 4f5bc54d28ecd0739c99dc71ed93c2ebb5d9ba32
-Message-ID: <62a82c11.uhTuE1ECtrncZwni%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 14 Jun 2022 02:56:12 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0243B00B;
+        Mon, 13 Jun 2022 23:56:09 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id 68so5730825qkk.9;
+        Mon, 13 Jun 2022 23:56:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5C5c6a/FjphgO/+q9LPOsae/PEJeCJHHPy+5h5zaKZI=;
+        b=MVjq5s5BPBS5AWhlPkXdymPpYUTyshrzTFn9BI56DDskBExb3HzsaJ0KSq8PqsnxY2
+         K/Sqs6bqRMeNUwCru+POipej6Cs/2ts2DAo27qB0h0sRDPcA8zEgFl6/vhptNkE9kopo
+         tMuHdwSFhKRnCgqDiyCoLS1AXDI2hAYS5E5SEBcYpyPwoMWS7T78DIgc1rXJleOmCXWO
+         hi5puZ9d9L4VPpJiygiTGqBRGDnMNBVgiVAgKaxGNhpn4DJkvy+2k9M/QyoZ1LUiHS/K
+         zztKCdhW24biQAJHmd/WupwHuh2cSNh+uIaeVCWFQa26mTyTxIS5EuOwbpqkCiedfj3Y
+         +0UQ==
+X-Gm-Message-State: AOAM5309JVfURFHXU2S/ZKIHoO6w0O0VscX97hZS0woXovd0oHsuUKcl
+        bHhsw1YJuKpqtanZIL+ulRU7ezGsn4z0Ow==
+X-Google-Smtp-Source: ABdhPJyzqxvE+eSJdTGFvH3Kya1b/Yi0dwPrIr55xAk4GjgdGWrOY50RwPNjf8ApIgfiyZgO+Kd/Yw==
+X-Received: by 2002:ae9:e402:0:b0:6a7:86a3:752e with SMTP id q2-20020ae9e402000000b006a786a3752emr2845650qkc.300.1655189768079;
+        Mon, 13 Jun 2022 23:56:08 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id ca21-20020a05622a1f1500b00304e5839734sm6552335qtb.55.2022.06.13.23.56.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jun 2022 23:56:07 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-30c143c41e5so20290657b3.3;
+        Mon, 13 Jun 2022 23:56:07 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr3936784ywg.316.1655189767410; Mon, 13
+ Jun 2022 23:56:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <87zgipgu3s.wl-kuninori.morimoto.gx@renesas.com>
+ <87v8tdgu1t.wl-kuninori.morimoto.gx@renesas.com> <alpine.DEB.2.22.394.2206101756520.828669@ramsan.of.borg>
+ <877d5kkuiq.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <877d5kkuiq.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Jun 2022 08:55:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUhz==kdNejHh9t15cRVLxyxamsj4APOU6gz1p5H9-=DA@mail.gmail.com>
+Message-ID: <CAMuHMdUhz==kdNejHh9t15cRVLxyxamsj4APOU6gz1p5H9-=DA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] pinctrl: renesas: Initial R8A779G0 (V4H) PFC support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v5.20
-branch HEAD: 4f5bc54d28ecd0739c99dc71ed93c2ebb5d9ba32  soc: renesas: rcar-sysc: Optimize rcar_sysc_area struct sizes
+Hi Morimoto-san,
 
-elapsed time: 1204m
+On Tue, Jun 14, 2022 at 1:34 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > +#define CPU_ALL_GP(fn, sfx)                                                                \
+> > > +   PORT_GP_CFG_19(0,       fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),  \
+> > > +   PORT_GP_CFG_29(1,       fn, sfx, CFG_FLAGS | SH_PFC_PIN_CFG_IO_VOLTAGE_18_33),  \
+> >
+> > GP1_23 to GP1_28 do not support voltage control.
+> (snip)
+> > "<= RCAR_GP_PIN(1, 22)", as GP1_23 to GP1_28 do not support voltage
+> > control.
+>
+> Am I missing something ?
+> I guess GP1_23 to GP1_28 are same as other GP1_xxx.
 
-configs tested: 115
-configs skipped: 3
+Table 7.28 ("Configuration of Registers in POC0 , POC1") documents
+voltage control bits in POC1 for bits 0-22 only.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+However, the pin function spreadsheet says GP1_23 to GP1_28 are
+1.8/3.3V.
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220613
-arm                        trizeps4_defconfig
-arm                       aspeed_g5_defconfig
-arm                            mps2_defconfig
-sh                        edosk7705_defconfig
-powerpc                     mpc83xx_defconfig
-sh                            shmin_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                          lboxre2_defconfig
-sh                         apsh4a3a_defconfig
-arm                           h3600_defconfig
-mips                          rb532_defconfig
-arm                             pxa_defconfig
-arm                            hisi_defconfig
-arm                             ezx_defconfig
-powerpc                         ps3_defconfig
-sh                   rts7751r2dplus_defconfig
-sh                          rsk7203_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                     tqm8555_defconfig
-powerpc                      cm5200_defconfig
-xtensa                    smp_lx200_defconfig
-ia64                      gensparse_defconfig
-mips                     loongson1b_defconfig
-openrisc                         alldefconfig
-ia64                                defconfig
-riscv                             allnoconfig
-x86_64               randconfig-k001-20220613
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a015-20220613
-x86_64               randconfig-a014-20220613
-x86_64               randconfig-a011-20220613
-x86_64               randconfig-a016-20220613
-x86_64               randconfig-a012-20220613
-x86_64               randconfig-a013-20220613
-i386                 randconfig-a012-20220613
-i386                 randconfig-a011-20220613
-i386                 randconfig-a013-20220613
-i386                 randconfig-a014-20220613
-i386                 randconfig-a016-20220613
-i386                 randconfig-a015-20220613
-riscv                randconfig-r042-20220613
-arc                  randconfig-r043-20220613
-s390                 randconfig-r044-20220613
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+Which one is correct?
 
-clang tested configs:
-arm                           sama7_defconfig
-arm                          pxa168_defconfig
-powerpc                     kilauea_defconfig
-arm                          ixp4xx_defconfig
-arm                        mvebu_v5_defconfig
-arm                         lpc32xx_defconfig
-mips                           mtx1_defconfig
-x86_64               randconfig-a003-20220613
-x86_64               randconfig-a006-20220613
-x86_64               randconfig-a001-20220613
-x86_64               randconfig-a005-20220613
-x86_64               randconfig-a002-20220613
-x86_64               randconfig-a004-20220613
-i386                 randconfig-a001-20220613
-i386                 randconfig-a004-20220613
-i386                 randconfig-a002-20220613
-i386                 randconfig-a003-20220613
-i386                 randconfig-a006-20220613
-i386                 randconfig-a005-20220613
-hexagon              randconfig-r041-20220613
-hexagon              randconfig-r045-20220613
+Gr{oetje,eeting}s,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
