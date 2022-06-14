@@ -2,66 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB79554BA27
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 21:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07C1654BA85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 21:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345520AbiFNTMM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 15:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
+        id S234362AbiFNTaN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 15:30:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345245AbiFNTML (ORCPT
+        with ESMTP id S232793AbiFNTaK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 15:12:11 -0400
+        Tue, 14 Jun 2022 15:30:10 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDFA205E8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 12:12:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD3F1D0C1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 12:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=bQN25CW45ouQ5NGl6irn0aT+WYcb
-        3VCc3CpNxPofNC4=; b=24y5kHhxLjaqQm/6O9vOrNSt15261BiNhqG5Ksjf7fA5
-        5vnMuvAjWzz7eiiXR0PlsY24DDbx4+dcqB0zl2xysgRiDQm9HsN+DekVTYbhNOF+
-        tnXqu3jBERlbrNuZxwR0VH5Runb3A95uGayE8dR0g0sixuaoWu/Pk2M+ouWazvQ=
-Received: (qmail 1829616 invoked from network); 14 Jun 2022 21:12:03 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2022 21:12:03 +0200
-X-UD-Smtp-Session: l3s3148p1@JSoCLm3h8psgAwDtxwyXAGMY7IbT6g6m
-Date:   Tue, 14 Jun 2022 21:12:02 +0200
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=JYA73JAUbaXV/TVudQauMuQD88C
+        teYoD72mnTRjwInY=; b=GME3YTHxGg9bGDeFoa3lM+IYcom/QK/HaEGLg+IvbXb
+        UNrFU9G3+OFXiG+788L13MC/nnm+JNecYgBsKKIaIuO4vA9KzW6y7IZ1ZWJ6pBjH
+        a2/sCCKKeK4RYSZgjq+vOiOmlM5gR1VjqJ3ry5t7S//sjHm9ocCbiNqOGbEC+oCM
+        =
+Received: (qmail 1834197 invoked from network); 14 Jun 2022 21:30:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2022 21:30:07 +0200
+X-UD-Smtp-Session: l3s3148p1@Xouhbm3h9JsgAwDtxwyXAGMY7IbT6g6m
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] dt-bindings: thermal: rcar-gen3-thermal: Add
- r8a779f0 support
-Message-ID: <YqjdglN156QSg9jR@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220610201701.7946-1-wsa+renesas@sang-engineering.com>
- <20220610201701.7946-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] arm64: dts: renesas: spider-cpu: Enable SCIF0 on second connector
+Date:   Tue, 14 Jun 2022 21:30:05 +0200
+Message-Id: <20220614193005.2652-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ztfOnw5xrfs4xUfZ"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
@@ -72,37 +49,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The schematics label it as SCIF0 debug port.
 
---ztfOnw5xrfs4xUfZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
+Change since v1: added alias
 
-> What about splitting this in two separate checks at the top level:
->   - one for regs (R-Car V3U vs. the world), and
->   - a second for interrupts (R-Car V3U+S4-8 vs. the world)?
+ .../arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 13 +++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779f0-spider.dts     |  1 +
+ 2 files changed, 14 insertions(+)
 
-I'll try this and see how it looks, thanks for the suggestion!
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+index 3208d2148768..7a62afb64204 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+@@ -68,6 +68,11 @@ i2c4_pins: i2c4 {
+ 		function = "i2c4";
+ 	};
+ 
++	scif0_pins: scif0 {
++		groups = "scif0_data", "scif0_ctrl";
++		function = "scif0";
++	};
++
+ 	scif_clk_pins: scif_clk {
+ 		groups = "scif_clk";
+ 		function = "scif_clk";
+@@ -79,6 +84,14 @@ &rwdt {
+ 	status = "okay";
+ };
+ 
++&scif0 {
++	pinctrl-0 = <&scif0_pins>;
++	pinctrl-names = "default";
++
++	uart-has-rtscts;
++	status = "okay";
++};
++
+ &scif_clk {
+ 	clock-frequency = <24000000>;
+ };
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+index 954ba227bfa7..2c1fe4330c2b 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider.dts
+@@ -15,6 +15,7 @@ / {
+ 
+ 	aliases {
+ 		serial0 = &hscif0;
++		serial1 = &scif0;
+ 	};
+ 
+ 	chosen {
+-- 
+2.35.1
 
-
---ztfOnw5xrfs4xUfZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKo3X4ACgkQFA3kzBSg
-KbYmIA//V/QRt7xcWjrLRSc6pESMzGk6HyoSrZ6ONFbIogArW1iYVh7dcNkm1moO
-4j2Ssfsd/5pdkTVZ4tGrzn4hAHpZVKm09b919GNsVEeP7kIFymOUMmVQIgkZ0CME
-zSD8j+8qisBASPCgWt1/xLLPw30Pr35BRHdAIHOTmXo60Oy6E4DZDqlo8Qw1UmBt
-PsY607TV+Tn1LRDW0n5tkSIxsaGRsZLtsnTMzGCr8BvDSWQq92ksOmMMhcqevnK9
-zxUHQmDWScWe92M5lNOsrAgKVl2MTDGYYOVgIx+W8+P6wj0URpPh9iadfSQUgE9b
-jnHpTEPTcseFVVagjEIIXVsFYEe/RePPrE38XGNkjaoyaZVp8C+DWCQHHfDPkp/U
-0RRVwsTcly7ETzH2i6cIbdqdmZRPlBeiQW1Yr6EcYS/J276cQuXNxCcJVhBfGCTX
-WeZcEwbzDWpX0c7bobql135mvb+C25pK1crFnCJjDh5WYg7iUnWuZci5/iK6tv7W
-5xxCD1rcSuqeyeyuQf2NhuKADuZL4l35eXHKtn3JTlcGBtIIdsh718oXJRxoKgFu
-1WGIHe5yz0xZOpHfRy5ITrBD7eemcbDVjd0O7Ehl9iuAGNdW+R6MeQPXapuEjcpf
-fblBqXdNSwKFzmb2/1xf+I9YKJYz6LU+vd9s2995Gl7goa+JF4w=
-=DXqu
------END PGP SIGNATURE-----
-
---ztfOnw5xrfs4xUfZ--
