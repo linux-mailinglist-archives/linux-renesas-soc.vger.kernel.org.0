@@ -2,127 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E58954B513
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 17:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EBE754B99D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 21:00:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343771AbiFNPtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 11:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58950 "EHLO
+        id S1357972AbiFNSvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 14:51:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237623AbiFNPtK (ORCPT
+        with ESMTP id S1357979AbiFNSuP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 11:49:10 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F512E08F;
-        Tue, 14 Jun 2022 08:49:09 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id hf10so6371872qtb.7;
-        Tue, 14 Jun 2022 08:49:09 -0700 (PDT)
+        Tue, 14 Jun 2022 14:50:15 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF864F1FD
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 11:45:34 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id h1so8446368plf.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 11:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FdXipVV9v2r28VxWnG4xpdK6PjD5q6klgIM3ClTQdeE=;
+        b=oiIa/hwfwVM0ixZMh4zawxb1AmtZ8G7eppA2ZYcaeZ8PEaLnTENrCjiMXLmJTtUSn0
+         sIbwhgw6iMRjYzxTNhkGhvIRXDtzPVGq9sOSGDQKqFPOa9z0N/eogQCFaM7Uxh14mz8u
+         Aq59dVgSQ3NE3RWUSAiRdtp+h8aUEDP3sUdz56HwTnjcluE3Ca93o3SJQ17HfNV9njnl
+         tKR8NmFE1l8y5vD/Irsne5r+nT4188sXsn61OeyyCWdmzVl7/CJNdCpVzzP9ErJwf2/o
+         mSkvlA3c6Z2FlKLbm5pu6vSKtpNxh27Da+srokrWYWo4jnFgEs3rYGfBCVwmQ+3aWmH4
+         lGwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2Lz2xm2OeZO7pMrkyEsrx4M6KP6BHP9ACsFmmAuNdJE=;
-        b=xVvu73MHUUEUj5+r+6n9WWuTseX4F2sccRHYu+YldWfqvA8mMn6/pXcQtD+jFJL1ui
-         6cPQSeHEl9HSuqZq42zDFsnQI9Fwk4sM6/S6FIRj8sR1P/WwcRMXUN0V4jRNaJUYi/2k
-         A0V2YLT7kEyM4jyCyIWI0PzCi6MHaxRRbDH2jcnpnMJwLL1JGsKI3S9fxcKqh1Q8F0Sq
-         HsbmwP6eChRfVZgjXn9nKC0WYd+p2mhZAiPLnp2YjaMJ/urXbxbHNxA5vgDXSMrQCo37
-         eaQj492q3ujuUSq3CKiWp0gZ00FDdIWQsFtcBI1KRuJ/+2+c4TRvBihUaeH6oM5U9AsM
-         29dg==
-X-Gm-Message-State: AOAM530gjNvijQSxjvAoVgb/zu0JptURiE9v2CWanc7F5vasq+S72d4C
-        P7g2VIbRKacHhU75/GDpKHi6zv/JC9kF8A==
-X-Google-Smtp-Source: ABdhPJyjZcL86ZtgiGvwCCHzMJs3/IaCrGdoWU8qbUZEZINAZox7I51VQVdQ2FJypRfyrO20F7QkBQ==
-X-Received: by 2002:a05:622a:1393:b0:304:b6c8:bca2 with SMTP id o19-20020a05622a139300b00304b6c8bca2mr4637798qtk.642.1655221748403;
-        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id j9-20020ae9c209000000b006a377a015d4sm9466708qkg.39.2022.06.14.08.49.08
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FdXipVV9v2r28VxWnG4xpdK6PjD5q6klgIM3ClTQdeE=;
+        b=R+3TQCksaQNrXy5N3XZ6cM+R/DrXcBgj9Pl9vTrWqo4JvrWK2DsHJ7QfIGfcUStV5a
+         nubW1ySx7j2VRmkMHluryqjzneCW+LGI1s9BGPTQumA1cfJ+suXIX3AqaayzQd+p+KsP
+         9NdQzMReXrmFnroucE2miGbz2ign4KubSoVEWSWISzNyKgnOnj59+JXhyJFRJYHGvsCY
+         DROX/CfFqJ4d9AXAWOu9mU9D/tn4WskL9GsZv3JBrmaii5BfINzbVDFt2PpijHt9Wapb
+         9jnI7Y5ilZWvg4SUHQhLWIhsVRGiRE5SxrSM1xOZD91+249bMUJXm7NT7DXEF9ZMl3on
+         sR9g==
+X-Gm-Message-State: AJIora9ndYY1+EEmJrJI1Biiu2n+016ukiI0XfRMYH8/QR2BdJfgACN5
+        wnYScVXsY4pWCIPVisLNfXJHb40qFT6biDsj
+X-Google-Smtp-Source: AGRyM1vpyw0TtFQ8m03zt5DV9wdxY4wHBCAt+jIM9VzOg8rB96mdsqzcXyvWz9tJWZLIXG/hKE0ViQ==
+X-Received: by 2002:a17:90b:4a12:b0:1e8:4a16:ae28 with SMTP id kk18-20020a17090b4a1200b001e84a16ae28mr5973597pjb.1.1655232334027;
+        Tue, 14 Jun 2022 11:45:34 -0700 (PDT)
+Received: from [192.168.2.1] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id g12-20020a056a00078c00b005190eea6c37sm7893233pfu.157.2022.06.14.11.45.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id v81so15942249ybe.0;
-        Tue, 14 Jun 2022 08:49:08 -0700 (PDT)
-X-Received: by 2002:a05:6902:905:b0:64a:2089:f487 with SMTP id
- bu5-20020a056902090500b0064a2089f487mr5874556ybb.202.1655221747725; Tue, 14
- Jun 2022 08:49:07 -0700 (PDT)
+        Tue, 14 Jun 2022 11:45:31 -0700 (PDT)
+Message-ID: <833951e0-1194-1528-11ba-07c6e6dca1d5@linaro.org>
+Date:   Tue, 14 Jun 2022 20:45:25 +0200
 MIME-Version: 1.0
-References: <20220613134914.18655-1-wsa+renesas@sang-engineering.com> <20220613134914.18655-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220613134914.18655-3-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 17:48:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJ9N1=X0O0LtpPrjH-uSbupKAVr+J3KwStL7xYgMxfWw@mail.gmail.com>
-Message-ID: <CAMuHMdWJ9N1=X0O0LtpPrjH-uSbupKAVr+J3KwStL7xYgMxfWw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: spider-cpu: Enable SCIF0 on
- second connector
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3] thermal: rcar_gen3_thermal: improve logging during
+ probe
+Content-Language: en-US
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220610200500.6727-1-wsa+renesas@sang-engineering.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20220610200500.6727-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Mon, Jun 13, 2022 at 3:49 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> The schematics label it as SCIF0 debug port.
->
+On 10/06/2022 22:04, Wolfram Sang wrote:
+> When setting up a new board, a plain "Can't register thermal zone"
+> didn't help me much because the thermal zones in DT were all fine. I
+> just had a sensor entry too much in the parent TSC node. Reword the
+> failure/success messages to contain the sensor number to make it easier
+> to understand which sensor is affected. Example output now:
+> 
+> rcar_gen3_thermal e6198000.thermal: Sensor 0: Loaded 1 trip points
+> rcar_gen3_thermal e6198000.thermal: Sensor 1: Loaded 1 trip points
+> rcar_gen3_thermal e6198000.thermal: Sensor 2: Loaded 1 trip points
+> rcar_gen3_thermal e6198000.thermal: Sensor 3: Can't register thermal zone
+> 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks for your patch!
+Applied, thanks
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-> @@ -68,6 +68,11 @@ i2c4_pins: i2c4 {
->                 function = "i2c4";
->         };
->
-> +       scif0_pins: scif0 {
-> +               groups = "scif0_data", "scif0_ctrl";
-> +               function = "scif0";
-> +       };
-> +
->         scif_clk_pins: scif_clk {
->                 groups = "scif_clk";
->                 function = "scif_clk";
-> @@ -79,6 +84,14 @@ &rwdt {
->         status = "okay";
->  };
->
-> +&scif0 {
-> +       pinctrl-0 = <&scif0_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       uart-has-rtscts;
-> +       status = "okay";
-> +};
-> +
->  &scif_clk {
->         clock-frequency = <24000000>;
->  };
 
-This needs a new serial alias under /aliases.
-Mixing dynamic and static serial IDs may cause conflicts, cfr. commit
-7678f4c20fa7670f ("serial: sh-sci: Add support for dynamic instances").
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
