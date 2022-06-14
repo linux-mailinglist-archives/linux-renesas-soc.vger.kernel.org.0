@@ -2,103 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3081354BCCB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 23:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2563854BCFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 23:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241409AbiFNVcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 17:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S1354575AbiFNVtN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 17:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234419AbiFNVcC (ORCPT
+        with ESMTP id S230493AbiFNVtM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 17:32:02 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644DB51307;
-        Tue, 14 Jun 2022 14:32:01 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id t21so7067488qtw.11;
-        Tue, 14 Jun 2022 14:32:01 -0700 (PDT)
+        Tue, 14 Jun 2022 17:49:12 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10CBA515BA;
+        Tue, 14 Jun 2022 14:49:12 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id e9so9579406pju.5;
+        Tue, 14 Jun 2022 14:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=JnppAby++umsNjCD3pKbHZyzqXGEc4aNf76TasCL78M=;
+        b=KjGXcBr75g9HUX7cG89maVM9ywrCv//4TXxYWvp4lKhtr8/3p2xpjyAyVnH6XI6Oht
+         lCyS5kn8GOk82mhDzYQT3WuUgH4BuzDDpzvUC6sfX5BDUJ308ekG0To+ft5ylZmVvrsn
+         gBS2nwMahrdxz5vdpKvHVDvOHOGkvSMPCw7UyLt8AIpzVYDO3OgT03wSRtbz3FkPJooC
+         Y0deKide8ELVkkJ2i+oJ423Q/FImS3RgYsZpU1kInRzu3zEqegtr719bzV2TPBUW9qgU
+         yKEbWS5Z8cJM0U5Ez8IE1hePLigqPEuk/0KB23HqOGZq4ixkpCau/RGBCbzTMWcbnCXV
+         qjAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6PZK9Icgxpkd1Nlbn2edlrCQm5XYsFqwIxCzqxft+Dc=;
-        b=HsoFlgBaBSt48mzfWUmD7Krn9XrCGrGRT/NBErNu5KiOpI66E+vK66V4nM7q4GZE9M
-         RLEI9Qtov9c9dKOV+FhixAOZIOTDaLksWig/4VkVWAu67GJPQW6TUZMVIyQCN6Z2oJG3
-         +MMEUzTyQL6mEfdWeQEZpdOHGQKiE6zBbFYSYIKDdOctJeYDDkq+045wPSJdA2gB4pmp
-         N8w5mLuHx4xQL9iRQvrpbZxI951DMKzVamkPXVrofx7CPcUFOmlj6TUzU0Y+BFmLTKz8
-         JFCv8mcFiQ4uncky6aueEiZD75NPyqYwAIUqsoxLl7MoIP5cXDwxBVabQGNkjgwU3yQy
-         vSvQ==
-X-Gm-Message-State: AOAM530Ipk0yKZ3LhiDy+im7cGnk9uzrPFpPFvo7mXmBiX+oQ5JreQuw
-        zxpgN6vhqjNxDGnWkIdaAKtYuC/+XcGn/g==
-X-Google-Smtp-Source: ABdhPJwnMTi47HKefj6U3ZHJcYdIa5S9AO6X0wc6UpDswbVEgZZpj4tkDcN26HpPINgFlT7Uj/dRTQ==
-X-Received: by 2002:ac8:5cc9:0:b0:304:e03b:5964 with SMTP id s9-20020ac85cc9000000b00304e03b5964mr5913229qta.433.1655242320289;
-        Tue, 14 Jun 2022 14:32:00 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id j1-20020a05620a410100b006a65c58db99sm10963831qko.64.2022.06.14.14.31.59
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=JnppAby++umsNjCD3pKbHZyzqXGEc4aNf76TasCL78M=;
+        b=yyumlHXMKngqX+5MouWOBmNXuIAlDP2vEYdFb7W1qmG9Q9dbjz1mQKLrTvkVdpzjgc
+         uMwjkRvoU2USDY2JJHnDxn3UjaUPGOt7hFxSnklXDyK6AipAsP7F2OI/ZAEemQ3uVaSk
+         lWqsUbumBW2x3L7NgUW+GHxdeFtRQ10f/LRvufjQOL4h9dUm6thqHGBIIhKMFsXL4+Cq
+         f6NODRENkR4PkKTGhIXsHKN65ctS2FTQYGQjAj7unXr/M8yLlH0Beg4iAY7Ritk+2PG7
+         DmlyhIMqI7IBtj+qtYqOBukqekGwZavzwJDtkH9yMdOz5jt1F0rCDQrOLGRK9/tCdGrc
+         B3vg==
+X-Gm-Message-State: AJIora8laPhatgIsHkFaritAJTQs8JB1KBUnknzO1MTX7cJOZWc0BpRz
+        ONHL4e+DdN7urUNRfhzo+kY=
+X-Google-Smtp-Source: AGRyM1ssR15ccU5hlqg/aCbI1LIPgD89tj8zm0nZAf8OG5gpOcorkn3Gl/QUpvgWtODgQetKM7iJyA==
+X-Received: by 2002:a17:902:f70a:b0:153:88c7:774 with SMTP id h10-20020a170902f70a00b0015388c70774mr6140678plo.166.1655243351473;
+        Tue, 14 Jun 2022 14:49:11 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id k132-20020a633d8a000000b003fd9e4911f9sm8404374pga.31.2022.06.14.14.49.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jun 2022 14:32:00 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-30fa61b1a83so43802617b3.0;
-        Tue, 14 Jun 2022 14:31:59 -0700 (PDT)
-X-Received: by 2002:a0d:f801:0:b0:30f:f716:2950 with SMTP id
- i1-20020a0df801000000b0030ff7162950mr8241270ywf.358.1655242319521; Tue, 14
- Jun 2022 14:31:59 -0700 (PDT)
+        Tue, 14 Jun 2022 14:49:10 -0700 (PDT)
+Message-ID: <670a18b1-e1f2-0c18-8543-b9ca4b0838bd@gmail.com>
+Date:   Tue, 14 Jun 2022 14:49:07 -0700
 MIME-Version: 1.0
-References: <20220610201701.7946-1-wsa+renesas@sang-engineering.com>
- <20220610201701.7946-2-wsa+renesas@sang-engineering.com> <CAMuHMdW3uxQHk6SBX5MqnZsYqwY8p+0wmD6gHwS3ESUrkmpWkQ@mail.gmail.com>
- <YqjtBQdzexzCRrmq@shikoro>
-In-Reply-To: <YqjtBQdzexzCRrmq@shikoro>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 14 Jun 2022 23:31:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUTR8+8TbM_AaMXk96adHvdp_Oof8v48_zCY+R5FsOLnQ@mail.gmail.com>
-Message-ID: <CAMuHMdUTR8+8TbM_AaMXk96adHvdp_Oof8v48_zCY+R5FsOLnQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] dt-bindings: thermal: rcar-gen3-thermal: Add
- r8a779f0 support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RESEND net-next v7 01/16] net: dsa: allow
+ port_bridge_join() to override extack message
+Content-Language: en-US
+To:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?Q?Miqu=c3=a8l_Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+References: <20220610103712.550644-1-clement.leger@bootlin.com>
+ <20220610103712.550644-2-clement.leger@bootlin.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220610103712.550644-2-clement.leger@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 6/10/22 03:36, Clément Léger wrote:
+> Some drivers might report that they are unable to bridge ports by
+> returning -EOPNOTSUPP, but still wants to override extack message.
+> In order to do so, in dsa_slave_changeupper(), if port_bridge_join()
+> returns -EOPNOTSUPP, check if extack message is set and if so, do not
+> override it.
+> 
+> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
+> Signed-off-by: Clément Léger <clement.leger@bootlin.com>
 
-On Tue, Jun 14, 2022 at 10:18 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > What about splitting this in two separate checks at the top level:
-> >   - one for regs (R-Car V3U vs. the world), and
-> >   - a second for interrupts (R-Car V3U+S4-8 vs. the world)?
->
-> This task seems too much for my YAML-foo :( I couldn't get it to work.
-> Can we leave it as-is for now?
-
-You just need an allOf with two if statements, cfr. e.g.
-Documentation/devicetree/bindings/media/renesas,vin.yaml?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
