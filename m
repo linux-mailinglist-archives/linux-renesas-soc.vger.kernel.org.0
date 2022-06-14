@@ -2,166 +2,622 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF9754B158
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 14:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A484554B1B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jun 2022 14:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235202AbiFNMiD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 08:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42242 "EHLO
+        id S243154AbiFNMp0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jun 2022 08:45:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234990AbiFNMhb (ORCPT
+        with ESMTP id S1356949AbiFNMn0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 08:37:31 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830FE26AF0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 05:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655210078; x=1686746078;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3efGh5U1OQ0hsZoYI+bQnoNMsdKyS/EkBefgof0P6Ao=;
-  b=UEkhYXybFmjIr3UClIR4HJpmUkI3Xf4L+cMwik0NPS98EngeU6UvbQEq
-   qfoywrh5SnFU/XLqyIIpirPIgYF9vFz62x04iE77JNMOOYmpVh2iEgjox
-   DZRcCFRRBMDrLPZW3hrZ0N2yErdd3NT9AkjBlkhTX3AfTXO09R0KYpeM/
-   BogxhEQacgXcOcfKmH0LuP59K7LGCIAbwpHvqDrNHVQTkiuWba86IfMKv
-   UfXOYJwv6h55R7RQ7UdqiHS/WC1282A9gQ0gLa+eGnXIXfK0AN3rIN9z1
-   kQ6huOIeQagGN9iIBAzD6DM6FVRMu89o1Lxmes1WvY0GyeH21s83LkQ3q
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="277386942"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="277386942"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 05:34:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="673849345"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2022 05:34:29 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o15kb-000Ls9-8Z;
-        Tue, 14 Jun 2022 12:34:29 +0000
-Date:   Tue, 14 Jun 2022 20:34:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
- 0f078525e402a8f997fa1f31f1a29d8cf9f0a709
-Message-ID: <62a8803e.YGi/FRCHa/S5ihIN%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 14 Jun 2022 08:43:26 -0400
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6C938D86;
+        Tue, 14 Jun 2022 05:43:06 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id hf10so5951921qtb.7;
+        Tue, 14 Jun 2022 05:43:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UlHzJqDQVCFkJdgMmf2/8POq1e28CbVcI8O36R8k1ys=;
+        b=3iOLTqyWgJUY5GXj8sYyQ6jMtuMOOSsnuw8Zqi6ng3UkxV4Dc8LZ5B8M0H52m53ZbA
+         gH31zRxFgLOqw1Ca++iwIMRB9r+6y8Ecs2KhfdRqeg3hD1NNNlL0r7ROPkH8KK4+Qd92
+         4Qac21tBmIel3PY3aSl6JX1MhDmfwWx3dMlHYaatZqzv3UqdbNWtklFB/tWYUPkN6brK
+         okjkKOdEKPKyofs7HGIDc7GcOw92vsEiFrQ1WrMVaOtrgXPuhhSlklK0pk/jxhDje8ep
+         GPsIJNebF3/gPD6MpHSZRcObd9058OMOyW1d29GQJWRFzOQRTCpaMkn6LZNiK6J1KOmF
+         XDvA==
+X-Gm-Message-State: AOAM533olVpTyxXMzba64buV6kaH3mW5VY4GdXQX0bJM0vJRrTG8x5Pv
+        ktwBVPneRO9m1hiWq8DGOGBVMMQYVtgemg==
+X-Google-Smtp-Source: ABdhPJzjYwLKT0P2YzwRUb2D7Sll7kzxLtUCjVLzIVj7LW04NZUY2dfD+Fad02M3tsnLb1MCY7MhqQ==
+X-Received: by 2002:a05:622a:1484:b0:305:2c76:b401 with SMTP id t4-20020a05622a148400b003052c76b401mr3741420qtx.678.1655210585521;
+        Tue, 14 Jun 2022 05:43:05 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a24c400b006a098381abcsm9328174qkn.114.2022.06.14.05.43.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jun 2022 05:43:05 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-30ce6492a60so28026457b3.8;
+        Tue, 14 Jun 2022 05:43:05 -0700 (PDT)
+X-Received: by 2002:a81:f41:0:b0:313:4d6c:49db with SMTP id
+ 62-20020a810f41000000b003134d6c49dbmr5354767ywp.384.1655210584857; Tue, 14
+ Jun 2022 05:43:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220520154051.29088-1-phil.edworthy@renesas.com> <20220520154051.29088-3-phil.edworthy@renesas.com>
+In-Reply-To: <20220520154051.29088-3-phil.edworthy@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Jun 2022 14:42:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUiqUUN_A+a2hcVpdx56NKHSBPMiYyHeS0SAVwdZSbZZA@mail.gmail.com>
+Message-ID: <CAMuHMdUiqUUN_A+a2hcVpdx56NKHSBPMiYyHeS0SAVwdZSbZZA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pinctrl: renesas: Add RZ/V2M pin and gpio controller driver
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git topic/renesas-defconfig
-branch HEAD: 0f078525e402a8f997fa1f31f1a29d8cf9f0a709  arm64: renesas: defconfig: Enable PSCI CPU idle Driver
+Hi Phil,
 
-elapsed time: 1563m
+Thanks for your patch!
 
-configs tested: 84
-configs skipped: 3
+On Fri, May 20, 2022 at 5:41 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
+> Add support for pin and gpio controller driver for RZ/V2M SoC.
+> Based on the RZ/G2L driver.
+>
+> Note that the DETDO and DETMS dedicated pins are currently not
+> documented in the HW manual as to which pin group they are in.
+> HW team have since said that the output level of V1.8V I/O group 4
+> (for MD0-7, and debugger) is the same as the 1.8V IO group 3.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thank you, I rediscovered this explanation just before pressing send ;-)
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a015-20220613
-x86_64               randconfig-a014-20220613
-x86_64               randconfig-a011-20220613
-x86_64               randconfig-a016-20220613
-x86_64               randconfig-a012-20220613
-x86_64               randconfig-a013-20220613
-i386                 randconfig-a013-20220613
-i386                 randconfig-a011-20220613
-i386                 randconfig-a014-20220613
-i386                 randconfig-a012-20220613
-i386                 randconfig-a016-20220613
-i386                 randconfig-a015-20220613
-riscv                randconfig-r042-20220613
-arc                  randconfig-r043-20220613
-s390                 randconfig-r044-20220613
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
+>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-clang tested configs:
-x86_64               randconfig-a003-20220613
-x86_64               randconfig-a006-20220613
-x86_64               randconfig-a001-20220613
-x86_64               randconfig-a005-20220613
-x86_64               randconfig-a002-20220613
-x86_64               randconfig-a004-20220613
-i386                 randconfig-a001-20220613
-i386                 randconfig-a004-20220613
-i386                 randconfig-a002-20220613
-i386                 randconfig-a003-20220613
-i386                 randconfig-a006-20220613
-i386                 randconfig-a005-20220613
-hexagon              randconfig-r041-20220613
-hexagon              randconfig-r045-20220613
+> --- a/drivers/pinctrl/renesas/Kconfig
+> +++ b/drivers/pinctrl/renesas/Kconfig
+> @@ -193,6 +194,18 @@ config PINCTRL_RZG2L
+>           This selects GPIO and pinctrl driver for Renesas RZ/{G2L,G2UL,V2L}
+>           platforms.
+>
+> +config PINCTRL_RZV2M
+> +       bool "pin control support for RZ/V2M"
+> +       depends on OF
+> +       depends on ARCH_R9A09G011 || COMPILE_TEST
+> +       select GPIOLIB
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This selects GPIO and pinctrl driver for Renesas RZ/V2M
+> +         platforms.
+> +
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Please preserve sort order.
+
+>  config PINCTRL_PFC_R8A77470
+>         bool "pin control support for RZ/G1C" if COMPILE_TEST
+>         select PINCTRL_SH_PFC
+> diff --git a/drivers/pinctrl/renesas/Makefile b/drivers/pinctrl/renesas/Makefile
+> index 5d936c154a6f..cfa966125c4e 100644
+> --- a/drivers/pinctrl/renesas/Makefile
+> +++ b/drivers/pinctrl/renesas/Makefile
+> @@ -48,6 +48,7 @@ obj-$(CONFIG_PINCTRL_PFC_SHX3)                += pfc-shx3.o
+>  obj-$(CONFIG_PINCTRL_RZA1)     += pinctrl-rza1.o
+>  obj-$(CONFIG_PINCTRL_RZA2)     += pinctrl-rza2.o
+>  obj-$(CONFIG_PINCTRL_RZG2L)    += pinctrl-rzg2l.o
+> +obj-$(CONFIG_PINCTRL_RZV2M)    += pinctrl-rzv2m.o
+
+Please preserve sort order.
+
+>  obj-$(CONFIG_PINCTRL_RZN1)     += pinctrl-rzn1.o
+>
+>  ifeq ($(CONFIG_COMPILE_TEST),y)
+> diff --git a/drivers/pinctrl/renesas/pinctrl-rzv2m.c b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+> new file mode 100644
+> index 000000000000..610fc6b05e15
+> --- /dev/null
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+> @@ -0,0 +1,1149 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/V2M Pin Control and GPIO driver core
+> + *
+> + * Based on:
+> + *   Renesas RZ/G2L Pin Control and GPIO driver core
+> + *
+> + * Copyright (C) 2022 Renesas Electronics Corporation.
+> + */
+> +
+> +#include <linux/bitops.h>
+> +#include <linux/clk.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/pinctrl/pinconf-generic.h>
+> +#include <linux/pinctrl/pinconf.h>
+> +#include <linux/pinctrl/pinctrl.h>
+> +#include <linux/pinctrl/pinmux.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <dt-bindings/pinctrl/rzv2m-pinctrl.h>
+> +
+> +#include "../core.h"
+> +#include "../pinconf.h"
+> +#include "../pinmux.h"
+> +
+> +#define DRV_NAME       "pinctrl-rzv2m"
+> +
+> +/*
+> + * Use 16 lower bits [15:0] for pin identifier
+> + * Use 16 higher bits [31:16] for pin mux function
+> + */
+> +#define MUX_PIN_ID_MASK                GENMASK(15, 0)
+> +#define MUX_FUNC_MASK          GENMASK(31, 16)
+> +#define MUX_FUNC_OFFS          16
+> +#define MUX_FUNC(pinconf)      (((pinconf) & MUX_FUNC_MASK) >> MUX_FUNC_OFFS)
+
+FIELD_GET(MUX_FUNC_MASK, (pinconf))?
+After that you can remove MUX_FUNC_OFFS.
+
+> +
+> +/* PIN capabilities */
+> +#define PIN_CFG_1_8V_GRP2              1
+> +#define PIN_CFG_1_8V_GRP3              2
+> +#define PIN_CFG_SWIO_GRP1              3
+> +#define PIN_CFG_SWIO_GRP2              4
+> +#define PIN_CFG_3_3V_GRP               5
+
+PIN_CFG_GRP_*, and move the definition of PIN_CFG_GRP_MASK here, to
+make it clear they use the same number space as the PIN_CFG_* below?
+
+> +#define PIN_CFG_IE                     BIT(3)
+> +#define PIN_CFG_BIAS                   BIT(4)
+> +#define PIN_CFG_DRV                    BIT(5)
+> +#define PIN_CFG_SLEW                   BIT(6)
+> +
+> +#define RZV2M_MPXED_PIN_FUNCS          (PIN_CFG_IE | \
+> +                                        PIN_CFG_BIAS | \
+> +                                        PIN_CFG_DRV | \
+> +                                        PIN_CFG_SLEW)
+> +
+> +#define PIN_CFG_GRP_MASK               7
+
+GENMASK(2, 0)
+
+> +
+> +/*
+> + * n indicates number of pins in the port, a is the register index
+> + * and f is pin configuration capabilities supported.
+> + */
+> +#define RZV2M_GPIO_PORT_PACK(n, a, f)  (((n) << 24) | ((a) << 16) | (f))
+> +#define RZV2M_GPIO_PORT_GET_PINCNT(x)  (((x) & GENMASK(31, 24)) >> 24)
+
+FIELD_GET(GENMASK(31, 24), (x)) etc?
+
+> +#define RZV2M_GPIO_PORT_GET_INDEX(x)   (((x) & GENMASK(23, 16)) >> 16)
+> +#define RZV2M_GPIO_PORT_GET_CFGS(x)    ((x) & GENMASK(15, 0))
+> +
+> +#define RZV2M_DEDICATED_PORT_IDX       22
+> +
+> +/*
+> + * BIT(31) indicates dedicated pin, b is the register bits (b * 16)
+> + * and f is the pin configuration capabilities supported.
+> + */
+> +#define RZV2M_SINGLE_PIN               BIT(31)
+> +#define RZV2M_SINGLE_PIN_PACK(b, f)    (RZV2M_SINGLE_PIN | \
+> +                                        ((RZV2M_DEDICATED_PORT_IDX) << 24) | \
+> +                                        ((b) << 16) | (f))
+> +#define RZV2M_SINGLE_PIN_GET_PORT_OFFSET(x)    (((x) & GENMASK(30, 24)) >> 24)
+> +#define RZV2M_SINGLE_PIN_GET_BIT(x)    (((x) & GENMASK(23, 16)) >> 16)
+> +#define RZV2M_SINGLE_PIN_GET_CFGS(x)   ((x) & GENMASK(15, 0))
+> +
+> +#define RZV2M_PIN_ID_TO_PORT(id)       ((id) / RZV2M_PINS_PER_PORT)
+> +#define RZV2M_PIN_ID_TO_PORT_OFFSET(id)        RZV2M_PIN_ID_TO_PORT(id)
+
+Unlike on RZ/G2L, there is no need to distinguish between port and
+port_offset on RZ/V2M, so you can drop RZV2M_PIN_ID_TO_PORT_OFFSET(),
+and always use RZV2M_PIN_ID_TO_PORT().
+
+> +#define RZV2M_PIN_ID_TO_PIN(id)                ((id) % RZV2M_PINS_PER_PORT)
+> +
+> +#define DO(n)                  (0x00 + (n) * 0x40)
+> +#define OE(n)                  (0x04 + (n) * 0x40)
+> +#define IE(n)                  (0x08 + (n) * 0x40)
+> +#define PFC(n)                 (0x10 + (n) * 0x40)
+
+PFSEL, to match the documentation?
+
+> +#define DI(n)                  (0x20 + (n) * 0x40)
+> +#define PUPD(n)                        (0x24 + (n) * 0x40)
+> +#define DRV(n)                 (0x28 + (n) * 0x40)
+> +#define SR(n)                  (0x2c + (n) * 0x40)
+> +#define DI_MSK(n)              (0x30 + (n) * 0x40)
+> +#define EN_MSK(n)              (0x34 + (n) * 0x40)
+> +#define DRV_DEDICATED          0x590
+> +#define SR_DEDICATED           0x594
+> +
+> +#define IE_MASK                        0x01
+> +#define PFC_MASK               0x07
+> +#define PUPD_MASK              0x03
+> +#define DRV_MASK               0x03
+> +#define SR_MASK                        0x01
+
+Do you need IE_MASK and SR_MASK, for single-bit fields?
+You don't have DO_MASK(), OE_MASK(), and IE_MASK().
+
+> +static const unsigned int drv_1_8V_group2_uA[] = { 1800, 3800, 7800, 11000 };
+> +static const unsigned int drv_1_8V_group3_uA[] = { 1600, 3200, 6400, 9600 };
+> +static const unsigned int drv_SWIO_group1_3_3V_uA[] = { 2000, 4000, 8000, 12000 };
+> +static const unsigned int drv_SWIO_group2_3_3V_uA[] = { 9000, 11000, 13000, 18000 };
+> +static const unsigned int drv_3_3V_group_uA[] = { 2000, 4000, 8000, 12000 };
+
+Can drv_SWIO_group1_3_3V_uA[] and drv_3_3V_group_uA[] be shared,
+as they contain the same values?
+Note that for the SWIO groups, the actual values are dependent on
+the I/O voltage, too.  But I guess it becomes too complicated to
+handle that (i.e. where to get the I/O voltage from)?
+
+> +
+> +/* Helper for registers that have a write enable bit in the upper word */
+> +static void rzv2m_writel_we(void __iomem *addr, u8 bit, u8 value)
+
+s/bit/shift/
+
+> +{
+> +       writel((BIT(16) | value) << bit, addr);
+> +}
+
+> +static void rzv2m_rmw_pin_config(struct rzv2m_pinctrl *pctrl, u32 offset,
+> +                                u8 bit, u32 mask, u32 val)
+
+s/bit/shift/
+
+> +{
+> +       void __iomem *addr = pctrl->base + offset;
+> +       unsigned long flags;
+> +       u32 reg;
+> +
+> +       spin_lock_irqsave(&pctrl->lock, flags);
+> +       reg = readl(addr) & ~(mask << bit);
+> +       writel(reg | (val << bit), addr);
+> +       spin_unlock_irqrestore(&pctrl->lock, flags);
+> +}
+> +
+> +static int rzv2m_pinctrl_pinconf_get(struct pinctrl_dev *pctldev,
+> +                                    unsigned int _pin,
+> +                                    unsigned long *config)
+> +{
+> +       struct rzv2m_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+> +       enum pin_config_param param = pinconf_to_config_param(*config);
+> +       const struct pinctrl_pin_desc *pin = &pctrl->desc.pins[_pin];
+> +       unsigned int *pin_data = pin->drv_data;
+> +       unsigned int arg = 0;
+> +       u32 port_offset;
+
+port?
+
+> +       u32 cfg = 0;
+> +       u8 bit = 0;
+
+No need to pre-initialize cfg and bit to zero.
+
+> +       u32 val;
+> +
+> +       if (!pin_data)
+> +               return -EINVAL;
+> +
+> +       if (*pin_data & RZV2M_SINGLE_PIN) {
+> +               port_offset = RZV2M_SINGLE_PIN_GET_PORT_OFFSET(*pin_data);
+> +               cfg = RZV2M_SINGLE_PIN_GET_CFGS(*pin_data);
+> +               bit = RZV2M_SINGLE_PIN_GET_BIT(*pin_data);
+> +       } else {
+> +               cfg = RZV2M_GPIO_PORT_GET_CFGS(*pin_data);
+> +               port_offset = RZV2M_PIN_ID_TO_PORT_OFFSET(_pin);
+> +               bit = RZV2M_PIN_ID_TO_PIN(_pin);
+> +
+> +               if (rzv2m_validate_gpio_pin(pctrl, *pin_data, RZV2M_PIN_ID_TO_PORT(_pin), bit))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       switch (param) {
+> +       case PIN_CONFIG_BIAS_DISABLE:
+> +       case PIN_CONFIG_BIAS_PULL_UP:
+> +       case PIN_CONFIG_BIAS_PULL_DOWN: {
+> +               enum pin_config_param bias;
+> +
+> +               if (!(cfg & PIN_CFG_BIAS))
+> +                       return -EINVAL;
+> +
+> +               /* PUPD uses 2-bits per pin */
+> +               bit <<= 1;
+
+So bit is actually a shift...
+"*= 2" may be easier to read.
+
+> +
+> +               val = (readl(pctrl->base + PUPD(port_offset)) >> bit) & PUPD_MASK;
+> +               if (val == 0)
+> +                       bias = PIN_CONFIG_BIAS_PULL_DOWN;
+> +               else if (val == 2)
+> +                       bias = PIN_CONFIG_BIAS_PULL_UP;
+> +               else
+> +                       bias = PIN_CONFIG_BIAS_DISABLE;
+
+switch (readl(pctrl->base + PUPD(port_offset)) >> bit) & PUPD_MASK) { ... }
+
+> +               if (bias != param)
+> +                       return -EINVAL;
+> +               break;
+> +       }
+> +
+> +       case PIN_CONFIG_INPUT_ENABLE:
+> +               if (!(cfg & PIN_CFG_IE))
+> +                       return -EINVAL;
+> +
+> +               val = (readl(pctrl->base + IE(port_offset)) >> bit) & IE_MASK;
+
+"& BIT(bit)", or do you want to preserve symmetry with the other cases?
+
+> +               if (!val)
+> +                       return -EINVAL;
+> +               break;
+> +
+> +       case PIN_CONFIG_DRIVE_STRENGTH_UA:
+> +               if (!(cfg & PIN_CFG_DRV))
+> +                       return -EINVAL;
+> +
+> +               /* DRV uses 2-bits per pin */
+> +               bit <<= 1;
+> +
+> +               /* Dedicated port is irregularly located to the others */
+> +               if (port_offset == RZV2M_DEDICATED_PORT_IDX)
+> +                       val = (readl(pctrl->base + DRV_DEDICATED) >> bit) & DRV_MASK;
+> +               else
+> +                       val = (readl(pctrl->base + DRV(port_offset)) >> bit) & DRV_MASK;
+
+You can simplify this, by handling the dedicated port offset in the
+definition of the DRV() macro.  Same for SR().
+
+> +
+> +               if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_1_8V_GRP2)
+> +                       arg = drv_1_8V_group2_uA[val];
+> +               else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_1_8V_GRP3)
+> +                       arg = drv_1_8V_group3_uA[val];
+> +               else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_SWIO_GRP1)
+> +                       arg = drv_SWIO_group1_3_3V_uA[val];
+> +               else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_SWIO_GRP2)
+> +                       arg = drv_SWIO_group2_3_3V_uA[val];
+> +               else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_3_3V_GRP)
+> +                       arg = drv_3_3V_group_uA[val];
+> +               else
+> +                       return -EINVAL;
+
+switch (cfg & PIN_CFG_GRP_MASK) { ... }
+
+> +
+> +               break;
+> +
+> +       case PIN_CONFIG_SLEW_RATE:
+> +               if (!(cfg & PIN_CFG_SLEW))
+> +                       return -EINVAL;
+> +
+> +               /* Dedicated port is irregularly located to the others */
+> +               if (port_offset == RZV2M_DEDICATED_PORT_IDX)
+> +                       arg = (readl(pctrl->base + SR_DEDICATED) >> bit) & SR_MASK;
+
+"& BIT(bit)", or do you want to preserve symmetry with the other cases?
+
+> +               else
+> +                       arg = (readl(pctrl->base + SR(port_offset)) >> bit) & SR_MASK;
+> +               break;
+> +
+> +       default:
+> +               return -ENOTSUPP;
+> +       }
+> +
+> +       *config = pinconf_to_config_packed(param, arg);
+> +
+> +       return 0;
+> +};
+> +
+> +static int rzv2m_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
+> +                                    unsigned int _pin,
+> +                                    unsigned long *_configs,
+> +                                    unsigned int num_configs)
+> +{
+> +       struct rzv2m_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+> +       const struct pinctrl_pin_desc *pin = &pctrl->desc.pins[_pin];
+> +       unsigned int *pin_data = pin->drv_data;
+> +       enum pin_config_param param;
+> +       u32 port_offset;
+
+port?
+
+> +       unsigned int i;
+> +       u32 cfg = 0;
+> +       u8 bit = 0;
+
+No need to pre-initialize cfg and bit to zero.
+
+> +       u32 val;
+> +
+> +       if (!pin_data)
+> +               return -EINVAL;
+> +
+> +       if (*pin_data & RZV2M_SINGLE_PIN) {
+> +               port_offset = RZV2M_SINGLE_PIN_GET_PORT_OFFSET(*pin_data);
+> +               cfg = RZV2M_SINGLE_PIN_GET_CFGS(*pin_data);
+> +               bit = RZV2M_SINGLE_PIN_GET_BIT(*pin_data);
+> +       } else {
+> +               cfg = RZV2M_GPIO_PORT_GET_CFGS(*pin_data);
+> +               port_offset = RZV2M_PIN_ID_TO_PORT_OFFSET(_pin);
+> +               bit = RZV2M_PIN_ID_TO_PIN(_pin);
+> +
+> +               if (rzv2m_validate_gpio_pin(pctrl, *pin_data, RZV2M_PIN_ID_TO_PORT(_pin), bit))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       for (i = 0; i < num_configs; i++) {
+> +               param = pinconf_to_config_param(_configs[i]);
+> +               switch (param) {
+> +               case PIN_CONFIG_BIAS_DISABLE:
+> +               case PIN_CONFIG_BIAS_PULL_UP:
+> +               case PIN_CONFIG_BIAS_PULL_DOWN:
+> +                       if (!(cfg & PIN_CFG_BIAS))
+> +                               return -EINVAL;
+> +
+> +                       /* PUPD uses 2-bits per pin */
+> +                       bit <<= 1;
+
+So bit is actually a shift...
+"*= 2" may be easier to read.
+
+> +
+> +                       if (param == PIN_CONFIG_BIAS_PULL_DOWN)
+> +                               val = 0;
+> +                       else if (param == PIN_CONFIG_BIAS_PULL_UP)
+> +                               val = 2;
+> +                       else
+> +                               val = 1;
+ i
+switch (param) { ... }
+
+> +
+> +                       rzv2m_rmw_pin_config(pctrl, PUPD(port_offset), bit, PUPD_MASK, val);
+> +                       break;
+> +
+> +               case PIN_CONFIG_INPUT_ENABLE: {
+> +                       unsigned int arg = pinconf_to_config_argument(_configs[i]);
+> +
+> +                       if (!(cfg & PIN_CFG_IE))
+> +                               return -EINVAL;
+> +
+> +                       rzv2m_writel_we(pctrl->base + OE(port_offset), bit, !arg);
+
+Should OE be controlled through PIN_CONFIG_OUTPUT_ENABLE instead?
+
+> +                       rzv2m_writel_we(pctrl->base + IE(port_offset), bit, !!arg);
+> +                       break;
+> +               }
+> +
+> +               case PIN_CONFIG_DRIVE_STRENGTH_UA: {
+> +                       unsigned int arg = pinconf_to_config_argument(_configs[i]);
+> +                       const unsigned int *drv_strengths;
+> +                       unsigned int index;
+> +
+> +                       if (!(cfg & PIN_CFG_DRV))
+> +                               return -EINVAL;
+> +
+> +                       if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_1_8V_GRP2)
+> +                               drv_strengths = drv_1_8V_group2_uA;
+> +                       else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_1_8V_GRP3)
+> +                               drv_strengths = drv_1_8V_group3_uA;
+> +                       else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_SWIO_GRP1)
+> +                               drv_strengths = drv_SWIO_group1_3_3V_uA;
+> +                       else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_SWIO_GRP2)
+> +                               drv_strengths = drv_SWIO_group2_3_3V_uA;
+> +                       else if ((cfg & PIN_CFG_GRP_MASK) == PIN_CFG_3_3V_GRP)
+> +                               drv_strengths = drv_3_3V_group_uA;
+> +                       else
+> +                               return -EINVAL;
+
+switch (cfg & PIN_CFG_GRP_MASK) { ... }
+
+> +
+> +                       for (index = 0; index < 4; index++) {
+> +                               if (arg == drv_strengths[index])
+> +                                       break;
+> +                       }
+> +                       if (index >= 4)
+> +                               return -EINVAL;
+> +
+> +                       /* DRV uses 2-bits per pin */
+> +                       bit <<= 1;
+> +
+> +                       /* Dedicated port is irregularly located to the others */
+> +                       if (port_offset == RZV2M_DEDICATED_PORT_IDX)
+> +                               rzv2m_rmw_pin_config(pctrl, DRV_DEDICATED, bit, DRV_MASK, index);
+> +                       else
+> +                               rzv2m_rmw_pin_config(pctrl, DRV(port_offset), bit, DRV_MASK, index);
+> +                       break;
+> +               }
+> +
+> +               case PIN_CONFIG_SLEW_RATE: {
+> +                       unsigned int arg = pinconf_to_config_argument(_configs[i]);
+> +
+> +                       if (!(cfg & PIN_CFG_SLEW))
+> +                               return -EINVAL;
+> +
+> +                       /* Dedicated port is irregularly located to the others */
+> +                       if (port_offset == RZV2M_DEDICATED_PORT_IDX)
+> +                               rzv2m_writel_we(pctrl->base + SR_DEDICATED, bit, !arg);
+> +                       else
+> +                               rzv2m_writel_we(pctrl->base + SR(port_offset), bit, !arg);
+> +                       break;
+> +               }
+> +
+> +               default:
+> +                       return -EOPNOTSUPP;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+
+> +static void rzv2m_gpio_set_direction(struct rzv2m_pinctrl *pctrl, u32 port,
+> +                                    u8 bit, bool output)
+> +{
+> +       if (output == true) {
+
+"if (output)", as output is already a boolean value.
+
+But perhaps just get rid of the if/else, and write "output" resp. "!output"
+to the OE resp. IE bits?
+
+> +               rzv2m_writel_we(pctrl->base + IE(port), bit, 0);
+> +               rzv2m_writel_we(pctrl->base + OE(port), bit, 1);
+> +       } else {
+> +               rzv2m_writel_we(pctrl->base + OE(port), bit, 0);
+> +               rzv2m_writel_we(pctrl->base + IE(port), bit, 1);
+> +       }
+> +}
+
+> +static void rzv2m_gpio_set(struct gpio_chip *chip, unsigned int offset,
+> +                          int value)
+> +{
+> +       struct rzv2m_pinctrl *pctrl = gpiochip_get_data(chip);
+> +       u32 port = RZV2M_PIN_ID_TO_PORT(offset);
+> +       u8 bit = RZV2M_PIN_ID_TO_PIN(offset);
+> +
+> +       rzv2m_writel_we(pctrl->base + DO(port), bit, value);
+
+While gpiod_direction_output_raw_commit() already does this,
+I guess it doesn't hurt to use "!!value", just in case someone ever
+passes a non-0/1 value?
+
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
