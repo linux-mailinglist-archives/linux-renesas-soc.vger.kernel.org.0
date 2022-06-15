@@ -2,87 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 920AE54CA5D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 15:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D570054CA80
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 15:59:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242326AbiFONyK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 09:54:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37080 "EHLO
+        id S1353580AbiFON7K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 09:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244348AbiFONyJ (ORCPT
+        with ESMTP id S1354844AbiFON6p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 09:54:09 -0400
+        Wed, 15 Jun 2022 09:58:45 -0400
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5AF14D1E
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 06:54:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1F227B3A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 06:58:44 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:5439:2bcc:4a70:48e8])
         by albert.telenet-ops.be with bizsmtp
-        id jRu42700P4lJ8fu06Ru4zg; Wed, 15 Jun 2022 15:54:05 +0200
+        id jRyi2700e4lJ8fu06RyiNU; Wed, 15 Jun 2022 15:58:42 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o1TTA-0044nR-Bc; Wed, 15 Jun 2022 15:54:04 +0200
+        id 1o1TXe-0044oV-8j; Wed, 15 Jun 2022 15:58:42 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o1TT9-006xeD-TZ; Wed, 15 Jun 2022 15:54:03 +0200
+        id 1o1TXd-006xmH-QU; Wed, 15 Jun 2022 15:58:41 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: usb: ohci: Increase the number of PHYs
-Date:   Wed, 15 Jun 2022 15:54:02 +0200
-Message-Id: <0112f9c8881513cb33bf7b66bc743dd08b35a2f5.1655301203.git.geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: pinctrl: renesas: Remove spaces before #define
+Date:   Wed, 15 Jun 2022 15:58:40 +0200
+Message-Id: <5188ef93a911ce3781b16530fdebbf0f0af462b6.1655301264.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"make dtbs_check":
+Remove spaces at the beginning of lines with #defines.
 
-    arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee080000: phys: [[17, 0], [31]] is too long
-	    From schema: Documentation/devicetree/bindings/usb/generic-ohci.yaml
-    arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee0c0000: phys: [[17, 1], [33], [21, 0]] is too long
-	    From schema: Documentation/devicetree/bindings/usb/generic-ohci.yaml
-
-Some USB OHCI controllers (e.g. on the Renesas RZ/G1C SoC) have multiple
-PHYs.  Increase the maximum number of PHYs to 3, which is sufficient for
-now.
-
-Fixes: 0499220d6dadafa5 ("dt-bindings: Add missing array size constraints")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-usb_phy_roothub_alloc() just loops over all PHYs found.
----
- Documentation/devicetree/bindings/usb/generic-ohci.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+To be queued in renesas-pinctrl for v5.20.
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-index e2ac846653161170..bb6bbd5f129d44a6 100644
---- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-@@ -103,7 +103,8 @@ properties:
-       Overrides the detected port count
+ include/dt-bindings/pinctrl/r7s9210-pinctrl.h | 2 +-
+ include/dt-bindings/pinctrl/rzg2l-pinctrl.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/dt-bindings/pinctrl/r7s9210-pinctrl.h b/include/dt-bindings/pinctrl/r7s9210-pinctrl.h
+index 2d0c23e5d3a7f149..8736ce038ecab772 100644
+--- a/include/dt-bindings/pinctrl/r7s9210-pinctrl.h
++++ b/include/dt-bindings/pinctrl/r7s9210-pinctrl.h
+@@ -42,6 +42,6 @@
+ /*
+  * Convert a port and pin label to its global pin index
+  */
+- #define RZA2_PIN(port, pin)	((port) * RZA2_PINS_PER_PORT + (pin))
++#define RZA2_PIN(port, pin)	((port) * RZA2_PINS_PER_PORT + (pin))
  
-   phys:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 3
+ #endif /* __DT_BINDINGS_PINCTRL_RENESAS_RZA2_H */
+diff --git a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h b/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+index b48f8c7a55566ff4..c78ed5e5efb78a5c 100644
+--- a/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
++++ b/include/dt-bindings/pinctrl/rzg2l-pinctrl.h
+@@ -18,6 +18,6 @@
+ #define RZG2L_PORT_PINMUX(b, p, f)	((b) * RZG2L_PINS_PER_PORT + (p) | ((f) << 16))
  
-   phy-names:
-     const: usb
+ /* Convert a port and pin label to its global pin index */
+- #define RZG2L_GPIO(port, pin)	((port) * RZG2L_PINS_PER_PORT + (pin))
++#define RZG2L_GPIO(port, pin)	((port) * RZG2L_PINS_PER_PORT + (pin))
+ 
+ #endif /* __DT_BINDINGS_RZG2L_PINCTRL_H */
 -- 
 2.25.1
 
