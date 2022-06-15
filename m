@@ -2,60 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3A454C009
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 05:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB91554C127
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 07:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242288AbiFODQD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jun 2022 23:16:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32778 "EHLO
+        id S237302AbiFOFbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 01:31:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239252AbiFODQB (ORCPT
+        with ESMTP id S234510AbiFOFbP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jun 2022 23:16:01 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201CB4EA36
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jun 2022 20:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655262961; x=1686798961;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Sc3JLzsIbRHpYxuCsuBtBmoKXFu7yyQsNol31Rc4XLA=;
-  b=OjIcRQEAmmVpgh3QHXoM//jESUnLH7nNaK4U6Tq69n1K3ZryQ5lEztCj
-   OsFiNnT000OoLveaqkAIb2qxb5zofnz5kXgJfKE5vfkPqjvdHGV9hvVr7
-   lA73vVt0P8LtHt3M90gPewkv99rpntFr/GJXLZB5UtxNGiSjbCssFK8t+
-   T95Yy5fTaZHn2/PUFu60GGPpgRVqMjdeE6vqvfQn5g7MJgpOIKRnZAdFM
-   bv+ugCGdOsvns9UWvUDG2NcWFaEW+YJwk9EInG0nNrtai3gYBEw2FfTcn
-   wWtFR56A8hJO9wf+z+0GCaQwNWMwuH6SwMW4Q4tebMe7qSfCVbfTVYpw4
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="365164724"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="365164724"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 20:16:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="674242305"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2022 20:15:59 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o1JVe-000MWx-VC;
-        Wed, 15 Jun 2022 03:15:58 +0000
-Date:   Wed, 15 Jun 2022 11:15:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-arm-dt-for-v5.20] BUILD SUCCESS
- 21af7579da7ffcc71086cab00c3d4282305633a4
-Message-ID: <62a94ed5.kW9jjkPyJQuLXEt2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 15 Jun 2022 01:31:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2992E49C99;
+        Tue, 14 Jun 2022 22:31:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C0BDAB81C36;
+        Wed, 15 Jun 2022 05:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645AFC34115;
+        Wed, 15 Jun 2022 05:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655271071;
+        bh=UP9/PPlSi1ds0ci9Dk+oUiyvyIrwws3/Ir1Z5PIAGWQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=epqJaVYUaaMbXOx6dxJme+50GCKJAN4hmd5ydrTMcFCZlBo2stNqNuemRouFNq3tJ
+         seV6Df3/hG0OxFbINgCBRbEDAuzC3sWMlmPDjEeyVH8yspGMNrkD9vnGZ3jGo1aMdF
+         WPUbnybKGsI8+bJg3BFaEW/lSvXsGWzvfnlI61Dxpc4f0VybKTBeXPVJdTf65SKRpt
+         p0LIdJp9HYocDl3zqK+Yd0rP3JjxQAxUb3CBzTMsCwF73VFwWfOmp0OCtGaz+mDUpa
+         D449yXNvobGB3j6Hqqmtc819Xed4vlDnRsPemlzYBkfTVjg7TJFCs6EeHz7+aXAxxC
+         Oivda28Tyf4Bw==
+Date:   Tue, 14 Jun 2022 22:31:09 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH RESEND net-next v7 05/16] net: pcs: add Renesas MII
+ converter driver
+Message-ID: <20220614223109.603935fb@kernel.org>
+In-Reply-To: <20220610103712.550644-6-clement.leger@bootlin.com>
+References: <20220610103712.550644-1-clement.leger@bootlin.com>
+        <20220610103712.550644-6-clement.leger@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,184 +78,99 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-arm-dt-for-v5.20
-branch HEAD: 21af7579da7ffcc71086cab00c3d4282305633a4  arm64: dts: renesas: Add missing space after remote-endpoint
+On Fri, 10 Jun 2022 12:37:01 +0200 Cl=C3=A9ment L=C3=A9ger wrote:
+> Subject: [PATCH RESEND net-next v7 05/16] net: pcs: add Renesas MII conve=
+rter driver
+>=20
+> Add a PCS driver for the MII converter that is present on the Renesas
+> RZ/N1 SoC. This MII converter is reponsible for converting MII to
+> RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
+> reuse it in both the switch driver and the stmmac driver. Currently,
+> this driver only allows the PCS to be used by the dual Cortex-A7
+> subsystem since the register locking system is not used.
 
-elapsed time: 2445m
+Could someone with MII &| PCS knowledge cast an eye over this code?
+All I can do is point out error path issues...
 
-configs tested: 160
-configs skipped: 102
+> +struct phylink_pcs *miic_create(struct device *dev, struct device_node *=
+np)
+> +{
+> +	struct platform_device *pdev;
+> +	struct miic_port *miic_port;
+> +	struct device_node *pcs_np;
+> +	struct miic *miic;
+> +	u32 port;
+> +
+> +	if (!of_device_is_available(np))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	if (of_property_read_u32(np, "reg", &port))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (port > MIIC_MAX_NR_PORTS || port < 1)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/* The PCS pdev is attached to the parent node */
+> +	pcs_np =3D of_get_parent(np);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+of_get_parent()? ..
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220613
-arm                        trizeps4_defconfig
-arm                       aspeed_g5_defconfig
-arm                            mps2_defconfig
-sh                        edosk7705_defconfig
-powerpc                     mpc83xx_defconfig
-m68k                       m5249evb_defconfig
-mips                         bigsur_defconfig
-m68k                       m5275evb_defconfig
-arm                       imx_v6_v7_defconfig
-xtensa                    smp_lx200_defconfig
-csky                             alldefconfig
-s390                          debug_defconfig
-xtensa                         virt_defconfig
-arm                        mini2440_defconfig
-powerpc                     pq2fads_defconfig
-sh                            shmin_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                          lboxre2_defconfig
-m68k                        m5407c3_defconfig
-m68k                          atari_defconfig
-sh                      rts7751r2d1_defconfig
-sh                         apsh4a3a_defconfig
-arm                           h3600_defconfig
-mips                          rb532_defconfig
-sh                          r7780mp_defconfig
-arm                             ezx_defconfig
-powerpc                   motionpro_defconfig
-arm                             pxa_defconfig
-arm                            hisi_defconfig
-powerpc                    amigaone_defconfig
-ia64                        generic_defconfig
-xtensa                       common_defconfig
-sh                           se7206_defconfig
-arm                           stm32_defconfig
-powerpc                      chrp32_defconfig
-mips                         cobalt_defconfig
-arm                         axm55xx_defconfig
-sh                         microdev_defconfig
-arm                      jornada720_defconfig
-arm                           h5000_defconfig
-mips                  maltasmvp_eva_defconfig
-ia64                            zx1_defconfig
-powerpc                         ps3_defconfig
-sh                   rts7751r2dplus_defconfig
-sh                          rsk7203_defconfig
-powerpc                     tqm8555_defconfig
-powerpc                      cm5200_defconfig
-arm                           u8500_defconfig
-microblaze                          defconfig
-arc                      axs103_smp_defconfig
-arm                          exynos_defconfig
-alpha                            alldefconfig
-powerpc                    klondike_defconfig
-arm                  randconfig-c002-20220613
-x86_64               randconfig-c001-20220613
-ia64                             allmodconfig
-ia64                             allyesconfig
-ia64                                defconfig
-riscv                             allnoconfig
-x86_64               randconfig-k001-20220613
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a015-20220613
-x86_64               randconfig-a014-20220613
-x86_64               randconfig-a011-20220613
-x86_64               randconfig-a016-20220613
-x86_64               randconfig-a012-20220613
-x86_64               randconfig-a013-20220613
-i386                 randconfig-a012-20220613
-i386                 randconfig-a011-20220613
-i386                 randconfig-a013-20220613
-i386                 randconfig-a014-20220613
-i386                 randconfig-a016-20220613
-i386                 randconfig-a015-20220613
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                randconfig-r042-20220613
-arc                  randconfig-r043-20220613
-s390                 randconfig-r044-20220613
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
+> +	if (!pcs_np)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	if (!of_device_is_available(pcs_np))
+> +		return ERR_PTR(-ENODEV);
 
-clang tested configs:
-x86_64               randconfig-c007-20220613
-arm                  randconfig-c002-20220613
-i386                 randconfig-c001-20220613
-powerpc              randconfig-c003-20220613
-riscv                randconfig-c006-20220613
-s390                 randconfig-c005-20220613
-mips                      malta_kvm_defconfig
-arm                           sama7_defconfig
-arm                          pxa168_defconfig
-powerpc                     kilauea_defconfig
-arm                          ixp4xx_defconfig
-arm                          collie_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                      katmai_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                           mtx1_defconfig
-x86_64                           allyesconfig
-arm                         shannon_defconfig
-x86_64               randconfig-a003-20220613
-x86_64               randconfig-a006-20220613
-x86_64               randconfig-a001-20220613
-x86_64               randconfig-a005-20220613
-x86_64               randconfig-a002-20220613
-x86_64               randconfig-a004-20220613
-i386                 randconfig-a001-20220613
-i386                 randconfig-a004-20220613
-i386                 randconfig-a002-20220613
-i386                 randconfig-a003-20220613
-i386                 randconfig-a006-20220613
-i386                 randconfig-a005-20220613
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
+.. more like of_leak_parent()
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +	pdev =3D of_find_device_by_node(pcs_np);
+> +	if (!pdev || !platform_get_drvdata(pdev))
+> +		return ERR_PTR(-EPROBE_DEFER);
+> +
+> +	miic_port =3D kzalloc(sizeof(*miic_port), GFP_KERNEL);
+> +	if (!miic_port)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	miic =3D platform_get_drvdata(pdev);
+> +	device_link_add(dev, miic->dev, DL_FLAG_AUTOREMOVE_CONSUMER);
+> +
+> +	miic_port->miic =3D miic;
+> +	miic_port->port =3D port - 1;
+> +	miic_port->pcs.ops =3D &miic_phylink_ops;
+> +
+> +	return &miic_port->pcs;
+> +}
+> +EXPORT_SYMBOL(miic_create);
+
+> +static int miic_parse_dt(struct device *dev, u32 *mode_cfg)
+> +{
+> +	s8 dt_val[MIIC_MODCTRL_CONF_CONV_NUM];
+> +	struct device_node *np =3D dev->of_node;
+> +	struct device_node *conv;
+> +	u32 conf;
+> +	int port;
+> +
+> +	memset(dt_val, MIIC_MODCTRL_CONF_NONE, sizeof(dt_val));
+> +
+> +	of_property_read_u32(np, "renesas,miic-switch-portin", &conf);
+> +	dt_val[0] =3D conf;
+> +
+> +	for_each_child_of_node(np, conv) {
+> +		if (of_property_read_u32(conv, "reg", &port))
+> +			continue;
+> +
+> +		if (!of_device_is_available(conv))
+> +			continue;
+> +
+> +		if (of_property_read_u32(conv, "renesas,miic-input", &conf) =3D=3D 0)
+> +			dt_val[port] =3D conf;
+> +
+> +		of_node_put(conv);
+
+Don't these iteration functions put() the current before taking the
+next one all by themselves? Or is there supposed to be a "break" here?
+
+> +	}
+> +
+> +	return miic_match_dt_conf(dev, dt_val, mode_cfg);
+> +}
