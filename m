@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98E8954CB49
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 16:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A92C954CB4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 16:28:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245044AbiFOO1B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 10:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
+        id S231861AbiFOO2Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 10:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243453AbiFOO1A (ORCPT
+        with ESMTP id S1347628AbiFOO2J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 10:27:00 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEFF4616F
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 07:26:59 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-2ef5380669cso62718797b3.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 07:26:59 -0700 (PDT)
+        Wed, 15 Jun 2022 10:28:09 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9E32F65B
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 07:27:44 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id l204so20761565ybf.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 07:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=xMSeDjVBl8Op1MiME+3ol3t5KwHqA10J2T41KnFjWVI=;
-        b=qz4+2/j3HuKLbz8sDkEIpH8ZLP9Jo8DhJ+Q2ht5CP+YvOT59Zf+re5Tujl0ZB6ZFPL
-         6eIRF/MkMH9d8XYNP4+51SwLnjpzBos7nFmTYB8Ul+O4d2U6PeoLZ7QjQijKEZ8jLm95
-         SELWUDdWwSs1Mh2zeOOA3+M0iUdmkybKKFT7IjVpsD5/9ncX5E7fGGraLMKtF7YFOE15
-         3ZsziFepyBJtS+OHCqnLHN05xHlLU+0K7/YCV5W8FlGwHDwuOBWTMVvTFAoqv5pVaZxz
-         Rpqrs1a41xszHea5Bvl2plED3iCFlGdMsfyTuDfKIA63BBNAp8s43G582spKqlDGmWXf
-         4qPw==
+        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
+        b=M0lG3b8vfMcZ/7Ka36O1ZxSsUemkOvvlFAQXkpVQ4QpCs+1BTt67QSw4HKiQD5WOcb
+         52snuFlKH/21oU1OKHImIEHhsr/qfhoQOlanFV+m4TeEl8ICjJe2Sd491tUIQIDSw5Bq
+         xHExXe7XqUhLlIhXKD4i9kKCqB5PLrMMw5aIrSuv673UinrPE2m5a9fMdvB5OZ6CYFIq
+         /u1FbiRcfzMPM33M1qWbZlUZBeX0dAiMnD8nksss+jrH8U5wAD3bdbqxbououS4Wce5+
+         si5vaEILsaJTJRlA5Tvc5IU5RHPyGLfiWb4X0xjPRiEJMgOmZeod+1F/8J2LCdxK/urt
+         bp3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xMSeDjVBl8Op1MiME+3ol3t5KwHqA10J2T41KnFjWVI=;
-        b=sSKRm8CvwhpsBh8uSNtEiR6iMln8Ai9fqFUS3BDm+Hn/P7KMuWX8rZArCaMaJBS7Em
-         gnBAbQG64/OjZ1nbt3VxEkZ4EV/q/AAyuZwIqoi4Ph/HoDnkI91+HhgtR96Yd84OlkTp
-         8dg/8J4fQ71NZU6kaHdzwRwwK4lI2JjS6kWE7BnyDOI9kBrTZNH+9juv/0KQ7vbeJcnJ
-         H8Yg3jtxJ7FVAPczpCOoDTPbL3IUfhvyXwAodfPbOEg05RsUADG+ZueJNXKPXwX7h3SQ
-         1GHMUX94yKeiWLzKHW9MJro43jSdwL8cpYl5w/3R2rSvHf4WINE8Dk0f8l2HPnKiyw1Z
-         h0yw==
-X-Gm-Message-State: AJIora86Gj0TQHA4bU9oxp8I5f25nap2iBDjv43woGzE8njaMB99qu2E
-        DIMJmdJNacwiWBFLwj5isSsQjkKt0t/Kz/4r29+PZA==
-X-Google-Smtp-Source: AGRyM1uf8yFhBnEUo8jDPf5ukxxTZvvQvwcMTtNGMVxYlbJA7mSO+23X9N9/rXSOE+V75SpZAwzwan4QnL+Hc3y01yY=
-X-Received: by 2002:a0d:e246:0:b0:30c:5e77:7104 with SMTP id
- l67-20020a0de246000000b0030c5e777104mr12571722ywe.448.1655303218482; Wed, 15
- Jun 2022 07:26:58 -0700 (PDT)
+        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
+        b=DovWVm36HnJrsZQnvNkBTvaPDr1L+23ZK2wtcbnhfe3XP24Lg9rFqKn9CZGuyheLTJ
+         8QnPdPn8G6EQCaWzpj3sISQnoNg9cgQGFe7pqEL893przLkgzW40Qo/zARqc6VtcBsXm
+         4zcqPkUD2NAmOUJu9ADrYIiClc5bL/Atf6HXvxQedKKyOlmFktboxfUgtfHzbqcNBeg/
+         +3iZbYw+CCQOgI15xgm/1XtbGNc32hitIIsWtszm1OtOyrrZta3CkP85p4U9i/eoiQo5
+         Z5xSeLujbY88/eNyzxBbJ3RNjI4L1EpNGe311b10C7w8dax71fMaeAQOc5oE6RK43Sku
+         X5MA==
+X-Gm-Message-State: AJIora8Keb46MHmN/4/0ly9KDiMa2DwbjqTLqF/Hk3Wy3ngxf+2dRZVX
+        oWuoYXNSygVwkG2glfEWPIot0s5uR0AR6p1wIafC0w==
+X-Google-Smtp-Source: AGRyM1t0twq2NH5TwVMffJ95BCvjUqTPe1/bY9PSUuCjeVYRJKVWPPGecH5Bnr87yp5uioRcTcWI/9qkOUV49rzlV5c=
+X-Received: by 2002:a25:8387:0:b0:664:7589:27b9 with SMTP id
+ t7-20020a258387000000b00664758927b9mr86691ybk.291.1655303263361; Wed, 15 Jun
+ 2022 07:27:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-28-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-28-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-30-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-30-nuno.sa@analog.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 15 Jun 2022 16:26:47 +0200
-Message-ID: <CACRpkdYVqsEdDDHLSkfJzMDPbPgkVihxa+ukLg1XnoyGghcdoA@mail.gmail.com>
-Subject: Re: [PATCH 27/34] iio: adc: ab8500-gpadc: convert to device properties
+Date:   Wed, 15 Jun 2022 16:27:32 +0200
+Message-ID: <CACRpkdYtBY9bWevrWNL+mXz8LbsdDEFmGvrmPQ85Mn=yZ=FyHg@mail.gmail.com>
+Subject: Re: [PATCH 29/34] iio: adc: qcom-pm8xxx-xoadc: convert to device properties
 To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc:     linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -113,7 +113,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 10:48 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+On Fri, Jun 10, 2022 at 10:49 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
 
 > Make the conversion to firmware agnostic device properties. As part of
 > the conversion the IIO inkern interface 'of_xlate()' is also converted to
