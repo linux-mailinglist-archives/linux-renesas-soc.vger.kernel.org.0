@@ -2,56 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D69F54C45F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 11:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D5B654C4CE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 11:37:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343830AbiFOJLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 05:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51346 "EHLO
+        id S1348349AbiFOJhm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 05:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344055AbiFOJLH (ORCPT
+        with ESMTP id S1348402AbiFOJhl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 05:11:07 -0400
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A000D1EEE6;
-        Wed, 15 Jun 2022 02:11:06 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id 68so8244902qkk.9;
-        Wed, 15 Jun 2022 02:11:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fzuzNj3cCEjxWnQR4aBrGmsmoYEYXTl1hettMgyzjzA=;
-        b=YI05pBCixSzZBIyVUbC7Dd+txjlFAIvNixYy8Axk9a4lvS14lKGjFh3l8CY15IwqPF
-         SjiWWiEDh6+q/4JvBc+rrDUdVUiE3VgrXplapycOFzyDjUYXwvfGxforrlUI62XJ4u92
-         uRquyPaK9HFyKUrzl85HeQwzuXnnQI7uNn+RaPX41RT4+ySH8NsQTGMlIiE7/VT5QaeZ
-         ZYwWTnd1u05GoIW8bC8URXXiFJ6NELp/Ja8B5AI+Qx9u4fdEJwOejxD/uakKcPzNlrOh
-         HamzA8I0+xNLGNifQDRJF0YtjQCAO4/cnJwYQRUq55anDPxngtHRHgawU2XpvuKVW+Jc
-         Hq0w==
-X-Gm-Message-State: AOAM531GFoAxS+PAXmVzQr9LSG0mXPkI1bsYuaEL8f6bztVF2aPYsM0B
-        3hc5nkjiZs4zpKBSUGiHXjeUsf9RS4i1sA==
-X-Google-Smtp-Source: ABdhPJweeTcUHTr0iGazn5JxGX0pb0TZhYbxC1wdCDy5K4OnEUVWxKmK1HO1gwPPc7sY3/2gpf07Ew==
-X-Received: by 2002:a05:620a:12ed:b0:6a6:b27e:a030 with SMTP id f13-20020a05620a12ed00b006a6b27ea030mr7222960qkl.659.1655284265553;
-        Wed, 15 Jun 2022 02:11:05 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id bl19-20020a05620a1a9300b0069fc13ce20asm10867159qkb.59.2022.06.15.02.11.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jun 2022 02:11:05 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id p13so19463216ybm.1;
-        Wed, 15 Jun 2022 02:11:05 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr9584271ybu.604.1655284264985; Wed, 15
- Jun 2022 02:11:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220614193005.2652-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20220614193005.2652-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Jun 2022 11:10:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWPz=areGSfTtSa74ubeUAMBtDmS+RyaX8+Uh8edm7eTA@mail.gmail.com>
-Message-ID: <CAMuHMdWPz=areGSfTtSa74ubeUAMBtDmS+RyaX8+Uh8edm7eTA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: spider-cpu: Enable SCIF0 on
- second connector
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Wed, 15 Jun 2022 05:37:41 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA9D18E0A
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 02:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=A8JpapYC9DelarnKbCdnoE7ZcbxO
+        YJ05XpvR+2l5gBg=; b=G2Ew7R4b/D5LfmUTEhl28PVvQMGOpJJ2e6agJM9JyyzS
+        jz+33i3y7zb57Gb0YQ8BgPjvuNqXCDHHN8KLIC6U8L+AGR5hZS06OhGLSG9wGPBV
+        Kyy2TU2vX7/t4giZdAJ8WGOA+0lK04DUmcSKk9CANMqtVEEDamkN48zYyU0ZxGU=
+Received: (qmail 2061927 invoked from network); 15 Jun 2022 11:37:33 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jun 2022 11:37:33 +0200
+X-UD-Smtp-Session: l3s3148p1@YqUORXnhbj9ZD+7R
+Date:   Wed, 15 Jun 2022 11:37:29 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,10 +34,28 @@ Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: spider-cpu: Switch from SCIF3
+ to HSCIF0
+Message-ID: <YqmoWYARVsXos3me@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220613131033.10053-1-wsa+renesas@sang-engineering.com>
+ <20220613131033.10053-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdX-56GZmZJ-JvkFvZ6NsozsamtoKURPzsS-3+AYtZBhFQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UDCmEr49IhCpzjc2"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX-56GZmZJ-JvkFvZ6NsozsamtoKURPzsS-3+AYtZBhFQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,25 +63,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 9:30 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> The schematics label it as SCIF0 debug port.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Change since v1: added alias
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.20.
+--UDCmEr49IhCpzjc2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Gr{oetje,eeting}s,
+Hi Geert,
 
-                        Geert
+> I.e. the U-Boot on the Spider in Magnus' lab has "baudrate=115200"
+> in its environment, while I can read the output from ICUMXA Loader
+> to U-Boot, and Linux just fine.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Earlier U-Boot may have no HSCIF support. Recent ones have and the
+installer suggests to set baudrate to highspeed. ICUMXA loaders never
+worked for me in 115200.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I can keep my patch local if you prefer 115200.
+
+
+--UDCmEr49IhCpzjc2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKpqFUACgkQFA3kzBSg
+KbZofg//cx3mCefnMBfyXbcioFsitCVQyAiT8kaeNlh19E52D1Nn0gpOqr4XV1hn
+k+1SwLQem8+GPiuDgDWEATcnL43zMibpWR2PTAc4n4hfk8o6sFCZ9ukv3wbJuqPa
+xA/uUE/KwX8Kpoj8+mYC+ZG+yHwPJPGYKvzz2Hbz4kcwpnTCH131hzOYmr65/Tya
+LzMkQ4vyDjY7UEbyfh3qGc2hcyPfL9Sb0ksSwQA/3vwHp89SZY1pIeTp5pXCVFQX
+CylLTOUdCrJpPl5bioPDqZ380zEKHAyKzM5Chy5wSstzlNIS11lEr27zigZGqdNt
+c+Og9gpUK+rDPccN0DPulH4+w7uj9XcMCBWz3LaI1XusK83kxt0spEjl6CYtW31X
+Q/JuyIiY4TQAPxaaBoHyE/NSgeAAj6UVvtV4UYKzX1g3vruoZP8q2G89XTFVa2y7
+d7FO/02padMh7EitomAi9S9TVEEqCVwFBB5EobXA9b/1hKk+/BY7hFvQvyyi/Mu6
+tutYpluRyAlsO0qp8AWnPGd2N8rP1BuZpjbViomo3jQJzJUk9uD0kRa6EIDxp7F2
+xwtPTAfPyrlv7oYsLiXtgw0eO19iJxMALSBMbRdWpFuldxJ2nBe4PT3dzNu8GGEo
+UujKBi3PKmVuNrlfwmNKgh6r0xYFRp97HBfcV2fsSxjhPILDW1E=
+=m8gc
+-----END PGP SIGNATURE-----
+
+--UDCmEr49IhCpzjc2--
