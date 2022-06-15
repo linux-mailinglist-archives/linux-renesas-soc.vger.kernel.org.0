@@ -2,38 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5066954CC6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 17:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3181C54CFAE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 19:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346877AbiFOPPq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 11:15:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37930 "EHLO
+        id S1354371AbiFORYT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 13:24:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347422AbiFOPPn (ORCPT
+        with ESMTP id S237461AbiFORYQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:15:43 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEFD3E0C1;
-        Wed, 15 Jun 2022 08:15:40 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 717F7240017;
-        Wed, 15 Jun 2022 15:15:36 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     dave.stevenson@raspberrypi.com
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, david.plowman@raspberrypi.com,
-        laurent.pinchart@ideasonboard.com,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 5/5] media: ov5647: Add support for test patterns
-Date:   Wed, 15 Jun 2022 17:14:57 +0200
-Message-Id: <20220615151457.415038-6-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220615151457.415038-1-jacopo@jmondi.org>
-References: <20220615151457.415038-1-jacopo@jmondi.org>
+        Wed, 15 Jun 2022 13:24:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B03D340ED;
+        Wed, 15 Jun 2022 10:24:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4AD7EB820C6;
+        Wed, 15 Jun 2022 17:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAE1BC341C4;
+        Wed, 15 Jun 2022 17:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655313852;
+        bh=aAPFBvoAVs1ptpGv+lER+Tuq6aaIXaGbhE/e88fLKT4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BAEQ6c7S7nRsleTFzWzzFRhlBr6lqUh2YqrfNMjIoBfL53h3m91cowLWuDLzTswUE
+         m5lP871MTa2leLhtPElGvrYpii4+Z924tXvvuYS6tNA/rgEVbrn5Ij9jozsx+SOcex
+         l90gZG8eaJ24LM6iIej3NzFCD9CzFazeP62TNZlJdw//WTQ7kZeyfNFIBLYQqScHWH
+         OsoxsiQwJR+GaxxCS4Ot7z6T7iK80/yN5UV+be9P7IbiwkrQ+PFamtR4PiXXENwVS1
+         D2ZJ/GEhkEVW+aLT4jtkclGc4uyalA4sW003/1634E/226MqRxIw/7J1TJaP2MvA6u
+         42yN6+9Yn9TdA==
+Received: by mail-ua1-f44.google.com with SMTP id q1so4612771uao.1;
+        Wed, 15 Jun 2022 10:24:12 -0700 (PDT)
+X-Gm-Message-State: AJIora8Lq/xRogszM/PgS5yOpGqenD124GkPswV227f65SUFmLDuDkJo
+        97+465ftPJrWXjOHQDtvnpAWsuKYZ6hxr1LlAw==
+X-Google-Smtp-Source: AGRyM1vfc/l1EG9VYea0UnQPrmd5ibZk6KVf5x1y3T1ksyE7i25v91WnBNfknlzC76lYPKd27nWTCa1xHZgirW3FjSI=
+X-Received: by 2002:ab0:2705:0:b0:379:7378:3c75 with SMTP id
+ s5-20020ab02705000000b0037973783c75mr538123uao.77.1655313851652; Wed, 15 Jun
+ 2022 10:24:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be>
+In-Reply-To: <c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 15 Jun 2022 11:24:00 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+Message-ID: <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: usb: ehci: Increase the number of PHYs
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,83 +68,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for V4L2_CID_TEST_PATTERN.
+On Wed, Jun 15, 2022 at 7:53 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> "make dtbs_check":
+>
+>     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee080100: phys: [[17, 0], [31]] is too long
+>             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+>     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee0c0100: phys: [[17, 1], [33], [21, 0]] is too long
+>             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+>
+> Some USB EHCI controllers (e.g. on the Renesas RZ/G1C SoC) have multiple
+> PHYs.  Increase the maximum number of PHYs to 3, which is sufficient for
+> now.
 
-Based on a patch from Renesas R-Car BSP 4.1.0 from
-Valentine Barshak <valentine.barshak@cogentembedded.com>
+Maybe not so 'generic'. Why are there 3? I understand USB3 HCI having
+2 for SS and HS. Is it for multiple ports? There's a thread about that
+currently (Mediatek IIRC) and how to handle multiple phys.
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 0a3e4acec036..68e56b0d8153 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -60,6 +60,7 @@
- #define OV5647_REG_MIPI_CTRL00		0x4800
- #define OV5647_REG_MIPI_CTRL14		0x4814
- #define OV5647_REG_AWB			0x5001
-+#define OV5647_REG_ISP_CTRL3D		0x503d
- 
- #define REG_TERM 0xfffe
- #define VAL_TERM 0xfe
-@@ -812,6 +813,22 @@ static const struct ov5647_mode ov5647_8_bpp_modes[] = {
- #define OV5647_DEFAULT_MODE	(&ov5647_10_bpp_modes[3])
- #define OV5647_DEFAULT_FORMAT	(ov5647_10_bpp_modes[3].format)
- 
-+static const char * const ov5647_test_pattern_menu[] = {
-+	"Disabled",
-+	"Color Bars",
-+	"Color Squares",
-+	"Random Data",
-+	"Input Data"
-+};
-+
-+static u8 ov5647_test_pattern_val[] = {
-+	0x00,	/* Disabled */
-+	0x80,	/* Color Bars */
-+	0x82,	/* Color Squares */
-+	0x81,	/* Random Data */
-+	0x83,	/* Input Data */
-+};
-+
- static int ov5647_write16(struct v4l2_subdev *sd, u16 reg, u16 val)
- {
- 	unsigned char data[4] = { reg >> 8, reg & 0xff, val >> 8, val & 0xff};
-@@ -1582,6 +1599,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ov5647_s_flip(sd, OV5647_REG_VFLIP, ctrl->val);
- 		break;
- 
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = ov5647_write(sd, OV5647_REG_ISP_CTRL3D,
-+				   ov5647_test_pattern_val[ctrl->val]);
-+		break;
- 	default:
- 		dev_info(&client->dev,
- 			 "Control (id:0x%x, val:0x%x) not supported\n",
-@@ -1604,7 +1625,7 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
- 	int hblank, exposure_max, exposure_def;
- 	struct v4l2_fwnode_device_properties props;
- 
--	v4l2_ctrl_handler_init(&sensor->ctrls, 10);
-+	v4l2_ctrl_handler_init(&sensor->ctrls, 11);
- 
- 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
- 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-@@ -1658,6 +1679,11 @@ static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
- 	if (sensor->vflip)
- 		sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
-+	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
-+				     0, 0, ov5647_test_pattern_menu);
-+
- 	v4l2_fwnode_device_parse(dev, &props);
- 
- 	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
--- 
-2.35.1
-
+Rob
