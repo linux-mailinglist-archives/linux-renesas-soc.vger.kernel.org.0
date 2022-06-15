@@ -2,45 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B37F754C595
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 12:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 854F854C9E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 15:33:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245226AbiFOKMl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 06:12:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56526 "EHLO
+        id S1351659AbiFONdv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 09:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243110AbiFOKMg (ORCPT
+        with ESMTP id S1351382AbiFONdt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 06:12:36 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF77E17
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 03:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=gBzDqYJWrP5LrCucQ6rfc9fBg4G
-        DNNOxtb5PIoS5SK4=; b=NLkUnKutjkyQFGS5XvMBusu/V4hO0zLcscNJ/PBhCuO
-        7BhAPkxIgPKFQ6Kg4BDed3bxbLeBiy7IPG3+Mz66t8ZwrV79wPbePVEEhlRU/opa
-        GIlvg7ELguqb0YZhEy8HM6spbhgAfvPZgxOmJULQe8QRKzhbNaOHhtIMVHGKq6II
-        =
-Received: (qmail 2073927 invoked from network); 15 Jun 2022 12:12:32 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jun 2022 12:12:32 +0200
-X-UD-Smtp-Session: l3s3148p1@NHxkwnnhyydZD+7R
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] clk: renesas: rcar-gen4: implement SDSRC properly
-Date:   Wed, 15 Jun 2022 12:12:26 +0200
-Message-Id: <20220615101227.13463-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Wed, 15 Jun 2022 09:33:49 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9909836161;
+        Wed, 15 Jun 2022 06:33:46 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id d23so8744487qke.0;
+        Wed, 15 Jun 2022 06:33:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pCKyWx8csaPOZiwVdiAanKrrMm8ghNkRwANxa87W2Oc=;
+        b=RgI4zc8uCUPGknLSpTSdiSR06Hzkbu0MCwTEpmrs6F/gbBumih2SiMY3ZhTXU7iZ3c
+         GXY99uWfLPAeuQSbL2yZJGDNUlRl1EKrainB0SUNCXKpSBcaRrtnGOHSB8Mvic5Pr0Tj
+         4Es+lmAFqjlkofumRmzEuWUnOyNotWQ8gfGWyw25eJJru1RoiL1elolIEboZBMrYEYIc
+         ckW3SfXU2kODVwp2hkQiJZyKTFaDVjutyRf3wwUkX3CO3/ei51dc+5v0RoQ+cd9nx1Eb
+         J6E2rFR+0O53qrr6PJHV+LGxWw2HBL28Q6DGDcFInakbn5azbVPqhT25EdkQbMxwpVdc
+         IEqg==
+X-Gm-Message-State: AJIora8mfaffOCCQjy95zXxur34l6VYe+I8IY9v/Zv0gckhvZ8Sk+3+/
+        X7pK2bG4GrugbHeLxZfh1slQN2vxXSVZYg==
+X-Google-Smtp-Source: AGRyM1vJVuYn/eVytR7ZATOFYPWj890NIqQneR/fTIlXZmtI60URaNKg3VAhAuoc3XAwdzFSpbfJdw==
+X-Received: by 2002:a05:620a:15ed:b0:6a9:78fa:cca6 with SMTP id p13-20020a05620a15ed00b006a978facca6mr3637090qkm.129.1655300025538;
+        Wed, 15 Jun 2022 06:33:45 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id v12-20020a05620a440c00b0069fc13ce23dsm12901998qkp.110.2022.06.15.06.33.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jun 2022 06:33:45 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id t1so20567365ybd.2;
+        Wed, 15 Jun 2022 06:33:45 -0700 (PDT)
+X-Received: by 2002:a25:d748:0:b0:65c:6b00:55af with SMTP id
+ o69-20020a25d748000000b0065c6b0055afmr9852542ybg.365.1655300024964; Wed, 15
+ Jun 2022 06:33:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+References: <20220525151355.24175-1-wsa+renesas@sang-engineering.com>
+ <YqZDAiB/taLwmamr@shikoro> <CAMuHMdWO0zgmRKMpcSXSdshj6Fh8uu3Ch_FCVDEocdaVPaAUUQ@mail.gmail.com>
+ <YqcCdipmKU90Kq1c@shikoro>
+In-Reply-To: <YqcCdipmKU90Kq1c@shikoro>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jun 2022 15:33:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWiQ3yLX+o+DXysqy=P8=QHBRrfnGzgCTsJ5DdHPWshWg@mail.gmail.com>
+Message-ID: <CAMuHMdWiQ3yLX+o+DXysqy=P8=QHBRrfnGzgCTsJ5DdHPWshWg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Add thermal support
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linh Phung <linh.phung.jy@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,92 +72,38 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Depending on the divider setting, SDSRC can have a different parent.
-Implement this when reading the divider, to get a correct clock tree.
-Setting the divider is left to the bootloader for now.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Mon, Jun 13, 2022 at 11:25 AM Wolfram Sang <wsa@kernel.org> wrote:
+> > No need to resend, I can fix that while applying.
+>
+> Thanks!
+>
+> > Unless you want to make other changes, which I believe is not the case,
+> > as only the DT bindings patch needed a new version?
+>
+> Nope, no changes needed.
 
-Tested on my Spider board (r8a779f0). Only build tested for r8a779g0 but
-the docs for the registers are the same.
+Actually other changes are needed, as "make dtbs_check" complains,
+rightfully:
 
- drivers/clk/renesas/r8a779f0-cpg-mssr.c |  2 +-
- drivers/clk/renesas/r8a779g0-cpg-mssr.c |  2 +-
- drivers/clk/renesas/rcar-gen4-cpg.c     | 10 +++++++++-
- drivers/clk/renesas/rcar-gen4-cpg.h     |  5 ++++-
- 4 files changed, 15 insertions(+), 4 deletions(-)
+    arm64/boot/dts/renesas/r8a779f0-spider.dtb: thermal-zones:
+'sensor-thermal1', 'sensor-thermal2', 'sensor-thermal3' do not match
+any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$',
+'pinctrl-[0-9]+'
+            From schema:
+Documentation/devicetree/bindings/thermal/thermal-zones.yaml
 
-diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-index 862b49736bf0..0c3aa529e4fa 100644
---- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-@@ -71,7 +71,7 @@ static const struct cpg_core_clk r8a779f0_core_clks[] __initconst = {
- 	DEF_FIXED(".pll6_div2",	CLK_PLL6_DIV2,	CLK_PLL6,	2, 1),
- 	DEF_FIXED(".s0",	CLK_S0,		CLK_PLL1_DIV2,	2, 1),
- 
--	DEF_BASE(".sdsrc",	CLK_SDSRC,	CLK_TYPE_GEN4_SDSRC, CLK_PLL5),
-+	DEF_GEN4_SDSRC(".sdsrc", CLK_SDSRC,	CLK_PLL5_DIV2,	CLK_PLL5, 0x08a4),
- 	DEF_RATE(".oco",	CLK_OCO,	32768),
- 
- 	DEF_BASE(".rpcsrc",	CLK_RPCSRC,	CLK_TYPE_GEN4_RPCSRC, CLK_PLL5),
-diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-index 3fc4233b1ead..c8cd32cf4606 100644
---- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-@@ -86,7 +86,7 @@ static const struct cpg_core_clk r8a779g0_core_clks[] __initconst = {
- 	DEF_FIXED(".s0_hsc",	CLK_S0_HSC,	CLK_PLL1_DIV2,	2, 1),
- 	DEF_FIXED(".sv_vip",	CLK_SV_VIP,	CLK_PLL1,	5, 1),
- 	DEF_FIXED(".sv_ir",	CLK_SV_IR,	CLK_PLL1,	5, 1),
--	DEF_BASE(".sdsrc",	CLK_SDSRC,	CLK_TYPE_GEN4_SDSRC, CLK_PLL5),
-+	DEF_GEN4_SDSRC(".sdsrc", CLK_SDSRC,	CLK_PLL5_DIV2,	CLK_PLL5, 0x08a4),
- 	DEF_RATE(".oco",	CLK_OCO,	32768),
- 
- 	DEF_BASE(".rpcsrc",	CLK_RPCSRC,		CLK_TYPE_GEN4_RPCSRC, CLK_PLL5),
-diff --git a/drivers/clk/renesas/rcar-gen4-cpg.c b/drivers/clk/renesas/rcar-gen4-cpg.c
-index c7ed43d6aa67..c6662ec10292 100644
---- a/drivers/clk/renesas/rcar-gen4-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen4-cpg.c
-@@ -240,7 +240,15 @@ struct clk * __init rcar_gen4_cpg_clk_register(struct device *dev,
- 					  base, core->div, core->offset);
- 
- 	case CLK_TYPE_GEN4_SDSRC:
--		div = ((readl(base + SD0CKCR1) >> 29) & 0x03) + 4;
-+		value = (readl(base + core->offset) >> 29) & 3;
-+		if (value) {
-+			div = value + 4;
-+		} else {
-+			parent = clks[core->parent >> 16];
-+			if (IS_ERR(parent))
-+				return ERR_CAST(parent);
-+			div = 2;
-+		}
- 		break;
- 
- 	case CLK_TYPE_GEN4_SDH:
-diff --git a/drivers/clk/renesas/rcar-gen4-cpg.h b/drivers/clk/renesas/rcar-gen4-cpg.h
-index 0b15dcfdca7b..e5237b2f5205 100644
---- a/drivers/clk/renesas/rcar-gen4-cpg.h
-+++ b/drivers/clk/renesas/rcar-gen4-cpg.h
-@@ -32,6 +32,10 @@ enum rcar_gen4_clk_types {
- 	CLK_TYPE_GEN4_SOC_BASE,
- };
- 
-+#define DEF_GEN4_SDSRC(_name, _id, _parent0, _parent1, _offset)	\
-+	DEF_BASE(_name, _id, CLK_TYPE_GEN4_SDSRC, \
-+		 (_parent0) << 16 | (_parent1), .offset = _offset)
-+
- #define DEF_GEN4_SDH(_name, _id, _parent, _offset)	\
- 	DEF_BASE(_name, _id, CLK_TYPE_GEN4_SDH, _parent, .offset = _offset)
- 
-@@ -67,7 +71,6 @@ struct rcar_gen4_cpg_pll_config {
- };
- 
- #define CPG_RPCCKCR	0x874
--#define SD0CKCR1	0x8a4
- 
- struct clk *rcar_gen4_cpg_clk_register(struct device *dev,
- 	const struct cpg_core_clk *core, const struct cpg_mssr_info *info,
--- 
-2.35.1
+As I have already queued this patch, I will amend the commit, by
+changing the node names to sensor[123]-thermal.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
