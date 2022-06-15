@@ -2,60 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 442AC54C4E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 11:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC39654C55A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jun 2022 12:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346906AbiFOJlJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jun 2022 05:41:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
+        id S1343985AbiFOKEJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jun 2022 06:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346980AbiFOJlE (ORCPT
+        with ESMTP id S245283AbiFOKEI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jun 2022 05:41:04 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E36E40E6B;
-        Wed, 15 Jun 2022 02:41:01 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id o43so8440463qvo.4;
-        Wed, 15 Jun 2022 02:41:01 -0700 (PDT)
+        Wed, 15 Jun 2022 06:04:08 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72DBF3055F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 03:04:07 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id x75so8309062qkb.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 03:04:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=02+nsEsQLvBL/Q4dC+CUWcVtjKMjSdq60fs4gtgfor4=;
-        b=mblRgJdX375h/VzM5UWnwBcmUUnl2SRPVCzTAQjWeIKvXWHaUGuv+5tQOp4sQoewKS
-         5TCaSaUMyLojBFyD5euGBOffwqODT+mJ3vGeS0JELfsfypOv/TJt4mEgD3TFNK/jbLzX
-         iy+bTUnezMNkEb5prYcfYz/0K3lxfvbStUBv4V5b2OtXj/HjfSuZy2spgQ5eSMKzP3qE
-         gzc5/Oye8wBKkYEGZjB1qIlRoMhTwXSXDBEdCPQENjUMP8WvluBop8EvisdKbWZ/KclO
-         5nAd2FeziJ6PMDJ9eFCZgUOA943xG9h/jiaHsgwCM/u2Fx7F4glJMTis14ZZZCIwBARy
-         rhoQ==
-X-Gm-Message-State: AJIora/oPmtkPM2gXLQKvfCVcIY63gmoaz2gEzSPgJwbqLTGRovL1r+A
-        bxH34UPyme4lFSoKElLvDYa3ZRn8KlVhAw==
-X-Google-Smtp-Source: AGRyM1ur/k0gS6HNK4j1nVV5yZlYCT03L4YTfg4WYKeFFzkaGGLN6Y9O6eTEYw1pQd9/sicJQxI8TA==
-X-Received: by 2002:a05:6214:29ca:b0:46b:92c5:9f3b with SMTP id gh10-20020a05621429ca00b0046b92c59f3bmr7051234qvb.20.1655286060564;
-        Wed, 15 Jun 2022 02:41:00 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id x5-20020a05620a448500b006a6be577535sm13119959qkp.85.2022.06.15.02.40.59
+        bh=MNfi8ID5dJI5POjGTZGCs/KS4OMEMSKb1HytXUsc2HQ=;
+        b=Vl/sTUDTfFnHo88AZNoYkiQ3Shwc3LvTbFRSoXwFaFbelzU4wX9lQ5+kRF6Z7DRRHO
+         I0kmBT+HkrpUBDfkCKMucxkY9oMc1zVpp6NYRfQsX9pY135VAZ4qBExyX4FPLtQddfL6
+         jei7eQ5IofkGHLaU4grsyx2Joiz0FMPEoPvmkfjOK2y/bJdphl4P06wY+r8ARz1Mc8VU
+         nWAEYyy5xFaD1k8UcjICxBh/t/HcpdwWm6FOgy+4yzcrsrl+Vi/swL1TQ9XLgH5QaUoq
+         m+igphT2PVy7SK4HekbMMlyxmsDKBFM25+1JbQd2T+eryaBi7+mrFS+BUMVw1IowiK/c
+         p67A==
+X-Gm-Message-State: AOAM53026yTLf/9ecNz25dDnIZiO97Y4slMP3QIRqaaxmldqQz4dLONP
+        /ki7ZFp125ByRr2e5pIPnrHRYMphwCsXIQ==
+X-Google-Smtp-Source: ABdhPJzFGhO32Hc6sM+P92tZ7l75jPL+D00upfAHcBmq9/ljhqfltuxt8gQDAJ3oaHSl+UDOEZqX4g==
+X-Received: by 2002:a05:620a:29d6:b0:6a7:62f9:c04b with SMTP id s22-20020a05620a29d600b006a762f9c04bmr7276284qkp.751.1655287446391;
+        Wed, 15 Jun 2022 03:04:06 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05620a268700b006a37eb728cfsm12432158qkp.1.2022.06.15.03.04.06
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jun 2022 02:41:00 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id h27so19563347ybj.4;
-        Wed, 15 Jun 2022 02:40:59 -0700 (PDT)
-X-Received: by 2002:a25:7307:0:b0:65c:b98a:f592 with SMTP id
- o7-20020a257307000000b0065cb98af592mr9245791ybc.380.1655286059740; Wed, 15
- Jun 2022 02:40:59 -0700 (PDT)
+        Wed, 15 Jun 2022 03:04:06 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id k2so19630914ybj.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jun 2022 03:04:06 -0700 (PDT)
+X-Received: by 2002:a25:818c:0:b0:664:a584:fafd with SMTP id
+ p12-20020a25818c000000b00664a584fafdmr9471284ybk.543.1655287445871; Wed, 15
+ Jun 2022 03:04:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613150550.70334-1-phil.edworthy@renesas.com> <20220613150550.70334-3-phil.edworthy@renesas.com>
-In-Reply-To: <20220613150550.70334-3-phil.edworthy@renesas.com>
+References: <20220530024626.1870277-1-yoshihiro.shimoda.uh@renesas.com> <20220530024626.1870277-2-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220530024626.1870277-2-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Jun 2022 11:40:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWhj8puZBBDS9256tW91z8Oh8-z_O_jbTgBsNtgeaS-pg@mail.gmail.com>
-Message-ID: <CAMuHMdWhj8puZBBDS9256tW91z8Oh8-z_O_jbTgBsNtgeaS-pg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] watchdog: rzg2l_wdt: Add rzv2m support
-To:     Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Date:   Wed, 15 Jun 2022 12:03:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV+mwbymADOLezK7F-sZzi5FgUGez0ZCFdq9bowJfuuCg@mail.gmail.com>
+Message-ID: <CAMuHMdV+mwbymADOLezK7F-sZzi5FgUGez0ZCFdq9bowJfuuCg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a779f0: Add IPMMU nodes
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -67,71 +65,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+Hi Shimoda-san,
 
-On Mon, Jun 13, 2022 at 5:06 PM Phil Edworthy <phil.edworthy@renesas.com> wrote:
-> The WDT on RZ/V2M devices is basically the same as RZ/G2L, but without
-> the parity error registers. This means the driver has to reset the
-> hardware plus set the minimum timeout in order to do a restart and has
-> a single interrupt.
+On Mon, May 30, 2022 at 4:46 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add IPMMU nodes for r8a779f0.
 >
-> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
-> v2:
->  - Replace use of parity error registers in restart
->  - Commit msg modified to reflect different contents
-
-Thanks for the update!
-
-> --- a/drivers/watchdog/rzg2l_wdt.c
-> +++ b/drivers/watchdog/rzg2l_wdt.c
-
-> @@ -139,14 +146,25 @@ static int rzg2l_wdt_restart(struct watchdog_device *wdev,
->  {
->         struct rzg2l_wdt_priv *priv = watchdog_get_drvdata(wdev);
+>  arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 46 +++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
 >
-> -       clk_prepare_enable(priv->pclk);
-> -       clk_prepare_enable(priv->osc_clk);
-> +       if (priv->devtype == I2C_RZG2L) {
-> +               clk_prepare_enable(priv->pclk);
-> +               clk_prepare_enable(priv->osc_clk);
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+> index df46fb87cffc..512e0b57fd6a 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
+> @@ -343,6 +343,52 @@ dmac1: dma-controller@e7351000 {
+>                         dma-channels = <16>;
+>                 };
 >
-> -       /* Generate Reset (WDTRSTB) Signal on parity error */
-> -       rzg2l_wdt_write(priv, 0, PECR);
-> +               /* Generate Reset (WDTRSTB) Signal on parity error */
-> +               rzg2l_wdt_write(priv, 0, PECR);
->
-> -       /* Force parity error */
-> -       rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
-> +               /* Force parity error */
-> +               rzg2l_wdt_write(priv, PEEN_FORCE, PEEN);
-> +       } else {
-> +               /* RZ/V2M doesn't have parity error registers */
-> +
-> +               wdev->timeout = 0;
-> +               rzg2l_wdt_start(wdev);
+> +               ipmmu_rt0: iommu@ee480000 {
+> +                       compatible = "renesas,ipmmu-r8a779f0",
+> +                                    "renesas,rcar-gen4-ipmmu";
 
-This will call pm_runtime_get_sync(), which is not allowed in this
-context, cfr. commit e4cf89596c1f1e33 ("watchdog: rzg2l_wdt: Fix
-'BUG: Invalid wait context'").
-While you can call clk_prepare_enable() instead, that can only be
-used as a temporary workaround, until you have implemented RZ/V2M
-power domain support...
+"renesas,rcar-gen4-ipmmu-vmsa"
 
-> +
-> +               /* Wait 2 consecutive overflow cycles for reset */
-> +               udelay(DIV64_U64_ROUND_UP(2 * 0xFFFFF * 1000000ULL,
-> +                                         priv->osc_clk_rate));
-
-DIV64_U64_ROUND_UP() does a 64-by-64 division, while priv->osc_clk_rate
-is "unsigned long" (yes, that is 64-bit on RZ/G2L and RZ/V2M ;-)
-Unfortunately there is no rounding version of div64_ul() yet.
-
-However, there is no need to use a 64-bit dividend, as the resulting
-delay will be multiple ms anyway, so you can just use mdelay() instead:
-
-    mdelay(DIV_ROUNDUP(2 * 0xFFFFF * 1000, priv->osc_clk_rate));
+I thought I had fixed that while applying, but that was for r8a779a0.
+Will fix for good.
 
 Gr{oetje,eeting}s,
 
