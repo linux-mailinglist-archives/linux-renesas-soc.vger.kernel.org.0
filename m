@@ -2,127 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 987FA54E1AF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 15:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2A054EB8F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 22:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376691AbiFPNQs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jun 2022 09:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
+        id S1378680AbiFPUsr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jun 2022 16:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376631AbiFPNQr (ORCPT
+        with ESMTP id S1378838AbiFPUs0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jun 2022 09:16:47 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F003FBEA
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:16:45 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id v22so2142949ybd.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=hfe7mj1KZcI8jwu/+nrNcYUQkpbisjdMGB5MdUDVHZURXKTI0fpPSwYzVJTSQIvUQj
-         mQ+FkQDUQOvueZPXCdzZ+WEb9CVEmydueaKmiNl4EduEP7G5KldCbqyuT6DrH619ltMs
-         SiQd+lbSkJ/2ztzapTtqInm6GdRXCWf5M7sFxt2WgQ72hgoUmjnoNNk2kM6AO8hHEKNE
-         9YK5KNalKb6+DMnwTXh0W8DordCVtz41PW0ZjsKXzkeRiewzu8ZSaBVNIEHFdWdQ6ziQ
-         lQIpZXEuEWineyu9YQb+gIhoNcGOJyB0hu2Lyui1EO16WO1/xuKLHNgfFYiihKSzkXkW
-         MS6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=M3ggTSms40f20dHdceG869dLygy/FKs45X5H4WzdPbzF+942yWyL/dPRov0mJ33Tx6
-         DuRihMdtm6RW3LNruGSnP2mzspooj6TOHDpOQgo8RO1ZFKK9IE/Xtrqbl3XXWf7iX6MA
-         FDhLMX7P4AH3Kw3lilXd0Mg+0ubt8/sA4RQiFjTo29dd72GaEvIPckfYmbWNWO4rwZ3P
-         9q2D8HqZga37R3glkP7inpMFUWgWhO1y45v7jopjM+MGu2SscirB5N8wKFMIAYhrFzBg
-         v/+vrbyeq3pEdwqlVldyIO1Jpw99isNc2iX+keJvsdakwaPwECE8u+Priufh7AUVQ9GS
-         uEdw==
-X-Gm-Message-State: AJIora/JrVEcAIWWrjATEufEljtCs99O3zOual5Et7IcPD99j6qs9ImW
-        6ncYSxO0QcUQBSPwgUFpAv+DBC5qt4OBVKpeEMSMeA==
-X-Google-Smtp-Source: AGRyM1uSi6CDKxBHFMyZRQ8/7cL0ndy869mFvAGFrCTYZ+gYNuQVO0PO7I97kA8jFrTxg7Fugxfs5Adf3pgP5atidCY=
-X-Received: by 2002:a25:2642:0:b0:664:c89e:b059 with SMTP id
- m63-20020a252642000000b00664c89eb059mr5336121ybm.369.1655385405187; Thu, 16
- Jun 2022 06:16:45 -0700 (PDT)
+        Thu, 16 Jun 2022 16:48:26 -0400
+X-Greylist: delayed 12603 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Jun 2022 13:48:19 PDT
+Received: from 11.mo584.mail-out.ovh.net (11.mo584.mail-out.ovh.net [46.105.34.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05D6583B4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 13:48:19 -0700 (PDT)
+Received: from player779.ha.ovh.net (unknown [10.111.172.45])
+        by mo584.mail-out.ovh.net (Postfix) with ESMTP id B63AD22299
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 17:08:40 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player779.ha.ovh.net (Postfix) with ESMTPSA id 64B292B9393D5;
+        Thu, 16 Jun 2022 17:08:32 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-103G0059eda0aa4-c3b8-493b-af8c-1b5db0bc1ce2,
+                    EEA695ED62D0B30D35F9F30395731DD21189161B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Stephen Kitt <steve@sk2.org>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: shmobile: Use backlight helper
+Date:   Thu, 16 Jun 2022 19:08:21 +0200
+Message-Id: <20220616170821.1348169-1-steve@sk2.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-32-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-32-nuno.sa@analog.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 16 Jun 2022 15:16:34 +0200
-Message-ID: <CACRpkdY4DMPwkxTGdyj31YsS=xCv7vv7Zwp5Awy3aNRgUMZcfw@mail.gmail.com>
-Subject: Re: [PATCH 31/34] iio: adc: qcom-spmi-adc5: convert to device properties
-To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
-Cc:     linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
-        openbmc@lists.ozlabs.org, Cai Huoqing <cai.huoqing@linux.dev>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Jishnu Prakash <quic_jprakash@quicinc.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Haibo Chen <haibo.chen@nxp.com>,
-        Benson Leung <bleung@chromium.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Christophe Branchereau <cbranchereau@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Arnd Bergmann <arnd@arndb.de>, Nancy Yuen <yuenn@google.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Thara Gopinath <thara.gopinath@linaro.org>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 7176486009031853787
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvfedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkeeg
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 10:49 AM Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+This started with work on the removal of backlight_properties'
+deprecated fb_blank field, much of which can be taken care of by using
+helper functions provided by backlight.h instead of directly accessing
+fields in backlight_properties. This patch series doesn't involve
+fb_blank, but it still seems useful to use helper functions where
+appropriate.
 
-> Make the conversion to firmware agnostic device properties. As part of
-> the conversion the IIO inkern interface 'of_xlate()' is also converted to
-> 'fwnode_xlate()'. The goal is to completely drop 'of_xlate' and hence OF
-> dependencies from IIO.
->
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+Instead of retrieving the backlight brightness in struct
+backlight_properties manually, and then checking whether the backlight
+should be on at all, use backlight_get_brightness() which does all
+this and insulates this from future changes.
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+---
+Changes since v1: clarified commit message, this doesn't touch fb_blank
+---
+ drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Yours,
-Linus Walleij
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+index f6628a5ee95f..794573badfe8 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+@@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
+ 	struct shmob_drm_connector *scon = bl_get_data(bdev);
+ 	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
+ 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
+-	int brightness = bdev->props.brightness;
+-
+-	if (bdev->props.power != FB_BLANK_UNBLANK ||
+-	    bdev->props.state & BL_CORE_SUSPENDED)
+-		brightness = 0;
++	int brightness = backlight_get_brightness(bdev);
+ 
+ 	return bdata->set_brightness(brightness);
+ }
+
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+2.30.2
+
