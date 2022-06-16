@@ -2,186 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D864954DB50
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 09:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BCB054DC28
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 09:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbiFPHNa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jun 2022 03:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59844 "EHLO
+        id S1359241AbiFPHxK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jun 2022 03:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359041AbiFPHNY (ORCPT
+        with ESMTP id S229751AbiFPHxK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jun 2022 03:13:24 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335B123143;
-        Thu, 16 Jun 2022 00:13:21 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BD72E240004;
-        Thu, 16 Jun 2022 07:13:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1655363600;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/ylwRydwSJ1vl505rIcsqlZRV8qHAjzTkuzOn3IJaxY=;
-        b=LJPb2Nd1CvgSZLX2nP41tGlPv6KZN9tbzWLxHLWLbPbK9vWbVOfa2G9oJIScPODdB0HHDT
-        puwfaAEjZa/qWjni4mrATRg9Hz7OeZLFCOsfBJ5FR2sDgQ0iYz2EWLU+zzqnlR3ISNN+UK
-        kCJLFH1N7RiaMBpRqW0k5sHPRqdAanVW2V35vB4PwRIGqsSXtZhvyvpr08lMa/PYhf0rzh
-        j0L0DdnBx+4gdnxlLgaDcPB7nEqxhKeGBT5RpzJg64e9nAoYbPNGq1GX+GoOneNGxY4BsT
-        QDhKQKrPWQl1OIiQlFTNoZgWS+brgsq7PcScRJNlKSfPZw2mD7Kk/onqljfLqA==
-Date:   Thu, 16 Jun 2022 09:12:22 +0200
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH RESEND net-next v7 05/16] net: pcs: add Renesas MII
- converter driver
-Message-ID: <20220616091222.4dbf9de3@fixe.home>
-In-Reply-To: <20220614223109.603935fb@kernel.org>
-References: <20220610103712.550644-1-clement.leger@bootlin.com>
-        <20220610103712.550644-6-clement.leger@bootlin.com>
-        <20220614223109.603935fb@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        Thu, 16 Jun 2022 03:53:10 -0400
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF4AC15812;
+        Thu, 16 Jun 2022 00:53:06 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id g15so472357qke.4;
+        Thu, 16 Jun 2022 00:53:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qoDONOlMnc9LStw1JRWOE6LutyWOeAc3QbYws5EB78g=;
+        b=53p04d+shJmdQcNI+REjU03Dg/W9kT7KcHCHiRQ+o0xU6IdY6rdEbR/SVwqFdUxxrA
+         H2sv/77Nk+OP9xmd3JRIe57JmL+l19UJggMkEj33/yZKNxWWLw/v7A0GOkY95Nx1m+a4
+         Ex6wvKOHODBc+rwCjrw1lK3gDMTHhanZUr9rIJbr+IhPXjPud0g6Yz3CxSDHuwk8IeIl
+         Kd4ZkXHa/p2iKmUVnNkWIfXChFQmlWvjzyOUZ5TD+wXgNY9Bkx+Mj0XJtW41OcZwlyRx
+         jfNt63gb/ryHPjmrJ99FtIywLk0LHyRvLAGj4Fx3TIOZSBrG8YUAP3qEg78p/hSiPdoV
+         eRjw==
+X-Gm-Message-State: AJIora9jwQC3bALRGV8V0c3F9/cFY2+TYj4Di9kDyTsXgqyqlGyi9zPL
+        3XMKkKnIE90jmW80RzeHMIkscDJpP8ZLuw==
+X-Google-Smtp-Source: AGRyM1u1CHz+y3fX6LvDSDVaJqgaEwOBOOlQpVHvzVZZvpkxa0NUHC+fvTOQ/Yt477nQxfjIVgFb3A==
+X-Received: by 2002:a37:ab02:0:b0:6a6:b111:61a8 with SMTP id u2-20020a37ab02000000b006a6b11161a8mr2629851qke.260.1655365985748;
+        Thu, 16 Jun 2022 00:53:05 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id t3-20020a05622a01c300b003026a08257fsm1483260qtw.21.2022.06.16.00.53.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jun 2022 00:53:05 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id w2so839787ybi.7;
+        Thu, 16 Jun 2022 00:53:05 -0700 (PDT)
+X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
+ l10-20020a056902000a00b0065cb38e6d9fmr3997226ybh.36.1655365985159; Thu, 16
+ Jun 2022 00:53:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be>
+ <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+In-Reply-To: <CAL_JsqJbmdJd6+D9zog6NwF_LPO5QC_HsODg4FHLJOnMmPP-mg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 16 Jun 2022 09:52:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3PnY6yZf70kB9wme7_WTjcPJwmzo--Ua3vJ45w7mD8w@mail.gmail.com>
+Message-ID: <CAMuHMdU3PnY6yZf70kB9wme7_WTjcPJwmzo--Ua3vJ45w7mD8w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: usb: ehci: Increase the number of PHYs
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, 14 Jun 2022 22:31:09 -0700,
-Jakub Kicinski <kuba@kernel.org> a =C3=A9crit :
+Hi Rob,
 
-> On Fri, 10 Jun 2022 12:37:01 +0200 Cl=C3=A9ment L=C3=A9ger wrote:
-> > Subject: [PATCH RESEND net-next v7 05/16] net: pcs: add Renesas MII con=
-verter driver
-> >=20
-> > Add a PCS driver for the MII converter that is present on the Renesas
-> > RZ/N1 SoC. This MII converter is reponsible for converting MII to
-> > RMII/RGMII or act as a MII pass-trough. Exposing it as a PCS allows to
-> > reuse it in both the switch driver and the stmmac driver. Currently,
-> > this driver only allows the PCS to be used by the dual Cortex-A7
-> > subsystem since the register locking system is not used. =20
->=20
-> Could someone with MII &| PCS knowledge cast an eye over this code?
-> All I can do is point out error path issues...
->=20
-> > +struct phylink_pcs *miic_create(struct device *dev, struct device_node=
- *np)
-> > +{
-> > +	struct platform_device *pdev;
-> > +	struct miic_port *miic_port;
-> > +	struct device_node *pcs_np;
-> > +	struct miic *miic;
-> > +	u32 port;
-> > +
-> > +	if (!of_device_is_available(np))
-> > +		return ERR_PTR(-ENODEV);
-> > +
-> > +	if (of_property_read_u32(np, "reg", &port))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (port > MIIC_MAX_NR_PORTS || port < 1)
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	/* The PCS pdev is attached to the parent node */
-> > +	pcs_np =3D of_get_parent(np); =20
->=20
-> of_get_parent()? ..
->=20
-> > +	if (!pcs_np)
-> > +		return ERR_PTR(-ENODEV);
-> > +
-> > +	if (!of_device_is_available(pcs_np))
-> > +		return ERR_PTR(-ENODEV); =20
->=20
-> .. more like of_leak_parent()
+On Wed, Jun 15, 2022 at 7:24 PM Rob Herring <robh+dt@kernel.org> wrote:
+> On Wed, Jun 15, 2022 at 7:53 AM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> >
+> > "make dtbs_check":
+> >
+> >     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee080100: phys: [[17, 0], [31]] is too long
+> >             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> >     arch/arm/boot/dts/r8a77470-iwg23s-sbc.dtb: usb@ee0c0100: phys: [[17, 1], [33], [21, 0]] is too long
+> >             From schema: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> >
+> > Some USB EHCI controllers (e.g. on the Renesas RZ/G1C SoC) have multiple
+> > PHYs.  Increase the maximum number of PHYs to 3, which is sufficient for
+> > now.
+>
+> Maybe not so 'generic'. Why are there 3? I understand USB3 HCI having
+> 2 for SS and HS. Is it for multiple ports? There's a thread about that
+> currently (Mediatek IIRC) and how to handle multiple phys.
 
-Indeed, I'll fix that.
+TBH, I don't know for sure. I've never been much into USB, and the
+RZ/G1C USB architecture differs from other Renesas SoCs in the
+same family.
 
->=20
-> > +	pdev =3D of_find_device_by_node(pcs_np);
-> > +	if (!pdev || !platform_get_drvdata(pdev))
-> > +		return ERR_PTR(-EPROBE_DEFER);
-> > +
-> > +	miic_port =3D kzalloc(sizeof(*miic_port), GFP_KERNEL);
-> > +	if (!miic_port)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	miic =3D platform_get_drvdata(pdev);
-> > +	device_link_add(dev, miic->dev, DL_FLAG_AUTOREMOVE_CONSUMER);
-> > +
-> > +	miic_port->miic =3D miic;
-> > +	miic_port->port =3D port - 1;
-> > +	miic_port->pcs.ops =3D &miic_phylink_ops;
-> > +
-> > +	return &miic_port->pcs;
-> > +}
-> > +EXPORT_SYMBOL(miic_create); =20
->=20
-> > +static int miic_parse_dt(struct device *dev, u32 *mode_cfg)
-> > +{
-> > +	s8 dt_val[MIIC_MODCTRL_CONF_CONV_NUM];
-> > +	struct device_node *np =3D dev->of_node;
-> > +	struct device_node *conv;
-> > +	u32 conf;
-> > +	int port;
-> > +
-> > +	memset(dt_val, MIIC_MODCTRL_CONF_NONE, sizeof(dt_val));
-> > +
-> > +	of_property_read_u32(np, "renesas,miic-switch-portin", &conf);
-> > +	dt_val[0] =3D conf;
-> > +
-> > +	for_each_child_of_node(np, conv) {
-> > +		if (of_property_read_u32(conv, "reg", &port))
-> > +			continue;
-> > +
-> > +		if (!of_device_is_available(conv))
-> > +			continue;
-> > +
-> > +		if (of_property_read_u32(conv, "renesas,miic-input", &conf) =3D=3D 0)
-> > +			dt_val[port] =3D conf;
-> > +
-> > +		of_node_put(conv); =20
->=20
-> Don't these iteration functions put() the current before taking the
-> next one all by themselves? Or is there supposed to be a "break" here?
+This is USB2, not USB3.  There are two channels of OHCI/EHCI, and
+two channels of USB OTG, all with corresponding PHYs (4 in total).
+The first OHCI/EHCI combo is linked to one of the host PHYs, and one
+of the OTG PHYs, so that makes 2 PHYs.
+The second OHCI/EHCI combo is linked to the other host PHY, and to
+both OTG PHYs, so that makes 3 PHYs. IIRC the third link was due to
+some dependency between the 2 OTG PHYs.
 
-Yes, of_node_put() should actually only be called in case of early exit.
-I'll fix that.
+Gr{oetje,eeting}s,
 
+                        Geert
 
---=20
-Cl=C3=A9ment L=C3=A9ger,
-Embedded Linux and Kernel engineer at Bootlin
-https://bootlin.com
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
