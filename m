@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1EFB54E1A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 15:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987FA54E1AF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 15:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbiFPNQC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jun 2022 09:16:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50418 "EHLO
+        id S1376691AbiFPNQs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jun 2022 09:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231802AbiFPNP7 (ORCPT
+        with ESMTP id S1376631AbiFPNQr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jun 2022 09:15:59 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B623EA9D
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:15:58 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id 23so2129355ybe.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:15:58 -0700 (PDT)
+        Thu, 16 Jun 2022 09:16:47 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F003FBEA
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:16:45 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id v22so2142949ybd.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 06:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
         bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=PZJxPerUVnWQ+ZJJXabeQPCvU+odG2XM/cCiTR2s9bg1u+Kq80JX5ApFI/RzXK0+5N
-         91YSIyl3oArnIPhPglVuZa3e9yXet958I4d/aO29mbsfdc4wxqC+2Ha3GHxRa7P+C/W0
-         /MeUW3hhtK1/8mt84BKomTg927useCl9wQUSKU9FmvhKIMrNLBmnrhUc6Q4NF8cAc8mk
-         ISrwiouIgmkW9h2OrdhUIyQlvlxunlAeC03V1t+VlOn4UBEozATF/u6cpGazZNV0c/oJ
-         OgqMMNyBlhjXRfOdGukXu/bRFb/aQF/PlDjPiPinMUucqHC6ndgFmuTlQ5RWfPsM5sUQ
-         QFyA==
+        b=hfe7mj1KZcI8jwu/+nrNcYUQkpbisjdMGB5MdUDVHZURXKTI0fpPSwYzVJTSQIvUQj
+         mQ+FkQDUQOvueZPXCdzZ+WEb9CVEmydueaKmiNl4EduEP7G5KldCbqyuT6DrH619ltMs
+         SiQd+lbSkJ/2ztzapTtqInm6GdRXCWf5M7sFxt2WgQ72hgoUmjnoNNk2kM6AO8hHEKNE
+         9YK5KNalKb6+DMnwTXh0W8DordCVtz41PW0ZjsKXzkeRiewzu8ZSaBVNIEHFdWdQ6ziQ
+         lQIpZXEuEWineyu9YQb+gIhoNcGOJyB0hu2Lyui1EO16WO1/xuKLHNgfFYiihKSzkXkW
+         MS6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
         bh=fsun78rWieFnLaLeD83Q2xWjxjOs241/wdwG/0QCsic=;
-        b=jqCaeEJ+PGQlfzXWTHlF0RjTkIhhJj1XlBtPsGjpvap/sTkJuzPMKvCsyeyZ1rOZfS
-         mW7ehljFXXOgwphSqYPj6euVNW9JePBHaILYpE3T5bYL1/MdSpy4FVnJ4vxG4GAld/pF
-         Qt4bHLyrlKdZfZdDTa5cCGmoAK6r5Apnic3GNtyJ5Zqs5irmejektNKOHiuJBINqV5Ut
-         TpfQ23zKrEaIZw8m+7HZZoVP01To8KvCa8h3OPIcE66SehMMAUc6+z7CAiW7hAp+pKxF
-         7g90b9BnbmXUlteHPhADXWReIVuF2fhR+/IUpLMrgeMf5pZGCuKxQBC6z8jFH+TizPf9
-         0rNg==
-X-Gm-Message-State: AJIora/Vm6jIcqmdszV30kD+9oVg79Dga1vLFpblrX21qjtVIlOlydEb
-        BrN0f1xYeThTbMDsBgSq+Uk7qv3WHKdMsmzMVXO+m5rYCSE=
-X-Google-Smtp-Source: AGRyM1tKpRdJdPfQy0oaslWa7sXFz+A5JxujSmEL8Ch+XWKV8Tm8gJp6YIJusqmVvKOdq2xVRX8SI1z84IJEfDM3b38=
-X-Received: by 2002:a25:3417:0:b0:664:aab3:7c44 with SMTP id
- b23-20020a253417000000b00664aab37c44mr5143357yba.533.1655385357716; Thu, 16
- Jun 2022 06:15:57 -0700 (PDT)
+        b=M3ggTSms40f20dHdceG869dLygy/FKs45X5H4WzdPbzF+942yWyL/dPRov0mJ33Tx6
+         DuRihMdtm6RW3LNruGSnP2mzspooj6TOHDpOQgo8RO1ZFKK9IE/Xtrqbl3XXWf7iX6MA
+         FDhLMX7P4AH3Kw3lilXd0Mg+0ubt8/sA4RQiFjTo29dd72GaEvIPckfYmbWNWO4rwZ3P
+         9q2D8HqZga37R3glkP7inpMFUWgWhO1y45v7jopjM+MGu2SscirB5N8wKFMIAYhrFzBg
+         v/+vrbyeq3pEdwqlVldyIO1Jpw99isNc2iX+keJvsdakwaPwECE8u+Priufh7AUVQ9GS
+         uEdw==
+X-Gm-Message-State: AJIora/JrVEcAIWWrjATEufEljtCs99O3zOual5Et7IcPD99j6qs9ImW
+        6ncYSxO0QcUQBSPwgUFpAv+DBC5qt4OBVKpeEMSMeA==
+X-Google-Smtp-Source: AGRyM1uSi6CDKxBHFMyZRQ8/7cL0ndy869mFvAGFrCTYZ+gYNuQVO0PO7I97kA8jFrTxg7Fugxfs5Adf3pgP5atidCY=
+X-Received: by 2002:a25:2642:0:b0:664:c89e:b059 with SMTP id
+ m63-20020a252642000000b00664c89eb059mr5336121ybm.369.1655385405187; Thu, 16
+ Jun 2022 06:16:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-31-nuno.sa@analog.com>
-In-Reply-To: <20220610084545.547700-31-nuno.sa@analog.com>
+References: <20220610084545.547700-1-nuno.sa@analog.com> <20220610084545.547700-32-nuno.sa@analog.com>
+In-Reply-To: <20220610084545.547700-32-nuno.sa@analog.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 16 Jun 2022 15:15:46 +0200
-Message-ID: <CACRpkdbTkyd0zwXU-7O-n3HejHhY+Vg-QKuSpatZ+O0QPgqbag@mail.gmail.com>
-Subject: Re: [PATCH 30/34] iio: adc: qcom-spmi-vadc: convert to device properties
+Date:   Thu, 16 Jun 2022 15:16:34 +0200
+Message-ID: <CACRpkdY4DMPwkxTGdyj31YsS=xCv7vv7Zwp5Awy3aNRgUMZcfw@mail.gmail.com>
+Subject: Re: [PATCH 31/34] iio: adc: qcom-spmi-adc5: convert to device properties
 To:     =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>
 Cc:     linux-imx@nxp.com, linux-renesas-soc@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -105,7 +105,7 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
