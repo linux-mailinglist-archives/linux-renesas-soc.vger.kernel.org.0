@@ -2,40 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3206754F3CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 11:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D879554F43C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 11:27:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381066AbiFQJES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jun 2022 05:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
+        id S233270AbiFQJ1B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jun 2022 05:27:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380541AbiFQJES (ORCPT
+        with ESMTP id S1380403AbiFQJ1A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jun 2022 05:04:18 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E323631398
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 02:04:15 -0700 (PDT)
+        Fri, 17 Jun 2022 05:27:00 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4563D63505
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 02:26:59 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:100b:81f8:e79f:4643])
-        by andre.telenet-ops.be with bizsmtp
-        id k94C2700K2Lt3zn0194CQm; Fri, 17 Jun 2022 11:04:13 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id k9Su270072Lt3zn019SunH; Fri, 17 Jun 2022 11:26:57 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o27tk-004Oxl-AA; Fri, 17 Jun 2022 11:04:12 +0200
+        id 1o28Fh-004P52-Ja; Fri, 17 Jun 2022 11:26:53 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o27tj-008jHj-U1; Fri, 17 Jun 2022 11:04:11 +0200
+        id 1o28Fg-008ty3-UY; Fri, 17 Jun 2022 11:26:52 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] MAINTAINERS: Add Renesas SoC DT bindings to Renesas Architecture sections
-Date:   Fri, 17 Jun 2022 11:04:10 +0200
-Message-Id: <f99c03a95a103517418f0b23d3da45e0dd0ffb3b.1655456310.git.geert+renesas@glider.be>
+Subject: [PATCH v2] mtd: hyperbus: rpc-if: Fix RPM imbalance in probe error path
+Date:   Fri, 17 Jun 2022 11:26:51 +0200
+Message-Id: <f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,40 +53,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-While Renesas SoC DT bindings documents started to appear under
-Documentation/devicetree/bindings/soc/renesas, these are not yet covered
-by the file and directory patterns in the Renesas ARM/ARM64 Architecture
-sections.
+If rpcif_hw_init() fails, Runtime PM is left enabled.
 
-Add the missing patterns.
-
+Fixes: b04cc0d912eb80d3 ("memory: renesas-rpc-if: Add support for RZ/G2L")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-To be queued in renesas-devel for v5.20.
+v2:
+  - Add Reviewed-by.
+---
+ drivers/mtd/hyperbus/rpc-if.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 168e0af869a73fd0..579d3bf2e745aa18 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2628,6 +2628,7 @@ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
- C:	irc://irc.libera.chat/renesas-soc
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
- F:	Documentation/devicetree/bindings/arm/renesas.yaml
-+F:	Documentation/devicetree/bindings/soc/renesas/
- F:	arch/arm64/boot/dts/renesas/
- F:	drivers/soc/renesas/
- F:	include/linux/soc/renesas/
-@@ -2746,6 +2747,7 @@ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
- C:	irc://irc.libera.chat/renesas-soc
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
- F:	Documentation/devicetree/bindings/arm/renesas.yaml
-+F:	Documentation/devicetree/bindings/soc/renesas/
- F:	arch/arm/boot/dts/emev2*
- F:	arch/arm/boot/dts/gr-peach*
- F:	arch/arm/boot/dts/iwg20d-q7*
+diff --git a/drivers/mtd/hyperbus/rpc-if.c b/drivers/mtd/hyperbus/rpc-if.c
+index 6e08ec1d4f098c80..b70d259e48a7c728 100644
+--- a/drivers/mtd/hyperbus/rpc-if.c
++++ b/drivers/mtd/hyperbus/rpc-if.c
+@@ -134,7 +134,7 @@ static int rpcif_hb_probe(struct platform_device *pdev)
+ 
+ 	error = rpcif_hw_init(&hyperbus->rpc, true);
+ 	if (error)
+-		return error;
++		goto out_disable_rpm;
+ 
+ 	hyperbus->hbdev.map.size = hyperbus->rpc.size;
+ 	hyperbus->hbdev.map.virt = hyperbus->rpc.dirmap;
+@@ -145,8 +145,12 @@ static int rpcif_hb_probe(struct platform_device *pdev)
+ 	hyperbus->hbdev.np = of_get_next_child(pdev->dev.parent->of_node, NULL);
+ 	error = hyperbus_register_device(&hyperbus->hbdev);
+ 	if (error)
+-		rpcif_disable_rpm(&hyperbus->rpc);
++		goto out_disable_rpm;
++
++	return 0;
+ 
++out_disable_rpm:
++	rpcif_disable_rpm(&hyperbus->rpc);
+ 	return error;
+ }
+ 
 -- 
 2.25.1
 
