@@ -2,100 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF2A054EB8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jun 2022 22:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A464554EE64
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 02:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378680AbiFPUsr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jun 2022 16:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S1379219AbiFQAV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jun 2022 20:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378838AbiFPUs0 (ORCPT
+        with ESMTP id S1379238AbiFQAVV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jun 2022 16:48:26 -0400
-X-Greylist: delayed 12603 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Jun 2022 13:48:19 PDT
-Received: from 11.mo584.mail-out.ovh.net (11.mo584.mail-out.ovh.net [46.105.34.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05D6583B4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 13:48:19 -0700 (PDT)
-Received: from player779.ha.ovh.net (unknown [10.111.172.45])
-        by mo584.mail-out.ovh.net (Postfix) with ESMTP id B63AD22299
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jun 2022 17:08:40 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player779.ha.ovh.net (Postfix) with ESMTPSA id 64B292B9393D5;
-        Thu, 16 Jun 2022 17:08:32 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-103G0059eda0aa4-c3b8-493b-af8c-1b5db0bc1ce2,
-                    EEA695ED62D0B30D35F9F30395731DD21189161B) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From:   Stephen Kitt <steve@sk2.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Stephen Kitt <steve@sk2.org>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm: shmobile: Use backlight helper
-Date:   Thu, 16 Jun 2022 19:08:21 +0200
-Message-Id: <20220616170821.1348169-1-steve@sk2.org>
-X-Mailer: git-send-email 2.30.2
+        Thu, 16 Jun 2022 20:21:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9EF263387;
+        Thu, 16 Jun 2022 17:21:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8631A61890;
+        Fri, 17 Jun 2022 00:21:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C98CDC34114;
+        Fri, 17 Jun 2022 00:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655425279;
+        bh=0YG9KQ5Z4Bh5yDSmb2sDcJxLFIow2viN8+dEV7RWx24=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=flUbtn/1uzyKtxubb4PflNkrpEykg69rrNaRe86hJ2fhDcL2EfPfu9M1wQMUaWtKu
+         sFOyn9i9VZpxfk7j9PJ2wb/Smn6Ko7LmBMMiibJdK+DP9KXQuC5uwwiRu+noEWOtwX
+         ZhZrGntAJZk7r53NsFzM9p9S5MffvcCbYYRuNpmftfuIflCRiwk9qPTRDSF1Eu5pH0
+         payX84cDEYXxOsRkuqJ7xUVnJoTX5SQWPKNY5jUeGnhx/hIFyNfgvBtvGUmQRll94W
+         C1k4xMj1GhgLlCpZ+/mdzpGreTheDaNduSK1Kj22A5plmsi+EHyOCgcLkLKYYHG/Ec
+         wwx7PjfsWiISw==
+Date:   Thu, 16 Jun 2022 17:21:19 -0700
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: phy: renesas: usb3-phy: Spelling
+ s/funcional/functional/
+Message-ID: <YqvI/49t7nNqpKuS@matsya>
+References: <3da9bd360e1c83007af0e0e90fa4e6c2b50fdab3.1652100633.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 7176486009031853787
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvfedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkeeg
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3da9bd360e1c83007af0e0e90fa4e6c2b50fdab3.1652100633.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This started with work on the removal of backlight_properties'
-deprecated fb_blank field, much of which can be taken care of by using
-helper functions provided by backlight.h instead of directly accessing
-fields in backlight_properties. This patch series doesn't involve
-fb_blank, but it still seems useful to use helper functions where
-appropriate.
+On 09-05-22, 14:53, Geert Uytterhoeven wrote:
+> Fix a misspelling of the word "functional".
 
-Instead of retrieving the backlight brightness in struct
-backlight_properties manually, and then checking whether the backlight
-should be on at all, use backlight_get_brightness() which does all
-this and insulates this from future changes.
+Applied, thanks
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
-Changes since v1: clarified commit message, this doesn't touch fb_blank
----
- drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-index f6628a5ee95f..794573badfe8 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-@@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
- 	struct shmob_drm_connector *scon = bl_get_data(bdev);
- 	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
- 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
--	int brightness = bdev->props.brightness;
--
--	if (bdev->props.power != FB_BLANK_UNBLANK ||
--	    bdev->props.state & BL_CORE_SUSPENDED)
--		brightness = 0;
-+	int brightness = backlight_get_brightness(bdev);
- 
- 	return bdata->set_brightness(brightness);
- }
-
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-2.30.2
-
+~Vinod
