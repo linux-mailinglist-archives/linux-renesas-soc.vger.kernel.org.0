@@ -2,110 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7877854EF48
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 04:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2232B54F156
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 09:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379760AbiFQCV7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jun 2022 22:21:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        id S231145AbiFQHDF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jun 2022 03:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379754AbiFQCV6 (ORCPT
+        with ESMTP id S1380007AbiFQHDE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jun 2022 22:21:58 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C075964D09;
-        Thu, 16 Jun 2022 19:21:56 -0700 (PDT)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25H0W1F3005235;
-        Fri, 17 Jun 2022 02:21:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=EzHUF8ey6N0F7JW+zwYqw3W+IcPMUGcBQ2i4hBobbbI=;
- b=hQA58bFMF1wra2HbPzQnkbe7jOOQZ9UXfdN4PvDJVgexd9Q0geGtGyKa9vIgWUptojQ9
- KakfY9CQlpZYd54fWyK78MzUGDHGBQX6LQJw+Tv/bBipWgvDAwl/8ZA2D5XwLrCSHJ8m
- 8tvm9EZx6Gmom1bqftnPxKrkOOJtbJvmEF/OgeaZSK9mDt7ZC1ijDWmrEcw5sPpu07cm
- Ht3DjngMs3I8wb8ssuo3g8Rx/zbjsEr496QXp6SMZHfR6HG/cky5AYCthDCEDM6yGeiR
- V/O6kb6k1CmvrSFIcD9KaeDxU0WW6Io5P8G4WvkutQdHxYsQcHBvFIlZJDW8KF81A+y0 uA== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjnscqr9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Jun 2022 02:21:46 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25H2G6vA029102;
-        Fri, 17 Jun 2022 02:21:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gpr27jd9k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Jun 2022 02:21:45 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25H2LejN040352;
-        Fri, 17 Jun 2022 02:21:45 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gpr27jd7c-5;
-        Fri, 17 Jun 2022 02:21:45 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     robh+dt@kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        avri.altman@wdc.com, krzk+dt@kernel.org, alim.akhtar@samsung.com
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, jejb@linux.ibm.com
-Subject: Re: [PATCH v6 0/7] treewide: ufs: Add support for Renesas R-Car UFS controller
-Date:   Thu, 16 Jun 2022 22:21:38 -0400
-Message-Id: <165543243409.26207.3308107938510478847.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 17 Jun 2022 03:03:04 -0400
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CDB22507
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:03 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id x75so2583683qkb.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=782clpgKbkbkIFunSIHJAHC4GaZ8B8BhsKlBvD6iDNE=;
+        b=LMcoyTfdM4tAxNXitfo085rwQ1b+H+GFtk39p8vp6wP04pJfTPftsMABKvM9r+1CUY
+         iYkenvomauQ9vzc2/G1sUUIS+fNGCYOsx9jOFoy5rMW2hI7dpx1trNhS0838Im0tPoR9
+         01SShOWiTF1Lkcbctqtax0GuiPOP30O05McBdymgFJ1UZCd4FMZTznXWeVyIbse+WGYt
+         v0gLm+urY+VpAhP0LLqgSK+qYPxPyQ8dNIw/pi2V+NQOFHx4D0ccyHZRXGgxq/ThEMnB
+         o1WBBGXsB4FeC6jeNnIioYLRo9UMMbxQQsyxMIZATsBBu+4EmtLQ1RDMxj1pG61DFDOr
+         FBwQ==
+X-Gm-Message-State: AJIora+5cSC9OyCZLe+zHzVgrfcdBgQWGn1TcuH1GRabQET+F3galcpx
+        3JezALacz0bbG3cmP6+1pRlutaJ08J8QtA==
+X-Google-Smtp-Source: AGRyM1sMebL/qGGAgGADHudOz43HDXX8xtF3yts2Tlp7OR1NY0iwE2upTCjLcwbNU5Bv+Z8Xna3+KA==
+X-Received: by 2002:a37:ab16:0:b0:6a6:8992:9aa2 with SMTP id u22-20020a37ab16000000b006a689929aa2mr6178407qke.190.1655449382764;
+        Fri, 17 Jun 2022 00:03:02 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id b22-20020ac85bd6000000b00304e33f21f7sm3763868qtb.68.2022.06.17.00.03.01
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jun 2022 00:03:01 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-317741c86fdso32485947b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:01 -0700 (PDT)
+X-Received: by 2002:a81:6157:0:b0:30c:7e4d:b28e with SMTP id
+ v84-20020a816157000000b0030c7e4db28emr9810613ywb.502.1655449380718; Fri, 17
+ Jun 2022 00:03:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 5yTx9iAUTu43-yobBSI7rvZfmkIFt-rx
-X-Proofpoint-ORIG-GUID: 5yTx9iAUTu43-yobBSI7rvZfmkIFt-rx
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220617010107.3229784-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220617010107.3229784-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 Jun 2022 09:02:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVrPYyM6SHFoo0HrnQNvsCswBVFfeavf0LyES4-_ESa1g@mail.gmail.com>
+Message-ID: <CAMuHMdVrPYyM6SHFoo0HrnQNvsCswBVFfeavf0LyES4-_ESa1g@mail.gmail.com>
+Subject: Re: [PATCH] iommu/ipmmu-vmsa: Fix compatible for rcar-gen4
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 3 Jun 2022 20:05:17 +0900, Yoshihiro Shimoda wrote:
+On Fri, Jun 17, 2022 at 3:16 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Fix compatible string for R-Car Gen4.
+>
+> Fixes: ae684caf465b ("iommu/ipmmu-vmsa: Add support for R-Car Gen4")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-> This patch series adds support Renesas R-Car S4-8 UFS controller.
-> This controller has some restrictions so adds some quirks for it.
-> Before using this driver, we have to initialize a clock generator
-> on the environment board (named "Spider") by using the commands of
-> U-Boot like below:
->  => i2c dev 0
->  => i2c mw 0x6c 0x26 0x05
->  => i2c olen 0x6c 2
->  => i2c mw 0x6c 0x13a 0x86
->  => i2c mw 0x6c 0x268 0x06
->  => i2c mw 0x6c 0x269 0x00
->  => i2c mw 0x6c 0x26a 0x3c
->  => i2c mw 0x6c 0x26b 0x00
->  => i2c mw 0x6c 0x26c 0x06
->  => i2c mw 0x6c 0x26d 0x00
->  => i2c mw 0x6c 0x26e 0x3f
->  => i2c mw 0x6c 0x26f 0x00
-> 
-> [...]
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Applied to 5.20/scsi-queue, thanks!
+Gr{oetje,eeting}s,
 
-[1/7] dt-bindings: ufs: Document Renesas R-Car UFS host controller
-      https://git.kernel.org/mkp/scsi/c/7522c08d1e55
-[2/7] ufs: add UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS
-      https://git.kernel.org/mkp/scsi/c/6554400d6f66
-[3/7] ufs: add UFSHCD_QUIRK_HIBERN_FASTAUTO
-      https://git.kernel.org/mkp/scsi/c/2f11bbc2c7f3
-[4/7] scsi: ufs-renesas: Add support for Renesas R-Car UFS controller
-      https://git.kernel.org/mkp/scsi/c/d69520288efd
-[5/7] scsi: MAINTAINERS: Add maintainer for Renesas UFS driver
-      https://git.kernel.org/mkp/scsi/c/09c962fd4816
+                        Geert
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
