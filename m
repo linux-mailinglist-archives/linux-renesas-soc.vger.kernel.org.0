@@ -2,58 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2232B54F156
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 09:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B60AA54F15E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 09:05:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbiFQHDF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jun 2022 03:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39894 "EHLO
+        id S1380114AbiFQHFI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jun 2022 03:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380007AbiFQHDE (ORCPT
+        with ESMTP id S1380197AbiFQHFI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jun 2022 03:03:04 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CDB22507
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:03 -0700 (PDT)
-Received: by mail-qk1-f178.google.com with SMTP id x75so2583683qkb.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:03 -0700 (PDT)
+        Fri, 17 Jun 2022 03:05:08 -0400
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC8760D9D
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:05:07 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id o43so5317675qvo.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:05:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=782clpgKbkbkIFunSIHJAHC4GaZ8B8BhsKlBvD6iDNE=;
-        b=LMcoyTfdM4tAxNXitfo085rwQ1b+H+GFtk39p8vp6wP04pJfTPftsMABKvM9r+1CUY
-         iYkenvomauQ9vzc2/G1sUUIS+fNGCYOsx9jOFoy5rMW2hI7dpx1trNhS0838Im0tPoR9
-         01SShOWiTF1Lkcbctqtax0GuiPOP30O05McBdymgFJ1UZCd4FMZTznXWeVyIbse+WGYt
-         v0gLm+urY+VpAhP0LLqgSK+qYPxPyQ8dNIw/pi2V+NQOFHx4D0ccyHZRXGgxq/ThEMnB
-         o1WBBGXsB4FeC6jeNnIioYLRo9UMMbxQQsyxMIZATsBBu+4EmtLQ1RDMxj1pG61DFDOr
-         FBwQ==
-X-Gm-Message-State: AJIora+5cSC9OyCZLe+zHzVgrfcdBgQWGn1TcuH1GRabQET+F3galcpx
-        3JezALacz0bbG3cmP6+1pRlutaJ08J8QtA==
-X-Google-Smtp-Source: AGRyM1sMebL/qGGAgGADHudOz43HDXX8xtF3yts2Tlp7OR1NY0iwE2upTCjLcwbNU5Bv+Z8Xna3+KA==
-X-Received: by 2002:a37:ab16:0:b0:6a6:8992:9aa2 with SMTP id u22-20020a37ab16000000b006a689929aa2mr6178407qke.190.1655449382764;
-        Fri, 17 Jun 2022 00:03:02 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id b22-20020ac85bd6000000b00304e33f21f7sm3763868qtb.68.2022.06.17.00.03.01
+        bh=KErP+gedwWjY7K1XGEMcZqGkEbe4RnD4HzZagWk5dCI=;
+        b=NaDBlUXAAp9ajOE+7HreDBu8nfrQdbtLHrKeLDmOyuYvIJ00cSjt4j8BFXcW8S6+N2
+         YQew8dATtIOlgelHY4Whf3sVnvmti9857MTaC6UmQEMtLVw2KyUhWWlhndRyry7mADIy
+         BRlZPDu51Olm3I7DVcRWHH8UZ4zVbl6jMHhkby3WwC4T5FaTNRMNtyG41URLBMs9zdk+
+         jB3inb7R2NJe2Or7J6JaS5aBTIahLk/z4cKKhjO45LCFGojuN436TTNBKK8Raftwie51
+         J2V0pakxgcoYzm9IWUqtgWMYKroLAwzTqiyLxjzycypSNwyagb0pff8Bdb1HL5UkegTb
+         YDLw==
+X-Gm-Message-State: AJIora9K7pw8Zzv7yYQDLQkVuZcAU/L7zcPxISd/lisObn5aJrqwhUm2
+        NBtlDNF7UtY4ify2BWvC25GCxelCzieSpw==
+X-Google-Smtp-Source: AGRyM1ue5beBb8nJswjAf/GfMpo3I81+dEjcoVgVUff76njqSPsfZEyPjVZQid94aNw3ByG06e9YBg==
+X-Received: by 2002:ac8:7f10:0:b0:304:e88d:b6c1 with SMTP id f16-20020ac87f10000000b00304e88db6c1mr7289149qtk.364.1655449506411;
+        Fri, 17 Jun 2022 00:05:06 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id d7-20020ac86687000000b00304e47b9602sm3388412qtp.9.2022.06.17.00.05.05
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jun 2022 00:03:01 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-317741c86fdso32485947b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:03:01 -0700 (PDT)
-X-Received: by 2002:a81:6157:0:b0:30c:7e4d:b28e with SMTP id
- v84-20020a816157000000b0030c7e4db28emr9810613ywb.502.1655449380718; Fri, 17
- Jun 2022 00:03:00 -0700 (PDT)
+        Fri, 17 Jun 2022 00:05:05 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3176d94c236so34289827b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jun 2022 00:05:05 -0700 (PDT)
+X-Received: by 2002:a81:574c:0:b0:317:7c3a:45be with SMTP id
+ l73-20020a81574c000000b003177c3a45bemr4081902ywb.316.1655449505005; Fri, 17
+ Jun 2022 00:05:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220617010107.3229784-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20220617010107.3229784-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20220617010154.3229844-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20220617010154.3229844-1-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Jun 2022 09:02:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVrPYyM6SHFoo0HrnQNvsCswBVFfeavf0LyES4-_ESa1g@mail.gmail.com>
-Message-ID: <CAMuHMdVrPYyM6SHFoo0HrnQNvsCswBVFfeavf0LyES4-_ESa1g@mail.gmail.com>
-Subject: Re: [PATCH] iommu/ipmmu-vmsa: Fix compatible for rcar-gen4
+Date:   Fri, 17 Jun 2022 09:04:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWDeq9CrNAW9Otk5j+2S30RMro=OOGmfqzy=QM6OBBZHg@mail.gmail.com>
+Message-ID: <CAMuHMdWDeq9CrNAW9Otk5j+2S30RMro=OOGmfqzy=QM6OBBZHg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Fix IPMMU compatible strings
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -66,14 +65,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 3:16 AM Yoshihiro Shimoda
+On Fri, Jun 17, 2022 at 3:02 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Fix compatible string for R-Car Gen4.
+> Fix IPMMU compatible strings for R-Car S4-8 (r8a779f0).
 >
-> Fixes: ae684caf465b ("iommu/ipmmu-vmsa: Add support for R-Car Gen4")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Fixes: 4ff21ed92697 ("arm64: dts: renesas: r8a779f0: Add IPMMU nodes")
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+As the bug is only present in renesas-devel, I will fold this into the
+original commit.
 
 Gr{oetje,eeting}s,
 
