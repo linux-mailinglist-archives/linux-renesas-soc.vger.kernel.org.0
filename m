@@ -2,104 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0EDC54F76C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 14:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 672C754F799
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jun 2022 14:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381867AbiFQMWz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jun 2022 08:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47338 "EHLO
+        id S1381840AbiFQMaQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jun 2022 08:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236185AbiFQMWy (ORCPT
+        with ESMTP id S236539AbiFQMaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jun 2022 08:22:54 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BB8A1D30F;
-        Fri, 17 Jun 2022 05:22:52 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.83.238) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Fri, 17 Jun
- 2022 15:22:41 +0300
-Subject: Re: [PATCH v2] mtd: hyperbus: rpc-if: Fix RPM imbalance in probe
- error path
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>
-CC:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <f3c26e1b-e2fb-100a-5354-723b69da2bd7@omp.ru>
-Date:   Fri, 17 Jun 2022 15:22:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Fri, 17 Jun 2022 08:30:16 -0400
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455EA4BFDA;
+        Fri, 17 Jun 2022 05:30:15 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id d23so3038649qke.0;
+        Fri, 17 Jun 2022 05:30:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6pLOiLBK3afupV8xE7NcjLGwoNH+e6P9P3CPrIurXIc=;
+        b=t56RzQd7doU8pHh3I+TWrx59oRENhRn9fdW7wmYq8GM0ENOAf3hqN02p4c5DJDg0+z
+         oVYsWg4QVoLcbWlXetOUS1V3qV2Byk3KEyVYlwLa8aCeO3//sPxO8qrZAYoscCYzPz/a
+         MKKBgZVQb01p+TRByeiHmY1sbVSPjoRc7SCkg/YXN1iM5jVOFk9DmEWmmRDELMDZ5PFS
+         +OVBDkFLHt7p6r8nCBWURmpI9ykFkrHrfmPsbBClLmcvYTOJ7W2cUvNPk/WoHVzRzf/k
+         6zrRbhzER2j5ZZL3SQXBXY7FSboIycoY4ZlTE6YN/QQN35RLYEdPKqXut7sXnAQm3kUQ
+         H1EA==
+X-Gm-Message-State: AJIora9eZvEusZqSsE0+DptzKyFYy+7tKosH/9ju67Zmugpq7PIfUkvy
+        UMQgUxvxoEjx0/6o1C9BxWaXDnEIKtBcoA==
+X-Google-Smtp-Source: AGRyM1sezzRpvPvYuQibtLWzoyX+Zgof6xfx97mM79RbTzcHjj1scZc1sq6ZD47yqvHWKh2v+MJO7g==
+X-Received: by 2002:a05:620a:bc9:b0:6a6:5d5a:4306 with SMTP id s9-20020a05620a0bc900b006a65d5a4306mr6892387qki.391.1655469014289;
+        Fri, 17 Jun 2022 05:30:14 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id f9-20020a05620a408900b006a740bb8578sm4544950qko.83.2022.06.17.05.30.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jun 2022 05:30:13 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id l11so6995280ybu.13;
+        Fri, 17 Jun 2022 05:30:13 -0700 (PDT)
+X-Received: by 2002:a25:d146:0:b0:668:aa24:c321 with SMTP id
+ i67-20020a25d146000000b00668aa24c321mr6377378ybg.89.1655469012945; Fri, 17
+ Jun 2022 05:30:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.83.238]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 06/17/2022 12:05:45
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 171205 [Jun 17 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 490 490 64947c9fe6ec4170c45683de1592f92a9c3bac07
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.238 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;31.173.83.238:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.83.238
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/17/2022 12:08:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 6/17/2022 10:12:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <874k0nlrbw.wl-kuninori.morimoto.gx@renesas.com> <8735g7lrb6.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <8735g7lrb6.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 Jun 2022 14:30:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUYKRQN7+RdA0SaChN1OHL5DvsM-ReZB2PoSjmHNWaPtg@mail.gmail.com>
+Message-ID: <CAMuHMdUYKRQN7+RdA0SaChN1OHL5DvsM-ReZB2PoSjmHNWaPtg@mail.gmail.com>
+Subject: Re: [PATCH v3 01/21] dt-bindings: pinctrl: renesas,pfc: Document
+ r8a779g0 support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On Tue, Jun 14, 2022 at 7:58 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>
+> Document Pin Function Controller (PFC) support for the Renesas
+> R-Car V4H (R8A779G0) SoC.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-On 6/17/22 12:26 PM, Geert Uytterhoeven wrote:
+My
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+on v2 is still valid.
 
-> If rpcif_hw_init() fails, Runtime PM is left enabled.
-> 
-> Fixes: b04cc0d912eb80d3 ("memory: renesas-rpc-if: Add support for RZ/G2L")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Gr{oetje,eeting}s,
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+                        Geert
 
-[...]
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-MBR, Sergey
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
