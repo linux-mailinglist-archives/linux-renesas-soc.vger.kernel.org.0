@@ -2,207 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E31550CC0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jun 2022 21:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1013550CD8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jun 2022 22:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231753AbiFST3d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Jun 2022 15:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39958 "EHLO
+        id S229597AbiFSUD5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Jun 2022 16:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbiFST3b (ORCPT
+        with ESMTP id S235196AbiFSUD4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Jun 2022 15:29:31 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D259426E3;
-        Sun, 19 Jun 2022 12:29:30 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-317803b61e5so56627397b3.1;
-        Sun, 19 Jun 2022 12:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eebabUglYhWenSeh6jBsHcmLWqDqLl0MvlBz4MnYypk=;
-        b=dLUGCSFZG2ntKjOKrusxKZ62u3wQQEgFcArn1QDBE5zIe5v/2xX4xBzHq80Td1TwSF
-         eYzJJv74r0f/Ky9kivLkJyMqN1UGYHSFwupdHzUYYaw3XL5R0SQv0F8bFotPwA6lG2qt
-         sd6GUEj9kIz7JtFJ2IGimuXKva+QqaHrA4fCK6GOmtUUlYT5U5wIITAq/jVXHpe+qvFr
-         zfZ6ruQxQ2o1BE7WZhFFh27NGWxgXUvtQSwUrA+SUeP1d4/Tmp6yXCRc4nyM1vaYy7Py
-         eAy4jH1JyJiyH4fBVWuKTieEWF6jG79D21stYqTv4px4k0EZdFgP9OqfYajuyaLj/SqS
-         O6wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eebabUglYhWenSeh6jBsHcmLWqDqLl0MvlBz4MnYypk=;
-        b=b8R/XcTWMWlAVG+P25T9I3jZ3icaM2PghvU/E+JHXixJXs9j9Hh9RUkvjalxdxafY2
-         1ONtMiJMorroInwD3trk0zE8lOjZyQy38mwXl+QBc/iorjJ89Uboq+ytdLdGvekD4mng
-         22dXUFpIdtDhP0Kp5HUHfDOVoRkCxPyJqedGrjLUIdEOlGJe13Xx+y2og+wK632kyikv
-         yQr2p1W7cXertUZ99nIdSJyb8+45nwKYIixUpbycF5ni022pDOvOdI7KMunNSn4lRn1W
-         LV0PCk3IO+GUW17C2IQxC/gWf2XWtAmOyl7FwoFiR2392M6PnhMVMXEYKdHSr7c3h1GY
-         v5Yg==
-X-Gm-Message-State: AJIora+j4h+cFytF568Rso7sdAMmj3Hbz8awKpIbtjrQMffoDYy6A98h
-        xbrzZ2qSGSoH2EdRb2xklqYtvoaHdNW3KljSM1o=
-X-Google-Smtp-Source: AGRyM1tRZsOJhXLrAR8V+9hOvPJwyigsJUTx2ANfoGep/h/g20lguEe51ep8yEZC4DXig4eoxoUN89k+su01PMRaeCQ=
-X-Received: by 2002:a81:6e02:0:b0:317:b68d:3870 with SMTP id
- j2-20020a816e02000000b00317b68d3870mr4767307ywc.222.1655666970029; Sun, 19
- Jun 2022 12:29:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sun, 19 Jun 2022 20:29:02 +0100
-Message-ID: <CA+V-a8v4QEOtzPeOvoRQtT7Rvj3ZxzmhQtn6v4U+1toTUbh-Zw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] Renesas RZ/G2L IRQC support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Sun, 19 Jun 2022 16:03:56 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CCCA190
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Jun 2022 13:03:56 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o319D-00081q-4z; Sun, 19 Jun 2022 22:03:51 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o3196-001Vnm-6i; Sun, 19 Jun 2022 22:03:45 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o3196-00HRXK-L3; Sun, 19 Jun 2022 22:03:44 +0200
+Date:   Sun, 19 Jun 2022 22:03:41 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Linux PWM List <linux-pwm@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v2 5/6] pwm: renesas-tpu: Improve maths to compute
+ register settings
+Message-ID: <20220619200341.7itehcpp6d62rmx7@pengutronix.de>
+References: <20220420121240.67781-1-u.kleine-koenig@pengutronix.de>
+ <20220420121240.67781-6-u.kleine-koenig@pengutronix.de>
+ <CAMuHMdWL=eLbd-U3hjgt9NkyDGQSxC4SfNxdf-odNFGskf1cUw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wlsh2thwlccocyns"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWL=eLbd-U3hjgt9NkyDGQSxC4SfNxdf-odNFGskf1cUw@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marc
 
-On Mon, May 23, 2022 at 6:42 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> Hi All,
->
-> The RZ/G2L Interrupt Controller is a front-end for the GIC found on
-> Renesas RZ/G2L SoC's with below pins:
-> - IRQ sense select for 8 external interrupts, mapped to 8 GIC SPI
->   interrupts
-> - GPIO pins used as external interrupt input pins out of GPIOINT0-122 a
->   maximum of only 32 can be mapped to 32 GIC SPI interrupts,
-> - NMI edge select.
->
->                                                              _____________
->                                                              |    GIC     |
->                                                              |  ________  |
->                                       ____________           | |        | |
-> NMI --------------------------------->|          |  SPI0-479 | | GIC-600| |
->              _______                  |          |------------>|        | |
->              |      |                 |          |  PPI16-31 | |        | |
->              |      | IRQ0-IRQ7       |   IRQC   |------------>|        | |
-> P0_P48_4 --->| GPIO |---------------->|          |           | |________| |
->              |      |GPIOINT0-122     |          |           |            |
->              |      |---------------->| TINT0-31 |           |            |
->              |______|                 |__________|           |____________|
->
-> The proposed patches add hierarchical IRQ domain, one in IRQC driver and
-> another in pinctrl driver. Upon interrupt requests map the interrupt to
-> GIC. Out of GPIOINT0-122 only 32 can be mapped to GIC SPI, this mapping is
-> handled by the pinctrl and IRQC driver.
->
-> Cheers,
-> Prabhakar
->
-> Changes for v4->v5:
-> * Updated commit message for patch 3/5
-> * Dropped interrupt-parent from and included RB tag from Geert for patch 4/5
-> * Implemented init_valid_mask() callback
-> * Dropped ngirq patch from previous series
-> * Dropped patches 4/7 and 5/7 from previous patch series will handle it separately.
->
-> Changes for v3->v4:
-> * Updated description for interrupts-cells property in patch #1
-> * Dropped the patch which overriding free callback in gpiolib
-> * Used devm helpers in patch#2
-> * Patch #4, #5 and #6 are newly added
-> * In patch #7 dropped using gpio offset as hwirq
-> * Implemented immutable GPIO in patch #7
-> * Implemented child_offset_to_irq() callback in patch #7
->
-> Changes for v2->v3:
-> * Updated description for interrupts-cells property in patch #1
-> * Included RB tag from Geert for binding patch
-> * Fixed review comments pointed by Geert, Biju and Sergei.
->
-> Changes for v1->v2:
-> * Included RB tag from Rob
-> * Fixed review comments pointed by Geert
-> * included GPIO driver changes
->
-> Changes for RFCV4 -> V1:
-> * Used unevaluatedProperties.
-> * Altered the sequence of reg property
-> * Set the parent type
-> * Used raw_spin_lock() instead of raw_spin_lock_irqsave()
-> * Simplified parsing IRQ map.
-> * Will send the GPIO and pinctrl changes as part of separate series
->
-> Changes for RFC v4:
-> * Used locking while RMW
-> * Now using interrupts property instead of interrupt-map
-> * Patch series depends on [0]
-> * Updated binding doc
-> * Fixed comments pointed by Andy
->
-> [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/
-> 20220316200633.28974-1-prabhakar.mahadev-lad.rj@xxxxxxxxxxxxxx/
->
-> Changes for RFC v3:
-> -> Re-structured the driver as a hierarchical irq domain instead of chained
-> -> made use of IRQCHIP_* macros
-> -> dropped locking
-> -> Added support for IRQ0-7 interrupts
-> -> Introduced 2 new patches for GPIOLIB
-> -> Switched to using GPIOLIB for irqdomains in pinctrl
->
-> RFC v2: https://patchwork.kernel.org/project/linux-renesas-soc/cover/
-> 20210921193028.13099-1-prabhakar.mahadev-lad.rj@xxxxxxxxxxxxxx/
->
-> RFC v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/
-> 20210803175109.1729-1-prabhakar.mahadev-lad.rj@xxxxxxxxxxxxxx/
->
-> Lad Prabhakar (5):
->   dt-bindings: interrupt-controller: Add Renesas RZ/G2L Interrupt
->     Controller
->   irqchip: Add RZ/G2L IA55 Interrupt Controller driver
->   gpio: gpiolib: Allow free() callback to be overridden
->   dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Document the properties
->     to handle GPIO IRQ
->   pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to handle GPIO
->     interrupt
->
->  .../renesas,rzg2l-irqc.yaml                   | 133 ++++++
->  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  15 +
->  drivers/gpio/gpiolib.c                        |   9 +-
->  drivers/irqchip/Kconfig                       |   8 +
->  drivers/irqchip/Makefile                      |   1 +
->  drivers/irqchip/irq-renesas-rzg2l.c           | 425 ++++++++++++++++++
->  drivers/pinctrl/renesas/pinctrl-rzg2l.c       | 236 ++++++++++
->  7 files changed, 824 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
->  create mode 100644 drivers/irqchip/irq-renesas-rzg2l.c
->
-Gentle ping.
+--wlsh2thwlccocyns
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Are you happy with this series?
+On Wed, Apr 20, 2022 at 08:08:34PM +0200, Geert Uytterhoeven wrote:
+> Hi Uwe,
+>=20
+> On Wed, Apr 20, 2022 at 2:12 PM Uwe Kleine-K=F6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > The newly computed register values are intended to exactly match the
+> > previously computed values. The main improvement is that the prescaler
+> > is computed without a loop that involves two divisions in each step.
+> > This uses the fact, that prescalers[i] =3D 1 << (2 * i).
+> >
+> > Assuming a moderately smart compiler, the needed number of divisions for
+> > the case where the requested period is too big, is reduced from 5 to 2.
+> >
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> Thanks for your patch!
+>=20
+> > --- a/drivers/pwm/pwm-renesas-tpu.c
+> > +++ b/drivers/pwm/pwm-renesas-tpu.c
+> > @@ -244,7 +244,6 @@ static void tpu_pwm_free(struct pwm_chip *chip, str=
+uct pwm_device *pwm)
+> >  static int tpu_pwm_config(struct pwm_chip *chip, struct pwm_device *pw=
+m,
+> >                           int duty_ns, int period_ns, bool enabled)
+> >  {
+> > -       static const unsigned int prescalers[] =3D { 1, 4, 16, 64 };
+> >         struct tpu_pwm_device *tpd =3D pwm_get_chip_data(pwm);
+> >         struct tpu_device *tpu =3D to_tpu_device(chip);
+> >         unsigned int prescaler;
+> > @@ -254,26 +253,47 @@ static int tpu_pwm_config(struct pwm_chip *chip, =
+struct pwm_device *pwm,
+> >         u32 duty;
+> >         int ret;
+> >
+> > +       clk_rate =3D clk_get_rate(tpu->clk);
+> > +
+> > +       period =3D clk_rate / (NSEC_PER_SEC / period_ns);
+> > +
+> >         /*
+> > -        * Pick a prescaler to avoid overflowing the counter.
+> > -        * TODO: Pick the highest acceptable prescaler.
+> > +        * Find the minimal prescaler in [0..3] such that
+> > +        *
+> > +        *      period >> (2 * prescaler) < 0x10000
+>=20
+> scripts/checkpatch.pl:
+> WARNING: please, no space before tabs
+>=20
+> > +        *
+> > +        * This could be calculated using something like:
+> > +        *
+> > +        *      prescaler =3D max(ilog2(period) / 2, 7) - 7;
+>=20
+> WARNING: please, no space before tabs
+>=20
+> The rest LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
-Prabhakar
+@Thierry: Assuming you agree to this patch, too: Should I resend for the
+checkpack warning (I'd s/\t/   /), or do you want to fixup at apply
+time?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--wlsh2thwlccocyns
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKvgRsACgkQwfwUeK3K
+7AnhKgf/c6v0bpNhb1ql6D+9BuFhCLTm4sYQe6uOU2RYUJ3qj1wlIxCTdx/2O4Rn
+9ld4EGdVwcN8NubuLR8l5hEjAiUFVW236mjgGky+n3sA6oU9AKvg7e0e4Bkq0qNi
+ELGk6HLzuXJZTKegWlPk/ca+Cq1ob4cqcoPw6WhIxwhyDu+WYqvRsWqsfrIYT+wW
+nrZFGLNxNCiMpaltofqD4rH5h5aQ7RZGX5fp1u2XILFtYVb25WEUGDvDEzzQudFr
+0QXRnm/i8xacKZBhyAcEkJe30w/dJhLfAzQnFZXa+5YPe1TSpeLdlLIvNt/3IuEs
+OOHfL7yIqTLF/xLeVg9edAPXYy4BNg==
+=C/K3
+-----END PGP SIGNATURE-----
+
+--wlsh2thwlccocyns--
