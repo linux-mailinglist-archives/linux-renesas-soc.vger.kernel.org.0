@@ -2,114 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 614C95516D7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jun 2022 13:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86F715518CC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jun 2022 14:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241741AbiFTLMB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jun 2022 07:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60562 "EHLO
+        id S240332AbiFTMZA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jun 2022 08:25:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241579AbiFTLKq (ORCPT
+        with ESMTP id S241814AbiFTMY7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jun 2022 07:10:46 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CEAB16585;
-        Mon, 20 Jun 2022 04:10:32 -0700 (PDT)
-Received: (Authenticated sender: clement.leger@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id ED7B8240004;
-        Mon, 20 Jun 2022 11:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1655723431;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=e4XpCpixXHLWm12EJGAvEFvcWpgfd1sjAVb3qu+xQD0=;
-        b=Ylh7Za5Q8ufOyeXGXMkeLwwvRmi224S6ilmGGrMl0bZN05OLPHEthWBpLDIotRMg4QAIx4
-        1qXnTZ8sm0QQRLmVG1s0rILxI+y1VIIa8zqKfufDD/LcGHYhsDEinFk1fpRqh/hJmSoFnj
-        89jFvggzLsS9Bhhe/ZRQ/m4PnfRVDvMNpeJsdgR5rARKmXRlaHKwkvhezYQlz61yUqVJAo
-        wOOO4AvmTeyj8T338RCrVWWkMBBexZECOQ8WjPqsi5NkmDdgokmxglJVEf5+VCr1EYD4MR
-        G4CVRvyE+ckD5DkYCVRgddhmDA47AqbR6bkQrhdeXJSN6s5S4y9TscOYqVVEmQ==
-From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jose Abreu <joabreu@synopsys.com>
-Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Herve Codina <herve.codina@bootlin.com>,
-        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
-        Milan Stevanovic <milan.stevanovic@se.com>,
-        Jimmy Lalande <jimmy.lalande@se.com>,
-        Pascal Eberhard <pascal.eberhard@se.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH net-next v8 16/16] MAINTAINERS: add Renesas RZ/N1 switch related driver entry
-Date:   Mon, 20 Jun 2022 13:08:46 +0200
-Message-Id: <20220620110846.374787-17-clement.leger@bootlin.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220620110846.374787-1-clement.leger@bootlin.com>
-References: <20220620110846.374787-1-clement.leger@bootlin.com>
+        Mon, 20 Jun 2022 08:24:59 -0400
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBD817A91;
+        Mon, 20 Jun 2022 05:24:58 -0700 (PDT)
+Received: by mail-qv1-f51.google.com with SMTP id g18so8095662qvn.2;
+        Mon, 20 Jun 2022 05:24:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1GDSIQofcvuN8MBngISKHf3i/1+PL5wfbt53xdCYrSA=;
+        b=HDT5bgzcQ9ZbJ7tc8KRjaALsAbz41qrCkmmb51cxVrG49EcAjW6aAG2KWWfdwG2Ykz
+         jYgFglYlZUFStmns8VnVAjoV+lDR+EYlkl2u3kV1PlYQ1DlzdyzHWbgzZEP9g5vXhgXE
+         39nlPbhb5pCg/9cieJhe9q/hUAwS0MMTsoz7b/JLAV9qhDIzYsUrENw8slzrKaq2rcPQ
+         vdXZya2hBcm8jpM/Q58rVeMytXfWmdZ3tphlQM92u1FqX5v89KHP39jsOqrpG7DDXQb6
+         z92N+7huBNgeL4zi38LCdBIMlSQUHAiOdbh2zxqz2xdqm/RULiz4wrlQWwRHeDXbE/wK
+         /Uzg==
+X-Gm-Message-State: AJIora/aq9PLk+o1t0DH7iw9Uvp6KfW7grf0zjY5b5jV3YOF2O6tQJVa
+        EJX0doRtabb6xiCTPOf1D3zlMcqHB9EkxQ==
+X-Google-Smtp-Source: AGRyM1t5EyR/BDF6p2ph1uQVbFqH0W6NQTyaY/LxsMWhA/g4QX4LEV5oUbxJTsBcKbJvQ1f76JZ6Ig==
+X-Received: by 2002:a05:6214:21e6:b0:46e:4f35:b07c with SMTP id p6-20020a05621421e600b0046e4f35b07cmr18925460qvj.12.1655727897998;
+        Mon, 20 Jun 2022 05:24:57 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id z22-20020ac81016000000b00307c87b8239sm8144767qti.46.2022.06.20.05.24.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 05:24:57 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3178acf2a92so64453837b3.6;
+        Mon, 20 Jun 2022 05:24:57 -0700 (PDT)
+X-Received: by 2002:a81:1dd2:0:b0:30f:a4fc:315e with SMTP id
+ d201-20020a811dd2000000b0030fa4fc315emr27852569ywd.383.1655727897225; Mon, 20
+ Jun 2022 05:24:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220620102600.52349-1-phil.edworthy@renesas.com> <20220620102600.52349-3-phil.edworthy@renesas.com>
+In-Reply-To: <20220620102600.52349-3-phil.edworthy@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Jun 2022 14:24:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV7LYh_wuujgKcvKSjxqH-bhhhXgh45D2awoC4P0kxs4w@mail.gmail.com>
+Message-ID: <CAMuHMdV7LYh_wuujgKcvKSjxqH-bhhhXgh45D2awoC4P0kxs4w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] watchdog: rzg2l_wdt: Add rzv2m support
+To:     Phil Edworthy <phil.edworthy@renesas.com>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After contributing the drivers, volunteer for maintenance and add
-myself as the maintainer for Renesas RZ/N1 switch related drivers.
+On Mon, Jun 20, 2022 at 12:26 PM Phil Edworthy
+<phil.edworthy@renesas.com> wrote:
+> The WDT on RZ/V2M devices is basically the same as RZ/G2L, but without
+> the parity error registers. This means the driver has to reset the
+> hardware plus set the minimum timeout in order to do a restart and has
+> a single interrupt.
+>
+> Signed-off-by: Phil Edworthy <phil.edworthy@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3:
+>  - Don't call pm_runtime_get_sync() in restart()
+>  - Use mdelay instead of udelay, avoids DIV64_U64_ROUND_UP
 
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Clément Léger <clement.leger@bootlin.com>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ca95b1833b97..52f1439aac4b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17054,6 +17054,19 @@ S:	Supported
- F:	Documentation/devicetree/bindings/iio/adc/renesas,rzg2l-adc.yaml
- F:	drivers/iio/adc/rzg2l_adc.c
- 
-+RENESAS RZ/N1 A5PSW SWITCH DRIVER
-+M:	Clément Léger <clement.leger@bootlin.com>
-+L:	linux-renesas-soc@vger.kernel.org
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-+F:	Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
-+F:	drivers/net/dsa/rzn1_a5psw*
-+F:	drivers/net/pcs/pcs-rzn1-miic.c
-+F:	include/dt-bindings/net/pcs-rzn1-miic.h
-+F:	include/linux/pcs-rzn1-miic.h
-+F:	net/dsa/tag_rzn1_a5psw.c
-+
- RENESAS RZ/N1 RTC CONTROLLER DRIVER
- M:	Miquel Raynal <miquel.raynal@bootlin.com>
- L:	linux-rtc@vger.kernel.org
--- 
-2.36.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
