@@ -2,172 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CACC6553CD9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 23:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00127553EB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 00:49:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356047AbiFUVHY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 17:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
+        id S1353965AbiFUWt5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 18:49:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355821AbiFUVHJ (ORCPT
+        with ESMTP id S230021AbiFUWt4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 17:07:09 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1F736164
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 13:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655844879; x=1687380879;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/5ifeJa/TfRSoD5lAXTR/+E+MeFrkS25zlBYMGUKHvA=;
-  b=igGIl3ccREck1YDeVXfFM7A0q0nYUA+wMXxNJNWqpyeMcPHi6QwZXIH4
-   3IDU972a67lQoxGyIGsizgG4f9SKfAQAr9GuN048+HqKy+bp/Yi7CROjo
-   rACYFFBTvOlQvqueJOekt3JBuu4TadMshugmnWmGqEO/UrnoAP4cc428I
-   PIbYwOKgOeXiVXGD6mY+OX3kEWPcB9lLH+U0BHgGVonXtDZfCOT2YHYfG
-   cAKkee1KOHd47/sgZqH+4BlFCOZEmjF7KkpxstNbfUCjXk2dE7VT9dprr
-   2i1YlevLPUpKAVPyFr7MvVDPCECFYJzsw8S8y9kyrkfiERLZOi1Gt7/AL
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="268952881"
-X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; 
-   d="scan'208";a="268952881"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 13:54:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; 
-   d="scan'208";a="655318556"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2022 13:54:14 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o3kt3-0000QD-Vw;
-        Tue, 21 Jun 2022 20:54:13 +0000
-Date:   Wed, 22 Jun 2022 04:53:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- ebde835d00b25f6852cef819b7b8c96e07c709b5
-Message-ID: <62b22fdc.WOE2W0f6knN9aiBj%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 21 Jun 2022 18:49:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336B11EED5;
+        Tue, 21 Jun 2022 15:49:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 53EEA61751;
+        Tue, 21 Jun 2022 22:49:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BECC3411C;
+        Tue, 21 Jun 2022 22:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655851794;
+        bh=S8AJMDPQvnWDK4RahqwN098Ni4YLzb9Wd07uSaNuGok=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=eTGz6L4kA48Wrl3e0Yf7md34NbBtsEwow9/b2efRVFJMycOz66tK1d8QbPzJgs9kS
+         tqbWmTERX+OlVi8A/z8lo3A/7qT1hhjegWoQwmJ51bPlSOk6xIOJKIJac0pGjCacgH
+         8P70Xb0DWyBpp/CD2fPtQl+1jE9Uh2aMIPGRWhcLldSr6m4ckeNjoc77Mzkm6Ip6ru
+         /Eg0NA98+vIXumy/7kYKJkHC/DapI6I0JVvNbJp1qAhn6doDrpoW86xggD0qC0ez4P
+         Nu9HxNaVOnjGiQ2v3XWPiD57U/UugQOz8qD0fpSWrPR36Wa00O+lqJtkme4RdFey2A
+         C7B5nk/gqQmKg==
+Date:   Tue, 21 Jun 2022 17:49:52 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Liang He <windhl@126.com>
+Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lpieralisi@kernel.org, robh@kernel.org, kw@linux.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] pci/controller/pcie-rcar-host: Hold the reference
+ returned by of_find_matching_node
+Message-ID: <20220621224952.GA1340618@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <20220621070145.4080147-1-windhl@126.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: ebde835d00b25f6852cef819b7b8c96e07c709b5  Merge tag 'v5.19-rc3' into renesas-devel
+On Tue, Jun 21, 2022 at 03:01:45PM +0800, Liang He wrote:
+> In rcar_pcie_init(), we need to hold the reference returned by
+> of_find_matching_node() which is used to call of_node_put() for
+> refcount balance.
+> 
+> Signed-off-by: Liang He <windhl@126.com>
+> ---
+>  drivers/pci/controller/pcie-rcar-host.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> index 997c4df6a1e7..405ec3d64f30 100644
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+> @@ -1158,7 +1158,10 @@ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst
+>  
+>  static int __init rcar_pcie_init(void)
+>  {
+> -	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> +	struct device_node *np = of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match);
+> +
+> +	if (np) {
+> +		of_node_put(np);
 
-elapsed time: 970m
+I think this is correct, but it would be nicer to update the way this
+driver uses of_device_get_match_data(), e.g.,
 
-configs tested: 90
-configs skipped: 3
+  struct rcar_variant {
+    int (*phy_init_fn)(struct rcar_pcie_host *host);
+    bool hook_abort;
+  };
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  struct rcar_pcie_host {
+    ...
+    const struct rcar_variant *variant;
+  };
 
-gcc tested configs:
-arm                              allmodconfig
-arm                                 defconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-m68k                       m5249evb_defconfig
-ia64                         bigsur_defconfig
-openrisc                 simple_smp_defconfig
-ia64                             allmodconfig
-nios2                               defconfig
-arc                              allyesconfig
-m68k                             allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-alpha                               defconfig
-csky                                defconfig
-nios2                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-powerpc                           allnoconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-parisc64                            defconfig
-s390                                defconfig
-s390                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-sparc                            allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                 randconfig-a003-20220620
-i386                 randconfig-a001-20220620
-i386                 randconfig-a004-20220620
-i386                 randconfig-a002-20220620
-i386                 randconfig-a005-20220620
-i386                 randconfig-a006-20220620
-arc                  randconfig-r043-20220619
-riscv                randconfig-r042-20220619
-arc                  randconfig-r043-20220620
-s390                 randconfig-r044-20220619
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
+  static int rcar_pcie_probe(...)
+  {
+    host->variant = of_device_get_match_data(dev);
+    err = host->variant->phy_init_fn(host);
+    ...
 
-clang tested configs:
-arm                       cns3420vb_defconfig
-s390                             alldefconfig
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64               randconfig-a013-20220620
-x86_64               randconfig-a012-20220620
-x86_64               randconfig-a011-20220620
-x86_64               randconfig-a016-20220620
-x86_64               randconfig-a014-20220620
-x86_64               randconfig-a015-20220620
-i386                 randconfig-a012-20220620
-i386                 randconfig-a014-20220620
-i386                 randconfig-a013-20220620
-i386                 randconfig-a011-20220620
-i386                 randconfig-a016-20220620
-i386                 randconfig-a015-20220620
-hexagon              randconfig-r045-20220619
-hexagon              randconfig-r045-20220620
-riscv                randconfig-r042-20220620
-hexagon              randconfig-r041-20220619
-hexagon              randconfig-r041-20220620
-s390                 randconfig-r044-20220620
+  #ifdef CONFIG_ARM
+    if (host->variant->hook_abort) {
+  #ifdef CONFIG_ARM_LPAE
+      hook_fault_code(17, ...);
+  # else
+      hook_fault_code(22, ...);
+  #endif
+    }
+  #endif
+  }
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Or keep the hook in a separate function called from rcar_pcie_probe()
+if you think that's cleaner.
+
+I'm not sure hook_fault_code() needs to be called separately as a
+device_initcall().  The pci-ixp4xx.c driver does it in
+ixp4xx_pci_probe(), so I assume rcar could do it in probe as well.
+
+>  #ifdef CONFIG_ARM_LPAE
+>  		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+>  				"asynchronous external abort");
+> -- 
+> 2.25.1
+> 
