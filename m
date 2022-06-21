@@ -2,106 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A324552AEB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 08:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DF4A552B0D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 08:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344735AbiFUGUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 02:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
+        id S245590AbiFUGhM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 02:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236786AbiFUGUk (ORCPT
+        with ESMTP id S242106AbiFUGhL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 02:20:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE2E5FB9;
-        Mon, 20 Jun 2022 23:20:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59295104;
-        Tue, 21 Jun 2022 08:20:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655792437;
-        bh=QxqGI8u7Mcjy3hAKsyC9Lq9xMXJUcfr/8cXBFAGKrXQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Um0skpAxHmGTSW5KKa9z6qFSD447639lNm8xsuDGUtCDvnxWVWxm4oydnlFJ9PVwb
-         0tOOgMIePz4s/oh+Lo48RnSPA9Qz2j/6XjVucwtIBS/vnloeur3715E9IPgyvg72fP
-         P0BZRSU9B5A4FAHOP5VlpBrO2tj5O7FBOl7Ks6co=
-Date:   Tue, 21 Jun 2022 09:20:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stephen Kitt <steve@sk2.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
-Message-ID: <YrFjJa6aLSK5P3lY@pendragon.ideasonboard.com>
-References: <20220616170821.1348169-1-steve@sk2.org>
+        Tue, 21 Jun 2022 02:37:11 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D264193F8;
+        Mon, 20 Jun 2022 23:37:10 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id o73so9362814qke.7;
+        Mon, 20 Jun 2022 23:37:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VuRgP6aC8spFcsTB2boTGraadu1JcWeDwC1bw6V+Hq8=;
+        b=eScEb7J2K97futC1gHOC2IUE2viGEnKmu+eTL216uZsOscmTmYHJK3daPSXuv8aFXE
+         x02jg1wP7eLvA2y5Egu4LB5QvOw6dXN9vRAxuTrxFAmkXNS7zpAK8KBdYaCrQqw1Um89
+         ZOGj7NMtejK7+Y7nN+xD2aWd0oGg19uFjab4CfOCOymSZw+cVSlM//Y5r86cMH0nIzhU
+         zcsBrM6BNOKNFIYeV1ghHE6AVGX7WtRbkkjfNLkOY7dPdaBKmJKKXNwq1KjpvRsgI0Lo
+         toicmkgJJ6BWghLDTzuMrLzxLsZUfe5WFCU558s1OnX8kaMWojdQ7ZsUuA8uTcNmY4r4
+         5ijA==
+X-Gm-Message-State: AJIora+blaPAOcrqOwA7QXTWX18kEwTj6NJCqxhyzwxxgtKeB+rKCc7W
+        m8hPT6WeUZmLAGThZJM96nsXrXQHieIEkg==
+X-Google-Smtp-Source: AGRyM1vhQsEc5zLCbC5j9tsGuaWyRpcfDwdR/mF3pVxce/+PWpSXUVR4paug2rjtDF7gsppzYvvqDQ==
+X-Received: by 2002:a05:620a:4107:b0:6a6:e13e:5b84 with SMTP id j7-20020a05620a410700b006a6e13e5b84mr19671996qko.24.1655793429606;
+        Mon, 20 Jun 2022 23:37:09 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id d7-20020ac86687000000b00304e47b9602sm11778102qtp.9.2022.06.20.23.37.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 23:37:09 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3177f4ce3e2so97050097b3.5;
+        Mon, 20 Jun 2022 23:37:09 -0700 (PDT)
+X-Received: by 2002:a81:7c1:0:b0:317:897d:ea90 with SMTP id
+ 184-20020a8107c1000000b00317897dea90mr5012151ywh.283.1655793428952; Mon, 20
+ Jun 2022 23:37:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <874k0nlrbw.wl-kuninori.morimoto.gx@renesas.com>
+ <87tu8nkcp7.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVV6z-nCTvJyG_TV3Dj65QU8K=x85JAKDStQVnP3edO3w@mail.gmail.com>
+ <87czf2ub6f.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87czf2ub6f.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 21 Jun 2022 08:36:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWGbDXCypVNWDU0mC29K0AuXvwL+zzCtvr5Ngxtj1n08w@mail.gmail.com>
+Message-ID: <CAMuHMdWGbDXCypVNWDU0mC29K0AuXvwL+zzCtvr5Ngxtj1n08w@mail.gmail.com>
+Subject: Re: [PATCH v3 07/21] pinctrl: renesas: r8a779g0: remove not used
+ MOD_SELx definitions
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+Hi Morimoto-san,
 
-Thank you for the patch.
+On Tue, Jun 21, 2022 at 2:12 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > Current V4H PFC code has many MOD_SELx definitions with all 0.
+> > > But these have no meaning. This patch removes these, but keep
+> > > its definition to avoid unreadable PINMUX_MOD_SELS.
+> >
+> > You can just replace them with blanks, keeping the structure of the
+> > PINMUX_MOD_SELS table alive.
+>
+> Sorry, but I don't understand this. Maybe "blanks" and "alive".
 
-On Thu, Jun 16, 2022 at 07:08:21PM +0200, Stephen Kitt wrote:
-> This started with work on the removal of backlight_properties'
-> deprecated fb_blank field, much of which can be taken care of by using
-> helper functions provided by backlight.h instead of directly accessing
-> fields in backlight_properties. This patch series doesn't involve
-> fb_blank, but it still seems useful to use helper functions where
-> appropriate.
-> 
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
+blanks = TABs, i.e. a hole in the table structure
+perhaps s/alive/intact/?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Do you mean
+> 1) "remove unnecessary MOD_SELx, and update PINMUX_MOD_SELS table"
+>    (= need update on v4)
+>
+> or
+>
+> 2) "use NULL #define, and keep PINMUX_MOD_SELS" (= no update on v4)
 
-> ---
-> Changes since v1: clarified commit message, this doesn't touch fb_blank
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> index f6628a5ee95f..794573badfe8 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> @@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
->  	struct shmob_drm_connector *scon = bl_get_data(bdev);
->  	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
->  	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
-> -	int brightness = bdev->props.brightness;
-> -
-> -	if (bdev->props.power != FB_BLANK_UNBLANK ||
-> -	    bdev->props.state & BL_CORE_SUSPENDED)
-> -		brightness = 0;
-> +	int brightness = backlight_get_brightness(bdev);
->  
->  	return bdata->set_brightness(brightness);
->  }
-> 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+I meant 1).
 
--- 
-Regards,
+E.g.
 
-Laurent Pinchart
+-#define MOD_SEL7_1
+
+and
+
+-MOD_SEL4_1             MOD_SEL5_1              MOD_SEL6_1
+ MOD_SEL7_1              MOD_SEL8_1      \
++MOD_SEL4_1             MOD_SEL5_1              MOD_SEL6_1
+                         MOD_SEL8_1      \
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
