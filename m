@@ -2,110 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31C1F5532A7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 14:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D51E355337F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 15:24:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350948AbiFUM6w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 08:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
+        id S1351249AbiFUNXS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 09:23:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351153AbiFUM6g (ORCPT
+        with ESMTP id S1351342AbiFUNWj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 08:58:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED7312A2;
-        Tue, 21 Jun 2022 05:58:34 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6800B104;
-        Tue, 21 Jun 2022 14:58:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1655816312;
-        bh=QeBzIO+U3oKdldlfZMcuLeVK7EiSrArkPksFp8cBSkM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=OO5/5+9Yhc4qSTux6Py6LT4Iy9hqrC9FAcbdk89g+PfRJ9mfNx/9LXQfiVqPfMl6B
-         l/HtiR7/BVJjXnB3PuCTdJ9rho2pL2COKVqdaXTmuizWOt9m7IN1wjsDio7LVg3ePB
-         sCpnfC6Tove2EPl7XyJUAFnmnCL1okn8xaSvBPgs=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 21 Jun 2022 09:22:39 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B27263B
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 06:22:34 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by albert.telenet-ops.be with bizsmtp
+        id lpNW2700Q4C55Sk06pNWmX; Tue, 21 Jun 2022 15:22:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o3dpt-000BW8-Rh; Tue, 21 Jun 2022 15:22:29 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1o3dpt-006K0S-Aw; Tue, 21 Jun 2022 15:22:29 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Brad Bishop <bradleyb@fuzziesquirrel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Eddie James <eajames@linux.ibm.com>, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] eeprom: at25: Rework buggy read splitting
+Date:   Tue, 21 Jun 2022 15:22:26 +0200
+Message-Id: <7ae260778d2c08986348ea48ce02ef148100e088.1655817534.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
-References: <20220616170821.1348169-1-steve@sk2.org>
-Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Stephen Kitt <steve@sk2.org>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stephen Kitt <steve@sk2.org>
-Date:   Tue, 21 Jun 2022 13:58:29 +0100
-Message-ID: <165581630958.18145.12909267841116831017@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Stephen Kitt (2022-06-16 18:08:21)
-> This started with work on the removal of backlight_properties'
-> deprecated fb_blank field, much of which can be taken care of by using
-> helper functions provided by backlight.h instead of directly accessing
-> fields in backlight_properties. This patch series doesn't involve
-> fb_blank, but it still seems useful to use helper functions where
-> appropriate.
->=20
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
->=20
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The recent change to split reads into chunks has several problems:
+  1. If an SPI controller has no transfer size limit, max_chunk is
+     SIZE_MAX, and num_msgs becomes zero, causing no data to be read
+     into the buffer, and exposing the original contents of the buffer
+     to userspace,
+  2. If the requested read size is not a multiple of the maximum
+     transfer size, the last transfer reads too much data, overflowing
+     the buffer,
+  3. The loop logic differs from the write case.
 
+Fix the above by:
+  1. Keeping track of the number of bytes that are still to be
+     transferred, instead of precalculating the number of messages and
+     keeping track of the number of bytes tranfered,
+  2. Calculating the transfer size of each individual message, taking
+     into account the number of bytes left,
+  3. Switching from a "while"-loop to a "do-while"-loop, and renaming
+     "msg_count" to "segment".
 
-Hi Stephen,
+While at it, drop the superfluous cast from "unsigned int" to "unsigned
+int", also from at25_ee_write(), where it was probably copied from.
 
-This looks reasonable to me too.
+Fixes: 0a35780c755ccec0 ("eeprom: at25: Split reads into chunks and cap write size")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Tested on Ebisu-4D with 25LC040 EEPROM.
+---
+ drivers/misc/eeprom/at25.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+diff --git a/drivers/misc/eeprom/at25.c b/drivers/misc/eeprom/at25.c
+index c9c56fd194c1301f..bdffc6543f6f8b7f 100644
+--- a/drivers/misc/eeprom/at25.c
++++ b/drivers/misc/eeprom/at25.c
+@@ -80,10 +80,9 @@ static int at25_ee_read(void *priv, unsigned int offset,
+ 	struct at25_data *at25 = priv;
+ 	char *buf = val;
+ 	size_t max_chunk = spi_max_transfer_size(at25->spi);
+-	size_t num_msgs = DIV_ROUND_UP(count, max_chunk);
+-	size_t nr_bytes = 0;
+-	unsigned int msg_offset;
+-	size_t msg_count;
++	unsigned int msg_offset = offset;
++	size_t bytes_left = count;
++	size_t segment;
+ 	u8			*cp;
+ 	ssize_t			status;
+ 	struct spi_transfer	t[2];
+@@ -97,9 +96,8 @@ static int at25_ee_read(void *priv, unsigned int offset,
+ 	if (unlikely(!count))
+ 		return -EINVAL;
+ 
+-	msg_offset = (unsigned int)offset;
+-	msg_count = min(count, max_chunk);
+-	while (num_msgs) {
++	do {
++		segment = min(bytes_left, max_chunk);
+ 		cp = at25->command;
+ 
+ 		instr = AT25_READ;
+@@ -131,8 +129,8 @@ static int at25_ee_read(void *priv, unsigned int offset,
+ 		t[0].len = at25->addrlen + 1;
+ 		spi_message_add_tail(&t[0], &m);
+ 
+-		t[1].rx_buf = buf + nr_bytes;
+-		t[1].len = msg_count;
++		t[1].rx_buf = buf;
++		t[1].len = segment;
+ 		spi_message_add_tail(&t[1], &m);
+ 
+ 		status = spi_sync(at25->spi, &m);
+@@ -142,10 +140,10 @@ static int at25_ee_read(void *priv, unsigned int offset,
+ 		if (status)
+ 			return status;
+ 
+-		--num_msgs;
+-		msg_offset += msg_count;
+-		nr_bytes += msg_count;
+-	}
++		msg_offset += segment;
++		buf += segment;
++		bytes_left -= segment;
++	} while (bytes_left > 0);
+ 
+ 	dev_dbg(&at25->spi->dev, "read %zu bytes at %d\n",
+ 		count, offset);
+@@ -229,7 +227,7 @@ static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
+ 	do {
+ 		unsigned long	timeout, retries;
+ 		unsigned	segment;
+-		unsigned	offset = (unsigned) off;
++		unsigned	offset = off;
+ 		u8		*cp = bounce;
+ 		int		sr;
+ 		u8		instr;
+-- 
+2.25.1
 
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
-> Changes since v1: clarified commit message, this doesn't touch fb_blank
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu=
-/drm/shmobile/shmob_drm_backlight.c
-> index f6628a5ee95f..794573badfe8 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> @@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight=
-_device *bdev)
->         struct shmob_drm_connector *scon =3D bl_get_data(bdev);
->         struct shmob_drm_device *sdev =3D scon->connector.dev->dev_privat=
-e;
->         const struct shmob_drm_backlight_data *bdata =3D &sdev->pdata->ba=
-cklight;
-> -       int brightness =3D bdev->props.brightness;
-> -
-> -       if (bdev->props.power !=3D FB_BLANK_UNBLANK ||
-> -           bdev->props.state & BL_CORE_SUSPENDED)
-> -               brightness =3D 0;
-> +       int brightness =3D backlight_get_brightness(bdev);
-> =20
->         return bdata->set_brightness(brightness);
->  }
->=20
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
-> --=20
-> 2.30.2
->
