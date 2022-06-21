@@ -2,129 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A34B85535AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 17:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CACC6553CD9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 23:11:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352539AbiFUPPK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 11:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46348 "EHLO
+        id S1356047AbiFUVHY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 17:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352504AbiFUPOz (ORCPT
+        with ESMTP id S1355821AbiFUVHJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:14:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD71729CB2;
-        Tue, 21 Jun 2022 08:14:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 621F6B819F0;
-        Tue, 21 Jun 2022 15:14:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61D04C3411C;
-        Tue, 21 Jun 2022 15:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655824447;
-        bh=OZlfEgJPPL27uCOfUcNRBzpd4OtK6pXffLp4w47WDZo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jlc9O+Xn9LruEt91mMLpCJaOxqOa5u/fynfFRHnL2P15dr0drS7XjW0IO/9cB4WQK
-         s2UZEx+Ky6kbme00Uov0AVnv/podRcieYX7zwU7cOCkPNuzE+Ay+WNWopUnX34W3Z0
-         DuWaSjusj1lvZ8i+g7511sQyKkleMllZehhk3qMAqhNnAePi4LYF5wBGBuUNGYc690
-         81w9Fq1Fa2Iz1lpOLCXNUhg2N0JY4XEGI38LMshbHPEcALu/4AtBc050RFl3QezpN/
-         pFxFqJdnSB+bamqv3kFGiMdMR0w3C1qVQWWGpo8jqLXGShJiaVGC+QsdMsGF546wcT
-         3Xyo4hUMpRCnw==
-Date:   Tue, 21 Jun 2022 17:14:02 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
-        krzk+dt@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v6 7/7] arm64: dts: renesas: r8a779f0: spider-cpu: Enable
- UFS device
-Message-ID: <YrHgOptQ56woMAeO@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        alim.akhtar@samsung.com, avri.altman@wdc.com, robh+dt@kernel.org,
-        krzk+dt@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
- <20220603110524.1997825-8-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 21 Jun 2022 17:07:09 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1F736164
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 13:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655844879; x=1687380879;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/5ifeJa/TfRSoD5lAXTR/+E+MeFrkS25zlBYMGUKHvA=;
+  b=igGIl3ccREck1YDeVXfFM7A0q0nYUA+wMXxNJNWqpyeMcPHi6QwZXIH4
+   3IDU972a67lQoxGyIGsizgG4f9SKfAQAr9GuN048+HqKy+bp/Yi7CROjo
+   rACYFFBTvOlQvqueJOekt3JBuu4TadMshugmnWmGqEO/UrnoAP4cc428I
+   PIbYwOKgOeXiVXGD6mY+OX3kEWPcB9lLH+U0BHgGVonXtDZfCOT2YHYfG
+   cAKkee1KOHd47/sgZqH+4BlFCOZEmjF7KkpxstNbfUCjXk2dE7VT9dprr
+   2i1YlevLPUpKAVPyFr7MvVDPCECFYJzsw8S8y9kyrkfiERLZOi1Gt7/AL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="268952881"
+X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; 
+   d="scan'208";a="268952881"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 13:54:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; 
+   d="scan'208";a="655318556"
+Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2022 13:54:14 -0700
+Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o3kt3-0000QD-Vw;
+        Tue, 21 Jun 2022 20:54:13 +0000
+Date:   Wed, 22 Jun 2022 04:53:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ ebde835d00b25f6852cef819b7b8c96e07c709b5
+Message-ID: <62b22fdc.WOE2W0f6knN9aiBj%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nw88w6/DKCvKTgU6"
-Content-Disposition: inline
-In-Reply-To: <20220603110524.1997825-8-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: ebde835d00b25f6852cef819b7b8c96e07c709b5  Merge tag 'v5.19-rc3' into renesas-devel
 
---nw88w6/DKCvKTgU6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 970m
 
-Hi Shimoda-san, Geert,
+configs tested: 90
+configs skipped: 3
 
-On Fri, Jun 03, 2022 at 08:05:24PM +0900, Yoshihiro Shimoda wrote:
-> Enable UFS device for R-Car S4-8 Spider CPU board.
->=20
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-With my firmware, the manual setup of the clock in the bootloader is
-still needed. So, yes, I agree we should wait with this patch until we
-have a better way to deal with the clock.
+gcc tested configs:
+arm                              allmodconfig
+arm                                 defconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+m68k                       m5249evb_defconfig
+ia64                         bigsur_defconfig
+openrisc                 simple_smp_defconfig
+ia64                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+m68k                             allyesconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+parisc64                            defconfig
+s390                                defconfig
+s390                             allyesconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+i386                 randconfig-a003-20220620
+i386                 randconfig-a001-20220620
+i386                 randconfig-a004-20220620
+i386                 randconfig-a002-20220620
+i386                 randconfig-a005-20220620
+i386                 randconfig-a006-20220620
+arc                  randconfig-r043-20220619
+riscv                randconfig-r042-20220619
+arc                  randconfig-r043-20220620
+s390                 randconfig-r044-20220619
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
 
-Other than that, the patches give me SCSI disks I can work with
-(partition, read, write). There are a few initial errors, though:
+clang tested configs:
+arm                       cns3420vb_defconfig
+s390                             alldefconfig
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+x86_64               randconfig-a013-20220620
+x86_64               randconfig-a012-20220620
+x86_64               randconfig-a011-20220620
+x86_64               randconfig-a016-20220620
+x86_64               randconfig-a014-20220620
+x86_64               randconfig-a015-20220620
+i386                 randconfig-a012-20220620
+i386                 randconfig-a014-20220620
+i386                 randconfig-a013-20220620
+i386                 randconfig-a011-20220620
+i386                 randconfig-a016-20220620
+i386                 randconfig-a015-20220620
+hexagon              randconfig-r045-20220619
+hexagon              randconfig-r045-20220620
+riscv                randconfig-r042-20220620
+hexagon              randconfig-r041-20220619
+hexagon              randconfig-r041-20220620
+s390                 randconfig-r044-20220620
 
-[    0.449917] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x03 =
-for idn 1 failed, index 0, err =3D 253
-[    0.452035] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x03 =
-for idn 1 failed, index 0, err =3D 253
-[    0.453859] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x03 =
-for idn 1 failed, index 0, err =3D 253
-[    0.453874] ufshcd-renesas e6860000.ufs: ufshcd_query_attr_retry: query =
-attribute, idn 1, failed with error 253 after 3 retires
-
-(A patch for the typo in the last line has already been sent)
-
-But after that, everything looks fine on first testing. So, for the
-patches:
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Happy hacking!
-
-
---nw88w6/DKCvKTgU6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKx4DYACgkQFA3kzBSg
-KbZ5UxAApdHSQPyJbYMGyD+PpowBvH+U6lPHG+KhuP4ZJaSNqtrWbsJV3XyL9xG+
-J2bEQ+CUKEqX4F48k4GxW5nlC/mNWx2XxvJeiMzklLsmb4LggkkfpjdB1u3N1KbS
-MBlne0ZFN/M0xlu4PYcOxcoKhCSqsGJQB0Hlxt6X0o9rJhn4dudLosjiydqsFVOj
-0K2SSi1XRuPOeevoyFZZUPvgzAzJ7KQ2uH5eaA+l6xcpg0ixooscJxx9pyK9wVYi
-qfZq6GNlMLbknT0LLqc8sr6XXnCTiyoTl+zDMta/ytgdsBonX+h5QW/xR2FWukx3
-ITmtA0dqOkSr9jRllWNYfZ00jdXT23fHiml61mVq7sNLBW/DaWK/PQzgrZC83Z3A
-298bIaj+FqjzEc3iTIFJ3qsKSRgD1DjVhV9Dbae8U+pySQZavgh+DbACGu4HwJfa
-fSxJ55FIwY+PFIrvAC3TDrTQWwQtsnFESpS8NXt6gOaPcSdk3XDgWgs9BaykF0lY
-x76aOEE/EFF9n3SQjSWHNbWe225FfChDB00yJO7YSLy0alxH226MmzwKwYGOhc67
-iXnUgaEJEp6qfgaBhAz5zfLpuGwWWC7zWw6RT2PQFX5D/c2ZbsgOFUWC+mNh1Ewo
-ACJc9A9Kaur1hCmm3fxYBUuwENzYthiT8Q/HSNqdmPjOZNYG4xs=
-=hpD5
------END PGP SIGNATURE-----
-
---nw88w6/DKCvKTgU6--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
