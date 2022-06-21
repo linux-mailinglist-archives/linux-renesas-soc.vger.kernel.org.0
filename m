@@ -2,181 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9305533A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 15:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 971CF5533BF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 15:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbiFUNe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 09:34:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55630 "EHLO
+        id S232268AbiFUNhQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 09:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbiFUNdX (ORCPT
+        with ESMTP id S1351068AbiFUNhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 09:33:23 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1179584
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 06:33:16 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id lpZC2700i4C55Sk06pZCno; Tue, 21 Jun 2022 15:33:14 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1o3e0G-000BZl-Cv; Tue, 21 Jun 2022 15:33:12 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1o3e0F-006Keb-3V; Tue, 21 Jun 2022 15:33:11 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: renesas: Fix DA9063 watchdog sub node names
-Date:   Tue, 21 Jun 2022 15:33:10 +0200
-Message-Id: <1dafdce285f7d14bec9e2033ac87fb30135895db.1655818230.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 21 Jun 2022 09:37:00 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620CC2CCAB
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 06:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=4z8LIqSE2luIYKYQPL4O7016FE7X
+        ACNUC8HzUXy/qdA=; b=01BO+r+v9RlUR+01A7bMVQzBsQhNNmJIvNZlxSGUGfBq
+        Lqm9gGQAQH9l5Ovg8uCXA4Fb0ihlW/7nFgYGuPR6tBcbKeofmdfLu6jgdfaagLMx
+        3xY98ygVqrniGO11M0EC7INENzj53fQR0ID8FOCv7ERwBl2iscYLOR2BWJdM4P8=
+Received: (qmail 166667 invoked from network); 21 Jun 2022 15:35:31 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2022 15:35:31 +0200
+X-UD-Smtp-Session: l3s3148p1@NDlbS/Xh2kJZD+65
+Date:   Tue, 21 Jun 2022 15:35:30 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-mmc@vger.kernel.org, Pavel Machek <pavel@denx.de>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 0/2] mmc: renesas: Trivial fixes
+Message-ID: <YrHJIjhDP0/Sur1M@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-mmc@vger.kernel.org, Pavel Machek <pavel@denx.de>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3uiu3xecSU/IzmT8"
+Content-Disposition: inline
+In-Reply-To: <20220404172322.32578-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-make dtbs_check:
 
-    arch/arm/boot/dts/r8a7791-koelsch-single-memory-node.dtb: pmic@58: 'wdt' does not match any of the regexes: 'pinctrl-[0-9]+'
-	    From schema: Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-    ...
+--3uiu3xecSU/IzmT8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Change the watchdog child node names to match the DA9063 DT bindings and
-the Generic Names Recommendation in the Devicetree Specification.
+> This patch series adds trivial fixes to renesas mmc driver.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Seen after commit 441613662db7bbf5 ("dt-bindings: mfd: Convert da9063 to
-yaml") in mfd/for-mfd-next.
+Did I miss if there is anything left to discuss for v2?
 
-To be queued in renesas-devel for v5.20.
 
- arch/arm/boot/dts/r8a7790-lager.dts   | 2 +-
- arch/arm/boot/dts/r8a7790-stout.dts   | 2 +-
- arch/arm/boot/dts/r8a7791-koelsch.dts | 2 +-
- arch/arm/boot/dts/r8a7791-porter.dts  | 2 +-
- arch/arm/boot/dts/r8a7792-blanche.dts | 2 +-
- arch/arm/boot/dts/r8a7793-gose.dts    | 2 +-
- arch/arm/boot/dts/r8a7794-alt.dts     | 2 +-
- arch/arm/boot/dts/r8a7794-silk.dts    | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+--3uiu3xecSU/IzmT8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/arch/arm/boot/dts/r8a7790-lager.dts b/arch/arm/boot/dts/r8a7790-lager.dts
-index 55181690032f870f..dc1b58e1cf1a01eb 100644
---- a/arch/arm/boot/dts/r8a7790-lager.dts
-+++ b/arch/arm/boot/dts/r8a7790-lager.dts
-@@ -442,7 +442,7 @@ rtc {
- 				compatible = "dlg,da9063-rtc";
- 			};
- 
--			wdt {
-+			watchdog {
- 				compatible = "dlg,da9063-watchdog";
- 			};
- 		};
-diff --git a/arch/arm/boot/dts/r8a7790-stout.dts b/arch/arm/boot/dts/r8a7790-stout.dts
-index 2bbc05502d400ba7..f9213927a1094649 100644
---- a/arch/arm/boot/dts/r8a7790-stout.dts
-+++ b/arch/arm/boot/dts/r8a7790-stout.dts
-@@ -342,7 +342,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
-index ae373e6f7b371f13..062415e33458378d 100644
---- a/arch/arm/boot/dts/r8a7791-koelsch.dts
-+++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
-@@ -803,7 +803,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7791-porter.dts b/arch/arm/boot/dts/r8a7791-porter.dts
-index 41135e3ec4a321f3..c44755c75fbd277e 100644
---- a/arch/arm/boot/dts/r8a7791-porter.dts
-+++ b/arch/arm/boot/dts/r8a7791-porter.dts
-@@ -391,7 +391,7 @@ pmic@5a {
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7792-blanche.dts b/arch/arm/boot/dts/r8a7792-blanche.dts
-index b00a2e430b2ab513..aafd16fb324e08a8 100644
---- a/arch/arm/boot/dts/r8a7792-blanche.dts
-+++ b/arch/arm/boot/dts/r8a7792-blanche.dts
-@@ -336,7 +336,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7793-gose.dts b/arch/arm/boot/dts/r8a7793-gose.dts
-index 84bd3468cd2baf96..84794358157eac29 100644
---- a/arch/arm/boot/dts/r8a7793-gose.dts
-+++ b/arch/arm/boot/dts/r8a7793-gose.dts
-@@ -738,7 +738,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7794-alt.dts b/arch/arm/boot/dts/r8a7794-alt.dts
-index 1c4446dea275c907..28b2bd7e5f898e4c 100644
---- a/arch/arm/boot/dts/r8a7794-alt.dts
-+++ b/arch/arm/boot/dts/r8a7794-alt.dts
-@@ -464,7 +464,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/r8a7794-silk.dts b/arch/arm/boot/dts/r8a7794-silk.dts
-index 3c1394d4acbff447..3ba96e7c7a1dd85a 100644
---- a/arch/arm/boot/dts/r8a7794-silk.dts
-+++ b/arch/arm/boot/dts/r8a7794-silk.dts
-@@ -434,7 +434,7 @@ rtc {
- 			compatible = "dlg,da9063-rtc";
- 		};
- 
--		wdt {
-+		watchdog {
- 			compatible = "dlg,da9063-watchdog";
- 		};
- 	};
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKxyR8ACgkQFA3kzBSg
+KbaE8g//SE/s4VlQCXBI+FKeQFbA8DLx3Kvl+RVRfKQBXRi00zNdF3soWSUCfIGZ
+8UAkK9nthXXx/jCi9aiBo7fT0StSPiuact2ljH8MEjLRtmWV1Qzb//B4plgw0E0M
+m4VfF+FMjfcpUc8zm/e9VXBOKEsm9C2DmCEP1piB7vXDBx0nECt+o8Khf8WNJ+J3
+lpSlIlbxwNgk5c87oBS52m1TyvhZS0eGG0PH/AwIFoIqfKl4w1ZD9SYyB1EzIxem
+qN4H8pbjpXkeYqOb6HqPb2bgzR2VryQ/akHGT9W9DS08wBaA6nKPwvuU469xh7Ck
+3CW1/wyN55lWcceW0JAg+oKnAtScdRqaiHY8UKVIUmxowCNqMETt567T7JuWDeyF
+4pHa+fZl+/X48unxFDpJJjxuTjR2z0iEyF26Amgnyhj+wazeCYrKvJhzURtzYOpF
+1vIxCBSs8e5+sdrlUMQWGYxyC2ESE6v2cZPvd+hpxR3N1vNS7lLyesJ26Qlx3wOZ
+iYDGoA2UKr6hZPlXgxU9W5e9Q4lM68adKZywSmdM9ouabMGWbPVVQiYMT/ETxJMW
+3Lu68Xiuu8zJFxJ3Xcfzr+IID6Zecq9OV3+NF362S/xS70O7742bLYfW4mN9dL3k
+qtyK/xX7DJ7LbCwjyPHH5wJuvPt0mZfWDpIJt9EjrPWVXJQgtlE=
+=6vn6
+-----END PGP SIGNATURE-----
+
+--3uiu3xecSU/IzmT8--
