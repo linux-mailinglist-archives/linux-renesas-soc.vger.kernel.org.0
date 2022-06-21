@@ -2,37 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7028555338F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 15:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC9305533A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 15:34:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351666AbiFUNbN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 09:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S230088AbiFUNe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 09:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351706AbiFUN3L (ORCPT
+        with ESMTP id S229900AbiFUNdX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 09:29:11 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989B02AC4A
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 06:25:02 -0700 (PDT)
+        Tue, 21 Jun 2022 09:33:23 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1179584
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 06:33:16 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id lpR1270094C55Sk01pR1Mv; Tue, 21 Jun 2022 15:25:01 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id lpZC2700i4C55Sk06pZCno; Tue, 21 Jun 2022 15:33:14 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o3dsK-000BWj-VK
-        for linux-renesas-soc@vger.kernel.org; Tue, 21 Jun 2022 15:25:00 +0200
+        id 1o3e0G-000BZl-Cv; Tue, 21 Jun 2022 15:33:12 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1o3dsK-006KAV-KC
-        for linux-renesas-soc@vger.kernel.org; Tue, 21 Jun 2022 15:25:00 +0200
+        id 1o3e0F-006Keb-3V; Tue, 21 Jun 2022 15:33:11 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2022-06-21-v5.19-rc3
-Date:   Tue, 21 Jun 2022 15:25:00 +0200
-Message-Id: <20220621132500.1507452-1-geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: renesas: Fix DA9063 watchdog sub node names
+Date:   Tue, 21 Jun 2022 15:33:10 +0200
+Message-Id: <1dafdce285f7d14bec9e2033ac87fb30135895db.1655818230.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,83 +47,136 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2022-06-21-v5.19-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+make dtbs_check:
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+    arch/arm/boot/dts/r8a7791-koelsch-single-memory-node.dtb: pmic@58: 'wdt' does not match any of the regexes: 'pinctrl-[0-9]+'
+	    From schema: Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
+    ...
 
-Today's version is based on renesas-devel-2022-06-20-v5.19-rc3.
+Change the watchdog child node names to match the DA9063 DT bindings and
+the Generic Names Recommendation in the Devicetree Specification.
 
-Included branches with driver code:
-  - renesas-clk-for-v5.20
-  - renesas-pinctrl-for-v5.20
-  - topic/rcar-v3u-is-gen4-v2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Seen after commit 441613662db7bbf5 ("dt-bindings: mfd: Convert da9063 to
+yaml") in mfd/for-mfd-next.
 
-Included fixes:
-  - media: rcar-vin: Fix channel routing for Ebisu
-  - [LOCAL] soc: renesas: rcar-rst: Allow WDT reset on R-Car Gen4
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+To be queued in renesas-devel for v5.20.
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.libc.org/linux-sh#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+ arch/arm/boot/dts/r8a7790-lager.dts   | 2 +-
+ arch/arm/boot/dts/r8a7790-stout.dts   | 2 +-
+ arch/arm/boot/dts/r8a7791-koelsch.dts | 2 +-
+ arch/arm/boot/dts/r8a7791-porter.dts  | 2 +-
+ arch/arm/boot/dts/r8a7792-blanche.dts | 2 +-
+ arch/arm/boot/dts/r8a7793-gose.dts    | 2 +-
+ arch/arm/boot/dts/r8a7794-alt.dts     | 2 +-
+ arch/arm/boot/dts/r8a7794-silk.dts    | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
-Gr{oetje,eeting}s,
+diff --git a/arch/arm/boot/dts/r8a7790-lager.dts b/arch/arm/boot/dts/r8a7790-lager.dts
+index 55181690032f870f..dc1b58e1cf1a01eb 100644
+--- a/arch/arm/boot/dts/r8a7790-lager.dts
++++ b/arch/arm/boot/dts/r8a7790-lager.dts
+@@ -442,7 +442,7 @@ rtc {
+ 				compatible = "dlg,da9063-rtc";
+ 			};
+ 
+-			wdt {
++			watchdog {
+ 				compatible = "dlg,da9063-watchdog";
+ 			};
+ 		};
+diff --git a/arch/arm/boot/dts/r8a7790-stout.dts b/arch/arm/boot/dts/r8a7790-stout.dts
+index 2bbc05502d400ba7..f9213927a1094649 100644
+--- a/arch/arm/boot/dts/r8a7790-stout.dts
++++ b/arch/arm/boot/dts/r8a7790-stout.dts
+@@ -342,7 +342,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
+index ae373e6f7b371f13..062415e33458378d 100644
+--- a/arch/arm/boot/dts/r8a7791-koelsch.dts
++++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
+@@ -803,7 +803,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7791-porter.dts b/arch/arm/boot/dts/r8a7791-porter.dts
+index 41135e3ec4a321f3..c44755c75fbd277e 100644
+--- a/arch/arm/boot/dts/r8a7791-porter.dts
++++ b/arch/arm/boot/dts/r8a7791-porter.dts
+@@ -391,7 +391,7 @@ pmic@5a {
+ 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+ 		interrupt-controller;
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7792-blanche.dts b/arch/arm/boot/dts/r8a7792-blanche.dts
+index b00a2e430b2ab513..aafd16fb324e08a8 100644
+--- a/arch/arm/boot/dts/r8a7792-blanche.dts
++++ b/arch/arm/boot/dts/r8a7792-blanche.dts
+@@ -336,7 +336,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7793-gose.dts b/arch/arm/boot/dts/r8a7793-gose.dts
+index 84bd3468cd2baf96..84794358157eac29 100644
+--- a/arch/arm/boot/dts/r8a7793-gose.dts
++++ b/arch/arm/boot/dts/r8a7793-gose.dts
+@@ -738,7 +738,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7794-alt.dts b/arch/arm/boot/dts/r8a7794-alt.dts
+index 1c4446dea275c907..28b2bd7e5f898e4c 100644
+--- a/arch/arm/boot/dts/r8a7794-alt.dts
++++ b/arch/arm/boot/dts/r8a7794-alt.dts
+@@ -464,7 +464,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/r8a7794-silk.dts b/arch/arm/boot/dts/r8a7794-silk.dts
+index 3c1394d4acbff447..3ba96e7c7a1dd85a 100644
+--- a/arch/arm/boot/dts/r8a7794-silk.dts
++++ b/arch/arm/boot/dts/r8a7794-silk.dts
+@@ -434,7 +434,7 @@ rtc {
+ 			compatible = "dlg,da9063-rtc";
+ 		};
+ 
+-		wdt {
++		watchdog {
+ 			compatible = "dlg,da9063-watchdog";
+ 		};
+ 	};
+-- 
+2.25.1
 
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
