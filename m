@@ -2,90 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9BFC552D24
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 10:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A94552EE3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jun 2022 11:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346674AbiFUIgp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 04:36:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53470 "EHLO
+        id S1349463AbiFUJkS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 05:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345537AbiFUIgn (ORCPT
+        with ESMTP id S1349279AbiFUJkI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 04:36:43 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A7E22290;
-        Tue, 21 Jun 2022 01:36:42 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id c1so18949209qvi.11;
-        Tue, 21 Jun 2022 01:36:42 -0700 (PDT)
+        Tue, 21 Jun 2022 05:40:08 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA9727CDC
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 02:39:55 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id x38so23495039ybd.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 02:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=NKhg6kSkfnglJlsPDVUWhCY3Iibudx7OhZC5CePFgeNekYJKNrcmU8wB8gkktmjPqY
+         f0o4DET3nwW7oGb1WQAmWVCm6yLISrVrQXMY/9qoCppMNLX7K/jA/JZ+JMs1mNT38j+N
+         qSlM2vTiSOIkQo5cZ6oY4dkMVda7fWn0vzKRT295Q67AStI8u0BTanvw38uSxo4IMvFm
+         mtbeFJOQugEk6bmbrSLJZHxNWvSEoU0AT9TQz59V3jAGDZbWiI6U0Fx8UlroTYMr9wGQ
+         +xC78kHT5AZK7k/f6wmWhdDj3ThC5Cy20ctCKCcYvb/idPExEpgvQXB/UX/ziCu3vO07
+         Q2/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mCrifMlo157VPMmQRiT6jFW67xnyQ8WeHHx7w4rwSGc=;
-        b=2rLjrJnxpxp0xEZVe2nrGZtsSuYGcWZnclfukuNWRJ3+fQxeWkgf78CK3nvWiDAj0B
-         WrrQO7v2v+Z8zX5thbhVCy6CxTv72b0sOA+I//TA6r0ghmle9Oglr+YsZH6eo+/krxT2
-         VHInjjQA/KRP3H97PPFmkZmGDZa/8WF4HSPLX/5SHlo/7KnbIInZzQJ/k4qRtrBGa+M6
-         bg654P7kQCDtW9G7y6/dN9ZZUMDqht0BAOtKM9giUO1EdZ85cp/tHFQb/lkUtng7nNxd
-         Xu2f92pFV4q1EG9ImuNGSKU/QHiuIfTva8BzK7aLBjP8W28kCL62FXXqS2jR/cIfTQgB
-         FpHg==
-X-Gm-Message-State: AJIora9Rzt0uSmdWdPM9RIkjwbbKKKjN4NvyaNT48eDszJvpQEKqXc4L
-        fXXGhpM1MqZUbSEbk+Gri9HEZLpMl/MOnA==
-X-Google-Smtp-Source: AGRyM1vmy6JZgifJJ1muPHSqJRWQH+mBYzFeZy47FObm37PY1XfXYZ7rzUDNfLjwLbn9UPnKppgTnQ==
-X-Received: by 2002:a05:6214:d8b:b0:46b:a979:d9c with SMTP id e11-20020a0562140d8b00b0046ba9790d9cmr21917084qve.23.1655800601024;
-        Tue, 21 Jun 2022 01:36:41 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id bq38-20020a05620a46a600b006a785ba0c25sm13001804qkb.77.2022.06.21.01.36.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jun 2022 01:36:40 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-317803b61e5so97911457b3.1;
-        Tue, 21 Jun 2022 01:36:40 -0700 (PDT)
-X-Received: by 2002:a0d:f801:0:b0:30f:f716:2950 with SMTP id
- i1-20020a0df801000000b0030ff7162950mr32597022ywf.358.1655800600138; Tue, 21
- Jun 2022 01:36:40 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=UcZrKWJk/cJpeFWwU/LwYoHlIsaLLwgTnG05dGuoIl3dK0eLqw/moH3ueG71c2yEMC
+         4yFdJiUyKhMiStJ3XpN70nLY9at7QAdBua/xkkWtYy1MDZ3J56obnUqGieMsQCvaU/5I
+         yCZC+0bauIJF3BnDLlCoHhP2sqjVRfu60pkVWVMo4ihlaFRItIgi+ihAEz8CH3mljhPN
+         FfCfUUoxYT8mbdGp5XZVJRGRJkvtz7w2iCLCczlY6WjwunLsNtAmmKLsRP2aVBkc+yLr
+         i+0VY4lNwbEyab5XsFbok5/MyqOu9X3SGpmEC/9ST8WFS3IMBkwIQItJNUdjTyJtsk+W
+         0ZsQ==
+X-Gm-Message-State: AJIora9duuEoD0BFGE/LNulBEfSnyk7+8Ch9b1qGwoO+VPUH9m4DMPBJ
+        THcKFuRfVMDSvG9ZmDzkjJpOU2Ypb/zPiCpXXEnFArpz7L8wuqja
+X-Google-Smtp-Source: AGRyM1sTF/SvvxCyraPE52znD36ZX02jNmxmam87lP8bWzXT3yTfChS1a9JgJI9LjBXh9tpS4qLO5E/t+5efudcEruY=
+X-Received: by 2002:a0d:d7c7:0:b0:317:bfe8:4f2 with SMTP id
+ z190-20020a0dd7c7000000b00317bfe804f2mr12417910ywd.276.1655804384555; Tue, 21
+ Jun 2022 02:39:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220621070145.4080147-1-windhl@126.com>
-In-Reply-To: <20220621070145.4080147-1-windhl@126.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 Jun 2022 10:36:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU_=cWVr7pjYNbz+eO5R3S_H9nJyodRNkQ6uWYgQ_O-rA@mail.gmail.com>
-Message-ID: <CAMuHMdU_=cWVr7pjYNbz+eO5R3S_H9nJyodRNkQ6uWYgQ_O-rA@mail.gmail.com>
-Subject: Re: [PATCH] pci/controller/pcie-rcar-host: Hold the reference
- returned by of_find_matching_node
-To:     Liang He <windhl@126.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        lpieralisi@kernel.org, Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
+ 02:39:44 -0700 (PDT)
+Reply-To: dimitryedik@gmail.com
+From:   Dimitry Edik <lsbthdwrds@gmail.com>
+Date:   Tue, 21 Jun 2022 02:39:44 -0700
+Message-ID: <CAGrL05aBO8rbFuij24J-APa+Luis69gEjhj35iv_GZfkHCVYDQ@mail.gmail.com>
+Subject: Dear Partner,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b36 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [lsbthdwrds[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 21, 2022 at 9:47 AM Liang He <windhl@126.com> wrote:
-> In rcar_pcie_init(), we need to hold the reference returned by
-> of_find_matching_node() which is used to call of_node_put() for
-> refcount balance.
->
-> Signed-off-by: Liang He <windhl@126.com>
+Hello Dear,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+My Name is Dimitry Edik from Russia A special assistance to my Russia
+boss who deals in oil import and export He was killed by the Ukraine
+soldiers at the border side. He supplied
+oil to the Philippines company and he was paid over 90 per cent of the
+transaction and the remaining $18.6 Million dollars have been paid into a
+Taiwan bank in the Philippines..i want a partner that will assist me
+with the claims. Is a (DEAL ) 40% for you and 60% for me
+I have all information for the claims.
+Kindly read and reply to me back is 100 per cent risk-free
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours Sincerely
+Dimitry Edik
