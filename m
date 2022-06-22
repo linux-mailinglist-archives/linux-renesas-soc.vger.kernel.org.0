@@ -2,195 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3F8C554361
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 09:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1CD554460
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 10:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349948AbiFVGc1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jun 2022 02:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46694 "EHLO
+        id S1352105AbiFVHKh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 03:10:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiFVGc0 (ORCPT
+        with ESMTP id S232097AbiFVHKg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jun 2022 02:32:26 -0400
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0722B2F64A;
-        Tue, 21 Jun 2022 23:32:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1655879543; x=1687415543;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZDPlFOi/tTfN5lGFpUD5z3ZN/w2Vsbz0sFcmScE2tsc=;
-  b=JOfkqckiLQkj0+sAeebEp2mnEOVezqGhe3k8eu5usguhrnWrSu9Myr45
-   Ku4XAjaM4QssHZ3B6HXbwskWcEAXzs13JDUhJNVFwBZw1QTtK1RGjda5/
-   GkML2vXyYRrpTBVYOPtnEiDod/TLuSf94/iaUNZTZ245kmCUC8eSoCSBS
-   q0SAAnOh+Z19DN6JZqQ/zpHqYau422wDHs6Ae8uO7x6ohFzZrKNew/0ox
-   87UNz4Y1a1gTfV2+X9TsgyM8Z7a7ClcKXh01NfIqpvATSCtCdzqizi7yd
-   mbl4zML/Ju6r/8wzLk9vWzhbYh86dymc1OPSDjiM1y3c6YMI7ucsPhlco
-   w==;
-X-IronPort-AV: E=Sophos;i="5.92,211,1650902400"; 
-   d="scan'208";a="203794113"
-Received: from mail-bn8nam11lp2175.outbound.protection.outlook.com (HELO NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.175])
-  by ob1.hgst.iphmx.com with ESMTP; 22 Jun 2022 14:32:21 +0800
+        Wed, 22 Jun 2022 03:10:36 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D26A36B6D;
+        Wed, 22 Jun 2022 00:10:35 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EgqqmyuBo+Dl3NAhYjmkYZXEMxWEyVz1/x/OiHuX3cZ+pX5PMdilh1BSuL9hBy+3I+cQ7QB7CzWb01QRhnhEAXOd79JzxPToZUI6+UNkaWn9OQjJn3aMKGRlABh4oBmVe07dfhBFrY+p+aa4jESxhpLB026ncd5wV/YjnT12s70bs563y7ZZjvBUzVF/ZdsL3KO1RZUuDQGJogVkNO/ocAws0VmkkXIgICxVoeYfQeRnCpkN0Fl+0XUC3TACWGzeLCYRw1jXkpeNAcvgCJjeqgD8BkQXsFUmS/LjSQOaaDGFoezWwINhAAwep0WC/bOtQHMYgewl6j2/oWXl1Jmu+w==
+ b=MW2hejxSn4CeyGiD9vgA+b971wZfkdHclflN8V46gXRT/Wi9wuPgXPVlTvzXnhMybnzY76XuTmB5eFAvVdmHYnH+BrNPX0Urspr2MMwSmPXbSqpgwo8mkNa834gTtFTR0/TgMsox1lmArxRRSdFDUQ5UKXM+bnDS0dci6tpi0QW5OyFmw0DYAfrQmQ7dc+Nn1H9QVwkkReZyw5xUnrUqKmT4XyG+qw7pClJ8NhOKsGjSlHOwxYInJABsLf6Pbtjll/YhDZQ8plrirhV3AsYEOP4KSRIddpHkxemR0v8nuIBNljDzH7t7nqVn9pZb8WKIL96aYt3wyEuOEPTsFK7ZiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7MwqTt4Yr7tY6GobCAi5VbVxvsCgMd7D/TjzOiOYqc=;
- b=FYVe55C2R0Dna2EegSVHAsor03xSGfOYuQbQDIyY5/mVZeEP26UzaHmyHlVTFQGSA+ASRKnRg4P1brf+E7NOGnbtb4NvuEbTI4TQREdD9jtb/ChDDxTXqj6wImrZ/ZwoumT7LB6M1v+I3SyNOSkP0zFcaIRUMU4XcZKXsKDOscyDmt+Dzvsg5OyhR3Goo8PoUuwJBo8+6G43YK496ZkPInIdz4+oKS/Z/tebbiehrTsNiapapepBnFccDuJGlfrhwmgsEDTJyq9jDTUE0MAMRrcfSRn391FUBr8aKq4gDEDV2Xl9qnFVoGOEpR0FVj0HDpFZEDwG0FPovPCYV5kk3g==
+ bh=3YWXA1W4UvfIWvgkunCwe7jRJXXXZk6kdTatAawR5lg=;
+ b=WlAAnMcflOUAm5R5bLh+JHAOTzXMlAC8MnsBQCe9slGnD2UaG96KycXcbyMWbgeOzbFtewkdSbBNtbl96SutoEIzqe0S1RsYWnQ2I+jHlQCW6CrkWOC7ibCj3bi3WPK0tR4LflMDYZbT6DLxUkZf0qc2e28NNMbQYzsHXlLtwBNLtC7vrx8rf9pad/w/VqmoCdz+CCbIqd9T/mi0ZgA8L2U5pfgzBo9vsVWfObqeSEZghtB9u8UxTwKq4vLbqI9JFeJpv0acCfWKnT8exbDKrpAlf6dUN07fVz9BAi7zRV5yAqKorA3yp6/INCpmvGwQqm/TueBTt1PPBpP1QEeQAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7MwqTt4Yr7tY6GobCAi5VbVxvsCgMd7D/TjzOiOYqc=;
- b=vbj1TqMvIZ62p2tyTJdk/MeTXB2/G/oh03wT40SHlp75K+QqKDT04aZ0d8ZeHagJ9qSZEPxki/fOEgnOYlj6EZZF9ppqSMVEC/+qD2KBBX+llmg6cbpdVcYXG54Ppo+eKWRnfitVhDet+zNNZwKDwSBH4+XcFw6xJv5YBvPQgbg=
-Received: from DM6PR04MB6575.namprd04.prod.outlook.com (2603:10b6:5:1b7::7) by
- SN6PR04MB5071.namprd04.prod.outlook.com (2603:10b6:805:9c::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5353.18; Wed, 22 Jun 2022 06:32:21 +0000
-Received: from DM6PR04MB6575.namprd04.prod.outlook.com
- ([fe80::5d26:82d8:6c89:9e31]) by DM6PR04MB6575.namprd04.prod.outlook.com
- ([fe80::5d26:82d8:6c89:9e31%7]) with mapi id 15.20.5373.015; Wed, 22 Jun 2022
- 06:32:21 +0000
-From:   Avri Altman <Avri.Altman@wdc.com>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: RE: [PATCH v6 7/7] arm64: dts: renesas: r8a779f0: spider-cpu: Enable
- UFS device
-Thread-Topic: [PATCH v6 7/7] arm64: dts: renesas: r8a779f0: spider-cpu: Enable
- UFS device
-Thread-Index: AQHYhYGQfGepPuvwykC+XkcnFWdRYa1a+Apg
-Date:   Wed, 22 Jun 2022 06:32:20 +0000
-Message-ID: <DM6PR04MB6575D7C91E0925B5D498ABF3FCB29@DM6PR04MB6575.namprd04.prod.outlook.com>
-References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
- <20220603110524.1997825-8-yoshihiro.shimoda.uh@renesas.com>
- <YrHgOptQ56woMAeO@shikoro>
-In-Reply-To: <YrHgOptQ56woMAeO@shikoro>
-Accept-Language: en-US
+ bh=3YWXA1W4UvfIWvgkunCwe7jRJXXXZk6kdTatAawR5lg=;
+ b=dtta2zGeGkq20HBWEFVxitUyZVmvD1SyJS/SV6w3eK72/53XVSe/K99ZFMgt2i/Ob8B8qXkpTukVskOA4rReILmFNs78kG/l+6kqcY1qfXkdA5Q1KOSBGP9K8P9bLw0nycV2HupAOiZ+IVQ2lslIBzLBvYckihwFeKEeiB7A4/SbTm/OTkP35lHV/mES0IwUzXcqQdtB7nB63+zfS0K2tie+XJZpMJzta1GEwhsyS+lm6EkTylRKxZPDsZonwSdkM7PUpKlFcoqwEUJL5zMAklN9lBXHzqa8+j0j4zdPpf7AHyRyd6fb+ZlpdgHEHi2NokimLul/4lUS1cvYaJQI2g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN8PR12MB2900.namprd12.prod.outlook.com (2603:10b6:408:69::18)
+ by MN2PR12MB3437.namprd12.prod.outlook.com (2603:10b6:208:c3::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.19; Wed, 22 Jun
+ 2022 07:10:33 +0000
+Received: from BN8PR12MB2900.namprd12.prod.outlook.com
+ ([fe80::3904:2c16:b3b7:c5f3]) by BN8PR12MB2900.namprd12.prod.outlook.com
+ ([fe80::3904:2c16:b3b7:c5f3%5]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
+ 07:10:33 +0000
+Message-ID: <41b411ca-ad24-40b4-25be-5c73a4e724af@nvidia.com>
+Date:   Wed, 22 Jun 2022 12:40:23 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2] PCI: endpoint: Fix WARN() when an endpoint driver is
+ removed
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b9110e48-a78f-4716-24d4-08da5418f608
-x-ms-traffictypediagnostic: SN6PR04MB5071:EE_
-x-microsoft-antispam-prvs: <SN6PR04MB50712E3EE19AD2EB1AEA69D8FCB29@SN6PR04MB5071.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kaBroImoLY/Jmes5Z1ZR9tT+C71LviAKiA5WJJVFn9PdQjpiJWJWMUByRkD9IuIggnVig/22BUYGLLY+7ajSrJ5kMLqjGy9hvgXZIb2RHhGeftHKaO1KS13cjtqTUXk+0xlPbB+3TMtz2yo7yHCEUSl53xi1fQGDHkXCgRwA47z0LdtO8tn8vc2zdmeWy8BoVXbOBTY6U1bPF+UsSesfkL6IUmxFMdh4exlClvB9gC0HnN43uASK0KBeMiFxDyvdm5IViYovZEX2V7SlyZ/Z8jIwjza7bY6BkytUocq+ToJs7xiZyS63IM+ngYf9XJ08W/9Pft6OGvKn1W7g9xpSS+37XfTSZL0D51tkc46wUl589n5bVOrSAtxmxj6aElKlAeQ9YpydODmc9EamDhcgK7pBNK0L5qiKHgw9F/8TOQYLBUfVJYb2mM0vcZKNnDK1/HNqtq6eAjUjiifGPWNbSOv4Uowbwn7TtuKwZxVPDzh3yHpUMuqe1b27Bj3ta/3lm4dgGOtr6XQGo0yWbqMPCR0Dor9YAJra1trh7KwNkwoJoEBVxuzv5hEwh/90KLGkcAznWVgcoXarmpIaYwHkSTsHMAj/CFF49Ld5AF+gZe3wP4T9AunSCFr+KgkisqgZT4Y1WHpcycobpaT6ZtCeJHmT2TKSymMv6ccC1DxtYSqRYABHmRTJd5sxSwF0WrNUpys5DSH9fUTImrRnxzjcjXk4wzp6IKP4ZFokV++5BXBE32chYTZOFCmaRpHCCLKDVAV07Wj+bqbFqy07qYUmWA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB6575.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(366004)(39860400002)(376002)(396003)(316002)(38100700002)(33656002)(86362001)(5660300002)(478600001)(26005)(52536014)(38070700005)(7416002)(2906002)(82960400001)(122000001)(55016003)(6506007)(4326008)(54906003)(8936002)(66556008)(71200400001)(66476007)(186003)(8676002)(7696005)(83380400001)(66946007)(66446008)(41300700001)(64756008)(76116006)(9686003)(110136005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?I++P+/k5ddofaRdcbIs8OEPQKJWrMfS84JU7PPUY+oFpwfQCI55MeqyRZWbS?=
- =?us-ascii?Q?DUjm0YbRyW4AxW6+GO2cGJcZRzYhnVQk2cwz4TExhfJX8SC44TctXMKt2nPg?=
- =?us-ascii?Q?Yv3RZIPNQwyXhEQiCsOppsVtJGzJBPkFA3XOZJ0jS9SbCULMdydamNwMxo02?=
- =?us-ascii?Q?oQTfqfbhNshYWAIw9FyU3nG0FcrMDwiF12TZdc4p55ehX8172NYN2N4Q/xsj?=
- =?us-ascii?Q?o4vTDg3fSk97wC8gckX6svLAXaTyPjKSqeTqQfITW4yOcAtmCBfXnipaBwib?=
- =?us-ascii?Q?3k/7tz8kNCPnX+Hcpts2ZrPDnCwVy6qDrwvczFbTOv0MxSDOBgv2gorbAzo7?=
- =?us-ascii?Q?O1/QHd8fB9U+kxXesXb3+gi6AZXMx8zT4Nw+B2N+OMnkWkt+OZmmO1g3WxEB?=
- =?us-ascii?Q?6L/DOaxKE8ypRm137gHRa7pODPSzK9jvEFm+PutrHKUzJS1shOyKPAR0u3zH?=
- =?us-ascii?Q?avs3IHH5QyrjxBReRqpOS3EzOajJKC7yGr3o3+eWldVb5dlS1q9v5mK529ZZ?=
- =?us-ascii?Q?UAskiWq/xWMisQg6ZECWl2A3+T87o3GcgQxHCWmjjH8Lx1mA6ObEC4IOP8ii?=
- =?us-ascii?Q?nlGGTdzXpYwUgwOyqXfqYwrOSNTCReVmupejr1cNwuzrM0zt9f66Lultr7rr?=
- =?us-ascii?Q?PI5Q9t6ZsYGqMn36O+QBQH4uZiPdo3S0s3O6XUzroz9FvtGCRt6LzdQIREw7?=
- =?us-ascii?Q?iF8SYltvj70zDQLklbtsFUdBJOzA13GCNviH8T3YDiItFEarzxNS2Yft5/5U?=
- =?us-ascii?Q?oGsJJOXneAhu8L/34I/yGJl2fCqDXDtJ8fE1wY8MM1jX8rUczuhrWZRiOktv?=
- =?us-ascii?Q?F/Qliz9nbdUQFx0Ovr1WftJx3I3zbYSFV9HdVzgGAbT/efl4lFZDMpzz4EDP?=
- =?us-ascii?Q?JRuhMsuTL8unTEwP0H5ixEGw94OPXDq000rzhZ6tXU4XUHVVCr5v5Jx6Q6pc?=
- =?us-ascii?Q?9wrgRbqhj0+cvVYEfvs6JwR3l5OMrWK+rSTdsnu+pxF27T5eHiOjEpPF3+XY?=
- =?us-ascii?Q?wABon9I2qFEHxJnbUE7sF1ne7BOYbV6xJYcI2vFXCqKsYprdJa47zNdjsv4i?=
- =?us-ascii?Q?QnEDQqx8x2ExeqeJhPDDuw/aAC/4/uWBriKJAaBrGcuydWy138GgY8NhC6+E?=
- =?us-ascii?Q?IsKLg9WhpbgT4UlBVqsDNVRx7WUYOqHali5tMyny9RlOPqsAC/L2dmBkR7eS?=
- =?us-ascii?Q?sJJo2m/zp0X2AbPRkeHUu7A4VRhlwYcONuQXKEUFY0sVPuFBI84eq0Pmxl5m?=
- =?us-ascii?Q?vJCDE2ez641aGJEdhgukkPyenwUC+RzCJ4Zmafjnzc0YTCblZybG0pKW+Ln2?=
- =?us-ascii?Q?WGZoR33HJmkyZnjadCC5mgaJxbf0ZdeqIiQeXlX9PbOKpsDLX2MPZNLpu+V3?=
- =?us-ascii?Q?uBXZ2YO5qZh3WPa8o+mJzEwAJoAsKFtgi62NcgHqUK6qCzZf/ttaeIGMjVaL?=
- =?us-ascii?Q?NZqLN0+OumBOy1SUfpUHT1KtTM6GlgN4RAzeZfS88FcAawXgwXZL5OpNGvGS?=
- =?us-ascii?Q?9RYwYiYloErd8DJM+WakoKG6MceQ9qGKUjWD3hzQ9zOclOVL4d2hYh+SaYm7?=
- =?us-ascii?Q?q7xE4qkkSsX6Pe2cyea5vzcbj3A4nRVlub/BUjMHjbHQntuRvxNzNywMqRJ5?=
- =?us-ascii?Q?EtXG3FVYffyWZN2y+4ZGJGgkDLKsc0/oRqIJxEaAei6XhqdEIysTHGsf1kdf?=
- =?us-ascii?Q?38hC4H9Felv9qJsVbtOyStadZ1kE6ScjO6vvnTszzD0fYrsjEfo44FJMc6XD?=
- =?us-ascii?Q?Qpv0CPay1w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        kishon@ti.com, lpieralisi@kernel.org, kw@linux.com,
+        bhelgaas@google.com
+Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20220622025031.51812-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Vidya Sagar <vidyas@nvidia.com>
+In-Reply-To: <20220622025031.51812-1-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA1PR0101CA0014.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:21::24) To BN8PR12MB2900.namprd12.prod.outlook.com
+ (2603:10b6:408:69::18)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 01d49d49-b9e6-4a7a-b088-08da541e4c2a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3437:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3437A7908C5EB0A4A0664A17B8B29@MN2PR12MB3437.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ohmwBswOB/a/8xkDeWl8V7G08jgIy/Nyp7auc/B/NcDlTICFNknSStXPQgWoS8SRwXaBaIcpw4lvQC/DwvAa+cyoN6JmTSyT3Kirp0PY2y+qq5JE+QEO9kTzLAqUQxZPG8b6Ho8IFuirVo5fSISu88KDKd3X9IfKSvr1TgcmBk2gEWwQEvhplVEdwSk6M0/ZlL0T1D3UsbiuPPOoc5cAwpQA2qlszYjcNT5JAnzAupj7PgfWjoUqEX1YTdlNwrfdnX4EkRO1EPtOeZiNXq6dxKS32YLmTngTULunpWgsili5LyqptvhvL0GgXbt2AMKgcN9IFf1cTXIdpMZoFD6+CPEExiG/BFRHFSSqlxXiRmc0Z7RXqX62a0KEt0YKVNyT3mzDdKGSOpPTkCOVteLGYGMw8XbOBU2h8q+aGctaFA4IdeenWz7TPxP+R+cJEHznq4l90ySSkm4ppcfZYNEgf5B3+OY3ISf7Ekxh1bS17ZRh/TfwptETYD+2mZkCOa6tpHLFOUyjtwshXhhAhyb2rKHHV1nGAm2jzcBTxz52ofsuTle/lAL7zahEQcWjiOqLJ5N8YiKqoqHKVLVYaQ+XJGpHjvcrKCCQbPQ39awl/alHvnm1DvIVqs/rRRkpVb4J4ei+bBaI3yJ83anPFYrHRJ3mC+653T7VYdxQUdGHiDXokzPw21VZDnKbbXu7ZpuSB91+2uCPHGRPW/kkUEaIv1FgyVm7jZkeb/McoUxzf/oPH3YxyVkhzoQ3xcA9mhiPLiQ1SsGEDOd0DLYNDGKFggFDq7/FdOFN4q9W9fNxYhj9tjagcMzSHkZ8RBGkQwsXTEOMhaYJNYNRkoLY36g/ZkTEQHkZqTaLbIS5/bNA98ilhQA1qDnwuRmpcJrogB50
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB2900.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(66476007)(36756003)(66556008)(31696002)(4326008)(86362001)(26005)(38100700002)(8936002)(6486002)(83380400001)(5660300002)(316002)(6506007)(6666004)(53546011)(31686004)(2906002)(6512007)(41300700001)(2616005)(186003)(966005)(8676002)(66946007)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0w1ZFpGYVdDWVd5NHd4S3A0cmR5ekcxUkU4T1RXNkpSNXVSTyt3V0JkaklP?=
+ =?utf-8?B?bkZMekxmV044N29PVWlKMXlOMlVZUXA5MmpWaDZhaG9SYnJSem9EdFF2UVV1?=
+ =?utf-8?B?dTJLd2NJcjRQYTc4Nml0cjY2bU50Yjlkd0lBOTBHRVJkTlE0SWhnbWNwTkF6?=
+ =?utf-8?B?VzNtaTJZcHVxTkJNRFp3R1NSZ3NHRlZQM0FEWk9BaDJMRTF2bUhtQ1FoblJS?=
+ =?utf-8?B?MXhiRW9IcStjVnUzNEVpNHB4TDVqSWdGQmR1TXB1cVVBKzlUNjR4ZFNNWkRp?=
+ =?utf-8?B?b29PSElicERkcE5FemdUenJRREw4cFp3M2w3bVFCN2dhSnZOeXZsRFNEUlpP?=
+ =?utf-8?B?Rk5EMDJiaDQ2MXgzVU53T1BKYzlRZnlVR1V3d2N1VHo2L2dPN2lDSlJocHlD?=
+ =?utf-8?B?aVkzS2dLUk91RHFkaTN4dkdMaVpadUR3TjJtVnp6MzdJdTNndldUVHFYU04v?=
+ =?utf-8?B?a2hYR0FXUmQyZEVaNHpmQXlaQmQ4QUJyaFJBUngrSnZBbnhOV1dBUEY4WnQw?=
+ =?utf-8?B?QjVHekFsT0lNeWtSamx6K3A0Zy9sUVIyY2QvOWtXbDJteldObHJKS01OTCtP?=
+ =?utf-8?B?cXZLakhHUVdBQXRnZnd2TkgxVEUwSzJ2ZkNwT2ZNaEc3YjE1aUJjbGJJSUd4?=
+ =?utf-8?B?TDF6c0NDeU5XT2V1dm1nZkp2bXhTdDNJSi93S0N5L1NLVWFWcVBNQVlyVlpo?=
+ =?utf-8?B?NmtBZys5OTBMUFpMYXpYNXlmeU50ZlNlNCtINHNzV2tUSGpIei9wZHp3T08z?=
+ =?utf-8?B?ekhxbW5WYnUvS1FyUm9HVTBqanlzN21VMDZubWV4WWtleEgvM25CdTdoTGNM?=
+ =?utf-8?B?cCsvTXB2Zmoxc2hCSHlRUzhIOHhOZkpjbGNuTmhGenBpVHk0ZDJTaHFMVnhi?=
+ =?utf-8?B?S3ZpaHd2eG9aaEEzUG1OeStBVFFOd0NJa0lYSGJ4Q2RWalVibnZBMnB0V2to?=
+ =?utf-8?B?aVJMZ1lhekZCSFhyenZDYnJDUXcvTkd2Z0JZSnpyeTVlSzhZQXlvbkMwSm9l?=
+ =?utf-8?B?MDJ3Yld4SlUvUmw3R1Ntc0dMbEUzbVdrQ3NNUlhDRnRGWkx3UE5zMlZVVjd6?=
+ =?utf-8?B?bC9vNjVET250VFc3bzFiWGJrNmJIUDJnVTlveDIyWlNDWGVrN0hTUFRsTG1L?=
+ =?utf-8?B?aWVHZXRWNUF3d3ArYVAzSUtQYUdYcmp1MWFXY0x2dUxYRktFWStuYzNwTk8y?=
+ =?utf-8?B?eXptR0NlZnV0S1BhTzZuWUY4cGdSZGQxNVRLNk12Tm5saG1PcE9zcjV1M3RT?=
+ =?utf-8?B?bFFYRFdGdW4xVU9pVGMrNVZlRzRZUVhEQ09Pa2ZKWmNKT3I3TmtBQUlPTFA0?=
+ =?utf-8?B?TGdPSVo1d3FwY3J4VTdqenB6UFl4cjY4dCtNVEdGK2JtNEJYdEZnNkJCS3FO?=
+ =?utf-8?B?WjZMd2t6eTN1TEgzKzBFUkNZS2pDY0Q3RzQwaXk1eXZEbkFJck9GY0dQaWEx?=
+ =?utf-8?B?bTFiOHpMUEt1MXhMc1dhZER6ZHVXWE9Ud3NXTUxndGZOMjJ4T1EyODRLbU1K?=
+ =?utf-8?B?RXVBUnk1akZJeldXdjVLK3FmM3NGU01Gd1pXWUkvTTR4c21zTTBzWU1vc0hD?=
+ =?utf-8?B?SVhLTjl1WmNiVDRkV3BIRWFQZ1JwZ2hQWDhNV3JZVHRuZ2cyeHNnTGEycWlq?=
+ =?utf-8?B?WjI2TnJNU3BzZVZXbUZoL3UyMUcyWXRVV2JNM0xnS1JHVkRIdkc4SG9Sd0Fo?=
+ =?utf-8?B?NWV1WjBBanZFYXFESEhxK3F1ak9NSXl3Yk4zQ2JGbVZRd3JWWWw3c2hRTWFp?=
+ =?utf-8?B?Y1hwTmo2Z1BHQTJadDNBWlRaUkM3N1FMRHBjSFkvNmtKUlV0endNNUdETVA1?=
+ =?utf-8?B?K0x2dTZjZjR1VXloMURtQ0pTRElLS0FKVU43Z3VWZEQvcTArN0l0Q21MNjJ6?=
+ =?utf-8?B?RGIyQmk1bEp5RUpzL211eThsei9IVXJhZkpJZ2FBMitsMEJ6QzFOdnFaQVgy?=
+ =?utf-8?B?Q2JEUjd5OWlFcElGSyswYnN0NjRDK1JETHV3c1hQTmhISXdDRWNRRWd0dTQ5?=
+ =?utf-8?B?dEt3cDdSdHMxalliMnNzd3ZCbnNWejVXMndHTmtTWFp4eVFJUmcyb291Nm0x?=
+ =?utf-8?B?Y3lucjB1MVZkNXRYUUtCRHhpOVhFdm9nbmlPTk1Xb1JTUGxXWFhZVnVCdzZa?=
+ =?utf-8?B?RWtMdzkwSDlkSUQ0eFVzd3VNbXVSNGVieUtxV1pua3hwTzJvZ0pnNnlMZ1pH?=
+ =?utf-8?B?c2QzRldDbnJ0WEoyMTdhcDVqVk9rRHU3T2NsczAvaiszWjJiM3djSERLTEQv?=
+ =?utf-8?B?TWFmN0JpYnJrcVNuRGtDWG9BNVFzWUJjNjQ1VW9td0Z5a1JZYnZnU1pvQTVk?=
+ =?utf-8?B?Q3A3a05KYzFNMVdPQnJBSnBvNEVmeCtLa01ZK28wdlhpMFlIdS9Hdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01d49d49-b9e6-4a7a-b088-08da541e4c2a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB2900.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB6575.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9110e48-a78f-4716-24d4-08da5418f608
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2022 06:32:20.9554
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 07:10:33.3558
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jc4OBpc03/sq7gubYEpOKhZgy4nCEMlfvcdd1GFT/Yw84lK3G+FwIWMudwzy1QVsURGtcOu0C7pBVtiuqDj+IQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5071
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nFhWcKUWE2bgqp8V7nv9K+hMhhmZGUMw0UZBmCCTKMGmy+BKe31QN7Px1sVfs8OrTqcv/Z6nuL8GbI5SxOlKGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3437
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> Hi Shimoda-san, Geert,
->=20
-> On Fri, Jun 03, 2022 at 08:05:24PM +0900, Yoshihiro Shimoda wrote:
-> > Enable UFS device for R-Car S4-8 Spider CPU board.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> With my firmware, the manual setup of the clock in the bootloader is stil=
-l
-> needed. So, yes, I agree we should wait with this patch until we have a b=
-etter
-> way to deal with the clock.
->=20
-> Other than that, the patches give me SCSI disks I can work with (partitio=
-n,
-> read, write). There are a few initial errors, though:
->=20
-> [    0.449917] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
-3
-> for idn 1 failed, index 0, err =3D 253
-> [    0.452035] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
-3
-> for idn 1 failed, index 0, err =3D 253
-> [    0.453859] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
-3
-> for idn 1 failed, index 0, err =3D 253
-> [    0.453874] ufshcd-renesas e6860000.ufs: ufshcd_query_attr_retry: quer=
-y
-> attribute, idn 1, failed with error 253 after 3 retires
-Should be interesting to find out who is trying to read an undefined (reser=
-ved) attribute in your system.
+Verified on Tegra194 platform.
 
-Thanks,
-Avri
->=20
-> (A patch for the typo in the last line has already been sent)
->=20
-> But after that, everything looks fine on first testing. So, for the
-> patches:
->=20
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->=20
-> Happy hacking!
+Tested-by: Vidya Sagar <vidyas@nvidia.com>
 
+On 6/22/2022 8:20 AM, Yoshihiro Shimoda wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> Add pci_epc_release() for epc->dev.release and move kfree(epc)
+> to the release function. Otherwise, WARN() happened when a PCIe
+> endpoint driver is removed.
+> 
+>   Device 'e65d0000.pcie-ep' does not have a release() function, it is broken and must be fixed. See Documentation/core-api/kobject.rst.
+>   WARNING: CPU: 0 PID: 139 at drivers/base/core.c:2232 device_release+0x78/0x8c
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>   Changes from v1:
+>   - Move kfree(epc) to the release function.
+>   - Revised the commit description.
+>   https://lore.kernel.org/all/20220621121147.3971001-1-yoshihiro.shimoda.uh@renesas.com/
+> 
+>   drivers/pci/endpoint/pci-epc-core.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+> index 3bc9273d0a08..2542196e8c3d 100644
+> --- a/drivers/pci/endpoint/pci-epc-core.c
+> +++ b/drivers/pci/endpoint/pci-epc-core.c
+> @@ -724,7 +724,6 @@ void pci_epc_destroy(struct pci_epc *epc)
+>   {
+>          pci_ep_cfs_remove_epc_group(epc->group);
+>          device_unregister(&epc->dev);
+> -       kfree(epc);
+>   }
+>   EXPORT_SYMBOL_GPL(pci_epc_destroy);
+> 
+> @@ -746,6 +745,11 @@ void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc)
+>   }
+>   EXPORT_SYMBOL_GPL(devm_pci_epc_destroy);
+> 
+> +static void pci_epc_release(struct device *dev)
+> +{
+> +       kfree(to_pci_epc(dev));
+> +}
+> +
+>   /**
+>    * __pci_epc_create() - create a new endpoint controller (EPC) device
+>    * @dev: device that is creating the new EPC
+> @@ -779,6 +783,7 @@ __pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
+>          device_initialize(&epc->dev);
+>          epc->dev.class = pci_epc_class;
+>          epc->dev.parent = dev;
+> +       epc->dev.release = pci_epc_release;
+>          epc->ops = ops;
+> 
+>          ret = dev_set_name(&epc->dev, "%s", dev_name(dev));
+> --
+> 2.25.1
+> 
