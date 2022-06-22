@@ -2,54 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E93E555307
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 20:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71D65555312
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 20:15:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359064AbiFVSLx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jun 2022 14:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S1359064AbiFVSPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 14:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358337AbiFVSLx (ORCPT
+        with ESMTP id S1346019AbiFVSPN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jun 2022 14:11:53 -0400
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C7B3B00C;
-        Wed, 22 Jun 2022 11:11:52 -0700 (PDT)
-Received: by mail-qk1-f181.google.com with SMTP id b133so1328663qkc.6;
-        Wed, 22 Jun 2022 11:11:52 -0700 (PDT)
+        Wed, 22 Jun 2022 14:15:13 -0400
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BAB3CA45;
+        Wed, 22 Jun 2022 11:15:13 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id g18so18839431qvn.2;
+        Wed, 22 Jun 2022 11:15:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mhD0MOrYe6T8ixwnqaaVek/KZReGo+sSJrdYPS9fFGA=;
-        b=zxc+UPeSoLSAg4zD0EnKH3Q6Fagnad1rSDF3x7BM1JnAd0BFaHJRz9XPetmBeFimxX
-         6qipss9+6jVKfNro0jy/WKuF7O/XgQkDlVWPXasoey9BjlGoLvuNZrLZHd0Nhg8ozD33
-         wmW4B8tSNrs1fxWzBZPt8bE1oBoQIzFtJDHkW3jeqMq+k0uYZg7OxC1WFcwi7ftd8K3K
-         uzaJ2M6Ffr3PL0z6gkaa07kh4BiEsmF1dZW3HdSJ1i5OFi2I3GA53ObaHBss0nrncKVA
-         ETHJAelTUOwcH6kZUxMMv7oErA9Ej0gwpJpYeTEPLvLOs8+DzkZO/XjVi0vlkySVUNhF
-         WOew==
-X-Gm-Message-State: AJIora+TN7c5ihpVpKhbIOml+SU3llQljahaNjdWNNpEt7vZ3Rtd+A2J
-        L8odygPdPrNZjC4zfvkF9gYhQOcS62kP3g==
-X-Google-Smtp-Source: AGRyM1vauPaQThk1rkTaI9N6Ov2YYKy7VCkXnDIx4Z/ZNPqxduL+MHYw8Mks7ZKrDn9IXUz2j1acyg==
-X-Received: by 2002:a05:620a:1aa5:b0:6a6:c208:fb94 with SMTP id bl37-20020a05620a1aa500b006a6c208fb94mr3408626qkb.434.1655921510648;
-        Wed, 22 Jun 2022 11:11:50 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id bx4-20020a05622a090400b002f3e2435ee2sm14869070qtb.63.2022.06.22.11.11.49
+        bh=S6RaOwUUNsa35j0zwNNMMC8L4W+AYUi6AJGjFqNAiII=;
+        b=0kQHv3upiApeFF9omqaSCSpIB6eQU+qedKYNIKpqhxiC9TEarUoDcnkfNeNxvupMuW
+         IHKT2NZgK8/apwvbpZs/Zacdy2YjhIJMqScQpp7NYKNtLzrdVeeLgvdnIi2sIYxReHEc
+         kg2DSjXREoMBTCqh52/ZAtJ41A4nLWXqne9Lg+zpCAP+6Mr3WD81vUWLzm2nHF4N7U4j
+         lSJxub34JFhfouQ5q2f5NFHFhZiLaLcSrID//FE8BvoTQMT+B8WPQrHVrwKAPub3/7Jj
+         un3wiqVWZcvzDmyYIk1b15CsW9eWOsdQc77YZL9kJx+CpPa048P9zdrKX7aqZ3AVoPEn
+         SLFQ==
+X-Gm-Message-State: AJIora+XuyRFdqeWNwoxTAa0ZNA+xgb+TlQKyfohUYX+x40c1aqkVGWX
+        5l+MqpHdMzr5oDj3W/iSpx5lbVnnhDaDBA==
+X-Google-Smtp-Source: AGRyM1tX061kOF6g0bbkPK1fACkx8BYGnjyjvtFfOzKMkAQaEDhl0Ipzh1e7offsAn173Kg4ihtJ3w==
+X-Received: by 2002:ad4:5ba1:0:b0:46e:2f1f:9836 with SMTP id 1-20020ad45ba1000000b0046e2f1f9836mr28566864qvq.87.1655921712257;
+        Wed, 22 Jun 2022 11:15:12 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id u12-20020a37ab0c000000b006a34a22bc60sm16148165qke.9.2022.06.22.11.15.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 11:11:50 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-317710edb9dso171295337b3.0;
-        Wed, 22 Jun 2022 11:11:49 -0700 (PDT)
-X-Received: by 2002:a81:574c:0:b0:317:7c3a:45be with SMTP id
- l73-20020a81574c000000b003177c3a45bemr5877104ywb.316.1655921509513; Wed, 22
- Jun 2022 11:11:49 -0700 (PDT)
+        Wed, 22 Jun 2022 11:15:11 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3137316bb69so170898137b3.10;
+        Wed, 22 Jun 2022 11:15:11 -0700 (PDT)
+X-Received: by 2002:a81:3a81:0:b0:317:7dcf:81d4 with SMTP id
+ h123-20020a813a81000000b003177dcf81d4mr5778535ywa.47.1655921710907; Wed, 22
+ Jun 2022 11:15:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220622173614.12778-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220622173614.12778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220622173614.12778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220622173614.12778-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220622173614.12778-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220622173614.12778-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Jun 2022 20:11:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbQ1VHH4ugQs2mamS2KGEj5AdWmNtmg=6eUJmyGRDTVw@mail.gmail.com>
-Message-ID: <CAMuHMdWbQ1VHH4ugQs2mamS2KGEj5AdWmNtmg=6eUJmyGRDTVw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mmc: renesas_sdhi: Fix typo's
+Date:   Wed, 22 Jun 2022 20:14:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXsOHtmdbO8B=hVFV2MEz1TszxtOK2c651racyREYU=0g@mail.gmail.com>
+Message-ID: <CAMuHMdXsOHtmdbO8B=hVFV2MEz1TszxtOK2c651racyREYU=0g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] mmc: renesas_sdhi: Get the reset handle early in
+ the probe
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
@@ -73,37 +74,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Wed, Jun 22, 2022 at 7:36 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Fix typo's,
-> * difference -> different
-> * alignment -> aligned
+> In case of devm_reset_control_get_optional_exclusive() failure we returned
+> directly instead of jumping to the error path to roll back initialization.
 >
-> While at it replaced 128-bytes -> 128 byte.
+> This patch moves devm_reset_control_get_optional_exclusive() early in the
+> probe so that we have the reset handle prior to initialization of the
+> hardware.
 >
+> Fixes: b4d86f37eacb7 ("mmc: renesas_sdhi: do hard reset if possible")
 > Reported-by: Pavel Machek <pavel@denx.de>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> @@ -355,7 +355,7 @@ renesas_sdhi_internal_dmac_map(struct tmio_mmc_host *host,
->
->         data->host_cookie = cookie;
->
-> -       /* This DMAC cannot handle if buffer is not 128-bytes alignment */
-> +       /* This DMAC cannot handle if buffer is not 128 byte aligned */
-
-128-byte? ;-)
-
->         if (!IS_ALIGNED(sg_dma_address(data->sg), 128)) {
->                 renesas_sdhi_internal_dmac_unmap(host, data, cookie);
->                 return false;
 
 Gr{oetje,eeting}s,
 
