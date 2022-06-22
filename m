@@ -2,101 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74770554019
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 03:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02182554028
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 03:42:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbiFVBdY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 21:33:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45672 "EHLO
+        id S1354673AbiFVBmm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jun 2022 21:42:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231727AbiFVBdX (ORCPT
+        with ESMTP id S230152AbiFVBmm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 21:33:23 -0400
-Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 35C2EE022;
-        Tue, 21 Jun 2022 18:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=sShTk
-        Lp3LVO89fQdVMgE2NVwkqKEDmFZ37s7+17110E=; b=W1IftgE8BRG3oCBW47WFt
-        M8PcCz3gWBkDxr5UWJFnq74eYp6ww5XK3FV5+fiWywCSIclQi6yxO3vELCqBBVC+
-        C40mMVVRvUnAgqq9s9zT8BE+oZ9HiNmhUHry+ku4xZ+OcrbKdao+QnRyXOHoHzRF
-        yFO9i9tfg6nw3QsvI3umRg=
-Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
- (Coremail) ; Wed, 22 Jun 2022 09:32:49 +0800 (CST)
-X-Originating-IP: [124.16.139.61]
-Date:   Wed, 22 Jun 2022 09:32:49 +0800 (CST)
-From:   "Liang He" <windhl@126.com>
-To:     "Bjorn Helgaas" <helgaas@kernel.org>
-Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        lpieralisi@kernel.org, robh@kernel.org, kw@linux.com,
-        bhelgaas@google.com, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re:Re: [PATCH] pci/controller/pcie-rcar-host: Hold the reference
- returned by of_find_matching_node
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <20220621224952.GA1340618@bhelgaas>
-References: <20220621224952.GA1340618@bhelgaas>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+        Tue, 21 Jun 2022 21:42:42 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6808F3335E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jun 2022 18:42:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655862161; x=1687398161;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tF88PgurSHIe8l0Zac9c/4s/PAsvEqi9wzbLvT8BWlo=;
+  b=AxPm9HVb7TwIuTb+FoePAFt5UzkP1XTLbEUMXWgfb4VR4Wz/6dijF1Z8
+   IV2tNaSCdKXJzH30LN6BSxS9zvau+NtNmyPkhg6kis6sa14ezPhji6gbu
+   W7uys8HRB3f0Bn62N3d8ayjYtyJ/SqFy+x9Il88Zxix9HeSaX0ImXqDyb
+   jUlHvhzgUgaAuQj8cMEmTW30/OdW0W//2ww5hfc+w8/dBhFWf6u2DSr7n
+   JpV9suLQ3foTbHraQAJpXjte7sRDd+wXZJT/03X4SM9xr0kKKZ7OPaTf3
+   49VUYCw+4ubOzzB9nC+b3lXEHfsAKxjVVTWLG/QWzfIrA++b8EJfO0BRd
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="281015466"
+X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; 
+   d="scan'208";a="281015466"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 18:42:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; 
+   d="scan'208";a="655409095"
+Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2022 18:42:23 -0700
+Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o3pNv-0000fy-7v;
+        Wed, 22 Jun 2022 01:42:23 +0000
+Date:   Wed, 22 Jun 2022 09:41:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ d2e8b5ad9e7895b57c60e1c19f760c9081bcd2cd
+Message-ID: <62b27353.b3UM2ovbs27yazAl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Message-ID: <6bd59186.1180.181890a696d.Coremail.windhl@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: GMqowAB3hiZCcbJiUV86AA--.950W
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi3BcoF1pEDxgVIAABsJ
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CgoKQXQgMjAyMi0wNi0yMiAwNjo0OTo1MiwgIkJqb3JuIEhlbGdhYXMiIDxoZWxnYWFzQGtlcm5l
-bC5vcmc+IHdyb3RlOgo+T24gVHVlLCBKdW4gMjEsIDIwMjIgYXQgMDM6MDE6NDVQTSArMDgwMCwg
-TGlhbmcgSGUgd3JvdGU6Cj4+IEluIHJjYXJfcGNpZV9pbml0KCksIHdlIG5lZWQgdG8gaG9sZCB0
-aGUgcmVmZXJlbmNlIHJldHVybmVkIGJ5Cj4+IG9mX2ZpbmRfbWF0Y2hpbmdfbm9kZSgpIHdoaWNo
-IGlzIHVzZWQgdG8gY2FsbCBvZl9ub2RlX3B1dCgpIGZvcgo+PiByZWZjb3VudCBiYWxhbmNlLgo+
-PiAKPj4gU2lnbmVkLW9mZi1ieTogTGlhbmcgSGUgPHdpbmRobEAxMjYuY29tPgo+PiAtLS0KPj4g
-IGRyaXZlcnMvcGNpL2NvbnRyb2xsZXIvcGNpZS1yY2FyLWhvc3QuYyB8IDUgKysrKy0KPj4gIDEg
-ZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPj4gCj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3BjaS9jb250cm9sbGVyL3BjaWUtcmNhci1ob3N0LmMgYi9kcml2ZXJz
-L3BjaS9jb250cm9sbGVyL3BjaWUtcmNhci1ob3N0LmMKPj4gaW5kZXggOTk3YzRkZjZhMWU3Li40
-MDVlYzNkNjRmMzAgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvcGNpL2NvbnRyb2xsZXIvcGNpZS1y
-Y2FyLWhvc3QuYwo+PiArKysgYi9kcml2ZXJzL3BjaS9jb250cm9sbGVyL3BjaWUtcmNhci1ob3N0
-LmMKPj4gQEAgLTExNTgsNyArMTE1OCwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2Rldmlj
-ZV9pZCByY2FyX3BjaWVfYWJvcnRfaGFuZGxlcl9vZl9tYXRjaFtdIF9faW5pdGNvbnN0Cj4+ICAK
-Pj4gIHN0YXRpYyBpbnQgX19pbml0IHJjYXJfcGNpZV9pbml0KHZvaWQpCj4+ICB7Cj4+IC0JaWYg
-KG9mX2ZpbmRfbWF0Y2hpbmdfbm9kZShOVUxMLCByY2FyX3BjaWVfYWJvcnRfaGFuZGxlcl9vZl9t
-YXRjaCkpIHsKPj4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wID0gb2ZfZmluZF9tYXRjaGluZ19u
-b2RlKE5VTEwsIHJjYXJfcGNpZV9hYm9ydF9oYW5kbGVyX29mX21hdGNoKTsKPj4gKwo+PiArCWlm
-IChucCkgewo+PiArCQlvZl9ub2RlX3B1dChucCk7Cj4KPkkgdGhpbmsgdGhpcyBpcyBjb3JyZWN0
-LCBidXQgaXQgd291bGQgYmUgbmljZXIgdG8gdXBkYXRlIHRoZSB3YXkgdGhpcwo+ZHJpdmVyIHVz
-ZXMgb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKCksIGUuZy4sCj4KPiAgc3RydWN0IHJjYXJfdmFy
-aWFudCB7Cj4gICAgaW50ICgqcGh5X2luaXRfZm4pKHN0cnVjdCByY2FyX3BjaWVfaG9zdCAqaG9z
-dCk7Cj4gICAgYm9vbCBob29rX2Fib3J0Owo+ICB9Owo+Cj4gIHN0cnVjdCByY2FyX3BjaWVfaG9z
-dCB7Cj4gICAgLi4uCj4gICAgY29uc3Qgc3RydWN0IHJjYXJfdmFyaWFudCAqdmFyaWFudDsKPiAg
-fTsKPgo+ICBzdGF0aWMgaW50IHJjYXJfcGNpZV9wcm9iZSguLi4pCj4gIHsKPiAgICBob3N0LT52
-YXJpYW50ID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKGRldik7Cj4gICAgZXJyID0gaG9zdC0+
-dmFyaWFudC0+cGh5X2luaXRfZm4oaG9zdCk7Cj4gICAgLi4uCj4KPiAgI2lmZGVmIENPTkZJR19B
-Uk0KPiAgICBpZiAoaG9zdC0+dmFyaWFudC0+aG9va19hYm9ydCkgewo+ICAjaWZkZWYgQ09ORklH
-X0FSTV9MUEFFCj4gICAgICBob29rX2ZhdWx0X2NvZGUoMTcsIC4uLik7Cj4gICMgZWxzZQo+ICAg
-ICAgaG9va19mYXVsdF9jb2RlKDIyLCAuLi4pOwo+ICAjZW5kaWYKPiAgICB9Cj4gICNlbmRpZgo+
-ICB9Cj4KPk9yIGtlZXAgdGhlIGhvb2sgaW4gYSBzZXBhcmF0ZSBmdW5jdGlvbiBjYWxsZWQgZnJv
-bSByY2FyX3BjaWVfcHJvYmUoKQo+aWYgeW91IHRoaW5rIHRoYXQncyBjbGVhbmVyLgo+Cj5JJ20g
-bm90IHN1cmUgaG9va19mYXVsdF9jb2RlKCkgbmVlZHMgdG8gYmUgY2FsbGVkIHNlcGFyYXRlbHkg
-YXMgYQo+ZGV2aWNlX2luaXRjYWxsKCkuICBUaGUgcGNpLWl4cDR4eC5jIGRyaXZlciBkb2VzIGl0
-IGluCj5peHA0eHhfcGNpX3Byb2JlKCksIHNvIEkgYXNzdW1lIHJjYXIgY291bGQgZG8gaXQgaW4g
-cHJvYmUgYXMgd2VsbC4KPgo+PiAgI2lmZGVmIENPTkZJR19BUk1fTFBBRQo+PiAgCQlob29rX2Zh
-dWx0X2NvZGUoMTcsIHJjYXJfcGNpZV9hYXJjaDMyX2Fib3J0X2hhbmRsZXIsIFNJR0JVUywgMCwK
-Pj4gIAkJCQkiYXN5bmNocm9ub3VzIGV4dGVybmFsIGFib3J0Iik7Cj4+IC0tIAo+PiAyLjI1LjEK
-Pj4gCgpUaGFua3MgdmVyeSBtdWNoIGZvciB5b3VyIGVmZm9ydCB0byByZXZpZXcgbXkgcGF0Y2gu
-CgpOb3cgSSBhbSB2ZXJ5IHNvcnJ5IHRoYXQgSSBvbmx5IGtub3cgaG93IHRvIGNvcnJlY3RseSB1
-c2Ugb2ZfZmluZF94eHggQVBJcyAKYW5kIHdoZW4gdGhlcmUgd2lsbCBiZSBhIGxlYWsgYnVnLgoK
-SW4gYW5vdGhlciB3b3JkLCBJIGhhdmUgbm8gaWRlYSB0aGUgZGV0YWlscyBvZiB0aGUgZHJpdmVy
-cyBhbmQgSSBjYW5ub3QgZG8gCmFueW90aGVyIHRoaW5nIHRoYW4gIGp1c3QgZml4IHRoZSBsZWFr
-IGJ1ZyBjYXVzZWQgYnkgbWlzc2luZyBvZl9ub2RlX3B1dCgpLgoKU29ycnkgYWdhaW4uCgpMaWFu
-Zw==
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: d2e8b5ad9e7895b57c60e1c19f760c9081bcd2cd  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+
+elapsed time: 725m
+
+configs tested: 75
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+m68k                       m5249evb_defconfig
+ia64                         bigsur_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                  nommu_kc705_defconfig
+mips                           ci20_defconfig
+ia64                             allmodconfig
+powerpc                           allnoconfig
+sh                               allmodconfig
+powerpc                          allmodconfig
+arc                                 defconfig
+mips                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+alpha                            allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allyesconfig
+parisc64                            defconfig
+i386                   debian-10.3-kselftests
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                              debian-10.3
+nios2                               defconfig
+arc                              allyesconfig
+powerpc                          allyesconfig
+i386                 randconfig-a003-20220620
+i386                 randconfig-a001-20220620
+i386                 randconfig-a004-20220620
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a016
+i386                          randconfig-a014
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220622
+riscv                             allnoconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+
+clang tested configs:
+arm                       cns3420vb_defconfig
+s390                             alldefconfig
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+hexagon              randconfig-r041-20220622
+hexagon              randconfig-r045-20220622
+riscv                randconfig-r042-20220622
+s390                 randconfig-r044-20220622
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
