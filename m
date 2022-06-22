@@ -2,193 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1CD554460
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 10:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19792554410
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 10:10:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352105AbiFVHKh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jun 2022 03:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47426 "EHLO
+        id S234563AbiFVHqF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 03:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232097AbiFVHKg (ORCPT
+        with ESMTP id S229559AbiFVHqE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jun 2022 03:10:36 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D26A36B6D;
-        Wed, 22 Jun 2022 00:10:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MW2hejxSn4CeyGiD9vgA+b971wZfkdHclflN8V46gXRT/Wi9wuPgXPVlTvzXnhMybnzY76XuTmB5eFAvVdmHYnH+BrNPX0Urspr2MMwSmPXbSqpgwo8mkNa834gTtFTR0/TgMsox1lmArxRRSdFDUQ5UKXM+bnDS0dci6tpi0QW5OyFmw0DYAfrQmQ7dc+Nn1H9QVwkkReZyw5xUnrUqKmT4XyG+qw7pClJ8NhOKsGjSlHOwxYInJABsLf6Pbtjll/YhDZQ8plrirhV3AsYEOP4KSRIddpHkxemR0v8nuIBNljDzH7t7nqVn9pZb8WKIL96aYt3wyEuOEPTsFK7ZiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3YWXA1W4UvfIWvgkunCwe7jRJXXXZk6kdTatAawR5lg=;
- b=WlAAnMcflOUAm5R5bLh+JHAOTzXMlAC8MnsBQCe9slGnD2UaG96KycXcbyMWbgeOzbFtewkdSbBNtbl96SutoEIzqe0S1RsYWnQ2I+jHlQCW6CrkWOC7ibCj3bi3WPK0tR4LflMDYZbT6DLxUkZf0qc2e28NNMbQYzsHXlLtwBNLtC7vrx8rf9pad/w/VqmoCdz+CCbIqd9T/mi0ZgA8L2U5pfgzBo9vsVWfObqeSEZghtB9u8UxTwKq4vLbqI9JFeJpv0acCfWKnT8exbDKrpAlf6dUN07fVz9BAi7zRV5yAqKorA3yp6/INCpmvGwQqm/TueBTt1PPBpP1QEeQAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3YWXA1W4UvfIWvgkunCwe7jRJXXXZk6kdTatAawR5lg=;
- b=dtta2zGeGkq20HBWEFVxitUyZVmvD1SyJS/SV6w3eK72/53XVSe/K99ZFMgt2i/Ob8B8qXkpTukVskOA4rReILmFNs78kG/l+6kqcY1qfXkdA5Q1KOSBGP9K8P9bLw0nycV2HupAOiZ+IVQ2lslIBzLBvYckihwFeKEeiB7A4/SbTm/OTkP35lHV/mES0IwUzXcqQdtB7nB63+zfS0K2tie+XJZpMJzta1GEwhsyS+lm6EkTylRKxZPDsZonwSdkM7PUpKlFcoqwEUJL5zMAklN9lBXHzqa8+j0j4zdPpf7AHyRyd6fb+ZlpdgHEHi2NokimLul/4lUS1cvYaJQI2g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN8PR12MB2900.namprd12.prod.outlook.com (2603:10b6:408:69::18)
- by MN2PR12MB3437.namprd12.prod.outlook.com (2603:10b6:208:c3::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.19; Wed, 22 Jun
- 2022 07:10:33 +0000
-Received: from BN8PR12MB2900.namprd12.prod.outlook.com
- ([fe80::3904:2c16:b3b7:c5f3]) by BN8PR12MB2900.namprd12.prod.outlook.com
- ([fe80::3904:2c16:b3b7:c5f3%5]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
- 07:10:33 +0000
-Message-ID: <41b411ca-ad24-40b4-25be-5c73a4e724af@nvidia.com>
-Date:   Wed, 22 Jun 2022 12:40:23 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2] PCI: endpoint: Fix WARN() when an endpoint driver is
- removed
-Content-Language: en-US
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        kishon@ti.com, lpieralisi@kernel.org, kw@linux.com,
-        bhelgaas@google.com
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20220622025031.51812-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Vidya Sagar <vidyas@nvidia.com>
-In-Reply-To: <20220622025031.51812-1-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA1PR0101CA0014.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:21::24) To BN8PR12MB2900.namprd12.prod.outlook.com
- (2603:10b6:408:69::18)
+        Wed, 22 Jun 2022 03:46:04 -0400
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FF41EEC3;
+        Wed, 22 Jun 2022 00:46:02 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 89so24043138qvc.0;
+        Wed, 22 Jun 2022 00:46:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6NqzMVPYor30cDFAk/KEthpekJP7tc0FOSV0dYJSBIg=;
+        b=2p78/HvsDyERGscXkkDLFEWSXjTHDm1mOm2WrUyHsjmFur5l++hu15U6gw/jNQR3A1
+         oVoX9nM6wRXUFZVDuWfrYMHkv2SdlErDrueSD9hiqpWcyfkAOZVuUNnXIHpHlz+bilWN
+         k6txD5Fp0sMgLBiZ4Dx1bwXgT2ONnFVgN0eYA91ixp8UwD6EWKny6o673OXpfpfi5nXD
+         lUtXe0XNXefuxkwYj4MgH0JfWiQjSj10956uBJqufqwWyssMkGsidgb//LdfgGvj1f3o
+         xKkd7NRLgJT/zKXWFLkaUcI+5qHfx0c5nhVhuSfK+BAJyeRo2Ooj2FEcQLf8rciPzGhA
+         MzgA==
+X-Gm-Message-State: AJIora96B8OQ4QVj6mCWJ5nomWrmAasFWXk+pcbh+thEscozpNNnnCh6
+        w6X1zkpp4Ije/qvFnNYwnkpVPmWBUOBcSw==
+X-Google-Smtp-Source: AGRyM1ulqpmxj+qEYL0sIiF/lFV4D3kBxb8Z/CSqDxIoDABXopohsN+RJw94iKblFAKohAMPGi+q8g==
+X-Received: by 2002:a05:622a:547:b0:305:2dc3:6ecf with SMTP id m7-20020a05622a054700b003052dc36ecfmr1794625qtx.466.1655883961170;
+        Wed, 22 Jun 2022 00:46:01 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id b22-20020ac85bd6000000b00304e33f21f7sm15038124qtb.68.2022.06.22.00.46.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 00:46:00 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id u9so18601206ybq.3;
+        Wed, 22 Jun 2022 00:46:00 -0700 (PDT)
+X-Received: by 2002:a25:2b48:0:b0:668:3b7d:326c with SMTP id
+ r69-20020a252b48000000b006683b7d326cmr2251276ybr.380.1655883960430; Wed, 22
+ Jun 2022 00:46:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 01d49d49-b9e6-4a7a-b088-08da541e4c2a
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3437:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3437A7908C5EB0A4A0664A17B8B29@MN2PR12MB3437.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ohmwBswOB/a/8xkDeWl8V7G08jgIy/Nyp7auc/B/NcDlTICFNknSStXPQgWoS8SRwXaBaIcpw4lvQC/DwvAa+cyoN6JmTSyT3Kirp0PY2y+qq5JE+QEO9kTzLAqUQxZPG8b6Ho8IFuirVo5fSISu88KDKd3X9IfKSvr1TgcmBk2gEWwQEvhplVEdwSk6M0/ZlL0T1D3UsbiuPPOoc5cAwpQA2qlszYjcNT5JAnzAupj7PgfWjoUqEX1YTdlNwrfdnX4EkRO1EPtOeZiNXq6dxKS32YLmTngTULunpWgsili5LyqptvhvL0GgXbt2AMKgcN9IFf1cTXIdpMZoFD6+CPEExiG/BFRHFSSqlxXiRmc0Z7RXqX62a0KEt0YKVNyT3mzDdKGSOpPTkCOVteLGYGMw8XbOBU2h8q+aGctaFA4IdeenWz7TPxP+R+cJEHznq4l90ySSkm4ppcfZYNEgf5B3+OY3ISf7Ekxh1bS17ZRh/TfwptETYD+2mZkCOa6tpHLFOUyjtwshXhhAhyb2rKHHV1nGAm2jzcBTxz52ofsuTle/lAL7zahEQcWjiOqLJ5N8YiKqoqHKVLVYaQ+XJGpHjvcrKCCQbPQ39awl/alHvnm1DvIVqs/rRRkpVb4J4ei+bBaI3yJ83anPFYrHRJ3mC+653T7VYdxQUdGHiDXokzPw21VZDnKbbXu7ZpuSB91+2uCPHGRPW/kkUEaIv1FgyVm7jZkeb/McoUxzf/oPH3YxyVkhzoQ3xcA9mhiPLiQ1SsGEDOd0DLYNDGKFggFDq7/FdOFN4q9W9fNxYhj9tjagcMzSHkZ8RBGkQwsXTEOMhaYJNYNRkoLY36g/ZkTEQHkZqTaLbIS5/bNA98ilhQA1qDnwuRmpcJrogB50
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB2900.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(66476007)(36756003)(66556008)(31696002)(4326008)(86362001)(26005)(38100700002)(8936002)(6486002)(83380400001)(5660300002)(316002)(6506007)(6666004)(53546011)(31686004)(2906002)(6512007)(41300700001)(2616005)(186003)(966005)(8676002)(66946007)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0w1ZFpGYVdDWVd5NHd4S3A0cmR5ekcxUkU4T1RXNkpSNXVSTyt3V0JkaklP?=
- =?utf-8?B?bkZMekxmV044N29PVWlKMXlOMlVZUXA5MmpWaDZhaG9SYnJSem9EdFF2UVV1?=
- =?utf-8?B?dTJLd2NJcjRQYTc4Nml0cjY2bU50Yjlkd0lBOTBHRVJkTlE0SWhnbWNwTkF6?=
- =?utf-8?B?VzNtaTJZcHVxTkJNRFp3R1NSZ3NHRlZQM0FEWk9BaDJMRTF2bUhtQ1FoblJS?=
- =?utf-8?B?MXhiRW9IcStjVnUzNEVpNHB4TDVqSWdGQmR1TXB1cVVBKzlUNjR4ZFNNWkRp?=
- =?utf-8?B?b29PSElicERkcE5FemdUenJRREw4cFp3M2w3bVFCN2dhSnZOeXZsRFNEUlpP?=
- =?utf-8?B?Rk5EMDJiaDQ2MXgzVU53T1BKYzlRZnlVR1V3d2N1VHo2L2dPN2lDSlJocHlD?=
- =?utf-8?B?aVkzS2dLUk91RHFkaTN4dkdMaVpadUR3TjJtVnp6MzdJdTNndldUVHFYU04v?=
- =?utf-8?B?a2hYR0FXUmQyZEVaNHpmQXlaQmQ4QUJyaFJBUngrSnZBbnhOV1dBUEY4WnQw?=
- =?utf-8?B?QjVHekFsT0lNeWtSamx6K3A0Zy9sUVIyY2QvOWtXbDJteldObHJKS01OTCtP?=
- =?utf-8?B?cXZLakhHUVdBQXRnZnd2TkgxVEUwSzJ2ZkNwT2ZNaEc3YjE1aUJjbGJJSUd4?=
- =?utf-8?B?TDF6c0NDeU5XT2V1dm1nZkp2bXhTdDNJSi93S0N5L1NLVWFWcVBNQVlyVlpo?=
- =?utf-8?B?NmtBZys5OTBMUFpMYXpYNXlmeU50ZlNlNCtINHNzV2tUSGpIei9wZHp3T08z?=
- =?utf-8?B?ekhxbW5WYnUvS1FyUm9HVTBqanlzN21VMDZubWV4WWtleEgvM25CdTdoTGNM?=
- =?utf-8?B?cCsvTXB2Zmoxc2hCSHlRUzhIOHhOZkpjbGNuTmhGenBpVHk0ZDJTaHFMVnhi?=
- =?utf-8?B?S3ZpaHd2eG9aaEEzUG1OeStBVFFOd0NJa0lYSGJ4Q2RWalVibnZBMnB0V2to?=
- =?utf-8?B?aVJMZ1lhekZCSFhyenZDYnJDUXcvTkd2Z0JZSnpyeTVlSzhZQXlvbkMwSm9l?=
- =?utf-8?B?MDJ3Yld4SlUvUmw3R1Ntc0dMbEUzbVdrQ3NNUlhDRnRGWkx3UE5zMlZVVjd6?=
- =?utf-8?B?bC9vNjVET250VFc3bzFiWGJrNmJIUDJnVTlveDIyWlNDWGVrN0hTUFRsTG1L?=
- =?utf-8?B?aWVHZXRWNUF3d3ArYVAzSUtQYUdYcmp1MWFXY0x2dUxYRktFWStuYzNwTk8y?=
- =?utf-8?B?eXptR0NlZnV0S1BhTzZuWUY4cGdSZGQxNVRLNk12Tm5saG1PcE9zcjV1M3RT?=
- =?utf-8?B?bFFYRFdGdW4xVU9pVGMrNVZlRzRZUVhEQ09Pa2ZKWmNKT3I3TmtBQUlPTFA0?=
- =?utf-8?B?TGdPSVo1d3FwY3J4VTdqenB6UFl4cjY4dCtNVEdGK2JtNEJYdEZnNkJCS3FO?=
- =?utf-8?B?WjZMd2t6eTN1TEgzKzBFUkNZS2pDY0Q3RzQwaXk1eXZEbkFJck9GY0dQaWEx?=
- =?utf-8?B?bTFiOHpMUEt1MXhMc1dhZER6ZHVXWE9Ud3NXTUxndGZOMjJ4T1EyODRLbU1K?=
- =?utf-8?B?RXVBUnk1akZJeldXdjVLK3FmM3NGU01Gd1pXWUkvTTR4c21zTTBzWU1vc0hD?=
- =?utf-8?B?SVhLTjl1WmNiVDRkV3BIRWFQZ1JwZ2hQWDhNV3JZVHRuZ2cyeHNnTGEycWlq?=
- =?utf-8?B?WjI2TnJNU3BzZVZXbUZoL3UyMUcyWXRVV2JNM0xnS1JHVkRIdkc4SG9Sd0Fo?=
- =?utf-8?B?NWV1WjBBanZFYXFESEhxK3F1ak9NSXl3Yk4zQ2JGbVZRd3JWWWw3c2hRTWFp?=
- =?utf-8?B?Y1hwTmo2Z1BHQTJadDNBWlRaUkM3N1FMRHBjSFkvNmtKUlV0endNNUdETVA1?=
- =?utf-8?B?K0x2dTZjZjR1VXloMURtQ0pTRElLS0FKVU43Z3VWZEQvcTArN0l0Q21MNjJ6?=
- =?utf-8?B?RGIyQmk1bEp5RUpzL211eThsei9IVXJhZkpJZ2FBMitsMEJ6QzFOdnFaQVgy?=
- =?utf-8?B?Q2JEUjd5OWlFcElGSyswYnN0NjRDK1JETHV3c1hQTmhISXdDRWNRRWd0dTQ5?=
- =?utf-8?B?dEt3cDdSdHMxalliMnNzd3ZCbnNWejVXMndHTmtTWFp4eVFJUmcyb291Nm0x?=
- =?utf-8?B?Y3lucjB1MVZkNXRYUUtCRHhpOVhFdm9nbmlPTk1Xb1JTUGxXWFhZVnVCdzZa?=
- =?utf-8?B?RWtMdzkwSDlkSUQ0eFVzd3VNbXVSNGVieUtxV1pua3hwTzJvZ0pnNnlMZ1pH?=
- =?utf-8?B?c2QzRldDbnJ0WEoyMTdhcDVqVk9rRHU3T2NsczAvaiszWjJiM3djSERLTEQv?=
- =?utf-8?B?TWFmN0JpYnJrcVNuRGtDWG9BNVFzWUJjNjQ1VW9td0Z5a1JZYnZnU1pvQTVk?=
- =?utf-8?B?Q3A3a05KYzFNMVdPQnJBSnBvNEVmeCtLa01ZK28wdlhpMFlIdS9Hdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01d49d49-b9e6-4a7a-b088-08da541e4c2a
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB2900.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 07:10:33.3558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nFhWcKUWE2bgqp8V7nv9K+hMhhmZGUMw0UZBmCCTKMGmy+BKe31QN7Px1sVfs8OrTqcv/Z6nuL8GbI5SxOlKGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3437
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20220622025732.1359389-1-helgaas@kernel.org> <20220622025732.1359389-3-helgaas@kernel.org>
+In-Reply-To: <20220622025732.1359389-3-helgaas@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 22 Jun 2022 09:45:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUwGLDzOQo_wwSLmzBnJXe-cOw=nqsPbFLsj-c+nHfy_w@mail.gmail.com>
+Message-ID: <CAMuHMdUwGLDzOQo_wwSLmzBnJXe-cOw=nqsPbFLsj-c+nHfy_w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] PCI: rcar: Resolve of_find_matching_node() reference leak
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Liang He <windhl@126.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Verified on Tegra194 platform.
+Hi Bjorn,
 
-Tested-by: Vidya Sagar <vidyas@nvidia.com>
+On Wed, Jun 22, 2022 at 4:57 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> Previously, rcar_pcie_init() used of_find_matching_node() to search the
+> entire device tree for compatible strings for which we need to install an
+> abort handler.  If we found one, we got a device_node with refcount
+> incremented, but we discarded the pointer and never released that
+> reference.
+>
+> Extend the struct rcar_variant to indicate whether each variant requires an
+> abort handler.  Install the handler in rcar_pcie_probe() when needed.
+>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Liang He <windhl@126.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 
-On 6/22/2022 8:20 AM, Yoshihiro Shimoda wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> Add pci_epc_release() for epc->dev.release and move kfree(epc)
-> to the release function. Otherwise, WARN() happened when a PCIe
-> endpoint driver is removed.
-> 
->   Device 'e65d0000.pcie-ep' does not have a release() function, it is broken and must be fixed. See Documentation/core-api/kobject.rst.
->   WARNING: CPU: 0 PID: 139 at drivers/base/core.c:2232 device_release+0x78/0x8c
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->   Changes from v1:
->   - Move kfree(epc) to the release function.
->   - Revised the commit description.
->   https://lore.kernel.org/all/20220621121147.3971001-1-yoshihiro.shimoda.uh@renesas.com/
-> 
->   drivers/pci/endpoint/pci-epc-core.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-> index 3bc9273d0a08..2542196e8c3d 100644
-> --- a/drivers/pci/endpoint/pci-epc-core.c
-> +++ b/drivers/pci/endpoint/pci-epc-core.c
-> @@ -724,7 +724,6 @@ void pci_epc_destroy(struct pci_epc *epc)
->   {
->          pci_ep_cfs_remove_epc_group(epc->group);
->          device_unregister(&epc->dev);
-> -       kfree(epc);
->   }
->   EXPORT_SYMBOL_GPL(pci_epc_destroy);
-> 
-> @@ -746,6 +745,11 @@ void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc)
->   }
->   EXPORT_SYMBOL_GPL(devm_pci_epc_destroy);
-> 
-> +static void pci_epc_release(struct device *dev)
+Thanks for your patch!
+
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+
+> @@ -964,12 +965,35 @@ static int rcar_pcie_parse_map_dma_ranges(struct rcar_pcie_host *host)
+>         return err;
+>  }
+>
+> +#ifdef CONFIG_ARM
+> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+> +               unsigned int fsr, struct pt_regs *regs)
 > +{
-> +       kfree(to_pci_epc(dev));
+> +       return !fixup_exception(regs);
+> +}
+> +#endif
+> +
+> +static void rcar_pcie_hook_aborts(void)
+> +{
+> +#ifdef CONFIG_ARM
+> +#ifdef CONFIG_ARM_LPAE
+> +       hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +                       "asynchronous external abort");
+> +#else
+> +       hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +                       "imprecise external abort");
+> +#endif
+> +#endif
 > +}
 > +
->   /**
->    * __pci_epc_create() - create a new endpoint controller (EPC) device
->    * @dev: device that is creating the new EPC
-> @@ -779,6 +783,7 @@ __pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
->          device_initialize(&epc->dev);
->          epc->dev.class = pci_epc_class;
->          epc->dev.parent = dev;
-> +       epc->dev.release = pci_epc_release;
->          epc->ops = ops;
-> 
->          ret = dev_set_name(&epc->dev, "%s", dev_name(dev));
-> --
-> 2.25.1
-> 
+>  static const struct rcar_variant rcar_h1_data = {
+>         .phy_init_fn = rcar_pcie_phy_init_h1,
+> +       .hook_aborts = true,
+>  };
+>
+>  static const struct rcar_variant rcar_gen2_data = {
+>         .phy_init_fn = rcar_pcie_phy_init_gen2,
+> +       .hook_aborts = true,
+>  };
+>
+>  static const struct rcar_variant rcar_gen3_data = {
+> @@ -1035,6 +1059,9 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>                 goto err_clk_disable;
+>         }
+>
+> +       if (host->variant->hook_aborts)
+> +               rcar_pcie_hook_aborts();
+
+I was quite sure there was a good reason why this was not done in
+.probe() before...
+
+And indeed, the original submission[1] did have a comment explaining
+that:
+
+    + /*
+    + * Since probe() can be deferred we need to make sure that
+    + * hook_fault_code is not called after __init memory is freed
+    + * by kernel and since rcar_pcie_abort_handler() is a no-op,
+    + * we can install the handler here without risking it
+    + * accessing some uninitialized driver state.
+    + */
+
+No idea why it was removed in v2 and later, but the point is:
+hook_fault_code() is __init, so you cannot call it from a deferred
+probe.
+And you should have got a section mismatch warning ;-)
+
+[1] https://lore.kernel.org/all/20200912211853.15321-1-marek.vasut@gmail.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
