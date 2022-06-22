@@ -2,179 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 473345540B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 04:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6530D554245
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 07:29:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356309AbiFVC5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jun 2022 22:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
+        id S234094AbiFVF34 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 01:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356308AbiFVC5v (ORCPT
+        with ESMTP id S232386AbiFVF34 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jun 2022 22:57:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C3033A32;
-        Tue, 21 Jun 2022 19:57:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 28E6FB81C06;
-        Wed, 22 Jun 2022 02:57:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77B3C341C7;
-        Wed, 22 Jun 2022 02:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655866666;
-        bh=QNzTpoGr4shSjLv0sk0M1WLeZIItPNE1fT8ivdONYmA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K/f+fiDA3xJ6T1elwyfgYgH0uVhQ0NIE94Uawid8Puy808OI40xxKeHbjb7/dosNZ
-         N+1FZOywA42QllCOHTm0TPzdIcHznORZKILSnjMjHDHbQX50sOarPn7pvhVHH/JEIG
-         0Sc7IKvcZmhWtLu7FPBkfR/zvZjqMKru//M+1+HEPkRtd1PI5z61qafuEtC2+J2hXo
-         xEyrL9FXeP2eX5HmWDfb2CxFBCA8yenMYT5nzLTFLEDeRkaMiqfdnhOlU95kJ5U2CG
-         WaFmd5TEa7aQOgUydNzlhPzVXPg1P4PmLf613697CufhUQNZRSwzLERDMFxkCXn5zq
-         FMvx0dDTnicYg==
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Liang He <windhl@126.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH 2/2] PCI: rcar: Resolve of_find_matching_node() reference leak
-Date:   Tue, 21 Jun 2022 21:57:32 -0500
-Message-Id: <20220622025732.1359389-3-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220622025732.1359389-1-helgaas@kernel.org>
-References: <20220622025732.1359389-1-helgaas@kernel.org>
+        Wed, 22 Jun 2022 01:29:56 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912C33616D;
+        Tue, 21 Jun 2022 22:29:53 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id q15so8570002wmj.2;
+        Tue, 21 Jun 2022 22:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e8ZNIxBrgtMQiUBB+AomF9YceG4wweliH+wtvtHZbpM=;
+        b=NzFG6aUDVog5xCHWHWO3+6IOp6tW90NJQQ34O++uBT+OkQXW7pUMGey/QmDnrqxVzf
+         dcj8lvppKrwCWJCMLl0/ShuY5QH1AhOiErI5eUCrwWSDzDxGRDO+rrGvEC0MBjkWEY+v
+         Ut0Tx6ylAZmuuHsJGiCZR/LzBl88gGujh8oP8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e8ZNIxBrgtMQiUBB+AomF9YceG4wweliH+wtvtHZbpM=;
+        b=xjDJsPLhBioaL11Szv3a0Hx0/myyEWKDPkvERA2czSuypLpnai2d7AbFR335XFBiHw
+         GPp0XJfZzxrDZhkqH2Cp8DfZqVw6rwgo8zAvtdhLzUDVjVai2dsLK4lBUofnDwOIpMeK
+         RozllumFO89LodWK2bL1851P4qHuTOcZ/2X5laFSICC7bWSYHDUX+NUI94P2ITX32hiE
+         y9W+nUDoTD67QbqOKHfQbv1X7zc7jUiH+Lrz+IhkRaHLIk5N0iVWeBcxXubGJsCyjyww
+         ZiSh2X9x5SZMCVrgbsd/T2xmJ0ryDlHJhVtypvw+JPyONdBA/m75rWkDAqbHxXN2EPYZ
+         Gw9w==
+X-Gm-Message-State: AOAM530p6mDSoQHDMVV4CpFhIPCyMXJQPayY44tT7kvYbqaAPia0JVLO
+        4AB7weA88SWdMnBT/c99TS4UhHVwekn3n9Nug4jSq82O
+X-Google-Smtp-Source: ABdhPJzZvryKqgcWaTUQ/imYSx0Fb7tWzac85u0+/+HebZbQfMU1jqgg9EjHTaoRErRZh9y06Dm67UEboYdMRO3X0DM=
+X-Received: by 2002:a05:600c:5d3:b0:39c:506d:c987 with SMTP id
+ p19-20020a05600c05d300b0039c506dc987mr44748571wmd.10.1655875792091; Tue, 21
+ Jun 2022 22:29:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <7ae260778d2c08986348ea48ce02ef148100e088.1655817534.git.geert+renesas@glider.be>
+In-Reply-To: <7ae260778d2c08986348ea48ce02ef148100e088.1655817534.git.geert+renesas@glider.be>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Wed, 22 Jun 2022 05:29:39 +0000
+Message-ID: <CACPK8Xd-+zmExboCfeHL4axgrA_P99PDO0dgda5SHGo84DYB3A@mail.gmail.com>
+Subject: Re: [PATCH] eeprom: at25: Rework buggy read splitting
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Eddie James <eajames@linux.ibm.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Brad Bishop <bradleyb@fuzziesquirrel.com>,
+        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+On Tue, 21 Jun 2022 at 13:22, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> The recent change to split reads into chunks has several problems:
+>   1. If an SPI controller has no transfer size limit, max_chunk is
+>      SIZE_MAX, and num_msgs becomes zero, causing no data to be read
+>      into the buffer, and exposing the original contents of the buffer
+>      to userspace,
+>   2. If the requested read size is not a multiple of the maximum
+>      transfer size, the last transfer reads too much data, overflowing
+>      the buffer,
+>   3. The loop logic differs from the write case.
+>
+> Fix the above by:
+>   1. Keeping track of the number of bytes that are still to be
+>      transferred, instead of precalculating the number of messages and
+>      keeping track of the number of bytes tranfered,
 
-Previously, rcar_pcie_init() used of_find_matching_node() to search the
-entire device tree for compatible strings for which we need to install an
-abort handler.  If we found one, we got a device_node with refcount
-incremented, but we discarded the pointer and never released that
-reference.
+sp: transferred
 
-Extend the struct rcar_variant to indicate whether each variant requires an
-abort handler.  Install the handler in rcar_pcie_probe() when needed.
+>   2. Calculating the transfer size of each individual message, taking
+>      into account the number of bytes left,
+>   3. Switching from a "while"-loop to a "do-while"-loop, and renaming
+>      "msg_count" to "segment".
+>
+> While at it, drop the superfluous cast from "unsigned int" to "unsigned
+> int", also from at25_ee_write(), where it was probably copied from.
+>
+> Fixes: 0a35780c755ccec0 ("eeprom: at25: Split reads into chunks and cap write size")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Liang He <windhl@126.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
----
- drivers/pci/controller/pcie-rcar-host.c | 60 +++++++++++--------------
- 1 file changed, 27 insertions(+), 33 deletions(-)
+Thanks Geert for the patch. This is particularly important as I
+noticed the "fix" has been backported to stable trees.
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index ccf13aafa1e5..139a0274b9e0 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -60,6 +60,7 @@ struct rcar_pcie_host;
- 
- struct rcar_variant {
- 	int	(*phy_init_fn)(struct rcar_pcie_host *host);
-+	bool	hook_aborts;
- };
- 
- /* Structure representing the PCIe interface */
-@@ -964,12 +965,35 @@ static int rcar_pcie_parse_map_dma_ranges(struct rcar_pcie_host *host)
- 	return err;
- }
- 
-+#ifdef CONFIG_ARM
-+static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
-+		unsigned int fsr, struct pt_regs *regs)
-+{
-+	return !fixup_exception(regs);
-+}
-+#endif
-+
-+static void rcar_pcie_hook_aborts(void)
-+{
-+#ifdef CONFIG_ARM
-+#ifdef CONFIG_ARM_LPAE
-+	hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-+			"asynchronous external abort");
-+#else
-+	hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-+			"imprecise external abort");
-+#endif
-+#endif
-+}
-+
- static const struct rcar_variant rcar_h1_data = {
- 	.phy_init_fn = rcar_pcie_phy_init_h1,
-+	.hook_aborts = true,
- };
- 
- static const struct rcar_variant rcar_gen2_data = {
- 	.phy_init_fn = rcar_pcie_phy_init_gen2,
-+	.hook_aborts = true,
- };
- 
- static const struct rcar_variant rcar_gen3_data = {
-@@ -1035,6 +1059,9 @@ static int rcar_pcie_probe(struct platform_device *pdev)
- 		goto err_clk_disable;
- 	}
- 
-+	if (host->variant->hook_aborts)
-+		rcar_pcie_hook_aborts();
-+
- 	/* Failure to get a link might just be that no cards are inserted */
- 	if (rcar_pcie_hw_init(pcie)) {
- 		dev_info(dev, "PCIe link down\n");
-@@ -1153,37 +1180,4 @@ static struct platform_driver rcar_pcie_driver = {
- 	},
- 	.probe = rcar_pcie_probe,
- };
--
--#ifdef CONFIG_ARM
--static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
--		unsigned int fsr, struct pt_regs *regs)
--{
--	return !fixup_exception(regs);
--}
--
--static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
--	{ .compatible = "renesas,pcie-r8a7779" },
--	{ .compatible = "renesas,pcie-r8a7790" },
--	{ .compatible = "renesas,pcie-r8a7791" },
--	{ .compatible = "renesas,pcie-rcar-gen2" },
--	{},
--};
--
--static int __init rcar_pcie_init(void)
--{
--	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
--#ifdef CONFIG_ARM_LPAE
--		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
--				"asynchronous external abort");
--#else
--		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
--				"imprecise external abort");
--#endif
--	}
--
--	return platform_driver_register(&rcar_pcie_driver);
--}
--device_initcall(rcar_pcie_init);
--#else
- builtin_platform_driver(rcar_pcie_driver);
--#endif
--- 
-2.25.1
+I was surprised that patch went in as-is; I thought it needed some
+discussion before merging. I wasn't sure if it was the correct fix at
+all; I wondered if it should have been fixed at the spi layer. Do you
+have an opinion there?
 
+Eddie, can you jump in for some testing and a review of this one?
+
+Cheers,
+
+Joel
+
+> ---
+> Tested on Ebisu-4D with 25LC040 EEPROM.
+> ---
+>  drivers/misc/eeprom/at25.c | 26 ++++++++++++--------------
+>  1 file changed, 12 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/misc/eeprom/at25.c b/drivers/misc/eeprom/at25.c
+> index c9c56fd194c1301f..bdffc6543f6f8b7f 100644
+> --- a/drivers/misc/eeprom/at25.c
+> +++ b/drivers/misc/eeprom/at25.c
+> @@ -80,10 +80,9 @@ static int at25_ee_read(void *priv, unsigned int offset,
+>         struct at25_data *at25 = priv;
+>         char *buf = val;
+>         size_t max_chunk = spi_max_transfer_size(at25->spi);
+> -       size_t num_msgs = DIV_ROUND_UP(count, max_chunk);
+> -       size_t nr_bytes = 0;
+> -       unsigned int msg_offset;
+> -       size_t msg_count;
+> +       unsigned int msg_offset = offset;
+> +       size_t bytes_left = count;
+> +       size_t segment;
+>         u8                      *cp;
+>         ssize_t                 status;
+>         struct spi_transfer     t[2];
+> @@ -97,9 +96,8 @@ static int at25_ee_read(void *priv, unsigned int offset,
+>         if (unlikely(!count))
+>                 return -EINVAL;
+>
+> -       msg_offset = (unsigned int)offset;
+> -       msg_count = min(count, max_chunk);
+> -       while (num_msgs) {
+> +       do {
+> +               segment = min(bytes_left, max_chunk);
+>                 cp = at25->command;
+>
+>                 instr = AT25_READ;
+> @@ -131,8 +129,8 @@ static int at25_ee_read(void *priv, unsigned int offset,
+>                 t[0].len = at25->addrlen + 1;
+>                 spi_message_add_tail(&t[0], &m);
+>
+> -               t[1].rx_buf = buf + nr_bytes;
+> -               t[1].len = msg_count;
+> +               t[1].rx_buf = buf;
+> +               t[1].len = segment;
+>                 spi_message_add_tail(&t[1], &m);
+>
+>                 status = spi_sync(at25->spi, &m);
+> @@ -142,10 +140,10 @@ static int at25_ee_read(void *priv, unsigned int offset,
+>                 if (status)
+>                         return status;
+>
+> -               --num_msgs;
+> -               msg_offset += msg_count;
+> -               nr_bytes += msg_count;
+> -       }
+> +               msg_offset += segment;
+> +               buf += segment;
+> +               bytes_left -= segment;
+> +       } while (bytes_left > 0);
+>
+>         dev_dbg(&at25->spi->dev, "read %zu bytes at %d\n",
+>                 count, offset);
+> @@ -229,7 +227,7 @@ static int at25_ee_write(void *priv, unsigned int off, void *val, size_t count)
+>         do {
+>                 unsigned long   timeout, retries;
+>                 unsigned        segment;
+> -               unsigned        offset = (unsigned) off;
+> +               unsigned        offset = off;
+>                 u8              *cp = bounce;
+>                 int             sr;
+>                 u8              instr;
+> --
+> 2.25.1
+>
