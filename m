@@ -2,100 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71D65555312
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 20:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A177D555324
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 20:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359064AbiFVSPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jun 2022 14:15:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
+        id S1377616AbiFVSRs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 14:17:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346019AbiFVSPN (ORCPT
+        with ESMTP id S1377586AbiFVSRj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jun 2022 14:15:13 -0400
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BAB3CA45;
-        Wed, 22 Jun 2022 11:15:13 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id g18so18839431qvn.2;
-        Wed, 22 Jun 2022 11:15:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S6RaOwUUNsa35j0zwNNMMC8L4W+AYUi6AJGjFqNAiII=;
-        b=0kQHv3upiApeFF9omqaSCSpIB6eQU+qedKYNIKpqhxiC9TEarUoDcnkfNeNxvupMuW
-         IHKT2NZgK8/apwvbpZs/Zacdy2YjhIJMqScQpp7NYKNtLzrdVeeLgvdnIi2sIYxReHEc
-         kg2DSjXREoMBTCqh52/ZAtJ41A4nLWXqne9Lg+zpCAP+6Mr3WD81vUWLzm2nHF4N7U4j
-         lSJxub34JFhfouQ5q2f5NFHFhZiLaLcSrID//FE8BvoTQMT+B8WPQrHVrwKAPub3/7Jj
-         un3wiqVWZcvzDmyYIk1b15CsW9eWOsdQc77YZL9kJx+CpPa048P9zdrKX7aqZ3AVoPEn
-         SLFQ==
-X-Gm-Message-State: AJIora+XuyRFdqeWNwoxTAa0ZNA+xgb+TlQKyfohUYX+x40c1aqkVGWX
-        5l+MqpHdMzr5oDj3W/iSpx5lbVnnhDaDBA==
-X-Google-Smtp-Source: AGRyM1tX061kOF6g0bbkPK1fACkx8BYGnjyjvtFfOzKMkAQaEDhl0Ipzh1e7offsAn173Kg4ihtJ3w==
-X-Received: by 2002:ad4:5ba1:0:b0:46e:2f1f:9836 with SMTP id 1-20020ad45ba1000000b0046e2f1f9836mr28566864qvq.87.1655921712257;
-        Wed, 22 Jun 2022 11:15:12 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id u12-20020a37ab0c000000b006a34a22bc60sm16148165qke.9.2022.06.22.11.15.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 11:15:11 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3137316bb69so170898137b3.10;
-        Wed, 22 Jun 2022 11:15:11 -0700 (PDT)
-X-Received: by 2002:a81:3a81:0:b0:317:7dcf:81d4 with SMTP id
- h123-20020a813a81000000b003177dcf81d4mr5778535ywa.47.1655921710907; Wed, 22
- Jun 2022 11:15:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220622173614.12778-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220622173614.12778-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220622173614.12778-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Jun 2022 20:14:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXsOHtmdbO8B=hVFV2MEz1TszxtOK2c651racyREYU=0g@mail.gmail.com>
-Message-ID: <CAMuHMdXsOHtmdbO8B=hVFV2MEz1TszxtOK2c651racyREYU=0g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] mmc: renesas_sdhi: Get the reset handle early in
- the probe
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 22 Jun 2022 14:17:39 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 62EFC3E5FD;
+        Wed, 22 Jun 2022 11:17:36 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,212,1650898800"; 
+   d="scan'208";a="125315333"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Jun 2022 03:17:35 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 105CB40C7F2E;
+        Thu, 23 Jun 2022 03:17:31 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] Add CPG wrapper for Renesas RZ/Five SoC
+Date:   Wed, 22 Jun 2022 19:17:21 +0100
+Message-Id: <20220622181723.13033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 22, 2022 at 7:36 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> In case of devm_reset_control_get_optional_exclusive() failure we returned
-> directly instead of jumping to the error path to roll back initialization.
->
-> This patch moves devm_reset_control_get_optional_exclusive() early in the
-> probe so that we have the reset handle prior to initialization of the
-> hardware.
->
-> Fixes: b4d86f37eacb7 ("mmc: renesas_sdhi: do hard reset if possible")
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi All,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch series adds CPG wrapper for Renesas RZ/Five SoC. RZ/Five SoC
+has almost identical clock structure compared to RZ/G2UL, so
+r9a07g043-cpg.c file is re-used to add support for Renesas RZ/Five SoC.
 
-Gr{oetje,eeting}s,
+Below is the clock structure reported by Linux with this patch series:
 
-                        Geert
+/ # cat /sys/devices/soc0/family
+RZ/Five
+/ # cat /sys/devices/soc0/machine
+Renesas SMARC EVK based on r9a07g043
+/ # cat /sys/devices/soc0/revision
+0
+/ # cat /sys/devices/soc0/soc_id
+r9a07g043
+/ #
+/ # cat /sys/kernel/debug/clk/clk_summary
+                                 enable  prepare  protect                                duty  hardware
+   clock                          count    count    count        rate   accuracy phase  cycle    enable
+-------------------------------------------------------------------------------------------------------
+ extal                                3        3        0    24000000          0     0  50000         Y
+    .pll6                             0        0        0   500000000          0     0  50000         Y
+       .pll6_250                      0        0        0   250000000          0     0  50000         Y
+          HP                          0        0        0   250000000          0     0  50000         Y
+    .pll3                             1        1        0  1600000000          0     0  50000         Y
+       .pll3_533                      0        0        0   533333333          0     0  50000         Y
+          .sel_pll3_3                 0        0        0   533333333          0     0  50000         Y
+             divpl3c                  0        0        0   266666667          0     0  50000         Y
+                SPI1                  0        0        0    66666666          0     0  50000         Y
+                   spi_clk2           0        0        0    66666666          0     0  50000         N
+                SPI0                  0        0        0   133333333          0     0  50000         Y
+                   spi_clk            0        0        0   133333333          0     0  50000         N
+       .pll3_400                      0        0        0   400000000          0     0  50000         Y
+       .pll3_div2                     1        1        0   800000000          0     0  50000         Y
+          .pll3_div2_4                1        1        0   200000000          0     0  50000         Y
+             M0                       0        0        0   200000000          0     0  50000         Y
+                eth1_axi              0        0        0   200000000          0     0  50000         N
+                eth0_axi              0        0        0   200000000          0     0  50000         N
+             P1                       3        3        0   200000000          0     0  50000         Y
+                usb_pclk              0        0        0   200000000          0     0  50000         N
+                usb0_func             0        0        0   200000000          0     0  50000         N
+                usb1_host             0        0        0   200000000          0     0  50000         N
+                usb0_host             0        0        0   200000000          0     0  50000         N
+                sdhi1_aclk            0        0        0   200000000          0     0  50000         N
+                sdhi0_aclk            0        0        0   200000000          0     0  50000         N
+                dmac_aclk             2        2        0   200000000          0     0  50000         Y
+                iax45_clk             1        1        0   200000000          0     0  50000         Y
+                P1_DIV2               1        1        0   100000000          0     0  50000         Y
+                   dmac_pclk          1        1        0   100000000          0     0  50000         Y
+             .pll3_div2_4_2           0        0        0   100000000          0     0  50000         Y
+                ZT                    0        0        0   100000000          0     0  50000         Y
+                   eth1_chi           0        0        0   100000000          0     0  50000         N
+                   eth0_chi           0        0        0   100000000          0     0  50000         N
+                P2                    0        0        0   100000000          0     0  50000         Y
+                   iax45_pclk         0        0        0   100000000          0     0  50000         N
+    .pll2                             1        1        0  1600000000          0     0  50000         Y
+       .clk_533                       0        0        0   533333333          0     0  50000         Y
+          sd1                         0        0        0   533333333          0     0  50000         Y
+             sdhi1_clk_hs             0        0        0   533333333          0     0  50000         N
+             SD1_DIV4                 0        0        0   133333333          0     0  50000         Y
+                sdhi1_imclk2          0        0        0   133333333          0     0  50000         N
+                sdhi1_imclk           0        0        0   133333333          0     0  50000         N
+          sd0                         0        0        0   533333333          0     0  50000         Y
+             sdhi0_clk_hs             0        0        0   533333333          0     0  50000         N
+             SD0_DIV4                 0        0        0   133333333          0     0  50000         Y
+                sdhi0_imclk2          0        0        0   133333333          0     0  50000         N
+                sdhi0_imclk           0        0        0   133333333          0     0  50000         N
+          .clk_266                    0        0        0   266666666          0     0  50000         Y
+       .clk_800                       0        0        0   800000000          0     0  50000         Y
+          .clk_400                    0        0        0   400000000          0     0  50000         Y
+       .pll2_div2                     1        1        0   800000000          0     0  50000         Y
+          .pll2_div2_10               0        0        0    80000000          0     0  50000         Y
+             TSU                      0        0        0    80000000          0     0  50000         Y
+                tsu_pclk              0        0        0    80000000          0     0  50000         N
+                adc_adclk             0        0        0    80000000          0     0  50000         N
+          .pll2_div2_8                1        1        0   100000000          0     0  50000         Y
+             P0                       1        3        0   100000000          0     0  50000         Y
+                adc_pclk              0        0        0   100000000          0     0  50000         N
+                canfd                 0        0        0   100000000          0     0  50000         N
+                rspi2                 0        0        0   100000000          0     0  50000         N
+                rspi1                 0        0        0   100000000          0     0  50000         N
+                rspi0                 0        0        0   100000000          0     0  50000         N
+                sci1                  0        0        0   100000000          0     0  50000         N
+                sci0                  0        0        0   100000000          0     0  50000         N
+                scif4                 0        0        0   100000000          0     0  50000         N
+                scif3                 0        0        0   100000000          0     0  50000         N
+                scif2                 0        0        0   100000000          0     0  50000         N
+                scif1                 0        0        0   100000000          0     0  50000         N
+                scif0                 2        2        0   100000000          0     0  50000         Y
+                i2c3                  0        0        0   100000000          0     0  50000         N
+                i2c2                  0        0        0   100000000          0     0  50000         N
+                i2c1                  0        1        0   100000000          0     0  50000         N
+                i2c0                  0        1        0   100000000          0     0  50000         N
+                ssi3_sfr              0        0        0   100000000          0     0  50000         N
+                ssi3_pclk             0        0        0   100000000          0     0  50000         N
+                ssi2_sfr              0        0        0   100000000          0     0  50000         N
+                ssi2_pclk             0        0        0   100000000          0     0  50000         N
+                ssi1_sfr              0        0        0   100000000          0     0  50000         N
+                ssi1_pclk             0        0        0   100000000          0     0  50000         N
+                ssi0_sfr              0        0        0   100000000          0     0  50000         N
+                ssi0_pclk             0        0        0   100000000          0     0  50000         N
+                wdt2_pclk             0        0        0   100000000          0     0  50000         N
+                wdt0_pclk             0        0        0   100000000          0     0  50000         N
+                ostm2_pclk            0        0        0   100000000          0     0  50000         N
+                ostm1_pclk            0        0        0   100000000          0     0  50000         N
+                ostm0_pclk            0        0        0   100000000          0     0  50000         N
+                P0_DIV2               0        0        0    50000000          0     0  50000         Y
+    .pll1                             0        0        0  1000000000          0     0  50000         Y
+       I                              0        0        0  1000000000          0     0  50000         Y
+    .osc_div1000                      0        0        0       24000          0     0  50000         Y
+    .osc                              1        1        0    24000000          0     0  50000         Y
+       gpio                           1        2        0    24000000          0     0  50000         Y
+       wdt2_clk                       0        0        0    24000000          0     0  50000         N
+       wdt0_clk                       0        0        0    24000000          0     0  50000         N
+/ #
+/ #
+/ #
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+RFC->v1:
+* Fixed review comments pointed by Geert.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+RFC: https://patchwork.ozlabs.org/project/devicetree-bindings/cover/
+20220505193143.31826-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  dt-bindings: clock: r9a07g043-cpg: Add Renesas RZ/Five CPG Clock and
+    Reset Definitions
+  clk: renesas: r9a07g043: Add support for RZ/Five SoC
+
+ drivers/clk/renesas/r9a07g043-cpg.c       | 32 +++++++++++++++++++++++
+ include/dt-bindings/clock/r9a07g043-cpg.h | 20 ++++++++++++++
+ 2 files changed, 52 insertions(+)
+
+-- 
+2.25.1
+
