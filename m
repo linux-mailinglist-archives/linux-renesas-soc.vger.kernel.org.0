@@ -2,150 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E08A155443C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 10:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06470554493
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jun 2022 10:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351916AbiFVHuL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jun 2022 03:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50144 "EHLO
+        id S1350187AbiFVIL2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jun 2022 04:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354442AbiFVHtw (ORCPT
+        with ESMTP id S240710AbiFVIL1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jun 2022 03:49:52 -0400
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B1F37BFA;
-        Wed, 22 Jun 2022 00:49:37 -0700 (PDT)
-Received: by mail-qv1-f53.google.com with SMTP id q4so11910928qvq.8;
-        Wed, 22 Jun 2022 00:49:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MiZWM7MxRKqxYWhMwu/FnGq8WJHzbefkWgjumIh+/s4=;
-        b=GnT2RBNJbahuJqBR51HTyvoibuQJp7UR2Fy2OLAxFnKhycBBtGKKdvDSbhENFdeQoG
-         z6KkWIPuC0eCn7aOpPpklJANr78McSk6WKfrXxf/01xqQ2PpF0ECrMXVL/Lkb+W4AKwU
-         rvt21E11/7MRebLX+fbWGZ4GpGLQJR328hrxt7esIKdXntQbtkrGX/pLx76MLJxMJahk
-         AtTWyykBJFQue1MmdPTLKjvnq9JUarK0hDfgo8Z7NhSAROC7E2Pt8krAVOkO6e3D09rh
-         /AB7+sDOoaQug+Qm9mrGhNOdi0Od0r4f6cLzr3w5dIfRuYBsNftN+RJQuc5hDwr9fCh6
-         gH/Q==
-X-Gm-Message-State: AJIora/e8bbh80JNY/y5CcHqgwLdo0z87yz2J6l2uGZ04hK8eSpzbp1e
-        dnyVs/YZCnmJfs8he/is8pdQSHGG0OMU2Q==
-X-Google-Smtp-Source: AGRyM1uzDBfxwFqWmHeknzLMiSphWzydQHEuZv+htjEUdaYeHCPPV83EozPNteAyBZaL8DAvX64/hA==
-X-Received: by 2002:a05:622a:60d:b0:305:1ec1:5b01 with SMTP id z13-20020a05622a060d00b003051ec15b01mr1753388qta.491.1655884176941;
-        Wed, 22 Jun 2022 00:49:36 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id u15-20020a05620a430f00b006a693e46d5csm16241385qko.11.2022.06.22.00.49.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 00:49:36 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-3176d94c236so154637327b3.3;
-        Wed, 22 Jun 2022 00:49:36 -0700 (PDT)
-X-Received: by 2002:a81:2401:0:b0:317:ce48:cf95 with SMTP id
- k1-20020a812401000000b00317ce48cf95mr2587809ywk.502.1655884176233; Wed, 22
- Jun 2022 00:49:36 -0700 (PDT)
+        Wed, 22 Jun 2022 04:11:27 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2126.outbound.protection.outlook.com [40.107.113.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E407137AB0;
+        Wed, 22 Jun 2022 01:11:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HRY1EpKIKgz/pCGnxp7Vl166YC9kYYvYE4sWXojZzhhAwW0R4bKjK+yZZZwdNpDsvCnegD73d1iVWv0uyy4yLpcr81uEmVpHB895P1mqH26yRZqtFHPN3NjJwFSG9vKowqHAXu9hdgV688pgiXmqXtBDfgg7HIc25zIt/Zcjo/t2kro+PkOnWn4APTkdBHIdKS2iw0gQzhDlxVJUcPrMTRZk34fwx4GTEKvxTOT3n77y84aLf+5fMxSVqVkAmbmEwuG3titHHKJFZLoY2td5A9oeBLXSwLHsmHVLOq18H6DlPdH8Cs31EPLa+C7mKGwieBm+dNO64ASLf7Ov2cUAEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Pz+g+yh0lPDvkReza3FPnSg8A5cc986PJnOdMJ7e7U=;
+ b=eHOetXeDlcrs5FmHN2JmMkhhY9GLi7vNV/W7LMMLXRXL6sJM2dcy1B08JtY0Vrn4xmWlct8kvyQxSAN4+k5froKEKx9fNuW8J51MIvsoNFvZk0M3ptFaILy491JBGhhcaGUkuQA+kDj9xEAioHxXbC4/yx349z0moAaNo7g8cE7CSKI/x+5+sbc84NKGjA4kH9L0/vZTV0IXCWC0+yokYa766e6pjp8y0qtdJqm1cLILo8jSCmKljl+76+AEJpwBKGy5t6my+w/xmfVr4HKOO8ivWw6YHzRPsOH+UdIdc8oIIfx14IaOTTrolgZNGPmis5i6NJyllyBKei63OQVX1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Pz+g+yh0lPDvkReza3FPnSg8A5cc986PJnOdMJ7e7U=;
+ b=p7zVR+ObjWtAv27tJsPBPK3jnUrEwkQcMsYkkLcvy1igpsHqdUs+UIFoNzK6mMS6UxidfVeOdIOoabuXZ6/z19kllHGIM046AfRbz7I5PhMjSgCbZg+CcK7D54nmwQiJj/J5D0uf5dRSGaSoAWFHNG5nnCmsARk1ernji/7KSPI=
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ (2603:1096:404:8028::13) by OSAPR01MB2963.jpnprd01.prod.outlook.com
+ (2603:1096:604:4::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Wed, 22 Jun
+ 2022 08:11:23 +0000
+Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::b596:754d:e595:bb2d]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
+ ([fe80::b596:754d:e595:bb2d%6]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
+ 08:11:23 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Wolfram Sang <wsa@kernel.org>
+CC:     "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
+        "avri.altman@wdc.com" <avri.altman@wdc.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+        "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: RE: [PATCH v6 7/7] arm64: dts: renesas: r8a779f0: spider-cpu: Enable
+ UFS device
+Thread-Topic: [PATCH v6 7/7] arm64: dts: renesas: r8a779f0: spider-cpu: Enable
+ UFS device
+Thread-Index: AQHYdznckS35sw456UqSktO9CRPXkq1aFKAAgAEaEwA=
+Date:   Wed, 22 Jun 2022 08:11:23 +0000
+Message-ID: <TYBPR01MB53410E99F2A9D783FAFD42DBD8B29@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+References: <20220603110524.1997825-1-yoshihiro.shimoda.uh@renesas.com>
+ <20220603110524.1997825-8-yoshihiro.shimoda.uh@renesas.com>
+ <YrHgOptQ56woMAeO@shikoro>
+In-Reply-To: <YrHgOptQ56woMAeO@shikoro>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8174b072-34ca-4d6d-4ddd-08da5426cbca
+x-ms-traffictypediagnostic: OSAPR01MB2963:EE_
+x-microsoft-antispam-prvs: <OSAPR01MB2963F288A765F2DEDF75971FD8B29@OSAPR01MB2963.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WPMJpKuWHaFVdgpW6pI7VPtyo8P29YRS7YJyJEUUoQryN705JTI93fq7rJlrq4x0sccdBWX0EI184OA1PLaqRc0qLbzFmq/w3mFtXtrKkZF9XIMWlD7uX/Ulbb5UADoOl9imfiuI6nHug+mXyqRZmiUmXTB+wyNuu5FdLjI6QuwnELmjNJPb4Bv2GfRVRaaazAaRWt4WkOHSy4C/pCDQY0/J1Sh82eBv3C19jZR9raUI9/3SDhs9v3TBqcTeOvpSMuduuQ4KeTi9nFClf8FkdW/r++/FIHI1bSkdYnd15E+qfBnfMmWwpeOWWfxwE6wFanqETJ9umBJe6WEFdPmCmwmqqKngiqicX7W/+ta5nkaaYWGiC6hy9+hHD6nuK5Pba7JcsYW/YCWyffmSg3GOkm2cGvFBbRFic+D4Ntn3E8h1A0mXe+mZVfiHSn6yF6oVLjrLJBHv3BKQ4AQ2a9KuKGu7zSTxRTJDpKqUKBuY4zsUX1DmnIXTaVZmNUdeMel2/EW3Rjx2KrpOoN3zmwd5bsXC20N/0U2ka8QUjP7G8y5HVUkxY/u3MhAhAQTH+PhJ2kt1i0u3RLWj634wzkXITadWTX+r5PoaaDZnt7EEWulXuTItvnI5nn/911EXSjnfsWYKxHwyF835OXU79s6Ewa0rtxnxr4amM74XR9z3iCVqQctI7mFwzYE5suQPOzWfYVOBeMzmFgmrY9fRCsY4fBO+SMq+myWpGHeTZS7WsWTv8ENxuhxFVxXR1y+yeNbZiw1c4qciSXZyxmDdA4jUfw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(396003)(136003)(39860400002)(376002)(7416002)(55016003)(8676002)(64756008)(33656002)(83380400001)(6916009)(5660300002)(9686003)(76116006)(66476007)(66946007)(66446008)(4326008)(186003)(41300700001)(54906003)(316002)(38100700002)(66556008)(38070700005)(71200400001)(52536014)(86362001)(2906002)(122000001)(478600001)(7696005)(6506007)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RV4GjZ4lZVrp0TkVaAmXT65jC8kAq+1LMuyGq7a8/DnBBfkeJgm8IbcuBKqa?=
+ =?us-ascii?Q?v8UhSbu/4xSBTzS66uT7iQNiuSYm60VptTNw/dvBb/OfKMtCoOaD/4wXgKB8?=
+ =?us-ascii?Q?xcetUhjrrbbn25NdrlJcLQf4XHNVLsJSoQNcF5tzngcnCOrzS4/mmL7HH/sS?=
+ =?us-ascii?Q?9mTHk1xa/rAvfGLeRcA4t29+mxF01/l6rZj3AvKhfBKfOTY5H63ema6Zd+Sv?=
+ =?us-ascii?Q?1yyqbOe3w1pxbgXCYvfEdrm8jb231o2TDam8je2vI/HKqis9gWs0ajdAJ8KF?=
+ =?us-ascii?Q?yoLHL38uo0jixPtEkjqV2iLhcYt7PqojdKqh0YoCKHgz2hbaYtKW9bWtT/f+?=
+ =?us-ascii?Q?BciP8fYLQth77+22Zrun/tCUFWDF0Vjjq2rgPpxAw041Ubmq+Qf/pV9FLmET?=
+ =?us-ascii?Q?7wnUqRzwTMlVXgI27urGYOImM0iUGbnNQvkWGNRprvYF9cPCXziRGxcGnLND?=
+ =?us-ascii?Q?ZlWR0dsW1Ed2vy+dbGXVgggnxiVQaERDs9UnUaNFOakLzsLyUs+mouAWoRdq?=
+ =?us-ascii?Q?0E5E1s/1MCpTjehOrgvRo2TeBauBj/KfAC6i1kbspwTDQePUBmhsNXDE+IA+?=
+ =?us-ascii?Q?TP0/x3NdHDa4O96tvNe7CRnQ/YZhWcXnlk2YPnl1slpUCtgbpreUZE7yCBvl?=
+ =?us-ascii?Q?Wk/Ie2DbnWrC86z7y0+ckZXwWq8MyedeRyk0x/YdMu1qRDaZ6DjXL5vS1eZq?=
+ =?us-ascii?Q?Gx9vIEhydccUINdTTadOb+vIcFxEv9YGB7+b1fUgMl2ajqp4du86zxLre613?=
+ =?us-ascii?Q?zWgKqz/BY0f87mHFYEbqh5juLAlzmMzSjQTLI8nfG3s6FTnLIImNyLzE1TpV?=
+ =?us-ascii?Q?Tbe6yV4LYuQiIn6odqEBm6fFBYQIxL4z/NyeREUab0Q+UIsE7LXZ0DKG9ShS?=
+ =?us-ascii?Q?4zSTeLY0tio/h3tCPAJTQC3t5GnlihShPe3Wrw07017dPPVw0CnDnL5cCaDv?=
+ =?us-ascii?Q?1LXiSB/QPdatqq4ddffnfvKLiXwZ1Q5CaF0VP6mCNvDAnLRtwI0cZAotGuXu?=
+ =?us-ascii?Q?sBdXvSd/FlwTSgZyhluPvjrdgmqHK+tI7Ao/BJNvahU/hBMYF4BxsqS28U9X?=
+ =?us-ascii?Q?krqY2cM1vTZuuj6b+naNadzC2WREjZUuy9tcNU5dsD4uP/x/KfpqXD82yNoh?=
+ =?us-ascii?Q?40tzOw8WPdI4X0ExGUT+MFOLe2jddFvc05LiisC38FmylBy/9tcw3dUKBcgT?=
+ =?us-ascii?Q?MdLofe6q1FPQ/RsFyt2lALMRRQ/iB235btezija5e2CmXXPKsB34p2fjudVM?=
+ =?us-ascii?Q?erWCI2j0vYkW+u3JVBd2Q/cbAEXpLnlBAYGZEK4gTqXPC9fYXFpZJ0NRo0T6?=
+ =?us-ascii?Q?0PMBgg8gLIQ3hNR0fZzGJhtJyexR4Zpf/AMiHBuB/LhvtGn080Si1vPKbKiR?=
+ =?us-ascii?Q?EBURTCCDTsb6Pl62SpB3yVTF0dr/7lDM3QTS4baExL7PoxZuk5YL9H8QE6/b?=
+ =?us-ascii?Q?Ze2gU/1glGPbaGkCdGZu/Q9oVrWuX+RUV9rRoeeS5E+lKZjEdP+5LrTNxPVx?=
+ =?us-ascii?Q?elWc5FlaEnCc2KEphP1NxoLIyjKTvSw5E4BTSrrt423ikMgZLAB7XL+77R1y?=
+ =?us-ascii?Q?u0EmntkSoLcdCjxR/xmiYUnwpTvwKEhh97BtKBGAtD+ekjPuSICbRqUVu6OH?=
+ =?us-ascii?Q?2u1YGNHM7uSTynhYgMKPonyeKYIe3KBhmkq2Zi1AaWIKGrvcXVWLw6eXSGxz?=
+ =?us-ascii?Q?jpRTSISzA/OPyQi9K0hJC9V5xW+ybZmtQgp086Tp6mh6p+Wh1PBcC3AdUy/z?=
+ =?us-ascii?Q?UY/kTHP42rUuEggvkr6H/pZBsP48WqtT9AAtDkMemsJasuoJclGUCpoS5yBp?=
+x-ms-exchange-antispam-messagedata-1: eVjPehK5oyjor4bHc9vqi34H59WYhmaewy4=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220621070145.4080147-1-windhl@126.com> <20220621224952.GA1340618@bhelgaas>
-In-Reply-To: <20220621224952.GA1340618@bhelgaas>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 22 Jun 2022 09:49:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJCX93kyjUwKxBgfWfazSgUKC3J=kMDj3EtTViRBJ+=Q@mail.gmail.com>
-Message-ID: <CAMuHMdWJCX93kyjUwKxBgfWfazSgUKC3J=kMDj3EtTViRBJ+=Q@mail.gmail.com>
-Subject: Re: [PATCH] pci/controller/pcie-rcar-host: Hold the reference
- returned by of_find_matching_node
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Liang He <windhl@126.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8174b072-34ca-4d6d-4ddd-08da5426cbca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2022 08:11:23.0401
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: r853UdNszEjVQq5uID45lR3RwsihBg98RWryPCR1oX0gTf16dwQf4OLaLM/sftP9nA1OFnGLCV2BovYdt9AB6jOx5Jmb3MEFvrins4nq60xO/u/yrWm+Ul13B5rt0b8I
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2963
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bjorn,
+Hi Wolfram-san,
 
-On Wed, Jun 22, 2022 at 12:57 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> On Tue, Jun 21, 2022 at 03:01:45PM +0800, Liang He wrote:
-> > In rcar_pcie_init(), we need to hold the reference returned by
-> > of_find_matching_node() which is used to call of_node_put() for
-> > refcount balance.
+> From: Wolfram Sang, Sent: Wednesday, June 22, 2022 12:14 AM
+>=20
+> Hi Shimoda-san, Geert,
+>=20
+> On Fri, Jun 03, 2022 at 08:05:24PM +0900, Yoshihiro Shimoda wrote:
+> > Enable UFS device for R-Car S4-8 Spider CPU board.
 > >
-> > Signed-off-by: Liang He <windhl@126.com>
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> With my firmware, the manual setup of the clock in the bootloader is
+> still needed. So, yes, I agree we should wait with this patch until we
+> have a better way to deal with the clock.
+>=20
+> Other than that, the patches give me SCSI disks I can work with
+> (partition, read, write). There are a few initial errors, though:
+>=20
+> [    0.449917] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
+3 for idn 1 failed, index 0, err =3D 253
+> [    0.452035] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
+3 for idn 1 failed, index 0, err =3D 253
+> [    0.453859] ufshcd-renesas e6860000.ufs: ufshcd_query_attr: opcode 0x0=
+3 for idn 1 failed, index 0, err =3D 253
+> [    0.453874] ufshcd-renesas e6860000.ufs: ufshcd_query_attr_retry: quer=
+y attribute, idn 1, failed with error 253 after
+> 3 retires
 
-> > --- a/drivers/pci/controller/pcie-rcar-host.c
-> > +++ b/drivers/pci/controller/pcie-rcar-host.c
-> > @@ -1158,7 +1158,10 @@ static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst
-> >
-> >  static int __init rcar_pcie_init(void)
-> >  {
-> > -     if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
-> > +     struct device_node *np = of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match);
-> > +
-> > +     if (np) {
-> > +             of_node_put(np);
->
-> I think this is correct, but it would be nicer to update the way this
-> driver uses of_device_get_match_data(), e.g.,
->
->   struct rcar_variant {
->     int (*phy_init_fn)(struct rcar_pcie_host *host);
->     bool hook_abort;
->   };
->
->   struct rcar_pcie_host {
->     ...
->     const struct rcar_variant *variant;
->   };
->
->   static int rcar_pcie_probe(...)
->   {
->     host->variant = of_device_get_match_data(dev);
->     err = host->variant->phy_init_fn(host);
->     ...
->
->   #ifdef CONFIG_ARM
->     if (host->variant->hook_abort) {
->   #ifdef CONFIG_ARM_LPAE
->       hook_fault_code(17, ...);
->   # else
->       hook_fault_code(22, ...);
->   #endif
->     }
->   #endif
->   }
->
-> Or keep the hook in a separate function called from rcar_pcie_probe()
-> if you think that's cleaner.
->
-> I'm not sure hook_fault_code() needs to be called separately as a
-> device_initcall().
+Hmm, my environment [1] could not reproduce this error messages.=20
 
-Yes it doesn, as hook_fault_code() is __init.
+[1]
+based on renesas-drivers-2022-05-24-v5.18 which I made the patches.
+Perhaps, should I test on the latest kernel?
+Which kernel version did you test?
 
-> The pci-ixp4xx.c driver does it in
-> ixp4xx_pci_probe(), so I assume rcar could do it in probe as well.
+> (A patch for the typo in the last line has already been sent)
 
-The pci-ixp4xx.c driver uses builtin_platform_driver_probe(), and
-ixp4xx_pci_probe() is marked __init.
+Thank you for sending a patch!
 
+> But after that, everything looks fine on first testing. So, for the
+> patches:
+>=20
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Gr{oetje,eeting}s,
+Thank you for testing!
 
-                        Geert
+Best regards,
+Yoshihiro Shimoda
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> Happy hacking!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
