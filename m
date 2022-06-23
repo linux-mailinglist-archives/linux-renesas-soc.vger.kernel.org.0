@@ -2,141 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B92E7558382
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 19:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0118F558A20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 22:32:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233527AbiFWRbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 13:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
+        id S229970AbiFWUcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 16:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233895AbiFWR3x (ORCPT
+        with ESMTP id S229949AbiFWUct (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 13:29:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0527FD2E;
-        Thu, 23 Jun 2022 10:04:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95DF06159A;
-        Thu, 23 Jun 2022 17:04:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB65C341C4;
-        Thu, 23 Jun 2022 17:04:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656003888;
-        bh=BP4Xv9dfnQL4kdsgB8BI3/j5qp9scN2TAD2M43SlNGc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=q72PuRrXL7nDVD9DV1RLOXs8DwuEn3Kgm5QD5hV37f02hNz22kxfEz8XcLkDd45N4
-         n0PtknVBeTm8Xmsc/ZGvqA5xItJ+kxtXDNHJiUkFOqrQIaerDorlGZAx5Lqaw1GdA3
-         /Kjh767WR5eWM2JDFKm7I1yYJVQ6F1RRkOOQPDeK+5BQTzcW6gsJiij85mVqVNGgNp
-         Ewa+Baj13XAlVHtay+FaYcByFCjCuChzMeUe6AcEjiQNOHBB7dL870JmcM31ee20d9
-         cW9EbjD0RKNNHD7N5Icv2BdSYCHk9fXvtJk/x4RX+FQzb1J7mnUvQ28RSACeUr+R1y
-         9MuANq23ru/fQ==
-Date:   Thu, 23 Jun 2022 12:04:47 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
-        lpieralisi@kernel.org, robh@kernel.org, kw@linux.com,
-        bhelgaas@google.com, linux-renesas-soc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH] PCI: rcar-ep: Simplify bitmap allocation.
-Message-ID: <20220623170447.GA1458028@bhelgaas>
+        Thu, 23 Jun 2022 16:32:49 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760AD55356
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 13:32:48 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id t5so622456eje.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 13:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MPaF0pnfdxQmlzXUdeBl8fwQdh40L/WJt6dU1yTdJ/w=;
+        b=G2qTjQySalfwBcCuEbWWT7VVEHaGrenTHo12sJzYMKDWexMfROYy/+NCAmF/e1TWXy
+         yc+vuo057tG8JoFxSgxd3VzyZU6sQ5/rcnrRSvIuCwB/Re+OHIpWuRIg0yWyYO4ffw6f
+         /mWN47rfE1YSiSkVfERc1f0Gz5Z4N+15QJcsYf7OEsifPrEO+7hMKdhFa8r6dYYsP6pi
+         D+WPj6UaorFwF0l0Ldwv/JuCz2wdUVHJL2U8U1cFZzmuTM4LNXBmMKjfEjzDR6CVdzmC
+         HISDaZWUKFT1zeu9WnpRRs16gc7yAOzqyKWwu91OX6gWXUQDzv+pOKOAf+TV74iFypNo
+         wwZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MPaF0pnfdxQmlzXUdeBl8fwQdh40L/WJt6dU1yTdJ/w=;
+        b=BlIEzUHSbxWPER5wY2+YIXKI0IYj2ti/19lEgGaAmXiWPFl1LbmN1kK575gfSTvzyq
+         qCNT0iXyv3+D3LNhmECwb9p/YSMoHRfHAm2+q0l++MWRcQqvySDtxbQveeEIkitgu4Yw
+         QjWX0JJOLaHFSf3tNscLdgLiHVXQBexpQCSsRGn5p4uIZ/P+MzLsx+Ui4O/q0B0jHjOX
+         WHa2ixANa1jVTiqNKQG3aLjvA+LTIJebBtYMtjKpslD1gHFYLWsJYp6whmsZvOIz+ylN
+         52cQcAITxjxbgZ1R1/4SEsYjF8mT52o6/jXii+kE1Iq01olPc5hPr97YapzJ7VCqPh1L
+         qc4g==
+X-Gm-Message-State: AJIora9oHcyLuTGFxwa4xvsJdrHQAlnXFnkfx81fQztphyXj//TvStwg
+        u1L+96JJha1fhs9QQccioAEfhmd1VT4calrppq/+AA==
+X-Google-Smtp-Source: AGRyM1s1ywPBuuIWVkbh8rVLl+r/Ph6LDNSJ52ok/ZfJOUVkiXO1w9/EzEqBOfgcVnk1oLcyJNqcO2JFTMah7Vf+H9M=
+X-Received: by 2002:a17:907:86a6:b0:722:dce7:5a16 with SMTP id
+ qa38-20020a17090786a600b00722dce75a16mr10078896ejc.492.1656016366952; Thu, 23
+ Jun 2022 13:32:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0fd98d56871f6f08ca82dcc76bfa2052368a8926.1655814557.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <e7468aa236403ed6a8f2809002fb3546d683f1fc.1654855611.git.geert+renesas@glider.be>
+In-Reply-To: <e7468aa236403ed6a8f2809002fb3546d683f1fc.1654855611.git.geert+renesas@glider.be>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 23 Jun 2022 22:32:36 +0200
+Message-ID: <CAMRc=Md-AmeEcd99DdUsa0icACfowWG1nEhMWyy02Em9DURz2w@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: gpio: renesas,rcar-gpio: R-Car V3U is
+ R-Car Gen4
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[+cc Jingoo, Gustavo, Serge, in case dwc should do something similar]
-
-On Tue, Jun 21, 2022 at 02:31:46PM +0200, Christophe JAILLET wrote:
-> MAX_NR_INBOUND_MAPS is small (i.e. 6), so there is no real point in
-> dynamic allocation for a bitmap of this size.
-> Moreover, it is linked with the use of the 'bar_to_atu' field which is
-> already statically declared.
-> 
-> Declare it statically instead.
-> 
-> This saves some LoC, reduces the size of the module and saves a few bytes
-> of memory at run-time.
-> 
-> Before: (gcc 11.2.0 / allyesconfig)
->    text	   data	    bss	    dec	    hex	filename
->   11514	   5232	      0	  16746	   416a	drivers/pci/controller/pcie-rcar-ep.o
-> 
-> After: (gcc 11.2.0 / allyesconfig)
->    text	   data	    bss	    dec	    hex	filename
->   11183	   5064	      0	  16247	   3f77	drivers/pci/controller/pcie-rcar-ep.o
-> 
-> 
-> Also replace the mostly useless 'num_ib_windows' and use
-> MAX_NR_INBOUND_MAPS directly instead.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-Looking for an ack from Marek or Yoshihiro here ...
-
-I'm guessing struct dw_pcie.ib_window_map and .ob_window_map are
-probably similar, though the limit is not hard-coded as it is for
-rcar-ep.
-
+On Fri, Jun 10, 2022 at 12:08 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Despite the name, R-Car V3U is the first member of the R-Car Gen4
+> family.  Hence move its compatible value to the R-Car Gen4 section.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
 > ---
->  drivers/pci/controller/pcie-rcar-ep.c | 17 ++++-------------
->  1 file changed, 4 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-> index f9682df1da61..64682876e93e 100644
-> --- a/drivers/pci/controller/pcie-rcar-ep.c
-> +++ b/drivers/pci/controller/pcie-rcar-ep.c
-> @@ -25,8 +25,7 @@ struct rcar_pcie_endpoint {
->  	struct pci_epc_mem_window *ob_window;
->  	u8			max_functions;
->  	unsigned int		bar_to_atu[MAX_NR_INBOUND_MAPS];
-> -	unsigned long		*ib_window_map;
-> -	u32			num_ib_windows;
-> +	DECLARE_BITMAP(ib_window_map, MAX_NR_INBOUND_MAPS);
->  	u32			num_ob_windows;
->  };
->  
-> @@ -205,8 +204,8 @@ static int rcar_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->  	int idx;
->  	int err;
->  
-> -	idx = find_first_zero_bit(ep->ib_window_map, ep->num_ib_windows);
-> -	if (idx >= ep->num_ib_windows) {
-> +	idx = find_first_zero_bit(ep->ib_window_map, MAX_NR_INBOUND_MAPS);
-> +	if (idx >= MAX_NR_INBOUND_MAPS) {
->  		dev_err(pcie->dev, "no free inbound window\n");
->  		return -EINVAL;
->  	}
-> @@ -502,15 +501,7 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
->  		goto err_pm_put;
->  	}
->  
-> -	ep->num_ib_windows = MAX_NR_INBOUND_MAPS;
-> -	ep->ib_window_map =
-> -			devm_kcalloc(dev, BITS_TO_LONGS(ep->num_ib_windows),
-> -				     sizeof(long), GFP_KERNEL);
-> -	if (!ep->ib_window_map) {
-> -		err = -ENOMEM;
-> -		dev_err(dev, "failed to allocate memory for inbound map\n");
-> -		goto err_pm_put;
-> -	}
-> +	bitmap_zero(ep->ib_window_map, MAX_NR_INBOUND_MAPS);
->  
->  	ep->ob_mapped_addr = devm_kcalloc(dev, ep->num_ob_windows,
->  					  sizeof(*ep->ob_mapped_addr),
-> -- 
-> 2.32.0
-> 
+> v2:
+>   - Add Acked-by, Reviewed-by.
+> ---
+>  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> index 0681a4790cd62e23..75e5da6a7cc04bbd 100644
+> --- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> @@ -48,11 +48,9 @@ properties:
+>                - renesas,gpio-r8a77995     # R-Car D3
+>            - const: renesas,rcar-gen3-gpio # R-Car Gen3 or RZ/G2
+>
+> -      - items:
+> -          - const: renesas,gpio-r8a779a0  # R-Car V3U
+> -
+>        - items:
+>            - enum:
+> +              - renesas,gpio-r8a779a0     # R-Car V3U
+>                - renesas,gpio-r8a779f0     # R-Car S4-8
+>            - const: renesas,rcar-gen4-gpio # R-Car Gen4
+>
+> --
+> 2.25.1
+>
+
+Applied, thanks!
+
+Bart
