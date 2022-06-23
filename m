@@ -2,66 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2901455741D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 09:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E8915574C3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 10:03:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbiFWHmL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 03:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56086 "EHLO
+        id S231180AbiFWIDU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 04:03:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbiFWHmL (ORCPT
+        with ESMTP id S230416AbiFWIDS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 03:42:11 -0400
-Received: from mail.onlinesuccesses.pl (mail.onlinesuccesses.pl [198.244.150.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF56D46B09
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 00:42:08 -0700 (PDT)
-Received: by mail.onlinesuccesses.pl (Postfix, from userid 1002)
-        id 65430AF583; Thu, 23 Jun 2022 07:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onlinesuccesses.pl;
-        s=mail; t=1655970126;
-        bh=nE8HqilgMh4dy7+Z8ksfg7Bc9rmPeQtYFq3/3YR2ODU=;
-        h=Date:From:To:Subject:From;
-        b=jYcyoUvszvnBXsvA7FyrbRP8+cNIswSFlHRKkwfp6KYFJWoY6FvZReLabflogqmkl
-         1IBbNGHDX0lzf61HVvgSYYAhY/hN0EeZBIxJArGoMs3uGs2aBto7HdDihFKIz629mV
-         oKoMH4C3F8ca38CKscwEcZAHBreBSJpYktdySPlN9Oh+mWhAyUBC61QgZFKLPqmFyo
-         FMv/Q26b6qeudW3T8LkbhTh8JURQlqFpfhS1+PxUz1itbNUzBx66O8GU1W9523NOdg
-         AGi8+TSYe5h/2XiusKCdS9NnQPGhL6ZdP2SP9TIv4OCwVvN/om4/cSsWcVlSzvCw2l
-         gnoDBYWienEug==
-Received: by mail.onlinesuccesses.pl for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 07:41:20 GMT
-Message-ID: <20220623064501-0.1.51.1mqvh.0.6ietf4rln4@onlinesuccesses.pl>
-Date:   Thu, 23 Jun 2022 07:41:20 GMT
-From:   "Wiktor Zielonko" <wiktor.zielonko@onlinesuccesses.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: Ruch z pierwszej pozycji w Google
-X-Mailer: mail.onlinesuccesses.pl
+        Thu, 23 Jun 2022 04:03:18 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FF932C660;
+        Thu, 23 Jun 2022 01:03:15 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4900FE0013;
+        Thu, 23 Jun 2022 08:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1655971394;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3E94NbzYv5YlL11+dddbLmI84sUMgfXDsFCWy0L1tXs=;
+        b=AHi+aMoCsCBw8opB/qYlKeOcOycTfdl7uPeeRAvZoClHs9kCpks4D2UOMlODssCVuIpH4p
+        EouZl5a63YJz83m2vIR6vxcjhjRszM0ASx3w2FGRnkgNWSCwVebGe9d4X3G4YiJ+/aCxNc
+        icIzo5fD2XXqnsk0rELF62cQjASXK9WFOO6fcVQMtBYocQiGIjeFW8JlntuqTTVyOdVvkh
+        6q8mI9A5Dfj0F2XsUdbd+AMYHAha9QhwpnCMSqyKzZivYyn8o7mvZorc4pjK/0GzjE9OR5
+        05MZb6C6E/Aep5tiwHVOiwCiGMVJuzr3sznCzXdFtJzO2UCTiK0hLpgqhO6vew==
+Date:   Thu, 23 Jun 2022 10:02:21 +0200
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?B?TWlxdcOobA==?= Raynal <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v8 15/16] ARM: dts: r9a06g032-rzn1d400-db: add
+ switch description
+Message-ID: <20220623100221.740de5c3@fixe.home>
+In-Reply-To: <20220621115603.yzcxcu7gzwng6bcg@skbuf>
+References: <20220620110846.374787-1-clement.leger@bootlin.com>
+        <20220620110846.374787-16-clement.leger@bootlin.com>
+        <20220621115603.yzcxcu7gzwng6bcg@skbuf>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+Le Tue, 21 Jun 2022 14:56:03 +0300,
+Vladimir Oltean <olteanv@gmail.com> a =C3=A9crit :
 
-jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
-j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
-e Google.=20
+> On Mon, Jun 20, 2022 at 01:08:45PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Add description for the switch, GMAC2 and MII converter. With these
+> > definitions, the switch port 0 and 1 (MII port 5 and 4) are working on
+> > RZ/N1D-DB board.
+> >=20
+> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
+> > --- =20
+>=20
+> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
+>=20
+> Just minor comments below:
+>=20
+> >  arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts | 117 ++++++++++++++++++++
+> >  1 file changed, 117 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts b/arch/arm/boo=
+t/dts/r9a06g032-rzn1d400-db.dts
+> > index 3f8f3ce87e12..36b898d9f115 100644
+> > --- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > +++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
+> > @@ -8,6 +8,8 @@
+> > =20
+> >  /dts-v1/;
+> > =20
+> > +#include <dt-bindings/pinctrl/rzn1-pinctrl.h>
+> > +#include <dt-bindings/net/pcs-rzn1-miic.h>
+> >  #include "r9a06g032.dtsi"
+> > =20
+> >  / {
+> > @@ -31,3 +33,118 @@ &wdt0 {
+> >  	timeout-sec =3D <60>;
+> >  	status =3D "okay";
+> >  };
+> > +
+> > +&gmac2 {
+> > +	status =3D "okay";
+> > +	phy-mode =3D "gmii";
+> > +	fixed-link {
+> > +		speed =3D <1000>;
+> > +		full-duplex;
+> > +	};
+> > +};
+> > +
+> > +&switch {
+> > +	status =3D "okay";
+> > +	#address-cells =3D <1>;
+> > +	#size-cells =3D <0>;
+> > +
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&pins_mdio1>, <&pins_eth3>, <&pins_eth4>;
+> > +
+> > +	dsa,member =3D <0 0>; =20
+>=20
+> This doesn't really have any value for single-switch DSA trees, since
+> that is the implicit tree id/switch id, but it doesn't hurt, either.
 
-Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
-=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
-w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
-owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
-dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
+Ok, let's remove it then if it's useless.
 
-Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
-edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
-edstawi=C4=87 ofert=C4=99?=20
+>=20
+> > +
+> > +	mdio {
+> > +		clock-frequency =3D <2500000>;
+> > +
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <0>;
+> > +
+> > +		switch0phy4: ethernet-phy@4{ =20
+>=20
+> Space between ethernet-phy@4 and {.
+>=20
+> > +			reg =3D <4>;
+> > +			micrel,led-mode =3D <1>;
+> > +		};
+> > +
+> > +		switch0phy5: ethernet-phy@5{ =20
+>=20
+> Same thing here.
 
+Acked
 
-Pozdrawiam serdecznie,
-Wiktor Zielonko
+--=20
+Cl=C3=A9ment L=C3=A9ger,
+Embedded Linux and Kernel engineer at Bootlin
+https://bootlin.com
