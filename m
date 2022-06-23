@@ -2,70 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E822558AEB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 23:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1234B558B4B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 00:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbiFWVqo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 17:46:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
+        id S229514AbiFWWjQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 18:39:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiFWVqn (ORCPT
+        with ESMTP id S229476AbiFWWjQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 17:46:43 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63455DF11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 14:46:42 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 23so631046pgc.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 14:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=tc/9GhMGILH31U9N9aM0UY6agRe2uFnep9S8pLV/Yuc=;
-        b=JTE+CyWpvRTlXxiI2FBDyNWl1yHBEm27aaw6Ig16j4JiXhMcJE6tJqiRpffSMguLU/
-         MXVnW7L3BR66wMo+YnBSIdq687N+Wau93Q34JfD5TtOlcm+xvzr7o/lTa6vnAK+om+IT
-         ocw2wLQzOlhRI7sIhodupV95E8hjELCpsxdqKkq05OIOG+td/gqg5XsBxB5F6oxGo3Fu
-         oWkrljudLIoQ/1oESuaLFoEy+VTIU4men3FtMPc+M/0Ju4nPWtJ7SrBRgAeKXhRkB2tD
-         34Tj8iENpTTTAJnnZg9PCOk5ybSkpQw3+lCphW8s6Xk5nOLVaQNKs6Dd88nGTbAhJzgp
-         t9+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=tc/9GhMGILH31U9N9aM0UY6agRe2uFnep9S8pLV/Yuc=;
-        b=Jd77vcwkF7UbTRcoEGoUMvD2llmu2IBB2I2oS9HNQMCKYCJPL2WBIIXqxs3ZN99opg
-         CHY4ltmtZbBvbP3bzul3uM2SEk73NKV8UkMzdww5RysWRY8wwUEjuxKAyAX0qFjYLiSj
-         fffSgnxK4RtQz7qkoOFWV7JzWcUIBzZCPgXmrHRFyTBAHiwWU19o9KKXuFZOD/EZwLT6
-         q29x8PWi3H/FI6pGxBAWl0UZOT7+L+mzWV2dQwxCxytWp+o6DR/CJDLYqXMmCSQ+b0Ot
-         ZbNhiU6B43iCO/zNHbd9uUer8UVqjMXiVxF+X7YLvc4gi7Tq3gZm2yBb43LYy9WGK//N
-         07/Q==
-X-Gm-Message-State: AJIora+01+SmMo3/IF0HEhvcQFOSV5Ssn5woUfrR68lzna6D2cePqqC+
-        VydlwcgO3k1ZyxuJ0iFZ1/F3uup/TRrE6VHf0B4=
-X-Google-Smtp-Source: AGRyM1t9ENSv7lRSggXHK396mhnL48WfPtHZRh5fT49CPMS6piHe+9+7d//GX3VL6qXLVKJljR5rBhSsOFpFrJpDk2U=
-X-Received: by 2002:a63:2483:0:b0:40d:7d66:a86e with SMTP id
- k125-20020a632483000000b0040d7d66a86emr879586pgk.161.1656020802446; Thu, 23
- Jun 2022 14:46:42 -0700 (PDT)
+        Thu, 23 Jun 2022 18:39:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC47517E1;
+        Thu, 23 Jun 2022 15:39:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 037CA61F09;
+        Thu, 23 Jun 2022 22:39:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC72C3411D;
+        Thu, 23 Jun 2022 22:39:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656023954;
+        bh=S4WWJyuDUUy36N0zfidu47v4kR0PUKk0GxxwzmRe/qQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=BDBr8miMeRKnq5c6hcSX7Cwi/A8NWFtOL42DMg0ak30Qv5heofcCoan7E8RpSLJF4
+         JD2nNVSICrIhhYzZ8aMduitnZ2TaFsSSZKml99RzhN83DyBRbdwgt/B04C7IMzvLse
+         G5muGsKXg+CeDEh+MrwJiKNpv14u455bsxPDs+ctqP8vl2oCOH+FKMxX7CzX6qZPmW
+         /BENOKOH67q5tChTLpO5IC5RokTrcmJ7QKTDdtqMWXsKbYrD0ESKkz4plg++w1fGK6
+         UoarKqSkzRmwYAAmRQgnk2TGl8PI3Yb84uRDTdSlTza0CJXPenwgkisY8D1+fthO9m
+         fnXDca7hdJeTQ==
+Date:   Thu, 23 Jun 2022 17:39:12 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Herve Codina <herve.codina@bootlin.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Clement Leger <clement.leger@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v6 0/6] RZN1 USB Host support
+Message-ID: <20220623223912.GA1484125@bhelgaas>
 MIME-Version: 1.0
-Reply-To: sgtkalamanthey@gmail.com
-Sender: souleyyaye409@gmail.com
-Received: by 2002:a05:6a21:99a6:b0:83:f430:3683 with HTTP; Thu, 23 Jun 2022
- 14:46:42 -0700 (PDT)
-From:   Kayla Manthey <sgtkalamanthey@gmail.com>
-Date:   Thu, 23 Jun 2022 14:46:42 -0700
-X-Google-Sender-Auth: LinSfCCLwwd_fuUYeEE9dieyGPc
-Message-ID: <CAHUK_Pq0_5O1AN42Wb+u+_D01fNtYD7dM2aZWiv6Rjog0c61iw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,HK_RANDOM_ENVFROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220520094155.313784-1-herve.codina@bootlin.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pozdrav jesi li dobio moje mailove? molim provjerite i odgovorite mi
+On Fri, May 20, 2022 at 11:41:49AM +0200, Herve Codina wrote:
+> Hi,
+> 
+> This series add support for the USB Host controllers available on
+> RZN1 (r9a06g032) SOC.
+> 
+> These USB Host controllers are PCI OHCI/EHCI controllers located
+> behind a bridge.
+> 
+> Regards,
+> Herve
+> 
+> Changes v2:
+> - Convert bindings to json-schema
+> - Update clocks description
+> - Remove unneeded '.compatible = "renesas,pci-r9a06g032"'
+> 
+> Changes v3:
+> - Remove the unneeded patch that calls clk_bulk_prepare_enable()
+> - Rework the device tree binding (conversion from .txt and RZ/N1 support)
+> - Use the RZ/N1 SOCs family only in the driver match compatible string.
+> - Enable PM and PM_GENERIC_DOMAIN for RZ/N1 and add the missing
+>   '#power-domain-cells' in sysctrl node.
+> 
+> Changes v4:
+> - Remove patches related to PM enable and #pwower-domain-cells as they
+>   will be handle out of this series.
+> - Add Bob's reviewed-by on patch 1
+> - Add Geert's reviewed by on patch 1 and 6
+> - Rename clocks and make the 'resets' property optional on RZ/N1 family
+> - Reword some commit logs and titles
+> - Fix dst node location (sort by node names or unit addresses)
+> - Fix the USB PHY node name
+> 
+> Changes v5:
+> - Rename clocks ("usb_" prefix removed)
+> - Add Geert's reviewed-by on patch 2, 3, 4 and 5
+> 
+> Changes v6:
+> - Include schema optionnal part (ie 'if:') in a 'allOf:' block
+> - Modify commit log on commit 2/6
+> 
+> Herve Codina (6):
+>   dt-bindings: PCI: pci-rcar-gen2: Convert bindings to json-schema
+>   dt-bindings: PCI: renesas,pci-rcar-gen2: Add device tree support for
+>     r9a06g032
+>   PCI: rcar-gen2: Add RZ/N1 SOCs family compatible string
+
+Applied the first three patches (above) to pci/ctrl/rcar-gen2 for
+v5.20, thank you!
+
+>   ARM: dts: r9a06g032: Add internal PCI bridge node
+>   ARM: dts: r9a06g032: Add USB PHY DT support
+>   ARM: dts: r9a06g032: Link the PCI USB devices to the USB PHY
+> 
+>  .../devicetree/bindings/pci/pci-rcar-gen2.txt |  84 --------
+>  .../bindings/pci/renesas,pci-rcar-gen2.yaml   | 186 ++++++++++++++++++
+>  arch/arm/boot/dts/r9a06g032.dtsi              |  47 +++++
+>  drivers/pci/controller/pci-rcar-gen2.c        |   1 +
+>  4 files changed, 234 insertions(+), 84 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pci/pci-rcar-gen2.txt
+>  create mode 100644 Documentation/devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml
+> 
+> -- 
+> 2.35.1
+> 
