@@ -2,103 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6EB5578D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 13:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E445579F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 14:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230391AbiFWLjk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 07:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55280 "EHLO
+        id S231617AbiFWMFX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 08:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbiFWLjf (ORCPT
+        with ESMTP id S231337AbiFWMFW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 07:39:35 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8686E4BFDD;
-        Thu, 23 Jun 2022 04:39:34 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-317741c86fdso189200227b3.2;
-        Thu, 23 Jun 2022 04:39:34 -0700 (PDT)
+        Thu, 23 Jun 2022 08:05:22 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E794B1E9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 05:05:21 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id cw10so16871317ejb.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 05:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=omRmebZ/oY7CY9g8zXjNwG5YUCBp0sw1aQgxBX9Qr6o=;
-        b=G91znaNiWal/0ob/917Hlvp0GRpczJ17O8mxXPBbV+l1LK0LM8IMdF55uVZKuKTGFq
-         +ppo+uJ3tqZoucO7I9ZseIe6QlW93gTRkrtqu7/bvIoO+026qCnhi7jbwLKAmRE0FBdr
-         8fY2XcAVDliyJ5GSbEVYm9tG9sSQx0CLesvX++6VvvWzKNX6Q75sG257aEc0ic0bgMK+
-         ViWE5V20XBRIRx2X37rNbWlBPmeM5WmKB3lh0gbxWcNmZu3eP03RVg+HSFyda/pHSep8
-         t4rGlbJD+BYK+3jYcuK8Zd4Ayc0wiEWe8wtq9GSUWa/RB0z+8Mj2+luXiB3DgTolW/zW
-         910g==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PppxL2KUqFlV+/8Q6Av1eKZ6SPqrPZYPPPP8wnWzrpI=;
+        b=qDAFx0FRaVkJCKKl6seZsibKMWsEzBDitPBMd/GIuG1a72QpBhz66kEQ6gMOwhuDJQ
+         EN3cTlJljisc+k6oA5802OBA5maMZQ+2ohdH++0RW7+KS6V+++CmTTIjB45REHrGbanS
+         YmRIQcLENNCJHioVVdSwrfb65soYBGDNvoOH8C5PopdroXuPOY6qJEgN37IbY7SVy71C
+         AeTRyzZaFpev4v9SBXnWIpRrBrdhOWJhRyMFi0PIFOJa7TbLCTeZy8c/ZtmA+D9ELkgp
+         hVfpxt8beJrkmrE8UfT68+GXPITtsYPiDTY73X1RDQT41dqbwIKyYDAPtJCLQlgIZZDk
+         vKrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=omRmebZ/oY7CY9g8zXjNwG5YUCBp0sw1aQgxBX9Qr6o=;
-        b=HwkZ0i3z1Yd831PkOKKZ+AWgant7mj8Jlq3P25NV04Vv7rfum/fDnGNKdB8afWq9Ma
-         oJRzwBjCP1pB/uQwLJGrN29coGG9MNBsi/zXDsMZOwKCLk8Ri7LK26Y2SYqacM0gBc85
-         TTJmlBab6VL5hL5V9TIBGP1/5Kk2D6iW+mZGHUI34BsgkmRs+lBidESf+9B/9rlHv1Wr
-         FPsbGBlg1EisJcq9JYrCDfoDzJZvArdludtgvqdAivJypT6ifDCoNuKXTdsL1wmc3/zU
-         5TXo1NEFPOT+3d5HgGLmXSMn5tzQeDBAhFMByaSls9LqsqYBI65csTYo+XTn3ZTqJMNY
-         +MbA==
-X-Gm-Message-State: AJIora+DWN4bXJZGiEsEX76Vglfw4Lgxlla1pTplxZfQOUZOQgv3uhoo
-        8yGYBS+nxgUIoXWwW6YiymdogCu7cIkwZKcK6hA=
-X-Google-Smtp-Source: AGRyM1tIccF6SA0l7YfTqzWSZNqiyehUPuP5isoKUNjBxUNacNtJbPk6Af35vL1VRBh7BRCji4F8il2LX/zERRUL7b8=
-X-Received: by 2002:a05:690c:58d:b0:317:dd62:f6d9 with SMTP id
- bo13-20020a05690c058d00b00317dd62f6d9mr10409900ywb.78.1655984373752; Thu, 23
- Jun 2022 04:39:33 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PppxL2KUqFlV+/8Q6Av1eKZ6SPqrPZYPPPP8wnWzrpI=;
+        b=x6lbEU+BQMOccTg2dMCa1IDRbU5F0v97sgpLL5HQhQ9EjHfbKtWuACEgmB4WopEilR
+         2OemgIbBZ27BqoWG5Hrlat90cWbbvI/lAQGlELWatMnqjLJ/Dnzj2oWRiV2ss/kue405
+         k5fNzvKNtqr04JC2feuGrBHiLdjHmItOkQvW9X85r/ltNgIMNWIftcgnEIxHZ3zTHhve
+         sM0Jsm7wOEIpKfcrSF/t3R16e7a+3PQnhS7dvHBqJMejApBPKa0pnJEkPsNgWNpQ/i5h
+         4UUgn3DnOa6vGPrW/yUAMs6FqCIg6G/YaFdIhRDFZyGi0TPzcPWpIQatiQs1uWKq5DVF
+         UxDg==
+X-Gm-Message-State: AJIora+dKZyt1beZH2jYZgclvzsrh3w1F4DrTn6U9a2hcB2IHQVynEqS
+        rkPgqdb9B7wCUzPxv8Mrxn0EpMeA4Mz8gQ==
+X-Google-Smtp-Source: AGRyM1vsUBr3PdB0hhAURyeHMPTDJEWaOUR4fFilhHFdevtuR+Szbs2SytIwDzsrjRR2URuwf5x2xw==
+X-Received: by 2002:a17:906:6485:b0:712:10cd:e3b7 with SMTP id e5-20020a170906648500b0071210cde3b7mr7618453ejm.557.1655985919875;
+        Thu, 23 Jun 2022 05:05:19 -0700 (PDT)
+Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id j17-20020a17090623f100b00711d5baae0esm10838324ejg.145.2022.06.23.05.05.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 05:05:19 -0700 (PDT)
+Message-ID: <a2c5cdec-632e-3d90-c90d-1c3c0503e825@linaro.org>
+Date:   Thu, 23 Jun 2022 14:05:18 +0200
 MIME-Version: 1.0
-References: <20220622173614.12778-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220622173614.12778-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWbQ1VHH4ugQs2mamS2KGEj5AdWmNtmg=6eUJmyGRDTVw@mail.gmail.com>
- <CA+V-a8vDem8=QaSdJr5mjHC+qbGmUtTBWEsf9T8njMZMT3BGJw@mail.gmail.com> <YrNo6LLDixpZ16k/@kunai>
-In-Reply-To: <YrNo6LLDixpZ16k/@kunai>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 23 Jun 2022 12:39:07 +0100
-Message-ID: <CA+V-a8tTtaX2gj7Hc0JLjZcnuQ6BJLveWEtxGuT4fsk=pRa_KQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mmc: renesas_sdhi: Fix typo's
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: clock: r9a07g043-cpg: Add Renesas
+ RZ/Five CPG Clock and Reset Definitions
+Content-Language: en-US
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20220622181723.13033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220622181723.13033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220622181723.13033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 22/06/2022 20:17, Lad Prabhakar wrote:
+> Renesas RZ/Five SoC has almost the same clock structure compared to the
+> Renesas RZ/G2UL SoC, re-use the r9a07g043-cpg.h header file and just
+> amend the RZ/Five CPG clock and reset definitions.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  include/dt-bindings/clock/r9a07g043-cpg.h | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
 
-On Wed, Jun 22, 2022 at 8:09 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > > > -       /* This DMAC cannot handle if buffer is not 128-bytes alignment */
-> > > > +       /* This DMAC cannot handle if buffer is not 128 byte aligned */
-> > >
-> > > 128-byte? ;-)
-> > >
-> > In the previous version of the patch Wolfram never came back on your
-> > reply, so I went with 128 byte instead.
->
-> I hoped for a native speaker to chime in. I don't care about the '-' but
-> maybe we should rephrase it to:
->
-> /* This DMAC needs buffers to be 128-byte aligned */
->
-> ?
-Fine by me, will update and resend a v3.
 
-Cheers,
-Prabhakar
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
