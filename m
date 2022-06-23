@@ -2,80 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E445579F2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 14:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B92E7558382
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jun 2022 19:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231617AbiFWMFX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 08:05:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53034 "EHLO
+        id S233527AbiFWRbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 13:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbiFWMFW (ORCPT
+        with ESMTP id S233895AbiFWR3x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 08:05:22 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E794B1E9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 05:05:21 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id cw10so16871317ejb.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Jun 2022 05:05:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PppxL2KUqFlV+/8Q6Av1eKZ6SPqrPZYPPPP8wnWzrpI=;
-        b=qDAFx0FRaVkJCKKl6seZsibKMWsEzBDitPBMd/GIuG1a72QpBhz66kEQ6gMOwhuDJQ
-         EN3cTlJljisc+k6oA5802OBA5maMZQ+2ohdH++0RW7+KS6V+++CmTTIjB45REHrGbanS
-         YmRIQcLENNCJHioVVdSwrfb65soYBGDNvoOH8C5PopdroXuPOY6qJEgN37IbY7SVy71C
-         AeTRyzZaFpev4v9SBXnWIpRrBrdhOWJhRyMFi0PIFOJa7TbLCTeZy8c/ZtmA+D9ELkgp
-         hVfpxt8beJrkmrE8UfT68+GXPITtsYPiDTY73X1RDQT41dqbwIKyYDAPtJCLQlgIZZDk
-         vKrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PppxL2KUqFlV+/8Q6Av1eKZ6SPqrPZYPPPP8wnWzrpI=;
-        b=x6lbEU+BQMOccTg2dMCa1IDRbU5F0v97sgpLL5HQhQ9EjHfbKtWuACEgmB4WopEilR
-         2OemgIbBZ27BqoWG5Hrlat90cWbbvI/lAQGlELWatMnqjLJ/Dnzj2oWRiV2ss/kue405
-         k5fNzvKNtqr04JC2feuGrBHiLdjHmItOkQvW9X85r/ltNgIMNWIftcgnEIxHZ3zTHhve
-         sM0Jsm7wOEIpKfcrSF/t3R16e7a+3PQnhS7dvHBqJMejApBPKa0pnJEkPsNgWNpQ/i5h
-         4UUgn3DnOa6vGPrW/yUAMs6FqCIg6G/YaFdIhRDFZyGi0TPzcPWpIQatiQs1uWKq5DVF
-         UxDg==
-X-Gm-Message-State: AJIora+dKZyt1beZH2jYZgclvzsrh3w1F4DrTn6U9a2hcB2IHQVynEqS
-        rkPgqdb9B7wCUzPxv8Mrxn0EpMeA4Mz8gQ==
-X-Google-Smtp-Source: AGRyM1vsUBr3PdB0hhAURyeHMPTDJEWaOUR4fFilhHFdevtuR+Szbs2SytIwDzsrjRR2URuwf5x2xw==
-X-Received: by 2002:a17:906:6485:b0:712:10cd:e3b7 with SMTP id e5-20020a170906648500b0071210cde3b7mr7618453ejm.557.1655985919875;
-        Thu, 23 Jun 2022 05:05:19 -0700 (PDT)
-Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id j17-20020a17090623f100b00711d5baae0esm10838324ejg.145.2022.06.23.05.05.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jun 2022 05:05:19 -0700 (PDT)
-Message-ID: <a2c5cdec-632e-3d90-c90d-1c3c0503e825@linaro.org>
-Date:   Thu, 23 Jun 2022 14:05:18 +0200
+        Thu, 23 Jun 2022 13:29:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0527FD2E;
+        Thu, 23 Jun 2022 10:04:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95DF06159A;
+        Thu, 23 Jun 2022 17:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB65C341C4;
+        Thu, 23 Jun 2022 17:04:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656003888;
+        bh=BP4Xv9dfnQL4kdsgB8BI3/j5qp9scN2TAD2M43SlNGc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=q72PuRrXL7nDVD9DV1RLOXs8DwuEn3Kgm5QD5hV37f02hNz22kxfEz8XcLkDd45N4
+         n0PtknVBeTm8Xmsc/ZGvqA5xItJ+kxtXDNHJiUkFOqrQIaerDorlGZAx5Lqaw1GdA3
+         /Kjh767WR5eWM2JDFKm7I1yYJVQ6F1RRkOOQPDeK+5BQTzcW6gsJiij85mVqVNGgNp
+         Ewa+Baj13XAlVHtay+FaYcByFCjCuChzMeUe6AcEjiQNOHBB7dL870JmcM31ee20d9
+         cW9EbjD0RKNNHD7N5Icv2BdSYCHk9fXvtJk/x4RX+FQzb1J7mnUvQ28RSACeUr+R1y
+         9MuANq23ru/fQ==
+Date:   Thu, 23 Jun 2022 12:04:47 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+        lpieralisi@kernel.org, robh@kernel.org, kw@linux.com,
+        bhelgaas@google.com, linux-renesas-soc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Subject: Re: [PATCH] PCI: rcar-ep: Simplify bitmap allocation.
+Message-ID: <20220623170447.GA1458028@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: clock: r9a07g043-cpg: Add Renesas
- RZ/Five CPG Clock and Reset Definitions
-Content-Language: en-US
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220622181723.13033-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220622181723.13033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220622181723.13033-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0fd98d56871f6f08ca82dcc76bfa2052368a8926.1655814557.git.christophe.jaillet@wanadoo.fr>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -84,21 +58,85 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/06/2022 20:17, Lad Prabhakar wrote:
-> Renesas RZ/Five SoC has almost the same clock structure compared to the
-> Renesas RZ/G2UL SoC, re-use the r9a07g043-cpg.h header file and just
-> amend the RZ/Five CPG clock and reset definitions.
+[+cc Jingoo, Gustavo, Serge, in case dwc should do something similar]
+
+On Tue, Jun 21, 2022 at 02:31:46PM +0200, Christophe JAILLET wrote:
+> MAX_NR_INBOUND_MAPS is small (i.e. 6), so there is no real point in
+> dynamic allocation for a bitmap of this size.
+> Moreover, it is linked with the use of the 'bar_to_atu' field which is
+> already statically declared.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Declare it statically instead.
+> 
+> This saves some LoC, reduces the size of the module and saves a few bytes
+> of memory at run-time.
+> 
+> Before: (gcc 11.2.0 / allyesconfig)
+>    text	   data	    bss	    dec	    hex	filename
+>   11514	   5232	      0	  16746	   416a	drivers/pci/controller/pcie-rcar-ep.o
+> 
+> After: (gcc 11.2.0 / allyesconfig)
+>    text	   data	    bss	    dec	    hex	filename
+>   11183	   5064	      0	  16247	   3f77	drivers/pci/controller/pcie-rcar-ep.o
+> 
+> 
+> Also replace the mostly useless 'num_ib_windows' and use
+> MAX_NR_INBOUND_MAPS directly instead.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+
+Looking for an ack from Marek or Yoshihiro here ...
+
+I'm guessing struct dw_pcie.ib_window_map and .ob_window_map are
+probably similar, though the limit is not hard-coded as it is for
+rcar-ep.
+
 > ---
->  include/dt-bindings/clock/r9a07g043-cpg.h | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  drivers/pci/controller/pcie-rcar-ep.c | 17 ++++-------------
+>  1 file changed, 4 insertions(+), 13 deletions(-)
 > 
-
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
+> diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
+> index f9682df1da61..64682876e93e 100644
+> --- a/drivers/pci/controller/pcie-rcar-ep.c
+> +++ b/drivers/pci/controller/pcie-rcar-ep.c
+> @@ -25,8 +25,7 @@ struct rcar_pcie_endpoint {
+>  	struct pci_epc_mem_window *ob_window;
+>  	u8			max_functions;
+>  	unsigned int		bar_to_atu[MAX_NR_INBOUND_MAPS];
+> -	unsigned long		*ib_window_map;
+> -	u32			num_ib_windows;
+> +	DECLARE_BITMAP(ib_window_map, MAX_NR_INBOUND_MAPS);
+>  	u32			num_ob_windows;
+>  };
+>  
+> @@ -205,8 +204,8 @@ static int rcar_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  	int idx;
+>  	int err;
+>  
+> -	idx = find_first_zero_bit(ep->ib_window_map, ep->num_ib_windows);
+> -	if (idx >= ep->num_ib_windows) {
+> +	idx = find_first_zero_bit(ep->ib_window_map, MAX_NR_INBOUND_MAPS);
+> +	if (idx >= MAX_NR_INBOUND_MAPS) {
+>  		dev_err(pcie->dev, "no free inbound window\n");
+>  		return -EINVAL;
+>  	}
+> @@ -502,15 +501,7 @@ static int rcar_pcie_ep_probe(struct platform_device *pdev)
+>  		goto err_pm_put;
+>  	}
+>  
+> -	ep->num_ib_windows = MAX_NR_INBOUND_MAPS;
+> -	ep->ib_window_map =
+> -			devm_kcalloc(dev, BITS_TO_LONGS(ep->num_ib_windows),
+> -				     sizeof(long), GFP_KERNEL);
+> -	if (!ep->ib_window_map) {
+> -		err = -ENOMEM;
+> -		dev_err(dev, "failed to allocate memory for inbound map\n");
+> -		goto err_pm_put;
+> -	}
+> +	bitmap_zero(ep->ib_window_map, MAX_NR_INBOUND_MAPS);
+>  
+>  	ep->ob_mapped_addr = devm_kcalloc(dev, ep->num_ob_windows,
+>  					  sizeof(*ep->ob_mapped_addr),
+> -- 
+> 2.32.0
+> 
