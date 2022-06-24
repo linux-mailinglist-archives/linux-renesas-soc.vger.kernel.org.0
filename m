@@ -2,77 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA8ED55A143
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 20:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C068A55A237
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 21:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231616AbiFXStB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jun 2022 14:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48090 "EHLO
+        id S231249AbiFXTst (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jun 2022 15:48:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232053AbiFXStA (ORCPT
+        with ESMTP id S231524AbiFXTsr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jun 2022 14:49:00 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5723D7FD06;
-        Fri, 24 Jun 2022 11:48:57 -0700 (PDT)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A292BE0003;
-        Fri, 24 Jun 2022 18:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1656096535;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OC0E38DGSJ88bMMABVq43rclBj3366a/y9FHzujzrXc=;
-        b=gwbbaW1FT+HPQnB7ec4UXITIj46QVtADiUtWESYmQzeyY9RfT87ujfWoiWOaMAMFXU6WbA
-        5Eon7Drs4MnSG4Xa7z26QBjx3u72J+oA463lnkYv7cQS1lqdIp0Qo0rz/hJLY4e6XgrK7A
-        WzeHeJIdv41ze2DecUptKbzGk+JYWm+Ch1WraAkf2AITmVp1TjIO55Jh5FMxeqmPS3sZ+g
-        sy/a/n5itcDLVKYGydFgMg6jDvEd6e5iQtFxeFDySWDoSxssVd8N9xmOsuexYJh6edoeIx
-        GW5OPnvNe7IzVP3WhAwVgWmcvvkgrMD44Eqdx5+F2oVwdccjlHQSGXcp/ecexg==
-From:   miquel.raynal@bootlin.com
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mtd: hyperbus: rpc-if: Fix RPM imbalance in probe error path
-Date:   Fri, 24 Jun 2022 20:48:53 +0200
-Message-Id: <20220624184853.1888023-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To:  <f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be>
-References: 
+        Fri, 24 Jun 2022 15:48:47 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Jun 2022 12:48:42 PDT
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E2A7FD24
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Jun 2022 12:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=01lx53oXEjHB12EIpfEWhdf0NHxjveCZJS34ykm30Ss=;
+        b=ZOWvTCZnvi8P2pj6UVgRVCSqgVRpbvGXApGsVxgHQ5/qAXyrUoigp18XhbkdprQA6qk+BR8Hk9CDs
+         Bi0mMt6j2BnCVI6XSwPnPZPfwj/fUnrs19UXvNsqdCHFJcUaTKSm2hiBGtIpa1gsYwFLPvKtkWIBO7
+         a+9MMP9yQ0cwPqET5UmWCieMyGBr3K+llVed06Jh3DvSR0UGJDSnO0bGbx7bQEQ5HDqZXtA7tWxJnK
+         Vw5cj4j6pb3HmGEl2GzLCpjKtwut3xkS0FZQEp2tVbVivFHEqpABKHqX7MKJwzWUpU7Z5Md0CXOlQA
+         9MseJX9bys8oB/z6OaNKO+2bEqnPs2g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=01lx53oXEjHB12EIpfEWhdf0NHxjveCZJS34ykm30Ss=;
+        b=6kcuP4B77m/2mVzBV51Mo1EuMCk9uDHHmhGlgk8oRrlw+w/fw7Gz6rrYEywGQEVr1b8HaKV3WukoA
+         IIoppC6CQ==
+X-HalOne-Cookie: a9df624f025a3f5ae97c156b21ee154a40fcede6
+X-HalOne-ID: 801ce267-f3f6-11ec-be7c-d0431ea8bb03
+Received: from mailproxy2.cst.dirpod3-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+        by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 801ce267-f3f6-11ec-be7c-d0431ea8bb03;
+        Fri, 24 Jun 2022 19:47:38 +0000 (UTC)
+Date:   Fri, 24 Jun 2022 21:47:36 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
+Message-ID: <YrYU2KEubtR+pmkO@ravnborg.org>
+References: <20220616170821.1348169-1-steve@sk2.org>
 MIME-Version: 1.0
-X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: b'c223a38d62e57aa60a890ea7247e3c58a54478e6'
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
+X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLACK autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-
-On Fri, 2022-06-17 at 09:26:51 UTC, Geert Uytterhoeven wrote:
-> If rpcif_hw_init() fails, Runtime PM is left enabled.
+On Thu, Jun 16, 2022 at 07:08:21PM +0200, Stephen Kitt wrote:
+> This started with work on the removal of backlight_properties'
+> deprecated fb_blank field, much of which can be taken care of by using
+> helper functions provided by backlight.h instead of directly accessing
+> fields in backlight_properties. This patch series doesn't involve
+> fb_blank, but it still seems useful to use helper functions where
+> appropriate.
 > 
-> Fixes: b04cc0d912eb80d3 ("memory: renesas-rpc-if: Add support for RZ/G2L")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Instead of retrieving the backlight brightness in struct
+> backlight_properties manually, and then checking whether the backlight
+> should be on at all, use backlight_get_brightness() which does all
+> this and insulates this from future changes.
+> 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+Thanks, added to drm-misc (drm-misc-next)
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next, thanks.
-
-Miquel
+	Sam
