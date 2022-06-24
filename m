@@ -2,45 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF5AA55A0CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 20:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA8ED55A143
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 20:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbiFXSPB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jun 2022 14:15:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43868 "EHLO
+        id S231616AbiFXStB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jun 2022 14:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbiFXSO6 (ORCPT
+        with ESMTP id S232053AbiFXStA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jun 2022 14:14:58 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8D0174832A;
-        Fri, 24 Jun 2022 11:14:57 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.92,218,1650898800"; 
-   d="scan'208";a="125578126"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 25 Jun 2022 03:14:56 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 640D4400F791;
-        Sat, 25 Jun 2022 03:14:53 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@denx.de>, linux-mmc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        Fri, 24 Jun 2022 14:49:00 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5723D7FD06;
+        Fri, 24 Jun 2022 11:48:57 -0700 (PDT)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A292BE0003;
+        Fri, 24 Jun 2022 18:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1656096535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=OC0E38DGSJ88bMMABVq43rclBj3366a/y9FHzujzrXc=;
+        b=gwbbaW1FT+HPQnB7ec4UXITIj46QVtADiUtWESYmQzeyY9RfT87ujfWoiWOaMAMFXU6WbA
+        5Eon7Drs4MnSG4Xa7z26QBjx3u72J+oA463lnkYv7cQS1lqdIp0Qo0rz/hJLY4e6XgrK7A
+        WzeHeJIdv41ze2DecUptKbzGk+JYWm+Ch1WraAkf2AITmVp1TjIO55Jh5FMxeqmPS3sZ+g
+        sy/a/n5itcDLVKYGydFgMg6jDvEd6e5iQtFxeFDySWDoSxssVd8N9xmOsuexYJh6edoeIx
+        GW5OPnvNe7IzVP3WhAwVgWmcvvkgrMD44Eqdx5+F2oVwdccjlHQSGXcp/ecexg==
+From:   miquel.raynal@bootlin.com
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 2/2] mmc: renesas_sdhi: Fix typo's
-Date:   Fri, 24 Jun 2022 19:14:38 +0100
-Message-Id: <20220624181438.4355-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220624181438.4355-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220624181438.4355-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mtd: hyperbus: rpc-if: Fix RPM imbalance in probe error path
+Date:   Fri, 24 Jun 2022 20:48:53 +0200
+Message-Id: <20220624184853.1888023-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To:  <f3070e1af480cb252ae183d479a593dbbf947685.1655457790.git.geert+renesas@glider.be>
+References: 
+MIME-Version: 1.0
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: b'c223a38d62e57aa60a890ea7247e3c58a54478e6'
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -49,42 +62,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix typo's,
-* difference -> different
-* alignment -> aligned
+From: Miquel Raynal <miquel.raynal@bootlin.com>
 
-While at it updated the comment to make it clear that Renesas SDHI DMAC
-needs buffers to be 128-byte aligned.
+On Fri, 2022-06-17 at 09:26:51 UTC, Geert Uytterhoeven wrote:
+> If rpcif_hw_init() fails, Runtime PM is left enabled.
+> 
+> Fixes: b04cc0d912eb80d3 ("memory: renesas-rpc-if: Add support for RZ/G2L")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-Reported-by: Pavel Machek <pavel@denx.de>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next, thanks.
 
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index 3084b15ae2cb..890aa7832baf 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -321,7 +321,7 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host)
- }
- 
- /*
-- * renesas_sdhi_internal_dmac_map() will be called with two difference
-+ * renesas_sdhi_internal_dmac_map() will be called with two different
-  * sg pointers in two mmc_data by .pre_req(), but tmio host can have a single
-  * sg_ptr only. So, renesas_sdhi_internal_dmac_{un}map() should use a sg
-  * pointer in a mmc_data instead of host->sg_ptr.
-@@ -355,7 +355,7 @@ renesas_sdhi_internal_dmac_map(struct tmio_mmc_host *host,
- 
- 	data->host_cookie = cookie;
- 
--	/* This DMAC cannot handle if buffer is not 128-bytes alignment */
-+	/* This DMAC needs buffers to be 128-byte aligned */
- 	if (!IS_ALIGNED(sg_dma_address(data->sg), 128)) {
- 		renesas_sdhi_internal_dmac_unmap(host, data, cookie);
- 		return false;
--- 
-2.17.1
-
+Miquel
