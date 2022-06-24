@@ -2,157 +2,279 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6FA4559AD2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 16:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72CC5559C70
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 16:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232234AbiFXOAm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jun 2022 10:00:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56366 "EHLO
+        id S232582AbiFXOlb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jun 2022 10:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbiFXOAl (ORCPT
+        with ESMTP id S231916AbiFXOl3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jun 2022 10:00:41 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2121.outbound.protection.outlook.com [40.107.114.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D4C4DF4A;
-        Fri, 24 Jun 2022 07:00:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LaXsUK6atNcwnfEm7Vi0a1QpLMEJ6ZutezH8UiL1ExkJpfHLuE+IZ9SFEVdWA+U12CRvD1utVuCLXBl8nWiTDe8CTn3IWPm6sLLRaaB4J3tsE9n7t06Xz6VWR+9BXPh1VC7TVXVvQEeEow9gd1MqvN5081syePmcAwfutiUIkAq0zFITJmS9Y9X1dvQ2XK4V9/5fjTNl0mZNWD1cTOkAII3qC2mG2JN8h9gnBt+Cc1rYeoVaE1vslnDh82RkgR2IZa6iKO+0DEUWmRRgnRq21eHbuazJUxoXwDgnCeSVvuYXWuyMP5BUnByXnOegK2LN4If0YvxlazAXVY/31DBHPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3JCPqKwdu5gvzP4o2chFhmf5gzpX6/ZmGV22+TpfmZk=;
- b=Uu+oCWAyit9AryG3ykYejnkDNpqfsh1EcJ9zYZUlDBQiLqM1nIYymTIvhu1hizyutsUteJRqSn37e/49rPY5F5ieGupideUQwLNXzfnRjPrjSD8hbw7mNQAg90IHaQq+bwSbADMXdxoTfDEMY3M1DxE3w+SKqGJ+XOs+ku3XSz+uWT0zHu7fYZ7G0YsAM0CW/qkdZNuobiZrEHtX96DRtAdBmE680IBDeEa7sQwUWfcGpMViTD+IUhJ/S02B+A0lZ7b+9dKos5FarOdjCYjdzjX9KCdR4csiPRoJ7rxftqPv56KtGBWKuarxy6mBT9czO8BDqdH9rQwk/EUGCEwoxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3JCPqKwdu5gvzP4o2chFhmf5gzpX6/ZmGV22+TpfmZk=;
- b=jvUaYf11YlETHj4D44pLtdPUpSdTyWuSz9P6RqaV+GK1kdVKRVAX2f42XDpaVw5XxB4RDb0FHo9Vqxtzj6Teo2ASSFIDtpze2jPJ+nB76pJayTy4+1YR07Qrlgwx7StoVlexA1Ll34qgduJLggthGWGt+kJbTBd9lpiqQPzAF5Y=
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com (2603:1096:400:de::11)
- by TYCPR01MB9466.jpnprd01.prod.outlook.com (2603:1096:400:193::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Fri, 24 Jun
- 2022 14:00:37 +0000
-Received: from TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::3c36:680f:3292:4a79]) by TYYPR01MB7086.jpnprd01.prod.outlook.com
- ([fe80::3c36:680f:3292:4a79%7]) with mapi id 15.20.5373.017; Fri, 24 Jun 2022
- 14:00:37 +0000
-From:   Phil Edworthy <phil.edworthy@renesas.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-CC:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-        Jie Deng <jie.deng@intel.com>, Jan Dabros <jsd@semihalf.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tyrone Ting <kfting@nuvoton.com>,
-        Olof Johansson <olof@lixom.net>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fri, 24 Jun 2022 10:41:29 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B241E64796;
+        Fri, 24 Jun 2022 07:41:27 -0700 (PDT)
+Received: (Authenticated sender: clement.leger@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 1A703E0002;
+        Fri, 24 Jun 2022 14:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1656081686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=m9VUnPmey1EW3PlxwufpVuRcBXj7WqcXOePoquITgbY=;
+        b=f26t62yJa4myIehQUKbczIFXeSlDXNWR2044wOkaZ5x052xBkOsk5bVQOV32z8wUtW6w3b
+        qO9T5Cfr6Guk2Ys5SRmtx1ntQVZAxZ/TPYfiepiSTTADI0I1Y3nGWEamZ+EDUUDPu8vCOS
+        F3uWGrgY1rBHCcj0J0nW2+OuFoCvC34JasW+S8ItICVnOIRu2UiWeZq7fzKYGBITWc3uK1
+        uirbGQqG1XwyGQjs+XUbHsr8r9Pd516W0gu7XSibucitviboHbdWdYfsVjw3liYA3R8n/B
+        Paw56iw/XXt4STtKtjweblWhu2u86NJbwYMgA8e6GRlxtumqeYwu3+TMvjuPkQ==
+From:   =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 2/2] i2c: Add Renesas RZ/V2M controller
-Thread-Topic: [PATCH 2/2] i2c: Add Renesas RZ/V2M controller
-Thread-Index: AQHYh7O5Gmbz6jaenU+JJ4T6rEztn61ea16AgAAqjFA=
-Date:   Fri, 24 Jun 2022 14:00:37 +0000
-Message-ID: <TYYPR01MB7086629BBB3EAD51AC364925F5B49@TYYPR01MB7086.jpnprd01.prod.outlook.com>
-References: <20220624101736.27217-1-phil.edworthy@renesas.com>
- <20220624101736.27217-3-phil.edworthy@renesas.com>
- <CAK8P3a085ZuyTXAWupo56wwfKdkM9EFnkPHXzxTxwTUUR5ee9Q@mail.gmail.com>
-In-Reply-To: <CAK8P3a085ZuyTXAWupo56wwfKdkM9EFnkPHXzxTxwTUUR5ee9Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 16c6b6db-00de-4b39-079e-08da55e9ea5a
-x-ms-traffictypediagnostic: TYCPR01MB9466:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BB+duxR09fps4xO/Am6/AONOLvpNivcnXT65XzZIL2mI/IQAVackKhCy2aPO0xJTh3giQ/6RTyZZAgv8Q5v014c99rkO+M4cD2LeYbzMLIb+Bvnwb+GHyxwsGahoyFfvEbkHgJSFMTfXWai+c/lTX582PzSEag8STTqhRgnzMExkYycI5FDKfB+IVkxtCPmsyMrRgZLfThdl4yfMSr66dLq5uwuoDpMlKbkLn5id7vLCM1J4umRGnALXJSvE/8TkXpGeWJhz3zEP0WKaIsp5gxN3PSp2lTgj/RW7vk5nhudJNIpHOJrLd/AeDnCZjMFg2sx9LClyUjS8xL0VN9RYyTQFRtUL4JImPBId63npLurB06D7tyZJtL2wLmYJfMr3uWxYqV8jYAM02gYbSUmnSDVr8WCxgYBVY1h7C8kNkbi095UVR1HmKvZHqd24hVX9aCmc+TDnrMn//GoYTfIufW3j4w6PlheywJn8Xvs4WzSJ6vNY7ZwF5ksNpox1l0irCN7stpgMR3dEWyU4hJWv3EQm7y8nYvakOrALG03sDOdHZtR0qt6WX5KmveDIhaTjca1OM0dUeVj+YLE0j4uVOBRrp1atuyLuPEI45tYqm6GWvAE4I6NZjDmwjH7YiMteZ/4aYck3zfyo0k3SAsVUKMXG8PrUXKYBlzFhpFlBmkMA90T5RVPJzkAKlhWGXIJ8sXgJg29Me91TnTzk+lD8gzURazt/XnCfYlEY4oZEXrtObgsCLf4rVUehLEoSGXXQ49rniw5Swhb/aIwQyF3GjO8caEx1/Jo7vmjsJbPCPC8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7086.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(52536014)(5660300002)(7416002)(4744005)(76116006)(186003)(64756008)(44832011)(41300700001)(2906002)(9686003)(53546011)(6506007)(33656002)(71200400001)(7696005)(478600001)(83380400001)(8936002)(26005)(86362001)(54906003)(122000001)(6916009)(55016003)(66556008)(316002)(38100700002)(8676002)(66446008)(4326008)(38070700005)(66946007)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Ylc3RlJudVloeHB2MTU5R2NjSzNWWGVENnNsZjR2SVllN00rSVBxL3pHdXc2?=
- =?utf-8?B?VVZNR1gyZ0ZJUGNRSzFDdmhKTlJvd28rZ0ZSV3ExVHdPcHdkWUxNVHFIQTF0?=
- =?utf-8?B?Y202emJHZFA1ZEJZT1RTMVd0QTB1SDB3M3NML2RBdE5kU2dtUWw4SnpMMXlK?=
- =?utf-8?B?QXJQWStvNExvcmZhTlcyMXZpTytEd2k5Qks1N05qVFAzMzZIc3FhWG0wcnJk?=
- =?utf-8?B?RFEzQm00ZFN5NFYzVzdodkVwdVpzNE9PbU9rMmlkTWNCeFlFdmtWeHBUVmdj?=
- =?utf-8?B?Um50Q0JtQWVQUU1oS215RVFveG1ncktTRUxaTUNzOHJwOGhaMkpBTUZkelJK?=
- =?utf-8?B?RDFwM0pwZk5TUm1qVUF2RE1qQVgzdGRBTlYxUTk2b0lCWEt4Z25EWHpucU5o?=
- =?utf-8?B?Rm1tcnhRYlF3M0I5M2Mrd1JuRGcxS2JtSmFIVlpjakdvakFOREpNTDI0RjE5?=
- =?utf-8?B?RFN0bklIaGVoclJDM3hMb0tUNHE3bmlqd1hZTTBtaG5WcVVid1F0aWFaQ0p5?=
- =?utf-8?B?QUtLRnhBUHVJdTN3aFZJREgyTTR0YzVudFNnVkhLUFQ5ckNid3o0RHNNTHpy?=
- =?utf-8?B?ZmE5bjZYa1FPNHFrY0Q5SDU5YUlOU1pGV0NNM3IvQ3UwdjhQWWZOeVZ6SVpr?=
- =?utf-8?B?aVNsbGY5WGVZWkwxZnRLUmFTQ0c4S0QvRG1uS0tHTjh6NkZoNFJCblhuT1hm?=
- =?utf-8?B?ak1yM081VEZNTzNnR0dsMUwrb3ZZTlAvKzRhTDZheVZrVHB0ZWRnSkNBcWJV?=
- =?utf-8?B?Q0g0TUsyYWF6eWp0NGFEQzVhWmRRNTNpWDVlQk5uQ1ZVNFlBbU80L2FkQUZm?=
- =?utf-8?B?eDRqeFUvVngwMC9iRmhpZktYYXV6YmxhWTZpV3Jhc2p2OHZLRzRnRVhTbjhV?=
- =?utf-8?B?cjRxbFAvU3pvOHRzZDdKWHA5eG91WW8rTlp1eFpkSTBJMzJyMWFodDJJWFcx?=
- =?utf-8?B?ZlQzTXVRQklUa1FpYUNpOEdsYi9wanJEbGp4SCtmdzR5V2ZlVzdOZnNmeVhJ?=
- =?utf-8?B?ek9jTFlGV0s5N2VRWGZuOUV6ZXhwRVFHQW1OQ3BGZ0dXODFPei9sT0dTOCtv?=
- =?utf-8?B?aUFldldHVDFTbTFkaWVTY0o3YnhoczI0RjNjQnp3NWs5RExhWlhyeDI2YVdx?=
- =?utf-8?B?OHQxbGdneG93MEROVTY1bjd1ekNJY0sxZVoxbmNrUTgxV3VwdG50bWJRYVMz?=
- =?utf-8?B?Zlp0Qm5JckNLNFVocUVGWHpoQTd3bk9CQVMvU25RQzRENXJaZ0hZQWxGUjlw?=
- =?utf-8?B?YXdWZ0c4Y1pYcFI4K2svTkNHMi9sYVhNalJHem5HQkhHMnNLVm96WDQ1ZkRm?=
- =?utf-8?B?VFVUT0VkNE9ZMEFiRk1DSWNpeEVaU1lFUnlBVGorRXpueVE1VE9tSjVXUjY5?=
- =?utf-8?B?dmRhOEtnSFNZQUVMM0hVMW1MRGZpYVE2Tk5UWUVzQncrSXgzc3JZNXRZeko0?=
- =?utf-8?B?NVJnOEhONGlNL0NwdloxSTlDKys0QnkyY1pCMXh3YmFlYjZIT2M2bHFBQm1u?=
- =?utf-8?B?bnRyeGpMTEZVN3hQRWt5QjVKT1RXcnJVS05waHBhbk8vd0huWHZLbzhEV0lE?=
- =?utf-8?B?aFV3L0J0OU9UdFRzSTh2TTFGU1NDd1BqTkUzazhLMEJsZUIydUxHY25XdTVi?=
- =?utf-8?B?T3plZHNlT1NYRXF4UGxOWnZQMzdZTytHOU1aM1BzUng4VW5QM3R5RU1jaFpJ?=
- =?utf-8?B?VEUyanhQWWtJSktyc0Q4K3JMS2NTVHBPaDgzQ3dJOTFMeW5ibURhS0ZHbmt3?=
- =?utf-8?B?SEszaUhPWWdIMis0M1VpdjVSMTliWnpGNFZrUjhGN2pXWTBMMjVwc2MvYTY1?=
- =?utf-8?B?RFdkZXBWYzAwTjE3eUZ0NWJWTkNWeWFjRU1WM3pFUk1LREZLL1h6UVlJZ0h0?=
- =?utf-8?B?dmQxb24rUmhIbElpbjRLVTlWN0psTGVZa2F2c1dLR0tycnI4ZjQwcHNsU3BQ?=
- =?utf-8?B?T1k4M3Ntb00rcmsxZDlNZmdiTVNsUVAxTHJxb0JoaDhmNit6Q1ZVbVo2RzE4?=
- =?utf-8?B?M0U3L1hhZzQ3TzVCL3YzUnRnU2d1WGR1VXdIQ2xkL2lhMDg0cXdqVzQvWkFG?=
- =?utf-8?B?cGkxSHV5eVlGVFBwais0dW9yUHhER1BzSjZGdUdPQy93enU2b0N6MGFwcm8y?=
- =?utf-8?B?b0kwZHFvMVJkZVJBSERkak8xVFovbkV6Q1BUb3Nkc1NtZUZ0a3VFRXVUWDFB?=
- =?utf-8?B?OUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Magnus Damm <magnus.damm@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jose Abreu <joabreu@synopsys.com>
+Cc:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        =?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+        Milan Stevanovic <milan.stevanovic@se.com>,
+        Jimmy Lalande <jimmy.lalande@se.com>,
+        Pascal Eberhard <pascal.eberhard@se.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net-next v9 00/16] add support for Renesas RZ/N1 ethernet subsystem devices
+Date:   Fri, 24 Jun 2022 16:39:45 +0200
+Message-Id: <20220624144001.95518-1-clement.leger@bootlin.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7086.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16c6b6db-00de-4b39-079e-08da55e9ea5a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2022 14:00:37.3699
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5cUQnRBM7ZiqL85ppS/UQcRyylt/wtY7SyamrGDLWpEgvzN/g/RookOVUoWilC/seCd5xHc58qK0fwlTJppcWTOavaZ7tNxafl9gc2WXY9o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9466
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgQXJuZCwNCg0KT24gMjQgSnVuZSAyMDIyIDEyOjI3IEFybmQgQmVyZ21hbm4gd3JvdGU6DQo+
-IE9uIEZyaSwgSnVuIDI0LCAyMDIyIGF0IDEyOjE3IFBNIFBoaWwgRWR3b3J0aHkgd3JvdGU6DQo+
-ID4NCj4gPiBZZXQgYW5vdGhlciBpMmMgY29udHJvbGxlciBmcm9tIFJlbmVzYXMgdGhhdCBpcyBm
-b3VuZCBvbiB0aGUgUlovVjJNDQo+ID4gKHI5YTA5ZzAxMSkgU29DLiBJdCBjYW4gc3VwcG9ydCBv
-bmx5IDEwMGtIeiBhbmQgNDAwS0h6IG9wZXJhdGlvbi4NCj4gDQo+IEkgc2VlIG5vdGhpbmcgd3Jv
-bmcgd2l0aCB0aGlzLCBqdXN0IG9uZSBzdWdnZXN0aW9uIGZvciBhIGNsZWFudXA6DQo+IA0KPiA+
-ICsjaWZkZWYgQ09ORklHX1BNX1NMRUVQDQo+ID4gK3N0YXRpYyBpbnQgcnp2Mm1faTJjX3N1c3Bl
-bmQoc3RydWN0IGRldmljZSAqZGV2KQ0KPiAuLi4+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRldl9w
-bV9vcHMgcnp2Mm1faTJjX3BtX29wcyA9IHsNCj4gPiArICAgICAgIFNFVF9OT0lSUV9TWVNURU1f
-U0xFRVBfUE1fT1BTKHJ6djJtX2kyY19zdXNwZW5kLA0KPiByenYybV9pMmNfcmVzdW1lKQ0KPiA+
-ICt9Ow0KPiA+ICsNCj4gPiArI2RlZmluZSBERVZfUE1fT1BTICgmcnp2Mm1faTJjX3BtX29wcykN
-Cj4gPiArI2Vsc2UNCj4gPiArI2RlZmluZSBERVZfUE1fT1BTIE5VTEwNCj4gPiArI2VuZGlmIC8q
-IENPTkZJR19QTV9TTEVFUCAqLw0KPiANCj4gUmVtb3ZlIHRoZSAjaWZkZWYgaGVyZSwgYW5kIHVz
-ZSB0aGUgbmV3IE5PSVJRX1NZU1RFTV9TTEVFUF9QTV9PUFMoKQ0KPiBpbiBwbGFjZSBvZiBTRVRf
-Tk9JUlFfU1lTVEVNX1NMRUVQX1BNX09QUygpLg0KV2lsbCBkbyENCg0KVGhhbmtzDQpQaGlsDQo=
+The Renesas RZ/N1 SoCs features an ethernet subsystem which contains
+(most notably) a switch, two GMACs, and a MII converter [1]. This
+series adds support for the switch and the MII converter.
+
+The MII converter present on this SoC has been represented as a PCS
+which sit between the MACs and the PHY. This PCS driver is probed from
+the device-tree since it requires to be configured. Indeed the MII
+converter also contains the registers that are handling the muxing of
+ports (Switch, MAC, HSR, RTOS, etc) internally to the SoC.
+
+The switch driver is based on DSA and exposes 4 ports + 1 CPU
+management port. It include basic bridging support as well as FDB and
+statistics support.
+
+Link: [1] https://www.renesas.com/us/en/document/mah/rzn1d-group-rzn1s-group-rzn1l-group-users-manual-r-engine-and-ethernet-peripherals
+
+-----
+Changes in V9:
+- Cover letter:
+  - Remove comment about RZN1 patches that are now in the master branch.
+- Commits:
+  - Add Vladimir Oltean Reviewed-by
+- PCS:
+  - Add "Depends on OF" for PCS_RZN1_MIIC due to error found by intel
+    kernel test robot <lkp@intel.com>.
+  - Check return value of of_property_read_u32() for
+    "renesas,miic-switch-portin" property before setting conf.
+  - Return miic_parse_dt() return value in miic_probe() on error
+- Switch:
+  - Add "Depends on OF" for NET_DSA_RZN1_A5PSW due to errors found by
+    intel kernel test robot <lkp@intel.com>.
+- DT:
+  - Add spaces between switch port and '{'
+
+Changes in V8:
+- Commits:
+  - Reorder Acked-By and Rewieved-by chronologically and add Florian
+    Fainelli Reviewed-By.
+- PCS:
+  - Fix of node leaks
+- MAINTAINERS:
+  - Reorder L: before S:
+
+Resent V7 due to messed up cover letter.
+
+Changes in V7:
+- Commits:
+  - Add Rob Herring Acked-by for commit "dt-bindings: net: snps,dwmac: add
+    "power-domains" property"
+  - Rebased on net-next/master
+- MAINTAINERS:
+  - Add renesas-soc and netdev mailing lists
+
+Changes in V6:
+- Commits:
+  - Add commit which enable ethernet switch on RZ/N1D-DB board
+  - Add commit which adds "renesas,rzn1-gmac" compatible t
+    "snps,dwmac" bindings
+  - Fix mutex change being done in FDB feature commit
+  - Add commit which  adds"power-domains" to "snps,dwmac" bindings
+- Bindings and DT
+  - Add clock-names to MII converter and make it required
+  - Added Reviewed-by Geert on MII converter binding
+  - Added "power-domains" to switch bindings and to switch description
+  - Use new compatible "renesas,rzn1-gmac" for GMAC2
+  - Describe all switch ports in ethernet switch node
+  - Add phy-mode = "internal" to cpu port
+- PCS:
+  - use phy_interface_mode_is_rgmii() instead of open coded check
+  - Add device_link_add() call in miic_create()
+- Switch:
+  - Fix missing of_node_put(port) in case of loop break.
+  - Fix comment alignment for statistics defines
+  - Move lk_lock mutex locking outside of the fdb_dump loop
+
+Changes in V5:
+- MAINTAINERS:
+  - Add Florian Fainelli Reviewed-by
+- Switch:
+  - Switch Lookup table lock to a mutex instead of a spinlock
+  - Only handle "ethernet-ports" property for switch ports
+  - Handle RGMII_ID/RXID/TXID
+  - Add check for pdata to be non null in remove
+  - Add missing of_node_put() for mdio and ports
+  - Applied Florian Fainelli patch which makes stats description
+    shorter
+  - Add Kconfig dependency on ARCH_RZN1 to avoid Kconfig "unmet direct
+    dependency"
+- PCS:
+  - Handle RGMII_ID/RXID/TXID
+  - Use value instead of BIT() for speed/mode
+- Tag driver:
+  - Add Florian Fainelli Reviewed-by
+
+Changes in V4:
+- Add ETH_P_DSA_A5PSW in uapi/linux/if_ether.h
+- PCS:
+  - Use devm_pm_runtime_enable() instead of pm_runtime_enable()
+- Switch:
+  - Return -EOPNOTSUPP and set extack when multiple bridges are created
+  - Remove error messages in fdb_del if entry does not exists
+  - Add compatibility with "ethernet-ports" device-tree property
+- Tag driver:
+  - Use ETH_ZLEN as padding len
+
+Changes in V3:
+- PCS:
+  - Fixed reverse christmas tree declaration
+  - Remove spurious pr_err
+  - Use pm_runtime functions
+- Tag driver:
+  - Remove packed attribute from the tag struct
+- Switch:
+  - Fix missing spin_unlock in fdb_dump in case of error
+  - Add static qualifier to dsa_switch_ops
+  - Add missing documentation for hclk and clk members of struct a5psw
+  - Changed types of fdb_entry to u16 to discard GCC note on char
+    packed bitfields and add reserved field
+- Added Reviewed-by tag from Florian Fainelli
+
+Changes in V2:
+- PCS:
+  - Fix Reverse Christmas tree declaration
+  - Removed stray newline
+  - Add PCS remove function and disable clocks in them
+  - Fix miic_validate function to return correct values
+  - Split PCS CONV_MODE definition
+  - Reordered phylink_pcs_ops in definition order
+  - Remove interface setting in miic_link_up
+  - Remove useless checks for invalid interface/speed and error prints
+  - Replace phylink_pcs_to_miic_port macro by a static function
+  - Add comment in miic_probe about platform_set_drvdata
+- Bindings:
+ - Fix wrong path for mdio.yaml $ref
+ - Fix yamllint errors
+- Tag driver:
+  - Squashed commit that added tag value with tag driver
+  - Add BUILD_BUG_ON for tag size
+  - Split control_data2 in 2 16bits values
+- Switch:
+  - Use .phylink_get_caps instead of .phylink_validate and fill
+    supported_interface correctly
+  - Use fixed size (ETH_GSTRING_LEN) string for stats and use memcpy
+  - Remove stats access locking since RTNL lock is used in upper layers
+  - Check for non C45 addresses in mdio_read/write and return
+    -EOPNOTSUPP
+  - Add get_eth_mac_stats, get_eth_mac_ctrl_stat, get_rmon_stats
+  - Fix a few indentation problems
+  - Remove reset callback from MDIO bus operation
+  - Add phy/mac/rmon stats
+- Add get_rmon_stat to dsa_ops
+
+Clément Léger (16):
+  net: dsa: allow port_bridge_join() to override extack message
+  net: dsa: add support for ethtool get_rmon_stats()
+  net: dsa: add Renesas RZ/N1 switch tag driver
+  dt-bindings: net: pcs: add bindings for Renesas RZ/N1 MII converter
+  net: pcs: add Renesas MII converter driver
+  dt-bindings: net: dsa: add bindings for Renesas RZ/N1 Advanced 5 port
+    switch
+  net: dsa: rzn1-a5psw: add Renesas RZ/N1 advanced 5 port switch driver
+  net: dsa: rzn1-a5psw: add statistics support
+  net: dsa: rzn1-a5psw: add FDB support
+  dt-bindings: net: snps,dwmac: add "power-domains" property
+  dt-bindings: net: snps,dwmac: add "renesas,rzn1" compatible
+  ARM: dts: r9a06g032: describe MII converter
+  ARM: dts: r9a06g032: describe GMAC2
+  ARM: dts: r9a06g032: describe switch
+  ARM: dts: r9a06g032-rzn1d400-db: add switch description
+  MAINTAINERS: add Renesas RZ/N1 switch related driver entry
+
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml  |  134 +++
+ .../bindings/net/pcs/renesas,rzn1-miic.yaml   |  171 +++
+ .../devicetree/bindings/net/snps,dwmac.yaml   |    5 +
+ MAINTAINERS                                   |   13 +
+ arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts   |  117 ++
+ arch/arm/boot/dts/r9a06g032.dtsi              |  108 ++
+ drivers/net/dsa/Kconfig                       |    9 +
+ drivers/net/dsa/Makefile                      |    1 +
+ drivers/net/dsa/rzn1_a5psw.c                  | 1062 +++++++++++++++++
+ drivers/net/dsa/rzn1_a5psw.h                  |  259 ++++
+ drivers/net/pcs/Kconfig                       |    8 +
+ drivers/net/pcs/Makefile                      |    1 +
+ drivers/net/pcs/pcs-rzn1-miic.c               |  520 ++++++++
+ include/dt-bindings/net/pcs-rzn1-miic.h       |   33 +
+ include/linux/pcs-rzn1-miic.h                 |   18 +
+ include/net/dsa.h                             |    5 +
+ include/uapi/linux/if_ether.h                 |    1 +
+ net/dsa/Kconfig                               |    7 +
+ net/dsa/Makefile                              |    1 +
+ net/dsa/slave.c                               |   18 +-
+ net/dsa/tag_rzn1_a5psw.c                      |  113 ++
+ 21 files changed, 2602 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/pcs/renesas,rzn1-miic.yaml
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.c
+ create mode 100644 drivers/net/dsa/rzn1_a5psw.h
+ create mode 100644 drivers/net/pcs/pcs-rzn1-miic.c
+ create mode 100644 include/dt-bindings/net/pcs-rzn1-miic.h
+ create mode 100644 include/linux/pcs-rzn1-miic.h
+ create mode 100644 net/dsa/tag_rzn1_a5psw.c
+
+-- 
+2.36.1
+
