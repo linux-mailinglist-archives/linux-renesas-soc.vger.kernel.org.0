@@ -2,60 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77ED6558B4F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 00:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D77558C59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jun 2022 02:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbiFWWkv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jun 2022 18:40:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        id S230075AbiFXAmn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jun 2022 20:42:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiFWWku (ORCPT
+        with ESMTP id S229661AbiFXAmm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jun 2022 18:40:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57BAC517DE;
-        Thu, 23 Jun 2022 15:40:49 -0700 (PDT)
+        Thu, 23 Jun 2022 20:42:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BF45DC25;
+        Thu, 23 Jun 2022 17:42:42 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E03C061EF8;
-        Thu, 23 Jun 2022 22:40:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7225C3411D;
-        Thu, 23 Jun 2022 22:40:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B232261F9D;
+        Fri, 24 Jun 2022 00:42:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCD4C3411D;
+        Fri, 24 Jun 2022 00:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656024048;
-        bh=nnitVTYwb6+eE3UB/jXxlIFf+kvi+dKql4XS6JwuRC4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=CEYhBM5bT3+v80LqWsNgMQ9sp4oZ+tv0FfvSIjgvPo9lyF98+Ufy9q7UGF8a4pgcG
-         u58UTOJA32YKvXpZuA/e/rgm7hpyiemTwP9Wj4algR9uMmhlrfSbzOfAeW/a7IpVr3
-         Yw6+1Uq841ZylEkdJQiO2mGnpdruKV5PEU7MBPvgEZYsSwkSHm+LUx1F8K1KziwpKl
-         yE0d59WYHjhMTFRWwjANXIXr1xHjGzEZmBUXT+au8cYBn8wWmMgdz+bhmbiqb+g/Pz
-         2IojuMlqT8helRtpHc1vTpAZqsz9psc6o6t0iBUkBExZEdiOHwxy0FOqLPm0YU5OAJ
-         vbl/YYpgdllEg==
-Date:   Thu, 23 Jun 2022 17:40:46 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Herve Codina <herve.codina@bootlin.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Clement Leger <clement.leger@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v6 0/6] RZN1 USB Host support
-Message-ID: <20220623224046.GA1484281@bhelgaas>
+        s=k20201202; t=1656031360;
+        bh=DI0FXxI6PSfD9rLKB6kDL9lKC6YPyy5SZxWJ3Enrfj4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=AfhC1nDK01STGD+Lb1EqlIFbNQ+zlukNen3ynfq+EboThvy8BR4juTElrvkfZ0VML
+         rLP/yiUhzgLYzYRg+V+dCxRSX+E3TN0/eEzxlX4gEAU83CQwTwjIXbSHOKzyVcxs6P
+         MqBU8GkzddsYctfOC9Ear7/3idSGBLLoH6Q5BXbwId3Sh8dlOQb9Q9JqrNSxpgsVRp
+         yHkGkV8qUCVMfXG00JDINfROFl3/MN4l/CySga9cTK4h02IsIcoJTrhsawQC8kadgJ
+         SIrl2B4ad7Rf7XeUFsbnoNv3GbuMs5k+1ipm1K3f1YGMO06BLna1E6XZV3UxwjentC
+         ltMBdYjYWEe/g==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220623223912.GA1484125@bhelgaas>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220623083217.26433-2-jslaby@suse.cz>
+References: <20220623083217.26433-1-jslaby@suse.cz> <20220623083217.26433-2-jslaby@suse.cz>
+Subject: Re: [PATCH 2/2] clk: renesas: rcar-gen4: Fix initconst confusion for cpg_pll_config
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     mliska@suse.cz, linux-kernel@vger.kernel.org,
+        Andi Kleen <ak@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Jiri Slaby <jslaby@suse.cz>
+To:     Jiri Slaby <jslaby@suse.cz>, mturquette@baylibre.com
+Date:   Thu, 23 Jun 2022 17:42:39 -0700
+User-Agent: alot/0.10
+Message-Id: <20220624004240.DBCD4C3411D@smtp.kernel.org>
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -66,61 +58,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 05:39:14PM -0500, Bjorn Helgaas wrote:
-> On Fri, May 20, 2022 at 11:41:49AM +0200, Herve Codina wrote:
-> > Hi,
-> > 
-> > This series add support for the USB Host controllers available on
-> > RZN1 (r9a06g032) SOC.
-> > 
-> > These USB Host controllers are PCI OHCI/EHCI controllers located
-> > behind a bridge.
-> > 
-> > Regards,
-> > Herve
-> > 
-> > Changes v2:
-> > - Convert bindings to json-schema
-> > - Update clocks description
-> > - Remove unneeded '.compatible = "renesas,pci-r9a06g032"'
-> > 
-> > Changes v3:
-> > - Remove the unneeded patch that calls clk_bulk_prepare_enable()
-> > - Rework the device tree binding (conversion from .txt and RZ/N1 support)
-> > - Use the RZ/N1 SOCs family only in the driver match compatible string.
-> > - Enable PM and PM_GENERIC_DOMAIN for RZ/N1 and add the missing
-> >   '#power-domain-cells' in sysctrl node.
-> > 
-> > Changes v4:
-> > - Remove patches related to PM enable and #pwower-domain-cells as they
-> >   will be handle out of this series.
-> > - Add Bob's reviewed-by on patch 1
-> > - Add Geert's reviewed by on patch 1 and 6
-> > - Rename clocks and make the 'resets' property optional on RZ/N1 family
-> > - Reword some commit logs and titles
-> > - Fix dst node location (sort by node names or unit addresses)
-> > - Fix the USB PHY node name
-> > 
-> > Changes v5:
-> > - Rename clocks ("usb_" prefix removed)
-> > - Add Geert's reviewed-by on patch 2, 3, 4 and 5
-> > 
-> > Changes v6:
-> > - Include schema optionnal part (ie 'if:') in a 'allOf:' block
-> > - Modify commit log on commit 2/6
-> > 
-> > Herve Codina (6):
-> >   dt-bindings: PCI: pci-rcar-gen2: Convert bindings to json-schema
-> >   dt-bindings: PCI: renesas,pci-rcar-gen2: Add device tree support for
-> >     r9a06g032
-> >   PCI: rcar-gen2: Add RZ/N1 SOCs family compatible string
-> 
-> Applied the first three patches (above) to pci/ctrl/rcar-gen2 for
-> v5.20, thank you!
+Quoting Jiri Slaby (2022-06-23 01:32:17)
+> From: Andi Kleen <ak@linux.intel.com>
+>=20
+> A variable pointing to const isn't const itself. It'd have to contain
+> "const" keyword after "*" too. Therefore, cpg_pll_config cannot be put
+> to "rodata".  Hence use __initdata instead of __initconst to fix this.
+>=20
+> [js] more explanatory commit message.
+>=20
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> ---
 
-Oh, just noticed there's no ack from Marek or Yoshihiro, the
-maintainers of drivers/pci/controller/pci-rcar-gen2.c.  Let me know if
-you object!  If you can ack it, I will amend the commits to reflect
-that.
-
-Bjorn
+Acked-by: Stephen Boyd <sboyd@kernel.org>
