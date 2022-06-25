@@ -2,75 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55E0755AB70
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jun 2022 18:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9556355AB8A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jun 2022 18:17:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233251AbiFYQGB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Jun 2022 12:06:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
+        id S233295AbiFYQJr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Jun 2022 12:09:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233242AbiFYQGA (ORCPT
+        with ESMTP id S233244AbiFYQJq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Jun 2022 12:06:00 -0400
+        Sat, 25 Jun 2022 12:09:46 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB4B167F3;
-        Sat, 25 Jun 2022 09:05:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A133E11C13;
+        Sat, 25 Jun 2022 09:09:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B6851B80C2C;
-        Sat, 25 Jun 2022 16:05:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61259C3411C;
-        Sat, 25 Jun 2022 16:05:56 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 638F8B80BFA;
+        Sat, 25 Jun 2022 16:09:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A36FC3411C;
+        Sat, 25 Jun 2022 16:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656173156;
-        bh=AToRdKG3QacktWi9IxW2BHWjWYtnPEVe84zJg54fJbA=;
+        s=k20201202; t=1656173383;
+        bh=zeQJlckF+GQVuKDzuLhjpGZA1Gm7C6kzkQw+hlgHt/8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fGwapFIFYQVzdVIiYmnOpMXFdnjqbX7gyB8aL6hlrOh+99RVXILoAKibc4r6AmJk1
-         W2V/iC/ytjfLhCPXtoWAx1T5i0Zn3cUBWsYueq3MBFUjMcR2MehYpSd4JbEEbmRQAv
-         CQfhbX+NjKUTM7Bt79ck+4gj7H+MqrA5tCXwsOCPIrFHH9UXPyai2VXbX9z37KVEHU
-         UeH5qkHiFsPbV+nB7K0zFgRf7vI+eW1Vk+sV6vQG6VTSBMDWkotVqPuMrWUC1EKmvj
-         vLpfa6vmV3g/P2zkaLdqHTF0wfnar0Oo0+lh+yKeru11eGZGDeW0lcF0f0jeEWQl3v
-         F4lw0It6clzXw==
+        b=WwTGWO7YdqG4nEqUw1EAmJ1/Luabn1ghQTVNWZAuLNakAcS2xWsvX//5xwWZ0OEKL
+         7+4Gw+LYqrdP6mRf0JLzm/Nypwt21YFIhnwxwQvT7tpS7WtoYzu29aM+4E8w/sNhNt
+         5Yq+ASIM6etEvPlQEqUZBwsW3hbrab2crzZ6z4RRG+wxIsx20Ft5qjxlONXkchpScW
+         Bb+icgXKiK56qy0K7yMwif2NmUPu+JtoMRNo/62grI6N2IHMXVBf1X5YQ9gjzM88cA
+         EKIMHLDPdSIGIkLI1cVhoEoR+deEyrjKzvvyYgCt+DLxRcZ7vq0NpcRnxz8zNXnT3H
+         w7PZqJfL102pg==
 Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.95)
         (envelope-from <maz@kernel.org>)
-        id 1o58IE-0035Px-7I;
-        Sat, 25 Jun 2022 17:05:54 +0100
-Date:   Sat, 25 Jun 2022 17:05:59 +0100
-Message-ID: <87zgi0eniw.wl-maz@kernel.org>
+        id 1o58Ls-0035Sf-TC;
+        Sat, 25 Jun 2022 17:09:41 +0100
+Date:   Sat, 25 Jun 2022 17:09:46 +0100
+Message-ID: <87y1xkencl.wl-maz@kernel.org>
 From:   Marc Zyngier <maz@kernel.org>
 To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 2/2] irqchip/sifive-plic: Add support for Renesas RZ/Five SoC
-In-Reply-To: <CA+V-a8tFn7aS-1jD6o9TX9kNDQ=4S3xWCXwkww3Es2+Red6vmA@mail.gmail.com>
-References: <20220624180311.3007-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <20220624180311.3007-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-        <8735ftf73p.wl-maz@kernel.org>
-        <CA+V-a8ukQsotuWLm6_qR79qO9n_Ffo2e79AitC_=53ocsjZtzA@mail.gmail.com>
-        <87h7492c58.wl-maz@kernel.org>
-        <CA+V-a8tFn7aS-1jD6o9TX9kNDQ=4S3xWCXwkww3Es2+Red6vmA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+In-Reply-To: <CA+V-a8td93QOCC8cHLEPaba-hnX2gjydmKTbaCrF+zgH7hH8Jg@mail.gmail.com>
+References: <20220523174238.28942-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <20220523174238.28942-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <871qvdf5tb.wl-maz@kernel.org>
+        <CA+V-a8veE6-4C+9kyTNxqsf0jB5xCGhcHncTSM3ejDzBAfz=Bw@mail.gmail.com>
+        <87fsjt2bep.wl-maz@kernel.org>
+        <CA+V-a8td93QOCC8cHLEPaba-hnX2gjydmKTbaCrF+zgH7hH8Jg@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sagar.kadam@sifive.com, palmer@dabbelt.com, paul.walmsley@sifive.com, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, biju.das.jz@bp.renesas.com
+X-SA-Exim-Rcpt-To: prabhakar.csengg@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com, geert+renesas@glider.be, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org, brgl@bgdev.pl, thierry.reding@gmail.com, jonathanh@nvidia.com, bjorn.andersson@linaro.org, agross@kernel.org, p.zabel@pengutronix.de, andy.shevchenko@gmail.com, linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, phil.edworthy@renesas.com, biju.das.jz@bp.renesas.com
 X-SA-Exim-Mail-From: maz@kernel.org
 X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -83,157 +90,131 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 25 Jun 2022 14:03:33 +0100,
+On Sat, 25 Jun 2022 13:48:08 +0100,
 "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
 > 
-> [1  <text/plain; UTF-8 (7bit)>]
 > Hi Marc,
 > 
-> On Sat, Jun 25, 2022 at 12:52 PM Marc Zyngier <maz@kernel.org> wrote:
+> On Sat, Jun 25, 2022 at 1:08 PM Marc Zyngier <maz@kernel.org> wrote:
 > >
-
-[...]
-
-> > You are just reinventing the wheel we are already have, except that
-> > yours is a bit square ;-). What really should happen is that the
-> > set_type method should set the correct flow depending on the trigger
-> > of the interrupt, and *never* have to check the configuration on the
-> > handling path.
+> > On Sat, 25 Jun 2022 11:54:44 +0100,
+> > "Lad, Prabhakar" <prabhakar.csengg@gmail.com> wrote:
+> > >
+> > > Hi Marc,
+> > >
+> > > Thank you for the review.
+> > >
+> > > On Sat, Jun 25, 2022 at 10:30 AM Marc Zyngier <maz@kernel.org> wrote:
+> > > >
+> > > > On Mon, 23 May 2022 18:42:35 +0100,
+> > > > Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > >
 > >
-> A Bit lost here..
+> > [...]
+> >
+> > > > > +static int rzg2l_irqc_alloc(struct irq_domain *domain, unsigned int virq,
+> > > > > +                         unsigned int nr_irqs, void *arg)
+> > > > > +{
+> > > > > +     struct rzg2l_irqc_priv *priv = domain->host_data;
+> > > > > +     unsigned long *chip_data = NULL;
+> > > >
+> > > > Why the init to NULL?
+> > > >
+> > > Can be dropped.
+> > >
+> > > > > +     struct irq_fwspec spec;
+> > > > > +     irq_hw_number_t hwirq;
+> > > > > +     int tint = -EINVAL;
+> > > > > +     unsigned int type;
+> > > > > +     unsigned int i;
+> > > > > +     int ret;
+> > > > > +
+> > > > > +     ret = irq_domain_translate_twocell(domain, arg, &hwirq, &type);
+> > > > > +     if (ret)
+> > > > > +             return ret;
+> > > > > +
+> > > > > +     /*
+> > > > > +      * For TINT interrupts ie where pinctrl driver is child of irqc domain
+> > > > > +      * the hwirq and TINT are encoded in fwspec->param[0].
+> > > > > +      * hwirq for TINT range from 9-40, hwirq is embedded 0-15 bits and TINT
+> > > > > +      * from 16-31 bits. TINT from the pinctrl driver needs to be programmed
+> > > > > +      * in IRQC registers to enable a given gpio pin as interrupt.
+> > > > > +      */
+> > > > > +     if (hwirq > IRQC_IRQ_COUNT) {
+> > > > > +             tint = TINT_EXTRACT_GPIOINT(hwirq);
+> > > > > +             hwirq = TINT_EXTRACT_HWIRQ(hwirq);
+> > > > > +
+> > > > > +             if (hwirq < IRQC_TINT_START)
+> > > > > +                     return -EINVAL;
+> > > > > +     }
+> > > > > +
+> > > > > +     if (hwirq > (IRQC_NUM_IRQ - 1))
+> > > > > +             return -EINVAL;
+> > > > > +
+> > > > > +     chip_data = kzalloc(sizeof(*chip_data), GFP_KERNEL);
+> > > >
+> > > > Are we really allocating an unsigned long for something that already
+> > > > fits in something that is pointer-sized?
+> > > >
+> > > I think I received some feedback to use unsigned long.  Let me know
+> > > what you want me to use here.
+> >
+> > I think this is just a waste of memory, but I don't really care.
+> >
+> Is there any better way I can handle it?
+
+How about (shock, horror) a cast?
+
 > 
-> We have the below chained handler:
+> > >
+> > > > > +     if (!chip_data)
+> > > > > +             return -ENOMEM;
+> > > > > +     *chip_data = tint;
+> > > >
+> > > > So here, *chip_data can be set to -EINVAL if hwirq <= IRQC_IRQ_COUNT?
+> > > > This can't be right.
+> > > >
+> > > Yes *chip_data can be -EINVAL. IRQC block handles IRQ0-7 and
+> > > GPIOINT0-122. So the -EINVAL here is for IRQ0-7 case were dont
+> > > required the chip data in the call backs hence -EINVAL, Whereas for
+> > > GPIOINT0-122 we need chip_data in the callbacks as this value needs to
+> > > be programmed in the hardware registers.
+> >
+> > I can't see anything that checks it (let alone the difference in
+> > types). And if it isn't checked, this means that the allocation is
+> > pointless.
+> >
+> There are checks for example below:
 > 
-> static void plic_handle_irq(struct irq_desc *desc)
+> static void rzg2l_irqc_irq_enable(struct irq_data *d)
 > {
->     struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
->     struct irq_chip *chip = irq_desc_get_chip(desc);
->     void __iomem *claim = handler->hart_base + CONTEXT_CLAIM;
->     irq_hw_number_t hwirq;
+>     unsigned int hw_irq = irqd_to_hwirq(d);
 > 
->     WARN_ON_ONCE(!handler->present);
+>     if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
+>         struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
+>         unsigned long chip_data = *(unsigned long *)d->chip_data;
+>         u32 offset = hw_irq - IRQC_TINT_START;
+>         u32 tssr_offset = TSSR_OFFSET(offset);
+>         u8 tssr_index = TSSR_INDEX(offset);
+>         u32 reg;
 > 
->     chained_irq_enter(chip, desc);
-> 
->     while ((hwirq = readl(claim))) {
->         int err = generic_handle_domain_irq(handler->priv->irqdomain,
->                             hwirq);
->         if (unlikely(err))
->             pr_warn_ratelimited("can't find mapping for hwirq %lu\n",
->                     hwirq);
+>         raw_spin_lock(&priv->lock);
+>         reg = readl_relaxed(priv->base + TSSR(tssr_index));
+>         reg |= (TIEN | chip_data) << TSSEL_SHIFT(tssr_offset);
+>         writel_relaxed(reg, priv->base + TSSR(tssr_index));
+>         raw_spin_unlock(&priv->lock);
 >     }
-> 
->     chained_irq_exit(chip, desc);
+>     irq_chip_enable_parent(d);
 > }
 > 
-> static void plic_irq_eoi(struct irq_data *d)
-> {
->     struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-> 
->     if (irqd_irq_masked(d)) {
->         plic_irq_unmask(d);
->         writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
->         plic_irq_mask(d);
->     } else {
->         writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
->     }
-> }
-> 
-> Where it's claiming -> handling interrupt -> interrupt completion in
-> eoi which is according to architecture.
-> 
-> 
-> Now with fasteoi_ack flow If I introduce the below ack callback to
-> issue interrupt completion.
-> 
-> static void plic_irq_ack(struct irq_data *d)
-> {
->     struct plic_handler *handler = this_cpu_ptr(&plic_handlers);
-> 
->     if (irqd_irq_masked(d)) {
->         plic_irq_unmask(d);
->         writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
->         plic_irq_mask(d);
->     } else {
->         writel(d->hwirq, handler->hart_base + CONTEXT_CLAIM);
->     }
-> }
-> 
-> Here we are issuing an interrupt completion first, and later in the
-> handler  plic_handle_irq() we are claiming the interrupt by reading
-> the claim register. With this we are not following [0].
+> This check hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ here
+> would mean its GPIOINT0-122 and then the chip data will be used.
 
-Whatever [0] says doesn't really matter, since the HW is totally
-busted.
-
-> Do you think this flow is OK (interrupt completion -> Interrupt claim
-> -> handle IRQ)?
-
-You keep missing my point. Edge and Level *must* have different flows
-and this also implies different callbacks. You can't just handle both
-at once. You should have something like this (untested):
-
-diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
-index bb87e4c3b88e..5e072be32d9f 100644
---- a/drivers/irqchip/irq-sifive-plic.c
-+++ b/drivers/irqchip/irq-sifive-plic.c
-@@ -176,16 +176,52 @@ static void plic_irq_eoi(struct irq_data *d)
- 	}
- }
- 
-+static int broken_set_type(struct irq_data *d, unsigned int type);
-+
- static struct irq_chip plic_chip = {
- 	.name		= "SiFive PLIC",
- 	.irq_mask	= plic_irq_mask,
- 	.irq_unmask	= plic_irq_unmask,
- 	.irq_eoi	= plic_irq_eoi,
-+	.irq_set_type	= broken_set_type,
-+#ifdef CONFIG_SMP
-+	.irq_set_affinity = plic_set_affinity,
-+#endif
-+};
-+
-+static void broken_eoi(struct irq_data *data) {}
-+
-+static struct irq_chip plic_chip_edge = {
-+	.name		= "Edgy PLIC",
-+	.irq_mask	= plic_irq_mask,
-+	.irq_unmask	= plic_irq_unmask,
-+	.irq_ack	= plic_irq_eoi,
-+	.irq_eoi	= broken_eoi,
-+	.irq_set_type	= broken_set_type,
- #ifdef CONFIG_SMP
- 	.irq_set_affinity = plic_set_affinity,
- #endif
- };
- 
-+static int broken_set_type(struct irq_data *d, unsigned int type)
-+{
-+	if (!plic_is_totaly_broken())
-+		return 0;
-+
-+	if (type == IRQ_TYPE_EDGE_RISING)
-+		irq_set_chip_handler_name_locked(d, plic_chip_edge,
-+						 handle_fasteoi_ack_irq,
-+						 "Edge");
-+	else if (type == IRQ_TYPE_LEVEL_HIGH)
-+		irq_set_chip_handler_name_locked(d, plic_chip,
-+						 handle_fasteoi_irq,
-+						 "Level");
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- static int plic_irqdomain_map(struct irq_domain *d, unsigned int irq,
- 			      irq_hw_number_t hwirq)
- {
-
-which applies the correct flow and chip depending on the trigger
-information. This also implies that for chained PLICs, the secondary
-PLIC output is handled as a level into the primary PLIC.
+That doesn't check the content of chip_data if outside of this
+condition. Nonetheless, you allocate an unsigned long to store
+-EINVAL. Not only this is a pointless allocation, but you use it to
+store something that you never retrieve the first place. Don't you see
+the problem?
 
 	M.
 
