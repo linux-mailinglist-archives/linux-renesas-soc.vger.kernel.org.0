@@ -2,96 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED02455AD64
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jun 2022 01:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F06F455ADD3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jun 2022 02:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233502AbiFYXSY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Jun 2022 19:18:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47618 "EHLO
+        id S233709AbiFZAcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Jun 2022 20:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231317AbiFYXSX (ORCPT
+        with ESMTP id S233697AbiFZAcP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Jun 2022 19:18:23 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45A41209D
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Jun 2022 16:18:22 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-2ef5380669cso54899667b3.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 25 Jun 2022 16:18:22 -0700 (PDT)
+        Sat, 25 Jun 2022 20:32:15 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F6A13F95;
+        Sat, 25 Jun 2022 17:32:13 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3178ea840easo55326997b3.13;
+        Sat, 25 Jun 2022 17:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=I1lEsJtkNZbW6pyj+UEBzWbQKiimWRk8J2D2WyS2PI8=;
-        b=KoacatgMZZBpRCXPbvLZYAuPJOuGRaP35V6GQGHzf9ip4nu9ZN9GwQlkv3whLZ0elc
-         D9kt8nEMn5EyqAgr1MgXuUXmo+Y0AC0DKSofvzMmYPR66Y2eIjJs19NYd6tlwVcdg5rB
-         5IEwg8iIs1HeVvM63yEp97Oi/ceOx/401MffbkHaBjrwn1COYHG7b+eEbefwOyKep/RW
-         Skt9O7k/YCCZnuZcIPuB0t3+vYCeRM00BZljm6MiALd71OaTlVSPVZAKM9A3PyWHUiae
-         ibgHzU8NsukO2X+n2LiDbprvSUDbfmRciABJ1jKdCflBIdAuUOe8hunRtgUtQ8kATAHH
-         80lA==
+        bh=x9dPmWk2Vcw5sGKQ49PZ7QnGrzXJQOQ3Dx2Y9NtzjQg=;
+        b=lLgAYtOYAcDJV6WG8taYMcRcJgrDX7mnUZxRRfVfw77nR1dpFb1rHbU3r9osill1Bw
+         QZfsMAesvlQKGf8xzF4RnWgzV2nWei44Sa/MAG7YB3JFIfMfGLt+VIgu8PnLefwAtYBH
+         a0ZdOLnqBVC2s6eQDWdGWyIRbOW3EsbLv3sZpUe8nVE58C73f+ykIXZNdgu2DYR9y/NG
+         R18lMh9D7EOLS2gN0FREe7NKB6QrRvhgQPCWqy+9EcnvIU5sFL2bTkMELFuTMqk4tiHA
+         vkWYYbJNxiudH9k2hILeN2pUffbjC03qSthLw/LdqLgFK8vCDoO9KtsU/4rV3i17fRsh
+         6Diw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I1lEsJtkNZbW6pyj+UEBzWbQKiimWRk8J2D2WyS2PI8=;
-        b=YyfiPII82NgtqkhvOPoo3SwNhhqUFPBFghQAtgONKFmheUkLmO06Sx8wsPpTy7owov
-         7Z0oyqxH9/V/Np2+Rr7dzcy5RSUW4pBLHEJYsNhGmgHzAF4+MsR2j1OfNiSIW5K51npP
-         5EBoqE3LtVyzXmGGWB14U28kvkE3ZX4/u1gr+5FXCks7A/OyBcsxFxvC8hsjEheylTlY
-         sVw+psLodaKt8vy/yuLjd1QA1ABHqK89ruN2HFf5fk4Rov0mvWhhJfO3ElCcam6c8g96
-         pyuAcjg2YOngz7of2jquNTcZoIcHx8ITDhV3PAbBxFEqz5MkPfkiNQ+gk1eRueMlX2wB
-         jVlQ==
-X-Gm-Message-State: AJIora8Vr7HPjeeP5F8a8WcDVe0s5GCUI82uLvpwKnTrChCotYFQ/MEQ
-        dgcsVqXI/uUHbdZL8Nwr6TXlj1ZPS0nTZLEpWstCrw==
-X-Google-Smtp-Source: AGRyM1vPgaDOnRXygiHaY2iEqka3XlgQt2gTMAnBu+rU9CZe9K4dmUR22BvkxFs8sAUWLBKQ4L3Y0aeMiNfUdKfZCEk=
-X-Received: by 2002:a0d:d487:0:b0:318:48dd:95b3 with SMTP id
- w129-20020a0dd487000000b0031848dd95b3mr7009019ywd.140.1656199102016; Sat, 25
- Jun 2022 16:18:22 -0700 (PDT)
+        bh=x9dPmWk2Vcw5sGKQ49PZ7QnGrzXJQOQ3Dx2Y9NtzjQg=;
+        b=vUZJFQi+IHIOT7hjsJ1rnZ+dirz9CDiIfYPwO3WIGUXFQUe6w1a3gSSwM9OlE5STSX
+         +R20B3mJYk8THdqfoHeh8WuMydubISs8wAw066nTIE6DmCCRgaaPN16Jp9Qu/ft/V/K8
+         UJoMX1HZjeAR3yOI/0oAsqFbgZay2yQ1VXP3AlNNOLRdoemg2fSe0f6w1p3w6GPmHcpw
+         TyKNkwMm8mzVaDcTMKX19pWP/uPxJVtPoCEoo/rrBo+quTHi+o4McRFrnx/sI138Zulm
+         ztqQ1Sd2j0JZO2JAZMbABF7ec1bk1GUQYJoJHDEUBa9zfsn9hfHfEJJFNAldild8DVsc
+         79NA==
+X-Gm-Message-State: AJIora/lP2JgzOvtcmtEuVKpoYQUdR9jWrmxk1Og03pTgkLC8XTKKZOw
+        a4TCvJMgiClJ3Co7vGqxJMVecGQf+85+uCZN1+E=
+X-Google-Smtp-Source: AGRyM1s9Z6oCZdo0CcI/aqlgYtTw/kdgWgE65i+E+vrZEo2FOOR0vzAoiCRXPiSQh0BSSpjHOnpAUis1/lMql2BJa+0=
+X-Received: by 2002:a81:989:0:b0:318:38c3:ade0 with SMTP id
+ 131-20020a810989000000b0031838c3ade0mr7367936ywj.292.1656203532980; Sat, 25
+ Jun 2022 17:32:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220625200600.7582-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220625200600.7582-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220625200600.7582-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 26 Jun 2022 01:18:11 +0200
-Message-ID: <CACRpkdbYbRnjEB+LdUGPxj1T2KbxtieGMY2uzbThD2ffY8zkJw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/5] pinctrl: renesas: pinctrl-rzg2l: Add IRQ domain to
- handle GPIO interrupt
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
+References: <20220624180311.3007-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220624180311.3007-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <59c043a4-dd40-1f6b-69d2-bc32b970e874@linaro.org>
+In-Reply-To: <59c043a4-dd40-1f6b-69d2-bc32b970e874@linaro.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sun, 26 Jun 2022 01:31:46 +0100
+Message-ID: <CA+V-a8s3oD+n+o5KGXW4p5FJZspo8DpZhDypLYSoN5OPJgt4tQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller: sifive,plic:
+ Document Renesas RZ/Five SoC
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sagar Kadam <sagar.kadam@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jun 25, 2022 at 10:07 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+Hi Krzysztof,
 
-> Add IRQ domain to RZ/G2L pinctrl driver to handle GPIO interrupt.
+Thank you for the review.
+
+On Sat, Jun 25, 2022 at 9:01 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> GPIO0-GPIO122 pins can be used as IRQ lines but only 32 pins can be
-> used as IRQ lines at a given time. Selection of pins as IRQ lines
-> is handled by IA55 (which is the IRQC block) which sits in between the
-> GPIO and GIC.
+> On 24/06/2022 20:03, Lad Prabhakar wrote:
+> > Document Renesas RZ/Five (R9A07G043) SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > RFC->v1:
+> > * Fixed Review comments pointed by Geert and Rob
+> > ---
+> >  .../sifive,plic-1.0.0.yaml                    | 40 +++++++++++++++++--
+> >  1 file changed, 36 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > index 27092c6a86c4..5eebe0b01b4d 100644
+> > --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
+> > @@ -28,7 +28,10 @@ description:
+> >
+> >    While the PLIC supports both edge-triggered and level-triggered interrupts,
+> >    interrupt handlers are oblivious to this distinction and therefore it is not
+> > -  specified in the PLIC device-tree binding.
+> > +  specified in the PLIC device-tree binding for SiFive PLIC (and similar PLIC's),
+> > +  but for the Renesas RZ/Five Soc (AX45MP AndesCore) which has NCEPLIC100 we need
+> > +  to specify the interrupt type as the flow for EDGE interrupts is different
+> > +  compared to LEVEL interrupts.
+> >
+> >    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
+> >    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC that
+> > @@ -57,6 +60,7 @@ properties:
+> >            - enum:
+> >                - allwinner,sun20i-d1-plic
+> >            - const: thead,c900-plic
+> > +      - const: renesas,r9a07g043-plic
+> >
+> >    reg:
+> >      maxItems: 1
+> > @@ -64,8 +68,7 @@ properties:
+> >    '#address-cells':
+> >      const: 0
+> >
+> > -  '#interrupt-cells':
+> > -    const: 1
+> > +  '#interrupt-cells': true
+> >
+> >    interrupt-controller: true
+> >
+> > @@ -91,7 +94,36 @@ required:
+> >    - interrupts-extended
+> >    - riscv,ndev
+> >
+> > -additionalProperties: false
+> > +if:
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Make it inside allOf. Avoids further indentation change on next variant.
+>
+Agreed.
 
-Looks OK to me, as long as I get Marc's approval I'l merge this!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > +  properties:
+> > +    compatible:
+> > +      contains:
+> > +        const: renesas,r9a07g043-plic
+> > +then:
+> > +  properties:
+> > +    clocks:
+> > +      maxItems: 1
+> > +
+> > +    resets:
+> > +      maxItems: 1
+> > +
+> > +    power-domains:
+> > +      maxItems: 1
+> > +
+> > +    '#interrupt-cells':
+> > +      const: 2
+> > +
+> > +  required:
+> > +    - clocks
+> > +    - resets
+> > +    - power-domains
+> > +
+> > +else:
+> > +  properties:
+> > +    '#interrupt-cells':
+> > +      const: 1
+> > +
+> > +unevaluatedProperties: false
+>
+>
+> This does not look correct, why changing additional->unevaluated here?
+>
+Agreed will drop this.
 
-Maybe Marc want to apply all patches to the irqchip tree?
-
-Yours,
-Linus Walleij
+Cheers,
+Prabhakar
