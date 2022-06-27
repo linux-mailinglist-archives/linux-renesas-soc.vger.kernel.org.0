@@ -2,52 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A6155DEDD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A793555CF99
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:06:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236561AbiF0RjR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 13:39:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48122 "EHLO
+        id S240341AbiF0Unz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 16:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbiF0RjQ (ORCPT
+        with ESMTP id S231700AbiF0Uny (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 13:39:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49E39BC11;
-        Mon, 27 Jun 2022 10:39:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DFC7BB81062;
-        Mon, 27 Jun 2022 17:39:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520D6C3411D;
-        Mon, 27 Jun 2022 17:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656351552;
-        bh=Zn0Dfb4M02qxEfqvQzrDg8XHxtNPpoaNnFOSN6zyqcQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=XzH3tXT3H9L7KDQzTdC3I4DnJaB+mhExMuomvsSJVtjPdDWa53REixFOQ4tlRaRgB
-         Dau6EcVZT097k2R5PlMlSrrircErH+zgXxRd58ebu2yILqYResOpDx/qkBJTybJBzC
-         aDXOIeZZUz0J7nebzfXbkmrHNYk9fI5HGXWgwb5Xn+1I3ATXg/w1Zr1+1dAv0MqP7q
-         WiGRgSQRZHKR8Gsh2phfFlHXTXRPqESdF1VSYROT2m6CwKL6V/eYcSBUpOLYaYlQbO
-         HknfH8oBojGD2/28mzQuQqXBpLqdZk2/o5t6sdWVMqBh7o8TUMTIFcX3MnJ8pPjU9c
-         hgu088FI8qugw==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>, geert+renesas@glider.be,
-        magnus.damm@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH net-next] Revert the ARM/dts changes for Renesas RZ/N1
-Date:   Mon, 27 Jun 2022 10:39:00 -0700
-Message-Id: <20220627173900.3136386-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.36.1
+        Mon, 27 Jun 2022 16:43:54 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DABC519C15
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 13:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656362633; x=1687898633;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=42dlCM9OA8qMtBemwV2rgavUVfH/XGPdiZxK3cixzhw=;
+  b=YyJtQxi9GwhWjW2uaLU3uZYOixDTGEzOvjJ7VGWDo7QML/3RaYraLwWS
+   R6/opNaHf7bmLC69V6kmrJgS4NZBX6mwQ6DY8FmQnAugN3yBo8YuELeeI
+   6EaV+0Utwek0BamXRb2NnjacXlvaUcMKFeJNYUFW+9sfL2lPegFr0o1dY
+   +c+en9sIW2TqsFslgF4SNEOpQJFfWUDVszo5fNuuTBfy+0n9u0tI234ot
+   r7GK8BmtLnyX/khbmh1rnqByeWtQqRSmjUtiKY6HhwpiUQ5CEd1XEiAkG
+   lrjitWrpslrnPNU5LS09wf4+2s/eeG34C/4g52poS78WDTD2a6I+4Ehzu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="367872042"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="367872042"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2022 13:43:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="679740512"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Jun 2022 13:43:51 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o5vaH-00090h-SN;
+        Mon, 27 Jun 2022 20:43:49 +0000
+Date:   Tue, 28 Jun 2022 04:43:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 8a0c9dc8a8618e38c4241a947a93c7002652ff1b
+Message-ID: <62ba1683.C0uwGJnhBOYg9dvJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,287 +63,73 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Based on a request from Geert:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 8a0c9dc8a8618e38c4241a947a93c7002652ff1b  Merge tag 'v5.19-rc4' into renesas-devel
 
-Revert "ARM: dts: r9a06g032-rzn1d400-db: add switch description"
-This reverts commit 9aab31d66ec97d7047e42feacc356bc9c21a5bf5.
+elapsed time: 728m
 
-Revert "ARM: dts: r9a06g032: describe switch"
-This reverts commit cf9695d8a7e927f7563ce6ea0a4e54b8214a12f1.
+configs tested: 52
+configs skipped: 2
 
-Revert "ARM: dts: r9a06g032: describe GMAC2"
-This reverts commit 3f5261f1c2a8d7b178f9f65c6dda92523329486e.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Revert "ARM: dts: r9a06g032: describe MII converter"
-This reverts commit 066c3bd358355185d9313358281fe03113c0a9ad.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+ia64                             allmodconfig
+powerpc                           allnoconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+arc                              allyesconfig
+i386                                defconfig
+i386                             allyesconfig
+x86_64               randconfig-a012-20220627
+x86_64               randconfig-a016-20220627
+x86_64               randconfig-a011-20220627
+x86_64               randconfig-a013-20220627
+x86_64               randconfig-a014-20220627
+x86_64               randconfig-a015-20220627
+i386                 randconfig-a014-20220627
+i386                 randconfig-a012-20220627
+i386                 randconfig-a015-20220627
+i386                 randconfig-a011-20220627
+i386                 randconfig-a016-20220627
+i386                 randconfig-a013-20220627
+s390                 randconfig-r044-20220627
+riscv                randconfig-r042-20220627
+arc                  randconfig-r043-20220627
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
 
-to let these changes flow thru the platform and SoC trees.
+clang tested configs:
+i386                 randconfig-a002-20220627
+i386                 randconfig-a004-20220627
+i386                 randconfig-a003-20220627
+i386                 randconfig-a001-20220627
+i386                 randconfig-a006-20220627
+i386                 randconfig-a005-20220627
+x86_64               randconfig-a002-20220627
+x86_64               randconfig-a003-20220627
+x86_64               randconfig-a001-20220627
+x86_64               randconfig-a006-20220627
+x86_64               randconfig-a005-20220627
+x86_64               randconfig-a004-20220627
+hexagon              randconfig-r041-20220627
+hexagon              randconfig-r045-20220627
 
-Link: https://lore.kernel.org/r/CAMuHMdUvSLFU56gsp1a9isOiP9otdCJ2-BqhbrffcoHuA6JNig@mail.gmail.com/
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: geert+renesas@glider.be
-CC: magnus.damm@gmail.com
-CC: robh+dt@kernel.org
-CC: krzysztof.kozlowski+dt@linaro.org
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
----
- arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts | 117 --------------------
- arch/arm/boot/dts/r9a06g032.dtsi            | 108 ------------------
- 2 files changed, 225 deletions(-)
-
-diff --git a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-index 4227aba70c30..3f8f3ce87e12 100644
---- a/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-+++ b/arch/arm/boot/dts/r9a06g032-rzn1d400-db.dts
-@@ -8,8 +8,6 @@
- 
- /dts-v1/;
- 
--#include <dt-bindings/pinctrl/rzn1-pinctrl.h>
--#include <dt-bindings/net/pcs-rzn1-miic.h>
- #include "r9a06g032.dtsi"
- 
- / {
-@@ -33,118 +31,3 @@ &wdt0 {
- 	timeout-sec = <60>;
- 	status = "okay";
- };
--
--&gmac2 {
--	status = "okay";
--	phy-mode = "gmii";
--	fixed-link {
--		speed = <1000>;
--		full-duplex;
--	};
--};
--
--&switch {
--	status = "okay";
--	#address-cells = <1>;
--	#size-cells = <0>;
--
--	pinctrl-names = "default";
--	pinctrl-0 = <&pins_mdio1>, <&pins_eth3>, <&pins_eth4>;
--
--	dsa,member = <0 0>;
--
--	mdio {
--		clock-frequency = <2500000>;
--
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		switch0phy4: ethernet-phy@4 {
--			reg = <4>;
--			micrel,led-mode = <1>;
--		};
--
--		switch0phy5: ethernet-phy@5 {
--			reg = <5>;
--			micrel,led-mode = <1>;
--		};
--	};
--};
--
--&switch_port0 {
--	label = "lan0";
--	phy-mode = "mii";
--	phy-handle = <&switch0phy5>;
--	status = "okay";
--};
--
--&switch_port1 {
--	label = "lan1";
--	phy-mode = "mii";
--	phy-handle = <&switch0phy4>;
--	status = "okay";
--};
--
--&switch_port4 {
--	status = "okay";
--};
--
--&eth_miic {
--	status = "okay";
--	renesas,miic-switch-portin = <MIIC_GMAC2_PORT>;
--};
--
--&mii_conv4 {
--	renesas,miic-input = <MIIC_SWITCH_PORTB>;
--	status = "okay";
--};
--
--&mii_conv5 {
--	renesas,miic-input = <MIIC_SWITCH_PORTA>;
--	status = "okay";
--};
--
--&pinctrl{
--	pins_mdio1: pins_mdio1 {
--		pinmux = <
--			RZN1_PINMUX(152, RZN1_FUNC_MDIO1_SWITCH)
--			RZN1_PINMUX(153, RZN1_FUNC_MDIO1_SWITCH)
--		>;
--	};
--	pins_eth3: pins_eth3 {
--		pinmux = <
--			RZN1_PINMUX(36, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(37, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(38, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(39, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(40, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(41, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(42, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(43, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(44, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(45, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(46, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(47, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--		>;
--		drive-strength = <6>;
--		bias-disable;
--	};
--	pins_eth4: pins_eth4 {
--		pinmux = <
--			RZN1_PINMUX(48, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(49, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(50, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(51, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(52, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(53, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(54, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(55, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(56, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(57, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(58, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--			RZN1_PINMUX(59, RZN1_FUNC_CLK_ETH_MII_RGMII_RMII)
--		>;
--		drive-strength = <6>;
--		bias-disable;
--	};
--};
-diff --git a/arch/arm/boot/dts/r9a06g032.dtsi b/arch/arm/boot/dts/r9a06g032.dtsi
-index 5b97fa85474f..d3665910958b 100644
---- a/arch/arm/boot/dts/r9a06g032.dtsi
-+++ b/arch/arm/boot/dts/r9a06g032.dtsi
-@@ -304,114 +304,6 @@ dma1: dma-controller@40105000 {
- 			data-width = <8>;
- 		};
- 
--		gmac2: ethernet@44002000 {
--			compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
--			reg = <0x44002000 0x2000>;
--			interrupt-parent = <&gic>;
--			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
--			clocks = <&sysctrl R9A06G032_HCLK_GMAC1>;
--			clock-names = "stmmaceth";
--			power-domains = <&sysctrl>;
--			snps,multicast-filter-bins = <256>;
--			snps,perfect-filter-entries = <128>;
--			tx-fifo-depth = <2048>;
--			rx-fifo-depth = <4096>;
--			status = "disabled";
--		};
--
--		eth_miic: eth-miic@44030000 {
--			compatible = "renesas,r9a06g032-miic", "renesas,rzn1-miic";
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0x44030000 0x10000>;
--			clocks = <&sysctrl R9A06G032_CLK_MII_REF>,
--				 <&sysctrl R9A06G032_CLK_RGMII_REF>,
--				 <&sysctrl R9A06G032_CLK_RMII_REF>,
--				 <&sysctrl R9A06G032_HCLK_SWITCH_RG>;
--			clock-names = "mii_ref", "rgmii_ref", "rmii_ref", "hclk";
--			power-domains = <&sysctrl>;
--			status = "disabled";
--
--			mii_conv1: mii-conv@1 {
--				reg = <1>;
--				status = "disabled";
--			};
--
--			mii_conv2: mii-conv@2 {
--				reg = <2>;
--				status = "disabled";
--			};
--
--			mii_conv3: mii-conv@3 {
--				reg = <3>;
--				status = "disabled";
--			};
--
--			mii_conv4: mii-conv@4 {
--				reg = <4>;
--				status = "disabled";
--			};
--
--			mii_conv5: mii-conv@5 {
--				reg = <5>;
--				status = "disabled";
--			};
--		};
--
--		switch: switch@44050000 {
--			compatible = "renesas,r9a06g032-a5psw", "renesas,rzn1-a5psw";
--			reg = <0x44050000 0x10000>;
--			clocks = <&sysctrl R9A06G032_HCLK_SWITCH>,
--				 <&sysctrl R9A06G032_CLK_SWITCH>;
--			clock-names = "hclk", "clk";
--			power-domains = <&sysctrl>;
--			status = "disabled";
--
--			ethernet-ports {
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				switch_port0: port@0 {
--					reg = <0>;
--					pcs-handle = <&mii_conv5>;
--					status = "disabled";
--				};
--
--				switch_port1: port@1 {
--					reg = <1>;
--					pcs-handle = <&mii_conv4>;
--					status = "disabled";
--				};
--
--				switch_port2: port@2 {
--					reg = <2>;
--					pcs-handle = <&mii_conv3>;
--					status = "disabled";
--				};
--
--				switch_port3: port@3 {
--					reg = <3>;
--					pcs-handle = <&mii_conv2>;
--					status = "disabled";
--				};
--
--				switch_port4: port@4 {
--					reg = <4>;
--					ethernet = <&gmac2>;
--					label = "cpu";
--					phy-mode = "internal";
--					status = "disabled";
--					fixed-link {
--						speed = <1000>;
--						full-duplex;
--					};
--				};
--			};
--		};
--
- 		gic: interrupt-controller@44101000 {
- 			compatible = "arm,gic-400", "arm,cortex-a7-gic";
- 			interrupt-controller;
 -- 
-2.36.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
