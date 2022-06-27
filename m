@@ -2,72 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 672BC55CB4E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 14:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C12F955E172
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jun 2022 15:33:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233051AbiF0Hkm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jun 2022 03:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
+        id S233624AbiF0Ia4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jun 2022 04:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233033AbiF0Hkk (ORCPT
+        with ESMTP id S233648AbiF0Iap (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:40:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B1D60E0;
-        Mon, 27 Jun 2022 00:40:39 -0700 (PDT)
+        Mon, 27 Jun 2022 04:30:45 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AA16305
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 01:30:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 61E8CB80F9D;
-        Mon, 27 Jun 2022 07:40:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3166FC341CB;
-        Mon, 27 Jun 2022 07:40:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9C31DB81037
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 08:30:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59CDFC3411D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 08:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656315637;
-        bh=MzjeRwNuJsz8lcgalKEQ4uPa0idcPi8oD5nNWGIpJfE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VaX5mrEEdE2Z9agLkU0695/N0Do+K7kF7EzotBofAEeAZi3H81+ru7iELCi7+CXud
-         I7sc6MspU0l3UFZ6WiWU8Owcp0WOSW2xzI9iypARvXToBYm/vVtpIyJWtiYf2Mru+y
-         FwkAxPjXWB1ui6WY2lNeo7CZ3yli2jfGTjOVhR2fZOuqt0nFgyNGNIJSQN3GQRxw1I
-         ieVGf6EXs6UgX1ltdxJsmBhvXeUoNUVbQoBIRCsTBqIpxYBI8cmysEiTKfFkrUqkmi
-         pVJXRRGBX2OAvkj97g2ROqu5HI59sS5ykPbmuohM1fFANHeS6HmQGfzQuqDm8gZvVu
-         A6I7kl8DIplEQ==
-Received: by mail-vs1-f44.google.com with SMTP id e7so8125888vsp.13;
-        Mon, 27 Jun 2022 00:40:37 -0700 (PDT)
-X-Gm-Message-State: AJIora8VZG/2DetFAtOv3Z8Cy95+A9cudWuxyApNewGlJi+PlBUeexk1
-        9fVOUXz7bQM3T7S9bvJCsOSZARvMeyhITUi6dq0=
-X-Google-Smtp-Source: AGRyM1u9UMEKzaQ6qY0F+LTaZrCPsaY5ETieZQ4tBTTwNl2TC5aylcJ0FKqZSQCmSwgkYlER6Qj74Jpb2RbFugMABwo=
-X-Received: by 2002:a05:6102:366f:b0:356:352f:9de2 with SMTP id
- bg15-20020a056102366f00b00356352f9de2mr2343073vsb.2.1656315636148; Mon, 27
- Jun 2022 00:40:36 -0700 (PDT)
+        s=k20201202; t=1656318635;
+        bh=mCmmUBOTvNwE50ix2EwV4DnVFbtaLaC+eEAwv3GBbIU=;
+        h=Subject:From:Date:To:From;
+        b=FinESI2cb5UpXxV1AkxArh6AB65fdIGuYDEQe2N4ig+TIlvL1pmqS7KSeXzgpOToN
+         V1JDmnXKUmCRpPYHzgHXDgm5b1SJ6A0ykGp4KmRJ4asyI1H2AHibssP6j23ipLD2fJ
+         QPJwD+9nREp0eDlCgJ2vxcPaWUfAbW3fuwNjCS7pFFNCLa7EZzV/6Jq39RNWsXSmPS
+         +C2d3zpGmLzmhNGzJBvuMsOk5qBKMVG96uvDI9bb+QtnQiIhRc0Tk0OavqmwFEY2YI
+         FZOrhtNhrTlR+ToZeT0KzDr9fIp1ofmpv4ZnEu8mqftbLQq611vpBdS+Lupv2UqSPq
+         APjJZNQ5p1nTA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3EB02E49BBA
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jun 2022 08:30:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220627051257.38543-1-samuel@sholland.org> <20220627051257.38543-2-samuel@sholland.org>
-In-Reply-To: <20220627051257.38543-2-samuel@sholland.org>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Mon, 27 Jun 2022 15:40:25 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
-Message-ID: <CAJF2gTSq1NsBWRCg+kpTbJRwSeE30P9NVB5di6vzi7m2CFRzHw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] dt-bindings: interrupt-controller: Require trigger
- type for T-HEAD PLIC
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sagar Kadam <sagar.kadam@sifive.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <165631863518.19048.17184022532177853692.git-patchwork-summary@kernel.org>
+Date:   Mon, 27 Jun 2022 08:30:35 +0000
+To:     linux-renesas-soc@vger.kernel.org
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -78,119 +53,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 1:13 PM Samuel Holland <samuel@sholland.org> wrote:
->
-> The RISC-V PLIC specification unfortunately allows PLIC implementations
-> to ignore edges seen while an edge-triggered interrupt is being handled:
->
->   Depending on the design of the device and the interrupt handler,
->   in between sending an interrupt request and receiving notice of its
->   handler=E2=80=99s completion, the gateway might either ignore additiona=
-l
->   matching edges or increment a counter of pending interrupts.
->
-> For PLICs with that misfeature, software needs to know the trigger type
-> of each interrupt. This allows it to work around the issue by completing
-> edge-triggered interrupts before handling them. Such a workaround is
-> required to avoid missing any edges.
->
-> The T-HEAD C9xx PLIC is an example of a PLIC with this behavior.
-Actually, C9xx support pulse signals which configed by
-pad_plic_int_cfg_x for SoC vendor:
+Hello:
 
-https://github.com/T-head-Semi/openc906/blob/main/C906_RTL_FACTORY/gen_rtl/=
-plic/rtl/plic_int_kid.v
-104: assign int_new_pending =3D pad_plic_int_cfg_x ? int_pulse
-105:
-        : level_int_pending;
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-They could put pad_plic_int_cfg_x into the SoC software config
-registers region or bind them to constant values.
+Patch: dt-bindings: usb: ohci: Increase the number of PHYs
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=650610
+  Lore link: https://lore.kernel.org/r/0112f9c8881513cb33bf7b66bc743dd08b35a2f5.1655301203.git.geert+renesas@glider.be
 
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->
->  .../sifive,plic-1.0.0.yaml                    | 31 ++++++++++++++++---
->  1 file changed, 27 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/sifiv=
-e,plic-1.0.0.yaml b/Documentation/devicetree/bindings/interrupt-controller/=
-sifive,plic-1.0.0.yaml
-> index 27092c6a86c4..3c589cbca851 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
-1.0.0.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-=
-1.0.0.yaml
-> @@ -26,9 +26,13 @@ description:
->    with priority below this threshold will not cause the PLIC to raise it=
-s
->    interrupt line leading to the context.
->
-> -  While the PLIC supports both edge-triggered and level-triggered interr=
-upts,
-> -  interrupt handlers are oblivious to this distinction and therefore it =
-is not
-> -  specified in the PLIC device-tree binding.
-> +  The PLIC supports both edge-triggered and level-triggered interrupts. =
-For
-> +  edge-triggered interrupts, the RISC-V PLIC spec allows two responses t=
-o edges
-> +  seen while an interrupt handler is active; the PLIC may either queue t=
-hem or
-> +  ignore them. In the first case, handlers are oblivious to the trigger =
-type, so
-> +  it is not included in the interrupt specifier. In the second case, sof=
-tware
-> +  needs to know the trigger type, so it can reorder the interrupt flow t=
-o avoid
-> +  missing interrupts.
->
->    While the RISC-V ISA doesn't specify a memory layout for the PLIC, the
->    "sifive,plic-1.0.0" device is a concrete implementation of the PLIC th=
-at
-> @@ -65,7 +69,8 @@ properties:
->      const: 0
->
->    '#interrupt-cells':
-> -    const: 1
-> +    minimum: 1
-> +    maximum: 2
->
->    interrupt-controller: true
->
-> @@ -91,6 +96,24 @@ required:
->    - interrupts-extended
->    - riscv,ndev
->
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - thead,c900-plic
-> +
-> +    then:
-> +      properties:
-> +        '#interrupt-cells':
-> +          const: 2
-> +
-> +    else:
-> +      properties:
-> +        '#interrupt-cells':
-> +          const: 1
-> +
->  additionalProperties: false
->
->  examples:
-> --
-> 2.35.1
->
+Patch: iommu/ipmmu-vmsa: Fix compatible for rcar-gen4
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Joerg Roedel <jroedel@suse.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=651226
+  Lore link: https://lore.kernel.org/r/20220617010107.3229784-1-yoshihiro.shimoda.uh@renesas.com
+
+Patch: dt-bindings: usb: ehci: Increase the number of PHYs
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=650609
+  Lore link: https://lore.kernel.org/r/c5d19e2f9714f43effd90208798fc1936098078f.1655301043.git.geert+renesas@glider.be
+
+Patch: iio: adc: rzg2l_adc: add missing fwnode_handle_put() in rzg2l_adc_parse_properties()
+  Submitter: Jialin Zhang <zhangjialin11@huawei.com>
+  Committer: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=642173
+  Lore link: https://lore.kernel.org/r/20220517033526.2035735-1-zhangjialin11@huawei.com
 
 
---=20
-Best Regards
- Guo Ren
+Total patches: 4
 
-ML: https://lore.kernel.org/linux-csky/
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
